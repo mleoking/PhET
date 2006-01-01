@@ -30,7 +30,6 @@ public class RectangleGraphic extends PNode {
     private RectangularObject rectangularObject;
 
     public RectangleGraphic( SchrodingerPanel component, final RectangularObject rectangularObject, Color fill ) {
-        super();
         this.schrodingerPanel = component;
         this.rectangularObject = rectangularObject;
         areaGraphic = new PPath();//todo transparent green.

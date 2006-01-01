@@ -31,7 +31,7 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-    private CylinderWaveCheckBox cylinderWaveBox;
+//    private CylinderWaveCheckBox cylinderWaveBox;
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
@@ -50,7 +50,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
         advancedICPanel.addListener( new AdvancedPanel.Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
-                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this.getComponent()  );
+                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this.getComponent() );
                 parent.invalidate();
                 parent.validate();
                 parent.repaint();
@@ -161,16 +161,16 @@ public class SchrodingerControlPanel extends ControlPanel {
         return radioButton;
     }
 
-    private VerticalLayoutPanel createBoundaryPanel() {
-        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
-
-        layoutPanel.add( createPlaneWaveBox() );
-        cylinderWaveBox = createCylinderWaveBox();
-        layoutPanel.add( cylinderWaveBox );
-
-        return layoutPanel;
-    }
+//    private VerticalLayoutPanel createBoundaryPanel() {
+//        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
+//        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
+//
+//        layoutPanel.add( createPlaneWaveBox() );
+//        cylinderWaveBox = createCylinderWaveBox();
+//        layoutPanel.add( cylinderWaveBox );
+//
+//        return layoutPanel;
+//    }
 
     private JCheckBox createPlaneWaveBox() {
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
@@ -198,9 +198,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         return planeWaveCheckbox;
     }
 
-    private CylinderWaveCheckBox createCylinderWaveBox() {
-        return new CylinderWaveCheckBox( module, getDiscreteModel() );
-    }
+//    private CylinderWaveCheckBox createCylinderWaveBox() {
+//        return new CylinderWaveCheckBox( module, getDiscreteModel() );
+//    }
 
     private Wavefunction getWavefunction() {
         return getDiscreteModel().getWavefunction();

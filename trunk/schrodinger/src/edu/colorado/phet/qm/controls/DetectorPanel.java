@@ -56,13 +56,13 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( detect );
 
-        final JButton enableAll = new JButton( "Enable all" );
-        enableAll.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().enableAllDetectors();
-            }
-        } );
-        add( enableAll );
+//        final JButton enableAll = new JButton( "Enable all" );
+//        enableAll.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getDiscreteModel().enableAllDetectors();
+//            }
+//        } );
+//        add( enableAll );
     }
 
     private DiscreteModel getDiscreteModel() {
