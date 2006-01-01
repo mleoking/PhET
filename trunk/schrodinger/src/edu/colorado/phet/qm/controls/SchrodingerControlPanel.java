@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.model.waves.PlaneWave;
+import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
@@ -35,6 +36,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
+    private DoubleSlitPanel doubleSlitPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -44,6 +46,8 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        JPanel spacer=new JPanel( );
 //        spacer.setPreferredSize( new Dimension( 100,1) );
 //        addFullWidth( spacer );
+
+        doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel(), module );
 
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
@@ -319,6 +323,10 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         return absorbtiveSlit;
+    }
+
+    public DoubleSlitPanel getDoubleSlitPanel() {
+        return doubleSlitPanel;
     }
 
 }

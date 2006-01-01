@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -64,7 +63,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         getPhetRootNode().addScreenChild( schrodingerScreenNode );
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
-        setDoubleSlitControlPanelVisible( false );
+//        setDoubleSlitControlPanelVisible( false );
         addListener( new Adapter() {
             public void inverseSlitsChanged() {
                 synchronizeSlitInverse();
@@ -84,13 +83,13 @@ public class SchrodingerPanel extends PhetPCanvas {
         super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
     }
 
-    public DoubleSlitPanel getDoubleSlitPanel() {
-        return schrodingerScreenNode.getDoubleSlitPanel();
-    }
-
-    public PSwing getDoubleSlitPanelGraphic() {
-        return schrodingerScreenNode.getDoubleSlitPanelGraphic();
-    }
+//    public DoubleSlitPanel getDoubleSlitPanel() {
+//        return schrodingerScreenNode.getDoubleSlitPanel();
+//    }
+//
+//    public PSwing getDoubleSlitPanelGraphic() {
+//        return schrodingerScreenNode.getDoubleSlitPanelGraphic();
+//    }
 
     protected void updateScreen() {
         getIntensityDisplay().tryDetecting();
@@ -234,11 +233,11 @@ public class SchrodingerPanel extends PhetPCanvas {
         return schrodingerScreenNode;
     }
 
-    public void setDoubleSlitControlPanelVisible( boolean selected ) {
-        getDoubleSlitPanelGraphic().setVisible( selected );
-        getDoubleSlitPanelGraphic().setChildrenPickable( selected );
-        getDoubleSlitPanelGraphic().setPickable( selected );
-    }
+//    public void setDoubleSlitControlPanelVisible( boolean selected ) {
+//        getDoubleSlitPanelGraphic().setVisible( selected );
+//        getDoubleSlitPanelGraphic().setChildrenPickable( selected );
+//        getDoubleSlitPanelGraphic().setPickable( selected );
+//    }
 
     public boolean isFadeEnabled() {
         return fadeEnabled;

@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.intensity;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
+import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 
 /**
  * User: Sam Reid
@@ -20,6 +21,9 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         advancedPanel.addControlFullWidth( super.createPotentialPanel( getModule() ) );
         advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
         addControlFullWidth( advancedPanel );
+    }
 
+    public SlitDetectorPanel getSlitDetectorPanel() {
+        return getDoubleSlitPanel().getSlitDetectorPanel();
     }
 }

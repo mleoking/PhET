@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.intensity;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class IntensityModule extends SchrodingerModule {
     private SplitModel splitModel;
     private IntensityPanel intensityPanel;
-    private IntensityControlPanel schrodingerControlPanel;
+    private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
 
     public IntensityModule( SchrodingerApplication app, IClock clock ) {
@@ -36,8 +37,8 @@ public class IntensityModule extends SchrodingerModule {
         setDiscreteModel( splitModel );
         intensityPanel = createIntensityPanel();
         setSchrodingerPanel( intensityPanel );
-        schrodingerControlPanel = new IntensityControlPanel( this );
-        setSchrodingerControlPanel( schrodingerControlPanel );
+        intensityControlPanel = new IntensityControlPanel( this );
+        setSchrodingerControlPanel( intensityControlPanel );
         synchronizeModel();
 
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
@@ -100,8 +101,11 @@ public class IntensityModule extends SchrodingerModule {
         return intensityPanel.getRootColor();
     }
 
-    public static interface Listener {
+    public SlitDetectorPanel getSlitDetectorPanel() {
+        return intensityControlPanel.getSlitDetectorPanel();
+    }
 
+    public static interface Listener {
         void detectorsChanged();
     }
 
