@@ -238,9 +238,6 @@ public class SchrodingerPanel extends PhetPCanvas {
         getDoubleSlitPanelGraphic().setVisible( selected );
         getDoubleSlitPanelGraphic().setChildrenPickable( selected );
         getDoubleSlitPanelGraphic().setPickable( selected );
-//        getDoubleSlitPanelButton().setVisible( !selected );
-//        getDoubleSlitPanelButton().setChildrenPickable( !selected );
-//        getDoubleSlitPanelButton().setPickable( !selected );
     }
 
     public boolean isFadeEnabled() {

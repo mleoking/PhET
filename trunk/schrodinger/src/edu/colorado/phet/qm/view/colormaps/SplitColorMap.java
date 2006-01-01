@@ -37,12 +37,6 @@ public class SplitColorMap implements ColorMap {
             abs += getValue( splitModel.getRightWavefunction(), i, k );
             abs += getValue( splitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
         }
-//        if( !contains( areas, i, k ) ) {
-//            Wavefunction wavefunction = splitModel.getWavefunction();
-//            abs += getValue( wavefunction, i, k );
-//        }
-//        abs += getValue( splitModel.getLeftWavefunction(), i, k );
-//        abs += getValue( splitModel.getRightWavefunction(), i, k );
         if( abs > 1 ) {
             abs = 1;
         }

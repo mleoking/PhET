@@ -18,14 +18,12 @@ public interface WaveValueAccessor {
     }
 
     public static class Real implements WaveValueAccessor {
-
         public double getValue( Wavefunction wavefunction, int i, int j ) {
             return Math.abs( wavefunction.valueAt( i, j ).getReal() );
         }
     }
 
     public static class Imag implements WaveValueAccessor {
-
         public double getValue( Wavefunction wavefunction, int i, int j ) {
             return Math.abs( wavefunction.valueAt( i, j ).getImaginary() );
         }

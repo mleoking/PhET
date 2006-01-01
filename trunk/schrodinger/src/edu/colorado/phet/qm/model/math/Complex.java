@@ -69,10 +69,6 @@ public class Complex {
         return imag;
     }
 
-    public boolean isZero() {
-        return real == 0 && imag == 0;
-    }
-
     public boolean equals( Object obj ) {
         if( obj instanceof Complex ) {
             Complex c = (Complex)obj;

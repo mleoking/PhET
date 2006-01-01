@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.phetcommon;
+package edu.colorado.phet.qm.tests;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;

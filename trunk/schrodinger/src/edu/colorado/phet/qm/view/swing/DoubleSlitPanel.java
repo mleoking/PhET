@@ -33,28 +33,15 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private JComponent verticalPosition;
     private SlitDetectorPanel slitDetectorPanel;
     private SchrodingerModule module;
-//    private DoubleSlitCheckBox doubleSlitCheckBox;
 
     public DoubleSlitPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
         this.discreteModel = discreteModel;
         this.module = intensityModule;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Double Slit" ) );
         setBorder( BorderFactory.createRaisedBevelBorder() );
-
-//        doubleSlitCheckBox = new DoubleSlitCheckBox( "Enabled", getDiscreteModel() );
-//        add( doubleSlitCheckBox );
-//        doubleSlitCheckBox.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                setControlsEnabled( doubleSlitCheckBox.isSelected() );
-//            }
-//        } );
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             public void valueChanged( double val ) {
-//                int y = (int)val;
-////                int y = ResolutionControl.DEFAULT_WAVE_SIZE - (int)val;
-//                System.out.println( "y = " + y );
                 horizontalDoubleSlit.setY( (int)val );
             }
 
@@ -125,9 +112,7 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
             slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)intensityModule );
             addFullWidth( slitDetectorPanel );
         }
-//        setControlsEnabled( doubleSlitCheckBox.isSelected() );
         setControlsEnabled( true );
-
     }
 
     public SlitDetectorPanel getSlitDetectorPanel() {
