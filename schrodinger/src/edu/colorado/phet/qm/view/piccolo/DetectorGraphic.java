@@ -66,21 +66,17 @@ public class DetectorGraphic extends RectangleGraphic {
         probDisplay.setVisible( visible );
     }
 
-    private void update() {
-        Rectangle viewRect = super.getViewRectangle( detector.getBounds() );
+    protected Rectangle getViewRectangle() {
+        return super.getViewRectangle( detector.getBounds() );
+    }
 
-        double probPercent = detector.getProbability() * 100.0;
-//        System.out.println( "probPercent = " + probPercent );
-        String formatted = format.format( probPercent );
+    private void update() {
+        String formatted = format.format( detector.getProbability() * 100.0 );
         probDisplay.setText( formatted + " %" );
-        probDisplay.setOffset( (int)viewRect.getX(), (int)viewRect.getY() );
-        if( detector.isEnabled() ) {
-            probDisplay.setTextPaint( darkGreen );
-        }
-        else {
-            probDisplay.setTextPaint( Color.gray );
-        }
-        closeGraphic.setOffset( (int)( viewRect.getX() - closeGraphic.getWidth() ), (int)viewRect.getY() - closeGraphic.getHeight() );
+        probDisplay.setOffset( getViewRectangle().x, getViewRectangle().y );
+        probDisplay.setVisible( detector.isEnabled() );
+        getAreaGraphic().setStrokePaint( detector.isEnabled() ? Color.blue : Color.gray );
+        closeGraphic.setOffset( (int)( getViewRectangle().x - closeGraphic.getWidth() ), getViewRectangle().y - closeGraphic.getHeight() );
     }
 
     public Detector getDetector() {
