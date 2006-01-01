@@ -105,6 +105,8 @@ public class ControlPanel {
      */
     public void removeControl( Component comp ) {
         controlPane.remove( comp );
+        controlPane.invalidate();
+        controlPane.validate();
     }
 
     /**
