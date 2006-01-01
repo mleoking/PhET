@@ -50,7 +50,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
         advancedICPanel.addListener( new AdvancedPanel.Listener() {
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
-                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this );
+                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this.getComponent()  );
                 parent.invalidate();
                 parent.validate();
                 parent.repaint();

@@ -74,7 +74,7 @@ public class TestWiggleMe {
         pCanvas.validate();
         pCanvas.repaint();
 
-        new DebugPiccoloTree().printTree( pCanvas.getRoot() );
+//        new DebugPiccoloTree().printTree( pCanvas.getRoot() );
     }
 
 }

@@ -67,7 +67,7 @@ public class TestPhetApplication2 {
 
             addHelpItem( new HelpItem( getApparatusPanel(), "HELP!!!", 300, 200 ) );
 
-            controlPanel.add( ctrl );
+            controlPanel.addControl( ctrl );
             count = 0;
             ctrl.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
@@ -76,20 +76,20 @@ public class TestPhetApplication2 {
                     ctrl.setColumns( ctrl.getColumns() + dx );
                     ctrl.validate();
                     ctrl.doLayout();
-                    controlPanel.validate();
-                    controlPanel.doLayout();
+                    controlPanel.getComponent().validate();
+                    controlPanel.getComponent().doLayout();
                     app.getPhetFrame().invalidate();
                     app.getPhetFrame().validate();
                     app.getPhetFrame().doLayout();
                 }
             } );
             final JButton button1 = new JButton( "YO!" );
-            controlPanel.add( button1 );
+            controlPanel.addControl( button1 );
             JButton button2 = new JButton( "Y'ALL!" );
-            controlPanel.addFullWidth( button2 );
+            controlPanel.addControl( button2 );
             button2.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    controlPanel.remove( button1 );
+                    controlPanel.addControl( button1 );
                 }
             } );
         }
@@ -107,7 +107,7 @@ public class TestPhetApplication2 {
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
             ControlPanel controls = new ControlPanel( this );
-            controls.add( ctrl );
+            controls.addControl( ctrl );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
             setControlPanel( controls );
             JPanel monitorPanel = new JPanel();

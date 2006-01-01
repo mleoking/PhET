@@ -45,14 +45,14 @@ public class TestPhetApplication {
 
             addHelpItem( new HelpItem( getApparatusPanel(), "HELP!!!", 300, 200 ) );
 
-            controlPanel.add( ctrl );
+            controlPanel.addControl( ctrl );
             final JButton button1 = new JButton( "YO!" );
-            controlPanel.add( button1 );
+            controlPanel.addControl( button1 );
             JButton button2 = new JButton( "Y'ALL!" );
-            controlPanel.addFullWidth( button2 );
+            controlPanel.addControlFullWidth( button2 );
             button2.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    controlPanel.remove( button1 );
+                    controlPanel.removeControl( button1 );
                 }
             } );
         }
@@ -70,7 +70,7 @@ public class TestPhetApplication {
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
             ControlPanel controls = new ControlPanel( this );
-            controls.add( ctrl );
+            controls.addControl( ctrl );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
             setControlPanel( controls );
             JPanel monitorPanel = new JPanel();
