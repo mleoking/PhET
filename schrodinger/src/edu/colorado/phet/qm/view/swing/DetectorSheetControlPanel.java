@@ -48,7 +48,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        saveScreenJButton = new JButton( "Save" );
+        saveScreenJButton = new JButton( "Copy Screen" );
         saveScreenJButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 BufferedImage image = detectorSheetPNode.copyScreen();

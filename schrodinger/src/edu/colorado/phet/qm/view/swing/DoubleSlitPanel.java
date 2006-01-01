@@ -95,7 +95,7 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
             }
         } );
 
-        final JCheckBox absorbtiveSlit = new JCheckBox( "Slit Absorption", getDiscreteModel().isSlitAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isSlitAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setSlitAbsorptive( absorbtiveSlit.isSelected() );
