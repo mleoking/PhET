@@ -41,11 +41,11 @@ public class DoubleSlitCheckBox extends JCheckBox {
             }
         } );
 
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.setDoubleSlitControlPanelVisible( isSelected() );
-            }
-        } );
+//        addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                schrodingerPanel.setDoubleSlitControlPanelVisible( isSelected() );
+//            }
+//        } );
     }
 
     public void setFont( Font font ) {

@@ -43,9 +43,9 @@ public class IntensityPanel extends SchrodingerPanel {
         return new HighIntensityGunGraphic( this );
     }
 
-    public SlitDetectorPanel getSlitDetectorPanel() {
-        return getDoubleSlitPanel().getSlitDetectorPanel();
-    }
+//    public SlitDetectorPanel getSlitDetectorPanel() {
+//        return getDoubleSlitPanel().getSlitDetectorPanel();
+//    }
 
     public void setSplitMode( boolean splitMode ) {
         if( splitMode ) {
@@ -116,5 +116,9 @@ public class IntensityPanel extends SchrodingerPanel {
 
     public IntensityModule getIntensityModule() {
         return intensityModule;
+    }
+
+    public SlitDetectorPanel getSlitDetectorPanel() {
+        return intensityModule.getSlitDetectorPanel();
     }
 }
