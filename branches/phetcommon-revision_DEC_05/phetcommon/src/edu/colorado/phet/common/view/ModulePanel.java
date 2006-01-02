@@ -29,12 +29,12 @@ public class ModulePanel extends JPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private JPanel leftPanel; // holds the monitorPanel, simulationPanel, and clockControlPanel
     private JComponent monitorPanel;
     private JComponent simulationPanel;
     private JComponent clockControlPanel;
-    
+
     private JPanel rightPanel; // holds the logoPanel, controlPanel, and helpPanel
     private JComponent logoPanel;
     private JComponent controlPanel;
@@ -46,7 +46,7 @@ public class ModulePanel extends JPanel {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructs a new ModulePanel with null contents.
      */
@@ -64,7 +64,7 @@ public class ModulePanel extends JPanel {
      * @param controlPanel
      * @param helpPanel
      */
-    public ModulePanel( 
+    public ModulePanel(
             JComponent monitorPanel, JComponent simulationPanel, JComponent clockControlPanel,
             JComponent LogoPanel, JComponent controlPanel, JComponent helpPanel ) {
         setLayout( new BorderLayout() );
@@ -73,7 +73,7 @@ public class ModulePanel extends JPanel {
         add( leftPanel, BorderLayout.CENTER );
         rightPanel = new JPanel( new BorderLayout() );
         add( rightPanel, BorderLayout.EAST );
-        
+
         setMonitorPanel( monitorPanel );
         setSimulationPanel( simulationPanel );
         setClockControlPanel( clockControlPanel );
@@ -105,7 +105,7 @@ public class ModulePanel extends JPanel {
     //----------------------------------------------------------------------------
     // Panel accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the monitor panel.
      *
@@ -117,7 +117,7 @@ public class ModulePanel extends JPanel {
         }
         monitorPanel = panel;
         if( monitorPanel != null ) {
-           leftPanel.add( monitorPanel, BorderLayout.NORTH );
+            leftPanel.add( monitorPanel, BorderLayout.NORTH );
         }
     }
 
@@ -129,7 +129,7 @@ public class ModulePanel extends JPanel {
     public JComponent getMonitorPanel() {
         return monitorPanel;
     }
-    
+
     /**
      * Sets the simulation panel.
      *
@@ -144,7 +144,7 @@ public class ModulePanel extends JPanel {
             leftPanel.add( simulationPanel, BorderLayout.CENTER );
         }
     }
-    
+
     /**
      * Gets the simulation panel.
      *
@@ -168,7 +168,7 @@ public class ModulePanel extends JPanel {
             leftPanel.add( panel, BorderLayout.SOUTH );
         }
     }
-    
+
     /**
      * Gets the clock control panel.
      *
@@ -201,7 +201,7 @@ public class ModulePanel extends JPanel {
     public JComponent getLogoPanel() {
         return logoPanel;
     }
-    
+
     /**
      * Set the control panel.
      *
@@ -225,7 +225,7 @@ public class ModulePanel extends JPanel {
     public JComponent getControlPanel() {
         return controlPanel;
     }
-    
+
     /**
      * Set the help panel.
      *
@@ -249,7 +249,7 @@ public class ModulePanel extends JPanel {
     public JComponent getHelpPanel() {
         return helpPanel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Full-screen feature
     //----------------------------------------------------------------------------
@@ -262,7 +262,7 @@ public class ModulePanel extends JPanel {
     public boolean isFullScreen() {
         return fullScreen;
     }
-    
+
     /**
      * Hides everything but the simulationPanel.
      *
@@ -320,11 +320,11 @@ public class ModulePanel extends JPanel {
         setVisible( controlPanel, !visible );
         setVisible( helpPanel, !visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Misc.
     //----------------------------------------------------------------------------
-    
+
     private void setVisible( JComponent component, boolean visible ) {
         if( component != null ) {
             component.setVisible( visible );
@@ -336,6 +336,10 @@ public class ModulePanel extends JPanel {
      * This is necessary when using scrollbars in the control panel.
      */
     private void relayoutAll() {
+        //these two lines prevent a scrollbar-sized inset
+        // on the right-hand side of the control panel and the right hand side of the simulation panel
+        rightPanel.invalidate();
+        leftPanel.invalidate();
         invalidate();
         validateTree();
         doLayout();
