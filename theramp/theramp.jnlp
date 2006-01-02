@@ -15,9 +15,9 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/dev/"
-    href="theramp/v0r0/theramp.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/dev/"
+        href="theramp/@VERSION@/theramp.jnlp">
     <information>
         <title>The Ramp</title>
         <vendor>PhET(tm)</vendor>
@@ -28,15 +28,10 @@ information.
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
-    <security>
-    </security>
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="theramp/v0r0/theramp.jar"/>
-        <jar href="shared/org/sourceforge/smoothmetal/v2/smoothmetal.jar"/>
-        <jar href="theramp/v0r0/lib/charts.jar"/>
-        <jar href="theramp/v0r0/lib/phetcommon.jar"/>
+        <jar href="theramp/@VERSION@/theramp-pro.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.theramp.RampModule"/>
 </jnlp>

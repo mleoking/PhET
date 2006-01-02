@@ -30,10 +30,6 @@
              classname="com.sshtools.ant.Ssh"
              classpath="antutil-dir/lib/maverick-ant.jar"/>
 
-    <description>
-        PhET Build File.
-    </description>
-
     <target name="init">
         <tstamp/>
     </target>
@@ -46,21 +42,18 @@
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean"
-            description="compile the source ">
+    <target name="Compile" depends="init, Clean">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="src:ec3-timeseries/src:piccolo-dir/src:piccolo-phet-dir/src:
-        piccolo-dir/extras:phetcommon-dir/src"
-               excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-               classpath="jfreechart-dir/lib/jfreechart-1.0.0.jar:jfreechart-dir/lib/jcommon-1.0.0.jar:
-               jfreechart-dir/lib/gnujaxp.jar:jfreechart-dir/lib/junit.jar:jfreechart-dir/lib/servlet.jar"
+        <javac srcdir="${build-src}"
+               excludes="${build-excludes}"
+               classpath="${build-classpath}"
                destdir="${ant.classes}"/>
     </target>
 
     <target name="Generate Build Info">
         <buildnumber file="${build.number.txt}"/>
         <tstamp>
-            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
+            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
         </tstamp>
         <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
     </target>
@@ -75,7 +68,7 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="data"/>
-            <fileset dir="phetcommon-dir/data"></fileset>
+            <fileset dir="phetcommon-dir/data"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -88,7 +81,7 @@
 
     <target name="Update JNLP">
         <copy todir="ant_output/jnlp" overwrite="yes">
-            <fileset file="ec3.jnlp"/>
+            <fileset file="${jnlp-filename}"/>
             <filterset>
                 <filter token="VERSION" value="${dev-version}"/>
             </filterset>
