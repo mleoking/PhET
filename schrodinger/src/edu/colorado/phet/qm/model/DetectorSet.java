@@ -65,6 +65,10 @@ public class DetectorSet {
         return autodetect;
     }
 
+    public void gunFired() {
+        enableAll();
+    }
+
     private static interface FireStrategy {
         void fire( Detector detector, Wavefunction wavefunction, double norm );
     }

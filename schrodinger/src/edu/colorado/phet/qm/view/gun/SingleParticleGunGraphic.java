@@ -32,6 +32,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected final JCheckBox autoFireJCheckBox;
     private PSwing gunControlPSwing;
 
+
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         fireOne = new JButton( "Fire" );
@@ -157,7 +158,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         } );
     }
 
-
     public void clearAndFire() {
         clearWavefunction();
         fireParticle();
@@ -170,13 +170,12 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     public void fireParticle() {
         currentObject.fireParticle();
-
+        notifyFireListeners();
     }
 
     public GunParticle getCurrentObject() {
         return currentObject;
     }
-
 
     public void addMomentumChangeListener( MomentumChangeListener momentumChangeListener ) {
         for( int i = 0; i < gunItems.length; i++ ) {

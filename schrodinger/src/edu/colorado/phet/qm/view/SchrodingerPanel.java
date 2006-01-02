@@ -48,6 +48,12 @@ public class SchrodingerPanel extends PhetPCanvas {
     private boolean inverseSlits = false;
     private ComplexColorMap complexColorMap = new MagnitudeColorMap();
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
+    private AbstractGunGraphic.Listener fireListener = new AbstractGunGraphic.Listener() {
+        public void gunFired() {
+            doGunFired();
+        }
+
+    };
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -87,6 +93,10 @@ public class SchrodingerPanel extends PhetPCanvas {
 //        schrodingerScreenNode.addChild( intensityReader );
     }
 
+    private void doGunFired() {
+        discreteModel.gunFired();
+    }
+
     private void synchronizeSlitInverse() {
         discreteModel.getDoubleSlitPotential().setInverseSlits( inverseSlits );
     }
@@ -95,20 +105,15 @@ public class SchrodingerPanel extends PhetPCanvas {
         super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
     }
 
-//    public DoubleSlitPanel getDoubleSlitPanel() {
-//        return schrodingerScreenNode.getDoubleSlitPanel();
-//    }
-//
-//    public PSwing getDoubleSlitPanelGraphic() {
-//        return schrodingerScreenNode.getDoubleSlitPanelGraphic();
-//    }
-
     protected void updateScreen() {
         getIntensityDisplay().tryDetecting();
     }
 
     protected void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
         schrodingerScreenNode.setGunGraphic( abstractGunGraphic );
+        if( !abstractGunGraphic.containsListener( fireListener ) ) {
+            abstractGunGraphic.addListener( fireListener );
+        }
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
@@ -235,7 +240,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public Rectangle waveAreaToScreen( Rectangle gridRect ) {
-        //todo piccolo
         getWavefunctionGraphic().localToGlobal( gridRect );
         getLayer().globalToLocal( gridRect );
         return gridRect;
@@ -248,12 +252,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     public SchrodingerScreenNode getSchrodingerScreenNode() {
         return schrodingerScreenNode;
     }
-
-//    public void setDoubleSlitControlPanelVisible( boolean selected ) {
-//        getDoubleSlitPanelGraphic().setVisible( selected );
-//        getDoubleSlitPanelGraphic().setChildrenPickable( selected );
-//        getDoubleSlitPanelGraphic().setPickable( selected );
-//    }
 
     public boolean isFadeEnabled() {
         return fadeEnabled;

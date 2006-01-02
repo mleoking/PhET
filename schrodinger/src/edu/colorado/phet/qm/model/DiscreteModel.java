@@ -165,6 +165,10 @@ public class DiscreteModel implements ModelElement {
         return modelParameters;
     }
 
+    public void gunFired() {
+        detectorSet.gunFired();
+    }
+
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             defaultPropagate();

@@ -27,7 +27,6 @@ public class AutoFire implements IntensityManager.Listener {
             public void stepInTime( double dt ) {
                 checkDetection();
             }
-
         };
     }
 
@@ -35,10 +34,15 @@ public class AutoFire implements IntensityManager.Listener {
         double mag = gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
         System.out.println( "mag = " + mag );
         if( mag < THRESHOLD || Double.isNaN( mag ) ) {
-            if( System.currentTimeMillis() - lastFire > 500 ) {
+            if( timeSinceFire() > 2000 ) {
+                System.out.println( "timeSinceFire() = " + timeSinceFire() );
                 fire();
             }
         }
+    }
+
+    private long timeSinceFire() {
+        return System.currentTimeMillis() - lastFire;
     }
 
     private void fire() {
