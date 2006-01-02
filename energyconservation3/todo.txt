@@ -1,0 +1,19 @@
+Optional to overlay a position-grid on the real space (to correlate with graph). Like moving man, force1d or ramps, disabled by default.
+Put coeff/friction in an advanced button.
+Zoomable Energy vs Position graphs.
+Record bug:
+	Record, then live, then record resets to last record state.	
+Add clipping to energy vs position plot.
+Add game-ish modes to sk8r application
+	. 2-skater mode
+	. Grab the apple?
+	. Jump the buses?
+Bug: When user drags track that skater is resting on, the skater doesn't move with it.
+[internal] Figure out the meaning of the magic grab number in EnergyConservationModel
+Add a helmet.
+
+Maybe "Live" should be changed to "Go" instead of "Play"
+
+low priority:
+User-selectable skater/vehicle graphics.
+Crashing skater?
