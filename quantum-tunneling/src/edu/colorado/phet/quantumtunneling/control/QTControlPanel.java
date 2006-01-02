@@ -293,23 +293,23 @@ public class QTControlPanel extends AbstractControlPanel {
         
         // Layout
         {  
-            setLogoVisible( false );
-            addFullWidth( potentialPanel );
+//            setTitleVisible( false );
+            addControlFullWidth( potentialPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addFullWidth( viewPanel );
+            addControlFullWidth( viewPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addFullWidth( irPanel );
+            addControlFullWidth( irPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addFullWidth( directionPanel );
+            addControlFullWidth( directionPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addFullWidth( formPanel );
+            addControlFullWidth( formPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addFullWidth( propertiesPanel );
+            addControlFullWidth( propertiesPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addControl( _measureButton );
@@ -336,11 +336,11 @@ public class QTControlPanel extends AbstractControlPanel {
             _measureButton.addActionListener( _listener );
         }
         
-        // Disable stuff that's not implemented yet
+        // XXX Disable stuff that's not implemented yet
         {
             _phaseCheckBox.setEnabled( false );
-            _planeWaveRadioButton.setEnabled( false );
-            _packetWaveRadioButton.setEnabled( false );
+//            _planeWaveRadioButton.setEnabled( false );
+//            _packetWaveRadioButton.setEnabled( false );
             _measureButton.setEnabled( false );
         }
     }

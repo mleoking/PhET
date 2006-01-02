@@ -71,7 +71,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      */
     public AbstractControlPanel( AbstractModule module ) {
         super( module );
-        getControlPane().setInsets( new Insets( 0, 3, 0, 3 ) );
+        setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
     
@@ -91,7 +91,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * Adds a separator to the control panel.
      */
     public void addSeparator() {
-        addFullWidth( new JSeparator() );
+        addControlFullWidth( new JSeparator() );
     }
     
     /**
@@ -112,7 +112,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
             JPanel spacePanel = new JPanel();
             spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
             spacePanel.add( Box.createVerticalStrut( space ) );
-            addFullWidth( spacePanel );
+            addControlFullWidth( spacePanel );
         }
     }
     
@@ -141,7 +141,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addFullWidth( fillerPanel );
+        addControlFullWidth( fillerPanel );
     }
     
     //----------------------------------------------------------------
