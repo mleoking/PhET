@@ -256,7 +256,7 @@ public class DetectorSheetPNode extends PhetPNode {
         return detectorSheetControlPanel;
     }
 
-    public PNode getDetectorSheetPanel() {
+    public PNode getDetectorSheetControlPanelPNode() {
         return detectorSheetControlPanelPNode;
     }
 

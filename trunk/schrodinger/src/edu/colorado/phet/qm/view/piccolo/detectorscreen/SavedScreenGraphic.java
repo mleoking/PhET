@@ -9,11 +9,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -32,8 +34,13 @@ public class SavedScreenGraphic extends PNode {
     public SavedScreenGraphic( final SchrodingerPanel schrodingerPanel, BufferedImage image ) {
         this.schrodingerPanel = schrodingerPanel;
         this.image = image;
+        PPath border = new PPath( new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() ) );
+        border.setStroke( new BasicStroke( 2 ) );
+        border.setStrokePaint( Color.lightGray );
+
         PImage imageGraphic = new PImage( image );
         addChild( imageGraphic );
+        addChild( border );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
