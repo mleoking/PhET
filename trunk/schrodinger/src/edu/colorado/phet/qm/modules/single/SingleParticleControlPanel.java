@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.view.swing.VisualizationPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

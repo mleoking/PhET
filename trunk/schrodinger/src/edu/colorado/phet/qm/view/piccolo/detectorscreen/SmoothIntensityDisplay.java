@@ -5,8 +5,8 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

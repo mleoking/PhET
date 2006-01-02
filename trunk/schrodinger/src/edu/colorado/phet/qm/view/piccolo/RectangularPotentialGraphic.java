@@ -6,7 +6,7 @@ import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;

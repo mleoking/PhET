@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.qm.controls.ResolutionControl;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

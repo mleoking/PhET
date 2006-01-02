@@ -3,9 +3,9 @@ package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.*;
 
