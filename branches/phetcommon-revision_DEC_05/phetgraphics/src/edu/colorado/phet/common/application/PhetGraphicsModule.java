@@ -110,9 +110,6 @@ public class PhetGraphicsModule extends Module {
      */
     public void addHelpItem( PhetGraphic helpItem ) {
         helpManager.addGraphic( helpItem );
-        if( getControlPanel() != null && getControlPanel() instanceof ControlPanel ) {
-            ( (ControlPanel)getControlPanel() ).setHelpPanelEnabled( true );
-        }
     }
 
     /**
@@ -122,10 +119,6 @@ public class PhetGraphicsModule extends Module {
      */
     public void removeHelpItem( PhetGraphic helpItem ) {
         helpManager.removeGraphic( helpItem );
-        if( getControlPanel() != null && getControlPanel()instanceof ControlPanel && helpManager.getNumHelpItems() == 0 )
-        {
-            ( (ControlPanel)getControlPanel() ).setHelpPanelEnabled( false );
-        }
     }
 
     public HelpManager getHelpManager() {
@@ -211,10 +204,6 @@ public class PhetGraphicsModule extends Module {
     protected void handleUserInput() {
         super.handleUserInput();
         getApparatusPanel().handleUserInput();
-    }
-
-    public JComponent getSimulationPanel() {
-        return getApparatusPanel();
     }
 
     public Class[] getTransientPropertySources() {

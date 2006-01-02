@@ -76,8 +76,8 @@ public class TestPhetApplication2 {
                     ctrl.setColumns( ctrl.getColumns() + dx );
                     ctrl.validate();
                     ctrl.doLayout();
-                    controlPanel.getComponent().validate();
-                    controlPanel.getComponent().doLayout();
+                    controlPanel.validate();
+                    controlPanel.doLayout();
                     app.getPhetFrame().invalidate();
                     app.getPhetFrame().validate();
                     app.getPhetFrame().doLayout();
