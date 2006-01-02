@@ -26,6 +26,9 @@ import java.awt.geom.Point2D;
  */
 
 public class PhetPNode extends PNode {
+    public PhetPNode() {
+    }
+
     public PhetPNode( PNode node ) {
         addChild( node );
     }
