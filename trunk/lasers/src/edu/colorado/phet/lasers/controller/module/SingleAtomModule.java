@@ -30,6 +30,7 @@ import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
