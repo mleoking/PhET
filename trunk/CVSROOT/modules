@@ -27,7 +27,8 @@
 
 
 # antutil
-antutil antutil
+antutil-module antutil
+antutil-dir antutil
 
 
 #============================================================================
@@ -153,10 +154,10 @@ forces1d forces1d &phetcommon-module &charts-module
 radio-waves emf &phetcommon-module
 
 # The Ramp
-theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir 
+theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil
 
 # Schrodinger
-schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir
+schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil
 
 # Maze Game
 mazegame mazegame
@@ -179,6 +180,9 @@ semiconductor semiconductor
 # Energy conservation
 energyconservation energyconservation
 
+# Energy Conservation 3 (2nd draft).
+energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil
+
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts-module
 
@@ -188,6 +192,3 @@ dischargelamps fluorescent-lights &lasers
 
 # Soluble Salts
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
-
-# Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir
