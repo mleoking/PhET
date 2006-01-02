@@ -33,5 +33,5 @@ information.
         <j2se version="1.4+"/>
         <jar href="theramp/@VERSION@/theramp-pro.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.theramp.RampModule"/>
+    <application-desc main-class="edu.colorado.phet.theramp.RampApplication"/>
 </jnlp>
