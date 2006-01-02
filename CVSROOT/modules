@@ -132,7 +132,7 @@ john-travoltage travoltage
 moving-man movingman &phetcommon-module &charts-0module
 
 # Lasers
-lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module
+lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module &jfreechart-dir
 
 # Signal Circuit
 signal-circuit signalcircuit
