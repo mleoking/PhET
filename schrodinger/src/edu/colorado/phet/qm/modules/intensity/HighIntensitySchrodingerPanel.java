@@ -15,7 +15,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class IntensityPanel extends SchrodingerPanel {
+public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
@@ -23,7 +23,7 @@ public class IntensityPanel extends SchrodingerPanel {
     private HighIntensityGunGraphic highIntensityGun;
     public static final boolean SMOOTH_SCREEN_DEFAULT = true;
 
-    public IntensityPanel( IntensityModule intensityModule ) {
+    public HighIntensitySchrodingerPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
         highIntensityGun = createGun();

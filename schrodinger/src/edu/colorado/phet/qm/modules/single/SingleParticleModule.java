@@ -17,8 +17,8 @@ public class SingleParticleModule extends SchrodingerModule {
     public SingleParticleModule( SchrodingerApplication application, IClock clock ) {
         super( "Single Particles", application, clock );
         setDiscreteModel( new DiscreteModel() );
-        final SingleParticlePanel schrodingerPanel = new SingleParticlePanel( this );
-        setSchrodingerPanel( schrodingerPanel );
+        final SingleParticleSchrodingerPanel schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
+        setSchrodingerPanel( schrodingerSchrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );

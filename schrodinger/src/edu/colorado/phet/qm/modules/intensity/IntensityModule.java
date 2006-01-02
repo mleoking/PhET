@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class IntensityModule extends SchrodingerModule {
     private SplitModel splitModel;
-    private IntensityPanel intensityPanel;
+    private HighIntensitySchrodingerPanel highIntensitySchrodingerPanel;
     private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
 
@@ -34,8 +34,8 @@ public class IntensityModule extends SchrodingerModule {
         super( name, app, clock );
         splitModel = new SplitModel();
         setDiscreteModel( splitModel );
-        intensityPanel = createIntensityPanel();
-        setSchrodingerPanel( intensityPanel );
+        highIntensitySchrodingerPanel = createIntensityPanel();
+        setSchrodingerPanel( highIntensitySchrodingerPanel );
         intensityControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( intensityControlPanel );
         synchronizeModel();
@@ -56,16 +56,16 @@ public class IntensityModule extends SchrodingerModule {
 //        getDiscreteModel().addListener( new DebugIntensityReader() );
     }
 
-    protected IntensityPanel createIntensityPanel() {
-        return new IntensityPanel( this );
+    protected HighIntensitySchrodingerPanel createIntensityPanel() {
+        return new HighIntensitySchrodingerPanel( this );
     }
 
     public SplitModel getSplitModel() {
         return splitModel;
     }
 
-    public IntensityPanel getIntensityPanel() {
-        return intensityPanel;
+    public HighIntensitySchrodingerPanel getIntensityPanel() {
+        return highIntensitySchrodingerPanel;
     }
 
     public boolean isRightDetectorEnabled() {
@@ -97,7 +97,7 @@ public class IntensityModule extends SchrodingerModule {
     }
 
     public ColorData getRootColor() {
-        return intensityPanel.getRootColor();
+        return highIntensitySchrodingerPanel.getRootColor();
     }
 
 //    public SlitDetectorPanel getSlitDetectorPanel() {
@@ -130,12 +130,12 @@ public class IntensityModule extends SchrodingerModule {
         boolean splitMode = shouldBeSplitMode();
         if( selected ) {
             splitModel.addDetector( detector );
-            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( intensityPanel, detector );
-            intensityPanel.addDetectorGraphic( detectorGraphic );
+            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( highIntensitySchrodingerPanel, detector );
+            highIntensitySchrodingerPanel.addDetectorGraphic( detectorGraphic );
         }
         else {
             splitModel.removeDetector( detector );
-            intensityPanel.removeDetectorGraphic( detector );
+            highIntensitySchrodingerPanel.removeDetectorGraphic( detector );
         }
         boolean newSplitMode = shouldBeSplitMode();
         if( newSplitMode != splitMode ) {
@@ -150,7 +150,7 @@ public class IntensityModule extends SchrodingerModule {
     private void synchronizeModel() {
         boolean splitMode = shouldBeSplitMode();
         splitModel.setSplitMode( splitMode );
-        intensityPanel.setSplitMode( splitMode );
+        highIntensitySchrodingerPanel.setSplitMode( splitMode );
     }
 
 

@@ -6,10 +6,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
-import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,12 +19,11 @@ import java.util.Random;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class IntensityGraphic extends PNode {
+public class IntensityManager {
     private SchrodingerModule schrodingerModule;
     private SchrodingerPanel schrodingerPanel;
 
     private DetectorSheetPNode detectorSheetPNode;
-    private int detectorHeight;
     private Random random;
     private int h = 2;
     private int y = 2;
@@ -36,14 +32,11 @@ public class IntensityGraphic extends PNode {
     private int multiplier = 1;
     private ArrayList listeners = new ArrayList();
 
-    public IntensityGraphic( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight, WavefunctionGraphic wavefunctionGraphic ) {
+    public IntensityManager( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, DetectorSheetPNode detectorSheetPNode ) {
+        this.detectorSheetPNode = detectorSheetPNode;
         this.schrodingerModule = schrodingerModule;
         this.schrodingerPanel = schrodingerPanel;
-        this.detectorHeight = detectorHeight;
         this.random = new Random();
-        detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, detectorHeight );
-        addChild( detectorSheetPNode );
-        detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
     }
 
     public void tryDetecting() {
@@ -59,19 +52,14 @@ public class IntensityGraphic extends PNode {
         }
     }
 
-    public void setDisplayPhotonColor( Photon photon ) {
-        detectorSheetPNode.setDisplayPhotonColor( photon );
-    }
-
     public void setHighIntensityMode() {
         setMultiplier( 100 );
         setProbabilityScaleFudgeFactor( 10 );
         setNormDecrement( 0.0 );
-        getDetectorSheet().setHighIntensityMode();
+        detectorSheetPNode.setHighIntensityMode();
     }
 
-    public boolean isFadeEnabled() {
-        return detectorSheetPNode.isFadeEnabled();
+    public void reset() {
     }
 
     public static interface Listener {
@@ -106,26 +94,20 @@ public class IntensityGraphic extends PNode {
         x *= 1.0;//getWavePanelScale();
         int y = getDetectY();
 
+        addDetectionEvent( x, y );
+    }
+
+    private void addDetectionEvent( int x, int y ) {
         detectorSheetPNode.addDetectionEvent( x, y );
     }
 
-//    private double getWavePanelScale() {
-//        return 1.0;
-//    }
-
     public Function.LinearFunction getModelToViewTransform1d() {
         return new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(),
-                                            0, getDetectorSheet().getBufferedImage().getWidth() );
+                                            0, detectorSheetPNode.getBufferedImage().getWidth() );
     }
 
     private int getDetectY() {
-        return (int)( random.nextDouble() * detectorHeight * 0.5 );
-    }
-
-    private int getYGaussian() {
-        double scale = detectorHeight / 8;
-        double offset = detectorHeight / 2;
-        return (int)( random.nextGaussian() * scale + offset );
+        return (int)( random.nextDouble() * detectorSheetPNode.getDetectorHeight() * 0.5 );
     }
 
     private void updateWavefunctionAfterDetection() {
@@ -154,10 +136,6 @@ public class IntensityGraphic extends PNode {
         return detectorSet.getCollapsePoint();
     }
 
-    public void reset() {
-        detectorSheetPNode.reset();
-    }
-
     public double getProbabilityScaleFudgeFactor() {
         return probabilityScaleFudgeFactor;
     }
@@ -182,23 +160,4 @@ public class IntensityGraphic extends PNode {
         this.multiplier = multiplier;
     }
 
-    public DetectorSheetPNode getDetectorSheet() {
-        return detectorSheetPNode;
-    }
-
-    public int getOpacity() {
-        return detectorSheetPNode.getOpacity();
-    }
-
-    public void setOpacity( int opacity ) {
-        detectorSheetPNode.setOpacity( opacity );
-    }
-
-    public int getDetectorHeight() {
-        return detectorHeight;
-    }
-
-    public void clearScreen() {
-        detectorSheetPNode.clearScreen();
-    }
 }
