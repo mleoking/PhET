@@ -29,11 +29,11 @@
     <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
 
     <taskdef resource="proguard/ant/task.properties"
-             classpath="proguard3.4/lib/proguard.jar"/>
+             classpath="antutil-dir/lib/proguard.jar"/>
 
     <taskdef name="maverick-ssh"
              classname="com.sshtools.ant.Ssh"
-             classpath="maverick-ant/maverick/lib/maverick-ant.jar"/>
+             classpath="antutil-dir/lib/maverick-ant.jar"/>
 
     <description>
         PhET Build File.
