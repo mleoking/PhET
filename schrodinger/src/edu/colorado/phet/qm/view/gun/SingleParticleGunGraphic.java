@@ -32,7 +32,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected final JCheckBox autoFireJCheckBox;
     private PSwing gunControlPSwing;
 
-
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         fireOne = new JButton( "Fire" );
@@ -88,17 +87,9 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
                 }
             }
         } );
-//        fireJC = new PSwing( schrodingerPanel, fireOne );
-//        fireJC.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-//        addChild( fireJC );
-
 
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
-//        autoJC = new PSwing( schrodingerPanel, autoFireJCheckBox );
-//        addChild( autoJC );
-//        autoJC.setOffset( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
-
 
         JPanel gunControlPanel = createGunControlPanel();
         gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
@@ -123,8 +114,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         if( getGunControls() != null ) {
             getGunControls().setOffset( getComboBoxGraphic().getFullBounds().getX(), getComboBoxGraphic().getFullBounds().getMaxY() );
         }
-//        fireJC.setOffset( getGunImageGraphic().getWidth() + 2 + getFireButtonInsetDX(), getControlOffsetY() + 0 );
-//        autoJC.setOffset( fireJC.getFullBounds().getX(), fireJC.getFullBounds().getMaxY() + 5 );
     }
 
     protected Point getGunLocation() {
@@ -206,8 +195,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
                 DefaultGunParticle.createNeutron( this ),
                 DefaultGunParticle.createHelium( this ),
                 DefaultGunParticle.createCustomAtom( this )};
-//                new DefaultGunParticle( this, "Electrons", "images/electron-thumb.jpg", 1.0 ),
-//                new DefaultGunParticle( this, "Atoms", "images/atom-thumb.jpg" )};
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
@@ -237,5 +224,9 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         Map sup = super.getModelParameters();
         sup.putAll( currentObject.getModelParameters() );
         return sup;
+    }
+
+    public boolean isFiring() {
+        return currentObject.isFiring();
     }
 }

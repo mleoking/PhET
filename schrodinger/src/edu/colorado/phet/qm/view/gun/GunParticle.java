@@ -6,7 +6,6 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
@@ -50,16 +49,12 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double y = getStartY();
         double px = 0;
         double py = getStartPy();
-
-//        Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
         Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
 
         double dxLattice = getStartDxLattice();
         GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
                                                          new Vector2D.Double( px, py ), dxLattice );
-
         double desiredPhase = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
-
         Wavefunction copy = currentWave.createEmptyWavefunction();
         wave2DSetup.initialize( copy );
 
@@ -78,45 +73,6 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     protected double getStartY() {
         return getDiscreteModel().getGridHeight() * 0.85;
-    }
-
-    private WaveSetup getInitialWavefunctionVerifyCorrect( Wavefunction currentWave ) {
-        double x = getDiscreteModel().getGridWidth() * 0.5;
-        double y = getStartY();
-        double px = 0;
-        double py = getStartPy();
-        System.out.println( "py = " + py );
-
-        Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
-
-        double dxLattice = getStartDxLattice();
-        System.out.println( "dxLattice = " + dxLattice );
-        GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
-                                                         new Vector2D.Double( px, py ), dxLattice );
-
-        Complex centerValue = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y );
-        double desiredPhase = centerValue.getComplexPhase();
-
-        System.out.println( "original Center= " + centerValue + ", desired phase=" + desiredPhase );
-
-        Wavefunction copy = currentWave.createEmptyWavefunction();
-        wave2DSetup.initialize( copy );
-
-        Complex centerValueCopy = copy.valueAt( phaseLockPoint.x, phaseLockPoint.y );
-        System.out.println( "unedited: =" + centerValueCopy + ", unedited phase=" + centerValueCopy.getComplexPhase() );
-
-        double uneditedPhase = centerValueCopy.getComplexPhase();
-        double deltaPhase = desiredPhase - uneditedPhase;
-
-        System.out.println( "deltaPhase = " + deltaPhase );
-        wave2DSetup.setPhase( deltaPhase );
-
-        Wavefunction test = currentWave.createEmptyWavefunction();
-        wave2DSetup.initialize( test );
-        Complex testValue = test.valueAt( phaseLockPoint.x, phaseLockPoint.y );
-        System.out.println( "created testValue = " + testValue + ", created phase=" + testValue.getComplexPhase() );
-
-        return wave2DSetup;
     }
 
     protected void clearWavefunction() {
@@ -154,21 +110,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         return map;
     }
 
-//    protected void detachListener( AbstractGun.MomentumChangeListener listener ) {
-//        ArrayList toRemove = new ArrayList();
-//        for( int i = 0; i < changeHandlers.size(); i++ ) {
-//            ChangeHandler changeHandler = (ChangeHandler)changeHandlers.get( i );
-//            if( changeHandler.momentumChangeListener == listener ) {
-//                toRemove.add( changeHandler );
-//            }
-//        }
-//
-//        for( int i = 0; i < toRemove.size(); i++ ) {
-//            ChangeHandler changeHandler = (ChangeHandler)toRemove.get( i );
-//            changeHandlers.remove( changeHandler );
-//            detachListener( changeHandler );
-//        }
-//    }
+    public abstract boolean isFiring();
 
     class ChangeHandler implements ChangeListener {
         private AbstractGunGraphic.MomentumChangeListener momentumChangeListener;
@@ -205,8 +147,6 @@ public abstract class GunParticle extends ImageComboBox.Item {
             changeHandlers.remove( changeHandler );
             detachListener( changeHandler );
         }
-
-//        detachListener( listener );
     }
 
     protected abstract void detachListener( ChangeHandler changeHandler );
@@ -220,7 +160,6 @@ public abstract class GunParticle extends ImageComboBox.Item {
             momentumChangeListener.momentumChanged( momentum );
         }
     }
-
 
     public void autofire() {
         fireParticle();

@@ -28,15 +28,11 @@ public class Photon extends GunParticle {
     public void setup( AbstractGunGraphic abstractGunGraphic ) {
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
-//        abstractGunGraphic.setGunTypeControl(wavelengthSliderGraphic);
         abstractGunGraphic.setGunControls( wavelengthSliderGraphic );
-//        wavelengthSliderGraphic.setOffset( -wavelengthSliderGraphic.getFullBounds().getWidth() - 2,
-//                                           abstractGunGraphic.getControlOffsetY() + abstractGunGraphic.getComboBox().getPreferredSize().height + 2 + 20 );
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
         abstractGunGraphic.removeGunControls();
-//        abstractGunGraphic.removeChild( wavelengthSliderGraphic );
     }
 
     public void fireParticle() {
@@ -51,13 +47,16 @@ public class Photon extends GunParticle {
         super.fireParticle();
     }
 
+    public boolean isFiring() {
+        return false;//firing is always a one-shot deal, so we're never in the middle of a shot.
+    }
+
     protected double getStartY() {
         return getDiscreteModel().getGridHeight() * 0.9;
     }
 
     public double getStartPy() {
         double wavelengthValue = getWavelength();
-//            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
         return -hbar * 2 * Math.PI / wavelengthValue;
     }
 
@@ -67,7 +66,6 @@ public class Photon extends GunParticle {
 
     private double getWavelength() {
         double val = wavelengthSliderGraphic.getWavelength();
-//                                                              8, 45).evaluate( val );
         return new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
                                             minWavelength, maxWavelength ).evaluate( val );
     }

@@ -109,6 +109,14 @@ public class PhotonBeamParticle extends GunParticle {
         addModelElement( rampUp );
     }
 
+    public boolean isFiring() {
+        return containsModelElement( rampUp ) || containsModelElement( rampDown ) || containsModelElement( pauser );
+    }
+
+    private boolean containsModelElement( ModelElement element ) {
+        return getSchrodingerModule().getModel().containsModelElement( element );
+    }
+
     private void clearModelElements() {
         removeModelElement( rampUp );
         removeModelElement( rampDown );
