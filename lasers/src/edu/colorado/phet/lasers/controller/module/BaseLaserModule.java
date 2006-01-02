@@ -34,6 +34,7 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
+import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -91,6 +92,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private HelpManager mainPanelHelpManager;
     private ApparatusPanelHelp apparatusPanelHelp;
     private Kaboom kaboom;
+    private PowerMeter powerMeter;
 
     /**
      *
@@ -127,6 +129,17 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
         // Create the mirrors
         createMirrors();
+
+        // Create the power meter
+//        powerMeter = new PowerMeter( getApparatusPanel(),
+        powerMeter = new PowerMeter( PhetApplication.instance().getPhetFrame(),
+                                     new Point( 300, 650 ),
+                                     getLaserModel(),
+                                     rightMirror );
+//        powerMeter.setLocation( 200, 200 );
+//        getApparatusPanel().addGraphic( powerMeter, 1E6 );
+//        powerMeter.setVisible( true );
+        powerMeter.setVisible( false );
 
         // Set up help
         createHelp();
@@ -170,6 +183,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         laserEnergyLevelsMonitorPanel.adjustPanel();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
         getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
+        powerMeter.setVisible( mirrorsEnabled );
     }
 
     /**
@@ -179,6 +193,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         super.deactivate( app );
         middleStateMeanLifetime = getLaserModel().getMiddleEnergyState().getMeanLifeTime();
         highStateMeanLifetime = getLaserModel().getHighEnergyState().getMeanLifeTime();
+        powerMeter.setVisible( false );
     }
 
     //----------------------------------------------------------------
@@ -491,6 +506,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
             getApparatusPanel().revalidate();
         }
         seedBeam.setEnabled( !mirrorsEnabled );
+
+        // Show/hide the power meter
+        powerMeter.setVisible( mirrorsEnabled );
 
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
