@@ -66,7 +66,7 @@ public class ModulePanel extends JPanel {
      */
     public ModulePanel(
             JComponent monitorPanel, JComponent simulationPanel, JComponent clockControlPanel,
-            JComponent LogoPanel, JComponent controlPanel, JComponent helpPanel ) {
+            JComponent logoPanel, JComponent controlPanel, JComponent helpPanel ) {
         setLayout( new BorderLayout() );
 
         leftPanel = new JPanel( new BorderLayout() );
