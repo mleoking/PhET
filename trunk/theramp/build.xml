@@ -18,7 +18,7 @@
     <property name="build.number.txt" value="data/${distname}.build.number"/>
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
-    <property name="proguard-file" value="ec3.pro"/>
+    <property name="proguard-file" value="theramp.pro"/>
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev-dir" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
