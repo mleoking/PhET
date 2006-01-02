@@ -34,7 +34,7 @@ public class DiscreteModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
-    private boolean oneShotDetectors = false;
+//    private boolean oneShotDetectors = false;
     private Damping damping;
     private boolean paused = false;
     private WaveSetup initter;
@@ -64,7 +64,7 @@ public class DiscreteModel implements ModelElement {
         this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential ) );
 
         detectorSet = new DetectorSet( getWavefunction() );
-        detectorSet.setOneShotDetectors( oneShotDetectors );
+//        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
@@ -402,15 +402,15 @@ public class DiscreteModel implements ModelElement {
         listeners.remove( listener );
     }
 
-    public void setOneShotDetectors( boolean oneShotDetectors ) {
-        this.oneShotDetectors = oneShotDetectors;
-        detectorSet.setOneShotDetectors( oneShotDetectors );
-        enableAllDetectors();
-    }
+//    public void setOneShotDetectors( boolean oneShotDetectors ) {
+//        this.oneShotDetectors = oneShotDetectors;
+////        detectorSet.setOneShotDetectors( oneShotDetectors );
+//        enableAllDetectors();
+//    }
 
-    public boolean isOneShotDetectors() {
-        return oneShotDetectors;
-    }
+//    public boolean isOneShotDetectors() {
+//        return oneShotDetectors;
+//    }
 
     public void setPropagator( Propagator propagator ) {
         this.waveModel.setPropagator( propagator );
