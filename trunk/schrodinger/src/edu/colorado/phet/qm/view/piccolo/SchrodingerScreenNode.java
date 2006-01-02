@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -12,10 +11,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -39,7 +35,7 @@ public class SchrodingerScreenNode extends PNode {
     private ArrayList detectorGraphics = new ArrayList();
 //    private PSwing doubleSlitPanelGraphic;
 //    private DoubleSlitPanel doubleSlitPanel;
-    private PSwing clearButtonNode;
+//    private PSwing clearButtonNode;
     private Dimension lastLayoutSize = null;
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
     private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
@@ -85,21 +81,21 @@ public class SchrodingerScreenNode extends PNode {
             }
         } );
 
-        JButton clear = new JButton( "<html>Clear<br>Wave</html>" ) {
-            protected void paintComponent( Graphics g ) {
-                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintComponent( g );
-            }
-        };
-        clear.setMargin( new Insets( 2, 2, 2, 2 ) );
-        clearButtonNode = new PSwing( schrodingerPanel, clear );
-        addChild( clearButtonNode );
-        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        clear.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.clearWavefunction();
-            }
-        } );
+//        JButton clear = new JButton( "<html>Clear<br>Wave</html>" ) {
+//            protected void paintComponent( Graphics g ) {
+//                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//                super.paintComponent( g );
+//            }
+//        };
+//        clear.setMargin( new Insets( 2, 2, 2, 2 ) );
+////        clearButtonNode = new PSwing( schrodingerPanel, clear );
+////        addChild( clearButtonNode );
+//        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+//        clear.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                schrodingerPanel.clearWavefunction();
+//            }
+//        } );
         layoutChildren();
     }
 
@@ -234,8 +230,8 @@ public class SchrodingerScreenNode extends PNode {
                 globalToLocal( detectorSheetBounds );
 //                doubleSlitPanelGraphic.setOffset( slitPanelInsetX, wavefunctionGraphic.getFullBounds().getCenterY() - doubleSlitPanelGraphic.getFullBounds().getHeight() / 2 );
 //                doubleSlitPanelButton.setOffset( doubleSlitPanelGraphic.getXOffset(), doubleSlitPanelGraphic.getYOffset() - doubleSlitPanelButton.getFullBounds().getHeight() );
-                clearButtonNode.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButtonNode.getFullBounds().getWidth(),
-                                           wavefunctionGraphic.getFullBounds().getMaxY() - clearButtonNode.getHeight() );
+//                clearButtonNode.setOffset( wavefunctionGraphic.getFullBounds().getX() - clearButtonNode.getFullBounds().getWidth(),
+//                                           wavefunctionGraphic.getFullBounds().getMaxY() - clearButtonNode.getHeight() );
             }
         }
     }
