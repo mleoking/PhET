@@ -20,9 +20,9 @@ public class SingleParticleModule extends SchrodingerModule {
         final SingleParticlePanel schrodingerPanel = new SingleParticlePanel( this );
         setSchrodingerPanel( schrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
-        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
-        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
-        getSchrodingerPanel().getIntensityDisplay().getDetectorSheet().getDetectorSheetControlPanel().setTypeControlVisible( false );
+        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
+        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
+        getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
         finishInit();
     }
 }

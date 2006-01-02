@@ -14,7 +14,7 @@ import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.event.KeyEvent;
@@ -145,7 +145,7 @@ public class SchrodingerModule extends PiccoloModule {
         return schrodingerControlPanel;
     }
 
-    public IntensityGraphic getIntensityDisplay() {
+    public IntensityManager getIntensityDisplay() {
         return getSchrodingerPanel().getIntensityDisplay();
     }
 
