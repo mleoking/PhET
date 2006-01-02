@@ -26,38 +26,60 @@ import java.awt.event.*;
  */
 public class ModulePanel extends JPanel {
 
-    /* Instance Data*/
-    private JComponent simulationPanel;
-    private JComponent controlPanel;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private JPanel leftPanel; // holds the monitorPanel, simulationPanel, and clockControlPanel
     private JComponent monitorPanel;
+    private JComponent simulationPanel;
     private JComponent clockControlPanel;
+    
+    private JPanel rightPanel; // holds the logoPanel, controlPanel, and helpPanel
+    private JComponent logoPanel;
+    private JComponent controlPanel;
+    private JComponent helpPanel;
 
     private boolean fullScreen = false;
     private JDialog buttonDlg;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
      * Constructs a new ModulePanel with null contents.
      */
     public ModulePanel() {
-        this( null, null, null, null );
+        this( null, null, null, null, null, null );
     }
 
     /**
      * Constructs a new ModulePanel with the specified contents (which may be null).
      *
-     * @param simulationPanel
-     * @param controlPanel
      * @param monitorPanel
+     * @param simulationPanel
      * @param clockControlPanel
+     * @param logoPanel
+     * @param controlPanel
+     * @param helpPanel
      */
-    public ModulePanel( JComponent simulationPanel, JComponent controlPanel,
-                        JComponent monitorPanel, JComponent clockControlPanel ) {
+    public ModulePanel( 
+            JComponent monitorPanel, JComponent simulationPanel, JComponent clockControlPanel,
+            JComponent LogoPanel, JComponent controlPanel, JComponent helpPanel ) {
         setLayout( new BorderLayout() );
 
-        setSimulationPanel( simulationPanel );
+        leftPanel = new JPanel( new BorderLayout() );
+        add( leftPanel, BorderLayout.CENTER );
+        rightPanel = new JPanel( new BorderLayout() );
+        add( rightPanel, BorderLayout.EAST );
+        
         setMonitorPanel( monitorPanel );
+        setSimulationPanel( simulationPanel );
         setClockControlPanel( clockControlPanel );
+        setLogoPanel( logoPanel );
         setControlPanel( controlPanel );
+        setHelpPanel( helpPanel );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -80,13 +102,23 @@ public class ModulePanel extends JPanel {
         relayoutAll();
     }
 
+    //----------------------------------------------------------------------------
+    // Panel accessors
+    //----------------------------------------------------------------------------
+    
     /**
-     * Gets whether the ModulePanel is currently running in full screen.
+     * Sets the monitor panel.
      *
-     * @return whether the ModulePanel is currently running in full screen.
+     * @param panel, possibly null
      */
-    public boolean isFullScreen() {
-        return fullScreen;
+    public void setMonitorPanel( JComponent panel ) {
+        if( monitorPanel != null ) {
+            leftPanel.remove( monitorPanel );
+        }
+        monitorPanel = panel;
+        if( monitorPanel != null ) {
+           leftPanel.add( monitorPanel, BorderLayout.NORTH );
+        }
     }
 
     /**
@@ -97,7 +129,46 @@ public class ModulePanel extends JPanel {
     public JComponent getMonitorPanel() {
         return monitorPanel;
     }
+    
+    /**
+     * Sets the simulation panel.
+     *
+     * @param panel, possibly null
+     */
+    public void setSimulationPanel( JComponent panel ) {
+        if( simulationPanel != null ) {
+            leftPanel.remove( simulationPanel );
+        }
+        simulationPanel = panel;
+        if( simulationPanel != null ) {
+            leftPanel.add( simulationPanel, BorderLayout.CENTER );
+        }
+    }
+    
+    /**
+     * Gets the simulation panel.
+     *
+     * @return the simulation panel
+     */
+    public JComponent getSimulationPanel() {
+        return simulationPanel;
+    }
 
+    /**
+     * Sets the clock control panel.
+     *
+     * @param panel, possibly null
+     */
+    public void setClockControlPanel( JComponent panel ) {
+        if( clockControlPanel != null ) {
+            leftPanel.remove( clockControlPanel );
+        }
+        clockControlPanel = panel;
+        if( panel != null ) {
+            leftPanel.add( panel, BorderLayout.SOUTH );
+        }
+    }
+    
     /**
      * Gets the clock control panel.
      *
@@ -108,99 +179,92 @@ public class ModulePanel extends JPanel {
     }
 
     /**
-     * Gets the simulation panel.
+     * Set the logo panel.
      *
-     * @return the simulation panel.
+     * @param panel, possibly null
      */
-    public JComponent getSimulationPanel() {
-        return simulationPanel;
+    public void setLogoPanel( JComponent panel ) {
+        if( logoPanel != null ) {
+            rightPanel.remove( logoPanel );
+        }
+        logoPanel = panel;
+        if( logoPanel != null ) {
+            rightPanel.add( logoPanel, BorderLayout.NORTH );
+        }
     }
 
     /**
-     * Gets the ControlPanel.
+     * Gets the logo panel.
      *
-     * @return the ControlPanel.
+     * @return the logo panel
+     */
+    public JComponent getLogoPanel() {
+        return logoPanel;
+    }
+    
+    /**
+     * Set the control panel.
+     *
+     * @param panel, possibly null
+     */
+    public void setControlPanel( JComponent panel ) {
+        if( controlPanel != null ) {
+            rightPanel.remove( controlPanel );
+        }
+        controlPanel = panel;
+        if( controlPanel != null ) {
+            rightPanel.add( controlPanel, BorderLayout.CENTER );
+        }
+    }
+
+    /**
+     * Gets the control panel.
+     *
+     * @return the control panel
      */
     public JComponent getControlPanel() {
         return controlPanel;
     }
-
+    
     /**
-     * Relayout, revalidate and repaint this ModulePanel.  This is necessary when using scrollbars in the control panel.
-     */
-    protected void relayoutAll() {
-        invalidate();
-        validateTree();
-        doLayout();
-        repaint();
-    }
-
-    /**
-     * Set the ControlPanel of this ModulePanel.
+     * Set the help panel.
      *
-     * @param panel
+     * @param panel, possibly null
      */
-    public void setControlPanel( JComponent panel ) {
-        if( controlPanel != null ) {
-            remove( controlPanel );
+    public void setHelpPanel( JComponent panel ) {
+        if( helpPanel != null ) {
+            rightPanel.remove( helpPanel );
         }
-        controlPanel = panel;
-        setPanel( controlPanel, BorderLayout.EAST );
-    }
-
-    /**
-     * Set the monitor panel of this ModulePanel.
-     *
-     * @param panel
-     */
-    public void setMonitorPanel( JComponent panel ) {
-        if( monitorPanel != null ) {
-            remove( monitorPanel );
-        }
-        monitorPanel = panel;
-        setPanel( monitorPanel, BorderLayout.NORTH );
-    }
-
-    /**
-     * Set the simulation panel of this ModulePanel.
-     *
-     * @param panel
-     */
-    public void setSimulationPanel( JComponent panel ) {
-        if( simulationPanel != null ) {
-            remove( simulationPanel );
-        }
-        simulationPanel = panel;
-        setPanel( simulationPanel, BorderLayout.CENTER );
-    }
-
-    /**
-     * Sets the clock control panel for the Module.
-     *
-     * @param clockControlPanel
-     */
-    public void setClockControlPanel( JComponent clockControlPanel ) {
-        if( this.clockControlPanel != null ) {
-            remove( this.clockControlPanel );
-        }
-        this.clockControlPanel = clockControlPanel;
-        setPanel( clockControlPanel, BorderLayout.SOUTH );
-    }
-
-    /**
-     * Adds the panel in the specified location.
-     *
-     * @param panel
-     * @param location
-     */
-    private void setPanel( JComponent panel, String location ) {
-        if( panel != null ) {
-            add( panel, location );
+        helpPanel = panel;
+        if( helpPanel != null ) {
+            rightPanel.add( helpPanel, BorderLayout.SOUTH );
         }
     }
 
     /**
-     * Hide everything but the SimulationPanel.
+     * Gets the help panel.
+     *
+     * @return the help panel
+     */
+    public JComponent getHelpPanel() {
+        return helpPanel;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Full-screen feature
+    //----------------------------------------------------------------------------
+
+    /**
+     * Gets whether the ModulePanel is currently running in full screen.
+     *
+     * @return whether the ModulePanel is currently running in full screen.
+     */
+    public boolean isFullScreen() {
+        return fullScreen;
+    }
+    
+    /**
+     * Hides everything but the simulationPanel.
      *
      * @param fullScreen
      */
@@ -214,16 +278,11 @@ public class ModulePanel extends JPanel {
     }
 
     private void deactivateFullScreen() {
-        setVisible( controlPanel, true );
-        setVisible( monitorPanel, true );
-        setVisible( clockControlPanel, true );
-        this.fullScreen = false;
+        setSimulationPanelOnlyIsVisible( false );
     }
 
     private void activateFullScreen() {
-        setVisible( controlPanel, false );
-        setVisible( monitorPanel, false );
-        setVisible( clockControlPanel, false );
+        setSimulationPanelOnlyIsVisible( true );
 
         if( buttonDlg == null ) {
             buttonDlg = new JDialog();
@@ -250,10 +309,36 @@ public class ModulePanel extends JPanel {
         this.fullScreen = true;
     }
 
+    /*
+     * Shows/hides all panels except the simulation panel.
+     * @param visible true to hide all others, false to show all panels
+     */
+    private void setSimulationPanelOnlyIsVisible( boolean visible ) {
+        setVisible( monitorPanel, !visible );
+        setVisible( clockControlPanel, !visible );
+        setVisible( logoPanel, !visible );
+        setVisible( controlPanel, !visible );
+        setVisible( helpPanel, !visible );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Misc.
+    //----------------------------------------------------------------------------
+    
     private void setVisible( JComponent component, boolean visible ) {
         if( component != null ) {
             component.setVisible( visible );
         }
     }
 
+    /*
+     * Relayout, revalidate and repaint this ModulePanel.
+     * This is necessary when using scrollbars in the control panel.
+     */
+    private void relayoutAll() {
+        invalidate();
+        validateTree();
+        doLayout();
+        repaint();
+    }
 }

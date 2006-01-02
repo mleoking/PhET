@@ -10,27 +10,25 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.Module;
-
-import javax.swing.*;
 import java.awt.*;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
+
+import edu.colorado.phet.common.application.Module;
+
 /**
- * The panel that contains the controls for the simulation, normally on the right side of a PhetFrame.
- * By default, the panel has the PhET logo at the top. This can be over-ridden with setTitleVisible(false);
- * A panel with a button for showing/hiding help can be displayed with setHelpPanelEnabled().
- * <p/>
- * This class no longer extends JComponent, since it is too easy to abuse the interface.
- * To get the associated swing component, use getComponent().
+ * ControlPanel is the panel that contains the controls for the simulation.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ControlPanel {
+public class ControlPanel extends JPanel {
+    
+    private ContentPanel contentPanel; // holds the controls
     private JScrollPane scrollPane;
-    private ContentPane controlPane;
-    private TitlePanel titlePanel;
-    private HelpPanel helpPanel;
     private Scrollable scrollPolicy;
 
     /**
@@ -39,53 +37,28 @@ public class ControlPanel {
      * @param module
      */
     public ControlPanel( Module module ) {
-        controlPane = new ContentPane();
-        scrollPolicy = new DefaultScrollPolicy( controlPane );
-        controlPane.setFillNone();
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        setLayout( new BorderLayout() );
+        contentPanel = new ContentPanel();
+        contentPanel.setFillNone();
+        scrollPolicy = new DefaultScrollPolicy( contentPanel );
+        scrollPane = new JScrollPane( contentPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        helpPanel = new HelpPanel( module );
-        setHelpPanelEnabled( module.hasHelp() );
-        titlePanel = new TitlePanel();
-        addControlFullWidth( titlePanel );
+        add( scrollPane, BorderLayout.CENTER );
+        
+        // Macintosh fix
+        {
+            scrollPane.setOpaque( false );
+            scrollPane.getViewport().setOpaque( false );
+        }
     }
-
+    
     /**
-     * Returns the component for embedding in a swing panel.
-     *
-     * @return the component for embedding in a swing panel.
+     * Gets the content panel, which holds the controls.
+     * 
+     * @return the content panel
      */
-    public JComponent getComponent() {
-        return scrollPane;
-    }
-
-    /**
-     * Makes the help button visible/invisible
-     *
-     * @param isEnabled
-     */
-    public void setHelpPanelEnabled( boolean isEnabled ) {
-        helpPanel.setVisible( isEnabled );
-    }
-
-    /**
-     * Sets the state of the Help button in the control panel.
-     * This is used to keep the menubar's Help menu item
-     * in sync with the control panel's Help button.
-     *
-     * @param enabled
-     */
-    public void setHelpEnabled( boolean enabled ) {
-        helpPanel.setHelpEnabled( enabled );
-    }
-
-    /**
-     * Shows or hides the PhET logo at the top of the control panel
-     *
-     * @param isVisible
-     */
-    public void setTitleVisible( boolean isVisible ) {
-        titlePanel.setVisible( isVisible );
+    public ContentPanel getContentPanel() {
+        return contentPanel;
     }
 
     /**
@@ -95,20 +68,59 @@ public class ControlPanel {
      * @return the component argument
      */
     public Component addControl( Component component ) {
-        return controlPane.add( component );
+        return contentPanel.add( component );
     }
 
+    /**
+     * Adds a component to the content panel, to fill the width.
+     *
+     * @param component
+     */
+    public void addControlFullWidth( Component component ) {
+        contentPanel.addFullWidth( component );
+    }
+    
+    /**
+     * For backward compatibility.
+     * 
+     * @deprecated
+     * @param component
+     * @return the component argument
+     */
+    public Component add( Component component ) {
+        return addControl( component );
+    }
+    
+    /**
+     * For backward compatibility.
+     * 
+     * @deprecated
+     * @param component
+     */
+    public void addFullWidth( Component component ) {
+        addControlFullWidth( component );
+    }
+    
     /**
      * Removes a component from the control area
      *
      * @param comp
      */
     public void removeControl( Component comp ) {
-        controlPane.remove( comp );
-        controlPane.invalidate();
-        controlPane.validate();
+        contentPanel.remove( comp );
+        contentPanel.invalidate();
+        contentPanel.validate();
     }
 
+    /**
+     * Sets the insets used in the content panel.
+     * 
+     * @param insets
+     */
+    public void setInsets( Insets insets ) {
+        contentPanel.setInsets( insets );
+    }
+    
     /**
      * Sets a new scroll policy for the JComponent in this ControlPanel.
      *
@@ -118,40 +130,16 @@ public class ControlPanel {
         this.scrollPolicy = scrollPolicy;
     }
 
-    /**
-     * Adds a component to the control area, to fill the width.
-     *
-     * @param component
-     */
-    public void addControlFullWidth( JComponent component ) {
-        controlPane.addFullWidth( component );
-    }
-
     private int getVisibleScrollBarWidth() {
-        return scrollBarVisible() ? scrollBarWidth() : 0;
+        return isScrollBarVisible() ? getScrollBarWidth() : 0;
     }
 
-    private int scrollBarWidth() {
+    private int getScrollBarWidth() {
         return scrollPane.getVerticalScrollBar().getPreferredSize().width;
     }
 
-    private boolean scrollBarVisible() {
+    private boolean isScrollBarVisible() {
         return scrollPane.getVerticalScrollBar().isVisible();
-    }
-
-    /**
-     * This class represents the logo at the top of the ControlPanel.
-     */
-    private static class TitlePanel extends JPanel {
-        private ImageIcon imageIcon;
-        private JLabel titleLabel;
-
-        public TitlePanel() {
-            imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
-            titleLabel = ( new JLabel( imageIcon ) );
-            titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-            add( titleLabel );
-        }
     }
 
     /**
@@ -189,7 +177,7 @@ public class ControlPanel {
     /**
      * This is where the controls go in the ControlPanel.  It delegates its Scrollable interface to
      */
-    private class ContentPane extends VerticalLayoutPanel implements Scrollable {
+    public class ContentPanel extends VerticalLayoutPanel implements Scrollable {
 
         public boolean getScrollableTracksViewportHeight() {
             return scrollPolicy.getScrollableTracksViewportHeight();

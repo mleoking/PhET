@@ -10,17 +10,15 @@
  */
 package edu.colorado.phet.common.application;
 
+import javax.swing.JComponent;
+
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ClockControlPanel;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ModulePanel;
+import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
 
 /**
  * The Module is the fundamental unit of a phet simulation.
@@ -28,27 +26,36 @@ import javax.swing.*;
  */
 
 public abstract class Module {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private String name;
 
     private BaseModel model;
-    private ModulePanel modulePanel;
     private IClock clock;
 
     private boolean active = false;
     private boolean clockRunningWhenActive = true;
-
-    private boolean helpEnabled = false;
     private ClockAdapter moduleRunner;
-    private ControlPanel controlPanel;
+    
+    private ModulePanel modulePanel;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
-     * Initialize an emtpy module.  This is for subclasses who intend something rather different than the norm.
+     * Initialize an emtpy module.  
+     * This is for subclasses who intend something rather different than the norm.
      */
     protected Module() {
     }
 
     /**
      * Initialize a Module.
+     * By default, the clock will be running when the module is activated.
      *
      * @param name  the name for this Module
      * @param clock a clock to model passage of time for this Module.  Should be unique to this module (non-shared).
@@ -57,6 +64,13 @@ public abstract class Module {
         this( name, clock, false );
     }
 
+    /**
+     * Initializes a Module.
+     * 
+     * @param name
+     * @param clock
+     * @param startsPaused
+     */
     public Module( String name, IClock clock, boolean startsPaused ) {
         this.name = name;
         this.clock = clock;
@@ -64,7 +78,10 @@ public abstract class Module {
         SimStrings.setStrings( "localization/CommonStrings" );
 
         this.modulePanel = new ModulePanel();
-        modulePanel.setClockControlPanel( new ClockControlPanel( clock ) );
+        setClockControlPanel( new ClockControlPanel( clock ) );
+        setLogoPanel( new LogoPanel() );
+        setHelpPanel( new HelpPanel( this ) );
+        
         moduleRunner = new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 handleClockTick( clockEvent );
@@ -73,7 +90,11 @@ public abstract class Module {
         clock.addClockListener( moduleRunner );
         this.clockRunningWhenActive = !startsPaused;
     }
-
+    
+    //----------------------------------------------------------------------------
+    // Clock
+    //----------------------------------------------------------------------------
+    
     /**
      * Get the clock associated with this Module.
      *
@@ -84,7 +105,22 @@ public abstract class Module {
     }
 
     /**
-     * Set the BaseModel for this Module.
+     * During a clock tick, the Module will handle user input, step the model, and update the graphics.
+     *
+     * @param event
+     */
+    protected void handleClockTick( ClockEvent event ) {
+        handleUserInput();
+        model.update( event );
+        updateGraphics( event );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the base model.
      *
      * @param model
      */
@@ -93,16 +129,7 @@ public abstract class Module {
     }
 
     /**
-     * Get the name of the Module.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Get the base model.
+     * Gets the base model.
      *
      * @return the model
      */
@@ -111,55 +138,254 @@ public abstract class Module {
     }
 
     /**
-     * Set the monitor panel, can be null.
+     * Adds a ModelElement to the BaseModel of this Module.
      *
-     * @param monitorPanel
+     * @param modelElement
      */
-    public void setMonitorPanel( JPanel monitorPanel ) {
-        modulePanel.setMonitorPanel( monitorPanel );
+    protected void addModelElement( final ModelElement modelElement ) {
+        getModel().addModelElement( modelElement );
     }
-
+    
+    //----------------------------------------------------------------------------
+    // Panel Accessors
+    //----------------------------------------------------------------------------
+    
     /**
-     * Set the SimulationPanel.
-     *
-     * @param simulationPanel
-     */
-    protected void setSimulationPanel( JComponent simulationPanel ) {
-        modulePanel.setSimulationPanel( simulationPanel );
-    }
-
-    /**
-     * Set the ControlPanel for this Module.
-     *
-     * @param controlPanel
-     */
-    public void setControlPanel( ControlPanel controlPanel ) {
-        this.controlPanel = controlPanel;
-        modulePanel.setControlPanel( controlPanel.getComponent() );
-    }
-
-    /**
-     * Get the ModulePanel, which contains everything required for this Module.
+     * Get the ModulePanel, which contains all the subpanels for the module.
      *
      * @return the ModulePanel.
      */
     public ModulePanel getModulePanel() {
         return modulePanel;
     }
+    
+    /**
+     * Sets the monitor panel.
+     *
+     * @param panel, possibly null
+     */
+    public void setMonitorPanel( JComponent panel ) {
+        modulePanel.setMonitorPanel( panel );
+    }
+    
+    /**
+     * Gets the monitor panel.
+     * 
+     * @return the monitor 
+     */
+    public JComponent getMonitorPanel() {
+        return modulePanel.getMonitorPanel();
+    }
+    
+    /**
+     * Sets the simulation panel.
+     *
+     * @param panel, possibly null
+     */
+    protected void setSimulationPanel( JComponent panel ) {
+        modulePanel.setSimulationPanel( panel );
+    }
+    
+    /**
+     * Gets the simulation panel.
+     * 
+     * @return the simulation panel
+     */
+    public JComponent getSimulationPanel() {
+        return modulePanel.getSimulationPanel();
+    }
 
     /**
-     * Adds a ModelElement to the BaseModel of this Module.
+     * Sets the clock control panel.
      *
-     * @param modelElement
+     * @param panel
      */
-    protected void addModelElement( final ModelElement modelElement ) {
-//        getClock().addClockListener( new ClockAdapter() {
-//            public void simulationTimeChanged( ClockEvent clockEvent ) {
-//                modelElement.stepInTime( clockEvent.getSimulationTimeChange() );
-//            }
-//        } );
-        getModel().addModelElement( modelElement );
+    protected void setClockControlPanel( JComponent panel ) {
+        modulePanel.setClockControlPanel( panel );
     }
+    
+    /**
+     * Gets the clock control panel.
+     * If you have replaced the standard ClockControlPanel,
+     * then use getModulePanel().getClockControlPanel().
+     *
+     * @return ClockControlPanel
+     */
+    public ClockControlPanel getClockControlPanel() {
+        ClockControlPanel clockControlPanel = null;
+        JComponent panel = modulePanel.getClockControlPanel();
+        if ( panel != null && panel instanceof ClockControlPanel ) {
+            clockControlPanel = (ClockControlPanel)panel;
+        }
+        return clockControlPanel;
+    }
+    
+    /**
+     * Sets the logo panel.
+     *
+     * @param panel
+     */
+    protected void setLogoPanel( JComponent panel ) {
+        modulePanel.setLogoPanel( panel );
+    }
+    
+    /**
+     * Gets the logo panel.
+     * If you have replaced the standard LogoPanel,
+     * then use getModulePanel().getLogoPanel().
+     * 
+     * @param LogoPanel
+     */
+    public LogoPanel getLogoPanel() {
+        LogoPanel logoPanel = null;
+        JComponent panel = modulePanel.getLogoPanel();
+        if ( panel != null && panel instanceof LogoPanel ) {
+            logoPanel = (LogoPanel)panel;
+        }
+        return logoPanel;
+    }
+    
+    /**
+     * Sets the control panel.
+     *
+     * @param panel
+     */
+    protected void setControlPanel( JComponent panel ) {
+        modulePanel.setControlPanel( panel );
+    }
+    
+    /**
+     * Gets the control panel.
+     * If you have replaced the standard ControlPanel,
+     * then use getModulePanel().getControlPanel().
+     * 
+     * @return ControlPanel
+     */
+    public ControlPanel getControlPanel() {
+        ControlPanel controlPanel = null;
+        JComponent panel = modulePanel.getControlPanel();
+        if ( panel != null && panel instanceof ControlPanel ) {
+            controlPanel = (ControlPanel)panel;
+        }
+        return controlPanel;
+    }
+    
+    /**
+     * Sets the help panel.
+     *
+     * @param panel
+     */
+    protected void setHelpPanel( JComponent panel ) {
+        modulePanel.setHelpPanel( panel );
+    }
+    
+    /**
+     * Gets the help panel.
+     * If you have replaced the standard HelpPanel,
+     * then use getModulePanel().getHelpPanel().
+     * 
+     * @return HelpPanel
+     */
+    public HelpPanel getHelpPanel() {
+        HelpPanel helpPanel = null;
+        JComponent panel = modulePanel.getHelpPanel();
+        if ( panel != null && panel instanceof HelpPanel ) {
+            helpPanel = (HelpPanel)panel;
+        }
+        return helpPanel;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Help
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Tells whether this module has on-screen help.
+    *
+    * @return whether this module has on-screen help
+    */
+   public boolean hasHelp() {
+       return false;
+   }
+   
+   /**
+    * This must be overriden by subclasses that have megahelp to return true.
+    *
+    * @return whether there is megahelp
+    */
+   public boolean hasMegaHelp() {
+       return false;
+   }
+
+   /**
+    * Determines whether help is visible.
+    * If you replace HelpPanel with a different type of help panel,
+    * then you will need to override this method.
+    *
+    * @param enabled
+    */
+   public void setHelpEnabled( boolean enabled ) {
+       HelpPanel helpPanel = getHelpPanel();
+       if ( helpPanel != null ) {
+           helpPanel.setHelpEnabled( enabled );
+       }
+   }
+
+   /**
+    * Gets whether help is currently visible for this Module.
+    * If you replace HelpPanel with a different type of help panel,
+    * then you will need to override this method.
+    *
+    * @return help
+    */
+   public boolean isHelpEnabled() {
+       boolean enabled = false;
+       HelpPanel helpPanel = getHelpPanel();
+       if ( helpPanel != null ) {
+           enabled = helpPanel.isHelpEnabled();
+       }
+       return enabled;
+   }
+   
+   /**
+    * This must be overrideen by subclasses that have MegaHelp.
+    */
+   public void showMegaHelp() {
+   }
+    
+    //----------------------------------------------------------------------------
+    // Logo
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Shows/hides the PhET logo.
+     * 
+     * @param visible
+     */
+    public void setLogoPanelVisible( boolean visible ) {
+        JComponent logoPanel = modulePanel.getLogoPanel();
+        if ( logoPanel != null ) {
+            logoPanel.setVisible( visible );
+        }
+    }
+
+    /**
+     * Is the PhET logo visible?
+     * 
+     * @return true or false
+     */
+    public boolean isLogoPanelVisible() {
+        boolean visible = false;
+        JComponent logoPanel = modulePanel.getLogoPanel();
+        if ( logoPanel != null ) {
+            visible = logoPanel.isVisible();
+        }
+        return visible;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Activation
+    //----------------------------------------------------------------------------
 
     /**
      * Activates the Module, starting it, if necessary.
@@ -170,6 +396,10 @@ public abstract class Module {
         }
         if( clockRunningWhenActive ) {
             clock.start();
+        }
+        JComponent helpPanel = getHelpPanel();
+        if( helpPanel != null ) {
+            helpPanel.setVisible( hasHelp() );
         }
         active = true;
     }
@@ -204,6 +434,19 @@ public abstract class Module {
         return result;
     }
 
+    //----------------------------------------------------------------------------
+    // Misc.
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Get the name of the Module.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    
     /**
      * Returns a String to represent the Module.
      *
@@ -211,74 +454,6 @@ public abstract class Module {
      */
     public String toString() {
         return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel();
-    }
-
-    /**
-     * Tells whether this module has on-screen help
-     *
-     * @return whether this module has on-screen help
-     */
-    public boolean hasHelp() {
-        return false;
-    }
-
-    /**
-     * Switches the display of onscreen help off and on
-     *
-     * @param h
-     */
-    public void setHelpEnabled( boolean h ) {
-        helpEnabled = h;
-        // If our control panel is a Phet control panel, then change the
-        // state of its Help button.
-        getControlPanel().setHelpEnabled( h );
-    }
-
-    /**
-     * Gets the ControlPanel for this Module.
-     *
-     * @return the ControlPanel
-     */
-    public ControlPanel getControlPanel() {
-        return controlPanel;
-    }
-
-    /**
-     * Sets the clock control panel for this module.
-     *
-     * @param clockContronPanel
-     */
-    protected void setClockControlPanel( JComponent clockContronPanel ) {
-        modulePanel.setClockControlPanel( clockContronPanel );
-    }
-
-    /**
-     * Gets the clock control panel for this module.
-     *
-     * @return the clock control panel
-     */
-    public JComponent getClockControlPanel() {
-        return modulePanel.getClockControlPanel();
-    }
-
-    /**
-     * Gets whether help is currently enabled (active) for this Module.
-     *
-     * @return help
-     */
-    public boolean isHelpEnabled() {
-        return helpEnabled;
-    }
-
-    /**
-     * During a clock tick, the Module will handle user input, step the model, and update the graphics.
-     *
-     * @param event
-     */
-    protected void handleClockTick( ClockEvent event ) {
-        handleUserInput();
-        model.update( event );
-        updateGraphics( event );
     }
 
     /**
@@ -291,13 +466,6 @@ public abstract class Module {
     public ModuleStateDescriptor getModuleStateDescriptor() {
         return new ModuleStateDescriptor( this );
     }
-
-    /**
-     * Get the SimulationPanel, the play area for this simulation.
-     *
-     * @return the SimulationPanel
-     */
-    public abstract JComponent getSimulationPanel();
 
     /**
      * Get any help for persistence.
@@ -321,21 +489,6 @@ public abstract class Module {
     }
 
     /**
-     * This must be overrideen by subclasses that have megahelp
-     */
-    public void showMegaHelp() {
-    }
-
-    /**
-     * This must be overriden by subclasses that have megahelp to return true
-     *
-     * @return whether there is megahelp
-     */
-    public boolean hasMegaHelp() {
-        return false;
-    }
-
-    /**
      * Any module that wants to do some graphics updating that isn't handled through
      * model element/observer mechanisms can overide this method
      *
@@ -343,5 +496,4 @@ public abstract class Module {
      */
     public void updateGraphics( ClockEvent event ) {
     }
-
 }
