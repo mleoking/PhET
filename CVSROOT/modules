@@ -154,10 +154,10 @@ forces1d forces1d &phetcommon-module &charts-module
 radio-waves emf &phetcommon-module
 
 # The Ramp
-theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil
+theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil-dir
 
 # Schrodinger
-schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil
+schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil-dir
 
 # Maze Game
 mazegame mazegame
@@ -181,7 +181,7 @@ semiconductor semiconductor
 energyconservation energyconservation
 
 # Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil
+energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
 
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts-module
