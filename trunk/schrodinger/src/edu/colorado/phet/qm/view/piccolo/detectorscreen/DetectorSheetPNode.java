@@ -5,7 +5,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -64,8 +64,8 @@ public class DetectorSheetPNode extends PNode {
             }
 
             private boolean isSmoothScreen() {
-                if( schrodingerPanel instanceof IntensityPanel ) {
-                    IntensityPanel ip = (IntensityPanel)schrodingerPanel;
+                if( schrodingerPanel instanceof HighIntensitySchrodingerPanel ) {
+                    HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)schrodingerPanel;
                     return ip.isSmoothScreen();
                 }
                 return false;

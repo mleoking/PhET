@@ -20,14 +20,14 @@ import java.awt.image.BufferedImage;
 
 public class SmoothIntensityDisplay {
     private SchrodingerPanel schrodingerPanel;
-    private IntensityGraphic intensityGraphic;
+    private IntensityManager intensityManager;
     private double[] histogram;
     private Photon photon;
     private double brightness = 1.0f;
 
-    public SmoothIntensityDisplay( SchrodingerPanel schrodingerPanel, IntensityGraphic intensityGraphic ) {
+    public SmoothIntensityDisplay( SchrodingerPanel schrodingerPanel, IntensityManager intensityManager ) {
         this.schrodingerPanel = schrodingerPanel;
-        this.intensityGraphic = intensityGraphic;
+        this.intensityManager = intensityManager;
         histogram = new double[getWavefunction().getWidth()];
         schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
             //really, this is unnecessary now.
@@ -49,19 +49,19 @@ public class SmoothIntensityDisplay {
     }
 
     private SchrodingerPanel getSchrodingerPanel() {
-        return this.intensityGraphic.getSchrodingerPanel();
+        return this.intensityManager.getSchrodingerPanel();
     }
 
     public void updateValues() {
 
-        Wavefunction sub = intensityGraphic.getDetectionRegion();
+        Wavefunction sub = intensityManager.getDetectionRegion();
         if( histogram.length != sub.getWidth() ) {
             histogram = new double[sub.getWidth()];
         }
         for( int i = 0; i < sub.getWidth(); i++ ) {
             double sum = 0.0;
             for( int j = 0; j < sub.getHeight(); j++ ) {
-                sum += sub.valueAt( i, j ).abs() * intensityGraphic.getProbabilityScaleFudgeFactor();
+                sum += sub.valueAt( i, j ).abs() * intensityManager.getProbabilityScaleFudgeFactor();
             }
             histogram[i] += sum;
         }
@@ -69,11 +69,11 @@ public class SmoothIntensityDisplay {
     }
 
     private void paintSheet() {
-        BufferedImage sheet = intensityGraphic.getDetectorSheet().getBufferedImage();
+        BufferedImage sheet = getDetectorSheetPNode().getBufferedImage();
         Graphics2D sheetGraphics = sheet.createGraphics();
         sheetGraphics.setColor( Color.white );
         sheetGraphics.fillRect( 0, 0, 1000, 1000 );
-        Function.LinearFunction modelViewTx = intensityGraphic.getModelToViewTransform1d();
+        Function.LinearFunction modelViewTx = intensityManager.getModelToViewTransform1d();
         if( isFadeEnabled() ) {
             fadeHistogram();
         }
@@ -84,7 +84,11 @@ public class SmoothIntensityDisplay {
             sheetGraphics.setColor( color );
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
-        intensityGraphic.getDetectorSheet().repaint();
+        getDetectorSheetPNode().repaint();
+    }
+
+    private DetectorSheetPNode getDetectorSheetPNode() {
+        return schrodingerPanel.getDetectorSheetPNode();
     }
 
     private boolean isFadeEnabled() {

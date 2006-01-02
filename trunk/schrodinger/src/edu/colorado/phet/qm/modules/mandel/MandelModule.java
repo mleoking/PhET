@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 
 /**
  * User: Sam Reid
@@ -14,14 +14,14 @@ import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
  */
 
 public class MandelModule extends IntensityModule {
-    private MandelPanel schrodingerPanel;
+    private MandelSchrodingerPanel schrodingerSchrodingerPanel;
 
     public MandelModule( SchrodingerApplication app, IClock clock ) {
         super( "2 Lasers", app, clock );
         setControlPanel( new MandelControlPanel( this ) );
     }
 
-    protected IntensityPanel createIntensityPanel() {
-        return new MandelPanel( this );
+    protected HighIntensitySchrodingerPanel createIntensityPanel() {
+        return new MandelSchrodingerPanel( this );
     }
 }

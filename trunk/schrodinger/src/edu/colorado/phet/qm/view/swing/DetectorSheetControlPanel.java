@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.swing;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
 
@@ -75,8 +75,8 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.setBorder( BorderFactory.createTitledBorder( "Display" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( "Hits", !IntensityPanel.SMOOTH_SCREEN_DEFAULT );
-        JRadioButton showAverage = new JRadioButton( "Average Intensity", IntensityPanel.SMOOTH_SCREEN_DEFAULT );
+        JRadioButton showHits = new JRadioButton( "Hits", !HighIntensitySchrodingerPanel.SMOOTH_SCREEN_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( "Average Intensity", HighIntensitySchrodingerPanel.SMOOTH_SCREEN_DEFAULT );
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
@@ -118,9 +118,9 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         }
     }
 
-    private IntensityPanel getIntensityPanel() {
-        if( detectorSheetPNode.getSchrodingerPanel() instanceof IntensityPanel ) {
-            return (IntensityPanel)detectorSheetPNode.getSchrodingerPanel();
+    private HighIntensitySchrodingerPanel getIntensityPanel() {
+        if( detectorSheetPNode.getSchrodingerPanel() instanceof HighIntensitySchrodingerPanel ) {
+            return (HighIntensitySchrodingerPanel)detectorSheetPNode.getSchrodingerPanel();
         }
         return null;
     }

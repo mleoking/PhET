@@ -17,7 +17,8 @@ import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.*;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -134,8 +135,12 @@ public class SchrodingerPanel extends PhetPCanvas {
         return module;
     }
 
-    public IntensityGraphic getIntensityDisplay() {
+    public IntensityManager getIntensityDisplay() {
         return schrodingerScreenNode.getIntensityDisplay();
+    }
+
+    public DetectorSheetPNode getDetectorSheetPNode() {
+        return schrodingerScreenNode.getDetectorSheetPNode();
     }
 
     public RulerGraphic getRulerGraphic() {
@@ -167,7 +172,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     public void setPhoton( Photon photon ) {
         this.photon = photon;
 
-        getIntensityDisplay().setDisplayPhotonColor( photon );
+        getDetectorSheetPNode().setDisplayPhotonColor( photon );
         updateWavefunctionGraphic();
     }
 

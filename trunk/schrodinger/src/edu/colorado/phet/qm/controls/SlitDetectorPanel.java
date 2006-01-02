@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -53,7 +53,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
         } );
     }
 
-    public IntensityPanel getIntensityPanel() {
+    public HighIntensitySchrodingerPanel getIntensityPanel() {
         return intensityModule.getIntensityPanel();
     }
 

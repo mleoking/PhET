@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 
 /**
@@ -11,13 +11,12 @@ import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelPanel extends IntensityPanel {
+public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     private MandelModule mandelModule;
 
-    public MandelPanel( MandelModule mandelModule ) {
+    public MandelSchrodingerPanel( MandelModule mandelModule ) {
         super( mandelModule );
         this.mandelModule = mandelModule;
-//        getDoubleSlitPanelGraphic().setVisible( false );
     }
 
     protected MandelModule getMandelModule() {

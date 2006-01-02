@@ -13,10 +13,10 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class SingleParticlePanel extends SchrodingerPanel {
+public class SingleParticleSchrodingerPanel extends SchrodingerPanel {
     private SingleParticleGunGraphic abstractGun;
 
-    public SingleParticlePanel( final SchrodingerModule module ) {
+    public SingleParticleSchrodingerPanel( final SchrodingerModule module ) {
         super( module );
         abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );
