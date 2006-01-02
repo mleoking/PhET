@@ -29,15 +29,6 @@ public class SmoothIntensityDisplay {
         this.schrodingerPanel = schrodingerPanel;
         this.intensityManager = intensityManager;
         histogram = new double[getWavefunction().getWidth()];
-        schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
-            //really, this is unnecessary now.
-            public void fadeStateChanged() {
-                synchronizeFadeState();
-            }
-        } );
-    }
-
-    private void synchronizeFadeState() {
     }
 
     private Wavefunction getWavefunction() {
@@ -53,7 +44,6 @@ public class SmoothIntensityDisplay {
     }
 
     public void updateValues() {
-
         Wavefunction sub = intensityManager.getDetectionRegion();
         if( histogram.length != sub.getWidth() ) {
             histogram = new double[sub.getWidth()];
@@ -84,7 +74,7 @@ public class SmoothIntensityDisplay {
             sheetGraphics.setColor( color );
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
-        getDetectorSheetPNode().repaint();
+        getDetectorSheetPNode().histogramChanged();
     }
 
     private DetectorSheetPNode getDetectorSheetPNode() {
