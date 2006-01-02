@@ -166,7 +166,7 @@ public class BarMagnetModule extends FaradayModule {
             _barMagnetPanel = new BarMagnetPanel( 
                     _barMagnetModel, _compassModel, _fieldMeterModel,
                     _barMagnetGraphic, _gridGraphic );
-            controlPanel.addFullWidth( _barMagnetPanel );
+            controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Reset button
             controlPanel.addResetButton(); 

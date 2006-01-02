@@ -204,14 +204,14 @@ public class ElectromagnetModule extends FaradayModule {
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
                     _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
                     _electromagnetGraphic, _gridGraphic );
-            controlPanel.addFullWidth( _electromagnetPanel );
+            controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( null, null, null, _electromagnetGraphic );
-                controlPanel.addFullWidth( scalePanel );
+                controlPanel.addControlFullWidth( scalePanel );
             }
             
             // Reset button

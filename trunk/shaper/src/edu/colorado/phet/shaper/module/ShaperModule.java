@@ -86,6 +86,9 @@ public class ShaperModule extends AbstractModule implements ActionListener {
         
         super( SimStrings.get( "ShaperModule.title" ), new SwingClock(  ShaperConstants.CLOCK_DELAY, ShaperConstants.CLOCK_STEP ) );
 
+        setLogoPanel( null );
+        setHelpPanel( null );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------

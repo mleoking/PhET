@@ -67,8 +67,7 @@ public abstract class FourierControlPanel extends ControlPanel {
      */
     public FourierControlPanel( FourierModule module ) {
         super( module );
-        setLogoVisible( false );
-        getControlPane().setInsets( new Insets( 0, 3, 0, 3 ) );
+        getContentPanel().setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
     
@@ -100,7 +99,7 @@ public abstract class FourierControlPanel extends ControlPanel {
             JPanel spacePanel = new JPanel();
             spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
             spacePanel.add( Box.createVerticalStrut( space ) );
-            addFullWidth( spacePanel );
+            addControlFullWidth( spacePanel );
         }
     }
     
@@ -129,7 +128,7 @@ public abstract class FourierControlPanel extends ControlPanel {
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addFullWidth( fillerPanel );
+        addControlFullWidth( fillerPanel );
     }
     
     //----------------------------------------------------------------

@@ -54,6 +54,7 @@ public abstract class FourierModule extends PhetGraphicsModule {
      */
     public FourierModule( String title ) {
         super( title, new SwingClock( FourierConstants.CLOCK_DELAY, FourierConstants.CLOCK_STEP ) );
+        setLogoPanelVisible( false );
     }
     
     //----------------------------------------------------------------------------
@@ -96,19 +97,6 @@ public abstract class FourierModule extends PhetGraphicsModule {
         else {
             apparatusPanel.setCursor( FourierConstants.DEFAULT_CURSOR );
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Determines if the module has Mega Help.
-     * 
-     * @return true or false
-     */
-    public boolean hasMegaHelp() {
-        return false;
     }
     
     //----------------------------------------------------------------------------
