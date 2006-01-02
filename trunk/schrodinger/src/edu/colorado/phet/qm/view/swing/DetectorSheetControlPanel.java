@@ -7,18 +7,14 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -29,8 +25,6 @@ import java.util.Arrays;
 
 public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     private JButton clearButton;
-    private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
-    private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
     private DetectorSheetPNode detectorSheetPNode;
     private JButton saveScreenJButton;
     private ModelSlider brightnessModelSlider;
@@ -40,8 +34,6 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     public DetectorSheetControlPanel( final DetectorSheetPNode detectorSheetPNode ) {
         this.detectorSheetPNode = detectorSheetPNode;
         clearButton = new JButton( "Clear" );
-        clearButton.setMargin( buttonInsets );
-        clearButton.setFont( buttonFont );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 detectorSheetPNode.reset();
@@ -57,8 +49,6 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
                 getSchrodingerPanel().getSchrodingerScreenNode().addChild( savedScreenGraphic );
             }
         } );
-        saveScreenJButton.setMargin( buttonInsets );
-        saveScreenJButton.setFont( buttonFont );
 
         brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1.0, 0.2, new DecimalFormat( "0.000" ) );
         brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
@@ -105,7 +95,6 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.add( showAverage );
         displayPanel.add( showHits );
 
-
         HorizontalLayoutPanel saveClear = new HorizontalLayoutPanel();
         saveClear.setBorder( BorderFactory.createTitledBorder( "Screen" ) );
         saveClear.add( fadeCheckbox );
@@ -114,10 +103,6 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         add( saveClear );
         add( brightnessModelSlider );
         add( displayPanel );
-
-//
-//        brightnessModelSlider.setVisible( false );
-//        displayPanel.setVisible( false );
     }
 
     public void setBrightness() {
@@ -140,32 +125,12 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         return null;
     }
 
-    protected void putBelow( PNode obj, PNode p, int insetY ) {
-        PBounds parent = p.getFullBounds();
-        obj.setOffset( parent.getX(), parent.getY() + parent.getHeight() + insetY );
-    }
-
     private SchrodingerPanel getSchrodingerPanel() {
         return detectorSheetPNode.getSchrodingerPanel();
     }
 
-    boolean contains( Component c ) {
-        return Arrays.asList( getComponents() ).contains( c );
-    }
-
     public void setClearButtonVisible( boolean b ) {
         clearButton.setVisible( b );
-//        setVisibleByContainment( b, clearButton );
-    }
-
-    private void setVisibleByContainment( boolean b, Component component ) {
-        if( b && !contains( component ) ) {
-            add( component );
-        }
-        else if( !b && contains( component ) ) {
-            remove( component );
-        }
-        supervalidate();
     }
 
     public void setSaveButtonVisible( boolean b ) {

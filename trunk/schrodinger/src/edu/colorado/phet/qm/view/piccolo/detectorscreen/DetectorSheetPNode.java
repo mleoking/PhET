@@ -4,11 +4,13 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
+import edu.colorado.phet.qm.view.swing.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -37,10 +39,11 @@ public class DetectorSheetPNode extends PNode {
     private IntegralModelElement fadeElement;
     private ColorData rootColor = new ColorData( VisibleColor.MIN_WAVELENGTH );
     private ImageFade imageFade;
-    private DetectorSheetControlPanelPNode detectorSheetControlPanelPNode;
     private DetectionRateDebugger detectionRateDebugger = new DetectionRateDebugger();
     private WavefunctionGraphic wavefunctionGraphic;
     private int detectorSheetHeight;
+    private DetectorSheetControlPanel detectorSheetControlPanel;
+    private PNode detectorSheetControlPanelPNode;
 
     public DetectorSheetPNode( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
@@ -68,7 +71,9 @@ public class DetectorSheetPNode extends PNode {
                 return false;
             }
         }, 10 );
-        detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
+        this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
+//        detectorSheetControlPanelPNode = new DetectorSheetControlPanelPNode( this );
+        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, detectorSheetControlPanel );
         addChild( detectorSheetControlPanelPNode );
         PropertyChangeListener changeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -141,7 +146,7 @@ public class DetectorSheetPNode extends PNode {
             detectionRateDebugger.addDetectionEvent();
         }
 //        System.out.println( "add detect, x="+x+", y="+y+", opacity = " + opacity );
-        detectorSheetControlPanelPNode.setClearButtonVisible( true );
+        detectorSheetControlPanel.setClearButtonVisible( true );
 
         setSaveButtonVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
@@ -167,7 +172,7 @@ public class DetectorSheetPNode extends PNode {
     public void reset() {
         bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
         screenGraphic.setImage( bufferedImage );
-        detectorSheetControlPanelPNode.setClearButtonVisible( false );
+        detectorSheetControlPanel.setClearButtonVisible( false );
     }
 
     public int getOpacity() {
@@ -183,7 +188,7 @@ public class DetectorSheetPNode extends PNode {
     }
 
     public void setSaveButtonVisible( boolean b ) {
-        detectorSheetControlPanelPNode.setSaveButtonVisible( b );
+        detectorSheetControlPanel.setSaveButtonVisible( b );
     }
 
     public void setDisplayPhotonColor( Photon photon ) {
@@ -195,21 +200,25 @@ public class DetectorSheetPNode extends PNode {
     }
 
     private void addBrightnessSlider() {
-        detectorSheetControlPanelPNode.setBrightnessSliderVisible( true );
+        detectorSheetControlPanel.setBrightnessSliderVisible( true );
     }
 
     private void addFadeCheckBox() {
-        detectorSheetControlPanelPNode.setFadeCheckBoxVisible( true );
+        detectorSheetControlPanel.setFadeCheckBoxVisible( true );
     }
 
     public void setHighIntensityMode() {
         addBrightnessSlider();
         addFadeCheckBox();
-        detectorSheetControlPanelPNode.setTypeControlVisible( true );
-        detectorSheetControlPanelPNode.setBrightness();
+        detectorSheetControlPanel.setTypeControlVisible( true );
+        detectorSheetControlPanel.setBrightness();
     }
 
-    public DetectorSheetControlPanelPNode getDetectorSheetPanel() {
+    public DetectorSheetControlPanel getDetectorSheetControlPanel() {
+        return detectorSheetControlPanel;
+    }
+
+    public PNode getDetectorSheetPanel() {
         return detectorSheetControlPanelPNode;
     }
 }
