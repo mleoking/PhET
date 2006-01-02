@@ -83,6 +83,10 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
         return getColorGrid().getWidth();
     }
 
+    public void setCellDimensions( Dimension cellDimensions ) {
+        setCellDimensions( cellDimensions.width, cellDimensions.height );
+    }
+
     static class ColorMapWithPotential implements ColorMap {
         private ColorMap delegate;
         private Potential potential;

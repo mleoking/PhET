@@ -179,16 +179,16 @@ public class SchrodingerScreenNode extends PNode {
 
             System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             super.layoutChildren();
-
-            double slitPanelInsetX = 5;
-//            double slitPanelWidth = doubleSlitPanelGraphic.getFullBounds().getWidth();
-            double slitPanelWidth = 0;
-            double waveAreaX = slitPanelInsetX * 2 + slitPanelWidth;
+//            double waveAreaX = 50;
 
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
-                Dimension dim = getCellDimensions();
-                wavefunctionGraphic.setCellDimensions( dim.width, dim.height );
-                wavefunctionGraphic.setOffset( waveAreaX, 50 );
+                wavefunctionGraphic.setCellDimensions( getCellDimensions() );
+                double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
+                double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
+                double mainWidth = maxX - minX;
+                double availableWidth = schrodingerPanel.getWidth() - mainWidth;
+                wavefunctionGraphic.setOffset( availableWidth / 2, detectorSheetPNode.getDetectorHeight() );
+
                 detectorSheetPNode.setOffset( wavefunctionGraphic.getFullBounds().getX(),
                                               wavefunctionGraphic.getFullBounds().getY() - detectorSheetPNode.getFullBounds().getHeight() / 2 );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
@@ -215,7 +215,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     private PNode getDetectorSheetControlPanelNode() {
-        return detectorSheetPNode.getDetectorSheetPanel();
+        return detectorSheetPNode.getDetectorSheetControlPanelPNode();
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
