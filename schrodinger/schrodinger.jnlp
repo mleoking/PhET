@@ -15,9 +15,9 @@ information.
 
 -->
 <jnlp
-    spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/dev/"
-    href="schrodinger/v0r0/schrodinger.jnlp">
+        spec="1.0+"
+        codebase="http://www.colorado.edu/physics/phet/dev/"
+        href="schrodinger/@VERSION@/schrodinger.jnlp">
     <information>
         <title>Schrodinger</title>
         <vendor>PhET(tm)</vendor>
@@ -33,8 +33,7 @@ information.
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="schrodinger/v0r0/schrodinger.jar"/>
-        <jar href="schrodinger/v0r0/lib/phetcommon.jar"/>
+        <jar href="schrodinger/@VERSION@/schrodinger-pro.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.qm.SchrodingerModule"/>
 </jnlp>
