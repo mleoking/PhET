@@ -1,8 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.controls.*;
+import edu.colorado.phet.qm.controls.ClearButton;
+import edu.colorado.phet.qm.controls.ResetButton;
+import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 
 /**
  * User: Sam Reid
@@ -16,11 +17,12 @@ public class MandelControlPanel extends SchrodingerControlPanel {
         super( mandelModule );
         addControl( new ResetButton( mandelModule ) );
         addControl( new ClearButton( mandelModule.getSchrodingerPanel() ) );
-        addControl( new ExpandableDoubleSlitPanel( mandelModule ) );
-        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-        advancedPanel.addControlFullWidth( super.createPotentialPanel( mandelModule ) );
-        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
-        addControlFullWidth( advancedPanel );
+//        addControl( new ExpandableDoubleSlitPanel( mandelModule ) );
+//        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
+//        advancedPanel.addControlFullWidth( super.createPotentialPanel( mandelModule ) );
+//        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
+//        addControlFullWidth( advancedPanel );
+
 //        final ModelSlider modelSlider = new ModelSlider( "Wave Dist from wall.", "", 0, 50, DoublePhotonWave.insetX );
 //        modelSlider.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {
