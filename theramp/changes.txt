@@ -1,3 +1,9 @@
+New in 0.23 (1-2-2005)
+Upgraded to work with latest phetcommon
+    -includes bugfixes for the control panel.
+Fixed a bug that prevented the object combo box from being seen on a mac.
+Performance improvements
+
 New in 0.22
 .	Make applied force orange, make wall force the drab yellow.
 .	Delete the ramp-change-color feature.

@@ -96,7 +96,7 @@
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="ant_output/jars/theramp-pro.jar"/>
+                <!--<fileset file="ant_output/jars/theramp-pro.jar"/>-->
                 <fileset file="ant_output/jnlp/theramp.jnlp"/>
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
