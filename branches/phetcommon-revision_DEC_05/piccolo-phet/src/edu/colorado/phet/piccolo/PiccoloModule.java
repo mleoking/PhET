@@ -56,9 +56,4 @@ public class PiccoloModule extends Module {
     protected void handleUserInput() {
 //        getApparatusPanel().handleUserInput();
     }
-
-    public JComponent getSimulationPanel() {
-        return getPhetPCanvas();
-    }
-
 }
