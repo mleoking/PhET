@@ -150,7 +150,7 @@ radio-waves emf &phetcommon-module
 theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir 
 
 # Schrodinger
-schrodinger schrodinger &phetcommon-module
+schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir
 
 # Maze Game
 mazegame mazegame
