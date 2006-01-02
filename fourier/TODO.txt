@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
+- bug in 3.0: after you pause the clock, animation moves another tick
 
 MEDIUM PRIORITY:
 - hide the "Cheat" panel whenever we start a new game
@@ -61,6 +61,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+(1/2/06) - changes to support new ModulePanel layout
 (12/27/05)  changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
 3.0 ...

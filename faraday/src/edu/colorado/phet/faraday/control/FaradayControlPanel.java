@@ -57,11 +57,28 @@ public class FaradayControlPanel extends ControlPanel {
     public FaradayControlPanel( FaradayModule module ) {
         super( module );
         _module = module;
+        
+        // Set the control panel's minimum width.
+        String widthString = SimStrings.get( "ControlPanel.width" );
+        int width = Integer.parseInt( widthString );
+        setMinumumWidth( width );
     }
     
     //----------------------------------------------------------------------------
     // Add things to the control panel
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the minumum width of the control panel.
+     * 
+     * @param minimumWidth
+     */
+    public void setMinumumWidth( int minimumWidth ) {
+        JPanel fillerPanel = new JPanel();
+        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
+        addControlFullWidth( fillerPanel );
+    }
     
     /**
      * Adds a default amout of vertical space to the control panel,
@@ -80,7 +97,7 @@ public class FaradayControlPanel extends ControlPanel {
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
-        addFullWidth( spacePanel );
+        addControlFullWidth( spacePanel );
     }
     
     /**
@@ -94,6 +111,6 @@ public class FaradayControlPanel extends ControlPanel {
                 _module.reset();
             }
         } );
-        add( resetButton );
+        addControl( resetButton );
     }
 }

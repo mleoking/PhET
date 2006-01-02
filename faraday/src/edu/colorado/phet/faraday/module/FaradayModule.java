@@ -57,6 +57,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      */
     public FaradayModule( String title ) {
         super( title, new SwingClock( FaradayConfig.CLOCK_DELAY, FaradayConfig.CLOCK_STEP ) );
+        setLogoPanel( null );
     }
     
     //----------------------------------------------------------------------------

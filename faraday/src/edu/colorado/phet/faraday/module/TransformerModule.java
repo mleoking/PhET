@@ -253,7 +253,7 @@ public class TransformerModule extends FaradayModule {
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
                     _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
                     _electromagnetGraphic, _gridGraphic );
-            controlPanel.addFullWidth( _electromagnetPanel );
+            controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Spacer
             controlPanel.addVerticalSpace();
@@ -261,14 +261,14 @@ public class TransformerModule extends FaradayModule {
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel( 
                     _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
-            controlPanel.addFullWidth( _pickupCoilPanel );
+            controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, _electromagnetGraphic );
-                controlPanel.addFullWidth( scalePanel );
+                controlPanel.addControlFullWidth( scalePanel );
             }
             
             // Reset button
