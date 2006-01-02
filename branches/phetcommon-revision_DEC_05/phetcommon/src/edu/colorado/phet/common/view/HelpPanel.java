@@ -170,4 +170,8 @@ public class HelpPanel extends JPanel {
             miniHelpBtn.setText( showHelpStr );
         }
     }
+    
+    public boolean isHelpEnabled() {
+        return miniHelpShowing;
+    }
 }
