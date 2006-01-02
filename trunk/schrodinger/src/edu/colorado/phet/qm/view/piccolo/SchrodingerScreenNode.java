@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -195,8 +194,8 @@ public class SchrodingerScreenNode extends PNode {
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
                                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
 
-                PBounds detectorSheetBounds = detectorSheetPNode.getDetectorSheetPanel().getGlobalFullBounds();
-                globalToLocal( detectorSheetBounds );
+//                PBounds detectorSheetBounds = detectorSheetPNode.getDetectorSheetPanel().getGlobalFullBounds();
+//                globalToLocal( detectorSheetBounds );
             }
         }
     }

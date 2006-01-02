@@ -50,26 +50,6 @@ public class DetectorSheetPNode extends PNode {
     private PNode detectorSheetControlPanelPNode;
     private MyConnectorGraphic connectorGraphic;
 
-    static class ScreenGraphic extends PNode {
-        PImage screenGraphic;
-        PPath borderGraphic;
-
-        public ScreenGraphic( BufferedImage bufferedImage ) {
-            screenGraphic = new PImage();
-            borderGraphic = new PPath();
-            borderGraphic.setStrokePaint( Color.lightGray );
-            borderGraphic.setStroke( new BasicStroke( 2 ) );
-            addChild( screenGraphic );
-            addChild( borderGraphic );
-            setImage( bufferedImage );
-        }
-
-        public void setImage( BufferedImage bufferedImage ) {
-            screenGraphic.setImage( bufferedImage );
-            borderGraphic.setPathTo( new Rectangle2D.Double( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() ) );
-        }
-    }
-
     public DetectorSheetPNode( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
         this.detectorSheetHeight = detectorSheetHeight;
@@ -97,6 +77,7 @@ public class DetectorSheetPNode extends PNode {
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
         detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, detectorSheetControlPanel );
+//        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -117,32 +98,6 @@ public class DetectorSheetPNode extends PNode {
         addChild( connectorGraphic );
         addChild( screenGraphic );
         addChild( detectorSheetControlPanelPNode );
-    }
-
-    private class MyConnectorGraphic extends PNode {
-        private PPath path;
-        private BufferedImage txtr;
-
-        public MyConnectorGraphic() {
-            path = new PPath();
-            path.setStroke( new BasicStroke( 2 ) );
-            path.setStrokePaint( Color.darkGray );
-            addChild( path );
-            try {
-                txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        public void update() {
-            double connectorHeight = detectorSheetHeight - 10;
-            double width = detectorSheetControlPanelPNode.getFullBounds().getCenterX() - screenGraphic.getFullBounds().getCenterX();
-            Rectangle2D.Double aShape = new Rectangle2D.Double( screenGraphic.getFullBounds().getCenterX(), screenGraphic.getFullBounds().getCenterY() - connectorHeight / 2, width, connectorHeight );
-            path.setPathTo( aShape );
-            path.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, 0, txtr.getWidth() / 3.0, txtr.getHeight() / 3.0 ) ) );
-        }
     }
 
     private WavefunctionGraphic getWavefunctionGraphic() {
@@ -277,4 +232,51 @@ public class DetectorSheetPNode extends PNode {
     public int getDetectorHeight() {
         return detectorSheetHeight;
     }
+
+    static class ScreenGraphic extends PNode {
+        PImage screenGraphic;
+        PPath borderGraphic;
+
+        public ScreenGraphic( BufferedImage bufferedImage ) {
+            screenGraphic = new PImage();
+            borderGraphic = new PPath();
+            borderGraphic.setStrokePaint( Color.lightGray );
+            borderGraphic.setStroke( new BasicStroke( 2 ) );
+            addChild( screenGraphic );
+            addChild( borderGraphic );
+            setImage( bufferedImage );
+        }
+
+        public void setImage( BufferedImage bufferedImage ) {
+            screenGraphic.setImage( bufferedImage );
+            borderGraphic.setPathTo( new Rectangle2D.Double( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() ) );
+        }
+    }
+
+    private class MyConnectorGraphic extends PNode {
+        private PPath path;
+        private BufferedImage txtr;
+
+        public MyConnectorGraphic() {
+            path = new PPath();
+            path.setStroke( new BasicStroke( 2 ) );
+            path.setStrokePaint( Color.darkGray );
+            addChild( path );
+            try {
+                txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        public void update() {
+            double connectorHeight = detectorSheetHeight - 10;
+            double width = detectorSheetControlPanelPNode.getFullBounds().getCenterX() - screenGraphic.getFullBounds().getCenterX();
+            Rectangle2D.Double aShape = new Rectangle2D.Double( screenGraphic.getFullBounds().getCenterX(), screenGraphic.getFullBounds().getCenterY() - connectorHeight / 2, width, connectorHeight );
+            path.setPathTo( aShape );
+            path.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, 0, txtr.getWidth() / 3.0, txtr.getHeight() / 3.0 ) ) );
+        }
+    }
+
 }

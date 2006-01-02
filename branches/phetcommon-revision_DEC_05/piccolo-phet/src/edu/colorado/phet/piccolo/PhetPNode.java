@@ -12,6 +12,7 @@ package edu.colorado.phet.piccolo;
 
 import edu.umd.cs.piccolo.PNode;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -25,6 +26,16 @@ import java.awt.geom.Point2D;
  */
 
 public class PhetPNode extends PNode {
+    public PhetPNode( PNode node ) {
+        addChild( node );
+    }
+
+    public void setTransform( AffineTransform newTransform ) {
+        if( !getTransform().equals( newTransform ) ) {
+            super.setTransform( newTransform );
+        }
+    }
+
     public void setOffset( Point2D point ) {
         if( !getOffset().equals( point ) ) {
             super.setOffset( point );

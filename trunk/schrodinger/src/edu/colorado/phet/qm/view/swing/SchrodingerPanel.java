@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.swing;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.piccolo.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -23,6 +24,8 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -54,7 +57,12 @@ public class SchrodingerPanel extends PhetPCanvas {
                 schrodingerScreenNode.relayout();
             }
         } );
-
+        addKeyListener( new PDebugKeyHandler() );
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 updateScreen();
