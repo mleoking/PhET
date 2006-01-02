@@ -35,7 +35,7 @@ public class EC3ControlPanel extends ControlPanel {
 
     public EC3ControlPanel( final EC3Module module ) {
         super( module );
-        super.setTitleVisible( false );
+//        super.set( false );
         this.module = module;
 //        getControlPane().setAnchor( GridBagConstraints.WEST );
 //        getControlPane().setFillNone();
