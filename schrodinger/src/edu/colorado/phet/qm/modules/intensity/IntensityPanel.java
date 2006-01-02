@@ -33,18 +33,14 @@ public class IntensityPanel extends SchrodingerPanel {
         setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( this, getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
-        splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );//this.intensityModule.getSplitModel() );
+        splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );
         setPhoton( super.getDisplayPhotonColor() );
-        getIntensityDisplay().getDetectorSheet().getDetectorSheetPanel().setBrightness();
+        getIntensityDisplay().getDetectorSheet().getDetectorSheetControlPanel().setBrightness();
     }
 
     protected HighIntensityGunGraphic createGun() {
         return new HighIntensityGunGraphic( this );
     }
-
-//    public SlitDetectorPanel getSlitDetectorPanel() {
-//        return getDoubleSlitPanel().getSlitDetectorPanel();
-//    }
 
     public void setSplitMode( boolean splitMode ) {
         if( splitMode ) {
@@ -117,7 +113,4 @@ public class IntensityPanel extends SchrodingerPanel {
         return intensityModule;
     }
 
-//    public SlitDetectorPanel getSlitDetectorPanel() {
-//        return intensityModule.getSlitDetectorPanel();
-//    }
 }
