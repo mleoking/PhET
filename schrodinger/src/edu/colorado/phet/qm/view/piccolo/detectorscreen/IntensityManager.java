@@ -6,7 +6,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import java.awt.*;
 import java.util.ArrayList;

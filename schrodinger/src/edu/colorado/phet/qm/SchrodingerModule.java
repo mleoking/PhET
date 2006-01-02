@@ -12,10 +12,10 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

@@ -7,8 +7,8 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

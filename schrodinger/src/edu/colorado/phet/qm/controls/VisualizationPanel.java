@@ -1,7 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.swing;
+package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.GrayscaleColorMap;
