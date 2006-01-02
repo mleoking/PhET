@@ -14,13 +14,10 @@ package edu.colorado.phet.quantumtunneling.model;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
-import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
 /**
@@ -42,7 +39,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double _width;
     private double _center;
     private double _time;
-    
+    private SchrodingerSolver _solver;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -56,6 +54,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _time = 0;
+        _solver = new SchrodingerSolver( this );
     }
     
     public void cleanup() {
@@ -80,7 +79,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
-            //XXX
+            _solver.update();
+            notifyObservers();
         }
     }
 
@@ -94,7 +94,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         if ( width != _width ) {
             _width = width;
-            //XXX
+            _solver.update();
             notifyObservers();
         }
     }
@@ -106,7 +106,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public void setCenter( double center ) {
         if ( center != _center ) {
             _center = center;
-            //XXX
+            _solver.update();
             notifyObservers();
         }
     }
@@ -125,7 +125,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _te = te;
         _te.addObserver( this );
-        //XXX
+        _solver.update();
         notifyObservers();
     }
 
@@ -139,7 +139,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _pe = pe;
         _pe.addObserver( this );
-        //XXX
+        _solver.update();
         notifyObservers();
     }
 
@@ -149,19 +149,17 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void setDirection( Direction direction ) {
         _direction = direction;
-        //XXX
+        _solver.update();
+        notifyObservers();
     }
 
     public Direction getDirection() {
         return _direction;
     }
 
-    public WaveFunctionSolution solveWaveFunction( double x ) {
-        WaveFunctionSolution solution = null;
+    public WaveFunctionSolution solveWaveFunction( double x ) {    
         double t = getTime();
-        solution = new WaveFunctionSolution( x, t, new Complex(0,0), new Complex(0,0) );//XXX HACK
-        //XXX
-        return solution;
+        return _solver.solve( x, t );
     }
     
     //----------------------------------------------------------------------------
@@ -170,8 +168,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     
     public void update( Observable o, Object arg ) {
         if ( _enabled ) {
-            //XXX    
-        }   
+            _solver.update();
+            notifyObservers();    
+        }
     }
 
     //----------------------------------------------------------------------------

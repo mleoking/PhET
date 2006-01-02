@@ -20,10 +20,6 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 
-import com.sun.corba.se.ActivationIDL._InitialNameServiceImplBase;
-
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.pswing.PSwing;
@@ -258,6 +254,10 @@ public class QTModule extends AbstractModule implements Observer {
     //----------------------------------------------------------------------------
     // AbstractModule implementation
     //----------------------------------------------------------------------------
+    
+    public boolean hasHelp() {
+        return true;
+    }
     
     /**
      * Resets the module to its initial state.

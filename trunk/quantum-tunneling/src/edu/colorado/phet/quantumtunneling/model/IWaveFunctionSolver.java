@@ -21,13 +21,6 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
  * @version $Revision$
  */
 public interface IWaveFunctionSolver {
-
-    /**
-     * Sets the direction of the wave.
-     * 
-     * @param direction
-     */
-    public void setDirection( Direction direction );
     
     /**
      * Solves the wave function.
