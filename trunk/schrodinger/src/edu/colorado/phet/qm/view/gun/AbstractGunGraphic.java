@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public abstract class AbstractGunGraphic extends PNode {
     private ImagePComboBox comboBox;
     private PSwing comboBoxGraphic;
     private PNode gunControls;
+    private ArrayList listeners = new ArrayList();
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -148,5 +150,24 @@ public abstract class AbstractGunGraphic extends PNode {
 
     public PSwing getComboBoxGraphic() {
         return comboBoxGraphic;
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public boolean containsListener( Listener listener ) {
+        return listeners.contains( listener );
+    }
+
+    protected void notifyFireListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.gunFired();
+        }
+    }
+
+    public static interface Listener {
+        void gunFired();
     }
 }
