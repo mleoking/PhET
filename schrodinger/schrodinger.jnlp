@@ -19,21 +19,19 @@ information.
         codebase="http://www.colorado.edu/physics/phet/dev/"
         href="schrodinger/@VERSION@/schrodinger.jnlp">
     <information>
-        <title>Schrodinger</title>
+        <title>Quantum Wave Interference</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
         <description>Schrodinger Waves in 2D</description>
-        <description kind="short">TheRamp</description>
+        <description kind="short">QWI</description>
         <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
-    <security>
-    </security>
 
     <resources>
         <j2se version="1.4+"/>
         <jar href="schrodinger/@VERSION@/schrodinger-pro.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.qm.SchrodingerModule"/>
+    <application-desc main-class="@MAIN-CLASS@"/>
 </jnlp>
