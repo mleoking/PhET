@@ -1,7 +1,7 @@
 Add a helmet.
 Optional to overlay a position-grid on the real space (to correlate with graph).
     Like moving man, force1d or ramps, disabled by default.
-Put coeff/friction in an advanced button.
+Put coefficient of friction in an advanced button.
 Zoomable Energy vs Position graphs.
 Bug: Setting record, then live, then record resets to last record state.
 Add clipping to energy vs position plot (so data doesn't fall outside the data area).
