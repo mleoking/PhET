@@ -1,3 +1,4 @@
+-Changes for 1-2-2006, 0.17
 “Play” has been changed to “Go” for clarity.
 Add a movable “zero-point potential energy” graphic
 Add a clear button to e vs t graph in skater.
