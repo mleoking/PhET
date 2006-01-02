@@ -22,7 +22,7 @@ public class Detector extends RectangularObject {
     private static final Random random = new Random();
     private DiscreteModel discreteModel;
     private static double probabilityScaleFudgeFactor = 5.0;
-    private boolean oneShotDetection;
+//    private boolean oneShotDetection;
 
     static {
         setProbabilityScaleFudgeFactor( probabilityScaleFudgeFactor );
@@ -36,7 +36,7 @@ public class Detector extends RectangularObject {
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
         super( x, y, width, height );
         this.discreteModel = discreteModel;
-        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
+//        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
     }
 
     public void setDimension( int width, int height ) {
@@ -182,9 +182,9 @@ public class Detector extends RectangularObject {
         setLocation( rectangle.x, rectangle.y );
     }
 
-    public void setOneShotDetection( boolean oneShotDetectors ) {
-        this.oneShotDetection = oneShotDetectors;
-    }
+//    public void setOneShotDetection( boolean oneShotDetectors ) {
+////        this.oneShotDetection = oneShotDetectors;
+//    }
 
     public static double getProbabilityScaleFudgeFactor() {
         return probabilityScaleFudgeFactor;

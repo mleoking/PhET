@@ -31,14 +31,14 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( newDetector );
 
-        final JCheckBox oneShot = new JCheckBox( "One-Shot" );
-        oneShot.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().setOneShotDetectors( oneShot.isSelected() );
-            }
-        } );
-        oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
-        add( oneShot );
+//        final JCheckBox oneShot = new JCheckBox( "One-Shot" );
+//        oneShot.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                getDiscreteModel().setOneShotDetectors( oneShot.isSelected() );
+//            }
+//        } );
+////        oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
+//        add( oneShot );
 
         final JCheckBox autodetect = new JCheckBox( "Autodetect", getDiscreteModel().isAutoDetect() );
         autodetect.addActionListener( new ActionListener() {

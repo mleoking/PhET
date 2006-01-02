@@ -20,7 +20,6 @@ public class DetectorSet {
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
     private boolean autodetect = true;
-    private boolean oneShotDetectors = true;
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
@@ -51,14 +50,6 @@ public class DetectorSet {
 
     public boolean containsDetector( Detector detector ) {
         return detectors.contains( detector );
-    }
-
-    public void setOneShotDetectors( boolean oneShotDetectors ) {
-        this.oneShotDetectors = oneShotDetectors;
-        for( int i = 0; i < detectors.size(); i++ ) {
-            Detector detector = (Detector)detectors.get( i );
-            detector.setOneShotDetection( oneShotDetectors );
-        }
     }
 
     public boolean isAutoDetect() {
@@ -136,10 +127,8 @@ public class DetectorSet {
                 }
             }
         }
-//        new RuntimeException( "No collapse point." ).printStackTrace();
         new RuntimeException( "No collapse point." ).printStackTrace();
         return new Point( 0, 0 );
-//        return new Point( 0, 0 );
     }
 
     public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
@@ -186,7 +175,4 @@ public class DetectorSet {
         }
     }
 
-    public boolean isOneShotDetectors() {
-        return oneShotDetectors;
-    }
 }
