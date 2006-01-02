@@ -18,6 +18,7 @@ public class AutoFire implements IntensityManager.Listener {
     private ModelElement element;
     public static final double THRESHOLD = 0.015;
     private long lastFire = 0;
+    private static final long MIN_WAIT_TIME = 500;//todo this may be unnecessary because of the new gun.isFiring() method
 
     public AutoFire( SingleParticleGunGraphic gunGraphic, IntensityManager intensityManager ) {
         this.gunGraphic = gunGraphic;
@@ -34,7 +35,7 @@ public class AutoFire implements IntensityManager.Listener {
         double mag = gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
         System.out.println( "mag = " + mag );
         if( mag < THRESHOLD || Double.isNaN( mag ) ) {
-            if( timeSinceFire() > 2000 ) {
+            if( timeSinceFire() > MIN_WAIT_TIME && !gunGraphic.isFiring() ) {
                 System.out.println( "timeSinceFire() = " + timeSinceFire() );
                 fire();
             }
