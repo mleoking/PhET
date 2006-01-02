@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
@@ -118,7 +117,7 @@ public class IntensityPanel extends SchrodingerPanel {
         return intensityModule;
     }
 
-    public SlitDetectorPanel getSlitDetectorPanel() {
-        return intensityModule.getSlitDetectorPanel();
-    }
+//    public SlitDetectorPanel getSlitDetectorPanel() {
+//        return intensityModule.getSlitDetectorPanel();
+//    }
 }

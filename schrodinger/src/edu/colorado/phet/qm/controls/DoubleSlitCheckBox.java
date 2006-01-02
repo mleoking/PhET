@@ -19,8 +19,8 @@ import java.awt.event.ActionListener;
 public class DoubleSlitCheckBox extends JCheckBox {
     private DiscreteModel discreteModel;
 
-    public DoubleSlitCheckBox( String title, final DiscreteModel discreteModel, final SchrodingerPanel schrodingerPanel ) {
-        super( title, discreteModel.isDoubleSlitEnabled() );
+    public DoubleSlitCheckBox( final DiscreteModel discreteModel, final SchrodingerPanel schrodingerPanel ) {
+        super( "Double Slit", discreteModel.isDoubleSlitEnabled() );
         setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
 
         this.discreteModel = discreteModel;
@@ -40,12 +40,6 @@ public class DoubleSlitCheckBox extends JCheckBox {
                 setSelected( discreteModel.isDoubleSlitEnabled() );
             }
         } );
-
-//        addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                schrodingerPanel.setDoubleSlitControlPanelVisible( isSelected() );
-//            }
-//        } );
     }
 
     public void setFont( Font font ) {
