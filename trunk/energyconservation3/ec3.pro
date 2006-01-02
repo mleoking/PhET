@@ -1,9 +1,9 @@
 -injars 'ant_output\jars\ec3.jar'
--injars 'jfreechart\lib\gnujaxp.jar'
--injars 'jfreechart\lib\jcommon-1.0.0.jar'
--injars 'jfreechart\lib\jfreechart-1.0.0.jar'
--injars 'jfreechart\lib\junit.jar'
--injars 'jfreechart\lib\servlet.jar'
+-injars 'jfreechart-dir\lib\gnujaxp.jar'
+-injars 'jfreechart-dir\lib\jcommon-1.0.0.jar'
+-injars 'jfreechart-dir\lib\jfreechart-1.0.0.jar'
+-injars 'jfreechart-dir\lib\junit.jar'
+-injars 'jfreechart-dir\lib\servlet.jar'
 -outjars ant_output\jars\ec3-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'

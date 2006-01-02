@@ -11,22 +11,17 @@
     <property name="backup" location="../backup"/>
     <property name="releases" location="../releases"/>
 
-    <!--  Set up child directories, for during the build.  -->
-    <property name="src" location="src"/>
-    <property name="tests-src" location="test-src"/>
-    <property name="data" location="data"/>
-
     <property file="build.properties"/>
     <property file="local.properties"/>
-    <property file="build.time.stamp" location="${data}"/>
+    <property file="build.time.stamp" location="data"/>
 
-    <property name="build.number.txt" value="${data}/${distname}.build.number"/>
-    <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
+    <property name="build.number.txt" value="data/${distname}.build.number"/>
+    <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
     <property name="proguard-file" value="ec3.pro"/>
 
-    <property name="phet-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
+    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev-dir" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
 
     <taskdef resource="proguard/ant/task.properties"
              classpath="antutil-dir/lib/proguard.jar"/>
@@ -54,13 +49,12 @@
     <target name="Compile" depends="init, Clean"
             description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}:timeseries/src:piccolo/src:piccolo-phet/src:piccolo/extras:phetcommon/src"
+        <javac srcdir="src:ec3-timeseries/src:piccolo-dir/src:piccolo-phet-dir/src:
+        piccolo-dir/extras:phetcommon-dir/src"
                excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-               classpath="jfreechart/lib/jfreechart-1.0.0.jar:jfreechart/lib/jcommon-1.0.0.jar:
-               jfreechart/lib/gnujaxp.jar:jfreechart/lib/junit.jar:jfreechart/lib/servlet.jar"
+               classpath="jfreechart-dir/lib/jfreechart-1.0.0.jar:jfreechart-dir/lib/jcommon-1.0.0.jar:
+               jfreechart-dir/lib/gnujaxp.jar:jfreechart-dir/lib/junit.jar:jfreechart-dir/lib/servlet.jar"
                destdir="${ant.classes}"/>
-        <!--    Uncomment the following line to add test classes to the output jar.    -->
-        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
 
     <target name="Generate Build Info">
@@ -80,8 +74,8 @@
         <property file="${build.number.txt}"/>
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
-            <fileset dir="${data}"/>
-            <fileset dir="phetcommon/data"></fileset>
+            <fileset dir="data"/>
+            <fileset dir="phetcommon-dir/data"></fileset>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -111,6 +105,8 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="ant_output/jars/ec3-pro.jar"/>
                 <fileset file="ant_output/jnlp/ec3.jnlp"/>
+                <fileset file="todo.txt"/>
+                <fileset file="changes.txt"/>
             </sftp>
         </maverick-ssh>
     </target>
