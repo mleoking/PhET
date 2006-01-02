@@ -55,10 +55,16 @@ phetgraphics-module phetgraphics &phetcommon-module
 phetgraphics-dir phetgraphics
 
 # Piccolo-phet
+# This includes code that allows integration of PhET and piccolo,
+# for example PiccoloModule, the subclass of Module that uses Piccolo for graphics, and
+# PhET Pcanvas, which adds phet-specific functionality to Piccolo, like maintaining aspect ratio and adding items to screen
+# or the world coordinate frames.
 piccolo-phet-module piccolo-phet &phetcommon-module &piccolo-module
 piccolo-phet-dir piccolo-phet
 
 # JFreeChart-phet
+# This includes PhET specific classes for using JFreeChart, for example performance enhancements
+# for realtime data.
 jfreechart-phet-module jfreechart-phet &jfreechart-module
 jfreechart-phet-dir jfreechart-phet
 
