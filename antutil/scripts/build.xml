@@ -18,7 +18,7 @@
     <property name="build.number.txt" value="data/${distname}.build.number"/>
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
-    <property name="proguard-file" value="ec3.pro"/>
+    <property name="proguard-file" value="theramp.pro"/>
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
     <property name="dev-dir" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
@@ -29,10 +29,6 @@
     <taskdef name="maverick-ssh"
              classname="com.sshtools.ant.Ssh"
              classpath="antutil-dir/lib/maverick-ant.jar"/>
-
-    <description>
-        PhET Build File.
-    </description>
 
     <target name="init">
         <tstamp/>
@@ -46,21 +42,18 @@
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean"
-            description="compile the source ">
+    <target name="Compile" depends="init, Clean">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="src:ec3-timeseries/src:piccolo-dir/src:piccolo-phet-dir/src:
-        piccolo-dir/extras:phetcommon-dir/src"
-               excludes="edu/umd/cs/piccolox/swt/*.java,edu/colorado/phet/timeseries/plot/*.java"
-               classpath="jfreechart-dir/lib/jfreechart-1.0.0.jar:jfreechart-dir/lib/jcommon-1.0.0.jar:
-               jfreechart-dir/lib/gnujaxp.jar:jfreechart-dir/lib/junit.jar:jfreechart-dir/lib/servlet.jar"
+        <javac srcdir="${build-src}"
+               excludes="${build-excludes}"
+               classpath="${build-classpath}"
                destdir="${ant.classes}"/>
     </target>
 
     <target name="Generate Build Info">
         <buildnumber file="${build.number.txt}"/>
         <tstamp>
-            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
+            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
         </tstamp>
         <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
     </target>
@@ -75,7 +68,7 @@
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="data"/>
-            <fileset dir="phetcommon-dir/data"></fileset>
+            <fileset dir="phetcommon-dir/data"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -88,7 +81,7 @@
 
     <target name="Update JNLP">
         <copy todir="ant_output/jnlp" overwrite="yes">
-            <fileset file="ec3.jnlp"/>
+            <fileset file="${jnlp-filename}"/>
             <filterset>
                 <filter token="VERSION" value="${dev-version}"/>
             </filterset>
@@ -103,8 +96,8 @@
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="ant_output/jars/ec3-pro.jar"/>
-                <fileset file="ant_output/jnlp/ec3.jnlp"/>
+                <fileset file="ant_output/jars/theramp-pro.jar"/>
+                <fileset file="ant_output/jnlp/theramp.jnlp"/>
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
             </sftp>
