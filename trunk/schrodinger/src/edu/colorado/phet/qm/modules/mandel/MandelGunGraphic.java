@@ -31,7 +31,7 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
         super( mandelPanel );
         getGunImageGraphic().setVisible( false );
         try {
-            leftGun = new PImage( ImageLoader.loadBufferedImage( GUN_RESOURCE ) );
+            leftGun = new PImage( ImageLoader.loadBufferedImage( "images/mandel-gun.gif" ) );
             leftGun.setPickable( false );
             leftGun.setChildrenPickable( false );
             BufferedImage newImage = ImageLoader.loadBufferedImage( "images/gun2-ii.gif" );
