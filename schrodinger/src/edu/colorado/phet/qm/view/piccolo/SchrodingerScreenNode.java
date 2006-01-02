@@ -58,8 +58,8 @@ public class SchrodingerScreenNode extends PNode {
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
         intensityManager = new IntensityManager( getSchrodingerModule(), schrodingerPanel, detectorSheetPNode );
         addChild( detectorSheetPNode );
-        addChild( wavefunctionGraphic );
-        addChild( rulerGraphic );
+//        addChild( wavefunctionGraphic );
+//        addChild( rulerGraphic );
         schrodingerPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
@@ -94,7 +94,7 @@ public class SchrodingerScreenNode extends PNode {
             }
         }
         this.abstractGunGraphic = abstractGunGraphic;
-        addChild( abstractGunGraphic );
+//        addChild( abstractGunGraphic );
 
         invalidateLayout();
         repaint();
@@ -193,9 +193,6 @@ public class SchrodingerScreenNode extends PNode {
                                               wavefunctionGraphic.getFullBounds().getY() - detectorSheetPNode.getFullBounds().getHeight() / 2 );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
                                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
-
-//                PBounds detectorSheetBounds = detectorSheetPNode.getDetectorSheetPanel().getGlobalFullBounds();
-//                globalToLocal( detectorSheetBounds );
             }
         }
     }
