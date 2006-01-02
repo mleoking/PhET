@@ -5,7 +5,7 @@ import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.NullPropagator;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 import java.awt.*;
 
@@ -264,7 +264,7 @@ public class SplitModel extends DiscreteModel {
     }
 
     public void updateWavefunctionAfterDetection() {
-        reduceWavefunctionNorm( IntensityGraphic.NORM_DECREMENT );//todo this used to work okay
+        reduceWavefunctionNorm( IntensityManager.NORM_DECREMENT );//todo this used to work okay
     }
 
     public void setWaveSize( int width, int height ) {

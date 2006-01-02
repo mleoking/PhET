@@ -221,4 +221,8 @@ public class DetectorSheetPNode extends PNode {
     public PNode getDetectorSheetPanel() {
         return detectorSheetControlPanelPNode;
     }
+
+    public int getDetectorHeight() {
+        return detectorSheetHeight;
+    }
 }

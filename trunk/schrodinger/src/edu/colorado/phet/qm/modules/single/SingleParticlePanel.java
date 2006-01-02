@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityGraphic;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 /**
@@ -22,10 +22,10 @@ public class SingleParticlePanel extends SchrodingerPanel {
         setGunGraphic( abstractGun );
         getIntensityDisplay().setMultiplier( 1 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
-        getIntensityDisplay().setOpacity( 255 );
+        getDetectorSheetPNode().setOpacity( 255 );
         getIntensityDisplay().setNormDecrement( 1.0 );
 
-        getIntensityDisplay().addListener( new IntensityGraphic.Listener() {
+        getIntensityDisplay().addListener( new IntensityManager.Listener() {
             public void detectionOccurred() {
                 module.getDiscreteModel().enableAllDetectors();
             }
