@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
@@ -16,6 +17,7 @@ import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
@@ -33,7 +35,7 @@ import java.io.IOException;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class DetectorSheetPNode extends PNode {
+public class DetectorSheetPNode extends PhetPNode {
     private SchrodingerPanel schrodingerPanel;
 
     private BufferedImage bufferedImage;
@@ -76,7 +78,36 @@ public class DetectorSheetPNode extends PNode {
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
-        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, detectorSheetControlPanel );
+        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, detectorSheetControlPanel ) {
+            public void setPaintInvalid( boolean paintInvalid ) {
+                super.setPaintInvalid( paintInvalid );
+            }
+
+            public void invalidateLayout() {
+                super.invalidateLayout();
+            }
+
+            public void invalidateFullBounds() {
+                super.invalidateFullBounds();
+            }
+
+            public void invalidatePaint() {
+                super.invalidatePaint();
+            }
+
+            protected boolean validateFullBounds() {
+                return super.validateFullBounds();
+            }
+
+            public void validateFullPaint() {
+                super.validateFullPaint();
+            }
+
+            public void repaintFrom( PBounds localBounds, PNode childOrThis ) {
+                super.repaintFrom( localBounds, childOrThis );
+            }
+
+        };
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {
@@ -231,6 +262,10 @@ public class DetectorSheetPNode extends PNode {
 
     public int getDetectorHeight() {
         return detectorSheetHeight;
+    }
+
+    public void histogramChanged() {
+        screenGraphic.repaint();
     }
 
     static class ScreenGraphic extends PNode {
