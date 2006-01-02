@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.modules.intensity;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
@@ -47,9 +46,9 @@ public class IntensityModule extends SchrodingerModule {
                     setRightDetectorEnabled( false );
                     setLeftDetectorEnabled( false );
                 }
-                else {
-                    getIntensityPanel().getSlitDetectorPanel().synchronizeModelState();
-                }
+//                else {
+//                    getIntensityPanel().getSlitDetectorPanel().synchronizeModelState();
+//                }
             }
         } );
         finishInit();
@@ -101,9 +100,9 @@ public class IntensityModule extends SchrodingerModule {
         return intensityPanel.getRootColor();
     }
 
-    public SlitDetectorPanel getSlitDetectorPanel() {
-        return intensityControlPanel.getSlitDetectorPanel();
-    }
+//    public SlitDetectorPanel getSlitDetectorPanel() {
+//        return intensityControlPanel.getSlitDetectorPanel();
+//    }
 
     public static interface Listener {
         void detectorsChanged();

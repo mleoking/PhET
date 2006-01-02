@@ -2,7 +2,9 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.qm.controls.ExpandableDoubleSlitPanel;
 import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
+import edu.colorado.phet.qm.controls.ResetButton;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 
 /**
@@ -15,7 +17,8 @@ import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 public class MandelControlPanel extends SchrodingerControlPanel {
     public MandelControlPanel( MandelModule mandelModule ) {
         super( mandelModule );
-        super.addResetButton();
+        addControl( new ResetButton( mandelModule ) );
+        addControl( new ExpandableDoubleSlitPanel( mandelModule ) );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         advancedPanel.addControlFullWidth( super.createPotentialPanel( mandelModule ) );
         advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );

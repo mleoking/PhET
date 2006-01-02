@@ -2,9 +2,10 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.qm.controls.ExpandableDoubleSlitPanel;
 import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
+import edu.colorado.phet.qm.controls.ResetButton;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
-import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 
 /**
  * User: Sam Reid
@@ -16,14 +17,15 @@ import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-        addResetButton();
+        addControl( new ResetButton( intensityModule ) );
+        addControl( new ExpandableDoubleSlitPanel( intensityModule ) );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         advancedPanel.addControlFullWidth( super.createPotentialPanel( getModule() ) );
         advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
         addControlFullWidth( advancedPanel );
     }
 
-    public SlitDetectorPanel getSlitDetectorPanel() {
-        return getDoubleSlitPanel().getSlitDetectorPanel();
-    }
+//    public SlitDetectorPanel getSlitDetectorPanel() {
+//        return getDoubleSlitPanel().getSlitDetectorPanel();
+//    }
 }

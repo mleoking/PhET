@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.controls.DoubleSlitCheckBox;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
@@ -44,7 +43,7 @@ public class SchrodingerScreenNode extends PNode {
     private Dimension lastLayoutSize = null;
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
     private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
-    private PSwing doubleSlitPanelButton;
+//    private PSwing doubleSlitPanelButton;
     public static int numIterationsBetwenScreenUpdate = 2;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
@@ -64,14 +63,14 @@ public class SchrodingerScreenNode extends PNode {
 
         intensityGraphic = new IntensityGraphic( getSchrodingerModule(), schrodingerPanel, 60, wavefunctionGraphic );
 
-        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( "Double Slit", getDiscreteModel(), schrodingerPanel );
-        doubleSlitPanelButton = new PSwing( schrodingerPanel, doubleSlitCheckBox );
+//        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel(), schrodingerPanel );
+//        doubleSlitPanelButton = new PSwing( schrodingerPanel, doubleSlitCheckBox );
 
 //        doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel(), module );
 //        doubleSlitPanelGraphic = new PSwing( schrodingerPanel, doubleSlitPanel );
         addChild( intensityGraphic );
 //        addChild( doubleSlitPanelGraphic );
-        addChild( doubleSlitPanelButton );
+//        addChild( doubleSlitPanelButton );
         addChild( wavefunctionGraphic );
         addChild( rulerGraphic );
         schrodingerPanel.addComponentListener( new ComponentAdapter() {
@@ -270,7 +269,7 @@ public class SchrodingerScreenNode extends PNode {
         rectanglePotentialGraphics.remove( rectangularPotentialGraphic );
     }
 
-    public PNode getDoubleSlitPanelButton() {
-        return doubleSlitPanelButton;
-    }
+//    public PNode getDoubleSlitPanelButton() {
+//        return doubleSlitPanelButton;
+//    }
 }

@@ -1,13 +1,11 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view.swing;
+package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.controls.ResolutionControl;
-import edu.colorado.phet.qm.controls.SlitDetectorPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
@@ -25,7 +23,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jul 27, 2005 by Sam Reid
  */
 
-public class DoubleSlitPanel extends VerticalLayoutPanel {
+public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     private DiscreteModel discreteModel;
     private HorizontalDoubleSlit horizontalDoubleSlit;
     private JComponent slitSize;
@@ -34,11 +32,11 @@ public class DoubleSlitPanel extends VerticalLayoutPanel {
     private SlitDetectorPanel slitDetectorPanel;
     private SchrodingerModule module;
 
-    public DoubleSlitPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
+    public DoubleSlitControlPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
         this.discreteModel = discreteModel;
         this.module = intensityModule;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
-        setBorder( BorderFactory.createRaisedBevelBorder() );
+//        setBorder( BorderFactory.createRaisedBevelBorder() );
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
             public void valueChanged( double val ) {

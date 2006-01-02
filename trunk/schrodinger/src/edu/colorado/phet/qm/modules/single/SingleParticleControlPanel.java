@@ -4,9 +4,7 @@ package edu.colorado.phet.qm.modules.single;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.controls.DetectorPanel;
-import edu.colorado.phet.qm.controls.InverseSlitsCheckbox;
-import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
+import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.view.swing.VisualizationPanel;
 
@@ -53,7 +51,8 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addControlFullWidth( colorPanel );
 
 //        super.addSlitCheckbox();
-        super.addResetButton();
+        addControl( new ResetButton( singleParticleModule ) );
+        addControl( new ExpandableDoubleSlitPanel( singleParticleModule ) );
         addControlFullWidth( advancedPanel );
     }
 

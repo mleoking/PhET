@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.intensity.IntensityPanel;
 
@@ -43,6 +44,11 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
             public void detectorsChanged() {
                 leftSlit.setSelected( intensityModule.isLeftDetectorEnabled() );
                 rightSlit.setSelected( intensityModule.isRightDetectorEnabled() );
+            }
+        } );
+        intensityModule.getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void doubleSlitVisibilityChanged() {
+                synchronizeModelState();
             }
         } );
     }

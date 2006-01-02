@@ -11,14 +11,11 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
-import edu.colorado.phet.qm.model.waves.PlaneWave;
-import edu.colorado.phet.qm.view.swing.DoubleSlitPanel;
 import edu.colorado.phet.qm.view.swing.SchrodingerPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,23 +29,18 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-//    private CylinderWaveCheckBox cylinderWaveBox;
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
-    private DoubleSlitPanel doubleSlitPanel;
+//    private DoubleSlitControlPanel doubleSlitControlPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
         this.module = module;
 
         this.initialConditionPanel = createInitialConditionPanel();
-//        JPanel spacer=new JPanel( );
-//        spacer.setPreferredSize( new Dimension( 100,1) );
-//        addFullWidth( spacer );
-
-        doubleSlitPanel = new DoubleSlitPanel( getDiscreteModel(), module );
-
+//        doubleSlitControlPanel = new DoubleSlitControlPanel( getDiscreteModel(), module );
+//        addControl( doubleSlitControlPanel );
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
@@ -99,9 +91,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         advSim.addControlFullWidth( simulationPanel );
         advancedPanel.addControlFullWidth( advSim );
 
-//        VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
-//        addControlFullWidth( potentialPanel );
-
         final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
         speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
         speed.addChangeListener( new ChangeListener() {
@@ -118,7 +107,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return initialConditionPanel.getWaveSetup();
     }
 
-    private VerticalLayoutPanel createPropagatorPanel() {
+    protected VerticalLayoutPanel createPropagatorPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -176,31 +165,31 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        return layoutPanel;
 //    }
 
-    private JCheckBox createPlaneWaveBox() {
-        final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-        double scale = 1.0;
-        double k = 1.0 / 10.0 * Math.PI * scale;
-        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
-
-        planeWave.setMagnitude( 0.015 );
-        int damping = getDiscreteModel().getDamping().getDepth();
-        int tubSize = 5;
-        final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
-                                                   getWavefunction().getWidth() - 2 * damping, tubSize );
-        final WaveSource waveSource = new WaveSource( rectangle, planeWave );
-
-        planeWaveCheckbox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( planeWaveCheckbox.isSelected() ) {
-                    getDiscreteModel().addListener( waveSource );
-                }
-                else {
-                    getDiscreteModel().removeListener( waveSource );
-                }
-            }
-        } );
-        return planeWaveCheckbox;
-    }
+//    private JCheckBox createPlaneWaveBox() {
+//        final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
+//        double scale = 1.0;
+//        double k = 1.0 / 10.0 * Math.PI * scale;
+//        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
+//
+//        planeWave.setMagnitude( 0.015 );
+//        int damping = getDiscreteModel().getDamping().getDepth();
+//        int tubSize = 5;
+//        final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
+//                                                   getWavefunction().getWidth() - 2 * damping, tubSize );
+//        final WaveSource waveSource = new WaveSource( rectangle, planeWave );
+//
+//        planeWaveCheckbox.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if( planeWaveCheckbox.isSelected() ) {
+//                    getDiscreteModel().addListener( waveSource );
+//                }
+//                else {
+//                    getDiscreteModel().removeListener( waveSource );
+//                }
+//            }
+//        } );
+//        return planeWaveCheckbox;
+//    }
 
 //    private CylinderWaveCheckBox createCylinderWaveBox() {
 //        return new CylinderWaveCheckBox( module, getDiscreteModel() );
@@ -264,13 +253,10 @@ public class SchrodingerControlPanel extends ControlPanel {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
                 module.setGridSpacing( val, val );
-//                addPotential( new ConstantPotential( 0.0 ) );
             }
         } );
         simulationPanel.addFullWidth( gridWidth );
 
-        final double origDT = getDiscreteModel().getDeltaTime();
-//        System.out.println( "origDT = " + origDT );
         final JSpinner timeStep = new JSpinner( new SpinnerNumberModel( 0.8, 0, 2, 0.1 ) );
         timeStep.setBorder( BorderFactory.createTitledBorder( "DT" ) );
 
@@ -305,16 +291,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         return advancedPanel;
     }
 
-    protected void addResetButton() {
-        JButton reset = new JButton( "Reset" );
-        reset.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.reset();
-            }
-        } );
-        addControl( reset );
-    }
-
     public JCheckBox getSlitAbsorptionCheckbox() {
         final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isSlitAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
@@ -325,8 +301,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         return absorbtiveSlit;
     }
 
-    public DoubleSlitPanel getDoubleSlitPanel() {
-        return doubleSlitPanel;
-    }
+//    public DoubleSlitControlPanel getDoubleSlitPanel() {
+//        return doubleSlitControlPanel;
+//    }
 
 }
