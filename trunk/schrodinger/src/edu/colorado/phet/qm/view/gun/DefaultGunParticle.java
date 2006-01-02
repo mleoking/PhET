@@ -118,4 +118,8 @@ public class DefaultGunParticle extends GunParticle {
         map.put( "initial_dx_lattice", "" + getStartDxLattice() );
         return map;
     }
+
+    public boolean isFiring() {
+        return false;//firing is always a one-shot deal, so we're never in the middle of a shot.
+    }
 }
