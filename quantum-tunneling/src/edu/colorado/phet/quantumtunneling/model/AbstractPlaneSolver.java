@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
@@ -42,11 +43,8 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
     public static final int LEFT_TO_RIGHT = 0;
     public static final int RIGHT_TO_LEFT = 1;
     
-    protected static final double PLANCKS_CONSTANT = 0.658;  // Planck's constant, in eV fs
-    protected static final double ELECTRON_MASS = 5.7;  // mass, in eV/c^2
-    
     // Static term used to calculate k:  2 * m / h^2
-    private static final double K_COMMON = ( 2 * ELECTRON_MASS ) / ( PLANCKS_CONSTANT * PLANCKS_CONSTANT );
+    private static final double K_COMMON = ( 2 * QTConstants.ELECTRON_MASS ) / ( QTConstants.PLANCKS_CONSTANT * QTConstants.PLANCKS_CONSTANT );
 
     private TotalEnergy _te;
     private AbstractPotential _pe;
@@ -247,7 +245,7 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
      * @param E total energy
      */
     protected static Complex commonTerm3( final TotalEnergy te, final double t ) {
-        final double h = PLANCKS_CONSTANT;
+        final double h = QTConstants.PLANCKS_CONSTANT;
         final double E = te.getEnergy();
         MutableComplex c = new MutableComplex();
         c.setValue( Complex.I );
