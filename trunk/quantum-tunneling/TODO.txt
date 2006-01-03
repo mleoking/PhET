@@ -55,6 +55,8 @@ JFREECHART:
 
 
 DONE:
+0.0.5 ...
+(1/2/06) - first attempt at integration Richardson algorithm, doesn't work
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05) - piccolo-phet: change CursorHandler to use pushCursor and popCursor
 (12/23/05) - phetcommon: lots of minor work on the branch

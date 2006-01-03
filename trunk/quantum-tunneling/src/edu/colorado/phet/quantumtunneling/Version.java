@@ -20,9 +20,9 @@ package edu.colorado.phet.quantumtunneling;
  */
 public class Version {
   
-    public static final String NUMBER = "sandbox"; //"0.0.4";
+    public static final String NUMBER = "0.0.5";
     
-    public static final String CVS_TAG = "quantumtunneling-0-0-4-2005-12-19";
+    public static final String CVS_TAG = "quantumtunneling-0-0-5-2006-01-02";
     
     /* This class is not intended for instantiation. */
     private Version() {}
