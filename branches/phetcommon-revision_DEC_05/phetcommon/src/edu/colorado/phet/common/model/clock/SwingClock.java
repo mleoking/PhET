@@ -26,27 +26,28 @@ public class SwingClock extends Clock {
      * and constant simulation time change per tick.
      *
      * @param delay      time between clock ticks, in wall time
-     * @param dtConstant time per clock tick, in simulation time
+     * @param dt         time per clock tick, in simulation time
      */
-    public SwingClock( int delay, double dtConstant ) {
-        this( delay, dtConstant, new TimeConverter.Constant( dtConstant ) );
+    public SwingClock( int delay, double dt ) {
+        this( delay, dt, new TimeConverter.Constant( dt ) );
     }
 
     /**
      * Constructs a SwingClock with a specified wall time between clock ticks, 
-     * a value for the simulation time change per tick,
-     * and a means of converting wall to simulation time.
+     * a value for the simulation time change used by method <code>tickOnce</code>,
+     * and a means for calculating the simulation time change that occurs when the clock ticks.
      * <p>
-     * The type of TimerConverter provided determines whether
-     * the simulation time change reported by the clock will 
-     * be constant or variable.
+     * NOTE! The tickOnceTimeChange value is used only when tickOnce is called
+     * (for example, when the simulation is paused and the user presses the Step
+     * button).  When the clock is running normally, the timeConverter is responsible
+     * for calculating the simulation time change (aka, dt).
      *
      * @param delay     time between clock ticks, in wall time
-     * @param dt        time per clock tick, in simulation time
-     * @param timeConverter converts wall time to simulation time
+     * @param tickOnceTimeChange  simulation time change when tickOnce is called
+     * @param timeConverter calculates simulation time change based on wall time change
      */
-    public SwingClock( int delay, double dt, TimeConverter timeConverter ) {
-        super( timeConverter, dt );
+    public SwingClock( int delay, double tickOnceTimeChange, TimeConverter timeConverter ) {
+        super( timeConverter, tickOnceTimeChange );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( !isPaused() ) {
