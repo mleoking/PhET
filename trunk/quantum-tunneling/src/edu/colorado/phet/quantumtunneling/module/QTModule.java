@@ -101,6 +101,8 @@ public class QTModule extends AbstractModule implements Observer {
     public QTModule() {
         super( SimStrings.get( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
 
+        setLogoPanel( null );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -254,10 +256,6 @@ public class QTModule extends AbstractModule implements Observer {
     //----------------------------------------------------------------------------
     // AbstractModule implementation
     //----------------------------------------------------------------------------
-    
-    public boolean hasHelp() {
-        return true;
-    }
     
     /**
      * Resets the module to its initial state.
