@@ -22,25 +22,31 @@ public class SwingClock extends Clock {
     private Timer timer;
 
     /**
-     * Construct a SwingClock with specified wall time delay and constant simulation time change per tick.
+     * Constructs a SwingClock with specified wall time between ticks 
+     * and constant simulation time change per tick.
      *
-     * @param delay     Wall time delay between clock ticks
-     * @param constantTimeChange    Wall time delay between clock ticks
+     * @param delay      time between clock ticks, in wall time
+     * @param dtConstant time per clock tick, in simulation time
      */
-    public SwingClock( int delay, double constantTimeChange ) {
-        this( delay, new TimeConverter.Constant( constantTimeChange ), constantTimeChange );
+    public SwingClock( int delay, double dtConstant ) {
+        this( delay, dtConstant, new TimeConverter.Constant( dtConstant ) );
     }
 
     /**
-     * Construct a SwingClock with a specified wall time delay, means of converting wall to simulation time,
-     * and a value for the simulation time change in tickOnceTimeChange.
+     * Constructs a SwingClock with a specified wall time between clock ticks, 
+     * a value for the simulation time change per tick,
+     * and a means of converting wall to simulation time.
+     * <p>
+     * The type of TimerConverter provided determines whether
+     * the simulation time change reported by the clock will 
+     * be constant or variable.
      *
-     * @param delay     Wall time delay between clock ticks
-     * @param timeConverter
-     * @param tickOnceTimeChange    Wall time delay between clock ticks
+     * @param delay     time between clock ticks, in wall time
+     * @param dt        time per clock tick, in simulation time
+     * @param timeConverter converts wall time to simulation time
      */
-    public SwingClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
-        super( timeConverter, tickOnceTimeChange );
+    public SwingClock( int delay, double dt, TimeConverter timeConverter ) {
+        super( timeConverter, dt );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( !isPaused() ) {

@@ -26,7 +26,7 @@ public class TestClock {
     private SwingClock swingClock;
 
     public TestClock() {
-        swingClock = new SwingClock( 1000, new TimeConverter.Constant( 1.0 ), 1.0 );
+        swingClock = new SwingClock( 1000 /* delay */, 1.0 /* constant dt */ );
         swingClock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clock ) {
                 System.out.println( "TestClockEvent.clockTicked" );
