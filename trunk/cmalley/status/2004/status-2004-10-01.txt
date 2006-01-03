@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Wed 9/29/04 - Fri 10/1/04
+
+HOURS: 18.0 (5 + 6 + 7)
+
+ACCOMPLISHMENTS:
+
+  - met with Ron LeMaster for an overview of the PhET software architecture
+    and description of the "Color Vision" simulation requirements
+  - downloaded PhET software from SourceForge CVS into my IDE (Eclipse),
+  - got all necessary PhET software to build in my IDE (this took a bit
+    of tweaking, had to work around some platform-specific stuff)
+  - began reviewing the structure of a PhET simulation, using the 
+    existing "Sound" simulation as an example
+  - began writing the "Color Vision" simulation in Java, using the 
+    PhET software architecture.  Got the basic framework set up and 
+    running (modules and control panels, minimal apparatus).
+
+WHAT'S NEXT:
+
+  - review the existing "Color Vision" Flash implementation
+  - begin fleshing out the model and 2D view components in Java
+
+ISSUES:
+
+  - none
+
+-- 

@@ -1,0 +1,26 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Wed 2/16/05 - Mon 2/22/05
+
+ACCOMPLISHMENTS:
+
+  - worked on Faraday simulation, including:
+    o implemented all changes requested at 2/16/05 status meeting
+    o published v0r14
+    o started work on "Electromagnet" module
+
+  - phetcommon work, including:
+    o meeting with Ron & Sam about apparatus panel features (pan, zoom, canvas size)
+    o tested new "Debug Options" menu (mouse tracker, grid, framerate)
+    o tested some simulations on Mac and Linux, at Ron's request
+
+WHAT'S NEXT:
+ 
+  - continue work on Faraday (see "To Do" list at http://www.colorado.edu/physics/phet/dev/faraday/todo.txt)
+
+ISSUES:
+
+  - none
+
+-- 

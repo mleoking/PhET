@@ -1,0 +1,20 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 8/30/05 - 9/05/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o made all changes requested at 8/30 status meeting
+    o published versions 1.0.7 & 1.0.8 (see their release notes for details)
+
+WHAT'S NEXT:
+ 
+  o continue work on Fourier (see "To Do" list at http://www.colorado.edu/physics/phet/dev/fourier/TODO.txt)
+
+ISSUES:
+
+  o I need requirements for the Fourier "Wave Pulse Generator" and "Sound" modules.
+
+-- 

@@ -1,0 +1,29 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 11/15/2004 - Fri 11/19/2004
+
+HOURS: 33.5 (8.5 + 8 + 4 + 4.5 + 8.5)
+
+ACCOMPLISHMENTS:
+
+  - demoed Color Vision simulation at PhET status meeting
+  - summarized Color Vision change requests
+  - worked on Color Vision change requests
+  - misc phetcommon fixes
+  - met with Ron & Sam RE: CVS, versioning, etc.
+  - proposed template for comment header in source files
+
+WHAT'S NEXT:
+ 
+  - finish 2 outstanding Color Vision change requests
+  - demo Color Vision again at new PhET status meeting
+  - add Help to Color Vision when Kathy provides requirements
+  - start on phetcommon changes as soon as Sam's stuff is stabilized
+  - start on Faraday's Law simulation when I receive requirements
+
+ISSUES:
+
+  - I will be out next Wed-Fri for Thanksgiving holiday
+
+-- 

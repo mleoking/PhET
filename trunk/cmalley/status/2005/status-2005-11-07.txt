@@ -1,0 +1,39 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 11/1/05 - 11/7/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier:
+  - published versions 2.1.7, 2.1.8, 2.1.8, 2.1.10
+  - added Wave Game instructions dialog
+  - revised Winner! dialog
+
+
+  Optical Quantum Control:
+  - published versions 0.0.6, 0.0.7, 0.0.8
+  - input pulse is a Fourier series with all amplitudes=1
+  - amplitude sliders are initialized to 1
+  - Reset button sets amplitude sliders back to 1
+  - normalized all output pulses
+  - changed matching algorithm
+  - changed match threshold back to 95%
+  - added Mask label
+  - revised Match! dialog
+  - added Explanation dialog
+
+  Charts:
+  - reviewed SGT and Ptplot
+
+WHAT'S NEXT:
+ 
+  o publish Fourier 3.0
+  o publish Optical Quantim Control 1.0
+  o start on something new
+
+ISSUES:
+
+  o none
+
+-- 

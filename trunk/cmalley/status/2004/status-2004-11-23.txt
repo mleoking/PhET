@@ -1,0 +1,29 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Sun 11/21/04 - Tues 11/23/04
+
+HOURS: 20.5 (6 + 11.5 + 3)
+
+ACCOMPLISHMENTS:
+
+  - completed change requests for Color Vision
+  - added orientation and scaling support to SpectrumSlider
+  - roll changes into phetcommon (branch and HEAD)
+  - test with phetcommon branch and HEAD
+  - bug fixes to phetcommon branch (PhetImageGraphic)
+  - set up versions in /htdocs/physics/phet/dev
+  - attended weekly PhET status meeting, demoed Color Vision
+  - Help proposal for Color Vision
+
+WHAT'S NEXT:
+ 
+  - work on a couple of Color Vision bug reports
+  - solidify Help requirements for Color Vision
+  - phetcommon changes for bounds/location/size
+
+ISSUES:
+
+  - I will out Wed-Sun for Thanksgiving holiday
+
+-- 

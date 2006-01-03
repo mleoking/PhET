@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 11/8/2004 - Sun 11/14/2004
+
+HOURS: 35.25 (7.5 + 2 + 7.5 + 8.25 + 7 + 2.5 + 0.5)
+
+ACCOMPLISHMENTS:
+
+  - meeting with Keith Danekind on Flash i18n
+  - work on Color Vision simulation, including:
+    o Ant build files
+    o test on Windows & Linux
+    o review meeting with Ron
+    o performance improvements
+    o make filter cull photons
+    o handle white light source correctly
+    o use ApparatusPanel2
+  - meeting on "phetcommon suggestions" with Ron & Sam
+
+WHAT'S NEXT:
+ 
+  - finish Color Vision simulation
+  - phetcommon work (PhetShapeGraphic setters/getters, PhetGraphic bounds/location/size)
+
+ISSUES:
+
+  - none
+
+-- 

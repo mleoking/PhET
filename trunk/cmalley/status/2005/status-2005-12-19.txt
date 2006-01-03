@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 12/13/05-12/19/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - published 0.0.3, 0.0.4
+  - implemented wave function solution for plane waves
+  - added sum/separate feature
+  - added wave direction feature
+  - added clock Restart feature
+  - create a custom clock to workaround phetcommon clock deficiencies
+  - overhauled the underlying model
+  - started work on Save/Load feature
+  
+  common code:
+  - revised all of my simulations after phetgraphics was separated from phetcommon
+  - discussed overhauling the simulation clock with Sam R.
+  - discovered the cause of Ron's "undecorated dialog" problem
+  
+  misc:
+  - worked on issues with CVS modules file
+  - provided feedback to Chris Keller on his "features of sims" doc
+  - pointer to "Exploratories" work being done a Brown University
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 
