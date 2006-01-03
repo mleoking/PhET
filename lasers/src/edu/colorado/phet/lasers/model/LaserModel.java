@@ -17,7 +17,10 @@ import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
@@ -64,6 +67,9 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
     private LaserElementProperties twoLevelProperties = new TwoLevelElementProperties();
     private LaserElementProperties threeLevelProperties = new ThreeLevelElementProperties();
     private LaserElementProperties currentElementProperties = twoLevelProperties;
+
+    // Replacement for behavior that was previously built into BaseModel
+    private SimpleObservable observable = new SimpleObservable() ;
 
     /**
      *
@@ -165,8 +171,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         collisionMechanism.addCollisionExpert( collisionExpert );
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
+    public void update( ClockEvent event ) {
+        super.update( event );
 
         // Check to see if any photons need to be taken out of the system
         numPhotons = 0;
@@ -183,7 +189,18 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
                 }
             }
         }
+
+        observable.notifyObservers();
     }
+
+    /**
+     * Added to make up for when BaseModel lost its SimpleObservable behavior
+     * @param observer
+     */
+    public void addObserver( SimpleObserver observer ) {
+        observable.addObserver( observer );
+    }
+
 
     //----------------------------------------------------------------
     // Getters and setters

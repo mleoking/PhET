@@ -11,9 +11,10 @@
 package edu.colorado.phet.lasers.help;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
@@ -36,9 +37,9 @@ public class WiggleMe {
     PhetGraphic graphic;
     ArrayList nodes = new ArrayList();
 
-    public WiggleMe( Rectangle bounds, AbstractClock clock, Point2D target, PhetGraphic graphic ) {
+    public WiggleMe( Rectangle bounds, IClock clock, Point2D target, PhetGraphic graphic ) {
         this.graphic = graphic;
-        clock.addClockTickListener( new TickListener() );
+        clock.addClockListener( new TickListener() );
         this.target = target;
 
         nodes.add( new Node( target, 1 ) );
@@ -97,9 +98,9 @@ public class WiggleMe {
         graphic.repaint();
     }
 
-    class TickListener implements ClockTickListener {
-        public void clockTicked( ClockTickEvent event ) {
-            update( event.getDt() );
+    class TickListener extends ClockAdapter {
+        public void clockTicked( ClockEvent event ) {
+            update( event.getSimulationTimeChange() );
         }
     }
 
