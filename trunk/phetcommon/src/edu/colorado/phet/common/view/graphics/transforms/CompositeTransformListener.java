@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class CompositeTransformListener implements TransformListener {
-    ArrayList listeners = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public void transformChanged( ModelViewTransform2D mvt ) {
         for( int i = 0; i < listeners.size(); i++ ) {

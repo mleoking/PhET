@@ -13,7 +13,7 @@ package edu.colorado.phet.common.util;
 import java.util.ArrayList;
 
 /**
- * SimpleObservable
+ * Simple implementation of the Observer pattern.
  *
  * @author ?
  * @version $Revision$
@@ -74,7 +74,7 @@ public class SimpleObservable {
     /**
      * Getter for Java Bean conformance
      *
-     * @return
+     * @return a reference to the list of observers.
      */
     public ArrayList getObserverList() {
         return observers;

@@ -119,7 +119,11 @@ public class RectangleUtils {
         }
         Rectangle union = (Rectangle)rectangles.remove( 0 );
         while( rectangles.size() > 0 ) {
-            union = union.union( (Rectangle)rectangles.remove( 0 ) );
+            Object r = rectangles.remove( 0 );
+            if( r != null ) {
+                // WORKAROUND: the list sometimes contains null objects
+               union = union.union( (Rectangle)r );
+            }
         }
         return union;
     }

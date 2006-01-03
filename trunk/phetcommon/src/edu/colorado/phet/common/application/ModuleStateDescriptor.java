@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 
 /**
  * ModuleStateDescriptor
@@ -23,10 +22,10 @@ public class ModuleStateDescriptor {
     private BaseModel model;
     private String moduleClassName;
 
-    public ModuleStateDescriptor() {
+    protected ModuleStateDescriptor() {
     }
 
-    protected ModuleStateDescriptor( Module module ) {
+    public ModuleStateDescriptor( Module module ) {
         setModel( module.getModel() );
         setModuleClassName( module.getClass().getName() );
     }
@@ -51,14 +50,15 @@ public class ModuleStateDescriptor {
 //        Module module = (Module)persistentObject;
 
         // Remove and clean up the current model
-        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
+//        IClock clock = PhetApplication.instance().getApplicationModel().getClock();
         BaseModel oldModel = module.getModel();
         oldModel.removeAllModelElements();
-        clock.removeClockTickListener( oldModel );
+//        clock.removeClockListener( oldModel );
 
         // Set up the restored model
         BaseModel newModel = this.getModel();
-        clock.addClockTickListener( newModel );
+//        clock.addClockListener( newModel );
         module.setModel( newModel );
+        module.activate();//todo test this
     }
 }

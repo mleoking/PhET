@@ -12,17 +12,16 @@ package edu.colorado.phet.common.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.Translatable;
 
 import java.awt.geom.Point2D;
 
 /**
- * Particle
+ * Default newtonian particle implementation (with Euler update).
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Particle extends SimpleObservable implements ModelElement, Translatable {
+public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();

@@ -14,7 +14,7 @@ package edu.colorado.phet.common.math;
 import java.util.Arrays;
 
 /**
- * MedianFilter
+ * Determines the median value of an array of numbers.
  *
  * @author Ron LeMaster
  * @version $Revision$

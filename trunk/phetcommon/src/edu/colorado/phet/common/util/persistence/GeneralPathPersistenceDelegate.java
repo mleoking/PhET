@@ -32,7 +32,6 @@ public class GeneralPathPersistenceDelegate extends DefaultPersistenceDelegate {
         desc.generate( out, path );
     }
 
-
     /////////////////////////////////
     // Inner classes
     //
@@ -98,7 +97,7 @@ public class GeneralPathPersistenceDelegate extends DefaultPersistenceDelegate {
                     case PathIterator.SEG_CUBICTO:
                         statementName = "curveTo";
                         parms = new Object[]{new Float( coords[0] ), new Float( coords[1] ), new Float( coords[2] ),
-                                             new Float( coords[3] ), new Float( coords[4] ), new Float( coords[5] )};
+                                new Float( coords[3] ), new Float( coords[4] ), new Float( coords[5] )};
                         break;
                     case PathIterator.SEG_LINETO:
                         statementName = "lineTo";
@@ -111,7 +110,7 @@ public class GeneralPathPersistenceDelegate extends DefaultPersistenceDelegate {
                     case PathIterator.SEG_QUADTO:
                         statementName = "quadTo";
                         parms = new Object[]{new Float( coords[0] ), new Float( coords[1] ), new Float( coords[2] ),
-                                             new Float( coords[3] )};
+                                new Float( coords[3] )};
                         break;
                 }
                 out.writeStatement( new Statement( path, statementName, parms ) );

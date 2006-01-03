@@ -12,7 +12,6 @@
 package edu.colorado.phet.common.application;
 
 import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Observes additions and removals of Modules, change in the active Module.
@@ -21,9 +20,24 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public interface ModuleObserver extends EventListener {
+    /**
+     * Invoked when a Module is added to a PhetApplication.
+     *
+     * @param event
+     */
     public void moduleAdded( ModuleEvent event );
 
-    public void activeModuleChanged(  ModuleEvent event );
+    /**
+     * Invoked when the active Module changed..
+     *
+     * @param event
+     */
+    public void activeModuleChanged( ModuleEvent event );
 
-    public void moduleRemoved(  ModuleEvent event );
+    /**
+     * Invoked when a Module is removed from the PhetApplication.
+     *
+     * @param event
+     */
+    public void moduleRemoved( ModuleEvent event );
 }

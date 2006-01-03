@@ -13,7 +13,7 @@ package edu.colorado.phet.common.model;
 import java.util.Vector;
 
 /**
- * CommandQueue
+ * A synchronized list of Commands to be executed in the BaseModel's update.
  *
  * @author ?
  * @version $Revision$

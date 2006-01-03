@@ -19,8 +19,6 @@ import java.util.EventListener;
 import java.util.List;
 
 /**
- * EventChannel
- * <p/>
  * A proxy that broadcasts method calls to registered objects that implement
  * a specified interface. The primary use of this class is for doing event firing/handling.
  * It eliminates the need for clients to manage lists of listeners, and iterate those lists
@@ -112,9 +110,9 @@ public class EventChannel implements InvocationHandler {
     }
 
     /**
-     * Returns the number of registered listeners
+     * Returns the number of registered listeners.
      *
-     * @return
+     * @return the number of registered listeners.
      */
     public int getNumListeners() {
         return targets.size();
@@ -133,7 +131,7 @@ public class EventChannel implements InvocationHandler {
     /**
      * Returns the interface for which this object acts as a proxy.
      *
-     * @return
+     * @return the interface Class
      */
     public Class getInterface() {
         return targetInterface;
@@ -142,7 +140,7 @@ public class EventChannel implements InvocationHandler {
     /**
      * Returns a reference to the proxy
      *
-     * @return
+     * @return the proxy
      */
     public Object getListenerProxy() {
         return proxy;
@@ -158,7 +156,7 @@ public class EventChannel implements InvocationHandler {
      * @param proxy
      * @param method
      * @param args
-     * @return
+     * @return the result of the invocation.
      * @throws Throwable
      */
     public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
@@ -172,8 +170,8 @@ public class EventChannel implements InvocationHandler {
         catch( InvocationTargetException ite ) {
             throw new InvocationTargetException( ite, "target = " + target );
         }
-        catch ( Throwable t ) {
-            System.out.println( "t = " + t  );
+        catch( Throwable t ) {
+            System.out.println( "t = " + t );
             throw new Throwable( t );
         }
         return null;

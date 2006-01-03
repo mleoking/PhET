@@ -58,7 +58,7 @@ public class BasicStrokePersistenceDelegate extends PersistenceDelegate {
                                    oldInstance.getClass(),
                                    "new",
                                    new Object[]{new Float( lineWidth ), new Integer( endCap ), new Integer( lineJoin ),
-                                                new Float( miterLimit ), dashArray, new Float( dashPhase )} );
+                                           new Float( miterLimit ), dashArray, new Float( dashPhase )} );
         }
 
     }

@@ -13,7 +13,7 @@ package edu.colorado.phet.common.math;
 import java.awt.geom.Point2D;
 
 /**
- * A class for 2-dimensional points expressed in polar coordinates
+ * A class for 2-dimensional points expressed in polar coordinates.
  */
 public class Point2DPolar {
     private double r;
@@ -21,7 +21,6 @@ public class Point2DPolar {
     private Point2D.Double utilPt = new Point2D.Double();
 
     /**
-     *
      * @param r
      * @param theta
      */
@@ -33,17 +32,17 @@ public class Point2DPolar {
     /**
      * Creates a Point2DPolar for a Point2D, assuming the origin of the polar coordinate
      * system is at the origin of the Point2D's cartesian coordinate system
+     *
      * @param cartCoords
      */
     public Point2DPolar( Point2D cartCoords ) {
-        this( cartCoords, 0, 0);
+        this( cartCoords, 0, 0 );
     }
 
     /**
-     *
      * @param cartCoords
      * @param polarOrigin The origin of the the polar coordinate space, expressed in
-     * cartesian coordinates
+     *                    cartesian coordinates
      */
     public Point2DPolar( Point2D cartCoords, Point2D polarOrigin ) {
         r = polarOrigin.distance( cartCoords );
@@ -53,7 +52,6 @@ public class Point2DPolar {
     }
 
     /**
-     *
      * @param cartCoords
      * @param polarOriginX
      * @param polarOriginY
@@ -63,9 +61,8 @@ public class Point2DPolar {
     }
 
     /**
-     *
      * @param polarOrigin
-     * @return
+     * @return the point2D
      */
     public Point2D.Double toPoint2D( Point2D polarOrigin ) {
         double x = polarOrigin.getX() + getR() * Math.cos( getTheta() );
@@ -74,15 +71,13 @@ public class Point2DPolar {
     }
 
     /**
-     *
-     * @return
+     * @return the distance from the origin
      */
     public double getR() {
         return r;
     }
 
     /**
-     *
      * @param r
      */
     public void setR( double r ) {
@@ -90,15 +85,13 @@ public class Point2DPolar {
     }
 
     /**
-     *
-     * @return
+     * @return the angle
      */
     public double getTheta() {
         return theta;
     }
 
     /**
-     *
      * @param theta
      */
     public void setTheta( double theta ) {
