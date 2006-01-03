@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -55,14 +55,14 @@ public class SingleAtomModule extends BaseLaserModule {
     private BeamControl pumpBeamControl;
     private BeamControl seedBeamControl;
 
-    public SingleAtomModule( AbstractClock clock ) {
+    public SingleAtomModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
         init();
     }
 
     public void reset() {
         super.reset();
-        deactivate( PhetApplication.instance() );
+        deactivate();
         setThreeEnergyLevels( false );
         laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
@@ -71,7 +71,7 @@ public class SingleAtomModule extends BaseLaserModule {
         laserControlPanel.setThreeEnergyLevels( false );
         setMirrorsEnabled( false );
         setDisplayHighLevelEmissions( false );
-        activate( PhetApplication.instance() );
+        activate();
 
         // Reset the energy levels
         TwoLevelElementProperties props = new TwoLevelElementProperties();
@@ -238,10 +238,10 @@ public class SingleAtomModule extends BaseLaserModule {
     }
 
     /**
-     * @param app
+     *
      */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate( );
 
         // TODO: This fixed a race condition that caused the module to come up in 3 energy levels sometimes.
         // This should either be fixed on its own, or revisited when the Discharge Lamps code is merged with Lasers
@@ -255,10 +255,10 @@ public class SingleAtomModule extends BaseLaserModule {
     }
 
     /**
-     * @param app
+     *
      */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
     }
 
     /**

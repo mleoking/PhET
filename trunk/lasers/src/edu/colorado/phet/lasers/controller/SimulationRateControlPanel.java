@@ -11,7 +11,10 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.Clock;
+import edu.colorado.phet.common.model.clock.TimeConverter;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -25,9 +28,9 @@ public class SimulationRateControlPanel extends JPanel {
 
     private JSlider simulationRateSlider;
     private JTextField simulationRateTF;
-    private AbstractClock clock;
+    private IClock clock;
 
-    public SimulationRateControlPanel( AbstractClock clock, int minValue, int maxValue, int defaultValue ) {
+    public SimulationRateControlPanel( IClock clock, int minValue, int maxValue, int defaultValue ) {
 
         this.clock = clock;
         simulationRateTF = new JTextField( 3 );
@@ -71,7 +74,7 @@ public class SimulationRateControlPanel extends JPanel {
 
     private void updateSimulationRate( double time ) {
 //    private void updateSimulationRate( float time ) {
-        clock.setDt( time );
+        ((Clock)clock).setTimeConverter(new TimeConverter.Constant( time ));
 //        new SetClockDtCmd( time ).doIt();
     }
 }

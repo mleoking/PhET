@@ -13,9 +13,9 @@ package edu.colorado.phet.lasers;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -39,7 +39,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LaserSimulation extends PhetApplication {
-    static AbstractClock clock = new SwingTimerClock( LaserConfig.DT, LaserConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
+    static IClock clock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
+//    static IClock clock = new SwingClock( LaserConfig.DT, LaserConfig.FPS, IClock.FRAMES_PER_SECOND );
     private JDialog photoDlg;
 
     public LaserSimulation( String[] args ) {
@@ -47,23 +48,10 @@ public class LaserSimulation extends PhetApplication {
                SimStrings.get( "LasersApplication.title" ),
                SimStrings.get( "LasersApplication.description" ),
                LaserConfig.VERSION,
-               clock,
-               true,
                new FrameSetup.CenteredWithSize( 1024, 750 ) );
 
         // Because we have JComponents on the apparatus panel, don't let the user resize the frame
         this.getPhetFrame().setResizable( false );
-
-        JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
-        photoBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( photoDlg == null ) {
-                    photoDlg = new PhotoWindow( getPhetFrame() );
-                }
-                photoDlg.setVisible( true );
-            }
-        } );
-        this.getPhetFrame().getClockControlPanel().add( photoBtn, BorderLayout.WEST );
 
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
@@ -75,7 +63,21 @@ public class LaserSimulation extends PhetApplication {
             multipleAtomModule
         };
         setModules( modules );
-        setInitialModule( singleAtomModule );
+//        setInitialModule( singleAtomModule );
+        
+        for( int i = 0; i < modules.length; i++ ) {
+            JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
+            photoBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( photoDlg == null ) {
+                        photoDlg = new PhotoWindow( getPhetFrame() );
+                    }
+                    photoDlg.setVisible( true );
+                }
+            } );
+            Module module = modules[i];
+            module.getClockControlPanel().add( photoBtn, BorderLayout.WEST );
+        }
 
         // Options menu
         createMenuItems();

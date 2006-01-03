@@ -14,7 +14,7 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpManager;
@@ -65,7 +65,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private PartialMirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
-    private PhetFrame appFrame;
     private LaserEnergyLevelMonitorPanel laserEnergyLevelsMonitorPanel;
     private Beam seedBeam;
     private Beam pumpingBeam;
@@ -97,7 +96,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     /**
      *
      */
-    public BaseLaserModule( String title, AbstractClock clock ) {
+    public BaseLaserModule( String title, IClock clock ) {
         super( title, clock );
         init();
     }
@@ -173,12 +172,11 @@ public class BaseLaserModule extends PhetGraphicsModule {
 //    }
 
     /**
-     * @param app
+     *
      */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate() {
+        super.activate();
         LaserPhoton.setStimulationBounds( cavity.getBounds() );
-        appFrame = app.getPhetFrame();
         // Needed to make the energy levels panel get its model-view transform right
         laserEnergyLevelsMonitorPanel.adjustPanel();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
@@ -187,10 +185,10 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     /**
-     * @param app
+     * 
      */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
         middleStateMeanLifetime = getLaserModel().getMiddleEnergyState().getMeanLifeTime();
         highStateMeanLifetime = getLaserModel().getHighEnergyState().getMeanLifeTime();
         powerMeter.setVisible( false );
@@ -206,7 +204,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
      * @param clock
      * @param frame
      */
-    protected void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
+    protected void createEnergyLevelsDialog( IClock clock, PhetFrame frame ) {
         laserEnergyLevelsMonitorPanel = new LaserEnergyLevelMonitorPanel( this, clock );
     }
 

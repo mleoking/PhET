@@ -12,7 +12,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -49,7 +49,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomModule( AbstractClock clock ) {
+    public MultipleAtomModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
 
         // Set the size of the cavity
@@ -141,7 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
     public void reset() {
         super.reset();
-        deactivate( PhetApplication.instance() );
+        deactivate( );
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
         laserControlPanel = new UniversalLaserControlPanel( this );
@@ -150,7 +150,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         laserControlPanel.setThreeEnergyLevels( true );
         setMirrorsEnabled( false );
         setDisplayHighLevelEmissions( false );
-        activate( PhetApplication.instance() );
+        activate( );
 
         // Reset the energy levels. We only need to get the states from one atom, since all atoms share the
         // same state objects
@@ -201,16 +201,16 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
+    public void activate( ) {
+        super.activate(  );
         super.setThreeEnergyLevels( true );
     }
 
     /**
      *
      */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
+    public void deactivate() {
+        super.deactivate();
     }
 
 

@@ -12,11 +12,11 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -49,7 +49,7 @@ import java.util.Set;
 public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements SimpleObserver,
                                                                           Beam.WavelengthChangeListener,
                                                                           Beam.RateChangeListener,
-                                                                          ClockStateListener {
+                                                                          ClockListener {
     private static final double LEVEL_GRAPHIC_LEVEL = 1E3;
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
@@ -91,7 +91,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headerOffsetY = 20;
     private int footerOffsetY = 10;
-    private AbstractClock clock;
+    private IClock clock;
 //    private AffineTransform seedLampAtx;
 //    private AffineTransform pumpLampAtx;
 //    private LampIcon pumpLampGraphic;
@@ -101,13 +101,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     /**
      *
      */
-    public LaserEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
+    public LaserEnergyLevelMonitorPanel( BaseLaserModule module, IClock clock ) {
 
         this.module = module;
         this.clock = clock;
         model = module.getLaserModel();
         model.addObserver( this );
-        clock.addClockStateListener( this );
+        clock.addClockListener( this );
         model.getPumpingBeam().addWavelengthChangeListener( this );
         model.getPumpingBeam().addRateChangeListener( this );
         model.getSeedBeam().addWavelengthChangeListener( this );
@@ -184,7 +184,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             // Don't add a lifetime adjustment slider for the ground state,
             if( i > 0 ) {
                 // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
-                int minLifetime = (int)clock.getDt() * 2;
+                int minLifetime = (int)clock.getSimulationTimeChange() * 2;
                 EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
                                                                         elg,
                                                                         LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
@@ -474,25 +474,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     }
 
     //----------------------------------------------------------------
-    // ClockStateListener implementation
+    // ClockListener implementation
     //----------------------------------------------------------------
 
-    /**
-     * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
-     * when the clock is running, the populations shown are averages over time, and if the clock is paused, we
-     * want the populations shown to agree with the actual number of atoms in each state.
-     *
-     * @param event
-     */
-    public void stateChanged( ClockStateEvent event ) {
-        if( event.getIsPaused() ) {
-            numGroundLevel = model.getNumGroundStateAtoms();
-            numMiddleLevel = model.getNumMiddleStateAtoms();
-            numHighLevel = model.getNumHighStateAtoms();
-            this.invalidate();
-            this.repaint();
-        }
-    }
 
     public void delayChanged( int waitTime ) {
     }
@@ -503,7 +487,36 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     public void threadPriorityChanged( int priority ) {
     }
 
+    public void clockTicked( ClockEvent clockEvent ) {
 
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+
+    }
+
+    /**
+     * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
+     * when the clock is running, the populations shown are averages over time, and if the clock is paused, we
+     * want the populations shown to agree with the actual number of atoms in each state.
+     *
+     * @param clockEvent
+     */
+    public void clockPaused( ClockEvent clockEvent ) {
+        numGroundLevel = model.getNumGroundStateAtoms();
+        numMiddleLevel = model.getNumMiddleStateAtoms();
+        numHighLevel = model.getNumHighStateAtoms();
+        this.invalidate();
+        this.repaint();
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
+
+    }
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------

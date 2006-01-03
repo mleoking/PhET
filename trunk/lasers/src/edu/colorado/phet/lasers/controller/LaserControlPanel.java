@@ -9,7 +9,7 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;

@@ -64,6 +64,7 @@ public class LaserPhoton extends Photon {
 
         // Keep the photon inside the cavity.
         // todo: if we get the photon graphic positioned better, this may change.
+
         double minY = stimulationBounds.getMinY() + Photon.RADIUS;
         double maxY = stimulationBounds.getMaxY();
         if( newY < minY || newY > maxY ) {

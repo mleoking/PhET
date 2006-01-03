@@ -11,10 +11,10 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -73,7 +73,6 @@ public class Kaboom implements ModelElement {
 
     private void kaboom() {
 
-        Random random = new Random();
         final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
 
         ResonatingCavity cavity = module.getCavity();
@@ -93,7 +92,7 @@ public class Kaboom implements ModelElement {
                                                   bounds, Color.white );
         ap.addGraphic( backgroundGraphic,
                        blackBacgroundLayer );
-        SwingTimerClock clock = new SwingTimerClock( 1, 40, AbstractClock.FRAMES_PER_SECOND );
+        SwingClock clock = new SwingClock( 1000 / 40, 1 );
 
 //        int numCols = 4;
 //        int tileWidth = (int)( bounds.getBeamWidth() / numCols );
@@ -129,7 +128,7 @@ public class Kaboom implements ModelElement {
 //        }
 
         // Add the flames
-        clock.doStart();
+        clock.start();
         Flames flames = new Flames( ap, clock );
         flames.setLocation( (int)cavity.getBounds().getMinX(), (int)cavity.getBounds().getMaxY() - flames.getHeight() );
         ap.addGraphic( flames, tileLayer - .5 );
@@ -178,7 +177,7 @@ public class Kaboom implements ModelElement {
     private class Flames extends PhetImageGraphic {
         FrameSequence frames;
 
-        protected Flames( final Component component, final AbstractClock clock ) {
+        protected Flames( final Component component, final IClock clock ) {
             super( component );
             try {
                 frames = new FrameSequence( "images/flames", 15 );
@@ -188,10 +187,10 @@ public class Kaboom implements ModelElement {
             }
             setImage( frames.getFrame( 0 ) );
 
-            clock.addClockTickListener( new ClockTickListener() {
-                public void clockTicked( ClockTickEvent event ) {
+            clock.addClockListener( new ClockAdapter() {
+                public void clockTicked( ClockEvent event ) {
                     if( frames.getCurrFrameNum() == ( frames.getNumFrames() - 1 ) ) {
-                        clock.removeClockTickListener( this );
+                        clock.removeClockListener( this );
                         ( (ApparatusPanel)component ).removeGraphic( Flames.this );
                     }
                     else {
