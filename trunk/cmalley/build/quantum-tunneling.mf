@@ -2,4 +2,4 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.shaper.ShaperApplication
 
-CVS-Tag: quantumtunneling-0-0-4-2005-12-19
+CVS-Tag: quantumtunneling-0-0-5-2006-01-02
