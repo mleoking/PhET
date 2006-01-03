@@ -4,9 +4,12 @@
  */
 package edu.colorado.phet.piccolo.pswing;
 
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -15,13 +18,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
-
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -109,30 +105,28 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
- * <b>ZSwing</b> is a Visual Component wrapper used to add
- * Swing Components to a Piccolo ZCanvas.
+ * <b>PSwing</b> is used to add Swing Components to a Piccolo canvas.
  * <p/>
- * Example: adding a swing JButton to a ZCanvas:
+ * Example: adding a swing JButton to a PCanvas:
  * <pre>
- *     ZCanvas canvas = new ZCanvas();
+ *     PSwingCanvas canvas = new PSwingCanvas();
  *     JButton button = new JButton("Button");
- *     swing = new ZSwing(canvas, button);
- *     leaf = new ZVisualLeaf(swing);
- *     canvas.getLayer().addChild(leaf);
+ *     swing = new PSwing(canvas, button);
+ *     canvas.getLayer().addChild(swing);
  * <pre>
  * <p/>
- * NOTE: ZSwing has the current limitation that it does not listen for
- *       Container events.  This is only an issue if you create a ZSwing
- *       and later add Swing components to the ZSwing's component hierarchy
+ * NOTE: PSwing has the current limitation that it does not listen for
+ *       Container events.  This is only an issue if you create a PSwing
+ *       and later add Swing components to the PSwing's component hierarchy
  *       that do not have double buffering turned off or have a smaller font
- *       size than the minimum font size of the original ZSwing's component
+ *       size than the minimum font size of the original PSwing's component
  *       hierarchy.
  * <p/>
  *       For instance, the following bit of code will give unexpected
  *       results:
  *       <pre>
  *            JPanel panel = new JPanel();
- *            ZSwing swing = new ZSwing(panel);
+ *            PSwing swing = new PSwing(panel);
  *            JPanel newChild = new JPanel();
  *            newChild.setDoubleBuffered(true);
  *            panel.add(newChild);
@@ -141,9 +135,9 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * NOTE: PSwing cannot be correctly interacted with through multiple cameras.
  * There is no support for it yet.
  * <p/>
- * NOTE: ZSwing is not properly ZSerializable, but it is java.io.Serializable.
+ * NOTE: PSwing is java.io.Serializable.
  * <p/>
- * <b>Warning:</b> Serialized and ZSerialized objects of this class will not be
+ * <b>Warning:</b> Serialized objects of this class will not be
  * compatible with future Piccolo releases. The current serialization support is
  * appropriate for short term storage or RMI between applications running the
  * same version of Piccolo. A future release of Piccolo will provide support for long
@@ -155,61 +149,42 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 public class PSwing extends PNode implements Serializable, PropertyChangeListener {
 
-    /**
-     * The cutoff at which the Swing component is rendered greek
-     */
-    protected double renderCutoff = 0.3;
-
-    /**
-     * The Swing component that this Visual Component wraps
-     */
-    protected JComponent component = null;
-
-    /**
-     * The minimum font size in the Swing hierarchy rooted at the component
-     */
-    protected double minFontSize = Double.MAX_VALUE;
-
-    /**
-     * The default stroke
-     */
-    protected transient Stroke defaultStroke = new BasicStroke();
-
-    /**
-     * The default font
-     */
-    protected Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
 
     /**
      * Used as a hashtable key for this object in the Swing component's
      * client properties.
      */
-    public static final String VISUAL_COMPONENT_KEY = "ZSwing";
-    private BufferedImage buffer;
+    public static final String PSWING_PROPERTY = "PSwing";
     private static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
-    private PSwingCanvas PSwingCanvas;
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
     private static boolean highQualityRender = false;
 
-    public static void setHighQualityRender( boolean highQuality ) {
-        highQualityRender = highQuality;
-    }
+    /**
+     * The cutoff at which the Swing component is rendered greek
+     */
+    private double renderCutoff = 0.3;
+    private JComponent component = null;
+    private double minFontSize = Double.MAX_VALUE;
+    private Stroke defaultStroke = new BasicStroke();
+    private Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
+    private BufferedImage buffer;
+    private PSwingCanvas pSwingCanvas;
 
     /**
      * Constructs a new visual component wrapper for the Swing component
      * and adds the Swing component to the SwingWrapper component of
-     * the ZCanvas
+     * the PCanvas
      *
      * @param canvas    The PSwingCanvas to which the Swing component will
      *                  be added
      * @param component The swing component to be wrapped
      */
     public PSwing( PSwingCanvas canvas, JComponent component ) {
-        this.PSwingCanvas = canvas;
+        this.pSwingCanvas = canvas;
         this.component = component;
-        component.putClientProperty( VISUAL_COMPONENT_KEY, this );
+        component.putClientProperty( PSWING_PROPERTY, this );
         init( component );
-        this.PSwingCanvas.getSwingWrapper().add( component );
+        this.pSwingCanvas.getSwingWrapper().add( component );
         component.revalidate();
         reshape();
     }
@@ -249,7 +224,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         g2.setFont( defaultFont );
 
         if( component.getParent() == null ) {
-            PSwingCanvas.getSwingWrapper().add( component );
+            pSwingCanvas.getSwingWrapper().add( component );
             component.revalidate();
         }
 
@@ -262,14 +237,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
 
     }
 
-    private boolean shouldRenderGreek( PPaintContext renderContext ) {
-        return ( getCompositeMagnification( renderContext ) < renderCutoff && PSwingCanvas.getInteracting() ) ||
-               minFontSize * getCompositeMagnification( renderContext ) < 0.5;
-    }
-
-    public double getCompositeMagnification( PPaintContext pPaintContext ) {
-        //renderContext.getCompositeMagnification()
-        return pPaintContext.getScale();
+    protected boolean shouldRenderGreek( PPaintContext renderContext ) {
+        return ( renderContext.getScale() < renderCutoff && pSwingCanvas.getInteracting() ) ||
+               minFontSize * renderContext.getScale() < 0.5;
     }
 
     /**
@@ -291,7 +261,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             g2.setColor( foreground );
         }
         g2.draw( rect );
-
     }
 
     /**
@@ -300,15 +269,16 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 The graphics on which to render the JComponent.
      */
     public void paint( Graphics2D g2 ) {
-        if ( component.getBounds().isEmpty() ) {
+        if( component.getBounds().isEmpty() ) {
             // The component has not been initialized yet.
             return;
         }
-        
+
         PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
         manager.lockRepaint( component );
-        
-        if( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight() ) {
+
+        if( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight() )
+        {
             buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB );
         }
         else {
@@ -341,8 +311,9 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     /**
      * Repaints the specified portion of this visual component
      * Note that the input parameter may be modified as a result of this call.
+     *
+     * @param repaintBounds
      */
-
     public void repaint( PBounds repaintBounds ) {
         Shape sh = getTransform().createTransformedShape( repaintBounds );
         TEMP_REPAINT_BOUNDS2.setRect( sh.getBounds2D() );
@@ -355,11 +326,11 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * updates the visual components copy of these bounds
      */
     public void computeBounds() {
-        if ( !component.getBounds().isEmpty() ) {
+        if( !component.getBounds().isEmpty() ) {
             Dimension d = component.getPreferredSize();
             getBoundsReference().setRect( 0, 0, d.getWidth(), d.getHeight() );
-            if ( !component.getSize().equals( d ) ) {
-                component.setBounds( 0, 0, (int) d.getWidth(), (int) d.getHeight() );
+            if( !component.getSize().equals( d ) ) {
+                component.setBounds( 0, 0, (int)d.getWidth(), (int)d.getHeight() );
             }
         }
     }
@@ -408,7 +379,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Listens for changes in font on components rooted at this ZSwing
+     * Listens for changes in font on components rooted at this PSwing
      */
     public void propertyChange( PropertyChangeEvent evt ) {
         if( component.isAncestorOf( (Component)evt.getSource() ) &&
@@ -420,5 +391,14 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         init( component );
+    }
+
+    /**
+     * Set high quality buffer rendering.
+     *
+     * @param highQuality
+     */
+    public static void setHighQualityRender( boolean highQuality ) {
+        highQualityRender = highQuality;
     }
 }

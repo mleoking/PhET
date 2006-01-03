@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
@@ -20,22 +19,16 @@ import java.awt.geom.Point2D;
 /**
  * Event handler to send MousePressed, MouseReleased, MouseMoved,
  * MouseClicked, and MouseDragged events on Swing components within
- * a ZCanvas
+ * a PCanvas.
  *
  * @author Ben Bederson
  * @author Lance Good
+ * @author Sam Reid
  */
 public class PSwingEventHandler implements PInputEventListener {
 
-    /**
-     * The node to listen to for events.
-     */
-    private PNode listenNode = null;
-
-    /**
-     * True when event handlers are set active.
-     */
-    private boolean active = false;
+    private PNode listenNode = null;  //used to listen to for events
+    private boolean active = false; //True when event handlers are set active.
 
     // The previous component - used to generate mouseEntered and
     // mouseExited events
@@ -54,10 +47,10 @@ public class PSwingEventHandler implements PInputEventListener {
     private PSwingCanvas canvas;
 
     /**
-     * Constructs a new ZSwingEventHandler for the given canvas,
+     * Constructs a new PSwingEventHandler for the given canvas,
      * and a node that will recieve the mouse events.
      *
-     * @param canvas the canvas associated with this ZSwingEventHandler.
+     * @param canvas the canvas associated with this PSwingEventHandler.
      * @param node   the node the mouse listeners will be attached to.
      */
     public PSwingEventHandler( PSwingCanvas canvas, PNode node ) {
@@ -66,13 +59,18 @@ public class PSwingEventHandler implements PInputEventListener {
     }
 
     /**
-     * Constructs a new ZSwingEventHandler for the given canvas.
+     * Constructs a new PSwingEventHandler for the given canvas.
      */
     public PSwingEventHandler( PSwingCanvas canvas ) {
         this.canvas = canvas;
     }
 
-    public void setActive( boolean active ) {
+    /**
+     * Sets whether this event handler can fire events.
+     *
+     * @param active
+     */
+    void setActive( boolean active ) {
         if( this.active && !active ) {
             if( listenNode != null ) {
                 this.active = false;
@@ -96,6 +94,14 @@ public class PSwingEventHandler implements PInputEventListener {
         return active;
     }
 
+    /**
+     * Finds the component at the specified location (must be showing).
+     *
+     * @param c
+     * @param x
+     * @param y
+     * @return the component at the specified location.
+     */
     private Component findShowingComponentAt( Component c, int x, int y ) {
         if( !c.contains( x, y ) ) {
             return null;
@@ -125,32 +131,35 @@ public class PSwingEventHandler implements PInputEventListener {
         return c;
     }
 
-    // Determines if any Swing components in Piccolo should
-    // receive the given MouseEvent and forwards the event to that
-    // component. However, mouseEntered
-    // and mouseExited are independent of the buttons
-    // Also, notice the notes on mouseEntered and mouseExited
-    void dispatchEvent( PSwingMouseEvent e1, PInputEvent aEvent ) {
-        PNode grabNode = null;
+    /**
+     * Determines if any Swing components in Piccolo
+     * should receive the given MouseEvent and
+     * forwards the event to that component.
+     * However, mouseEntered and mouseExited are independent of the buttons.
+     * Also, notice the notes on mouseEntered and mouseExited.
+     *
+     * @param pSwingMouseEvent
+     * @param aEvent
+     */
+    void dispatchEvent( PSwingMouseEvent pSwingMouseEvent, PInputEvent aEvent ) {
         Component comp = null;
         Point2D pt = null;
-        PNode currentNode = e1.getPath().getPickedNode();
+        PNode pickedNode = pSwingMouseEvent.getPath().getPickedNode();
 
         // The offsets to put the event in the correct context
         int offX = 0;
         int offY = 0;
 
-        PNode vc = e1.getCurrentNode();
-        PNode visualNode = currentNode;
+        PNode currentNode = pSwingMouseEvent.getCurrentNode();
 
-        if( vc instanceof PSwing ) {
+        if( currentNode instanceof PSwing ) {
 
-            PSwing swing = (PSwing)vc;
-            grabNode = visualNode;
+            PSwing swing = (PSwing)currentNode;
+            PNode grabNode = pickedNode;
 
             if( grabNode.isDescendentOf( canvas.getRoot() ) ) {
-                pt = new Point2D.Double( e1.getX(), e1.getY() );
-                cameraToLocal( e1.getPath().getTopCamera(), pt, grabNode );
+                pt = new Point2D.Double( pSwingMouseEvent.getX(), pSwingMouseEvent.getY() );
+                cameraToLocal( pSwingMouseEvent.getPath().getTopCamera(), pt, grabNode );
                 prevPoint = new Point2D.Double( pt.getX(), pt.getY() );
 
                 // This is only partially fixed to find the deepest
@@ -171,15 +180,15 @@ public class PSwingEventHandler implements PInputEventListener {
 
                 // Mouse Pressed gives focus - effects Mouse Drags and
                 // Mouse Releases
-                if( comp != null && e1.getID() == MouseEvent.MOUSE_PRESSED ) {
-                    if( SwingUtilities.isLeftMouseButton( e1 ) ) {
-                        leftButtonData.setState( swing, visualNode, comp, offX, offY );
+                if( comp != null && pSwingMouseEvent.getID() == MouseEvent.MOUSE_PRESSED ) {
+                    if( SwingUtilities.isLeftMouseButton( pSwingMouseEvent ) ) {
+                        leftButtonData.setState( swing, pickedNode, comp, offX, offY );
                     }
-                    else if( SwingUtilities.isMiddleMouseButton( e1 ) ) {
-                        middleButtonData.setState( swing, visualNode, comp, offX, offY );
+                    else if( SwingUtilities.isMiddleMouseButton( pSwingMouseEvent ) ) {
+                        middleButtonData.setState( swing, pickedNode, comp, offX, offY );
                     }
-                    else if( SwingUtilities.isRightMouseButton( e1 ) ) {
-                        rightButtonData.setState( swing, visualNode, comp, offX, offY );
+                    else if( SwingUtilities.isRightMouseButton( pSwingMouseEvent ) ) {
+                        rightButtonData.setState( swing, pickedNode, comp, offX, offY );
                     }
                 }
             }
@@ -188,43 +197,45 @@ public class PSwingEventHandler implements PInputEventListener {
         // This first case we don't want to give events to just
         // any Swing component - but to the one that got the
         // original mousePressed
-        if( e1.getID() == MouseEvent.MOUSE_DRAGGED ||
-            e1.getID() == MouseEvent.MOUSE_RELEASED ) {
+        if( pSwingMouseEvent.getID() == MouseEvent.MOUSE_DRAGGED ||
+            pSwingMouseEvent.getID() == MouseEvent.MOUSE_RELEASED ) {
 
             // LEFT MOUSE BUTTON
-            if( SwingUtilities.isLeftMouseButton( e1 ) && leftButtonData.getFocusedComponent() != null ) {
-                handleButton( e1, aEvent, leftButtonData );
+            if( SwingUtilities.isLeftMouseButton( pSwingMouseEvent ) && leftButtonData.getFocusedComponent() != null ) {
+                handleButton( pSwingMouseEvent, aEvent, leftButtonData );
             }
 
             // MIDDLE MOUSE BUTTON
-            if( SwingUtilities.isMiddleMouseButton( e1 ) && middleButtonData.getFocusedComponent() != null ) {
-                handleButton( e1, aEvent, middleButtonData );
+            if( SwingUtilities.isMiddleMouseButton( pSwingMouseEvent ) && middleButtonData.getFocusedComponent() != null )
+            {
+                handleButton( pSwingMouseEvent, aEvent, middleButtonData );
             }
 
             // RIGHT MOUSE BUTTON
-            if( SwingUtilities.isRightMouseButton( e1 ) && rightButtonData.getFocusedComponent() != null ) {
-                handleButton( e1, aEvent, rightButtonData );
+            if( SwingUtilities.isRightMouseButton( pSwingMouseEvent ) && rightButtonData.getFocusedComponent() != null )
+            {
+                handleButton( pSwingMouseEvent, aEvent, rightButtonData );
             }
         }
         // This case covers the cases mousePressed, mouseClicked,
         // and mouseMoved events
-        else if( ( e1.getID() == MouseEvent.MOUSE_PRESSED ||
-                   e1.getID() == MouseEvent.MOUSE_CLICKED ||
-                   e1.getID() == MouseEvent.MOUSE_MOVED ) &&
-                 ( comp != null ) ) {
+        else if( ( pSwingMouseEvent.getID() == MouseEvent.MOUSE_PRESSED ||
+                   pSwingMouseEvent.getID() == MouseEvent.MOUSE_CLICKED ||
+                   pSwingMouseEvent.getID() == MouseEvent.MOUSE_MOVED ) &&
+                                                                        ( comp != null ) ) {
 
             MouseEvent e_temp = new MouseEvent( comp,
-                                                e1.getID(),
-                                                e1.getWhen(),
-                                                e1.getModifiers(),
+                                                pSwingMouseEvent.getID(),
+                                                pSwingMouseEvent.getWhen(),
+                                                pSwingMouseEvent.getModifiers(),
                                                 (int)pt.getX() - offX,
                                                 (int)pt.getY() - offY,
-                                                e1.getClickCount(),
-                                                e1.isPopupTrigger() );
+                                                pSwingMouseEvent.getClickCount(),
+                                                pSwingMouseEvent.isPopupTrigger() );
 
             PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
             dispatchEvent( comp, e2 );
-            e1.consume();
+            pSwingMouseEvent.consume();
         }
 
         // Now we need to check if an exit or enter event needs to
@@ -234,26 +245,26 @@ public class PSwingEventHandler implements PInputEventListener {
             // This means mouseExited
 
             // This shouldn't happen - since we're only getting node events
-            if( comp == null || e1.getID() == MouseEvent.MOUSE_EXITED ) {
-                MouseEvent e_temp = createExitEvent( e1 );
+            if( comp == null || pSwingMouseEvent.getID() == MouseEvent.MOUSE_EXITED ) {
+                MouseEvent e_temp = createExitEvent( pSwingMouseEvent );
 
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 
                 dispatchEvent( prevComponent, e2 );
                 prevComponent = null;
 
-                if( e1.getID() == MouseEvent.MOUSE_EXITED ) {
-                    e1.consume();
+                if( pSwingMouseEvent.getID() == MouseEvent.MOUSE_EXITED ) {
+                    pSwingMouseEvent.consume();
                 }
             }
 
             // This means mouseExited prevComponent and mouseEntered comp
             else if( prevComponent != comp ) {
-                MouseEvent e_temp = createExitEvent( e1 );
+                MouseEvent e_temp = createExitEvent( pSwingMouseEvent );
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
                 dispatchEvent( prevComponent, e2 );
 
-                e_temp = createEnterEvent( comp, e1, offX, offY );
+                e_temp = createEnterEvent( comp, pSwingMouseEvent, offX, offY );
                 e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
                 comp.dispatchEvent( e2 );
             }
@@ -261,7 +272,7 @@ public class PSwingEventHandler implements PInputEventListener {
         else {
             // This means mouseEntered
             if( comp != null ) {
-                MouseEvent e_temp = createEnterEvent( comp, e1, offX, offY );
+                MouseEvent e_temp = createEnterEvent( comp, pSwingMouseEvent, offX, offY );
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
                 dispatchEvent( comp, e2 );
             }
@@ -293,25 +304,17 @@ public class PSwingEventHandler implements PInputEventListener {
     }
 
     private MouseEvent createEnterEvent( Component comp, PSwingMouseEvent e1, int offX, int offY ) {
-        return new MouseEvent( comp,
-                               MouseEvent.MOUSE_ENTERED,
-                               e1.getWhen(),
-                               0,
-                               (int)prevPoint.getX() - offX,
-                               (int)prevPoint.getY() - offY,
-                               e1.getClickCount(),
-                               e1.isPopupTrigger() );
+        return new MouseEvent( comp, MouseEvent.MOUSE_ENTERED,
+                               e1.getWhen(), 0,
+                               (int)prevPoint.getX() - offX, (int)prevPoint.getY() - offY,
+                               e1.getClickCount(), e1.isPopupTrigger() );
     }
 
     private MouseEvent createExitEvent( PSwingMouseEvent e1 ) {
-        return new MouseEvent( prevComponent,
-                               MouseEvent.MOUSE_EXITED,
-                               e1.getWhen(),
-                               0,
-                               (int)prevPoint.getX() - (int)prevOff.getX(),
-                               (int)prevPoint.getY() - (int)prevOff.getY(),
-                               e1.getClickCount(),
-                               e1.isPopupTrigger() );
+        return new MouseEvent( prevComponent, MouseEvent.MOUSE_EXITED,
+                               e1.getWhen(), 0,
+                               (int)prevPoint.getX() - (int)prevOff.getX(), (int)prevPoint.getY() - (int)prevOff.getY(),
+                               e1.getClickCount(), e1.isPopupTrigger() );
     }
 
     private void handleButton( PSwingMouseEvent e1, PInputEvent aEvent, ButtonData buttonData ) {
@@ -321,13 +324,10 @@ public class PSwingEventHandler implements PInputEventListener {
             cameraToLocal( e1.getPath().getTopCamera(), pt, buttonData.getPNode() );
             //todo this probably won't handle viewing through multiple cameras.
             MouseEvent e_temp = new MouseEvent( buttonData.getFocusedComponent(),
-                                                e1.getID(),
-                                                e1.getWhen(),
-                                                e1.getModifiers(),
+                                                e1.getID(), e1.getWhen(), e1.getModifiers(),
                                                 (int)pt.getX() - buttonData.getOffsetX(),
                                                 (int)pt.getY() - buttonData.getOffsetY(),
-                                                e1.getClickCount(),
-                                                e1.isPopupTrigger() );
+                                                e1.getClickCount(), e1.isPopupTrigger() );
 
             PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
             dispatchEvent( buttonData.getFocusedComponent(), e2 );
@@ -335,11 +335,8 @@ public class PSwingEventHandler implements PInputEventListener {
         else {
             dispatchEvent( buttonData.getFocusedComponent(), e1 );
         }
-
         //buttonData.getPSwing().repaint();  //Experiment with SliderExample (from Martin) suggests this line is unnecessary, and a serious problem in performance.
-
         e1.consume();
-
         if( e1.getID() == MouseEvent.MOUSE_RELEASED ) {
             buttonData.mouseReleased();
         }
@@ -368,11 +365,17 @@ public class PSwingEventHandler implements PInputEventListener {
         return;
     }
 
+    /**
+     * Process a piccolo event and (if active) dispatch the corresponding Swing event.
+     *
+     * @param aEvent
+     * @param type
+     */
     public void processEvent( PInputEvent aEvent, int type ) {
-        if (!(EventQueue.getCurrentEvent() instanceof MouseEvent)){
-            new Exception("EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.  Actual event: "+EventQueue.getCurrentEvent()+", class="+EventQueue.getCurrentEvent().getClass().getName()).printStackTrace( );
+        if( !( EventQueue.getCurrentEvent() instanceof MouseEvent ) ) {
+            new Exception( "EventQueue.getCurrentEvent was not a MouseEvent, consider making PInputEvent.getSourceSwingEvent public.  Actual event: " + EventQueue.getCurrentEvent() + ", class=" + EventQueue.getCurrentEvent().getClass().getName() ).printStackTrace();
         }
-        if( aEvent.isMouseEvent() &&EventQueue.getCurrentEvent() instanceof MouseEvent) {
+        if( aEvent.isMouseEvent() && EventQueue.getCurrentEvent() instanceof MouseEvent ) {
             MouseEvent sourceSwingEvent = (MouseEvent)EventQueue.getCurrentEvent();
             PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( sourceSwingEvent.getID(), sourceSwingEvent, aEvent );
             if( !recursing ) {

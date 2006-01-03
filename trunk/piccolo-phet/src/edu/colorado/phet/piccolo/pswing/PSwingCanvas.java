@@ -16,38 +16,50 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jul 12, 2005
- * Time: 8:47:08 AM
- * Copyright (c) Jul 12, 2005 by Sam Reid
+ * The <b>PSwingCanvas</b> is a PCanvas that can display Swing components with the PSwing adapter.
+ *
+ * @author Benjamin B. Bederson
+ * @author Sam R. Reid
+ * @author Lance E. Good
  */
 
 public class PSwingCanvas extends PCanvas {
     public static final String SWING_WRAPPER_KEY = "Swing Wrapper";
+    private static PSwingRepaintManager pSwingRepaintManager = new PSwingRepaintManager();
 
-    private JComponent swingWrapper = new SwingWrapper();
-    private static PSwingRepaintManager PSwingRepaintManager = new PSwingRepaintManager();
+    private SwingWrapper swingWrapper;
     private PSwingEventHandler swingEventHandler;
 
-    public static class SwingWrapper extends JComponent {
-        public SwingWrapper() {
-            setSize( new Dimension( 0, 0 ) );
-            setPreferredSize( new Dimension( 0, 0 ) );
-            putClientProperty( SWING_WRAPPER_KEY, SWING_WRAPPER_KEY );
-        }
-    }
-
+    /**
+     * Construct a new PSwingCanvas.
+     */
     public PSwingCanvas() {
+        swingWrapper = new SwingWrapper( this );
         add( swingWrapper );
-        RepaintManager.setCurrentManager( PSwingRepaintManager );
-        PSwingRepaintManager.add( swingWrapper );
+        RepaintManager.setCurrentManager( pSwingRepaintManager );
+        pSwingRepaintManager.addPSwingCanvas( this );
 
         swingEventHandler = new PSwingEventHandler( this, getCamera() );//todo or maybe getCameraLayer() or getRoot()?
         swingEventHandler.setActive( true );
     }
 
-    public JComponent getSwingWrapper() {
+    JComponent getSwingWrapper() {
         return swingWrapper;
+    }
+
+    static class SwingWrapper extends JComponent {
+        private PSwingCanvas pSwingCanvas;
+
+        public SwingWrapper( PSwingCanvas pSwingCanvas ) {
+            this.pSwingCanvas = pSwingCanvas;
+            setSize( new Dimension( 0, 0 ) );
+            setPreferredSize( new Dimension( 0, 0 ) );
+            putClientProperty( SWING_WRAPPER_KEY, SWING_WRAPPER_KEY );
+        }
+
+        public PSwingCanvas getpSwingCanvas() {
+            return pSwingCanvas;
+        }
     }
 
 }

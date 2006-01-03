@@ -1,14 +1,11 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo.pswing;
 
 import edu.colorado.phet.piccolo.pswing.PComboBox;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
-import edu.colorado.phet.tests.piccolo.TestWiggleMe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.P3DRect;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -28,7 +25,7 @@ import java.awt.event.ActionListener;
 public class TestPSwing {
     public static void main( String[] args ) {
         PSwingCanvas pCanvas = new PSwingCanvas();
-        final PText pText = new PText( "Hello PhET\nTesting" );
+        final PText pText = new PText( "PText" );
         pCanvas.getLayer().addChild( pText );
         JFrame frame = new JFrame( "Test Piccolo" );
 
@@ -44,11 +41,6 @@ public class TestPSwing {
         text2.addInputEventListener( new PZoomEventHandler() );
 
         pCanvas.removeInputEventListener( pCanvas.getPanEventHandler() );
-
-        P3DRect child = new P3DRect( 0, 0, 30, 30 );
-        child.setRaised( true );
-        child.setPaint( Color.green );
-        pText.addChild( child );
 
         JButton jButton = new JButton( "MyButton!" );
         jButton.addActionListener( new ActionListener() {
@@ -126,7 +118,6 @@ public class TestPSwing {
         root.rotate( Math.PI / 4 );
         root.translate( 300, 200 );
         pCanvas.getLayer().addChild( root );
-
 
         String[] listItems = {"Summer Teeth", "Mermaid Avenue", "Being There", "A.M."};
         PComboBox box = new PComboBox( listItems );

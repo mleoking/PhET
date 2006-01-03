@@ -13,176 +13,165 @@ package edu.colorado.phet.piccolo;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
- * Arranges graphics in terms of Layers.  Each Layer contains a world node and a screen node (on top).
- * This should allow the user to interleave world and screen graphics arbitrarily.
+ * Arranges graphics into screen and world graphics,
+ * which may have separate transforms, and may
+ * be interleaved.
  */
 
 public class PhetRootPNode extends PNode {
-    private Layer defaultLayer;
-    private ArrayList layers = new ArrayList();
+    private PNode worldNode = new PNode();//used for storing the transform only, nodes are not added to this
+    private PNode screenNode = new PNode();//used for storing the transform only, nodes are not added to this
 
+    /**
+     * This override of indexOfChild gets the index of the child, first directly, then in the world, then in the screen.
+     *
+     * @param child
+     * @return the index.
+     */
+    public int indexOfChild( PNode child ) {
+        int index = super.indexOfChild( child );
+        if( index >= 0 ) {
+            return index;
+        }
+        index = super.indexOfChild( new WorldChild( child ) );
+        if( index >= 0 ) {
+            return index;
+        }
+        index = super.indexOfChild( new ScreenChild( child ) );
+        if( index >= 0 ) {
+            return index;
+        }
+        return -1;
+    }
+
+    /**
+     * Adds the child as a screen child.
+     *
+     * @param screenChild
+     */
+    public void addScreenChild( PNode screenChild ) {
+        ScreenChild child = new ScreenChild( screenChild );
+        child.setTransform( screenNode.getTransform() );
+        addChild( child );
+    }
+
+    /**
+     * Adds the child to the world.
+     *
+     * @param worldChild
+     */
+    public void addWorldChild( PNode worldChild ) {
+        WorldChild child = new WorldChild( worldChild );
+        child.setTransform( worldNode.getTransform() );
+        addChild( child );
+    }
+
+    private ArrayList getChildren( Class type ) {
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if( type.isAssignableFrom( child.getClass() ) ) {
+                list.add( child );
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Translates all world node containers.
+     *
+     * @param dx
+     * @param dy
+     */
     public void translateWorld( double dx, double dy ) {
-        for( int i = 0; i < layers.size(); i++ ) {
-            Layer layer = (Layer)layers.get( i );
-            layer.getWorldNode().translate( dx, dy );
-        }
+        worldNode.translate( dx, dy );
+        updateWorldNodes();
     }
 
-    public void setWorldOffset( double dx, double dy ) {
-        for( int i = 0; i < layers.size(); i++ ) {
-            Layer layer = (Layer)layers.get( i );
-            layer.setOffset( dx, dy );
-        }
-
-    }
-
+    /**
+     * Scales all world node containers about the specified point.
+     *
+     * @param scale
+     * @param point
+     */
     public void scaleWorldAboutPoint( double scale, Point2D point ) {
-        for( int i = 0; i < layers.size(); i++ ) {
-            Layer layer = (Layer)layers.get( i );
-            layer.getWorldNode().scaleAboutPoint( scale, point );
+        worldNode.scaleAboutPoint( scale, point );
+        updateWorldNodes();
+    }
+
+    private ArrayList getWorldChildren() {
+        return getChildren( WorldChild.class );
+    }
+
+    /**
+     * Sets the world node container transforms.
+     *
+     * @param worldTransform
+     */
+    public void setWorldTransform( AffineTransform worldTransform ) {
+        worldNode.setTransform( worldTransform );
+        updateWorldNodes();
+    }
+
+    protected void updateWorldNodes() {
+        ArrayList worldChildren = getWorldChildren();
+        for( int i = 0; i < worldChildren.size(); i++ ) {
+            PNode node = (PNode)worldChildren.get( i );
+            node.setTransform( worldNode.getTransformReference( true ) );
         }
     }
 
-    public static class Layer extends PNode {
-        private PNode worldNode;
-        private PNode screenNode;
-
-        public Layer() {
-            this.worldNode = new PNode();
-            this.screenNode = new PNode();
-            correctChildren();
-        }
-
-        private void correctChildren() {
-            removeAllChildren();
-
-            addChild( worldNode );
-            addChild( screenNode );
-        }
-
-        public PNode getWorldNode() {
-            return worldNode;
-        }
-
-        public void setWorldNode( PNode worldNode ) {
-            removeChild( this.worldNode );
-            this.worldNode = worldNode;
-            correctChildren();
-        }
-
-        public PNode getScreenNode() {
-            return screenNode;
-        }
-
-        public void setScreenNode( PNode screenNode ) {
-            removeChild( this.screenNode );
-            this.screenNode = screenNode;
-            correctChildren();
-        }
-
-        public void setWorldScale( double scale ) {
-            worldNode.scale( scale / worldNode.getGlobalScale() );
-        }
-
-        public void setContainsScreenNode( boolean b ) {
-
-            if( b && !containsScreenNode() ) {
-                addChild( screenNode );
-            }
-            else if( !b ) {
-                removeChild( screenNode );
-            }
-        }
-
-        public boolean containsScreenNode() {
-            return getChildrenReference().contains( screenNode );
-        }
-
-        public void setWorldTransform( AffineTransform transform ) {
-            worldNode.setTransform( transform );
-        }
+    /**
+     * Converts the specified point from global to world coordinates.
+     *
+     * @param point
+     */
+    public void globalToWorld( Point2D point ) {
+        worldNode.globalToLocal( point );
     }
 
-    public PhetRootPNode() {
-        defaultLayer = new Layer();
-        addLayer( defaultLayer );
+    public void worldToScreen( Point2D pt ) {
+        worldNode.localToGlobal( pt );
+        screenNode.globalToLocal( pt );
     }
 
-    public Layer layerAt( int i ) {
-        return (Layer)layers.get( i );
-    }
-
-    public Layer addLayer() {
-        Layer layer = new Layer();
-        addLayer( layer );
-        return layer;
-    }
-
-    public void addLayer( Layer layer ) {
-        addChild( layer );
-        layers.add( layer );
-    }
-
-    public void addLayer( Layer layer, int index ) {
-        addChild( index, layer );
-        layers.add( index, layer );
-    }
-
-    public PNode getWorldNode() {
-        return defaultLayer.getWorldNode();
-    }
-
-    public PNode getScreenNode() {
-        return defaultLayer.getScreenNode();
-    }
-
-    public void setWorldTransform( AffineTransform transform ) {
-        for( int i = 0; i < layers.size(); i++ ) {
-            Layer layer = (Layer)layers.get( i );
-            layer.setWorldTransform( transform );
-        }
+    public void screenToWorld( Dimension2D dim ) {
+        screenNode.localToGlobal( dim );
+        worldNode.globalToLocal( dim );
     }
 
     public void setWorldScale( double scale ) {
-        for( int i = 0; i < layers.size(); i++ ) {
-            Layer layer = (Layer)layers.get( i );
-            layer.setWorldScale( scale );
+        worldNode.setScale( scale );
+        updateWorldNodes();
+    }
+
+    private static class WrapperNode extends PNode {
+        private PNode node;
+
+        public WrapperNode( PNode node ) {
+            this.node = node;
+            addChild( node );
+        }
+
+        public boolean equals( Object obj ) {
+            return obj instanceof WrapperNode && ( (WrapperNode)obj ).node == node;
         }
     }
 
-    public void addWorldChild( int layer, PNode graphic ) {
-        defaultLayer.getWorldNode().addChild( layer, graphic );
+    private static class ScreenChild extends WrapperNode {
+        public ScreenChild( PNode node ) {
+            super( node );
+        }
     }
 
-    public void addWorldChild( PNode graphic ) {
-        defaultLayer.getWorldNode().addChild( graphic );
-    }
-
-    public void removeWorldChild( PNode graphic ) {
-        defaultLayer.getWorldNode().removeChild( graphic );
-    }
-
-    public void addScreenChild( PNode node ) {
-        defaultLayer.getScreenNode().addChild( node );
-    }
-
-    public void removeScreenChild( PNode node ) {
-        defaultLayer.getScreenNode().removeChild( node );
-    }
-
-    public void setContainsScreenNode( boolean b ) {
-        defaultLayer.setContainsScreenNode( b );
-    }
-
-    public boolean containsScreenNode() {
-        return defaultLayer.containsScreenNode();
-    }
-
-    public void setScreenNode( PNode screenNode ) {
-        defaultLayer.setScreenNode( screenNode );
+    private static class WorldChild extends WrapperNode {
+        public WorldChild( PNode node ) {
+            super( node );
+        }
     }
 }

@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo.pswing;
 
 import edu.colorado.phet.piccolo.pswing.PSwing;
@@ -32,7 +31,7 @@ public class TestPSwingFull extends JFrame {
         PSwingCanvas canvas;
 
         // Set up basic frame
-        setBounds( 100, 100, 400, 400 );
+        setBounds( 50, 50, 750, 750 );
         setResizable( true );
         setBackground( null );
         setVisible( true );
@@ -43,7 +42,7 @@ public class TestPSwingFull extends JFrame {
         loader = getClass().getClassLoader();
 
         ZVisualLeaf leaf;
-        ZTransformGroup transform;
+        PNode transform;
         PSwing swing;
         PSwing swing2;
 
@@ -52,7 +51,7 @@ public class TestPSwingFull extends JFrame {
         button.setCursor( Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR ) );
         swing = new PSwing( canvas, button );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -500, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -62,14 +61,14 @@ public class TestPSwingFull extends JFrame {
         spinner.setCursor( Cursor.getPredefinedCursor( Cursor.CROSSHAIR_CURSOR ) );
         swing = new PSwing( canvas, spinner );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -800, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
 
         // 2nd Copy of JButton
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -450, -450 );
         transform.rotate( Math.PI / 2 );
         transform.scale( 0.5 );
@@ -81,7 +80,7 @@ public class TestPSwingFull extends JFrame {
         textArea.setBorder( new LineBorder( Color.blue, 3 ) );
         swing = new PSwing( canvas, textArea );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -250, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -90,7 +89,7 @@ public class TestPSwingFull extends JFrame {
         JTextField textField = new JTextField( "A growable text field" );
         swing = new PSwing( canvas, textField );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 0, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -99,7 +98,7 @@ public class TestPSwingFull extends JFrame {
         JSlider slider = new JSlider();
         swing = new PSwing( canvas, slider );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 250, -500 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -111,7 +110,7 @@ public class TestPSwingFull extends JFrame {
         p.setPreferredSize( new Dimension( 150, 150 ) );
         swing = new PSwing( canvas, p );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -500, -250 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -121,8 +120,7 @@ public class TestPSwingFull extends JFrame {
         pane.setPreferredSize( new Dimension( 150, 150 ) );
         swing = new PSwing( canvas, pane );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
-        transform.setHasOneChild( true );
+        transform = new PNode();
         transform.translate( -250, -250 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -136,7 +134,7 @@ public class TestPSwingFull extends JFrame {
         panel.add( textField );
         swing = new PSwing( canvas, panel );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 0, -250 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -146,7 +144,7 @@ public class TestPSwingFull extends JFrame {
 //        ZComboBox box = new ZComboBox( listItems );
 //        swing = new PSwing( canvas, box );
 //        leaf = new ZVisualLeaf( swing );
-//        transform = new ZTransformGroup();
+//        transform = new PNode();
 //        transform.translate( 0, -150 );
 //        transform.addChild( leaf );
 //        canvas.getLayer().addChild( transform );
@@ -168,7 +166,7 @@ public class TestPSwingFull extends JFrame {
         panel.add( list );
         swing = new PSwing( canvas, panel );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 250, -250 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -178,15 +176,14 @@ public class TestPSwingFull extends JFrame {
 
         swing = new PSwing( canvas, label );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -500, 0 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
 
         // Rotated copy of the Scrollable JTextArea
         leaf = new ZVisualLeaf( swing2 );
-        transform = new ZTransformGroup();
-        transform.setHasOneChild( true );
+        transform = new PNode();
         transform.translate( -100, 0 );
         transform.rotate( Math.PI / 2 );
         transform.addChild( leaf );
@@ -210,7 +207,7 @@ public class TestPSwingFull extends JFrame {
         panel.revalidate();
         swing = new PSwing( canvas, panel );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 0, 0 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -280,7 +277,7 @@ public class TestPSwingFull extends JFrame {
         table.setDoubleBuffered( false );
         swing = new PSwing( canvas, pane );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 250, 0 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -309,7 +306,7 @@ public class TestPSwingFull extends JFrame {
             } );
             swing = new PSwing( canvas, pane );
             leaf = new ZVisualLeaf( swing );
-            transform = new ZTransformGroup();
+            transform = new PNode();
             transform.translate( -500, 250 );
             transform.addChild( leaf );
             canvas.getLayer().addChild( transform );
@@ -369,7 +366,7 @@ public class TestPSwingFull extends JFrame {
         iframe.getContentPane().add( split );
         swing = new PSwing( canvas, iframe );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( 0, 250 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -390,7 +387,7 @@ public class TestPSwingFull extends JFrame {
         JCheckBox chooser = new JCheckBox( "Check Box" );
         swing = new PSwing( canvas, chooser );
         leaf = new ZVisualLeaf( swing );
-        transform = new ZTransformGroup();
+        transform = new PNode();
         transform.translate( -250, 850 );
         transform.addChild( leaf );
         canvas.getLayer().addChild( transform );
@@ -398,6 +395,12 @@ public class TestPSwingFull extends JFrame {
         // Revalidate and repaint
         canvas.revalidate();
         canvas.repaint();
+
+        PSwing message = new PSwing( canvas, new JTextArea( "Click-drag to zoom in and out." ) );
+        message.translate( 0, -50 );
+        canvas.getLayer().addChild( message );
+
+        canvas.getCamera().animateViewToCenterBounds( message.getFullBounds(), false, 1200 );
     }
 
     public static void main( String[] args ) {
@@ -405,16 +408,8 @@ public class TestPSwingFull extends JFrame {
     }
 
     public static class ZVisualLeaf extends PNode {
-
         public ZVisualLeaf( PNode node ) {
             addChild( node );
-        }
-    }
-
-    public static class ZTransformGroup extends PNode {
-
-        public void setHasOneChild( boolean b ) {
-
         }
     }
 
