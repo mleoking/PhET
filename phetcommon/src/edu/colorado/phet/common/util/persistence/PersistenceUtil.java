@@ -34,7 +34,7 @@ public class PersistenceUtil {
         JMenuItem mi2 = new JMenuItem( "Restore state" );
         mi2.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetApplication.instance().getModuleManager().restoreState( "/temp/ttt.xml" );
+                PhetApplication.instance().restoreState( "/temp/ttt.xml" );
             }
         } );
         application.getPhetFrame().addFileMenuItem( mi2 );
@@ -42,7 +42,7 @@ public class PersistenceUtil {
         JMenuItem mi = new JMenuItem( "Save state" );
         mi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetApplication.instance().getModuleManager().saveState( "/temp/ttt.xml" );
+                PhetApplication.instance().saveState( "/temp/ttt.xml" );
             }
         } );
         application.getPhetFrame().addFileMenuItem( mi );

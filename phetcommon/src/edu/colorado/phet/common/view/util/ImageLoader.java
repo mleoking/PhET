@@ -10,28 +10,23 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import java.awt.Container;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
 /**
- * User: University of Colorado, PhET
- * Date: Apr 16, 2003
- * Time: 9:34:20 AM
+ * Utility class for loading images.
+ * <p/>
  * Copyright (c) Apr 16, 2003 by University of Colorado, PhET
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

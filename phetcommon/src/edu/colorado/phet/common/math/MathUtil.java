@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
- * A class of static general purpose math utilities
+ * A class of static general purpose math utilities.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -26,7 +26,8 @@ public class MathUtil {
 
     /**
      * Returns a pseudo-randomly distributed +1 or -1
-     * @return
+     *
+     * @return the next number
      */
     public static int nextRandomSign() {
         return random.nextBoolean() ? 1 : -1;
@@ -37,7 +38,7 @@ public class MathUtil {
      *
      * @param number
      * @param base
-     * @return
+     * @return the log
      */
     public static double logBaseX( double number, double base ) {
         return Math.log( number ) / Math.log( base );
@@ -184,13 +185,11 @@ public class MathUtil {
     public static Point2D reflectPointAcrossLine( Point2D p, Point2D ptOnLine, double lineAngle ) {
 
         double alpha = lineAngle % ( Math.PI * 2 );
-        Point2D l = ptOnLine;
-        double gamma = Math.atan2( ( p.getY() - l.getY() ), ( p.getX() - l.getX() ) ) % ( Math.PI * 2 );
+        double gamma = Math.atan2( ( p.getY() - ptOnLine.getY() ), ( p.getX() - ptOnLine.getX() ) ) % ( Math.PI * 2 );
         double theta = ( 2 * alpha - gamma ) % ( Math.PI * 2 );
-        double d = p.distance( l );
-        Point2D.Double e = new Point2D.Double( l.getX() + d * Math.cos( theta ),
-                                               l.getY() + d * Math.sin( theta ) );
-        return e;
+        double d = p.distance( ptOnLine );
+        return new Point2D.Double( ptOnLine.getX() + d * Math.cos( theta ),
+                                   ptOnLine.getY() + d * Math.sin( theta ) );
     }
 
     /**
@@ -433,7 +432,6 @@ public class MathUtil {
     }
 
 
-
     /**
      * This class manages a running average.
      */
@@ -480,4 +478,5 @@ public class MathUtil {
             sum = 0;
             num = 0;
         }
-    }}
+    }
+}

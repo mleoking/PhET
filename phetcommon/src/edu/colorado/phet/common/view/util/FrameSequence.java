@@ -114,10 +114,10 @@ public class FrameSequence {
         return frames.length;
     }
 
-
     //
     // Static fields and methods
     //
+
     /**
      *
      */

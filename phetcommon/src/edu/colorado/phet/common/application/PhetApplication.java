@@ -11,41 +11,27 @@
 
 package edu.colorado.phet.common.application;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
- * The top-level class for all PhET applications.
+ * The top-level class for PhET applications.
  * <p/>
  * The prefered method of creating and starting a PhetApplication is shown here:
  * <code>
- * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version,
- * clock, useClockControlPanel, frameSetup );
- * myApp.setModules( new Module[] { modA, modB };
- * myApp.startApplication();
+ * <br>
+ * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version, frameSetup );<br>
+ * myApp.addModule(module1);<br>
+ * myApp.addModule(module2);<br>
+ * myApp.addModule(module3);<br>
+ * myApp.startApplication();<br>
  * </code>
  * <p/>
- * The application's PhetFrame is created by the constructor, and a new one will be created
- * if createPhetFrame() is called later.
- * <p/>
- * A FrameSetup can either be specified in the constructor
- * or later, in a call to createPhetFrame().
- * <p/>
- * If no initial module is specified, the module with index 0 in the array sent
- * to setModules() is used.
  *
  * @author ?
  * @version $Revision$
@@ -56,111 +42,95 @@ public class PhetApplication {
     // Class data
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
-    private static PhetApplication s_instance = null;
-    private static ArrayList listeners = new ArrayList();
+    private static PhetApplication latestInstance = null;
+    private static ArrayList phetApplications = new ArrayList();
 
+    /**
+     * Get the last created PhetApplication.
+     *
+     * @return last created PhetApplication.
+     */
     public static PhetApplication instance() {
-        return s_instance;
+        return latestInstance;
+    }
+
+    /**
+     * Get all created PhetApplications.
+     *
+     * @return all created PhetApplications.
+     */
+    public static PhetApplication[] instances() {
+        return (PhetApplication[])phetApplications.toArray( new PhetApplication[0] );
     }
 
     //----------------------------------------------------------------
     // Instance data and methods
     //----------------------------------------------------------------
 
-    private PhetFrame phetFrame;
-    private ApplicationModel applicationModel;
-    private ModuleManager moduleManager;
     private String title;
-    private Module initialModule;
-    private AbstractClock clock;
     private String description;
     private String version;
-    private boolean useClockControlPanel;
-    private JDialog startupDlg;
+
+    private PhetFrame phetFrame;
+    private ModuleManager moduleManager;
+
+    private SplashWindow splashWindow;
 
     /**
-     * @param args                 Command line args
-     * @param title                Title that appears in the frame and the About dialog
-     * @param description          Appears in the About dialog
-     * @param version              Appears in the About dialog
-     * @param clock                Simulation clock
-     * @param useClockControlPanel Whether clock control panel appears at bottom of window
-     * @param frameSetup           Defines the size and location of the frame
+     * Initialize a PhetApplication with a default FrameSetup.
+     *
+     * @param args        Command line args
+     * @param title       Title that appears in the frame and the About dialog
+     * @param description Appears in the About dialog
+     * @param version     Appears in the About dialog
      */
-    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel, FrameSetup frameSetup ) {
+    public PhetApplication( String[] args, String title, String description, String version ) {
+        this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
+    }
 
+    /**
+     * Initialize a PhetApplication.
+     *
+     * @param args        Command line args
+     * @param title       Title that appears in the frame and the About dialog
+     * @param description Appears in the About dialog
+     * @param version     Appears in the About dialog
+     * @param frameSetup  Defines the size and location of the frame
+     */
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+        // Put up a dialog that lets the user know that the simulation is starting up
+        showSplashWindow( title );
 
-        s_instance = this;
-        this.moduleManager = new ModuleManager( this );
+        latestInstance = this;
+        phetApplications.add( this );
+
         this.title = title;
-        this.clock = clock;
         this.description = description;
         this.version = version;
-        this.useClockControlPanel = useClockControlPanel;
-        createPhetFrame( frameSetup );
 
-        // Put up a dialog that lets the user know that the simulation is starting up
-        startupDlg = new StartupDialog( getPhetFrame(), title );
-        startupDlg.setVisible( true );
+        this.moduleManager = new ModuleManager( this );
+        phetFrame = new PhetFrame( this );
+        frameSetup.initialize( phetFrame );
 
         // Handle command line arguments
         parseArgs( args );
     }
 
-    /**
-     * @param args                 Command line args
-     * @param title                Title that appears in the frame and the About dialog
-     * @param description          Appears in the About dialog
-     * @param version              Appears in the About dialog
-     * @param clock                Simulation clock
-     * @param useClockControlPanel Whether clock control panel appears at bottom of window
-     */
-    public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel ) {
-        this( args, title, description, version, clock, useClockControlPanel, null );
+    private void showSplashWindow( String title ) {
+        splashWindow = new SplashWindow( getPhetFrame(), title );
+        splashWindow.setVisible( true );
     }
 
-    /**
-     * @param descriptor
-     * @deprecated, clients should pass in their String[] args.
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor ) {
-        this( descriptor, new String[0] );
+    private void disposeSplashWindow() {
+        if( splashWindow != null ) {
+            splashWindow.setVisible( false );
+            splashWindow.dispose();
+            splashWindow = null;
+        }
     }
 
-    /**
-     * @param descriptor
-     * @param args
-     * @deprecated
-     */
-    public PhetApplication( ApplicationModel descriptor, String args[] ) {
-        moduleManager = new ModuleManager( this );
-        clock = descriptor.getClock();
-
-        if( descriptor.getModules() == null ) {
-            throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
-        }
-        if( descriptor.getClock() == null ) {
-            throw new RuntimeException( "Clock not specified in ApplicationModel" );
-        }
-        this.applicationModel = descriptor;
-        try {
-            phetFrame = new PhetFrame( this );
-        }
-        catch( IOException e ) {
-            throw new RuntimeException( "IOException on PhetFrame create.", e );
-        }
-        moduleManager.addAllModules( descriptor.getModules() );
-        setInitialModule( descriptor.getInitialModule() );
-
-        s_instance = this;
-
-
-
-        // Handle command line arguments
-        parseArgs( args );
+    private static Dimension getScreenSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
     /**
@@ -184,65 +154,40 @@ public class PhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if( initialModule == null ) {
-            throw new RuntimeException( "Initial module not specified." );
+        if( moduleManager.numModules() == 0 ) {
+            throw new RuntimeException( "No modules in module manager" );
         }
 
         // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
-        // after the PhetFrame has been set to its startup size. We have to do this with a strange
-        // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
+        // after the PhetFrame has been set to its startup size.
+        // When the outer WindowAdapter gets called, the PhetFrame is
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-
-                // Get rid of the startup dialog and set the cursor to its normal form
-                if( startupDlg != null ) {
-                    startupDlg.setVisible( false );
-                    // To make sure the garbage collector will clean up the dialog. I'm
-                    // not sure this is necessary, but it can't hurt.
-                    startupDlg = null;
-                }
-
-                for( int i = 0; i < moduleManager.numModules(); i++ ) {
-                    Module module = moduleManager.moduleAt( i );
-                    module.setReferenceSize();
-                }
+                disposeSplashWindow();
+                initializeModuleReferenceSizes();
                 phetFrame.removeWindowFocusListener( this );
             }
         } );
 
-        moduleManager.setActiveModule( initialModule );
-        clock.start();
+        moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
         phetFrame.setVisible( true );
     }
 
-    /**
-     * Sets the FrameSetup the application is to use, and initialized the PhetJComponent factory.
-     *
-     * @param frameSetup
-     */
-    public void createPhetFrame( FrameSetup frameSetup ) {
-        if( frameSetup == null ) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            frameSetup = new FrameSetup.CenteredWithSize( screenSize.width, screenSize.height - 50 );
+    private void initializeModuleReferenceSizes() {
+        for( int i = 0; i < moduleManager.numModules(); i++ ) {
+            Module module = moduleManager.moduleAt( i );
+            module.setReferenceSize();
         }
-        phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
     }
 
+    /**
+     * Get the PhetFrame for this Application.
+     *
+     * @return the PhetFrame for this Application.
+     */
     public PhetFrame getPhetFrame() {
         return phetFrame;
-    }
-
-    public AbstractClock getClock() {
-        return clock;
-    }
-
-    public void addClockTickListener( ClockTickListener clockTickListener ) {
-        clock.addClockTickListener( clockTickListener );
-    }
-
-    public void removeClockTickListener( ClockTickListener clockTickListener ) {
-        clock.removeClockTickListener( clockTickListener );
     }
 
     //----------------------------------------------------------------
@@ -255,60 +200,105 @@ public class PhetApplication {
      * @param modules
      */
     public void setModules( Module[] modules ) {
-        // Remove any modules that may currently be in the module manager
-        while( moduleManager.numModules() > 0 ) {
-            Module module = moduleManager.moduleAt( 0 );
-            moduleManager.removeModule( module );
-        }
-        // Add the new modules
-        phetFrame.setModules( modules );
-        moduleManager.addAllModules( modules );
-        phetFrame.pack();
-
-        // Set the default initial module
-        setInitialModule( modules[0] );
+        moduleManager.setModules( modules );
     }
 
     /**
-     * Specifies the module that will be activated when the application starts. If
-     * this method is never called, the first module in the modules array is used.
+     * Remove a Module from this PhetApplication.
      *
-     * @param module
+     * @param module the Module to remove.
      */
-    public void setInitialModule( Module module ) {
-        this.initialModule = module;
+    public void removeModule( Module module ) {
+        moduleManager.removeModule( module );
     }
 
-    public ModuleManager getModuleManager() {
+    /**
+     * Add one Module to this PhetApplication.
+     *
+     * @param module the Module to add.
+     */
+    public void addModule( Module module ) {
+        moduleManager.addModule( module );
+    }
+
+    private ModuleManager getModuleManager() {
         return moduleManager;
     }
 
-    public ApplicationModel getApplicationModel() {
-        return this.applicationModel;
-    }
-
+    /**
+     * Get the specified Module.
+     *
+     * @param i the Module index
+     * @return the Module.
+     */
     public Module moduleAt( int i ) {
         return moduleManager.moduleAt( i );
     }
 
+    /**
+     * Gets a module based on its index.
+     * (This is a more common name for the moduleAt method.)
+     *
+     * @param i
+     * @return
+     */
+    public Module getModule( int i ) {
+        return moduleAt( i );
+    }
+
+    /**
+     * Set the specified Module to be active.
+     *
+     * @param module the module to activate.
+     */
     public void setActiveModule( Module module ) {
         moduleManager.setActiveModule( module );
     }
 
+    /**
+     * Set the specified Module to be active.
+     *
+     * @param i the module index to activate.
+     */
     public void setActiveModule( int i ) {
         moduleManager.setActiveModule( i );
     }
 
+    /**
+     * Add a ModuleObserver to this PhetApplication to observe changes in the list of Modules, and which Module is active.
+     *
+     * @param moduleObserver
+     */
     public void addModuleObserver( ModuleObserver moduleObserver ) {
         moduleManager.addModuleObserver( moduleObserver );
     }
 
+    /**
+     * Get the index of the specified Module.
+     *
+     * @param m
+     * @return the index of the specified Module.
+     */
     public int indexOf( Module m ) {
         return moduleManager.indexOf( m );
     }
 
+    /**
+     * Get the number of modules.
+     *
+     * @return the number of modules.
+     */
     public int numModules() {
         return moduleManager.numModules();
+    }
+
+    /**
+     * Returns the active Module, or null if no module has been activated yet.
+     *
+     * @return the active Module, or null if no module has been activated yet.
+     */
+    public Module getActiveModule() {
+        return moduleManager.getActiveModule();
     }
 
     //-----------------------------------------------------------------
@@ -316,51 +306,82 @@ public class PhetApplication {
     //-----------------------------------------------------------------
 
     /**
-     * A dialog that lets the user know "something is happening" while the
-     * application gets itself started.
+     * Get the title for this PhetApplication.
+     *
+     * @return the title.
      */
-    private static class StartupDialog extends JDialog {
-        private JLabel label;
+    public String getTitle() {
+        return title;
+    }
 
-        public StartupDialog( Frame owner, String title ) throws HeadlessException {
-            super( owner, "Startup", false );
-            setUndecorated( true );
-            getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    /**
+     * Get the description for this PhetApplication.
+     *
+     * @return the description.
+     */
+    public String getDescription() {
+        return description;
+    }
 
-            String labelFormat = SimStrings.get( "PhetApplication.StartupDialog.message" );
-            Object[] args = {title};
-            String labelString = MessageFormat.format( labelFormat, args );
-            label = new JLabel( labelString );
+    /**
+     * Get the version string for this PhetApplication.
+     *
+     * @return the version string.
+     */
+    public String getVersion() {
+        return version;
+    }
 
-            JProgressBar progressBar = new JProgressBar();
-            progressBar.setIndeterminate( true );
-            BufferedImage image = null;
-            try {
-                image = ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            ImageIcon logo = new ImageIcon( image );
-
-            getContentPane().setLayout( new GridBagLayout() );
-            final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                   GridBagConstraints.CENTER,
-                                                                   GridBagConstraints.NONE,
-                                                                   new Insets( 0, 20, 0, 10 ), 0, 0 );
-            gbc.gridheight = 2;
-            getContentPane().add( new JLabel( logo ), gbc );
-            gbc.gridx = 1;
-            gbc.gridheight = 1;
-            gbc.insets = new Insets( 20, 10, 10, 20 );
-            getContentPane().add( label, gbc );
-            gbc.gridy++;
-            gbc.insets = new Insets( 10, 10, 20, 20 );
-            getContentPane().add( progressBar, gbc );
-            pack();
-            setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
-                         (int)( screenSize.getHeight() / 2 - getHeight() / 2 ) );
+    /**
+     * Adds modules.
+     *
+     * @param m the array of modules to add
+     */
+    public void addModules( Module[] m ) {
+        for( int i = 0; i < m.length; i++ ) {
+            Module module = m[i];
+            addModule( module );
         }
+    }
+
+    /**
+     * Save the set of modules to the specified location.
+     *
+     * @param filename
+     */
+    public void saveState( String filename ) {
+        new ModuleSerializationManager().saveState( this, filename );
+    }
+
+    /**
+     * Restore the module states specified in the file.
+     *
+     * @param filename
+     */
+    public void restoreState( String filename ) {
+        new ModuleSerializationManager().restoreState( this, filename );
+    }
+
+    /**
+     * Pauses the PhetApplication (including any Modules that are active).
+     */
+    public void pause() {
+        getActiveModule().deactivate();
+    }
+
+    /**
+     * Resumes progress of the PhetApplication (including any Modules that are active).
+     */
+    public void resume() {
+        getActiveModule().activate();
+    }
+
+    /**
+     * Returns all the Modules registered with this PhetApplication.
+     *
+     * @return all the Modules registered with this PhetApplication.
+     */
+    public Module[] getModules() {
+        return moduleManager.getModules();
     }
 }

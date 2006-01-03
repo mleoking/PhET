@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

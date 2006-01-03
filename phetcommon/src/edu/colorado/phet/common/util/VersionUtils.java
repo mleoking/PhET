@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * VersionUtils
+ * Utilities for reading, storing and displaying the version of a PhetApplication.
  *
  * @author ?
  * @version $Revision$
@@ -46,6 +46,7 @@ public class VersionUtils {
 //        public String toString() {
 //            return "Name = " + name + ", Build Number = " + buildNumber + ", Build Time = " + buildTime;
 //        }
+
         public String toString() {
             return name + " #" + buildNumber + ": " + buildTime;
         }

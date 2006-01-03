@@ -11,10 +11,13 @@
 package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.*;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
 
 /**
  * Class: ColorFromWavelength
@@ -71,7 +74,7 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
      * Returns an RGB value that is a duotone
      *
      * @param grayRefLevel
-     * @return
+     * @return the rgb value
      */
     public static int getDuoToneRGB( int red, int green, int blue, int alpha, double grayRefLevel, Color baseColor ) {
         double gray = ( red + green + blue ) / ( 3 );
@@ -86,7 +89,7 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
      * Returns the relative "gray" level of an RGB value
      *
      * @param color
-     * @return
+     * @return the gray value
      */
     public static double getGrayLevel( Color color ) {
         double grayRefLevel = ( color.getRed() + color.getGreen() + color.getBlue() ) / ( 255 * 3 );
@@ -98,10 +101,10 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
      *
      * @param src
      * @param destCM
-     * @return
+     * @return the new image.
      */
     public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
-        return new AffineTransformOp( new AffineTransform( ),AffineTransformOp.TYPE_NEAREST_NEIGHBOR ).createCompatibleDestImage( src, destCM );
+        return new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR ).createCompatibleDestImage( src, destCM );
     }
 
     /**

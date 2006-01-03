@@ -28,8 +28,8 @@ public class Rectangle2DPersistenceDelegate extends DefaultPersistenceDelegate {
         out.writeStatement( new Statement( oldInstance,
                                            "setFrame",
                                            new Object[]{new Double( rect.getX() ),
-                                                        new Double( rect.getY() ),
-                                                        new Double( rect.getWidth() ),
-                                                        new Double( rect.getHeight() )} ) );
+                                                   new Double( rect.getY() ),
+                                                   new Double( rect.getWidth() ),
+                                                   new Double( rect.getHeight() )} ) );
     }
 }

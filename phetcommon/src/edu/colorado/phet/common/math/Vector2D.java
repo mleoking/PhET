@@ -14,7 +14,7 @@ package edu.colorado.phet.common.math;
 import java.awt.geom.Point2D;
 
 /**
- * Vector2D
+ * This Vector2D implementation supports mutators & in-place operations.
  *
  * @author Ron LeMaster
  * @version $Revision$

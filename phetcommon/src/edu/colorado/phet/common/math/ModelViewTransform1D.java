@@ -13,17 +13,11 @@ package edu.colorado.phet.common.math;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Dec 14, 2004
- * Time: 8:22:30 PM
- * Copyright (c) Dec 14, 2004 by Sam Reid
+ * Performs a linear transform between model and view coordinates.
  */
-
 public class ModelViewTransform1D {
     private Function.LinearFunction modelToView;
     private ArrayList transformListeners = new ArrayList();
-    private double minModel;
-    private double maxModel;
 
     public interface Observer {
         void transformChanged( ModelViewTransform1D transform );
@@ -31,8 +25,6 @@ public class ModelViewTransform1D {
 
     public ModelViewTransform1D( double minModel, double maxModel, int minView, int maxView ) {
         this.modelToView = new Function.LinearFunction( minModel, maxModel, minView, maxView );
-        this.minModel = minModel;
-        this.maxModel = maxModel;
     }
 
     public int modelToView( double x ) {
@@ -63,12 +55,16 @@ public class ModelViewTransform1D {
     }
 
     public void setModelRange( double minModel, double maxModel ) {
-        modelToView.setInput( minModel, maxModel );
-        update();//TODO check to see that we changed before firing an update.
+        if( modelToView.getMinInput() != minModel || modelToView.getMinInput() != maxModel ) {
+            modelToView.setInput( minModel, maxModel );
+            update();
+        }
     }
 
     public void setViewRange( int minView, int maxView ) {
-        modelToView.setOutput( minView, maxView );
-        update();
+        if( modelToView.getMinOutput() != minView && modelToView.getMaxOutput() != maxView ) {
+            modelToView.setOutput( minView, maxView );
+            update();
+        }
     }
 }

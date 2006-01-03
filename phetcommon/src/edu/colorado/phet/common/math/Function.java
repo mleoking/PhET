@@ -1,10 +1,7 @@
 package edu.colorado.phet.common.math;
 
 /**
- * User: Sam Reid
- * Date: Dec 12, 2004
- * Time: 8:13:02 PM
- * Copyright (c) Dec 12, 2004 by Sam Reid
+ * A Function maps from double values to double values, and supports an inverse Function.
  */
 public interface Function {
     public double evaluate( double x );

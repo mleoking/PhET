@@ -11,11 +11,15 @@
 package edu.colorado.phet.common.model;
 
 /**
- * Command
+ * A Command for invoking in the BaseModel update operation.
  *
  * @author ?
  * @version $Revision$
  */
 public interface Command {
+
+    /**
+     * Invokes this Command.
+     */
     void doIt();
 }
