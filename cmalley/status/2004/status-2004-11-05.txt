@@ -1,0 +1,28 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 11/1/04 - Fri 11/5/04
+
+HOURS: 23 (7.5 + 2 + 0 + 6.5 + 7)
+
+ACCOMPLISHMENTS:
+
+  - finished 99% of Single Bulb module in Color Vision simulation
+  - javadoc'ed all code
+  - checked all code into CVS repository
+
+WHAT'S NEXT:
+ 
+  - finish remaining Color Vision tasks, including:
+    o clipping path bug with spectrum slider
+    o Ant build scripts
+    o JNLP file
+    o testing on Windows and Linux
+  - meet with Keith Danekind next Monday, RE: Flash i18n
+  - meet with Ron next Wednesday, RE: next project
+
+ISSUES:
+
+  - Flash demo license expires on 11/7
+
+-- 

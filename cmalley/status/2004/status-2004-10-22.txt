@@ -1,0 +1,31 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Mon 10/18/04 - Thu 10/21/04
+
+HOURS: 31 (7.5 + 7.5 + 6.5 + 9.5)
+
+ACCOMPLISHMENTS:
+
+  - completed "RGB Bulbs" module of Color Vision simulation
+  - cleaned up image files
+  - tested on Windows and Macintosh
+  - javadoc'ed all code
+  - checked into PhET CVS repository
+  - created a Web Start application
+  - started on "Single Bulb" module
+  - proposed an approach for Flash i18n, provided an example
+  - attended weekly PhET status meeting
+
+WHAT'S NEXT:
+ 
+  - continue work on Color Vision "Single Bulb" module, including:
+    o locate missing image files
+    o determine how Flash implements physical model
+    o port to Java
+
+ISSUES:
+
+  - none
+
+-- 

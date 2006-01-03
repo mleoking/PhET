@@ -1,0 +1,15 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 10/11/05 - 10/17/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o implement Save and Load features
+    o reimplement guts of "Wave Game" for new game levels
+    o add a dialog that tells the user when they've won the game
+    o misc bug fixes
+
+
+-- 

@@ -1,0 +1,20 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Mon 1/3/05 - Thu 1/6/05
+
+ACCOMPLISHMENTS:
+
+  - work on Farady: movable compass, integrate "compass grid", implement dipole equations, implement "needle" behavior
+  - published Faraday v0r3, demo at weekly status meeting
+  - meet with Mike Dubson about various equations for Faraday
+
+WHAT'S NEXT:
+ 
+  - continue work on Faraday
+
+ISSUES:
+
+  - none
+
+-- 

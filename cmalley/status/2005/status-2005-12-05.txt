@@ -1,0 +1,23 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 11/29/05-12/5/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - added drag controls for Total and Potential Energy
+  - added a custom JFreeChart renderer for displaying Total Energy distribution as a gradient
+  - added clock controls and time display
+  - published 0.0.1 and 0.0.2
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 

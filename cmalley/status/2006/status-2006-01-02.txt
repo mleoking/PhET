@@ -1,0 +1,27 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 12/28/05-01/02/05 (Wed-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - added wave packet features
+  - started integrating Richardson algorithm
+  
+  common code:
+  - major changes to Module, ModulePanel and ControlPanel
+  
+  misc:
+  - test Mac problems with OS 10.3.9 and Java 1.4.2_09
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 

@@ -1,0 +1,27 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 10/04/05 - 10/10/05 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Fourier simulation:
+    o added a volume slider to control sound level
+    o fixed misc bugs
+    o disabled clock controls in panels where they're not relevant
+    o published version 2.1 to PhET website
+    o implemented "Wave Game" panel
+    o published 2.1.1
+    o started working on "Save" and "Load" features
+
+WHAT'S NEXT:
+ 
+  o continue work on Fourier (see "To Do" list at http://www.colorado.edu/physics/phet/dev/fourier/TODO.txt)
+
+ISSUES:
+
+  o The Fourier "Wave Game" is very difficult. What should we do about it?
+  o Since the "Wave Game" is so difficult, should we still do the "Optical Pulse Shaper" sim?
+  o Is the Fourier "Sound" module in or out?
+
+-- 
