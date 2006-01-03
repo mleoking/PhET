@@ -13,17 +13,11 @@ package edu.colorado.phet.solublesalts.view;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.piccolo.DefaultDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
 
 /**
  * VesselGraphic

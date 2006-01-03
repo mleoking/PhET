@@ -12,10 +12,12 @@ package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+//import edu.colorado.phet.common.model.clock.IClock;
+//import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -41,15 +43,13 @@ import java.awt.*;
 public class SolubleSaltsApplication extends PhetApplication {
 
 
-    private static AbstractClock CLOCK = new SwingTimerClock( SolubleSaltsConfig.DT, SolubleSaltsConfig.FPS, AbstractClock.FRAMES_PER_SECOND );
+    private static IClock CLOCK = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT);
 
     public SolubleSaltsApplication( String[] args ) {
         super( args,
                SolubleSaltsConfig.TITLE,
                SolubleSaltsConfig.DESCRIPTION,
                SolubleSaltsConfig.VERSION,
-               CLOCK,
-               true,
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
         Module module = new SolubleSaltsModule( CLOCK );
@@ -145,7 +145,7 @@ public class SolubleSaltsApplication extends PhetApplication {
         for( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
             if( arg.equals( "-m" ) ) {
-                PhetPCanvas simPanel = (PhetPCanvas)app.getModuleManager().getActiveModule().getSimulationPanel();
+                PhetPCanvas simPanel = (PhetPCanvas)app.getActiveModule().getSimulationPanel();
                 if( simPanel != null ) {
 //                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
 //                    simPanel.addWorldChild( mouseTracker );

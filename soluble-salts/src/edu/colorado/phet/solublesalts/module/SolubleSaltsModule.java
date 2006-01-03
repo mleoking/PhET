@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.*;
@@ -47,7 +47,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     private Random random = new Random( System.currentTimeMillis() );
     private SSCanvas simPanel;
 
-    public SolubleSaltsModule( AbstractClock clock ) {
+    public SolubleSaltsModule( IClock clock ) {
         super( SimStrings.get( "Module.title" ), clock );
 
         // Set up the basics
