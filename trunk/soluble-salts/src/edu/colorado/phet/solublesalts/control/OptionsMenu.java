@@ -14,7 +14,8 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
+//import edu.colorado.phet.common.view.components.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;

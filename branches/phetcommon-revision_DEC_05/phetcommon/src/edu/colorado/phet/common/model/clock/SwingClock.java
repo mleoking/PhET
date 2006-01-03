@@ -24,8 +24,8 @@ public class SwingClock extends Clock {
     /**
      * Construct a SwingClock with specified wall time delay and constant simulation time change per tick.
      *
-     * @param delay
-     * @param constantTimeChange
+     * @param delay     Wall time delay between clock ticks
+     * @param constantTimeChange    Wall time delay between clock ticks
      */
     public SwingClock( int delay, double constantTimeChange ) {
         this( delay, new TimeConverter.Constant( constantTimeChange ), constantTimeChange );
@@ -35,9 +35,9 @@ public class SwingClock extends Clock {
      * Construct a SwingClock with a specified wall time delay, means of converting wall to simulation time,
      * and a value for the simulation time change in tickOnceTimeChange.
      *
-     * @param delay
+     * @param delay     Wall time delay between clock ticks
      * @param timeConverter
-     * @param tickOnceTimeChange
+     * @param tickOnceTimeChange    Wall time delay between clock ticks
      */
     public SwingClock( int delay, TimeConverter timeConverter, double tickOnceTimeChange ) {
         super( timeConverter, tickOnceTimeChange );

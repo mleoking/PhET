@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.math.Vector2D;
@@ -129,8 +130,9 @@ public class SolubleSaltsModel extends BaseModel {
     }
 
     //Not allowed to mess with the way we call our abstract method.
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
+
+    public void update( ClockEvent event ) {
+        super.update( event );
 
         // If a crystal is not in the water, it accelerates downward. If it's in the water, it moves
         // at a constant speed

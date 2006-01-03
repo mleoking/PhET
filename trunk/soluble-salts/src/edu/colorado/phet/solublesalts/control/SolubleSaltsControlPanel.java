@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
@@ -87,27 +87,18 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
     private ModelSlider vesselIonStickSlider;
     private ModelSlider dissociationSlider;
-    private AnionPanel anionPanel;
-    private JPanel cationPanel;
 
     public SolubleSaltsControlPanel( final SolubleSaltsModule module ) {
         super( module );
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
-        anionPanel = new AnionPanel( model );
-        cationPanel = new CationPanel( model );
         JPanel concentrationPanel = makeConcentrationPanel( model );
         JPanel saltPanel = new JPanel( new GridLayout( 3, 1 ) );
         saltPanel.setBorder( new EtchedBorder() );
         saltPanel.add( makeSaltSelectionPanel( model ) );
-//        anionPanel = new AnionPanel( model );
-//        cationPanel = new CationPanel( model );
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         saltPanel.add( saltSPinnerPanel );
-//        addControl( saltSPinnerPanel);
-//        saltPanel.add( anionPanel );
-//        saltPanel.add( cationPanel );
         addControlFullWidth( saltPanel );
         addControl( concentrationPanel );
 
@@ -175,7 +166,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 List crystals = model.crystalTracker.getCrystals();
                 for( int i = 0; i < crystals.size(); i++ ) {
                     Crystal crystal = (Crystal)crystals.get( i );
-                    crystal.releaseIonDebug( module.getClock().getDt() );
+                    crystal.releaseIonDebug( module.getClock().getSimulationTimeChange() );
                 }
             }
         } );
