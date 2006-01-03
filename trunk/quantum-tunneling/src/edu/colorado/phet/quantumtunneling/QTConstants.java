@@ -137,6 +137,13 @@ public class QTConstants {
     public static final String ENERGY_FORMAT = "0.00";
    
     //----------------------------------------------------------------------------
+    // Wave Function constants
+    //----------------------------------------------------------------------------
+    
+    public static final double PLANCKS_CONSTANT = 0.658;  // Planck's constant, in eV fs
+    public static final double ELECTRON_MASS = 5.7;  // mass, in eV/c^2
+    
+    //----------------------------------------------------------------------------
     // Wave Packet
     //----------------------------------------------------------------------------
     
@@ -173,6 +180,8 @@ public class QTConstants {
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
     
     public static final boolean USE_INTEGER_ENERGY_TICKS = false;
+    
+    public static final double POSITION_SAMPLE_STEP = 0.02; // position step between sample points
     
     //----------------------------------------------------------------------------
     // Drag Handles

@@ -32,12 +32,12 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final double MAX_POSITION = +3; // max position
     private static final double MIN_ENERGY = -1.5; // min energy
     private static final double MAX_ENERGY = +1.5; // max energy
-    private static final double MIN_TIME = 0; // min time
     private static final double HBAR = 1; // Planck's constant
     private static final double MASS = 100; // mass
     private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
     private static final double VWIDTH = WIDTH / 2; // half the width
     private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
+    private static final double TOTAL_ENERGY = 0.5 * MASS * VX * VX; // total energy
     
     // View
     private static final Dimension APP_SIZE = new Dimension( 600, 400 ); // pixels
@@ -47,6 +47,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final Color REAL_COLOR = Color.BLUE;
     private static final Color IMAGINARY_COLOR = Color.GREEN;
     private static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    private static final int PIXELS_PER_SAMPLE_POINT = 2;
     
     // Controls
     private static final String PLAY_LABEL = "Play >";
@@ -69,24 +70,22 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private Thread thread;
     
     // Model
-    private int numberOfPoints;
-    private double t;
-    private double dt;
-    private double dx;
-    private double dy;
-    private double epsilon;
-    private double energy;
-    private double energyScale;
-    private Complex Psi[];
-    private Complex EtoV[];
-    private Complex alpha;
-    private Complex beta;
+    private int numberOfPoints; // number of sample points
+    private double dt; // time step
+    private double dx;  // change in position for each sample point
+    private double energyScale; // ratio of V/E
+    private Complex Psi[]; // wave function values at each sample point
+    private Complex EtoV[]; // potential energy propogator = exp(-i*V(x)*dt/hbar)
+    private Complex alpha; //special parameter for Richardson algorithm
+    private Complex beta; //special parameter for Richardson algorithm
+    private double epsilon; //special parameter for Richardson algorithm
     
     // View
-    private int screenWidth, screenHeight;
-    private int xpts[], ypts[];
-    private double xscale, yscale;
-    private boolean antialiasing;
+    private int viewWidth, viewHeight; // view size, in pixels
+    private int xpts[], ypts[];   // (x,y) pixel coordinates for each sample point
+    private double xscale; // pixels per 1 unit of position
+    private double yscale; // pixels per 1 unit of energy
+    private boolean antialiasing; // should drawing be done using antialiasing?
     
     // Controls
     private JButton restartButton;
@@ -112,9 +111,9 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
     
     private void initPhysics() {
-        screenWidth = getSize().width;
-        screenHeight = getSize().height - CONTROL_PANEL_HEIGHT;
-        numberOfPoints = screenWidth / 2;
+        viewWidth = getSize().width;
+        viewHeight = getSize().height - CONTROL_PANEL_HEIGHT;
+        numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT;
 
         xpts = new int[numberOfPoints];
         ypts = new int[numberOfPoints];
@@ -122,15 +121,12 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         EtoV = new Complex[numberOfPoints];
         
         dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
-        xscale = ( screenWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION );
-        dy = ( MAX_ENERGY - MIN_ENERGY ) / ( screenHeight - 1 );
-        yscale = ( screenHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY );
-        t = MIN_TIME;
+        xscale = ( viewWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION );
+        yscale = ( viewHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY );
         dt = 0.8 * MASS * dx * dx / HBAR;
         epsilon = HBAR * dt / ( MASS * dx * dx );
         alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
-        energy = 0.5 * MASS * VX * VX;
 
         for ( int x = 0; x < numberOfPoints; x++ ) {
             double r, xval;
@@ -144,7 +140,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
 
     private double v( double x ) {
-        return ( Math.abs( x ) < VWIDTH ) ? ( energy * energyScale ) : 0;
+        return ( Math.abs( x ) < VWIDTH ) ? ( TOTAL_ENERGY * energyScale ) : 0;
     }
 
     private void stepPhysics() {
@@ -331,8 +327,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         g.setColor( BARRIER_COLOR );
         int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - 2 * VWIDTH ) );
         int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + 2 * VWIDTH ) );
-        int iy = (int) ( screenHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
-        int jy = (int) ( screenHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
+        int iy = (int) ( viewHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
+        int jy = (int) ( viewHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         g.drawLine( ix, iy, ix, jy );
         g.drawLine( jx, iy, jx, jy );
         g.drawLine( ix, iy, jx, iy );
@@ -340,7 +336,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Real part
         g.setColor( REAL_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].re - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].re - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -349,7 +345,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Imaginary part
         g.setColor( IMAGINARY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Psi[x].im - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].im - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -358,7 +354,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Probability Density (abs^2)
         g.setColor( PROBABILITY_DENSITY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( screenHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -403,7 +399,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         for ( int i = 0; i < STEPS_PER_FRAME; i++ ) {
             stepPhysics();
         }
-        t += dt;
         repaint();
     }
     

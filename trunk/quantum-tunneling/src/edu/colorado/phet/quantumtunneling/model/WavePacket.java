@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.view.WaveFunctionPlot;
 
 
 /**
@@ -27,6 +28,9 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
  * @version $Revision$
  */
 public class WavePacket extends AbstractWave implements Observer, ClockListener {
+    
+    private static final double DX = QTConstants.POSITION_SAMPLE_STEP;
+    private static final double DT = QTConstants.CLOCK_TIME_STEP;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -54,7 +58,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _time = 0;
-        _solver = new SchrodingerSolver( this );
+        _solver = new SchrodingerSolver( this, DX, DT );
     }
     
     public void cleanup() {
@@ -76,11 +80,17 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Accessors
     //----------------------------------------------------------------------------
     
+    public SchrodingerSolver getSolver() {
+        return _solver;
+    }
+    
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
-            _solver.update();
-            notifyObservers();
+            if ( _enabled ) {
+                _solver.update();
+                notifyObservers();
+            }
         }
     }
 
@@ -158,8 +168,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     }
 
     public WaveFunctionSolution solveWaveFunction( double x ) {    
-        double t = getTime();
-        return _solver.solve( x, t );
+        return null; //XXX
     }
     
     //----------------------------------------------------------------------------
@@ -177,18 +186,23 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // ClockListener implementation
     //----------------------------------------------------------------------------
 
-    public void clockTicked( ClockEvent clockEvent ) {}
+    public void clockTicked( ClockEvent clockEvent ) {
+        if ( _enabled ) {
+            _solver.stepPhysics( 3 );
+            notifyObservers();
+        }
+    }
 
     public void clockStarted( ClockEvent clockEvent ) {}
 
     public void clockPaused( ClockEvent clockEvent ) {}
 
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-        if ( _enabled && _te != null && _pe != null ) {
-            _time = clockEvent.getSimulationTime() * QTConstants.TIME_SCALE;
+    public void simulationTimeChanged( ClockEvent clockEvent ) {}
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
+        if ( _enabled ) {
+            _solver.initPhysics();
             notifyObservers();
         }
     }
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }

@@ -26,10 +26,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
-import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.AbstractWave;
-import edu.colorado.phet.quantumtunneling.model.WaveFunctionSolution;
+import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
@@ -52,8 +51,6 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private static final int REFLECTED_REAL_SERIES_INDEX = 3;
     private static final int REFLECTED_IMAGINARY_SERIES_INDEX = 4;
     private static final int REFLECTED_MAGNITUDE_SERIES_INDEX = 5;
-    
-    private static final double X_STEP = 0.02; // x step between data points
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -192,7 +189,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _wave && _wave != null ) {
+        if ( _wave != null && observable == _wave ) {
             updateDatasets();
         }
     }
@@ -210,17 +207,30 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             return;
         }
         
+        TotalEnergy te = _wave.getTotalEnergy();
         AbstractPotential pe = _wave.getPotentialEnergy();
-        if ( pe == null ) {
+        if ( te == null || pe == null ) {
             // wave is not initialized yet.
             return;
         }
         
+        if ( _wave instanceof PlaneWave ) {
+            updateDataSetPlaneWave();
+        }
+        else if ( _wave instanceof WavePacket ) {
+            updateDataSetWavePacket();
+        }
+    }
+    
+    private void updateDataSetPlaneWave() {
+        
+        final double dx = QTConstants.POSITION_SAMPLE_STEP;
+        AbstractPotential pe = _wave.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 );
-        final double maxX = pe.getEnd( numberOfRegions - 1 ) + X_STEP;
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + dx;
 
-        for ( double x = minX; x < maxX; x += X_STEP ) {
+        for ( double x = minX; x < maxX; x += dx ) {
             WaveFunctionSolution solution = _wave.solveWaveFunction( x );
             if ( solution != null ) {
                 if ( _irView == IRView.SEPARATE ) {
@@ -255,6 +265,22 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                     }
                 }
             }
+        }
+    }
+    
+    private void updateDataSetWavePacket() {
+        System.out.println( "WaveFunctionPlot.updateDataSetWavePacket" );//XXX
+        WavePacket wavePacket = (WavePacket) _wave;
+        double[] positions = wavePacket.getSolver().getPositions();
+        Complex[] psi = wavePacket.getSolver().getEnergies();
+        int numberOfPoints = positions.length;
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            double position = positions[i];
+            Complex energy = psi[i];
+            _incidentRealSeries.add( position, energy.getReal() );
+            _incidentImaginarySeries.add( position, energy.getImaginary() );
+            _incidentMagnitudeSeries.add( position, energy.getAbs() );
+            _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
         }
     }
     
