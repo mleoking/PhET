@@ -76,12 +76,8 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.setWorldTransform( transformStrategy.getWorldTransform() );
     }
 
-    public PNode getWorldNode() {
-        return phetRootNode.getWorldNode();
-    }
-
-    public PNode getScreenNode() {
-        return phetRootNode.getScreenNode();
+    public void setWorldScale( double scale ) {
+        phetRootNode.setWorldScale(scale);
     }
 
     protected class ResizeAdapter extends ComponentAdapter {
@@ -115,15 +111,25 @@ public class PhetPCanvas extends PSwingCanvas {
     }
 
     public void removeScreenChild( PNode node ) {
-        phetRootNode.removeScreenChild( node );
+        phetRootNode.removeChild( node );
     }
 
+    /**
+     * This may become deprecated (just use phetRootNode.removeChild)
+     *
+     * @param graphic
+     */
     public void addWorldChild( PNode graphic ) {
         phetRootNode.addWorldChild( graphic );
     }
 
+    /**
+     * This may become deprecated (just use phetRootNode.removeChild)
+     *
+     * @param graphic
+     */
     public void removeWorldChild( PNode graphic ) {
-        phetRootNode.removeWorldChild( graphic );
+        phetRootNode.removeChild( graphic );
     }
 
     /*
@@ -193,9 +199,9 @@ public class PhetPCanvas extends PSwingCanvas {
             double sy = getScaleY();
 
             //use the smaller
-            double scale = ( sx < sy ) ? sx : sy;
-            scale = ( scale <= 0 ) ? 1.0 : scale; //if scale is negative or zero, just use scale=1
-            
+            double scale = sx < sy ? sx : sy;
+            scale = scale <= 0 ? 1.0 : scale;//if scale is negative or zero, just use scale=1
+
             return AffineTransform.getScaleInstance( scale, scale );
         }
 
@@ -204,7 +210,6 @@ public class PhetPCanvas extends PSwingCanvas {
         }
 
         public void setRenderingSize( Dimension dim ) {
-            System.out.println( "dim = " + dim );
             this.renderingSize = new Dimension( dim );
         }
 
@@ -263,4 +268,5 @@ public class PhetPCanvas extends PSwingCanvas {
             return new AffineTransform();
         }
     }
+
 }

@@ -12,7 +12,7 @@ package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

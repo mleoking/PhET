@@ -11,7 +11,7 @@
 package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 
 import javax.swing.*;
 
@@ -29,8 +29,12 @@ public class PiccoloModule extends Module {
      * @param name
      * @param clock
      */
-    public PiccoloModule( String name, AbstractClock clock ) {
+    public PiccoloModule( String name, IClock clock ) {
         super( name, clock );
+    }
+
+    public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
+        super( name, clock, startsPaused );
     }
 
     public PhetPCanvas getPhetPCanvas() {
@@ -39,9 +43,10 @@ public class PiccoloModule extends Module {
 
     public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
+        super.setSimulationPanel( phetPCanvas );
     }
 
-    public boolean moduleIsWellFormed() {
+    public boolean isWellFormed() {
         boolean result = true;
         result &= this.getModel() != null;
         result &= this.getPhetPCanvas() != null;
@@ -50,13 +55,5 @@ public class PiccoloModule extends Module {
 
     protected void handleUserInput() {
 //        getApparatusPanel().handleUserInput();
-    }
-
-    public JComponent getSimulationPanel() {
-        return getPhetPCanvas();
-    }
-
-    public void refresh() {
-//        super.refresh();
     }
 }
