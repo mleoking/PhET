@@ -28,7 +28,7 @@ public abstract class Clock implements IClock {
 
     /**
      * Construct a Clock to use the specified conversion between Wall and Simulation time,
-     * with the specified single-tick simulation time change (for tickOnce()).
+     * with the specified single-tick simulation time change (used by <code>tickOnce</code>).
      *
      * @param timeConverter
      * @param tickOnceTimeChange
