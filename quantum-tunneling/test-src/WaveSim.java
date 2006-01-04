@@ -70,69 +70,68 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // Instance data
     //----------------------------------------------------------------------
 
-    private Thread thread;
+    private Thread _thread;
     
     // Model
-    private int numberOfPoints; // number of sample points
-    private double dt; // time step
-    private double dx;  // change in position for each sample point
-    private double energyScale; // ratio of V/E
-    private MutableComplex Psi[]; // wave function values at each sample point
-    private Complex EtoV[]; // potential energy propogator = exp(-i*V(x)*dt/hbar)
-    private Complex alpha; //special parameter for Richardson algorithm
-    private Complex beta; //special parameter for Richardson algorithm
+    private double _dt; // time step
+    private double _dx;  // change in position for each sample point
+    private double _energyScale; // ratio of V/E
+    private double _positions[]; // position values at each sample point
+    private MutableComplex _Psi[]; // wave function values at each sample point
+    private Complex _EtoV[]; // potential energy propogator = exp(-i*V(x)*dt/hbar)
+    private Complex _alpha; //special parameter for Richardson algorithm
+    private Complex _beta; //special parameter for Richardson algorithm
     
     // View
-    private int viewWidth, viewHeight; // view size, in pixels
-    private int xpts[], ypts[];   // (x,y) pixel coordinates for each sample point
-    private double xscale; // pixels per 1 unit of position
-    private double yscale; // pixels per 1 unit of energy
-    private boolean antialiasing; // should drawing be done using antialiasing?
+    private int _xpts[], _ypts[];   // (x,y) pixel coordinates for each sample point
+    private double _xscale; // pixels per 1 unit of position
+    private double _yscale; // pixels per 1 unit of energy
+    private int _viewHeight; // view height, in pixels
+    private boolean _antialiasing; // should drawing be done using antialiasing?
     
     // Controls
-    private JButton restartButton;
-    private JButton playButton;
-    private JButton pauseButton;
-    private JButton stepButton;
-    private JComboBox barrierComboBox;
-    private JCheckBox antialiasingCheckBox;
+    private JButton _restartButton;
+    private JButton _playButton;
+    private JButton _pauseButton;
+    private JButton _stepButton;
+    private JComboBox _barrierComboBox;
+    private JCheckBox _antialiasingCheckBox;
     
     // Reusable temporary variables
-    private MutableComplex c1 = new MutableComplex( 0, 0 );
-    private MutableComplex c2 = new MutableComplex( 0, 0 );
-    private MutableComplex c3 = new MutableComplex( 0, 0 );
-    private MutableComplex c4 = new MutableComplex( 0, 0 );
+    private MutableComplex _c1 = new MutableComplex( 0, 0 );
+    private MutableComplex _c2 = new MutableComplex( 0, 0 );
+    private MutableComplex _c3 = new MutableComplex( 0, 0 );
+    private MutableComplex _c4 = new MutableComplex( 0, 0 );
 
     //----------------------------------------------------------------------
     // Physics
     //----------------------------------------------------------------------
     
-    private void reset() {
-        viewWidth = getSize().width;
-        viewHeight = getSize().height - CONTROL_PANEL_HEIGHT;
-        numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT;
-
-        xpts = new int[numberOfPoints];
-        ypts = new int[numberOfPoints];
-        Psi = new MutableComplex[numberOfPoints];
-        EtoV = new Complex[numberOfPoints];
+    private void resetModel() {
+        final int viewWidth = getSize().width;
+        final int numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT; // number of sample points
         
-        dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
-        xscale = ( viewWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION );
-        yscale = ( viewHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY );
-        dt = 0.8 * MASS * dx * dx / HBAR;
-        final double epsilon = HBAR * dt / ( MASS * dx * dx );
-        alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        _xpts = new int[numberOfPoints];
+        _ypts = new int[numberOfPoints];
+        
+        _positions = new double[numberOfPoints];
+        _Psi = new MutableComplex[numberOfPoints];
+        _EtoV = new Complex[numberOfPoints];
+        
+        _dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
+        _dt = 0.8 * MASS * _dx * _dx / HBAR;
+        
+        final double epsilon = HBAR * _dt / ( MASS * _dx * _dx );
+        _alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
+        _beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
-        for ( int x = 0; x < numberOfPoints; x++ ) {
-            double r, xval;
-            xval = MIN_POSITION + dx * x;
-            xpts[x] = (int) ( xscale * ( xval - MIN_POSITION ) );
-            r = Math.exp( -( ( xval - X0 ) / PACKET_WIDTH ) * ( ( xval - X0 ) / PACKET_WIDTH ) );
-            Psi[x] = new MutableComplex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
-            r = getPotentialEnergy( xval ) * dt / HBAR;
-            EtoV[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            final double position = MIN_POSITION + _dx * i;
+            _positions[i] = position;
+            final double r1 = Math.exp( -( ( position - X0 ) / PACKET_WIDTH ) * ( ( position - X0 ) / PACKET_WIDTH ) );
+            _Psi[i] = new MutableComplex( r1 * Math.cos( MASS * VX * position / HBAR ), r1 * Math.sin( MASS * VX * position / HBAR ) );
+            final double r2 = getPotentialEnergy( position ) * _dt / HBAR;
+            _EtoV[i] = new Complex( Math.cos( r2 ), -Math.sin( r2 ) );
         }
     }
 
@@ -142,7 +141,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      * potential energy is 0 everywhere is except within the barrier.
      */
     private double getPotentialEnergy( double x ) {
-        return ( Math.abs( x ) < BARRIER_WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
+        return ( Math.abs( x ) < BARRIER_WIDTH / 2 ) ? ( TOTAL_ENERGY * _energyScale ) : 0;
     }
 
     /*
@@ -163,67 +162,92 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
     
     private void propogate1() {
+        int numberOfPoints = _Psi.length;
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
             
-            c1.setValue( Psi[i] );
-            c2.setValue( Psi[i + 1] );
-            c3.setValue( alpha );
-            c3.multiply( c1 );
-            c4.setValue( beta );
-            c4.multiply( c2 );
-            Psi[i + 0].setValue( c3 );
-            Psi[i + 0].add( c4 );
+            // A = Psi[i]
+            _c1.setValue( _Psi[i] );
             
-            c3.setValue( alpha );
-            c3.multiply( c2 );
-            c4.setValue( beta );
-            c4.multiply( c1 );
-            Psi[i + 1].setValue( c3 );
-            Psi[i + 1].add( c4 );
+            // B = Psi[i + 1]
+            _c2.setValue( _Psi[i + 1] );
+            
+            // Psi[i] = (alpha * A) + (beta * B)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c1 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c2 );
+            _Psi[i].setValue( _c3 );
+            _Psi[i].add( _c4 );
+            
+            // Psi[i+1] = (alpha * B) + (beta * A)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c2 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c1 );
+            _Psi[i + 1].setValue( _c3 );
+            _Psi[i + 1].add( _c4 );
         }
     }
     
     private void propogate2() {
+        int numberOfPoints = _Psi.length;
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
             
-            c1.setValue( Psi[i] );
-            c2.setValue( Psi[i + 1] );
-            c3.setValue( alpha );
-            c3.multiply( c1 );
-            c4.setValue( beta );
-            c4.multiply( c2 );
-            Psi[i + 0].setValue( c3 );
-            Psi[i + 0].add( c4 );
+            // A = Psi[i]
+            _c1.setValue( _Psi[i] );
             
-            c3.setValue( alpha );
-            c3.multiply( c2 );
-            c4.setValue( beta );
-            c4.multiply( c1 );
-            Psi[i + 1].setValue( c3 );
-            Psi[i + 1].add( c4 );
+            // B = Psi[i + 1]
+            _c2.setValue( _Psi[i + 1] );
+            
+            // Psi[i] = (alpha * A) + (beta * B)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c1 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c2 );
+            _Psi[i].setValue( _c3 );
+            _Psi[i].add( _c4 );
+            
+            // Psi[i+1] = (alpha * B) + (beta * A)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c2 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c1 );
+            _Psi[i + 1].setValue( _c3 );
+            _Psi[i + 1].add( _c4 );
         }
     }
     
     private void propogate3() {
-        c1.setValue( Psi[numberOfPoints - 1] );
-        c2.setValue( Psi[0] );
-        c3.setValue( alpha );
-        c3.multiply( c1 );
-        c4.setValue( beta );
-        c4.multiply( c2 );
-        Psi[numberOfPoints - 1].setValue( c3 );
-        Psi[numberOfPoints - 1].add( c4 );
-        c3.setValue( alpha );
-        c3.multiply( c2 );
-        c4.setValue( beta );
-        c4.multiply( c1 );
-        Psi[0].setValue( c3 );
-        Psi[0].add( c4 );
+        int numberOfPoints = _Psi.length;
+        
+        // A = Psi[numberOfPoints - 1]
+        _c1.setValue( _Psi[numberOfPoints - 1] );
+        
+        // B = Psi[0]
+        _c2.setValue( _Psi[0] );
+        
+        // Psi[numberOfPoints - 1] = (alpha * A) + (beta * B)
+        _c3.setValue( _alpha );
+        _c3.multiply( _c1 );
+        _c4.setValue( _beta );
+        _c4.multiply( _c2 );
+        _Psi[numberOfPoints - 1].setValue( _c3 );
+        _Psi[numberOfPoints - 1].add( _c4 );
+        
+        // Psi[0] = (alpha * B) + (beta * A)
+        _c3.setValue( _alpha );
+        _c3.multiply( _c2 );
+        _c4.setValue( _beta );
+        _c4.multiply( _c1 );
+        _Psi[0].setValue( _c3 );
+        _Psi[0].add( _c4 );
     }
     
     private void propogate4() {
+        int numberOfPoints = _Psi.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            Psi[i].multiply( EtoV[i] );
+            // Psi[i= = Psi[i] * EtoV[i]
+            _Psi[i].multiply( _EtoV[i] );
         }
     }
     
@@ -236,7 +260,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      * this applet that it has been loaded into the system.
      */
     public void init() {      
-        thread = null;
+        _thread = null;
         createUI();
         restart();
         play();
@@ -256,70 +280,70 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      */
     private void createUI() {
         
-        restartButton = new JButton( RESTART_LABEL );
-        restartButton.setOpaque( false );
+        _restartButton = new JButton( RESTART_LABEL );
+        _restartButton.setOpaque( false );
         
-        playButton = new JButton( PLAY_LABEL );
-        playButton.setOpaque( false );
+        _playButton = new JButton( PLAY_LABEL );
+        _playButton.setOpaque( false );
         
-        pauseButton = new JButton( PAUSE_LABEL );
-        pauseButton.setOpaque( false );
+        _pauseButton = new JButton( PAUSE_LABEL );
+        _pauseButton.setOpaque( false );
         
-        stepButton = new JButton( STEP_LABEL );
-        stepButton.setOpaque( false );
+        _stepButton = new JButton( STEP_LABEL );
+        _stepButton.setOpaque( false );
         
-        barrierComboBox = new JComboBox();
-        barrierComboBox.setOpaque( false );
-        barrierComboBox.addItem( CHOICE1 );
-        barrierComboBox.addItem( CHOICE2 );
-        barrierComboBox.addItem( CHOICE3 );
-        barrierComboBox.addItem( CHOICE4 );
-        barrierComboBox.addItem( CHOICE5 );
-        barrierComboBox.addItem( CHOICE6 );
-        barrierComboBox.addItem( CHOICE7 );
-        barrierComboBox.setSelectedItem( CHOICE2 );
+        _barrierComboBox = new JComboBox();
+        _barrierComboBox.setOpaque( false );
+        _barrierComboBox.addItem( CHOICE1 );
+        _barrierComboBox.addItem( CHOICE2 );
+        _barrierComboBox.addItem( CHOICE3 );
+        _barrierComboBox.addItem( CHOICE4 );
+        _barrierComboBox.addItem( CHOICE5 );
+        _barrierComboBox.addItem( CHOICE6 );
+        _barrierComboBox.addItem( CHOICE7 );
+        _barrierComboBox.setSelectedItem( CHOICE2 );
         selectBarrier();
         
-        antialiasingCheckBox = new JCheckBox( ANTIALIASING_LABEL );
-        antialiasingCheckBox.setOpaque( false );
+        _antialiasingCheckBox = new JCheckBox( ANTIALIASING_LABEL );
+        _antialiasingCheckBox.setOpaque( false );
         selectAntialiasing();
         
         Panel buttonPanel = new Panel();
         buttonPanel.setLayout( new FlowLayout() );
-        buttonPanel.add( restartButton );
-        buttonPanel.add( playButton );
-        buttonPanel.add( pauseButton );
-        buttonPanel.add( stepButton );
-        buttonPanel.add( barrierComboBox );
-        buttonPanel.add( antialiasingCheckBox );
+        buttonPanel.add( _restartButton );
+        buttonPanel.add( _playButton );
+        buttonPanel.add( _pauseButton );
+        buttonPanel.add( _stepButton );
+        buttonPanel.add( _barrierComboBox );
+        buttonPanel.add( _antialiasingCheckBox );
         add( "North", buttonPanel );
         
-        restartButton.addActionListener( new ActionListener() {
+        _restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 restart();
             }
         } );
-        playButton.addActionListener( new ActionListener() {
+        _playButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 play();
             }
         } );
-        pauseButton.addActionListener( new ActionListener() {
+        _pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 pause();
             }
         } );
-        stepButton.addActionListener( new ActionListener() {
+        _stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 step();
             }
         } );
-        barrierComboBox.addActionListener( new ActionListener() {
+        _barrierComboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 selectBarrier();
             }
         } );
-        antialiasingCheckBox.addActionListener( new ActionListener() {
+        _antialiasingCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 selectAntialiasing();
             }
@@ -335,50 +359,74 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
     
     /*
+     * Resets values used in the view.
+     */
+    private void resetView() {
+        
+        _viewHeight = getSize().height - CONTROL_PANEL_HEIGHT;
+        final int viewWidth = getSize().width;
+        final int numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT; // number of sample points
+
+        _xpts = new int[numberOfPoints];
+        _ypts = new int[numberOfPoints];
+
+        _xscale = ( viewWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION ); // pixels per 1 unit of position
+        _yscale = ( _viewHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY ); // pixels per 1 unit of energy
+        
+        // X coordinates
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            _xpts[i] = (int)( _xscale * ( _positions[i] - MIN_POSITION ) );
+            _ypts[i] = 0;
+        }
+    }
+    
+    /*
      * Converts the model data to view coordinates and
      * draws it as a set of connected line segments.
      */
     private void drawPlots( Graphics g ) {
 
-        if ( antialiasing && g instanceof Graphics2D ) {
+        final int numberOfPoints = _xpts.length;
+        
+        if ( _antialiasing && g instanceof Graphics2D ) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         }
-
+        
         // Barrier
         g.setColor( BARRIER_COLOR );
-        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - BARRIER_WIDTH ) );
-        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + BARRIER_WIDTH ) );
-        int iy = (int) ( viewHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
-        int jy = (int) ( viewHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
+        int ix = (int) ( _xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - BARRIER_WIDTH ) );
+        int jx = (int) ( _xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + BARRIER_WIDTH ) );
+        int iy = (int) ( _viewHeight - 1 - _yscale * ( 0.5 * MAX_ENERGY * _energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
+        int jy = (int) ( _viewHeight - 1 - _yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         g.drawLine( ix, iy, ix, jy );
         g.drawLine( jx, iy, jx, jy );
         g.drawLine( ix, iy, jx, iy );
 
         // Real part
         g.setColor( REAL_COLOR );
-        for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].getReal() - MIN_ENERGY ) );
-            if ( x > 0 ) {
-                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            _ypts[i] = CONTROL_PANEL_HEIGHT + (int) ( _viewHeight - 1 - _yscale * ( _Psi[i].getReal() - MIN_ENERGY ) );
+            if ( i > 0 ) {
+                g.drawLine( _xpts[i - 1], _ypts[i - 1], _xpts[i], _ypts[i] );
             }
         }
 
         // Imaginary part
         g.setColor( IMAGINARY_COLOR );
-        for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].getImaginary() - MIN_ENERGY ) );
-            if ( x > 0 ) {
-                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            _ypts[i] = CONTROL_PANEL_HEIGHT + (int) ( _viewHeight - 1 - _yscale * ( _Psi[i].getImaginary() - MIN_ENERGY ) );
+            if ( i > 0 ) {
+                g.drawLine( _xpts[i - 1], _ypts[i - 1], _xpts[i], _ypts[i] );
             }
         }
 
         // Probability Density (abs^2)
         g.setColor( PROBABILITY_DENSITY_COLOR );
-        for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Math.pow( Psi[x].getAbs(), 2 ) - MIN_ENERGY ) );
-            if ( x > 0 ) {
-                g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            _ypts[i] = CONTROL_PANEL_HEIGHT + (int) ( _viewHeight - 1 - _yscale * ( Math.pow( _Psi[i].getAbs(), 2 ) - MIN_ENERGY ) );
+            if ( i > 0 ) {
+                g.drawLine( _xpts[i - 1], _ypts[i - 1], _xpts[i], _ypts[i] );
             }
         }
     }
@@ -388,24 +436,25 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
     
     private void restart() {
-        reset();
+        resetModel();
+        resetView();
         repaint();  
     }
     
     private void play() {
         start();
-        playButton.setEnabled( false );
-        pauseButton.setEnabled( true );
-        stepButton.setEnabled( false );
-        thread = new Thread( this );
-        thread.start();
+        _playButton.setEnabled( false );
+        _pauseButton.setEnabled( true );
+        _stepButton.setEnabled( false );
+        _thread = new Thread( this );
+        _thread.start();
     }
     
     private void pause() {
-        playButton.setEnabled( true );
-        pauseButton.setEnabled( false );
-        stepButton.setEnabled( true );
-        thread = null;
+        _playButton.setEnabled( true );
+        _pauseButton.setEnabled( false );
+        _stepButton.setEnabled( true );
+        _thread = null;
     }
    
     private synchronized void step() {
@@ -416,13 +465,13 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
     
     private void selectBarrier() {
-        BarrierChoice choice = (BarrierChoice) barrierComboBox.getSelectedItem();
-        energyScale = choice.getEnergyScale();
+        BarrierChoice choice = (BarrierChoice) _barrierComboBox.getSelectedItem();
+        _energyScale = choice.getEnergyScale();
         restart();
     }
     
     private void selectAntialiasing() {
-        antialiasing = antialiasingCheckBox.isSelected();
+        _antialiasing = _antialiasingCheckBox.isSelected();
         repaint();
     }
     
@@ -431,7 +480,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
 
     public void run() {
-        while ( thread != null ) {
+        while ( _thread != null ) {
             step();
             try {
                 Thread.sleep( THREAD_SLEEP_TIME );
