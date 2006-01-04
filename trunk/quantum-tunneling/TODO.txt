@@ -55,6 +55,7 @@ JFREECHART:
 
 
 DONE:
+(1/2/7) - change my clock control panel to accommodate more IClock changes
 0.0.5 ...
 (1/2/06) - first attempt at integration Richardson algorithm, doesn't work
 (1/2/06) - changes to support new ModulePanel layout
