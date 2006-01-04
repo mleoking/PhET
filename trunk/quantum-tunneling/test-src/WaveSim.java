@@ -35,9 +35,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final double HBAR = 1; // Planck's constant
     private static final double MASS = 100; // mass
     private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
-    private static final double VWIDTH = WIDTH / 2; // half the width
     private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
-    private static final double TOTAL_ENERGY = 0.5 * MASS * VX * VX; // total energy
+    private static final double TOTAL_ENERGY = ( VX * VX * MASS / 2 ); // total energy
     
     // View
     private static final Dimension APP_SIZE = new Dimension( 600, 400 ); // pixels
@@ -140,7 +139,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
 
     private double v( double x ) {
-        return ( Math.abs( x ) < VWIDTH ) ? ( TOTAL_ENERGY * energyScale ) : 0;
+        return ( Math.abs( x ) < WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
     }
 
     private void stepPhysics() {
@@ -325,8 +324,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
         // Barrier
         g.setColor( BARRIER_COLOR );
-        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - 2 * VWIDTH ) );
-        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + 2 * VWIDTH ) );
+        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - WIDTH ) );
+        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + WIDTH ) );
         int iy = (int) ( viewHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         int jy = (int) ( viewHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         g.drawLine( ix, iy, ix, jy );
