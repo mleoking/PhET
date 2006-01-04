@@ -125,6 +125,10 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         return _center;
     }
     
+    public boolean isInitialized() {
+        return ( _te != null && _pe != null );
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractWave implementation
     //----------------------------------------------------------------------------
@@ -188,7 +192,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled ) {
-            _solver.stepPhysics( 3 );
+            _solver.propogate( 3 );
             notifyObservers();
         }
     }
@@ -201,7 +205,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void simulationTimeReset( ClockEvent clockEvent ) {
         if ( _enabled ) {
-            _solver.initPhysics();
+            _solver.update();
             notifyObservers();
         }
     }
