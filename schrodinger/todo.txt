@@ -1,12 +1,17 @@
 Disable detectors when inverse slits are on.
 
-Bug: in Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
-
-Bug: Detector norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
-
-Bug: sometimes the cursor gets stuck with the double-headed resize arrow.
-
+Bugs:
+In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
+Detector norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
+Sometimes the cursor gets stuck with the double-headed resize arrow.
 There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
+If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
+·	With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
+·	I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
+·	Schrodinger particles are ignoring the slits.
+·	Resizing a detector beyond (0,0) has the wrong behavior.
+·	On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
+·	On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 ___
 Add mass to the schrodinger equation.
 
@@ -17,8 +22,6 @@ Allow user to move slit barrier up and down by clicking on it and dragging. (low
 When I move the vertical position of the slits, the response is very jerky and discontinuous.  Can this be any smoother?
 
 The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
-
-Bug: If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
 
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
 
@@ -41,14 +44,6 @@ Move the "Inverse Barrier" from "Advanced" to "Double Slits" and rename it "Anti
 
 Add save/load feature for saving barriers/detectors.
 ___________
-
-Bugs:
-·	With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
-·	I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
-·	Schrodinger particles are ignoring the slits.
-·	Resizing a detector beyond (0,0) has the wrong behavior.
-·	On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
-·	On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 
 Units and Scales:
 
@@ -97,7 +92,7 @@ Layout: (most of the following are based on feedback from Wendy)
 ·	Put the gun type menu in a control box to the left of the gun.
 ·	Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.  Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.  Put the on/off control on top of the gun and make it look like part of the gun.
 ·	Shrink the play area so there is not so much extra space.
-o	What does this mean?
+        o	What does this mean?
 
 Two lasers panel:
 
