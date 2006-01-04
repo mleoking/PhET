@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.colorgrid;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -17,6 +18,7 @@ public class ColorGrid {
     private int cellHeight;
     private int nx;
     private int ny;
+    private ArrayList listeners = new ArrayList();
 
     public ColorGrid( int cellWidth, int cellHeight, int nx, int ny ) {
         this.cellWidth = cellWidth;
@@ -103,22 +105,48 @@ public class ColorGrid {
             this.nx = nx;
             this.ny = ny;
             createImage();
+            notifyListeners();
         }
     }
 
     public void setNx( int nx ) {
-        this.nx = nx;
-        createImage();
+        if( this.nx != nx ) {
+            this.nx = nx;
+            createImage();
+            notifyListeners();
+        }
     }
 
     public void setNy( int ny ) {
-        this.ny = ny;
-        createImage();
+        if( this.ny != ny ) {
+            this.ny = ny;
+            createImage();
+            notifyListeners();
+        }
     }
 
     public void setCellDimensions( int cellWidth, int cellHeight ) {
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
-        createImage();
+        if( this.cellWidth != cellWidth || this.cellHeight != cellHeight ) {
+            this.cellWidth = cellWidth;
+            this.cellHeight = cellHeight;
+            createImage();
+            notifyListeners();
+        }
+    }
+
+    private void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.update();
+        }
+    }
+
+    public static interface Listener {
+
+        void update();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }

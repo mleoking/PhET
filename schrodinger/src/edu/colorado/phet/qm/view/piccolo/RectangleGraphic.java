@@ -14,6 +14,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -61,19 +63,28 @@ public class RectangleGraphic extends PNode {
             }
         } );
         update();
+        getColorGrid().addListener( new ColorGrid.Listener() {
+            public void update() {
+                System.out.println( "RectangleGraphic.update" );
+                RectangleGraphic.this.update();
+            }
+        } );
+        schrodingerPanel.getWavefunctionGraphic().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                RectangleGraphic.this.update();
+            }
+        } );
     }
 
     public void setResizeComponentVisible( boolean visible ) {
         this.resizeCorner.setVisible( visible );
     }
 
-    private void update() {
+    protected void update() {
         Rectangle modelRect = rectangularObject.getBounds();
         Rectangle viewRect = getViewRectangle( modelRect );
         areaGraphic.setPathTo( viewRect );
-//        resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() / 2, (int)viewRect.getMaxY() - resizeCorner.getHeight() / 2 );
         resizeCorner.setOffset( (int)viewRect.getMaxX() - resizeCorner.getWidth() + 4, (int)viewRect.getMaxY() - resizeCorner.getHeight() + 4 );
-
     }
 
     protected ColorGrid getColorGrid() {
@@ -114,7 +125,6 @@ public class RectangleGraphic extends PNode {
             startLocation = new Point2D.Double( e.getPosition().getX(), e.getPosition().getY() );
             origLoc = locationGetter.getLocation();
         }
-
 
         // implements java.awt.event.MouseListener
         public void mouseReleased( PInputEvent e ) {

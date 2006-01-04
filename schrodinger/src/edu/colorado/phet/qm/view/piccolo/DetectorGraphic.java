@@ -70,13 +70,16 @@ public class DetectorGraphic extends RectangleGraphic {
         return super.getViewRectangle( detector.getBounds() );
     }
 
-    private void update() {
-        String formatted = format.format( detector.getProbability() * 100.0 );
-        probDisplay.setText( formatted + " %" );
-        probDisplay.setOffset( getViewRectangle().x, getViewRectangle().y );
-        probDisplay.setVisible( detector.isEnabled() );
-        getAreaGraphic().setStrokePaint( detector.isEnabled() ? Color.blue : Color.gray );
-        closeGraphic.setOffset( (int)( getViewRectangle().x - closeGraphic.getWidth() ), getViewRectangle().y - closeGraphic.getHeight() );
+    protected void update() {
+        super.update();
+        if( probDisplay != null ) {
+            String formatted = format.format( detector.getProbability() * 100.0 );
+            probDisplay.setText( formatted + " %" );
+            probDisplay.setOffset( getViewRectangle().x, getViewRectangle().y );
+            probDisplay.setVisible( detector.isEnabled() );
+            getAreaGraphic().setStrokePaint( detector.isEnabled() ? Color.blue : Color.gray );
+            closeGraphic.setOffset( (int)( getViewRectangle().x - closeGraphic.getWidth() ), getViewRectangle().y - closeGraphic.getHeight() );
+        }
     }
 
     public Detector getDetector() {
