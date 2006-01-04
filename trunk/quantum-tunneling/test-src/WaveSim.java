@@ -164,15 +164,16 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      * Computer Physics Communications 63 (1991) pp 84-94 
      */
     private void stepPhysics() {
-
-        /*
-         * The time stepping algorithm used here is described in:
-         *
-         * Richardson, John L.,
-         * Visualizing quantum scattering on the CM-2 supercomputer,
-         * Computer Physics Communications 63 (1991) pp 84-94 
-         */
-
+        part1();
+        part2();
+        part3();
+        part4();
+        part3();
+        part2();
+        part1();
+    }
+    
+    private void part1() {
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
             c1.set( Psi[i] );
             c2.set( Psi[i + 1] );
@@ -183,7 +184,9 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             c4.mult( beta, c1 );
             Psi[i + 1].add( c3, c4 );
         }
-
+    }
+    
+    private void part2() {
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
             c1.set( Psi[i] );
             c2.set( Psi[i + 1] );
@@ -194,7 +197,9 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             c4.mult( beta, c1 );
             Psi[i + 1].add( c3, c4 );
         }
-
+    }
+    
+    private void part3() {
         c1.set( Psi[numberOfPoints - 1] );
         c2.set( Psi[0] );
         c3.mult( alpha, c1 );
@@ -203,41 +208,12 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         c3.mult( alpha, c2 );
         c4.mult( beta, c1 );
         Psi[0].add( c3, c4 );
-
+    }
+    
+    private void part4() {
         for ( int i = 0; i < numberOfPoints; i++ ) {
             c1.set( Psi[i] );
             Psi[i].mult( c1, EtoV[i] );
-        }
-
-        c1.set( Psi[numberOfPoints - 1] );
-        c2.set( Psi[0] );
-        c3.mult( alpha, c1 );
-        c4.mult( beta, c2 );
-        Psi[numberOfPoints - 1].add( c3, c4 );
-        c3.mult( alpha, c2 );
-        c4.mult( beta, c1 );
-        Psi[0].add( c3, c4 );
-
-        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            c1.set( Psi[i] );
-            c2.set( Psi[i + 1] );
-            c3.mult( alpha, c1 );
-            c4.mult( beta, c2 );
-            Psi[i + 0].add( c3, c4 );
-            c3.mult( alpha, c2 );
-            c4.mult( beta, c1 );
-            Psi[i + 1].add( c3, c4 );
-        }
-
-        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
-            c1.set( Psi[i] );
-            c2.set( Psi[i + 1] );
-            c3.mult( alpha, c1 );
-            c4.mult( beta, c2 );
-            Psi[i + 0].add( c3, c4 );
-            c3.mult( alpha, c2 );
-            c4.mult( beta, c1 );
-            Psi[i + 1].add( c3, c4 );
         }
     }
     
