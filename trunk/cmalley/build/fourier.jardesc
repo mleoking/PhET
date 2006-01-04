@@ -10,8 +10,8 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=fourier"/>
-        <javaElement handleIdentifier="=charts-branch"/>
-        <javaElement handleIdentifier="=phetcommon-branch"/>
-        <javaElement handleIdentifier="=phetgraphics-branch"/>
+        <javaElement handleIdentifier="=charts"/>
+        <javaElement handleIdentifier="=phetcommon"/>
+        <javaElement handleIdentifier="=phetgraphics"/>
     </selectedElements>
 </jardesc>
