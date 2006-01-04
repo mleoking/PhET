@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
+import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.util.MutableComplex;
+
 /**
  * Integrating the Schrodinger Wave Equation.
  * <br>
@@ -74,7 +77,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private double dt; // time step
     private double dx;  // change in position for each sample point
     private double energyScale; // ratio of V/E
-    private Complex Psi[]; // wave function values at each sample point
+    private MutableComplex Psi[]; // wave function values at each sample point
     private Complex EtoV[]; // potential energy propogator = exp(-i*V(x)*dt/hbar)
     private Complex alpha; //special parameter for Richardson algorithm
     private Complex beta; //special parameter for Richardson algorithm
@@ -95,10 +98,10 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private JCheckBox antialiasingCheckBox;
     
     // Reusable temporary variables
-    private Complex c1 = new Complex( 0, 0 );
-    private Complex c2 = new Complex( 0, 0 );
-    private Complex c3 = new Complex( 0, 0 );
-    private Complex c4 = new Complex( 0, 0 );
+    private MutableComplex c1 = new MutableComplex( 0, 0 );
+    private MutableComplex c2 = new MutableComplex( 0, 0 );
+    private MutableComplex c3 = new MutableComplex( 0, 0 );
+    private MutableComplex c4 = new MutableComplex( 0, 0 );
 
     //----------------------------------------------------------------------
     // Physics
@@ -111,7 +114,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
         xpts = new int[numberOfPoints];
         ypts = new int[numberOfPoints];
-        Psi = new Complex[numberOfPoints];
+        Psi = new MutableComplex[numberOfPoints];
         EtoV = new Complex[numberOfPoints];
         
         dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
@@ -127,7 +130,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             xval = MIN_POSITION + dx * x;
             xpts[x] = (int) ( xscale * ( xval - MIN_POSITION ) );
             r = Math.exp( -( ( xval - X0 ) / PACKET_WIDTH ) * ( ( xval - X0 ) / PACKET_WIDTH ) );
-            Psi[x] = new Complex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
+            Psi[x] = new MutableComplex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
             r = v( xval ) * dt / HBAR;
             EtoV[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
         }
@@ -161,45 +164,66 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     
     private void part1() {
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
-            c1.set( Psi[i] );
-            c2.set( Psi[i + 1] );
-            c3.mult( alpha, c1 );
-            c4.mult( beta, c2 );
-            Psi[i + 0].add( c3, c4 );
-            c3.mult( alpha, c2 );
-            c4.mult( beta, c1 );
-            Psi[i + 1].add( c3, c4 );
+            
+            c1.setValue( Psi[i] );
+            c2.setValue( Psi[i + 1] );
+            c3.setValue( alpha );
+            c3.multiply( c1 );
+            c4.setValue( beta );
+            c4.multiply( c2 );
+            Psi[i + 0].setValue( c3 );
+            Psi[i + 0].add( c4 );
+            
+            c3.setValue( alpha );
+            c3.multiply( c2 );
+            c4.setValue( beta );
+            c4.multiply( c1 );
+            Psi[i + 1].setValue( c3 );
+            Psi[i + 1].add( c4 );
         }
     }
     
     private void part2() {
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            c1.set( Psi[i] );
-            c2.set( Psi[i + 1] );
-            c3.mult( alpha, c1 );
-            c4.mult( beta, c2 );
-            Psi[i + 0].add( c3, c4 );
-            c3.mult( alpha, c2 );
-            c4.mult( beta, c1 );
-            Psi[i + 1].add( c3, c4 );
+            
+            c1.setValue( Psi[i] );
+            c2.setValue( Psi[i + 1] );
+            c3.setValue( alpha );
+            c3.multiply( c1 );
+            c4.setValue( beta );
+            c4.multiply( c2 );
+            Psi[i + 0].setValue( c3 );
+            Psi[i + 0].add( c4 );
+            
+            c3.setValue( alpha );
+            c3.multiply( c2 );
+            c4.setValue( beta );
+            c4.multiply( c1 );
+            Psi[i + 1].setValue( c3 );
+            Psi[i + 1].add( c4 );
         }
     }
     
     private void part3() {
-        c1.set( Psi[numberOfPoints - 1] );
-        c2.set( Psi[0] );
-        c3.mult( alpha, c1 );
-        c4.mult( beta, c2 );
-        Psi[numberOfPoints - 1].add( c3, c4 );
-        c3.mult( alpha, c2 );
-        c4.mult( beta, c1 );
-        Psi[0].add( c3, c4 );
+        c1.setValue( Psi[numberOfPoints - 1] );
+        c2.setValue( Psi[0] );
+        c3.setValue( alpha );
+        c3.multiply( c1 );
+        c4.setValue( beta );
+        c4.multiply( c2 );
+        Psi[numberOfPoints - 1].setValue( c3 );
+        Psi[numberOfPoints - 1].add( c4 );
+        c3.setValue( alpha );
+        c3.multiply( c2 );
+        c4.setValue( beta );
+        c4.multiply( c1 );
+        Psi[0].setValue( c3 );
+        Psi[0].add( c4 );
     }
     
     private void part4() {
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            c1.set( Psi[i] );
-            Psi[i].mult( c1, EtoV[i] );
+            Psi[i].multiply( EtoV[i] );
         }
     }
     
@@ -334,7 +358,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Real part
         g.setColor( REAL_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].re - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].getReal() - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -343,7 +367,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Imaginary part
         g.setColor( IMAGINARY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].im - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Psi[x].getImaginary() - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -352,7 +376,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         // Probability Density (abs^2)
         g.setColor( PROBABILITY_DENSITY_COLOR );
         for ( int x = 0; x < numberOfPoints; x++ ) {
-            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Math.pow( Psi[x].abs(), 2 ) - MIN_ENERGY ) );
+            ypts[x] = CONTROL_PANEL_HEIGHT + (int) ( viewHeight - 1 - yscale * ( Math.pow( Psi[x].getAbs(), 2 ) - MIN_ENERGY ) );
             if ( x > 0 ) {
                 g.drawLine( xpts[x - 1], ypts[x - 1], xpts[x], ypts[x] );
             }
@@ -441,38 +465,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
         public String toString() {
             return label;
-        }
-    }
-
-    /*
-     * Very basic support for complex numbers.
-     */
-    private static class Complex {
-
-        private double re, im;
-
-        Complex( double x, double y ) {
-            re = x;
-            im = y;
-        }
-
-        public void set( Complex a ) {
-            re = a.re;
-            im = a.im;
-        }
-        
-        public void add( Complex a, Complex b ) {
-            re = a.re + b.re;
-            im = a.im + b.im;
-        }
-
-        public void mult( Complex a, Complex b ) {
-            re = a.re * b.re - a.im * b.im;
-            im = a.re * b.im + a.im * b.re;
-        }
-
-        public double abs() {
-            return Math.sqrt( re * re + im * im );
         }
     }
 }
