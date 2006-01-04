@@ -13,8 +13,8 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -36,17 +36,8 @@ import javax.swing.*;
  */
 public class PhetGraphicsModule extends Module {
 
-    ApparatusPanel apparatusPanel;
-    HelpManager helpManager;
-
-    /**
-     * @param name
-     * @param clock
-     */
-    protected PhetGraphicsModule( String name, AbstractClock clock ) {
-        super( name, clock );
-        helpManager = new HelpManager();
-    }
+    private ApparatusPanel apparatusPanel;
+    private HelpManager helpManager;
 
     /**
      * @param name
@@ -56,7 +47,19 @@ public class PhetGraphicsModule extends Module {
         this( name, null );
     }
 
-    protected void init( ApparatusPanel apparatusPanel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
+    /**
+     * @param name
+     * @param clock
+     */
+    protected PhetGraphicsModule( String name, IClock clock ) {
+        super( name, clock );
+        helpManager = new HelpManager();
+
+        // Handle redrawing while the clock is paused.
+        clock.addClockListener( new ClockPausedHandler( this ) );
+    }
+
+    protected void init( ApparatusPanel apparatusPanel, ControlPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
         setApparatusPanel( apparatusPanel );
         setControlPanel( controlPanel );
         setMonitorPanel( monitorPanel );
@@ -73,8 +76,9 @@ public class PhetGraphicsModule extends Module {
             helpManager.setComponent( apparatusPanel );
         }
         else {
-            helpManager = new HelpManager( apparatusPanel );//TODO fix this.
+            helpManager = new HelpManager( apparatusPanel );
         }
+        super.setSimulationPanel( apparatusPanel );
     }
 
     public ApparatusPanel getApparatusPanel() {
@@ -106,9 +110,6 @@ public class PhetGraphicsModule extends Module {
      */
     public void addHelpItem( PhetGraphic helpItem ) {
         helpManager.addGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
-        }
     }
 
     /**
@@ -118,9 +119,6 @@ public class PhetGraphicsModule extends Module {
      */
     public void removeHelpItem( PhetGraphic helpItem ) {
         helpManager.removeGraphic( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
-        }
     }
 
     public HelpManager getHelpManager() {
@@ -179,7 +177,7 @@ public class PhetGraphicsModule extends Module {
 //        getApparatusPanel().repaint();
 //    }
 
-    public void updateGraphics( ClockTickEvent event ) {
+    public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         PhetJComponent.getRepaintManager().updateGraphics();
     }
@@ -193,8 +191,10 @@ public class PhetGraphicsModule extends Module {
         helpManager.setHelpEnabled( apparatusPanel, h );
     }
 
+    /**
+     * Refreshes the Module, redrawing it while its clock is paused.
+     */
     public void refresh() {
-        super.refresh();
         // Repaint all dirty PhetJComponents
         PhetJComponent.getRepaintManager().updateGraphics();
         // Paint the apparatus panel
@@ -204,10 +204,6 @@ public class PhetGraphicsModule extends Module {
     protected void handleUserInput() {
         super.handleUserInput();
         getApparatusPanel().handleUserInput();
-    }
-
-    public JComponent getSimulationPanel() {
-        return getApparatusPanel();
     }
 
     public Class[] getTransientPropertySources() {

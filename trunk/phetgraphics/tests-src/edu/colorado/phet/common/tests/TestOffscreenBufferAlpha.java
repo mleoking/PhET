@@ -1,11 +1,10 @@
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -39,18 +38,17 @@ public class TestOffscreenBufferAlpha {
         // Set up the application descriptor.
         String title = "TestOffscreenBufferAlpha";
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
-        AbstractClock clock = new SwingTimerClock( 1, 40 );
+        IClock clock = new SwingClock( 40, 1 );
         PhetGraphicsModule module = new TestModule( clock );
-        ApplicationModel appModel =
-                new ApplicationModel( title, "description", "version", frameSetup, module, clock );
 
         // Create and start the application.
-        PhetApplication app = new PhetApplication( appModel, args );
+        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        app.addModule( module );
         app.startApplication();
     }
 
     private class TestModule extends PhetGraphicsModule {
-        public TestModule( AbstractClock clock ) {
+        public TestModule( IClock clock ) {
             super( "Test Module", clock );
 
             // Model

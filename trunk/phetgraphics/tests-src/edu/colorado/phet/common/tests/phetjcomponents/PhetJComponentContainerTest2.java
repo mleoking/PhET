@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.tests.phetjcomponents;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,20 +23,20 @@ import java.awt.event.ComponentEvent;
 public class PhetJComponentContainerTest2 {
     private JFrame frame;
     private ApparatusPanel2 ap;
-    private SwingTimerClock swingTimerClock;
+    private SwingClock swingClock;
 
     public PhetJComponentContainerTest2() {
         /*Set up the application frame and apparatusPanel.*/
         frame = new JFrame( "Frame" );
-        swingTimerClock = new SwingTimerClock( 1, 30 );
-        ap = new ApparatusPanel2( swingTimerClock );
+        swingClock = new SwingClock( 30, 1.0 );
+        ap = new ApparatusPanel2( swingClock );
         ap.addGraphicsSetup( new BasicGraphicsSetup() );
 
         frame.setContentPane( ap );
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        swingTimerClock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        swingClock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 ap.handleUserInput();
                 ap.paint();
             }
@@ -128,7 +128,7 @@ public class PhetJComponentContainerTest2 {
     }
 
     private void start() {
-        swingTimerClock.start();
+        swingClock.start();
 //        frame.setVisible( true );
     }
 }

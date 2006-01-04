@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
 import java.awt.*;
@@ -28,20 +28,20 @@ import java.awt.geom.AffineTransform;
  * @author ?
  * @version $Revision$
  */
-public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListener {
+public class RepaintDebugGraphic extends PhetGraphic implements ClockListener {
     private int r = 255;
     private int g = 255;
     private int b = 255;
     private int alpha = 255;
     private ApparatusPanel panel;
-    private AbstractClock clock;
+    private IClock clock;
     private boolean active = false;
 
-    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
+    public RepaintDebugGraphic( ApparatusPanel panel, IClock clock ) {
         this( panel, clock, 128 );
     }
 
-    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock, int transparency ) {
+    public RepaintDebugGraphic( ApparatusPanel panel, IClock clock, int transparency ) {
         super( panel );
         this.panel = panel;
         this.clock = clock;
@@ -65,10 +65,22 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         }
     }
 
-    public void clockTicked( ClockTickEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         r = ( r - 1 + 255 ) % 255;
         g = ( g - 2 + 255 ) % 255;
         b = ( b - 3 + 255 ) % 255;
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
     }
 
     public void setActive( boolean active ) {
@@ -78,10 +90,10 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         }
         this.active = active;
         if( active ) {
-            clock.addClockTickListener( this );
+            clock.addClockListener( this );
         }
         else {
-            clock.removeClockTickListener( this );
+            clock.removeClockListener( this );
         }
 
     }
@@ -100,7 +112,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
      * @param apparatusPanel
      * @param clock
      */
-    public static void enable( final ApparatusPanel apparatusPanel, AbstractClock clock ) {
+    public static void enable( final ApparatusPanel apparatusPanel, IClock clock ) {
         final RepaintDebugGraphic debugGraphic = new RepaintDebugGraphic( apparatusPanel, clock );
         apparatusPanel.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {

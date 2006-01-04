@@ -1,15 +1,15 @@
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -31,26 +31,26 @@ import java.awt.event.MouseEvent;
  */
 public class TestApparatusPanel2 {
 
-    static class TestAppModel extends ApplicationModel {
-        public TestAppModel() {
-            super( "", "", "" );
-            this.setClock( new SwingTimerClock( 10, 40, true ) );
-            TestModule module = new TestModule( this, getClock() );
-            setModule( module );
-            setFrameCenteredSize( 400, 300 );
-            setInitialModule( module );
-        }
-    }
+//    static class TestAppModel extends ApplicationModel {
+//        public TestAppModel() {
+//            super( "", "", "" );
+//            this.setClock( new SwingClock( 30, 10.0 ) );
+//            TestModule module = new TestModule( this, getClock() );
+//            setModule( module );
+//            setFrameCenteredSize( 400, 300 );
+//            setInitialModule( module );
+//        }
+//    }
 
     static class TestModule extends PhetGraphicsModule {
 
-        protected TestModule( TestAppModel model, AbstractClock clock ) {
+        protected TestModule( IClock clock ) {
             super( "ApparatusPanel2 Test", clock );
 
 //            BaseModel model = new BaseModel();
 //            ApparatusPanel ap = new ApparatusPanel();
             BaseModel baseModel = new BaseModel();
-            ApparatusPanel ap = new ApparatusPanel2( model.getClock() );
+            ApparatusPanel ap = new ApparatusPanel2( new SwingClock( 30, 1 ) );
             setApparatusPanel( ap );
             setModel( baseModel );
 
@@ -100,9 +100,10 @@ public class TestApparatusPanel2 {
     }
 
     public static void main( String[] args ) {
-
-        PhetApplication testApp = new PhetApplication( new TestAppModel() );
+        PhetApplication testApp = new PhetApplication( args, "title", "description", "version" );
+        TestModule module = new TestModule( new SwingClock( 30, 1 ) );
+        testApp.addModule( module );
+        testApp.setModules( new Module[]{module} );
         testApp.startApplication();
-
     }
 }

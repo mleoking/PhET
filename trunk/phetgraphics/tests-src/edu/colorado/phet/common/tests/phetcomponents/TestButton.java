@@ -11,14 +11,14 @@
 package edu.colorado.phet.common.tests.phetcomponents;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common.view.phetcomponents.TitleGraphic;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ import java.awt.event.ActionListener;
 
 public class TestButton {
     public static void main( String[] args ) {
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new SwingClock( 30, 1.0 );
         final BaseModel model = new BaseModel();
         ApparatusPanel2 panel = new ApparatusPanel2( clock );
 //        ApparatusPanel panel = new ApparatusPanel( );
@@ -48,9 +48,9 @@ public class TestButton {
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setSize( 600, 600 );
         jf.show();
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                model.stepInTime( event.getDt() );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
+                model.update( event );
             }
         } );
         clock.start();

@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.*;
@@ -37,7 +37,7 @@ import java.awt.geom.Ellipse2D;
 
 public class TestPhetGraphicsStrategy extends JFrame {
     private ApparatusPanel panel;
-    private AbstractClock clock;
+    private IClock clock;
 
     static interface TestPhetGraphicSource {
         public PhetGraphic createGraphic( Component panel );
@@ -128,7 +128,7 @@ public class TestPhetGraphicsStrategy extends JFrame {
                 panel.requestFocus();
             }
         } );
-        clock = new SwingTimerClock( 1, 30, true );
+        clock = new SwingClock( 30, 1.0 );
         panel.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 5, 5, 5, 5 ), Color.black ) );
         final RepaintDebugGraphic rdg = new RepaintDebugGraphic( panel, clock );
         panel.addGraphic( rdg );

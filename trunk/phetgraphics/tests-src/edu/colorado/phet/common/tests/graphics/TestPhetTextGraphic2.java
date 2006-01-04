@@ -3,8 +3,8 @@ package edu.colorado.phet.common.tests.graphics;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
@@ -36,7 +36,7 @@ public class TestPhetTextGraphic2 {
         double frameRate = 25; // fps
         int waitTime = (int)( 1000 / frameRate ); // milliseconds
         boolean isFixed = true;
-        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
+        IClock clock = new SwingClock( waitTime, timeStep );
 
         String title = "TestPhetTextGraphic2";
         String description = "";
@@ -45,7 +45,7 @@ public class TestPhetTextGraphic2 {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         PhetApplication app = new PhetApplication( args,
-                                                   title, description, version, clock, useClockControlPanel, frameSetup );
+                                                   title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );
 
@@ -56,7 +56,7 @@ public class TestPhetTextGraphic2 {
 
     private class TestModule extends PhetGraphicsModule {
 
-        public TestModule( AbstractClock clock ) {
+        public TestModule( IClock clock ) {
             super( "TestModule", clock );
 
             int textLayer = 1;

@@ -1,15 +1,15 @@
 package edu.colorado.phet.common.tests.phetjcomponents;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
@@ -31,19 +31,17 @@ import java.util.Hashtable;
 public class FullPhetJComponentFocusTest {
     private JFrame frame;
     private ApparatusPanel2 ap;
-    private SwingTimerClock swingTimerClock;
+    private SwingClock swingClock;
 
     public FullPhetJComponentFocusTest() throws IOException {
 
         frame = new JFrame( "Frame" );
 
         JPanel contentPanel = new JPanel( new BorderLayout() );
-
-
         PhetJComponent.init( frame );//todo integrate into PhetFrame.
 
-        SwingTimerClock swingTimerClock = new SwingTimerClock( 1, 30 );
-        ap = new ApparatusPanel2( swingTimerClock );
+        SwingClock swingClock = new SwingClock( 30, 1.0 );
+        ap = new ApparatusPanel2( swingClock );
         ap.addGraphicsSetup( new BasicGraphicsSetup() );
         JButton jb = new JButton( "JButton" );
         jb.addActionListener( new ActionListener() {
@@ -98,9 +96,9 @@ public class FullPhetJComponentFocusTest {
         buttonGroup.add( jRadioButton2 );
 
         buttonPhetJ.setLocation( 100, 100 );
-        this.swingTimerClock = swingTimerClock;
-        this.swingTimerClock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        this.swingClock = swingClock;
+        this.swingClock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 ap.handleUserInput();
 //                ap.paintImmediately( new Rectangle( 0, 0, ap.getWidth(), ap.getLength() ) );
                 ap.paint();
@@ -234,7 +232,7 @@ public class FullPhetJComponentFocusTest {
 //        ap.add( jSpinner );
 //        jSpinner.reshape( 100, 100, jSpinner.getPreferredSize().width, jSpinner.getPreferredSize().height );
 
-        RepaintDebugGraphic.enable( ap, swingTimerClock );
+        RepaintDebugGraphic.enable( ap, swingClock );
     }
 
     public static void main( String[] args ) throws IOException {
@@ -242,7 +240,7 @@ public class FullPhetJComponentFocusTest {
     }
 
     private void start() {
-        swingTimerClock.start();
+        swingClock.start();
         frame.setVisible( true );
     }
 

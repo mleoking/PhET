@@ -6,18 +6,16 @@
  */
 package edu.colorado.phet.common.examples;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.clockgui.ClockParamSetterPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -31,7 +29,7 @@ import java.util.Random;
 public class TestPhetApplication {
     static class MyModule extends PhetGraphicsModule {
 
-        public MyModule( String name, AbstractClock clock, Color color ) {
+        public MyModule( String name, IClock clock, Color color ) {
             super( name, clock );
 
 //            final ControlPanel controlPanel = new ControlPanel( this );
@@ -47,43 +45,41 @@ public class TestPhetApplication {
 
             addHelpItem( new HelpItem( getApparatusPanel(), "HELP!!!", 300, 200 ) );
 
-            controlPanel.add( ctrl );
+            controlPanel.addControl( ctrl );
             final JButton button1 = new JButton( "YO!" );
-            controlPanel.add( button1 );
+            controlPanel.addControl( button1 );
             JButton button2 = new JButton( "Y'ALL!" );
-            controlPanel.addFullWidth( button2 );
+            controlPanel.addControlFullWidth( button2 );
             button2.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    controlPanel.remove( button1 );
+                    controlPanel.removeControl( button1 );
                 }
             } );
         }
 
-        public void activate( PhetApplication app ) {
-            super.activate( app );
+        public void activate() {
+            super.activate();
         }
     }
 
     static class MyModule2 extends PhetGraphicsModule {
 
-        public MyModule2( String name, AbstractClock clock, Color color ) {
+        public MyModule2( String name, IClock clock, Color color ) {
             super( name, clock );
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
-            JPanel controls = new JPanel();
-            controls.add( ctrl );
+            ControlPanel controls = new ControlPanel( this );
+            controls.addControl( ctrl );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
             setControlPanel( controls );
             JPanel monitorPanel = new JPanel();
             monitorPanel.add( new JCheckBox( "yes/no" ) );
             setMonitorPanel( monitorPanel );
-
-
         }
 
-        public void activate( PhetApplication app ) {
-            super.activate( app );
+        public void activate() {
+            super.activate();
         }
     }
 
@@ -142,7 +138,7 @@ public class TestPhetApplication {
     }
 
     static class MyModule3 extends PhetGraphicsModule {
-        public MyModule3( AbstractClock clock ) {
+        public MyModule3( IClock clock ) {
             super( "Test Module", clock );
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
@@ -163,33 +159,17 @@ public class TestPhetApplication {
     }
 
     public static void main( String[] args ) {
-
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
+        SwingClock clock = new SwingClock( 30, 1.0 );
         PhetGraphicsModule module = new MyModule( "Testing", clock, Color.blue );
         PhetGraphicsModule module2 = new MyModule( "1ntht", clock, Color.red );
         PhetGraphicsModule module3 = new MyModule2( "Button", clock, Color.red );
 
         MyModule3 modulePhotons = new MyModule3( clock );
-
-
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
 
-        ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
-        applicationModel.setName( "phetcommon" );
-        applicationModel.setClock( clock );
-        applicationModel.setModules( m );
-        applicationModel.setInitialModule( module );
-        applicationModel.setUseClockControlPanel( true );
-
-        PhetApplication app = new PhetApplication( applicationModel, args );
+        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
+        app.addModules( m );
         app.startApplication();
-
-        ClockParamSetterPanel ccp = new ClockParamSetterPanel( clock );
-        JFrame jeff = new JFrame( "CCP" );
-        jeff.setContentPane( ccp );
-        jeff.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jeff.pack();
-        jeff.show();
     }
 
 }

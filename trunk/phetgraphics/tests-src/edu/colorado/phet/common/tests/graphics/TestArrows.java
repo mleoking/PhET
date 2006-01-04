@@ -6,18 +6,18 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,8 +44,8 @@ public class TestArrows {
 
         arrow = new Arrow( new Point( 200, 300 ), new Point( x0, y0 ), 100, 100, 35, .5, false );
         shapeGraphic = new PhetShapeGraphic( p, arrow.getShape(), Color.blue );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
-//        clock.addClockTickListener( new ClockTickListener() {
+        SwingClock clock = new SwingClock( 30, 1.0 );
+//        clock.addClockListener( new ClockAdapter() {
 //            public void clockTicked( AbstractClock c, double dt ) {
 //                theta += Math.PI / 128;
 //                double x = x0 + r * Math.cos( theta );
@@ -55,7 +55,7 @@ public class TestArrows {
 //            }
 //        } );
 //        ClockTickListener tickListener = new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
+//            public void clockTicked( ClockEvent event ) {
 //                theta += Math.PI / 128;
 //                double x = x0 + r * Math.cos( theta );
 //                double y = y0 + r * Math.sin( theta );
@@ -64,7 +64,7 @@ public class TestArrows {
 //            }
 //        };
 //        clock.addClockTickListener( tickListener );
-        clock.addClockTickListener( new MyListener() );
+        clock.addClockListener( new MyListener() );
         shapeGraphic.setCursorHand();
         shapeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
@@ -85,9 +85,9 @@ public class TestArrows {
         clock.start();
     }
 
-    public static class MyListener implements ClockTickListener {
+    public static class MyListener extends ClockAdapter {
 
-        public void clockTicked( ClockTickEvent event ) {
+        public void clockTicked( ClockEvent event ) {
             theta += Math.PI / 128;
 //            System.out.println( "event = " + event );
             double x = x0 + r * Math.cos( theta );

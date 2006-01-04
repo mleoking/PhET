@@ -21,9 +21,6 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 public class PhetGraphicsModuleStateDescriptor extends ModuleStateDescriptor {
     private GraphicLayerSet graphic;
 
-    public PhetGraphicsModuleStateDescriptor() {
-    }
-
     protected PhetGraphicsModuleStateDescriptor( PhetGraphicsModule module ) {
         super( module );
         setGraphic( module.getApparatusPanel().getGraphic() );
