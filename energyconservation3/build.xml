@@ -97,6 +97,7 @@
                 <fileset file="${ant.jars}/ec3-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <fileset file="README"/>
+                <fileset file="energy-conservation.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -111,7 +112,6 @@
             <sftp action="put" remotedir="${dev-parent}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
-                <fileset file="energy-conservation.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
