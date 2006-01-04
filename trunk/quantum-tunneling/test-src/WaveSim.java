@@ -107,7 +107,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     // Physics
     //----------------------------------------------------------------------
     
-    private void resetPhysics() {
+    private void reset() {
         viewWidth = getSize().width;
         viewHeight = getSize().height - CONTROL_PANEL_HEIGHT;
         numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT;
@@ -131,7 +131,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             xpts[x] = (int) ( xscale * ( xval - MIN_POSITION ) );
             r = Math.exp( -( ( xval - X0 ) / PACKET_WIDTH ) * ( ( xval - X0 ) / PACKET_WIDTH ) );
             Psi[x] = new MutableComplex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
-            r = v( xval ) * dt / HBAR;
+            r = getPotentialEnergy( xval ) * dt / HBAR;
             EtoV[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
         }
     }
@@ -141,7 +141,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      * This assumes that the barrier is centered at 0, and that 
      * potential energy is 0 everywhere is except within the barrier.
      */
-    private double v( double x ) {
+    private double getPotentialEnergy( double x ) {
         return ( Math.abs( x ) < BARRIER_WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
     }
 
@@ -152,17 +152,17 @@ public class WaveSim extends java.applet.Applet implements Runnable {
      * Visualizing quantum scattering on the CM-2 supercomputer,
      * Computer Physics Communications 63 (1991) pp 84-94 
      */
-    private void stepPhysics() {
-        part1();
-        part2();
-        part3();
-        part4();
-        part3();
-        part2();
-        part1();
+    private void propogate() {
+        propogate1();
+        propogate2();
+        propogate3();
+        propogate4();
+        propogate3();
+        propogate2();
+        propogate1();
     }
     
-    private void part1() {
+    private void propogate1() {
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
             
             c1.setValue( Psi[i] );
@@ -183,7 +183,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         }
     }
     
-    private void part2() {
+    private void propogate2() {
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
             
             c1.setValue( Psi[i] );
@@ -204,7 +204,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         }
     }
     
-    private void part3() {
+    private void propogate3() {
         c1.setValue( Psi[numberOfPoints - 1] );
         c2.setValue( Psi[0] );
         c3.setValue( alpha );
@@ -221,7 +221,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         Psi[0].add( c4 );
     }
     
-    private void part4() {
+    private void propogate4() {
         for ( int i = 0; i < numberOfPoints; i++ ) {
             Psi[i].multiply( EtoV[i] );
         }
@@ -388,7 +388,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     //----------------------------------------------------------------------
     
     private void restart() {
-        resetPhysics();
+        reset();
         repaint();  
     }
     
@@ -410,7 +410,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
    
     private synchronized void step() {
         for ( int i = 0; i < STEPS_PER_FRAME; i++ ) {
-            stepPhysics();
+            propogate();
         }
         repaint();
     }
