@@ -6,6 +6,7 @@
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
     <property name="ant.lib" location="${ant.output}/lib"/>
+    <property name="ant.jnlp" location="${ant.output}/jnlp"/>
 
     <!--    Set current sister directories, for backup and release data. -->
     <property name="backup" location="../backup"/>
@@ -22,12 +23,9 @@
     <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
     <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
 
-    <taskdef resource="proguard/ant/task.properties"
-             classpath="antutil-dir/lib/proguard.jar"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="antutil-dir/lib/proguard.jar"/>
 
-    <taskdef name="maverick-ssh"
-             classname="com.sshtools.ant.Ssh"
-             classpath="antutil-dir/lib/maverick-ant.jar"/>
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="antutil-dir/lib/maverick-ant.jar"/>
 
     <target name="init">
         <tstamp/>
@@ -96,8 +94,8 @@
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="ant_output/jars/schrodinger-pro.jar"/>
-                <fileset file="ant_output/jnlp/schrodinger.jnlp"/>
+                <fileset file="${ant.jars}/schrodinger-pro.jar"/>
+                <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <fileset file="README"/>
             </sftp>
         </maverick-ssh>
