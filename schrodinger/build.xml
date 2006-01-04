@@ -96,6 +96,7 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="${ant.jars}/schrodinger-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
+                <fileset file="screenshot.gif"/>
                 <fileset file="README"/>
             </sftp>
         </maverick-ssh>
@@ -111,7 +112,6 @@
             <sftp action="put" remotedir="${dev-parent}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
-                <fileset file="screenshot.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
