@@ -20,6 +20,8 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,16 +45,16 @@ public class DischargeLampsApp extends PhetApplication {
                frameSetup );
 
         // Determine the resolution of the screen
-        final IClock clock = new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT );
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                     clock );
+                                                                     new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ) );
 
         // Set the energy rep strategy for the AtomGraphics
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
 
         double maxSpeed = 0.1;
         DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                         clock, 30,
+                                                                         new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ),
+                                                                         30,
                                                                          DischargeLampsConfig.NUM_ENERGY_LEVELS,
                                                                          maxSpeed );
         setModules( new Module[]{singleAtomModule,
@@ -64,16 +66,26 @@ public class DischargeLampsApp extends PhetApplication {
         JMenuItem simulationSpeedMI = new JMenuItem( "Simulation speed..." );
         simulationSpeedMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JSlider clockTickSlider = new JSlider( 1, 15, (int)DischargeLampsConfig.DT );
+                final IClock clock = PhetApplication.instance().getActiveModule().getClock();
+                double dt = clock.getSimulationTimeChange();
+                final JSlider clockTickSlider = new JSlider( 1, 15, (int)DischargeLampsConfig.DT );
                 clockTickSlider.setMajorTickSpacing( 2 );
                 clockTickSlider.setMinorTickSpacing( 1 );
                 clockTickSlider.setPaintTicks( true );
                 clockTickSlider.setPaintLabels( true );
                 clockTickSlider.setSnapToTicks( true );
-                JOptionPane.showMessageDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
-                                               JOptionPane.OK_OPTION );
-                DischargeLampsConfig.DT = clockTickSlider.getValue();
-                clock.setSimulationTime( clockTickSlider.getValue() );
+                clockTickSlider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        DischargeLampsConfig.DT = clockTickSlider.getValue();
+                        clock.setSimulationDt( clockTickSlider.getValue() );
+                    }
+                } );
+                int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
+                                                             JOptionPane.OK_CANCEL_OPTION );
+                // If the user canceled, reset the clock to its original value
+                if( confirm == JOptionPane.CANCEL_OPTION ) {
+                    clock.setSimulationDt( dt );
+                }
             }
         } );
         optionsMenu.add( simulationSpeedMI );
