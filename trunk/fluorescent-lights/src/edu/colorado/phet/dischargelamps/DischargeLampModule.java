@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -100,7 +100,7 @@ public class DischargeLampModule extends BaseLaserModule {
      *
      * @param clock
      */
-    protected DischargeLampModule( String name, AbstractClock clock ) {
+    protected DischargeLampModule( String name, IClock clock ) {
         super( name, clock );
 
         // Set up the basic stuff
@@ -317,7 +317,7 @@ public class DischargeLampModule extends BaseLaserModule {
             currentSlider.setValue( 10 );
 
             // Add an energy level monitor panel.
-            energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model, getClock(),
+            energyLevelsMonitorPanel = new DischargeLampEnergyMonitorPanel2( model,
                                                                              model.getAtomicStates(),
                                                                              200,
                                                                              300,

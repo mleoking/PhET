@@ -12,8 +12,8 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -40,25 +40,24 @@ public class DischargeLampsApp extends PhetApplication {
         super( args, SimStrings.get( "DischargeLampsApplication.title" ),
                SimStrings.get( "DischargeLampsApplication.title" ),
                version,
-               new SwingTimerClock( DischargeLampsConfig.DT, DischargeLampsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ),
-               true,
                frameSetup );
 
         // Determine the resolution of the screen
+        final IClock clock = new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT );
         DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                     getClock() );
+                                                                     clock );
 
         // Set the energy rep strategy for the AtomGraphics
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
 
         double maxSpeed = 0.1;
         DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                         getClock(), 30,
+                                                                         clock, 30,
                                                                          DischargeLampsConfig.NUM_ENERGY_LEVELS,
                                                                          maxSpeed );
         setModules( new Module[]{singleAtomModule,
                                  multipleAtomModule} );
-        setInitialModule( singleAtomModule );
+        setActiveModule( singleAtomModule );
 
         // Add some options in a menu
         JMenu optionsMenu = new JMenu( "Options" );
@@ -74,7 +73,7 @@ public class DischargeLampsApp extends PhetApplication {
                 JOptionPane.showMessageDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
                                                JOptionPane.OK_OPTION );
                 DischargeLampsConfig.DT = clockTickSlider.getValue();
-                getClock().setDt( clockTickSlider.getValue() );
+                clock.setSimulationTime( clockTickSlider.getValue() );
             }
         } );
         optionsMenu.add( simulationSpeedMI );

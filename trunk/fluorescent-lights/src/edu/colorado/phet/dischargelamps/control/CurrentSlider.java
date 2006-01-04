@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.text.DecimalFormat;
