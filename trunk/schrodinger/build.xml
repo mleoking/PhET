@@ -19,7 +19,8 @@
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-dir" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
+    <property name="dev-parent" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
+    <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
 
     <taskdef resource="proguard/ant/task.properties"
              classpath="antutil-dir/lib/proguard.jar"/>
@@ -97,8 +98,12 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="ant_output/jars/schrodinger-pro.jar"/>
                 <fileset file="ant_output/jnlp/schrodinger.jnlp"/>
+                <fileset file="README"/>
+            </sftp>
+            <sftp action="put" remotedir="${dev-parent}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
+                <fileset file="screenshot.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
