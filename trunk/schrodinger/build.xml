@@ -19,7 +19,7 @@
     <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-parent" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
+    <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
     <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
 
     <taskdef resource="proguard/ant/task.properties"
@@ -100,6 +100,16 @@
                 <fileset file="ant_output/jnlp/schrodinger.jnlp"/>
                 <fileset file="README"/>
             </sftp>
+        </maverick-ssh>
+    </target>
+
+    <target name="Post Docs">
+        <maverick-ssh host="${ssh-host}"
+                      username="${username}"
+                      password="${password}"
+                      version="2">
+            <sftp action="mkdir"
+                  remotedir="${dev-parent}"/>
             <sftp action="put" remotedir="${dev-parent}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
@@ -108,5 +118,5 @@
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev"/>
+    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs"/>
 </project>
