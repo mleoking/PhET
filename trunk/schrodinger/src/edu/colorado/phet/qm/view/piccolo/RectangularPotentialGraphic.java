@@ -59,7 +59,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         super.getSchrodingerPanel().getSchrodingerModule().removePotential( this );
     }
 
-    private void update() {
+    public void update() {
         Rectangle modelRect = potential.getBounds();
         Rectangle viewRect = super.getViewRectangle( modelRect );
         potDisplay.setText( "" );

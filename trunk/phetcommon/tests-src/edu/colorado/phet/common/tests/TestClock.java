@@ -13,7 +13,6 @@ package edu.colorado.phet.common.tests;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.model.clock.TimeConverter;
 
 /**
  * User: Sam Reid
@@ -63,5 +62,6 @@ public class TestClock {
         Thread.sleep( 5000 );
         swingClock.pause();
         Thread.sleep( 5000 );
+        System.exit( 0 );
     }
 }

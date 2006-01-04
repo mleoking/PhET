@@ -12,25 +12,25 @@ package edu.colorado.phet.common.model.clock;
 
 /**
  * IClock models passage of time through a Module in a PhetApplication.
- * <p>
+ * <p/>
  * IClocks are always in one of two states: running or paused.
- * All clocks may have listeners attached, to receive notification 
+ * All clocks may have listeners attached, to receive notification
  * of state changes or time changes.
- * <p>
+ * <p/>
  * IClock maintains a separation between wall time and simulation time.
  */
 public interface IClock {
     /**
-     * Starts the clock (puts it in the running state). 
+     * Starts the clock (puts it in the running state).
      * If the clock was already running, nothing happens.
-     * <p>
+     * <p/>
      * ClockListeners will have their clockStarted method called
      * if the clock's state changes.
      */
     void start();
 
     /**
-     * Pauses the clock (puts it in the paused state).  
+     * Pauses the clock (puts it in the paused state).
      * If the clock was already paused, nothing happens.
      * <p/>
      * ClockListeners will have their clockPaused method called
@@ -68,7 +68,7 @@ public interface IClock {
 
     /**
      * Sets the simulation time to zero.
-     * <p>
+     * <p/>
      * ClockListeners will have their simulationTimeReset method called.
      * If the simulation time actually changes, the ClockListeners will
      * also have their simulationTimeChanged method called.
@@ -105,8 +105,8 @@ public interface IClock {
 
     /**
      * Specifies an exact simulation time.
-     * <p>
-     * If the simulation time actually changes, then ClockListeners 
+     * <p/>
+     * If the simulation time actually changes, then ClockListeners
      * will have their simulationTimeChanged method called.
      *
      * @param simulationTime
@@ -114,19 +114,14 @@ public interface IClock {
     void setSimulationTime( double simulationTime );
 
     /**
-     * Advances the clock by one tick.
-     * <p>
+     * Manually advances the clock by one tick, usually called when the clock is paused, and the user presses the 'frame advance' button.
+     * <p/>
      * ClockListeners will have their clockTicked method called.
      * If the simulation time changes, then ClockListeners will
      * also have their simulationTimeChanged method called.
+     * <p/>
+     * If this is called while the clock is running, it is not an error, the clock will simply report this tick concurrently with its normal ticks.
      */
-    void tickOnce();
+    void stepClockWhilePaused();
 
-    /**
-     * Sets the number of milliseconds of simulation tim the clock will
-     * report with each tick
-     *
-     * @param dt
-     */
-    void setSimulationDt( double dt );
 }

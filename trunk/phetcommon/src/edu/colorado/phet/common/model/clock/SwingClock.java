@@ -17,37 +17,30 @@ import java.awt.event.ActionListener;
 /**
  * This extension of Clock uses a Swing Timer for tick notification.
  */
-
 public class SwingClock extends Clock {
     private Timer timer;
 
     /**
-     * Constructs a SwingClock with specified wall time between ticks 
-     * and constant simulation time change per tick.
+     * Constructs a SwingClock with specified wall time delay between events
+     * and constant simulation time change per tick.  The same dt is used for stepClockWhilePaused().
      *
-     * @param delay      time between clock ticks, in wall time
-     * @param dt         time per clock tick, in simulation time
+     * @param delay time between clock ticks, in wall time
+     * @param dt    time per clock tick, in simulation time
      */
     public SwingClock( int delay, double dt ) {
-        this( delay, dt, new TimeConverter.Constant( dt ) );
+        this( delay, new TimingStrategy.Constant( dt ) );
     }
 
     /**
-     * Constructs a SwingClock with a specified wall time between clock ticks, 
-     * a value for the simulation time change used by method <code>tickOnce</code>,
-     * and a means for calculating the simulation time change that occurs when the clock ticks.
-     * <p>
-     * NOTE! The tickOnceTimeChange value is used only when tickOnce is called
-     * (for example, when the simulation is paused and the user presses the Step
-     * button).  When the clock is running normally, the timeConverter is responsible
-     * for calculating the simulation time change (aka, dt).
+     * Constructs a SwingClock with a specified wall time between clock ticks,
+     * and a TimingStrategy for determining elapsed simulation time.
+     * <p/>
      *
-     * @param delay     time between clock ticks, in wall time
-     * @param tickOnceTimeChange  simulation time change when tickOnce is called
-     * @param timeConverter calculates simulation time change based on wall time change
+     * @param delay          time between clock ticks, in wall time
+     * @param timingStrategy calculates simulation time change based on wall time change
      */
-    public SwingClock( int delay, double tickOnceTimeChange, TimeConverter timeConverter ) {
-        super( timeConverter, tickOnceTimeChange );
+    public SwingClock( int delay, TimingStrategy timingStrategy ) {
+        super( timingStrategy );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( !isPaused() ) {
@@ -124,12 +117,12 @@ public class SwingClock extends Clock {
     }
 
     /**
-     * Sets the number of milliseconds of simulation tim the clock will
+     * Sets the number of milliseconds of simulation time the clock will
      * report with each tick
      *
      * @param dt
      */
     public void setSimulationDt( double dt ) {
-        setTimeConverter( new TimeConverter.Constant( dt ) );
+        setTimingStrategy( new TimingStrategy.Constant( dt ) );
     }
 }
