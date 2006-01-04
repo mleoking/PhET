@@ -15,5 +15,5 @@ package edu.colorado.phet.lasers.model.photon;
 import java.util.EventListener;
 
 public interface PhotonEmittedListener extends EventListener {
-    public void photonEmittedEventOccurred( PhotonEmittedEvent event );
+    public void photonEmitted( PhotonEmittedEvent event );
 }

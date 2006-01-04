@@ -205,7 +205,7 @@ public class Beam extends Particle implements PhotonSource {
                     final Photon newPhoton = Photon.create( this.getWavelength(),
                                                             photonLoc,
                                                             photonVelocity );
-                    photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
+                    photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
                 }
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
                 timeSinceLastPhotonProduced = 0;

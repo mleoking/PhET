@@ -217,7 +217,8 @@ public class Atom extends SolidSphere {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, emittedPhoton ) );
+        double wavelength = emittedPhoton.getWavelength();
+        photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
     /**

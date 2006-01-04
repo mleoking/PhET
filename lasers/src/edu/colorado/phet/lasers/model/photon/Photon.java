@@ -63,7 +63,7 @@ public class Photon extends Particle implements Collidable {
         Photon newPhoton = new Photon();
         newPhoton.setPosition( location );
         newPhoton.setVelocity( velocity );
-        photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( Photon.class, newPhoton ) );
+        photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( Photon.class, newPhoton ) );
         return newPhoton;
     }
 

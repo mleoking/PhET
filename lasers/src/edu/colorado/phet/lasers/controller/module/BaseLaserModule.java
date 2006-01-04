@@ -588,7 +588,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
     public class InternalPhotonEmittedListener implements PhotonEmittedListener {
 
-        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+        public void photonEmitted( PhotonEmittedEvent event ) {
 
             // Track the number of photons
             BaseLaserModule.this.numPhotons++;
@@ -602,6 +602,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
             // Was the photon emitted by an atom?
             if( source instanceof Atom ) {
                 Atom atom = (Atom)source;
+                // Don't show certain photons
                 if( atom.getStates().length > 2 && atom.getCurrState() == atom.getStates()[2]
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
