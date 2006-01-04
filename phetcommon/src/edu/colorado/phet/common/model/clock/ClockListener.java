@@ -10,12 +10,14 @@
  */
 package edu.colorado.phet.common.model.clock;
 
+import java.util.EventListener;
+
 /**
  * Listens to changes in both Clock state (running, paused)
  * and clock ticks  (in both wall time and simulation time).
  */
 
-public interface ClockListener {
+public interface ClockListener extends EventListener {
     /**
      * Invoked when the clock ticks.
      *
