@@ -65,7 +65,7 @@ public class Spectrometer implements PhotonEmittedListener {
      *
      * @param event
      */
-    public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+    public void photonEmitted( PhotonEmittedEvent event ) {
         if( isRunning ) {
             Double wavelength = new Double( event.getPhoton().getWavelength() );
             Integer photonCount = (Integer)wavelengthToPhotonNumberMap.get( wavelength );

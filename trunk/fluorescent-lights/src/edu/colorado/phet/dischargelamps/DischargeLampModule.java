@@ -109,6 +109,9 @@ public class DischargeLampModule extends BaseLaserModule {
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
 
+        // Turn off a switch in the base class that prevents certain photons from being displayed
+        setDisplayHighLevelEmissions( true );
+        
         // Set up the model
         model = new DischargeLampModel();
         model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
