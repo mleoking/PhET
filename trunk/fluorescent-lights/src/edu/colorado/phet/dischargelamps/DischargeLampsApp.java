@@ -12,16 +12,18 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.TimingStrategy;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -77,14 +79,14 @@ public class DischargeLampsApp extends PhetApplication {
                 clockTickSlider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         DischargeLampsConfig.DT = clockTickSlider.getValue();
-                        clock.setSimulationDt( clockTickSlider.getValue() );
+                        ( (Clock)clock ).setTimingStrategy( new TimingStrategy.Constant( clockTickSlider.getValue() ) );
                     }
                 } );
                 int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
                                                              JOptionPane.OK_CANCEL_OPTION );
                 // If the user canceled, reset the clock to its original value
                 if( confirm == JOptionPane.CANCEL_OPTION ) {
-                    clock.setSimulationDt( dt );
+                    ( (Clock)clock ).setTimingStrategy( new TimingStrategy.Constant( dt ) );
                 }
             }
         } );
