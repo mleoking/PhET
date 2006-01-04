@@ -34,7 +34,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private static final double MAX_ENERGY = +1.5; // max energy
     private static final double HBAR = 1; // Planck's constant
     private static final double MASS = 100; // mass
-    private static final double WIDTH = 0.50; // sqrt(2) * (initial width of wave packet)
+    private static final double PACKET_WIDTH = 0.50; // wave packet width
+    private static final double BARRIER_WIDTH = 0.50; // barrier width
     private static final double VX = 0.25; // velocity = sqrt(2*E/mass)
     private static final double TOTAL_ENERGY = ( VX * VX * MASS / 2 ); // total energy
     
@@ -93,6 +94,12 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private JButton stepButton;
     private JComboBox barrierComboBox;
     private JCheckBox antialiasingCheckBox;
+    
+    // Reusable temporary variables
+    private Complex c1 = new Complex( 0, 0 );
+    private Complex c2 = new Complex( 0, 0 );
+    private Complex c3 = new Complex( 0, 0 );
+    private Complex c4 = new Complex( 0, 0 );
 
     //----------------------------------------------------------------------
     // Initialization
@@ -131,22 +138,32 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             double r, xval;
             xval = MIN_POSITION + dx * x;
             xpts[x] = (int) ( xscale * ( xval - MIN_POSITION ) );
-            r = Math.exp( -( ( xval - X0 ) / WIDTH ) * ( ( xval - X0 ) / WIDTH ) );
+            r = Math.exp( -( ( xval - X0 ) / PACKET_WIDTH ) * ( ( xval - X0 ) / PACKET_WIDTH ) );
             Psi[x] = new Complex( r * Math.cos( MASS * VX * xval / HBAR ), r * Math.sin( MASS * VX * xval / HBAR ) );
             r = v( xval ) * dt / HBAR;
             EtoV[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
         }
     }
 
+    /*
+     * Determines the potential energy at a position.
+     * This assumes that the barrier is centered at 0, and that 
+     * potential energy is 0 everywhere is except within the barrier.
+     */
     private double v( double x ) {
-        return ( Math.abs( x ) < WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
+        return ( Math.abs( x ) < BARRIER_WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
     }
 
+
+    
+    /*
+     * Time stepping algorithm, as described in:
+     *
+     * Richardson, John L.,
+     * Visualizing quantum scattering on the CM-2 supercomputer,
+     * Computer Physics Communications 63 (1991) pp 84-94 
+     */
     private void stepPhysics() {
-        Complex x = new Complex( 0, 0 );
-        Complex y = new Complex( 0, 0 );
-        Complex w = new Complex( 0, 0 );
-        Complex z = new Complex( 0, 0 );
 
         /*
          * The time stepping algorithm used here is described in:
@@ -157,70 +174,70 @@ public class WaveSim extends java.applet.Applet implements Runnable {
          */
 
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
-            x.set( Psi[i] );
-            y.set( Psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            Psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            Psi[i + 1].add( w, z );
+            c1.set( Psi[i] );
+            c2.set( Psi[i + 1] );
+            c3.mult( alpha, c1 );
+            c4.mult( beta, c2 );
+            Psi[i + 0].add( c3, c4 );
+            c3.mult( alpha, c2 );
+            c4.mult( beta, c1 );
+            Psi[i + 1].add( c3, c4 );
         }
 
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            x.set( Psi[i] );
-            y.set( Psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            Psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            Psi[i + 1].add( w, z );
+            c1.set( Psi[i] );
+            c2.set( Psi[i + 1] );
+            c3.mult( alpha, c1 );
+            c4.mult( beta, c2 );
+            Psi[i + 0].add( c3, c4 );
+            c3.mult( alpha, c2 );
+            c4.mult( beta, c1 );
+            Psi[i + 1].add( c3, c4 );
         }
 
-        x.set( Psi[numberOfPoints - 1] );
-        y.set( Psi[0] );
-        w.mult( alpha, x );
-        z.mult( beta, y );
-        Psi[numberOfPoints - 1].add( w, z );
-        w.mult( alpha, y );
-        z.mult( beta, x );
-        Psi[0].add( w, z );
+        c1.set( Psi[numberOfPoints - 1] );
+        c2.set( Psi[0] );
+        c3.mult( alpha, c1 );
+        c4.mult( beta, c2 );
+        Psi[numberOfPoints - 1].add( c3, c4 );
+        c3.mult( alpha, c2 );
+        c4.mult( beta, c1 );
+        Psi[0].add( c3, c4 );
 
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            x.set( Psi[i] );
-            Psi[i].mult( x, EtoV[i] );
+            c1.set( Psi[i] );
+            Psi[i].mult( c1, EtoV[i] );
         }
 
-        x.set( Psi[numberOfPoints - 1] );
-        y.set( Psi[0] );
-        w.mult( alpha, x );
-        z.mult( beta, y );
-        Psi[numberOfPoints - 1].add( w, z );
-        w.mult( alpha, y );
-        z.mult( beta, x );
-        Psi[0].add( w, z );
+        c1.set( Psi[numberOfPoints - 1] );
+        c2.set( Psi[0] );
+        c3.mult( alpha, c1 );
+        c4.mult( beta, c2 );
+        Psi[numberOfPoints - 1].add( c3, c4 );
+        c3.mult( alpha, c2 );
+        c4.mult( beta, c1 );
+        Psi[0].add( c3, c4 );
 
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            x.set( Psi[i] );
-            y.set( Psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            Psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            Psi[i + 1].add( w, z );
+            c1.set( Psi[i] );
+            c2.set( Psi[i + 1] );
+            c3.mult( alpha, c1 );
+            c4.mult( beta, c2 );
+            Psi[i + 0].add( c3, c4 );
+            c3.mult( alpha, c2 );
+            c4.mult( beta, c1 );
+            Psi[i + 1].add( c3, c4 );
         }
 
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
-            x.set( Psi[i] );
-            y.set( Psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            Psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            Psi[i + 1].add( w, z );
+            c1.set( Psi[i] );
+            c2.set( Psi[i + 1] );
+            c3.mult( alpha, c1 );
+            c4.mult( beta, c2 );
+            Psi[i + 0].add( c3, c4 );
+            c3.mult( alpha, c2 );
+            c4.mult( beta, c1 );
+            Psi[i + 1].add( c3, c4 );
         }
     }
     
@@ -324,8 +341,8 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
         // Barrier
         g.setColor( BARRIER_COLOR );
-        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - WIDTH ) );
-        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + WIDTH ) );
+        int ix = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION - BARRIER_WIDTH ) );
+        int jx = (int) ( xscale * 0.5 * ( MAX_POSITION - MIN_POSITION + BARRIER_WIDTH ) );
         int iy = (int) ( viewHeight - 1 - yscale * ( 0.5 * MAX_ENERGY * energyScale - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         int jy = (int) ( viewHeight - 1 - yscale * ( 0 - MIN_ENERGY ) ) + CONTROL_PANEL_HEIGHT;
         g.drawLine( ix, iy, ix, jy );
