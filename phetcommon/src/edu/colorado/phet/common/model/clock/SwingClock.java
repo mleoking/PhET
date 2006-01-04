@@ -122,4 +122,14 @@ public class SwingClock extends Clock {
     protected Timer getTimer() {
         return timer;
     }
+
+    /**
+     * Sets the number of milliseconds of simulation tim the clock will
+     * report with each tick
+     *
+     * @param dt
+     */
+    public void setSimulationDt( double dt ) {
+        setTimeConverter( new TimeConverter.Constant( dt ) );
+    }
 }

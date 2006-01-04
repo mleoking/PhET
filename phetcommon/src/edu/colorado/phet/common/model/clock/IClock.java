@@ -122,4 +122,11 @@ public interface IClock {
      */
     void tickOnce();
 
+    /**
+     * Sets the number of milliseconds of simulation tim the clock will
+     * report with each tick
+     *
+     * @param dt
+     */
+    void setSimulationDt( double dt );
 }
