@@ -47,11 +47,10 @@ public class QTConstants {
     // Clock
     //----------------------------------------------------------------------------
     
-    public static final double CLOCK_TIME_STEP = 1;
-    public static final int CLOCK_FRAME_RATE = 25;  // frames per second
-    public static final boolean CLOCK_ENABLE_CONTROLS = true;
+    public static final int CLOCK_FRAME_RATE = 25; // frames per second 
+    public static final double CLOCK_STEP = 0.1; // fs
     
-    public static final double TIME_SCALE = 0.1;  // must be a 1/(power of 10)
+    /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------

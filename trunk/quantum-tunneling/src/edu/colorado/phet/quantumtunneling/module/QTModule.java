@@ -184,7 +184,6 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Clock Controls
         QTClockControls clockControls = new QTClockControls( getClock() );
-        clockControls.setTimeScale( QTConstants.TIME_SCALE );
         clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
         setClockControlPanel( clockControls );
         

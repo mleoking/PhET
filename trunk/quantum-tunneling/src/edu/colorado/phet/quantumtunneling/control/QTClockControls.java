@@ -55,7 +55,6 @@ public class QTClockControls extends JPanel implements ClockListener {
     private Icon _loopOnIcon;
     private Icon _loopOffIcon;
     
-    private double _timeScale;
     private boolean _loopEnabled;
     private NumberFormat _timeFormat;
 
@@ -165,7 +164,6 @@ public class QTClockControls extends JPanel implements ClockListener {
         } );
         
         // Inital state
-        _timeScale = 1;
         updateTimeDisplay();
         updateButtonState();
     }
@@ -189,28 +187,6 @@ public class QTClockControls extends JPanel implements ClockListener {
      */
     public IClock getClock() {
         return _clock;
-    }
-    
-    /**
-     * Sets the scaling factor used to display time.
-     * The time display normally displays clock ticks.
-     * 
-     * @param timeScale
-     */
-    public void setTimeScale( double timeScale ) {
-        if ( timeScale <= 0 ) {
-            throw new IllegalArgumentException( "timeScale must be > 0: " + timeScale );
-        }
-        _timeScale = timeScale;
-    }
-    
-    /**
-     * Gets the time scale.
-     * 
-     * @return
-     */
-    public double getTimeScale() {
-        return _timeScale;
     }
     
     /**
@@ -308,8 +284,8 @@ public class QTClockControls extends JPanel implements ClockListener {
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        double scaledTime = _timeScale * _clock.getSimulationTime();
-        String sValue = _timeFormat.format( scaledTime );
+        double time = _clock.getSimulationTime();
+        String sValue = _timeFormat.format( time );
         _timeTextField.setText( sValue );
     }
     

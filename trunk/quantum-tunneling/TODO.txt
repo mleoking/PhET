@@ -55,7 +55,9 @@ JFREECHART:
 
 
 DONE:
-(1/2/7) - change my clock control panel to accommodate more IClock changes
+(1/4/06) - reorganize internals of QTClock
+(1/4/06) - set clock dt=0.1 and get rid of time scaling elsewhere
+(1/4/06) - change my clock control panel to accommodate more IClock changes
 0.0.5 ...
 (1/2/06) - first attempt at integration Richardson algorithm, doesn't work
 (1/2/06) - changes to support new ModulePanel layout
