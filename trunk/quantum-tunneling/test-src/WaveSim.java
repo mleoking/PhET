@@ -102,21 +102,10 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private Complex c4 = new Complex( 0, 0 );
 
     //----------------------------------------------------------------------
-    // Initialization
-    //----------------------------------------------------------------------
-    
-    public void init() {      
-        thread = null;
-        createUI();
-        restart();
-        play();
-    }
-    
-    //----------------------------------------------------------------------
     // Physics
     //----------------------------------------------------------------------
     
-    private void initPhysics() {
+    private void resetPhysics() {
         viewWidth = getSize().width;
         viewHeight = getSize().height - CONTROL_PANEL_HEIGHT;
         numberOfPoints = viewWidth / PIXELS_PER_SAMPLE_POINT;
@@ -154,8 +143,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         return ( Math.abs( x ) < BARRIER_WIDTH / 2 ) ? ( TOTAL_ENERGY * energyScale ) : 0;
     }
 
-
-    
     /*
      * Time stepping algorithm, as described in:
      *
@@ -217,6 +204,27 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         }
     }
     
+    
+    //----------------------------------------------------------------------
+    // Applet overrides
+    //----------------------------------------------------------------------
+    
+    /**
+     * Called by the browser or applet viewer to inform 
+     * this applet that it has been loaded into the system.
+     */
+    public void init() {      
+        thread = null;
+        createUI();
+        restart();
+        play();
+    }
+    
+    public void paint( Graphics g ) {
+        super.paint( g );
+        drawPlots( g );
+    }
+
     //----------------------------------------------------------------------
     // User Interface
     //----------------------------------------------------------------------
@@ -354,20 +362,11 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
     
     //----------------------------------------------------------------------
-    // Applet overrides
-    //----------------------------------------------------------------------
-    
-    public void paint( Graphics g ) {
-        super.paint( g );
-        drawPlots( g );
-    }
-    
-    //----------------------------------------------------------------------
     // Event handling methods
     //----------------------------------------------------------------------
     
     private void restart() {
-        initPhysics();
+        resetPhysics();
         repaint();  
     }
     
