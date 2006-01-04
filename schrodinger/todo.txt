@@ -1,5 +1,5 @@
 Bugs:
-In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
+
 Detector norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
 Sometimes the cursor gets stuck with the double-headed resize arrow.
 There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
@@ -11,11 +11,10 @@ If I check and uncheck “slit absorption” with no slits and no barriers, it creat
 ·	On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 ·	On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 
-I just found a new bug in QWI: If I add barriers, then add slits, then 
-remove the slits, all the barriers shift out of their boxes.  See
-attached screenshot.  If I move a barrier after this happens, it snaps
-back into its box.
+If I add barriers, then add slits, then remove the slits, all the barriers shift out of their boxes.  See
+attached screenshot.  If I move a barrier after this happens, it snaps back into its box.
 
+In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
 ___
 Add mass to the schrodinger equation.
 

@@ -29,10 +29,12 @@ public class SchrodingerScreenNode extends PNode {
 
     private WavefunctionGraphic wavefunctionGraphic;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
+    private ArrayList detectorGraphics = new ArrayList();
+
     private AbstractGunGraphic abstractGunGraphic;
     private IntensityManager intensityManager;
     private RulerGraphic rulerGraphic;
-    private ArrayList detectorGraphics = new ArrayList();
+
     private Dimension lastLayoutSize = null;
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
     private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
@@ -70,6 +72,7 @@ public class SchrodingerScreenNode extends PNode {
                 invalidateFullBounds();
                 repaint();
             }
+
         } );
 
         layoutChildren();

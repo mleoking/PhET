@@ -19,23 +19,20 @@ import java.util.ArrayList;
 
 public abstract class Clock implements IClock {
     private ArrayList listeners = new ArrayList();
-    private TimeConverter timeConverter;
+    private TimingStrategy timingStrategy;
     private double lastSimulationTime = 0.0;
     private double simulationTime = 0.0;
     private long lastWallTime = 0;
     private long wallTime = 0;
-    private double tickOnceTimeChange;//only used when someone calls tickOnce()
 
     /**
      * Construct a Clock to use the specified conversion between Wall and Simulation time,
      * with the specified single-tick simulation time change (used by <code>tickOnce</code>).
      *
-     * @param timeConverter
-     * @param tickOnceTimeChange
+     * @param timingStrategy
      */
-    public Clock( TimeConverter timeConverter, double tickOnceTimeChange ) {
-        this.timeConverter = timeConverter;
-        this.tickOnceTimeChange = tickOnceTimeChange;
+    public Clock( TimingStrategy timingStrategy ) {
+        this.timingStrategy = timingStrategy;
     }
 
     /**
@@ -67,35 +64,30 @@ public abstract class Clock implements IClock {
     }
 
     /**
-     * Update the clock, updating wall time and possibly simulation time.
+     * Update the clock, updating the wall time and possibly simulation time.
      */
-    protected void doTick() {
+    protected void tick( double simulationTimeChange ) {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
 
-        setSimulationTimeNoUpdate( simulationTime + timeConverter.getSimulationTimeChange( lastWallTime, wallTime ) );
+        setSimulationTimeNoUpdate( simulationTime + simulationTimeChange );
 
         notifyClockTicked();
         testNotifySimulationTimeChange();
     }
 
     /**
-     * Advance the clock by one tick.
+     * Advance the clock the time produced by converting the wall time.
      */
-    public void tickOnce() {
-        lastWallTime = wallTime;
-        wallTime = System.currentTimeMillis();
-
-        setSimulationTimeNoUpdate( simulationTime + tickOnceTimeChange );
-
-        notifyClockTicked();
-        testNotifySimulationTimeChange();
+    protected void doTick() {
+        tick( timingStrategy.getSimulationTimeChange( lastWallTime, wallTime ) );
     }
 
-    private void testNotifySimulationTimeChange() {
-        if( getSimulationTimeChange() != 0.0 ) {
-            notifySimulationTimeChanged();
-        }
+    /**
+     * Advance the clock by the tickOnceTimeChange.
+     */
+    public void stepClockWhilePaused() {
+        tick( timingStrategy.getSimulationTimeChangeForPausedClock() );
     }
 
     private void setSimulationTimeNoUpdate( double simulationTime ) {
@@ -150,21 +142,21 @@ public abstract class Clock implements IClock {
     }
 
     /**
-     * Gets the TimeConverter, responsible for converting wall to simulation time.
+     * Gets the TimingStrategy, responsible for converting wall to simulation time.
      *
-     * @return the TimeConverter
+     * @return the TimingStrategy
      */
-    public TimeConverter getTimeConverter() {
-        return timeConverter;
+    public TimingStrategy getTimingStrategy() {
+        return timingStrategy;
     }
 
     /**
-     * Sets the TimeConverter, responsible for converting wall to simulation time.
+     * Sets the TimingStrategy, responsible for determining the simulation timing.
      *
-     * @param timeConverter
+     * @param timingStrategy
      */
-    public void setTimeConverter( TimeConverter timeConverter ) {
-        this.timeConverter = timeConverter;
+    public void setTimingStrategy( TimingStrategy timingStrategy ) {
+        this.timingStrategy = timingStrategy;
     }
 
     /**
@@ -211,6 +203,13 @@ public abstract class Clock implements IClock {
         }
     }
 
+
+    private void testNotifySimulationTimeChange() {
+        if( getSimulationTimeChange() != 0.0 ) {
+            notifySimulationTimeChanged();
+        }
+    }
+
     /**
      * Sends notification the simulation time changed.
      */
@@ -220,24 +219,6 @@ public abstract class Clock implements IClock {
             ClockListener clockListener = (ClockListener)listeners.get( i );
             clockListener.simulationTimeChanged( clockEvent );
         }
-    }
-
-    /**
-     * Get the simulation time to pass during tickOnce().
-     *
-     * @return the simulation time to pass during tickOnce().
-     */
-    public double getTickOnceTimeChange() {
-        return tickOnceTimeChange;
-    }
-
-    /**
-     * Specifies the simulation time to pass during tickOnce().
-     *
-     * @param tickOnceTimeChange the simulation time to pass during tickOnce().
-     */
-    public void setTickOnceTimeChange( double tickOnceTimeChange ) {
-        this.tickOnceTimeChange = tickOnceTimeChange;
     }
 
 }
