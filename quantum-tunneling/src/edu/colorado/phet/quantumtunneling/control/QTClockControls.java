@@ -277,7 +277,7 @@ public class QTClockControls extends JPanel implements ClockListener {
     }
     
     private void handleStep() {
-        _clock.tickOnce();
+        _clock.stepClockWhilePaused();
     }
     
     private void handleLoopToggled() {
