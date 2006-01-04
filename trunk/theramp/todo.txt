@@ -7,9 +7,7 @@ FBD vectors are often too large for the window.
 Make FBD optionally appear in a separate window.
 
 Low Priority:
-Reduce the total record time?  Slow time down?
-This was supposed to address the problem of low horizontal real estate.  I'm not sure how well it succeeds.
-Make slider thumb more three-d-er.
 Move “frictionless” checkbox inside slider area (2nd panel only).
 Striped Arrow coordinate view stripes for perp & parallel?
-My technique will be difficult for perp & parallel.  We shall confer about the Cartesian arrow graphics before pursuing.
+This will be more difficult to implement (and worse performance) for perp & parallel.
+Let's evaluate this representation for the Cartesian arrow graphics before pursuing.
