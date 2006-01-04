@@ -12,9 +12,8 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -117,14 +116,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     /**
      * @param model
-     * @param clock
      * @param atomicStates
      * @param panelWidth
      * @param panelHeight
      */
-    public DischargeLampEnergyLevelMonitorPanel( DischargeLampModel model, AbstractClock clock, AtomicState[] atomicStates,
+    public DischargeLampEnergyLevelMonitorPanel( DischargeLampModel model, AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
-//        super( clock );
         this.model = model;
 
         // Add a listener that will catch changes in the energy levels

@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
@@ -46,7 +45,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
      * @param panelWidth
      * @param panelHeight
      */
-    public DischargeLampEnergyMonitorPanel2( final DischargeLampModel model, AbstractClock clock,
+    public DischargeLampEnergyMonitorPanel2( final DischargeLampModel model,
                                              AtomicState[] atomicStates,
                                              int panelWidth, int panelHeight,
                                              final ConfigurableElementProperties configurableElement ) {
@@ -56,7 +55,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         this.model = model;
         model.addChangeListener( new SpinnerManager() );
 
-        elmp = new DischargeLampEnergyLevelMonitorPanel( model, clock, atomicStates, panelWidth, panelHeight );
+        elmp = new DischargeLampEnergyLevelMonitorPanel( model, atomicStates, panelWidth, panelHeight );
         elmp.setBorder( new EtchedBorder() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,

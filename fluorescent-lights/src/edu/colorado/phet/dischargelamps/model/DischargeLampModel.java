@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -118,11 +119,10 @@ public class DischargeLampModel extends LaserModel {
 
 
     /**
-     * Detects and handles collisions between atoms and electrons
-     *
-     * @param dt
+     * @param event
      */
-    public void stepInTime( double dt ) {
+    public void update( ClockEvent event ) {
+        super.update( event );
 
         // Check for collisions between electrons and atoms
         for( int i = 0; i < atoms.size(); i++ ) {
@@ -132,7 +132,7 @@ public class DischargeLampModel extends LaserModel {
                 electronAtomCollisionExpert.detectAndDoCollision( atom, electron );
             }
         }
-        super.stepInTime( dt );
+//        super.update( event );
     }
 
     /**

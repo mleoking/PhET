@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 
 /**
  * MultipleAtomModule
@@ -25,7 +25,7 @@ public class MultipleAtomModule extends DischargeLampModule {
      *
      * @param clock
      */
-    protected MultipleAtomModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels, double maxAtomSpeed ) {
+    protected MultipleAtomModule( String name, IClock clock, int numAtoms, int numEnergyLevels, double maxAtomSpeed ) {
         super( name, clock );
         addAtoms( getTube(), numAtoms, maxAtomSpeed );
     }

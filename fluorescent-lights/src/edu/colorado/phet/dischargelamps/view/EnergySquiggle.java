@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.VisibleColor;
@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * EnergySquiggle
- * <p>
+ * <p/>
  * A sine wave with arrows at each end that is meant to show something about the wavelength
  * and color associated with an amount of energy
  *
@@ -77,7 +77,7 @@ public class EnergySquiggle extends PhetImageGraphic {
             c = Color.black;
         }
 
-        double renderedWavelength = Math.max( wavelength, VisibleColor.MIN_WAVELENGTH / 2);
+        double renderedWavelength = Math.max( wavelength, VisibleColor.MIN_WAVELENGTH / 2 );
         double freqFactor = 15 * renderedWavelength / 680;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );

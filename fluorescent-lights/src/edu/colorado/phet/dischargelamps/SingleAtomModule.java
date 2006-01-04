@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
@@ -54,7 +54,7 @@ public class SingleAtomModule extends DischargeLampModule {
      *
      * @param clock
      */
-    protected SingleAtomModule( String name, AbstractClock clock ) {
+    protected SingleAtomModule( String name, IClock clock ) {
         super( name, clock );
         addAtom( getTube() );
 
@@ -150,10 +150,10 @@ public class SingleAtomModule extends DischargeLampModule {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox)e.getSource();
                 if( cb.isSelected() ) {
-                    getClock().setDt( DischargeLampsConfig.DT / 5 );
+                    getClock().setSimulationTime( DischargeLampsConfig.DT / 5 );
                 }
                 else {
-                    getClock().setDt( DischargeLampsConfig.DT );
+                    getClock().setSimulationTime( DischargeLampsConfig.DT );
                 }
             }
         } );
