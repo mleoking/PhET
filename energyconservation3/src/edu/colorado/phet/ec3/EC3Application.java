@@ -21,7 +21,7 @@ public class EC3Application extends PhetApplication {
     private EC3Module module;
 
     public EC3Application( String[] args ) {
-        super( args, "nRg Sk8r", "Energy Conservation", "0.1",
+        super( args, "nRg Sk8r", "Energy Conservation", "0.18",
 //               new SwingTimerClock( 0.2, 30 ), true, new FrameSetup() {
 new FrameSetup() {
 //               new SwingTimerClock( 0.2/5, 30 ), true, new FrameSetup() {
