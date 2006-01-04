@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
@@ -130,7 +131,7 @@ public class ApparatusPanel extends JPanel {
         graphicsSetups.add( setup );
     }
 
-    public void addRepaintDebugGraphic( AbstractClock clock ) {
+    public void addRepaintDebugGraphic( IClock clock ) {
 
         final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
         addGraphic( rdg, Double.POSITIVE_INFINITY );

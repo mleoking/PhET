@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
@@ -43,7 +43,7 @@ public class TestGraphicLayerSet {
         frame.setSize( 600, 600 );
         frame.setVisible( true );
 
-        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+        SwingClock clock = new SwingClock( 30, 1.0 );
         RepaintDebugGraphic repaintDebugGraphic = new RepaintDebugGraphic( ap, clock );
         repaintDebugGraphic.setActive( true );
         clock.start();

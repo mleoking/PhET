@@ -5,14 +5,14 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,7 +102,7 @@ public class CollisionTest {
     static class CollisionModule extends PhetGraphicsModule {
         ArrayList spheres = new ArrayList();
 
-        public CollisionModule( String name, AbstractClock clock, boolean useAP2, boolean offscreen, int numParticles ) {
+        public CollisionModule( String name, IClock clock, boolean useAP2, boolean offscreen, int numParticles ) {
             super( name, clock );
             System.out.println( "useAP2 = " + useAP2 + ", offscreenBuffer=" + offscreen + ", numparticles=" + numParticles );
 
@@ -159,7 +159,7 @@ public class CollisionTest {
     }
 
     public static void main( String[] args ) {
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new SwingClock( 30, 1.0 );
 
         boolean useAP2 = true;
         boolean offscreen = true;
@@ -171,7 +171,6 @@ public class CollisionTest {
         jf.setContentPane( module.getApparatusPanel() );
         jf.setVisible( true );
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        clock.addClockTickListener( module );
 
         clock.start();
     }

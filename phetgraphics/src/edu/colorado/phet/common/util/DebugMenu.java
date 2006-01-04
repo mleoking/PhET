@@ -11,12 +11,10 @@
 package edu.colorado.phet.common.util;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.LineGrid;
@@ -68,7 +66,7 @@ public class DebugMenu extends JMenu {
     }
 
     private ApparatusPanel getApparatusPanel() {
-        Module module = app.getModuleManager().getActiveModule();
+        Module module = app.getActiveModule();
         if( module instanceof PhetGraphicsModule ) {
             PhetGraphicsModule m = (PhetGraphicsModule)module;
             return m.getApparatusPanel();
@@ -171,16 +169,16 @@ public class DebugMenu extends JMenu {
                 }
             } );
 
-            startRecording( app.getClock(), textArea );
+            startRecording( app.getActiveModule().getClock(), textArea );
         }
 
-        void startRecording( AbstractClock clock, final JTextArea textArea ) {
-            clock.addClockTickListener( new ClockTickListener() {
+        void startRecording( IClock clock, final JTextArea textArea ) {
+            clock.addClockListener( new ClockAdapter() {
                 int frameCnt = 0;
                 long lastTickTime = System.currentTimeMillis();
                 long averagingTime = 1000;
 
-                public void clockTicked( ClockTickEvent event ) {
+                public void clockTicked( ClockAdapter event ) {
                     frameCnt++;
                     long currTime = System.currentTimeMillis();
                     if( currTime - lastTickTime > averagingTime ) {
@@ -203,8 +201,7 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetApplication app = PhetApplication.instance();
-                    ModuleManager mm = app.getModuleManager();
-                    for( int i = 0; i < mm.numModules(); i++ ) {
+                    for( int i = 0; i < app.numModules(); i++ ) {
                         ApparatusPanel ap = getApparatusPanel( i );
                         if( ap instanceof ApparatusPanel2 ) {
                             ApparatusPanel2 ap2 = (ApparatusPanel2)ap;
@@ -224,7 +221,7 @@ public class DebugMenu extends JMenu {
             super( "OffscreenBuffer-(Dirty Regions Only)" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                    for( int i = 0; i < PhetApplication.instance().numModules(); i++ ) {
                         ApparatusPanel ap = getApparatusPanel( i );
                         if( ap instanceof ApparatusPanel2 ) {
                             ( (ApparatusPanel2)ap ).setUseOffscreenBufferDirtyRegion();
@@ -237,7 +234,7 @@ public class DebugMenu extends JMenu {
     }
 
     private ApparatusPanel getApparatusPanel( int i ) {
-        Module module = PhetApplication.instance().getModuleManager().moduleAt( i );
+        Module module = PhetApplication.instance().moduleAt( i );
         if( module instanceof PhetGraphicsModule ) {
             PhetGraphicsModule phetGraphicsModule = (PhetGraphicsModule)module;
             return phetGraphicsModule.getApparatusPanel();
@@ -252,7 +249,7 @@ public class DebugMenu extends JMenu {
             super( "Paint Direct/Disjoint" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                    for( int i = 0; i < PhetApplication.instance().numModules(); i++ ) {
                         ApparatusPanel ap = getApparatusPanel( i );
                         if( ap instanceof ApparatusPanel2 ) {
                             ( (ApparatusPanel2)ap ).setPaintStrategyDisjoint();

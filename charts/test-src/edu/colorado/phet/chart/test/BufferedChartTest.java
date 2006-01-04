@@ -10,12 +10,12 @@ import edu.colorado.phet.chart.BufferedChart;
 import edu.colorado.phet.chart.BufferedLinePlot;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ import java.util.Random;
 public class BufferedChartTest {
 
     public static void main( String[] args ) {
-        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        IClock clock = new SwingClock( 1, 30 );
 //        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         final ApparatusPanel apparatusPanel = new ApparatusPanel();
         clock.start();
@@ -71,8 +71,8 @@ public class BufferedChartTest {
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final Random random = new Random();
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent event ) {
                 bufferedChart.rotate( Math.PI / 64 );
                 bufferedLinePlot.lineTo( new Point2D.Double( random.nextInt( 20 ) - 10, random.nextInt( 20 ) - 10 ) );
             }

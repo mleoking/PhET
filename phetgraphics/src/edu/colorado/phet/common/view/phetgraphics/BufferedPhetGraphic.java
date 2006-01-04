@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.GraphicsSetup;
+import edu.colorado.phet.common.view.util.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.util.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,10 +1,12 @@
 package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
@@ -23,8 +25,8 @@ import java.awt.event.ActionListener;
 public class TestApparatusPanel2Resize {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test AP2" );
-        BaseModel model = new BaseModel();
-        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+        final BaseModel model = new BaseModel();
+        SwingClock clock = new SwingClock( 30, 1.0 );
         ApparatusPanel2 panel = new ApparatusPanel2( clock );
         JLabel comp = new JLabel( "Label" );
         comp.reshape( 250, 250, comp.getPreferredSize().width, comp.getPreferredSize().height );
@@ -62,7 +64,11 @@ public class TestApparatusPanel2Resize {
 
 
         phetShapeGraphic.setCursorHand();
-        clock.addClockTickListener( model );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked( ClockEvent clockEvent ) {
+                model.update( clockEvent );
+            }
+        } );
         clock.start();
     }
 }

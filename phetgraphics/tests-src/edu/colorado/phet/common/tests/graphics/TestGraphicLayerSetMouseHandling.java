@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;

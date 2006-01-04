@@ -3,13 +3,12 @@ package edu.colorado.phet.common.tests.phetjcomponents;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,11 +29,9 @@ public class TestPhetJComponentTabTraversal {
 
         // Create the app.
         String title = "TestPhetJComponentTabTraversal";
-        AbstractClock clock = new SwingTimerClock( 1, 40 );
-        boolean useClockControlPanel = false;
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 400, 300 );
-        PhetApplication app = new PhetApplication( args,
-                                                   title, "", "", clock, useClockControlPanel, frameSetup );
+        IClock clock = new SwingClock( 40, 1 );
+
+        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
 
         // Add modules.
         PhetGraphicsModule module = new TestModule( clock );
@@ -45,7 +42,7 @@ public class TestPhetJComponentTabTraversal {
     }
 
     private class TestModule extends PhetGraphicsModule {
-        public TestModule( AbstractClock clock ) {
+        public TestModule( IClock clock ) {
             super( "Test Module", clock );
 
             // Model

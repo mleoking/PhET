@@ -13,9 +13,9 @@ package edu.colorado.phet.common.tests.phetjcomponents;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.QuickTimer;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.util.QuickProfiler;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -39,7 +39,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
      * @param name
      * @param clock
      */
-    public TestManyPhetJComponents( String name, AbstractClock clock ) {
+    public TestManyPhetJComponents( String name, IClock clock ) {
         super( name, clock );
         setApparatusPanel( new ApparatusPanel2( clock ) );
         setModel( new BaseModel() );
@@ -52,15 +52,15 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     }
 
     public static void main( String[] args ) {
-        QuickTimer main = new QuickTimer();
-        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
-        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", clock, true, new FrameSetup.CenteredWithSize( 600, 600 ) );
+        QuickProfiler main = new QuickProfiler( "main" );
+        SwingClock clock = new SwingClock( 30, 1.0 );
+        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
         phetApplication.setModules( new PhetGraphicsModule[]{module} );
         phetApplication.startApplication();
         System.out.println( "time to make & display " + numComponents + ", phetJComponents= " + main + " ms" );
 
-        QuickTimer swing = new QuickTimer();
+        QuickProfiler swing = new QuickProfiler( "frame" );
         JFrame f = new JFrame();
         JPanel conten = new JPanel();
         conten.setLayout( null );
