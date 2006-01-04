@@ -19,3 +19,5 @@ Bug: clear button erroneously shows 'this simulation is paused' when it is not.
 low priority:
 User-selectable skater/vehicle graphics.
 Crashing skater?
+
+add spanish
