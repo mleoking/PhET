@@ -98,11 +98,25 @@
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="ant_output/jars/theramp-pro.jar"/>
                 <fileset file="ant_output/jnlp/theramp.jnlp"/>
-                <fileset file="todo.txt"/>
-                <fileset file="changes.txt"/>
+                <fileset file="README"/>
             </sftp>
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev"/>
+    <target name="Post Docs">
+        <maverick-ssh host="${ssh-host}"
+                      username="${username}"
+                      password="${password}"
+                      version="2">
+            <sftp action="mkdir"
+                  remotedir="${dev-parent}"/>
+            <sftp action="put" remotedir="${dev-parent}" verbose="true">
+                <fileset file="todo.txt"/>
+                <fileset file="changes.txt"/>
+                <fileset file="screenshot.gif"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
+
+    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs"/>
 </project>
