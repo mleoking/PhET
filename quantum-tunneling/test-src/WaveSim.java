@@ -78,7 +78,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     private Complex EtoV[]; // potential energy propogator = exp(-i*V(x)*dt/hbar)
     private Complex alpha; //special parameter for Richardson algorithm
     private Complex beta; //special parameter for Richardson algorithm
-    private double epsilon; //special parameter for Richardson algorithm
     
     // View
     private int viewWidth, viewHeight; // view size, in pixels
@@ -119,7 +118,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         xscale = ( viewWidth - 0.5 ) / ( MAX_POSITION - MIN_POSITION );
         yscale = ( viewHeight - 0.5 ) / ( MAX_ENERGY - MIN_ENERGY );
         dt = 0.8 * MASS * dx * dx / HBAR;
-        epsilon = HBAR * dt / ( MASS * dx * dx );
+        final double epsilon = HBAR * dt / ( MASS * dx * dx );
         alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
@@ -203,7 +202,6 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             Psi[i].mult( c1, EtoV[i] );
         }
     }
-    
     
     //----------------------------------------------------------------------
     // Applet overrides
