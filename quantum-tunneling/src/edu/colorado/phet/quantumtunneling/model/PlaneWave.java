@@ -168,7 +168,7 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         if ( _enabled && _te != null && _pe != null ) {
-            _time = clockEvent.getSimulationTime() * QTConstants.TIME_SCALE;
+            _time = clockEvent.getSimulationTime();
             notifyObservers();
         }
     }
