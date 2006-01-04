@@ -10,6 +10,12 @@ If I check and uncheck “slit absorption” with no slits and no barriers, it creat
 ·	Resizing a detector beyond (0,0) has the wrong behavior.
 ·	On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 ·	On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
+
+I just found a new bug in QWI: If I add barriers, then add slits, then 
+remove the slits, all the barriers shift out of their boxes.  See
+attached screenshot.  If I move a barrier after this happens, it snaps
+back into its box.
+
 ___
 Add mass to the schrodinger equation.
 
