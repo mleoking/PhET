@@ -2,7 +2,7 @@ Disable detectors when inverse slits are on.
 
 Bug: in Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
 
-Detector norm seems off.  If I make detector very large so that it covers the entire box, it only registers 80-95%, rather than 100% as I would expect since the entire particle is inside it.
+Bug: Detector norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
 
 Bug: sometimes the cursor gets stuck with the double-headed resize arrow.
 
@@ -31,14 +31,7 @@ Remove the “double slit” option from the 2-laser panel.
 
 Detect Now! button shouldn't disable detectors
 ______
-I checked the previous versions of QWI and it looks like up through 
-version 0.22, the simulation does exactly what I expect it to do when 
-one-shot is NOT checked (as long as the detector is above the middle of 
-the box).  I agree that the way it gets caught in the detector is pretty 
-weird and should not be the default behavior, but I don't see why we 
-can't have a one-shot box that can be unchecked, as long as it is 
-checked as the default.  When it is unchecked, it would have the 
-behavior that it has in these earlier versions.
+Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping (i.e. detectors are not disabled until the wave hits the detector)
 
 The first detector should always apear in the center of the box just below the slits?
 
@@ -109,7 +102,3 @@ o	What does this mean?
 Two lasers panel:
 
 ·	Allow user to change the colors of the two lasers independently.  If the colors are different, they don’t interfere, just like when there are detectors in the first panel.  In order to interfere with each other, the colors should be sufficiently similar that they look like the same color, but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.  For now, let’s say they interfere if they are within 5 nm of each other, but we’ll probably have to tweak it a bit once we see what it looks like.
-Notes
-·	Sometime the detectors get disabled even when “one shot” is not selected.  The detectors should never get disabled unless “one shot” is selected.
-You can’t leave a detector on all the time (it will hold the wavefunction with 100% probability all of the time, after one detect.)
-Since we are enabling all detectors every new particle fire (or detect), “one shot” is no longer meaningful.
