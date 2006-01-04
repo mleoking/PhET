@@ -44,13 +44,11 @@ public class RectangleGraphic extends PNode {
         } ) );
         areaGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
-//        resizeCorner = new PPath( new Rectangle( 0, 0, 10, 10 ) );
         GeneralPath path = new GeneralPath();
         path.moveTo( 0, 10 );
         path.lineTo( 10, 10 );
         path.lineTo( 10, 0 );
         resizeCorner = new PPath( path );
-//        resizeCorner.setPaint( new Color( 0, 0, 0, 0 ) );
         resizeCorner.setStroke( new BasicStroke( 4 ) );
         resizeCorner.setStrokePaint( Color.green );
         resizeCorner.addInputEventListener( new CornerDrag() );
