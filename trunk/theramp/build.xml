@@ -21,7 +21,8 @@
     <property name="proguard-file" value="theramp.pro"/>
 
     <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-dir" value="${phet-ssh-root}/${dev-path}/${dev-version}"/>
+    <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
+    <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
 
     <taskdef resource="proguard/ant/task.properties"
              classpath="antutil-dir/lib/proguard.jar"/>
@@ -99,6 +100,7 @@
                 <fileset file="ant_output/jars/theramp-pro.jar"/>
                 <fileset file="ant_output/jnlp/theramp.jnlp"/>
                 <fileset file="README"/>
+                <fileset file="the-ramp.png"/>
             </sftp>
         </maverick-ssh>
     </target>
@@ -113,7 +115,6 @@
             <sftp action="put" remotedir="${dev-parent}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
-                <fileset file="screenshot.gif"/>
             </sftp>
         </maverick-ssh>
     </target>
