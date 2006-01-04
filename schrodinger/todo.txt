@@ -36,3 +36,104 @@ Remove the “double slit” option from the 2-laser panel.
 better way of representing a disabled detector
 
 Detect Now! button shouldn't disable detectors
+______
+I checked the previous versions of QWI and it looks like up through 
+version 0.22, the simulation does exactly what I expect it to do when 
+one-shot is NOT checked (as long as the detector is above the middle of 
+the box).  I agree that the way it gets caught in the detector is pretty 
+weird and should not be the default behavior, but I don't see why we 
+can't have a one-shot box that can be unchecked, as long as it is 
+checked as the default.  When it is unchecked, it would have the 
+behavior that it has in these earlier versions.
+
+A few other QWI requests:
+
+The first time you hit "Add Detector" the detector always appears in a 
+very inconvenient place in the lower left corner of the box, so that you 
+have to move it to detect anything.  Can the first detector always 
+appear in the center of the box just below the slits?
+
+There is a "Remove All" button for the barriers, but not for the 
+detectors, and it's a bit tedious to remove them if you fill the box 
+with detectors.  Can you either add a "Remove All" button for detectors, 
+or move the existing button out of the "Barriers" section and make it 
+apply to both barriers and detectors?
+
+Can you move the "Inverse Barrier" from "Advanced" to "Double Slits" and 
+rename it "Anti-slits"?
+
+How hard would it be to add a save and load feature?  I constantly find 
+myself wishing I could save it when I've built up very elaborate 
+configurations of barriers/detectors, and I think this would be very 
+useful for some class projects.  (For example, a professor might assign 
+a homework asking students to set up a configuration to accomplish some 
+goal, and students could hand in the saved configuration.)
+___________
+Suggested Changes to Quantum Wave Interference:
+Sam McKagan
+December 21, 2005
+
+Bugs:
+·	With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
+·	I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
+·	Schrodinger particles are ignoring the slits.
+·	Resizing a detector beyond (0,0) has the wrong behavior.
+·	On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
+·	On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
+
+Units and Scales:
+
+Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms, put an animation of a clock whose hands are slowing down next to actual clock, with a bubble that pops up and says “slowing down time.”  If you go back to electrons, time speeds up and an analogous animation appears.  We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.  Below are units to use in simulation:
+
+Electrons:
+ 
+Quantity	Number in code	Units shown in sim	   
+h	0.658	0.658 eV fs	   
+M	0.057	5.7 eV fs²/nm²	   
+Dx	1	0.1 nm	   
+Dt	1	1 fs	   
+vmin	9.2	920 km/s	   
+vmax	36.8	3680 km/s	 
+
+Neutrons:
+ 
+Quantity	Number in code	Units shown in sim	   
+h	0.000658	0.000658 eV ps	   
+M	104800000	10480 eV fs²/nm²	   
+Dx	1	0.1 nm	   
+Dt	1	1 ps	   
+vmin	5	0.5 km/s	   
+vmax	20	2 km/s	 
+
+
+Helium Atoms:
+ 
+Quantity	Number in code	Units shown in sim	   
+h	0.000658	0.000658 eV ps	   
+M	415776000	41577.6 eV fs²/nm²	   
+Dx	1	0.1 nm	   
+Dt	1	1 ps	   
+vmin	1.25	0.125 km/s	   
+vmax	5	0.500 km/s	 
+
+Note that you will need to put scaling back in so that the size of the box doesn’t change when you change the resolution in Options.
+
+Slider Ranges:
+
+The minimum slit width should be about 4 pixels.  The maximum slit width and separation should be such that there is not a lot of the slits that is outside the beam.
+
+Layout: (most of the following are based on feedback from Wendy)
+
+·	Make the tabs for the different panels larger. (about twice the current size)
+·	Put the gun type menu in a control box to the left of the gun.
+·	Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.  Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.  Put the on/off control on top of the gun and make it look like part of the gun.
+·	Shrink the play area so there is not so much extra space.
+o	What does this mean?
+
+Two lasers panel:
+
+·	Allow user to change the colors of the two lasers independently.  If the colors are different, they don’t interfere, just like when there are detectors in the first panel.  In order to interfere with each other, the colors should be sufficiently similar that they look like the same color, but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.  For now, let’s say they interfere if they are within 5 nm of each other, but we’ll probably have to tweak it a bit once we see what it looks like.
+Notes
+·	Sometime the detectors get disabled even when “one shot” is not selected.  The detectors should never get disabled unless “one shot” is selected.
+You can’t leave a detector on all the time (it will hold the wavefunction with 100% probability all of the time, after one detect.)
+Since we are enabling all detectors every new particle fire (or detect), “one shot” is no longer meaningful.
