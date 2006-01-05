@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.CollapseComputation;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -25,7 +26,7 @@ public class IntensityManager {
 
     private DetectorSheetPNode detectorSheetPNode;
     private Random random;
-    private int h = 2;
+    private int detectorRegionHeight = 2;
     private int y = 2;
     private double probabilityScaleFudgeFactor = 1.0;
     public static double NORM_DECREMENT = 1.0;
@@ -78,7 +79,11 @@ public class IntensityManager {
     }
 
     private void detectOne( Wavefunction sub ) {
-        Point pt = getCollapsePoint( sub );
+        Point pt = new CollapseComputation().getCollapsePoint( sub, getDetectionRect() );
+        if (pt!=null){
+//        Point pt=new DetectorSet( getDiscreteModel() ).getCollapsePoint( );
+//        Point pt = new DetectorSet( getDiscreteModel() ).getCollapsePoint();
+//        Point pt = getCollapsePoint( sub );
         double randOffsetX = 0;
         if( random.nextDouble() < 1.0 ) {
             int randAmount = random.nextInt( 4 ) + 1;
@@ -95,6 +100,7 @@ public class IntensityManager {
         int y = getDetectY();
 
         addDetectionEvent( x, y );
+        }
     }
 
     private void addDetectionEvent( int x, int y ) {
@@ -114,9 +120,13 @@ public class IntensityManager {
         getDiscreteModel().updateWavefunctionAfterDetection();
     }
 
+    public Rectangle getDetectionRect() {
+        return new Rectangle();
+    }
+
     public Wavefunction getDetectionRegion() {
         return getDiscreteModel().getDetectionRegion( 0, getDetectionY(),
-                                                      getDiscreteModel().getWavefunction().getWidth(), h );
+                                                      getDiscreteModel().getWavefunction().getWidth(), detectorRegionHeight );
     }
 
     private int getDetectionY() {
@@ -131,10 +141,10 @@ public class IntensityManager {
         return schrodingerModule.getDiscreteModel();
     }
 
-    private Point getCollapsePoint( Wavefunction sub ) {
-        DetectorSet detectorSet = new DetectorSet( sub );
-        return detectorSet.getCollapsePoint();
-    }
+//    private Point getCollapsePoint( Wavefunction sub ) {
+//        DetectorSet detectorSet = new DetectorSet( getDiscreteModel() );
+//        return detectorSet.getCollapsePoint();
+//    }
 
     public double getProbabilityScaleFudgeFactor() {
         return probabilityScaleFudgeFactor;

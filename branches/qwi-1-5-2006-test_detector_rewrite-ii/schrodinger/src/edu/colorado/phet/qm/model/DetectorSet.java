@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
-import edu.colorado.phet.qm.model.math.Complex;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,11 +16,13 @@ public class DetectorSet {
     private ArrayList detectors = new ArrayList();
     private static final Random random = new Random();
     private DiscreteModel.Listener listener;
-    private Wavefunction wavefunction;
+//    private Wavefunction wavefunction;
     private boolean autodetect = true;
+    private DiscreteModel discreteModel;
 
-    public DetectorSet( Wavefunction wavefunction ) {
-        this.wavefunction = wavefunction;
+    public DetectorSet( DiscreteModel discreteModel ) {
+//        this.wavefunction = wavefunction;
+        this.discreteModel = discreteModel;
         listener = new DetectorSet.MyListener();
     }
 
@@ -61,19 +61,19 @@ public class DetectorSet {
     }
 
     private static interface FireStrategy {
-        void fire( Detector detector, Wavefunction wavefunction, double norm );
+        void fire( Detector detector, WaveModel waveModel, double norm );
     }
 
     private static class FireEnabled implements FireStrategy {
-        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
-            detector.fire( wavefunction, norm );
+        public void fire( Detector detector, WaveModel waveModel, double norm ) {
+            detector.fire( waveModel, norm );
         }
     }
 
     private static class FireWhenReady implements FireStrategy {
-        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
+        public void fire( Detector detector, WaveModel waveModel, double norm ) {
             if( detector.timeToFire() ) {
-                detector.fire( wavefunction, norm );
+                detector.fire( waveModel, norm );
             }
         }
     }
@@ -84,7 +84,7 @@ public class DetectorSet {
             for( int i = 0; i < detectors.size(); i++ ) {
                 Detector detector = (Detector)detectors.get( i );
                 if( detector.isEnabled() ) {
-                    fireStrategy.fire( detector, getWavefunction(), norm );
+                    fireStrategy.fire( detector, getWaveModel(), norm );
                 }
             }
         }
@@ -99,44 +99,16 @@ public class DetectorSet {
 
     }
 
-    public Point getCollapsePoint( Rectangle bounds ) {
-        //compute a probability model for each dA
-        Wavefunction copy = getWavefunction().copy();
-        for( int i = 0; i < copy.getWidth(); i++ ) {
-            for( int j = 0; j < copy.getHeight(); j++ ) {
-                if( !bounds.contains( i, j ) ) {
-                    copy.valueAt( i, j ).zero();
-                }
-            }
-        }
-
-        copy.normalize();//in case we care
-        Complex runningSum = new Complex();
-        double rnd = random.nextDouble();
-
-        for( int i = 0; i < copy.getWidth(); i++ ) {
-            for( int j = 0; j < copy.getHeight(); j++ ) {
-                Complex psiStar = copy.valueAt( i, j ).complexConjugate();
-                Complex psi = copy.valueAt( i, j );
-                Complex term = psiStar.times( psi );
-                double pre = runningSum.abs();
-                runningSum = runningSum.plus( term );
-                double post = runningSum.abs();
-                if( pre <= rnd && rnd <= post ) {
-                    return new Point( i, j );
-                }
-            }
-        }
-        new RuntimeException( "No collapse point." ).printStackTrace();
-        return new Point( 0, 0 );
+    private WaveModel getWaveModel() {
+        return discreteModel.getWaveModel();
     }
 
-    public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
-        return getCollapsePoint( getWavefunction().getBounds() );
-    }
+//    public Point getCollapsePoint() {
+//        return new CollapseComputation().getCollapsePoint( getWavefunction(), getWavefunction().getBounds() );
+//    }
 
     private Wavefunction getWavefunction() {
-        return wavefunction;
+        return discreteModel.getWavefunction();
     }
 
     public DiscreteModel.Listener getListener() {

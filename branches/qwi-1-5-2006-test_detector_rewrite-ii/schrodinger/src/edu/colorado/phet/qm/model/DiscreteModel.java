@@ -63,7 +63,7 @@ public class DiscreteModel implements ModelElement {
         this.wave = wave;
         this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
 
-        detectorSet = new DetectorSet( getWavefunction() );
+        detectorSet = new DetectorSet( this );
 //        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
@@ -422,9 +422,9 @@ public class DiscreteModel implements ModelElement {
         return waveModel.getPropagator();
     }
 
-    public Point getCollapsePoint() {
-        return detectorSet.getCollapsePoint();
-    }
+//    public Point getCollapsePoint() {
+//        return detectorSet.getCollapsePoint();
+//    }
 
     public Damping getDamping() {
         return damping;

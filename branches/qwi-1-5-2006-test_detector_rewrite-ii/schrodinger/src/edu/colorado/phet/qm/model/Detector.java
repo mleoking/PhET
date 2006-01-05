@@ -15,12 +15,14 @@ import java.util.Random;
  */
 
 public class Detector extends RectangularObject {
+    private DiscreteModel discreteModel;
+
     private double probability;
     private boolean enabled = true;
     private int numTimeStepsBetweenDetect = 10;
     private int timeSinceLast = 0;
     private static final Random random = new Random();
-    private DiscreteModel discreteModel;
+
     private static double probabilityScaleFudgeFactor = 5.0;
 //    private boolean oneShotDetection;
 
@@ -93,22 +95,23 @@ public class Detector extends RectangularObject {
         return ( getWidth() + getHeight() ) / 2;
     }
 
-    private void zero( Wavefunction wavefunction ) {
+    private void zero( WaveModel waveModel ) {
         for( int i = getX(); i < getMaxX(); i++ ) {
             for( int j = getY(); j < getMaxY(); j++ ) {
-                if( wavefunction.containsLocation( i, j ) ) {
-                    wavefunction.valueAt( i, j ).zero();
+                if( waveModel.getWavefunction().containsLocation( i, j ) ) {
+                    waveModel.setValue( i, j, 0, 0 );
                 }
             }
         }
     }
 
-    public void zeroElsewhere( Wavefunction wavefunction ) {
-        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
-            for( int j = 0; j < wavefunction.getHeight(); j++ ) {
+    private void zeroElsewhere( WaveModel waveModel ) {
+        for( int i = 0; i < waveModel.getWidth(); i++ ) {
+            for( int j = 0; j < waveModel.getHeight(); j++ ) {
                 if( !contains( i, j ) ) {
-                    if( wavefunction.containsLocation( i, j ) ) {
-                        wavefunction.valueAt( i, j ).zero();
+                    if( waveModel.getWavefunction().containsLocation( i, j ) ) {
+                        waveModel.setValue( i, j, 0, 0 );
+//                        waveModel.valueAt( i, j ).zero();
                     }
                 }
             }
@@ -127,46 +130,49 @@ public class Detector extends RectangularObject {
         timeSinceLast++;
     }
 
-    public void fire( Wavefunction wavefunction, double norm ) {
+    public void fire( WaveModel waveModel, double norm ) {
         double prob = getProbability() * probabilityScaleFudgeFactor;
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {
-            grabWavefunction( wavefunction );
+            grabWavefunction( waveModel );
             setEnabled( false );
         }
         else {
-            expelWavefunction( wavefunction );
+            expelWavefunction( waveModel );
         }
         discreteModel.copyActualToSource();
         timeSinceLast = 0;
     }
 
-    private void expelWavefunction( Wavefunction wavefunction ) {
+    private void expelWavefunction( WaveModel waveModel ) {
         //force the wavefunction out.
-        double mag = wavefunction.getMagnitude();
-        zero( wavefunction );
-        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
-            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
-            if( classicalWavePropagator.getLast2() != null ) {
-                zero( classicalWavePropagator.getLast() );
-                zero( classicalWavePropagator.getLast2() );
-            }
-        }
-        wavefunction.setMagnitude( mag );
+        double mag = waveModel.getWavefunction().getMagnitude();
+        zero( waveModel );
+//        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
+//            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+//            if( classicalWavePropagator.getLast2() != null ) {
+//                zero( classicalWavePropagator.getLast() );
+//                zero( classicalWavePropagator.getLast2() );
+//            }
+//        }
+        waveModel.setMagnitude( mag );
     }
 
-    private void grabWavefunction( Wavefunction wavefunction ) {
-        zeroElsewhere( wavefunction );
-        wavefunction.normalize();
-        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
-            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
-            if( classicalWavePropagator.getLast2() != null ) {
-                zeroElsewhere( classicalWavePropagator.getLast() );
-                zeroElsewhere( classicalWavePropagator.getLast2() );
-                classicalWavePropagator.getLast().normalize();
-                classicalWavePropagator.getLast2().normalize();
-            }
-        }
+    private void grabWavefunction( WaveModel waveModel ) {
+        zeroElsewhere( waveModel );
+//        if( waveModel.getMagnitude() == 0 ) {//todo this is a workaround
+//
+//        }
+        waveModel.normalize();
+//        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
+//            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+//            if( classicalWavePropagator.getLast2() != null ) {
+//                zeroElsewhere( classicalWavePropagator.getLast() );
+//                zeroElsewhere( classicalWavePropagator.getLast2() );
+//                classicalWavePropagator.getLast().normalize();
+//                classicalWavePropagator.getLast2().normalize();
+//            }
+//        }
     }
 
     public boolean contains( int x, int y ) {
