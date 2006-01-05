@@ -269,7 +269,6 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     }
     
     private void updateDataSetWavePacket() {
-        System.out.println( "WaveFunctionPlot.updateDataSetWavePacket" );//XXX
         WavePacket wavePacket = (WavePacket) _wave;
         double[] positions = wavePacket.getSolver().getPositions();
         Complex[] psi = wavePacket.getSolver().getEnergies();
