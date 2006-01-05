@@ -96,10 +96,22 @@ public class RectangleGraphic extends PNode {
     }
 
     public Rectangle getViewRectangle( Rectangle modelRect ) {
+        System.out.println( "modelRect = " + modelRect );
+        if( modelRect.width == 0 ) {
+            System.out.println( "RectangleGraphic.getViewRectangle" );
+        }
         Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
+        if( gridRect.width == 0 ) {
+            gridRect.width = 1;
+        }
+        if( gridRect.height == 0 ) {
+            gridRect.height = 1;
+        }
+        System.out.println( "gridRectORIG = " + gridRect );
         getSchrodingerPanel().getWavefunctionGraphic().localToGlobal( gridRect );
         globalToLocal( gridRect );
         localToParent( gridRect );
+        System.out.println( "gridRect = " + gridRect );
         return gridRect;
     }
 
@@ -177,7 +189,11 @@ public class RectangleGraphic extends PNode {
 
                 int modelDX = (int)( dx / getColorGrid().getCellWidth() );
                 int modelDY = (int)( dy / getColorGrid().getCellHeight() );
-                rectangularObject.setDimension( origDim.width + modelDX, origDim.height + modelDY );
+                int newWidth = origDim.width + modelDX;
+                int newHeight = origDim.height + modelDY;
+                newWidth = Math.max( newWidth, 0 );
+                newHeight = Math.max( newHeight, 0 );
+                rectangularObject.setDimension( newWidth, newHeight );
             }
 
         }
