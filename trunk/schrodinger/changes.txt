@@ -1,3 +1,4 @@
+Corrected phase in Initial wavepackets.
 Detectors are now disabled when inverse slits are on.
 Moved the "Inverse Barrier" from "Advanced" to "Double Slits"
 Renamed the "Inverse Barrier" checkbox to "Anti-slits".
