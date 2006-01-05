@@ -1,6 +1,6 @@
 Bugfix: If I add barriers, then add slits, then remove the slits, all the barriers shift out of their boxes.  If I move a barrier after this happens, it snaps back into its box.
 
-    New in 0.26 (1-2-2005)
+* New in 0.26 (1-2-2005) Posted on the main site on 1-4-2006 
 Removed the 'one-shot' detection button
 Bugfix: Sometimes in autofire, the bullets fire quickly from the gun, not having enough time to move more than a few steps across the lattice.
 Attached the screen controls to the screen.
