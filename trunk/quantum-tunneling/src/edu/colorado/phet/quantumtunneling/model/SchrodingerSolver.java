@@ -60,6 +60,8 @@ public class SchrodingerSolver {
     // Reusable complex numbers
     private MutableComplex _c1;
     private MutableComplex _c2;
+    private MutableComplex _c3;
+    private MutableComplex _c4;
     
     //----------------------------------------------------------------------
     // Constructors
@@ -80,6 +82,8 @@ public class SchrodingerSolver {
         
         _c1 = new MutableComplex();
         _c2 = new MutableComplex();
+        _c3 = new MutableComplex();
+        _c4 = new MutableComplex();
         
         update();
     }
@@ -119,7 +123,7 @@ public class SchrodingerSolver {
         final double width = _wavePacket.getWidth();
         final double center = _wavePacket.getCenter();
         final double E = _wavePacket.getTotalEnergy().getEnergy();
-        double V = _wavePacket.getPotentialEnergy().getEnergyAt( center );
+        final double V = _wavePacket.getPotentialEnergy().getEnergyAt( center );
         double vx = Math.sqrt( 2 * ( E - V ) / MASS );
         if ( _wavePacket.getDirection() == Direction.RIGHT_TO_LEFT ) {
             vx *= -1;
@@ -142,12 +146,22 @@ public class SchrodingerSolver {
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
-            final double r1 = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
-            _Psi[i] = new MutableComplex( r1 * Math.cos( MASS * vx * position / HBAR ), r1 * Math.sin( MASS * vx * position / HBAR ) );
-            V = _wavePacket.getPotentialEnergy().getEnergyAt( position );
-            final double r2 = V * _dt / HBAR;
-            _EtoV[i] = new Complex( Math.cos( r2 ), -Math.sin( r2 ) );
+            final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
+            _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * position / HBAR ), r * Math.sin( MASS * vx * position / HBAR ) );
+            final double s = getPotentialEnergy( position ) * _dt / HBAR;
+            _EtoV[i] = new Complex( Math.cos( s ), -Math.sin( s ) );
         }
+    }
+    
+    /*
+     * Determines the potential energy at a position.
+     * This assumes that the barrier is centered at 0, and that 
+     * potential energy is 0 everywhere is except within the barrier.
+     * 
+     * @param position
+     */
+    private double getPotentialEnergy( double position ) {
+        return _wavePacket.getPotentialEnergy().getEnergyAt( position );
     }
     
     /**
@@ -174,20 +188,28 @@ public class SchrodingerSolver {
     private void propogate1() {
         int numberOfPoints = _Psi.length;
         for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
-            // Psi[i] = (alpha * Psi[i]) + (beta * Psi[i+1])
-            _c1.setValue( _alpha );
-            _c1.multiply( _Psi[i] );
-            _c2.setValue( _beta );
-            _c2.multiply( _Psi[i + 1] );
-            _Psi[i].setValue( _c1 );
-            _Psi[i].add( _c2 );
-            // Psi[i+1] = (alpha * Psi[i+i]) + (beta * Psi[i])
-            _c1.setValue( _alpha );
-            _c1.multiply( _Psi[i + 1] );
-            _c2.setValue( _beta );
-            _c2.multiply( _Psi[i] );
-            _Psi[i + 1].setValue( _c1 );
-            _Psi[i + 1].add( _c2 );
+
+            // A = Psi[i]
+            _c1.setValue( _Psi[i] );
+            
+            // B = Psi[i + 1]
+            _c2.setValue( _Psi[i + 1] );
+            
+            // Psi[i] = (alpha * A) + (beta * B)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c1 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c2 );
+            _Psi[i].setValue( _c3 );
+            _Psi[i].add( _c4 );
+            
+            // Psi[i+1] = (alpha * B) + (beta * A)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c2 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c1 );
+            _Psi[i + 1].setValue( _c3 );
+            _Psi[i + 1].add( _c4 );
         }
     }
     
@@ -197,20 +219,28 @@ public class SchrodingerSolver {
     private void propogate2() {
         int numberOfPoints = _Psi.length;
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            // Psi[i] = (alpha * Psi[i]) + (beta * Psi[i+1])
-            _c1.setValue( _alpha );
-            _c1.multiply( _Psi[i] );
-            _c2.setValue( _beta );
-            _c2.multiply( _Psi[i + 1] );
-            _Psi[i].setValue( _c1 );
-            _Psi[i].add( _c2 );
-            // Psi[i+1] = (alpha * Psi[i+i]) + (beta * Psi[i])
-            _c1.setValue( _alpha );
-            _c1.multiply( _Psi[i + 1] );
-            _c2.setValue( _beta );
-            _c2.multiply( _Psi[i] );
-            _Psi[i + 1].setValue( _c1 );
-            _Psi[i + 1].add( _c2 );
+            
+            // A = Psi[i]
+            _c1.setValue( _Psi[i] );
+            
+            // B = Psi[i + 1]
+            _c2.setValue( _Psi[i + 1] );
+            
+            // Psi[i] = (alpha * A) + (beta * B)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c1 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c2 );
+            _Psi[i].setValue( _c3 );
+            _Psi[i].add( _c4 );
+            
+            // Psi[i+1] = (alpha * B) + (beta * A)
+            _c3.setValue( _alpha );
+            _c3.multiply( _c2 );
+            _c4.setValue( _beta );
+            _c4.multiply( _c1 );
+            _Psi[i + 1].setValue( _c3 );
+            _Psi[i + 1].add( _c4 );
         }
     }
     
@@ -219,20 +249,28 @@ public class SchrodingerSolver {
      */
     private void propogate3() {
         int numberOfPoints = _Psi.length;
-        // Psi[numberOfPoints - 1] = (alpha * Psi[numberOfPoints - 1]) + (beta * Psi[0])
-        _c1.setValue( _alpha );
-        _c1.multiply( _Psi[numberOfPoints - 1] );
-        _c2.setValue( _beta );
-        _c2.multiply( _Psi[0] );
-        _Psi[numberOfPoints - 1].setValue( _c1 );
-        _Psi[numberOfPoints - 1].add( _c2 );
-        // Psi[0] = (alpha * Psi[0]) + (beta * Psi[numberOfPoints - 1])
-        _c1.setValue( _alpha );
-        _c1.multiply( _Psi[0] );
-        _c2.setValue( _beta );
-        _c2.multiply( _Psi[numberOfPoints - 1] );
-        _Psi[0].setValue( _c1 );
-        _Psi[0].add( _c2 );
+        
+        // A = Psi[numberOfPoints - 1]
+        _c1.setValue( _Psi[numberOfPoints - 1] );
+        
+        // B = Psi[0]
+        _c2.setValue( _Psi[0] );
+        
+        // Psi[numberOfPoints - 1] = (alpha * A) + (beta * B)
+        _c3.setValue( _alpha );
+        _c3.multiply( _c1 );
+        _c4.setValue( _beta );
+        _c4.multiply( _c2 );
+        _Psi[numberOfPoints - 1].setValue( _c3 );
+        _Psi[numberOfPoints - 1].add( _c4 );
+        
+        // Psi[0] = (alpha * B) + (beta * A)
+        _c3.setValue( _alpha );
+        _c3.multiply( _c2 );
+        _c4.setValue( _beta );
+        _c4.multiply( _c1 );
+        _Psi[0].setValue( _c3 );
+        _Psi[0].add( _c4 );
     }
     
     /*
@@ -241,6 +279,7 @@ public class SchrodingerSolver {
     private void propogate4() {
         int numberOfPoints = _Psi.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
+            // Psi[i= = Psi[i] * EtoV[i]
             _Psi[i].multiply( _EtoV[i] );
         }
     }
