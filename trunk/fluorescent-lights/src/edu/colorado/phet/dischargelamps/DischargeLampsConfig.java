@@ -21,6 +21,9 @@ import java.awt.geom.Line2D;
  */
 public class DischargeLampsConfig {
 
+    // Version
+    public static String version = "1.00";
+
     // Localization
     public static final String localizedStringsPath = "localization/DischargeLampsStrings";
 
