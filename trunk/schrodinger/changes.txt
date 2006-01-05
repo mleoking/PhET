@@ -1,3 +1,5 @@
+This version uses PSwing in the piccolo project.
+
 * New in 0.29 (1-5-2006)
 Corrected phase in Initial wavepackets.
 Detectors are now disabled when inverse slits are on.
