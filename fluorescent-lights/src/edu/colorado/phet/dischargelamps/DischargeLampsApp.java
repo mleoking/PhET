@@ -35,7 +35,6 @@ import java.awt.event.ActionListener;
  */
 public class DischargeLampsApp extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
-    static private String version = "1.00";
 
     /**
      * @param args
@@ -43,7 +42,7 @@ public class DischargeLampsApp extends PhetApplication {
     public DischargeLampsApp( String[] args ) {
         super( args, SimStrings.get( "DischargeLampsApplication.title" ),
                SimStrings.get( "DischargeLampsApplication.title" ),
-               version,
+               DischargeLampsConfig.version,
                frameSetup );
 
         // Determine the resolution of the screen
