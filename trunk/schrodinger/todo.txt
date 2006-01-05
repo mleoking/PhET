@@ -1,28 +1,16 @@
 Bugs:
-
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
-
 Add mass to the schrodinger equation.
-
 Disable detectors when inverse slits are on.
-
 Allow user to move slit barrier up and down by clicking on it and dragging. (low priority).
-
-The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
-
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
-
 Detect Now! button shouldn't disable detectors
-
-Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping (i.e. detectors are not disabled until the wave hits the detector)
-
+Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
+    (i.e. detectors are not disabled until the wave hits the detector)
 The first detector should always apear in the center of the box just below the slits?
-
 Add a "Remove All" button for detectors.
-
 Move the "Inverse Barrier" from "Advanced" to "Double Slits" and rename it "Anti-slits".
-
 Add save/load feature for saving barriers/detectors.
 ___________
 Units and Scales:
@@ -76,6 +64,8 @@ Two lasers panel:
 ·	Allow user to change the colors of the two lasers independently.  If the colors are different, they don’t interfere, just like when there are detectors in the first panel.  In order to interfere with each other, the colors should be sufficiently similar that they look like the same color, but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.  For now, let’s say they interfere if they are within 5 nm of each other, but we’ll probably have to tweak it a bit once we see what it looks like.
 
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
+
+The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
 
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
