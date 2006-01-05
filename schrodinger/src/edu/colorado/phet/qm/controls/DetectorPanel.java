@@ -23,6 +23,13 @@ public class DetectorPanel extends VerticalLayoutPanel {
         this.module = module;
         setFillNone();
         setBorder( BorderFactory.createTitledBorder( "Detection" ) );
+        JButton removeAll = new JButton( "Remove All" );
+        removeAll.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.removeAllDetectors();
+            }
+        } );
+
         JButton newDetector = new JButton( "Add Detector" );
         newDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -63,6 +70,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
 //            }
 //        } );
 //        add( enableAll );
+        add( removeAll );
     }
 
     private DiscreteModel getDiscreteModel() {
