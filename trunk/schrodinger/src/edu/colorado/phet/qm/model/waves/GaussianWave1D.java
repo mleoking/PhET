@@ -26,7 +26,7 @@ public class GaussianWave1D {
     public Complex getValue( double x ) {
         double norm = Math.pow( Math.PI * dxLattice * dxLattice, -1.0 / 4.0 );
         double space = Math.exp( -( x - x0 ) * ( x - x0 ) / 2 / dxLattice / dxLattice );
-        Complex momentumTerm = Complex.exponentiateImaginary( momentum * x );
+        Complex momentumTerm = Complex.exponentiateImaginary( momentum * ( x - x0 ) );
         momentumTerm.scale( norm * space );
         return momentumTerm;
     }
