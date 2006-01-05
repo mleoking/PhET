@@ -1,3 +1,5 @@
+Bugfix: With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen,and you have to hit the “clear wave button.” / In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
+    -Multiple detectors were trying to grab the wavefunction at a single time.
 Fixed the range of sliders (for slits) to keep the physics in a meaningful range.
 Bugfix: High Intensity mode erroneously displays % values in slit-detectors.
 

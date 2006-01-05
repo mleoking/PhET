@@ -58,19 +58,22 @@ public class DetectorSet {
     }
 
     private static interface FireStrategy {
-        void fire( Detector detector, Wavefunction wavefunction, double norm );
+        boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm );
     }
 
     private static class FireEnabled implements FireStrategy {
-        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
-            detector.fire( wavefunction, norm );
+        public boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm ) {
+            return detector.tryToGrab( wavefunction, norm );
         }
     }
 
     private static class FireWhenReady implements FireStrategy {
-        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
+        public boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm ) {
             if( detector.timeToFire() ) {
-                detector.fire( wavefunction, norm );
+                return detector.tryToGrab( wavefunction, norm );
+            }
+            else {
+                return false;
             }
         }
     }
@@ -81,7 +84,10 @@ public class DetectorSet {
             for( int i = 0; i < detectors.size(); i++ ) {
                 Detector detector = (Detector)detectors.get( i );
                 if( detector.isEnabled() ) {
-                    fireStrategy.fire( detector, getWavefunction(), norm );
+                    boolean grabbedIt = fireStrategy.tryToGrab( detector, getWavefunction(), norm );
+                    if( grabbedIt ) {
+                        break;
+                    }
                 }
             }
         }

@@ -159,8 +159,9 @@ public class Wavefunction {
 //        System.out.println( "postProb = " + postProb );
 
         double diff = 1.0 - postProb;
-        if( !( Math.abs( diff ) < 0.0001 ) ) {
-            System.out.println( "Error in probability normalization, norm=" + postProb );
+        double err = Math.abs( diff );
+        if( err > 0.0001 ) {
+            System.out.println( "Error in probability normalization, norm=" + postProb + ", err=" + err );
 //            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
 //            throw new RuntimeException( "Error in probability normalization." );
         }
