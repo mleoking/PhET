@@ -21,8 +21,6 @@ Disable detectors when inverse slits are on.
 
 Allow user to move slit barrier up and down by clicking on it and dragging. (low priority).
 
-When I move the vertical position of the slits, the response is very jerky and discontinuous.  Can this be any smoother?
-
 The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
 
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
@@ -39,7 +37,6 @@ Move the "Inverse Barrier" from "Advanced" to "Double Slits" and rename it "Anti
 
 Add save/load feature for saving barriers/detectors.
 ___________
-
 Units and Scales:
 
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms, put an animation of a clock whose hands are slowing down next to actual clock, with a bubble that pops up and says “slowing down time.”  If you go back to electrons, time speeds up and an analogous animation appears.  We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.  Below are units to use in simulation:
@@ -97,4 +94,4 @@ Low Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
 High Intensity electrons with absorption and one detector gave blank answer in north region
     (although intensity pattern appeared on screen). <can't reproduce this>
-When I change the vertical position of the slits, the detector moves first, and then the slits.  Can you make them both move together?
+When I move the vertical position of the slits, the response is very jerky and discontinuous.  Can this be any smoother?
