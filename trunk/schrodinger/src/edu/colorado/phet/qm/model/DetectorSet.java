@@ -57,6 +57,14 @@ public class DetectorSet {
         enableAll();
     }
 
+    public int numDetectors() {
+        return detectors.size();
+    }
+
+    public Detector detectorAt( int i ) {
+        return (Detector)detectors.get( i );
+    }
+
     private static interface FireStrategy {
         boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm );
     }

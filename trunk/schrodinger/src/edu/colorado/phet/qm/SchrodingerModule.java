@@ -203,4 +203,9 @@ public class SchrodingerModule extends PiccoloModule {
         return modelParameters;
     }
 
+    public void removeAllDetectors() {
+        while( discreteModel.getDetectorSet().numDetectors() > 0 ) {
+            getSchrodingerPanel().removeDetectorGraphic( discreteModel.getDetectorSet().detectorAt( 0 ) );
+        }
+    }
 }

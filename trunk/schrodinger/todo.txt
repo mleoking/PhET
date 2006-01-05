@@ -9,7 +9,6 @@ Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
 The first detector should always apear in the center of the box just below the slits?
-Add a "Remove All" button for detectors.
 Move the "Inverse Barrier" from "Advanced" to "Double Slits" and rename it "Anti-slits".
 Add save/load feature for saving barriers/detectors.
 ___________
