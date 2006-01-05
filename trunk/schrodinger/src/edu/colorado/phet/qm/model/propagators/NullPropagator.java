@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -15,8 +14,8 @@ import edu.colorado.phet.qm.model.math.Complex;
  */
 
 public class NullPropagator extends Propagator {
-    public NullPropagator( DiscreteModel discreteModel, Potential potential ) {
-        super( discreteModel, potential );
+    public NullPropagator( Potential potential ) {
+        super( potential );
     }
 
     public void propagate( Wavefunction w ) {
@@ -29,7 +28,7 @@ public class NullPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new NullPropagator( getDiscreteModel(), getPotential() );
+        return new NullPropagator( getPotential() );
     }
 
     public void normalize() {

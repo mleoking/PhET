@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -15,8 +14,8 @@ import edu.colorado.phet.qm.model.math.Complex;
  */
 
 public class AveragePropagator extends Propagator {
-    public AveragePropagator( DiscreteModel discreteModel, Potential potential ) {
-        super( discreteModel, potential );
+    public AveragePropagator( Potential potential ) {
+        super( potential );
     }
 
     public void propagate( Wavefunction w ) {
@@ -36,7 +35,7 @@ public class AveragePropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new AveragePropagator( getDiscreteModel(), getPotential() );
+        return new AveragePropagator( getPotential() );
     }
 
     public void normalize() {

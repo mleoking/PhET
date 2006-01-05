@@ -1,21 +1,15 @@
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Propagator;
+import edu.colorado.phet.qm.model.Wave;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
-
-/*********************************************************/
-/* Two-dimensional Time dependent Schrodinger Equation.  */
-/* Use Crank-Nicholson/Cayley algorithm...               */
-/* Stable, Norm Conserving.     Li Ju. May.3,1995        */
-
-/**
- * *****************************************************
- */
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
-    public ModifiedRichardsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
-        super( discreteModel, TAU, wave, potential );
+    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential ) {
+        super( TAU, wave, potential );
     }
 
     protected Complex createAlpha() {
@@ -44,7 +38,7 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
     }
 
     public Propagator copy() {
-        return new ModifiedRichardsonPropagator( getDiscreteModel(), getEpsilon(), super.getWave(), super.getPotential() );
+        return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
     }
 
     public void normalize() {

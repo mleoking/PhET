@@ -36,8 +36,8 @@ public class SplitModel extends DiscreteModel {
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
-        rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( this, new ConstantPotential() ) );
-        leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( this, new ConstantPotential() ) );
+        rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
+        leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
 
         leftDetector = new Detector( this, 0, 0, 0, 0 );
         rightDetector = new Detector( this, 0, 0, 0, 0 );

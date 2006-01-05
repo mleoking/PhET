@@ -61,14 +61,14 @@ public class DiscreteModel implements ModelElement {
         this.sourcePotential = new CompositePotential();
         this.deltaTime = deltaTime;
         this.wave = wave;
-        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential ) );
+        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
 
         detectorSet = new DetectorSet( getWavefunction() );
 //        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
-        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( this, deltaTime, wave, sourcePotential ) );
+        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, sourcePotential ) );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
@@ -118,11 +118,11 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setPropagatorModifiedRichardson() {
-        setPropagator( new ModifiedRichardsonPropagator( this, deltaTime, wave, compositePotential ) );
+        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
     }
 
     public void setPropagatorClassical() {
-        setPropagator( new ClassicalWavePropagator( this, compositePotential ) );
+        setPropagator( new ClassicalWavePropagator( compositePotential ) );
     }
 
     protected void step() {
@@ -378,9 +378,9 @@ public class DiscreteModel implements ModelElement {
         sourcePotential.clear();
         for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
             Potential p = compositePotential.potentialAt( i );
-            if( p != doubleSlitPotential ) {
-                sourcePotential.addPotential( p );
-            }
+//            if( p != doubleSlitPotential ) {
+            sourcePotential.addPotential( p );
+//            }
         }
     }
 
@@ -479,15 +479,16 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setDoubleSlitEnabled( boolean enabled ) {
-        removePotential( doubleSlitPotential );
-        if( enabled ) {
-            addPotential( doubleSlitPotential );
+        if( this.isDoubleSlitEnabled() != enabled ) {
+            if( !enabled ) {
+                removePotential( doubleSlitPotential );
+            }
+            else if( enabled ) {
+                addPotential( doubleSlitPotential );
+            }
+            this.doubleSlitEnabled = enabled;
+            notifySlitStateChanged();
         }
-        else {
-            removePotential( doubleSlitPotential );
-        }
-        this.doubleSlitEnabled = enabled;
-        notifySlitStateChanged();
     }
 
     private void notifySlitStateChanged() {

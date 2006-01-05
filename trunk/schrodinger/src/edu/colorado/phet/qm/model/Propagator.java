@@ -16,10 +16,10 @@ public abstract class Propagator {
     private double simulationTime;
     private double deltaTime;
     private Potential potential;
-    private DiscreteModel discreteModel;
+//    private DiscreteModel discreteModel;
 
-    protected Propagator( DiscreteModel discreteModel, Potential potential ) {
-        this.discreteModel = discreteModel;
+    protected Propagator( Potential potential ) {
+//        this.discreteModel = discreteModel;
         this.potential = potential;
     }
 
@@ -55,9 +55,9 @@ public abstract class Propagator {
         return potential;
     }
 
-    public DiscreteModel getDiscreteModel() {
-        return discreteModel;
-    }
+//    public DiscreteModel getDiscreteModel() {
+//        return discreteModel;
+//    }
 
     public void copyTo( int i, int j, Propagator propagator ) {
     }

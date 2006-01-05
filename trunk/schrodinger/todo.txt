@@ -1,7 +1,6 @@
 Bugs:
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 o With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
-o I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
 o Schrodinger particles are ignoring the slits.
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
