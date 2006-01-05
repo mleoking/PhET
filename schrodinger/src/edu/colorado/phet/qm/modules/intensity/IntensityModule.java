@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
 import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
@@ -25,6 +26,8 @@ public class IntensityModule extends SchrodingerModule {
     private HighIntensitySchrodingerPanel highIntensitySchrodingerPanel;
     private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
+    private boolean rightDetectorShouldBeEnabled = false;
+    private boolean leftDetectorShouldBeEnabled = false;
 
     public IntensityModule( SchrodingerApplication app, IClock clock ) {
         this( "High Intensity", app, clock );
@@ -52,8 +55,17 @@ public class IntensityModule extends SchrodingerModule {
             }
         } );
         finishInit();
+        getSchrodingerPanel().addListener( new SchrodingerPanel.Adapter() {
+            public void inverseSlitsChanged() {
+                updateDetectors();
+            }
 
+        } );
 //        getDiscreteModel().addListener( new DebugIntensityReader() );
+    }
+
+    private boolean isInverseSlits() {
+        return getSchrodingerPanel().isInverseSlits();
     }
 
     protected HighIntensitySchrodingerPanel createIntensityPanel() {
@@ -76,7 +88,21 @@ public class IntensityModule extends SchrodingerModule {
         return splitModel.containsDetector( splitModel.getLeftDetector() );
     }
 
+    private void updateDetectors() {
+        updateLeftDetector();
+        updateRightDetector();
+    }
+
     public void setRightDetectorEnabled( boolean selected ) {
+        this.rightDetectorShouldBeEnabled = selected;
+        updateRightDetector();
+    }
+
+    private void updateRightDetector() {
+        setRightDetectorActive( rightDetectorShouldBeEnabled && !isInverseSlits() );
+    }
+
+    private void setRightDetectorActive( boolean selected ) {
         if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
             return;
         }
@@ -87,6 +113,15 @@ public class IntensityModule extends SchrodingerModule {
     }
 
     public void setLeftDetectorEnabled( boolean selected ) {
+        this.leftDetectorShouldBeEnabled = selected;
+        updateLeftDetector();
+    }
+
+    private void updateLeftDetector() {
+        setLeftDetectorActive( leftDetectorShouldBeEnabled && !isInverseSlits() );
+    }
+
+    private void setLeftDetectorActive( boolean selected ) {
         if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
             return;
         }

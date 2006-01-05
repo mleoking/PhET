@@ -1,3 +1,5 @@
+Detectors are now disabled when inverse slits are on.
+Moved the "Inverse Barrier" from "Advanced" to "Double Slits"
 Renamed the "Inverse Barrier" checkbox to "Anti-slits".
 The first detector appears in the center of the box just below the slits.
 Added a "Remove All" button for detectors.

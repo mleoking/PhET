@@ -1,11 +1,9 @@
 Bugs:
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
-Disable detectors when inverse slits are on.
 Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
-Move the "Inverse Barrier" from "Advanced" to "Double Slits"
 Add save/load feature for saving barriers/detectors.
 ___________
 Add mass to the schrodinger equation.
