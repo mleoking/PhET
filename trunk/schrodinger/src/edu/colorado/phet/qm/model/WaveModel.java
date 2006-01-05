@@ -89,4 +89,22 @@ public class WaveModel {
         wavefunction.combineWaves( region, a.wavefunction, b.wavefunction );
         propagator.combineWaves( region, a.propagator, b.propagator );
     }
+
+    public int getWidth() {
+        return wavefunction.getWidth();
+    }
+
+    public int getHeight() {
+        return wavefunction.getHeight();
+    }
+
+    public void setValue( int i, int j, double real, double imag ) {
+        wavefunction.setValue( i,j,real,imag );
+        propagator.setValue(i,j,real,imag);
+    }
+
+    public void setMagnitude( double mag ) {
+        wavefunction.setMagnitude( mag );
+        propagator.setWavefunctionNorm( mag);
+    }
 }

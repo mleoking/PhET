@@ -75,4 +75,6 @@ public abstract class Propagator {
     public Map getModelParameters() {
         return new HashMap();
     }
+
+    public abstract void setValue( int i, int j, double real, double imag );
 }

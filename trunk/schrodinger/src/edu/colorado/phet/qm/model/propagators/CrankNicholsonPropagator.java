@@ -166,4 +166,7 @@ public class CrankNicholsonPropagator extends Propagator {
 
     public void setWavefunctionNorm( double norm ) {
     }
+
+    public void setValue( int i, int j, double real, double imag ) {
+    }
 }

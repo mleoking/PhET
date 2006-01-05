@@ -71,6 +71,9 @@ public class RichardsonPropagator extends Propagator {
         return map;
     }
 
+    public void setValue( int i, int j, double real, double imag ) {
+    }
+
     public void update() {
         epsilon = toEpsilon( getDeltaTime() );
         alpha = createAlpha();
