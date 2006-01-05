@@ -1,11 +1,16 @@
 package edu.colorado.phet.qm.model.propagators;
 
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wave;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +37,27 @@ public class RichardsonPropagator extends Propagator {
         hbar = 1;
         mass = 1;
 
-        setDeltaTime( 1.0 * mass / hbar );
+//        setDeltaTime( 0.8* mass / hbar );
+        setDeltaTime( 0.8 * mass / hbar );
         betaeven = new Complex[0][0];
         betaodd = new Complex[0][0];
         update();
+
+        showControlDialog();
+    }
+
+    private void showControlDialog() {
+        JFrame frame = new JFrame();
+        final ModelSlider modelSlider = new ModelSlider( "dt", "unitless", 0, 2, getDeltaTime(), new DecimalFormat( "0.000" ) );
+        modelSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setDeltaTime( modelSlider.getValue() );
+                System.out.println( "getDeltaTime() = " + getDeltaTime() );
+            }
+        } );
+        frame.getContentPane().add( modelSlider );
+        frame.pack();
+        frame.setVisible( true );
     }
 
     public Map getModelParameters() {
