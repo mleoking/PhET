@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
@@ -39,57 +38,59 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
 //        setBorder( BorderFactory.createRaisedBevelBorder() );
 
         verticalPosition = createComponent( "Vertical Position", new Setter() {
-            public void valueChanged( double val ) {
-                horizontalDoubleSlit.setY( (int)val );
+            int insetY = 10;
+
+            public void valueChanged( int val ) {
+                horizontalDoubleSlit.setY( val );
             }
 
-            public double getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
+            public int getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
                 return horizontalDoubleSlit.getY();
             }
 
-            public double getMin() {
-                return 0;
+            public int getMin() {
+                return 0 + insetY;
             }
 
-            public double getMax() {
-                return ResolutionControl.DEFAULT_WAVE_SIZE;
+            public int getMax() {
+                return ResolutionControl.DEFAULT_WAVE_SIZE - insetY;
             }
         } );
 
 
         slitSize = createComponent( "Slit Width ", new Setter() {
-            public void valueChanged( double val ) {
+            public void valueChanged( int val ) {
                 horizontalDoubleSlit.setSlitSize( (int)val );
             }
 
-            public double getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
+            public int getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
                 return horizontalDoubleSlit.getSlitSize();
             }
 
-            public double getMin() {
-                return 0;
+            public int getMin() {
+                return 4;
             }
 
-            public double getMax() {
-                return 50;
+            public int getMax() {
+                return 25;
             }
         } );
 
         slitSeparation = createComponent( "Slit Separation", new Setter() {
-            public void valueChanged( double val ) {
+            public void valueChanged( int val ) {
                 horizontalDoubleSlit.setSlitSeparation( (int)val );
             }
 
-            public double getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
+            public int getValue( HorizontalDoubleSlit horizontalDoubleSlit ) {
                 return horizontalDoubleSlit.getSlitSeparation();
             }
 
-            public double getMin() {
+            public int getMin() {
                 return 0;
             }
 
-            public double getMax() {
-                return 100;
+            public int getMax() {
+                return 30;
             }
         } );
 
@@ -124,31 +125,47 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     }
 
     private JComponent createComponent( String title, final Setter setter ) {
-        final Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 100, setter.getMin(), setter.getMax() );
-        final JSlider comp = new JSlider( 0, 100, (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
+        final JSlider comp = new JSlider( setter.getMin(), setter.getMax(), setter.getValue( horizontalDoubleSlit ) );
         comp.setBorder( BorderFactory.createTitledBorder( title ) );
         comp.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double v = linearFunction.evaluate( comp.getValue() );
-                setter.valueChanged( v );
+                setter.valueChanged( comp.getValue() );
             }
         } );
         module.getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent event ) {
-                comp.setValue( (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
+                comp.setValue( setter.getValue( horizontalDoubleSlit ) );
             }
         } );
         return comp;
     }
 
+//    private JComponent createComponentORIG( String title, final Setter setter ) {
+//        final Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 100, setter.getMin(), setter.getMax() );
+//        final JSlider comp = new JSlider( 0, 100, (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
+//        comp.setBorder( BorderFactory.createTitledBorder( title ) );
+//        comp.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                double v = linearFunction.evaluate( comp.getValue() );
+//                setter.valueChanged( v );
+//            }
+//        } );
+//        module.getClock().addClockListener( new ClockAdapter() {
+//            public void clockTicked( ClockEvent event ) {
+//                comp.setValue( (int)linearFunction.createInverse().evaluate( setter.getValue( horizontalDoubleSlit ) ) );
+//            }
+//        } );
+//        return comp;
+//    }
+
     private static interface Setter {
-        void valueChanged( double val );
+        void valueChanged( int val );
 
-        double getValue( HorizontalDoubleSlit horizontalDoubleSlit );
+        int getValue( HorizontalDoubleSlit horizontalDoubleSlit );
 
-        double getMin();
+        int getMin();
 
-        double getMax();
+        int getMax();
     }
 
     private DiscreteModel getDiscreteModel() {
