@@ -120,6 +120,7 @@ public class Wavefunction {
     }
 
     public void copyTo( Wavefunction dest ) {
+        dest.setSize( getWidth(), getHeight() );
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
                 dest.setValue( i, j, valueAt( i, j ) );
@@ -208,8 +209,10 @@ public class Wavefunction {
     }
 
     public void setSize( int width, int height ) {
-        wavefunction = new Complex[width][height];
-        clear();
+        if( getWidth() != width || getHeight() != height ) {
+            wavefunction = new Complex[width][height];
+            clear();
+        }
 
     }
 
