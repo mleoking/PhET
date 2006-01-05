@@ -1,4 +1,4 @@
-/*
+package edu.colorado.phet.qm.tests;/*
  * Integrating the Schrodinger Wave Equation
  * John L. Richardson
  * jlr@sgi.com
@@ -335,7 +335,41 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             z.mult( beta, x );
             Psi[i + 1].add( w, z );
         }
+        dampLeft();
+        dampRight();
     }
+
+    private void dampRight() {
+        for( int depth = 0; depth < damp.length; depth++ ) {
+            double scale = getScaleFactor( depth );
+            int i = Psi.length - damp.length + depth;
+            Psi[i].scale( scale );
+//            for( int j = 0; j < Psi.getHeight(); j++ ) {
+//                Psi.valueAt( i, j ).scale( scale );
+//            }
+        }
+    }
+
+    /**
+     * Should go to zero at fraction =1
+     */
+    private double getScaleFactor( int depth ) {
+        return damp[depth];
+    }
+
+    private void dampLeft() {
+        for( int depth = 0; depth < damp.length; depth++ ) {
+            double scale = getScaleFactor( depth );
+            int i = damp.length - depth - 1;
+            Psi[i].scale( scale );
+//            for( int j = 0; j < Psi.getHeight(); j++ ) {
+//                Psi.valueAt( i, j ).scale( scale );
+//            }
+        }
+    }
+
+//    private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
+    private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0};
 
     public double Norm() {
         double sum = 0.0;
@@ -367,5 +401,10 @@ class complex {
     public void set( complex a ) {
         re = a.re;
         im = a.im;
+    }
+
+    public void scale( double scale ) {
+        re *= scale;
+        im *= scale;
     }
 }
