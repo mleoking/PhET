@@ -64,6 +64,10 @@ public class ParticleUnits {
         return minVelocity;
     }
 
+    public double getAverageVelocity() {
+        return ( minVelocity.getValue() + maxVelocity.getValue() ) / 2.0;
+    }
+
     public void setMinVelocity( Value minVelocity ) {
         this.minVelocity = minVelocity;
     }
@@ -89,6 +93,8 @@ public class ParticleUnits {
     }
 
     public static class NeutronUnits extends ParticleUnits {
+//        private double scaleDown=0.00000001;
+        private double scaleDown = 1;//0.0000000001;
 
         public NeutronUnits() {
             setHbar( new Value( 0.000658, 1, "eV ps" ) );
@@ -96,8 +102,8 @@ public class ParticleUnits {
             setDt( new Value( 1, 1, "ps" ) );
 
             setMass( new Value( 104800000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
-            setMinVelocity( new Value( 5, 0.1, "km/s" ) );
-            setMaxVelocity( new Value( 20, 0.1, "km/s" ) );
+            setMinVelocity( new Value( 5 * scaleDown, 0.1, "km/s" ) );
+            setMaxVelocity( new Value( 20 * scaleDown, 0.1, "km/s" ) );
         }
     }
 

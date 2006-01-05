@@ -29,7 +29,7 @@ public class WaveDebugger {
         simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( wavefunction );
         simpleWavefunctionGraphic.setComplexColorMap( new GrayscaleColorMap.Real() );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
-        frame.setSize( 400, 400 );
+        frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
