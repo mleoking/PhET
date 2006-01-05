@@ -1,5 +1,5 @@
 Bugs:
-High Intensity mode erroneously displays % values in slit-detectors.
+
 
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 o With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”

@@ -28,6 +28,7 @@ public class DetectorGraphic extends RectangleGraphic {
     private PSwing closeGraphic;
     private Color darkGreen;
     private static Color fill = new Color( 200, 180, 150, 0 );
+    private boolean probDisplayAllowedToBeVisible = true;
 
     public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
         super( schrodingerPanel, detector, fill );
@@ -63,6 +64,7 @@ public class DetectorGraphic extends RectangleGraphic {
     }
 
     public void setPercentDisplayVisible( boolean visible ) {
+        this.probDisplayAllowedToBeVisible = visible;
         probDisplay.setVisible( visible );
     }
 
@@ -76,7 +78,7 @@ public class DetectorGraphic extends RectangleGraphic {
             String formatted = format.format( detector.getProbability() * 100.0 );
             probDisplay.setText( formatted + " %" );
             probDisplay.setOffset( getViewRectangle().x, getViewRectangle().y );
-            probDisplay.setVisible( detector.isEnabled() );
+            probDisplay.setVisible( detector.isEnabled() && probDisplayAllowedToBeVisible );
             getAreaGraphic().setStrokePaint( detector.isEnabled() ? Color.blue : Color.gray );
             closeGraphic.setOffset( (int)( getViewRectangle().x - closeGraphic.getWidth() ), getViewRectangle().y - closeGraphic.getHeight() );
         }
