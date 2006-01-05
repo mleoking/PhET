@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DetectorSet;
+import edu.colorado.phet.qm.model.CollapseComputation;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -78,7 +78,7 @@ public class IntensityManager {
     }
 
     private void detectOne( Wavefunction sub ) {
-        Point pt = getCollapsePoint( sub );
+        Point pt = new CollapseComputation().getCollapsePoint( sub, sub.getBounds() );
         double randOffsetX = 0;
         if( random.nextDouble() < 1.0 ) {
             int randAmount = random.nextInt( 4 ) + 1;
@@ -129,11 +129,6 @@ public class IntensityManager {
 
     private DiscreteModel getDiscreteModel() {
         return schrodingerModule.getDiscreteModel();
-    }
-
-    private Point getCollapsePoint( Wavefunction sub ) {
-        DetectorSet detectorSet = new DetectorSet( sub );
-        return detectorSet.getCollapsePoint();
     }
 
     public double getProbabilityScaleFudgeFactor() {

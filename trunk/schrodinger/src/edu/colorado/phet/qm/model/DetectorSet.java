@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -95,10 +94,6 @@ public class DetectorSet {
 //            }
 //        }
 
-    }
-
-    public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
-        return new CollapseComputation().getCollapsePoint( wavefunction, wavefunction.getBounds() );
     }
 
     private Wavefunction getWavefunction() {
