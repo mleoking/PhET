@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps;
 
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -21,13 +22,19 @@ import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.lasers.model.photon.LaserPhoton;
+import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
+import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
 import javax.swing.*;
@@ -49,7 +56,8 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampModule extends BaseLaserModule {
+public class DischargeLampModule extends PhetGraphicsModule {
+//public class DischargeLampModule extends BaseLaserModule {
 
     //----------------------------------------------------------------
     // Class data
@@ -110,7 +118,7 @@ public class DischargeLampModule extends BaseLaserModule {
         setApparatusPanel( apparatusPanel );
 
         // Turn off a switch in the base class that prevents certain photons from being displayed
-        setDisplayHighLevelEmissions( true );
+//        setDisplayHighLevelEmissions( true );
         
         // Set up the model
         model = new DischargeLampModel();
@@ -149,6 +157,11 @@ public class DischargeLampModule extends BaseLaserModule {
         // Set up the control panel
         addGraphicBatteryControls();
         addControls();
+
+        // Needed to handle something that is inherited from the Lasers simulation. When
+        // the code is properly decoupled, this can go away.
+        LaserPhoton.setStimulationBounds( model.getTube().getBounds() );
+
     }
 
     /**
@@ -393,7 +406,17 @@ public class DischargeLampModule extends BaseLaserModule {
      */
     protected AtomGraphic addAtom( Atom atom ) {
         energyLevelsMonitorPanel.addAtom( atom );
-        AtomGraphic graphic = super.addAtom( atom );
+//        AtomGraphic graphic = super.addAtom( atom );
+
+        getModel().addModelElement( atom );
+        AtomGraphic graphic = new AnnotatedAtomGraphic( getApparatusPanel(), atom );
+//        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
+
+        // Add a listener to the atom that will create a photon graphic if the atom
+        // emits a photon, and another to deal with an atom leaving the system
+        atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
+        atom.addLeftSystemListener( new AtomGraphicManager( graphic ) );
+
         // Put some of the atoms in a layer above the circuit, and some below
         getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
         if( random.nextBoolean() ) {
@@ -402,6 +425,7 @@ public class DischargeLampModule extends BaseLaserModule {
         }
         return graphic;
     }
+
 
     public boolean hasHelp() {
         return false;
@@ -462,5 +486,61 @@ public class DischargeLampModule extends BaseLaserModule {
     public void setSquigglesEnabled( boolean enabled ) {
         squiggleCB.setSelected( true );
         energyLevelsMonitorPanel.setSquigglesEnabled( squiggleCB.isSelected() );
+    }
+
+
+    //-------------------------------------------------------------------------------------------------
+    // Event handling
+    //-------------------------------------------------------------------------------------------------
+
+    public class InternalPhotonEmittedListener implements PhotonEmittedListener {
+
+        public void photonEmitted( PhotonEmittedEvent event ) {
+
+            final Photon photon = event.getPhoton();
+            getModel().addModelElement( photon );
+
+            // Create a photon graphic, add it to the appratus panel and attach a
+            // listener to the photon that will remove the graphic if and when the
+            // photon goes away. Set it's visibility based on the state of the simulation
+            final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
+            pg.setVisible( true );
+            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+            photon.addLeftSystemListener( new PhotonGraphicManager( photon, pg ) );
+        }
+    }
+
+    /**
+     * Handles cleanup when an atom is removed from the system
+     */
+    public class AtomGraphicManager implements Atom.LeftSystemListener {
+        private AtomGraphic atomGraphic;
+
+        public AtomGraphicManager( AtomGraphic atomGraphic ) {
+            this.atomGraphic = atomGraphic;
+        }
+
+        public void leftSystem( Atom.LeftSystemEvent leftSystemEvent ) {
+            getApparatusPanel().removeGraphic( atomGraphic );
+        }
+    }
+
+    /**
+     * Handles cleanup when a photon leaves the system. Takes care of removing the photon's
+     * associated graphic
+     */
+    public class PhotonGraphicManager implements Photon.LeftSystemEventListener {
+        private PhotonGraphic graphic;
+
+        public PhotonGraphicManager( Photon photon, PhotonGraphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+            // Get rid of the graphic
+            getApparatusPanel().removeGraphic( graphic );
+            getApparatusPanel().repaint( graphic.getBounds() );
+            graphic = null;
+        }
     }
 }
