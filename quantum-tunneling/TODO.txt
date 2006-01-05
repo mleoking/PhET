@@ -55,6 +55,10 @@ JFREECHART:
 
 
 DONE:
+0.0.6 ...
+(1/5/06) - damp Richardson algorithm to prevent periodic boundary conditions (SamR's solution)
+(1/5/06) - temporarily speed up Richardson algorithm by reducing # of sample points
+(1/5/06) - temporarily fix Richardson algorithm by using same formula for dt that he uses
 (1/4/06) - reorganize internals of QTClock
 (1/4/06) - set clock dt=0.1 and get rid of time scaling elsewhere
 (1/4/06) - change my clock control panel to accommodate more IClock changes
