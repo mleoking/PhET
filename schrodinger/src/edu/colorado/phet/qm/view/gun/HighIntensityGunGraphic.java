@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;

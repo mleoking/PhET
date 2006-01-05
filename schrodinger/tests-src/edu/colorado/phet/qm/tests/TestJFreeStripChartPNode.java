@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.geom.Rectangle2D;
