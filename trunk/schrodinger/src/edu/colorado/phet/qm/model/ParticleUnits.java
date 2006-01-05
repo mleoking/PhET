@@ -16,20 +16,7 @@ public class ParticleUnits {
     private Value minVelocity;
     private Value maxVelocity;
 
-    static class Value {
-        double modelValue;
-        double displayScaleFactor;
-        String units;
-
-        public Value( double modelValue, double displayScaleFactor, String units ) {
-            this.modelValue = modelValue;
-            this.displayScaleFactor = displayScaleFactor;
-            this.units = units;
-        }
-    }
-
     protected ParticleUnits() {
-
     }
 
     public ParticleUnits( Value hbar, Value mass, Value dx, Value dt, Value minVelocity, Value maxVelocity ) {
@@ -124,6 +111,34 @@ public class ParticleUnits {
             setMass( new Value( 415776000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 5, 0.1, "km/s" ) );
+        }
+    }
+
+    public static class Value {
+        double value;
+        double displayScaleFactor;
+        String units;
+
+        public Value( double modelValue, double displayScaleFactor, String units ) {
+            this.value = modelValue;
+            this.displayScaleFactor = displayScaleFactor;
+            this.units = units;
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+        public double getDisplayValue() {
+            return value * displayScaleFactor;
+        }
+
+        public double getDisplayScaleFactor() {
+            return displayScaleFactor;
+        }
+
+        public String getUnits() {
+            return units;
         }
     }
 }

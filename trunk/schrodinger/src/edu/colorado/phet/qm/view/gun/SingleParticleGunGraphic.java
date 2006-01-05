@@ -4,9 +4,9 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -194,7 +194,8 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
                 DefaultGunParticle.createElectron( this ),
                 DefaultGunParticle.createNeutron( this ),
                 DefaultGunParticle.createHelium( this ),
-                DefaultGunParticle.createCustomAtom( this )};
+//                DefaultGunParticle.createCustomAtom( this )
+        };
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );

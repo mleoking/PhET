@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class RichardsonPropagator extends Propagator {
     private double simulationTime;
-    private int timeStep;
+    private int timeStep;//the iteration number
     private Wave wave;
 
     private double hbar;
@@ -49,6 +49,18 @@ public class RichardsonPropagator extends Propagator {
 //        showControlDialog();
     }
 
+
+    public void setHBar( double hBar ) {
+        this.hbar = hBar;
+        update();
+    }
+
+    public void setMass( double mass ) {
+        this.mass = mass;
+        update();
+    }
+
+
     private void showControlDialog() {
         JFrame frame = new JFrame();
         final ModelSlider modelSlider = new ModelSlider( "dt", "unitless", 0, 2, getDeltaTime(), new DecimalFormat( "0.000" ) );
@@ -75,7 +87,8 @@ public class RichardsonPropagator extends Propagator {
     }
 
     public void update() {
-        epsilon = toEpsilon( getDeltaTime() );
+        epsilon = hbar * getDeltaTime() / mass;
+//        epsilon = toEpsilon( getDeltaTime() );
         alpha = createAlpha();
         beta = createBeta();
         if( betaeven == null ) {
@@ -101,10 +114,6 @@ public class RichardsonPropagator extends Propagator {
 
     protected Complex createBeta() {
         return new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
-    }
-
-    private double toEpsilon( double dt ) {
-        return hbar * dt / ( mass );
     }
 
     public void propagate( Wavefunction w ) {

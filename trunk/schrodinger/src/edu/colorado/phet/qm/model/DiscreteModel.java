@@ -120,6 +120,10 @@ public class DiscreteModel implements ModelElement {
         setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
     }
 
+    public Wave getWave() {
+        return wave;
+    }
+
     public void setPropagatorClassical() {
         setPropagator( new ClassicalWavePropagator( compositePotential ) );
     }
