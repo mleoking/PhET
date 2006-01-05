@@ -1,16 +1,7 @@
 Bugs:
 
-o With lots of detectors in the single particle panel,
-    I’ve seen it get into a mode where sometimes the wave
-    function would suddenly disappear, but no dot would appear on the screen,
-    and you have to hit the “clear wave button.”
-o Schrodinger particles are ignoring the slits.
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
-In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
-
-o Wave function norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
-    -this is partly due to the particle leaking outside the box
 
 Add mass to the schrodinger equation.
 
@@ -86,8 +77,10 @@ Two lasers panel:
 
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 
-Low Priority
+Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
 High Intensity electrons with absorption and one detector gave blank answer in north region
     (although intensity pattern appeared on screen). <can't reproduce this>
 When I move the vertical position of the slits, the response is very jerky and discontinuous.  Can this be any smoother?
+o Wave function norm is incorrect.  A detector that covers the entire box only registers 80-95%, rather than 100%.
+    -this is partly due to the particle leaking outside the box

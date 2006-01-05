@@ -127,18 +127,21 @@ public class Detector extends RectangularObject {
         timeSinceLast++;
     }
 
-    public void fire( Wavefunction wavefunction, double norm ) {
+    public boolean tryToGrab( Wavefunction wavefunction, double norm ) {
+        boolean grabbed = false;
         double prob = getProbability() * probabilityScaleFudgeFactor;
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {
             grabWavefunction( wavefunction );
             setEnabled( false );
+            grabbed = true;
         }
         else {
             expelWavefunction( wavefunction );
         }
         discreteModel.copyActualToSource();
         timeSinceLast = 0;
+        return grabbed;
     }
 
     private void expelWavefunction( Wavefunction wavefunction ) {
