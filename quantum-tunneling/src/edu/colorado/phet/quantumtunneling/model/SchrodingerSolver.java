@@ -42,6 +42,9 @@ public class SchrodingerSolver {
     private static final double HBAR = QTConstants.PLANCKS_CONSTANT;
     private static final double MASS = QTConstants.ELECTRON_MASS;
     
+    // Damping factors, to prevent periodic boundary condition.
+    private static double[] DAMPING_FACTORS = new double[] { 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+    
     //----------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------
@@ -80,6 +83,9 @@ public class SchrodingerSolver {
         _dx = dx;
         _dt = dt;
         
+        _dx = 0.09;//XXX temporarily decrease the number of sample points
+        _dt = 0.8 * MASS * _dx * _dx / HBAR;//XXX Richardson algorithm doesn't work without this specific value
+                
         _c1 = new MutableComplex();
         _c2 = new MutableComplex();
         _c3 = new MutableComplex();
@@ -98,6 +104,11 @@ public class SchrodingerSolver {
     
     public Complex[] getEnergies() {
         return _Psi;
+    }
+    
+    public void setDx( double dx ) {
+        _dx = dx;
+        update();
     }
     
     /**
@@ -120,6 +131,7 @@ public class SchrodingerSolver {
 
         System.out.println( "SchrodingerSolver.reset" );//XXX
         
+        // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
         final double center = _wavePacket.getCenter();
         final double E = _wavePacket.getTotalEnergy().getEnergy();
@@ -129,25 +141,29 @@ public class SchrodingerSolver {
             vx *= -1;
         }
         
+        // Deterine the position range.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 );
         final double maxX = pe.getEnd( numberOfRegions - 1 );
         
+        // Calculate the number of sample points.
         final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;
-        _positions = new double[numberOfPoints];
-        _Psi = new MutableComplex[numberOfPoints];
-        _EtoV = new Complex[numberOfPoints];
         
+        // Initialize constants used by the propogator.
         final double epsilon = HBAR * _dt / ( MASS * _dx * _dx );
         _alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
         _beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
+        // Initialize the data arrays used by the propogator.
+        _positions = new double[numberOfPoints];
+        _Psi = new MutableComplex[numberOfPoints];
+        _EtoV = new Complex[numberOfPoints];
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
             final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
-            _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * position / HBAR ), r * Math.sin( MASS * vx * position / HBAR ) );
+            _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position -center ) / HBAR ) );
             final double s = getPotentialEnergy( position ) * _dt / HBAR;
             _EtoV[i] = new Complex( Math.cos( s ), -Math.sin( s ) );
         }
@@ -170,15 +186,15 @@ public class SchrodingerSolver {
      * @param steps
      */
     public void propogate( int steps ) {
-        System.out.println( "SchrodingerSolver.propogate " + steps );//XXX
         for ( int i = 0; i < steps; i++ ) {
             propogate1();
             propogate2();
             propogate3();
             propogate4();
-            propogate3();
+            propogate3(); 
             propogate2();
             propogate1();
+            damp();
         }
     }
     
@@ -281,6 +297,20 @@ public class SchrodingerSolver {
         for ( int i = 0; i < numberOfPoints; i++ ) {
             // Psi[i= = Psi[i] * EtoV[i]
             _Psi[i].multiply( _EtoV[i] );
+        }
+    }
+    
+    /*
+     * Damps the values near the min and max positions
+     * to prevent periodic boundary conditions.
+     * Otherwise, the wave will appear to exit from one
+     * edge of the display and enter on the other edge.
+     */
+    private void damp() {
+        for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
+            double scale = DAMPING_FACTORS[i];
+            _Psi[i].scale( scale ); // left edge
+            _Psi[ _Psi.length - i - 1 ].scale( scale ); // right edge
         }
     }
 }
