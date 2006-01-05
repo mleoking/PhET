@@ -116,11 +116,21 @@ public class SchrodingerModule extends PiccoloModule {
         } );
     }
 
-    public void addDetector() {
-        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - 10 );
-        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - 10 );
+    boolean firstDetector = true;
 
-        Detector detector = new Detector( getDiscreteModel(), x, y, 10, 10 );
+    public void addDetector() {
+        int detectorWidth = 10;
+        int detectorHeight = detectorWidth;
+
+        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - detectorWidth );
+        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - detectorHeight );
+        if( firstDetector ) {
+            x = getDiscreteModel().getWavefunction().getWidth() / 2 - detectorWidth / 2;
+            y = getDiscreteModel().getWavefunction().getHeight() / 2;
+            firstDetector = false;
+        }
+
+        Detector detector = new Detector( getDiscreteModel(), x, y, detectorWidth, detectorHeight );
         addDetector( detector );
     }
 
