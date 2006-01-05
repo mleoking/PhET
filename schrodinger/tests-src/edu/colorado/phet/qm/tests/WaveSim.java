@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests;/*
+/*
  * Integrating the Schrodinger Wave Equation
  * John L. Richardson
  * jlr@sgi.com
@@ -21,18 +21,18 @@ public class WaveSim extends java.applet.Applet implements Runnable {
 
     public void init() {
 
-        wx = size().width;
-        wy = size().height;
+        wx = size().width; //number of grid points in x direction
+        wy = size().height; //number of grid points in y direction (needed for graphics, not computation
         resize( wx, wy );
         setBackground( Color.white );
-        nx = wx / 2;
-        yoff = 50;
-        wy -= yoff;
-        xpts = new int[nx];
-        ypts = new int[nx];
-        Psi = new complex[nx];
-        EtoV = new complex[nx];
-        energyScale = 1;
+        nx = wx / 2; //half number of grid points in x direction.  Why?
+        yoff = 50; //only used for graphics, not computation
+        wy -= yoff; // only used for graphics, not computation.
+        xpts = new int[nx]; //array of values of x at each point, only for graphics
+        ypts = new int[nx]; //array of values of y at each point, only for graphics
+        Psi = new complex[nx]; //value of psi at each point
+        EtoV = new complex[nx]; //Potential energy propagator = exp(-i*V(x)*dt/hbar)
+        energyScale = 1; //Ratio of V/E.  Later this is set to other values depending on V.
         initPhysics();
         Panel p = new Panel();
         p.setLayout( new FlowLayout() );
@@ -54,45 +54,51 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
 
     public void initPhysics() {
-        x0 = -2;
-        xmin = -3;
-        xmax = 3;
-        dx = ( xmax - xmin ) / ( nx - 1 );
-        xscale = ( wx - 0.5 ) / ( xmax - xmin );
-        ymin = -1.5;
-        ymax = 1.5;
-        dy = ( ymax - ymin ) / ( wy - 1 );
-        yscale = ( wy - 0.5 ) / ( ymax - ymin );
-        tmin = 0;
-        t = tmin;
-        hbar = 1;
-        mass = 100;
-        width = 0.50;
-        vwidth = 0.25;
-        vx = 0.25;
-        System.out.println( "dx = " + dx );
-        dt = 1.0 * mass * dx * dx / hbar;
-        System.out.println( "dt = " + dt );
-        epsilon = hbar * dt / ( mass * dx * dx );
+        x0 = -2;  //"initial center" of wave packet
+        xmin = -3;  //position of left edge of box
+        xmax = 3; //position of right edge of box
+        dx = ( xmax - xmin ) / ( nx - 1 ); //spacing between grid points.
+        xscale = ( wx - 0.5 ) / ( xmax - xmin ); //number of grid points divided by size of box.
+        ymin = -1.5; //min energy on graph
+        ymax = 1.5; //max energy on graph
+        dy = ( ymax - ymin ) / ( wy - 1 ); //never used
+        yscale = ( wy - 0.5 ) / ( ymax - ymin ); //used only for graphics
+        tmin = 0; //starting time?
+        t = tmin; //time
+        hbar = 1; //set hbar to 0.658
+        mass = 100; //set mass to 5.7
+        width = 0.50; //width = sqrt(2)*"initial width" of wave packet
+        vwidth = 0.25; //half width of barrier (if vwidth=0.25, then width=0.5)
+        vx = 0.25; // velocity = sqrt(2E/m) (we would set E, not vx)
+        dt = 0.8 * mass * dx * dx / hbar; //size of time step; can set this to anything convenient.
+        epsilon = hbar * dt / ( mass * dx * dx ); //special parameter for Richardson algorithm
         alpha = new complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) )
-                , -0.5 * Math.sin( epsilon / 2 ) );
+                , -0.5 * Math.sin( epsilon / 2 ) );//special parameter for Richardson algorithm
         beta = new complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 )
-                , 0.5 * Math.sin( epsilon / 2 ) );
-        energy = 0.5 * mass * vx * vx;
+                , 0.5 * Math.sin( epsilon / 2 ) );//special parameter for Richardson algorithm
+        energy = 0.5 * mass * vx * vx; //total energy, we would set this directly
 
-        for( int x = 0; x < nx; x++ ) {
+        for( int x = 0; x < nx; x++ ) { // set up initial value of psi, xpts, and EtoV.
+            //note that r is a dummy variable that is used for two completely different things.
             double r, xval;
-            xval = xmin + dx * x;
+            xval = xmin + dx * x;  //value of x at each grid point
             xpts[x] = (int)( xscale * ( xval - xmin ) );
             r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
             Psi[x] = new complex( r * Math.cos( mass * vx * xval / hbar ),
                                   r * Math.sin( mass * vx * xval / hbar ) );
+            //Above we set up initial gaussian wave packet.
+            //Note that mass*vx*xval/hbar can be replaced by k*xval,
+            //where k = sqrt(2m*(E-V)/hbar^2)
+            //Also, the entire psi above should be multiplied by a normalization constant A:
+            //A = pi^(1/4)*sigma^(1/2) where sigma = width/sqrt(2)
             r = v( xval ) * dt / hbar;
-            EtoV[x] = new complex( Math.cos( r ), -Math.sin( r ) );
+            EtoV[x] = new complex( Math.cos( r ), -Math.sin( r ) ); // = exp(-i*V(x)*dt/hbar)
         }
     }
 
-
+    //function to return potential energy as function of x.  If within barrier,
+    //set to energy*energyscale, otherwise set equal to zero.
+    //Remember that energy = total energy, energyscale = total energy/potential energy
     double v( double x ) {
         return
                 ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
@@ -363,4 +369,3 @@ class complex {
         im = a.im;
     }
 }
-
