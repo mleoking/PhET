@@ -292,7 +292,7 @@ public class PInputEvent {
 		throw new IllegalStateException("Can't get wheel rotation from non-wheel event");
     }
 
-	private InputEvent getSourceSwingEvent() {
+	public InputEvent getSourceSwingEvent() {
 		return inputEvent;
 	}
 
