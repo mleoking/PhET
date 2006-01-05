@@ -1,11 +1,8 @@
 Bugs:
-o Wave function norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
-    -this is partly due to the particle leaking outside the box
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 o With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
 o I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
 o Schrodinger particles are ignoring the slits.
-o Resizing a detector beyond (0,0) has the wrong behavior.
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 o Still a bug in change of resolution:
@@ -13,6 +10,9 @@ o Still a bug in change of resolution:
     it crashes (I can't make a wave come out of the gun anymore no matter
     what I do), even on the latest version.
 In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
+
+o Wave function norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
+    -this is partly due to the particle leaking outside the box
 ___
 Add mass to the schrodinger equation.
 
