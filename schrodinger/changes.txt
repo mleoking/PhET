@@ -1,3 +1,4 @@
+Fixed the range of sliders (for slits) to keep the physics in a meaningful range.
 Bugfix: High Intensity mode erroneously displays % values in slit-detectors.
 
 * New in 0.28 (1-4-2005)
