@@ -235,4 +235,13 @@ public class ClassicalWavePropagator extends Propagator {
             throw new RuntimeException( "Tried to combine Classical to wrong propagator type: a=" + a.getClass().getName() + ", b=" + b.getClass().getName() );
         }
     }
+
+    public void setValue( int i, int j, double real, double imag ) {
+        if (last!=null){
+            last.setValue( i,j,real,imag );
+        }
+        if (last2!=null){
+            last2.setValue( i,j,real,imag );
+        }
+    }
 }
