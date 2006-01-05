@@ -1,24 +1,17 @@
-package edu.colorado.phet.qm.tests;
-
-/*
+package edu.colorado.phet.qm.tests;/*
  * Integrating the Schrodinger Wave Equation
+ * John L. Richardson
+ * jlr@sgi.com
+ * December 1995
  */
 
-
-import edu.colorado.phet.qm.model.math.Complex;
-
-import javax.swing.*;
-import java.applet.Applet;
 import java.awt.*;
 
-public class WaveSim extends JApplet implements Runnable {
+public class WaveSim extends java.applet.Applet implements Runnable {
     int wx, wy, yoff, xpts[], ypts[], nx;
     double x0, xmin, xmax, dx, ymin, ymax, dy, xscale, yscale, tmin, t, dt;
     double hbar, mass, epsilon, width, vx, vwidth, energy, energyScale;
-    Complex psi[];
-    Complex potentialTerm[];
-    Complex alpha;
-    Complex beta;
+    complex Psi[], EtoV[], alpha, beta;
     Thread kicker = null;
     Button Restart = new Button( "Restart" );
     Button Pause = new Button( "Pause" );
@@ -28,8 +21,8 @@ public class WaveSim extends JApplet implements Runnable {
 
     public void init() {
 
-        wx = 400;//size().width;
-        wy = 400;//size().height;
+        wx = size().width;
+        wy = size().height;
         resize( wx, wy );
         setBackground( Color.white );
         nx = wx / 2;
@@ -37,8 +30,8 @@ public class WaveSim extends JApplet implements Runnable {
         wy -= yoff;
         xpts = new int[nx];
         ypts = new int[nx];
-        psi = new Complex[nx];
-        potentialTerm = new Complex[nx];
+        Psi = new complex[nx];
+        EtoV = new complex[nx];
         energyScale = 1;
         initPhysics();
         Panel p = new Panel();
@@ -55,7 +48,7 @@ public class WaveSim extends JApplet implements Runnable {
         C.addItem( "Well V = -2*E" );
         C.select( "Barrier V = E" );
         p.add( C );
-        getContentPane().add( "North", p );
+        add( "North", p );
         Restart.disable();
         C.disable();
     }
@@ -77,50 +70,32 @@ public class WaveSim extends JApplet implements Runnable {
         width = 0.50;
         vwidth = 0.25;
         vx = 0.25;
-        dt = 0.8 * mass * dx * dx / hbar;
+        System.out.println( "dx = " + dx );
+        dt = 1.0 * mass * dx * dx / hbar;
+        System.out.println( "dt = " + dt );
         epsilon = hbar * dt / ( mass * dx * dx );
-        System.out.println( "epsilon = " + epsilon );
-        alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        alpha = new complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) )
+                , -0.5 * Math.sin( epsilon / 2 ) );
+        beta = new complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 )
+                , 0.5 * Math.sin( epsilon / 2 ) );
         energy = 0.5 * mass * vx * vx;
 
-        initLatticeValues();
-        initWavefunction();
-        initPotential();
-    }
-
-    private void initPotential() {
         for( int x = 0; x < nx; x++ ) {
-            double xval = toXVal( x );
-            double r = v( xval ) * dt / hbar;
-//            potentialTerm[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
-            potentialTerm[x] = new Complex( Math.cos( r ) * Math.cos( r ) + Math.sin( r ) * Math.sin( r ), 0 );
-        }
-    }
-
-    private void initWavefunction() {
-        for( int x = 0; x < nx; x++ ) {
-            double xval = toXVal( x );
-            double r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
-            psi[x] = new Complex( r * Math.cos( mass * vx * xval / hbar ),
-                                  r * Math.sin( mass * vx * xval / hbar ) );
-        }
-    }
-
-    private void initLatticeValues() {
-        for( int x = 0; x < nx; x++ ) {
-            double xval = toXVal( x );
+            double r, xval;
+            xval = xmin + dx * x;
             xpts[x] = (int)( xscale * ( xval - xmin ) );
+            r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
+            Psi[x] = new complex( r * Math.cos( mass * vx * xval / hbar ),
+                                  r * Math.sin( mass * vx * xval / hbar ) );
+            r = v( xval ) * dt / hbar;
+            EtoV[x] = new complex( Math.cos( r ), -Math.sin( r ) );
         }
     }
 
-    private double toXVal( int x ) {
-        double xval = xmin + dx * x;
-        return xval;
-    }
 
     double v( double x ) {
-        return ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
+        return
+                ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
     }
 
 
@@ -129,13 +104,11 @@ public class WaveSim extends JApplet implements Runnable {
     }
 
     public void MakeGraph( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setColor( Color.white );
-        g2.fillRect( 0, 0, getWidth(), getHeight() );
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-
         int ix, iy;
         int jx, jy;
+
+        //g.setColor(Color.black);
+        //g.drawRect(0,yoff,wx-1,wy-1);
 
         g.setColor( Color.red );
         ix = (int)( xscale * 0.5 * ( xmax - xmin - 2 * vwidth ) );
@@ -151,7 +124,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].getReal() - ymin ) );
+                                    yscale * ( Psi[x].re - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -161,7 +134,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].getImaginary() - ymin ) );
+                                    yscale * ( Psi[x].im - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -171,7 +144,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].getReal() * psi[x].getReal() + psi[x].getImaginary() * psi[x].getImaginary() - ymin ) );
+                                    yscale * ( Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -180,11 +153,13 @@ public class WaveSim extends JApplet implements Runnable {
 
     public void run() {
         while( kicker != null ) {
-            step( psi, potentialTerm );
+            step();
+            step();
+            step();
             t += dt;
             repaint();
             try {
-                Thread.sleep( 30 );
+                Thread.sleep( 60 );
             }
             catch( InterruptedException e ) {
                 break;
@@ -274,71 +249,118 @@ public class WaveSim extends JApplet implements Runnable {
         return true;
     }
 
-    public void step( Complex[] psi, Complex[] potentialTerm ) {
-        int nx = psi.length;
+    public void step() {
+        complex x = new complex( 0, 0 );
+        complex y = new complex( 0, 0 );
+        complex w = new complex( 0, 0 );
+        complex z = new complex( 0, 0 );
 
         /*
-         * The time stepping algorithm used here is described in:
-         *
-         * Richardson, John L.,
-         * Visualizing quantum scattering on the CM-2 supercomputer,
-         * Computer Physics Communications 63 (1991) pp 84-94
-         */
-        for( int i = 0; i < nx - 1; i += 2 ) {//update evens
-            updatePsi( psi, i, i + 1 );
+        * The time stepping algorithm used here is described in:
+        *
+        * Richardson, John L.,
+        * Visualizing quantum scattering on the CM-2 supercomputer,
+        * Computer Physics Communications 63 (1991) pp 84-94
+        */
+
+        for( int i = 0; i < nx - 1; i += 2 ) {
+            x.set( Psi[i] );
+            y.set( Psi[i + 1] );
+            w.mult( alpha, x );
+            z.mult( beta, y );
+            Psi[i + 0].add( w, z );
+            w.mult( alpha, y );
+            z.mult( beta, x );
+            Psi[i + 1].add( w, z );
         }
-        for( int i = 1; i < nx - 1; i += 2 ) {//update odds
-            updatePsi( psi, i, i + 1 );
+
+        for( int i = 1; i < nx - 1; i += 2 ) {
+            x.set( Psi[i] );
+            y.set( Psi[i + 1] );
+            w.mult( alpha, x );
+            z.mult( beta, y );
+            Psi[i + 0].add( w, z );
+            w.mult( alpha, y );
+            z.mult( beta, x );
+            Psi[i + 1].add( w, z );
         }
-        updatePsi( psi, nx - 1, 0 );//boundary
-        for( int i = 0; i < nx; i++ ) {//then the potential term.
-            psi[i] = psi[i].times( potentialTerm[i] );//.setToProduct( temp0, potentialTerm[i] );
+
+        x.set( Psi[nx - 1] );
+        y.set( Psi[0] );
+        w.mult( alpha, x );
+        z.mult( beta, y );
+        Psi[nx - 1].add( w, z );
+        w.mult( alpha, y );
+        z.mult( beta, x );
+        Psi[0].add( w, z );
+
+        for( int i = 0; i < nx; i++ ) {
+            x.set( Psi[i] );
+            Psi[i].mult( x, EtoV[i] );
         }
-        updatePsi( psi, nx - 1, 0 );//boundary
-        for( int i = 1; i < nx - 1; i += 2 ) {//odds
-            updatePsi( psi, i, i + 1 );
+
+        x.set( Psi[nx - 1] );
+        y.set( Psi[0] );
+        w.mult( alpha, x );
+        z.mult( beta, y );
+        Psi[nx - 1].add( w, z );
+        w.mult( alpha, y );
+        z.mult( beta, x );
+        Psi[0].add( w, z );
+
+        for( int i = 1; i < nx - 1; i += 2 ) {
+            x.set( Psi[i] );
+            y.set( Psi[i + 1] );
+            w.mult( alpha, x );
+            z.mult( beta, y );
+            Psi[i + 0].add( w, z );
+            w.mult( alpha, y );
+            z.mult( beta, x );
+            Psi[i + 1].add( w, z );
         }
-        for( int i = 0; i < nx - 1; i += 2 ) {//evens
-            updatePsi( psi, i, i + 1 );
+
+        for( int i = 0; i < nx - 1; i += 2 ) {
+            x.set( Psi[i] );
+            y.set( Psi[i + 1] );
+            w.mult( alpha, x );
+            z.mult( beta, y );
+            Psi[i + 0].add( w, z );
+            w.mult( alpha, y );
+            z.mult( beta, x );
+            Psi[i + 1].add( w, z );
         }
     }
 
-    private void updatePsi( Complex[] psi, int i, int neighborIndex ) {
-        Complex temp0 = new Complex( psi[i] );
-        Complex temp1 = new Complex( psi[neighborIndex] );
-
-        Complex myAlpha = new Complex();
-        Complex nextBeta = new Complex();
-
-        myAlpha.setToProduct( alpha, temp0 );
-        nextBeta.setToProduct( beta, temp1 );
-        psi[i].setToSum( myAlpha, nextBeta );
-
-        myAlpha.setToProduct( alpha, temp1 );
-        nextBeta.setToProduct( beta, temp0 );
-        psi[neighborIndex].setToSum( myAlpha, nextBeta );
-    }
-
-    public double getNorm() {
+    public double Norm() {
         double sum = 0.0;
         for( int x = 0; x < nx; x++ ) {
-            sum += psi[x].getReal() * psi[x].getReal() + psi[x].getImaginary() * psi[x].getImaginary();
+            sum += Psi[x].re * Psi[x].re + Psi[x].im * Psi[x].im;
         }
         return sum;
     }
+}
 
-    public static void main( String[] args ) {
-        Applet a = new WaveSim();
+class complex {
+    double re, im;
 
-        a.setSize( 600, 600 );
-        JFrame f = new JFrame();
-        f.setContentPane( a );
-        f.pack();
-        f.show();
-        a.init();
-        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        f.setSize( 600, 600 );
+    complex( double x, double y ) {
+        re = x;
+        im = y;
     }
 
+    public void add( complex a, complex b ) {
+        re = a.re + b.re;
+        im = a.im + b.im;
+    }
+
+    public void mult( complex a, complex b ) {
+        re = a.re * b.re - a.im * b.im;
+        im = a.re * b.im + a.im * b.re;
+    }
+
+    public void set( complex a ) {
+        re = a.re;
+        im = a.im;
+    }
 }
 
