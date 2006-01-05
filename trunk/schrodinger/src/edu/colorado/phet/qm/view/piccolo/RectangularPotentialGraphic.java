@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;

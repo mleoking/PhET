@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 

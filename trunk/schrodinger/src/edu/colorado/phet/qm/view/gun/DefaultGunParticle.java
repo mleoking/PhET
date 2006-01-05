@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;

@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;

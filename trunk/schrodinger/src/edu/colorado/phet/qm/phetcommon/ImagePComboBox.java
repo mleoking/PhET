@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
-import edu.colorado.phet.piccolo.pswing.PComboBox;
+import edu.umd.cs.piccolox.pswing.PComboBox;
 
 import javax.swing.*;
 

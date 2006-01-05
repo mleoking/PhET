@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.piccolo;
 
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
