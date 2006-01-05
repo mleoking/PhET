@@ -1,3 +1,5 @@
+Bugfix: High Intensity mode erroneously displays % values in slit-detectors.
+
 * New in 0.28 (1-4-2005)
 Bugfix: resolution changes still crash every now and then.
 Bugfix: I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
