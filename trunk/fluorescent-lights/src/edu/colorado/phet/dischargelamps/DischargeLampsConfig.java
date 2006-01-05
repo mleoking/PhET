@@ -28,7 +28,6 @@ public class DischargeLampsConfig {
     public static final int MAX_NUM_ENERGY_LEVELS = 6;
 
     // Object locations and dimensions. Everything is keyed off the location of the cathode
-//    public static final double ELECTRON_RADIUS = 3;
     public static final int ELECTRODE_Y_LOCATION = 300;
     public static final int ELECTRODE_LENGTH = 200;
     public static final int CATHODE_X_LOCATION = 140;
@@ -58,7 +57,8 @@ public class DischargeLampsConfig {
     public static final String NEGATIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2a.png";
     public static final String SPECTROMETER_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "spectrometer-panel.png";
     public static final String BATTERY_IMAGE = IMAGE_FILE_DIRECTORY + "battery.png";
-
+    public static final String SLIDER_KNOB_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnob.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnobHighlight.png";
 
     // Assigned graphic layers
     public static final double TUBE_LAYER = 110;
@@ -68,8 +68,6 @@ public class DischargeLampsConfig {
 
     // Clock specification
     private static double fudge = 5.67;
-//    public static final double DT = 12 / fudge;
-//    public static final double DT = 12;
     public static double DT = 12;
     public static final int FPS = 25;
 
@@ -80,7 +78,5 @@ public class DischargeLampsConfig {
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts
-    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.64;
-    public static final String SLIDER_KNOB_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnob.png";
-    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGE_FILE_DIRECTORY + "sliderKnobHighlight.png";
+    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
 }
