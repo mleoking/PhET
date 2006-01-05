@@ -137,22 +137,22 @@ public class WaveSim extends java.applet.Applet implements Runnable {
         /**
          * Resets (reinitializes) the model.
          * 
-         * @param numberOfSamples
+         * @param numberOfPoints
          */
-        public void reset( int numberOfSamples ) {
+        public void reset( int numberOfPoints ) {
 
-            _positions = new double[numberOfSamples];
-            _Psi = new MutableComplex[numberOfSamples];
-            _EtoV = new Complex[numberOfSamples];
+            _positions = new double[numberOfPoints];
+            _Psi = new MutableComplex[numberOfPoints];
+            _EtoV = new Complex[numberOfPoints];
 
-            _dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfSamples - 1 );
+            _dx = ( MAX_POSITION - MIN_POSITION ) / ( numberOfPoints - 1 );
             _dt = 0.8 * MASS * _dx * _dx / HBAR;
 
             final double epsilon = HBAR * _dt / ( MASS * _dx * _dx );
             _alpha = new Complex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
             _beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
-            for ( int i = 0; i < numberOfSamples; i++ ) {
+            for ( int i = 0; i < numberOfPoints; i++ ) {
                 final double position = MIN_POSITION + ( i * _dx );
                 _positions[i] = position;
                 final double r1 = Math.exp( -( ( position - X0 ) / PACKET_WIDTH ) * ( ( position - X0 ) / PACKET_WIDTH ) );
