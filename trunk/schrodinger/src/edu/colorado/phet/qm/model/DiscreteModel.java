@@ -131,11 +131,11 @@ public class DiscreteModel implements ModelElement {
         finishedTimeStep();
     }
 
-    public void setSlitAbsorptive( boolean slitAbsorptive ) {
+    public void setBarrierAbsorptive( boolean slitAbsorptive ) {
         this.slitAbsorptive = slitAbsorptive;
     }
 
-    public boolean isSlitAbsorptive() {
+    public boolean isBarrierAbsorptive() {
         return slitAbsorptive;
     }
 

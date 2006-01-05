@@ -27,7 +27,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
         advancedPanel.addControlFullWidth( super.createPotentialPanel( singleParticleModule ) );
         advancedPanel.addControlFullWidth( detectorPanel );
-        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
+//        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {

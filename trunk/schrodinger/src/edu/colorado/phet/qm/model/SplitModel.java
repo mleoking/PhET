@@ -184,7 +184,7 @@ public class SplitModel extends DiscreteModel {
         }
 
         public void step() {
-            if( isSlitAbsorptive() ) {
+            if( isBarrierAbsorptive() ) {
                 beforeTimeStep();
                 getPropagationStrategy().step();
 

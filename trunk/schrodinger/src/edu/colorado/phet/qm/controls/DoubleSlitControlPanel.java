@@ -31,9 +31,9 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
     private SlitDetectorPanel slitDetectorPanel;
     private SchrodingerModule module;
 
-    public DoubleSlitControlPanel( final DiscreteModel discreteModel, SchrodingerModule intensityModule ) {
+    public DoubleSlitControlPanel( final DiscreteModel discreteModel, SchrodingerModule schrodingerModule ) {
         this.discreteModel = discreteModel;
-        this.module = intensityModule;
+        this.module = schrodingerModule;
         this.horizontalDoubleSlit = discreteModel.getDoubleSlitPotential();
 //        setBorder( BorderFactory.createRaisedBevelBorder() );
 
@@ -94,10 +94,10 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isSlitAbsorptive() );
+        final JCheckBox absorbtiveSlit = new JCheckBox( "Absorbing Barriers", getDiscreteModel().isBarrierAbsorptive() );
         absorbtiveSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().setSlitAbsorptive( absorbtiveSlit.isSelected() );
+                getDiscreteModel().setBarrierAbsorptive( absorbtiveSlit.isSelected() );
             }
         } );
         add( absorbtiveSlit );
@@ -107,11 +107,12 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         add( slitSeparation );
         add( verticalPosition );
 
-        if( intensityModule instanceof IntensityModule ) {//todo use polymorphism here
-            slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)intensityModule );
+        if( schrodingerModule instanceof IntensityModule ) {//todo use polymorphism here
+            slitDetectorPanel = new SlitDetectorPanel( (IntensityModule)schrodingerModule );
             addFullWidth( slitDetectorPanel );
         }
         setControlsEnabled( true );
+        addFullWidth( new InverseSlitsCheckbox( schrodingerModule.getSchrodingerPanel() ) );
     }
 
     public SlitDetectorPanel getSlitDetectorPanel() {
