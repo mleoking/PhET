@@ -379,7 +379,7 @@ public class DiscreteModel implements ModelElement {
         for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
             Potential p = compositePotential.potentialAt( i );
             if( p != doubleSlitPotential ) {
-                sourcePotential.addPotential( p );
+                sourcePotential.addPotential( p );//the source wave has no barrier (so the barrier looks absorptive)
             }
         }
     }
