@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -18,8 +17,8 @@ public class ClassicalWavePropagator extends Propagator {
     private Wavefunction last;
     private double speed = 0.4;
 
-    public ClassicalWavePropagator( DiscreteModel discreteModel, Potential potential ) {
-        super( discreteModel, potential );
+    public ClassicalWavePropagator( Potential potential ) {
+        super( potential );
     }
 
     public double getSpeed() {
@@ -135,7 +134,7 @@ public class ClassicalWavePropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new ClassicalWavePropagator( getDiscreteModel(), getPotential() );
+        return new ClassicalWavePropagator( getPotential() );
     }
 
     public void normalize() {

@@ -1,6 +1,9 @@
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Propagator;
+import edu.colorado.phet.qm.model.Wave;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
 
 /* Two-dimensional Time dependent Schrodinger Equation.  */
@@ -18,8 +21,8 @@ public class CrankNicholsonPropagator extends Propagator {
     private Wave wave;
 //    private Potential potential;
 
-    public CrankNicholsonPropagator( DiscreteModel discreteModel, double TAU, Wave wave, Potential potential ) {
-        super( discreteModel, potential );
+    public CrankNicholsonPropagator( double TAU, Wave wave, Potential potential ) {
+        super( potential );
         this.deltaTime = TAU;
         this.wave = wave;
 //        setPotential( potential );
@@ -155,7 +158,7 @@ public class CrankNicholsonPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new CrankNicholsonPropagator( getDiscreteModel(), deltaTime, wave, getPotential() );
+        return new CrankNicholsonPropagator( deltaTime, wave, getPotential() );
     }
 
     public void normalize() {

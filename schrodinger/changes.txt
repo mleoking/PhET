@@ -1,3 +1,4 @@
+Bugfix: I managed to get a barrier to jump to a new location and disintegrate, so that the red part of it was gone, and the x on the upper left corner and the green thing on the lower right corner switched places.
 Bugfix: Resizing a detector beyond (0,0) has the wrong behavior.
 Bugfix: If I add barriers, then add slits, then remove the slits, all the barriers shift out of their boxes.  If I move a barrier after this happens, it snaps back into its box.
 
