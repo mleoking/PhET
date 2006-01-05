@@ -53,13 +53,13 @@ the jars to remove these dependencies.
 
 * On Win/98 you may get an "Out of Environment Space" error message. This happens if
 Windows provides too small a space for environment variables. To work around this
-limitation:
-  Close the DOS window (the error can corrupt its CLASSPATH variable).
-  Open a new DOS window. Click on the MS-DOS icon at the top left of the window.
-  Select the Properties option.
-  Click on the Memory tab.
-  Adjust the "Initial Environment" drop-down box from "Auto" to "2816".
-  Click OK.
+limitation: 
+  Close the DOS window (the error can corrupt its CLASSPATH variable). 
+  Open a new DOS window. Click on the MS-DOS icon at the top left of the window. 
+  Select the Properties option. 
+  Click on the Memory tab. 
+  Adjust the "Initial Environment" drop-down box from "Auto" to "2816". 
+  Click OK. 
 Then try building.
 
 -->
@@ -94,7 +94,7 @@ Then try building.
     <property name="tests.dir" value="${root.dir}/tests"/>
 
     <!-- Define the source build directories -->
-    <property name="doc.apidocs" value="${doc.dir}/api"/>
+    <property name="doc.apidocs" value="${doc.dir}/api"/>	   	
     <property name="build.dir" value="${root.dir}/build"/>
     <property name="build.lib" value="${root.dir}/build/lib"/>
     <property name="build.piccolo.src" value="${root.dir}/build/piccolo/src"/>
@@ -105,11 +105,11 @@ Then try building.
     <property name="build.examples.dest" value="${root.dir}/build/examples/classes"/>
     <property name="build.tests.src" value="${root.dir}/build/tests/src"/>
     <property name="build.tests.dest" value="${root.dir}/build/tests/classes"/>
-
+    
     <!-- Define the distribution directories -->
     <property name="dist.root" value="${root.dir}/dist"/>
     <property name="sourcedist.dir" value="${dist.root}/${name}-${version}/${name}-${version}"/>
-    <property name="compiledist.dir" value="${dist.root}/${name}-${version}-compiled/${name}-${version}"/>
+    <property name="compiledist.dir" value="${dist.root}/${name}-${version}-compiled/${name}-${version}"/>    
   </target>
 
   <!-- =================================================================== -->
@@ -131,7 +131,7 @@ Then try building.
     <echo message="   runtests   --> Runs the test cases in ./build/tests.jar"/>
     <echo message="   runptests  --> Runs the performance tests in ./build/tests.jar"/>
     <echo message="   compiledist--> creates the compiled distribution in ./dist"/>
-    <echo message="   sourcedist --> creates the source distribution in ./dist"/>
+    <echo message="   sourcedist --> creates the source distribution in ./dist"/>    
     <echo message="   api        --> generates the piccolo API documentation in ./doc/api"/>
     <echo message="   clean      --> restores distribution to original state"/>
     <echo message="   usage      --> (default) displays build menu"/>
@@ -161,11 +161,11 @@ Then try building.
   <target name="prepare-piccolo" depends="prepare">
     <mkdir dir="${build.piccolo.src}"/>
     <mkdir dir="${build.piccolo.dest}"/>
-
+   
     <copy todir="${build.piccolo.src}">
       <fileset dir="${src.dir}"/>
     </copy>
-
+         
   </target>
 
   <!-- =================================================================== -->
@@ -178,7 +178,7 @@ Then try building.
     <copy todir="${build.extras.src}">
       <fileset dir="${extras.dir}"/>
     </copy>
-
+    
   </target>
 
   <!-- =================================================================== -->
@@ -191,7 +191,7 @@ Then try building.
     <copy todir="${build.examples.src}">
       <fileset dir="${examples.dir}"/>
     </copy>
-
+        
   </target>
 
   <!-- =================================================================== -->
@@ -204,7 +204,7 @@ Then try building.
     <copy todir="${build.tests.src}">
       <fileset dir="${tests.dir}"/>
     </copy>
-
+    
   </target>
 
   <!-- =================================================================== -->
@@ -343,7 +343,7 @@ Then try building.
       </classpath>
     </java>
   </target>
-
+  
   <!-- =================================================================== -->
   <!-- Build all jars in ./build                                           -->
   <!-- =================================================================== -->
@@ -366,7 +366,7 @@ Then try building.
              windowtitle="${Name} API"
              doctitle="${Name}"
              overview="${build.piccolo.src}/edu/umd/cs/piccolo/overview.html"
-             bottom="Copyright &#169; ${year} by University of Maryland, College Park, MD 20742, USA All rights reserved."
+             bottom="Copyright &#169; ${year} by University of Maryland, College Park, MD 20742, USA All rights reserved."             
     />
   </target>
 
@@ -374,7 +374,7 @@ Then try building.
   <!-- Replace all sequences of 4 spaces in .java files with a tab         -->
   <!-- =================================================================== -->
   <target name="addTabsWithLength4" depends="init">
-    <fixcrlf
+    <fixcrlf 
          srcdir="${root.dir}"
          tab="add"
          tablength="4"
@@ -385,7 +385,7 @@ Then try building.
   <!-- Replace all tabs in .java files with a sequence of 4 spaces         -->
   <!-- =================================================================== -->
   <target name="removeTabsWithLength4" depends="init">
-    <fixcrlf
+    <fixcrlf 
          srcdir="${root.dir}"
          tab="remove"
          tablength="4"
@@ -416,7 +416,7 @@ Then try building.
     />
 
   </target>
-
+	
 
   <!-- =================================================================== -->
   <!-- Build compiled distribution in ./dist                               -->
@@ -433,7 +433,7 @@ Then try building.
     <delete dir="${compiledist.dir}/dist"/>
     <delete dir="${compiledist.dir}/build/examples"/>
     <delete dir="${compiledist.dir}/build/piccolo"/>
-    <delete dir="${compiledist.dir}/build/extras"/>
+    <delete dir="${compiledist.dir}/build/extras"/>    
     <delete dir="${compiledist.dir}/build/tests"/>
 
     <fixcrlf srcdir="${compiledist.dir}"
