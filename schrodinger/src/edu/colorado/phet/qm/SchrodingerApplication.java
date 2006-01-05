@@ -20,7 +20,7 @@ import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.29";
+    public static String VERSION = "0.30";
 
     static {
         PhetLookAndFeel.setLookAndFeel();
