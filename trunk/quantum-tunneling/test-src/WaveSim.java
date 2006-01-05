@@ -153,7 +153,7 @@ public class WaveSim extends java.applet.Applet implements Runnable {
             _beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
             for ( int i = 0; i < numberOfSamples; i++ ) {
-                final double position = MIN_POSITION + _dx * i;
+                final double position = MIN_POSITION + ( i * _dx );
                 _positions[i] = position;
                 final double r1 = Math.exp( -( ( position - X0 ) / PACKET_WIDTH ) * ( ( position - X0 ) / PACKET_WIDTH ) );
                 _Psi[i] = new MutableComplex( r1 * Math.cos( MASS * VX * position / HBAR ), r1 * Math.sin( MASS * VX * position / HBAR ) );
