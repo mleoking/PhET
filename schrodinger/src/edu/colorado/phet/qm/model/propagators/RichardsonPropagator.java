@@ -19,7 +19,9 @@ public class RichardsonPropagator extends Propagator {
     private int timeStep;
     private Wave wave;
 
-    private double hbar, mass, epsilon;
+    private double hbar;
+    private double mass;
+    private double epsilon;
     private Complex alpha;
     private Complex beta;
     private Complex[][] betaeven;
@@ -38,12 +40,13 @@ public class RichardsonPropagator extends Propagator {
         mass = 1;
 
 //        setDeltaTime( 0.8* mass / hbar );
-        setDeltaTime( 0.8 * mass / hbar );
+        setDeltaTime( 0.95 * mass / hbar );
+//        setDeltaTime( 1.0 * mass / hbar );
         betaeven = new Complex[0][0];
         betaodd = new Complex[0][0];
         update();
 
-        showControlDialog();
+//        showControlDialog();
     }
 
     private void showControlDialog() {
