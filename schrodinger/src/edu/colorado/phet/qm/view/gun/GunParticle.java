@@ -26,8 +26,6 @@ public abstract class GunParticle extends ImageComboBox.Item {
     private AbstractGunGraphic gunGraphic;
     private ArrayList momentumChangeListeners = new ArrayList();
     private double intensityScale = 1.0;
-    protected static final double minWavelength = 8;
-    protected static final double maxWavelength = 30;
 
     public GunParticle( final AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
         super( label, imageLocation );

@@ -43,4 +43,5 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
     public void normalize() {
     }
+
 }

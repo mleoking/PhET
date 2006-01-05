@@ -19,6 +19,8 @@ import edu.colorado.phet.qm.view.colormaps.ColorData;
 public class Photon extends GunParticle {
     private SRRWavelengthSlider wavelengthSliderGraphic;
     private double hbar = 1.0;
+    protected static final double minWavelength = 8;
+    protected static final double maxWavelength = 30;
 
     public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
         super( abstractGunGraphic, label, imageLocation );

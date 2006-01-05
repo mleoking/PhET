@@ -5,10 +5,10 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -111,7 +111,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),
                 new ParticleBeam( DefaultGunParticle.createNeutron( this ) ),
                 new ParticleBeam( DefaultGunParticle.createHelium( this ) ),
-                new ParticleBeam( DefaultGunParticle.createCustomAtom( this ) )};
+//                new ParticleBeam( DefaultGunParticle.createCustomAtom( this ) )
+        };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
