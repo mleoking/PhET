@@ -378,9 +378,9 @@ public class DiscreteModel implements ModelElement {
         sourcePotential.clear();
         for( int i = 0; i < compositePotential.numPotentials(); i++ ) {
             Potential p = compositePotential.potentialAt( i );
-//            if( p != doubleSlitPotential ) {
-            sourcePotential.addPotential( p );
-//            }
+            if( p != doubleSlitPotential ) {
+                sourcePotential.addPotential( p );
+            }
         }
     }
 
