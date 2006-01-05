@@ -1,4 +1,6 @@
 Bugs:
+High Intensity mode erroneously displays % values in slit-detectors.
+
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 o With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
 o Schrodinger particles are ignoring the slits.
@@ -12,8 +14,7 @@ In Single Particle, with a detector on each slit, sometimes both detectors fire 
 
 o Wave function norm is off.  A detector that covers the entire box only registers 80-95%, rather than 100%.
     -this is partly due to the particle leaking outside the box
-When I change the vertical position of the slits, the detector moves first, and then the slits.  Can you make them both move together?
-__
+
 Add mass to the schrodinger equation.
 
 Disable detectors when inverse slits are on.
@@ -27,7 +28,7 @@ The controls should look more fun.  (The controls on Ron’s new Photoelectric sim
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
 
 Detect Now! button shouldn't disable detectors
-______
+
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping (i.e. detectors are not disabled until the wave hits the detector)
 
 The first detector should always apear in the center of the box just below the slits?
@@ -94,3 +95,6 @@ Two lasers panel:
 
 Low Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
+High Intensity electrons with absorption and one detector gave blank answer in north region
+    (although intensity pattern appeared on screen). <can't reproduce this>
+When I change the vertical position of the slits, the detector moves first, and then the slits.  Can you make them both move together?
