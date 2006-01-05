@@ -18,7 +18,7 @@ public class InverseSlitsCheckbox extends JCheckBox {
     private SchrodingerPanel schrodingerPanel;
 
     public InverseSlitsCheckbox( final SchrodingerPanel schrodingerPanel ) {
-        super( "Inverse Barrier" );
+        super( "Anti-Slits" );
         this.schrodingerPanel = schrodingerPanel;
         setSelected( schrodingerPanel.isInverseSlits() );
         addActionListener( new ActionListener() {

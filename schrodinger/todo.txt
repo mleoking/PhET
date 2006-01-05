@@ -5,10 +5,10 @@ Disable detectors when inverse slits are on.
 Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
-Move the "Inverse Barrier" from "Advanced" to "Double Slits" and rename it "Anti-slits".
+Move the "Inverse Barrier" from "Advanced" to "Double Slits"
 Add save/load feature for saving barriers/detectors.
-Add mass to the schrodinger equation.
 ___________
+Add mass to the schrodinger equation.
 Units and Scales:
 
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms, put an animation of a clock whose hands are slowing down next to actual clock, with a bubble that pops up and says “slowing down time.”  If you go back to electrons, time speeds up and an analogous animation appears.  We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.  Below are units to use in simulation:
