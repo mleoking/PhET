@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 import edu.colorado.phet.qm.model.waves.ZeroWave;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -420,10 +419,6 @@ public class DiscreteModel implements ModelElement {
 
     public Propagator getPropagator() {
         return waveModel.getPropagator();
-    }
-
-    public Point getCollapsePoint() {
-        return detectorSet.getCollapsePoint();
     }
 
     public Damping getDamping() {

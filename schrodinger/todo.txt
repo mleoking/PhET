@@ -1,7 +1,9 @@
 Bugs:
 
-o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
-o With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen, and you have to hit the “clear wave button.”
+o With lots of detectors in the single particle panel,
+    I’ve seen it get into a mode where sometimes the wave
+    function would suddenly disappear, but no dot would appear on the screen,
+    and you have to hit the “clear wave button.”
 o Schrodinger particles are ignoring the slits.
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
@@ -81,6 +83,8 @@ Layout: (most of the following are based on feedback from Wendy)
 Two lasers panel:
 
 ·	Allow user to change the colors of the two lasers independently.  If the colors are different, they don’t interfere, just like when there are detectors in the first panel.  In order to interfere with each other, the colors should be sufficiently similar that they look like the same color, but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.  For now, let’s say they interfere if they are within 5 nm of each other, but we’ll probably have to tweak it a bit once we see what it looks like.
+
+o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
 
 Low Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
