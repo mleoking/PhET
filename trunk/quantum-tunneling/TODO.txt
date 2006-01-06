@@ -55,6 +55,7 @@ JFREECHART:
 
 
 DONE:
+(1/5/06) - sync with new piccolo which contain pswing, fix imports in QT
 0.0.6 ...
 (1/5/06) - multiply Psi[] values by normalization constant at initialization
 (1/5/06) - damp Richardson algorithm to prevent periodic boundary conditions (SamR's solution)

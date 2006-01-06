@@ -22,7 +22,6 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
 import edu.colorado.phet.quantumtunneling.control.QTClockControls;
@@ -35,6 +34,7 @@ import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
