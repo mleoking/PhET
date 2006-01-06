@@ -6,7 +6,7 @@
 -injars 'jfreechart-dir\lib\junit.jar'
 -outjars ant_output\jars\schrodinger-pro.jar
 
--libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
+-libraryjars 'C:\j2sdk1.4.2_10\jre\lib\rt.jar'
 
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
