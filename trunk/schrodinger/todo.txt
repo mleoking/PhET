@@ -6,7 +6,6 @@ Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
 Add save/load feature for saving barriers/detectors.
 ___________
-Add mass to the schrodinger equation.
 Units and Scales:
 
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
@@ -14,47 +13,17 @@ Add a ruler and a clock.  When user changes from electrons to neutrons or helium
     with a bubble that pops up and says “slowing down time.”
     If you go back to electrons, time speeds up and an analogous animation appears.
     We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.
-    Below are units to use in simulation:
 
-add hbar to Complex momentumTerm = Complex.exponentiateImaginary( momentum * ( x - x0 ) );
+Note that you will need to put scaling back in
+    so that the size of the box doesn’t change when you change the resolution in Options.
 
-Electrons:
- 
-Quantity	Number in code	Units shown in sim	   
-h	0.658	0.658 eV fs	   
-M	0.057	5.7 eV fs²/nm²	   
-Dx	1	0.1 nm	   
-Dt	1	1 fs	   
-vmin	9.2	920 km/s	   
-vmax	36.8	3680 km/s
-
-Neutrons & Helium:
-h	0.000658	0.000658 eV ps
-Dx	1	0.1 nm	   
-Dt	1	1 ps	   
-
-Neutrons
-M	104800000	10480 eV fs²/nm²
-vmin	5	0.5 km/s
-vmax	20	2 km/s
-
-Helium Atoms:
-M	415776000	41577.6 eV fs²/nm²
-vmin	1.25	0.125 km/s	   
-vmax	5	0.500 km/s	 
-
-Note that you will need to put scaling back in so
-that the size of the box doesn’t change when you change the resolution in Options.
-
-Fix the range of sliders (for particles) to keep the physics in a meaningful range.
-
-·	Make the tabs for the different panels larger. (about twice the current size)
-·	Put the gun type menu in a control box to the left of the gun.
-·	Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
-        Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.
-        Put the on/off control on top of the gun and make it look like part of the gun.
-·	Shrink the play area so there is not so much extra space.
-        o	What does this mean?
+Make the tabs for the different panels larger. (about twice the current size)
+Put the gun type menu in a control box to the left of the gun.
+Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
+    Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.
+    Put the on/off control on top of the gun and make it look like part of the gun.
+Shrink the play area so there is not so much extra space.
+     o	What does this mean?
 
 Two lasers panel:
 

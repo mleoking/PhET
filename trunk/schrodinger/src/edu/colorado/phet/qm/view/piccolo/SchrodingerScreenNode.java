@@ -180,7 +180,7 @@ public class SchrodingerScreenNode extends PNode {
 
             lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
 
-            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
+//            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             super.layoutChildren();
 //            double waveAreaX = 50;
 

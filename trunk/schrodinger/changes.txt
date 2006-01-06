@@ -1,4 +1,7 @@
-removed the Custom atom (settable mass)
+Fixed the range of sliders for particles velocities to keep the physics in a meaningful range.
+Added units to the simulation (initialization & richardson propagator).
+Bugfix: initial wavepackets weren't using hbar
+Removed the Custom atom (the one with settable mass)
 
 * New in 0.30 (1-5-2006)
 This version uses PSwing in the piccolo project.
