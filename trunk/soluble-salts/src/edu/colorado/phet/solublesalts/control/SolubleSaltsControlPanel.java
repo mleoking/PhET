@@ -102,8 +102,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControlFullWidth( saltPanel );
         addControl( concentrationPanel );
 
-
-
         // Sliders for affinity adjustment
         vesselIonStickSlider = new ModelSlider( "Lattice stick likelihood",
                                                 "",
@@ -376,145 +374,22 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             textArea.setBackground( new Color( 255, 255, 160 ) );
             getContentPane().add( textArea );
             pack();
-//            setLocation( 100, 30);
             setLocationRelativeTo( PhetApplication.instance().getPhetFrame() );
         }
     }
 
-
-    private class AnionPanel extends IonPanel {
-
-        public AnionPanel( final SolubleSaltsModel model ) {
-            super( model );
-        }
-
-        public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
-            super.stateChanged( event );
-            trackIonClass( event.getModel().getCurrentSalt().getAnionClass() );
-        }
-    }
-
-    private class CationPanel extends IonPanel {
-        public CationPanel( final SolubleSaltsModel model ) {
-            super( model );
-        }
-
-        public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
-            super.stateChanged( event );
-            trackIonClass( event.getModel().getCurrentSalt().getCationClass() );
-        }
-    }
-
-    private abstract class IonPanel extends JPanel implements SolubleSaltsModel.ChangeListener {
-        private FreeIonCountSyncAgent freeIonCountSyncAgent;
-        private SolubleSaltsModel model;
-        private JTextField ionCountTF;
-        private JSpinner spinner;
-        private IonCountSyncAgent ionCountSyncAgent;
-        private Class ionClass;
-        private JLabel ionLabel;
-
-        public IonPanel( final SolubleSaltsModel model ) {
-            super( new GridBagLayout() );
-            this.model = model;
-            model.addChangeListener( this );
-            GridBagConstraints gbc = new DefaultGridBagConstraints();
-            gbc.insets = new Insets( 5, 0, 0, 0 );
-            gbc.gridwidth = 1;
-
-            // Make a lable with the name of the ion and an icon that corresponds to the ion's graphic
-            ionClass = model.getCurrentSalt().getCationClass();
-            String ionName = getIonName( ionClass );
-            ionLabel = new JLabel( ionName, new ImageIcon( IonGraphicManager.getIonImage( ionClass ) ), JLabel.LEADING );
-            ionLabel.setPreferredSize( new Dimension( 100, 20 ) );
-            gbc.anchor = GridBagConstraints.WEST;
-            add( ionLabel, gbc );
-
-            // Spinner for the number of ions
-            spinner = new JSpinner( new SpinnerNumberModel( model.getNumIonsOfType( ionClass ),
-                                                            0,
-                                                            100,
-                                                            1 ) );
-            ionCountSyncAgent = new IonCountSyncAgent( model, ionClass, spinner );
-            model.addIonListener( ionCountSyncAgent );
-            gbc.gridx++;
-            gbc.anchor = GridBagConstraints.CENTER;
-            add( spinner, gbc );
-
-            spinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    int dIons = ( (Integer)spinner.getValue() ).intValue()
-                                - model.getNumIonsOfType( ionClass );
-                    if( dIons > 0 ) {
-                        IonFactory ionFactory = new IonFactory();
-                        for( int i = 0; i < dIons; i++ ) {
-                            Ion ion = ionFactory.create( ionClass );
-                            IonInitializer.initialize( ion, model );
-                            model.addModelElement( ion );
-                        }
-                    }
-                    if( dIons < 0 ) {
-                        for( int i = dIons; i < 0; i++ ) {
-                            List ions = model.getIonsOfType( ionClass );
-                            if( ions != null ) {
-                                Ion ion = (Ion)ions.get( 0 );
-                                model.removeModelElement( ion );
-                            }
-                        }
-                    }
-                }
-            } );
-
-            // Text field that shows the number of free ions
-            ionCountTF = new JTextField( 3 );
-            freeIonCountSyncAgent = new FreeIonCountSyncAgent( model, ionClass, ionCountTF );
-            model.addIonListener( freeIonCountSyncAgent );
-            gbc.gridx++;
-            add( ionCountTF, gbc );
-        }
-
-        public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
-            if( event.getModel().getCurrentSalt().getCationClass() != ionClass ) {
-                spinner.setValue( new Integer( 0 ) );
-            }
-        }
-
-        void trackIonClass( Class ionClass ) {
-            if( ionClass != this.ionClass ) {
-                this.ionClass = ionClass;
-                model.removeIonListener( freeIonCountSyncAgent );
-                freeIonCountSyncAgent = new FreeIonCountSyncAgent( model, ionClass, ionCountTF );
-                model.addIonListener( freeIonCountSyncAgent );
-
-                model.removeIonListener( ionCountSyncAgent );
-                ionCountSyncAgent = new IonCountSyncAgent( model, ionClass, spinner );
-                model.addIonListener( ionCountSyncAgent );
-
-                // Update the counter label
-                String ionName = getIonName( ionClass );
-                ionLabel.setText( ionName );
-                ionLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( ionClass ) ) );
-            }
-        }
-
-        private String getIonName( Class ionClass ) {
-            String ionName = (String)ionClassToName.get( ionClass );
-            return ionName;
-        }
-    }
-
-
+    /**
+     * Panel with spinners to add and remove ions from the model
+     */
     private class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.ChangeListener {
         Salt salt;
-        JSpinner anionSpinner;
-        JSpinner cationSpinner;
+        IonSpinner anionSpinner;
+        IonSpinner cationSpinner;
         public int anionRatio;
         public int cationRatio;
         public Class anionClass;
         public Class cationClass;
         private SolubleSaltsModel model;
-        private FreeIonCountSyncAgent freeAnionCountSyncAgent;
-        private FreeIonCountSyncAgent freeCationCountSyncAgent;
         public JLabel anionLabel;
         public JLabel cationLabel;
         public IonSpinnerChangeListener anionSpinnerListener;
@@ -546,8 +421,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             add( cationLabel, gbc );
 
             // Make the spinners
-            anionSpinner = new JSpinner();
-            cationSpinner = new JSpinner();
+            anionSpinner = new IonSpinner();
+            cationSpinner = new IonSpinner();
             gbc.gridx = 1;
             gbc.gridy = 0;
             add( anionSpinner, gbc );
@@ -555,19 +430,29 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             add( cationSpinner, gbc );
 
             setSalt( model.getCurrentSalt() );
+
+            model.addIonListener( new IonListener() {
+                public void ionAdded( IonEvent event ) {
+                    syncSpinnersWithModel();
+                }
+                public void ionRemoved( IonEvent event ) {
+                    syncSpinnersWithModel();
+                }
+            } );
+        }
+
+        private void syncSpinnersWithModel() {
+            anionSpinner.setSyncWithDependentIonspinner( false );
+            anionSpinner.setValue( new Integer( model.getNumIonsOfType( anionClass ) ) );
+            anionSpinner.setSyncWithDependentIonspinner( true );
+            cationSpinner.setSyncWithDependentIonspinner( false );
+            cationSpinner.setValue( new Integer( model.getNumIonsOfType( cationClass ) ) );
+            cationSpinner.setSyncWithDependentIonspinner( true );
         }
 
         public void setSalt( Salt salt ) {
-
             if( salt.getAnionClass() != this.anionClass ) {
                 this.anionClass = salt.getAnionClass();
-                model.removeIonListener( freeAnionCountSyncAgent );
-//                freeAnionCountSyncAgent = new FreeIonCountSyncAgent( model, anionClass, ionCountTF );
-                model.addIonListener( freeAnionCountSyncAgent );
-
-//                model.removeIonListener( ionCountSyncAgent );
-//                ionCountSyncAgent = new IonCountSyncAgent( model, ionClass, spinner );
-//                model.addIonListener( ionCountSyncAgent );
 
                 // Update the counter label
                 String anionName = getIonName( anionClass );
@@ -577,20 +462,12 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
             if( salt.getCationClass() != this.cationClass ) {
                 this.cationClass = salt.getCationClass();
-                model.removeIonListener( freeAnionCountSyncAgent );
-//                freeAnionCountSyncAgent = new FreeIonCountSyncAgent( model, anionClass, ionCountTF );
-                model.addIonListener( freeAnionCountSyncAgent );
-
-//                model.removeIonListener( ionCountSyncAgent );
-//                ionCountSyncAgent = new IonCountSyncAgent( model, ionClass, spinner );
-//                model.addIonListener( ionCountSyncAgent );
 
                 // Update the counter label
                 String cationName = getIonName( cationClass );
                 cationLabel.setText( cationName );
                 cationLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( cationClass ) ) );
             }
-
 
             this.salt = salt;
             anionRatio = 0;
@@ -624,11 +501,15 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                                   cationRatio,
                                                                   anionRatio );
             cationSpinner.addChangeListener( cationSpinnerListener );
-
         }
 
         public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
-            setSalt( event.getModel().getCurrentSalt() );
+            if( event.saltChanged ) {
+                setSalt( event.getModel().getCurrentSalt() );
+            }
+            if( event.modelReset ) {
+                syncSpinnersWithModel();
+            }
         }
 
         private String getIonName( Class ionClass ) {
@@ -641,14 +522,14 @@ public class SolubleSaltsControlPanel extends ControlPanel {
          * for the other component of the salt
          */
         private class IonSpinnerChangeListener implements ChangeListener {
-            private JSpinner spinner;
-            private JSpinner dependentSpinner;
+            private IonSpinner spinner;
+            private IonSpinner dependentSpinner;
             private Class ionClass;
             private int ionRatio;
             private int dependentIonRatio;
 
-            IonSpinnerChangeListener( JSpinner spinner,
-                                      JSpinner dependentSpinner,
+            IonSpinnerChangeListener( IonSpinner spinner,
+                                      IonSpinner dependentSpinner,
                                       Class ionClass,
                                       int ionRatio,
                                       int dependentIonRatio ) {
@@ -661,27 +542,47 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             }
 
             public void stateChanged( ChangeEvent e ) {
-                int dIons = ( (Integer)spinner.getValue() ).intValue()
-                            - model.getNumIonsOfType( ionClass );
-                if( dIons > 0 ) {
-                    IonFactory ionFactory = new IonFactory();
-                    for( int i = 0; i < dIons; i++ ) {
-                        Ion ion = ionFactory.create( ionClass );
-                        IonInitializer.initialize( ion, model );
-                        model.addModelElement( ion );
-                    }
-                }
-                if( dIons < 0 ) {
-                    for( int i = dIons; i < 0; i++ ) {
-                        List ions = model.getIonsOfType( ionClass );
-                        if( ions != null ) {
-                            Ion ion = (Ion)ions.get( 0 );
-                            model.removeModelElement( ion );
+                if( spinner.isSyncWithDependentIonspinner() ) {
+                    int dIons = ( (Integer)spinner.getValue() ).intValue()
+                                - model.getNumIonsOfType( ionClass );
+                    if( dIons > 0 ) {
+                        IonFactory ionFactory = new IonFactory();
+                        for( int i = 0; i < dIons; i++ ) {
+                            Ion ion = ionFactory.create( ionClass );
+                            IonInitializer.initialize( ion, model );
+                            model.addModelElement( ion );
                         }
                     }
+                    if( dIons < 0 ) {
+                        for( int i = dIons; i < 0; i++ ) {
+                            List ions = model.getIonsOfType( ionClass );
+                            if( ions != null ) {
+                                Ion ion = (Ion)ions.get( 0 );
+                                model.removeModelElement( ion );
+                            }
+                        }
+                    }
+                    dependentSpinner.setValue( new Integer( model.getNumIonsOfType( ionClass ) * dependentIonRatio / ionRatio ) );
                 }
-                dependentSpinner.setValue( new Integer( model.getNumIonsOfType( ionClass ) * dependentIonRatio / ionRatio ) );
             }
+        }
+    }
+
+    /**
+     * Subclass of JSpinner that knows if it is to be synchronized with the another
+     * IonSpinner
+     * <p/>
+     * todo: move some of the code from other classes above into this.
+     */
+    private class IonSpinner extends JSpinner {
+        private boolean syncWithDependentIonspinner = true;
+
+        public boolean isSyncWithDependentIonspinner() {
+            return syncWithDependentIonspinner;
+        }
+
+        public void setSyncWithDependentIonspinner( boolean syncWithDependentIonspinner ) {
+            this.syncWithDependentIonspinner = syncWithDependentIonspinner;
         }
     }
 }

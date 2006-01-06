@@ -12,10 +12,13 @@ package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.util.EventObject;
 import java.util.EventListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * Spigot
@@ -24,6 +27,7 @@ import java.util.EventListener;
  * @version $Revision$
  */
 public class Spigot extends Particle {
+
     private SolubleSaltsModel model;
     private double flow;
     private double maxFlow = SolubleSaltsConfig.MAX_SPIGOT_FLOW;
@@ -61,11 +65,11 @@ public class Spigot extends Particle {
     //----------------------------------------------------------------
 
     public void addChangeListener( ChangeListener listener ) {
-        changeEventChannel.addListener( listener);
+        changeEventChannel.addListener( listener );
     }
 
     public void removeChangeListener( ChangeListener listener ) {
-        changeEventChannel.removeListener( listener);
+        changeEventChannel.removeListener( listener );
     }
 
     public class ChangeEvent extends EventObject {

@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+
+import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
+import java.util.List;
+
 /**
  * Drain
  *
@@ -18,9 +24,33 @@ package edu.colorado.phet.solublesalts.model;
  */
 public class Drain extends Spigot implements Vessel.ChangeListener {
 
-    public Drain( SolubleSaltsModel model ) {
+    public static class Orientation {}
+    public static Orientation HORIZONTAL = new Orientation();
+    public static Orientation VERTICAL = new Orientation();
+
+    private Line2D opening;
+
+    public Drain( SolubleSaltsModel model, Point2D location, double openingHeight, Orientation orientation  ) {
         super( model );
+        setPosition( location );
         model.getVessel().addChangeListener( this );
+
+
+        if( orientation == HORIZONTAL ) {
+            opening = new Line2D.Double( location.getX(),
+                                         location.getY() - openingHeight / 2,
+                                         location.getX(),
+                                         location.getY() + openingHeight / 2 );
+        }
+        else if( orientation == VERTICAL ) {
+            opening = new Line2D.Double( location.getX() - openingHeight / 2,
+                                         location.getY(),
+                                         location.getX() + openingHeight / 2,
+                                         location.getY() );
+        }
+        else {
+            throw new RuntimeException( "Invalid orientation" );
+        }
     }
 
     public void stepInTime( double dt ) {
@@ -29,7 +59,19 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
             double area = vessel.getWidth();
             double volume = vessel.getWaterLevel() - getFlow() / area;
             vessel.setWaterLevel( volume );
+
+            List ions = getModel().getIons();
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion)ions.get( i );
+                if( opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * 4 ) {
+                    getModel().removeModelElement( ion );
+                }
+            }
         }
+    }
+
+    public Line2D getOpening() {
+        return opening;
     }
 
     //----------------------------------------------------------------
