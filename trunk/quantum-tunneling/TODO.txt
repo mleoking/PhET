@@ -56,6 +56,7 @@ JFREECHART:
 
 DONE:
 0.0.6 ...
+(1/5/06) - multiply Psi[] values by normalization constant at initialization
 (1/5/06) - damp Richardson algorithm to prevent periodic boundary conditions (SamR's solution)
 (1/5/06) - temporarily speed up Richardson algorithm by reducing # of sample points
 (1/5/06) - temporarily fix Richardson algorithm by using same formula for dt that he uses

@@ -159,11 +159,13 @@ public class SchrodingerSolver {
         _positions = new double[numberOfPoints];
         _Psi = new MutableComplex[numberOfPoints];
         _EtoV = new Complex[numberOfPoints];
+        final double A = 1 / ( Math.pow( Math.PI, 0.25 ) * Math.sqrt( width ) ); // normalization constant
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
             final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
             _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position -center ) / HBAR ) );
+            _Psi[i].multiply( A );
             final double s = getPotentialEnergy( position ) * _dt / HBAR;
             _EtoV[i] = new Complex( Math.cos( s ), -Math.sin( s ) );
         }
