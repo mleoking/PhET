@@ -29,15 +29,17 @@ public class RichardsonPropagator extends Propagator {
 
     protected Wavefunction copy;
 
-    public RichardsonPropagator( double TAU, Wave wave, Potential potential ) {
+    public RichardsonPropagator( double TAU, Wave wave, Potential potential, double hbar, double mass ) {
         super( potential );
         setDeltaTime( TAU );
         this.wave = wave;
         setPotential( potential );
         simulationTime = 0.0;
         timeStep = 0;
-        hbar = 1;
-        mass = 1;
+        this.mass = mass;
+        this.hbar = hbar;
+//        hbar = 1;
+//        mass = 1;
 
 //        setDeltaTime( 0.8* mass / hbar );
         setDeltaTime( 0.95 * mass / hbar );
@@ -215,7 +217,7 @@ public class RichardsonPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new RichardsonPropagator( getDeltaTime(), wave, getPotential() );
+        return new RichardsonPropagator( getDeltaTime(), wave, getPotential(), getHBar(), getMass() );
     }
 
     public void normalize() {
@@ -233,4 +235,11 @@ public class RichardsonPropagator extends Propagator {
     }
 
 
+    public double getHBar() {
+        return hbar;
+    }
+
+    public double getMass() {
+        return mass;
+    }
 }

@@ -8,8 +8,8 @@ import edu.colorado.phet.qm.model.math.Complex;
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
-    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential ) {
-        super( TAU, wave, potential );
+    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential, double hbar, double mass ) {
+        super( TAU, wave, potential, hbar, mass );
     }
 
     protected Complex createAlpha() {
@@ -38,7 +38,11 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
     }
 
     public Propagator copy() {
-        return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
+//        modifiedRichardsonPropagator.setDeltaTime( getDeltaTime() );
+//        modifiedRichardsonPropagator.setHBar( super.getHBar() );
+//        modifiedRichardsonPropagator.setMass( super.getMass() );
+        return new ModifiedRichardsonPropagator(
+                getDeltaTime(), super.getWave(), super.getPotential(), getHBar(), getMass() );
     }
 
     public void normalize() {

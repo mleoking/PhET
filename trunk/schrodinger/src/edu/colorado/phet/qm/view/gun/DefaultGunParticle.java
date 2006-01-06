@@ -53,8 +53,8 @@ public class DefaultGunParticle extends GunParticle {
 
     public void setup( AbstractGunGraphic gunGraphic ) {
         ModifiedRichardsonPropagator propagator = new ModifiedRichardsonPropagator(
-                getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential() );
-        propagator.setHBar( getHBar() );
+                getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
+//        propagator.setHBar( getHBar() );
         getDiscreteModel().setPropagator( propagator );
         gunGraphic.setGunControls( controlPanelPSwing );
     }

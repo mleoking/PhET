@@ -60,14 +60,14 @@ public class DiscreteModel implements ModelElement {
         this.sourcePotential = new CompositePotential();
         this.deltaTime = deltaTime;
         this.wave = wave;
-        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
+        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential, 1, 1 ) );
 
         detectorSet = new DetectorSet( getWavefunction() );
 //        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
-        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, sourcePotential ) );
+        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, sourcePotential, 1, 1 ) );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
@@ -116,9 +116,9 @@ public class DiscreteModel implements ModelElement {
         return 1E-5;
     }
 
-    public void setPropagatorModifiedRichardson() {
-        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
-    }
+//    public void setPropagatorModifiedRichardson() {
+//        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
+//    }
 
     public Wave getWave() {
         return wave;
