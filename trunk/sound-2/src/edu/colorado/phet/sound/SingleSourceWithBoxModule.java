@@ -162,7 +162,10 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         void setAirDensity( double density ) {
-            grayLevel = 255 - (int)( 128 * density );
+            // This gives a background that is black when the air is completely evacuated from the
+            // box. To get a white background instead, use the second, commented line.
+            grayLevel = (int)( 128 * density );
+//            grayLevel = 255 - (int)( 128 * density );
             this.setPaint( grayLevels[grayLevel] );
         }
 
