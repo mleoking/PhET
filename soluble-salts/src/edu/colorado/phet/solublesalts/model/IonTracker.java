@@ -35,7 +35,6 @@ public class IonTracker implements Ion.ChangeListener {
     //----------------------------------------------------------------
 
     public void ionAdded( Ion ion ) {
-//        Ion ion = event.getIon();
         List ionSet = (List)ionMap.get( ion.getClass() );
         if( ionSet == null ) {
             ionSet = new ArrayList();
@@ -51,7 +50,6 @@ public class IonTracker implements Ion.ChangeListener {
     }
 
     public void ionRemoved( Ion ion ) {
-//        Ion ion = event.getIon();
         ion.removeChangeListener( this );
         int cnt = ((Integer)freeIonCntMap.get( ion.getClass())).intValue();
         freeIonCntMap.put( ion.getClass(), new Integer( --cnt ));

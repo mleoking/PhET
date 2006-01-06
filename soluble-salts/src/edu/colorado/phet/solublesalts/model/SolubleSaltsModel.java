@@ -77,7 +77,6 @@ public class SolubleSaltsModel extends BaseModel {
     private boolean nucleationEnabled;
     private Shaker shaker;
     public CrystalTracker crystalTracker;
-//    private CrystalTracker crystalTracker;
     private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
     private Vector2D accelerationInWater = new Vector2D.Double();
 
@@ -103,9 +102,10 @@ public class SolubleSaltsModel extends BaseModel {
         waterSource = new WaterSource( this );
         waterSource.setPosition( vessel.getLocation().getX() + 35, vessel.getLocation().getY() - 10 );
         addModelElement( waterSource );
-        drain = new Drain( this );
-        drain.setPosition( vessel.getLocation().getX() - vessel.getWallThickness(),
-                           vessel.getLocation().getY() + vessel.getDepth() - 50 );
+        drain = new Drain( this,
+                           new Point2D.Double( vessel.getLocation().getX() - vessel.getWallThickness(),
+                                               vessel.getLocation().getY() + vessel.getDepth() - 50 ),
+                           40, Drain.HORIZONTAL );
         addModelElement( drain );
 
         // Create an agent that will manage the flow of ions toward the drain when water is
@@ -188,6 +188,10 @@ public class SolubleSaltsModel extends BaseModel {
         waterSource.setFlow( 0 );
         drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
+
+        ChangeEvent event = new ChangeEvent( this );
+        event.modelReset = true;
+        changeListenerProxy.stateChanged( event );
     }
     
     //----------------------------------------------------------------
@@ -303,6 +307,7 @@ public class SolubleSaltsModel extends BaseModel {
 
     /**
      * Returns the bounds of the water in the vessel
+     *
      * @return
      */
     public Rectangle2D getWaterBounds() {
@@ -310,6 +315,9 @@ public class SolubleSaltsModel extends BaseModel {
     }
 
     public class ChangeEvent extends EventObject {
+        public boolean saltChanged;
+        public boolean modelReset;
+
         public ChangeEvent( Object source ) {
             super( source );
         }
@@ -324,18 +332,8 @@ public class SolubleSaltsModel extends BaseModel {
     }
 
     //----------------------------------------------------------------
-    // Events and listeners for Lattices
+    // Events and listeners for ions
     //----------------------------------------------------------------
-    private EventChannel latticeEventChannel = new EventChannel( LatticeListener.class );
-    private LatticeListener latticeListenerProxy = (LatticeListener)latticeEventChannel.getListenerProxy();
-
-    public void addLatticeListener( LatticeListener listener ) {
-        latticeEventChannel.addListener( listener );
-    }
-
-    public void removeLatticeListener( LatticeListener listener ) {
-        latticeEventChannel.removeListener( listener );
-    }
 
     public void addIonListener( IonListener listener ) {
         ionTracker.addIonListener( listener );
@@ -347,28 +345,15 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void setCurrentSalt( Salt salt ) {
         shaker.setCurrentSalt( salt );
-        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+        ChangeEvent event = new ChangeEvent( this );
+        event.saltChanged = true;
+        changeListenerProxy.stateChanged( event );
     }
 
     public Salt getCurrentSalt() {
         return shaker.getCurrentSalt();
     }
 
-    public class LatticeEvent extends EventObject {
-        public LatticeEvent( Object source ) {
-            super( source );
-        }
-
-        public Crystal getLattice() {
-            return (Crystal)getSource();
-        }
-    }
-
-    public interface LatticeListener extends EventListener {
-        void latticeAdded( LatticeEvent event );
-
-        void latticeRemoved( LatticeEvent event );
-    }
 
     //----------------------------------------------------------------
     // Inner classes

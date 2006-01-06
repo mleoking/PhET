@@ -18,6 +18,7 @@ import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.WaterSource;
 import edu.colorado.phet.solublesalts.model.Spigot;
+import edu.colorado.phet.solublesalts.model.Drain;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,6 +31,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.io.IOException;
@@ -93,7 +96,8 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
                 this.setRegistrationPoint( 13, 77 );
                 break;
             case WALL_ATTACHMENT:
-                this.setRegistrationPoint( bImg.getWidth(), 20 );
+                this.setRegistrationPoint( bImg.getWidth(), 40 );
+//                this.setRegistrationPoint( bImg.getWidth(), 20 );
                 waterGraphicLocation = new Point2D.Double( 12,
                                                            77 );
                 break;

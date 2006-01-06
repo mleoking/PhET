@@ -26,7 +26,8 @@ import java.util.List;
  */
 public class IonFlowManager implements Vessel.ChangeListener {
 
-    private double speedFactor = 1E5;
+    private double speedFactor = 1E3;
+//    private double speedFactor = 1E5;
     private SolubleSaltsModel model;
     private double lastDepth;
     private double lastChange;
@@ -56,7 +57,8 @@ public class IonFlowManager implements Vessel.ChangeListener {
                 Vector2D v = ion.getVelocity();
                 Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
                                                   ion.getPosition().getY() - drain.getPosition().getY());
-                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * speedFactor );
+                l.normalize().scale( dChange / ion.getPosition().distance( drain.getPosition() ) * speedFactor );
+//                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * speedFactor );
                 v.add( l );
             }
         }
