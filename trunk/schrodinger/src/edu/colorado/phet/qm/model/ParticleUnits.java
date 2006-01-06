@@ -88,22 +88,21 @@ public class ParticleUnits {
             setDx( new Value( 1.0, 0.1, "nm" ) );
             setDt( new Value( 1, 1, "fs" ) );
             setMinVelocity( new Value( 9.2, 100, "km/s" ) );
-            setMaxVelocity( new Value( 36.8, 100, "km/s" ) );
+            setMaxVelocity( new Value( 36.8 * scaleDownMaxVel, 100, "km/s" ) );
         }
     }
 
-    public static class NeutronUnits extends ParticleUnits {
-//        private double scaleDown=0.00000001;
-        private double scaleDown = 1;//0.0000000001;
+    private static double scaleDownMaxVel = 0.5;
 
+    public static class NeutronUnits extends ParticleUnits {
         public NeutronUnits() {
             setHbar( new Value( 0.000658, 1, "eV ps" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
             setDt( new Value( 1, 1, "ps" ) );
 
-            setMass( new Value( 104800000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
-            setMinVelocity( new Value( 5 * scaleDown, 0.1, "km/s" ) );
-            setMaxVelocity( new Value( 20 * scaleDown, 0.1, "km/s" ) );
+            setMass( new Value( 0.000104539, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+            setMinVelocity( new Value( 5, 0.1, "km/s" ) );
+            setMaxVelocity( new Value( 20 * scaleDownMaxVel, 0.1, "km/s" ) );
         }
     }
 
@@ -113,10 +112,9 @@ public class ParticleUnits {
             setHbar( new Value( 0.000658, 1, "eV ps" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
             setDt( new Value( 1, 1, "ps" ) );
-
-            setMass( new Value( 415776000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+            setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
-            setMaxVelocity( new Value( 5, 0.1, "km/s" ) );
+            setMaxVelocity( new Value( 5 * scaleDownMaxVel, 0.1, "km/s" ) );
         }
     }
 

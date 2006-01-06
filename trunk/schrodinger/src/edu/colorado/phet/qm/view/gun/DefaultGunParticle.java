@@ -59,7 +59,7 @@ public class DefaultGunParticle extends GunParticle {
         gunGraphic.setGunControls( controlPanelPSwing );
     }
 
-    private double getHBar() {
+    protected double getHBar() {
         return particleUnits.getHbar().getValue();
     }
 

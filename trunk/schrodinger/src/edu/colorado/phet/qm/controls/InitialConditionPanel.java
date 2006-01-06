@@ -92,7 +92,11 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
         return new GaussianWave2D( new Point( (int)x, (int)y ),
-                                   new Vector2D.Double( px, py ), dxLattice );
+                                   new Vector2D.Double( px, py ), dxLattice, getHBar() );
+    }
+
+    private double getHBar() {
+        return 1.0;
     }
 
     public void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {
@@ -105,16 +109,16 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
 
         Wavefunction t0 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
         Wavefunction t1 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
-        new GaussianWave2D( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t0 );
+        new GaussianWave2D( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice, getHBar() ).initialize( t0 );
 
         double time = 1.0;
         double y1 = y0 + propagator2ndOrder.getSpeed() * time;
 
-        new GaussianWave2D( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t1 );
+        new GaussianWave2D( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice, getHBar() ).initialize( t1 );
 
         Wavefunction t2 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
         double y2 = y1 + propagator2ndOrder.getSpeed() * time;
-        new GaussianWave2D( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t2 );
+        new GaussianWave2D( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice, getHBar() ).initialize( t2 );
         getDiscreteModel().getWavefunction().setWavefunction( t2 );
 
         System.out.println( "y0=" + y0 + ", y1 = " + y1 + ", y2=" + y2 );

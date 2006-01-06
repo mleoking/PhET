@@ -136,6 +136,10 @@ public class PhotonBeamParticle extends GunParticle {
         return photonBeam.getPhoton().getStartPy();
     }
 
+    protected double getHBar() {
+        return 1.0;
+    }
+
     protected void detachListener( ChangeHandler changeHandler ) {
         photonBeam.getPhoton().detachListener( changeHandler );
     }

@@ -21,29 +21,29 @@ import java.text.DecimalFormat;
  */
 
 public class TestUnits2 {
-
-    public static class NeutronUnits extends ParticleUnits {
-//        private double scaleDown=0.00000001;
-        private double scaleDown = 1;//0.0000000001;
-
-        public NeutronUnits() {
-            setHbar( new Value( 0.000658, 1, "eV ps" ) );
-            setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 1, 1, "ps" ) );
-
-            setMass( new Value( 104800000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
-            setMinVelocity( new Value( 5 * scaleDown, 0.1, "km/s" ) );
-            setMaxVelocity( new Value( 20 * scaleDown, 0.1, "km/s" ) );
-        }
-    }
+//
+//    public static class NeutronUnits extends ParticleUnits {
+////        private double scaleDown=0.00000001;
+//        private double scaleDown = 1;//0.0000000001;
+//
+//        public NeutronUnits() {
+//            setHbar( new Value( 0.000658, 1, "eV ps" ) );
+//            setDx( new Value( 1.0, 0.1, "nm" ) );
+//            setDt( new Value( 1, 1, "ps" ) );
+//
+//            setMass( new Value( 104800000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+//            setMinVelocity( new Value( 5 * scaleDown, 0.1, "km/s" ) );
+//            setMaxVelocity( new Value( 20 * scaleDown, 0.1, "km/s" ) );
+//        }
+//    }
 
     public TestUnits2() {
         Wavefunction wavefunction = new Wavefunction( 50, 50 );
-        NeutronUnits neutronUnits = new NeutronUnits();
+        ParticleUnits.NeutronUnits neutronUnits = new ParticleUnits.NeutronUnits();
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
         GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ),
-                                                            new Vector2D.Double( 0, momentumY ), 3.5 * 2 );
+                                                            new Vector2D.Double( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 
@@ -81,24 +81,4 @@ public class TestUnits2 {
     private void start() {
     }
 
-    class GaussianWave1D {
-
-        private double momentum;
-        private double x0;
-        private double dxLattice;
-
-        public GaussianWave1D( double momentum, double x0, double dxLattice ) {
-            this.momentum = momentum;
-            this.x0 = x0;
-            this.dxLattice = dxLattice;
-        }
-
-        public Complex getValue( double x ) {
-            double norm = Math.pow( Math.PI * dxLattice * dxLattice, -1.0 / 4.0 );
-            double space = Math.exp( -( x - x0 ) * ( x - x0 ) / 2 / dxLattice / dxLattice );
-            Complex momentumTerm = Complex.exponentiateImaginary( momentum * ( x - x0 ) );
-            momentumTerm.scale( norm * space );
-            return momentumTerm;
-        }
-    }
 }

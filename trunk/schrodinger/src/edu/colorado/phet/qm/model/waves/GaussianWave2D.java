@@ -22,13 +22,13 @@ public class GaussianWave2D extends WaveSetup implements Wave {
     private double globalPhase;
     private double scale = 1.0;
 
-    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice ) {
-        this( center, momentum, dxLattice, dxLattice );
+    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double hbar ) {
+        this( center, momentum, dxLattice, dxLattice, hbar );
     }
 
-    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double dyLattice ) {
-        this.xWave = new GaussianWave1D( momentum.getX(), center.getX(), dxLattice );
-        this.yWave = new GaussianWave1D( momentum.getY(), center.getY(), dyLattice );
+    public GaussianWave2D( Point2D center, Vector2D momentum, double dxLattice, double dyLattice, double hbar ) {
+        this.xWave = new GaussianWave1D( momentum.getX(), center.getX(), dxLattice, hbar );
+        this.yWave = new GaussianWave1D( momentum.getY(), center.getY(), dyLattice, hbar );
         super.setWave( this );
     }
 

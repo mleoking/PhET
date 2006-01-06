@@ -62,6 +62,10 @@ public class Photon extends GunParticle {
         return -hbar * 2 * Math.PI / wavelengthValue;
     }
 
+    protected double getHBar() {
+        return 1.0;
+    }
+
     public double getWavelengthNM() {
         return wavelengthSliderGraphic.getWavelength();
     }
