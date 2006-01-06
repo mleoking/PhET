@@ -31,7 +31,6 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class WorldNode extends PNode {
-//public class WorldCanvas extends PhetPCanvas {
 
     public WorldNode( SolubleSaltsModel model, PhetPCanvas phetPCanvas ) {
 
@@ -40,6 +39,8 @@ public class WorldNode extends PNode {
 
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
+        vesselGraphic.setMinorTickSpacing( 20 );
+        vesselGraphic.setMajorTickSpacing( 100 );
 //        vesselGraphic.setScale( graphicsScale );
         this.addChild( vesselGraphic );
         model.getVessel().setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );

@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 
 /**
  * VesselGraphic
@@ -33,8 +34,9 @@ public class VesselGraphic extends PNode {
 
     private PPath shape;
     private PPath water;
-//    private Color waterColor = new Color( 191, 207, 234 );
     private Color waterColor = SolubleSaltsConfig.WATER_COLOR;
+    private Vessel vessel;
+    private Color tickColor = new Color( 255, 180, 180 );
 
     public VesselGraphic( Vessel vessel ) {
 
@@ -56,6 +58,7 @@ public class VesselGraphic extends PNode {
     }
 
     private void update( Vessel vessel ) {
+        this.vessel = vessel;
         float thickness = (float)vessel.getWallThickness();
         Rectangle2D rect = vessel.getShape();
         DoubleGeneralPath walls = new DoubleGeneralPath();
@@ -71,5 +74,33 @@ public class VesselGraphic extends PNode {
                                                  vessel.getShape().getWidth(),
                                                  vessel.getWaterLevel() ) );
         setOffset( vessel.getLocation() );
+    }
+
+    public void setMajorTickSpacing( int spacing ) {
+        int numTicks = (int)vessel.getDepth() / spacing;
+        for( int i = 1; i < numTicks; i++ ) {
+            double y = vessel.getDepth() - i * spacing;
+            PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
+                                                       y,
+                                                       vessel.getWidth() + vessel.getWallThickness() / 2,
+                                                       y ));
+            tick.setStroke( new BasicStroke( 2 ) );
+            tick.setStrokePaint( tickColor);
+            addChild( tick );
+        }
+    }
+
+    public void setMinorTickSpacing( int spacing ) {
+        int numTicks = (int)vessel.getDepth() / spacing;
+        for( int i = 1; i < numTicks; i++ ) {
+            double y = vessel.getDepth() - i * spacing;
+            PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
+                                                       y,
+                                                       vessel.getWidth() + vessel.getWallThickness() / 4,
+                                                       y ));
+            tick.setStroke( new BasicStroke( 2 ) );
+            tick.setStrokePaint( tickColor);
+            addChild( tick );
+        }
     }
 }
