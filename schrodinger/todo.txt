@@ -5,8 +5,6 @@ Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
 Add save/load feature for saving barriers/detectors.
-___________
-Units and Scales:
 
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
     put an animation of a clock whose hands are slowing down next to actual clock,
