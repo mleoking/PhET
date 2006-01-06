@@ -16,6 +16,8 @@ Add a ruler and a clock.  When user changes from electrons to neutrons or helium
     We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.
     Below are units to use in simulation:
 
+add hbar to Complex momentumTerm = Complex.exponentiateImaginary( momentum * ( x - x0 ) );
+
 Electrons:
  
 Quantity	Number in code	Units shown in sim	   
@@ -24,7 +26,7 @@ M	0.057	5.7 eV fs²/nm²
 Dx	1	0.1 nm	   
 Dt	1	1 fs	   
 vmin	9.2	920 km/s	   
-vmax	36.8	3680 km/s	 
+vmax	36.8	3680 km/s
 
 Neutrons & Helium:
 h	0.000658	0.000658 eV ps
