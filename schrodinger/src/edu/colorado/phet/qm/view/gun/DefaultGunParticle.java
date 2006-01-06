@@ -72,7 +72,7 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public double getStartPy() {
-        System.out.println( "-getVelocity() * getParticleMass(); = " + -getVelocity() * getParticleMass() );
+//        System.out.println( "-getVelocity() * getParticleMass(); = " + -getVelocity() * getParticleMass() );
         return -getVelocity() * getParticleMass();
     }
 

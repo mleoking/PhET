@@ -184,20 +184,20 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void setWaveSize( final int size ) {
-        System.out.println( "Request to set size: " + size );
+//        System.out.println( "Request to set size: " + size );
         Command cmd = new Command() {
             public void doIt() {
-                System.out.println( "Setting size = " + size );
+//                System.out.println( "Setting size = " + size );
                 getDiscreteModel().setWaveSize( size, size );
                 getSchrodingerPanel().setWaveSize( size, size );
             }
         };
         if( !getClock().isPaused() ) {
             getModel().execute( cmd );
-            System.out.println( "resizing in model thread" );
+//            System.out.println( "resizing in model thread" );
         }
         else {
-            System.out.println( "Resizing immedialely." );
+//            System.out.println( "Resizing immedialely." );
             cmd.doIt();
         }
     }
