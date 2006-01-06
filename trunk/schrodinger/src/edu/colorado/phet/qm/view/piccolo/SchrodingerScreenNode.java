@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
+import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -10,7 +11,11 @@ import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -76,6 +81,15 @@ public class SchrodingerScreenNode extends PNode {
         } );
 
         layoutChildren();
+        StopwatchPanel stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock() );
+        stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
+        PSwing pSwing = new PSwing( schrodingerPanel, stopwatchPanel );
+        pSwing.addInputEventListener( new PDragEventHandler() {
+//            public void mouseDragged( PInputEvent e ) {
+//                if (stopwatchPanel.)
+//            }
+        } );
+        addChild( pSwing );
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
