@@ -25,7 +25,7 @@ public class CreateBatchFile extends Task {
 
     File libDir;
     String javaCommand = "java";
-    private String pathSeparator = System.getProperty("path.separator");
+    private String pathSeparator = System.getProperty( "path.separator" );
 
     static final FileUtils utils = FileUtils.newFileUtils();
     File outputFile = null;//if null, output is only to System.out
@@ -34,7 +34,7 @@ public class CreateBatchFile extends Task {
         return pathSeparator;
     }
 
-    public void setPathSeparator(String pathSeparator) {
+    public void setPathSeparator( String pathSeparator ) {
         this.pathSeparator = pathSeparator;
     }
 
@@ -42,7 +42,7 @@ public class CreateBatchFile extends Task {
         return javaCommand;
     }
 
-    public void setJavaCommand(String javaCommand) {
+    public void setJavaCommand( String javaCommand ) {
         this.javaCommand = javaCommand;
     }
 
@@ -50,28 +50,29 @@ public class CreateBatchFile extends Task {
         return mainClassName;
     }
 
-    public void setMainClassName(String mainClassName) {
+    public void setMainClassName( String mainClassName ) {
         this.mainClassName = mainClassName;
     }
 
-    public void setMainJar(String mainJar) {
+    public void setMainJar( String mainJar ) {
         this.mainJar = mainJar;
     }
 
-    public void setOutputFile(File outputFile) {
+    public void setOutputFile( File outputFile ) {
         this.outputFile = outputFile;
     }
 
-    public void setLibDir(File libDir) {
+    public void setLibDir( File libDir ) {
         this.libDir = libDir;
     }
 
     public String buildClasspath() {
         File[] files = this.libDir.listFiles();
-        if (files == null)
+        if( files == null ) {
             files = new File[0];
+        }
         String cp = "";
-        for (int i = 0; i < files.length; i++) {
+        for( int i = 0; i < files.length; i++ ) {
             File file = files[i];
             cp += libDir.getName() + "/" + file.getName() + pathSeparator;
         }
@@ -79,7 +80,9 @@ public class CreateBatchFile extends Task {
         return cp;
     }
 
-    /**Gets all items in the classpath and copies them to a common location.*/
+    /**
+     * Gets all items in the classpath and copies them to a common location.
+     */
     public void execute() throws BuildException {
         super.execute();
 
@@ -88,12 +91,12 @@ public class CreateBatchFile extends Task {
         output += javaCommand + " -classpath " + classpath + " " + mainClassName;
 
         Echo echo = new Echo();
-        echo.setProject(getProject());
-        echo.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
-        echo.setOwningTarget(getOwningTarget());
-        echo.setMessage(output);
-        if (outputFile != null) {
-            echo.setFile(outputFile);
+        echo.setProject( getProject() );
+//        echo.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
+        echo.setOwningTarget( getOwningTarget() );
+        echo.setMessage( output );
+        if( outputFile != null ) {
+            echo.setFile( outputFile );
         }
         echo.execute();
     }

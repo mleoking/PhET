@@ -26,95 +26,102 @@ public class CopyClasspath extends Task {
     public CopyClasspath() {
     }
 
-    public void setDebug(boolean debug) {
-        if (debug) {
-            jf.setContentPane(jta);
-            jf.setVisible(true);
+    public void setDebug( boolean debug ) {
+        if( debug ) {
+            jf.setContentPane( jta );
+            jf.setVisible( true );
             jf.pack();
-        } else {
-            jf.setVisible(false);
+        }
+        else {
+            jf.setVisible( false );
         }
     }
 
-    private ArrayList parsePathList(String cp) {
-        StringTokenizer st = new StringTokenizer(cp, System.getProperty("path.separator"));
+    private ArrayList parsePathList( String cp ) {
+        StringTokenizer st = new StringTokenizer( cp, System.getProperty( "path.separator" ) );
         ArrayList all = new ArrayList();
-        while (st.hasMoreTokens()) {
-            File token = utils.normalize(st.nextToken());
-            all.add(token);
+        while( st.hasMoreTokens() ) {
+            File token = utils.normalize( st.nextToken() );
+            all.add( token );
         }
         return all;
     }
 
-    JFrame jf = new JFrame("CopyClasspath output");
-    JTextArea jta = new JTextArea(40, 40);
+    JFrame jf = new JFrame( "CopyClasspath output" );
+    JTextArea jta = new JTextArea( 40, 40 );
 
-    /**Gets all items in the classpath and copies them to a common location.*/
+    /**
+     * Gets all items in the classpath and copies them to a common location.
+     */
     public void execute() throws BuildException {
 
         super.execute();
-        String cp = System.getProperty("java.class.path");
-        ArrayList all = parsePathList(cp);
+        String cp = System.getProperty( "java.class.path" );
+        ArrayList all = parsePathList( cp );
         Copy c = new Copy();
 
-        c.setProject(getProject());
-        c.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
-        c.setOwningTarget(getOwningTarget());
+        c.setProject( getProject() );
+//        c.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
+        c.setOwningTarget( getOwningTarget() );
 
         boolean anythingToCopy = false;
-        for (int i = 0; i < all.size(); i++) {
-            File path = (File) all.get(i);
+        for( int i = 0; i < all.size(); i++ ) {
+            File path = (File)all.get( i );
             boolean copy = true;
-            if (ignore != null && ignore.contains(path)) {
+            if( ignore != null && ignore.contains( path ) ) {
                 copy = false;
             }
-            if (copy) {
+            if( copy ) {
                 anythingToCopy = true;
-                FileSet fs = getFileSet(path);
-                traceln("Adding fileset: for path=" + path);
-                c.addFileset(fs);
-            } else {
-                traceln("Ignoring-->" + path);
+                FileSet fs = getFileSet( path );
+                traceln( "Adding fileset: for path=" + path );
+                c.addFileset( fs );
+            }
+            else {
+                traceln( "Ignoring-->" + path );
             }
         }
-        if (anythingToCopy) {
+        if( anythingToCopy ) {
 //        File target=new File("C:/idea-ant-temp/");
             File target = dir;
-            if (target == null)
-                throw new BuildException("No target directory specified.");
+            if( target == null ) {
+                throw new BuildException( "No target directory specified." );
+            }
             target.mkdirs();
 //            traceln("Created Target.");
-            c.setTodir(target);
+            c.setTodir( target );
 //            traceln("Starting copy");
             c.execute();
 //            traceln("Executed copy");
-        } else {
+        }
+        else {
 //            traceln("Nothing to copy.");
         }
     }
 
-    private void traceln(String s) {
-        jta.append(s + "\n");
+    private void traceln( String s ) {
+        jta.append( s + "\n" );
     }
 
     // The setter for the "message" attribute
-    public void setDirectory(File dir) {
+    public void setDirectory( File dir ) {
         this.dir = dir;
     }
 
-    public void setIgnore(String pathList) {
-        this.ignore = parsePathList(pathList);
+    public void setIgnore( String pathList ) {
+        this.ignore = parsePathList( pathList );
 //        traceln("Ignore=" + ignore);
     }
 
-    private FileSet getFileSet(File path) {
-        if (path.isDirectory()) {
+    private FileSet getFileSet( File path ) {
+        if( path.isDirectory() ) {
             FileSet fs = new FileSet();
-            fs.setDir(path);
+            fs.setDir( path );
             return fs;
-        } else {
+        }
+        else {
             FileSet fs = new FileSet();
-            fs.setFile(path);
+            fs.setIncludesfile( path );
             return fs;
         }
     }

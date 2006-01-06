@@ -68,7 +68,7 @@ public class CreateResourcesTag extends Task {
 
         Echo echo = new Echo();
         echo.setProject(getProject());
-        echo.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
+//        echo.setRuntimeConfigurableWrapper(getRuntimeConfigurableWrapper());
         echo.setOwningTarget(getOwningTarget());
         echo.setMessage(output);
         if (outputFile != null) {
