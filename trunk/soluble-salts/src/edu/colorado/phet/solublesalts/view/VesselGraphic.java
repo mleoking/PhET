@@ -15,6 +15,7 @@ import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -87,6 +88,11 @@ public class VesselGraphic extends PNode {
             tick.setStroke( new BasicStroke( 2 ) );
             tick.setStrokePaint( tickColor);
             addChild( tick );
+
+            String str = Integer.toString( (int)( vessel.getDepth() - y ));
+            PText text = new PText( str);
+            text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 8 );
+            addChild( text );
         }
     }
 
