@@ -18,7 +18,6 @@ import java.util.Map;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 public class DefaultGunParticle extends GunParticle {
-//    private JSlider massSlider;
     private JSlider velocitySlider;
     protected VerticalLayoutPanel controlPanel;
     private PSwing controlPanelPSwing;
@@ -40,13 +39,6 @@ public class DefaultGunParticle extends GunParticle {
         velocitySlider.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
 
         controlPanel = new VerticalLayoutPanel();
-
-//        if( useMassSlider ) {
-//            massSlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
-//            massSlider.setBorder( BorderFactory.createTitledBorder( "Mass" ) );
-//            controlPanel.addFullWidth( massSlider );
-//        }
-
         controlPanel.addFullWidth( velocitySlider );
         controlPanelPSwing = new PSwing( gunGraphic.getComponent(), controlPanel );
     }
@@ -54,7 +46,6 @@ public class DefaultGunParticle extends GunParticle {
     public void setup( AbstractGunGraphic gunGraphic ) {
         ModifiedRichardsonPropagator propagator = new ModifiedRichardsonPropagator(
                 getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
-//        propagator.setHBar( getHBar() );
         getDiscreteModel().setPropagator( propagator );
         gunGraphic.setGunControls( controlPanelPSwing );
     }
@@ -72,7 +63,6 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public double getStartPy() {
-//        System.out.println( "-getVelocity() * getParticleMass(); = " + -getVelocity() * getParticleMass() );
         return -getVelocity() * getParticleMass();
     }
 
@@ -89,12 +79,10 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     protected void detachListener( ChangeHandler changeHandler ) {
-//        massSlider.removeChangeListener( changeHandler );
         velocitySlider.removeChangeListener( changeHandler );
     }
 
     protected void hookupListener( ChangeHandler changeHandler ) {
-//        massSlider.addChangeListener( changeHandler );
         velocitySlider.addChangeListener( changeHandler );
     }
 
@@ -103,34 +91,6 @@ public class DefaultGunParticle extends GunParticle {
         p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
         return p;
     }
-
-//    public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
-//        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", 1 );
-//    }
-//
-//    public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {
-//        return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", 2.25 );
-//    }
-//
-//    public static DefaultGunParticle createNeutron( AbstractGunGraphic gun ) {
-//        return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", 2.0 );
-//    }
-
-    public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
-        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
-    }
-
-    public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {
-        return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
-    }
-
-    public static DefaultGunParticle createNeutron( AbstractGunGraphic gun ) {
-        return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
-    }
-
-//    public static DefaultGunParticle createCustomAtom( AbstractGunGraphic gun ) {
-//        return new DefaultGunParticle( gun, "Custom Atoms", "images/atom-thumb.jpg" );
-//    }
 
     public Map getModelParameters() {
         Map map = super.getModelParameters();
@@ -148,5 +108,17 @@ public class DefaultGunParticle extends GunParticle {
 
     public boolean isFiring() {
         return false;//firing is always a one-shot deal, so we're never in the middle of a shot.
+    }
+
+    public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
+    }
+
+    public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
+    }
+
+    public static DefaultGunParticle createNeutron( AbstractGunGraphic gun ) {
+        return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
     }
 }

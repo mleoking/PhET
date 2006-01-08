@@ -19,6 +19,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -81,7 +82,7 @@ public class SchrodingerScreenNode extends PNode {
         } );
 
         layoutChildren();
-        StopwatchPanel stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock() );
+        StopwatchPanel stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         PSwing pSwing = new PSwing( schrodingerPanel, stopwatchPanel );
         pSwing.addInputEventListener( new PDragEventHandler() {

@@ -52,7 +52,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public DiscreteModel( int width, int height ) {
-        this( width, height, createInitDT(), createInitWave() );
+        this( width, height, 1E-5, createInitWave() );
     }
 
     public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
@@ -112,10 +112,10 @@ public class DiscreteModel implements ModelElement {
         return new ZeroWave();
     }
 
-    protected static double createInitDT() {
-        return 1E-5;
-    }
-
+//    protected static double createInitDT() {
+//        return 1E-5;
+//    }
+//
 //    public void setPropagatorModifiedRichardson() {
 //        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
 //    }

@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model;
 import edu.colorado.phet.qm.model.math.Complex;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,15 @@ public abstract class Propagator {
     private double simulationTime;
     private double deltaTime;
     private Potential potential;
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void deltaTimeChanged( Propagator propagator );
+    }
 //    private DiscreteModel discreteModel;
 
     protected Propagator( Potential potential ) {
@@ -27,6 +37,14 @@ public abstract class Propagator {
 
     public void setDeltaTime( double deltaTime ) {
         this.deltaTime = deltaTime;
+        notifyDeltaTimeChanged();
+    }
+
+    private void notifyDeltaTimeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.deltaTimeChanged( this );
+        }
     }
 
     public double getSimulationTime() {
@@ -54,10 +72,6 @@ public abstract class Propagator {
     public Potential getPotential() {
         return potential;
     }
-
-//    public DiscreteModel getDiscreteModel() {
-//        return discreteModel;
-//    }
 
     public void copyTo( int i, int j, Propagator propagator ) {
     }
