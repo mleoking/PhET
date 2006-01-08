@@ -111,7 +111,6 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),
                 new ParticleBeam( DefaultGunParticle.createNeutron( this ) ),
                 new ParticleBeam( DefaultGunParticle.createHelium( this ) ),
-//                new ParticleBeam( DefaultGunParticle.createCustomAtom( this ) )
         };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
