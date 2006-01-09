@@ -1,10 +1,17 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.PImageFactory;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,38 +28,39 @@ import java.io.IOException;
  */
 
 public class RulerGraphic extends PNode {
-    public PImage phetImageGraphic;
+    public PImage imageGraphic;
     public BufferedImage horiz;
     public BufferedImage vert;
 
-    public RulerGraphic( Component component ) {
-//        super( component );
+    public RulerGraphic( PSwingCanvas component ) {
+        imageGraphic = PImageFactory.create( "images/10-nanometer-stick.png" );
+        horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
+        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
+        addChild( imageGraphic );
 
-        //todo piccolo
-//        phetImageGraphic = new PImage("images/10-nanometer-stick.png" );
-//        horiz = phetImageGraphic.getImage();
-//        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
-//        addChild( phetImageGraphic );
-//
-//        JButton rotate = createRotateButton();
-//        PhetGraphic rotateButton = PhetJComponent.newInstance( component, rotate );
-//        addChild( rotateButton );
-//        rotateButton.setCursorHand();
-//        rotateButton.setLocation( -2 - rotateButton.getWidth(), 0 );
-//
-//        JButton closeButton = createCloseButton();
-//        PhetGraphic closeGraphic = PhetJComponent.newInstance( component, closeButton );
-//        addChild( closeGraphic );
-//        closeGraphic.setCursorHand();
-//        closeGraphic.setLocation( rotateButton.getX(), rotateButton.getY() + rotateButton.getHeight() + 2 );
-//
-//        setCursorHand();
-//        addTranslationListener( new TranslationListener() {
-//            public void translationOccurred( TranslationEvent translationEvent ) {
-//                translate( translationEvent.getDx(), translationEvent.getDy() );
-//            }
-//        } );
+        JButton rotate = createRotateButton();
+        PSwing rotateButton = new PSwing( component, rotate );
+        addChild( rotateButton );
+        rotateButton.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        rotateButton.setOffset( -2 - rotateButton.getWidth(), 0 );
 
+        JButton closeButton = createCloseButton();
+        PSwing closeGraphic = new PSwing( component, closeButton );
+        addChild( closeGraphic );
+        closeGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        closeGraphic.setOffset( rotateButton.getX(), rotateButton.getY() - rotateButton.getHeight() - 2 );
+
+        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        addInputEventListener( new PDragEventHandler() {
+            protected void drag( PInputEvent event ) {
+                super.setDraggedNode( RulerGraphic.this );
+                super.drag( event );    //Slight hack to make controls drag with the ruler
+            }
+        } );
+    }
+
+    protected void layoutChildren() {
+        super.layoutChildren();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     private JButton createCloseButton() {
@@ -87,11 +95,11 @@ public class RulerGraphic extends PNode {
     }
 
     private void rotate() {
-        if( phetImageGraphic.getImage() == horiz ) {
-            phetImageGraphic.setImage( vert );
+        if( imageGraphic.getImage() == horiz ) {
+            imageGraphic.setImage( vert );
         }
         else {
-            phetImageGraphic.setImage( horiz );
+            imageGraphic.setImage( horiz );
         }
     }
 }

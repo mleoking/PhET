@@ -59,8 +59,8 @@ public class SchrodingerScreenNode extends PNode {
             }
         } );
         rulerGraphic = new RulerGraphic( schrodingerPanel );
-        rulerGraphic.setOffset( 20, 20 );
-        rulerGraphic.setVisible( false );
+        rulerGraphic.setOffset( 50, 200 );
+        rulerGraphic.setVisible( true );
 
         detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, 60 );
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );

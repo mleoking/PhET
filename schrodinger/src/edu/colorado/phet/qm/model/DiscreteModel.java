@@ -46,13 +46,14 @@ public class DiscreteModel implements ModelElement {
     private boolean slitAbsorptive = true;
     public final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
     protected static final boolean DEBUG_WAVES = false;
+    protected static final double INIT_DT = 1E-5;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
     }
 
     public DiscreteModel( int width, int height ) {
-        this( width, height, 1E-5, createInitWave() );
+        this( width, height, INIT_DT, createInitWave() );
     }
 
     public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
