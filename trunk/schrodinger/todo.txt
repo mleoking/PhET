@@ -13,7 +13,8 @@ Add a ruler and a clock.  When user changes from electrons to neutrons or helium
     put an animation of a clock whose hands are slowing down next to actual clock,
     with a bubble that pops up and says “slowing down time.”
     If you go back to electrons, time speeds up and an analogous animation appears.
-    We will need to rescale both space and time for photons, but I want to make sure we can get it working here first.
+    We will need to rescale both space and time for photons,
+    but I want to make sure we can get it working here first.
 
 Note that you will need to put scaling back in
     so that the size of the box doesn’t change when you change the resolution in Options.

@@ -95,7 +95,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
         addChild( gunControlPSwing );
 
-        setupObject( gunItems[0] );
+        setGunParticle( gunItems[0] );
     }
 
     private JPanel createGunControlPanel() {
@@ -172,7 +172,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         }
     }
 
-    protected void setupObject( GunParticle particle ) {
+    protected void setGunParticle( GunParticle particle ) {
         if( particle != currentObject ) {
             getDiscreteModel().clearWavefunction();
             if( currentObject != null ) {
@@ -202,7 +202,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();
-                setupObject( gunItems[index] );
+                setGunParticle( gunItems[index] );
             }
         } );
         return imageComboBox;
@@ -214,7 +214,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
-        setupObject( currentObject );
+        setGunParticle( currentObject );
     }
 
     public void reset() {
