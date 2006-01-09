@@ -6,7 +6,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.piccolo.PhetPNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
@@ -19,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -51,6 +51,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private DetectorSheetControlPanel detectorSheetControlPanel;
     private PNode detectorSheetControlPanelPNode;
     private MyConnectorGraphic connectorGraphic;
+    private final double shearAngle = 0.4636;
 
     public DetectorSheetPNode( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
@@ -137,11 +138,22 @@ public class DetectorSheetPNode extends PhetPNode {
 
     protected void layoutChildren() {
         screenGraphic.setTransform( new AffineTransform() );
-        screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
+//        screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
+        double shearfac = Math.tan( shearAngle );
+        screenGraphic.getTransformReference( true ).shear( shearfac, 0 );
         //todo Don't hard code this translation.
-        screenGraphic.translate( -42, 62 );
+//        screenGraphic.translate( -42, 62 );
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth() + 12, screenGraphic.getFullBounds().getY() );
         connectorGraphic.update();
+    }
+
+    public void setAlignment( WavefunctionGraphic wavefunctionGraphic ) {
+        double offsetDX = screenGraphic.getFullBounds().getHeight() / 2.0 * Math.tan( shearAngle );
+        setOffset( wavefunctionGraphic.getFullBounds().getX() - offsetDX,
+                   wavefunctionGraphic.getFullBounds().getY() - screenGraphic.getFullBounds().getHeight() / 2.0 );
+//                detectorSheetPNode.setOffset( wavefunctionGraphic.getFullBounds().getX(),
+//                                              wavefunctionGraphic.getFullBounds().getY() - detectorSheetPNode.getFullBounds().getHeight() / 2.0 );
+
     }
 
     public void synchronizeFadeState() {

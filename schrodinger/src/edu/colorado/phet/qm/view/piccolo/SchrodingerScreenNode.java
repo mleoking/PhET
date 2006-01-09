@@ -191,14 +191,8 @@ public class SchrodingerScreenNode extends PNode {
     protected void layoutChildren( boolean forceLayout ) {
         boolean sizeChanged = lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() );
         if( sizeChanged || forceLayout ) {
-
-
             lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
-
-//            System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
             super.layoutChildren();
-//            double waveAreaX = 50;
-
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
                 wavefunctionGraphic.setCellDimensions( getCellDimensions() );
                 double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
@@ -207,8 +201,7 @@ public class SchrodingerScreenNode extends PNode {
                 double availableWidth = schrodingerPanel.getWidth() - mainWidth;
                 wavefunctionGraphic.setOffset( availableWidth / 2, detectorSheetPNode.getDetectorHeight() );
 
-                detectorSheetPNode.setOffset( wavefunctionGraphic.getFullBounds().getX(),
-                                              wavefunctionGraphic.getFullBounds().getY() - detectorSheetPNode.getFullBounds().getHeight() / 2 );
+                detectorSheetPNode.setAlignment( wavefunctionGraphic );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
                                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
             }
