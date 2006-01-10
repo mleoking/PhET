@@ -87,7 +87,8 @@ public class TestSplitRendering {
         final JCheckBox backOff = new JCheckBox( "Quick Render" );
         backOff.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                p.drawBackgroundNoBuffer = !backOff.isSelected();
+//                p.drawBackgroundNoBuffer = !backOff.isSelected();
+                p.setBackgroundIsBuffered( backOff.isSelected() );
             }
         } );
         controlPanel.add( backOff );

@@ -20,12 +20,14 @@ import java.awt.image.BufferedImage;
 
 /**
  * 'Split' refers to the ability to draw just the chart, just the data or both.
- * 
  */
 public class SplitXYPlot extends XYPlot {
     private boolean renderData = true;
-    protected boolean drawBackgroundNoBuffer = true;
+    private boolean backgroundIsBuffered = false;
     private BufferedImage buffer;
+
+    public SplitXYPlot() {
+    }
 
     public SplitXYPlot( XYDataset dataset, NumberAxis xAxis, NumberAxis yAxis, XYItemRenderer o ) {
         super( dataset, xAxis, yAxis, o );
@@ -34,19 +36,19 @@ public class SplitXYPlot extends XYPlot {
     public void updateBuffer( JFreeChart jFreeChart, int width, int height ) {
         if( width > 0 && height > 0 ) {
             boolean origRenderData = renderData;
-            boolean origBNB = drawBackgroundNoBuffer;
+            boolean origBNB = backgroundIsBuffered;
             renderData = false;
-            drawBackgroundNoBuffer = true;
+            backgroundIsBuffered = false;
             buffer = jFreeChart.createBufferedImage( width, height );
             System.out.println( "new Buffer Size=" + new Dimension( width, height ) + ", image.getWidth=" + buffer.getWidth() + ", image.getHeight=" + buffer.getHeight() );
             renderData = origRenderData;
-            drawBackgroundNoBuffer = origBNB;
+            backgroundIsBuffered = origBNB;
         }
     }
 
     //draw everything.
     public void draw( Graphics2D g2, Rectangle2D area, Point2D anchor, PlotState parentState, PlotRenderingInfo info ) {
-        if( drawBackgroundNoBuffer ) {
+        if( !backgroundIsBuffered ) {
             super.draw( g2, area, anchor, parentState, info );
         }
         else if( renderData ) {
@@ -65,7 +67,7 @@ public class SplitXYPlot extends XYPlot {
     }
 
     private void drawDataOnly( Graphics2D g2, Rectangle2D area, Point2D anchor, PlotRenderingInfo info ) {
-        if( !drawBackgroundNoBuffer ) {
+        if( backgroundIsBuffered ) {
             if( buffer != null ) {
 //                System.out.println( "rendering buffer: image.getWidth=" + buffer.getWidth() + ", image.getHeight=" + buffer.getHeight() );
                 g2.drawRenderedImage( buffer, new AffineTransform() );
@@ -123,5 +125,13 @@ public class SplitXYPlot extends XYPlot {
 
         g2.setClip( originalClip );
         g2.setComposite( originalComposite );
+    }
+
+    public void setBackgroundIsBuffered( boolean b ) {
+        this.backgroundIsBuffered = b;
+    }
+
+    public void setRenderData( boolean renderData ) {
+        this.renderData = renderData;
     }
 }
