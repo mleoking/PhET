@@ -2,14 +2,14 @@ Chris Malley - PixelZoom, Inc.
 January 2006 hours
 
 Sun 01  = 0
-Mon 02  = 
-Tue 03  = 
-Wed 04  = 
-Thu 05  = 
-Fri 06  = 
-Sat 07  = 
-Sun 08  = 
-Mon 09  = 
+Mon 02  = 10.0
+Tue 03  = 5.75
+Wed 04  = 5.5
+Thu 05  = 5.0
+Fri 06  = 0
+Sat 07  = 0
+Sun 08  = 0
+Mon 09  = 0
 Tue 10  = 
 Wed 11  = 
 Thu 12  = 
@@ -33,4 +33,4 @@ Sun 29  =
 Mon 30  = 
 Tue 31  = 
 --------------------
-TOTAL   = 
+TOTAL   = 26.25
