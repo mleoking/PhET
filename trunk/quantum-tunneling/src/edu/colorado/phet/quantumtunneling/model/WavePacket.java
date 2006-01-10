@@ -29,8 +29,14 @@ import edu.colorado.phet.quantumtunneling.view.WaveFunctionPlot;
  */
 public class WavePacket extends AbstractWave implements Observer, ClockListener {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double DX = QTConstants.POSITION_SAMPLE_STEP;
     private static final double DT = QTConstants.CLOCK_STEP;
+    
+    private static final int STEPS_PER_CLOCK_TICK = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -192,7 +198,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled ) {
-            _solver.propogate( 3 );
+            for ( int i = 0; i < STEPS_PER_CLOCK_TICK; i++ ) {
+                _solver.propogate();
+            }
             notifyObservers();
         }
     }

@@ -20,15 +20,18 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 /**
  * SchrodingerSolver solves the Schrodinger equation for 1 dimension.
  * <p>
- * This implementation was adapted from the implementation by John Richardson, 
- * found at http://www.neti.no/java/sgi_java/WaveSim.html.
- * <p>
- * The time stepping algorithm used herein is described in:
+ * The propagation algorithm used herein was adapted from the implementation
+ * by John Richardson, found at http://www.neti.no/java/sgi_java/WaveSim.html,
+ * and described in:<br>
  * <code>
  * Richardson, John L.,
  * Visualizing quantum scattering on the CM-2 supercomputer,
  * Computer Physics Communications 63 (1991) pp 84-94 
  * </code>
+ * <p>
+ * Richardson's algorithm has period boundary conditions, which was not 
+ * desired for this simulation. The dampling algoritm used herein was adapted
+ * from the PhET "Quantum Wave Interference" simulation, by Sam Reid.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -183,123 +186,69 @@ public class SchrodingerSolver {
     }
     
     /**
-     * Propogates the solution by a specified number of steps.
-     * 
-     * @param steps
+     * Propogates the solution by 1 step.
      */
-    public void propogate( int steps ) {
-        for ( int i = 0; i < steps; i++ ) {
-            propogate1();
-            propogate2();
-            propogate3();
-            propogate4();
-            propogate3(); 
-            propogate2();
-            propogate1();
-            damp();
-        }
-    }
-    
-    /*
-     * One of the parts of the propogator.
-     */
-    private void propogate1() {
+    public void propogate() {
         int numberOfPoints = _Psi.length;
-        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
 
-            // A = Psi[i]
-            _c1.setValue( _Psi[i] );
-            
-            // B = Psi[i + 1]
-            _c2.setValue( _Psi[i + 1] );
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i + 1].setValue( _c3 );
-            _Psi[i + 1].add( _c4 );
+        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
+            propogate( i, i + 1 );
         }
-    }
-    
-    /*
-     * One of the parts of the propogator.
-     */
-    private void propogate2() {
-        int numberOfPoints = _Psi.length;
+
         for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
-            
-            // A = Psi[i]
-            _c1.setValue( _Psi[i] );
-            
-            // B = Psi[i + 1]
-            _c2.setValue( _Psi[i + 1] );
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i + 1].setValue( _c3 );
-            _Psi[i + 1].add( _c4 );
+            propogate( i, i + 1 );
         }
+
+        propogate( numberOfPoints - 1, 0 );
+
+        for ( int i = 0; i < numberOfPoints; i++ ) {
+            _Psi[i].multiply( _EtoV[i] );
+        }
+
+        // now do what we did above, but in the reverse order...
+        
+        propogate( numberOfPoints - 1, 0 );
+
+        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
+            propogate( i, i + 1 );
+        }
+
+        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
+            propogate( i, i + 1 );
+        }
+
+        // apply damping to prevent periodic boundary condition...
+        damp();
     }
     
     /*
-     * One of the parts of the propogator.
+     * Performs propogation on two of the Psi entries.
+     * 
+     * @param i
+     * @param j
      */
-    private void propogate3() {
-        int numberOfPoints = _Psi.length;
+    private void propogate( int i, int j ) {
+        // A = Psi[i]
+        _c1.setValue( _Psi[i] );
         
-        // A = Psi[numberOfPoints - 1]
-        _c1.setValue( _Psi[numberOfPoints - 1] );
+        // B = Psi[j]
+        _c2.setValue( _Psi[j] );
         
-        // B = Psi[0]
-        _c2.setValue( _Psi[0] );
-        
-        // Psi[numberOfPoints - 1] = (alpha * A) + (beta * B)
+        // Psi[i] = (alpha * A) + (beta * B)
         _c3.setValue( _alpha );
         _c3.multiply( _c1 );
         _c4.setValue( _beta );
         _c4.multiply( _c2 );
-        _Psi[numberOfPoints - 1].setValue( _c3 );
-        _Psi[numberOfPoints - 1].add( _c4 );
+        _Psi[i].setValue( _c3 );
+        _Psi[i].add( _c4 );
         
-        // Psi[0] = (alpha * B) + (beta * A)
+        // Psi[j] = (alpha * B) + (beta * A)
         _c3.setValue( _alpha );
         _c3.multiply( _c2 );
         _c4.setValue( _beta );
         _c4.multiply( _c1 );
-        _Psi[0].setValue( _c3 );
-        _Psi[0].add( _c4 );
-    }
-    
-    /*
-     * One of the parts of the propogator.
-     */
-    private void propogate4() {
-        int numberOfPoints = _Psi.length;
-        for ( int i = 0; i < numberOfPoints; i++ ) {
-            // Psi[i= = Psi[i] * EtoV[i]
-            _Psi[i].multiply( _EtoV[i] );
-        }
+        _Psi[j].setValue( _c3 );
+        _Psi[j].add( _c4 );
     }
     
     /*
