@@ -58,6 +58,8 @@ JFREECHART:
 
 
 DONE:
+(1/10/06) - move # steps out of SchrodingerSolver and into WavePacket model
+(1/10/06) - simplify the SchrodingerSolver code
 (1/5/06) - sync with new piccolo which contains pswing, fix imports in QT
 0.0.6 ...
 (1/5/06) - multiply Psi[] values by normalization constant at initialization
