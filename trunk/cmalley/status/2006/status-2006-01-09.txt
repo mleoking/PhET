@@ -1,0 +1,24 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 01/03/06-01/09/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - debugged Richardson algorithm
+  - added damping to Richardson algorithm so that boundary 
+    conditions are not periodic (used Sam Reid's solution from QWI)
+  - published 0.0.6
+  - started working on optimization of charts
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 
