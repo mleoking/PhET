@@ -33,7 +33,9 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 /**
  * WaveFunctionPlot is the plot that displays the incident, 
- * reflected and transmitted waveforms.
+ * reflected and transmitted waveforms.  It also manages the
+ * probability density dataset, which is displayed by 
+ * ProbabilityDensityPlot.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
