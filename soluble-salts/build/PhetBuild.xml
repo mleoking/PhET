@@ -90,11 +90,11 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}">
-            <src path="${project_home}/phetcommon/src"/>
-            <src path="${project_home}/piccolo/src"/>
-            <src path="${project_home}/piccolo-phet/src"/>
-            <src path="${project_home}/mechanics/src"/>
-            <src path="${project_home}/collision/src"/>
+            <src path="${project_home}/piccolo-phet-module/src"/>
+            <src path="${project_home}/piccolo-phet-module/piccolo-module/src"/>
+            <src path="${project_home}/piccolo-phet-module/phetcommon-module/src"/>
+            <src path="${project_home}/mechanics-module/src"/>
+            <src path="${project_home}/collision-module/src"/>
         </javac>
     </target>
 

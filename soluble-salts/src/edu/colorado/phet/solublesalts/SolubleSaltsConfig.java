@@ -46,7 +46,8 @@ public class SolubleSaltsConfig {
 
     // Physical things
     private static final double scale = 1;
-    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale ); // upper-left corner of vessel
+    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 250 * scale ); // upper-left corner of vessel
+//    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 * scale, 150 * scale ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 * scale ), (int)( 500 * scale ) );
     public static final double VESSEL_WALL_THICKNESS = 20 * scale;
     public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
