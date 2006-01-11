@@ -33,9 +33,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DX = QTConstants.POSITION_SAMPLE_STEP;
-    private static final double DT = QTConstants.CLOCK_STEP;
-    
     private static final int STEPS_PER_CLOCK_TICK = 3;
     
     //----------------------------------------------------------------------------
@@ -62,8 +59,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _enabled = true;
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
-        _solver = new WavePacketSolver( this, DX, DT );
-        _solver.setDx( 0.09 ); //XXX temporarily decrease the number of sample points
+        _solver = new WavePacketSolver( this );
     }
     
     public void cleanup() {

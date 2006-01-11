@@ -59,6 +59,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private AbstractWave _wave;
+    private double _dx;
     
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
@@ -138,11 +139,20 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         
         _wave = null;
         _irView = IRView.SUM;
+        _dx = 1;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setDx( double dx ) {
+        if ( dx <= 0 ) {
+            throw new IllegalArgumentException( "dx must be > 0: " + dx );
+        }
+        _dx = dx;
+        updateDatasets();
+    }
     
     public XYSeries getProbabilityDensitySeries() {
         return _probabilityDensitySeries;
@@ -226,13 +236,12 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         
         clearAllSeries();
         
-        final double dx = QTConstants.POSITION_SAMPLE_STEP;
         AbstractPotential pe = planeWave.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 );
-        final double maxX = pe.getEnd( numberOfRegions - 1 ) + dx;
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + _dx;
 
-        for ( double x = minX; x < maxX; x += dx ) {
+        for ( double x = minX; x < maxX; x += _dx ) {
             WaveFunctionSolution solution = planeWave.solveWaveFunction( x );
             if ( solution != null ) {
                 if ( _irView == IRView.SEPARATE ) {

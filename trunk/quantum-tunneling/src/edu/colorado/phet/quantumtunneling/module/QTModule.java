@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,17 +25,15 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.*;
-import edu.colorado.phet.quantumtunneling.control.ConfigureEnergyDialog;
-import edu.colorado.phet.quantumtunneling.control.PotentialEnergyControls;
-import edu.colorado.phet.quantumtunneling.control.QTClockControls;
-import edu.colorado.phet.quantumtunneling.control.QTControlPanel;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
-import edu.colorado.phet.quantumtunneling.view.*;
+import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
+import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
+import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -252,6 +251,16 @@ public class QTModule extends AbstractModule implements Observer {
         {
             _totalEnergyControl.updateDragBounds();
             _potentialEnergyControls.updateDragBounds();
+        }
+        
+        // dx (sample point spacing)
+        {
+            Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
+            Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( 1, 0 ) );
+            double dx = p2.getX() - p1.getX();
+            System.out.println( "dx=" + dx );
+            _wavePacket.getSolver().setDx( dx );
+            _chart.getWaveFunctionPlot().setDx( dx );
         }
     }
     

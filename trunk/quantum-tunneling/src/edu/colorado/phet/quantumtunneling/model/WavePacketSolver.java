@@ -81,11 +81,11 @@ public class WavePacketSolver {
      * @param dx
      * @param dt
      */
-    public WavePacketSolver( WavePacket wavePacket, double dx, double dt ) {
+    public WavePacketSolver( WavePacket wavePacket ) {
         
         _wavePacket = wavePacket;
-        _dx = dx;
-        _dt = dt;
+        _dx = 1;
+        _dt = QTConstants.CLOCK_STEP;
                 
         _c1 = new MutableComplex();
         _c2 = new MutableComplex();
