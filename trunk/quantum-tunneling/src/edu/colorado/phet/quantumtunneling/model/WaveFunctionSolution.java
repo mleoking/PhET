@@ -18,7 +18,7 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
 
 /**
  * WaveFunctionSolution contains the wave function solution
- * for specific values of x and t.  This object is immutable.
+ * for specific values of x and t.  This object is IMMUTABLE.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
