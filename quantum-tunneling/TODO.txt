@@ -7,16 +7,17 @@ IN PROGRESS:
 HIGH PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds
 - implement phase view using Brock Univ code
-- fix dt in SchrodingerSolver so that it is related to clock dt
+- implement "Measure" feature
 
 MEDIUM PRIORITY:
-- make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
+- redo total energy display for wave packets
+- fix dt in SchrodingerSolver so that it is related to clock dt
 - add application description to SimStrings files
-- Help items
 - pause clock while dragging sliders/handles, restore the clock state on release
 
 LOW PRIORITY:
-- loop button should be disabled for plane wave
+- Help items
+- make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
 - select entire spinner value when it gets focus
 - fix tab order in Configure dialog
