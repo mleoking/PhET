@@ -243,7 +243,7 @@ public abstract class AbstractPlaneSolver {
      * @param V potential energy, in eV
      * @return
      */
-    private Complex solveK( final double E, final double V ) {
+    private static Complex solveK( final double E, final double V ) {
         final double value = Math.sqrt( K_COMMON * Math.abs( E - V ) );
         double real = 0;
         double imag = 0;
