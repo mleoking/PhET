@@ -209,15 +209,18 @@ public class EnergyPlot extends XYPlot implements Observer {
      */
     private void updateTotalEnergy() {
         Range range = getDomainAxis().getRange();
+        _totalEnergySeries.setNotify( false );
         _totalEnergySeries.clear();
         _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
         _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
+        _totalEnergySeries.setNotify( true );
     }
     
     /*
      * Updates the potential energy series to match the model.
      */
     private void updatePotentialEnergy() {
+        _potentialEnergySeries.setNotify( false );
         _potentialEnergySeries.clear();
         int numberOfRegions = _potentialEnergy.getNumberOfRegions();
         for ( int i = 0; i < numberOfRegions; i++ ) {
@@ -227,5 +230,6 @@ public class EnergyPlot extends XYPlot implements Observer {
             _potentialEnergySeries.add( start, energy );
             _potentialEnergySeries.add( end, energy );
         }
+        _potentialEnergySeries.setNotify( true );
     }
 }
