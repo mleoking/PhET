@@ -319,8 +319,13 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     
     /*
      * Changes notification for all series.
+     * <p>
+     * Call this method with false before adding a lot of points, so that
+     * we don't get unnecessary updates.  When all points have been added,
+     * call this method with true to notify listeners that the series 
+     * have changed.
      * 
-     * @param notify
+     * @param notify true or false
      */
     private void setSeriesNotify( boolean notify ) {
         _incidentRealSeries.setNotify( notify );
