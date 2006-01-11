@@ -25,6 +25,8 @@ public class Complex {
     // Class data
     //----------------------------------------------------------------------------
     
+    public static final Complex ZERO = new Complex( 0, 0 );
+    
     public static final Complex I = new Complex( 0, 1 );  // i == sqrt(-1)
     
     //----------------------------------------------------------------------------
