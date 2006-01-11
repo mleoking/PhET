@@ -145,8 +145,6 @@ public class QTConstants {
     
     public static final boolean USE_INTEGER_ENERGY_TICKS = false;
     
-    public static final double POSITION_SAMPLE_STEP = 0.02; // position step between sample points
-    
     //----------------------------------------------------------------------------
     // Wave Function constants
     //----------------------------------------------------------------------------
@@ -171,7 +169,7 @@ public class QTConstants {
     public static final double DEFAULT_TOTAL_ENERGY = .8; // eV
     public static final double DEFAULT_POTENTIAL_ENERGY = .5; // eV
     
-    /* used to draw the total energy "band" */
+    // used to draw the total energy "band"
     public static final double TOTAL_ENERGY_DEVIATION = .38; //  eV
     
     //----------------------------------------------------------------------------
