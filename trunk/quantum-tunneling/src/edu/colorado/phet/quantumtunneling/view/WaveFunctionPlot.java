@@ -201,12 +201,14 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
+        setSeriesNotify( false );
         if ( _wave instanceof PlaneWave ) {
             updateDataSet( (PlaneWave) _wave );
         }
         else if ( _wave instanceof WavePacket ) {
             updateDataSet( (WavePacket) _wave );
         }
+        setSeriesNotify( true );
     }
     
     /*
@@ -313,5 +315,20 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _reflectedImaginarySeries.clear();
         _reflectedMagnitudeSeries.clear();
         _probabilityDensitySeries.clear();
+    }
+    
+    /*
+     * Changes notification for all series.
+     * 
+     * @param notify
+     */
+    private void setSeriesNotify( boolean notify ) {
+        _incidentRealSeries.setNotify( notify );
+        _incidentImaginarySeries.setNotify( notify );
+        _incidentMagnitudeSeries.setNotify( notify );
+        _reflectedRealSeries.setNotify( notify );
+        _reflectedImaginarySeries.setNotify( notify );
+        _reflectedMagnitudeSeries.setNotify( notify );
+        _probabilityDensitySeries.setNotify( notify );
     }
 }

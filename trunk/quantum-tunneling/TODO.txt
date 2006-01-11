@@ -56,6 +56,7 @@ JFREECHART:
 
 
 DONE:
+(1/11/06) - turn notification off before adding points to series, turn on when done adding points
 (1/11/06) - hide Loop button in clock controls, no one asked for this feature
 (1/10/06) - move drag handle classes into control package (since they are controls)
 (1/10/06) - move a bunch of constants into QTConstants
