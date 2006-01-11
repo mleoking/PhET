@@ -81,13 +81,14 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
         
         // Series
-        _incidentRealSeries = new XYSeries( "incident real" );
-        _incidentImaginarySeries = new XYSeries( "incident imaginary" );
-        _incidentMagnitudeSeries = new XYSeries( "incident magnitude" );
-        _reflectedRealSeries = new XYSeries( "reflected real" );
-        _reflectedImaginarySeries = new XYSeries( "reflected imaginary" );
-        _reflectedMagnitudeSeries = new XYSeries( "reflected magnitude" );
-        _probabilityDensitySeries = new XYSeries( "probability density" );
+        final boolean autoSort = false;
+        _incidentRealSeries = new XYSeries( "incident real", autoSort );
+        _incidentImaginarySeries = new XYSeries( "incident imaginary", autoSort );
+        _incidentMagnitudeSeries = new XYSeries( "incident magnitude", autoSort );
+        _reflectedRealSeries = new XYSeries( "reflected real", autoSort );
+        _reflectedImaginarySeries = new XYSeries( "reflected imaginary", autoSort );
+        _reflectedMagnitudeSeries = new XYSeries( "reflected magnitude", autoSort );
+        _probabilityDensitySeries = new XYSeries( "probability density", autoSort );
         
         // Dataset
         XYSeriesCollection data = new XYSeriesCollection();
