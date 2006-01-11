@@ -255,10 +255,10 @@ public class QTModule extends AbstractModule implements Observer {
         
         // dx (sample point spacing)
         {
+            // All charts have the same x axis, so just use the Energy chart.
             Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( 1, 0 ) );
             double dx = p2.getX() - p1.getX();
-            System.out.println( "dx=" + dx );
             _wavePacket.getSolver().setDx( dx );
             _chart.getWaveFunctionPlot().setDx( dx );
         }
