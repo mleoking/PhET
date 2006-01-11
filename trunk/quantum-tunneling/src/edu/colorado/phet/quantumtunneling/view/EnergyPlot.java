@@ -73,7 +73,7 @@ public class EnergyPlot extends XYPlot implements Observer {
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
         // Potential Energy series
-        _potentialEnergySeries = new XYSeries( potentialEnergyLabel );
+        _potentialEnergySeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
         {
             XYSeriesCollection data = new XYSeriesCollection();
             data.addSeries( _potentialEnergySeries );
@@ -85,7 +85,7 @@ public class EnergyPlot extends XYPlot implements Observer {
         }
         
         // Total Energy series
-        _totalEnergySeries = new XYSeries( totalEnergyLabel );
+        _totalEnergySeries = new XYSeries( totalEnergyLabel, false /* autoSort */ );
         {
             XYSeriesCollection data = new XYSeriesCollection();
             data.addSeries( _totalEnergySeries );
