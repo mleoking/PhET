@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - add application description to SimStrings files
 - Help items
 - hook up Loop button
+- pause clock while dragging sliders/handles, restore the clock state on release
 
 LOW PRIORITY:
 - loop button should be disabled for plane wave
