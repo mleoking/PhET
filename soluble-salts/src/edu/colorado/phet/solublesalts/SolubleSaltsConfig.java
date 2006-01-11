@@ -81,4 +81,6 @@ public class SolubleSaltsConfig {
     // An ion will bind to another if it is within a distance of the open binding site that is less than or
     // equal to this many times the free ion's radius
     public static double BINDING_DISTANCE_FACTOR = 2;
+    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
+    public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.01;
 }

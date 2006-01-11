@@ -77,6 +77,10 @@ public class VesselGraphic extends PNode {
         setOffset( vessel.getLocation() );
     }
 
+    /**
+     * Sets the spacing of the major tick marks on the wall of the vessel
+     * @param spacing
+     */
     public void setMajorTickSpacing( int spacing ) {
         int numTicks = (int)vessel.getDepth() / spacing;
         for( int i = 1; i < numTicks; i++ ) {
@@ -91,11 +95,18 @@ public class VesselGraphic extends PNode {
 
             String str = Integer.toString( (int)( vessel.getDepth() - y ));
             PText text = new PText( str);
+            Font orgFont = text.getFont();
+            Font newFont = new Font( orgFont.getName(), orgFont.getStyle(), orgFont.getSize() + 4 );
+            text.setFont( newFont );
             text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 8 );
             addChild( text );
         }
     }
 
+    /**
+     * Sets the spacing of the minor tick marks on the wall of the vessel
+     * @param spacing
+     */
     public void setMinorTickSpacing( int spacing ) {
         int numTicks = (int)vessel.getDepth() / spacing;
         for( int i = 1; i < numTicks; i++ ) {
