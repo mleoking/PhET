@@ -14,7 +14,6 @@ package edu.colorado.phet.quantumtunneling.control;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 

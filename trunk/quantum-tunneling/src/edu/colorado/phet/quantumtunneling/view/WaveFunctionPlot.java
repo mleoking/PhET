@@ -28,7 +28,6 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.util.Complex;
-import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**

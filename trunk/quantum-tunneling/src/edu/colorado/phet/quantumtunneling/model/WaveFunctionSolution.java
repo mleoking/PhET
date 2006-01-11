@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.sql.Ref;
-
 import edu.colorado.phet.quantumtunneling.util.Complex;
 
 

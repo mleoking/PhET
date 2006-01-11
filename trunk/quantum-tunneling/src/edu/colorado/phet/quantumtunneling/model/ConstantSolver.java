@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.util.Observer;
-
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 

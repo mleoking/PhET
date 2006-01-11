@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;

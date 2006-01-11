@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumtunneling.control;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
