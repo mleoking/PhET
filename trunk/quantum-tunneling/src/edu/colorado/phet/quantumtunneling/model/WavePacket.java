@@ -48,8 +48,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private boolean _enabled;
     private double _width;
     private double _center;
-    private double _time;
-    private SchrodingerSolver _solver;
+    private WavePacketSolver _solver;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,8 +62,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _enabled = true;
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
-        _time = 0;
-        _solver = new SchrodingerSolver( this, DX, DT );
+        _solver = new WavePacketSolver( this, DX, DT );
+        _solver.setDx( 0.09 ); //XXX temporarily decrease the number of sample points
     }
     
     public void cleanup() {
@@ -78,15 +77,11 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
     }
     
-    private double getTime() {
-        return _time;
-    }
-    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public SchrodingerSolver getSolver() {
+    public WavePacketSolver getSolver() {
         return _solver;
     }
     

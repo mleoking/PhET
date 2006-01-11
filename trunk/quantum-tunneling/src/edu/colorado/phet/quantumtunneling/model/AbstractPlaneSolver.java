@@ -37,7 +37,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
+public abstract class AbstractPlaneSolver {
     
     // Direction of motion
     public static final int LEFT_TO_RIGHT = 0;
@@ -65,6 +65,15 @@ public abstract class AbstractPlaneSolver implements IWaveFunctionSolver {
         _k = new Complex[ pe.getNumberOfRegions() ];
         update();
     }
+    
+    /**
+     * Solves the wave function.
+     * 
+     * @param x position, in nm
+     * @param t time, in fs
+     * @return
+     */
+    public abstract WaveFunctionSolution solve( final double x, final double t );
     
     protected TotalEnergy getTotalEnergy() {
         return _te;
