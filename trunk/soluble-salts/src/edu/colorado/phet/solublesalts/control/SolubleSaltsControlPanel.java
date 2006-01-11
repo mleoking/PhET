@@ -23,6 +23,7 @@ import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -114,7 +115,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.getVessel().setIonStickAffinity( new RandomAffinity( vesselIonStickSlider.getValue() ) );
             }
         } );
-        vesselIonStickSlider.setValue( 0.9 );
+        vesselIonStickSlider.setValue( SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD );
+        model.getVessel().setIonStickAffinity( new RandomAffinity( vesselIonStickSlider.getValue() ) );
         vesselIonStickSlider.setNumMajorTicks( 5 );
 
         dissociationSlider = new ModelSlider( "Lattice dissociation likelihood",
@@ -128,7 +130,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 Crystal.setDissociationLikelihood( dissociationSlider.getValue() );
             }
         } );
-        dissociationSlider.setValue( 0.01 );
+        dissociationSlider.setValue( SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD );
+        Crystal.setDissociationLikelihood( dissociationSlider.getValue() );
         dissociationSlider.setNumMajorTicks( 5 );
 
         addControl( vesselIonStickSlider );
@@ -435,6 +438,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 public void ionAdded( IonEvent event ) {
                     syncSpinnersWithModel();
                 }
+
                 public void ionRemoved( IonEvent event ) {
                     syncSpinnersWithModel();
                 }

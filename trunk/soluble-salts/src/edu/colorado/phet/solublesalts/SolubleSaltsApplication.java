@@ -76,6 +76,14 @@ public class SolubleSaltsApplication extends PhetApplication {
             if( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
             }
+            if( arg.substring( 0, 3).equals( "-s=" )) {
+                double d = Double.parseDouble( arg.substring( 3 ));
+                SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = d;
+            }
+            if( arg.substring( 0, 3).equals( "-d=" )) {
+                double d = Double.parseDouble( arg.substring( 3 ));
+                SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = d;
+            }
         }
 
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
@@ -93,6 +101,7 @@ public class SolubleSaltsApplication extends PhetApplication {
 //                    simPanel.addWorldChild( mouseTracker );
                 }
             }
+
         }
 
     }

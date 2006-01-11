@@ -56,25 +56,19 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             Drain drain = model.getDrain();
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
-                // The ion's velocity is increased by a vector pointing toward the drain, and of
-                // a magnitude that has an inverse square relationship to the distance of the ion
-                // to the drain
+
+                // Rotate the ion's velocity vector toward the drain
                 Vector2D v = ion.getVelocity();
                 Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
                                                   ion.getPosition().getY() - drain.getPosition().getY());
-//                l.normalize().scale( change * SPEED_FACTOR );
                 l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
 //                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
 
                 double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 double beta =( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-
-                System.out.println( "alpha = " + Math.toDegrees( alpha ) );
-                System.out.println( "beta = " + Math.toDegrees( beta ));
-//                if( dChange )
-//                v.rotate( (alpha - v.getAngle() ) * change / newDepth );
-                System.out.println( "alpha - beta = " + (alpha - beta ));
                 v.rotate( (alpha - beta ) * 0.1 );
+
+                // If the flow rate out of the vessel has changed, modify the magnitude of the ion's
                 if( change != lastChange ) {
                     v.add( l );
                 }
