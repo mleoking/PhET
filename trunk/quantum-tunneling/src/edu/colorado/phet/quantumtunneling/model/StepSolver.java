@@ -61,7 +61,7 @@ public class StepSolver extends AbstractPlaneSolver {
         WaveFunctionSolution result = null;
         
         if ( isSolutionZero() ) {
-            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 ) );
+            result = new WaveFunctionSolution( x, t, Complex.ZERO, Complex.ZERO );
         }
         else {
             int regionIndex = getPotentialEnergy().getRegionIndexAt( x );
