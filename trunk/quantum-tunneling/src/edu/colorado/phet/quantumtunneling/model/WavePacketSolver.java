@@ -43,8 +43,8 @@ public class WavePacketSolver {
     // Class data
     //----------------------------------------------------------------------
     
-    private static final double HBAR = QTConstants.PLANCKS_CONSTANT;
-    private static final double MASS = QTConstants.ELECTRON_MASS;
+    private static final double HBAR = QTConstants.HBAR;
+    private static final double MASS = QTConstants.MASS;
     
     // Damping factors, to prevent periodic boundary condition.
     private static double[] DAMPING_FACTORS = new double[] { 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
