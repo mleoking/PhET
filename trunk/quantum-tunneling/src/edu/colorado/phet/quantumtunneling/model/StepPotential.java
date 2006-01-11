@@ -21,13 +21,6 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @version $Revision$
  */
 public class StepPotential extends AbstractPotential {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double DEFAULT_STEP_POSITION = 5;
-    private static final double DEFAULT_STEP_ENERGY = QTConstants.DEFAULT_POTENTIAL_ENERGY;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,8 +31,8 @@ public class StepPotential extends AbstractPotential {
      */
     public StepPotential() {
         super( 2 /* numberOfRegions */ );
-        setRegion( 0, getMinPosition(), DEFAULT_STEP_POSITION, 0 );
-        setRegion( 1, getEnd( 0 ), getMaxPosition(), DEFAULT_STEP_ENERGY );
+        setRegion( 0, getMinPosition(), QTConstants.DEFAULT_STEP_POSITION, 0 );
+        setRegion( 1, getEnd( 0 ), getMaxPosition(), QTConstants.DEFAULT_STEP_ENERGY );
     }
     
     /**

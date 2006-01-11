@@ -31,16 +31,11 @@ public abstract class AbstractPotential extends QTObservable {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    /* This value must be > 0, and should not be less than 
-     * the precision shown in the user interface.
-     */
-    private static final double DEFAULT_MIN_REGION_WIDTH = 0.1;
-    
+
     /*
      * Double precision numbers have some problems representing
-     * numbers like 0.1.  This value show how close we have to
-     * be to DEFAULT_MIN_REGION_WIDTH to be considered equal.
+     * numbers like 0.1.  This value determines how close we have to
+     * be to QTConstants.MIN_REGION_WIDTH to be considered "equal".
      */
     private static final double ACCEPTABLE_WIDTH_ERROR = 0.001;
     
@@ -87,7 +82,7 @@ public abstract class AbstractPotential extends QTObservable {
             }
         }
         
-        _minRegionWidth = DEFAULT_MIN_REGION_WIDTH;
+        _minRegionWidth = QTConstants.MIN_REGION_WIDTH;
     }
     
     /**

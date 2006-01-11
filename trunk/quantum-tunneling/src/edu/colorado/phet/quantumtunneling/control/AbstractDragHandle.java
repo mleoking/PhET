@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.view;
+package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

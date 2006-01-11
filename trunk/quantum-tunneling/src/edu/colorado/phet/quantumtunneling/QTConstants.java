@@ -126,46 +126,11 @@ public class QTConstants {
     public static final String IMAGE_STEP = IMAGES_DIRECTORY + "stepButton.gif";
     
     //----------------------------------------------------------------------------
-    // Formats
+    // Drag Handles
     //----------------------------------------------------------------------------
     
-    public static final double POSITION_STEP = 0.1;
-    public static final String POSITION_FORMAT = "0.0";
-    
-    public static final double ENERGY_STEP = 0.01; 
-    public static final String ENERGY_FORMAT = "0.00";
-   
-    //----------------------------------------------------------------------------
-    // Wave Function constants
-    //----------------------------------------------------------------------------
-    
-    public static final double HBAR = 0.658;  // Planck's constant, in eV fs
-    public static final double MASS = 5.7;  // electron mass, in eV/c^2
-    
-    //----------------------------------------------------------------------------
-    // Wave Packet
-    //----------------------------------------------------------------------------
-    
-    // packet width
-    public static final double MIN_PACKET_WIDTH = 0.1; // nm
-    public static final double MAX_PACKET_WIDTH = 4.0; // nm
-    public static final double DEFAULT_PACKET_WIDTH = 0.5; // nm
-    
-    // packet center
-    public static final double MIN_PACKET_CENTER = 0; // nm
-    public static final double MAX_PACKET_CENTER = 20.0; // nm
-    public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
-    
-    //----------------------------------------------------------------------------
-    // Energies
-    //----------------------------------------------------------------------------
-    
-    public static final double DEFAULT_TOTAL_ENERGY = .8; // eV
-    public static final double DEFAULT_POTENTIAL_ENERGY = .5; // eV
-    
-    /* used to draw the total energy "band" */
-    public static final double TOTAL_ENERGY_DEVIATION = .38; //  eV
-    
+    public static final boolean SHOW_ENERGY_VALUES = false;
+ 
     //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------
@@ -183,8 +148,60 @@ public class QTConstants {
     public static final double POSITION_SAMPLE_STEP = 0.02; // position step between sample points
     
     //----------------------------------------------------------------------------
-    // Drag Handles
+    // Wave Function constants
     //----------------------------------------------------------------------------
     
-    public static final boolean SHOW_ENERGY_VALUES = false;
+    public static final double HBAR = 0.658;  // Planck's constant, in eV fs
+    public static final double MASS = 5.7;  // electron mass, in eV/c^2
+    
+    //----------------------------------------------------------------------------
+    // Precisions & Formats
+    //----------------------------------------------------------------------------
+    
+    public static final double POSITION_STEP = 0.1;
+    public static final String POSITION_FORMAT = "0.0";
+    
+    public static final double ENERGY_STEP = 0.01; 
+    public static final String ENERGY_FORMAT = "0.00";
+    
+    //----------------------------------------------------------------------------
+    // Energies
+    //----------------------------------------------------------------------------
+    
+    public static final double DEFAULT_TOTAL_ENERGY = .8; // eV
+    public static final double DEFAULT_POTENTIAL_ENERGY = .5; // eV
+    
+    /* used to draw the total energy "band" */
+    public static final double TOTAL_ENERGY_DEVIATION = .38; //  eV
+    
+    //----------------------------------------------------------------------------
+    // Regions
+    //----------------------------------------------------------------------------
+    
+    // This value must be > 0 and some integer multiple of POSITION_STEP.
+    public static final double MIN_REGION_WIDTH = POSITION_STEP * 1;
+    
+    // Step potential
+    public static final double DEFAULT_STEP_POSITION = 5;
+    public static final double DEFAULT_STEP_ENERGY = DEFAULT_POTENTIAL_ENERGY;
+    
+    // Barrier potential
+    public static final double DEFAULT_BARRIER_POSITION = 5;
+    public static final double DEFAULT_BARRIER_WIDTH = 3;
+    public static final double DEFAULT_SPACE_BETWEEN_BARRIERS = 3;
+    public static final double DEFAULT_BARRIER_ENERGY = DEFAULT_POTENTIAL_ENERGY;
+    
+    //----------------------------------------------------------------------------
+    // Wave Packet
+    //----------------------------------------------------------------------------
+    
+    // packet width
+    public static final double MIN_PACKET_WIDTH = 0.1; // nm
+    public static final double MAX_PACKET_WIDTH = 4.0; // nm
+    public static final double DEFAULT_PACKET_WIDTH = 0.5; // nm
+    
+    // packet center
+    public static final double MIN_PACKET_CENTER = POSITION_RANGE.getLowerBound(); // nm
+    public static final double MAX_PACKET_CENTER = POSITION_RANGE.getUpperBound(); // nm
+    public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
 }

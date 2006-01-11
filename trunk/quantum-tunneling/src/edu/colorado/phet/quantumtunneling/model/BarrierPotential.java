@@ -24,14 +24,6 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 public class BarrierPotential extends AbstractPotential {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double DEFAULT_BARRIER_POSITION = 5;
-    private static final double DEFAULT_BARRIER_WIDTH = 3;
-    private static final double DEFAULT_BARRIER_ENERGY = QTConstants.DEFAULT_POTENTIAL_ENERGY;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -49,16 +41,24 @@ public class BarrierPotential extends AbstractPotential {
         
         for ( int i = 0; i < getNumberOfRegions(); i++ ) {
             if ( i == 0 ) {
-                setRegion( i, getMinPosition(), DEFAULT_BARRIER_POSITION, 0 );
+                setRegion( i, getMinPosition(), QTConstants.DEFAULT_BARRIER_POSITION, 0 );
             }
             else if ( i == getNumberOfRegions() - 1 ) {
                 setRegion( i, getEnd( i-1 ), getMaxPosition(), 0 );    
             }
-            else {
+            else if ( isaBarrier( i ) ) {
+                // barrier
                 double start = getEnd( i-1 );
-                double end = start + DEFAULT_BARRIER_WIDTH;
-                double energy = isaBarrier( i ) ? DEFAULT_BARRIER_ENERGY : 0;
+                double end = start + QTConstants.DEFAULT_BARRIER_WIDTH;
+                double energy = QTConstants.DEFAULT_BARRIER_ENERGY;
                 setRegion( i, start, end, energy );
+            }
+            else {
+                // space between barriers
+                double start = getEnd( i-1 );
+                double end = start + QTConstants.DEFAULT_SPACE_BETWEEN_BARRIERS;
+                double energy = 0;
+                setRegion( i, start, end, energy ); 
             }
         }
         validateRegions();

@@ -11,22 +11,18 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 
 
@@ -50,9 +46,6 @@ public abstract class AbstractControlPanel extends ControlPanel {
     
     // Font style applied to titled borders
     protected static final int TITLED_BORDER_FONT_STYLE = Font.ITALIC;
-  
-    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -156,10 +149,10 @@ public abstract class AbstractControlPanel extends ControlPanel {
     public void setWaitCursorEnabled( boolean enabled ) {
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if ( enabled ) {
-            frame.setCursor( WAIT_CURSOR );
+            frame.setCursor( QTConstants.WAIT_CURSOR );
         }
         else {
-            frame.setCursor( DEFAULT_CURSOR );
+            frame.setCursor( QTConstants.DEFAULT_CURSOR );
         }
     }
 }

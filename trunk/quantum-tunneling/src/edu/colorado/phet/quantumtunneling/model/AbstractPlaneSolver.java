@@ -39,18 +39,26 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  */
 public abstract class AbstractPlaneSolver {
     
-    // Direction of motion
-    public static final int LEFT_TO_RIGHT = 0;
-    public static final int RIGHT_TO_LEFT = 1;
+    //----------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------
     
     // Static term used to calculate k:  2 * m / h^2
     private static final double K_COMMON = ( 2 * QTConstants.MASS ) / ( QTConstants.HBAR * QTConstants.HBAR );
 
+    //----------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------
+    
     private TotalEnergy _te;
     private AbstractPotential _pe;
     private Direction _direction;
     
     private Complex[] _k;
+    
+    //----------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -66,6 +74,10 @@ public abstract class AbstractPlaneSolver {
         update();
     }
     
+    //----------------------------------------------------------------------
+    // Wave function solution
+    //----------------------------------------------------------------------
+    
     /**
      * Solves the wave function.
      * 
@@ -74,6 +86,10 @@ public abstract class AbstractPlaneSolver {
      * @return
      */
     public abstract WaveFunctionSolution solve( final double x, final double t );
+    
+    //----------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------
     
     protected TotalEnergy getTotalEnergy() {
         return _te;
@@ -100,7 +116,7 @@ public abstract class AbstractPlaneSolver {
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
     
-    /*
+    /**
      * Gets the boundary position between two regions.
      * <p>
      * If the wave direction is right-to-left, flip the region indicies.
@@ -121,7 +137,7 @@ public abstract class AbstractPlaneSolver {
         }
     }
     
-    /*
+    /**
      * Gets the k value for a specified region.
      * <p>
      * If the wave direction is right-to-left, then flip the region
@@ -143,6 +159,25 @@ public abstract class AbstractPlaneSolver {
     }
     
     /**
+     * By default, regions are indexed in a left-to-right order.
+     * This method flips the region index so that the regions are 
+     * visited in a right-to-left order.
+     * <p>
+     * This method should be used by subclasses in their 
+     * implementation of the <code>solve</code> method.
+     * 
+     * @param regionIndex
+     */
+    protected int flipRegionIndex( int regionIndex ) {
+        // OK if region index is out of bounds!
+        return getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
+    }
+    
+    //----------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------
+    
+    /**
      * Updates the solver to match it's model.
      */
     public void update() {
@@ -162,15 +197,19 @@ public abstract class AbstractPlaneSolver {
         }
     }
     
-    /*
+    /**
      * Updates the coeffiecients.
+     * The algorithm for doing this varies by subclass.
      */
     protected abstract void updateCoefficients();
     
-    /*
+    /**
      * The wave function solution should be zero if the first 
      * region encountered by the wave (dependent on direction)
      * has E < V. (where E=total energy, V=potential energy)
+     * <p>
+     * This method should be used by subclasses in their 
+     * implementation of the <code>solve</code> method.
      * 
      * @return true or false
      */
@@ -193,7 +232,7 @@ public abstract class AbstractPlaneSolver {
     }
     
     /*
-     * Calculate the wave number, in units of 1/nm.
+     * Calculates the wave number, in units of 1/nm.
      * 
      * k = sqrt( 2 * m * (E-V) / h^2 )
      * 
@@ -217,7 +256,11 @@ public abstract class AbstractPlaneSolver {
         return new Complex( real, imag );
     }
     
-    /*
+    //----------------------------------------------------------------------
+    // Common terms that appear in the solution
+    //----------------------------------------------------------------------
+    
+    /**
      * e^(ikx)
      * 
      * @param x position
@@ -232,7 +275,7 @@ public abstract class AbstractPlaneSolver {
         return c;
     }
     
-    /*
+    /**
      * e^(-ikx)
      * 
      * @param x position
@@ -247,7 +290,7 @@ public abstract class AbstractPlaneSolver {
         return c;
     }
     
-    /*
+    /**
      * e^(-i*E*t/h)
      * 
      * @param t time 
@@ -261,10 +304,5 @@ public abstract class AbstractPlaneSolver {
         c.multiply( -1 * E * t / h );
         c.exp();
         return c;
-    }
-    
-    protected int flipRegionIndex( int regionIndex ) {
-        // OK if region index is out of bounds!
-        return getPotentialEnergy().getNumberOfRegions() - 1 - regionIndex;
     }
 }
