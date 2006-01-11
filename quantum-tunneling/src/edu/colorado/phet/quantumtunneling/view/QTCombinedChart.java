@@ -21,7 +21,6 @@ import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.AbstractWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 
 

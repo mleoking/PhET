@@ -15,9 +15,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.plot.XYPlot;
 
 import edu.colorado.phet.quantumtunneling.piccolo.JFreeChartNode;
 

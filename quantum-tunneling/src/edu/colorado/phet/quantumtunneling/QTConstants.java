@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import org.jfree.data.Range;
 

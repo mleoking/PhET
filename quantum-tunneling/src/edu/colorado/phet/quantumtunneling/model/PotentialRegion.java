@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import java.awt.geom.Point2D;
 
 
 /**

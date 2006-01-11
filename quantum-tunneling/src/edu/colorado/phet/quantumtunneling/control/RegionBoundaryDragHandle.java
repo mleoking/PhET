@@ -13,15 +13,12 @@ package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
-import edu.umd.cs.piccolo.PNode;
 
 
 /**

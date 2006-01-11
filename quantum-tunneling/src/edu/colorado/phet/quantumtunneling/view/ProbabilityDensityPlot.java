@@ -11,9 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.TickUnits;
