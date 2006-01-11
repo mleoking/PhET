@@ -56,6 +56,8 @@ JFREECHART:
 
 
 DONE:
+(1/10/06) - move drag handle classes into control package (since they are controls)
+(1/10/06) - move a bunch of constants into QTConstants
 (1/10/06) - rename SchrodingerSolver -> WavePacketSolver
 (1/10/06) - clean up Wave class hierarchy
 (1/10/06) - clean up integration of WavePacket in WaveFunctionPlot

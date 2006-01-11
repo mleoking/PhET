@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.view;
+package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -18,6 +18,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 
 
 /**
