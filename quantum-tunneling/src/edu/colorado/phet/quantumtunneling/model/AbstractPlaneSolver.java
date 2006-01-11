@@ -44,7 +44,7 @@ public abstract class AbstractPlaneSolver {
     public static final int RIGHT_TO_LEFT = 1;
     
     // Static term used to calculate k:  2 * m / h^2
-    private static final double K_COMMON = ( 2 * QTConstants.ELECTRON_MASS ) / ( QTConstants.PLANCKS_CONSTANT * QTConstants.PLANCKS_CONSTANT );
+    private static final double K_COMMON = ( 2 * QTConstants.MASS ) / ( QTConstants.HBAR * QTConstants.HBAR );
 
     private TotalEnergy _te;
     private AbstractPotential _pe;
@@ -254,7 +254,7 @@ public abstract class AbstractPlaneSolver {
      * @param E total energy
      */
     protected static Complex commonTerm3( final TotalEnergy te, final double t ) {
-        final double h = QTConstants.PLANCKS_CONSTANT;
+        final double h = QTConstants.HBAR;
         final double E = te.getEnergy();
         MutableComplex c = new MutableComplex();
         c.setValue( Complex.I );

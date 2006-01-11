@@ -47,8 +47,8 @@ public class QTConstants {
     // Clock
     //----------------------------------------------------------------------------
     
-    public static final int CLOCK_FRAME_RATE = 25; // frames per second 
-    public static final double CLOCK_STEP = 0.1; // fs
+    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
+    public static final double CLOCK_STEP = 0.1; // fs, femtoseconds (model time)
     
     /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
@@ -139,8 +139,8 @@ public class QTConstants {
     // Wave Function constants
     //----------------------------------------------------------------------------
     
-    public static final double PLANCKS_CONSTANT = 0.658;  // Planck's constant, in eV fs
-    public static final double ELECTRON_MASS = 5.7;  // mass, in eV/c^2
+    public static final double HBAR = 0.658;  // Planck's constant, in eV fs
+    public static final double MASS = 5.7;  // electron mass, in eV/c^2
     
     //----------------------------------------------------------------------------
     // Wave Packet
