@@ -11,19 +11,18 @@
 
 package edu.colorado.phet.solublesalts.view;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.RegisterablePNode;
-import edu.colorado.phet.piccolo.pswing.PSwing;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.WaterSource;
 import edu.colorado.phet.solublesalts.model.Spigot;
-import edu.colorado.phet.solublesalts.model.Drain;
-import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.solublesalts.model.WaterSource;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -31,10 +30,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 

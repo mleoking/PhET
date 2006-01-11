@@ -24,10 +24,14 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IonFlowManager implements Vessel.ChangeListener {
+public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListener {
 
-    private double speedFactor = 1E3;
-//    private double speedFactor = 1E5;
+    //-----------------------------------------------------------------
+    // Class data
+    //-----------------------------------------------------------------
+    public static double SPEED_FACTOR = 0.2E1;
+
+//    private double SPEED_FACTOR = 1E5;
     private SolubleSaltsModel model;
     private double lastDepth;
     private double lastChange;
@@ -35,6 +39,7 @@ public class IonFlowManager implements Vessel.ChangeListener {
     public IonFlowManager( SolubleSaltsModel model ) {
         this.model = model;
         model.getVessel().addChangeListener( this );
+        model.getDrain().addChangeListener( this );
     }
 
     public void stateChanged( Vessel.ChangeEvent event ) {
@@ -44,8 +49,8 @@ public class IonFlowManager implements Vessel.ChangeListener {
 
         // If the rate of water flowing out of the vessel is increasing,
         // increase the velocity of all ions toward the drain
-        if( change < 0 && change != lastChange ) {
-            double dChange = change - lastChange;
+        if( change < 0 /* && change != lastChange */) {
+
             lastChange = change;
             List ions = model.getIons();
             Drain drain = model.getDrain();
@@ -57,10 +62,54 @@ public class IonFlowManager implements Vessel.ChangeListener {
                 Vector2D v = ion.getVelocity();
                 Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
                                                   ion.getPosition().getY() - drain.getPosition().getY());
-                l.normalize().scale( dChange / ion.getPosition().distance( drain.getPosition() ) * speedFactor );
-//                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * speedFactor );
-                v.add( l );
+//                l.normalize().scale( change * SPEED_FACTOR );
+                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
+//                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
+
+                double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+                double beta =( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+
+                System.out.println( "alpha = " + Math.toDegrees( alpha ) );
+                System.out.println( "beta = " + Math.toDegrees( beta ));
+//                if( dChange )
+//                v.rotate( (alpha - v.getAngle() ) * change / newDepth );
+                System.out.println( "alpha - beta = " + (alpha - beta ));
+                v.rotate( (alpha - beta ) * 0.1 );
+                if( change != lastChange ) {
+                    v.add( l );
+                }
             }
+//        if( change < 0 && change != lastChange ) {
+//
+//            double dChange = change - lastChange;
+//
+////            System.out.println( "dChange = " + dChange );
+//            lastChange = change;
+//            List ions = model.getIons();
+//            Drain drain = model.getDrain();
+//            for( int i = 0; i < ions.size(); i++ ) {
+//                Ion ion = (Ion)ions.get( i );
+//                // The ion's velocity is increased by a vector pointing toward the drain, and of
+//                // a magnitude that has an inverse square relationship to the distance of the ion
+//                // to the drain
+//                Vector2D v = ion.getVelocity();
+//                Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
+//                                                  ion.getPosition().getY() - drain.getPosition().getY());
+////                l.normalize().scale( change * SPEED_FACTOR );
+//                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
+////                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
+//
+//                double alpha = l.getAngle();
+//
+//                System.out.println( "alpha = " + alpha );
+////                if( dChange )
+//                v.rotate( (alpha - v.getAngle() ) * change / newDepth );
+////                v.rotate( (alpha - v.getAngle() ) * 0.1 );
+//                v.add( l );
+//            }
         }
+    }
+
+    public void stateChanged( Spigot.ChangeEvent event ) {
     }
 }

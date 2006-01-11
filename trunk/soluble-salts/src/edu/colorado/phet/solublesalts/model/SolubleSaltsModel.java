@@ -104,7 +104,7 @@ public class SolubleSaltsModel extends BaseModel {
         addModelElement( waterSource );
         drain = new Drain( this,
                            new Point2D.Double( vessel.getLocation().getX() - vessel.getWallThickness(),
-                                               vessel.getLocation().getY() + vessel.getDepth() - 50 ),
+                                               vessel.getLocation().getY() + vessel.getDepth() - 30 ),
                            40, Drain.HORIZONTAL );
         addModelElement( drain );
 

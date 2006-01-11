@@ -14,6 +14,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.common.view.ModelSlider;
 //import edu.colorado.phet.common.view.components.ModelSlider;
 
@@ -55,6 +56,7 @@ public class OptionsMenu extends JMenu {
             }
         } );
 
+        // Random walk adjustment
         final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk...");
         randomWaltkThetaMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -86,6 +88,7 @@ public class OptionsMenu extends JMenu {
         } );
         optionsMenu.add( randomWaltkThetaMI );
 
+        // Binding distance adjustment
         final JMenuItem bindingDistanceMI = new JMenuItem( "Adjust binding distance...");
         bindingDistanceMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -121,5 +124,40 @@ public class OptionsMenu extends JMenu {
         } );
         optionsMenu.add( bindingDistanceMI );
 
+        // Drain flow effect on ions
+        final JMenuItem drainFlowMI = new JMenuItem( "Drain flow...");
+        drainFlowMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final JDialog dlg = new JDialog( frame, "Set drain flow effect on ions", false );
+                dlg.getContentPane().setLayout( new BorderLayout() );
+                final ModelSlider sldr = new ModelSlider( "Drain flow effect",
+                                                          "",
+                                                          0,
+                                                          1E2,
+                                                          IonFlowManager.SPEED_FACTOR,
+                                                          new DecimalFormat( "0.0E0"));
+//                sldr.setMajorTickSpacing( 1E1 );
+//                sldr.setPaintTicks( true );
+//                sldr.setPaintLabels( true );
+                sldr.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        IonFlowManager.SPEED_FACTOR = sldr.getValue();
+                    }
+                } );
+                dlg.getContentPane().add( sldr );
+                JButton btn = new JButton( "Close" );
+                btn.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        dlg.setVisible( false );
+                    }
+                } );
+                JPanel btnPnl = new JPanel( );
+                btnPnl.add( btn );
+                dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
+                dlg.pack();
+                dlg.setVisible( true );
+            }
+        } );
+        optionsMenu.add( drainFlowMI );
     }
 }
