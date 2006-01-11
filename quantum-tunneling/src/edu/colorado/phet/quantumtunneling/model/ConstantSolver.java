@@ -59,7 +59,7 @@ public class ConstantSolver extends AbstractPlaneSolver {
     public WaveFunctionSolution solve( final double x, final double t ) { 
         WaveFunctionSolution result = null;
         if ( isSolutionZero() ) {
-            result = new WaveFunctionSolution( x, t, new Complex( 0, 0 ), new Complex( 0, 0 ) );
+            result = new WaveFunctionSolution( x, t, Complex.ZERO, Complex.ZERO );
         }
         else {
             Complex k1 = getK( 0 );
