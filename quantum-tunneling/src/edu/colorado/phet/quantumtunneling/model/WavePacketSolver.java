@@ -18,7 +18,8 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * SchrodingerSolver solves the Schrodinger equation for 1 dimension.
+ * WavePacketSolver solves the wave function for a wave packet,
+ * by solving Schrodinger's equation for 1 dimension.
  * <p>
  * The propagation algorithm used herein was adapted from the implementation
  * by John Richardson, found at http://www.neti.no/java/sgi_java/WaveSim.html,
@@ -36,7 +37,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SchrodingerSolver {
+public class WavePacketSolver {
     
     //----------------------------------------------------------------------
     // Class data
@@ -80,14 +81,11 @@ public class SchrodingerSolver {
      * @param dx
      * @param dt
      */
-    public SchrodingerSolver( WavePacket wavePacket, double dx, double dt ) {
+    public WavePacketSolver( WavePacket wavePacket, double dx, double dt ) {
         
         _wavePacket = wavePacket;
         _dx = dx;
         _dt = dt;
-        
-        _dx = 0.09;//XXX temporarily decrease the number of sample points
-        _dt = 0.8 * MASS * _dx * _dx / HBAR;//XXX Richardson algorithm doesn't work without this specific value
                 
         _c1 = new MutableComplex();
         _c2 = new MutableComplex();
@@ -101,14 +99,30 @@ public class SchrodingerSolver {
     // Accessors
     //----------------------------------------------------------------------
     
+    /**
+     * Gets the position (x) coordinates of the wave function solution.
+     * 
+     * @return double[]
+     */
     public double[] getPositions() {
         return _positions;
     }
     
+    /**
+     * Gets the energy (y) coordinates of the wave function solution.
+     * 
+     * @return Complex[]
+     */
     public Complex[] getEnergies() {
         return _Psi;
     }
     
+    /**
+     * Sets the dx (position spacing) between sample points in the 
+     * wave function solution.
+     * 
+     * @param dx
+     */
     public void setDx( double dx ) {
         _dx = dx;
         update();
@@ -133,6 +147,8 @@ public class SchrodingerSolver {
     private void reset() {
 
         System.out.println( "SchrodingerSolver.reset" );//XXX
+        
+        _dt = 0.8 * MASS * _dx * _dx / HBAR;//XXX Richardson algorithm doesn't work without this specific value
         
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();

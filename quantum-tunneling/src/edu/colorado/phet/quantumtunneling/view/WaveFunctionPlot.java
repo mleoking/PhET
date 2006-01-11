@@ -191,7 +191,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( _wave != null && observable == _wave ) {
+        if ( _wave != null && _wave.isInitialized() && observable == _wave ) {
             updateDatasets();
         }
     }
@@ -201,39 +201,36 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
-
-        clearAllSeries();
-
-        if ( _wave == null ) {
-            // wave hasn't been set yet
-            return;
-        }
-        
-        TotalEnergy te = _wave.getTotalEnergy();
-        AbstractPotential pe = _wave.getPotentialEnergy();
-        if ( te == null || pe == null ) {
-            // wave is not initialized yet.
-            return;
-        }
-        
         if ( _wave instanceof PlaneWave ) {
-            updateDataSetPlaneWave();
+            updateDataSet( (PlaneWave) _wave );
         }
         else if ( _wave instanceof WavePacket ) {
-            updateDataSetWavePacket();
+            updateDataSet( (WavePacket) _wave );
         }
     }
     
-    private void updateDataSetPlaneWave() {
+    /*
+     * Updates the data sets using a PlaneWave.
+     * <p>
+     * The wave function solution for a PlaneWave is not dependent
+     * on any previous steps, so we can ask for the solution for
+     * any (x,t) pair.  The solution also provides separate 
+     * incident and reflected components.
+     * 
+     * @param PlaneWave
+     */
+    private void updateDataSet( PlaneWave planeWave ) {
+        
+        clearAllSeries();
         
         final double dx = QTConstants.POSITION_SAMPLE_STEP;
-        AbstractPotential pe = _wave.getPotentialEnergy();
+        AbstractPotential pe = planeWave.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 );
         final double maxX = pe.getEnd( numberOfRegions - 1 ) + dx;
 
         for ( double x = minX; x < maxX; x += dx ) {
-            WaveFunctionSolution solution = _wave.solveWaveFunction( x );
+            WaveFunctionSolution solution = planeWave.solveWaveFunction( x );
             if ( solution != null ) {
                 if ( _irView == IRView.SEPARATE ) {
                     // Display the incident and reflected waves separately.
@@ -270,13 +267,33 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         }
     }
     
-    private void updateDataSetWavePacket() {
-        WavePacket wavePacket = (WavePacket) _wave;
+    /*
+     * Updates the data sets using a WavePacket.
+     * <p>
+     * The wave function solution for a WavePacket is dependent on
+     * previous steps -- it uses a propogation algorithm.  We can't
+     * ask for the solution for specific (x,t) pairs.  We can only
+     * ask for the complete collection of sample points that were 
+     * calculated by the propogation algorithm.
+     * <p>
+     * The solution also does NOT provide separate incident and reflected 
+     * components. We are provided with the sum only, so the reflected
+     * data series will be empty.
+     * 
+     * @param wavePacket
+     */
+    private void updateDataSet( WavePacket wavePacket ) {
+        
+        clearAllSeries();
+        
+        // x coordinates...
         double[] positions = wavePacket.getSolver().getPositions();
+        // y coordinates...
         Complex[] psi = wavePacket.getSolver().getEnergies();
-        int numberOfPoints = positions.length;
+        
+        final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
-            double position = positions[i];
+            final double position = positions[i];
             Complex energy = psi[i];
             _incidentRealSeries.add( position, energy.getReal() );
             _incidentImaginarySeries.add( position, energy.getImaginary() );

@@ -87,6 +87,10 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         return _time;
     }
     
+    public boolean isInitialized() {
+        return ( _te != null && _pe != null );
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractWave implementation
     //----------------------------------------------------------------------------
