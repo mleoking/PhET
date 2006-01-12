@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
+import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -21,12 +21,35 @@ import java.io.IOException;
 
 public class EmfPanel extends ApparatusPanel implements TransformListener {
 
+    //----------------------------------------------------------------
+    // Static fields and methods
+    //----------------------------------------------------------------
+    private static EmfPanel s_instance;
+    public static final int NO_FIELD = 1;
+    public static final int FULL_FIELD = 2;
+    public static final int CURVE = 3;
+    public static final int CURVE_WITH_VECTORS = 4;
+    public static final int ALPHA_FOR_MAGNITUDE = 5;
+    public static final int VECTORS_CENTERED_ON_X_AXIS = 5;
+
+    private static void setInstance( EmfPanel panel ) {
+        s_instance = panel;
+    }
+
+    public static EmfPanel instance() {
+        return s_instance;
+    }
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     private FieldLatticeView fieldLatticeView;
     private Dimension size = new Dimension();
     private BufferedImage bi;
     private boolean useBufferedImage = false;
     private AffineTransform atx;
-    private BufferedImageGraphic backgroundImg;
+    private FastPaintImageGraphic backgroundImg;
 
     public void setUseBufferedImage( boolean useBufferedImage ) {
         this.useBufferedImage = useBufferedImage;
@@ -50,18 +73,14 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the background
         final BufferedImage im;
         try {
-            im = ImageLoader.loadBufferedImage( "images/background.gif" );
+            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "images/background.gif" ) );
             this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
-            backgroundImg = new BufferedImageGraphic( im );
+            backgroundImg = new FastPaintImageGraphic( im, this );
             addGraphic( backgroundImg, 0 );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-    }
-
-    public void setFieldCurvesVisible( boolean enabled ) {
-        fieldLatticeView.setFieldCurvesEnabled( enabled );
     }
 
     protected void paintComponent( Graphics graphics ) {
@@ -87,23 +106,6 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         fieldLatticeView.setTransform( atx );
     }
 
-    //
-    // Static fields and methods
-    //
-    private static EmfPanel s_instance;
-    public static int NO_FIELD = 1;
-    public static int FULL_FIELD = 2;
-    public static int CURVE = 3;
-    public static int CURVE_WITH_VECTORS = 4;
-
-    private static void setInstance( EmfPanel panel ) {
-        s_instance = panel;
-    }
-
-    public static EmfPanel instance() {
-        return s_instance;
-    }
-
     public void setAutoscaleEnabled( boolean enabled ) {
         fieldLatticeView.setAutoscaleEnabled( enabled );
     }
@@ -122,5 +124,9 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
 
     public void setFieldDisplay( int display ) {
         fieldLatticeView.setDisplay( display );
+    }
+
+    public void setCurveVisible( boolean visible ) {
+        fieldLatticeView.setCurveVisible( visible );
     }
 }

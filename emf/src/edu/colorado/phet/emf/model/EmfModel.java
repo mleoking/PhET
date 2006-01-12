@@ -22,17 +22,11 @@ public class EmfModel extends BaseModel {
     public EmfModel( AbstractClock clock ) {
 //        super( clock );
     }
-//    public EmfModel() {
-//    }
 
 
     public void clockTicked( AbstractClock iClock, double v ) {
-//    public void clockTicked( IClock iClock, double v ) {
-
         // This makes the clock static
         super.clockTicked( iClock, v );
-//        super.clockTicked( iClock, iClock.getDt() );
-//        super.clockTicked( iClock, iClock.getRequestedDT() );
     }
 
     public void addModelElement( ModelElement modelElement ) {
