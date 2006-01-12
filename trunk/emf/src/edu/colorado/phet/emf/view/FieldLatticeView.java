@@ -27,6 +27,46 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
     private static int curveStartingIdx = 1;
 
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
+    public final static int maxArrowHeadWidth = 10;
+    public final static Color curveColor = new Color( 200, 0, 0 );
+    public final static Color arrowRed = new Color( 200, 0, 0 );
+    public final static Color arrowGreen = new Color( 0, 100, 0 );
+    private static Color arrowColor = new Color( 255, 48, 48 );
+    private static int hollowArrowWidth = 5;
+    private static int hollowArrowHeadWidth = 10;
+//    private static int hollowArrowWidth = 10;
+//    private static int hollowArrowHeadWidth = 20;
+    private static BasicStroke hollowArrowStroke = new BasicStroke( 2 );
+    private static BasicStroke curveStroke = new BasicStroke( 2 );
+    public static final int ELECTRIC_FIELD = -1;
+    public static final int FORCE_ON_ELECTRON = 1;
+    private static int s_latticePtDiam = 5;
+    private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
+                                                                     s_latticePtDiam,
+                                                                     BufferedImage.TYPE_INT_ARGB );
+
+    static {
+        // Create a graphics context on the buffered image
+        Graphics2D g2d = s_latticePtImg.createGraphics();
+
+        // Draw on the image
+        //        g2d.setColor( Color.blue );
+        //        g2d.drawArc( 0, 0,
+        //                     2, 2,
+        //                     0, 360 );
+        //     g2d.fill(new Ellipse2D.Float( 0, 0, s_latticePtDiam, s_latticePtDiam ));
+        g2d.dispose();
+    }
+
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     // Note that transmittingElectronOrigin is the view transmittingElectronOrigin, NOT the transmittingElectronOrigin of the electron
     // emitting the field
     private Point transmittingElectronOrigin;
@@ -34,8 +74,11 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private int latticeSpacingY;
     private int numLatticePtsX;
     private int numLatticePtsY;
+    // The lattice points used for the full field view
     private FieldPt[] latticePts;
+    // The lattice points along the x axis that are used for arrows to the left of the transmitter
     private ArrayList latticePtsNeg = new ArrayList();
+    // The lattice points along the x axis that are used for arrows to the right of the transmitter
     private ArrayList latticePtsPos = new ArrayList();
     private AffineTransform[] latticeTx;
     private Electron sourceElectron;
@@ -47,13 +90,29 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private boolean displayDynamicField;
     private int fieldSense = FORCE_ON_ELECTRON;
     private int fieldDisplayType;
+    private boolean fieldDisplayAlphaEnabled = true;
+
     private ArrayList arrows = new ArrayList();
     private GeneralPath negPath;
     private GeneralPath posPath;
     // How far from the transmitting antenna the first field arrow is drawn
     private int firstArrowOffset = 25;
     private Component component;
+    private boolean curveVisible = true;
+    private boolean fixedSizeArrows = false;
+    private int fullAlphaFieldMagnitude = 100;
 
+    /**
+     * Constructor
+     *
+     * @param sourceElectron
+     * @param origin
+     * @param width
+     * @param height
+     * @param latticeSpacingX
+     * @param latticeSpacingY
+     * @param component
+     */
     public FieldLatticeView( Electron sourceElectron, Point origin,
                              int width, int height,
                              int latticeSpacingX, int latticeSpacingY,
@@ -115,12 +174,22 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
             Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
-            if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
+            if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS
+                || fieldDisplayType == EmfPanel.VECTORS_CENTERED_ON_X_AXIS ) {
                 g2.setColor( color );
                 g2.setStroke( hollowArrowStroke );
                 for( int i = 0; i < arrows.size(); i++ ) {
+
+                    // Set the alpha of the arrow, based on its length
+                    if( fieldDisplayAlphaEnabled ) {
+                        Arrow arrow = (Arrow)arrows.get( i );
+                        double m = arrow.getTipLocation().distance( arrow.getTailLocation() );
+                        double alpha = Math.min( 1, m / fullAlphaFieldMagnitude );
+                        GraphicsUtil.setAlpha( g2, alpha );
+                    }
                     Arrow arrow = (Arrow)arrows.get( i );
                     g2.draw( arrow.getShape() );
+                    GraphicsUtil.setAlpha( g2, 1 );
                 }
             }
 
@@ -128,41 +197,61 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
                 g2.setColor( curveColor );
                 g2.setStroke( curveStroke );
-                g2.draw( negPath );
-                g2.draw( posPath );
+                if( curveVisible ) {
+                    g2.draw( negPath );
+                    g2.draw( posPath );
+                }
             }
 
             if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
+
+                RenderingHints orgRH = g2.getRenderingHints();
+                GraphicsUtil.setAntiAliasingOn( g2 );
                 for( int i = 0; i < latticePts.length; i++ ) {
                     Vector2D f = latticePts[i].field.scale( fieldSense );
                     double l = f.getMagnitude();
+
                     if( l > 3 ) {
                         double theta = f.getAngle();
                         Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
                                                  maxArrowHeadWidth,
-                                                 maxArrowHeadWidth, 3, 0.5, true );
+                                                 maxArrowHeadWidth,
+                                                 3,
+                                                 0.5,
+                                                 true );
                         AffineTransform orgTx2 = g2.getTransform();
                         AffineTransform tx = latticePts[i].tx;
                         tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
                         tx.rotate( theta );
                         g2.transform( tx );
 
+                        // Set the alpha of the arrow, based on the magnitude of the field at this point
+                        if( fieldDisplayAlphaEnabled ) {
+                            double alpha = Math.min( 1, l / fullAlphaFieldMagnitude );
+                            GraphicsUtil.setAlpha( g2, alpha );
+                        }
                         g2.setColor( color );
+//                            g2.fill( arrow.getShape() );
                         g2.draw( arrow.getShape() );
-                        // GraphicsUtil.setAlpha( g2, 0.5 );
-                        g2.fill( arrow.getShape() );
-                        GraphicsUtil.setAlpha( g2, 1 );
                         g2.setTransform( orgTx2 );
                     }
                 }
+                GraphicsUtil.setAlpha( g2, 1.0 );
+                g2.setRenderingHints( orgRH );
             }
             g2.setTransform( orgTx );
+            GraphicsUtil.setAlpha( g2, 1.0 );
         }
         catch( java.lang.InternalError e ) {
             System.out.println( "Caught Internal Error: " + e.getMessage() );
         }
     }
 
+    /**
+     * Determines the field at specified FieldPt and sets its value
+     *
+     * @param fieldPt
+     */
     private void evaluateFieldPt( FieldPt fieldPt ) {
         Vector2D tf = null;
         if( displayStaticField && fieldDisplayType != EmfPanel.NO_FIELD ) {
@@ -186,12 +275,13 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         }
 
         if( fieldDisplayType == EmfPanel.CURVE
-            || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
+            || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS
+            || fieldDisplayType == EmfPanel.VECTORS_CENTERED_ON_X_AXIS ) {
+            // Set the field magnitudes for all the negative and positive arrows
             for( int i = 0; i < latticePtsNeg.size(); i++ ) {
                 FieldPt fieldPt = (FieldPt)latticePtsNeg.get( i );
                 evaluateFieldPt( fieldPt );
             }
-
             for( int i = 0; i < latticePtsPos.size(); i++ ) {
                 FieldPt fieldPt = (FieldPt)latticePtsPos.get( i );
                 evaluateFieldPt( fieldPt );
@@ -201,12 +291,10 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             if( negPath != null ) {
                 Rectangle negBounds = negPath.getBounds();
                 oldBounds.union( negBounds );
-//                component.repaint( negBounds.x, negBounds.y, negBounds.width, negBounds.height );
             }
             if( posPath != null ) {
                 Rectangle posBounds = posPath.getBounds();
                 oldBounds.union( posBounds );
-//                component.repaint( posBounds.x, posBounds.y, posBounds.width, posBounds.height );
             }
 
             this.negPath = createCurves( latticePtsNeg );
@@ -214,17 +302,14 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
             Rectangle negBounds = negPath.getBounds();
             oldBounds.union( negBounds );
-//            component.repaint( negBounds.x, negBounds.y, negBounds.width, negBounds.height );
             Rectangle posBounds = posPath.getBounds();
             oldBounds.union( posBounds );
-//            component.repaint( posBounds.x, posBounds.y, posBounds.width, posBounds.height );
 
             // For fast painting
             for( int i = 0; i < arrows.size(); i++ ) {
                 Arrow arrow = (Arrow)arrows.get( i );
                 Rectangle arrowBounds = arrow.getShape().getBounds();
                 oldBounds.union( arrowBounds );
-//                component.repaint( arrowBounds.x, arrowBounds.y, arrowBounds.width, arrowBounds.height );
             }
 
             arrows.clear();
@@ -236,7 +321,6 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 Arrow arrow = (Arrow)arrows.get( i );
                 Rectangle arrowBounds = arrow.getShape().getBounds();
                 oldBounds.union( arrowBounds );
-//                component.repaint( arrowBounds.x, arrowBounds.y, arrowBounds.width, arrowBounds.height );
             }
             component.repaint( oldBounds.x, oldBounds.y, oldBounds.width, oldBounds.height );
         }
@@ -249,24 +333,41 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             FieldPt fieldPt = (FieldPt)pts.get( i );
             int arrowDir = MathUtil.getSign( fieldPt.field.getY() ) * ( fieldSense == FORCE_ON_ELECTRON ? 1 : -1 );
             double magnitude = fieldPt.field.getMagnitude();
+            if( fixedSizeArrows ) {
+                magnitude = 50;
+            }
             if( magnitude > 0 ) {
-                arrows.add( new Arrow( fieldPt.location,
-                                       new Point2D.Double( fieldPt.getX(),
-                                                           fieldPt.getY() + magnitude * arrowDir ),
-                                       hollowArrowHeadWidth * 0.7, hollowArrowHeadWidth,
-                                       hollowArrowWidth, 0.5, false ) );
-
+                double y = fieldPt.getY() + magnitude * arrowDir;
+                Point2D tailLoc = new Point2D.Double( fieldPt.location.getX(), fieldPt.location.getY() );
+                y -= magnitude * arrowDir / 2;
+                tailLoc.setLocation( tailLoc.getX(), tailLoc.getY() - magnitude * arrowDir / 2 );
+                Arrow arrow = new Arrow( tailLoc,
+                                         new Point2D.Double( fieldPt.getX(), y ),
+                                         maxArrowHeadWidth,
+                                         maxArrowHeadWidth,
+                                         3,
+                                         0.5,
+                                         true );
+                arrows.add( arrow );
             }
         }
     }
 
+    /**
+     * @param pts
+     * @return
+     */
     private GeneralPath createCurves( ArrayList pts ) {
 
+        // We modify the amplitude of the curve because it is supposed to connect the heads of the vectors on
+        // the x axis that show the field strength, and those vectors are centered on the x axis. Their tails are
+        // not on the axis
+        double curveAmplitudeOffset = 0.5;
         FieldPt orig = (FieldPt)pts.get( curveStartingIdx );
         int xSign = MathUtil.getSign( orig.getX() - transmittingElectronOrigin.getX() );
         DoubleGeneralPath curve = new DoubleGeneralPath( orig.getX(),
-                                                         orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) );
-        double yLast = orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() );
+                                                         orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset );
+        double yLast = orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() * curveAmplitudeOffset );
         double yCurr = yLast;
         double xLimit = ( (FieldPt)pts.get( pts.size() - 1 ) ).getX();
         for( double x = orig.getX();
@@ -276,41 +377,12 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                                                                                    transmittingElectronOrigin.getY() ) );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
             if( yCurr != yLast ) {
-                curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr );
+                curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );
                 yLast = yCurr;
             }
         }
         curve.lineTo( xLimit, transmittingElectronOrigin.getY() + yCurr * xSign );
         return curve.getGeneralPath();
-    }
-
-    //    private float getAutoscaleFactor() {
-    //        float maxMag = 0;
-    //
-    //        // If the movement strategy is sinusoidal, then get the max field at the transmittingElectronOrigin,
-    //        // and use it as the scale factor. Note that the 5 in the expression is strictly
-    //        // empirical. I don't know why it looks right
-    //        if( SinusoidalMovement.class.isAssignableFrom( sourceElectron.getMovementStrategyType() ) ) {
-    //            maxMag = sourceElectron.getMaxAccelerationAtLocation( transmittingElectronOrigin ).getLength() / 5;
-    //        }
-    //        // If not sinusoidal, find the biggest vector in lattice and use it to determine
-    //        // the scale factor
-    //        else {
-    //            for( int i = 0; i < numLatticePtsY; i++ ) {
-    //                for( int j = 0; j < numLatticePtsX; j++ ) {
-    //                    float m = Math.max( maxMag, Math.max( latticePts[i][j].getX(), latticePts[i][j].getY() ) );
-    //                    if( !Float.isNaN( m ) ) {
-    //                        maxMag = m;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        // Determine the scale factor for the painting of the vectors
-    //        return latticeSpacingX / maxMag;
-    //    }
-
-    public void setFieldCurvesEnabled( boolean enabled ) {
-        //        this.fieldCurvesEnabled = enabled;
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
@@ -337,39 +409,17 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         this.atx = atx;
     }
 
-
-    //
-    // Statics
-    //
-    public final static int maxArrowHeadWidth = 10;
-    public final static Color curveColor = new Color( 200, 0, 0 );
-    public final static Color arrowRed = new Color( 200, 0, 0 );
-    public final static Color arrowGreen = new Color( 0, 100, 0 );
-    private static Color arrowColor = new Color( 255, 48, 48 );
-    private static int hollowArrowWidth = 10;
-    private static int hollowArrowHeadWidth = 20;
-    private static BasicStroke hollowArrowStroke = new BasicStroke( 2 );
-    private static BasicStroke curveStroke = new BasicStroke( 2 );
-    public static final int ELECTRIC_FIELD = -1;
-    public static final int FORCE_ON_ELECTRON = 1;
-    private static int s_latticePtDiam = 5;
-    private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
-                                                                     s_latticePtDiam,
-                                                                     BufferedImage.TYPE_INT_ARGB );
-
-    static {
-        // Create a graphics context on the buffered image
-        Graphics2D g2d = s_latticePtImg.createGraphics();
-
-        // Draw on the image
-        //        g2d.setColor( Color.blue );
-        //        g2d.drawArc( 0, 0,
-        //                     2, 2,
-        //                     0, 360 );
-        //     g2d.fill(new Ellipse2D.Float( 0, 0, s_latticePtDiam, s_latticePtDiam ));
-        g2d.dispose();
+    public void setCurveVisible( boolean visible ) {
+        curveVisible = visible;
     }
 
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     *
+     */
     private class FieldPt {
 
         Point2D.Double location;

@@ -25,11 +25,12 @@ ignorepath      (those elements of the ant classpath that should not be
 
     <!-- Project specific properties   -->
     <property file="build.properties"/>
+<!--    <echo message="addl-classpath: ${addl-classpath}"/>-->
     <!-- Created automatically for this project. Never modify this file-->
     <property file="build.number"/>
 
     <!--  Set ant output directories. They get made if they don't exist -->
-    <property name="project_home" value="../.."/>
+    <property name="project_home" value=".."/>
     <property name="ant.output" value="${project_home}/ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
@@ -37,14 +38,14 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="lib" location="${ant.output}/lib"/>
 
     <!-- Set current sister directories, for backup and release data. -->
-    <property name="development" location="${project_home}/development"/>
+    <property name="development" location="${project_home}"/>
     <property name="backup" location="${project_home}/backup"/>
     <property name="releases" location="${project_home}/releases"/>
 
     <!-- Set up child directories, for during the build.  -->
-    <property name="src" location="${project_home}/development/src"/>
-    <property name="data" location="${project_home}/development/data"/>
-    <property name="help" location="${project_home}/development/help"/>
+    <property name="src" location="${project_home}/src"/>
+    <property name="data" location="${project_home}/data"/>
+    <property name="help" location="${project_home}/help"/>
 
     <description>
         Build File.
@@ -90,7 +91,7 @@ ignorepath      (those elements of the ant classpath that should not be
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}">
+        <javac srcdir="${src}" destdir="${classes}" classpath="${addl-classpath}">
         </javac>
     </target>
 

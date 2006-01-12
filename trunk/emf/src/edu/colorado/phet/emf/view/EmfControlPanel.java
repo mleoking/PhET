@@ -9,7 +9,6 @@ package edu.colorado.phet.emf.view;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.EmfModule;
@@ -38,40 +37,26 @@ public class EmfControlPanel extends JPanel {
 
         this.addContainerListener( new ContainerAdapter() {
             public void componentRemoved( ContainerEvent e ) {
-                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
+                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
             }
         } );
-                this.addComponentListener( new ComponentAdapter() {
-                    public void componentResized( ComponentEvent e ) {
-                        EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
-                    }
-                } );
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
+            }
+        } );
     }
 
     private void createControls() {
-        JPanel container = this;
-        container.setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        try {
-            GraphicsUtil.addGridBagComponent( container, new Legend(),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( container, new MovementControlPane(),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( container, new OptionControlPane(),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
+        setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        add( new Legend(), gbc );
+        add( new MovementControlPane(), gbc );
+        add( new OptionControlPane(), gbc );
     }
 
     //
@@ -83,49 +68,73 @@ public class EmfControlPanel extends JPanel {
      * of various options
      */
     private class OptionControlPane extends JPanel {
-        //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
-        private JRadioButton fullFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.FullRadioButton" ) );
-        private JRadioButton splineCurveWVectorsRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
-        private JRadioButton splineCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
-        JRadioButton hideFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.NoneRadioButton" ) );
         private JCheckBox stripChartCB = new JCheckBox( SimStrings.get( "EmfControlPanel.StripChartCheckBox" ) );
         private JRadioButton staticFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.StaticFieldRadioButton" ) );
         private JRadioButton dynamicFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.RadiatedFieldRadioButton" ) );
-        private ButtonGroup fieldDisplayRBGroup;
 
+        private JRadioButton fullFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.FullRadioButton" ) );
+        private JRadioButton hideFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.NoneRadioButton" ) );
+        private ButtonGroup fieldDisplayRBGroup;
+        private JRadioButton centeredVectorRB;
+        private JRadioButton centeredVectorWCurveRB;
+        private JRadioButton curveRB;
+//        private JCheckBox curveVisibleCB;
+
+        /**
+         * Constructor
+         */
         OptionControlPane() {
 
             this.setLayout( new GridBagLayout() );
 
-            // Field vector display radio buttons
+            // Dynamic/static field selection
             ButtonGroup fieldTypeRBGroup = new ButtonGroup();
             fieldTypeRBGroup.add( dynamicFieldRB );
             fieldTypeRBGroup.add( staticFieldRB );
-            JPanel fieldVectorPane = new JPanel( new GridLayout( 2, 1 ) );
-            fieldVectorPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldVectorBorder" ) ) );
-            fieldVectorPane.add( dynamicFieldRB );
-            fieldVectorPane.add( staticFieldRB );
-
-            fieldDisplayRBGroup = new ButtonGroup();
-            fieldDisplayRBGroup.add( hideFieldRB );
-            hideFieldRB.addActionListener( new DisplayTypeRBActionListener() );
-            fieldDisplayRBGroup.add( splineCurveWVectorsRB );
-            splineCurveWVectorsRB.addActionListener( new DisplayTypeRBActionListener() );
-            fieldDisplayRBGroup.add( splineCurveRB );
-            splineCurveRB.addActionListener( new DisplayTypeRBActionListener() );
-            fieldDisplayRBGroup.add( fullFieldRB );
-            fullFieldRB.addActionListener( new DisplayTypeRBActionListener() );
-            JPanel fieldDisplayPane = new JPanel( new GridLayout( 4, 1 ) );
-            fieldDisplayPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
-            fieldDisplayPane.add( splineCurveWVectorsRB );
-            fieldDisplayPane.add( splineCurveRB );
-            fieldDisplayPane.add( fullFieldRB );
-            fieldDisplayPane.add( hideFieldRB );
-            //            fieldVectorPane.add( autoscaleCB );
-
+            JPanel fieldTypePane = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbcA = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                              GridBagConstraints.WEST,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+            fieldTypePane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldVectorBorder" ) ) );
+            fieldTypePane.add( dynamicFieldRB, gbcA );
+            fieldTypePane.add( staticFieldRB, gbcA );
             staticFieldRB.addActionListener( new FieldViewRBActionListener() );
             dynamicFieldRB.addActionListener( new FieldViewRBActionListener() );
+
+            // Field representation choices
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
+            hideFieldRB.addActionListener( new FieldViewRBActionListener() );
+            fullFieldRB.addActionListener( new FieldViewRBActionListener() );
+            centeredVectorRB = new JRadioButton( SimStrings.get( "EmfControlPanel.SingleLineOfVectors" ) );
+            centeredVectorRB.addActionListener( new FieldViewRBActionListener() );
+            centeredVectorWCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
+            centeredVectorWCurveRB.addActionListener( new FieldViewRBActionListener() );
+            curveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
+            curveRB.addActionListener( new FieldViewRBActionListener() );
+
+            fieldDisplayRBGroup = new ButtonGroup();
+            fieldDisplayRBGroup.add( curveRB );
+            fieldDisplayRBGroup.add( centeredVectorWCurveRB );
+            fieldDisplayRBGroup.add( centeredVectorRB );
+            fieldDisplayRBGroup.add( fullFieldRB );
+            fieldDisplayRBGroup.add( hideFieldRB );
+
+            // Set the default
+            curveRB.setSelected( true );
+
+            // Lay out the radio buttons
+            JPanel fieldRepPane = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbcB = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                              GridBagConstraints.WEST,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+            fieldRepPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
+            fieldRepPane.add( centeredVectorWCurveRB, gbcB );
+            fieldRepPane.add( centeredVectorRB, gbcB );
+            fieldRepPane.add( curveRB, gbcB );
+            fieldRepPane.add( fullFieldRB, gbcB );
+            fieldRepPane.add( hideFieldRB, gbcB );
 
             // Field sense options
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
@@ -149,19 +158,6 @@ public class EmfControlPanel extends JPanel {
             TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldSenseBorder" ) );
             fieldSensePane.setBorder( fieldSenseBorder );
 
-            // Option check boxes
-            //            autoscaleCB.addActionListener( new ActionListener() {
-            //                public void actionPerformed( ActionEvent e ) {
-            //                    module.setAutoscaleEnabled( autoscaleCB.isSelected() );
-            //                }
-            //            } );
-
-            splineCurveWVectorsRB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    new SetFieldCurveEnabledCmd( splineCurveWVectorsRB.isSelected() ).doIt();
-                }
-            } );
-
             stripChartCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartEnabled( stripChartCB.isSelected() );
@@ -175,21 +171,13 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
 
-            final JCheckBox useBufferedImageCB = new JCheckBox( SimStrings.get( "EmfControlPanel.UseBufferedImageCheckBox" ) );
-            useBufferedImageCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setUseBufferedImage( useBufferedImageCB.isSelected() );
-                }
-            } );
-            module.setUseBufferedImage( false );
-
             try {
                 int componentIdx = 0;
-                GraphicsUtil.addGridBagComponent( this, fieldVectorPane,
+                GraphicsUtil.addGridBagComponent( this, fieldTypePane,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, fieldDisplayPane,
+                GraphicsUtil.addGridBagComponent( this, fieldRepPane,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
@@ -207,51 +195,58 @@ public class EmfControlPanel extends JPanel {
             }
 
             // Set initial conditions
-            splineCurveWVectorsRB.setSelected( true );
-            this.setDisplayType();
-
-            fFieldRB.setSelected( true );
-
+            centeredVectorWCurveRB.setSelected( true );
             dynamicFieldRB.setSelected( true );
+            fFieldRB.setSelected( true );
             setFieldView();
-
-            //            autoscaleCB.setSelected( false );
-            //            module.setAutoscaleEnabled( autoscaleCB.isSelected() );
-
         }
 
-        private void setDisplayType() {
-            JRadioButton rb = SwingUtils.getSelection( fieldDisplayRBGroup );
-            int display = EmfPanel.NO_FIELD;
-            display = rb == fullFieldRB ? EmfPanel.FULL_FIELD : display;
-            display = rb == splineCurveRB ? EmfPanel.CURVE : display;
-            display = rb == splineCurveWVectorsRB ? EmfPanel.CURVE_WITH_VECTORS : display;
-            module.setFieldDisplay( display );
-            //            new SetFieldCurveEnabledCmd( splineCurveWVectorsRB.isSelected() ).doIt();
-        }
-
-        private class DisplayTypeRBActionListener implements ActionListener {
-            public void actionPerformed( ActionEvent e ) {
-                setDisplayType();
-            }
-        }
-
+        /**
+         * Handles the switch between dynamic and static field views,
+         * and various types of representations for the dynamic field
+         */
         private void setFieldView() {
+
             module.displayStaticField( staticFieldRB.isSelected() );
             module.displayDynamicField( dynamicFieldRB.isSelected() );
             new StaticFieldIsEnabledCmd( model, true ).doIt();
             new DynamicFieldIsEnabledCmd( model, true ).doIt();
 
-            splineCurveRB.setEnabled( dynamicFieldRB.isSelected() );
-            splineCurveWVectorsRB.setEnabled( dynamicFieldRB.isSelected() );
-
             // Takes care of turning off field curve if it was showing and
             // we have gone to the static field display
-            if( staticFieldRB.isSelected() && !hideFieldRB.isSelected() ) {
-                ButtonModel model = fullFieldRB.getModel();
-                fieldDisplayRBGroup.setSelected( model, true );
-                setDisplayType();
+            boolean isEnabled = false;
+            if( staticFieldRB.isSelected() ) {
+                isEnabled = false;
+                fullFieldRB.setSelected( true );
             }
+            else if( dynamicFieldRB.isSelected() ) {
+                isEnabled = true;
+            }
+            hideFieldRB.setEnabled( isEnabled );
+            centeredVectorRB.setEnabled( isEnabled );
+            curveRB.setEnabled( isEnabled );
+            centeredVectorWCurveRB.setEnabled( isEnabled );
+
+
+            int display = EmfPanel.NO_FIELD;
+            JRadioButton rb = GraphicsUtil.getSelection( fieldDisplayRBGroup );
+            display = rb == fullFieldRB ? EmfPanel.FULL_FIELD : display;
+            if( fullFieldRB.isSelected() ) {
+                display = EmfPanel.FULL_FIELD;
+            }
+            if( centeredVectorRB.isSelected() ) {
+                display = EmfPanel.VECTORS_CENTERED_ON_X_AXIS;
+            }
+            if( hideFieldRB.isSelected() ) {
+                display = EmfPanel.NO_FIELD;
+            }
+            if( curveRB.isSelected() ) {
+                display = EmfPanel.CURVE;
+            }
+            if( centeredVectorWCurveRB.isSelected() ) {
+                display = EmfPanel.CURVE_WITH_VECTORS;
+            }
+            module.setFieldDisplay( display );
         }
 
         private class FieldViewRBActionListener implements ActionListener {
@@ -356,10 +351,6 @@ public class EmfControlPanel extends JPanel {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.CENTER );
-                //                GraphicsUtil.addGridBagComponent( this, coordinateFACB,
-                //                                                  0, componentIdx++, 1, 1,
-                //                                                  GridBagConstraints.NONE,
-                //                                                  GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
@@ -405,7 +396,7 @@ public class EmfControlPanel extends JPanel {
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "EmfControlPanel.ElectronLabel" ),
-                                                  electronImg, SwingConstants.LEFT ),
+                                                                    electronImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
