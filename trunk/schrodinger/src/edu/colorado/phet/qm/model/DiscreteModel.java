@@ -173,6 +173,10 @@ public class DiscreteModel implements ModelElement {
         detectorSet.gunFired();
     }
 
+    public CompositePotential getCompositePotential() {
+        return compositePotential;
+    }
+
     class DefaultPropagate implements PropagationStrategy {
         public void step() {
             defaultPropagate();

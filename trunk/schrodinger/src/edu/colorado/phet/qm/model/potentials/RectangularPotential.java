@@ -13,7 +13,7 @@ import edu.colorado.phet.qm.model.RectangularObject;
 
 public class RectangularPotential extends RectangularObject implements Potential {
 
-    private double potential;
+    private double potential = Double.MAX_VALUE / 100.0;
 
     public RectangularPotential( int x, int y, int width, int height ) {
         super( x, y, width, height );
