@@ -43,7 +43,7 @@ import java.awt.*;
 public class SolubleSaltsApplication extends PhetApplication {
 
 
-    private static IClock CLOCK = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT);
+    private static IClock CLOCK = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
 
     public SolubleSaltsApplication( String[] args ) {
         super( args,

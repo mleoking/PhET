@@ -65,7 +65,8 @@ public class SolubleSaltsConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
 //    public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet.png";
-    public static final Color WATER_COLOR = new Color( 214, 244, 255 );
+    public static final Color WATER_COLOR = new Color( 200, 230, 255 );
+//    public static final Color WATER_COLOR = new Color( 214, 244, 255 );
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";

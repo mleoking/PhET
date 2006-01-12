@@ -96,9 +96,9 @@ public class VesselGraphic extends PNode {
             String str = Integer.toString( (int)( vessel.getDepth() - y ));
             PText text = new PText( str);
             Font orgFont = text.getFont();
-            Font newFont = new Font( orgFont.getName(), orgFont.getStyle(), orgFont.getSize() + 4 );
+            Font newFont = new Font( orgFont.getName(), orgFont.getStyle(), orgFont.getSize() + 12 );
             text.setFont( newFont );
-            text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 8 );
+            text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 14 );
             addChild( text );
         }
     }
