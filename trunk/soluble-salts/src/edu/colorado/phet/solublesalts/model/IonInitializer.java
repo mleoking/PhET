@@ -24,7 +24,8 @@ import java.util.Random;
  */
 public class IonInitializer {
     private static Random random = new Random( System.currentTimeMillis() );
-    private static double vMax = 4;
+    private static double vMax = 3;
+    private static double vMin = 1;
 
     public static void initialize( Ion ion, SolubleSaltsModel model ) {
         ion.setPosition( genIonPosition( ion, model ) );
@@ -52,8 +53,8 @@ public class IonInitializer {
      * @return
      */
     private static Vector2D genIonVelocity() {
-        return new Vector2D.Double( random.nextDouble() * vMax * ( random.nextBoolean() ? 1 : -1 ),
-                                    random.nextDouble() * vMax * ( random.nextBoolean() ? 1 : -1 ) );
+        return new Vector2D.Double( ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ),
+                                    (random.nextDouble() * ( vMax - vMin ) + vMin )* ( random.nextBoolean() ? 1 : -1 ) );
     }
 
 }

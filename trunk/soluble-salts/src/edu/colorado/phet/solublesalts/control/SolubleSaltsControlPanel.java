@@ -60,10 +60,11 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
         saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
         saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
-        saltMap.put( "Mercury Bromide", new MercuryBromide() );
+//        saltMap.put( "Mercury Bromide", new MercuryBromide() );
     }
 
-    static private String defaultSalt = "Mercury Bromide";
+    static private String defaultSalt = "Silver Iodide";
+//    static private String defaultSalt = "Mercury Bromide";
 
     static private HashMap ionClassToName = new HashMap();
 

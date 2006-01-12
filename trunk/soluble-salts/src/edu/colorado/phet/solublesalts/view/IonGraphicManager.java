@@ -89,20 +89,23 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Silver ) {
-            ig.setColor( Color.gray  );
+            ig.setColor( Color.black  );
             ig.setPolarityMarkerColor( Color.black );
             ionClassRecognized = true;
         }
         if( ion instanceof Iodine ) {
-            ig.setColor( Color.magenta );
+//            ig.setColor( Color.magenta );
+            ig.setColor( new Color(140, 100, 15) );
             ionClassRecognized = true;
         }
         if( ion instanceof Copper ) {
-            ig.setColor( Color.cyan );
+            ig.setColor( new Color(4, 160, 80) );
+//            ig.setColor( Color.cyan );
             ionClassRecognized = true;
         }
         if( ion instanceof Hydroxide ) {
-            ig.setColor( Color.orange );
+//            ig.setColor( Color.orange );
+            ig.setColor( new Color(255,90,13) );
             ionClassRecognized = true;
         }
         if( ion instanceof Chromium ) {
@@ -110,11 +113,11 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Strontium ) {
-            ig.setColor( new Color( 180, 0, 180 ) );
+            ig.setColor( new Color( 160, 0, 200 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Phosphate ) {
-            ig.setColor( new Color( 100, 200, 160 ) );
+            ig.setColor( new Color(20, 140, 30 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Mercury ) {
