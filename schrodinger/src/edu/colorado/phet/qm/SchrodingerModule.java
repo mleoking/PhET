@@ -218,4 +218,10 @@ public class SchrodingerModule extends PiccoloModule {
             getSchrodingerPanel().removeDetectorGraphic( discreteModel.getDetectorSet().detectorAt( 0 ) );
         }
     }
+
+    public void removeAllPotentialBarriers() {
+        while( discreteModel.getCompositePotential().numPotentials() > 0 ) {
+            getDiscreteModel().removePotential( discreteModel.getCompositePotential().potentialAt( 0 ) );
+        }
+    }
 }
