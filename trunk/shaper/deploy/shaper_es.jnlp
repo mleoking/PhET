@@ -25,9 +25,7 @@ information.
     <homepage href="docs/help.html"/> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
-<!--
-    <offline-allowed/> 
--->
+    <offline-allowed/>
   </information> 
   <resources> 
     <j2se version="1.4+"/> 

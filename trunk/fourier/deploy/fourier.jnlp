@@ -27,9 +27,7 @@ information.
     <description kind="short"></description> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
-<!--
-    <offline-allowed/> 
--->
+    <offline-allowed/>
   </information> 
   <resources> 
     <j2se version="1.4+"/> 
