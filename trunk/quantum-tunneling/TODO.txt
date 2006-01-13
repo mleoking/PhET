@@ -56,8 +56,9 @@ JFREECHART:
 
 
 DONE:
+(1/13/06) - replace my HSV-to-RGB converter with Color.getHSBColor
 (1/13/06) - set phase view color based on phase angle
-(1/13/06) - implement HSV to RGB color converter
+(1/13/06) - implement HSV-to-RGB color converter
 (1/13/06) - fix phase curve shape
 (1/12/06) - disable phase view in separate mode for plane waves
 (1/12/06) - implement custom renderer for phase view (color not correct yet)

@@ -27,23 +27,54 @@ import org.jfree.ui.RectangleEdge;
 
 
 /**
- * PhaseRenderer
+ * PhaseRenderer renders a "phase view" data series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class PhaseRenderer extends AbstractXYItemRenderer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // number of point in our polygons
     private static int POLYGON_POINTS = 4;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    // coordinates used to describe a polygon
     private int _xCoordinates[], _yCoordinates[];
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public PhaseRenderer() {
         super();
         _xCoordinates = new int[POLYGON_POINTS];
         _yCoordinates = new int[POLYGON_POINTS];
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractXYItemRenderer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Draws an item in the dataset.
+     * <p>
+     * The dataset consists of interleaved magnitude and phase values
+     * (in that order). When drawing a magnitude/phase pair (M1,P1), 
+     * we look ahead at the next pair (M2,P2).  M1 and M2 are used to
+     * construct a 4-sided polygon, which is filled using a color
+     * based on P1.  (P2 is ignored.)  The color is created by performing
+     * and HSV-to-RGB conversion using P1 as the hue component.
+     */
     public void drawItem( 
             Graphics2D g2, 
             XYItemRendererState state, 
@@ -105,6 +136,18 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         g2.fillPolygon( _xCoordinates, _yCoordinates, POLYGON_POINTS );
     }
     
+    //----------------------------------------------------------------------------
+    // Misc.
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Determines if an item is visible.
+     * Note that there are many levels of visibility, and JFreeChart's 
+     * renderers are very inconsitent in their support of visibility.
+     * 
+     * @param series
+     * @param item
+     */
     private boolean isVisible( int series, int item ) {
         return ( getSeriesVisible().booleanValue() && isSeriesVisible( series ) && getItemVisible( series, item ) );
     }
@@ -115,72 +158,7 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
      * @param phase phase angle, in radians
      */
     private Color phaseToRGB( double phase ) {
-        double H = Math.toDegrees( phase ) % 360.0; // H range: 0-360
-        if ( H < 0 ) {
-            H = 360.0 - ( Math.abs( H ) % 360.0 );
-        }
-        return HSVtoRGB( H, 1.0 /* S */, 1.0 /* V */);
-    }
-    
-    /*
-     * HSV to RGB colorspace conversion algorithm, 
-     * from http://en.wikipedia.org/wiki/HSV_color_space.
-     * 
-     * @param H hue, 0.0 inclusive to 360.0 exclusive
-     * @param S saturation. 0.0 to 1.0
-     * @param V brightness, 0.0 to 1.0
-     * @return RGB color
-     */
-    private Color HSVtoRGB( double H, double S, double V ) {
-        assert( H >= 0 && H < 360 );
-        assert( S >= 0 && S <= 1 );
-        assert( V >= 0 && V <= 1 );
-        
-        double R, G, B;
-        if ( S == 0 ) {
-            R = G = B = V;
-        }
-        else {
-            final int Hi = (int) ( Math.floor( H / 60 ) % 6 );
-            final double f = ( H / 60 ) - Hi;
-            final double p = V * ( 1 - S );
-            final double q = V * ( 1 - ( f * S ) );
-            final double t = V * ( 1 - ( ( 1 - f ) * S ) );
-            switch ( Hi ) {
-            case 0:
-                R = V;
-                G = t;
-                B = p;
-                break;
-            case 1:
-                R = q;
-                G = V;
-                B = p;
-                break;
-            case 2:
-                R = p;
-                G = V;
-                B = t;
-                break;
-            case 3:
-                R = p;
-                G = q;
-                B = V;
-                break;
-            case 4:
-                R = t;
-                G = p;
-                B = V;
-                break;
-            case 5:
-                R = V;
-                G = p;
-                B = q;
-                break;
-            default:
-                throw new IllegalStateException( "Hi is out of range: " + Hi );
-            }
-        }
-        return new Color( (float)R, (float)G, (float)B );
+        float H = ( (float) Math.toDegrees( phase ) % 360f ) / 360f;
+        return Color.getHSBColor( H, 1f, 1f );
     }
 }
