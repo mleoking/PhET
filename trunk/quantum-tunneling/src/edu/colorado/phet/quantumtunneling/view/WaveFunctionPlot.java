@@ -58,21 +58,19 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
     private XYSeries _incidentMagnitudeSeries;
-    private XYSeries _incidentPhaseSeries;
     private XYSeries _reflectedRealSeries;
     private XYSeries _reflectedImaginarySeries;
     private XYSeries _reflectedMagnitudeSeries;
-    private XYSeries _reflectedPhaseSeries;
+    private XYSeries _phaseSeries;
     private XYSeries _probabilityDensitySeries;
     
     private int _incidentRealIndex;
     private int _incidentImaginaryIndex;
     private int _incidentMagnitudeIndex;
-    private int _incidentPhaseIndex;
     private int _reflectedRealIndex;
     private int _reflectedImaginaryIndex;
     private int _reflectedMagnitudeIndex;
-    private int _reflectedPhaseIndex;
+    private int _phaseIndex;
     
     private IRView _irView;
     
@@ -166,26 +164,15 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             setRenderer( _reflectedMagnitudeIndex, renderer );
         }
         
-        // Incident Phase
+        // Phase (sum only)
         {
-            _incidentPhaseIndex = index++;
-            _incidentPhaseSeries = new XYSeries( "incident phase", AUTO_SORT );
+            _phaseIndex = index++;
+            _phaseSeries = new XYSeries( "phase", AUTO_SORT );
             XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _incidentPhaseSeries );
-            setDataset( _incidentPhaseIndex, dataset );
+            dataset.addSeries( _phaseSeries );
+            setDataset( _phaseIndex, dataset );
             PhaseRenderer renderer = new PhaseRenderer();
-            setRenderer( _incidentPhaseIndex, renderer );
-        }
-        
-        // Reflected Phase
-        {
-            _reflectedPhaseIndex = index++;
-            _reflectedPhaseSeries = new XYSeries( "reflected phase", AUTO_SORT );
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _reflectedPhaseSeries );
-            setDataset( _reflectedPhaseIndex, dataset );
-            PhaseRenderer renderer = new PhaseRenderer();
-            setRenderer( _reflectedPhaseIndex, renderer );
+            setRenderer( _phaseIndex, renderer );
         }
         
         // Probability Density
@@ -263,9 +250,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     }
     
     public void setPhaseVisible( boolean visible ) {
-        getRenderer( _incidentPhaseIndex ).setSeriesVisible( new Boolean( visible ) );
-        getRenderer( _reflectedPhaseIndex ).setSeriesVisible( new Boolean( visible ) );
-        System.out.println( getRenderer( _incidentPhaseIndex ).getSeriesVisible() );//XXX
+        getRenderer( _phaseIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
     public void setIRView( IRView irView ) {
@@ -333,7 +318,6 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _incidentRealSeries.add( x, incidentPart.getReal() );
                         _incidentImaginarySeries.add( x, incidentPart.getImaginary() );
                         _incidentMagnitudeSeries.add( x, incidentPart.getAbs() );
-                        _incidentPhaseSeries.add( x, incidentPart.getPhase() );
                     }
 
                     Complex reflectedPart = solution.getReflectedPart();
@@ -341,7 +325,6 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _reflectedRealSeries.add( x, reflectedPart.getReal() );
                         _reflectedImaginarySeries.add( x, reflectedPart.getImaginary() );
                         _reflectedMagnitudeSeries.add( x, reflectedPart.getAbs() );
-                        _reflectedPhaseSeries.add( x, reflectedPart.getPhase() );
                     }
 
                     Complex sum = solution.getSum();
@@ -357,7 +340,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _incidentRealSeries.add( x, sum.getReal() );
                         _incidentImaginarySeries.add( x, sum.getImaginary() );
                         _incidentMagnitudeSeries.add( x, sum.getAbs() );
-                        _incidentPhaseSeries.add( x, sum.getPhase() );
+                        _phaseSeries.add( x, sum.getPhase() );
                         _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
                     }
                 }
@@ -396,7 +379,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             _incidentRealSeries.add( position, energy.getReal() );
             _incidentImaginarySeries.add( position, energy.getImaginary() );
             _incidentMagnitudeSeries.add( position, energy.getAbs() );
-            _incidentPhaseSeries.add( position, energy.getAbs() );
+            _phaseSeries.add( position, energy.getAbs() );
             _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
         }
     }
@@ -408,11 +391,10 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries.clear();
         _incidentImaginarySeries.clear();
         _incidentMagnitudeSeries.clear();
-        _incidentPhaseSeries.clear();
         _reflectedRealSeries.clear();
         _reflectedImaginarySeries.clear();
         _reflectedMagnitudeSeries.clear();
-        _reflectedPhaseSeries.clear();
+        _phaseSeries.clear();
         _probabilityDensitySeries.clear();
     }
     
@@ -430,11 +412,10 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries.setNotify( notify );
         _incidentImaginarySeries.setNotify( notify );
         _incidentMagnitudeSeries.setNotify( notify );
-        _incidentPhaseSeries.setNotify( notify );
         _reflectedRealSeries.setNotify( notify );
         _reflectedImaginarySeries.setNotify( notify );
         _reflectedMagnitudeSeries.setNotify( notify );
-        _reflectedPhaseSeries.setNotify( notify );
+        _phaseSeries.setNotify( notify );
         _probabilityDensitySeries.setNotify( notify );
     }
 }

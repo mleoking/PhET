@@ -57,6 +57,7 @@ JFREECHART:
 
 
 DONE:
+(1/11/06) - disable phase view in separate mode for plane waves
 (1/11/06) - implement custom renderer for phase view (color not correct yet)
 (1/11/06) - use a separate renderer for each series in WaveFunctionPlot
 (1/11/06) - temporarily increase the # of steps per clock tick for Richardson algorithm
