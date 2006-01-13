@@ -65,9 +65,8 @@ public class PacketTotalEnergyRenderer extends AbstractXYItemRenderer {
      * Sole constructor.
      * 
      * @param bandHeight the height of the band, in model coordinates
-     * @param series the series that contains the total energy data
      */
-    public PacketTotalEnergyRenderer( double bandHeight, int series ) {
+    public PacketTotalEnergyRenderer( double bandHeight ) {
         super();
         if ( bandHeight <= 0 ) {
             throw new IllegalArgumentException( "bandWidth must be > 0: " + bandHeight );
