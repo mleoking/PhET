@@ -20,8 +20,11 @@ import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
 
+import javax.swing.*;
 import java.util.Locale;
 import java.util.logging.Logger;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EmfApplication {
 
@@ -45,7 +48,7 @@ public class EmfApplication {
         
 
         // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.init( args, Config.localizedStringsPath );
+        SimStrings.init( args, EmfConfig.localizedStringsPath );
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
@@ -57,10 +60,6 @@ public class EmfApplication {
             }
         }
 
-//        GuidedInquiry gi = null;
-//        Script script = null;
-
-//        AbstractClock clock = new SwingTimerClock( 1.5, 60, false );
         SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
         Module antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
@@ -74,8 +73,6 @@ public class EmfApplication {
         appDescriptor.setName( "radiowaves" );
 
         PhetApplication application = new PhetApplication( appDescriptor );
-//        PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
-//                                                           clock);
         PhetFrame frame = application.getApplicationView().getPhetFrame();
         PhetFrame.setDefaultLookAndFeelDecorated( true );
         frame.setIconImage( lookAndFeel.getSmallIconImage() );
@@ -86,9 +83,6 @@ public class EmfApplication {
                     try {
                         String giUrl = args[i + 1];
                         logger.info( "Loading gi: " + giUrl );
-//                        GILoader giLoader = new GILoader();
-//                        gi = giLoader.loadGI( giUrl );
-//                        script = new Script( gi, application );
                     }
                     catch( Exception e ) {
                         logger.severe( "Error loading and instantiating gi" );
@@ -97,14 +91,21 @@ public class EmfApplication {
             }
         }
 
+        // Add an options menu
+        JMenu optionsMenu = new JMenu( "Options" );
+        final JCheckBoxMenuItem centerSingleVectorRowOffsetMI = new JCheckBoxMenuItem( "Center vectors on x axis");
+        centerSingleVectorRowOffsetMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                EmfConfig.SINGLE_VECTOR_ROW_OFFSET = centerSingleVectorRowOffsetMI.isSelected() ?
+                                                     0.5 : 0;
+            }
+        } );
+        optionsMenu.add( centerSingleVectorRowOffsetMI );
+        centerSingleVectorRowOffsetMI.setSelected( true );
+        frame.addMenu( optionsMenu );
+
         Runtime.getRuntime().gc();
         application.startApplication();
-//        application.startApplication( antennaModule );
-
-//        if( gi != null ) {
-//            LaunchGuidedInquiryCmd lgiCmd = new LaunchGuidedInquiryCmd( application, script );
-//            lgiCmd.doIt();
-//        }
     }
 
 }

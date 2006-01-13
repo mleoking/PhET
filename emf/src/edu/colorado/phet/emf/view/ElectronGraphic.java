@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
@@ -85,7 +85,7 @@ public class ElectronGraphic extends BufferedImageGraphic
     //
     private static final int s_radius = 10;
     private static final float s_springConst = 10;
-    static String s_imageName = Config.bigElectronImg;
+    static String s_imageName = EmfConfig.bigElectronImg;
     static BufferedImage s_particleImage;
 
     static {
