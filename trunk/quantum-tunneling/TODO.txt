@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- set phase colors based on Psi values
 - split JFreeCharts into separate charts for plots and backgrounds
-- implement phase view using Brock Univ code
 - implement "Measure" feature
 
 MEDIUM PRIORITY:
