@@ -29,12 +29,6 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
 public class WavePacket extends AbstractWave implements Observer, ClockListener {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int STEPS_PER_CLOCK_TICK = 3;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -188,7 +182,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled ) {
-            for ( int i = 0; i < STEPS_PER_CLOCK_TICK; i++ ) {
+            for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
                 _solver.propogate();
             }
             notifyObservers();

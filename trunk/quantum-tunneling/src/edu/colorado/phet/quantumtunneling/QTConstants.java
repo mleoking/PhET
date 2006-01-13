@@ -201,4 +201,7 @@ public class QTConstants {
     public static final double MIN_PACKET_CENTER = POSITION_RANGE.getLowerBound(); // nm
     public static final double MAX_PACKET_CENTER = POSITION_RANGE.getUpperBound(); // nm
     public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
+    
+    // Richardson algorithm parameters
+    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40;
 }
