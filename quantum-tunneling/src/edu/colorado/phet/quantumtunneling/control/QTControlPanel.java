@@ -625,6 +625,17 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private void handleIRViewSelection() {
         _module.setIRView( getIRView() );
+        if ( getWaveType() == WaveType.PLANE ) {
+            if ( getIRView() == IRView.SEPARATE ) {
+                // phase view is not supported in separate mode for plane waves
+                _phaseCheckBox.setEnabled( false );
+                _phaseCheckBox.setSelected( false );
+                handlePhaseSelection();
+            }
+            else {
+                _phaseCheckBox.setEnabled( true );
+            }
+        }
     }
     
     private void handleDirectionSelection() {
@@ -645,6 +656,7 @@ public class QTControlPanel extends AbstractControlPanel {
             _separateRadioButton.setEnabled( false );
             _sumRadioButton.setSelected( true );
             handleIRViewSelection();
+            _phaseCheckBox.setEnabled( true );
             _propertiesButton.setEnabled( true );
             _propertiesPanel.setVisible( false );
             _module.setWaveType( WaveType.PACKET );
