@@ -89,11 +89,9 @@ public class QTConstants {
     public static final Color INCIDENT_REAL_WAVE_COLOR = Color.RED;
     public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = Color.BLUE;
     public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.BLACK;
-    public static final Color INCIDENT_PHASE_WAVE_COLOR = Color.BLACK;
     public static final Color REFLECTED_REAL_WAVE_COLOR = INCIDENT_REAL_WAVE_COLOR;
     public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
     public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
-    public static final Color REFLECTED_PHASE_WAVE_COLOR = INCIDENT_PHASE_WAVE_COLOR;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     public static final Color REGION_MARKER_COLOR = Color.BLACK;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
