@@ -145,8 +145,6 @@ public class WavePacketSolver {
      * Sets the initial conditions.
      */
     private void reset() {
-
-        System.out.println( "SchrodingerSolver.reset" );//XXX
         
         boolean zero = isSolutionZero();
         
