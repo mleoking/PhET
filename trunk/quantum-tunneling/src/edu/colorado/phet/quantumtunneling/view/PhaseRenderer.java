@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.color.ColorSpace;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
@@ -23,8 +24,6 @@ import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRendererState;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleEdge;
-
-import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
 /**
@@ -64,16 +63,22 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
             return;
         }
         
-        // there is no corresponding polygon for the last data point...
-        if ( item == dataset.getItemCount( series ) - 1 ) {
+        // every other item is a phase angle...
+        if ( item % 2 == 1 ) {
             return;
         }
         
-        // get 2 adjacent data points...
+        // there is no corresponding polygon for the last 2 items...
+        if ( item == dataset.getItemCount( series ) - 2 ) {
+            return;
+        }
+        
+        // get 2 adjacent data points and phase...
         double x1 = dataset.getXValue( series, item );
         double y1 = dataset.getYValue( series, item );
-        double x2 = dataset.getXValue( series, item + 1 );
-        double y2 = dataset.getYValue( series, item + 1 );
+        double x2 = dataset.getXValue( series, item + 2 );
+        double y2 = dataset.getYValue( series, item + 2 );
+        double phase = dataset.getYValue( series, item + 1 );
 
         // translate the points to screen coordinates...
         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
@@ -85,8 +90,8 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         double ty2 = rangeAxis.valueToJava2D( y2, dataArea, yAxisLocation );
 
         // determine the color that corresponds to the phase...
-//        g2.setPaint( VisZ( Psi[item] ) );
-        g2.setPaint( Color.BLUE );//XXX
+        Color color = phaseToRGB( phase );
+        g2.setPaint( color );
         
         // fill the area under the curve between the two data points...
         _xCoordinates[0] = (int) tx1;
@@ -99,39 +104,83 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         _yCoordinates[3] = (int) ty0;
         g2.fillPolygon( _xCoordinates, _yCoordinates, POLYGON_POINTS );
     }
-
-    /**
-     * This method was lifted from Brock University's modified Richardson program at
-     * http://www.physics.brocku.ca/faculty/sternin/teaching/mirrors/qm/packet/wave-map.html
-     * 
-     * @param z
-     * @return
-     */
-    private Color VisZ( Complex z ) {
-
-        final double x = z.getReal();
-        final double y = z.getImaginary();
-        final double r = Math.sqrt( x * x + y * y );
-        final double a = 0.40824829046386301636 * x;
-        final double b = 0.70710678118654752440 * y;
-        
-        double red, green, blue, d;
-        d = 1.0 / ( 1. + r * r );
-        red = 0.5 + 0.81649658092772603273 * x * d;
-        green = 0.5 - d * ( a - b );
-        blue = 0.5 - d * ( a + b );
-        d = 0.5 - r * d;
-        if ( r < 1 ) {
-            d = -d;
-        }
-        red += d;
-        green += d;
-        blue += d;
-        
-        return ( new Color( (float) red, (float) green, (float) blue ) );
-    }
     
     private boolean isVisible( int series, int item ) {
         return ( getSeriesVisible().booleanValue() && isSeriesVisible( series ) && getItemVisible( series, item ) );
+    }
+    
+    /*
+     * Convert phase angle to RGB color.
+     * 
+     * @param phase phase angle, in radians
+     */
+    private Color phaseToRGB( double phase ) {
+        double H = Math.toDegrees( phase ) % 360.0; // H range: 0-360
+        if ( H < 0 ) {
+            H = 360.0 - ( Math.abs( H ) % 360.0 );
+        }
+        return HSVtoRGB( H, 1.0 /* S */, 1.0 /* V */);
+    }
+    
+    /*
+     * HSV to RGB colorspace conversion algorithm, 
+     * from http://en.wikipedia.org/wiki/HSV_color_space.
+     * 
+     * @param H hue, 0.0 inclusive to 360.0 exclusive
+     * @param S saturation. 0.0 to 1.0
+     * @param V brightness, 0.0 to 1.0
+     * @return RGB color
+     */
+    private Color HSVtoRGB( double H, double S, double V ) {
+        assert( H >= 0 && H < 360 );
+        assert( S >= 0 && S <= 1 );
+        assert( V >= 0 && V <= 1 );
+        
+        double R, G, B;
+        if ( S == 0 ) {
+            R = G = B = V;
+        }
+        else {
+            final int Hi = (int) ( Math.floor( H / 60 ) % 6 );
+            final double f = ( H / 60 ) - Hi;
+            final double p = V * ( 1 - S );
+            final double q = V * ( 1 - ( f * S ) );
+            final double t = V * ( 1 - ( ( 1 - f ) * S ) );
+            switch ( Hi ) {
+            case 0:
+                R = V;
+                G = t;
+                B = p;
+                break;
+            case 1:
+                R = q;
+                G = V;
+                B = p;
+                break;
+            case 2:
+                R = p;
+                G = V;
+                B = t;
+                break;
+            case 3:
+                R = p;
+                G = q;
+                B = V;
+                break;
+            case 4:
+                R = t;
+                G = p;
+                B = V;
+                break;
+            case 5:
+                R = V;
+                G = p;
+                B = q;
+                break;
+            default:
+                throw new IllegalStateException( "Hi is out of range: " + Hi );
+            }
+        }
+        return new Color( (float)R, (float)G, (float)B );
     }
 }
