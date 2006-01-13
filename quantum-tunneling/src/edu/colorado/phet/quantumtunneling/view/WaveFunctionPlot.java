@@ -45,13 +45,8 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Indicies are determined by the order that renderers are added to this XYPlot
-    private static final int INCIDENT_REAL_SERIES_INDEX = 0;  // front-most
-    private static final int INCIDENT_IMAGINARY_SERIES_INDEX = 1;
-    private static final int INCIDENT_MAGNITUDE_SERIES_INDEX = 2;
-    private static final int REFLECTED_REAL_SERIES_INDEX = 3;
-    private static final int REFLECTED_IMAGINARY_SERIES_INDEX = 4;
-    private static final int REFLECTED_MAGNITUDE_SERIES_INDEX = 5;
+    // We provide sorted data, so turn off series autosort to improve performance.
+    private static final boolean AUTO_SORT = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,10 +58,21 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
     private XYSeries _incidentMagnitudeSeries;
+    private XYSeries _incidentPhaseSeries;
     private XYSeries _reflectedRealSeries;
     private XYSeries _reflectedImaginarySeries;
     private XYSeries _reflectedMagnitudeSeries;
+    private XYSeries _reflectedPhaseSeries;
     private XYSeries _probabilityDensitySeries;
+    
+    private int _incidentRealIndex;
+    private int _incidentImaginaryIndex;
+    private int _incidentMagnitudeIndex;
+    private int _incidentPhaseIndex;
+    private int _reflectedRealIndex;
+    private int _reflectedImaginaryIndex;
+    private int _reflectedMagnitudeIndex;
+    private int _reflectedPhaseIndex;
     
     private IRView _irView;
     
@@ -80,61 +86,136 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         // Labels
         String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
         
-        // Series
-        final boolean autoSort = false;
-        _incidentRealSeries = new XYSeries( "incident real", autoSort );
-        _incidentImaginarySeries = new XYSeries( "incident imaginary", autoSort );
-        _incidentMagnitudeSeries = new XYSeries( "incident magnitude", autoSort );
-        _reflectedRealSeries = new XYSeries( "reflected real", autoSort );
-        _reflectedImaginarySeries = new XYSeries( "reflected imaginary", autoSort );
-        _reflectedMagnitudeSeries = new XYSeries( "reflected magnitude", autoSort );
-        _probabilityDensitySeries = new XYSeries( "probability density", autoSort );
+        int index = 0;
         
-        // Dataset
-        XYSeriesCollection data = new XYSeriesCollection();
-        data.addSeries( _incidentRealSeries );
-        data.addSeries( _incidentImaginarySeries );
-        data.addSeries( _incidentMagnitudeSeries );
-        data.addSeries( _reflectedRealSeries );
-        data.addSeries( _reflectedImaginarySeries );
-        data.addSeries( _reflectedMagnitudeSeries );
-        // do not add _probabilityDensitySeries, it is displayed by ProbabilityDensityPlot
+        // Incident Real
+        {
+            _incidentRealIndex = index++;
+            _incidentRealSeries = new XYSeries( "incident real", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _incidentRealSeries );
+            setDataset( _incidentRealIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.INCIDENT_REAL_WAVE_COLOR );
+            renderer.setStroke( QTConstants.INCIDENT_REAL_WAVE_STROKE );
+            setRenderer( _incidentRealIndex, renderer );
+        }
+         
+        // Incident Imaginary
+        {
+            _incidentImaginaryIndex = index++;
+            _incidentImaginarySeries = new XYSeries( "incident imaginary", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _incidentImaginarySeries );
+            setDataset( _incidentImaginaryIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR );
+            renderer.setStroke( QTConstants.INCIDENT_IMAGINARY_WAVE_STROKE );
+            setRenderer( _incidentImaginaryIndex, renderer );
+        }
         
-        // Renderer
-        XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setSeriesPaint( INCIDENT_REAL_SERIES_INDEX, QTConstants.INCIDENT_REAL_WAVE_COLOR );
-        renderer.setSeriesStroke( INCIDENT_REAL_SERIES_INDEX, QTConstants.INCIDENT_REAL_WAVE_STROKE );
-        renderer.setSeriesPaint( INCIDENT_IMAGINARY_SERIES_INDEX, QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR );
-        renderer.setSeriesStroke( INCIDENT_IMAGINARY_SERIES_INDEX, QTConstants.INCIDENT_IMAGINARY_WAVE_STROKE );
-        renderer.setSeriesPaint( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR );
-        renderer.setSeriesStroke( INCIDENT_MAGNITUDE_SERIES_INDEX, QTConstants.INCIDENT_MAGNITUDE_WAVE_STROKE );
-        renderer.setSeriesPaint( REFLECTED_REAL_SERIES_INDEX, QTConstants.REFLECTED_REAL_WAVE_COLOR );
-        renderer.setSeriesStroke( REFLECTED_REAL_SERIES_INDEX, QTConstants.REFLECTED_REAL_WAVE_STROKE );
-        renderer.setSeriesPaint( REFLECTED_IMAGINARY_SERIES_INDEX, QTConstants.REFLECTED_IMAGINARY_WAVE_COLOR );
-        renderer.setSeriesStroke( REFLECTED_IMAGINARY_SERIES_INDEX, QTConstants.REFLECTED_IMAGINARY_WAVE_STROKE );
-        renderer.setSeriesPaint( REFLECTED_MAGNITUDE_SERIES_INDEX, QTConstants.REFLECTED_MAGNITUDE_WAVE_COLOR );
-        renderer.setSeriesStroke( REFLECTED_MAGNITUDE_SERIES_INDEX, QTConstants.REFLECTED_MAGNITUDE_WAVE_STROKE );
+        // Incident Magnitude
+        {
+            _incidentMagnitudeIndex = index++;
+            _incidentMagnitudeSeries = new XYSeries( "incident magnitude", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _incidentMagnitudeSeries );
+            setDataset( _incidentMagnitudeIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR );
+            renderer.setStroke( QTConstants.INCIDENT_MAGNITUDE_WAVE_STROKE );
+            setRenderer( _incidentMagnitudeIndex, renderer );
+        }
         
-        // X axis 
-        PositionAxis xAxis = new PositionAxis();
+        // Reflected Real
+        {
+            _reflectedRealIndex = index++;
+            _reflectedRealSeries = new XYSeries( "reflected real", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _reflectedRealSeries );
+            setDataset( _reflectedRealIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.REFLECTED_REAL_WAVE_COLOR );
+            renderer.setStroke( QTConstants.REFLECTED_REAL_WAVE_STROKE );
+            setRenderer( _reflectedRealIndex, renderer );
+        }
+            
+        // Reflected Imaginary
+        {
+            _reflectedImaginaryIndex = index++;
+            _reflectedImaginarySeries = new XYSeries( "reflected imaginary", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _reflectedImaginarySeries );
+            setDataset( _reflectedImaginaryIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.REFLECTED_IMAGINARY_WAVE_COLOR );
+            renderer.setStroke( QTConstants.REFLECTED_IMAGINARY_WAVE_STROKE );
+            setRenderer( _reflectedImaginaryIndex, renderer );
+        }
         
-        // Y axis
-        NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
-        yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
-        TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
-        yAxis.setStandardTickUnits( yUnits );
-        yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
-        yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
+        // Reflected Magnitude
+        {
+            _reflectedMagnitudeIndex = index++;
+            _reflectedMagnitudeSeries = new XYSeries( "reflected magnitude", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _reflectedMagnitudeSeries );
+            setDataset( _reflectedMagnitudeIndex, dataset );
+            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            renderer.setPaint( QTConstants.REFLECTED_MAGNITUDE_WAVE_COLOR );
+            renderer.setStroke( QTConstants.REFLECTED_MAGNITUDE_WAVE_STROKE );
+            setRenderer( _reflectedMagnitudeIndex, renderer );
+        }
         
-        setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
+        // Incident Phase
+        {
+            _incidentPhaseIndex = index++;
+            _incidentPhaseSeries = new XYSeries( "incident phase", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _incidentPhaseSeries );
+            setDataset( _incidentPhaseIndex, dataset );
+            PhaseRenderer renderer = new PhaseRenderer();
+            setRenderer( _incidentPhaseIndex, renderer );
+        }
+        
+        // Reflected Phase
+        {
+            _reflectedPhaseIndex = index++;
+            _reflectedPhaseSeries = new XYSeries( "reflected phase", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _reflectedPhaseSeries );
+            setDataset( _reflectedPhaseIndex, dataset );
+            PhaseRenderer renderer = new PhaseRenderer();
+            setRenderer( _reflectedPhaseIndex, renderer );
+        }
+        
+        // Probability Density
+        {
+            _probabilityDensitySeries = new XYSeries( "probability density", AUTO_SORT );
+            // display of this series is handled by ProbabilityDensityPlot
+        }
+        
+        // X (domain) axis 
+        {
+            PositionAxis xAxis = new PositionAxis();
+            setDomainAxis( xAxis );
+            setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
+        }
+        
+        // Y (range) axis
+        {
+            NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
+            setRangeAxis( yAxis );
+            setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
+            setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
+            yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
+            yAxis.setRange( QTConstants.WAVE_FUNCTION_RANGE );
+            TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
+            yAxis.setStandardTickUnits( yUnits );
+            yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
+            yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
+        }
+        
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
-        setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
-        setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setDataset( data );
-        setRenderer( renderer );
-        setDomainAxis( xAxis );
-        setRangeAxis( yAxis );
         
         _wave = null;
         _irView = IRView.SUM;
@@ -167,22 +248,24 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     }
     
     public void setRealVisible( boolean visible ) {
-        getRenderer().setSeriesVisible( INCIDENT_REAL_SERIES_INDEX, new Boolean( visible ) );
-        getRenderer().setSeriesVisible( REFLECTED_REAL_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer( _incidentRealIndex ).setSeriesVisible( new Boolean( visible ) );
+        getRenderer( _reflectedRealIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
     public void setImaginaryVisible( boolean visible ) {
-        getRenderer().setSeriesVisible( INCIDENT_IMAGINARY_SERIES_INDEX, new Boolean( visible ) );
-        getRenderer().setSeriesVisible( REFLECTED_IMAGINARY_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer( _incidentImaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
+        getRenderer( _reflectedImaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
-        getRenderer().setSeriesVisible( INCIDENT_MAGNITUDE_SERIES_INDEX, new Boolean( visible ) );
-        getRenderer().setSeriesVisible( REFLECTED_MAGNITUDE_SERIES_INDEX, new Boolean( visible ) );
+        getRenderer( _incidentMagnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
+        getRenderer( _reflectedMagnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
     public void setPhaseVisible( boolean visible ) {
-        //XXX
+        getRenderer( _incidentPhaseIndex ).setSeriesVisible( new Boolean( visible ) );
+        getRenderer( _reflectedPhaseIndex ).setSeriesVisible( new Boolean( visible ) );
+        System.out.println( getRenderer( _incidentPhaseIndex ).getSeriesVisible() );//XXX
     }
     
     public void setIRView( IRView irView ) {
@@ -250,6 +333,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _incidentRealSeries.add( x, incidentPart.getReal() );
                         _incidentImaginarySeries.add( x, incidentPart.getImaginary() );
                         _incidentMagnitudeSeries.add( x, incidentPart.getAbs() );
+                        _incidentPhaseSeries.add( x, incidentPart.getPhase() );
                     }
 
                     Complex reflectedPart = solution.getReflectedPart();
@@ -257,6 +341,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _reflectedRealSeries.add( x, reflectedPart.getReal() );
                         _reflectedImaginarySeries.add( x, reflectedPart.getImaginary() );
                         _reflectedMagnitudeSeries.add( x, reflectedPart.getAbs() );
+                        _reflectedPhaseSeries.add( x, reflectedPart.getPhase() );
                     }
 
                     Complex sum = solution.getSum();
@@ -268,9 +353,11 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                     // Display the sum
                     Complex sum = solution.getSum();
                     if ( sum != null ) {
+                        // Use the incident series to display the sum...
                         _incidentRealSeries.add( x, sum.getReal() );
                         _incidentImaginarySeries.add( x, sum.getImaginary() );
                         _incidentMagnitudeSeries.add( x, sum.getAbs() );
+                        _incidentPhaseSeries.add( x, sum.getPhase() );
                         _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
                     }
                 }
@@ -309,6 +396,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             _incidentRealSeries.add( position, energy.getReal() );
             _incidentImaginarySeries.add( position, energy.getImaginary() );
             _incidentMagnitudeSeries.add( position, energy.getAbs() );
+            _incidentPhaseSeries.add( position, energy.getAbs() );
             _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
         }
     }
@@ -320,9 +408,11 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries.clear();
         _incidentImaginarySeries.clear();
         _incidentMagnitudeSeries.clear();
+        _incidentPhaseSeries.clear();
         _reflectedRealSeries.clear();
         _reflectedImaginarySeries.clear();
         _reflectedMagnitudeSeries.clear();
+        _reflectedPhaseSeries.clear();
         _probabilityDensitySeries.clear();
     }
     
@@ -340,9 +430,11 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         _incidentRealSeries.setNotify( notify );
         _incidentImaginarySeries.setNotify( notify );
         _incidentMagnitudeSeries.setNotify( notify );
+        _incidentPhaseSeries.setNotify( notify );
         _reflectedRealSeries.setNotify( notify );
         _reflectedImaginarySeries.setNotify( notify );
         _reflectedMagnitudeSeries.setNotify( notify );
+        _reflectedPhaseSeries.setNotify( notify );
         _probabilityDensitySeries.setNotify( notify );
     }
 }
