@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - set phase colors based on Psi values
 - split JFreeCharts into separate charts for plots and backgrounds
 - implement "Measure" feature
+- set QTConstants.RICHARDSON_STEP_PER_CLOCK_TICK to something reasonable
 
 MEDIUM PRIORITY:
 - redo total energy display for wave packets
