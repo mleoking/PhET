@@ -27,7 +27,9 @@ import org.jfree.ui.RectangleEdge;
 
 
 /**
- * PhaseRenderer renders a "phase view" data series.
+ * PhaseRenderer renders a "phase view" of an XYDataset.
+ * See drawItem for a description of how the dataset is organized
+ * and what is rendered.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -143,7 +145,7 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
     /*
      * Determines if an item is visible.
      * Note that there are many levels of visibility, and JFreeChart's 
-     * renderers are very inconsitent in their support of visibility.
+     * renderers are very inconsistent in their support of visibility.
      * 
      * @param series
      * @param item
