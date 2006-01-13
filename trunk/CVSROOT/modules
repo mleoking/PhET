@@ -151,7 +151,7 @@ greenhouse-effect greenhouse
 forces1d forces1d &phetcommon-module &charts-module
 
 # Radio Waves
-radio-waves emf &phetcommon-module
+radio-waves emf 
 
 # The Ramp
 theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil-dir
