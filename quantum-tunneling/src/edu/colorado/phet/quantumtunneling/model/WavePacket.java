@@ -160,6 +160,14 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public Direction getDirection() {
         return _direction;
     }
+    
+    public boolean isLeftToRight() {
+        return ( _direction == Direction.LEFT_TO_RIGHT );
+    }
+    
+    public boolean isRightToLeft() {
+        return ( _direction == Direction.RIGHT_TO_LEFT );
+    }
 
     public WaveFunctionSolution solveWaveFunction( double x ) {    
         return null; //XXX
