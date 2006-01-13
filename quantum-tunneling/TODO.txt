@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- make a fast XY renderer that doesn't use AffineTransforms
 - split JFreeCharts into separate charts for plots and backgrounds
 - implement "Measure" feature
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
@@ -57,6 +58,7 @@ JFREECHART:
 
 
 DONE:
+(1/13/06) - create PathRenderer for approximating curves with a GeneralPath
 (1/13/06) - set Richardson solution to zero when E<V
 (1/13/06) - replace my HSV-to-RGB converter with Color.getHSBColor
 (1/13/06) - set phase view color based on phase angle

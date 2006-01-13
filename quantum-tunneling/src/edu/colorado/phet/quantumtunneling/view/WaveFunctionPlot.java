@@ -18,8 +18,6 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -93,7 +91,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentRealSeries );
             setDataset( _incidentRealIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.INCIDENT_REAL_WAVE_COLOR );
             renderer.setStroke( QTConstants.INCIDENT_REAL_WAVE_STROKE );
             setRenderer( _incidentRealIndex, renderer );
@@ -106,7 +104,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentImaginarySeries );
             setDataset( _incidentImaginaryIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR );
             renderer.setStroke( QTConstants.INCIDENT_IMAGINARY_WAVE_STROKE );
             setRenderer( _incidentImaginaryIndex, renderer );
@@ -119,7 +117,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentMagnitudeSeries );
             setDataset( _incidentMagnitudeIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR );
             renderer.setStroke( QTConstants.INCIDENT_MAGNITUDE_WAVE_STROKE );
             setRenderer( _incidentMagnitudeIndex, renderer );
@@ -132,7 +130,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedRealSeries );
             setDataset( _reflectedRealIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.REFLECTED_REAL_WAVE_COLOR );
             renderer.setStroke( QTConstants.REFLECTED_REAL_WAVE_STROKE );
             setRenderer( _reflectedRealIndex, renderer );
@@ -145,7 +143,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedImaginarySeries );
             setDataset( _reflectedImaginaryIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.REFLECTED_IMAGINARY_WAVE_COLOR );
             renderer.setStroke( QTConstants.REFLECTED_IMAGINARY_WAVE_STROKE );
             setRenderer( _reflectedImaginaryIndex, renderer );
@@ -158,7 +156,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedMagnitudeSeries );
             setDataset( _reflectedMagnitudeIndex, dataset );
-            StandardXYItemRenderer renderer = new StandardXYItemRenderer();
+            PathRenderer renderer = new PathRenderer();
             renderer.setPaint( QTConstants.REFLECTED_MAGNITUDE_WAVE_COLOR );
             renderer.setStroke( QTConstants.REFLECTED_MAGNITUDE_WAVE_STROKE );
             setRenderer( _reflectedMagnitudeIndex, renderer );
