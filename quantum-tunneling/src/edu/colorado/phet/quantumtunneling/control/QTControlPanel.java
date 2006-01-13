@@ -293,7 +293,6 @@ public class QTControlPanel extends AbstractControlPanel {
         
         // Layout
         {  
-//            setTitleVisible( false );
             addControlFullWidth( potentialPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
@@ -338,9 +337,7 @@ public class QTControlPanel extends AbstractControlPanel {
         
         // XXX Disable stuff that's not implemented yet
         {
-            _phaseCheckBox.setEnabled( false );
-//            _planeWaveRadioButton.setEnabled( false );
-//            _packetWaveRadioButton.setEnabled( false );
+//            _phaseCheckBox.setEnabled( false );
             _measureButton.setEnabled( false );
         }
     }
@@ -623,7 +620,7 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handlePhaseSelection() {
-        _module.setPhaseVisible( _magnitudeCheckBox.isSelected() );
+        _module.setPhaseVisible( _phaseCheckBox.isSelected() );
     }
     
     private void handleIRViewSelection() {
