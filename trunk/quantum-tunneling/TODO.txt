@@ -55,9 +55,12 @@ PHETCOMMON:
 JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 - XYTextAnnotation doesn't support HTML
+- AbstractRenderer.getSeriesVisible can return null, isn't properly initialized
+- visibilty methods for renderers is a mess
 
 
 DONE:
+(1/13/06) - replace StandardXYItemRenderer with PathRenderer in WaveFunctionPlot and ProbabilityDensityPlot
 (1/13/06) - create PathRenderer for approximating curves with a GeneralPath
 (1/13/06) - set Richardson solution to zero when E<V
 (1/13/06) - replace my HSV-to-RGB converter with Color.getHSBColor
