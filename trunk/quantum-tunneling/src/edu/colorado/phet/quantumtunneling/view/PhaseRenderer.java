@@ -139,7 +139,21 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
     }
     
     //----------------------------------------------------------------------------
-    // Misc.
+    // Color
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Convert phase angle to RGB color.
+     * 
+     * @param phase phase angle, in radians
+     */
+    private Color phaseToRGB( double phase ) {
+        float H = ( (float) Math.toDegrees( phase ) % 360f ) / 360f;
+        return Color.getHSBColor( H, 1f, 1f );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Visibility
     //----------------------------------------------------------------------------
     
     /*
@@ -155,12 +169,14 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
     }
     
     /*
-     * Convert phase angle to RGB color.
-     * 
-     * @param phase phase angle, in radians
+     * Workaround because getSeriesVisible returns null.
      */
-    private Color phaseToRGB( double phase ) {
-        float H = ( (float) Math.toDegrees( phase ) % 360f ) / 360f;
-        return Color.getHSBColor( H, 1f, 1f );
+    private boolean isSeriesVisible() {
+        boolean visible = true;
+        Boolean seriesVisible = getSeriesVisible();
+        if ( seriesVisible != null ) {
+            visible = seriesVisible.booleanValue();
+        }
+        return visible;
     }
 }

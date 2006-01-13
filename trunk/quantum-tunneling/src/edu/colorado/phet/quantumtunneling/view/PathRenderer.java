@@ -121,7 +121,7 @@ public class PathRenderer extends AbstractXYItemRenderer {
     }
     
     //----------------------------------------------------------------------------
-    // Misc.
+    // Visibility
     //----------------------------------------------------------------------------
     
     /*
@@ -132,7 +132,19 @@ public class PathRenderer extends AbstractXYItemRenderer {
      * @param series
      * @param item
      */
-    private boolean isVisible( int series, int item ) {
-        return ( getSeriesVisible().booleanValue() && isSeriesVisible( series ) && getItemVisible( series, item ) );
+    private boolean isVisible( int series, int item ) { 
+        return ( isSeriesVisible() && isSeriesVisible( series ) && getItemVisible( series, item ) );
+    }
+    
+    /*
+     * Workaround because getSeriesVisible returns null.
+     */
+    private boolean isSeriesVisible() {
+        boolean visible = true;
+        Boolean seriesVisible = getSeriesVisible();
+        if ( seriesVisible != null ) {
+            visible = seriesVisible.booleanValue();
+        }
+        return visible;
     }
 }
