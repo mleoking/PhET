@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.model.Electron;
 
@@ -31,7 +31,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
     private static BufferedImage image;
     static {
         try {
-            image = ImageLoader.loadBufferedImage( Config.bigElectronImg );
+            image = ImageLoader.loadBufferedImage( EmfConfig.bigElectronImg );
         }
         catch( IOException e ) {
             e.printStackTrace();

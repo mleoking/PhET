@@ -8,12 +8,13 @@ package edu.colorado.phet.emf;
 
 import java.awt.*;
 
-public class Config {
+public class EmfConfig {
 
-//    public final static String bigElectronImg = "images/blue-sml.gif";
+    // Parameters
+    public static double SINGLE_VECTOR_ROW_OFFSET = 0.5;
+
+    // Images
     public final static String bigElectronImg = "images/yellow-electron.gif";
-//    public final static String smallElectronImg = "images/blue-ssml.gif";
-//    public final static String smallElectronImg = "images/blue-xsml.gif";
     public final static String smallElectronImg = "images/small-yellow-electron.gif";
     
     // Localization

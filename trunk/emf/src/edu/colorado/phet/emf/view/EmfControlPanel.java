@@ -10,7 +10,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.MessageFormatter;
-import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.command.*;
 import edu.colorado.phet.emf.model.EmfModel;
@@ -388,7 +388,7 @@ public class EmfControlPanel extends JPanel {
             this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.LegendBorder" ) ) );
             ImageIcon electronImg = null;
             try {
-                electronImg = new ImageIcon( ImageLoader.loadBufferedImage( Config.smallElectronImg ) );
+                electronImg = new ImageIcon( ImageLoader.loadBufferedImage( EmfConfig.smallElectronImg ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
