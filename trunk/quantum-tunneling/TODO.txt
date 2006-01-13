@@ -56,6 +56,7 @@ JFREECHART:
 
 
 DONE:
+(1/13/06) - set Richardson solution to zero when E<V
 (1/13/06) - replace my HSV-to-RGB converter with Color.getHSBColor
 (1/13/06) - set phase view color based on phase angle
 (1/13/06) - implement HSV-to-RGB color converter

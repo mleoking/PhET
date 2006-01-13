@@ -148,6 +148,8 @@ public class WavePacketSolver {
 
         System.out.println( "SchrodingerSolver.reset" );//XXX
         
+        boolean zero = isSolutionZero();
+        
         _dt = 0.8 * MASS * _dx * _dx / HBAR;//XXX Richardson algorithm doesn't work without this specific value
         
         // Get the wave packet and energy settings.
@@ -182,11 +184,17 @@ public class WavePacketSolver {
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
-            final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
-            _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position -center ) / HBAR ) );
-            _Psi[i].multiply( A );
-            final double s = getPotentialEnergy( position ) * _dt / HBAR;
-            _EtoV[i] = new Complex( Math.cos( s ), -Math.sin( s ) );
+            if ( zero ) {
+                _Psi[i] = new MutableComplex( 0, 0 );
+                _EtoV[i] = Complex.ZERO;
+            }
+            else {
+                final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
+                _Psi[i] = new MutableComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position - center ) / HBAR ) );
+                _Psi[i].multiply( A );
+                final double s = getPotentialEnergy( position ) * _dt / HBAR;
+                _EtoV[i] = new Complex( Math.cos( s ), -Math.sin( s ) );
+            }
         }
     }
     
@@ -279,5 +287,31 @@ public class WavePacketSolver {
             _Psi[i].scale( scale ); // left edge
             _Psi[ _Psi.length - i - 1 ].scale( scale ); // right edge
         }
+    }
+    
+    /**
+     * The wave function solution should be zero if the first 
+     * region encountered by the wave (dependent on direction)
+     * has E < V. (where E=total energy, V=potential energy)
+     * 
+     * @return true or false
+     */
+    protected boolean isSolutionZero() {
+        
+        boolean isZero = false;
+        AbstractPotential pe = _wavePacket.getPotentialEnergy();
+        
+        final double E = _wavePacket.getTotalEnergy().getEnergy();
+        final int firstRegionIndex = 0;
+        final int lastRegionIndex = pe.getNumberOfRegions() - 1;
+        
+        if ( _wavePacket.isLeftToRight() && E < pe.getEnergy( firstRegionIndex ) ) {
+            isZero = true;
+        }
+        else if ( _wavePacket.isRightToLeft() && E < pe.getEnergy( lastRegionIndex ) ) {
+            isZero = true;
+        }
+        
+        return isZero;
     }
 }
