@@ -40,15 +40,6 @@ import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
  * @version $Revision$
  */
 public class EnergyPlot extends XYPlot implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Indicies are determined by the order that renderers are added to this XYPlot
-    private static final int PE_RENDERER_INDEX = 0; // front-most
-    private static final int TE_PLANE_RENDERER_INDEX = 1;
-    private static final int TE_PACKET_RENDERER_INDEX = 2;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -59,6 +50,10 @@ public class EnergyPlot extends XYPlot implements Observer {
     
     private XYSeries _totalEnergySeries;
     private XYSeries _potentialEnergySeries;
+    
+    private int _peRendererIndex;
+    private int _tePlaneRendererIndex;
+    private int _tePacketRendererIndex;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,37 +67,42 @@ public class EnergyPlot extends XYPlot implements Observer {
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
+        int index = 0;
+        
         // Potential Energy series
         _potentialEnergySeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
         {
-            XYSeriesCollection data = new XYSeriesCollection();
-            data.addSeries( _potentialEnergySeries );
+            _peRendererIndex = index++;
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _potentialEnergySeries );
             XYItemRenderer renderer = new StandardXYItemRenderer();
             renderer.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
-            setDataset( PE_RENDERER_INDEX, data );
-            setRenderer( PE_RENDERER_INDEX, renderer );
+            setDataset( _peRendererIndex, dataset );
+            setRenderer( _peRendererIndex, renderer );
         }
         
         // Total Energy series
         _totalEnergySeries = new XYSeries( totalEnergyLabel, false /* autoSort */ );
         {
-            XYSeriesCollection data = new XYSeriesCollection();
-            data.addSeries( _totalEnergySeries );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _totalEnergySeries );
             
             // Renderer for plane wave
+            _tePlaneRendererIndex = index++;
             XYItemRenderer planeRenderer = new StandardXYItemRenderer();
             planeRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
             planeRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
-            setDataset( TE_PLANE_RENDERER_INDEX, data );
-            setRenderer( TE_PLANE_RENDERER_INDEX, planeRenderer );
+            setDataset( _tePlaneRendererIndex, dataset );
+            setRenderer( _tePlaneRendererIndex, planeRenderer );
             
             // Renderer for wave packet
+            _tePacketRendererIndex = index++;
             XYItemRenderer packetRenderer = new PacketTotalEnergyRenderer( QTConstants.TOTAL_ENERGY_DEVIATION );
             packetRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
             packetRenderer.setStroke( new BasicStroke( 50f ) );
-            setDataset( TE_PACKET_RENDERER_INDEX, data );
-            setRenderer( TE_PACKET_RENDERER_INDEX, packetRenderer );
+            setDataset( _tePacketRendererIndex, dataset );
+            setRenderer( _tePacketRendererIndex, packetRenderer );
         }
         setWaveType( WaveType.PLANE );
         
@@ -139,8 +139,8 @@ public class EnergyPlot extends XYPlot implements Observer {
      */
     public void setWaveType( WaveType waveType ) {
         boolean isPlane = ( waveType == WaveType.PLANE );
-        getRenderer( TE_PLANE_RENDERER_INDEX ).setSeriesVisible( new Boolean( isPlane ) );
-        getRenderer( TE_PACKET_RENDERER_INDEX ).setSeriesVisible( new Boolean( !isPlane ) );
+        getRenderer( _tePlaneRendererIndex ).setSeriesVisible( new Boolean( isPlane ) );
+        getRenderer( _tePacketRendererIndex ).setSeriesVisible( new Boolean( !isPlane ) );
     }
     
     /**
