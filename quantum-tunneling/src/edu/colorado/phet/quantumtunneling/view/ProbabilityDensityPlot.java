@@ -15,7 +15,6 @@ import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -47,7 +46,7 @@ public class ProbabilityDensityPlot extends XYPlot {
         data.addSeries( probabilityDensitySeries );
         
         // Renderer
-        XYItemRenderer renderer = new StandardXYItemRenderer();
+        XYItemRenderer renderer = new PathRenderer();
         renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_COLOR );
         renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
         
