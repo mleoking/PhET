@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds
 - implement "Measure" feature
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
+- implement absorbing boundaries
 
 MEDIUM PRIORITY:
 - redo total energy display for wave packets
