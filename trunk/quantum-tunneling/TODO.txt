@@ -56,6 +56,8 @@ JFREECHART:
 
 
 DONE:
+(1/11/06) - implement custom renderer for phase view (color not correct yet)
+(1/11/06) - use a separate renderer for each series in WaveFunctionPlot
 (1/11/06) - temporarily increase the # of steps per clock tick for Richardson algorithm
 (1/11/06) - delete ImageNode, not used, PImageFactory does the same thing
 (1/11/06) - set dx based on the width (in pixels) of the chart data area whenever the window size changes
