@@ -340,6 +340,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
                         _incidentRealSeries.add( x, sum.getReal() );
                         _incidentImaginarySeries.add( x, sum.getImaginary() );
                         _incidentMagnitudeSeries.add( x, sum.getAbs() );
+                        _phaseSeries.add( x, sum.getAbs() );
                         _phaseSeries.add( x, sum.getPhase() );
                         _probabilityDensitySeries.add( x, sum.getAbs() * sum.getAbs() );
                     }
@@ -380,6 +381,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
             _incidentImaginarySeries.add( position, energy.getImaginary() );
             _incidentMagnitudeSeries.add( position, energy.getAbs() );
             _phaseSeries.add( position, energy.getAbs() );
+            _phaseSeries.add( position, energy.getPhase() );
             _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
         }
     }

@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- set phase colors based on Psi values
 - split JFreeCharts into separate charts for plots and backgrounds
 - implement "Measure" feature
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
@@ -57,10 +56,13 @@ JFREECHART:
 
 
 DONE:
-(1/11/06) - disable phase view in separate mode for plane waves
-(1/11/06) - implement custom renderer for phase view (color not correct yet)
-(1/11/06) - use a separate renderer for each series in WaveFunctionPlot
-(1/11/06) - temporarily increase the # of steps per clock tick for Richardson algorithm
+(1/13/06) - set phase view color based on phase angle
+(1/13/06) - implement HSV to RGB color converter
+(1/13/06) - fix phase curve shape
+(1/12/06) - disable phase view in separate mode for plane waves
+(1/12/06) - implement custom renderer for phase view (color not correct yet)
+(1/12/06) - use a separate renderer for each series in WaveFunctionPlot
+(1/12/06) - temporarily increase the # of steps per clock tick for Richardson algorithm
 (1/11/06) - delete ImageNode, not used, PImageFactory does the same thing
 (1/11/06) - set dx based on the width (in pixels) of the chart data area whenever the window size changes
 (1/11/06) - disable autoSort on all series, since we're providing sorted data
