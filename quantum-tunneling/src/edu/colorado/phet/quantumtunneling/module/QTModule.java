@@ -293,7 +293,7 @@ public class QTModule extends AbstractModule implements Observer {
             _controlPanel.setPhaseSelected( false );
             _controlPanel.setIRView( IRView.SUM );
             _controlPanel.setDirection( Direction.LEFT_TO_RIGHT );
-            _controlPanel.setWaveType( WaveType.PLANE );
+            _controlPanel.setWaveType( WaveType.PACKET );
             _controlPanel.setPacketWidth( QTConstants.DEFAULT_PACKET_WIDTH );
             _controlPanel.setPacketCenter( QTConstants.DEFAULT_PACKET_CENTER );
         }
