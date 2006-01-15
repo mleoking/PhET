@@ -33,6 +33,7 @@ public class EnergyLegend extends PNode {
     private static final double MARGIN = 5;
     private static final Stroke BORDER_STROKE = new BasicStroke( 0.5f );
     private static final Color BORDER_COLOR = Color.BLACK;
+    private static final Color BACKGROUND_COLOR = Color.WHITE;
     
     public EnergyLegend() {
         super();
@@ -60,9 +61,10 @@ public class EnergyLegend extends PNode {
         PPath borderNode = new PPath( border );
         borderNode.setStroke( BORDER_STROKE );
         borderNode.setStrokePaint( BORDER_COLOR );
+        borderNode.setPaint( BACKGROUND_COLOR );
         totalEnergyItem.translate( MARGIN, MARGIN );
         potentialEnergyItem.translate( MARGIN, MARGIN );
-        addChild( borderNode );
+        addChild( 0, borderNode );
         
         setPickable( false );
         setChildrenPickable( false );
