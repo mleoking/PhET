@@ -47,7 +47,7 @@ public class WavePacketSolver {
     private static final double MASS = QTConstants.MASS;
     
     // Damping factors, to prevent periodic boundary condition.
-    private static double[] DAMPING_FACTORS = new double[] { 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+    private static double[] DAMPING_FACTORS = new double[] { 0.0, 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
     //----------------------------------------------------------------------
     // Instance data
