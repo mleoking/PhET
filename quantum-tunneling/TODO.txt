@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - compute more points than are visible so that damping effects aren't seen
-- implement "Measure" feature algorithm for chosing wave packet position
+- implement "Measure" feature algorithm for choosing wave packet position
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
