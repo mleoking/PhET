@@ -187,6 +187,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         notifyObservers();
     }
     
+    //XXX adhoc implementationb, replace with Sam M's algorithm
     private double chooseRandomCenter() {
         final double min = QTConstants.POSITION_RANGE.getLowerBound();
         final double max = QTConstants.POSITION_RANGE.getUpperBound();
