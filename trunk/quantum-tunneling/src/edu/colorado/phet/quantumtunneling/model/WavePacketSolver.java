@@ -160,7 +160,7 @@ public class WavePacketSolver {
             vx *= -1;
         }
         
-        // Deterine the position range.
+        // Deterine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 ) - DAMPING_FACTORS.length;
