@@ -37,6 +37,7 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     private Direction _direction;
     private boolean _enabled;
     private double _time;
+    private boolean _measureEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,6 +51,7 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         _direction = Direction.LEFT_TO_RIGHT;
         _enabled = true;
         _time = 0;
+        _measureEnabled = false;
     }
     
     public void cleanup() {
@@ -132,7 +134,7 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     
     public WaveFunctionSolution solveWaveFunction( double x ) {
         WaveFunctionSolution solution = null;
-        if ( _solver != null ) {
+        if ( _solver != null && !_measureEnabled ) {
             double t = getTime();
             solution = _solver.solve( x, t );
         }
@@ -142,6 +144,13 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     private void updateSolver() {
         if ( _enabled && _pe != null && _te != null ) {
             _solver = SolverFactory.createSolver( _te, _pe, _direction );
+        }
+    }
+    
+    public void setMeasureEnabled( boolean enabled ) {
+        if ( enabled != _measureEnabled ) {
+            _measureEnabled = enabled;
+            notifyObservers();
         }
     }
     
