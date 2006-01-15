@@ -151,6 +151,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Combined chart
         {
             _chart = new QTCombinedChart();
+            _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             _chartNode = new QTCombinedChartNode( _chart );
         }
 

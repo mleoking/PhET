@@ -81,7 +81,7 @@ public class QTConstants {
     // Paints
     //----------------------------------------------------------------------------
     
-    public static final Color CANVAS_BACKGROUND = Color.WHITE;
+    public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
     public static final Color CHART_BACKGROUND = Color.WHITE;
     public static final Color PLOT_BACKGROUND = Color.WHITE;
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;

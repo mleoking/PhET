@@ -60,6 +60,8 @@ JFREECHART:
 
 
 DONE:
+(1/15/06) - explicitly set legend background to white
+(1/15/06) - set canvas and chart background to a very light gray, so that white data areas stand out
 (1/15/06) - add a 0 damping coefficient
 (1/15/06) - implement Measure feature with adhoc algorithm for chosing wave packet position
 (1/15/06) - PathRenderer has discontinuities, replace with StandardXYItemRenderer
