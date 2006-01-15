@@ -7,7 +7,6 @@ The screen should update automatically when paused
 Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
-Add save/load feature for saving barriers/detectors.
 
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
     put an animation of a clock whose hands are slowing down next to actual clock,
@@ -26,8 +25,6 @@ Put the intensity and wavelength sliders in a single box to the right of the gun
     Put the on/off control on top of the gun and make it look like part of the gun.
 Shrink the play area so there is not so much extra space.
      o	What does this mean?
-
-Two lasers panel:
 
 Allow user to change the colors of the two lasers independently.
     If the colors are different, they don’t interfere, just like when there are detectors in the first panel.
@@ -58,5 +55,5 @@ High Intensity electrons with absorption and one detector gave blank answer in n
 When I move the vertical position of the slits, the response is very jerky and discontinuous.  Can this be any smoother?
 o Wave function norm is incorrect.  A detector that covers the entire box only registers 80-95%, rather than 100%.
     -this is partly due to the particle leaking outside the box
-Allow user to move slit barrier up and down by clicking on it and dragging. (low priority).
+Allow user to move slit barrier up and down by clicking on it and dragging.
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
