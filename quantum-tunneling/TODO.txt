@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement "Measure" feature algorithm for choosing wave packet position
+- implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
