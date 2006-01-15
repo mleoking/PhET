@@ -142,6 +142,8 @@ public class QTConstants {
     
     public static final boolean USE_INTEGER_ENERGY_TICKS = false;
     
+    public static final double PIXELS_PER_SAMPLE_POINT = 1;
+    
     //----------------------------------------------------------------------------
     // Wave Function constants
     //----------------------------------------------------------------------------
