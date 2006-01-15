@@ -61,6 +61,7 @@ JFREECHART:
 
 
 DONE:
+0.0.7 ...
 (1/15/06) - compute more points than are visible so that damping effects aren't seen
 (1/15/06) - change behavior of AbstractPotential -- first & last region effectively go on forever wrt position
 (1/15/06) - explicitly set legend background to white
