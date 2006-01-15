@@ -184,7 +184,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         else {
             setCenter( _saveCenter );
         }
-        notifyObservers();
     }
     
     //XXX adhoc implementation, replace with Sam M's algorithm
