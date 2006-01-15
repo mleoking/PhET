@@ -61,6 +61,7 @@ JFREECHART:
 
 
 DONE:
+(1/15/06) - put sampling frequency in QTConstants
 0.0.7 ...
 (1/15/06) - compute more points than are visible so that damping effects aren't seen
 (1/15/06) - change behavior of AbstractPotential -- first & last region effectively go on forever wrt position
