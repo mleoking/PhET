@@ -253,21 +253,18 @@ public abstract class AbstractPotential extends QTObservable {
     
     /**
      * Gets the index of the region that contains a specified position.
-     * If the position is outside the space, -1 is returned.
-     * If the position falls on the boundary of two regions,
-     * the region whose end point matches the position is 
-     * returned.
+     * The first and last regions are treated as if they go on forever.
      * 
      * @param position
-     * @return the region (possibly null)
+     * @return the region index
      */
     public int getRegionIndexAt( final double position ) {
-        int regionIndex = -1;
-        for ( int i = 0; i < getNumberOfRegions() && regionIndex == -1; i++ ) {
-            final double start = getRegion( i ).getStart();
-            final double end = getRegion( i ).getEnd();
-            if ( position >= start && position <= end ) {
+        final int numberOfRegions = _regions.length;
+        int regionIndex = numberOfRegions - 1;
+        for ( int i = 0; i < numberOfRegions; i++ ) {
+            if ( position < getRegion( i ).getEnd() ) {
                 regionIndex = i;
+                break;
             }
         }
         return regionIndex;
