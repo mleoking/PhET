@@ -163,8 +163,8 @@ public class WavePacketSolver {
         // Deterine the position range.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
-        final double minX = pe.getStart( 0 );
-        final double maxX = pe.getEnd( numberOfRegions - 1 );
+        final double minX = pe.getStart( 0 ) - DAMPING_FACTORS.length;
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + DAMPING_FACTORS.length;
         
         // Calculate the number of sample points.
         final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;

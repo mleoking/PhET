@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- compute more points than are visible so that damping effects aren't seen
 - implement "Measure" feature algorithm for choosing wave packet position
+- fix discontinuity in PathRenderer or get rid of it
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
@@ -61,6 +61,8 @@ JFREECHART:
 
 
 DONE:
+(1/15/06) - compute more points than are visible so that damping effects aren't seen
+(1/15/06) - change behavior of AbstractPotential -- first & last region effectively go on forever wrt position
 (1/15/06) - explicitly set legend background to white
 (1/15/06) - set canvas and chart background to a very light gray, so that white data areas stand out
 (1/15/06) - add a 0 damping coefficient
