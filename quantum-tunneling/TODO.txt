@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
 MEDIUM PRIORITY:
+- put color legend next to view checkboxes
 - move "Show values" from Options menu to control panel
 - redo total energy display for wave packets
 - fix dt in SchrodingerSolver so that it is related to clock dt
