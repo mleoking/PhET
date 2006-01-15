@@ -39,6 +39,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double _width;
     private double _center;
     private WavePacketSolver _solver;
+    private boolean _measureEnabled;
+    private double _saveCenter;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,6 +55,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _solver = new WavePacketSolver( this );
+        _measureEnabled = false;
+        _saveCenter = _center;
     }
     
     public void cleanup() {
@@ -169,8 +173,25 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
 
-    public WaveFunctionSolution solveWaveFunction( double x ) {    
-        return null; //XXX
+    public void setMeasureEnabled( boolean enabled ) {
+        if ( enabled && !_measureEnabled ) {
+            _saveCenter = _center;
+        }
+        _measureEnabled = enabled;
+        if ( _measureEnabled ) {
+            setCenter( chooseRandomCenter() );
+        }
+        else {
+            setCenter( _saveCenter );
+        }
+        notifyObservers();
+    }
+    
+    private double chooseRandomCenter() {
+        final double min = QTConstants.POSITION_RANGE.getLowerBound();
+        final double max = QTConstants.POSITION_RANGE.getUpperBound();
+        final double randomCenter = min + ( Math.random() * ( max - min ) );
+        return randomCenter;
     }
     
     //----------------------------------------------------------------------------

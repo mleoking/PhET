@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- compute more points than are visible so that damping effects aren't seen
 - implement "Measure" feature
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - implement absorbing boundaries
@@ -60,6 +61,9 @@ JFREECHART:
 
 
 DONE:
+(1/15/06) - add a 0 damping coefficient
+(1/15/06) - implement Measure feature with adhoc algorithm for chosing wave packet position
+(1/15/06) - PathRenderer has discontinuities, replace with StandardXYItemRenderer
 (1/13/06) - replace StandardXYItemRenderer with PathRenderer in WaveFunctionPlot and ProbabilityDensityPlot
 (1/13/06) - create PathRenderer for approximating curves with a GeneralPath
 (1/13/06) - set Richardson solution to zero when E<V

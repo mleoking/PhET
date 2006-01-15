@@ -334,12 +334,6 @@ public class QTControlPanel extends AbstractControlPanel {
             _centerSlider.addChangeListener( _listener );
             _measureButton.addActionListener( _listener );
         }
-        
-        // XXX Disable stuff that's not implemented yet
-        {
-//            _phaseCheckBox.setEnabled( false );
-            _measureButton.setEnabled( false );
-        }
     }
 
     //----------------------------------------------------------------------------
@@ -685,6 +679,6 @@ public class QTControlPanel extends AbstractControlPanel {
     }
     
     private void handleMeasure() {
-        _module.measure();
+        _module.setMeasureEnabled( true );
     }
 }

@@ -21,6 +21,8 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -188,6 +190,12 @@ public class QTModule extends AbstractModule implements Observer {
         clockControls.setLoopVisible( false );
         clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
         setClockControlPanel( clockControls );
+        
+        addClockListener( new ClockAdapter() {
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+               handleClockReset();
+            }
+        } ); 
         
         //----------------------------------------------------------------------------
         // Help
@@ -458,7 +466,7 @@ public class QTModule extends AbstractModule implements Observer {
             _wavePacket.setPotentialEnergy( potentialEnergy );
         }
         
-        restartClock();
+        resetClock();
     }
     
     public void setConstantPotential( ConstantPotential potential ) {
@@ -505,7 +513,7 @@ public class QTModule extends AbstractModule implements Observer {
         _totalEnergy = totalEnergy;
         _totalEnergy.addObserver( this );
         
-        restartClock();
+        resetClock();
 
         _chart.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
@@ -523,7 +531,7 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setWaveType( WaveType waveType ) {
-        restartClock();
+        resetClock();
         _chart.getEnergyPlot().setWaveType( waveType );
         if ( waveType == WaveType.PLANE ) {
             _planeWave.setEnabled( true );
@@ -558,7 +566,7 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setNotifyEnabled( false );
         _planeWave.setDirection( direction );
         _wavePacket.setDirection( direction );
-        restartClock();
+        resetClock();
         _planeWave.setNotifyEnabled( true );
         _wavePacket.setNotifyEnabled( true );
     }
@@ -568,21 +576,26 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setWavePacketWidth( double width ) {
-        restartClock();
+        resetClock();
         _wavePacket.setWidth( width );
     }
     
     public void setWavePacketCenter( double center ) {
-        restartClock();
+        resetClock();
         _wavePacket.setCenter( center );
     }
     
-    public void measure() {
-        //XXX
+    public void setMeasureEnabled( boolean enabled ) {
+        _planeWave.setMeasureEnabled( enabled );
+        _wavePacket.setMeasureEnabled( enabled );
     }
     
-    private void restartClock() {
+    private void resetClock() {
         getClock().resetSimulationTime();
+    }
+    
+    private void handleClockReset() {
+        setMeasureEnabled( false );
     }
     
     //----------------------------------------------------------------------------
@@ -594,8 +607,8 @@ public class QTModule extends AbstractModule implements Observer {
      */
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy || o == _totalEnergy ) {
-            restartClock();
-        }     
+            resetClock();
+        }
     }
 
 }
