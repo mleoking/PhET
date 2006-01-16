@@ -178,7 +178,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
             if( currentObject != null ) {
                 currentObject.deactivate( this );
             }
-            particle.setup( this );
+            particle.activate( this );
             currentObject = particle;
         }
         updateGunLocation();

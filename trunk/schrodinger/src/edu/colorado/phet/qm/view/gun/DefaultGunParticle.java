@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -43,11 +44,17 @@ public class DefaultGunParticle extends GunParticle {
         controlPanelPSwing = new PSwing( gunGraphic.getComponent(), controlPanel );
     }
 
-    public void setup( AbstractGunGraphic gunGraphic ) {
-        ModifiedRichardsonPropagator propagator = new ModifiedRichardsonPropagator(
-                getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
-        getDiscreteModel().setPropagator( propagator );
+    public void activate( AbstractGunGraphic gunGraphic ) {
+        getDiscreteModel().setPropagator( createPropagator() );
         gunGraphic.setGunControls( controlPanelPSwing );
+    }
+
+    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        abstractGunGraphic.removeGunControls();
+    }
+
+    private Propagator createPropagator() {
+        return new ModifiedRichardsonPropagator( getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
     }
 
     protected double getHBar() {
@@ -56,10 +63,6 @@ public class DefaultGunParticle extends GunParticle {
 
     private double getDT() {
         return particleUnits.getDt().getValue();
-    }
-
-    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
-        abstractGunGraphic.removeGunControls();
     }
 
     public double getStartPy() {

@@ -123,8 +123,8 @@ public class PhotonBeamParticle extends GunParticle {
         removeModelElement( pauser );
     }
 
-    public void setup( AbstractGunGraphic abstractGunGraphic ) {
-        photonBeam.getPhoton().setup( abstractGunGraphic );
+    public void activate( AbstractGunGraphic abstractGunGraphic ) {
+        photonBeam.getPhoton().activate( abstractGunGraphic );
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
