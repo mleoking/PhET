@@ -88,7 +88,7 @@ public class PathRenderer extends AbstractXYItemRenderer {
         
         if ( item == 0 ) {
 
-            if ( !isVisible( series, item ) ) {
+            if ( !getItemVisible( series, item ) ) {
                 return;
             }
             
@@ -118,33 +118,5 @@ public class PathRenderer extends AbstractXYItemRenderer {
             g2.setPaint( getSeriesPaint( series ) );
             g2.draw( path );
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Visibility
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Determines if an item is visible.
-     * Note that there are many levels of visibility, and JFreeChart's 
-     * renderers are very inconsistent in their support of visibility.
-     * 
-     * @param series
-     * @param item
-     */
-    private boolean isVisible( int series, int item ) { 
-        return ( isSeriesVisible() && isSeriesVisible( series ) && getItemVisible( series, item ) );
-    }
-    
-    /*
-     * Workaround because getSeriesVisible returns null.
-     */
-    private boolean isSeriesVisible() {
-        boolean visible = true;
-        Boolean seriesVisible = getSeriesVisible();
-        if ( seriesVisible != null ) {
-            visible = seriesVisible.booleanValue();
-        }
-        return visible;
     }
 }
