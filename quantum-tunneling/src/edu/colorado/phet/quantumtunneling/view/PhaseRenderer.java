@@ -92,7 +92,7 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
             int pass ) {
         
         // draw only if visible...
-        if ( !isVisible( series, item ) ) {
+        if ( !getItemVisible( series, item ) ) {
             return;
         }
         
@@ -150,33 +150,5 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
     private Color phaseToRGB( double phase ) {
         float H = ( (float) Math.toDegrees( phase ) % 360f ) / 360f;
         return Color.getHSBColor( H, 1f, 1f );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Visibility
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Determines if an item is visible.
-     * Note that there are many levels of visibility, and JFreeChart's 
-     * renderers are very inconsistent in their support of visibility.
-     * 
-     * @param series
-     * @param item
-     */
-    private boolean isVisible( int series, int item ) {
-        return ( getSeriesVisible().booleanValue() && isSeriesVisible( series ) && getItemVisible( series, item ) );
-    }
-    
-    /*
-     * Workaround because getSeriesVisible returns null.
-     */
-    private boolean isSeriesVisible() {
-        boolean visible = true;
-        Boolean seriesVisible = getSeriesVisible();
-        if ( seriesVisible != null ) {
-            visible = seriesVisible.booleanValue();
-        }
-        return visible;
     }
 }
