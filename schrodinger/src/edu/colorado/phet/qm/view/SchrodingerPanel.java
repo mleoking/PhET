@@ -7,7 +7,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.phetcommon.RulerGraphic;
+import edu.colorado.phet.qm.phetcommon.RulerImageGraphic;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
@@ -159,7 +159,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         return schrodingerScreenNode.getDetectorSheetPNode();
     }
 
-    public RulerGraphic getRulerGraphic() {
+    public RulerImageGraphic getRulerGraphic() {
         return schrodingerScreenNode.getRulerGraphic();
     }
 

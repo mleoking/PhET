@@ -42,7 +42,7 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
     }
 
     public void activate( HighIntensityGunGraphic gun ) {
-        gunParticle.setup( gun );
+        gunParticle.activate( gun );
     }
 
     public GunParticle getGunParticle() {

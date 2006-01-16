@@ -32,7 +32,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         this.gunGraphic = gunGraphic;
     }
 
-    public abstract void setup( AbstractGunGraphic abstractGunGraphic );
+    public abstract void activate( AbstractGunGraphic abstractGunGraphic );
 
     public abstract void deactivate( AbstractGunGraphic abstractGunGraphic );
 

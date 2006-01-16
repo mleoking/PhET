@@ -27,7 +27,7 @@ public class Photon extends GunParticle {
         wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunGraphic.getSchrodingerPanel() );
     }
 
-    public void setup( AbstractGunGraphic abstractGunGraphic ) {
+    public void activate( AbstractGunGraphic abstractGunGraphic ) {
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
         abstractGunGraphic.setGunControls( wavelengthSliderGraphic );

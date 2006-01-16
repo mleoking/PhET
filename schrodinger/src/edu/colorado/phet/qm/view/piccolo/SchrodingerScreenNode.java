@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.phetcommon.RulerGraphic;
+import edu.colorado.phet.qm.phetcommon.RulerImageGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
@@ -39,7 +39,7 @@ public class SchrodingerScreenNode extends PNode {
 
     private AbstractGunGraphic abstractGunGraphic;
     private IntensityManager intensityManager;
-    private RulerGraphic rulerGraphic;
+    private RulerImageGraphic rulerImageGraphic;
 
     private Dimension lastLayoutSize = null;
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
@@ -58,16 +58,16 @@ public class SchrodingerScreenNode extends PNode {
                 }
             }
         } );
-        rulerGraphic = new RulerGraphic( schrodingerPanel );
-        rulerGraphic.setOffset( 50, 200 );
-        rulerGraphic.setVisible( true );
+        rulerImageGraphic = new RulerImageGraphic( schrodingerPanel );
+        rulerImageGraphic.setOffset( 50, 200 );
+        rulerImageGraphic.setVisible( true );
 
         detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, 60 );
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
         intensityManager = new IntensityManager( getSchrodingerModule(), schrodingerPanel, detectorSheetPNode );
         addChild( detectorSheetPNode );
         addChild( wavefunctionGraphic );
-        addChild( rulerGraphic );
+        addChild( rulerImageGraphic );
         schrodingerPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
@@ -123,7 +123,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
-        rulerGraphic.setVisible( rulerVisible );
+        rulerImageGraphic.setVisible( rulerVisible );
     }
 
     public void reset() {
@@ -151,8 +151,8 @@ public class SchrodingerScreenNode extends PNode {
         return intensityManager;
     }
 
-    public RulerGraphic getRulerGraphic() {
-        return rulerGraphic;
+    public RulerImageGraphic getRulerGraphic() {
+        return rulerImageGraphic;
     }
 
     public AbstractGunGraphic getGunGraphic() {

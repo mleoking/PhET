@@ -1,105 +1,100 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.piccolo.PImageFactory;
-import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
- * Date: Jun 23, 2005
- * Time: 6:35:56 PM
- * Copyright (c) Jun 23, 2005 by Sam Reid
+ * Date: Jan 16, 2006
+ * Time: 2:37:08 PM
+ * Copyright (c) Jan 16, 2006 by Sam Reid
  */
 
 public class RulerGraphic extends PNode {
-    public PImage imageGraphic;
-    public BufferedImage horiz;
-    public BufferedImage vert;
+    private PPath base;
+    private String[] readings;
+    private String units;
+    private int horizontalInset;
+    private int numMinorTicksBetweenMajors = 5;
+    private double majorTickHeight = 10;
+    private double minorTickHeight = 6;
 
-    public RulerGraphic( PSwingCanvas component ) {
-        imageGraphic = PImageFactory.create( "images/10-nanometer-stick.png" );
-        horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
-        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
-        addChild( imageGraphic );
+    public RulerGraphic( String[] readings, String units, int width, int height ) {
+        this.units = units;
+        Color backgroundColor = new Color( 236, 225, 113 );
+        base = new PPath();
+        base.setPaint( backgroundColor );
+        base.setStrokePaint( Color.black );
+        base.setStroke( new BasicStroke() );
+        this.readings = readings;
+        horizontalInset = 10;
 
-        JButton rotate = createRotateButton();
-        PSwing rotateButton = new PSwing( component, rotate );
-        addChild( rotateButton );
-        rotateButton.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        rotateButton.setOffset( -2 - rotateButton.getWidth(), 0 );
+        setBounds( 0, 0, width, height );
 
-        JButton closeButton = createCloseButton();
-        PSwing closeGraphic = new PSwing( component, closeButton );
-        addChild( closeGraphic );
-        closeGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        closeGraphic.setOffset( rotateButton.getX(), rotateButton.getY() - rotateButton.getHeight() - 2 );
+    }
 
-        addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        addInputEventListener( new PDragEventHandler() {
-            protected void drag( PInputEvent event ) {
-                super.setDraggedNode( RulerGraphic.this );
-                super.drag( event );    //Slight hack to make controls drag with the ruler
+    protected void internalUpdateBounds( double x, double y, double width, double height ) {
+        super.internalUpdateBounds( x, y, width, height );
+        removeAllChildren();
+        base.setPathToRectangle( (float)x, (float)y, (float)width, (float)height );
+        addChild( base );
+
+        double rulerDist = width - horizontalInset * 2;
+        double distBetweenMajorReadings = rulerDist / ( readings.length - 1 );
+        double distBetweenMinor = distBetweenMajorReadings / numMinorTicksBetweenMajors;
+        for( int i = 0; i < readings.length; i++ ) {
+            String reading = readings[i];
+            PText pText = new PText( reading );
+            double xVal = distBetweenMajorReadings * i + horizontalInset;
+            double yVal = height / 2 - pText.getFullBounds().getHeight() / 2;
+            pText.setOffset( xVal - pText.getFullBounds().getWidth() / 2, yVal );
+            addChild( pText );
+
+            DoubleGeneralPath tickPath = createTickPair( xVal, height, majorTickHeight );
+//            PPath majorTick = new PPath( tickPath.getGeneralPath(), new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER ) );
+            PPath majorTick = new PPath( tickPath.getGeneralPath(), new BasicStroke() );
+            majorTick.setStrokePaint( Color.black );
+            addChild( majorTick );
+
+            if( i < readings.length - 1 ) {
+                for( int k = 1; k < numMinorTicksBetweenMajors; k++ ) {
+                    DoubleGeneralPath pair = createTickPair( xVal + k * distBetweenMinor, height, minorTickHeight );
+                    PPath minorTick = new PPath( pair.getGeneralPath(), new BasicStroke() );
+                    minorTick.setStrokePaint( Color.black );
+                    addChild( minorTick );
+                }
             }
-        } );
-    }
 
-    protected void layoutChildren() {
-        super.layoutChildren();    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
-    private JButton createCloseButton() {
-        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
-        closeButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                close();
+            if( i == 0 ) {
+                PText unitsGraphic = new PText( units );
+                addChild( unitsGraphic );
+                unitsGraphic.setOffset( pText.getOffset().getX() + pText.getFullBounds().getWidth() + 5, pText.getOffset().getY() );
             }
-        } );
-        return closeButton;
+        }
     }
 
-    private void close() {
-        setVisible( false );
+    private DoubleGeneralPath createTickPair( double xVal, double height, double tickSize ) {
+        DoubleGeneralPath tickPath = new DoubleGeneralPath( xVal, 0 );
+        tickPath.lineTo( xVal, tickSize );
+        tickPath.moveTo( xVal, height - tickSize );
+        tickPath.lineTo( xVal, height );
+        return tickPath;
     }
 
-    private JButton createRotateButton() {
-        JButton rotate = null;
-        try {
-            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/rot.jpg" ) ) );
-            rotate.setMargin( new Insets( 1, 1, 1, 1 ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        rotate.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                rotate();
-            }
-        } );
-        return rotate;
-    }
-
-    private void rotate() {
-        if( imageGraphic.getImage() == horiz ) {
-            imageGraphic.setImage( vert );
-        }
-        else {
-            imageGraphic.setImage( horiz );
-        }
+    public static void main( String[] args ) {
+        PCanvas pCanvas = new PCanvas();
+        JFrame frame = new JFrame();
+        frame.setContentPane( pCanvas );
+        frame.setSize( 800, 400 );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        pCanvas.getLayer().addChild( new RulerGraphic( new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, "nm", 650, 40 ) );
+        frame.show();
     }
 }
