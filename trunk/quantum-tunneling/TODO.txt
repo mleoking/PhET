@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - larger font for axis labels
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
 - Measure -> Measure Position, move below left corner of Probability Density chart
-- default to clock running
 - try native L&F on all platforms
 - make AbstractWavePacketSolver in case we have other implementations
 - redo total energy display for wave packets
@@ -67,6 +66,7 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - default to clock running
 (1/17/06) - create localized versions of JOptionPane dialogs that I was using
 (1/17/06) - change "Reset" button to "Reset All", add confirmation dialog
 0.0.8 ...
