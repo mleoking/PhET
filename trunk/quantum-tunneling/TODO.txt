@@ -61,6 +61,7 @@ JFREECHART:
 
 
 DONE:
+0.0.8 ...
 (1/16/06) - wave packet width should be temporarily 0.1 while measuring
 (1/16/06) - bugfix: wave packet center is wrong when switching from packet to plane to packet
 (1/16/06) - change default wave packet center to -2
