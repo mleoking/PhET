@@ -1,0 +1,29 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 01/10/06-01/16/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - implemented phase view
+  - implemented 50% of "Measure" feature
+  - improved behavior of damping at the position boundaries to simulate absorbing boundaries
+  - improved charts performance by disabling auto-sorting and redundant notifications
+  - misc. change requests for ranges and default values
+  - investigated optimizing JFreeChart graphics, confusing results
+  - published 0.0.7, 0.0.8
+  
+  misc:
+  - fixed various JNLP files, added <offline-allowed>
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 
