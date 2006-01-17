@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -117,9 +118,14 @@ public abstract class AbstractControlPanel extends ControlPanel {
         JButton resetButton = new JButton( SimStrings.get( "button.reset" ) );
         resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
-                setWaitCursorEnabled( true );
-                _module.reset();
-                setWaitCursorEnabled( false );
+                Frame frame = PhetApplication.instance().getPhetFrame();
+                String message = SimStrings.get( "message.reset" );
+                int option = DialogUtils.showConfirmDialog( frame, message );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    setWaitCursorEnabled( true );
+                    _module.reset();
+                    setWaitCursorEnabled( false );
+                }
             }
         } );
         addControl( resetButton );
