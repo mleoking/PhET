@@ -37,20 +37,10 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     public static final int TO_LEFT = -1;
     public static final int TO_RIGHT = 1;
-    // An array of gray scale values
-    private static Color[] s_lineColor = new Color[256];
-
-    static {
-        for( int i = 0; i < s_lineColor.length; i++ ) {
-            s_lineColor[i] = new Color( i, i, i );
-        }
-    }
 
     // Note that larger values for the stroke slow down performance considerably
     private static double s_defaultStrokeWidth = 10;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_defaultStrokeWidth );
-//    private static Stroke s_defaultStroke = new BasicStroke( 1.0F );
-    static public boolean drawTest;
 
     private static BufferedImage createBufferedImage() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
