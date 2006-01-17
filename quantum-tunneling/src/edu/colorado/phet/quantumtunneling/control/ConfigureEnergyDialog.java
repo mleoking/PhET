@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -26,9 +27,12 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -69,9 +73,10 @@ public class ConfigureEnergyDialog extends JDialog {
      * warn the user about invalid values, and reset the values accordingly.
      */
     private static final double SPINNER_MAX = Double.MAX_VALUE;
-    
-    private static final Font AXES_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+
+    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
+    private static final Font AXIS_TICK_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 14 );
     private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
@@ -205,8 +210,31 @@ public class ConfigureEnergyDialog extends JDialog {
 
         // Plot
         _energyPlot = new EnergyPlot();
-        _energyPlot.setAxesFont( AXES_FONT );
         _energyPlot.setWaveType( waveType );
+        
+        // Font for axes labels and ticks
+        _energyPlot.getDomainAxis().setLabelFont( AXIS_LABEL_FONT );
+        _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+        _energyPlot.getDomainAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+        _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+        _energyPlot.getDomainAxis().setLabelInsets( new RectangleInsets( 10, 0, 0, 0 ) ); // top,left,bottom,right
+        _energyPlot.getRangeAxis().setLabelInsets( new RectangleInsets( 0, 0, 0, 10 ) );
+
+        // X axis tick units
+        {
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.POSITION_TICK_SPACING, QTConstants.POSITION_TICK_FORMAT ) );
+            _energyPlot.getDomainAxis().setStandardTickUnits( tickUnits );
+            _energyPlot.getDomainAxis().setAutoTickUnitSelection( true );
+        }
+        
+        // Y axis tick units
+        {
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.ENERGY_TICK_SPACING, QTConstants.ENERGY_TICK_FORMAT ) );
+            _energyPlot.getRangeAxis().setStandardTickUnits( tickUnits );
+            _energyPlot.getRangeAxis().setAutoTickUnitSelection( true );
+        }
         
         // Chart
         JFreeChart chart = new JFreeChart( null /*title*/, null /*font*/, _energyPlot, false /* createLegend */);
@@ -616,7 +644,7 @@ public class ConfigureEnergyDialog extends JDialog {
         if ( _teChanged || _peChanged ) {
             String message = SimStrings.get( "message.unsavedChanges" );
             String title = SimStrings.get( "title.confirm" );
-            int reply = JOptionPane.showConfirmDialog( this, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 handleApply();
                 dispose();
