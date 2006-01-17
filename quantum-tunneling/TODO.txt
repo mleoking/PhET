@@ -61,6 +61,10 @@ JFREECHART:
 
 
 DONE:
+(1/16/06) - change default wave packet center to -2
+(1/16/06) - change default width and spacing of barriers to 1nm
+(1/16/06) - change default step and 1st barrier position to 0nm
+(1/16/06) - change position range to -8...12nm
 (1/16/06) - remove unnecessary visibility methods from custom chart renderers
 (1/15/06) - put sampling frequency in QTConstants
 0.0.7 ...

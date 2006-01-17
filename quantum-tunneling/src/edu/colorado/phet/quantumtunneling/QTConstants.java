@@ -132,7 +132,7 @@ public class QTConstants {
     // Charts
     //----------------------------------------------------------------------------
     
-    public static final Range POSITION_RANGE = new Range( 0, 20 ); // nm
+    public static final Range POSITION_RANGE = new Range( -8, 12 ); // nm
     public static final Range ENERGY_RANGE = new Range( -1, 1 ); // eV
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
@@ -179,13 +179,13 @@ public class QTConstants {
     public static final double MIN_REGION_WIDTH = POSITION_STEP * 1;
     
     // Step potential
-    public static final double DEFAULT_STEP_POSITION = 5;
+    public static final double DEFAULT_STEP_POSITION = 0;
     public static final double DEFAULT_STEP_ENERGY = DEFAULT_POTENTIAL_ENERGY;
     
     // Barrier potential
-    public static final double DEFAULT_BARRIER_POSITION = 5;
-    public static final double DEFAULT_BARRIER_WIDTH = 3;
-    public static final double DEFAULT_SPACE_BETWEEN_BARRIERS = 3;
+    public static final double DEFAULT_BARRIER_POSITION = 0;
+    public static final double DEFAULT_BARRIER_WIDTH = 1;
+    public static final double DEFAULT_SPACE_BETWEEN_BARRIERS = 1;
     public static final double DEFAULT_BARRIER_ENERGY = DEFAULT_POTENTIAL_ENERGY;
     
     //----------------------------------------------------------------------------
@@ -200,7 +200,7 @@ public class QTConstants {
     // packet center
     public static final double MIN_PACKET_CENTER = POSITION_RANGE.getLowerBound(); // nm
     public static final double MAX_PACKET_CENTER = POSITION_RANGE.getUpperBound(); // nm
-    public static final double DEFAULT_PACKET_CENTER = 1.5; // nm
+    public static final double DEFAULT_PACKET_CENTER = -2; // nm
     
     // Richardson algorithm parameters
     public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40;
