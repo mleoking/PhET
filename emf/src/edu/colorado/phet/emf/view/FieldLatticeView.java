@@ -34,8 +34,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
     public final static int maxArrowHeadWidth = 10;
     public final static Color curveColor = new Color( 200, 0, 0 );
-    public final static Color arrowRed = new Color( 200, 0, 0 );
-    public final static Color arrowGreen = new Color( 0, 100, 0 );
+    public final static Color arrowRed = EmfConfig.FORCE_COLOR;
+    public final static Color arrowGreen = EmfConfig.FIELD_COLOR;
     private static int hollowArrowWidth = 5;
     private static int hollowArrowHeadWidth = 10;
 //    private static int hollowArrowWidth = 10;
@@ -43,8 +43,6 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private static BasicStroke hollowArrowStroke = new BasicStroke( 1f );
     private static BasicStroke curveStroke = new BasicStroke( 1f );
 //    private static BasicStroke curveStroke = new BasicStroke( 2 );
-    public static final int ELECTRIC_FIELD = -1;
-    public static final int FORCE_ON_ELECTRON = 1;
     private static int s_latticePtDiam = 5;
     private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
                                                                      s_latticePtDiam,
@@ -92,7 +90,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
     private boolean displayStaticField;
     private boolean displayDynamicField;
-    private int fieldSense = FORCE_ON_ELECTRON;
+    private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
     private int fieldDisplayType;
     private boolean fieldDisplayAlphaEnabled = true;
 
@@ -124,8 +122,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                              Component component ) {
         this.component = component;
 
-        if( !( fieldSense == FORCE_ON_ELECTRON
-               || fieldSense == ELECTRIC_FIELD ) ) {
+        if( !( fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON
+               || fieldSense == EmfConfig.SHOW_ELECTRIC_FIELD ) ) {
             throw new RuntimeException( "Bad actual parameter: fieldSense " );
         }
 
@@ -193,7 +191,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         AffineTransform orgTx = g2.getTransform();
         g2.transform( atx );
 
-        Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
+        Color color = fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
         if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS
             || fieldDisplayType == EmfPanel.VECTORS_CENTERED_ON_X_AXIS ) {
@@ -326,7 +324,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         // to the antenna (so that we get a nice steep line there )
         for( int i = 1; i < pts.size(); i++ ) {
             FieldPt fieldPt = (FieldPt)pts.get( i );
-            int arrowDir = MathUtil.getSign( fieldPt.field.getY() ) * ( fieldSense == FORCE_ON_ELECTRON ? 1 : -1 );
+            int arrowDir = MathUtil.getSign( fieldPt.field.getY() ) * ( fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON ? 1 : -1 );
             double magnitude = fieldPt.field.getMagnitude();
             if( fixedSizeArrows ) {
                 magnitude = 50;
