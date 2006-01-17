@@ -218,7 +218,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
             g2.setColor( curveColor );
             g2.setStroke( curveStroke );
-            if( curveVisible ) {
+            if( curveVisible && negPath != null && posPath != null ) {
                 RenderingHints orgRhB = g2.getRenderingHints();
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
                 g2.draw( negPath );
