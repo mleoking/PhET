@@ -280,6 +280,9 @@ public class WavePacketSolver {
      * edge of the display and enter on the other edge.
      */
     private void damp() {
+        if ( _Psi.length < DAMPING_FACTORS.length ) {
+            return;
+        }
         for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
             double scale = DAMPING_FACTORS[i];
             _Psi[i].scale( scale ); // left edge
