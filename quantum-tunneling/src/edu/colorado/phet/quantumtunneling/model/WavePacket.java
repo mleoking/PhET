@@ -174,14 +174,15 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     }
 
     public void setMeasureEnabled( boolean enabled ) {
-        if ( enabled && !_measureEnabled ) {
-            _saveCenter = _center;
-        }
+        boolean wasMeasureEnabled = _measureEnabled;
         _measureEnabled = enabled;
-        if ( _measureEnabled ) {
+        if ( enabled ) {
+            if ( !wasMeasureEnabled ) {
+                _saveCenter = _center;
+            }
             setCenter( chooseRandomCenter() );
         }
-        else {
+        if ( !enabled && wasMeasureEnabled ) {
             setCenter( _saveCenter );
         }
     }
