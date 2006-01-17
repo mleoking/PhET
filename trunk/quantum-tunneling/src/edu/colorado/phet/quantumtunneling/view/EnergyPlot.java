@@ -113,10 +113,6 @@ public class EnergyPlot extends XYPlot implements Observer {
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.ENERGY_RANGE );
-        if ( QTConstants.USE_INTEGER_ENERGY_TICKS ) {
-            TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
-            yAxis.setStandardTickUnits( yUnits );
-        }
         yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
         yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
 
