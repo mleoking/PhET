@@ -5,7 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- larger font for axis labels
+- fix alignment of legend with left edge of charts
+- pause clock while ConfigureEnergyDialog is open
+- localize confirmation dialog in ConfigureEnergDialog
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
 - Measure -> Measure Position, move below left corner of Probability Density chart
 - try native L&F on all platforms
@@ -17,6 +19,7 @@ HIGH PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
 MEDIUM PRIORITY:
+- top edge of +1 tick label on Energy plot y axis is clipped
 - add tick labels to wave packet center and width controls
 - put color legend next to view checkboxes
 - move "Show values" from Options menu to control panel
@@ -66,6 +69,8 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - explicity set the tick units for all axes via constants in QTConstants
+(1/17/06) - larger font for axis labels and ticks
 (1/17/06) - default to clock running
 (1/17/06) - create localized versions of JOptionPane dialogs that I was using
 (1/17/06) - change "Reset" button to "Reset All", add confirmation dialog

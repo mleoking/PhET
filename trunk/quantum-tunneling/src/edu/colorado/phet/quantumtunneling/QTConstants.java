@@ -140,7 +140,14 @@ public class QTConstants {
     public static final boolean SHOW_VERTICAL_GRIDLINES = false;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
     
-    public static final boolean USE_INTEGER_ENERGY_TICKS = false;
+    public static final double ENERGY_TICK_SPACING = 0.5;
+    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    public static final double WAVE_FUNCTION_TICK_SPACING = 1;
+    public static final DecimalFormat WAVE_FUNCTION_TICK_FORMAT = new DecimalFormat( "0" );
+    public static final double PROBABILITY_DENSITY_TICK_SPACING = 1;
+    public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0" );
+    public static final double POSITION_TICK_SPACING = 2;
+    public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
     

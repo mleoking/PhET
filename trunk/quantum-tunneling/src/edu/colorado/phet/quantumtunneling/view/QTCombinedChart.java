@@ -11,11 +11,14 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.Font;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.*;
 import org.jfree.data.xy.XYSeries;
 
@@ -49,8 +52,11 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     public static final int PROBABILITY_DENSITY_PLOT_INDEX = 2;
         
     private static final boolean CREATE_LEGEND = false;
-    private static final double CHART_SPACING = 15.0;
-
+    private static final double CHART_SPACING = 25.0;
+    
+    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font AXIS_TICK_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 14 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -74,24 +80,60 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         setBackgroundPaint( QTConstants.CHART_BACKGROUND );
         
         // Energy plot...
-        _energyPlot = new EnergyPlot();
-
+        {
+            _energyPlot = new EnergyPlot();
+            _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+            _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            // Y axis tick units
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.ENERGY_TICK_SPACING, QTConstants.ENERGY_TICK_FORMAT ) );
+            _energyPlot.getRangeAxis().setStandardTickUnits( tickUnits );
+            _energyPlot.getRangeAxis().setAutoTickUnitSelection( true );
+        }
+        
         // Wave Function plot...
-        _waveFunctionPlot = new WaveFunctionPlot();
+        {
+            _waveFunctionPlot = new WaveFunctionPlot();
+            _waveFunctionPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+            _waveFunctionPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            // Y axis tick units
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.WAVE_FUNCTION_TICK_SPACING, QTConstants.WAVE_FUNCTION_TICK_FORMAT ) );
+            _waveFunctionPlot.getRangeAxis().setStandardTickUnits( tickUnits );
+            _waveFunctionPlot.getRangeAxis().setAutoTickUnitSelection( true );
+        }
 
         // Probability Density plot...
-        XYSeries probabilityDensitySeries = _waveFunctionPlot.getProbabilityDensitySeries();
-        _probabilityDensityPlot = new ProbabilityDensityPlot( probabilityDensitySeries );
+        {
+            XYSeries probabilityDensitySeries = _waveFunctionPlot.getProbabilityDensitySeries();
+            _probabilityDensityPlot = new ProbabilityDensityPlot( probabilityDensitySeries );
+            _probabilityDensityPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+            _probabilityDensityPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            // Y axis tick units
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.PROBABILITY_DENSITY_TICK_SPACING, QTConstants.PROBABILITY_DENSITY_TICK_FORMAT ) );
+            _probabilityDensityPlot.getRangeAxis().setStandardTickUnits( tickUnits );
+            _probabilityDensityPlot.getRangeAxis().setAutoTickUnitSelection( true );
+        }
 
+        // Common X axis...
+        PositionAxis positionAxis = new PositionAxis();
+        {
+            positionAxis.setLabelFont( AXIS_LABEL_FONT );
+            positionAxis.setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            // Tick units
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( QTConstants.POSITION_TICK_SPACING, QTConstants.POSITION_TICK_FORMAT ) );
+            positionAxis.setStandardTickUnits( tickUnits );
+            positionAxis.setAutoTickUnitSelection( true );
+        }
+        
         // Parent plot configuration...
         {
             CombinedDomainXYPlot plot = (CombinedDomainXYPlot) getPlot();
             
-            // Common x axis...
-            PositionAxis positionAxis = new PositionAxis();
-            plot.setDomainAxis( positionAxis );
-            
             // Misc properties
+            plot.setDomainAxis( positionAxis );
             plot.setGap( CHART_SPACING );
             plot.setOrientation( PlotOrientation.VERTICAL );
 
