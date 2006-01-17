@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
@@ -13,7 +14,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - put color legend next to view checkboxes
 - move "Show values" from Options menu to control panel
-- redo total energy display for wave packets
 - fix dt in SchrodingerSolver so that it is related to clock dt
 - add application description to SimStrings files
 - pause clock while dragging sliders/handles, restore the clock state on release
