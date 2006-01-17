@@ -67,7 +67,7 @@ JFREECHART:
 
 
 DONE:
-(1/17/06) - create localized version of JOptionPane dialogs that I was using
+(1/17/06) - create localized versions of JOptionPane dialogs that I was using
 (1/17/06) - change "Reset" button to "Reset All", add confirmation dialog
 0.0.8 ...
 (1/16/06) - wave packet width should be temporarily 0.1 while measuring
