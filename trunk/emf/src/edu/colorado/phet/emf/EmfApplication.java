@@ -61,7 +61,7 @@ public class EmfApplication {
         }
 
         SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
-        Module antennaModule = new EmfModule( clock );
+        final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
                 SimStrings.get( "EmfApplication.title" ),
@@ -93,15 +93,23 @@ public class EmfApplication {
 
         // Add an options menu
         JMenu optionsMenu = new JMenu( "Options" );
-        final JCheckBoxMenuItem centerSingleVectorRowOffsetMI = new JCheckBoxMenuItem( "Center vectors on x axis");
-        centerSingleVectorRowOffsetMI.addActionListener( new ActionListener() {
+        final JCheckBoxMenuItem scalarRepCB = new JCheckBoxMenuItem( "Scalar representatio" );
+        scalarRepCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                EmfConfig.SINGLE_VECTOR_ROW_OFFSET = centerSingleVectorRowOffsetMI.isSelected() ?
-                                                     0.5 : 0;
+                antennaModule.setScalarRepEnabled( scalarRepCB.isSelected() );
             }
         } );
-        optionsMenu.add( centerSingleVectorRowOffsetMI );
-        centerSingleVectorRowOffsetMI.setSelected( true );
+        optionsMenu.add( scalarRepCB );
+
+//        final JCheckBoxMenuItem centerSingleVectorRowOffsetMI = new JCheckBoxMenuItem( "Center vectors on x axis");
+//        centerSingleVectorRowOffsetMI.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                EmfConfig.SINGLE_VECTOR_ROW_OFFSET = centerSingleVectorRowOffsetMI.isSelected() ?
+//                                                     0.5 : 0;
+//            }
+//        } );
+//        optionsMenu.add( centerSingleVectorRowOffsetMI );
+//        centerSingleVectorRowOffsetMI.setSelected( true );
         frame.addMenu( optionsMenu );
 
         Runtime.getRuntime().gc();

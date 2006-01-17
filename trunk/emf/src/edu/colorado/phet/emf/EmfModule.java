@@ -31,6 +31,7 @@ import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
+import edu.colorado.phet.waves.view.WaveMediumGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +61,8 @@ public class EmfModule extends Module {
     private boolean beenWiggled;
 
     private ModelViewTransform2D mvTx;
+    private WaveMediumGraphic waveMediumGraphicB;
+    private WaveMediumGraphic waveMediumGraphicA;
 
 
     public EmfModule( AbstractClock clock ) {
@@ -153,8 +156,8 @@ public class EmfModule extends Module {
         HelpItem helpItem1 = new HelpItem( SimStrings.get( "EmfModule.help1" ),
                                            origin.getX() + 15, origin.getY() + 10,
                                            HelpItem.RIGHT, HelpItem.BELOW );
-        helpItem1.setForegroundColor( Color.black);
-        helpItem1.setShadowColor( Color.gray);
+        helpItem1.setForegroundColor( Color.black );
+        helpItem1.setShadowColor( Color.gray );
         addHelpItem( helpItem1 );
     }
 
@@ -312,6 +315,20 @@ public class EmfModule extends Module {
 
     public void setFieldSense( int fieldSense ) {
         apparatusPanel.setFieldSense( fieldSense );
+        Color color = null;
+        if( fieldSense == EmfConfig.SHOW_ELECTRIC_FIELD ) {
+            color = EmfConfig.FIELD_COLOR;
+        }
+        if( fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON ) {
+            color = EmfConfig.FORCE_COLOR;
+        }
+        if( color != null ) {
+            waveMediumGraphicA.setMaxAmplitudeColor( color );
+            waveMediumGraphicB.setMaxAmplitudeColor( color );
+        }
+        else {
+            throw new RuntimeException( "invalid fieldSense" );
+        }
     }
 
     public void setFieldDisplay( int display ) {
@@ -320,6 +337,18 @@ public class EmfModule extends Module {
 
     public void setCurveVisible( boolean isVisible ) {
         apparatusPanel.setCurveVisible( isVisible );
+    }
+
+    public void setSingleVectorRowRepresentation( Object representation ) {
+        if( representation == EmfConfig.SINGLE_VECTOR_ROW_CENTERED ) {
+            EmfConfig.SINGLE_VECTOR_ROW_OFFSET = 0.5;
+        }
+        else if( representation == EmfConfig.SINGLE_VECTOR_ROW_PINNED ) {
+            EmfConfig.SINGLE_VECTOR_ROW_OFFSET = 0;
+        }
+        else {
+            throw new RuntimeException( "invalid representation" );
+        }
     }
 
     public void removeWiggleMeGraphic() {
@@ -378,5 +407,31 @@ public class EmfModule extends Module {
         Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY() );
         Rectangle vr = new Rectangle( (int)vp1.getX(), (int)vp1.getY(), (int)( vp2.getX() - vp1.getX() ), (int)( vp2.getY() - vp1.getY() ) );
         return new ModelViewTransform2D( mr, vr );
+    }
+
+    public void setScalarRepEnabled( boolean enabled ) {
+        if( enabled ) {
+            // Add the "ripple" representation
+            if( waveMediumGraphicA == null ) {
+                waveMediumGraphicA = new WaveMediumGraphic( electron,
+                                                            getApparatusPanel(),
+                                                            electronLoc,
+                                                            800,
+                                                            WaveMediumGraphic.TO_RIGHT );
+                waveMediumGraphicB = new WaveMediumGraphic( electron,
+                                                            getApparatusPanel(),
+                                                            electronLoc,
+                                                            200,
+                                                            WaveMediumGraphic.TO_LEFT );
+            }
+            getApparatusPanel().addGraphic( waveMediumGraphicA, 1E5 );
+            getApparatusPanel().addGraphic( waveMediumGraphicB, 1E5 );
+        }
+        else if( waveMediumGraphicA != null ) {
+            getApparatusPanel().removeGraphic( waveMediumGraphicA );
+            getApparatusPanel().removeGraphic( waveMediumGraphicB );
+            waveMediumGraphicA.setVisible( false );
+            waveMediumGraphicB.setVisible( false );
+        }
     }
 }

@@ -75,8 +75,8 @@ public class EmfControlPanel extends JPanel {
         private JRadioButton fullFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.FullRadioButton" ) );
         private JRadioButton hideFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.NoneRadioButton" ) );
         private ButtonGroup fieldDisplayRBGroup;
-        private JRadioButton centeredVectorRB;
-        private JRadioButton centeredVectorWCurveRB;
+        private JRadioButton singleVectorRowRB;
+        private JRadioButton vectorWCurveRB;
         private JRadioButton curveRB;
 //        private JCheckBox curveVisibleCB;
 
@@ -87,7 +87,9 @@ public class EmfControlPanel extends JPanel {
 
             this.setLayout( new GridBagLayout() );
 
-            // Dynamic/static field selection
+            //----------------------------------------------------------------
+            // Dynamic/static field choices
+            //----------------------------------------------------------------
             ButtonGroup fieldTypeRBGroup = new ButtonGroup();
             fieldTypeRBGroup.add( dynamicFieldRB );
             fieldTypeRBGroup.add( staticFieldRB );
@@ -102,26 +104,35 @@ public class EmfControlPanel extends JPanel {
             staticFieldRB.addActionListener( new FieldViewRBActionListener() );
             dynamicFieldRB.addActionListener( new FieldViewRBActionListener() );
 
+            //----------------------------------------------------------------
             // Field representation choices
+            //----------------------------------------------------------------
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             hideFieldRB.addActionListener( new FieldViewRBActionListener() );
             fullFieldRB.addActionListener( new FieldViewRBActionListener() );
-            centeredVectorRB = new JRadioButton( SimStrings.get( "EmfControlPanel.SingleLineOfVectors" ) );
-            centeredVectorRB.addActionListener( new FieldViewRBActionListener() );
-            centeredVectorWCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
-            centeredVectorWCurveRB.addActionListener( new FieldViewRBActionListener() );
+            singleVectorRowRB = new JRadioButton( SimStrings.get( "EmfControlPanel.SingleLineOfVectors" ) );
+            singleVectorRowRB.addActionListener( new FieldViewRBActionListener() );
+            vectorWCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
+            vectorWCurveRB.addActionListener( new FieldViewRBActionListener() );
             curveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
             curveRB.addActionListener( new FieldViewRBActionListener() );
 
             fieldDisplayRBGroup = new ButtonGroup();
             fieldDisplayRBGroup.add( curveRB );
-            fieldDisplayRBGroup.add( centeredVectorWCurveRB );
-            fieldDisplayRBGroup.add( centeredVectorRB );
+            fieldDisplayRBGroup.add( vectorWCurveRB );
+            fieldDisplayRBGroup.add( singleVectorRowRB );
             fieldDisplayRBGroup.add( fullFieldRB );
             fieldDisplayRBGroup.add( hideFieldRB );
 
             // Set the default
             curveRB.setSelected( true );
+
+//            final JCheckBox scalarRepCB = new JCheckBox( "Scalar representatio" );
+//            scalarRepCB.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    module.setScalarRepEnabled( scalarRepCB.isSelected() );
+//                }
+//            } );
 
             // Lay out the radio buttons
             JPanel fieldRepPane = new JPanel( new GridBagLayout() );
@@ -130,19 +141,22 @@ public class EmfControlPanel extends JPanel {
                                                               GridBagConstraints.HORIZONTAL,
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
             fieldRepPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
-            fieldRepPane.add( centeredVectorWCurveRB, gbcB );
-            fieldRepPane.add( centeredVectorRB, gbcB );
+            fieldRepPane.add( vectorWCurveRB, gbcB );
             fieldRepPane.add( curveRB, gbcB );
+            fieldRepPane.add( singleVectorRowRB, gbcB );
             fieldRepPane.add( fullFieldRB, gbcB );
             fieldRepPane.add( hideFieldRB, gbcB );
+//            fieldRepPane.add( scalarRepCB, gbcB );
 
+            //----------------------------------------------------------------
             // Field sense options
+            //----------------------------------------------------------------
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
             JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
             JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( SimStrings.get( "EmfControlPanel.ForceFieldRadioButton" ) ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setFieldSense( FieldLatticeView.FORCE_ON_ELECTRON );
+                    module.setFieldSense( EmfConfig.SHOW_FORCE_ON_ELECTRON );
                 }
             } );
             fieldSenseRBGroup.add( fFieldRB );
@@ -150,7 +164,7 @@ public class EmfControlPanel extends JPanel {
             JRadioButton eFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ElectricFieldRadioButton" ) );
             eFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setFieldSense( FieldLatticeView.ELECTRIC_FIELD );
+                    module.setFieldSense( EmfConfig.SHOW_ELECTRIC_FIELD );
                 }
             } );
             fieldSenseRBGroup.add( eFieldRB );
@@ -195,7 +209,7 @@ public class EmfControlPanel extends JPanel {
             }
 
             // Set initial conditions
-            centeredVectorWCurveRB.setSelected( true );
+            vectorWCurveRB.setSelected( true );
             dynamicFieldRB.setSelected( true );
             fFieldRB.setSelected( true );
             setFieldView();
@@ -223,9 +237,9 @@ public class EmfControlPanel extends JPanel {
                 isEnabled = true;
             }
             hideFieldRB.setEnabled( isEnabled );
-            centeredVectorRB.setEnabled( isEnabled );
+            singleVectorRowRB.setEnabled( isEnabled );
             curveRB.setEnabled( isEnabled );
-            centeredVectorWCurveRB.setEnabled( isEnabled );
+            vectorWCurveRB.setEnabled( isEnabled );
 
 
             int display = EmfPanel.NO_FIELD;
@@ -234,8 +248,9 @@ public class EmfControlPanel extends JPanel {
             if( fullFieldRB.isSelected() ) {
                 display = EmfPanel.FULL_FIELD;
             }
-            if( centeredVectorRB.isSelected() ) {
+            if( singleVectorRowRB.isSelected() ) {
                 display = EmfPanel.VECTORS_CENTERED_ON_X_AXIS;
+                module.setSingleVectorRowRepresentation( EmfConfig.SINGLE_VECTOR_ROW_CENTERED );
             }
             if( hideFieldRB.isSelected() ) {
                 display = EmfPanel.NO_FIELD;
@@ -243,8 +258,9 @@ public class EmfControlPanel extends JPanel {
             if( curveRB.isSelected() ) {
                 display = EmfPanel.CURVE;
             }
-            if( centeredVectorWCurveRB.isSelected() ) {
+            if( vectorWCurveRB.isSelected() ) {
                 display = EmfPanel.CURVE_WITH_VECTORS;
+                module.setSingleVectorRowRepresentation( EmfConfig.SINGLE_VECTOR_ROW_PINNED );
             }
             module.setFieldDisplay( display );
         }
