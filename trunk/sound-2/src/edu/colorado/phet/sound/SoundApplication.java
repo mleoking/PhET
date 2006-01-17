@@ -12,8 +12,11 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.sound.model.SoundClock;
 
 import java.util.Locale;
+import java.util.ArrayList;
+
 
 public class SoundApplication extends PhetApplication {
 
@@ -30,7 +33,8 @@ public class SoundApplication extends PhetApplication {
             getFrame().setResizable( false );
 
             // Specify the clock
-            this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
+            this.setClock( new SoundClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
+//            this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
             this.setName( "sound" );
 
             // Set up the modules

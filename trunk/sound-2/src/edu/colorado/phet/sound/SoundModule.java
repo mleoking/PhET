@@ -9,10 +9,9 @@ package edu.colorado.phet.sound;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.sound.model.Listener;
-import edu.colorado.phet.sound.model.SineWaveFunction;
-import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.model.Wavefront;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.sound.model.*;
 import edu.colorado.phet.sound.view.RgbReporter;
 import edu.colorado.phet.sound.view.WavefrontOscillator;
 
@@ -45,6 +44,9 @@ public class SoundModule extends Module implements RgbReporter {
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
     private Listener currentListener;
+    private Boolean saveAudioEnabledState;
+    private boolean isActive;
+    private AbstractClock clock;
 
     /**
      * @param appModel
@@ -52,11 +54,38 @@ public class SoundModule extends Module implements RgbReporter {
      */
     public SoundModule( ApplicationModel appModel, String name ) {
         super( name );
-        this.setModel( new SoundModel( appModel.getClock() ) );
+        clock = appModel.getClock();
+        this.setModel( new SoundModel( clock ) );
         initModel();
         speakerListener = new Listener( (SoundModel)getModel(),
                                         new Point2D.Double() );
         setListener( speakerListener );
+
+        // Add a listener to the clock that will turn the audio off and on when the clock
+        // is paused and unpaused
+        ( (SoundClock)clock ).addPauseListener( new SoundClock.PauseListener() {
+            public void stateChanged( boolean isPaused ) {
+                if( isActive ) {
+                    if( isPaused ) {
+                        saveAudioEnabledState = new Boolean( audioEnabled );
+                        primaryOscillator.setEnabled( false );
+                        octaveOscillator.setEnabled( false );
+                    }
+                    else {
+                        setAudioEnabled( audioEnabled );
+                        if( saveAudioEnabledState != null ) {
+                            setAudioEnabled( saveAudioEnabledState.booleanValue() );
+                        }
+                        saveAudioEnabledState = null;
+                    }
+                }
+                else {
+                    if( saveAudioEnabledState != null ) {
+                        audioEnabled = saveAudioEnabledState.booleanValue();
+                    }
+                }
+            }
+        } );
     }
 
     protected SoundModel getSoundModel() {
@@ -65,16 +94,29 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        setAudioEnabled( audioEnabled );
+        if( !clock.isPaused() ) {
+            setAudioEnabled( audioEnabled );
+        }
         if( currentListener != null ) {
             setListener( currentListener );
         }
+        isActive = true;
+    }
+
+    public void deactivate( PhetApplication phetApplication ) {
+        super.deactivate( phetApplication );
+        isActive = false;
     }
 
     public void setAudioEnabled( boolean enabled ) {
-        audioEnabled = enabled;
-        primaryOscillator.setEnabled( enabled );
-        octaveOscillator.setEnabled( enabled && getSoundModel().isOctaveEnabled() );
+        if( clock.isPaused() ) {
+            saveAudioEnabledState = new Boolean( enabled );
+        }
+        else {
+            audioEnabled = enabled;
+            primaryOscillator.setEnabled( enabled );
+            octaveOscillator.setEnabled( enabled && getSoundModel().isOctaveEnabled() );
+        }
     }
 
     private void initModel() {
