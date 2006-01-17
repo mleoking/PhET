@@ -27,6 +27,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.control.DialogUtils;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 
 
@@ -158,9 +159,8 @@ public class ConfigManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            String title = SimStrings.get( "title.confirm" );
             String message = SimStrings.get( "Save.confirm.message" );
-            int reply = JOptionPane.showConfirmDialog( frame, message, title, JOptionPane.YES_NO_OPTION );
+            int reply = DialogUtils.showConfirmDialog( frame, message );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
             }
@@ -345,7 +345,7 @@ public class ConfigManager {
         String title = SimStrings.get( "title.error" );
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
-        JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
+        DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
     }
     
     /**

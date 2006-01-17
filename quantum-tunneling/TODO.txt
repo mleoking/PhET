@@ -5,6 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- larger font for axis labels
+- add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
+- Measure -> Measure Position, move below left corner of Probability Density chart
+- default to clock running
+- try native L&F on all platforms
+- make AbstractWavePacketSolver in case we have other implementations
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
@@ -29,7 +35,6 @@ LOW PRIORITY:
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
-- translate Yes/No/Cancel on JOptionPane.showConfirmMessage
 
 OPTIMIZATIONS:
 - remove test-src
@@ -62,6 +67,8 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - create localized version of JOptionPane dialogs that I was using
+(1/17/06) - change "Reset" button to "Reset All", add confirmation dialog
 0.0.8 ...
 (1/16/06) - wave packet width should be temporarily 0.1 while measuring
 (1/16/06) - bugfix: wave packet center is wrong when switching from packet to plane to packet
