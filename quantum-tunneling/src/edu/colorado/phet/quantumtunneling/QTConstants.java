@@ -196,6 +196,7 @@ public class QTConstants {
     public static final double MIN_PACKET_WIDTH = 0.1; // nm
     public static final double MAX_PACKET_WIDTH = 4.0; // nm
     public static final double DEFAULT_PACKET_WIDTH = 0.5; // nm
+    public static final double MEASURING_WIDTH = 0.1; // nm
     
     // packet center
     public static final double MIN_PACKET_CENTER = POSITION_RANGE.getLowerBound(); // nm
