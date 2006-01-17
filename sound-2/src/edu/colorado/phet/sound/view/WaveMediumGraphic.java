@@ -183,7 +183,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
         // Set opacity
         Composite incomingComposite = g.getComposite();
-//rjl 8/25/04
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 
         g.setStroke( s_defaultStroke );

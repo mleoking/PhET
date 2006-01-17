@@ -23,10 +23,10 @@ public class SoundModel extends BaseModel {
     private Wavefront octaveWavefront;
     private boolean octaveEnabled = false;
 
-    // Used to save and restore audio state when Stop and Run are pressed
-    //    private boolean savedAudioEnabledState = false;
-
-
+    /**
+     *
+     * @param clock
+     */
     public SoundModel( AbstractClock clock ) {
         this.clock = clock;
         setWaveMedium( waveMedium );
@@ -78,13 +78,6 @@ public class SoundModel extends BaseModel {
             Wavefront wavefront = (Wavefront)iterator.next();
             wavefront.setPropagationSpeed( propogationSpeed );
         }
-    }
-
-    /**
-     *
-     */
-    public synchronized void stepInTime( double dt ) {
-        super.stepInTime( dt );
     }
 
     /**
