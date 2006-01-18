@@ -688,51 +688,22 @@ class QuantumCircFrame extends Frame
         if( winSize == null || winSize.width == 0 || dbimage == null ) {
             return;
         }
-//        boolean allQuiet = true;
-        if( !stoppedCheck.getState() && !dragging ) {
-            int val = speedBar.getValue();
-            double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
-            long sysTime = System.currentTimeMillis();
-            if( lastTime == 0 ) {
-                lastTime = sysTime;
-            }
-            tadd *= ( sysTime - lastTime ) * ( 1 / 170. );
-            t += tadd;
-            lastTime = sysTime;
-//            allQuiet = false;
-        }
-        else {
-            lastTime = 0;
-        }
-        Color gray2 = new Color( 127, 127, 127 );
-        g.setColor( cv.getBackground() );
-        g.fillRect( 0, 0, winSize.width, winSize.height );
-        g.setColor( cv.getForeground() );
+        updateTimeValues();
+        drawBack( g );
 
-        int i, j;
-        for( i = 1; i != viewCount; i++ ) {
-            g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
-            g.drawLine( 0, viewList[i].paneY,
-                        winSize.width, viewList[i].paneY );
-        }
 
-        int x, y;
-        if( dragStop ) {
-            t = 0;
-        }
-        double norm = 0;
-        double normmult = 0;
-        double normmult2 = 0;
         if( !editingFunc ) {
             // update phases
-            for( i = 0; i != modeCountTh; i++ ) {
-                for( j = 0; j != modeCountR; j++ ) {
+            double norm = 0;
+            double normmult = 0;
+            double normmult2 = 0;
+            for( int i = 0; i != modeCountTh; i++ ) {
+                for( int j = 0; j != modeCountR; j++ ) {
                     if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
                         magcoef[i][j] = phasecoef[i][j] =
                         phasecoefadj[i][j] = 0;
                         continue;
                     }
-//                    allQuiet = false;
                     phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
                     phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
                     phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
@@ -744,74 +715,15 @@ class QuantumCircFrame extends Frame
                 normmult2 = 0;
             }
             normmult = Math.sqrt( normmult2 );
-            genFunc( normmult, true );
+            genFunc( normmult );
         }
-        brightmult =
-                Math.exp( brightnessBar.getValue() / 200. - 5 );
-        if( norm == 0 ) {
-            normmult = normmult2 = 0;
-        }
+        brightmult = Math.exp( brightnessBar.getValue() / 200.0 - 5 );
+
         xpoints = new int[4];
         ypoints = new int[4];
 
         if( viewX != null ) {
             drawRadial( g, viewXMap, func, funci );
-        }
-
-        if( viewP != null ) {
-            genFunc( normmult, false );
-            drawRadial( g, viewPMap, pfunc, pfunci );
-        }
-
-        if( viewL != null ) {
-            int lzcount = modeCountTh * lspacing;
-            calcLSpectrum();
-            for( i = 0; i != lzcount; i++ ) {
-                lzspectrum[i] = Math.sqrt( lzspectrum[i] );
-            }
-            drawFunction( g, viewL, lzspectrum, null, lzcount, 0 );
-        }
-
-        if( viewStatesMap != null ) {
-            // draw frequency grid
-            int termWidth = getTermWidth();
-            int stateSize = termWidth;
-            int ss2 = termWidth / 2;
-            for( i = 0; i < modeCountTh && i < maxDispPhasorsTh; i++ ) {
-                for( j = 0; j < modeCountR && j < maxDispPhasorsR; j++ ) {
-                    x = viewStatesMap.x + i * termWidth + ss2;
-                    y = viewStatesMap.y + j * termWidth + ss2;
-                    boolean yel = ( selectedCoefX != -1 &&
-                                    elevels[selectedCoefX][selectedCoefY] == elevels[i][j] );
-                    g.setColor( yel ? Color.yellow :
-                                ( magcoef[i][j] == 0 ) ? gray2 : Color.white );
-                    g.drawOval( x - ss2, y - ss2, stateSize, stateSize );
-                    int xa = (int)( magcoef[i][j] * phasecoefcos[i][j] * ss2 );
-                    int ya = (int)( -magcoef[i][j] * phasecoefsin[i][j] * ss2 );
-                    g.drawLine( x, y, x + xa, y + ya );
-                    g.drawLine( x + xa - 1, y + ya, x + xa + 1, y + ya );
-                    g.drawLine( x + xa, y + ya - 1, x + xa, y + ya + 1 );
-                }
-            }
-            g.setColor( Color.white );
-        }
-
-        if( selectedCoefX != -1 ) {
-            g.setColor( Color.yellow );
-            int m = ( selectedCoefX + 1 ) / 2;
-            if( ( selectedCoefX & 1 ) != 0 ) {
-                m = -m;
-            }
-            if( viewStatesMap != null && viewX != null ) {
-                centerString( g, "nr = " + selectedCoefY + ", m = " + m,
-                              viewX.y + viewX.height - 10 );
-            }
-            if( viewL != null ) {
-                int lzcount = modeCountTh * lspacing; // XXX
-                int mx = m * lspacing + lzcount / 2;
-                x = viewL.width * mx / ( lzcount - 1 );
-                g.drawLine( x, viewL.y, x, viewL.y + viewL.height );
-            }
         }
 
         realg.drawImage( dbimage, 0, 0, this );
@@ -820,9 +732,39 @@ class QuantumCircFrame extends Frame
         }
     }
 
+    private void drawBack( Graphics g ) {
+        g.setColor( cv.getBackground() );
+        g.fillRect( 0, 0, winSize.width, winSize.height );
+        g.setColor( cv.getForeground() );
+
+        for( int i = 1; i != viewCount; i++ ) {
+            g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
+            g.drawLine( 0, viewList[i].paneY,
+                        winSize.width, viewList[i].paneY );
+        }
+    }
+
+    private void updateTimeValues() {
+        if( !stoppedCheck.getState() && !dragging ) {
+            int val = speedBar.getValue();
+            double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
+            long sysTime = System.currentTimeMillis();
+            if( lastTime == 0 ) {
+                lastTime = sysTime;
+            }
+            tadd *= ( sysTime - lastTime ) * ( 1 / 170. );
+            t += tadd;
+            lastTime = sysTime;
+        }
+        else {
+            lastTime = 0;
+        }
+        if( dragStop ) {
+            t = 0;
+        }
+    }
+
     void drawRadial( Graphics g, View view, double fr[][], double fi[][] ) {
-//        int rcol = 0x00010000;
-//        int gcol = 0x00000100;
         int cx = view.width / 2;
         int cy = view.height / 2;
         int cr = view.width / 2;
@@ -1144,18 +1086,16 @@ class QuantumCircFrame extends Frame
                           (int)( ( gray * grayness ) * 255 ) );
     }
 
-    void genFunc( double normmult, boolean do_x ) {
+    void genFunc( double normmult ) {
         int i, j, r;
-//        , th, r;
         int wc = sampleCountTh * 2;
         int wm = wc - 1;
 
-        double states[][][] = ( do_x ) ? xStates : pStates;
-        double outr[][] = ( do_x ) ? func : pfunc;
-        double outi[][] = ( do_x ) ? funci : pfunci;
+        double states[][][] = xStates;
+        double outr[][] = func;
+        double outi[][] = funci;
 
-        // step through each value of r and use inverse fft to calculate
-        // values for all theta
+        // step through each value of r and use inverse fft to calculate values for all theta
         for( r = 0; r <= sampleCountR; r++ ) {
             for( i = 0; i != wc; i++ ) {
                 xformbuf[i] = 0;
@@ -1184,19 +1124,6 @@ class QuantumCircFrame extends Frame
                            phasecoefcos[i + 1][j];
                     d2i += states[ii][j][r] * magcoef[i + 1][j] *
                            phasecoefsin[i + 1][j];
-                }
-                if( !do_x ) {
-                    double adj = pi / 2 * ii;
-                    double acos = Math.cos( adj );
-                    double asin = Math.sin( adj );
-                    double q1 = d1r;
-                    double q2 = d1i;
-                    d1r = q1 * acos + q2 * asin;
-                    d1i = -q1 * asin + q2 * acos;
-                    q1 = d2r;
-                    q2 = d2i;
-                    d2r = q1 * acos + q2 * asin;
-                    d2i = -q1 * asin + q2 * acos;
                 }
                 xformbuf[ii * 2] = d2r;
                 xformbuf[ii * 2 + 1] = d2i;
