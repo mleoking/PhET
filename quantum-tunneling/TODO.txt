@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
-- move Measure button below left corner of Probability Density chart
 - try native L&F on all platforms
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
@@ -34,6 +33,7 @@ LOW PRIORITY:
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
+- remove _measureButton from QTControlPanel
 
 OPTIMIZATIONS:
 - remove test-src
@@ -66,6 +66,7 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - move Measure button below left corner of Probability Density chart
 (1/17/06) - pause clock while ConfigureEnergyDialog is open
 (1/17/06) - fix alignment of legend with left edge of charts
 (1/17/06) - subplots of combined plot should have their x axis set to null
