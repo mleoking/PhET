@@ -130,6 +130,10 @@ class QuantumCircFrame extends Frame
     int centerY3d;
     double topz = 3;
     double brightmult;
+    QuantumCircCanvas cv;
+    QuantumCirc applet;
+    final int lspacing = 3;
+    boolean useBufferedImage = false;
 
     int getrand( int x ) {
         int q = random.nextInt();
@@ -139,15 +143,11 @@ class QuantumCircFrame extends Frame
         return q % x;
     }
 
-    QuantumCircCanvas cv;
-    QuantumCirc applet;
 
     QuantumCircFrame( QuantumCirc a ) {
         super( "Quantum Circular Box Applet v1.5" );
         applet = a;
     }
-
-    boolean useBufferedImage = false;
 
     public void init() {
         String jv = System.getProperty( "java.class.version" );
@@ -600,7 +600,6 @@ class QuantumCircFrame extends Frame
         }
     }
 
-    final int lspacing = 3;
 
     void calcLSpectrum() {
         int lzcount = modeCountTh * lspacing;
@@ -689,7 +688,7 @@ class QuantumCircFrame extends Frame
         if( winSize == null || winSize.width == 0 || dbimage == null ) {
             return;
         }
-        boolean allQuiet = true;
+//        boolean allQuiet = true;
         if( !stoppedCheck.getState() && !dragging ) {
             int val = speedBar.getValue();
             double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
@@ -700,7 +699,7 @@ class QuantumCircFrame extends Frame
             tadd *= ( sysTime - lastTime ) * ( 1 / 170. );
             t += tadd;
             lastTime = sysTime;
-            allQuiet = false;
+//            allQuiet = false;
         }
         else {
             lastTime = 0;
@@ -722,7 +721,8 @@ class QuantumCircFrame extends Frame
             t = 0;
         }
         double norm = 0;
-        double normmult = 0, normmult2 = 0;
+        double normmult = 0;
+        double normmult2 = 0;
         if( !editingFunc ) {
             // update phases
             for( i = 0; i != modeCountTh; i++ ) {
@@ -732,7 +732,7 @@ class QuantumCircFrame extends Frame
                         phasecoefadj[i][j] = 0;
                         continue;
                     }
-                    allQuiet = false;
+//                    allQuiet = false;
                     phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
                     phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
                     phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
@@ -815,10 +815,7 @@ class QuantumCircFrame extends Frame
         }
 
         realg.drawImage( dbimage, 0, 0, this );
-        if( dragStop ) {
-            allQuiet = true;
-        }
-        if( !stoppedCheck.getState() && !allQuiet ) {
+        if( !stoppedCheck.getState() ) {
             cv.repaint( pause );
         }
     }
