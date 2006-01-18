@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
-- Measure -> Measure Position, move below left corner of Probability Density chart
+- move Measure button below left corner of Probability Density chart
 - try native L&F on all platforms
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
