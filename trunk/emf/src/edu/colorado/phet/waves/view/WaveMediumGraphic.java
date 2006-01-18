@@ -39,7 +39,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     public static final int TO_RIGHT = 1;
 
     // Note that larger values for the stroke slow down performance considerably
-    private static double s_defaultStrokeWidth = 10;
+    private static double s_defaultStrokeWidth = 5;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_defaultStrokeWidth );
 
     private static BufferedImage createBufferedImage() {
@@ -49,6 +49,8 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         return gc.createCompatibleImage( 800, 800 );
         //        return gc.createCompatibleImage( 300, 200 );
     }
+
+
 
     //----------------------------------------------------------------
     // Instance data and methods
@@ -68,7 +70,8 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private double xOffset = 15;
     private int direction;
     private Color maxAmplitudeColor = Color.red;
-    private Color[] colorForAmplitude = new Color[255];
+    private Paint[] colorForAmplitude = new Paint[255];
+//    private Color[] colorForAmplitude = new Color[255];
 
     /**
      * todo: rename WaveMediumGraphic
@@ -97,10 +100,21 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     public void setMaxAmplitudeColor( Color color ) {
         for( int i = 0; i < colorForAmplitude.length; i++ ) {
-            colorForAmplitude[i] = new Color( color.getRed(),
-                                              color.getGreen(),
-                                              color.getBlue(),
-                                              i );
+            colorForAmplitude[i] = new GradientPaint( 0,
+                                                      (int)( origin.getY() - height / 2 ),
+                                                      new Color( color.getRed(),
+                                                                 color.getGreen(),
+                                                                 color.getBlue(), 0 ),
+                                                      0,
+                                                      (int)( origin.getY() ),
+                                                      new Color( color.getRed(),
+                                                                 color.getGreen(),
+                                                                 color.getBlue(), i ),
+                                                      true );
+//            colorForAmplitude[i] = new Color( color.getRed(),
+//                                              color.getGreen(),
+//                                              color.getBlue(),
+//                                              i );
         }
     }
 
@@ -112,9 +126,9 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      * @param amplitude
      * @return
      */
-    private Color getColorForAmplitude( double amplitude ) {
+    private Paint getColorForAmplitude( double amplitude ) {
         double normalizedAmplitude = Math.min( 1, Math.abs( amplitude / MAX_AMPLITDUE ) );
-        return colorForAmplitude[(int)( normalizedAmplitude * ( 255 - 1 ))];
+        return colorForAmplitude[(int)( normalizedAmplitude * ( 255 - 1 ) )];
     }
 
     private void setGraphicsHints( Graphics2D g2 ) {
@@ -153,22 +167,28 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         Composite incomingComposite = g.getComposite();
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 
-        g.setStroke( s_defaultStroke );
+        g.setStroke( new BasicStroke( 1 ));
+//        g.setStroke( s_defaultStroke );
 
         Point2D end1 = new Point2D.Float();
         Point2D end2 = new Point2D.Float();
         Line2D line = new Line2D.Float();
 
+        Rectangle2D rect = new Rectangle2D.Double( );
+
         // Draw a line or arc for each value in the amplitude array of the wave front
         for( double x = 1; x * direction < xExtent; x += s_defaultStrokeWidth * direction ) {
-            g.setColor( getColorForAmplitude( electron.getDynamicFieldAt( new Point2D.Double( origin.getX() + x, origin.getY() ) ).getMagnitude() ) );
+            g.setPaint( getColorForAmplitude( electron.getDynamicFieldAt( new Point2D.Double( origin.getX() + x, origin.getY() ) ).getMagnitude() ) );
             if( this.isPlanar ) {
                 end1.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() - height / 2 );
                 end2.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() + height / 2 );
 //                end1.setLocation( origin.getX() + ( x * stroke ), origin.getY() - height / 2 );
 //                end2.setLocation( origin.getX() + ( x * stroke ), origin.getY() + height / 2 );
-                line.setLine( end1, end2 );
-                g.draw( line );
+//                line.setLine( end1, end2 );
+//                g.draw( line );
+
+                rect.setRect( end1.getX(), end1.getY(), s_defaultStrokeWidth, height );
+                g.fill( rect );
             }
         }
         g.setComposite( incomingComposite );

@@ -286,6 +286,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         fieldPt.field.setComponents( tf.getX(), tf.getY() );
     }
 
+    int cnt;
     /**
      * Get the strength of the field at each of the lattice points
      */
@@ -302,6 +303,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         if( fieldDisplayType == EmfPanel.CURVE
             || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS
             || fieldDisplayType == EmfPanel.VECTORS_CENTERED_ON_X_AXIS ) {
+
             // Set the field magnitudes for all the negative and positive arrows
             for( int i = 0; i < latticePtsNeg.size(); i++ ) {
                 FieldPt fieldPt = (FieldPt)latticePtsNeg.get( i );
@@ -329,14 +331,14 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             if( fixedSizeArrows ) {
                 magnitude = 50;
             }
-            if( magnitude > 0 ) {
+//            if( magnitude > 0 ) {
                 double y = fieldPt.getY() + magnitude * arrowDir;
                 y -= magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET ;
                 Arrow arrow = (Arrow)arrows.get( i - 1 );
                 arrow.setTailLocation( new Point2D.Double( fieldPt.location.getX(),
                                                            fieldPt.location.getY() - magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET ) );
                 arrow.setTipLocation( new Point2D.Double( fieldPt.getX(), y ) );
-            }
+//            }
         }
     }
 
