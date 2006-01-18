@@ -54,11 +54,12 @@ public class RulerGraphic extends PNode {
             PText pText = new PText( reading );
             double xVal = distBetweenMajorReadings * i + horizontalInset;
             double yVal = height / 2 - pText.getFullBounds().getHeight() / 2;
+//            pText.setFont( pText.getFont().deriveFont( Font.BOLD ) );
             pText.setOffset( xVal - pText.getFullBounds().getWidth() / 2, yVal );
+
             addChild( pText );
 
             DoubleGeneralPath tickPath = createTickPair( xVal, height, majorTickHeight );
-//            PPath majorTick = new PPath( tickPath.getGeneralPath(), new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER ) );
             PPath majorTick = new PPath( tickPath.getGeneralPath(), new BasicStroke() );
             majorTick.setStrokePaint( Color.black );
             addChild( majorTick );
@@ -94,7 +95,11 @@ public class RulerGraphic extends PNode {
         frame.setContentPane( pCanvas );
         frame.setSize( 800, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        pCanvas.getLayer().addChild( new RulerGraphic( new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}, "nm", 650, 40 ) );
+        String[]digits = new String[11];
+        for( int i = 0; i < digits.length; i++ ) {
+            digits[i] = new String( i + "" );
+        }
+        pCanvas.getLayer().addChild( new RulerGraphic( digits, "nm", 650, 40 ) );
         frame.show();
     }
 }

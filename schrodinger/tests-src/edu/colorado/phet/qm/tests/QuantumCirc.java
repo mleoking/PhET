@@ -2,11 +2,8 @@ package edu.colorado.phet.qm.tests;// QuantumCirc.java (C) 2001 by Paul Falstad,
 
 import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.MemoryImageSource;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Random;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 public class QuantumCirc extends Applet implements ComponentListener {
     QuantumCircFrame ogf;

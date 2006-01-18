@@ -412,7 +412,7 @@ class QuantumCircFrame extends Frame
             viewStatesMap = new View( viewStates );
             double a = viewStates.width / (double)viewStates.height;
             double a2 = modeCountTh / (double)modeCountR;
-            int w, h;
+            int w;
             if( a2 > a ) {
                 w = viewStates.width - 2;
             }
@@ -573,8 +573,7 @@ class QuantumCircFrame extends Frame
         int pickj = -1;
         for( i = 0; i < modeCountTh; i++ ) {
             for( j = 0; j < modeCountR; j++ ) {
-                double m = magcoef[i][j] * magcoef[i][j];
-                n -= m;
+                n -= magcoef[i][j] * magcoef[i][j];
                 if( n < 0 ) {
                     picki = i;
                     pickj = j;
@@ -631,8 +630,7 @@ class QuantumCircFrame extends Frame
         int picki = -1;
         int lzcount = modeCountTh * lspacing;
         for( i = 0; i != lzcount; i++ ) {
-            double m = lzspectrum[i];
-            n -= m;
+            n -= lzspectrum[i];
             if( n < 0 ) {
                 picki = i;
                 i = lzcount;
@@ -707,7 +705,6 @@ class QuantumCircFrame extends Frame
         else {
             lastTime = 0;
         }
-        Color gray1 = new Color( 76, 76, 76 );
         Color gray2 = new Color( 127, 127, 127 );
         g.setColor( cv.getBackground() );
         g.fillRect( 0, 0, winSize.width, winSize.height );
@@ -755,7 +752,6 @@ class QuantumCircFrame extends Frame
         if( norm == 0 ) {
             normmult = normmult2 = 0;
         }
-        int half = sampleCountTh / 2;
         xpoints = new int[4];
         ypoints = new int[4];
 
@@ -905,8 +901,8 @@ class QuantumCircFrame extends Frame
     }
 
     void drawRadial( Graphics g, View view, double fr[][], double fi[][] ) {
-        int rcol = 0x00010000;
-        int gcol = 0x00000100;
+//        int rcol = 0x00010000;
+//        int gcol = 0x00000100;
         int cx = view.width / 2;
         int cy = view.height / 2;
         int cr = view.width / 2;
@@ -1229,7 +1225,8 @@ class QuantumCircFrame extends Frame
     }
 
     void genFunc( double normmult, boolean do_x ) {
-        int i, j, th, r;
+        int i, j, r;
+//        , th, r;
         int wc = sampleCountTh * 2;
         int wm = wc - 1;
 
@@ -1484,7 +1481,7 @@ class QuantumCircFrame extends Frame
     double lastGaussWx = -8, lastGaussWy = -8;
 
     void editXGauss( int x, int y ) {
-        int i, j;
+//        int i, j;
         int gx = x - dragX + 8;
         int gy = y - dragY + 8;
         double wx = 1 / ( abs( gx ) + .0001 );
@@ -1500,9 +1497,8 @@ class QuantumCircFrame extends Frame
                             - selectedGridX;
                 double yy = -Math.sin( th ) * x / sampleCountR
                             - selectedGridY;
-                double rfunc = Math.exp( wx * xx * xx +
-                                         wy * yy * yy );
-                func[y][x] = rfunc;
+                func[y][x] = Math.exp( wx * xx * xx +
+                                       wy * yy * yy );
                 funci[y][x] = 0;
             }
         }
@@ -1511,7 +1507,6 @@ class QuantumCircFrame extends Frame
     }
 
     void editXGaussP( int x, int y ) {
-        int i, j;
         double wx = lastGaussWx;
         double wy = lastGaussWy;
         double momentumX = ( x - dragX ) * .1;
@@ -1747,7 +1742,7 @@ class QuantumCircFrame extends Frame
         viewDistance = 50;
         int m, n;
         elevels = new double[modeCountTh][modeCountR];
-        double angstep = step * 2;
+//        double angstep = step * 2;
         // m = angular modes
         // n = radial modes
         System.out.print( "calc omegas...\n" );
@@ -1759,7 +1754,7 @@ class QuantumCircFrame extends Frame
         }
         System.out.print( "calc omegas...done\n" );
         double jj[] = new double[modeCountM + 1];
-        int x, y;
+        int y;
         // x = th, y = r
         xStates = new double[modeCountM][modeCountR][sampleCountR + 1];
         System.out.print( "calc modes...\n" );
@@ -1833,7 +1828,7 @@ class QuantumCircFrame extends Frame
         double pmult = pZoomBar.getValue() / ( 5. * sampleCountR );
         double jj[] = new double[modeCountM + 1];
         double jz[] = new double[modeCountM + 1];
-        int i, j, x, y, realm;
+        int j, x, realm;
         System.out.print( "calc pstates\n" );
         pStates = new double[modeCountM][modeCountR][sampleCountR + 1];
         for( realm = 0; realm != modeCountM; realm++ ) {
@@ -2014,7 +2009,7 @@ class QuantumCircFrame extends Frame
         int y = e.getY();
         dragX = x;
         dragY = y;
-        int panelHeight = getPanelHeight();
+//        int panelHeight = getPanelHeight();
         int oldCoefX = selectedCoefX;
         int oldCoefY = selectedCoefY;
         selectedCoefX = -1;
