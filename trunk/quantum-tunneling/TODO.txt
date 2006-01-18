@@ -9,10 +9,10 @@ HIGH PRIORITY:
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
-- set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
-- split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
 MEDIUM PRIORITY:
+- set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
+- split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - try native L&F on all platforms
 - top edge of +1 tick label on Energy plot y axis is clipped
 - add tick labels to wave packet center and width controls
