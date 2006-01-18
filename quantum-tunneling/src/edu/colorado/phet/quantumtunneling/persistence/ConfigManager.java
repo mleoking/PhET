@@ -160,7 +160,7 @@ public class ConfigManager {
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
             String message = SimStrings.get( "Save.confirm.message" );
-            int reply = DialogUtils.showConfirmDialog( frame, message );
+            int reply = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
             }

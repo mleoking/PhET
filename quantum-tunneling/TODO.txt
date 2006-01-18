@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - fix alignment of legend with left edge of charts
 - pause clock while ConfigureEnergyDialog is open
-- localize confirmation dialog in ConfigureEnergDialog
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
 - Measure -> Measure Position, move below left corner of Probability Density chart
 - try native L&F on all platforms
@@ -69,6 +68,7 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - localize confirmation dialog in ConfigureEnergDialog
 (1/17/06) - explicity set the tick units for all axes via constants in QTConstants
 (1/17/06) - larger font for axis labels and ticks
 (1/17/06) - default to clock running

@@ -643,8 +643,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleClose() {
         if ( _teChanged || _peChanged ) {
             String message = SimStrings.get( "message.unsavedChanges" );
-            String title = SimStrings.get( "title.confirm" );
-            int reply = JOptionPane.showConfirmDialog( this, message, title, JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply == JOptionPane.YES_OPTION) {
                 handleApply();
                 dispose();

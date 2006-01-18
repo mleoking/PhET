@@ -32,39 +32,68 @@ public class DialogUtils {
     private DialogUtils( String message ) {}
     
     /**
-     * Shows a localized confirmation dialog with "Yes" and "No" options.
-     * The default selection is "No".  The dialog title is "Confirm".
+     * Shows a localized confirmation dialog.  The dialog title is "Confirm".
      * Returns the user's selection.  Clicking the dialog's closed 
-     * button is equivalent to selecting "No".
+     * button is equivalent to selecting "Cancel".
      * 
      * @param parentComponent
      * @param message
+     * @param optionType one of the JOptionPane optionTypes
      * @return JOptionPane.YES_OPTION or JOptionPane.NO_OPTION
      */
-    public static int showConfirmDialog( Component parentComponent, String message ) {
+    public static int showConfirmDialog( Component parentComponent, String message, int optionType ) {
         
         // Get localized strings
         String title = SimStrings.get( "title.confirm" );
         String yes = SimStrings.get( "choice.yes" );
         String no = SimStrings.get( "choice.no" );
+        String ok = SimStrings.get( "choice.ok" );
+        String cancel = SimStrings.get( "choice.cancel" );
         
         // Create an option pane
-        JOptionPane pane = new JOptionPane( message, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION );
-        Object[] options = { no, yes };
-        pane.setOptions( options );
-        pane.setInitialValue( no );
+        JOptionPane pane = new JOptionPane( message, JOptionPane.QUESTION_MESSAGE, optionType );
+        Object[] options = null;
+        switch ( optionType ) {
+        case JOptionPane.YES_NO_CANCEL_OPTION:
+        case JOptionPane.DEFAULT_OPTION:
+            options = new Object[] { cancel, no, yes };
+            pane.setOptions( options );
+            pane.setInitialValue( cancel );
+            break;
+        case JOptionPane.YES_NO_OPTION:
+            options = new Object[] { no, yes };
+            pane.setOptions( options );
+            pane.setInitialValue( no );
+            break;
+        case JOptionPane.OK_CANCEL_OPTION:
+            options = new Object[] { cancel, ok };
+            pane.setOptions( options );
+            pane.setInitialValue( cancel );
+            break;
+        default:
+            throw new IllegalArgumentException( "unsupported optionType: " + optionType );
+        }
         
         // Put the pane in a dialog
         JDialog dialog = pane.createDialog( parentComponent, title );
         dialog.show();
         
+        // Process the user's selection
+        int result = JOptionPane.CANCEL_OPTION;
         Object selection = pane.getValue();
         if ( selection == yes ) {
-            return JOptionPane.YES_OPTION;
+            result = JOptionPane.YES_OPTION;
         }
-        else {
-            return JOptionPane.NO_OPTION;
+        else if ( selection == ok ) {
+            result = JOptionPane.OK_OPTION;
         }
+        else if ( selection == no ) {
+            result = JOptionPane.NO_OPTION;
+        }
+        else if ( selection == cancel ) {
+            result = JOptionPane.CANCEL_OPTION;
+        }
+        return result;
     }
     
     /**
