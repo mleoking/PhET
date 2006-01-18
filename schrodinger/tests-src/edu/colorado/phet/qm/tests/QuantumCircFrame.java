@@ -34,10 +34,6 @@ class QuantumCircFrame extends Frame
     public static final double epsilon2 = .003;
     static final int panePad = 4;
 
-    public String getAppletInfo() {
-        return "QuantumCirc Series by Paul Falstad";
-    }
-
     Button groundButton;
     Button blankButton;
     Button normalizeButton;
@@ -135,6 +131,12 @@ class QuantumCircFrame extends Frame
 
     final int lspacing = 3;
     boolean useBufferedImage = false;
+    long lastTime;
+
+
+    public String getAppletInfo() {
+        return "QuantumCirc Series by Paul Falstad";
+    }
 
     int getrand( int x ) {
         int q = random.nextInt();
@@ -499,72 +501,6 @@ class QuantumCircFrame extends Frame
         }
     }
 
-    int min( int x, int y ) {
-        return ( x < y ) ? x : y;
-    }
-
-    /*if (viewFreq != null) {
-	    viewFreq.x = (winSize.width-viewFreq.height)/2;
-	    viewFreq.width -= viewFreq.x*2;
-	    int tw = getTermWidth();
-	    int h = tw*(modeCountR+1);
-	    int pad = viewFreq.height-h;
-	    if (pad > 0) {
-		viewFreq.y += pad;
-		viewFreq.height -= pad;
-		if (view3d != null)
-		    view3d.height += pad;
-		if (view2d != null)
-		    view2d.height += pad;
-	    }
-	    }*/
-
-    void doGround() {
-        clearWave();
-        magcoef[0][0] = 1;
-        t = 0;
-    }
-
-    void normalize() {
-        double norm = 0;
-        int i, j;
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                norm += magcoef[i][j] * magcoef[i][j];
-            }
-        }
-        if( norm == 0 ) {
-            return;
-        }
-        double normmult = 1 / Math.sqrt( norm );
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                magcoef[i][j] *= normmult;
-            }
-        }
-        cv.repaint( pause );
-    }
-
-    void maximize() {
-        int i, j;
-        double maxm = 0;
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                if( Math.abs( magcoef[i][j] ) > maxm ) {
-                    maxm = Math.abs( magcoef[i][j] );
-                }
-            }
-        }
-        if( maxm == 0 ) {
-            return;
-        }
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                magcoef[i][j] *= 1 / maxm;
-            }
-        }
-        cv.repaint( pause );
-    }
 
     void measureE() {
         normalize();
@@ -660,15 +596,6 @@ class QuantumCircFrame extends Frame
         }
     }
 
-    void clearWave() {
-        int x, y;
-        for( x = 0; x != modeCountTh; x++ ) {
-            for( y = 0; y != modeCountR; y++ ) {
-                magcoef[x][y] = 0;
-            }
-        }
-    }
-
     int getPanelHeight() {
         return winSize.height / 3;
     }
@@ -682,24 +609,19 @@ class QuantumCircFrame extends Frame
         cv.repaint();
     }
 
-    long lastTime;
 
     public void updateQuantumCirc( Graphics realg ) {
         Graphics g = dbimage.getGraphics();
         if( winSize == null || winSize.width == 0 || dbimage == null ) {
             return;
         }
-        updateTimeValues();
+
         drawBack( g );
+        updateModel();
 
-        if( !editingFunc ) {
-            updatePhases();
-        }
         brightmult = Math.exp( brightnessBar.getValue() / 200.0 - 5 );
-
         xpoints = new int[4];
         ypoints = new int[4];
-
         if( viewX != null ) {
             drawRadial( g, viewXMap, func, funci );
         }
@@ -708,31 +630,6 @@ class QuantumCircFrame extends Frame
         if( !stoppedCheck.getState() ) {
             cv.repaint( pause );
         }
-    }
-
-    private void updatePhases() {
-        double norm = 0;
-        double normmult = 0;
-        double normmult2 = 0;
-        for( int i = 0; i != modeCountTh; i++ ) {
-            for( int j = 0; j != modeCountR; j++ ) {
-                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
-                    magcoef[i][j] = phasecoef[i][j] =
-                    phasecoefadj[i][j] = 0;
-                    continue;
-                }
-                phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
-                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
-                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
-                norm += magcoef[i][j] * magcoef[i][j];
-            }
-        }
-        normmult2 = 1 / norm;
-        if( norm == 0 ) {
-            normmult2 = 0;
-        }
-        normmult = Math.sqrt( normmult2 );
-        genFunc( normmult );
     }
 
     private void drawBack( Graphics g ) {
@@ -744,26 +641,6 @@ class QuantumCircFrame extends Frame
             g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
             g.drawLine( 0, viewList[i].paneY,
                         winSize.width, viewList[i].paneY );
-        }
-    }
-
-    private void updateTimeValues() {
-        if( !stoppedCheck.getState() && !dragging ) {
-            int val = speedBar.getValue();
-            double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
-            long sysTime = System.currentTimeMillis();
-            if( lastTime == 0 ) {
-                lastTime = sysTime;
-            }
-            tadd *= ( sysTime - lastTime ) * ( 1 / 170. );
-            t += tadd;
-            lastTime = sysTime;
-        }
-        else {
-            lastTime = 0;
-        }
-        if( dragStop ) {
-            t = 0;
         }
     }
 
@@ -1089,63 +966,6 @@ class QuantumCircFrame extends Frame
                           (int)( ( gray * grayness ) * 255 ) );
     }
 
-    void genFunc( double normmult ) {
-        int i, j, r;
-        int wc = sampleCountTh * 2;
-        int wm = wc - 1;
-
-        double states[][][] = xStates;
-        double outr[][] = func;
-        double outi[][] = funci;
-
-        // step through each value of r and use inverse fft to calculate values for all theta
-        for( r = 0; r <= sampleCountR; r++ ) {
-            for( i = 0; i != wc; i++ ) {
-                xformbuf[i] = 0;
-            }
-
-            // calculate contribution from modes with m=0
-            double d0r = 0;
-            double d0i = 0;
-            for( j = 0; j != modeCountR; j++ ) {
-                d0r += states[0][j][r] * magcoef[0][j] * phasecoefcos[0][j];
-                d0i += states[0][j][r] * magcoef[0][j] * phasecoefsin[0][j];
-            }
-            xformbuf[0] = d0r;
-            xformbuf[1] = d0i;
-
-            // calculate contributions from modes with m>0
-            for( i = 1; i < modeCountTh; i += 2 ) {
-                double d1r = 0, d2r = 0, d1i = 0, d2i = 0;
-                int ii = ( i + 1 ) / 2;
-                for( j = 0; j != modeCountR; j++ ) {
-                    d1r += states[ii][j][r] * magcoef[i][j] *
-                           phasecoefcos[i][j];
-                    d1i += states[ii][j][r] * magcoef[i][j] *
-                           phasecoefsin[i][j];
-                    d2r += states[ii][j][r] * magcoef[i + 1][j] *
-                           phasecoefcos[i + 1][j];
-                    d2i += states[ii][j][r] * magcoef[i + 1][j] *
-                           phasecoefsin[i + 1][j];
-                }
-                xformbuf[ii * 2] = d2r;
-                xformbuf[ii * 2 + 1] = d2i;
-                xformbuf[wm & ( wc - ii * 2 )] = d1r;
-                xformbuf[wm & ( wc - ii * 2 + 1 )] = d1i;
-            }
-
-            // take fft
-            fftTh.transform( xformbuf );
-
-            for( i = 0; i != sampleCountTh; i++ ) {
-                outr[i][r] = xformbuf[i * 2] * normmult;
-                outi[i][r] = xformbuf[i * 2 + 1] * normmult;
-            }
-            outr[sampleCountTh][r] = outr[0][r];
-            outi[sampleCountTh][r] = outi[0][r];
-        }
-    }
-
     PhaseColor getPhaseColor( double x, double y ) {
         int sector = 0;
         double val = 0;
@@ -1324,14 +1144,13 @@ class QuantumCircFrame extends Frame
                 }
             }
         }
-        transform();
+        transformWaveToModes();
         cv.repaint( pause );
     }
 
     double lastGaussWx = -8, lastGaussWy = -8;
 
     void editXGauss( int x, int y ) {
-//        int i, j;
         int gx = x - dragX + 8;
         int gy = y - dragY + 8;
         double wx = 1 / ( abs( gx ) + .0001 );
@@ -1352,7 +1171,7 @@ class QuantumCircFrame extends Frame
                 funci[y][x] = 0;
             }
         }
-        transform();
+        transformWaveToModes();
         cv.repaint( pause );
     }
 
@@ -1378,7 +1197,7 @@ class QuantumCircFrame extends Frame
                 funci[y][x] = rfunc * ( cx * sy + cy * sx );
             }
         }
-        transform();
+        transformWaveToModes();
         cv.repaint( pause );
     }
 
@@ -1401,92 +1220,6 @@ class QuantumCircFrame extends Frame
         dragX = x;
         dragY = y;
         cv.repaint( pause );
-    }
-
-    void transform() {
-        t = 0;
-        int i, j;
-
-        // zero out arrays.  phasecoefcos and phasecoefsin are
-        // the real and imaginary parts of the state coefficients.
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                phasecoefcos[i][j] = phasecoefsin[i][j] = 0;
-            }
-        }
-
-        int r, th;
-
-        // integrate the function func[][] with each mode times r (since the
-        // modes are only orthogonal with a weighting function of r) and also
-        // integrate each mode with itself times r to get the norm.
-        for( r = 0; r <= sampleCountR; r++ ) {
-            // fft each set of samples at constant r
-            for( th = 0; th != sampleCountTh * 2; th++ ) {
-                xformbuf[th] = 0;
-            }
-            for( th = 0; th != sampleCountTh; th++ ) {
-                xformbuf[th * 2] = func[th][r] * r;
-                xformbuf[th * 2 + 1] = funci[th][r] * r;
-            }
-            fftTh.transform( xformbuf );
-
-            // perform integration step for each m=0 mode
-            for( j = 0; j != modeCountR; j++ ) {
-                phasecoefcos[0][j] += xStates[0][j][r] * xformbuf[0];
-                phasecoefsin[0][j] += xStates[0][j][r] * xformbuf[1];
-            }
-
-            // perform integration step with each m>0 mode
-            int wc = sampleCountTh * 2;
-            int wm = wc - 1;
-            for( i = 1; i < modeCountTh; i += 2 ) {
-                for( j = 0; j != modeCountR; j++ ) {
-                    int ii = i + 1;
-                    int m = ii / 2;
-                    phasecoefcos[i][j] += xStates[m][j][r] *
-                                          xformbuf[ii];
-                    phasecoefsin[i][j] += xStates[m][j][r] *
-                                          xformbuf[ii + 1];
-
-                    phasecoefcos[i + 1][j] += xStates[m][j][r] *
-                                              xformbuf[wm & -ii];
-                    phasecoefsin[i + 1][j] += xStates[m][j][r] *
-                                              xformbuf[wm & ( -ii + 1 )];
-                }
-            }
-        }
-
-        // finish up by dividing out the norms and moving the results
-        // to magcoef and phasecoefadj
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                double a = phasecoefcos[i][j];
-                double b = phasecoefsin[i][j];
-                if( a < epsilon && a > -epsilon ) {
-                    a = 0;
-                }
-                if( b < epsilon && b > -epsilon ) {
-                    b = 0;
-                }
-                magcoef[i][j] = Math.sqrt( a * a + b * b );
-                phasecoefadj[i][j] = Math.atan2( b, a );
-            }
-        }
-        if( alwaysNormItem.getState() ) {
-            normalize();
-        }
-        else if( alwaysMaxItem.getState() ) {
-            maximize();
-        }
-    }
-
-    int sign( int x ) {
-        return ( x < 0 ) ? -1 : ( x == 0 ) ? 0 : 1;
-    }
-
-    int abs( int x ) {
-        return x < 0 ? -x : x;
     }
 
     public void componentHidden( ComponentEvent e ) {
@@ -1537,9 +1270,6 @@ class QuantumCircFrame extends Frame
                 setResolution();
             }
         }
-        if( e.getSource() == pZoomBar ) {
-            calcPStates();
-        }
         if( e.getSource() == phasorBar ) {
             maxDispPhasorsR = phasorBar.getValue();
             maxDispPhasorsTh = maxDispPhasorsR * 2 + 1;
@@ -1555,296 +1285,6 @@ class QuantumCircFrame extends Frame
         return super.handleEvent( ev );
     }
 
-    void setResolution() {
-        int oldCountTh = modeCountTh;
-        int oldCountR = modeCountR;
-        // calculate number of samples in R and theta directions.
-        // number of theta samples must be power of 2 (for fft)
-        modeCountR = sampleCountR = resBar.getValue();
-        sampleCountR *= 4;
-        int sth = resBar.getValue() * 2;
-        sampleCountTh = 1;
-        while( sampleCountTh < sth ) {
-            sampleCountTh *= 2;
-        }
-        modeCountTh = sampleCountTh + 1;
-
-        modeCountM = sampleCountTh / 2 + 1;
-        sampleCountTh *= 2;
-        fftTh = new FFT( sampleCountTh );
-        double oldmagcoef[][] = magcoef;
-        magcoef = new double[modeCountTh][modeCountR];
-        phasecoef = new double[modeCountTh][modeCountR];
-        phasecoefcos = new double[modeCountTh][modeCountR];
-        phasecoefsin = new double[modeCountTh][modeCountR];
-        phasecoefadj = new double[modeCountTh][modeCountR];
-        xformbuf = new double[sampleCountTh * 2];
-        func = new double[sampleCountTh + 1][sampleCountR + 1];
-        funci = new double[sampleCountTh + 1][sampleCountR + 1];
-        pfunc = new double[sampleCountTh + 1][sampleCountR + 1];
-        pfunci = new double[sampleCountTh + 1][sampleCountR + 1];
-        lzspectrum = null;
-        System.out.print( "grid: " + sampleCountTh + " " +
-                          sampleCountR + " " +
-                          sampleCountTh * sampleCountR + "\n" );
-        scaleHeight = 6;
-        step = pi / sampleCountTh;
-        viewDistance = 50;
-        int m, n;
-        elevels = new double[modeCountTh][modeCountR];
-//        double angstep = step * 2;
-        // m = angular modes
-        // n = radial modes
-        System.out.print( "calc omegas...\n" );
-        for( m = 0; m != modeCountTh; m++ ) {
-            for( n = 0; n != modeCountR; n++ ) {
-                int realm = ( m + 1 ) / 2;
-                elevels[m][n] = zeroj( realm, n + 1 ) / sampleCountR;
-            }
-        }
-        System.out.print( "calc omegas...done\n" );
-        double jj[] = new double[modeCountM + 1];
-        int y;
-        // x = th, y = r
-        xStates = new double[modeCountM][modeCountR][sampleCountR + 1];
-        System.out.print( "calc modes...\n" );
-        for( m = 0; m != modeCountM; m++ ) {
-            for( n = 0; n != modeCountR; n++ ) {
-                double max = 0;
-                double nm = 0;
-                for( y = 0; y <= sampleCountR; y++ ) {
-                    // work around bess() bug at x=0
-                    if( y == 0 ) {
-                        jj[m + 1] = ( m == 0 ) ? 1 : 0;
-                    }
-                    else {
-                        bess( m, y * elevels[m * 2][n], jj );
-                    }
-                    double q = xStates[m][n][y] = jj[m + 1];
-                    if( q > max ) {
-                        max = q;
-                    }
-                    if( q < -max ) {
-                        max = -q;
-                    }
-                    nm += q * q * y;
-                }
-                nm = Math.sqrt( nm );
-                for( y = 0; y <= sampleCountR; y++ ) {
-                    xStates[m][n][y] /= nm;
-                }
-            }
-        }
-
-        double mult = .01 / ( elevels[0][0] * elevels[0][0] );
-        int i, j;
-        for( i = 0; i != modeCountTh; i++ ) {
-            for( j = 0; j != modeCountR; j++ ) {
-                elevels[i][j] *= elevels[i][j] * mult;
-            }
-        }
-        System.out.print( "calc modes...done\n" );
-
-        if( oldmagcoef != null ) {
-            for( i = 0; i != oldCountTh && i != modeCountTh; i++ ) {
-                for( j = 0; j != oldCountR && j != modeCountR; j++ ) {
-                    magcoef[i][j] = oldmagcoef[i][j];
-                }
-            }
-        }
-
-        pZoomBarValue = -1;
-        calcPStates();
-
-        angle1SinTab = new double[sampleCountTh + 1];
-        angle1CosTab = new double[sampleCountTh + 1];
-        angle2SinTab = new double[sampleCountTh + 1];
-        angle2CosTab = new double[sampleCountTh + 1];
-        for( i = 0; i <= sampleCountTh; i++ ) {
-            double th1 = 2 * pi * i / sampleCountTh;
-            double th2 = 2 * pi * ( i + 1 ) / sampleCountTh + .001;
-            angle1SinTab[i] = Math.sin( th1 );
-            angle1CosTab[i] = Math.cos( th1 );
-            angle2SinTab[i] = Math.sin( th2 );
-            angle2CosTab[i] = Math.cos( th2 );
-        }
-    }
-
-    void calcPStates() {
-        if( pZoomBar.getValue() == pZoomBarValue ) {
-            return;
-        }
-        pZoomBarValue = pZoomBar.getValue();
-        double pmult = pZoomBar.getValue() / ( 5. * sampleCountR );
-        double jj[] = new double[modeCountM + 1];
-        double jz[] = new double[modeCountM + 1];
-        int j, x, realm;
-        System.out.print( "calc pstates\n" );
-        pStates = new double[modeCountM][modeCountR][sampleCountR + 1];
-        for( realm = 0; realm != modeCountM; realm++ ) {
-            int bessm = ( realm == 0 ) ? 1 : realm;
-            for( j = 0; j != modeCountR; j++ ) {
-                double z0 = zeroj( realm, j + 1 );
-                bess( bessm, z0, jz );
-                jz[0] = -jz[2];
-                for( x = 0; x != sampleCountR; x++ ) {
-                    // work around bess() bug at x=0
-                    double x0 = pmult * x;
-                    if( x == 0 ) {
-                        if( realm == 0 ) {
-                            jj[1] = 1;
-                            jj[0] = 0;
-                        }
-                        else {
-                            jj[realm + 1] = 0;
-                            jj[realm] = ( realm == 1 ) ? 1 : 0;
-                        }
-                    }
-                    else {
-                        // calculate bessel functions of order 0
-                        // through bessm and store in jj[1..bessm+1].
-                        bess( bessm, x0, jj );
-                        // We store J(-1, x) in jj[0].  It's just -J(1, x)
-                        jj[0] = -jj[2];
-                    }
-                    pStates[realm][j][x] =
-                            ( z0 * jz[realm] * jj[realm + 1] ) / ( x0 * x0 - z0 * z0 );
-                }
-            }
-        }
-        System.out.print( "calc pstates, done\n" );
-    }
-
-    // this routine not tested for m_order > 64 or n_zero > 34 !!
-    double zeroj( int m_order, int n_zero ) {
-        // Zeros of the Bessel function J(x)
-        // Inputs
-        //   m_order   Order of the Bessel function
-        //   n_zero    Index of the zero (first, second, etc.)
-        // Output
-        //   z         The "n_zero"th zero of the Bessel function
-
-        if( m_order >= 48 && n_zero == 1 ) {
-            switch( m_order ) {
-                case 48:
-                    return 55.0283;
-                case 49:
-                    return 56.0729;
-                case 50:
-                    return 57.1169;
-                case 51:
-                    return 58.1603;
-                case 52:
-                    return 59.2032;
-                case 53:
-                    return 60.2456;
-                case 54:
-                    return 61.2875;
-                case 55:
-                    return 62.3288;
-                case 56:
-                    return 63.3697;
-                case 57:
-                    return 64.4102;
-                case 58:
-                    return 65.4501;
-                case 59:
-                    return 66.4897;
-                case 60:
-                    return 67.5288;
-                case 61:
-                    return 68.5675;
-                case 62:
-                    return 69.6058;
-                case 63:
-                    return 70.6437;
-                case 64:
-                    return 71.6812;
-            }
-        }
-        if( m_order >= 62 && n_zero == 2 ) {
-            switch( m_order ) {
-                case 62:
-                    return 75.6376;
-                case 63:
-                    return 76.7021;
-                case 64:
-                    return 77.7659;
-            }
-        }
-
-        //* Use asymtotic formula for initial guess
-        double beta = ( n_zero + 0.5 * m_order - 0.25 ) * ( 3.141592654 );
-        double mu = 4 * m_order * m_order;
-        double beta8 = 8 * beta;
-        double beta82 = beta8 * beta8;
-        double beta84 = beta82 * beta82;
-        double z = beta - ( mu - 1 ) / beta8
-                   - 4 * ( mu - 1 ) * ( 7 * mu - 31 ) / ( 3 * beta82 * beta8 );
-        z -= 32 * ( mu - 1 ) * ( 83 * mu * mu - 982 * mu + 3779 ) / ( 15 * beta84 * beta8 );
-        z -= 64 * ( mu - 1 ) * ( 6949 * mu * mu * mu - 153855 * mu * mu + 1585743 * mu - 6277237 ) /
-             ( 105 * beta84 * beta82 * beta8 );
-
-        //* Use Newton's method to locate the root
-        double jj[] = new double[m_order + 3];
-        int i;
-        double deriv;
-        for( i = 1; i <= 5; i++ ) {
-            bess( m_order + 1, z, jj );  // Remember j(1) is J_0(z)
-            // Use the recursion relation to evaluate derivative
-            deriv = -jj[m_order + 2] + m_order / z * jj[m_order + 1];
-            z -= jj[m_order + 1] / deriv;  // Newton's root finding
-        }
-        return ( z );
-    }
-
-    void bess( int m_max, double x, double jj[] ) {
-        // Bessel function
-        // Inputs
-        //    m_max  Largest desired order
-        //    x = Value at which Bessel function J(x) is evaluated
-        // Output
-        //    jj = Vector of J(x) for order m = 0, 1, ..., m_max
-
-        //* Perform downward recursion from initial guess
-        int maxmx = ( m_max > x ) ? m_max : ( (int)x );  // Max(m,x)
-        // Recursion is downward from m_top (which is even)
-        int m_top = 2 * ( (int)( ( maxmx + 15 ) / 2 + 1 ) );
-        double j[] = new double[m_top + 2];
-        j[m_top + 1] = 0.0;
-        j[m_top] = 1.0;
-        double tinyNumber = 1e-16;
-        int m;
-        for( m = m_top - 2; m >= 0; m-- )       // Downward recursion
-        {
-            j[m + 1] = 2 * ( m + 1 ) / ( x + tinyNumber ) * j[m + 2] - j[m + 3];
-        }
-
-        //* Normalize using identity and return requested values
-        double norm = j[1];        // NOTE: Be careful, m=0,1,... but
-        for( m = 2; m <= m_top; m += 2 ) // vector goes j(1),j(2),...
-        {
-            norm += 2 * j[m + 1];
-        }
-        for( m = 0; m <= m_max; m++ )  // Send back only the values for
-        {
-            jj[m + 1] = j[m + 1] / norm;   // m=0,...,m_max and discard values
-        }
-    }                            // for m=m_max+1,...,m_top
-
-    void findGridPoint2D( View v, int mx, int my ) {
-        int cx = v.x + v.width / 2;
-        int cy = v.y + v.height / 2;
-        int cr = v.width / 2;
-        selectedGridX = ( mx - cx ) / (double)cr;
-        selectedGridY = -( my - cy ) / (double)cr;
-        double r = Math.sqrt( selectedGridX * selectedGridX +
-                              selectedGridY * selectedGridY );
-        if( r > 1 ) {
-            selectedGridX /= r;
-            selectedGridY /= r;
-        }
-    }
 
     public void mouseDragged( MouseEvent e ) {
         dragging = true;
@@ -1859,7 +1299,6 @@ class QuantumCircFrame extends Frame
         int y = e.getY();
         dragX = x;
         dragY = y;
-//        int panelHeight = getPanelHeight();
         int oldCoefX = selectedCoefX;
         int oldCoefY = selectedCoefY;
         selectedCoefX = -1;
@@ -2030,86 +1469,6 @@ class QuantumCircFrame extends Frame
         }
     }
 
-    class FFT {
-        double wtab[];
-        int size;
-
-        FFT( int sz ) {
-            size = sz;
-            if( ( size & ( size - 1 ) ) != 0 ) {
-                System.out.println( "size must be power of two!" );
-            }
-            calcWTable();
-        }
-
-        void calcWTable() {
-            // calculate table of powers of w
-            wtab = new double[size];
-            int i;
-            for( i = 0; i != size; i += 2 ) {
-                double th = pi * i / size;
-                wtab[i] = Math.cos( th );
-                wtab[i + 1] = Math.sin( th );
-            }
-        }
-
-        void transform( double data[] ) {
-            int i;
-            int j = 0;
-            int size2 = size * 2;
-
-            // bit-reversal
-            for( i = 0; i != size2; i += 2 ) {
-                if( i > j ) {
-                    double q = data[i];
-                    data[i] = data[j];
-                    data[j] = q;
-                    q = data[i + 1];
-                    data[i + 1] = data[j + 1];
-                    data[j + 1] = q;
-                }
-                // increment j by one, from the left side (bit-reversed)
-                int bit = size;
-                while( ( bit & j ) != 0 ) {
-                    j &= ~bit;
-                    bit >>= 1;
-                }
-                j |= bit;
-            }
-
-            // amount to skip through w table
-            int tabskip = size2;
-
-            int skip1;
-            for( skip1 = 4; skip1 <= size2; skip1 <<= 1 ) {
-                // skip2 = length of subarrays we are combining
-                // skip1 = length of subarray after combination
-                int skip2 = skip1 >> 1;
-                tabskip >>= 1;
-                // for each subarray
-                for( i = 0; i < size2; i += skip1 ) {
-                    int ix = 0;
-                    // for each pair of complex numbers (one in each subarray)
-                    for( j = i; j != i + skip2; j += 2, ix += tabskip ) {
-                        double wr = wtab[ix];
-                        double wi = wtab[ix + 1];
-                        double d1r = data[j];
-                        double d1i = data[j + 1];
-                        int j2 = j + skip2;
-                        double d2r = data[j2];
-                        double d2i = data[j2 + 1];
-                        double d2wr = d2r * wr - d2i * wi;
-                        double d2wi = d2r * wi + d2i * wr;
-                        data[j] = d1r + d2wr;
-                        data[j + 1] = d1i + d2wi;
-                        data[j2] = d1r - d2wr;
-                        data[j2 + 1] = d1i - d2wi;
-                    }
-                    ;
-                }
-            }
-        }
-    }
 
     class PhaseColor {
         public double r, g, b;
@@ -2142,4 +1501,507 @@ class QuantumCircFrame extends Frame
         Image memimage;
         int pixels[];
     }
+
+    void findGridPoint2D( View v, int mx, int my ) {
+        int cx = v.x + v.width / 2;
+        int cy = v.y + v.height / 2;
+        int cr = v.width / 2;
+        selectedGridX = ( mx - cx ) / (double)cr;
+        selectedGridY = -( my - cy ) / (double)cr;
+        double r = Math.sqrt( selectedGridX * selectedGridX +
+                              selectedGridY * selectedGridY );
+        if( r > 1 ) {
+            selectedGridX /= r;
+            selectedGridY /= r;
+        }
+    }
+    //________________________Model Code
+
+
+    private void updateModel() {
+        updateTimeValues();
+        if( !editingFunc ) {
+            updatePhases();
+        }
+    }
+
+    private void updatePhases() {
+        double norm = 0;
+        double normmult = 0;
+        double normmult2 = 0;
+        for( int i = 0; i != modeCountTh; i++ ) {
+            for( int j = 0; j != modeCountR; j++ ) {
+                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
+                    magcoef[i][j] = phasecoef[i][j] =
+                    phasecoefadj[i][j] = 0;
+                    continue;
+                }
+                phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
+                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
+                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
+                norm += magcoef[i][j] * magcoef[i][j];
+            }
+        }
+        normmult2 = 1 / norm;
+        if( norm == 0 ) {
+            normmult2 = 0;
+        }
+        normmult = Math.sqrt( normmult2 );
+        genFunc( normmult );
+    }
+
+
+    void genFunc( double normmult ) {
+        int i, j, r;
+        int wc = sampleCountTh * 2;
+        int wm = wc - 1;
+
+        double states[][][] = xStates;
+        double outr[][] = func;
+        double outi[][] = funci;
+
+        // step through each value of r and use inverse fft to calculate values for all theta
+        for( r = 0; r <= sampleCountR; r++ ) {
+            for( i = 0; i != wc; i++ ) {
+                xformbuf[i] = 0;
+            }
+
+            // calculate contribution from modes with m=0
+            double d0r = 0;
+            double d0i = 0;
+            for( j = 0; j != modeCountR; j++ ) {
+                d0r += states[0][j][r] * magcoef[0][j] * phasecoefcos[0][j];
+                d0i += states[0][j][r] * magcoef[0][j] * phasecoefsin[0][j];
+            }
+            xformbuf[0] = d0r;
+            xformbuf[1] = d0i;
+
+            // calculate contributions from modes with m>0
+            for( i = 1; i < modeCountTh; i += 2 ) {
+                double d1r = 0, d2r = 0, d1i = 0, d2i = 0;
+                int ii = ( i + 1 ) / 2;
+                for( j = 0; j != modeCountR; j++ ) {
+                    d1r += states[ii][j][r] * magcoef[i][j] *
+                           phasecoefcos[i][j];
+                    d1i += states[ii][j][r] * magcoef[i][j] *
+                           phasecoefsin[i][j];
+                    d2r += states[ii][j][r] * magcoef[i + 1][j] *
+                           phasecoefcos[i + 1][j];
+                    d2i += states[ii][j][r] * magcoef[i + 1][j] *
+                           phasecoefsin[i + 1][j];
+                }
+                xformbuf[ii * 2] = d2r;
+                xformbuf[ii * 2 + 1] = d2i;
+                xformbuf[wm & ( wc - ii * 2 )] = d1r;
+                xformbuf[wm & ( wc - ii * 2 + 1 )] = d1i;
+            }
+
+            // take fft
+            fftTh.transform( xformbuf );
+
+            for( i = 0; i != sampleCountTh; i++ ) {
+                outr[i][r] = xformbuf[i * 2] * normmult;
+                outi[i][r] = xformbuf[i * 2 + 1] * normmult;
+            }
+            outr[sampleCountTh][r] = outr[0][r];
+            outi[sampleCountTh][r] = outi[0][r];
+        }
+    }
+
+    void setResolution() {
+        int oldCountTh = modeCountTh;
+        int oldCountR = modeCountR;
+        // calculate number of samples in R and theta directions.
+        // number of theta samples must be power of 2 (for fft)
+        modeCountR = sampleCountR = resBar.getValue();
+        sampleCountR *= 4;
+        int sth = resBar.getValue() * 2;
+        sampleCountTh = 1;
+        while( sampleCountTh < sth ) {
+            sampleCountTh *= 2;
+        }
+        modeCountTh = sampleCountTh + 1;
+
+        modeCountM = sampleCountTh / 2 + 1;
+        sampleCountTh *= 2;
+        fftTh = new FFT( sampleCountTh );
+        double oldmagcoef[][] = magcoef;
+        magcoef = new double[modeCountTh][modeCountR];
+        phasecoef = new double[modeCountTh][modeCountR];
+        phasecoefcos = new double[modeCountTh][modeCountR];
+        phasecoefsin = new double[modeCountTh][modeCountR];
+        phasecoefadj = new double[modeCountTh][modeCountR];
+        xformbuf = new double[sampleCountTh * 2];
+        func = new double[sampleCountTh + 1][sampleCountR + 1];
+        funci = new double[sampleCountTh + 1][sampleCountR + 1];
+        pfunc = new double[sampleCountTh + 1][sampleCountR + 1];
+        pfunci = new double[sampleCountTh + 1][sampleCountR + 1];
+        lzspectrum = null;
+        System.out.print( "grid: " + sampleCountTh + " " +
+                          sampleCountR + " " +
+                          sampleCountTh * sampleCountR + "\n" );
+        scaleHeight = 6;
+        step = pi / sampleCountTh;
+        viewDistance = 50;
+        int m, n;
+        elevels = new double[modeCountTh][modeCountR];
+//        double angstep = step * 2;
+        // m = angular modes
+        // n = radial modes
+        System.out.print( "calc omegas...\n" );
+        for( m = 0; m != modeCountTh; m++ ) {
+            for( n = 0; n != modeCountR; n++ ) {
+                int realm = ( m + 1 ) / 2;
+                elevels[m][n] = zeroj( realm, n + 1 ) / sampleCountR;
+            }
+        }
+        System.out.print( "calc omegas...done\n" );
+        double jj[] = new double[modeCountM + 1];
+        int y;
+        // x = th, y = r
+        xStates = new double[modeCountM][modeCountR][sampleCountR + 1];
+        System.out.print( "calc modes...\n" );
+        for( m = 0; m != modeCountM; m++ ) {
+            for( n = 0; n != modeCountR; n++ ) {
+                double max = 0;
+                double nm = 0;
+                for( y = 0; y <= sampleCountR; y++ ) {
+                    // work around bess() bug at x=0
+                    if( y == 0 ) {
+                        jj[m + 1] = ( m == 0 ) ? 1 : 0;
+                    }
+                    else {
+                        bess( m, y * elevels[m * 2][n], jj );
+                    }
+                    double q = xStates[m][n][y] = jj[m + 1];
+                    if( q > max ) {
+                        max = q;
+                    }
+                    if( q < -max ) {
+                        max = -q;
+                    }
+                    nm += q * q * y;
+                }
+                nm = Math.sqrt( nm );
+                for( y = 0; y <= sampleCountR; y++ ) {
+                    xStates[m][n][y] /= nm;
+                }
+            }
+        }
+
+        double mult = .01 / ( elevels[0][0] * elevels[0][0] );
+        int i, j;
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                elevels[i][j] *= elevels[i][j] * mult;
+            }
+        }
+        System.out.print( "calc modes...done\n" );
+
+        if( oldmagcoef != null ) {
+            for( i = 0; i != oldCountTh && i != modeCountTh; i++ ) {
+                for( j = 0; j != oldCountR && j != modeCountR; j++ ) {
+                    magcoef[i][j] = oldmagcoef[i][j];
+                }
+            }
+        }
+
+        pZoomBarValue = -1;
+
+        angle1SinTab = new double[sampleCountTh + 1];
+        angle1CosTab = new double[sampleCountTh + 1];
+        angle2SinTab = new double[sampleCountTh + 1];
+        angle2CosTab = new double[sampleCountTh + 1];
+        for( i = 0; i <= sampleCountTh; i++ ) {
+            double th1 = 2 * pi * i / sampleCountTh;
+            double th2 = 2 * pi * ( i + 1 ) / sampleCountTh + .001;
+            angle1SinTab[i] = Math.sin( th1 );
+            angle1CosTab[i] = Math.cos( th1 );
+            angle2SinTab[i] = Math.sin( th2 );
+            angle2CosTab[i] = Math.cos( th2 );
+        }
+    }
+
+    private void updateTimeValues() {
+        if( !stoppedCheck.getState() && !dragging ) {
+            int val = speedBar.getValue();
+            double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
+            long sysTime = System.currentTimeMillis();
+            if( lastTime == 0 ) {
+                lastTime = sysTime;
+            }
+            tadd *= ( sysTime - lastTime ) * ( 1 / 170. );
+            t += tadd;
+            lastTime = sysTime;
+        }
+        else {
+            lastTime = 0;
+        }
+        if( dragStop ) {
+            t = 0;
+        }
+    }
+
+    int min( int x, int y ) {
+        return ( x < y ) ? x : y;
+    }
+
+    void doGround() {
+        clearWave();
+        magcoef[0][0] = 1;
+        t = 0;
+    }
+
+    void normalize() {
+        double norm = 0;
+        int i, j;
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                norm += magcoef[i][j] * magcoef[i][j];
+            }
+        }
+        if( norm == 0 ) {
+            return;
+        }
+        double normmult = 1 / Math.sqrt( norm );
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                magcoef[i][j] *= normmult;
+            }
+        }
+        cv.repaint( pause );
+    }
+
+    void maximize() {
+        int i, j;
+        double maxm = 0;
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                if( Math.abs( magcoef[i][j] ) > maxm ) {
+                    maxm = Math.abs( magcoef[i][j] );
+                }
+            }
+        }
+        if( maxm == 0 ) {
+            return;
+        }
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                magcoef[i][j] *= 1 / maxm;
+            }
+        }
+        cv.repaint( pause );
+    }
+
+    void clearWave() {
+        int x, y;
+        for( x = 0; x != modeCountTh; x++ ) {
+            for( y = 0; y != modeCountR; y++ ) {
+                magcoef[x][y] = 0;
+            }
+        }
+    }
+
+    void transformWaveToModes() {
+        t = 0;
+        int i, j;
+
+        // zero out arrays.  phasecoefcos and phasecoefsin are
+        // the real and imaginary parts of the state coefficients.
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                phasecoefcos[i][j] = phasecoefsin[i][j] = 0;
+            }
+        }
+
+        int r, th;
+
+        // integrate the function func[][] with each mode times r (since the
+        // modes are only orthogonal with a weighting function of r) and also
+        // integrate each mode with itself times r to get the norm.
+        for( r = 0; r <= sampleCountR; r++ ) {
+            // fft each set of samples at constant r
+            for( th = 0; th != sampleCountTh * 2; th++ ) {
+                xformbuf[th] = 0;
+            }
+            for( th = 0; th != sampleCountTh; th++ ) {
+                xformbuf[th * 2] = func[th][r] * r;
+                xformbuf[th * 2 + 1] = funci[th][r] * r;
+            }
+            fftTh.transform( xformbuf );
+
+            // perform integration step for each m=0 mode
+            for( j = 0; j != modeCountR; j++ ) {
+                phasecoefcos[0][j] += xStates[0][j][r] * xformbuf[0];
+                phasecoefsin[0][j] += xStates[0][j][r] * xformbuf[1];
+            }
+
+            // perform integration step with each m>0 mode
+            int wc = sampleCountTh * 2;
+            int wm = wc - 1;
+            for( i = 1; i < modeCountTh; i += 2 ) {
+                for( j = 0; j != modeCountR; j++ ) {
+                    int ii = i + 1;
+                    int m = ii / 2;
+                    phasecoefcos[i][j] += xStates[m][j][r] *
+                                          xformbuf[ii];
+                    phasecoefsin[i][j] += xStates[m][j][r] *
+                                          xformbuf[ii + 1];
+
+                    phasecoefcos[i + 1][j] += xStates[m][j][r] *
+                                              xformbuf[wm & -ii];
+                    phasecoefsin[i + 1][j] += xStates[m][j][r] *
+                                              xformbuf[wm & ( -ii + 1 )];
+                }
+            }
+        }
+
+        // finish up by dividing out the norms and moving the results
+        // to magcoef and phasecoefadj
+        for( i = 0; i != modeCountTh; i++ ) {
+            for( j = 0; j != modeCountR; j++ ) {
+                double a = phasecoefcos[i][j];
+                double b = phasecoefsin[i][j];
+                if( a < epsilon && a > -epsilon ) {
+                    a = 0;
+                }
+                if( b < epsilon && b > -epsilon ) {
+                    b = 0;
+                }
+                magcoef[i][j] = Math.sqrt( a * a + b * b );
+                phasecoefadj[i][j] = Math.atan2( b, a );
+            }
+        }
+        if( alwaysNormItem.getState() ) {
+            normalize();
+        }
+        else if( alwaysMaxItem.getState() ) {
+            maximize();
+        }
+    }
+
+    int sign( int x ) {
+        return ( x < 0 ) ? -1 : ( x == 0 ) ? 0 : 1;
+    }
+
+    int abs( int x ) {
+        return x < 0 ? -x : x;
+    }
+
+    // this routine not tested for m_order > 64 or n_zero > 34 !!
+    private double zeroj( int m_order, int n_zero ) {
+        // Zeros of the Bessel function J(x)
+        // Inputs
+        //   m_order   Order of the Bessel function
+        //   n_zero    Index of the zero (first, second, etc.)
+        // Output
+        //   z         The "n_zero"th zero of the Bessel function
+
+        if( m_order >= 48 && n_zero == 1 ) {
+            switch( m_order ) {
+                case 48:
+                    return 55.0283;
+                case 49:
+                    return 56.0729;
+                case 50:
+                    return 57.1169;
+                case 51:
+                    return 58.1603;
+                case 52:
+                    return 59.2032;
+                case 53:
+                    return 60.2456;
+                case 54:
+                    return 61.2875;
+                case 55:
+                    return 62.3288;
+                case 56:
+                    return 63.3697;
+                case 57:
+                    return 64.4102;
+                case 58:
+                    return 65.4501;
+                case 59:
+                    return 66.4897;
+                case 60:
+                    return 67.5288;
+                case 61:
+                    return 68.5675;
+                case 62:
+                    return 69.6058;
+                case 63:
+                    return 70.6437;
+                case 64:
+                    return 71.6812;
+            }
+        }
+        if( m_order >= 62 && n_zero == 2 ) {
+            switch( m_order ) {
+                case 62:
+                    return 75.6376;
+                case 63:
+                    return 76.7021;
+                case 64:
+                    return 77.7659;
+            }
+        }
+
+        //* Use asymtotic formula for initial guess
+        double beta = ( n_zero + 0.5 * m_order - 0.25 ) * ( 3.141592654 );
+        double mu = 4 * m_order * m_order;
+        double beta8 = 8 * beta;
+        double beta82 = beta8 * beta8;
+        double beta84 = beta82 * beta82;
+        double z = beta - ( mu - 1 ) / beta8
+                   - 4 * ( mu - 1 ) * ( 7 * mu - 31 ) / ( 3 * beta82 * beta8 );
+        z -= 32 * ( mu - 1 ) * ( 83 * mu * mu - 982 * mu + 3779 ) / ( 15 * beta84 * beta8 );
+        z -= 64 * ( mu - 1 ) * ( 6949 * mu * mu * mu - 153855 * mu * mu + 1585743 * mu - 6277237 ) /
+             ( 105 * beta84 * beta82 * beta8 );
+
+        //* Use Newton's method to locate the root
+        double jj[] = new double[m_order + 3];
+        int i;
+        double deriv;
+        for( i = 1; i <= 5; i++ ) {
+            bess( m_order + 1, z, jj );  // Remember j(1) is J_0(z)
+            // Use the recursion relation to evaluate derivative
+            deriv = -jj[m_order + 2] + m_order / z * jj[m_order + 1];
+            z -= jj[m_order + 1] / deriv;  // Newton's root finding
+        }
+        return ( z );
+    }
+
+    void bess( int m_max, double x, double jj[] ) {
+        // Bessel function
+        // Inputs
+        //    m_max  Largest desired order
+        //    x = Value at which Bessel function J(x) is evaluated
+        // Output
+        //    jj = Vector of J(x) for order m = 0, 1, ..., m_max
+
+        //* Perform downward recursion from initial guess
+        int maxmx = ( m_max > x ) ? m_max : ( (int)x );  // Max(m,x)
+        // Recursion is downward from m_top (which is even)
+        int m_top = 2 * ( (int)( ( maxmx + 15 ) / 2 + 1 ) );
+        double j[] = new double[m_top + 2];
+        j[m_top + 1] = 0.0;
+        j[m_top] = 1.0;
+        double tinyNumber = 1e-16;
+        int m;
+        for( m = m_top - 2; m >= 0; m-- )       // Downward recursion
+        {
+            j[m + 1] = 2 * ( m + 1 ) / ( x + tinyNumber ) * j[m + 2] - j[m + 3];
+        }
+
+        //* Normalize using identity and return requested values
+        double norm = j[1];        // NOTE: Be careful, m=0,1,... but
+        for( m = 2; m <= m_top; m += 2 ) // vector goes j(1),j(2),...
+        {
+            norm += 2 * j[m + 1];
+        }
+        for( m = 0; m <= m_max; m++ )  // Send back only the values for
+        {
+            jj[m + 1] = j[m + 1] / norm;   // m=0,...,m_max and discard values
+        }
+    }                            // for m=m_max+1,...,m_top
 }
