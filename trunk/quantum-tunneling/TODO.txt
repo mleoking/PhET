@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
-- try native L&F on all platforms
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
@@ -14,6 +13,7 @@ HIGH PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 
 MEDIUM PRIORITY:
+- try native L&F on all platforms
 - top edge of +1 tick label on Energy plot y axis is clipped
 - add tick labels to wave packet center and width controls
 - put color legend next to view checkboxes
@@ -21,6 +21,8 @@ MEDIUM PRIORITY:
 - fix dt in SchrodingerSolver so that it is related to clock dt
 - add application description to SimStrings files
 - pause clock while dragging sliders/handles, restore the clock state on release
+- restore "phase" veiw state when switching between sum and separate views
+- restore sum/separate state when switching between plane and wave packet
 
 LOW PRIORITY:
 - make AbstractWavePacketSolver in case we have other implementations
