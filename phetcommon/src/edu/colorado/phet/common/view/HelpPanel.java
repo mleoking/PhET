@@ -40,6 +40,9 @@ public class HelpPanel extends JPanel {
 
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
+        
+        miniHelpBtn.setOpaque( false );
+        megaHelpBtn.setOpaque( false );
 
         // Hook up listeners to the buttons that will tell the
         // module what help to show, if any
