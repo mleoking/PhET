@@ -331,7 +331,7 @@ class QuantumCircFrame extends Frame
     }
 
     void reinit() {
-        doBlank();
+        clearWave();
         magcoef[1][0] = 1;
     }
 
@@ -519,7 +519,7 @@ class QuantumCircFrame extends Frame
 	    }*/
 
     void doGround() {
-        doBlank();
+        clearWave();
         magcoef[0][0] = 1;
         t = 0;
     }
@@ -660,7 +660,7 @@ class QuantumCircFrame extends Frame
         }
     }
 
-    void doBlank() {
+    void clearWave() {
         int x, y;
         for( x = 0; x != modeCountTh; x++ ) {
             for( y = 0; y != modeCountR; y++ ) {
@@ -733,8 +733,7 @@ class QuantumCircFrame extends Frame
                         continue;
                     }
                     allQuiet = false;
-                    phasecoef[i][j] =
-                            ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
+                    phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
                     phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
                     phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
                     norm += magcoef[i][j] * magcoef[i][j];
@@ -754,82 +753,6 @@ class QuantumCircFrame extends Frame
         }
         xpoints = new int[4];
         ypoints = new int[4];
-
-        if( viewPotential != null ) {
-            int floory = viewPotential.y + viewPotential.height - 5;
-            double ymult = 200;
-            if( floorValues == null ) {
-                floorValues = new int[floory + 1];
-            }
-            for( i = 0; i <= floory; i++ ) {
-                floorValues[i] = 0;
-            }
-            for( i = 0; i != modeCountTh; i++ ) {
-                for( j = 0; j != modeCountR; j++ ) {
-                    double dy = elevels[i][j];
-                    double m = magcoef[i][j] * magcoef[i][j];
-                    int mc = (int)( ( 256 - 32 ) * m ) + 1;
-                    y = floory - (int)( ymult * dy );
-                    if( y >= 0 && y <= floory ) {
-                        floorValues[y] += mc;
-                    }
-                }
-            }
-            for( i = 0; i <= floory; i++ ) {
-                if( floorValues[i] == 0 ) {
-                    continue;
-                }
-                int mc = floorValues[i] + 32;
-                if( mc > 255 ) {
-                    mc = 255;
-                }
-                g.setColor( grayLevels[mc] );
-                g.drawLine( 0, i, winSize.width, i );
-            }
-            g.setColor( Color.white );
-            g.drawLine( viewXMap.x, 0, viewXMap.x, floory );
-            int x0 = viewXMap.x + viewXMap.width;
-            g.drawLine( x0, 0, x0, floory );
-            g.drawLine( viewXMap.x, floory, x0, floory );
-
-            // calculate expectation value of E
-            if( norm != 0 && ( expectCheckItem.getState() ||
-                               uncertaintyCheckItem.getState() ) ) {
-                double expecte = 0;
-                double expecte2 = 0;
-                for( i = 0; i != modeCountTh; i++ ) {
-                    for( j = 0; j != modeCountR; j++ ) {
-                        double prob = magcoef[i][j] * magcoef[i][j] * normmult2;
-                        expecte += prob * elevels[i][j];
-                        expecte2 += prob * elevels[i][j] * elevels[i][j];
-                    }
-                }
-                double uncert = Math.sqrt( expecte2 - expecte * expecte );
-                if( uncertaintyCheckItem.getState() ) {
-                    if( !( uncert >= 0 ) ) {
-                        uncert = 0;
-                    }
-                    g.setColor( Color.blue );
-                    y = floory - (int)( ymult * ( expecte + uncert ) );
-                    g.drawLine( 0, y, winSize.width, y );
-                    y = floory - (int)( ymult * ( expecte - uncert ) );
-                    if( expecte - uncert >= 0 ) {
-                        g.drawLine( 0, y, winSize.width, y );
-                    }
-                }
-                if( expectCheckItem.getState() ) {
-                    y = floory - (int)( ymult * expecte );
-                    g.setColor( Color.red );
-                    g.drawLine( 0, y, winSize.width, y );
-                }
-            }
-
-            if( selectedCoefX != -1 && !dragging ) {
-                g.setColor( Color.yellow );
-                y = floory - (int)( ymult * elevels[selectedCoefX][selectedCoefY] );
-                g.drawLine( 0, y, winSize.width, y );
-            }
-        }
 
         if( viewX != null ) {
             drawRadial( g, viewXMap, func, funci );
@@ -1664,7 +1587,7 @@ class QuantumCircFrame extends Frame
             doGround();
         }
         if( e.getSource() == blankButton ) {
-            doBlank();
+            clearWave();
         }
         if( e.getSource() == normalizeButton ) {
             normalize();
