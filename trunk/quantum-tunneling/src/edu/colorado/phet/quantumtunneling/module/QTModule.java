@@ -229,24 +229,6 @@ public class QTModule extends AbstractModule implements Observer {
         final double chartWidth = _canvas.getWidth() - ( 2 * X_MARGIN );
         final double chartHeight = _canvas.getHeight() - ( legendHeight  + ( 2 * Y_MARGIN ) + Y_SPACING );
         
-        // Legend
-        {
-            AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( X_MARGIN + 55, Y_MARGIN );
-            legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
-            legendTransform.translate( 0, 0 ); // upper left
-            _legend.setTransform( legendTransform );
-        }
-        
-        // Configure button
-        {
-            AffineTransform configureTransform = new AffineTransform();
-            configureTransform.translate( X_MARGIN + chartWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
-            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
-            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
-            _configureButton.setTransform( configureTransform );
-        }
-        
         // Charts
         {
             _chartNode.setBounds( 0, 0, chartWidth, chartHeight );
@@ -271,6 +253,28 @@ public class QTModule extends AbstractModule implements Observer {
             double dx = p2.getX() - p1.getX();
             _wavePacket.getSolver().setDx( dx );
             _chart.getWaveFunctionPlot().setDx( dx );
+        }
+        
+        // Legend
+        {
+            // Get position of left edge of plot data area, in global coordinates...
+            Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
+            Point2D pGlobal = _chartNode.localToGlobal( pNode );
+            // Align with left edge of plot data areas...
+            AffineTransform legendTransform = new AffineTransform();
+            legendTransform.translate( pGlobal.getX(), Y_MARGIN );
+            legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
+            legendTransform.translate( 0, 0 ); // upper left
+            _legend.setTransform( legendTransform );
+        }
+        
+        // Configure button
+        {
+            AffineTransform configureTransform = new AffineTransform();
+            configureTransform.translate( X_MARGIN + chartWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
+            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
+            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
+            _configureButton.setTransform( configureTransform );
         }
     }
     
