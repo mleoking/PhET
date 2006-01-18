@@ -264,14 +264,18 @@ public class QTModule extends AbstractModule implements Observer {
         }
        
         // Get position of left edge of plot data area, in global coordinates...
-        Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
-        Point2D pGlobal = _chartNode.localToGlobal( pNode );
+        double leftEdgeOfChartDataArea = 0;
+        {
+            Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
+            Point2D pGlobal = _chartNode.localToGlobal( pNode );
+            leftEdgeOfChartDataArea = pGlobal.getX();
+        }
         
         // Legend
         {
             // Align with left edge of plot data areas...
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( pGlobal.getX(), Y_MARGIN );
+            legendTransform.translate( leftEdgeOfChartDataArea, Y_MARGIN );
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
@@ -287,7 +291,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Measure button
         {
             AffineTransform measureTransform = new AffineTransform();
-            measureTransform.translate( pGlobal.getX(), _canvas.getHeight() - _measureButton.getHeight() - 10 );
+            measureTransform.translate( leftEdgeOfChartDataArea, _canvas.getHeight() - _measureButton.getHeight() - Y_MARGIN );
             measureTransform.translate( 0, 0 ); // registration point = upper left
             _measureButton.setTransform( measureTransform );
         }
