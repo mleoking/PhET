@@ -132,6 +132,7 @@ class QuantumCircFrame extends Frame
     double brightmult;
     QuantumCircCanvas cv;
     QuantumCirc applet;
+
     final int lspacing = 3;
     boolean useBufferedImage = false;
 
@@ -691,31 +692,8 @@ class QuantumCircFrame extends Frame
         updateTimeValues();
         drawBack( g );
 
-
         if( !editingFunc ) {
-            // update phases
-            double norm = 0;
-            double normmult = 0;
-            double normmult2 = 0;
-            for( int i = 0; i != modeCountTh; i++ ) {
-                for( int j = 0; j != modeCountR; j++ ) {
-                    if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
-                        magcoef[i][j] = phasecoef[i][j] =
-                        phasecoefadj[i][j] = 0;
-                        continue;
-                    }
-                    phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
-                    phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
-                    phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
-                    norm += magcoef[i][j] * magcoef[i][j];
-                }
-            }
-            normmult2 = 1 / norm;
-            if( norm == 0 ) {
-                normmult2 = 0;
-            }
-            normmult = Math.sqrt( normmult2 );
-            genFunc( normmult );
+            updatePhases();
         }
         brightmult = Math.exp( brightnessBar.getValue() / 200.0 - 5 );
 
@@ -730,6 +708,31 @@ class QuantumCircFrame extends Frame
         if( !stoppedCheck.getState() ) {
             cv.repaint( pause );
         }
+    }
+
+    private void updatePhases() {
+        double norm = 0;
+        double normmult = 0;
+        double normmult2 = 0;
+        for( int i = 0; i != modeCountTh; i++ ) {
+            for( int j = 0; j != modeCountR; j++ ) {
+                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
+                    magcoef[i][j] = phasecoef[i][j] =
+                    phasecoefadj[i][j] = 0;
+                    continue;
+                }
+                phasecoef[i][j] = ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
+                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
+                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
+                norm += magcoef[i][j] * magcoef[i][j];
+            }
+        }
+        normmult2 = 1 / norm;
+        if( norm == 0 ) {
+            normmult2 = 0;
+        }
+        normmult = Math.sqrt( normmult2 );
+        genFunc( normmult );
     }
 
     private void drawBack( Graphics g ) {
