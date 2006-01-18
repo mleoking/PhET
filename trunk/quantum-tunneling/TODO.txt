@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
-- redo total energy display for wave packets
+- render total energy gradient into a buffered image
+- add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8 (see XYPlot.zoomRangeAxes)
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 
@@ -68,6 +68,8 @@ JFREECHART:
 
 
 DONE:
+(1/18/06) - redo total energy display for wave packets (gradient color is broken)
+(1/18/06) - phetcommon: setOpaque(false) on clock control buttons and help button
 (1/17/06) - move Measure button below left corner of Probability Density chart
 (1/17/06) - pause clock while ConfigureEnergyDialog is open
 (1/17/06) - fix alignment of legend with left edge of charts
