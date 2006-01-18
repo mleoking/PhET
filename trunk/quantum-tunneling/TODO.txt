@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
 - Measure -> Measure Position, move below left corner of Probability Density chart
 - try native L&F on all platforms
-- make AbstractWavePacketSolver in case we have other implementations
 - redo total energy display for wave packets
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
@@ -27,6 +26,7 @@ MEDIUM PRIORITY:
 - pause clock while dragging sliders/handles, restore the clock state on release
 
 LOW PRIORITY:
+- make AbstractWavePacketSolver in case we have other implementations
 - Help items
 - make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
@@ -68,6 +68,7 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - subplots of combined plot should have their x axis set to null
 (1/17/06) - localize confirmation dialog in ConfigureEnergyDialog
 (1/17/06) - explicity set the tick units for all axes via constants in QTConstants
 (1/17/06) - larger font for axis labels and ticks

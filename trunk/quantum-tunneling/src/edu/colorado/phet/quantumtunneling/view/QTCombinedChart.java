@@ -82,6 +82,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         // Energy plot...
         {
             _energyPlot = new EnergyPlot();
+            _energyPlot.setDomainAxis( null );
             _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
             _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
             // Y axis tick units
@@ -94,6 +95,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         // Wave Function plot...
         {
             _waveFunctionPlot = new WaveFunctionPlot();
+            _waveFunctionPlot.setDomainAxis( null );
             _waveFunctionPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
             _waveFunctionPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
             // Y axis tick units
@@ -105,8 +107,11 @@ public class QTCombinedChart extends JFreeChart implements Observer {
 
         // Probability Density plot...
         {
+            // Get the series from the WaveFunctionPlot...
             XYSeries probabilityDensitySeries = _waveFunctionPlot.getProbabilityDensitySeries();
+            //...and display it using the ProbabilityDensityPlot
             _probabilityDensityPlot = new ProbabilityDensityPlot( probabilityDensitySeries );
+            _probabilityDensityPlot.setDomainAxis( null );
             _probabilityDensityPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
             _probabilityDensityPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
             // Y axis tick units
