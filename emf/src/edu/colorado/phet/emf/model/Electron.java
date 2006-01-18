@@ -160,11 +160,12 @@ public class Electron extends Body {
 //            movementStrategyHistory[i] = movementStrategyHistory[i - s_stepSize];
 //        }
 
-        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get( accelerationHistory.size() - 1 );
-//        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get(0);
+//        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get( accelerationHistory.size() - 1 );
+        Vector2D.Float a = (Vector2D.Float)accelerationHistory.get(0);
 
 //        Vector2D.Float a = accelerationHistory[0];
         double df = ( a.getY() - movementStrategy.getAcceleration( this ) * s_B ) / s_stepSize;
+
         for( int i = 0; i < s_stepSize; i++ ) {
             positionHistory.add(position );
             accelerationHistory.add( new Vector2D.Float(0, movementStrategy.getAcceleration( this ) * s_B + i * df ));
@@ -213,8 +214,9 @@ public class Electron extends Body {
             throw new RuntimeException( "Asked for r=0 field." );
         }
 
-        Point2D generatingPos = (Point2D)this.positionHistory.get(positionHistory.size() - (int)distanceFromSource - 1);
-//        Point2D generatingPos = (Point2D)this.positionHistory.get((int)distanceFromSource);
+//        Point2D generatingPos = (Point2D)this.positionHistory.get(positionHistory.size() - (int)distanceFromSource - 1);
+        System.out.println( "distanceFromSource = " + distanceFromSource );
+        Point2D generatingPos = (Point2D)this.positionHistory.get((int)distanceFromSource);
 //        Point2D generatingPos = this.positionHistory[(int)distanceFromSource];
 
         // Using the following line may or may not be more accurate. I'm not sure, since
@@ -265,12 +267,15 @@ public class Electron extends Body {
     }
 
     private float getAccelerationAt( int x ) {
-        return (float)((Vector2D)accelerationHistory.get(Math.max( accelerationHistory.size() - x - 1, 0 ))).getY();
+//        return (float)((Vector2D)accelerationHistory.get(Math.max( accelerationHistory.size() - x - 1, 0 ))).getY();
+        return (float)((Vector2D)accelerationHistory.get( x )).getY();
+//        return (float)((Vector2D)accelerationHistory.get(Math.min( x, accelerationHistory.size() - 1 ))).getY();
 //        return (float)accelerationHistory[Math.min( x, accelerationHistory.length - 1 )].getY();
     }
 
     public float getPositionAt( int x ) {
-        return (float)((Point2D)positionHistory.get(Math.min( x, positionHistory.size() - 1 ))).getY();
+        return (float)((Point2D)positionHistory.get( x )).getY();
+//        return (float)((Point2D)positionHistory.get(Math.min( x, positionHistory.size() - 1 ))).getY();
 //        return (float)positionHistory[Math.min( x, positionHistory.length - 1 )].getY();
     }
 
@@ -281,7 +286,8 @@ public class Electron extends Body {
 
     public MovementType getMovementTypeAt( Point2D location ) {
         int x = (int)( location.distance( this.currentPosition ) );
-        return (MovementType)movementStrategyHistory.get( movementStrategyHistory.size() - x - 1 );
+        return (MovementType)movementStrategyHistory.get( x );
+//        return (MovementType)movementStrategyHistory.get( movementStrategyHistory.size() - x - 1 );
 //        return movementStrategyHistory[x];
     }
 
