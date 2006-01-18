@@ -311,7 +311,7 @@ public class QTControlPanel extends AbstractControlPanel {
             addControlFullWidth( propertiesPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addControl( _measureButton );
+//            addControl( _measureButton ); // moved to play area
             addResetButton();
         }
         

@@ -61,8 +61,6 @@ public class QTModule extends AbstractModule implements Observer {
     private static final int Y_SPACING = 10; // vertical space between nodes
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
-    private static final double LEGEND_SCALE = 1;
-    private static final double CONFIGURE_BUTTON_SCALE = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -87,6 +85,7 @@ public class QTModule extends AbstractModule implements Observer {
     
     // Control
     private PSwing _configureButton;
+    private PSwing _measureButton;
     private QTControlPanel _controlPanel;
     private ConfigureEnergyDialog _configureEnergyDialog;
     private TotalEnergyDragHandle _totalEnergyControl;
@@ -165,6 +164,14 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergyControls.setValuesVisible( QTConstants.SHOW_ENERGY_VALUES );
         }
         
+        // Measure button
+        {
+            JButton jButton = new JButton( SimStrings.get( "button.measure" ) );
+            jButton.setOpaque( false );
+            jButton.addActionListener( listener );
+            _measureButton = new PSwing( _canvas, jButton );
+        }
+        
         // Add all the nodes to one parent node.
         {
             _parentNode = new PNode();
@@ -174,6 +181,7 @@ public class QTModule extends AbstractModule implements Observer {
             _parentNode.addChild( _chartNode );
             _parentNode.addChild( _totalEnergyControl );
             _parentNode.addChild( _potentialEnergyControls );
+            _parentNode.addChild( _measureButton );
 
             _canvas.addScreenChild( _parentNode );
         }       
@@ -254,16 +262,16 @@ public class QTModule extends AbstractModule implements Observer {
             _wavePacket.getSolver().setDx( dx );
             _chart.getWaveFunctionPlot().setDx( dx );
         }
+       
+        // Get position of left edge of plot data area, in global coordinates...
+        Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
+        Point2D pGlobal = _chartNode.localToGlobal( pNode );
         
         // Legend
         {
-            // Get position of left edge of plot data area, in global coordinates...
-            Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
-            Point2D pGlobal = _chartNode.localToGlobal( pNode );
             // Align with left edge of plot data areas...
             AffineTransform legendTransform = new AffineTransform();
             legendTransform.translate( pGlobal.getX(), Y_MARGIN );
-            legendTransform.scale( LEGEND_SCALE, LEGEND_SCALE );
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
@@ -272,9 +280,16 @@ public class QTModule extends AbstractModule implements Observer {
         {
             AffineTransform configureTransform = new AffineTransform();
             configureTransform.translate( X_MARGIN + chartWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
-            configureTransform.scale( CONFIGURE_BUTTON_SCALE, CONFIGURE_BUTTON_SCALE );
             configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
             _configureButton.setTransform( configureTransform );
+        }
+        
+        // Measure button
+        {
+            AffineTransform measureTransform = new AffineTransform();
+            measureTransform.translate( pGlobal.getX(), _canvas.getHeight() - _measureButton.getHeight() - 10 );
+            measureTransform.translate( 0, 0 ); // registration point = upper left
+            _measureButton.setTransform( measureTransform );
         }
     }
     
@@ -385,6 +400,9 @@ public class QTModule extends AbstractModule implements Observer {
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _configureButton.getComponent() ) {
                 handleConfigureButton();
+            }
+            else if ( event.getSource() == _measureButton.getComponent() ) {
+                setMeasureEnabled( true );
             }
         }
     }
