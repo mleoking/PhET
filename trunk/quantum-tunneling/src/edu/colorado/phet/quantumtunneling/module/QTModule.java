@@ -391,26 +391,22 @@ public class QTModule extends AbstractModule implements Observer {
     
     /*
      * When the "Configure Energy" button is pressed, open a dialog.
+     * The clock is temporarily paused while the dialog is open,
+     * so that the user interface response is "snappy".
      */
     private void handleConfigureButton() {
         if ( _configureEnergyDialog == null ) {
-//            setWaitCursorEnabled( true );
+            boolean clockRunning = getClock().isRunning();
+            getClock().pause();
             WaveType waveType = _controlPanel.getWaveType();
             _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, waveType );
-            _configureEnergyDialog.addWindowListener( new WindowAdapter() {
-                // User pressed the closed button in the window dressing
-                public void windowClosing( WindowEvent event ) {
-                    _configureEnergyDialog.cleanup();
-                    _configureEnergyDialog = null;
-                }
-                // User pressed the close button in the dialog's action area
-                public void windowClosed( WindowEvent event ) {
-                    _configureEnergyDialog.cleanup();
-                    _configureEnergyDialog = null;
-                }
-            } );
             _configureEnergyDialog.show();
-//            setWaitCursorEnabled( false );
+            // Dialog is model, so we stop here until the dialog is closed.
+            _configureEnergyDialog.cleanup();
+            _configureEnergyDialog = null;
+            if ( clockRunning ) {
+                getClock().start();
+            }
         }
     }
     
