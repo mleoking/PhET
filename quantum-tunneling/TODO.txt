@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- pause clock while ConfigureEnergyDialog is open
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8
 - Measure -> Measure Position, move below left corner of Probability Density chart
 - try native L&F on all platforms
@@ -67,6 +66,7 @@ JFREECHART:
 
 
 DONE:
+(1/17/06) - pause clock while ConfigureEnergyDialog is open
 (1/17/06) - fix alignment of legend with left edge of charts
 (1/17/06) - subplots of combined plot should have their x axis set to null
 (1/17/06) - localize confirmation dialog in ConfigureEnergyDialog
