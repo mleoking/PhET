@@ -53,6 +53,10 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         pause = new JButton( SimStrings.get( "Common.ClockControlPanel.Pause" ), pauseIcon );
         step = new JButton( SimStrings.get( "Common.ClockControlPanel.Step" ), stepIcon );
         step.setEnabled( false );
+        
+        play.setOpaque( false );
+        pause.setOpaque( false );
+        step.setOpaque( false );
 
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
