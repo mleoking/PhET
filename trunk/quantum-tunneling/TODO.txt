@@ -68,7 +68,7 @@ JFREECHART:
 
 
 DONE:
-(1/17/06) - localize confirmation dialog in ConfigureEnergDialog
+(1/17/06) - localize confirmation dialog in ConfigureEnergyDialog
 (1/17/06) - explicity set the tick units for all axes via constants in QTConstants
 (1/17/06) - larger font for axis labels and ticks
 (1/17/06) - default to clock running
