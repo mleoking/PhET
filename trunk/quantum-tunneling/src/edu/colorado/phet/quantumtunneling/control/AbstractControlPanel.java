@@ -120,7 +120,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
                 String message = SimStrings.get( "message.reset" );
-                int option = DialogUtils.showConfirmDialog( frame, message );
+                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
                     setWaitCursorEnabled( true );
                     _module.reset();
