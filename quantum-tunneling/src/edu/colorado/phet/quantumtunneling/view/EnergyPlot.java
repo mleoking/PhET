@@ -31,6 +31,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
 
 /**
@@ -47,9 +48,12 @@ public class EnergyPlot extends XYPlot implements Observer {
     
     private AbstractPotential _potentialEnergy;
     private TotalEnergy  _totalEnergy;
+    private WavePacket _wavePacket;
     
     private XYSeries _totalEnergySeries;
     private XYSeries _potentialEnergySeries;
+    
+    private TotalEnergyRenderer _packetRenderer;
     
     private int _peRendererIndex;
     private int _tePlaneRendererIndex;
@@ -98,11 +102,11 @@ public class EnergyPlot extends XYPlot implements Observer {
             
             // Renderer for wave packet
             _tePacketRendererIndex = index++;
-            XYItemRenderer packetRenderer = new PacketTotalEnergyRenderer( QTConstants.TOTAL_ENERGY_DEVIATION );
-            packetRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-            packetRenderer.setStroke( new BasicStroke( 50f ) );
+            _packetRenderer = new TotalEnergyRenderer();
+            _packetRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            _packetRenderer.setStroke( new BasicStroke( 50f ) );
             setDataset( _tePacketRendererIndex, dataset );
-            setRenderer( _tePacketRendererIndex, packetRenderer );
+            setRenderer( _tePacketRendererIndex, _packetRenderer );
         }
         setWaveType( WaveType.PLANE );
         
@@ -165,6 +169,7 @@ public class EnergyPlot extends XYPlot implements Observer {
         _potentialEnergy = potential;
         _potentialEnergy.addObserver( this );
         updatePotentialEnergy();
+        updateTotalEnergy();
     }
     
     /**
@@ -175,6 +180,21 @@ public class EnergyPlot extends XYPlot implements Observer {
     public void setAxesFont( Font font ) {
         getDomainAxis().setLabelFont( font );
         getRangeAxis().setLabelFont( font );
+    }
+    
+    /**
+     * Sets the wave packet used by the total energy renderer.
+     * 
+     * @param wavePacket
+     */
+    public void setWavePacket( WavePacket wavePacket ) {
+        if ( _wavePacket != null ) {
+            _wavePacket.deleteObserver( this );
+        }
+        _wavePacket = wavePacket;
+        _packetRenderer.setWavePacket( wavePacket );
+        _wavePacket.addObserver( this );
+        updateTotalEnergy();
     }
     
     //----------------------------------------------------------------------------
@@ -190,8 +210,12 @@ public class EnergyPlot extends XYPlot implements Observer {
     public void update( Observable observable, Object arg ) {
         if ( observable == _potentialEnergy ) {
             updatePotentialEnergy();
+            updateTotalEnergy();
         }
         else if ( observable == _totalEnergy ) {
+            updateTotalEnergy();
+        }
+        else if ( observable == _wavePacket ) {
             updateTotalEnergy();
         }
     }
@@ -204,28 +228,32 @@ public class EnergyPlot extends XYPlot implements Observer {
      * Updates the total energy series to match the model.
      */
     private void updateTotalEnergy() {
-        Range range = getDomainAxis().getRange();
-        _totalEnergySeries.setNotify( false );
-        _totalEnergySeries.clear();
-        _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
-        _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
-        _totalEnergySeries.setNotify( true );
+        if ( _totalEnergy != null ) {
+            Range range = getDomainAxis().getRange();
+            _totalEnergySeries.setNotify( false );
+            _totalEnergySeries.clear();
+            _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
+            _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
+            _totalEnergySeries.setNotify( true );
+        }
     }
     
     /*
      * Updates the potential energy series to match the model.
      */
     private void updatePotentialEnergy() {
-        _potentialEnergySeries.setNotify( false );
-        _potentialEnergySeries.clear();
-        int numberOfRegions = _potentialEnergy.getNumberOfRegions();
-        for ( int i = 0; i < numberOfRegions; i++ ) {
-            double start = _potentialEnergy.getStart( i );
-            double end = _potentialEnergy.getEnd( i );
-            double energy = _potentialEnergy.getEnergy( i );
-            _potentialEnergySeries.add( start, energy );
-            _potentialEnergySeries.add( end, energy );
+        if ( _potentialEnergy != null ) {
+            _potentialEnergySeries.setNotify( false );
+            _potentialEnergySeries.clear();
+            int numberOfRegions = _potentialEnergy.getNumberOfRegions();
+            for ( int i = 0; i < numberOfRegions; i++ ) {
+                double start = _potentialEnergy.getStart( i );
+                double end = _potentialEnergy.getEnd( i );
+                double energy = _potentialEnergy.getEnergy( i );
+                _potentialEnergySeries.add( start, energy );
+                _potentialEnergySeries.add( end, energy );
+            }
+            _potentialEnergySeries.setNotify( true );
         }
-        _potentialEnergySeries.setNotify( true );
     }
 }

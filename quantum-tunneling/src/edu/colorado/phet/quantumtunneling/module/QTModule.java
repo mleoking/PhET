@@ -152,6 +152,8 @@ public class QTModule extends AbstractModule implements Observer {
             _chart = new QTCombinedChart();
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             _chartNode = new QTCombinedChartNode( _chart );
+            
+            _chart.getEnergyPlot().setWavePacket( _wavePacket );
         }
 
         // Drag handles

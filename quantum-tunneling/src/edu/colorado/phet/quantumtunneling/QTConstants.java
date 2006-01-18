@@ -175,9 +175,6 @@ public class QTConstants {
     public static final double DEFAULT_TOTAL_ENERGY = .8; // eV
     public static final double DEFAULT_POTENTIAL_ENERGY = .5; // eV
     
-    // used to draw the total energy "band"
-    public static final double TOTAL_ENERGY_DEVIATION = .38; //  eV
-    
     //----------------------------------------------------------------------------
     // Regions
     //----------------------------------------------------------------------------
