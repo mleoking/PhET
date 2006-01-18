@@ -20,42 +20,26 @@ import java.awt.event.ActionListener;
 public class Jackord extends Applet
         implements ActionListener, Runnable {
     int kk = 0;
-    boolean plt = false;
+    boolean running = false;
     int first = 0;                    // Declarations
-    String b1s = "Pluck";
-    Button b1 = new Button( b1s );
-    String b2s = "Pulse";
-    Button b2 = new Button( b2s );
-    String b3s = "Pulse A";
-    Button b3 = new Button( b3s );
     String b4s = "Pulse B";
     Button b4 = new Button( b4s );
     String b5s = "Motion";
     Button b5 = new Button( b5s );
-//    Checkbox ffssCheckbox = new Checkbox( "FFSS" );
     Image bim;
     Graphics bgr;
     Thread tmr;
     private int NUM_LATTICE_PTS;
+    private double normValue = 63.6396;
 
     public Jackord() {
         NUM_LATTICE_PTS = 193;
-//        NUM_LATTICE_PTS = 200;
-//        NUM_LATTICE_PTS = 20;
     }
 
     public void init() {
         setBackground( new Color( 211, 211, 211 ) );
-//        ffssCheckbox.setBackground( getBackground() );
-        add( b1 );
-        add( b2 );
-        add( b3 );
         add( b4 );
         add( b5 );
-//        add( ffssCheckbox );
-        b1.addActionListener( this );
-        b2.addActionListener( this );
-        b3.addActionListener( this );
         b4.addActionListener( this );
         b5.addActionListener( this );
     }
@@ -70,7 +54,7 @@ public class Jackord extends Applet
 
     public void stop() {
         tmr = null;
-        plt = true;
+        running = true;
     }
 
     public void run() {
@@ -78,7 +62,7 @@ public class Jackord extends Applet
     }
 
     public void paint( Graphics g ) {
-        int n, nf, c, jt, timeStep, delt;                       // Declarations
+        int n, nf, c, frame, timeStep, delt;                       // Declarations
         double [] yReal = new double[NUM_LATTICE_PTS];
         double [] yReal2 = new double[NUM_LATTICE_PTS];
         double [] dyReal = new double[NUM_LATTICE_PTS];
@@ -103,20 +87,6 @@ public class Jackord extends Applet
             first = 1;
         }
         if( kk > 0 ) {
-            if( kk == 1 ) {
-                for( int i = 0; i <= n / 2; i = i + 1 ) {                 // Init pluck
-                    yReal[i] = 30. * i / n;
-                    yReal[n - i] = yReal[i];
-                }
-                energy = 12 / pi / pi;
-            }
-            if( kk == 2 ) {                                     // Init pulse
-                for( int i = 3 * n / 8; i <= n / 2; i = i + 1 ) {
-                    yReal[i] = 15. * 8 / n * ( i - 3 * n / 8 );
-                    yReal[n - i] = yReal[i];
-                }
-                energy = 16 * 12 / pi / pi;
-            }
             if( kk > 2 ) {                                      // Init pulses A and B
                 for( int i = 3 * n / 8; i <= 5 * n / 8; i = i + 1 ) {
                     phi = ( i - 3 * n / 8 ) * pi * 8 / n;
@@ -137,7 +107,7 @@ public class Jackord extends Applet
             for( int i = 0; i <= n; i = i + 1 ) {
                 polygonXValues[i] = 2 * i;
             }
-            jt = 0;
+            frame = 0;
             polygonYValues[0] = 260;
             polygonYValues[n] = 260;
             energy = (int)( energy * 1000 ) / 1000.;
@@ -152,12 +122,12 @@ public class Jackord extends Applet
                 bgr.setColor( Color.black );
                 bgr.drawRect( 0, 0, 384, 260 );
                 bgr.setFont( new Font( "TimesRoman", Font.PLAIN, 14 ) );
-                bgr.drawString( "Frame " + jt + "/" + nf, 9, 50 );
+                bgr.drawString( "Frame " + frame + "/" + nf, 9, 50 );
                 bgr.drawString( "E/gs = " + energy, 9, 70 );
                 bgr.setColor( Color.blue );
                 bgr.fillPolygon( polygonXValues, polygonYValues, n + 1 );                  // Draw filled polygon
                 g.drawImage( bim, 0, 0, null );                  // Show plot buffer
-                jt = jt + 1;
+                frame = frame + 1;
                 // Schroginger equation
                 for( int j = 1; j <= c; j = j + 1 ) {             // Accuracy loop
                     for( int i = 1; i <= n - 1; i = i + 1 ) {             // Project ahead dy/2
@@ -171,6 +141,7 @@ public class Jackord extends Applet
                         yImag[i] = yImag[i] + dyImag[i];
                     }
                 }
+                renormalize( yReal, yImag );
                 if( time > System.currentTimeMillis() ) { delt = timeStep; }
                 else { delt = 0; }
                 try {
@@ -180,23 +151,34 @@ public class Jackord extends Applet
                     stop();
                 }
                 time = time + timeStep;
-                if( jt == nf + 1 ) {
+                if( frame == nf + 1 ) {
                     kk = 0;
-                    plt = false;
+                    running = false;
                 }
-            } while( plt );
+            } while( running );
         }
         stop();
+    }
+
+    private void renormalize( double[] yReal, double[] yImag ) {
+        double sum = 0;
+        for( int i = 0; i < yReal.length; i++ ) {
+            sum += yReal[i] * yReal[i] + yImag[i] * yImag[i];
+        }
+        sum = Math.sqrt( sum );
+        System.out.println( "sum = " + sum );
+        sum /= normValue;
+        for( int i = 0; i < yReal.length; i++ ) {
+            yReal[i] /= sum;
+            yImag[i] /= sum;
+        }
     }
 
     public void actionPerformed( ActionEvent e ) {         // Buttons
         String tst;
         tst = e.getActionCommand();
-        if( b1s.equals( tst ) ) { kk = 1; }
-        if( b2s.equals( tst ) ) { kk = 2; }
-        if( b3s.equals( tst ) ) { kk = 3; }
         if( b4s.equals( tst ) ) { kk = 4; }
-        if( b5s.equals( tst ) ) { if( kk > 0 ) { plt = true;} }
+        if( b5s.equals( tst ) ) { if( kk > 0 ) { running = true;} }
         start();
     }
 }
