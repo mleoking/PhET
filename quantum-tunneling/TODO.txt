@@ -5,7 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8 (see XYPlot.zoomRangeAxes)
+- use images on zoom buttons, ala Moving Man
+- zoom Wave Function chart to these ranges: 0.5, 1, 2, 4, 6, 8 (all starting at 0)
+- zoom Wave Function chart to these ranges: 0.25, 0.5, 1, 2, 4 (all - to + )
+- use XYPlot.zoom* methods for zooming?
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 
@@ -66,6 +69,7 @@ JFREECHART:
 - visibilty methods for renderers is a mess
 
 MACINTOSH
+- total energy gradient sometimes contains "noise"
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
