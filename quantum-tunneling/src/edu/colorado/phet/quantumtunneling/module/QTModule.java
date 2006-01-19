@@ -13,9 +13,13 @@ package edu.colorado.phet.quantumtunneling.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -59,8 +63,9 @@ public class QTModule extends AbstractModule implements Observer {
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
     private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
+    private static final int ZOOM_X_OFFSET = 5; // X offset of zoom buttons from edge of plot
+    private static final int ZOOM_Y_OFFSET = 5; // Y offset of zoom buttons from edge of plot
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
-    private static final int CANVAS_BOUNDARY_STROKE_WIDTH = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,6 +95,8 @@ public class QTModule extends AbstractModule implements Observer {
     private ConfigureEnergyDialog _configureEnergyDialog;
     private TotalEnergyDragHandle _totalEnergyControl;
     private PotentialEnergyControls _potentialEnergyControls;
+    private PSwing _waveFunctionZoomControl;
+    private PSwing _probabilityDensityZoomControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -134,12 +141,10 @@ public class QTModule extends AbstractModule implements Observer {
             setCanvas( _canvas );
         }
         
-        // Configure button
+        // Root of our scene graph
         {
-            JButton jButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
-            jButton.setOpaque( false );
-            jButton.addActionListener( listener );
-            _configureButton = new PSwing( _canvas, jButton );
+            _parentNode = new PNode();
+            _canvas.addScreenChild( _parentNode );
         }
         
         // Energy graph legend
@@ -154,37 +159,11 @@ public class QTModule extends AbstractModule implements Observer {
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             _chartNode = new QTCombinedChartNode( _chart );
         }
-
-        // Drag handles
-        {
-            _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setValueVisible( QTConstants.SHOW_ENERGY_VALUES );
-            _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
-            
-            _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
-            _potentialEnergyControls.setValuesVisible( QTConstants.SHOW_ENERGY_VALUES );
-        }
         
-        // Measure button
+        // Add view nodes to the scene graph
         {
-            JButton jButton = new JButton( SimStrings.get( "button.measure" ) );
-            jButton.setOpaque( false );
-            jButton.addActionListener( listener );
-            _measureButton = new PSwing( _canvas, jButton );
-        }
-        
-        // Add all the nodes to one parent node.
-        {
-            _parentNode = new PNode();
-            
-            _parentNode.addChild( _configureButton );
             _parentNode.addChild( _legend );
             _parentNode.addChild( _chartNode );
-            _parentNode.addChild( _totalEnergyControl );
-            _parentNode.addChild( _potentialEnergyControls );
-            _parentNode.addChild( _measureButton );
-
-            _canvas.addScreenChild( _parentNode );
         }       
         
         //----------------------------------------------------------------------------
@@ -200,12 +179,56 @@ public class QTModule extends AbstractModule implements Observer {
         clockControls.setLoopVisible( false );
         clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
         setClockControlPanel( clockControls );
-        
         addClockListener( new ClockAdapter() {
             public void simulationTimeReset( ClockEvent clockEvent ) {
                handleClockReset();
             }
         } ); 
+        
+        // Configure button
+        {
+            JButton jButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
+            jButton.setOpaque( false );
+            jButton.addActionListener( listener );
+            _configureButton = new PSwing( _canvas, jButton );
+        }
+        
+        // Measure button
+        {
+            JButton jButton = new JButton( SimStrings.get( "button.measure" ) );
+            jButton.setOpaque( false );
+            jButton.addActionListener( listener );
+            _measureButton = new PSwing( _canvas, jButton );
+        }
+        
+        // Energy drag handles
+        {
+            _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
+            _totalEnergyControl.setValueVisible( QTConstants.SHOW_ENERGY_VALUES );
+            _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
+            
+            _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
+            _potentialEnergyControls.setValuesVisible( QTConstants.SHOW_ENERGY_VALUES );
+        }
+        
+        // Zoom buttons
+        {
+            ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, _chart.getWaveFunctionPlot() );
+            _waveFunctionZoomControl = new PSwing( _canvas, z1 );
+            
+            ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, _chart.getProbabilityDensityPlot() );
+            _probabilityDensityZoomControl = new PSwing( _canvas, z2 );
+        }
+        
+        // Add control nodes to the scene graph
+        {
+            _parentNode.addChild( _configureButton );
+            _parentNode.addChild( _measureButton );
+            _parentNode.addChild( _totalEnergyControl );
+            _parentNode.addChild( _potentialEnergyControls );
+            _parentNode.addChild( _waveFunctionZoomControl );
+            _parentNode.addChild( _probabilityDensityZoomControl );
+        }
         
         //----------------------------------------------------------------------------
         // Help
@@ -234,7 +257,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
         
-        // Location and dimensions of charts
+        // Location and dimensions of combined chart
         final double chartWidth = _canvas.getWidth() - ( 2 * X_MARGIN );
         final double chartHeight = _canvas.getHeight() - ( legendHeight  + ( 2 * Y_MARGIN ) + Y_SPACING );
         
@@ -248,6 +271,11 @@ public class QTModule extends AbstractModule implements Observer {
             _chartNode.updateChartRenderingInfo();
         }
 
+        // Bounds of plots, in global coordinates -- get these after transforming the chart!
+        Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
+        Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
+        Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
+        
         // Drag handles
         {
             _totalEnergyControl.updateDragBounds();
@@ -264,37 +292,46 @@ public class QTModule extends AbstractModule implements Observer {
             _chart.getWaveFunctionPlot().setDx( dx );
         }
        
-        // Get position of left edge of plot data area, in global coordinates...
-        double leftEdgeOfChartDataArea = 0;
-        {
-            Point2D pNode = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
-            Point2D pGlobal = _chartNode.localToGlobal( pNode );
-            leftEdgeOfChartDataArea = pGlobal.getX();
-        }
-        
         // Legend
         {
-            // Align with left edge of plot data areas...
+            // Aligned with left edge of energy plot, centered in space about energy plot
             AffineTransform legendTransform = new AffineTransform();
-            legendTransform.translate( leftEdgeOfChartDataArea, Y_MARGIN );
+            legendTransform.translate( energyPlotBounds.getX(), Y_MARGIN );
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
         
         // Configure button
         {
+            // Aligned with right edge of energy plot, centered in space about energy plot
             AffineTransform configureTransform = new AffineTransform();
-            configureTransform.translate( X_MARGIN + chartWidth, ( Y_MARGIN + legendHeight + Y_SPACING ) / 2 );
-            configureTransform.translate( -_configureButton.getWidth(), -_configureButton.getHeight() / 2 ); // registration point = right center
+            configureTransform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth(), Y_MARGIN );
+            configureTransform.translate( -_configureButton.getWidth(), 0 ); // registration point = upper right
             _configureButton.setTransform( configureTransform );
         }
         
         // Measure button
         {
             AffineTransform measureTransform = new AffineTransform();
-            measureTransform.translate( leftEdgeOfChartDataArea, _canvas.getHeight() - _measureButton.getHeight() - Y_MARGIN );
+            measureTransform.translate( probabilityDensityPlotBounds.getX(), _canvas.getHeight() - _measureButton.getHeight() - Y_MARGIN );
             measureTransform.translate( 0, 0 ); // registration point = upper left
             _measureButton.setTransform( measureTransform );
+        }
+        
+        // Zoom control for "Wave Function" plot
+        {
+            AffineTransform transform = new AffineTransform();
+            transform.translate( waveFunctionPlotBounds.getX() + 5, waveFunctionPlotBounds.getY() + 5 );
+            transform.translate( 0, 0 ); // registration point = upper left
+            _waveFunctionZoomControl.setTransform( transform );
+        }
+        
+        // Zoom control for "Probability Density" plot
+        {
+            AffineTransform transform = new AffineTransform();
+            transform.translate( probabilityDensityPlotBounds.getX() + 5, probabilityDensityPlotBounds.getY() + 5 );
+            transform.translate( 0, 0 ); // registration point = upper left
+            _probabilityDensityZoomControl.setTransform( transform );
         }
     }
     
@@ -358,6 +395,7 @@ public class QTModule extends AbstractModule implements Observer {
         config.saveIRView( _controlPanel.getIRView() );
         config.saveDirection( _controlPanel.getDirection() );
         config.saveWaveType( _controlPanel.getWaveType() );
+        // Make sure we get width & center from the control panel -- the "Measure" feature temporarily changes the model.
         config.setPacketWidth( _controlPanel.getPacketWidth() );
         config.setPacketCenter( _controlPanel.getPacketCenter() );
     }
