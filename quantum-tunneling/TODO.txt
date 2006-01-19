@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- render total energy gradient into a buffered image to fix gradient
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8 (see XYPlot.zoomRangeAxes)
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
@@ -67,8 +66,11 @@ JFREECHART:
 - AbstractRenderer.getSeriesVisible can return null, isn't properly initialized
 - visibilty methods for renderers is a mess
 
+MACINTOSH
+- AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/18/06) - fix E gradient rendering by using all opaque colors
 (1/18/06) - hook up total energy renderer in ConfigureEnergyDialog
 (1/18/06) - redo total energy display for wave packets (gradient color is broken)
 (1/18/06) - phetcommon: setOpaque(false) on clock control buttons and help button
