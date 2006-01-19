@@ -63,8 +63,8 @@ public class QTModule extends AbstractModule implements Observer {
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
     private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
-    private static final int ZOOM_X_OFFSET = 5; // X offset of zoom buttons from edge of plot
-    private static final int ZOOM_Y_OFFSET = 5; // Y offset of zoom buttons from edge of plot
+    private static final int ZOOM_X_OFFSET = 2; // X offset of zoom buttons from edge of plot
+    private static final int ZOOM_Y_OFFSET = 2; // Y offset of zoom buttons from edge of plot
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     
     //----------------------------------------------------------------------------
@@ -321,7 +321,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Zoom control for "Wave Function" plot
         {
             AffineTransform transform = new AffineTransform();
-            transform.translate( waveFunctionPlotBounds.getX() + 5, waveFunctionPlotBounds.getY() + 5 );
+            transform.translate( waveFunctionPlotBounds.getX() + ZOOM_X_OFFSET, waveFunctionPlotBounds.getY() + ZOOM_Y_OFFSET );
             transform.translate( 0, 0 ); // registration point = upper left
             _waveFunctionZoomControl.setTransform( transform );
         }
@@ -329,7 +329,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Zoom control for "Probability Density" plot
         {
             AffineTransform transform = new AffineTransform();
-            transform.translate( probabilityDensityPlotBounds.getX() + 5, probabilityDensityPlotBounds.getY() + 5 );
+            transform.translate( probabilityDensityPlotBounds.getX() + ZOOM_X_OFFSET, probabilityDensityPlotBounds.getY() + ZOOM_Y_OFFSET );
             transform.translate( 0, 0 ); // registration point = upper left
             _probabilityDensityZoomControl.setTransform( transform );
         }
