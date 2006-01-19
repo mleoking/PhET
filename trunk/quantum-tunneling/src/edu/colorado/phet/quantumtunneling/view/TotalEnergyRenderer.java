@@ -61,7 +61,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
     private static final Color CENTER_COLOR = QTConstants.TOTAL_ENERGY_COLOR;
-    private static final Color EDGE_COLOR = new Color( CENTER_COLOR.getRed(), CENTER_COLOR.getGreen(), CENTER_COLOR.getBlue(), 0 );
+    private static final Color EDGE_COLOR = QTConstants.CHART_BACKGROUND; // more efficient than using alpha
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -158,11 +158,11 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
-
+        
         if ( E0 <= V0 ) {
             // Draw a line...
-            g2.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-            g2.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            g2.setPaint( getSeriesPaint( series ) );
+            g2.setStroke( getSeriesStroke( series ) );
             g2.drawLine( (int)minX, (int)averageY, (int)maxX, (int)averageY );
         }
         else {
@@ -188,12 +188,9 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
                 GradientPaint topGradient = new GradientPaint( (float) minX, (float) minY, EDGE_COLOR, (float) minX, (float) averageY, CENTER_COLOR );
                 GradientPaint bottomGradient = new GradientPaint( (float) minX, (float) averageY, CENTER_COLOR, (float) minX, (float) maxY, EDGE_COLOR );
 
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 g2.setPaint( topGradient );
-                g2.setPaint( Color.RED );//XXX
                 g2.fill( topShape );
                 g2.setPaint( bottomGradient );
-                g2.setPaint( Color.GREEN );//XXX
                 g2.fill( bottomShape );
             }
         }
