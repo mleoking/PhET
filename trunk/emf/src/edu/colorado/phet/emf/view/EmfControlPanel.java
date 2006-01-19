@@ -98,7 +98,7 @@ public class EmfControlPanel extends JPanel {
             GridBagConstraints gbcA = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                               GridBagConstraints.WEST,
                                                               GridBagConstraints.HORIZONTAL,
-                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                              new Insets( 0, 10, 0, 0 ), 0, 0 );
             fieldTypePane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldVectorBorder" ) ) );
             fieldTypePane.add( dynamicFieldRB, gbcA );
             fieldTypePane.add( staticFieldRB, gbcA );
@@ -118,7 +118,7 @@ public class EmfControlPanel extends JPanel {
             curveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
             curveRB.addActionListener( new FieldViewRBActionListener() );
 
-            scalarRepRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ScalarRep" ));
+            scalarRepRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ScalarRep" ) );
             scalarRepRB.addActionListener( new FieldViewRBActionListener() );
 
             fieldDisplayRBGroup = new ButtonGroup();
@@ -138,7 +138,7 @@ public class EmfControlPanel extends JPanel {
             GridBagConstraints gbcB = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                               GridBagConstraints.WEST,
                                                               GridBagConstraints.HORIZONTAL,
-                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                              new Insets( 0, 10, 0, 0 ), 0, 0 );
             fieldRepPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
             fieldRepPane.add( vectorWCurveRB, gbcB );
             fieldRepPane.add( curveRB, gbcB );
@@ -151,7 +151,12 @@ public class EmfControlPanel extends JPanel {
             // Field sense options
             //----------------------------------------------------------------
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
-            JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
+            JPanel fieldSensePane = new JPanel( new GridBagLayout() );
+            GridBagConstraints gbcD = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1,1,1,1,
+                                                              GridBagConstraints.WEST,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 10, 0,0 ),0,0 );
             JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( SimStrings.get( "EmfControlPanel.ForceFieldRadioButton" ) ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -159,7 +164,7 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
             fieldSenseRBGroup.add( fFieldRB );
-            fieldSensePane.add( fFieldRB );
+            fieldSensePane.add( fFieldRB,gbcD );
             JRadioButton eFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ElectricFieldRadioButton" ) );
             eFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -167,7 +172,7 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
             fieldSenseRBGroup.add( eFieldRB );
-            fieldSensePane.add( eFieldRB );
+            fieldSensePane.add( eFieldRB, gbcD );
             TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldSenseBorder" ) );
             fieldSensePane.setBorder( fieldSenseBorder );
 
@@ -184,28 +189,15 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
 
-            try {
-                int componentIdx = 0;
-                GraphicsUtil.addGridBagComponent( this, fieldTypePane,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, fieldRepPane,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, fieldSensePane,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, stripChartCB,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();
-            }
+            GridBagConstraints gbcC = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.WEST,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+            add( fieldTypePane, gbcC );
+            add( fieldRepPane, gbcC );
+            add( fieldSensePane, gbcC );
+            add( fieldTypePane, gbcC );
 
             // Set initial conditions
             vectorWCurveRB.setSelected( true );
@@ -341,13 +333,13 @@ public class EmfControlPanel extends JPanel {
             } );
             coordinateFACB.setSelected( false );
             setCoordinateFandA( coordinateFACB.isSelected() );
-            GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0,0,0,0), 0,0 );
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
 
             add( manualRB, gbc );
-            gbc.gridx++;
+            gbc.gridx = 1;
             add( sineRB, gbc );
             gbc.gridx = 0;
             gbc.gridy++;
