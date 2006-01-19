@@ -41,6 +41,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     // Note that larger values for the stroke slow down performance considerably
     private static double s_defaultStrokeWidth = 5;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_defaultStrokeWidth );
+    public static boolean Y_GRADIENT = false;
 
     private static BufferedImage createBufferedImage() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -100,21 +101,25 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     public void setMaxAmplitudeColor( Color color ) {
         for( int i = 0; i < colorForAmplitude.length; i++ ) {
-            colorForAmplitude[i] = new GradientPaint( 0,
-                                                      (int)( origin.getY() - height / 2 ),
-                                                      new Color( color.getRed(),
-                                                                 color.getGreen(),
-                                                                 color.getBlue(), 0 ),
-                                                      0,
-                                                      (int)( origin.getY() ),
-                                                      new Color( color.getRed(),
-                                                                 color.getGreen(),
-                                                                 color.getBlue(), i ),
-                                                      true );
-//            colorForAmplitude[i] = new Color( color.getRed(),
-//                                              color.getGreen(),
-//                                              color.getBlue(),
-//                                              i );
+            if( Y_GRADIENT ) {
+                colorForAmplitude[i] = new GradientPaint( 0,
+                                                          (int)( origin.getY() - height / 2 ),
+                                                          new Color( color.getRed(),
+                                                                     color.getGreen(),
+                                                                     color.getBlue(), 0 ),
+                                                          0,
+                                                          (int)( origin.getY() ),
+                                                          new Color( color.getRed(),
+                                                                     color.getGreen(),
+                                                                     color.getBlue(), i ),
+                                                          true );
+            }
+            else {
+                colorForAmplitude[i] = new Color( color.getRed(),
+                                                  color.getGreen(),
+                                                  color.getBlue(),
+                                                  i );
+            }
         }
     }
 
@@ -167,14 +172,13 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         Composite incomingComposite = g.getComposite();
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 
-        g.setStroke( new BasicStroke( 1 ));
-//        g.setStroke( s_defaultStroke );
+//        g.setStroke( new BasicStroke( 1 ));
 
         Point2D end1 = new Point2D.Float();
         Point2D end2 = new Point2D.Float();
         Line2D line = new Line2D.Float();
 
-        Rectangle2D rect = new Rectangle2D.Double( );
+        Rectangle2D rect = new Rectangle2D.Double();
 
         // Draw a line or arc for each value in the amplitude array of the wave front
         for( double x = 1; x * direction < xExtent; x += s_defaultStrokeWidth * direction ) {
@@ -182,11 +186,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
             if( this.isPlanar ) {
                 end1.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() - height / 2 );
                 end2.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() + height / 2 );
-//                end1.setLocation( origin.getX() + ( x * stroke ), origin.getY() - height / 2 );
-//                end2.setLocation( origin.getX() + ( x * stroke ), origin.getY() + height / 2 );
-//                line.setLine( end1, end2 );
-//                g.draw( line );
-
                 rect.setRect( end1.getX(), end1.getY(), s_defaultStrokeWidth, height );
                 g.fill( rect );
             }
