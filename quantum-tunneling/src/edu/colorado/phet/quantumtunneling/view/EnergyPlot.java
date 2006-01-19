@@ -160,13 +160,14 @@ public class EnergyPlot extends XYPlot implements Observer {
     /**
      * Sets the potential energy model that is displayed.
      * 
-     * @param potential
+     * @param potentialEnergy
      */
-    public void setPotentialEnergy( AbstractPotential potential ) {
+    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         if ( _potentialEnergy != null ) {
             _potentialEnergy.deleteObserver( this );
         }
-        _potentialEnergy = potential;
+        _potentialEnergy = potentialEnergy;
+        _packetRenderer.setPotentialEnergy( potentialEnergy );
         _potentialEnergy.addObserver( this );
         updatePotentialEnergy();
         updateTotalEnergy();

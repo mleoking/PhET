@@ -5,12 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- render total energy gradient into a buffered image
+- render total energy gradient into a buffered image to fix gradient
 - add zoom buttons to Wave Function and Probability Density graphs (ala Moving Man) 0.5,1,2,4,6,8 (see XYPlot.zoomRangeAxes)
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 
 MEDIUM PRIORITY:
+- when saving, get wave packet properties from control panel, not model since we might be in measuring mode
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - try native L&F on all platforms
@@ -68,6 +69,7 @@ JFREECHART:
 
 
 DONE:
+(1/18/06) - hook up total energy renderer in ConfigureEnergyDialog
 (1/18/06) - redo total energy display for wave packets (gradient color is broken)
 (1/18/06) - phetcommon: setOpaque(false) on clock control buttons and help button
 (1/17/06) - move Measure button below left corner of Probability Density chart
