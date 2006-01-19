@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - fix discontinuity in PathRenderer or get rid of it
 
 MEDIUM PRIORITY:
-- when saving, get wave packet properties from control panel, not model since we might be in measuring mode
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - try native L&F on all platforms
@@ -70,6 +69,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/18/06) - create ZoomControl that does nothing, use simple label buttons, set layout in module
 (1/18/06) - fix E gradient rendering by using all opaque colors
 (1/18/06) - hook up total energy renderer in ConfigureEnergyDialog
 (1/18/06) - redo total energy display for wave packets (gradient color is broken)

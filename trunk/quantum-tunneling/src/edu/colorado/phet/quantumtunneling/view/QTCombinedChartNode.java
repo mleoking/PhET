@@ -48,17 +48,48 @@ public class QTCombinedChartNode extends JFreeChartNode {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the bounds of the energy plot's drawing area.
+     * Gets the bounds of the "Energy" plot's drawing area.
      * The bounds are in the node's local coordinates.
      * 
      * @return
      */
     public Rectangle2D getEnergyPlotBounds() {
+        return getPlotBounds( QTCombinedChart.ENERGY_PLOT_INDEX );
+    }
+    
+    /**
+     * Gets the bounds of the "Wave Function" plot's drawing area.
+     * The bounds are in the node's local coordinates.
+     * 
+     * @return
+     */
+    public Rectangle2D getWaveFunctionPlotBounds() {
+        return getPlotBounds( QTCombinedChart.WAVE_FUNCTION_PLOT_INDEX );
+    }
+    
+    /**
+     * Gets the bounds of the "Probability Density" plot's drawing area.
+     * The bounds are in the node's local coordinates.
+     * 
+     * @return
+     */
+    public Rectangle2D getProbabilityDensityPlotBounds() {
+        return getPlotBounds( QTCombinedChart.PROBABILITY_DENSITY_PLOT_INDEX );
+    }
+    
+    /**
+     * Gets the bounds of a subplot's drawing area.
+     * The bounds are in the node's local coordinates.
+     * 
+     * @param subplotIndex
+     * @return
+     */
+    private Rectangle2D getPlotBounds( int subplotIndex ) {
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
-        PlotRenderingInfo energyPlotInfo = plotInfo.getSubplotInfo( QTCombinedChart.ENERGY_PLOT_INDEX );
+        PlotRenderingInfo subplotInfo = plotInfo.getSubplotInfo( subplotIndex );
         // Careful! getDataArea returns a direct reference!
-        Rectangle2D dataAreaRef = energyPlotInfo.getDataArea();
+        Rectangle2D dataAreaRef = subplotInfo.getDataArea();
         Rectangle2D dataArea = new Rectangle2D.Double();
         dataArea.setRect( dataAreaRef );
         return dataArea;
