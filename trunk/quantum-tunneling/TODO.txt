@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- use images on zoom buttons, ala Moving Man
 - zoom Wave Function chart to these ranges: 0.5, 1, 2, 4, 6, 8 (all starting at 0)
 - zoom Wave Function chart to these ranges: 0.25, 0.5, 1, 2, 4 (all - to + )
 - use XYPlot.zoom* methods for zooming?
@@ -73,6 +72,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/19/06) - use images on zoom buttons from Moving Man
 (1/19/06) - bugfix: make sure gradients aren't zero pixels high, crashes JVM
 (1/19/06) - change total energy band algorithm for k0*sigma <= 2
 (1/19/06) - create ZoomControl that does nothing, use simple label buttons, set layout in module
