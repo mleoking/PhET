@@ -69,6 +69,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/19/06) - bugfix: make sure gradients aren't zero pixels high, crashes JVM
 (1/19/06) - change total energy band algorithm for k0*sigma <= 2
 (1/19/06) - create ZoomControl that does nothing, use simple label buttons, set layout in module
 (1/19/06) - cleanup module layout code, base positions on global bounds of plot data areas

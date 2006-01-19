@@ -193,12 +193,13 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
                 Shape topShape = new Rectangle2D.Double( minX, minY, width, topHeight );
                 Shape bottomShape = new Rectangle2D.Double( minX, averageY, width, bottomHeight );
 
-                GradientPaint topGradient = new GradientPaint( (float) minX, (float) minY, EDGE_COLOR, (float) minX, (float) averageY, CENTER_COLOR );
-                GradientPaint bottomGradient = new GradientPaint( (float) minX, (float) averageY, CENTER_COLOR, (float) minX, (float) maxY, EDGE_COLOR );
+                // Take care that the gradients aren't zero pixels high! That will crash the JVM.
+                Paint topPaint = new GradientPaint( (float) minX, (float) minY, EDGE_COLOR, (float) minX, (float) ( minY + topHeight ), CENTER_COLOR );
+                Paint bottomPaint = new GradientPaint( (float) minX, (float) averageY, CENTER_COLOR, (float) minX, (float) ( averageY + bottomHeight ), EDGE_COLOR );
 
-                g2.setPaint( topGradient );
+                g2.setPaint( topPaint );
                 g2.fill( topShape );
-                g2.setPaint( bottomGradient );
+                g2.setPaint( bottomPaint );
                 g2.fill( bottomShape );
             }
         }
