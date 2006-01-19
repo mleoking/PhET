@@ -33,7 +33,7 @@ public class EmfControlPanel extends JPanel {
         this.model = model;
         this.module = module;
         createControls();
-        this.setPreferredSize( new Dimension( 180, 520 ) );
+//        this.setPreferredSize( new Dimension( 180, 580 ) );
 
         this.addContainerListener( new ContainerAdapter() {
             public void componentRemoved( ContainerEvent e ) {
@@ -78,6 +78,7 @@ public class EmfControlPanel extends JPanel {
         private JRadioButton singleVectorRowRB;
         private JRadioButton vectorWCurveRB;
         private JRadioButton curveRB;
+        private JRadioButton scalarRepRB;
 //        private JCheckBox curveVisibleCB;
 
         /**
@@ -117,22 +118,20 @@ public class EmfControlPanel extends JPanel {
             curveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
             curveRB.addActionListener( new FieldViewRBActionListener() );
 
+            scalarRepRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ScalarRep" ));
+            scalarRepRB.addActionListener( new FieldViewRBActionListener() );
+
             fieldDisplayRBGroup = new ButtonGroup();
             fieldDisplayRBGroup.add( curveRB );
             fieldDisplayRBGroup.add( vectorWCurveRB );
             fieldDisplayRBGroup.add( singleVectorRowRB );
             fieldDisplayRBGroup.add( fullFieldRB );
+            fieldDisplayRBGroup.add( scalarRepRB );
             fieldDisplayRBGroup.add( hideFieldRB );
 
             // Set the default
             curveRB.setSelected( true );
 
-//            final JCheckBox scalarRepCB = new JCheckBox( "Scalar representatio" );
-//            scalarRepCB.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    module.setScalarRepEnabled( scalarRepCB.isSelected() );
-//                }
-//            } );
 
             // Lay out the radio buttons
             JPanel fieldRepPane = new JPanel( new GridBagLayout() );
@@ -145,8 +144,8 @@ public class EmfControlPanel extends JPanel {
             fieldRepPane.add( curveRB, gbcB );
             fieldRepPane.add( singleVectorRowRB, gbcB );
             fieldRepPane.add( fullFieldRB, gbcB );
+            fieldRepPane.add( scalarRepRB, gbcB );
             fieldRepPane.add( hideFieldRB, gbcB );
-//            fieldRepPane.add( scalarRepCB, gbcB );
 
             //----------------------------------------------------------------
             // Field sense options
@@ -262,6 +261,10 @@ public class EmfControlPanel extends JPanel {
                 display = EmfPanel.CURVE_WITH_VECTORS;
                 module.setSingleVectorRowRepresentation( EmfConfig.SINGLE_VECTOR_ROW_PINNED );
             }
+            if( scalarRepRB.isSelected() ) {
+                display = EmfPanel.NO_FIELD;
+            }
+            module.setScalarRepEnabled( scalarRepRB.isSelected() );
             module.setFieldDisplay( display );
         }
 
@@ -338,39 +341,26 @@ public class EmfControlPanel extends JPanel {
             } );
             coordinateFACB.setSelected( false );
             setCoordinateFandA( coordinateFACB.isSelected() );
+            GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0,0,0,0), 0,0 );
 
-            int componentIdx = 0;
-            try {
-                GraphicsUtil.addGridBagComponent( this, manualRB,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, sineRB,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-                freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
-                GraphicsUtil.addGridBagComponent( this, freqLabel,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, freqSlider,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.CENTER );
-                ampLabel = new JLabel( SimStrings.get( "EmfControlPanel.AmplitudeLabel" ) );
-                GraphicsUtil.addGridBagComponent( this, ampLabel,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, ampSlider,
-                                                  0, componentIdx++, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.CENTER );
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();
-            }
+            add( manualRB, gbc );
+            gbc.gridx++;
+            add( sineRB, gbc );
+            gbc.gridx = 0;
+            gbc.gridy++;
+            freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
+            add( freqLabel, gbc );
+            gbc.gridx = 1;
+            add( freqSlider, gbc );
+            ampLabel = new JLabel( SimStrings.get( "EmfControlPanel.AmplitudeLabel" ) );
+            gbc.gridx = 0;
+            gbc.gridy++;
+            add( ampLabel, gbc );
+            gbc.gridx = 1;
+            add( ampSlider, gbc );
 
             // Set initial conditions
             manualRB.setSelected( true );

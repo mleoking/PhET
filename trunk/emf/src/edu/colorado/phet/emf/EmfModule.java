@@ -63,6 +63,7 @@ public class EmfModule extends Module {
     private ModelViewTransform2D mvTx;
     private WaveMediumGraphic waveMediumGraphicB;
     private WaveMediumGraphic waveMediumGraphicA;
+    private int fieldSense = EmfConfig.SHOW_FORCE_ON_ELECTRON;
 
 
     public EmfModule( AbstractClock clock ) {
@@ -112,7 +113,6 @@ public class EmfModule extends Module {
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
         mvTx.addTransformListener( electronGraphic );
 
-
         // Set up the receiving electron and antenna
         Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() - 50 ),
                                                 new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() + 75 ) );
@@ -152,6 +152,10 @@ public class EmfModule extends Module {
         // Draw the animated "Wiggle me"
         createWiggleMeGraphic( origin, mvTx );
 
+        // Create the wave medium graphics
+        createScalarRepresentations();
+
+
         // Create some help items
         HelpItem helpItem1 = new HelpItem( SimStrings.get( "EmfModule.help1" ),
                                            origin.getX() + 15, origin.getY() + 10,
@@ -159,6 +163,19 @@ public class EmfModule extends Module {
         helpItem1.setForegroundColor( Color.black );
         helpItem1.setShadowColor( Color.gray );
         addHelpItem( helpItem1 );
+    }
+
+    private void createScalarRepresentations() {
+        waveMediumGraphicA = new WaveMediumGraphic( electron,
+                                                    getApparatusPanel(),
+                                                    electronLoc,
+                                                    800,
+                                                    WaveMediumGraphic.TO_RIGHT );
+        waveMediumGraphicB = new WaveMediumGraphic( electron,
+                                                    getApparatusPanel(),
+                                                    electronLoc,
+                                                    200,
+                                                    WaveMediumGraphic.TO_LEFT );
     }
 
     public ModelViewTransform2D getMvTx() {
@@ -314,6 +331,7 @@ public class EmfModule extends Module {
     }
 
     public void setFieldSense( int fieldSense ) {
+        this.fieldSense = fieldSense;
         apparatusPanel.setFieldSense( fieldSense );
         Color color = null;
         if( fieldSense == EmfConfig.SHOW_ELECTRIC_FIELD ) {
@@ -329,6 +347,10 @@ public class EmfModule extends Module {
         else {
             throw new RuntimeException( "invalid fieldSense" );
         }
+    }
+
+    public int getFieldSense() {
+        return fieldSense;
     }
 
     public void setFieldDisplay( int display ) {
@@ -411,19 +433,6 @@ public class EmfModule extends Module {
 
     public void setScalarRepEnabled( boolean enabled ) {
         if( enabled ) {
-            // Add the "ripple" representation
-            if( waveMediumGraphicA == null ) {
-                waveMediumGraphicA = new WaveMediumGraphic( electron,
-                                                            getApparatusPanel(),
-                                                            electronLoc,
-                                                            800,
-                                                            WaveMediumGraphic.TO_RIGHT );
-                waveMediumGraphicB = new WaveMediumGraphic( electron,
-                                                            getApparatusPanel(),
-                                                            electronLoc,
-                                                            200,
-                                                            WaveMediumGraphic.TO_LEFT );
-            }
             getApparatusPanel().addGraphic( waveMediumGraphicA, 1E5 );
             getApparatusPanel().addGraphic( waveMediumGraphicB, 1E5 );
         }

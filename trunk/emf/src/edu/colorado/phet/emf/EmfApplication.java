@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
+import edu.colorado.phet.waves.view.WaveMediumGraphic;
 
 import javax.swing.*;
 import java.util.Locale;
@@ -93,13 +94,21 @@ public class EmfApplication {
 
         // Add an options menu
         JMenu optionsMenu = new JMenu( "Options" );
-        final JCheckBoxMenuItem scalarRepCB = new JCheckBoxMenuItem( "Scalar representatio" );
-        scalarRepCB.addActionListener( new ActionListener() {
+//        final JCheckBoxMenuItem scalarRepCB = new JCheckBoxMenuItem( "Scalar representation" );
+//        scalarRepCB.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                antennaModule.setScalarRepEnabled( scalarRepCB.isSelected() );
+//            }
+//        } );
+//        optionsMenu.add( scalarRepCB );
+        final JCheckBoxMenuItem fadeScalarRepCB = new JCheckBoxMenuItem( "Fade scalar representation");
+        fadeScalarRepCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                antennaModule.setScalarRepEnabled( scalarRepCB.isSelected() );
+                WaveMediumGraphic.Y_GRADIENT = fadeScalarRepCB.isSelected();
+                antennaModule.setFieldSense( antennaModule.getFieldSense() );
             }
         } );
-        optionsMenu.add( scalarRepCB );
+        optionsMenu.add( fadeScalarRepCB );
 
 //        final JCheckBoxMenuItem centerSingleVectorRowOffsetMI = new JCheckBoxMenuItem( "Center vectors on x axis");
 //        centerSingleVectorRowOffsetMI.addActionListener( new ActionListener() {
@@ -111,6 +120,9 @@ public class EmfApplication {
 //        optionsMenu.add( centerSingleVectorRowOffsetMI );
 //        centerSingleVectorRowOffsetMI.setSelected( true );
         frame.addMenu( optionsMenu );
+
+        // Prevent the frame from being resized
+        frame.setResizable( false );
 
         Runtime.getRuntime().gc();
         application.startApplication();
