@@ -150,10 +150,9 @@ public class QTModule extends AbstractModule implements Observer {
         // Combined chart
         {
             _chart = new QTCombinedChart();
+            _chart.getEnergyPlot().setWavePacket( _wavePacket );
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             _chartNode = new QTCombinedChartNode( _chart );
-            
-            _chart.getEnergyPlot().setWavePacket( _wavePacket );
         }
 
         // Drag handles
@@ -423,7 +422,7 @@ public class QTModule extends AbstractModule implements Observer {
             boolean clockRunning = getClock().isRunning();
             getClock().pause();
             WaveType waveType = _controlPanel.getWaveType();
-            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, waveType );
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, waveType );
             _configureEnergyDialog.show();
             // Dialog is model, so we stop here until the dialog is closed.
             _configureEnergyDialog.cleanup();

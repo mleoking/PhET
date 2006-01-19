@@ -125,7 +125,7 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param potentialEnergy
      * @param waveType
      */
-    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotential potentialEnergy, WaveType waveType ) {
+    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotential potentialEnergy, WavePacket wavePacket, WaveType waveType ) {
         super( parent );
 
         setTitle( SimStrings.get( "title.configureEnergy" ) );
@@ -140,7 +140,7 @@ public class ConfigureEnergyDialog extends JDialog {
         _totalEnergy = new TotalEnergy( totalEnergy );
         _potentialEnergy = clonePotentialEnergy( potentialEnergy );
 
-        createUI( parent, waveType );
+        createUI( parent, wavePacket, waveType );
         populateValues();
         
         setLocationRelativeTo( parent );
@@ -167,11 +167,12 @@ public class ConfigureEnergyDialog extends JDialog {
      * Creates the user interface for the dialog.
      * 
      * @param parent the parent Frame
+     * @param wavePacket
      * @param waveType the wave type
      */
-    private void createUI( Frame parent, WaveType waveType ) {
+    private void createUI( Frame parent, WavePacket wavePacket, WaveType waveType ) {
         
-        JPanel chartPanel = createChartPanel( waveType );
+        JPanel chartPanel = createChartPanel( wavePacket, waveType );
         _inputPanel = new JPanel();
         _inputPanel.add( createInputPanel() );
         JPanel actionsPanel = createActionsPanel();
@@ -203,14 +204,16 @@ public class ConfigureEnergyDialog extends JDialog {
     /*
      * Creates the dialog's chart panel.
      * 
+     * @param wavePacket
      * @param waveType
      * @return the chart panel
      */
-    private JPanel createChartPanel( WaveType waveType ) {
+    private JPanel createChartPanel( WavePacket wavePacket, WaveType waveType ) {
 
         // Plot
         _energyPlot = new EnergyPlot();
         _energyPlot.setWaveType( waveType );
+        _energyPlot.setWavePacket( wavePacket );
         
         // Font for axes labels and ticks
         _energyPlot.getDomainAxis().setLabelFont( AXIS_LABEL_FONT );

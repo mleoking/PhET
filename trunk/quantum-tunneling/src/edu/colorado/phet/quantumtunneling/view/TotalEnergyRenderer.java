@@ -12,8 +12,6 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
@@ -26,11 +24,30 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleEdge;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
 
 /**
- * TotalEnergyRenderer render the total energy of a wave packet.
+ * TotalEnergyRenderer renders the total energy of a wave packet as a "band" of probabilites.
+ * <p>
+ * For total energy E, the band will be brightest at E=E0, and decrease linearly in brightness
+ * to E=minE below and E=maxE above.  minE and maxE are given by:
+ * <p>
+ * <code>
+ * minE = E0 - ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
+ * maxE = E0 + ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
+ * </code>
+ * where:
+ * <code>
+ * E0 = average total energy
+ * V0 = potential energy at the wave packet's initial center position
+ * w = wave packet's initial width
+ * m = mass
+ * hbar = Planck's constant
+ * </code>
+ * <p>
+ * If E0 <= V0, then the "band" is replaced with a line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -51,6 +68,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     //----------------------------------------------------------------------------
     
     private WavePacket _wavePacket;
+    private AbstractPotential _potentialEnergy;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,6 +87,21 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     
     public void setWavePacket( WavePacket wavePacket ) {
         _wavePacket = wavePacket;
+    }
+    
+    /**
+     * Sets the potential energy.  
+     * <p>
+     * The wave packet (set via setWavePacket) provides access to its potential
+     * energy.  But there are situations (like in the "Configure Energy" dialog)
+     * where we want to use a "hypothetical" potential that hasn't been applied
+     * to the wave packet model yet.  So we specify the potential energy separately
+     * via this method.
+     * 
+     * @param potentialEnergy
+     */
+    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
+        _potentialEnergy = potentialEnergy;
     }
     
     //----------------------------------------------------------------------------
@@ -98,7 +131,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             int pass ) {
         
         // Initialized?
-        if ( _wavePacket == null  ) {
+        if ( _wavePacket == null || _potentialEnergy == null ) {
             return;
         }
         
@@ -119,7 +152,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double maxPosition = domainAxis.getUpperBound();
         final double packetCenter = _wavePacket.getCenter();
         final double E0 = dataset.getYValue( series, item ); // the average total energy
-        final double V0 = _wavePacket.getPotentialEnergy().getEnergyAt( packetCenter );
+        final double V0 = _potentialEnergy.getEnergyAt( packetCenter );
         
         // Java2D (screen) coorinates
         final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
@@ -157,10 +190,10 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
 
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 g2.setPaint( topGradient );
-//                g2.setPaint( Color.RED );//XXX
+                g2.setPaint( Color.RED );//XXX
                 g2.fill( topShape );
                 g2.setPaint( bottomGradient );
-//                g2.setPaint( Color.GREEN );//XXX
+                g2.setPaint( Color.GREEN );//XXX
                 g2.fill( bottomShape );
             }
         }
