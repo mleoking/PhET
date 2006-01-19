@@ -47,7 +47,11 @@ import edu.colorado.phet.quantumtunneling.model.WavePacket;
  * hbar = Planck's constant
  * </code>
  * <p>
- * If E0 <= V0, then the "band" is replaced with a line.
+ * Exceptions to the above:
+ * <ul>
+ * <li>If E0 <= V0, then the "band" is replaced with a line.</li>
+ * <li>If k0*w <= 2, then E- = V0, where k0=sqrt(2*m*(E0-V0)/(hbar*hbar))
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -168,10 +172,14 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         else {
             // Axis (model) coordinates
             final double packetWidth = _wavePacket.getWidth();
+            final double k0 = Math.sqrt( ( 2 * MASS * ( E0 - V0 ) ) / ( HBAR * HBAR ) );
             final double term1 = ( 2 * HBAR / packetWidth ) * Math.sqrt( 2 * ( E0 - V0 ) / MASS );
             final double term2 = ( 2 * HBAR * HBAR ) / ( MASS * packetWidth * packetWidth );
-            final double minE = E0 - term1 + term2; // max total energy
             final double maxE = E0 + term1 + term2; // min total energy
+            double minE = E0 - term1 + term2; // max total energy
+            if ( k0 * packetWidth <= 2 ) {
+                minE = V0;
+            }
 
             // Java2D (screen) coorinates
             final double minY = rangeAxis.valueToJava2D( maxE, dataArea, rangeAxisLocation ); // +y is down!

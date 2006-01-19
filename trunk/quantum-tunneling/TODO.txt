@@ -69,10 +69,11 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(1/18/06) - create ZoomControl that does nothing, use simple label buttons, set layout in module
-(1/18/06) - cleanup module layout code, base positions on global bounds of plot data areas
-(1/18/06) - fix E gradient rendering by using all opaque colors
-(1/18/06) - hook up total energy renderer in ConfigureEnergyDialog
+(1/19/06) - change total energy band algorithm for k0*sigma <= 2
+(1/19/06) - create ZoomControl that does nothing, use simple label buttons, set layout in module
+(1/19/06) - cleanup module layout code, base positions on global bounds of plot data areas
+(1/19/06) - fix E gradient rendering by using all opaque colors
+(1/19/06) - hook up total energy renderer in ConfigureEnergyDialog
 (1/18/06) - redo total energy display for wave packets (gradient color is broken)
 (1/18/06) - phetcommon: setOpaque(false) on clock control buttons and help button
 (1/17/06) - move Measure button below left corner of Probability Density chart
