@@ -56,17 +56,17 @@ public class DialogUtils {
         switch ( optionType ) {
         case JOptionPane.YES_NO_CANCEL_OPTION:
         case JOptionPane.DEFAULT_OPTION:
-            options = new Object[] { cancel, no, yes };
+            options = new Object[] { yes, no, cancel };
             pane.setOptions( options );
             pane.setInitialValue( cancel );
             break;
         case JOptionPane.YES_NO_OPTION:
-            options = new Object[] { no, yes };
+            options = new Object[] { yes, no };
             pane.setOptions( options );
             pane.setInitialValue( no );
             break;
         case JOptionPane.OK_CANCEL_OPTION:
-            options = new Object[] { cancel, ok };
+            options = new Object[] { ok, cancel };
             pane.setOptions( options );
             pane.setInitialValue( cancel );
             break;
