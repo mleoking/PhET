@@ -11,12 +11,13 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -47,18 +48,23 @@ public class QTControlPanel extends AbstractControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int LEFT_MARGIN = 0;
-    private static final int SUBPANEL_SPACING = 5;
     private static final String EXPAND_SYMBOL = ">>";
     private static final String COLLAPSE_SYMBOL = "<<";
+    
+    private static final int LEFT_MARGIN = 0; // pixels
+    private static final int SUBPANEL_SPACING = 5; // pixels
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
     private static final double CENTER_TICK_SPACING = 4.0; // nm
     
-    // Number of decimal places shown on slider controls
-    private static final int WIDTH_TICK_PRECISION = 1;
-    private static final int WIDTH_LABEL_PRECISION = 1;
-    private static final int CENTER_TICK_PRECISION = 0;
-    private static final int CENTER_LABEL_PRECISION = 1;
+    // Precision of slider controls
+    private static final int WIDTH_TICK_PRECISION = 1; // # decimal places
+    private static final int WIDTH_LABEL_PRECISION = 1; // # decimal places
+    private static final int CENTER_TICK_PRECISION = 0; // # decimal places
+    private static final int CENTER_LABEL_PRECISION = 1; // # decimal places
+    
+    // Color key
+    private static final int COLOR_KEY_WIDTH = 25; // pixels
+    private static final int COLOR_KEY_HEIGHT = 4; // pixels
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -141,9 +147,13 @@ public class QTControlPanel extends AbstractControlPanel {
             layout.setMinimumWidth( 0, LEFT_MARGIN );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( _realCheckBox, 1, 1 );
+            layout.addComponent( createColorKey( QTConstants.INCIDENT_REAL_WAVE_COLOR ), 1, 2 );
             layout.addComponent( _imaginaryCheckBox, 2, 1 );
+            layout.addComponent( createColorKey( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR ), 2, 2 );
             layout.addComponent( _magnitudeCheckBox, 3, 1 );
+            layout.addComponent( createColorKey( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR ), 3, 2 );
             layout.addComponent( _phaseCheckBox, 4, 1 );
+            layout.addComponent( createPhaseKey(), 4, 2 );
             viewPanel.setLayout( new BorderLayout() );
             viewPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -342,6 +352,32 @@ public class QTControlPanel extends AbstractControlPanel {
         }
     }
 
+    private JLabel createColorKey( Color color ) {
+        BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = image.createGraphics();
+        g2.setPaint( color );
+        g2.setStroke( new BasicStroke( (float)COLOR_KEY_HEIGHT ) );
+        g2.drawLine( 0, COLOR_KEY_HEIGHT/2, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT/2 );
+        Icon icon = new ImageIcon( image );
+        JLabel label = new JLabel( icon );
+        return label;
+    }
+    
+    private JLabel createPhaseKey() {
+        BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = image.createGraphics();
+        Rectangle2D r = new Rectangle2D.Double();
+        for ( int i = 0; i < 360; i++ ) {
+            r.setRect( i*25/360.0, 0, 25/360.0, COLOR_KEY_HEIGHT );
+            Color color = Color.getHSBColor( i/360f, 1f, 1f );
+            g2.setColor( color );
+            g2.fill( r );
+        }
+        Icon icon = new ImageIcon( image );
+        JLabel label = new JLabel( icon );
+        return label;  
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
