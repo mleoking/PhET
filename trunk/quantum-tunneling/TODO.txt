@@ -62,6 +62,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+0.0.9 ...
 (1/20/06) - remove OptionsMenu
 (1/20/06) - move "Show values" from Options menu to control panel
 (1/20/06) - remove code for "Measure" from QTControlPanel, they like it in play area
