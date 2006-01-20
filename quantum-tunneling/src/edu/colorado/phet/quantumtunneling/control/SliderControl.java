@@ -45,8 +45,10 @@ public class SliderControl extends JPanel implements ChangeListener {
     private JSlider _slider;  // slider that the user moves
     private JLabel _label; // value that updates as the slider is moved
     private double _min, _max;
+    private double _tickSpacing;
     private double _multiplier;
-    private DecimalFormat _numberFormat;
+    private DecimalFormat _tickNumberFormat;
+    private DecimalFormat _labelNumberFormat;
     private String _labelFormat; // format that specifies how the value is displayed
     private EventListenerList _listenerList; // notification of slider changes
     
@@ -60,7 +62,8 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param min minimum value (model coordinates)
      * @param max maximum value (model coordinates)
      * @param tickSpacing space between tick marks (model coordinates)
-     * @param numberOfSignificantDecimalPlaces
+     * @param tickPrecision number of decimal places in tick marks
+     * @param labelPrecision number of decimal places in selected value display
      * @param labelFormat formatter used to format the label
      * @param insets insets
      * @throws IllegalArgumentException
@@ -69,7 +72,8 @@ public class SliderControl extends JPanel implements ChangeListener {
             double min, 
             double max, 
             double tickSpacing,
-            int numberOfSignificantDecimalPlaces, 
+            int tickPrecision, 
+            int labelPrecision,
             String labelFormat, 
             Insets insets ) {
         
@@ -80,21 +84,24 @@ public class SliderControl extends JPanel implements ChangeListener {
             if ( min >= max ) {
                 throw new IllegalArgumentException( "min >= max" );
             }
-            if ( numberOfSignificantDecimalPlaces < 0 ) {
-                throw new IllegalArgumentException( "multiplier must be >= 0" );
+            if ( tickSpacing > max - min ) {
+                throw new IllegalArgumentException( "tickSpacing > max - min" );
+            }
+            if ( tickPrecision < 0 ) {
+                throw new IllegalArgumentException( "tickPrecision must be >= 0" );
+            }
+            if ( labelPrecision < 0 ) {
+                throw new IllegalArgumentException( "labelPrecision must be >= 0" );
             }
 
             _min = min;
             _max = max;
+            _tickSpacing = tickSpacing;
             
-            _multiplier = Math.pow( 10, numberOfSignificantDecimalPlaces );
+            _multiplier = Math.pow( 10, labelPrecision );
             
-            String format = "0.";
-            for ( int i = 0; i < numberOfSignificantDecimalPlaces; i++ ) {
-                format += "0";
-            }
-            _numberFormat = new DecimalFormat( format );
-            
+            _tickNumberFormat = createFormat( tickPrecision );
+            _labelNumberFormat = createFormat( labelPrecision );
             _labelFormat = labelFormat;
         }
         
@@ -111,15 +118,10 @@ public class SliderControl extends JPanel implements ChangeListener {
 
             // Ticks
             _slider.setMajorTickSpacing( (int) ( ( _max - _min ) * _multiplier ) );
-            _slider.setMinorTickSpacing( (int) ( tickSpacing * _multiplier ) );
+            _slider.setMinorTickSpacing( (int) ( _tickSpacing * _multiplier ) );
             _slider.setPaintTicks( true );
-
-            // Labels at min & max
-            Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
-            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
-            getSlider().setLabelTable( labelTable );
-            getSlider().setPaintLabels( true );
+            _slider.setPaintLabels( true );
+            updateTickLabels();
         }
         
         // Layout
@@ -145,16 +147,18 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param min
      * @param max
      * @param tickSpacing
-     * @param numberOfSignificantDecimalPlaces
+     * @param tickPrecision
+     * @param labelPrecision
      * @param labelFormat
      */
     public SliderControl( 
             double min, 
             double max, 
             double tickSpacing,
-            int numberOfSignificantDecimalPlaces, 
+            int tickPrecision,
+            int labelPrecision,
             String labelFormat  ) {
-        this( min, max, tickSpacing, numberOfSignificantDecimalPlaces, labelFormat, null );
+        this( min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, null );
     }
     
     //----------------------------------------------------------------------------
@@ -210,22 +214,25 @@ public class SliderControl extends JPanel implements ChangeListener {
      */
     public void setInverted( boolean inverted ) {
         if ( isInverted() != inverted ) {
-            if ( inverted ) {
-                _slider.setInverted( true );
-                Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
-                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
-                getSlider().setLabelTable( labelTable );
-                getSlider().setPaintLabels( true );
-            }
-            else {
-                _slider.setInverted( false );
-                Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
-                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
-                getSlider().setLabelTable( labelTable );
-                getSlider().setPaintLabels( true );
-            }
+            _slider.setInverted( inverted );
+            updateTickLabels();
+//            
+//            if ( inverted ) {
+//                _slider.setInverted( true );
+//                Hashtable labelTable = new Hashtable();
+//                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
+//                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
+//                getSlider().setLabelTable( labelTable );
+//                getSlider().setPaintLabels( true );
+//            }
+//            else {
+//                _slider.setInverted( false );
+//                Hashtable labelTable = new Hashtable();
+//                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
+//                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
+//                getSlider().setLabelTable( labelTable );
+//                getSlider().setPaintLabels( true );
+//            }
         }
     }
     
@@ -284,10 +291,60 @@ public class SliderControl extends JPanel implements ChangeListener {
      */
     protected void updateLabel() {
         double value = getValue();
-        String valueString = _numberFormat.format( value );
+        String valueString = _labelNumberFormat.format( value );
         Object[] args = { valueString };
         String text = MessageFormat.format( _labelFormat, args );
         getLabel().setText( text );
+    }
+    
+    /*
+     * Updates tick labels.
+     */
+    private void updateTickLabels() {
+        Hashtable labelTable = new Hashtable();
+        if ( isInverted() ) {
+            //  Major ticks
+            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( _tickNumberFormat.format( _min ) ) );
+            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( _tickNumberFormat.format( _max ) ) );
+
+            // Minor ticks
+            double value1 = _max - _tickSpacing;
+            double value2 = _min + _tickSpacing;
+            while ( value1 > _min ) {
+                labelTable.put( new Integer( (int) ( value2 * _multiplier ) ), new JLabel( _tickNumberFormat.format( value1 ) ) );
+                value1 -= _tickSpacing;
+                value2 += _tickSpacing;
+            }
+        }
+        else {
+            //  Major ticks
+            labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( _tickNumberFormat.format( _max ) ) );
+            labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( _tickNumberFormat.format( _min ) ) );
+
+            // Minor ticks
+            double value = _min + _tickSpacing;
+            while ( value < _max ) {
+                labelTable.put( new Integer( (int) ( value * _multiplier ) ), new JLabel( _tickNumberFormat.format( value ) ) );
+                value += _tickSpacing;
+            }
+        }
+        getSlider().setLabelTable( labelTable );
+    }
+    
+    /*
+     * Creates a DecimalFormat for the requested precision.
+     * 
+     * @param precision number of decimal places
+     */
+    private DecimalFormat createFormat( int precision ) {
+        String format = "0";
+        for ( int i = 0; i < precision; i++ ) {
+            if ( i == 0 ) {
+                format += ".";
+            }
+            format += "0";
+        }
+        return new DecimalFormat( format );
     }
     
     //----------------------------------------------------------------------------

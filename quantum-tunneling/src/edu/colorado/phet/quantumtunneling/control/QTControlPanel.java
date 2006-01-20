@@ -52,9 +52,13 @@ public class QTControlPanel extends AbstractControlPanel {
     private static final String EXPAND_SYMBOL = ">>";
     private static final String COLLAPSE_SYMBOL = "<<";
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
-    private static final double CENTER_TICK_SPACING = 5.0; // nm
-    private static final int WIDTH_SIGNIFICANT_DECIMAL_PLACES = 1;
-    private static final int CENTER_SIGNIFICANT_DECIMAL_PLACES = 1;
+    private static final double CENTER_TICK_SPACING = 4.0; // nm
+    
+    // Number of decimal places shown on slider controls
+    private static final int WIDTH_TICK_PRECISION = 1;
+    private static final int WIDTH_LABEL_PRECISION = 1;
+    private static final int CENTER_TICK_PRECISION = 0;
+    private static final int CENTER_LABEL_PRECISION = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -257,16 +261,18 @@ public class QTControlPanel extends AbstractControlPanel {
                 _widthSlider = new SliderControl( 
                         QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
                         WIDTH_TICK_SPACING,
-                        WIDTH_SIGNIFICANT_DECIMAL_PLACES,
-                        SimStrings.get( "label.packetWidth" ) + " {0} (" + SimStrings.get( "units.position" ) + ")", 
+                        WIDTH_TICK_PRECISION,
+                        WIDTH_LABEL_PRECISION,
+                        SimStrings.get( "label.packetWidth" ) + " {0} " + SimStrings.get( "units.position" ), 
                         DEFAULT_INSETS );
                 _widthSlider.setInverted( true );
                 
                 _centerSlider = new SliderControl( 
                         QTConstants.MIN_PACKET_CENTER, QTConstants.MAX_PACKET_CENTER,
                         CENTER_TICK_SPACING,
-                        CENTER_SIGNIFICANT_DECIMAL_PLACES,
-                        SimStrings.get( "label.packetCenter" ) + " {0} (" + SimStrings.get( "units.position" ) + ")",
+                        CENTER_TICK_PRECISION,
+                        CENTER_LABEL_PRECISION,
+                        SimStrings.get( "label.packetCenter" ) + " {0} " + SimStrings.get( "units.position" ),
                         DEFAULT_INSETS );
                 
                 EasyGridBagLayout layout = new EasyGridBagLayout( _propertiesPanel );
