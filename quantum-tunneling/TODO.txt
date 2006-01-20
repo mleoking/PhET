@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 - pause clock while dragging sliders/handles, restore the clock state on release
 - restore "phase" veiw state when switching between sum and separate views
 - restore sum/separate state when switching between plane and wave packet
+- shapes in the Potential combo box
 
 LOW PRIORITY:
 - wait cursors on zoom buttons
