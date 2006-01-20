@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - try native L&F on all platforms
 - top edge of +1 tick label on Energy plot y axis is clipped
-- put color legend next to view checkboxes
 - move "Show values" from Options menu to control panel
 - fix dt in SchrodingerSolver so that it is related to clock dt
 - add application description to SimStrings files
@@ -70,6 +69,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/20/06) - add color legend next to Wave Function view checkboxes
 (1/20/06) - add minor tick labels to wave packet center and width controls
 (1/19/06) - handle resetting of zoom
 (1/19/06) - handle save/load of zoom
