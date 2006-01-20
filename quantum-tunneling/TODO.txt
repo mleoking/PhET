@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - fix discontinuity in PathRenderer or get rid of it
 
 MEDIUM PRIORITY:
+- Help items
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - try native L&F on all platforms
@@ -24,7 +25,6 @@ LOW PRIORITY:
 - wait cursors on zoom buttons
 - Y axis labels move when zooming causes range to change
 - make AbstractWavePacketSolver in case we have other implementations
-- Help items
 - make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
 - make Configure dialog smarter about enabling Apply button (compare with original model values)
 - select entire spinner value when it gets focus
@@ -33,7 +33,6 @@ LOW PRIORITY:
 - change time to ns when the time values grows too large to display fs
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
-- remove _measureButton from QTControlPanel
 
 OPTIMIZATIONS:
 - remove test-src
@@ -69,6 +68,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/20/06) - remove code for "Measure" from QTControlPanel, they like it in play area
 (1/20/06) - add color legend next to Wave Function view checkboxes
 (1/20/06) - add minor tick labels to wave packet center and width controls
 (1/19/06) - handle resetting of zoom
