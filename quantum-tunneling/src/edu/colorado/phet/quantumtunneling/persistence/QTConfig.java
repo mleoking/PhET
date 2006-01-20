@@ -157,6 +157,8 @@ public class QTConfig implements Serializable {
         private String _waveTypeName;
         private double _packetWidth;
         private double _packetCenter;
+        private int _waveFunctionZoomIndex;
+        private int _probabilityDensityZoomIndex;
         
         //----------------------------------------------------------------------------
         // Constructors
@@ -297,6 +299,22 @@ public class QTConfig implements Serializable {
         
         public void setMinRegionWidth( double minRegionWidth ) {
             _minRegionWidth = minRegionWidth;
+        }
+        
+        public int getWaveFunctionZoomIndex() {
+            return _waveFunctionZoomIndex;
+        }
+        
+        public void setWaveFunctionZoomIndex( int waveFunctionZoomIndex ) {
+            _waveFunctionZoomIndex = waveFunctionZoomIndex;
+        }
+        
+        public int getProbabilityDensityZoomIndex() {
+            return _probabilityDensityZoomIndex;
+        }
+        
+        public void setProbabilityDensityZoomIndex( int probabilityDensityZoomIndex ) {
+            _probabilityDensityZoomIndex = probabilityDensityZoomIndex;
         }
         
         //----------------------------------------------------------------------------
