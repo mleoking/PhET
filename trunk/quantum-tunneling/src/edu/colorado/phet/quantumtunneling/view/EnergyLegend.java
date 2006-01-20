@@ -37,6 +37,8 @@ public class EnergyLegend extends PNode {
     
     public EnergyLegend() {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         // Total Energy
         LegendItem totalEnergyItem = 
@@ -65,8 +67,5 @@ public class EnergyLegend extends PNode {
         totalEnergyItem.translate( MARGIN, MARGIN );
         potentialEnergyItem.translate( MARGIN, MARGIN );
         addChild( 0, borderNode );
-        
-        setPickable( false );
-        setChildrenPickable( false );
     }
 }
