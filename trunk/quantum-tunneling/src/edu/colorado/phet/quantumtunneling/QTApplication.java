@@ -121,8 +121,8 @@ public class QTApplication extends PhetApplication {
         }
         
         // Options menu
-        _optionsMenu = new OptionsMenu( _module );
-        getPhetFrame().addMenu( _optionsMenu );
+//        _optionsMenu = new OptionsMenu( _module );
+//        getPhetFrame().addMenu( _optionsMenu );
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();

@@ -125,12 +125,6 @@ public class QTConstants {
     public static final String IMAGE_STEP = IMAGES_DIRECTORY + "stepButton.gif";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
-    
-    //----------------------------------------------------------------------------
-    // Drag Handles
-    //----------------------------------------------------------------------------
-    
-    public static final boolean SHOW_ENERGY_VALUES = false;
  
     //----------------------------------------------------------------------------
     // Ranges

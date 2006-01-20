@@ -148,6 +148,7 @@ public class QTConfig implements Serializable {
  
         // Control properties
         private String _potentialTypeName;
+        private boolean _showValuesSelected;
         private boolean _realSelected;
         private boolean _imaginarySelected;
         private boolean _magnitudeSelected;
@@ -315,6 +316,14 @@ public class QTConfig implements Serializable {
         
         public void setProbabilityDensityZoomIndex( int probabilityDensityZoomIndex ) {
             _probabilityDensityZoomIndex = probabilityDensityZoomIndex;
+        }
+        
+        public boolean isShowValuesSelected() {
+            return _showValuesSelected;
+        }
+        
+        public void setShowValuesSelected( boolean showValuesSelected ) {
+            _showValuesSelected = showValuesSelected;
         }
         
         //----------------------------------------------------------------------------
