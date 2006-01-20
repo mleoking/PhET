@@ -23,6 +23,7 @@ MEDIUM PRIORITY:
 - restore sum/separate state when switching between plane and wave packet
 
 LOW PRIORITY:
+- wait cursors on zoom buttons
 - Y axis labels move when zooming causes range to change
 - make AbstractWavePacketSolver in case we have other implementations
 - Help items
