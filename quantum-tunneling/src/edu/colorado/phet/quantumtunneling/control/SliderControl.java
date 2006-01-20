@@ -31,6 +31,8 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
  * SliderControl combines a JSlider and JLabel into one panel that 
  * can be treated like a JSlider.  As the slider value is changed, the label 
  * automatically updates to reflect the new value.
+ * The slider also supports double precision numbers, whereas 
+ * JSlider only support integers.
  * The default "look" is to have labels at the min and max tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -216,23 +218,6 @@ public class SliderControl extends JPanel implements ChangeListener {
         if ( isInverted() != inverted ) {
             _slider.setInverted( inverted );
             updateTickLabels();
-//            
-//            if ( inverted ) {
-//                _slider.setInverted( true );
-//                Hashtable labelTable = new Hashtable();
-//                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
-//                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
-//                getSlider().setLabelTable( labelTable );
-//                getSlider().setPaintLabels( true );
-//            }
-//            else {
-//                _slider.setInverted( false );
-//                Hashtable labelTable = new Hashtable();
-//                labelTable.put( new Integer( (int) ( _max * _multiplier ) ), new JLabel( String.valueOf( _max ) ) );
-//                labelTable.put( new Integer( (int) ( _min * _multiplier ) ), new JLabel( String.valueOf( _min ) ) );
-//                getSlider().setLabelTable( labelTable );
-//                getSlider().setPaintLabels( true );
-//            }
         }
     }
     
