@@ -64,7 +64,9 @@ public class QTControlPanel extends AbstractControlPanel {
     
     // Color key
     private static final int COLOR_KEY_WIDTH = 25; // pixels
-    private static final int COLOR_KEY_HEIGHT = 4; // pixels
+    private static final int COLOR_KEY_HEIGHT = 3; // pixels
+    private static final int PHASE_KEY_WIDTH = COLOR_KEY_WIDTH;
+    private static final int PHASE_KEY_HEIGHT = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -356,30 +358,41 @@ public class QTControlPanel extends AbstractControlPanel {
         }
     }
 
+    /*
+     * Creates a color key by drawing a solid horizontal line and putting it in a JLabel.
+     * 
+     * @param color
+     * @return JLabel
+     */
     private JLabel createColorKey( Color color ) {
         BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT );
         g2.setPaint( color );
-        g2.setStroke( new BasicStroke( (float)COLOR_KEY_HEIGHT ) );
-        g2.drawLine( 0, COLOR_KEY_HEIGHT/2, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT/2 );
+        g2.fill( r );
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
         return label;
     }
     
+    /*
+     * Creates a color key for phase by drawing the phase color series in a JLabel.
+     * 
+     * @return JLabel
+     */
     private JLabel createPhaseKey() {
-        BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
+        BufferedImage image = new BufferedImage( PHASE_KEY_WIDTH, PHASE_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
         Rectangle2D r = new Rectangle2D.Double();
         for ( int i = 0; i < 360; i++ ) {
-            r.setRect( i*25/360.0, 0, 25/360.0, COLOR_KEY_HEIGHT );
-            Color color = Color.getHSBColor( i/360f, 1f, 1f );
+            r.setRect( i * PHASE_KEY_WIDTH / 360.0, 0, PHASE_KEY_WIDTH / 360.0, PHASE_KEY_HEIGHT );
+            Color color = Color.getHSBColor( i / 360f, 1f, 1f );
             g2.setColor( color );
             g2.fill( r );
         }
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
-        return label;  
+        return label;
     }
     
     //----------------------------------------------------------------------------
