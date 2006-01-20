@@ -206,11 +206,9 @@ public class QTModule extends AbstractModule implements Observer {
         // Energy drag handles
         {
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
-            _totalEnergyControl.setValueVisible( QTConstants.SHOW_ENERGY_VALUES );
             _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
             
             _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
-            _potentialEnergyControls.setValuesVisible( QTConstants.SHOW_ENERGY_VALUES );
         }
         
         // Zoom buttons
@@ -362,6 +360,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Controls
         {
             _controlPanel.setPotentialType( PotentialType.SINGLE_BARRIER );
+            _controlPanel.setShowValuesSelected( false );
             _controlPanel.setRealSelected( true );
             _controlPanel.setImaginarySelected( false );
             _controlPanel.setMagnitudeSelected( false );
@@ -394,6 +393,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Control panel
         config.savePotentialType( _controlPanel.getPotentialType() );
+        config.setShowValuesSelected( _controlPanel.isShowValuesSelected() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
@@ -427,6 +427,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Control panel
         _controlPanel.setPotentialType( config.loadPotentialType() );
+        _controlPanel.setShowValuesSelected( config.isShowValuesSelected() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );

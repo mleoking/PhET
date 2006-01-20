@@ -72,6 +72,7 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private QTModule _module;
     private JComboBox _potentialComboBox;
+    private JCheckBox _showValuesCheckBox;
     private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JRadioButton _separateRadioButton, _sumRadioButton;
@@ -105,17 +106,24 @@ public class QTControlPanel extends AbstractControlPanel {
         }
         
         // Potential
-        JPanel potentialPanel = new JPanel();
+        JPanel energyPanel = new JPanel();
         {
+            // Potential label
             JLabel label = new JLabel( SimStrings.get( "label.potential" ) );
-            
-            _constantItem = SimStrings.get( "choice.potential.constant" );
-            _stepItem = SimStrings.get( "choice.potential.step" );
-            _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
-            _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
-            
-            Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
-            _potentialComboBox = new JComboBox( items );
+
+            // Potential combo box 
+            {
+                _constantItem = SimStrings.get( "choice.potential.constant" );
+                _stepItem = SimStrings.get( "choice.potential.step" );
+                _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
+                _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
+
+                Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
+                _potentialComboBox = new JComboBox( items );
+            }
+
+            // Show values
+            _showValuesCheckBox = new JCheckBox( SimStrings.get( "label.showValues" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -125,8 +133,9 @@ public class QTControlPanel extends AbstractControlPanel {
             layout.setMinimumWidth( 0, LEFT_MARGIN );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( _potentialComboBox, 1, 1 );
-            potentialPanel.setLayout( new BorderLayout() );
-            potentialPanel.add( innerPanel, BorderLayout.WEST );
+            layout.addComponent( _showValuesCheckBox, 2, 1 );
+            energyPanel.setLayout( new BorderLayout() );
+            energyPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Wave Function View 
@@ -305,7 +314,7 @@ public class QTControlPanel extends AbstractControlPanel {
         
         // Layout
         {  
-            addControlFullWidth( potentialPanel );
+            addControlFullWidth( energyPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addControlFullWidth( viewPanel );
@@ -330,6 +339,7 @@ public class QTControlPanel extends AbstractControlPanel {
         {
             _listener = new EventListener();
             _potentialComboBox.addItemListener( _listener );
+            _showValuesCheckBox.addActionListener( _listener );
             _realCheckBox.addActionListener( _listener );
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
@@ -438,6 +448,15 @@ public class QTControlPanel extends AbstractControlPanel {
             potentialType = PotentialType.DOUBLE_BARRIER;
         }
         return potentialType;
+    }
+    
+    public void setShowValuesSelected( boolean selected ) {
+        _showValuesCheckBox.setSelected( selected );
+        handleShowValuesSelection();
+    }
+    
+    public boolean isShowValuesSelected() {
+        return _showValuesCheckBox.isSelected();
     }
     
     public void setRealSelected( boolean selected ) {
@@ -571,7 +590,10 @@ public class QTControlPanel extends AbstractControlPanel {
 
         public void actionPerformed( ActionEvent event ) {
 
-            if ( event.getSource() == _realCheckBox ) {
+            if ( event.getSource() == _showValuesCheckBox ) {
+                handleShowValuesSelection();
+            }
+            else if ( event.getSource() == _realCheckBox ) {
                 handleRealSelection();
             }
             else if ( event.getSource() == _imaginaryCheckBox ) {
@@ -634,6 +656,10 @@ public class QTControlPanel extends AbstractControlPanel {
         _module.setPotentialType( getPotentialType() );
     }
 
+    private void handleShowValuesSelection() {
+        _module.setValuesVisible( _showValuesCheckBox.isSelected() );
+    }
+    
     private void handleRealSelection() {
         _module.setRealVisible( _realCheckBox.isSelected() );
     }
