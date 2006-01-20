@@ -84,7 +84,6 @@ public class QTConfig implements Serializable {
         
         private String _versionNumber;
         private String _cvsTag;
-        private boolean _valuesVisible;
 
         //----------------------------------------------------------------------------
         // Constructors
@@ -113,14 +112,6 @@ public class QTConfig implements Serializable {
         
         public void setCvsTag( String buildNumber ) {
             _cvsTag = buildNumber;
-        }
-           
-        public boolean isValuesVisible() {
-            return _valuesVisible;
-        }
-        
-        public void setValuesVisible( boolean visible ) {
-            _valuesVisible = visible;
         }
     }
     

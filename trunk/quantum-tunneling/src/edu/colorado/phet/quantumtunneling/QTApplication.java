@@ -44,7 +44,6 @@ public class QTApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     
     private QTModule _module;
-    private OptionsMenu _optionsMenu;
     
     // PersistanceManager handles loading/saving application configurations.
     private ConfigManager _persistenceManager;
@@ -120,10 +119,6 @@ public class QTApplication extends PhetApplication {
             frame.addFileMenuSeparator();
         }
         
-        // Options menu
-//        _optionsMenu = new OptionsMenu( _module );
-//        getPhetFrame().addMenu( _optionsMenu );
-        
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
         if ( helpMenu != null ) {
@@ -139,12 +134,11 @@ public class QTApplication extends PhetApplication {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
         config.setCvsTag( Version.CVS_TAG );
         config.setVersionNumber( Version.NUMBER );
-        config.setValuesVisible( _optionsMenu.getShowValuesSelected() );
     }
 
     public void load( QTConfig appConfig ) {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
-        _optionsMenu.setShowValuesSelected( config.isValuesVisible() );
+        // nothing to do...
     }
 
     //----------------------------------------------------------------------------

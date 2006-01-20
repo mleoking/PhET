@@ -21,7 +21,6 @@ MEDIUM PRIORITY:
 - restore sum/separate state when switching between plane and wave packet
 
 LOW PRIORITY:
-- remove OptionMenu and dead code in QTApplication if "Show values" moves elsewhere permanently
 - wait cursors on zoom buttons
 - Y axis labels move when zooming causes range to change
 - make AbstractWavePacketSolver in case we have other implementations
@@ -68,6 +67,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/20/06) - remove OptionsMenu
 (1/20/06) - move "Show values" from Options menu to control panel
 (1/20/06) - remove code for "Measure" from QTControlPanel, they like it in play area
 (1/20/06) - add color legend next to Wave Function view checkboxes
