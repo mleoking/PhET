@@ -6,18 +6,21 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
-- fix discontinuity in PathRenderer or get rid of it
+- decide whether to replace Richardson with Falstad model
 
 MEDIUM PRIORITY:
+- fix discontinuity in PathRenderer or get rid of it
 - Help items
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - top edge of +1 tick label on Energy plot y axis is clipped
-- fix dt in SchrodingerSolver so that it is related to clock dt
+- fix dt in Richardson algorithm so that it is related to clock dt
 - add application description to SimStrings files
 - pause clock while dragging sliders/handles, restore the clock state on release
 - restore "phase" veiw state when switching between sum and separate views
 - restore sum/separate state when switching between plane and wave packet
 - shapes in the Potential combo box
+- make it run faster/smoother
+- look for function calls in for loops
 
 LOW PRIORITY:
 - wait cursors on zoom buttons
