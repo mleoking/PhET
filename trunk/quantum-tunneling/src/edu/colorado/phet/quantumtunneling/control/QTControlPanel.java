@@ -81,7 +81,6 @@ public class QTControlPanel extends AbstractControlPanel {
     private String _sPropertiesExpand, _sPropertiesCollapse;
     private JPanel _propertiesPanel;
     private SliderControl _widthSlider, _centerSlider;
-    private JButton _measureButton;
     private EventListener _listener;
 
     //----------------------------------------------------------------------------
@@ -304,9 +303,6 @@ public class QTControlPanel extends AbstractControlPanel {
             propertiesPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Measure
-        _measureButton = new JButton( SimStrings.get( "button.measure"  ) );
-        
         // Layout
         {  
             addControlFullWidth( potentialPanel );
@@ -327,7 +323,6 @@ public class QTControlPanel extends AbstractControlPanel {
             addControlFullWidth( propertiesPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-//            addControl( _measureButton ); // moved to play area
             addResetButton();
         }
         
@@ -348,7 +343,6 @@ public class QTControlPanel extends AbstractControlPanel {
             _propertiesButton.addActionListener( _listener );
             _widthSlider.addChangeListener( _listener );
             _centerSlider.addChangeListener( _listener );
-            _measureButton.addActionListener( _listener );
         }
     }
 
@@ -601,9 +595,6 @@ public class QTControlPanel extends AbstractControlPanel {
             else if ( event.getSource() == _propertiesButton ) {
                 handlePropertiesButton();
             }
-            else if ( event.getSource() == _measureButton ) {
-                handleMeasure();
-            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
@@ -718,9 +709,5 @@ public class QTControlPanel extends AbstractControlPanel {
     private void handleCenterSlider() {
         double center = _centerSlider.getValue();
         _module.setWavePacketCenter( center );
-    }
-    
-    private void handleMeasure() {
-        _module.setMeasureEnabled( true );
     }
 }
