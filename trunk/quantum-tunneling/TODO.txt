@@ -70,7 +70,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(1/20/06) - add minortick labels to wave packet center and width controls
+(1/20/06) - add minor tick labels to wave packet center and width controls
 (1/19/06) - handle resetting of zoom
 (1/19/06) - handle save/load of zoom
 (1/19/06) - zoom Wave Function chart to these ranges: 0.25, 1, 2.25, 4, 6.25, 9 (all starting at 0)
