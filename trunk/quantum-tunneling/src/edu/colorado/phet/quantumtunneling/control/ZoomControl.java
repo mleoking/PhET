@@ -15,13 +15,18 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.Range;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -39,22 +44,34 @@ public class ZoomControl extends JPanel {
     public static final int HORIZONTAL = SwingConstants.HORIZONTAL;
     public static final int VERTICAL = SwingConstants.VERTICAL;
     
-    private static final Insets MARGIN = new Insets( 0, 0, 0, 0 );
+    private static final Insets MARGIN = new Insets( 0, 0, 0, 0 ); // top,left,bottom,right
+    private static final int SPACING_BETWEEN_BUTTONS = 2; // pixels
     
     private int _orientation;
     private XYPlot _plot;
-    private JButton _zoomInButton, _zoomOutButton;
-    private double _zoomInFactor, _zoomOutFactor;
+    private ZoomSpec[] _specs;
+    private int _zoomIndex;
+    JButton _zoomInButton, _zoomOutButton;
     
-    public ZoomControl( int orientation, XYPlot plot ) {
+    public ZoomControl( int orientation, XYPlot plot, ZoomSpec[] specs, int startingIndex ) {
         super();
+
+        if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
+            throw new IllegalArgumentException( "invalid orientation: " + orientation );
+        }
+        if ( startingIndex < 0 || startingIndex > specs.length - 1 ) {
+            throw new IndexOutOfBoundsException( "startingIndex out of bounds: " + startingIndex );
+        }
+        
         this.setOpaque( false );
         
         _orientation = orientation;
         _plot = plot;
+        _specs = specs;
+        _zoomIndex = startingIndex;
         
-        // Icons on buttons
         try {
+            // Icons on buttons
             ImageIcon zoomInIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ZOOM_IN ) );
             _zoomInButton = new JButton( zoomInIcon );
             ImageIcon zoomOutIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_ZOOM_OUT ) );
@@ -88,35 +105,86 @@ public class ZoomControl extends JPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         if ( orientation == HORIZONTAL ) {
+            layout.setInsets( new Insets( 0, 0, 0, SPACING_BETWEEN_BUTTONS ) ); // top,left,bottom,right
             layout.addComponent( _zoomInButton, 0, 0 );
             layout.addComponent( _zoomOutButton, 0, 1 );
         }
-        else { 
+        else {
+            layout.setInsets( new Insets( 0, 0, SPACING_BETWEEN_BUTTONS, 0 ) ); // top,left,bottom,right
             layout.addComponent( _zoomInButton, 0, 0 );
             layout.addComponent( _zoomOutButton, 1, 0 );
         }
         
-        _zoomInFactor = 2.0;
-        _zoomOutFactor = 0.5;
+        // make sure we're starting where we said we're starting
+        setRange( _zoomIndex );
+    }
+    
+    public int getZoomIndex() {
+        return _zoomIndex;
+    }
+    
+    public void setZoomIndex( int zoomIndex ) {
+        if ( zoomIndex < 0 || zoomIndex > _specs.length - 1 ) {
+            _zoomIndex = 0;
+            System.err.println( "WARNING: zoom index out of range: " + zoomIndex );
+        }
+        else {
+            _zoomIndex = zoomIndex;
+        }
+        setRange( _zoomIndex );
     }
 
     private void handleZoomIn() {
-        System.out.println( "zoom in" );//XXX
-        if ( _orientation == VERTICAL ) {
-            //XXX
-        }
-        else {
-            //XXX
-        }
+        _zoomIndex--;
+        setRange( _zoomIndex );
     }
     
     private void handleZoomOut() {
-        System.out.println( "zoom out" );//XXX 
-        if ( _orientation == VERTICAL ) {
-            //XXX
+        _zoomIndex++;
+        setRange( _zoomIndex );
+    }
+    
+    private void setRange( int index ) {
+        ZoomSpec spec = _specs[ index ];
+        Range range = spec.getRange();
+        double tickSpacing = spec.getTickSpacing();
+        String tickPattern = spec.getTickPattern();
+        TickUnits tickUnits = new TickUnits();
+        tickUnits.add( new NumberTickUnit( tickSpacing, new DecimalFormat( tickPattern ) ) );
+        if ( _orientation == HORIZONTAL ) {
+            _plot.getDomainAxis().setRange( range );
+            _plot.getDomainAxis().setStandardTickUnits( tickUnits );
         }
         else {
-            //XXX
+            _plot.getRangeAxis().setRange( range );
+            _plot.getRangeAxis().setStandardTickUnits( tickUnits );
+        }
+        _zoomInButton.setEnabled( index > 0 );
+        _zoomOutButton.setEnabled( index < _specs.length - 1 );
+    }
+    
+    public static class ZoomSpec {
+        
+        private Range _range;
+        private double _tickSpacing;
+        private String _tickPattern;
+        
+        public ZoomSpec( Range range, double tickSpacing, String tickPattern ) {
+            _range = new Range( range.getLowerBound(), range.getUpperBound() );
+            _tickSpacing = tickSpacing;
+            _tickPattern = tickPattern;
+        }
+        
+        public Range getRange() {
+            return _range;
+        }
+        
+        public double getTickSpacing() {
+            return _tickSpacing;
+        }
+        
+        public String getTickPattern() {
+            return _tickPattern;
         }
     }
 }

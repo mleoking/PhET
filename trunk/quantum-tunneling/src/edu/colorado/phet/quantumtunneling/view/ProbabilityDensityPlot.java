@@ -57,9 +57,7 @@ public class ProbabilityDensityPlot extends XYPlot {
         // Y axis
         NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( QTConstants.PROBABILITY_DENSITY_RANGE );
-        TickUnits yUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
-        yAxis.setStandardTickUnits( yUnits );
+        yAxis.setRange( QTConstants.DEFAULT_PROBABILITY_DENSITY_RANGE );
         yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
         yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
         

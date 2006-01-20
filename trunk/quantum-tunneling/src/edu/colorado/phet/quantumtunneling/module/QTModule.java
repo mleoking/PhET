@@ -25,6 +25,8 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 
+import org.jfree.data.Range;
+
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -63,8 +65,8 @@ public class QTModule extends AbstractModule implements Observer {
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
     private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
-    private static final int ZOOM_X_OFFSET = 2; // X offset of zoom buttons from edge of plot
-    private static final int ZOOM_Y_OFFSET = 2; // Y offset of zoom buttons from edge of plot
+    private static final int ZOOM_X_OFFSET = 3; // X offset of zoom buttons from edge of plot
+    private static final int ZOOM_Y_OFFSET = 3; // Y offset of zoom buttons from edge of plot
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     
     //----------------------------------------------------------------------------
@@ -213,10 +215,12 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Zoom buttons
         {
-            ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, _chart.getWaveFunctionPlot() );
+            ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, _chart.getWaveFunctionPlot(), 
+                    QTConstants.WAVE_FUNCTION_ZOOM_SPECS, QTConstants.DEFAULT_WAVE_FUNCTION_ZOOM_INDEX );
             _waveFunctionZoomControl = new PSwing( _canvas, z1 );
             
-            ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, _chart.getProbabilityDensityPlot() );
+            ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, _chart.getProbabilityDensityPlot(), 
+                    QTConstants.PROBABILITY_DENSITY_ZOOM_SPECS, QTConstants.DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX );
             _probabilityDensityZoomControl = new PSwing( _canvas, z2 );
         }
         
@@ -367,6 +371,8 @@ public class QTModule extends AbstractModule implements Observer {
             _controlPanel.setWaveType( WaveType.PACKET );
             _controlPanel.setPacketWidth( QTConstants.DEFAULT_PACKET_WIDTH );
             _controlPanel.setPacketCenter( QTConstants.DEFAULT_PACKET_CENTER );
+            ( (ZoomControl) _waveFunctionZoomControl.getComponent() ).setZoomIndex( QTConstants.DEFAULT_WAVE_FUNCTION_ZOOM_INDEX );
+            ( (ZoomControl) _probabilityDensityZoomControl.getComponent() ).setZoomIndex( QTConstants.DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX );
         }
     }
     
@@ -398,6 +404,10 @@ public class QTModule extends AbstractModule implements Observer {
         // Make sure we get width & center from the control panel -- the "Measure" feature temporarily changes the model.
         config.setPacketWidth( _controlPanel.getPacketWidth() );
         config.setPacketCenter( _controlPanel.getPacketCenter() );
+        
+        // Zoom controls
+        config.setWaveFunctionZoomIndex( ( (ZoomControl) _waveFunctionZoomControl.getComponent() ).getZoomIndex() );
+        config.setProbabilityDensityZoomIndex( ( (ZoomControl) _probabilityDensityZoomControl.getComponent() ).getZoomIndex() );
     }
     
     /**
@@ -426,6 +436,10 @@ public class QTModule extends AbstractModule implements Observer {
         _controlPanel.setWaveType( config.loadWaveType() );
         _controlPanel.setPacketWidth( config.getPacketWidth() );
         _controlPanel.setPacketCenter( config.getPacketCenter() );
+        
+        // Zoom controls
+        ( (ZoomControl) _waveFunctionZoomControl.getComponent() ).setZoomIndex( config.getWaveFunctionZoomIndex() );
+        ( (ZoomControl) _probabilityDensityZoomControl.getComponent() ).setZoomIndex( config.getProbabilityDensityZoomIndex() );
     }
     
     //----------------------------------------------------------------------------

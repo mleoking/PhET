@@ -5,9 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- zoom Wave Function chart to these ranges: 0.5, 1, 2, 4, 6, 8 (all starting at 0)
-- zoom Wave Function chart to these ranges: 0.25, 0.5, 1, 2, 4 (all - to + )
-- use XYPlot.zoom* methods for zooming?
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - fix discontinuity in PathRenderer or get rid of it
 
@@ -26,6 +23,7 @@ MEDIUM PRIORITY:
 - restore sum/separate state when switching between plane and wave packet
 
 LOW PRIORITY:
+- Y axis labels move when zooming causes range to change
 - make AbstractWavePacketSolver in case we have other implementations
 - Help items
 - make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
@@ -72,6 +70,12 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/19/06) - handle resetting of zoom
+(1/19/06) - handle save/load of zoom
+(1/19/06) - zoom Wave Function chart to these ranges: 0.25, 1, 2.25, 4, 6.25, 9 (all starting at 0)
+(1/19/06) - zoom Wave Function chart to these ranges: 0.5, 1, 1.5, 2, 2.5, 3 (all - to + )
+(1/19/06) - remove fixed tick unit code for Wave Function and Probability Density plots, zoom will set it dynamically
+(1/19/06) - create ZoomSpec to describe a range, tick spacing, and tick pattern
 (1/19/06) - use images on zoom buttons from Moving Man
 (1/19/06) - bugfix: make sure gradients aren't zero pixels high, crashes JVM
 (1/19/06) - change total energy band algorithm for k0*sigma <= 2
@@ -311,6 +315,7 @@ DONE:
 
 
 REJECTED:
+(1/19/06) - use XYPlot.zoom* methods for zooming? (we don't have consistent zoom factors)
 (12/6/05) - will it be possible to drag multiple drag handles at the same time since events aren't marked as handled? (not an issue)
 (12/6/05) - how to keep markers behind data (using Layers?) (hasn't been an issue)
 (12/3/05) - use JFreeChart legend feature, use setFixedLegendItems to control what's in the legend (my legend is fine)

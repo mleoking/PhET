@@ -16,6 +16,8 @@ import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
+import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
+
 
 /**
  * QTConstants is a collection of constants.
@@ -131,25 +133,51 @@ public class QTConstants {
     public static final boolean SHOW_ENERGY_VALUES = false;
  
     //----------------------------------------------------------------------------
+    // Ranges
+    //----------------------------------------------------------------------------
+    
+    // Energy
+    public static final Range ENERGY_RANGE = new Range( -1, 1 ); // eV
+    public static final double ENERGY_TICK_SPACING = 0.5;
+    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    
+    // Wave Function
+    public static final ZoomSpec[] WAVE_FUNCTION_ZOOM_SPECS = {
+                          /* range, tickSpacing, tickPattern */
+            new ZoomSpec( new Range( -0.5, 0.5 ), 0.25, "0.00" ),
+            new ZoomSpec( new Range( -1.0, 1.0 ), 0.5,  "0.0" ),
+            new ZoomSpec( new Range( -1.5, 1.5 ), 0.5,  "0.0" ),
+            new ZoomSpec( new Range( -2.0, 2.0 ), 1,    "0" ),
+            new ZoomSpec( new Range( -2.5, 2.5 ), 1,    "0" ),
+            new ZoomSpec( new Range( -3.0, 3.0 ), 1,    "0" )
+    };
+    public static final int DEFAULT_WAVE_FUNCTION_ZOOM_INDEX = 3;
+    public static final Range DEFAULT_WAVE_FUNCTION_RANGE = WAVE_FUNCTION_ZOOM_SPECS[ DEFAULT_WAVE_FUNCTION_ZOOM_INDEX ].getRange();
+    
+    // Probability Density
+    public static final ZoomSpec[] PROBABILITY_DENSITY_ZOOM_SPECS = {
+                         /* range, tickSpacing, tickPattern */
+            new ZoomSpec( new Range( 0, 0.25 ), 0.05, "0.00" ),
+            new ZoomSpec( new Range( 0, 1 ),    0.25, "0.00" ),
+            new ZoomSpec( new Range( 0, 2.25 ), 0.5,  "0.0" ),
+            new ZoomSpec( new Range( 0, 4 ),    1,    "0" ),
+            new ZoomSpec( new Range( 0, 6.25 ), 1,    "0" ),
+            new ZoomSpec( new Range( 0, 9 ),    1,    "0" )
+    };
+    public static final int DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX = 3;
+    public static final Range DEFAULT_PROBABILITY_DENSITY_RANGE = PROBABILITY_DENSITY_ZOOM_SPECS[ DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX ].getRange();
+    
+    // Position
+    public static final Range POSITION_RANGE = new Range( -8, 12 ); // nm
+    public static final double POSITION_TICK_SPACING = 2; // nm
+    public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
+    
+    //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------
     
-    public static final Range POSITION_RANGE = new Range( -8, 12 ); // nm
-    public static final Range ENERGY_RANGE = new Range( -1, 1 ); // eV
-    public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
-    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 4 );
-    
     public static final boolean SHOW_VERTICAL_GRIDLINES = false;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
-    
-    public static final double ENERGY_TICK_SPACING = 0.5;
-    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
-    public static final double WAVE_FUNCTION_TICK_SPACING = 1;
-    public static final DecimalFormat WAVE_FUNCTION_TICK_FORMAT = new DecimalFormat( "0" );
-    public static final double PROBABILITY_DENSITY_TICK_SPACING = 1;
-    public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0" );
-    public static final double POSITION_TICK_SPACING = 2;
-    public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
     

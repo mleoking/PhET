@@ -98,11 +98,6 @@ public class QTCombinedChart extends JFreeChart implements Observer {
             _waveFunctionPlot.setDomainAxis( null );
             _waveFunctionPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
             _waveFunctionPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
-            // Y axis tick units
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( QTConstants.WAVE_FUNCTION_TICK_SPACING, QTConstants.WAVE_FUNCTION_TICK_FORMAT ) );
-            _waveFunctionPlot.getRangeAxis().setStandardTickUnits( tickUnits );
-            _waveFunctionPlot.getRangeAxis().setAutoTickUnitSelection( true );
         }
 
         // Probability Density plot...
@@ -114,11 +109,6 @@ public class QTCombinedChart extends JFreeChart implements Observer {
             _probabilityDensityPlot.setDomainAxis( null );
             _probabilityDensityPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
             _probabilityDensityPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
-            // Y axis tick units
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( QTConstants.PROBABILITY_DENSITY_TICK_SPACING, QTConstants.PROBABILITY_DENSITY_TICK_FORMAT ) );
-            _probabilityDensityPlot.getRangeAxis().setStandardTickUnits( tickUnits );
-            _probabilityDensityPlot.getRangeAxis().setAutoTickUnitSelection( true );
         }
 
         // Common X axis...
