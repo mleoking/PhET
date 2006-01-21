@@ -32,7 +32,7 @@ public class EmfApplication {
     //
     // Static fields and methods
     //
-    public static double s_speedOfLight = 10;
+    public static double s_speedOfLight = 6;
 
     public static void main( String[] args ) {
 
@@ -61,7 +61,8 @@ public class EmfApplication {
             }
         }
 
-        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
+//        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true  );
+        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
