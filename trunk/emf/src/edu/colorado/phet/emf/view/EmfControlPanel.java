@@ -277,7 +277,8 @@ public class EmfControlPanel extends JPanel {
         JRadioButton manualRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ManualRadioButton" ) );
         JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( SimStrings.get( "EmfControlPanel.CoordinateFACheckBox" ) ) );
         ButtonGroup rbGroup = new ButtonGroup();
-        JSlider freqSlider = new JSlider( 0, 200, 100 );
+        int maxFreq = 200;
+        JSlider freqSlider = new JSlider( 0, maxFreq, maxFreq / 2 );
         int maxAmplitude = 100;
         JSlider ampSlider = new JSlider( 0, maxAmplitude, maxAmplitude / 2 );
         private boolean coordinateFandA;
@@ -304,7 +305,7 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
 
-            freqSlider.setPreferredSize( new Dimension( 100, 20 ) );
+            freqSlider.setPreferredSize( new Dimension( 120, 20 ) );
             freqSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     new SetFreqencyCmd( model, (float)freqSlider.getValue() / 5000 ).doIt();
@@ -318,7 +319,7 @@ public class EmfControlPanel extends JPanel {
             } );
 
 
-            ampSlider.setPreferredSize( new Dimension( 100, 20 ) );
+            ampSlider.setPreferredSize( new Dimension( 120, 20 ) );
             ampSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     new SetAmplitudeCmd( model, (float)ampSlider.getValue() ).doIt();
@@ -334,24 +335,23 @@ public class EmfControlPanel extends JPanel {
             coordinateFACB.setSelected( false );
             setCoordinateFandA( coordinateFACB.isSelected() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-
+                                                             new Insets( 0, 32, 0, 0 ), 0, 0 );
             add( manualRB, gbc );
-            gbc.gridx = 1;
+            gbc.gridy++;
             add( sineRB, gbc );
-            gbc.gridx = 0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets( 0,0,0,0 );
             gbc.gridy++;
             freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
             add( freqLabel, gbc );
-            gbc.gridx = 1;
+            gbc.gridy++;
             add( freqSlider, gbc );
             ampLabel = new JLabel( SimStrings.get( "EmfControlPanel.AmplitudeLabel" ) );
-            gbc.gridx = 0;
             gbc.gridy++;
             add( ampLabel, gbc );
-            gbc.gridx = 1;
+            gbc.gridy++;
             add( ampSlider, gbc );
 
             // Set initial conditions

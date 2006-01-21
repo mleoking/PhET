@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -148,8 +149,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         for( double x = (int)transmittingElectronOrigin.getX() - firstArrowOffset; x >= -latticeSpacingX; x -= latticeSpacingX ) {
             FieldPt fieldPt = new FieldPt( x, transmittingElectronOrigin.getY() );
             latticePtsNeg.add( fieldPt );
-            negArrows.add( new Arrow( new Point2D.Double( ),
-                                      new Point2D.Double( ),
+            negArrows.add( new Arrow( new Point2D.Double(),
+                                      new Point2D.Double(),
                                       maxArrowHeadWidth,
                                       maxArrowHeadWidth,
                                       3,
@@ -162,8 +163,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         for( double x = (int)transmittingElectronOrigin.getX() + firstArrowOffset; x < width; x += latticeSpacingX ) {
             FieldPt fieldPt = new FieldPt( x, transmittingElectronOrigin.getY() );
             latticePtsPos.add( fieldPt );
-            posArrows.add( new Arrow( new Point2D.Double( ),
-                                      new Point2D.Double( ),
+            posArrows.add( new Arrow( new Point2D.Double(),
+                                      new Point2D.Double(),
                                       maxArrowHeadWidth,
                                       maxArrowHeadWidth,
                                       3,
@@ -216,9 +217,15 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
             g2.setColor( curveColor );
             g2.setStroke( curveStroke );
+
+            // Tried Sam M's idea of drawing transparent curves
+//            if( negPath != null && posPath != null ) {
             if( curveVisible && negPath != null && posPath != null ) {
                 RenderingHints orgRhB = g2.getRenderingHints();
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+                if( !curveVisible ) {
+                    GraphicsUtil.setAlpha( g2, 0 );
+                }
                 g2.draw( negPath );
                 g2.draw( posPath );
                 g2.setRenderingHints( orgRhB );
@@ -266,7 +273,6 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         }
         g2.setTransform( orgTx );
         GraphicsUtil.setAlpha( g2, 1.0 );
-
         g2.setRenderingHints( orgRh );
     }
 
@@ -286,7 +292,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         fieldPt.field.setComponents( tf.getX(), tf.getY() );
     }
 
-    int cnt;
+
     /**
      * Get the strength of the field at each of the lattice points
      */
@@ -314,8 +320,10 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 evaluateFieldPt( fieldPt );
             }
 
-            this.negPath = createCurves( latticePtsNeg );
-            this.posPath = createCurves( latticePtsPos );
+            this.negPath = createSpline( latticePtsNeg );
+            this.posPath = createSpline( latticePtsPos );
+//            this.negPath = createCurves( latticePtsNeg );
+//            this.posPath = createCurves( latticePtsPos );
             addArrows( negArrows, latticePtsNeg );
             addArrows( posArrows, latticePtsPos );
         }
@@ -331,16 +339,105 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             if( fixedSizeArrows ) {
                 magnitude = 50;
             }
-//            if( magnitude > 0 ) {
-                double y = fieldPt.getY() + magnitude * arrowDir;
-                y -= magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET ;
-                Arrow arrow = (Arrow)arrows.get( i - 1 );
-                arrow.setTailLocation( new Point2D.Double( fieldPt.location.getX(),
-                                                           fieldPt.location.getY() - magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET ) );
-                arrow.setTipLocation( new Point2D.Double( fieldPt.getX(), y ) );
-//            }
+            double y = fieldPt.getY() + magnitude * arrowDir;
+            y -= magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
+            Arrow arrow = (Arrow)arrows.get( i - 1 );
+            arrow.setTailLocation( new Point2D.Double( fieldPt.location.getX(),
+                                                       fieldPt.location.getY() - magnitude * arrowDir * EmfConfig.SINGLE_VECTOR_ROW_OFFSET ) );
+            arrow.setTipLocation( new Point2D.Double( fieldPt.getX(), y ) );
         }
     }
+
+    /**
+     * Gets the location of the tip of the vector that will represent the field at a specified FieldPt in the single
+     * line vector mode.
+     *
+     * @param fieldPt
+     * @return
+     */
+    private Point2D getVectorTipLocation( FieldPt fieldPt ) {
+        Point2D p = new Point2D.Double();
+        p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ),
+                                           transmittingElectronOrigin.getY() ) );
+        Vector2D field = sourceElectron.getDynamicFieldAt( p );
+        double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
+        double yTip = transmittingElectronOrigin.getY() + ( field.getMagnitude() * MathUtil.getSign( field.getY() ) * curveAmplitudeOffset );
+        p.setLocation( p.getX(), yTip );
+        return p;
+    }
+
+    /**
+     * Create a cubic spline that connects the tips of all the arrows in the single-line-of-vectors view
+     *
+     * @param pts
+     * @return
+     */
+    private GeneralPath createSpline( ArrayList pts ) {
+
+        double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
+        FieldPt orig = (FieldPt)pts.get( curveStartingIdx );
+
+        // Start the path at the first field point
+        GeneralPath curve = new GeneralPath();
+        curve.moveTo( (float)orig.getX(),
+                      (float)( orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset ) );
+        // Make cubic curves through the rest of the points
+        Point2D p = new Point2D.Double();
+
+        // Generate a cubic to each of the points, starting with the second one. Note that the 0 index doesn't
+        // correspond to a valid field point
+        for( int i = 2; i < pts.size() - 1; i++ ) {
+
+            FieldPt fieldPt = (FieldPt)pts.get( i );
+            p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ),
+                                               transmittingElectronOrigin.getY() ) );
+            Vector2D field = sourceElectron.getDynamicFieldAt( p );
+
+            Point2D pPrev  = null;
+            if( i > 0 ) {
+                pPrev = getVectorTipLocation( (FieldPt)pts.get( i - 1 ) );
+            }
+            else {
+                pPrev = p;
+            }
+
+
+            Point2D pNext = new Point2D.Double( ( (FieldPt)pts.get( i + 1 ) ).getX(),
+                                                       ( (FieldPt)pts.get( i + 1 ) ).getY() );
+            if( i < pts.size() - 1 ) {
+                pNext = getVectorTipLocation( (FieldPt)pts.get( i + 1));
+            }
+
+            Point2D pCurr = getVectorTipLocation( (FieldPt)fieldPt );
+            double x3 = pCurr.getX();
+            double y3 = pCurr.getY();
+            double d1 = pCurr.distance( pPrev );
+            double alpha = Math.atan2( pNext.getY() - pPrev.getY(), pNext.getX() - pPrev.getX() );
+            double x2 = pCurr.getX() - ( d1 / 3 ) * Math.cos( alpha );
+            double y2 = pCurr.getY() - ( d1 / 3 ) * Math.sin( alpha );
+            double x1 = 0;
+            double y1 = 0;
+            if( i > 2 ) {
+                Point2D pPrevPrev = getVectorTipLocation( (FieldPt)pts.get( i - 2 ) );
+                double beta = Math.atan2( pCurr.getY() - pPrevPrev.getY(), pCurr.getX() - pPrevPrev.getX() );
+                x1 = pPrev.getX() + ( d1 / 3 ) * Math.cos( beta );
+                y1 = pPrev.getY() + ( d1 / 3 ) * Math.sin( beta );
+            }
+            else {
+                // If there isn't a field point previous to the previous point, come up with something
+                // plausible for the control point
+                double beta = Math.atan2( ( pCurr.getY() - pPrev.getY() ) * 2, pCurr.getX() - pPrev.getX() );
+                x1 = pPrev.getX() + ( d1 / 3 ) * Math.cos( beta );
+                y1 = pPrev.getY() + ( d1 / 3 ) * Math.sin( beta );
+            }
+
+            curve.curveTo( (float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3 );
+        }
+        return curve;
+    }
+
+//    ArrayList controlPoints = new ArrayList();
+//    ArrayList lines = new ArrayList();
 
     /**
      * @param pts
@@ -355,7 +452,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         FieldPt orig = (FieldPt)pts.get( curveStartingIdx );
         int xSign = MathUtil.getSign( orig.getX() - transmittingElectronOrigin.getX() );
         DoubleGeneralPath curve = new DoubleGeneralPath( orig.getX(),
-                                                         orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset  );
+                                                         orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset );
         double yLast = orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() * curveAmplitudeOffset );
         double yCurr = yLast;
         double xLimit = ( (FieldPt)pts.get( pts.size() - 1 ) ).getX();
@@ -368,7 +465,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             Vector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
             if( yCurr != yLast ) {
-                curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset  );
+                curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );
                 yLast = yCurr;
             }
         }
