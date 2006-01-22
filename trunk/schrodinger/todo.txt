@@ -15,8 +15,8 @@ Add a ruler and a clock.  When user changes from electrons to neutrons or helium
     We will need to rescale both space and time for photons,
     but I want to make sure we can get it working here first.
 
-Note that you will need to put scaling back in
-    so that the size of the box doesn’t change when you change the resolution in Options.
+Add control panel buttons for stopwatch & ruler.
+Refactor Gun type control out of gun.
 
 Make the tabs for the different panels larger. (about twice the current size)
 Put the gun type menu in a control box to the left of the gun.
@@ -26,15 +26,8 @@ Put the intensity and wavelength sliders in a single box to the right of the gun
 Shrink the play area so there is not so much extra space.
      o	What does this mean?
 
-Allow user to change the colors of the two lasers independently.
-    If the colors are different, they don’t interfere, just like when there are detectors in the first panel.
-    In order to interfere with each other, the colors should be sufficiently similar that they look like the same color,
-    but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.
-    For now, let’s say they interfere if they are within 5 nm of each other,
-    but we’ll probably have to tweak it a bit once we see what it looks like.
-        -How do we want colors to mix?  Just average them?
-
-o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
+Note that you will need to put scaling back in
+    so that the size of the box doesn’t change when you change the resolution in Options.
 
 Because you got rid of the scaling factor, the only measure of the size
 of your box is the number of pixels.  Suppose you want to set up your
@@ -57,3 +50,13 @@ o Wave function norm is incorrect.  A detector that covers the entire box only r
     -this is partly due to the particle leaking outside the box
 Allow user to move slit barrier up and down by clicking on it and dragging.
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
+
+Allow user to change the colors of the two lasers independently.
+    If the colors are different, they don’t interfere, just like when there are detectors in the first panel.
+    In order to interfere with each other, the colors should be sufficiently similar that they look like the same color,
+    but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.
+    For now, let’s say they interfere if they are within 5 nm of each other,
+    but we’ll probably have to tweak it a bit once we see what it looks like.
+        -How do we want colors to mix?  Just average them?
+
+o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.

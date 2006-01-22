@@ -2,8 +2,6 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
@@ -11,6 +9,8 @@ import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,10 +33,12 @@ public abstract class AbstractGunGraphic extends PNode {
 
     private SchrodingerPanel schrodingerPanel;
     private PImage gunImageGraphic;
-    private ImagePComboBox comboBox;
-    private PSwing comboBoxGraphic;
+
     private PNode gunControls;
     private ArrayList listeners = new ArrayList();
+
+    private ImagePComboBox comboBox;
+    private PSwing comboBoxGraphic;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;

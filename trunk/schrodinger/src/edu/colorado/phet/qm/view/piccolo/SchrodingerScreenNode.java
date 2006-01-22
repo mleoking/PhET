@@ -2,27 +2,33 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
+import edu.colorado.phet.qm.view.ClockGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -50,6 +56,8 @@ public class SchrodingerScreenNode extends PNode {
     public static int numIterationsBetwenScreenUpdate = 2;
     private DetectorSheetPNode detectorSheetPNode;
     private StopwatchPanel stopwatchPanel;
+    private ParticleUnits particleUnits = new ParticleUnits.ElectronUnits();
+    private Color TEXT_BACKGROUND = new Color( 255, 245, 190 );
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -251,6 +259,11 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setUnits( ParticleUnits particleUnits ) {
+        if( particleUnits == null ) {
+            return;
+        }
+        String origTimeUnits = this.particleUnits.getDt().getUnits();
+        this.particleUnits = particleUnits;
         int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         String[]readings = new String[7];
@@ -271,5 +284,109 @@ public class SchrodingerScreenNode extends PNode {
         rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
         rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
+
+        String newTimeUnits = particleUnits.getDt().getUnits();
+        String[]times = new String[]{"ns", "ps"};
+        ArrayList list = new ArrayList( Arrays.asList( times ) );
+
+        int change = list.indexOf( newTimeUnits ) - list.indexOf( origTimeUnits );
+        if( change == 0 ) {
+            //do nothing
+        }
+        else if( change > 0 ) {
+            //speed up time
+            showTimeSpeedUp();
+        }
+        else if( change < 0 ) {
+            //slow down time
+            showTimeSlowDown();
+        }
+    }
+
+    private double lowDT = 0.3;
+    private double highDT = 4.0;
+    private double ddt = 0.1;
+    int MAX = 50;
+
+    private void showTimeSpeedUp() {
+        final ClockGraphic child = new ClockGraphic();
+
+        final Timer timer = new Timer( 30, null );
+        ActionListener listener = new ActionListener() {
+            double dt = lowDT;
+            double t = 0;
+            int numAfter = 0;
+
+            public void actionPerformed( ActionEvent e ) {
+                t += dt;
+                if( !( dt < lowDT || dt > highDT ) ) {
+                    dt += ddt;
+                }
+
+                child.setTime( t / 10.0 );
+                if( dt < lowDT || dt > highDT ) {
+                    numAfter++;
+                    if( numAfter > MAX ) {
+                        timer.stop();
+                        removeChild( child );
+                    }
+                }
+            }
+        };
+        timer.addActionListener( listener );
+        addChild( child );
+
+        String text = "Speeding Time Up";
+        PText shadowPText = new PText( text );
+        shadowPText.setTextPaint( Color.blue );
+
+        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+
+        boundGraphic.setPaint( TEXT_BACKGROUND );
+        child.addChild( boundGraphic );
+        child.addChild( shadowPText );
+        child.setOffset( abstractGunGraphic.getFullBounds().getX(), abstractGunGraphic.getFullBounds().getY() );
+        timer.start();
+    }
+
+    private void showTimeSlowDown() {
+        final ClockGraphic child = new ClockGraphic();
+
+        final Timer timer = new Timer( 30, null );
+        ActionListener listener = new ActionListener() {
+            double dt = highDT;
+            double t = 0;
+            int numAfter = 0;
+
+            public void actionPerformed( ActionEvent e ) {
+                t += dt;
+                if( !( dt < lowDT || dt > highDT ) ) {
+                    dt -= ddt;
+                }
+
+                child.setTime( t / 10.0 );
+                if( dt < lowDT || dt > highDT ) {
+                    numAfter++;
+
+                    if( numAfter > MAX ) {
+                        timer.stop();
+                        removeChild( child );
+                    }
+                }
+            }
+        };
+        timer.addActionListener( listener );
+        addChild( child );
+        String text = "Slowing Time Down";
+        PText shadowPText = new PText( text );
+        shadowPText.setTextPaint( Color.blue );
+
+
+        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+        boundGraphic.setPaint( TEXT_BACKGROUND );
+        child.addChild( boundGraphic );
+        child.addChild( shadowPText );
+        child.setOffset( abstractGunGraphic.getFullBounds().getX(), abstractGunGraphic.getFullBounds().getY() );
+        timer.start();
     }
 }

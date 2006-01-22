@@ -20,6 +20,8 @@ public class SingleParticleSchrodingerPanel extends SchrodingerPanel {
         super( module );
         abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );
+
+
         getIntensityDisplay().setMultiplier( 1 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
         getDetectorSheetPNode().setOpacity( 255 );
