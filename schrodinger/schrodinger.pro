@@ -4,9 +4,10 @@
 -injars 'jfreechart-dir\lib\jfreechart-1.0.0.jar'
 -injars 'jfreechart-dir\lib\servlet.jar'
 -injars 'jfreechart-dir\lib\junit.jar'
+-injars 'lib\jnlp.jar'
 -outjars ant_output\jars\schrodinger-pro.jar
 
--libraryjars 'C:\j2sdk1.4.2_10\jre\lib\rt.jar'
+-libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
 
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers

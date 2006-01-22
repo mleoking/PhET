@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
+import edu.colorado.phet.qm.tests.TestGlassPane;
 
 /**
  * User: Sam Reid
@@ -20,7 +21,7 @@ import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.33";
+    public static String VERSION = "0.34";
 
     static {
         PhetLookAndFeel.setLookAndFeel();
@@ -43,10 +44,28 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetLookAndFeel().apply();
+//        new PhetLookAndFeel().apply();
         SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
         System.out.println( "SchrodingerApplication.main" );
+
+//        testGlassPane( schrodingerApplication );
+    }
+
+    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
+        TestGlassPane testGlassPane = new TestGlassPane( schrodingerApplication.getPhetFrame() );
+        schrodingerApplication.getPhetFrame().setGlassPane( testGlassPane );
+        testGlassPane.setVisible( true );
+
+//        JFrame frame2 = new JFrame();
+//        PSwingCanvas pSwingCanvas = new PSwingCanvas();
+//        pSwingCanvas.setSize( 600, 600 );
+//        pSwingCanvas.setPreferredSize( new Dimension( 600, 600 ) );
+//        pSwingCanvas.getLayer().addChild( new PSwing( pSwingCanvas, (JComponent)schrodingerApplication.getPhetFrame().getContentPane() ) );
+//        frame2.setContentPane( pSwingCanvas );
+//        frame2.setVisible( true );
+//        pSwingCanvas.setPanEventHandler( null);
+
     }
 
 }
