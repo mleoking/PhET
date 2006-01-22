@@ -45,6 +45,7 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public void activate( AbstractGunGraphic gunGraphic ) {
+        getSchrodingerModule().setUnits( particleUnits );
         getDiscreteModel().setPropagator( createPropagator() );
         gunGraphic.setGunControls( controlPanelPSwing );
     }

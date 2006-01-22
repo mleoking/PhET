@@ -28,6 +28,10 @@ public class ParticleUnits {
         this.maxVelocity = maxVelocity;
     }
 
+    public String toString() {
+        return "hbar=" + hbar + ", mass=" + mass + ", dx=" + dx + ", dt=" + dt + ", minVelocity=" + minVelocity + ", maxVelocity=" + maxVelocity;
+    }
+
     public Value getHbar() {
         return hbar;
     }
@@ -140,6 +144,10 @@ public class ParticleUnits {
 
         public String getUnits() {
             return units;
+        }
+
+        public String toString() {
+            return "" + getDisplayValue() + " " + units + " [@" + value + "]";
         }
     }
 }

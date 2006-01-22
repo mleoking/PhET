@@ -10,6 +10,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -37,6 +38,7 @@ public class SchrodingerModule extends PiccoloModule {
     private SchrodingerControlPanel schrodingerControlPanel;
     private SchrodingerApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
+    private ParticleUnits particleUnits;
 
     /**
      * @param schrodingerApplication
@@ -223,5 +225,10 @@ public class SchrodingerModule extends PiccoloModule {
         while( discreteModel.getCompositePotential().numPotentials() > 0 ) {
             getDiscreteModel().removePotential( discreteModel.getCompositePotential().potentialAt( 0 ) );
         }
+    }
+
+    public void setUnits( ParticleUnits particleUnits ) {
+        System.out.println( "particleUnits = " + particleUnits );
+        schrodingerPanel.setUnits( particleUnits );
     }
 }

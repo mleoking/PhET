@@ -5,7 +5,9 @@ import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.phetcommon.RulerImageGraphic;
+import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.phetcommon.RulerGraphic;
+import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
@@ -39,7 +41,8 @@ public class SchrodingerScreenNode extends PNode {
 
     private AbstractGunGraphic abstractGunGraphic;
     private IntensityManager intensityManager;
-    private RulerImageGraphic rulerImageGraphic;
+//    private RulerImageGraphic rulerImageGraphic;
+    private SchrodingerRulerGraphic rulerGraphic;
 
     private Dimension lastLayoutSize = null;
     private static final int WAVE_AREA_LAYOUT_INSET_X = 20;
@@ -58,16 +61,24 @@ public class SchrodingerScreenNode extends PNode {
                 }
             }
         } );
-        rulerImageGraphic = new RulerImageGraphic( schrodingerPanel );
-        rulerImageGraphic.setOffset( 50, 200 );
-        rulerImageGraphic.setVisible( true );
+
+        String[]digits = new String[11];
+        for( int i = 0; i < digits.length; i++ ) {
+            digits[i] = new String( i + "" );
+        }
+        RulerGraphic rg = new RulerGraphic( digits, "units", 400, 100 );
+        rulerGraphic = new SchrodingerRulerGraphic( schrodingerPanel, rg );
+
+//        rulerImageGraphic = new RulerImageGraphic( schrodingerPanel );
+        rulerGraphic.setOffset( 50, 200 );
+        rulerGraphic.setVisible( true );
 
         detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, 60 );
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
         intensityManager = new IntensityManager( getSchrodingerModule(), schrodingerPanel, detectorSheetPNode );
         addChild( detectorSheetPNode );
         addChild( wavefunctionGraphic );
-        addChild( rulerImageGraphic );
+        addChild( rulerGraphic );
         schrodingerPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
@@ -123,7 +134,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
-        rulerImageGraphic.setVisible( rulerVisible );
+        rulerGraphic.setVisible( rulerVisible );
     }
 
     public void reset() {
@@ -151,8 +162,8 @@ public class SchrodingerScreenNode extends PNode {
         return intensityManager;
     }
 
-    public RulerImageGraphic getRulerGraphic() {
-        return rulerImageGraphic;
+    public SchrodingerRulerGraphic getRulerGraphic() {
+        return rulerGraphic;
     }
 
     public AbstractGunGraphic getGunGraphic() {
@@ -236,5 +247,9 @@ public class SchrodingerScreenNode extends PNode {
 
     public DetectorSheetPNode getDetectorSheetPNode() {
         return detectorSheetPNode;
+    }
+
+    public void setUnits( ParticleUnits particleUnits ) {
+        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
     }
 }
