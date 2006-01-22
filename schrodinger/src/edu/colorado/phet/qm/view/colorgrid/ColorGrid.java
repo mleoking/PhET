@@ -37,6 +37,7 @@ public class ColorGrid {
         if( imageHeight <= 0 ) {
             imageHeight = 1;
         }
+        System.out.println( "<<create image>>w= " + imageWidth + ", h=" + imageHeight );
         image = new BufferedImage( imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB );
     }
 

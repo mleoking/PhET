@@ -23,8 +23,6 @@ public class RulerGraphic extends PNode {
     private int numMinorTicksBetweenMajors = 5;
     private double majorTickHeight = 10;
     private double minorTickHeight = 6;
-    private int width;
-    private int height;
 
     public RulerGraphic( String[] readings, String units, int width, int height ) {
         this.units = units;
@@ -36,11 +34,14 @@ public class RulerGraphic extends PNode {
         this.readings = readings;
         horizontalInset = 10;
 
-        this.width = width;
-        this.height = height;
         setBounds( 0, 0, width, height );
         update();
 
+    }
+
+    public void setReadings( String[]readings ) {
+        this.readings = readings;
+        update();
     }
 
     private void update() {
@@ -105,4 +106,8 @@ public class RulerGraphic extends PNode {
         update();
     }
 
+    public void setMeasurementWidth( double width ) {
+        setWidth( width + horizontalInset * 2 );
+        update();
+    }
 }
