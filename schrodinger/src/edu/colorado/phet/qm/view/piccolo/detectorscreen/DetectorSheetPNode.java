@@ -189,6 +189,7 @@ public class DetectorSheetPNode extends PhetPNode {
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.drawRenderedImage( bufferedImage, new AffineTransform() );
+        g2.dispose();
         return image;
     }
 
@@ -203,6 +204,7 @@ public class DetectorSheetPNode extends PhetPNode {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         PNode detectionGraphic = createDetectionGraphic( x, y, opacity );
         detectionGraphic.fullPaint( new PPaintContext( g2 ) );
+        g2.dispose();
         repaint();
     }
 

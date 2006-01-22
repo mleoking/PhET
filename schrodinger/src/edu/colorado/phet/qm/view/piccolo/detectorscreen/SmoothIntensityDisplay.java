@@ -75,6 +75,7 @@ public class SmoothIntensityDisplay {
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
         getDetectorSheetPNode().histogramChanged();
+        sheetGraphics.dispose();
     }
 
     private DetectorSheetPNode getDetectorSheetPNode() {
