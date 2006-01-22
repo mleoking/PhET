@@ -2,12 +2,10 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -25,6 +23,8 @@ public class RulerGraphic extends PNode {
     private int numMinorTicksBetweenMajors = 5;
     private double majorTickHeight = 10;
     private double minorTickHeight = 6;
+    private int width;
+    private int height;
 
     public RulerGraphic( String[] readings, String units, int width, int height ) {
         this.units = units;
@@ -36,12 +36,23 @@ public class RulerGraphic extends PNode {
         this.readings = readings;
         horizontalInset = 10;
 
+        this.width = width;
+        this.height = height;
         setBounds( 0, 0, width, height );
+        update();
 
+    }
+
+    private void update() {
+        doUpdate( getX(), getY(), getWidth(), getHeight() );
     }
 
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         super.internalUpdateBounds( x, y, width, height );
+        doUpdate( x, y, width, height );
+    }
+
+    private void doUpdate( double x, double y, double width, double height ) {
         removeAllChildren();
         base.setPathToRectangle( (float)x, (float)y, (float)width, (float)height );
         addChild( base );
@@ -54,7 +65,7 @@ public class RulerGraphic extends PNode {
             PText pText = new PText( reading );
             double xVal = distBetweenMajorReadings * i + horizontalInset;
             double yVal = height / 2 - pText.getFullBounds().getHeight() / 2;
-//            pText.setFont( pText.getFont().deriveFont( Font.BOLD ) );
+            //            pText.setFont( pText.getFont().deriveFont( Font.BOLD ) );
             pText.setOffset( xVal - pText.getFullBounds().getWidth() / 2, yVal );
 
             addChild( pText );
@@ -89,17 +100,9 @@ public class RulerGraphic extends PNode {
         return tickPath;
     }
 
-    public static void main( String[] args ) {
-        PCanvas pCanvas = new PCanvas();
-        JFrame frame = new JFrame();
-        frame.setContentPane( pCanvas );
-        frame.setSize( 800, 400 );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        String[]digits = new String[11];
-        for( int i = 0; i < digits.length; i++ ) {
-            digits[i] = new String( i + "" );
-        }
-        pCanvas.getLayer().addChild( new RulerGraphic( digits, "nm", 650, 40 ) );
-        frame.show();
+    public void setUnits( String units ) {
+        this.units = units;
+        update();
     }
+
 }

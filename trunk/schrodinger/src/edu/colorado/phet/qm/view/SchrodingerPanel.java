@@ -7,7 +7,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.phetcommon.RulerImageGraphic;
+import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
@@ -159,9 +159,9 @@ public class SchrodingerPanel extends PhetPCanvas {
         return schrodingerScreenNode.getDetectorSheetPNode();
     }
 
-    public RulerImageGraphic getRulerGraphic() {
-        return schrodingerScreenNode.getRulerGraphic();
-    }
+//    public RulerGraphic getRulerGraphic() {
+//        return schrodingerScreenNode.getRulerGraphic();
+//    }
 
     public AbstractGunGraphic getGunGraphic() {
         return schrodingerScreenNode.getGunGraphic();
@@ -271,6 +271,10 @@ public class SchrodingerPanel extends PhetPCanvas {
             Listener listener = (Listener)listeners.get( i );
             listener.inverseSlitsChanged();
         }
+    }
+
+    public void setUnits( ParticleUnits particleUnits ) {
+        schrodingerScreenNode.setUnits( particleUnits );
     }
 
     public static interface Listener {
