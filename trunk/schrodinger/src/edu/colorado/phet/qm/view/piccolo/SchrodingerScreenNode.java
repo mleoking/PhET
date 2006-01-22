@@ -49,6 +49,7 @@ public class SchrodingerScreenNode extends PNode {
     private static final int WAVE_AREA_LAYOUT_INSET_Y = 20;
     public static int numIterationsBetwenScreenUpdate = 2;
     private DetectorSheetPNode detectorSheetPNode;
+    private StopwatchPanel stopwatchPanel;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -66,7 +67,7 @@ public class SchrodingerScreenNode extends PNode {
         for( int i = 0; i < digits.length; i++ ) {
             digits[i] = new String( i + "" );
         }
-        RulerGraphic rg = new RulerGraphic( digits, "units", 400, 100 );
+        RulerGraphic rg = new RulerGraphic( digits, "units", 500, 60 );
         rulerGraphic = new SchrodingerRulerGraphic( schrodingerPanel, rg );
 
 //        rulerImageGraphic = new RulerImageGraphic( schrodingerPanel );
@@ -93,7 +94,7 @@ public class SchrodingerScreenNode extends PNode {
         } );
 
         layoutChildren();
-        StopwatchPanel stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
+        stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         PSwing pSwing = new PSwing( schrodingerPanel, stopwatchPanel );
         pSwing.addInputEventListener( new PDragEventHandler() {
@@ -250,6 +251,25 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setUnits( ParticleUnits particleUnits ) {
+        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
+//        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
+        String[]readings = new String[7];
+        for( int i = 0; i < readings.length; i++ ) {
+            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
+            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+            readings[i] = new String( "" + decimalFormat.format( v ) + "" );
+        }
+        rulerGraphic.getRulerGraphic().setReadings( readings );
+//        double rulerMeasureWidth =
+
+        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
+        double waveAreaViewWidth = wavefunctionGraphic.getWavefunction().getWidth() * particleUnits.getDx().getDisplayValue();
+
+        double rulerViewWidth = readings.length - 1;//units
+        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * rulerViewWidth;
+
+        rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
         rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
+        stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
     }
 }

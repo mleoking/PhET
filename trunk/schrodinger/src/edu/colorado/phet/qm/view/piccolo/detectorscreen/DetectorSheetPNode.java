@@ -57,7 +57,7 @@ public class DetectorSheetPNode extends PhetPNode {
         this.wavefunctionGraphic = wavefunctionGraphic;
         this.detectorSheetHeight = detectorSheetHeight;
         this.schrodingerPanel = schrodingerPanel;
-        bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
+        recreateImage();
         screenGraphic = new ScreenGraphic( bufferedImage );
 
         setBrightness( 1.0 );
@@ -113,7 +113,7 @@ public class DetectorSheetPNode extends PhetPNode {
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                bufferedImage = new BufferedImage( getWavefunctionGraphic().getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
+                recreateImage();
                 screenGraphic.setImage( bufferedImage );
             }
         };
@@ -220,9 +220,17 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     public void reset() {
-        bufferedImage = new BufferedImage( wavefunctionGraphic.getWavefunctionGraphicWidth(), detectorSheetHeight, BufferedImage.TYPE_INT_RGB );
+        recreateImage();
         screenGraphic.setImage( bufferedImage );
         detectorSheetControlPanel.setClearButtonVisible( false );
+    }
+
+    private void recreateImage() {
+
+        int w = wavefunctionGraphic.getWavefunctionGraphicWidth();
+        int h = detectorSheetHeight;
+        System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
+        bufferedImage = new BufferedImage( w, h, BufferedImage.TYPE_INT_RGB );
     }
 
     public int getOpacity() {

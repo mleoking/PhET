@@ -101,15 +101,13 @@ public class SchrodingerRulerGraphic extends PNode {
             rulerGraphic.setRotation( Math.PI / 2 );
             rulerGraphic.setOffset( rulerGraphic.getHeight(), 0 );
         }
-//        if( imageGraphic.getImage() == horiz ) {
-//            imageGraphic.setImage( vert );
-//        }
-//        else {
-//            imageGraphic.setImage( horiz );
-//        }
     }
 
     public void setUnits( String units ) {
         rulerGraphic.setUnits( units );
+    }
+
+    public RulerGraphic getRulerGraphic() {
+        return rulerGraphic;
     }
 }
