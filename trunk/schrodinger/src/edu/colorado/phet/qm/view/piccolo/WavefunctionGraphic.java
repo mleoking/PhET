@@ -69,6 +69,7 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
             double px = new PxValue().compute( getWavefunction() );
             System.out.println( "px = " + px );
         }
+        g2.dispose();
     }
 
     private int getCellHeight() {

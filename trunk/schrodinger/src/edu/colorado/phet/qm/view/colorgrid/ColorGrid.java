@@ -65,6 +65,7 @@ public class ColorGrid {
                 }
             }
         }
+        g2.dispose();
     }
 
     public BufferedImage getBufferedImage() {

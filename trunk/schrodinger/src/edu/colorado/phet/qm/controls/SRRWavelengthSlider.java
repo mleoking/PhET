@@ -46,6 +46,7 @@ public class SRRWavelengthSlider extends PNode {
             g2.setColor( visibleColor );
             g2.fillRect( i, 0, 1, image.getHeight() );
         }
+        g2.dispose();
         colorBackgroundNode = new PImage( image );
         addChild( colorBackgroundNode );
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
