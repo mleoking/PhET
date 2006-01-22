@@ -70,6 +70,7 @@ public class ClockGraphic extends PNode {
         addChild( minuteHand );
         hourHand = new HandGraphic( 13, 3 );
         addChild( hourHand );
+        setTime( 0.0 );
     }
 
     protected Point2D getTailLocation() {
@@ -85,24 +86,20 @@ public class ClockGraphic extends PNode {
         minuteHand.setAngle( angle );
     }
 
-    public void setLittleHandAngle( double angle ) {
-
-    }
-
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setSize( 400, 400 );
         PCanvas pCanvas = new PCanvas();
         frame.setContentPane( pCanvas );
-        final ClockGraphic child = new ClockGraphic();
-        pCanvas.getLayer().addChild( child );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
 
+        final ClockGraphic child = new ClockGraphic();
+
         Timer timer = new Timer( 30, new ActionListener() {
-            double dt = 1.0;
+            double dt = 4.0;
             double t = 0;
-            double ddt = 0.01;
+            double ddt = 0.04;
 
             public void actionPerformed( ActionEvent e ) {
                 t += dt;
@@ -111,6 +108,8 @@ public class ClockGraphic extends PNode {
             }
         } );
         timer.start();
+
+        pCanvas.getLayer().addChild( child );
     }
 
     private void setHourHandAngle( double v ) {

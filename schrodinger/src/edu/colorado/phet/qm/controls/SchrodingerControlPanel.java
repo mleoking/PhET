@@ -74,10 +74,20 @@ public class SchrodingerControlPanel extends ControlPanel {
                     getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
                 }
             } );
+            addControl( rulerPanel );
+
+            JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
+            stopwatchCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+
+                }
+            } );
+
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+
 
         advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
 
