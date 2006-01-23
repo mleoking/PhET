@@ -55,7 +55,6 @@ public class SchrodingerScreenNode extends PNode {
 
     private AbstractGunGraphic abstractGunGraphic;
     private IntensityManager intensityManager;
-//    private RulerImageGraphic rulerImageGraphic;
     private SchrodingerRulerGraphic rulerGraphic;
 
     private Dimension lastLayoutSize = null;
@@ -88,10 +87,8 @@ public class SchrodingerScreenNode extends PNode {
         }
         RulerGraphic rg = new RulerGraphic( digits, "units", 500, 60 );
         rulerGraphic = new SchrodingerRulerGraphic( schrodingerPanel, rg );
-
-//        rulerImageGraphic = new RulerImageGraphic( schrodingerPanel );
         rulerGraphic.setOffset( 50, 200 );
-        rulerGraphic.setVisible( true );
+        setRulerVisible( false );
 
         detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, 60 );
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
@@ -116,12 +113,10 @@ public class SchrodingerScreenNode extends PNode {
         stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
-        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() {
-//            public void mouseDragged( PInputEvent e ) {
-//                if (stopwatchPanel.)
-//            }
-        } );
+        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
         addChild( stopwatchPanelPSwing );
+        stopwatchPanelPSwing.setOffset( 300, 300 );
+        setStopwatchVisible( false );
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {

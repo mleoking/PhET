@@ -10,8 +10,9 @@ import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.Propagator;
+import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -34,15 +35,12 @@ public class SchrodingerControlPanel extends ControlPanel {
     private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
-//    private DoubleSlitControlPanel doubleSlitControlPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
         this.module = module;
 
         this.initialConditionPanel = createInitialConditionPanel();
-//        doubleSlitControlPanel = new DoubleSlitControlPanel( getDiscreteModel(), module );
-//        addControl( doubleSlitControlPanel );
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
         advancedICPanel.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
@@ -79,7 +77,6 @@ public class SchrodingerControlPanel extends ControlPanel {
             addControl( rulerPanel );
             module.getClock().addClockListener( new ClockAdapter() {
                 public void clockTicked( ClockEvent clockEvent ) {
-//                    super.clockTicked( clockEvent );
                     ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
                 }
             } );
@@ -173,51 +170,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         return radioButton;
     }
 
-//    private VerticalLayoutPanel createBoundaryPanel() {
-//        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-//        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
-//
-//        layoutPanel.add( createPlaneWaveBox() );
-//        cylinderWaveBox = createCylinderWaveBox();
-//        layoutPanel.add( cylinderWaveBox );
-//
-//        return layoutPanel;
-//    }
-
-//    private JCheckBox createPlaneWaveBox() {
-//        final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-//        double scale = 1.0;
-//        double k = 1.0 / 10.0 * Math.PI * scale;
-//        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
-//
-//        planeWave.setMagnitude( 0.015 );
-//        int damping = getDiscreteModel().getDamping().getDepth();
-//        int tubSize = 5;
-//        final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
-//                                                   getWavefunction().getWidth() - 2 * damping, tubSize );
-//        final WaveSource waveSource = new WaveSource( rectangle, planeWave );
-//
-//        planeWaveCheckbox.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                if( planeWaveCheckbox.isSelected() ) {
-//                    getDiscreteModel().addListener( waveSource );
-//                }
-//                else {
-//                    getDiscreteModel().removeListener( waveSource );
-//                }
-//            }
-//        } );
-//        return planeWaveCheckbox;
-//    }
-
-//    private CylinderWaveCheckBox createCylinderWaveBox() {
-//        return new CylinderWaveCheckBox( module, getDiscreteModel() );
-//    }
-
-    private Wavefunction getWavefunction() {
-        return getDiscreteModel().getWavefunction();
-    }
-
     private InitialConditionPanel createInitialConditionPanel() {
         return new InitialConditionPanel( this );
     }
@@ -246,20 +198,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         return layoutPanel;
     }
 
-    private void removePotential( Potential potential ) {
-        getSchrodingerPanel().getDiscreteModel().removePotential( potential );
-    }
-
     private void clearPotential() {
         module.clearPotential();
-    }
-
-    private Potential createSlopingPotential() {
-        return new SimpleGradientPotential( 0.01 );
-    }
-
-    private void addPotential( Potential potential ) {
-        getSchrodingerPanel().getDiscreteModel().addPotential( potential );
     }
 
     private VerticalLayoutPanel createSimulationPanel( final SchrodingerModule module ) {
@@ -319,9 +259,5 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         return absorbtiveSlit;
     }
-
-//    public DoubleSlitControlPanel getDoubleSlitPanel() {
-//        return doubleSlitControlPanel;
-//    }
 
 }

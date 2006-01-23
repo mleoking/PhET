@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -13,14 +12,18 @@ import java.util.Random;
 
 public class DetectorSet {
     private ArrayList detectors = new ArrayList();
-    private static final Random random = new Random();
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
     private boolean autodetect = true;
+    private boolean repeats = false;//forAutoDetect
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
-        listener = new DetectorSet.MyListener();
+        listener = new DetectorSet.AutoDetectAdapter();
+    }
+
+    public void setRepeats( boolean notRepeats ) {
+        this.repeats = notRepeats;
     }
 
     public void reset() {
@@ -75,10 +78,28 @@ public class DetectorSet {
         }
     }
 
-    private static class FireWhenReady implements FireStrategy {
+    private static class AutoDetect implements FireStrategy {
+        private boolean detectionDisablesDetectorForThisParticle = true;
+
+        public AutoDetect( boolean detectionDisablesDetectorForThisParticle ) {
+            this.detectionDisablesDetectorForThisParticle = detectionDisablesDetectorForThisParticle;
+        }
+
+        public boolean isDetectionDisablesDetectorForThisParticle() {
+            return detectionDisablesDetectorForThisParticle;
+        }
+
+        public void setDetectionDisablesDetectorForThisParticle( boolean detectionDisablesDetectorForThisParticle ) {
+            this.detectionDisablesDetectorForThisParticle = detectionDisablesDetectorForThisParticle;
+        }
+
         public boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm ) {
             if( detector.timeToFire() ) {
-                return detector.tryToGrab( wavefunction, norm );
+                boolean grabbed = detector.tryToGrab( wavefunction, norm );
+                if( grabbed && detectionDisablesDetectorForThisParticle ) {
+                    detector.setEnabled( false );
+                }
+                return grabbed;
             }
             else {
                 return false;
@@ -99,15 +120,6 @@ public class DetectorSet {
                 }
             }
         }
-//        else {
-//            if( oneShotDetectors ) {//todo what was this for?
-//                for( int i = 0; i < detectors.size(); i++ ) {
-//                    Detector detector = (Detector)detectors.get( i );
-//                    detector.setEnabled( false );
-//                }
-//            }
-//        }
-
     }
 
     private Wavefunction getWavefunction() {
@@ -140,14 +152,17 @@ public class DetectorSet {
         detectors.remove( detector );
     }
 
-    public class MyListener extends DiscreteModel.Adapter {
+    public class AutoDetectAdapter extends DiscreteModel.Adapter {
         public void finishedTimeStep( DiscreteModel model ) {
             notifyTimeStepped();
             updateDetectorProbabilities();
             if( autodetect && model.isDetectionCausesCollapse() ) {
-                fireAllEnabledDetectors( new FireWhenReady() );
+                fireAllEnabledDetectors( new AutoDetect( !repeats ) );
             }
         }
     }
 
+    public boolean isRepeats() {
+        return repeats;
+    }
 }

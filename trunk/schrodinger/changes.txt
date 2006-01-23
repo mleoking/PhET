@@ -1,4 +1,8 @@
-Bug disappearance: On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
+Added save/load feature for saving barriers/detectors.
+The controls look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
+Made gun controls look like the ones in lasers and made sure they don’t overlap with the gun.
+Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
+Detect Now! button doesn't disable detectors.
 Added gun controls to the gun control panel (instead of hanging off the right hand side).
 The screen updates automatically when paused:
     -when firing a particle
@@ -9,7 +13,8 @@ Add a ruler and a clock.  When user changes from electrons to neutrons or helium
     put an animation of a clock whose hands are slowing down next to actual clock,
     with a bubble that pops up and says “slowing down time.”
     If you go back to electrons, time speeds up and an analogous animation appears.
-Added save/load feature for saving barriers/detectors.
+Bug disappearance: o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
+Bug disappearance: On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 
 * New in 0.32 (1-5-2006)
 Fixed the range of sliders for particles velocities to keep the physics in a meaningful range.
