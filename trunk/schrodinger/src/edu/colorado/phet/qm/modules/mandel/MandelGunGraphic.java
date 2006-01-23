@@ -48,7 +48,7 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
         addChild( 0, rightGun );
 //        leftGun.setOffset( new Point2D.Double( origGunLoc.x - dx, origGunLoc.y ) );
 //        rightGun.setOffset( new Point2D.Double( origGunLoc.x + dx, origGunLoc.y ) );
-        getComboBoxGraphic().setVisible( false );
+//        getComboBoxGraphic().setVisible( false );
         layoutChildren();
     }
 
@@ -106,7 +106,7 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        getComboBoxGraphic().setVisible( false );
+//        getComboBoxGraphic().setVisible( false );
     }
 
 }

@@ -8,18 +8,11 @@ Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
 
-Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
-    put an animation of a clock whose hands are slowing down next to actual clock,
-    with a bubble that pops up and says “slowing down time.”
-    If you go back to electrons, time speeds up and an analogous animation appears.
-    We will need to rescale both space and time for photons,
-    but I want to make sure we can get it working here first.
+    Rescale both space and time for photons.
 
 Add control panel buttons for stopwatch & ruler.
-Refactor Gun type control out of gun.
 
 Make the tabs for the different panels larger. (about twice the current size)
-Put the gun type menu in a control box to the left of the gun.
 Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
     Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.
     Put the on/off control on top of the gun and make it look like part of the gun.

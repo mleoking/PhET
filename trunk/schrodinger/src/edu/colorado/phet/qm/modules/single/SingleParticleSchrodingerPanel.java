@@ -2,9 +2,11 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -20,7 +22,11 @@ public class SingleParticleSchrodingerPanel extends SchrodingerPanel {
         super( module );
         abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );
+        ImagePComboBox comboBox = abstractGun.getComboBox();
 
+        PSwing pSwing = new PSwing( this, comboBox );
+        comboBox.setEnvironment( pSwing, this );
+        getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
 
         getIntensityDisplay().setMultiplier( 1 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );

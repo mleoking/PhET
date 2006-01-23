@@ -1,3 +1,8 @@
+Put the gun type menu in a control box to the left of the gun.
+Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
+    put an animation of a clock whose hands are slowing down next to actual clock,
+    with a bubble that pops up and says “slowing down time.”
+    If you go back to electrons, time speeds up and an analogous animation appears.
 Added save/load feature for saving barriers/detectors.
 
 * New in 0.32 (1-5-2006)

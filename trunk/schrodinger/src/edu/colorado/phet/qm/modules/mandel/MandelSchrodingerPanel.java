@@ -26,4 +26,8 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     protected HighIntensityGunGraphic createGun() {
         return new MandelGunGraphic( this );
     }
+
+    protected boolean useGunChooserGraphic() {
+        return false;
+    }
 }

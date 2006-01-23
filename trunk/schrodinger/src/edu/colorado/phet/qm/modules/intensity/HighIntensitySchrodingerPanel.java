@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SmoothIntensityDisplay;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -28,6 +29,9 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         this.intensityModule = intensityModule;
         highIntensityGun = createGun();
         setGunGraphic( highIntensityGun );
+
+        addGunChooserGraphic();
+
         getIntensityDisplay().setHighIntensityMode();
 
         setNormalGraphics();
@@ -36,6 +40,18 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
+    }
+
+    protected void addGunChooserGraphic() {
+        if( useGunChooserGraphic() ) {
+            PSwing pSwing = new PSwing( this, highIntensityGun.getComboBox() );
+            highIntensityGun.getComboBox().setEnvironment( pSwing, this );
+            getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
+        }
+    }
+
+    protected boolean useGunChooserGraphic() {
+        return true;
     }
 
     protected HighIntensityGunGraphic createGun() {

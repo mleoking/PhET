@@ -9,10 +9,8 @@ import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,7 +36,7 @@ public abstract class AbstractGunGraphic extends PNode {
     private ArrayList listeners = new ArrayList();
 
     private ImagePComboBox comboBox;
-    private PSwing comboBoxGraphic;
+//    private PSwing comboBoxGraphic;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -53,15 +51,15 @@ public abstract class AbstractGunGraphic extends PNode {
         addChild( gunImageGraphic );
         this.comboBox = initComboBox();
 
-        comboBoxGraphic = new PSwing( schrodingerPanel, comboBox );
-        comboBox.setEnvironment( comboBoxGraphic, schrodingerPanel );
-        addChild( comboBoxGraphic );
+//        comboBoxGraphic = new PSwing( schrodingerPanel, comboBox );
+//        comboBox.setEnvironment( comboBoxGraphic, schrodingerPanel );
+//        addChild( comboBoxGraphic );
         setVisible( true );
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
-        comboBoxGraphic.setOffset( 0, -comboBoxGraphic.getFullBounds().getHeight() );
+//        comboBoxGraphic.setOffset( 0, -comboBoxGraphic.getFullBounds().getHeight() );
     }
 
     protected void updateGunLocation() {
@@ -86,16 +84,16 @@ public abstract class AbstractGunGraphic extends PNode {
 
     public void setLocation( int x, int y ) {
         super.setOffset( x, y );
-        double scaleX = 1.0;
-        double scaleY = 1.0;
-        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
-                            comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
+//        double scaleX = 1.0;
+//        double scaleY = 1.0;
+//        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
+//                            comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
     }
 
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        comboBox.setVisible( visible );
-    }
+//    public void setVisible( boolean visible ) {
+//        super.setVisible( visible );
+////        comboBox.setVisible( visible );
+//    }
 
     public PImage getGunImageGraphic() {
         return gunImageGraphic;
@@ -105,9 +103,12 @@ public abstract class AbstractGunGraphic extends PNode {
         return schrodingerPanel.getSchrodingerModule();
     }
 
-    public JComboBox getComboBox() {
+    public ImagePComboBox getComboBox() {
         return comboBox;
     }
+//    public JComboBox getComboBox() {
+//        return comboBox;
+//    }
 
     static Potential getPotential( AbstractGunGraphic abstractGunGraphic ) {
         return abstractGunGraphic.schrodingerPanel.getDiscreteModel().getPotential();
@@ -150,9 +151,9 @@ public abstract class AbstractGunGraphic extends PNode {
         void momentumChanged( double val );
     }
 
-    public PSwing getComboBoxGraphic() {
-        return comboBoxGraphic;
-    }
+//    public PSwing getComboBoxGraphic() {
+//        return comboBoxGraphic;
+//    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
