@@ -1,3 +1,7 @@
+The screen updates automatically when paused:
+    -when firing a particle
+    -when changing visualization style
+Add control panel buttons for stopwatch & ruler.
 Put the gun type menu in a control box to the left of the gun.
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
     put an animation of a clock whose hands are slowing down next to actual clock,

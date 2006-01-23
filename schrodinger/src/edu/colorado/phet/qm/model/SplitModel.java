@@ -47,7 +47,9 @@ public class SplitModel extends DiscreteModel {
                 synchronizeDetectorRegions();
             }
         };
+
         getDoubleSlitPotential().addListener( listener );
+
         synchronizeDetectorRegions();
 
         setDetectionCausesCollapse( false );//since it's a split model

@@ -194,6 +194,7 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     private void updateWavefunctionGraphic() {
         getWavefunctionGraphic().setColorMap( createColorMap() );
+        updateWaveGraphic();
     }
 
     public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
@@ -275,6 +276,18 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public void setUnits( ParticleUnits particleUnits ) {
         schrodingerScreenNode.setUnits( particleUnits );
+    }
+
+    public void setStopwatchVisible( boolean selected ) {
+        schrodingerScreenNode.setStopwatchVisible( selected );
+    }
+
+    public boolean isRulerVisible() {
+        return schrodingerScreenNode.isRulerVisible();
+    }
+
+    public void updateWaveGraphic() {
+        schrodingerScreenNode.updateWaveGraphic();
     }
 
     public static interface Listener {

@@ -1,18 +1,13 @@
 Bugs:
 o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
-The screen should update automatically when paused
-    -when firing a particle
-    -when changing visualization style
+
 Detect Now! button shouldn't disable detectors
 Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
     (i.e. detectors are not disabled until the wave hits the detector)
 
     Rescale both space and time for photons.
 
-Add control panel buttons for stopwatch & ruler.
-
-Make the tabs for the different panels larger. (about twice the current size)
 Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
     Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.
     Put the on/off control on top of the gun and make it look like part of the gun.
@@ -33,6 +28,8 @@ remove this dependence of the units on the grid, so that changing the
 resolution would not change the units.
 
 The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
+
+Make the tabs for the different panels larger. (about twice the current size)
 
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
