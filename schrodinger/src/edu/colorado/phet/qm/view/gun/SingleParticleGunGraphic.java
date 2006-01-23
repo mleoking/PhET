@@ -31,6 +31,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     private PhotonBeamParticle photonBeamParticle;
     protected final JCheckBox autoFireJCheckBox;
     private PSwing gunControlPSwing;
+    private JPanel gunControlPanel;
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -99,8 +100,19 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     }
 
     private JPanel createGunControlPanel() {
-        JPanel gunControlPanel = new VerticalLayoutPanel();
-        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
+        gunControlPanel = new VerticalLayoutPanel() {
+            protected void paintComponent( Graphics g ) {
+
+                GradientPaint gradientPaint = new GradientPaint( 0, 0, Color.gray, gunControlPanel.getWidth() / 2, gunControlPanel.getHeight() / 2, Color.lightGray, true );
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setPaint( gradientPaint );
+                g2.fillRect( 0, 0, getWidth(), getHeight() );
+                super.paintComponent( g );
+            }
+        };
+        gunControlPanel.setOpaque( false );
+//        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
+        gunControlPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
         gunControlPanel.add( fireOne );
         gunControlPanel.add( autoFireJCheckBox );
 
