@@ -32,6 +32,7 @@ public class SRRWavelengthSlider extends PNode {
     private Function.LinearFunction linearFunction;
     protected final PImage colorBackgroundNode;
     protected final PText phetTextGraphic;
+    private PPath boundGraphic;
 
     public SRRWavelengthSlider( Component component ) {
         double minWavelength = VisibleColor.MIN_WAVELENGTH;
@@ -72,11 +73,12 @@ public class SRRWavelengthSlider extends PNode {
         spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );
 
         layoutChildren();
-        PPath boundGraphic = new PPath( getFullBounds() );
+        boundGraphic = new PPath( getFullBounds() );
         boundGraphic.setPaint( new JLabel().getBackground() );
         boundGraphic.setStrokePaint( null );
         addChild( 0, boundGraphic );
         dragPointChanged();
+        setOpaque( false );
     }
 
     private double getTextOffsetY() {
@@ -106,5 +108,9 @@ public class SRRWavelengthSlider extends PNode {
 
     public void removeChangeListener( ChangeListener changeListener ) {
         listeners.remove( changeListener );
+    }
+
+    public void setOpaque( boolean opaque ) {
+        boundGraphic.setVisible( opaque );
     }
 }

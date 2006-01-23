@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public abstract class AbstractGunGraphic extends PNode {
     private SchrodingerPanel schrodingerPanel;
     private PImage gunImageGraphic;
 
-    private PNode gunControls;
+//    private PNode gunControls;
     private ArrayList listeners = new ArrayList();
 
     private ImagePComboBox comboBox;
@@ -104,25 +105,28 @@ public abstract class AbstractGunGraphic extends PNode {
         return schrodingerPanel;
     }
 
-    public void setGunControls( PNode gunControls ) {
-        Toolkit.getDefaultToolkit().beep();
-        if( this.gunControls != null ) {
-            removeChild( gunControls );
-        }
-        this.gunControls = gunControls;
-        addChild( gunControls );
-        layoutChildren();
-    }
+    protected abstract void setGunControls( JComponent gunControls );
 
-    public PNode getGunControls() {
-        return gunControls;
-    }
+//    public void setGunControls( PNode gunControls ) {
+//        Toolkit.getDefaultToolkit().beep();
+//        if( this.gunControls != null ) {
+//            removeChild( gunControls );
+//        }
+//        this.gunControls = gunControls;
+//        addChild( gunControls );
+//        layoutChildren();
+//    }
+
+//    public PNode getGunControls() {
+//        return gunControls;
+//    }
 
     public void removeGunControls() {
-        if( gunControls != null ) {
-            removeChild( gunControls );
-            gunControls = null;
-        }
+        setGunControls( null );
+//        if( gunControls != null ) {
+//            removeChild( gunControls );
+//            gunControls = null;
+//        }
     }
 
     public Map getModelParameters() {

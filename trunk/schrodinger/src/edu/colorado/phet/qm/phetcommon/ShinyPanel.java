@@ -41,4 +41,7 @@ public class ShinyPanel extends JPanel {
     }
 
 
+    public void update() {
+        setOpaque( this, false );
+    }
 }
