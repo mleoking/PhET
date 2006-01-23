@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- repaint problem with module panels on startup
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - decide whether to replace Richardson with Falstad model
 
@@ -65,6 +66,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/23/06) - phetcommon: test program to show that startup repaint problems are not specific to QT
 (1/20/06) - look for redundant method calls in for loops (didn't find any)
 0.0.9 ...
 (1/20/06) - remove OptionsMenu
