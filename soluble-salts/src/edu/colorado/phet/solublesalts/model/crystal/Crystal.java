@@ -123,6 +123,9 @@ public class Crystal extends Body implements Binder {
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             addIon( ion );
+            if( this.ions.size() != i + 1) {
+                System.out.println( "Crystal.Crystal: i = " + i + "\tsize = " + this.ions.size() );
+            }
         }
 
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
