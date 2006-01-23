@@ -1,15 +1,5 @@
-Bugs:
-o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 
-Detect Now! button shouldn't disable detectors
-Add "One-Shot" checkbox that can be unchecked to allow wavefunction trapping
-    (i.e. detectors are not disabled until the wave hits the detector)
-
-Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
-Make these controls look like the ones in lasers and make sure they don’t overlap with the gun.
-    Put the on/off control on top of the gun and make it look like part of the gun.
-Shrink the play area so there is not so much extra space.
-     o	What does this mean?
+Put the on/off control on top of the gun and make it look like part of the gun.
 
 Note that you will need to put scaling back in
     so that the size of the box doesn’t change when you change the resolution in Options.
@@ -24,12 +14,11 @@ up, the units are inherently tied to the grid.  A scaling factor would
 remove this dependence of the units on the grid, so that changing the
 resolution would not change the units.
 
-The controls should look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
-
 Make the tabs for the different panels larger. (about twice the current size)
 
 Rescale both space and time for photons.
 
+Gun should shrink for small screen size (gun size dependent on screen size).
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
@@ -50,3 +39,6 @@ Allow user to change the colors of the two lasers independently.
         -How do we want colors to mix?  Just average them?
 
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
+
+Shrink the play area so there is not so much extra space.
+     o	What does this mean?

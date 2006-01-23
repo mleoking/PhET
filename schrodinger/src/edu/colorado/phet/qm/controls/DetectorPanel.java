@@ -38,22 +38,23 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( newDetector );
 
-//        final JCheckBox oneShot = new JCheckBox( "One-Shot" );
-//        oneShot.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                getDiscreteModel().setOneShotDetectors( oneShot.isSelected() );
-//            }
-//        } );
-////        oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
-//        add( oneShot );
+        final JCheckBox repeats = new JCheckBox( "Repeats", getDiscreteModel().getDetectorSet().isRepeats() );
+        repeats.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().getDetectorSet().setRepeats( repeats.isSelected() );
+            }
+        } );
 
         final JCheckBox autodetect = new JCheckBox( "Autodetect", getDiscreteModel().isAutoDetect() );
         autodetect.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setAutoDetect( autodetect.isSelected() );
+                repeats.setEnabled( autodetect.isSelected() );
             }
         } );
+
         add( autodetect );
+        add( repeats );
 
         final JButton detect = new JButton( "Detect!" );
         detect.addActionListener( new ActionListener() {
@@ -63,13 +64,13 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( detect );
 
-//        final JButton enableAll = new JButton( "Enable all" );
-//        enableAll.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                getDiscreteModel().enableAllDetectors();
-//            }
-//        } );
-//        add( enableAll );
+        final JButton enableAll = new JButton( "Enable all" );
+        enableAll.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().enableAllDetectors();
+            }
+        } );
+        add( enableAll );
         add( removeAll );
     }
 

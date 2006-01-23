@@ -93,6 +93,10 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
+    public void setRepeats( boolean repeats ) {
+        detectorSet.setRepeats( repeats );
+    }
+
     public Propagator getSourcePropagator() {
         return sourceWaveModel.getPropagator();
     }
