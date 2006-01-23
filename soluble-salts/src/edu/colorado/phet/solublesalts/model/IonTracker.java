@@ -25,7 +25,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IonTracker implements Ion.ChangeListener {
+public class IonTracker {
 
     private HashMap ionMap = new HashMap();
     private HashMap freeIonCntMap = new HashMap();
@@ -39,20 +39,17 @@ public class IonTracker implements Ion.ChangeListener {
         if( ionSet == null ) {
             ionSet = new ArrayList();
             ionMap.put( ion.getClass(), ionSet );
-            freeIonCntMap.put( ion.getClass(), new Integer( 0 ));
+            freeIonCntMap.put( ion.getClass(), new Integer( 0 ) );
         }
         ionSet.add( ion );
-        ion.addChangeListener( this );
-        int cnt = ((Integer)freeIonCntMap.get( ion.getClass())).intValue();
-        freeIonCntMap.put( ion.getClass(), new Integer( ++cnt ));
-
+        int cnt = ( (Integer)freeIonCntMap.get( ion.getClass() ) ).intValue();
+        freeIonCntMap.put( ion.getClass(), new Integer( ++cnt ) );
         ionListenerProxy.ionAdded( new IonEvent( ion ) );
     }
 
     public void ionRemoved( Ion ion ) {
-        ion.removeChangeListener( this );
-        int cnt = ((Integer)freeIonCntMap.get( ion.getClass())).intValue();
-        freeIonCntMap.put( ion.getClass(), new Integer( --cnt ));
+        int cnt = ( (Integer)freeIonCntMap.get( ion.getClass() ) ).intValue();
+        freeIonCntMap.put( ion.getClass(), new Integer( --cnt ) );
         List ionSet = (List)ionMap.get( ion.getClass() );
         ionSet.remove( ion );
 
@@ -71,9 +68,11 @@ public class IonTracker implements Ion.ChangeListener {
     public int getNumFreeIonsOfType( Class ionClass ) {
         Collection ionSet = (Collection)ionMap.get( ionClass );
         int cnt = 0;
-        for( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
-            Ion ion = (Ion)iterator.next();
-            cnt += ion.isBound() ? 0 : 1;
+        if( ionSet != null ) {
+            for( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
+                Ion ion = (Ion)iterator.next();
+                cnt += ion.isBound() ? 0 : 1;
+            }
         }
         return cnt;
     }
@@ -81,33 +80,16 @@ public class IonTracker implements Ion.ChangeListener {
     public List getIonsOfType( Class ionClass ) {
         return (List)ionMap.get( ionClass );
     }
-    
+
     public List getIons() {
-    	List result = new ArrayList();
-    	Collection lists = ionMap.values();
-    	for( Iterator it = lists.iterator(); it.hasNext(); ) {
-    		List l = (List)it.next();
-    		result.addAll( l );
-    	}    	
-    	return result;
+        List result = new ArrayList();
+        Collection lists = ionMap.values();
+        for( Iterator it = lists.iterator(); it.hasNext(); ) {
+            List l = (List)it.next();
+            result.addAll( l );
+        }
+        return result;
     }
-
-    //----------------------------------------------------------------
-    // Ion.ChangeListener.implementation
-    //----------------------------------------------------------------
-    public void stateChanged( Ion.ChangeEvent event ) {
-////        Class ionClass = event.getIon().getClass();
-////        Collection ionSet = (Collection)ionMap.get( ionClass );
-////        int cnt = 0;
-////        for( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
-////            Ion ion = (Ion)iterator.next();
-////            cnt += ion.isBound() ? 0 : 1;
-////        }
-////        freeIonCntMap.put( ionClass, new Integer( cnt ));
-////
-////        System.out.println( "numFreeIonsOfType( event.getIon().getClass() ) = " + cnt );
-    }
-
 
     //----------------------------------------------------------------
     // Events and listeners for Ions
@@ -124,25 +106,6 @@ public class IonTracker implements Ion.ChangeListener {
         ionEventChannel.removeListener( listener );
     }
 
-//    public static class IonEvent extends EventObject {
-//        public IonEvent( Object source ) {
-//            super( source );
-//            if( !( source instanceof Ion ) ) {
-//                throw new RuntimeException( "source of wrong type" );
-//            }
-//        }
-//
-//        public Ion getIon() {
-//            return (Ion)getSource();
-//        }
-//    }
-//
-//    public interface IonListener extends EventListener {
-//        void ionAdded( IonEvent event );
-//
-//        void ionRemoved( IonEvent event );
-//    }
-//
     public static class IonListenerAdapter implements IonListener {
         public void ionAdded( IonEvent event ) {
         }
