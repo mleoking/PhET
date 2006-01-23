@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
@@ -35,7 +34,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
     public DetectorSheetControlPanel( final DetectorSheetPNode detectorSheetPNode ) {
 //        setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
-        setBorder( BorderFactory.createCompoundBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), BorderFactory.createBevelBorder( BevelBorder.RAISED ) ) );
+//        setBorder( BorderFactory.createCompoundBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ), BorderFactory.createBevelBorder( BevelBorder.RAISED ) ) );
         this.detectorSheetPNode = detectorSheetPNode;
         clearButton = new JButton( "Clear" );
         clearButton.addActionListener( new ActionListener() {

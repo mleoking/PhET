@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.phetcommon;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
@@ -13,10 +14,13 @@ import java.awt.*;
  * Copyright (c) Jan 22, 2006 by Sam Reid
  */
 
-public class TestBorder2 {
-    private CompoundBorder compoundBorder;
+public class ShinyBorder extends CompoundBorder {
 
-    public TestBorder2() {
+    public ShinyBorder() {
+        super( createCompoundBorder(), new EmptyBorder( 0, 0, 0, 0 ) );
+    }
+
+    protected static CompoundBorder createCompoundBorder() {
         Color[]gradient = new Color[8];
         for( int i = 0; i < gradient.length; i++ ) {
             float value = ( (float)i ) / ( gradient.length - 1 );
@@ -24,11 +28,6 @@ public class TestBorder2 {
         }
         Border outsiteBorder = new BevelBorder( BevelBorder.RAISED, gradient[0], gradient[1], gradient[7], gradient[6] );
         Border insideBorder = new BevelBorder( BevelBorder.RAISED, gradient[2], gradient[3], gradient[5], gradient[4] );
-        compoundBorder = new CompoundBorder( outsiteBorder, insideBorder );
-
-    }
-
-    public CompoundBorder getCompoundBorder() {
-        return compoundBorder;
+        return new CompoundBorder( outsiteBorder, insideBorder );
     }
 }

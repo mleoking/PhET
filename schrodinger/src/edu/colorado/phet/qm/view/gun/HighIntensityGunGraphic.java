@@ -5,20 +5,15 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.phetcommon.GlossyPanel;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.phetcommon.TestBorder2;
+import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.metal.MetalBorders;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,64 +69,16 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     }
 
     private JPanel createGunControlPanel() {
-        GlossyPanel glossyPanel = new GlossyPanel();
-        VerticalLayoutPanel gunControlPanel = new VerticalLayoutPanel() {
-            protected void paintComponent( Graphics g ) {
-                Color lightGray = new Color( 192, 192, 192 );
-                Color shadedGray = new Color( 228, 228, 228 );
-                GradientPaint gradientPaint = new GradientPaint( 0, 0, lightGray, gunControlPanel.getWidth() / 2, gunControlPanel.getHeight() / 2, shadedGray, true );
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setPaint( gradientPaint );
-                g2.fillRect( 0, 0, getWidth(), getHeight() );
-                super.paintComponent( g );
-            }
-        };
+        VerticalLayoutPanel gunControlPanel = new VerticalLayoutPanel();
         gunControlPanel.setOpaque( false );
-//        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
-//        gunControlPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
-//        gunControlPanel.setBorder( new OuterBorder3D());
-
-        gunControlPanel.setBorder( new TestBorder2().getCompoundBorder() );
-//        gunControlPanel.setBorder( new BevelBorder( BevelBorder.RAISED,Color.red, Color.green,Color.blue, Color.yellow));
-
-//        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
         gunControlPanel.add( intensitySlider );
         gunControlPanel.add( alwaysOnCheckBox );
-//        alwaysOnCheckBox.setOpaque( false );
-//        intensitySlider.setOpaque( false );
-
-        setOpaque( gunControlPanel, false );
-
-        return gunControlPanel;
-    }
-
-    private Border createBorder() {
-        return new MetalBorders.Flush3DBorder();
-    }
-
-    private Border getSoft() {
-        return new SoftBevelBorder( SoftBevelBorder.RAISED, Color.gray, Color.darkGray );
-    }
-
-    private Border createBorder1() {
-        return BorderFactory.createRaisedBevelBorder();
-//        return new SoftBevelBorder( SoftBevelBorder.RAISED, Color.blue, Color.darkGray, Color.red, Color.green );
-    }
-
-    private void setOpaque( JComponent container, boolean b ) {
-        container.setOpaque( b );
-        for( int i = 0; i < container.getComponentCount(); i++ ) {
-            Component child = container.getComponent( i );
-            if( child instanceof JComponent && !( child instanceof JTextComponent ) ) {
-                setOpaque( (JComponent)child, b );
-            }
-        }
+        return new ShinyPanel( gunControlPanel );
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
         gunControlPSwing.setOffset( getControlOffsetX(), getControlOffsetY() );
-//        getComboBoxGraphic().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
         if( getGunControls() != null ) {
             getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
         }
