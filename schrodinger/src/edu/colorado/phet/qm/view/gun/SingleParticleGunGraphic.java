@@ -214,7 +214,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     protected void setGunControls( JComponent gunControls ) {
         if( this.gunControls != null ) {
-            gunControlPanel.remove( gunControls );
+            gunControlPanel.remove( this.gunControls );
         }
         this.gunControls = gunControls;
         if( gunControls != null ) {
