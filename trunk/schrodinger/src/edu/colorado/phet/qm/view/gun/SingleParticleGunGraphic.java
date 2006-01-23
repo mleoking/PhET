@@ -29,10 +29,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     private PhotonBeamParticle photonBeamParticle;
     protected final JCheckBox autoFireJCheckBox;
     private GunControlPanel gunControlPanel;
-//    private PSwing gunControlPSwing;
-//    private JPanel gunControlPanel;
-//    private JComponent gunControls;
-//    private ShinyPanel shinyPanel;
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -94,8 +90,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
 
         this.gunControlPanel = createGunControlPanel();
-//        shinyPanel = new ShinyPanel( gunControlPanel );
-//        gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
         addChild( gunControlPanel.getPSwing() );
 
         setGunParticle( gunItems[0] );
@@ -103,7 +97,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     private GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
-//        VerticalLayoutPanel gunControlPanel = new VerticalLayoutPanel();
         gunControlPanel.setFillNone();
         gunControlPanel.add( fireOne );
         gunControlPanel.add( autoFireJCheckBox );
@@ -114,9 +107,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected void layoutChildren() {
         super.layoutChildren();
         gunControlPanel.getPSwing().setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
-//        if( getGunControls() != null ) {
-//            getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
-//        }
     }
 
     protected Point getGunLocation() {
@@ -212,14 +202,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     protected void setGunControls( JComponent gunControls ) {
         gunControlPanel.setGunControls( gunControls );
-//        if( this.gunControls != null ) {
-//            gunControlPanel.remove( this.gunControls );
-//        }
-//        this.gunControls = gunControls;
-//        if( gunControls != null ) {
-//            gunControlPanel.add( gunControls );
-//        }
-//        gunControlPSwing.computeBounds();
     }
 
     public GunParticle[] getGunItems() {
