@@ -9,6 +9,7 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
+import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.gun.Photon;
@@ -79,7 +80,7 @@ public class DetectorSheetPNode extends PhetPNode {
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
-        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, detectorSheetControlPanel ) {
+        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) ) {
             public void setPaintInvalid( boolean paintInvalid ) {
                 super.setPaintInvalid( paintInvalid );
             }
