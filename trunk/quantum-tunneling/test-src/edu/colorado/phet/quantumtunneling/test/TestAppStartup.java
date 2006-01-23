@@ -11,10 +11,14 @@
 
 package edu.colorado.phet.quantumtunneling.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
@@ -25,7 +29,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -40,7 +43,6 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.quantumtunneling.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -62,6 +64,8 @@ public class TestAppStartup extends PhetApplication {
     private static final double MIN_Y = 0;
     private static final double MAX_Y = 100;
     
+    private static final Color BACKGROUND = new Color( 208, 255, 252 ); // light blue
+    
     public static void main( final String[] args ) {
         try {
             TestAppStartup app = new TestAppStartup( args );
@@ -82,8 +86,12 @@ public class TestAppStartup extends PhetApplication {
     }
     
     private static class TestModule extends PiccoloModule {
-        private XYSeries _series;
-        private PText _textNode;
+        
+        private XYSeries _series; // data model
+        
+        private PhetPCanvas _canvas;
+        private PSwing _pButton;
+        private JFreeChartNode _chartNode;
         
         public TestModule( IClock clock ) {
             super( "TestModule", clock, true /* clockStartsPaused */ );
@@ -92,22 +100,14 @@ public class TestAppStartup extends PhetApplication {
             
             // Model
             {
+                _series = new XYSeries( "Chaos" );
+                
+                // Update the data model when the clock ticks...
                 ClockListener clockListener = new ClockAdapter() {
                     private DecimalFormat _clockFormat = new DecimalFormat( CLOCK_DISPLAY_PATTERN );
                     
                     public void clockTicked( ClockEvent event ) {
-                        updateTimeDisplay( event.getSimulationTime() );
                         updateSeries();
-                    }
-                    
-                    public void simulationTimeReset( ClockEvent event ) {
-                        updateTimeDisplay( event.getSimulationTime() );
-                        updateSeries();
-                    }
-                    
-                    private void updateTimeDisplay( double time ) {
-                        String s = _clockFormat.format( time );
-                        _textNode.setText( "t = " + s );
                     }
                     
                     private void updateSeries() {
@@ -126,33 +126,32 @@ public class TestAppStartup extends PhetApplication {
             // Play area
             {
                 // Canvas
-                PhetPCanvas canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
-                setPhetPCanvas( canvas );
-                
-                // Parent of all nodes
-                PNode parentNode = new PNode();
-                canvas.addScreenChild( parentNode );
-               
-                // PSwing node (button)
-                JButton jButton = new JButton( "JButton" );
-                jButton.setOpaque( false );
-                PSwing pSwing = new PSwing( canvas, jButton );
-                pSwing.translate( 10, 10 );
-                parentNode.addChild( pSwing );
-                jButton.addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), "Click OK" );
+                _canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
+                setPhetPCanvas( _canvas );
+                _canvas.setBackground( BACKGROUND );
+                _canvas.addComponentListener( new ComponentAdapter() { 
+                    public void componentResized( ComponentEvent event ) {
+                        layoutCanvas();
                     }
                 } );
                 
-                // Text node
-                _textNode = new PText( "PText" );
-                _textNode.translate( 10, 500 );
-                _textNode.scale( 2 );
-                parentNode.addChild( _textNode );
+                // Parent of all nodes
+                PNode parentNode = new PNode();
+                _canvas.addScreenChild( parentNode );
+               
+                // PSwing button
+                JButton jButton = new JButton( "Press Me" );
+                jButton.setOpaque( false );
+                _pButton = new PSwing( _canvas, jButton );
+                parentNode.addChild( _pButton );
+                jButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), 
+                                "<html>That's enough singing for now, lads...<br>looks like there's dirty work afoot.</html>" );
+                    }
+                } );
                 
                 // Chart
-                _series = new XYSeries( "Chaos" );
                 XYDataset dataset = new XYSeriesCollection( _series );
                 XYPlot plot = new XYPlot();
                 plot.setDataset( dataset );
@@ -164,10 +163,9 @@ public class TestAppStartup extends PhetApplication {
                 plot.setRangeAxis( yAxis );
                 plot.setRenderer( new StandardXYItemRenderer() );
                 JFreeChart chart = new JFreeChart( plot );
-                JFreeChartNode chartNode = new JFreeChartNode( chart );
-                chartNode.setBounds( 0, 0, 600, 400 );
-                chartNode.translate( 10, 70 );
-                parentNode.addChild( chartNode );
+                chart.setBackgroundPaint( BACKGROUND );
+                _chartNode = new JFreeChartNode( chart );
+                parentNode.addChild( _chartNode );
             }
             
             // Control panel
@@ -175,20 +173,16 @@ public class TestAppStartup extends PhetApplication {
                 ControlPanel controlPanel = new ControlPanel( this );
                 setControlPanel( controlPanel );
                 
-                // Label and slider in a titled panel
-                JPanel panel = new JPanel();
-                panel.setBorder( new TitledBorder( "TitledBorder" ) );
-                EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-                layout.addComponent( new JLabel( "JLabel:" ), 0, 0 );
-                layout.addComponent( new JSlider(), 0, 1 );
-                controlPanel.addControlFullWidth( panel );
-                
                 // Misc controls that do nothing
-                controlPanel.addControl( new JButton( "JButton" ) );
-                controlPanel.addControl( new JCheckBox( "JCheckBox" ) );
+                controlPanel.addControl( new JCheckBox( "See no evil" ) );
+                controlPanel.addControl( new JCheckBox( "Hear no evil" ) );
+                controlPanel.addControl( new JCheckBox( "Speak no evil" ) );
+                controlPanel.addControl( new JButton( "Release the Clowns" ) );
+                controlPanel.addControl( new JButton( "Check email..." ) );
+                controlPanel.addControl( new JButton( "Take a nap" ) );
                 controlPanel.addControlFullWidth( new JSeparator() );
                 
-                // Reset button, resets the clock
+                // Reset button
                 JButton resetButton = new JButton( "Reset All" );
                 controlPanel.addControl( resetButton );
                 resetButton.addActionListener( new ActionListener() {
@@ -196,14 +190,34 @@ public class TestAppStartup extends PhetApplication {
                         Frame frame = PhetApplication.instance().getPhetFrame();
                         int rval = JOptionPane.showConfirmDialog( frame, "Reset all settings?", "Confirm", JOptionPane.YES_NO_OPTION );
                         if ( rval == JOptionPane.YES_OPTION ) {
-                            getClock().resetSimulationTime();  
+                            // TODO reset controls here...  
                         }
                     }
                 } );
             }
             
+            layoutCanvas();
+            
             // Start the clock
             getClock().start();
+        }
+        
+        private void layoutCanvas() {
+            
+            final double margin = 10;
+            
+            AffineTransform t1 = new AffineTransform();
+            t1.translate( margin, margin );
+            _pButton.setTransform( t1 );
+            
+            double x = margin;
+            double y = margin + _pButton.getFullBounds().getHeight() + margin;
+            double w = _canvas.getWidth() - ( 2 * margin );
+            double h = _canvas.getHeight() - ( 2 * margin ) - y;
+            _chartNode.setBounds( 0, 0, w, h );
+            AffineTransform t2 = new AffineTransform();
+            t2.translate( x, y );
+            _chartNode.setTransform( t2 );
         }
     }
 }
