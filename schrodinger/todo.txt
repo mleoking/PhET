@@ -1,5 +1,4 @@
 Bugs:
-o On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
 o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 
 Detect Now! button shouldn't disable detectors

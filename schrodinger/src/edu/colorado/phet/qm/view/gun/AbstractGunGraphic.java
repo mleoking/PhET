@@ -32,10 +32,7 @@ public abstract class AbstractGunGraphic extends PNode {
 
     private SchrodingerPanel schrodingerPanel;
     private PImage gunImageGraphic;
-
-//    private PNode gunControls;
     private ArrayList listeners = new ArrayList();
-
     private ImagePComboBox comboBox;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
@@ -69,14 +66,6 @@ public abstract class AbstractGunGraphic extends PNode {
         return schrodingerPanel.getDiscreteModel();
     }
 
-    public int getControlOffsetY() {
-        return 50;
-    }
-
-    public int getFireButtonInsetDX() {
-        return -50;
-    }
-
     public PImage getGunImageGraphic() {
         return gunImageGraphic;
     }
@@ -107,26 +96,8 @@ public abstract class AbstractGunGraphic extends PNode {
 
     protected abstract void setGunControls( JComponent gunControls );
 
-//    public void setGunControls( PNode gunControls ) {
-//        Toolkit.getDefaultToolkit().beep();
-//        if( this.gunControls != null ) {
-//            removeChild( gunControls );
-//        }
-//        this.gunControls = gunControls;
-//        addChild( gunControls );
-//        layoutChildren();
-//    }
-
-//    public PNode getGunControls() {
-//        return gunControls;
-//    }
-
     public void removeGunControls() {
         setGunControls( null );
-//        if( gunControls != null ) {
-//            removeChild( gunControls );
-//            gunControls = null;
-//        }
     }
 
     public Map getModelParameters() {
