@@ -4,12 +4,9 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -36,11 +33,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private HighIntensityBeam currentBeam;
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
-    protected final PSwing gunControlPSwing;
-    private VerticalLayoutPanel gunControlPanel;
-    private JComponent gunControl;
-    private ShinyPanel shinyPanel;
-//    private VerticalLayoutPanel gunControlPanel;
+    private GunControlPanel gunControlPanel;
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -63,18 +56,15 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
             }
         } );
 
-        JPanel gunControlPanel = createGunControlPanel();
-        shinyPanel = new ShinyPanel( gunControlPanel );
-        gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
-        addChild( gunControlPSwing );
+        GunControlPanel gunControlPanel = createGunControlPanel();
+        addChild( gunControlPanel.getPSwing() );
 
         setupObject( beams[0] );
         setOn( true );
     }
 
-    private JPanel createGunControlPanel() {
-        gunControlPanel = new VerticalLayoutPanel();
-        gunControlPanel.setOpaque( false );
+    private GunControlPanel createGunControlPanel() {
+        gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.add( intensitySlider );
         gunControlPanel.add( alwaysOnCheckBox );
         return gunControlPanel;
@@ -82,11 +72,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        gunControlPSwing.setOffset( getControlOffsetX(), getControlOffsetY() );
-    }
-
-    public PSwing getGunControlPSwing() {
-        return gunControlPSwing;
+        gunControlPanel.getPSwing().setOffset( getControlOffsetX(), getControlOffsetY() );
     }
 
     protected double getControlOffsetX() {
@@ -127,19 +113,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     }
 
     protected void setGunControls( JComponent gunControl ) {
-        if( this.gunControl != null ) {
-            gunControlPanel.remove( this.gunControl );
-        }
-        this.gunControl = gunControl;
-        if( gunControl != null ) {
-            gunControlPanel.addFullWidth( gunControl );
-            gunControl.setDoubleBuffered( false );//workaround since pswing doesn't handle re-componenting gracefully.
-            shinyPanel.update();
-        }
-        gunControlPanel.invalidate();
-        gunControlPanel.doLayout();
-        gunControlPSwing.computeBounds();
-
+        gunControlPanel.setGunControls( gunControl );
     }
 
     protected void setBeams( HighIntensityBeam[] mybeams ) {
