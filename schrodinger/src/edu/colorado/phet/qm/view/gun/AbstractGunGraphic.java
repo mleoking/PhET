@@ -36,7 +36,6 @@ public abstract class AbstractGunGraphic extends PNode {
     private ArrayList listeners = new ArrayList();
 
     private ImagePComboBox comboBox;
-//    private PSwing comboBoxGraphic;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -50,16 +49,11 @@ public abstract class AbstractGunGraphic extends PNode {
         updateGunLocation();
         addChild( gunImageGraphic );
         this.comboBox = initComboBox();
-
-//        comboBoxGraphic = new PSwing( schrodingerPanel, comboBox );
-//        comboBox.setEnvironment( comboBoxGraphic, schrodingerPanel );
-//        addChild( comboBoxGraphic );
         setVisible( true );
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
-//        comboBoxGraphic.setOffset( 0, -comboBoxGraphic.getFullBounds().getHeight() );
     }
 
     protected void updateGunLocation() {
@@ -82,17 +76,8 @@ public abstract class AbstractGunGraphic extends PNode {
         return -50;
     }
 
-    public void setLocation( int x, int y ) {
-        super.setOffset( x, y );
-//        double scaleX = 1.0;
-//        double scaleY = 1.0;
-//        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( ( y + getControlOffsetY() ) * scaleY ),
-//                            comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
-    }
-
-//    public void setVisible( boolean visible ) {
-//        super.setVisible( visible );
-////        comboBox.setVisible( visible );
+//    public void setLocation( int x, int y ) {
+//        super.setOffset( x, y );
 //    }
 
     public PImage getGunImageGraphic() {
@@ -106,9 +91,6 @@ public abstract class AbstractGunGraphic extends PNode {
     public ImagePComboBox getComboBox() {
         return comboBox;
     }
-//    public JComboBox getComboBox() {
-//        return comboBox;
-//    }
 
     static Potential getPotential( AbstractGunGraphic abstractGunGraphic ) {
         return abstractGunGraphic.schrodingerPanel.getDiscreteModel().getPotential();
@@ -127,6 +109,10 @@ public abstract class AbstractGunGraphic extends PNode {
     }
 
     public void setGunControls( PNode gunControls ) {
+        Toolkit.getDefaultToolkit().beep();
+        if( this.gunControls != null ) {
+            removeChild( gunControls );
+        }
         this.gunControls = gunControls;
         addChild( gunControls );
         layoutChildren();
@@ -150,10 +136,6 @@ public abstract class AbstractGunGraphic extends PNode {
     public static interface MomentumChangeListener {
         void momentumChanged( double val );
     }
-
-//    public PSwing getComboBoxGraphic() {
-//        return comboBoxGraphic;
-//    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
