@@ -76,10 +76,6 @@ public abstract class AbstractGunGraphic extends PNode {
         return -50;
     }
 
-//    public void setLocation( int x, int y ) {
-//        super.setOffset( x, y );
-//    }
-
     public PImage getGunImageGraphic() {
         return gunImageGraphic;
     }
