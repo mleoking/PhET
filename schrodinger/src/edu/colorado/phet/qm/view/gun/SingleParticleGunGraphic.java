@@ -122,7 +122,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected void layoutChildren() {
         super.layoutChildren();
         gunControlPSwing.setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
-//        getComboBoxGraphic().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
         if( getGunControls() != null ) {
             getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
         }
@@ -206,7 +205,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
                 DefaultGunParticle.createElectron( this ),
                 DefaultGunParticle.createNeutron( this ),
                 DefaultGunParticle.createHelium( this ),
-//                DefaultGunParticle.createCustomAtom( this )
         };
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( gunItems );
@@ -222,11 +220,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     public GunParticle[] getGunItems() {
         return gunItems;
-    }
-
-    public void setLocation( int x, int y ) {
-        super.setLocation( x, y );
-        setGunParticle( currentObject );
     }
 
     public void reset() {
