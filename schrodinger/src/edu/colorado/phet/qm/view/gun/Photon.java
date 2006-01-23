@@ -10,6 +10,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
+import javax.swing.*;
+
 /**
  * User: Sam Reid
  * Date: Jul 8, 2005
@@ -30,7 +32,8 @@ public class Photon extends GunParticle {
     public void activate( AbstractGunGraphic abstractGunGraphic ) {
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
-        abstractGunGraphic.setGunControls( wavelengthSliderGraphic );
+        JComponent sliderAsComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
+        abstractGunGraphic.setGunControls( sliderAsComponent );
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {

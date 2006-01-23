@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
+import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -32,6 +33,8 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected final JCheckBox autoFireJCheckBox;
     private PSwing gunControlPSwing;
     private JPanel gunControlPanel;
+    private JComponent gunControls;
+    private ShinyPanel shinyPanel;
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -92,27 +95,18 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
 
-        JPanel gunControlPanel = createGunControlPanel();
-        gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
+        this.gunControlPanel = createGunControlPanel();
+        shinyPanel = new ShinyPanel( gunControlPanel );
+        gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
         addChild( gunControlPSwing );
 
         setGunParticle( gunItems[0] );
     }
 
     private JPanel createGunControlPanel() {
-        gunControlPanel = new VerticalLayoutPanel() {
-            protected void paintComponent( Graphics g ) {
 
-                GradientPaint gradientPaint = new GradientPaint( 0, 0, Color.gray, gunControlPanel.getWidth() / 2, gunControlPanel.getHeight() / 2, Color.lightGray, true );
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setPaint( gradientPaint );
-                g2.fillRect( 0, 0, getWidth(), getHeight() );
-                super.paintComponent( g );
-            }
-        };
-        gunControlPanel.setOpaque( false );
-//        gunControlPanel.setBorder( BorderFactory.createTitledBorder( "Gun" ) );
-        gunControlPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
+        VerticalLayoutPanel gunControlPanel = new VerticalLayoutPanel();
+        gunControlPanel.setFillNone();
         gunControlPanel.add( fireOne );
         gunControlPanel.add( autoFireJCheckBox );
 
@@ -122,9 +116,9 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
     protected void layoutChildren() {
         super.layoutChildren();
         gunControlPSwing.setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
-        if( getGunControls() != null ) {
-            getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
-        }
+//        if( getGunControls() != null ) {
+//            getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
+//        }
     }
 
     protected Point getGunLocation() {
@@ -216,6 +210,17 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
             }
         } );
         return imageComboBox;
+    }
+
+    protected void setGunControls( JComponent gunControls ) {
+        if( this.gunControls != null ) {
+            gunControlPanel.remove( gunControls );
+        }
+        this.gunControls = gunControls;
+        if( gunControls != null ) {
+            gunControlPanel.add( gunControls );
+        }
+        gunControlPSwing.computeBounds();
     }
 
     public GunParticle[] getGunItems() {

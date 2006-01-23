@@ -19,28 +19,26 @@ import java.util.Map;
  */
 public class DefaultGunParticle extends GunParticle {
     private JSlider velocitySlider;
-    protected VerticalLayoutPanel controlPanel;
-//    private PSwing controlPanelPSwing;
+    private VerticalLayoutPanel controlPanel;
     private ParticleUnits particleUnits;
 
     public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation, ParticleUnits particleUnits ) {
         super( gunGraphic, label, imageLocation );
-        createControls( gunGraphic );
+        createControls();
         this.particleUnits = particleUnits;
     }
 
     public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
         super( gunGraphic, label, imageLocation );
-        createControls( gunGraphic );
+        createControls();
     }
 
-    private void createControls( AbstractGunGraphic gunGraphic ) {
+    private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
         velocitySlider.setBorder( BorderFactory.createTitledBorder( "Velocity" ) );
 
         controlPanel = new VerticalLayoutPanel();
         controlPanel.addFullWidth( velocitySlider );
-//        controlPanelPSwing = new PSwing( gunGraphic.getComponent(), controlPanel );
     }
 
     public void activate( AbstractGunGraphic gunGraphic ) {

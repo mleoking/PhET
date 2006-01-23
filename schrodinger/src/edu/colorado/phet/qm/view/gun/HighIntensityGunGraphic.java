@@ -38,6 +38,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private static final double MAX_INTENSITY_READOUT = 40;
     protected final PSwing gunControlPSwing;
     private VerticalLayoutPanel gunControlPanel;
+    private JComponent gunControl;
+    private ShinyPanel shinyPanel;
+//    private VerticalLayoutPanel gunControlPanel;
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -61,7 +64,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
         } );
 
         JPanel gunControlPanel = createGunControlPanel();
-        gunControlPSwing = new PSwing( schrodingerPanel, gunControlPanel );
+        shinyPanel = new ShinyPanel( gunControlPanel );
+        gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
         addChild( gunControlPSwing );
 
         setupObject( beams[0] );
@@ -69,19 +73,16 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     }
 
     private JPanel createGunControlPanel() {
-        VerticalLayoutPanel gunControlPanel = new VerticalLayoutPanel();
+        gunControlPanel = new VerticalLayoutPanel();
         gunControlPanel.setOpaque( false );
         gunControlPanel.add( intensitySlider );
         gunControlPanel.add( alwaysOnCheckBox );
-        return new ShinyPanel( gunControlPanel );
+        return gunControlPanel;
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
         gunControlPSwing.setOffset( getControlOffsetX(), getControlOffsetY() );
-        if( getGunControls() != null ) {
-            getGunControls().setOffset( gunControlPSwing.getFullBounds().getMaxX(), gunControlPSwing.getFullBounds().getY() );
-        }
     }
 
     public PSwing getGunControlPSwing() {
@@ -123,6 +124,22 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
             }
         } );
         return imageComboBox;
+    }
+
+    protected void setGunControls( JComponent gunControl ) {
+        if( this.gunControl != null ) {
+            gunControlPanel.remove( this.gunControl );
+        }
+        this.gunControl = gunControl;
+        if( gunControl != null ) {
+            gunControlPanel.addFullWidth( gunControl );
+            gunControl.setDoubleBuffered( false );//workaround since pswing doesn't handle re-componenting gracefully.
+            shinyPanel.update();
+        }
+        gunControlPanel.invalidate();
+        gunControlPanel.doLayout();
+        gunControlPSwing.computeBounds();
+
     }
 
     protected void setBeams( HighIntensityBeam[] mybeams ) {
