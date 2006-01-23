@@ -59,6 +59,7 @@ public class SchrodingerScreenNode extends PNode {
     private ParticleUnits particleUnits = new ParticleUnits.ElectronUnits();
     private Color TEXT_BACKGROUND = new Color( 255, 245, 190 );
     private PNode gunTypeChooserGraphic;
+    private PSwing stopwatchPanelPSwing;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -105,13 +106,13 @@ public class SchrodingerScreenNode extends PNode {
         layoutChildren();
         stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
-        PSwing pSwing = new PSwing( schrodingerPanel, stopwatchPanel );
-        pSwing.addInputEventListener( new PDragEventHandler() {
+        stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
+        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() {
 //            public void mouseDragged( PInputEvent e ) {
 //                if (stopwatchPanel.)
 //            }
         } );
-        addChild( pSwing );
+        addChild( stopwatchPanelPSwing );
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
@@ -385,7 +386,6 @@ public class SchrodingerScreenNode extends PNode {
         PText shadowPText = new PText( text );
         shadowPText.setTextPaint( Color.blue );
 
-
         BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
@@ -399,5 +399,17 @@ public class SchrodingerScreenNode extends PNode {
         this.gunTypeChooserGraphic = chooser;
         invalidateLayout();
         repaint();
+    }
+
+    public void setStopwatchVisible( boolean selected ) {
+        stopwatchPanelPSwing.setVisible( selected );
+    }
+
+    public boolean isRulerVisible() {
+        return rulerGraphic.getVisible();
+    }
+
+    public void updateWaveGraphic() {
+        wavefunctionGraphic.update();
     }
 }

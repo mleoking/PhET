@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.WaveSetup;
+import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
@@ -43,10 +44,18 @@ public class SchrodingerModule extends PiccoloModule {
     /**
      * @param schrodingerApplication
      */
-    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication, IClock clock ) {
+    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
+//        Timer timer = new Timer( 30, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                if( clock.isPaused() ) {
+//                    getSchrodingerPanel().repaint();
+//                }
+//            }
+//        } );
+//        timer.start();
     }
 
     protected void finishInit() {
@@ -65,6 +74,11 @@ public class SchrodingerModule extends PiccoloModule {
             }
         } );
         optionsMenu = new SchrodingerOptionsMenu( this );
+        getDiscreteModel().getDoubleSlitPotential().addListener( new HorizontalDoubleSlit.Listener() {
+            public void slitChanged() {
+                getSchrodingerPanel().updateWaveGraphic();
+            }
+        } );
     }
 
     public void activate() {

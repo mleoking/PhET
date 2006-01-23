@@ -2,6 +2,8 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
@@ -75,13 +77,20 @@ public class SchrodingerControlPanel extends ControlPanel {
                 }
             } );
             addControl( rulerPanel );
-
-            JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
-            stopwatchCheckBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-
+            module.getClock().addClockListener( new ClockAdapter() {
+                public void clockTicked( ClockEvent clockEvent ) {
+//                    super.clockTicked( clockEvent );
+                    ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
                 }
             } );
+
+            final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
+            stopwatchCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    getSchrodingerPanel().setStopwatchVisible( stopwatchCheckBox.isSelected() );
+                }
+            } );
+            addControl( stopwatchCheckBox );
 
         }
         catch( IOException e ) {
