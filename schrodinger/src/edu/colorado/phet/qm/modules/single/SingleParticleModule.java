@@ -23,6 +23,7 @@ public class SingleParticleModule extends SchrodingerModule {
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightnessSliderVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setFadeCheckBoxVisible( false );
         getSchrodingerPanel().getDetectorSheetPNode().getDetectorSheetControlPanel().setTypeControlVisible( false );
+        getSchrodingerPanel().getDetectorSheetPNode().updatePSwing();
         finishInit();
     }
 }

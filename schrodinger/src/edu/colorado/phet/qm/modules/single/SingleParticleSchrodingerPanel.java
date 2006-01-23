@@ -22,6 +22,7 @@ public class SingleParticleSchrodingerPanel extends SchrodingerPanel {
         super( module );
         abstractGun = new SingleParticleGunGraphic( this );
         setGunGraphic( abstractGun );
+        getSchrodingerScreenNode().setGunControlPanel( abstractGun.getGunControlPanel() );
         ImagePComboBox comboBox = abstractGun.getComboBox();
 
         PSwing pSwing = new PSwing( this, comboBox );

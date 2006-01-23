@@ -16,6 +16,7 @@ import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
 import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
@@ -23,6 +24,7 @@ import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -88,7 +90,9 @@ public class SchrodingerPanel extends PhetPCanvas {
             }
         } );
         synchronizeSlitInverse();
-
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 //        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
 //        schrodingerScreenNode.addChild( intensityReader );
     }
@@ -288,6 +292,11 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public void updateWaveGraphic() {
         schrodingerScreenNode.updateWaveGraphic();
+    }
+
+    public void addGunControlPanel() {
+        GunControlPanel gunControlPanel = getGunGraphic().getGunControlPanel();
+        schrodingerScreenNode.setGunControlPanel( gunControlPanel );
     }
 
     public static interface Listener {

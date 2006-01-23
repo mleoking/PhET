@@ -133,6 +133,8 @@ public abstract class AbstractGunGraphic extends PNode {
         return new HashMap();
     }
 
+    public abstract GunControlPanel getGunControlPanel();
+
     public static interface MomentumChangeListener {
         void momentumChanged( double val );
     }
