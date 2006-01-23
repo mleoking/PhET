@@ -80,10 +80,6 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
         return width / 2 - width * DoublePhotonWave.getFractionalInset();
     }
 
-    public int getFireButtonInsetDX() {
-        return 0;
-    }
-
     protected ImagePComboBox initComboBox() {
         Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
 
