@@ -20,7 +20,7 @@ public class EmfConfig {
     // Localization
     public static final String localizedStringsPath = "localization/RadioWavesStrings";
 
-    public static final double WAVEFRONT_HEIGHT = 30;
+    public static final double WAVEFRONT_HEIGHT = 15;
 
     public static final Color FORCE_COLOR = new Color( 200, 0, 0 );
     public static final Color FIELD_COLOR = new Color( 0, 100, 0 );
