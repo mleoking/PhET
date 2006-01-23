@@ -111,53 +111,47 @@ quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-modu
 # Simulations
 #============================================================================
 
+# Balloons
+balloons-module balloons
+
+# Battery-Resistance
+battery-resistance ohm1d
+
+# Battery-voltage
+battery-voltage batteryvoltage
+
 # Bernoulli
 bernoulli bernoulli
 
 # Circuit construction kit, phetcommon has been bundled in cck3/ directory, so we don't depend on being in a (very old) branch.
 cck cck3
 
-# Battery-voltage
-battery-voltage batteryvoltage
+# Discharge lamps
+dischargelamps fluorescent-lights &lasers
 
-# Balloons
-balloons-module balloons
+# Energy conservation
+energyconservation energyconservation
 
-# Ideal gas
-ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
-
-# Nuclear physics
-nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
-
-# Sound
-sound sound-2 &phetcommon-module
-
-# John Travoltage
-john-travoltage travoltage
-
-# Moving man
-moving-man movingman &phetcommon-module &charts-0module
-
-# Lasers
-lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module &jfreechart-dir
-
-# Signal Circuit
-signal-circuit signalcircuit
-
-# Greenhouse effect
-greenhouse-effect greenhouse
+# Energy Conservation 3 (2nd draft).
+energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
 
 # Forces 1D
 forces1d forces1d &phetcommon-module &charts-module
 
-# Radio Waves
-radio-waves emf 
+# Greenhouse effect
+greenhouse-effect greenhouse
 
-# The Ramp
-theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil-dir
+# Ideal gas
+ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 
-# Schrodinger
-schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil-dir
+# John Travoltage
+john-travoltage travoltage
+
+# Lasers
+lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module &jfreechart-dir
+
+# Localizations
+localizations localizations
 
 # Maze Game
 mazegame mazegame
@@ -168,27 +162,32 @@ microwaves microwaves
 # Motion 2D
 motion2d motion2d
 
-# Localizations
-localizations localizations
+# Moving man
+moving-man movingman &phetcommon-module &charts-0module
 
-# Battery-Resistance
-battery-resistance ohm1d
-
-# Semiconductors
-semiconductor semiconductor
-
-# Energy conservation
-energyconservation energyconservation
-
-# Energy Conservation 3 (2nd draft).
-energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &piccolo-dir &jfreechart-dir &phetcommon-dir &antutil-dir
+# Nuclear physics
+nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts-module
 
-# Discharge lamps
-#dischargelamps fluorescent-lights &phetcommon-module &mechanics-module &collision-module &lasers &controls-module
-dischargelamps fluorescent-lights &lasers
+# Radio Waves
+radio-waves emf 
+
+# The Ramp
+theramp theramp &jfreechart-dir &jfreechart-phet-dir &piccolo-dir &piccolo-phet-dir &phetcommon-dir  &antutil-dir
+
+# Schrodinger
+schrodinger schrodinger &phetcommon-dir &jfreechart-dir &piccolo-dir &jfreechart-phet-dir &piccolo-phet-dir  &antutil-dir
+
+# Signal Circuit
+signal-circuit signalcircuit
+
+# Sound
+sound sound-2 &phetcommon-dir &phetgraphics-dir
+
+# Semiconductors
+semiconductor semiconductor
 
 # Soluble Salts
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
