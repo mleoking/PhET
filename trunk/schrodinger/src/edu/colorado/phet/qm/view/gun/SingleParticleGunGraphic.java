@@ -90,7 +90,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
 
         this.gunControlPanel = createGunControlPanel();
-        addChild( gunControlPanel.getPSwing() );
+//        addChild( gunControlPanel.getPSwing() );
 
         setGunParticle( gunItems[0] );
     }
@@ -106,7 +106,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        gunControlPanel.getPSwing().setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
+//        gunControlPanel.getPSwing().setOffset( getGunImageGraphic().getWidth() - 10, getControlOffsetY() );
     }
 
     protected Point getGunLocation() {
@@ -216,6 +216,10 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         Map sup = super.getModelParameters();
         sup.putAll( currentObject.getModelParameters() );
         return sup;
+    }
+
+    public GunControlPanel getGunControlPanel() {
+        return gunControlPanel;
     }
 
     public boolean isFiring() {

@@ -17,7 +17,6 @@ import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -50,7 +49,7 @@ public class DetectorSheetPNode extends PhetPNode {
     private WavefunctionGraphic wavefunctionGraphic;
     private int detectorSheetHeight;
     private DetectorSheetControlPanel detectorSheetControlPanel;
-    private PNode detectorSheetControlPanelPNode;
+    private PSwing detectorSheetControlPanelPNode;
     private MyConnectorGraphic connectorGraphic;
     private final double shearAngle = 0.4636;
 
@@ -80,36 +79,7 @@ public class DetectorSheetPNode extends PhetPNode {
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
-        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) ) {
-            public void setPaintInvalid( boolean paintInvalid ) {
-                super.setPaintInvalid( paintInvalid );
-            }
-
-            public void invalidateLayout() {
-                super.invalidateLayout();
-            }
-
-            public void invalidateFullBounds() {
-                super.invalidateFullBounds();
-            }
-
-            public void invalidatePaint() {
-                super.invalidatePaint();
-            }
-
-            protected boolean validateFullBounds() {
-                return super.validateFullBounds();
-            }
-
-            public void validateFullPaint() {
-                super.validateFullPaint();
-            }
-
-            public void repaintFrom( PBounds localBounds, PNode childOrThis ) {
-                super.repaintFrom( localBounds, childOrThis );
-            }
-
-        };
+        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {
@@ -131,10 +101,6 @@ public class DetectorSheetPNode extends PhetPNode {
         addChild( connectorGraphic );
         addChild( screenGraphic );
         addChild( detectorSheetControlPanelPNode );
-    }
-
-    private WavefunctionGraphic getWavefunctionGraphic() {
-        return getSchrodingerPanel().getWavefunctionGraphic();
     }
 
     protected void layoutChildren() {
@@ -289,6 +255,10 @@ public class DetectorSheetPNode extends PhetPNode {
 
     public void histogramChanged() {
         screenGraphic.repaint();
+    }
+
+    public void updatePSwing() {
+        detectorSheetControlPanelPNode.computeBounds();
     }
 
     static class ScreenGraphic extends PNode {

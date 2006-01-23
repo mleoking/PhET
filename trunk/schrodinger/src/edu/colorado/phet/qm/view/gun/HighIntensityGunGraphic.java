@@ -56,15 +56,15 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
             }
         } );
 
-        GunControlPanel gunControlPanel = createGunControlPanel();
-        addChild( gunControlPanel.getPSwing() );
+        gunControlPanel = createGunControlPanel();
+//        addChild( gunControlPanel.getPSwing() );
 
         setupObject( beams[0] );
         setOn( true );
     }
 
     private GunControlPanel createGunControlPanel() {
-        gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
+        GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.add( intensitySlider );
         gunControlPanel.add( alwaysOnCheckBox );
         return gunControlPanel;
@@ -72,7 +72,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        gunControlPanel.getPSwing().setOffset( getControlOffsetX(), getControlOffsetY() );
+//        gunControlPanel.getPSwing().setOffset( getControlOffsetX(), getControlOffsetY() );
     }
 
     protected double getControlOffsetX() {
@@ -114,6 +114,10 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     protected void setGunControls( JComponent gunControl ) {
         gunControlPanel.setGunControls( gunControl );
+    }
+
+    public GunControlPanel getGunControlPanel() {
+        return gunControlPanel;
     }
 
     protected void setBeams( HighIntensityBeam[] mybeams ) {

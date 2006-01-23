@@ -158,4 +158,5 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.setVisible( b );
         supervalidate();
     }
+
 }

@@ -29,8 +29,9 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         this.intensityModule = intensityModule;
         highIntensityGun = createGun();
         setGunGraphic( highIntensityGun );
-
         addGunChooserGraphic();
+
+        super.addGunControlPanel();
 
         getIntensityDisplay().setHighIntensityMode();
 

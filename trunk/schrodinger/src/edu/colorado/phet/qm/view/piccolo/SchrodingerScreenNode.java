@@ -2,7 +2,10 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.BoundGraphic;
+import edu.colorado.phet.piccolo.ConnectorGraphic;
+import edu.colorado.phet.qm.HorizontalConnector;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -12,6 +15,7 @@ import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
 import edu.colorado.phet.qm.view.ClockGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolo.PNode;
@@ -26,6 +30,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +68,7 @@ public class SchrodingerScreenNode extends PNode {
     private Color TEXT_BACKGROUND = new Color( 255, 245, 190 );
     private PNode gunTypeChooserGraphic;
     private PSwing stopwatchPanelPSwing;
+    private PNode gunControlPanelPSwing;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -228,6 +237,17 @@ public class SchrodingerScreenNode extends PNode {
                                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
                 if( gunTypeChooserGraphic != null ) {
                     gunTypeChooserGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(), wavefunctionGraphic.getFullBounds().getMaxY() );
+                }
+                if( gunControlPanelPSwing != null ) {
+                    double insetY = 5;
+                    double screenHeight = schrodingerPanel.getHeight();
+                    //double xval = wavefunctionGraphic.getFullBounds().getMaxX();
+                    Point2D pt = new Point2D.Double();
+                    detectorSheetPNode.getDetectorSheetControlPanelPNode().localToGlobal( pt );
+                    globalToLocal( pt );
+
+                    gunControlPanelPSwing.setOffset( pt.getX(),
+                                                     screenHeight - gunControlPanelPSwing.getFullBounds().getHeight() - insetY );
                 }
             }
         }
@@ -411,5 +431,23 @@ public class SchrodingerScreenNode extends PNode {
 
     public void updateWaveGraphic() {
         wavefunctionGraphic.update();
+    }
+
+    public void setGunControlPanel( GunControlPanel gunControlPanel ) {
+        addChild( gunControlPanel.getPSwing() );
+        this.gunControlPanelPSwing = gunControlPanel.getPSwing();
+        relayout();
+
+        ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
+        BufferedImage txtr = null;
+        try {
+            txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        connectorGraphic.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, 0, txtr.getWidth() / 3.0, txtr.getHeight() / 3.0 ) ) );
+
+        addChild( 3, connectorGraphic );
     }
 }
