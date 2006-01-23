@@ -71,10 +71,6 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         setInterferingWaveMask();
     }
 
-    public double getLocation() {
-        return this.x;
-    }
-
     /**
      * @param theta
      */

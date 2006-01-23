@@ -20,48 +20,39 @@ import java.util.ArrayList;
 
 public class SoundApplication extends PhetApplication {
 
-    private static class SoundApplicationModel extends ApplicationModel {
 
-        public SoundApplicationModel() {
-            super( SimStrings.get( "SoundApplication.title" ),
-                   SimStrings.get( "SoundApplication.description" ),
-                   SimStrings.get( "SoundApplication.version" ),
-                   new FrameSetup.CenteredWithSize( 900, 750 ) );
+    public SoundApplication( String[] args ) {
 
-            // Must not be resizable, because the performance tanks when you make the
-            // window bigger. SHOULD BE FIXED!!!
-            getFrame().setResizable( false );
+        super( args, SimStrings.get( "SoundApplication.title" ),
+               SimStrings.get( "SoundApplication.description" ),
+               SimStrings.get( "SoundApplication.version" ),
+               new SoundClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ),
+               true,
+               new FrameSetup.CenteredWithSize( 900, 750 ) );
 
-            // Specify the clock
-            this.setClock( new SoundClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
-//            this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
-            this.setName( "sound" );
+        // Must not be resizable, because the performance tanks when you make the
+        // window bigger. SHOULD BE FIXED!!!
+        getPhetFrame().setResizable( false );
 
-            // Set up the modules
-            Module singleSourceModule = new SingleSourceListenModule( this );
-            Module measureModule = new SingleSourceMeasureModule( this );
-            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-            Module wallInterferenceModule = new WallInterferenceModule( this );
-            Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
-            this.setModules( new Module[]{singleSourceModule, measureModule,
-                                          twoSourceIntereferenceModule, wallInterferenceModule,
-                                          evacuatedBoxModule} );
-            this.setInitialModule( singleSourceModule );
-        }
-        
-         public String getName() {
-            return "sound";
-        }
-    }
+        // Set up the modules
+        Module singleSourceModule = new SingleSourceListenModule( this );
+        Module measureModule = new SingleSourceMeasureModule( this );
+        Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+        Module wallInterferenceModule = new WallInterferenceModule( this );
+        Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
+        this.setModules( new Module[]{singleSourceModule, measureModule,
+                                      twoSourceIntereferenceModule, wallInterferenceModule,
+                                      evacuatedBoxModule} );
+        this.setInitialModule( singleSourceModule );
 
-    public SoundApplication() {
-        super( new SoundApplicationModel() );
     }
 
     public static void main( String[] args ) {
         SimStrings.init( args, SoundConfig.localizedStringsPath );
 
-        PhetApplication app = new SoundApplication();
+        PhetApplication app = new SoundApplication( args );
+        app.getPhetFrame().setResizable( false );
+
         app.startApplication();
     }
 }

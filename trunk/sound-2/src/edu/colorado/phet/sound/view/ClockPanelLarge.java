@@ -11,7 +11,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
 
@@ -29,7 +29,8 @@ public class ClockPanelLarge extends JPanel {
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat = new DecimalFormat( "0.0000" );
     private String[] startStopStr;
-    private EventRegistry eventRegistry = new EventRegistry();
+    private EventChannel eventRegistry = new EventChannel( ClockPanelListener.class );
+    private ClockPanelListener clockPanelListenerProxy = (ClockPanelListener)eventRegistry.getListenerProxy();
     private JButton resetBtn;
 
     private ModelElement modelTickCounter;
@@ -114,7 +115,7 @@ public class ClockPanelLarge extends JPanel {
         ClockPanelEvent event = new ClockPanelEvent( this );
         event.setReset( true );
         event.setRunning( false );
-        eventRegistry.fireEvent( event );
+        clockPanelListenerProxy.clockPaneEventOccurred( event );
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
@@ -141,14 +142,14 @@ public class ClockPanelLarge extends JPanel {
                 model.addModelElement( modelTickCounter );
                 ClockPanelEvent event = new ClockPanelEvent( this );
                 event.setRunning( true );
-                eventRegistry.fireEvent( event );
+                clockPanelListenerProxy.clockPaneEventOccurred( event );
                 resetBtn.setEnabled( false );
             }
             else {
                 model.removeModelElement( modelTickCounter );
                 ClockPanelEvent event = new ClockPanelEvent( this );
                 event.setRunning( false );
-                eventRegistry.fireEvent( event );
+                clockPanelListenerProxy.clockPaneEventOccurred( event );
                 resetBtn.setEnabled( true );
             }
             startStopState = ( startStopState + 1 ) % 2;

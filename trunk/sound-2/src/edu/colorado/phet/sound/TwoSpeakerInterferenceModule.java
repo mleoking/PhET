@@ -17,6 +17,8 @@ import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.*;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -31,8 +33,8 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     private SoundModel soundModel;
     private boolean saveInterferenceOverideEnabled = false;
 
-    protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
-        super( appModel, SimStrings.get( "ModuleTitle.TwoSpeakerIntererence" ) );
+    protected TwoSpeakerInterferenceModule( SoundApplication application ) {
+        super( application, SimStrings.get( "ModuleTitle.TwoSpeakerIntererence" ) );
         soundModel = (SoundModel)getModel();
         speakerListener = new Listener( (SoundModel)getModel(),
                                         new Point2D.Double() );
@@ -41,7 +43,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         headListener = new Listener( (SoundModel)getModel(),
                                      new Point2D.Double() );
 
-        setApparatusPanel( new SoundApparatusPanel( soundModel, appModel.getClock() ) );
+        setApparatusPanel( new SoundApparatusPanel( soundModel, application.getClock() ) );
         initApparatusPanel();
         initControlPanel();
     }
@@ -54,7 +56,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
      * This initialization function must currently be called from activate(), because
      * it requires the main panel to be in place.
      */
-    public void initApparatusPanel() {
+    private void initApparatusPanel() {
         // Determine the origins of the interferning wavefronts
         audioSourceA = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                            SoundConfig.s_wavefrontBaseY - 120 );
@@ -63,7 +65,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        //        getSoundModel().getPrimaryWavefront().setOrigin( audioSourceA );
         BufferedWaveMediumGraphic wgA = new BufferedWaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
@@ -74,6 +75,13 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
         InteractiveSpeakerGraphic iSpeakerGraphicA = new InteractiveSpeakerGraphic( speakerGraphicA, wgA );
+//        iSpeakerGraphicA.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
+//                System.out.println( "audioSourceA.get = " + audioSourceA.get );
+//                audioSourceA.setLocation( isg.getAudioSourceLocation() );
+//            }
+//        } );
         getApparatusPanel().addGraphic( iSpeakerGraphicA, 8 );
 
         // Add the lower wave and speaker
@@ -95,7 +103,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILES[headImageIdx] );
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
-            head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
+            head.setLocation( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, headListener, head,
                                                                                (double)SoundConfig.s_headBaseX, (double)SoundConfig.s_headBaseY,
                                                                                (double)SoundConfig.s_headBaseX - 150, (double)SoundConfig.s_headBaseY - 200,
@@ -105,17 +113,18 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                                                                soundModel.getPrimaryWavefront(),
                                                                                iSpeakerGraphicA );
             this.addGraphic( listenerGraphic, 9 );
-            //            getApparatusPanel().addGraphic( listenerGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( SimStrings.get( "TwoSpeakerInterferenceModule.Help1" ),
+            HelpItem help1 = new HelpItem( getApparatusPanel(),
+                                           SimStrings.get( "TwoSpeakerInterferenceModule.Help1" ),
                                            SoundConfig.s_headBaseX,
                                            SoundConfig.s_headBaseY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( SimStrings.get( "TwoSpeakerInterferenceModule.Help2" ),
+            HelpItem help2 = new HelpItem( getApparatusPanel(),
+                                           SimStrings.get( "TwoSpeakerInterferenceModule.Help2" ),
                                            SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() - 120,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );

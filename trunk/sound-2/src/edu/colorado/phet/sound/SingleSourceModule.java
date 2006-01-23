@@ -7,6 +7,7 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.model.Wavefront;
@@ -22,18 +23,17 @@ import java.util.ArrayList;
  */
 public abstract class SingleSourceModule extends SoundModule {
     private WaveMedium waveMedium;
-    private WaveMediumGraphic waveMediumGraphic;
 
     /**
-     * @param appModel
+     * @param application
      * @param name
      */
-    protected SingleSourceModule( ApplicationModel appModel, String name ) {
-        super( appModel, name );
-        SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel(), appModel.getClock() );
+    protected SingleSourceModule( SoundApplication application, String name ) {
+        super( application, name );
+        SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel(), application.getClock() );
         this.setApparatusPanel( apparatusPanel );
 
-        /*final WaveMedium*/ waveMedium = ( (SoundModel)getModel() ).getWaveMedium();
+        waveMedium = ( (SoundModel)getModel() ).getWaveMedium();
         WaveMediumGraphic waveMediumGraphic = new WaveMediumGraphic( waveMedium, getApparatusPanel(), this );
         this.addGraphic( waveMediumGraphic, 7 );
         Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
@@ -41,10 +41,6 @@ public abstract class SingleSourceModule extends SoundModule {
         waveMediumGraphic.initLayout( audioSource,
                                       SoundConfig.s_wavefrontHeight,
                                       SoundConfig.s_wavefrontRadius );
-        initControlPanel();
-    }
-
-    private void initControlPanel() {
         this.setControlPanel( new SoundControlPanel( this ) );
     }
 
