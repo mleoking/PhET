@@ -320,10 +320,12 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 evaluateFieldPt( fieldPt );
             }
 
-            this.negPath = createSpline( latticePtsNeg );
-            this.posPath = createSpline( latticePtsPos );
-//            this.negPath = createCurves( latticePtsNeg );
-//            this.posPath = createCurves( latticePtsPos );
+            // The first two lines will create cubic splines through the arrow heads. The other two
+            // make piecewise linear curves through a finer-grained list of field points.
+//            this.negPath = createSpline( latticePtsNeg );
+//            this.posPath = createSpline( latticePtsPos );
+            this.negPath = createCurves( latticePtsNeg );
+            this.posPath = createCurves( latticePtsPos );
             addArrows( negArrows, latticePtsNeg );
             addArrows( posArrows, latticePtsPos );
         }
@@ -464,10 +466,10 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                                                      transmittingElectronOrigin.getY() ) );
             Vector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
-            if( yCurr != yLast ) {
+//            if( yCurr != yLast ) {
                 curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );
                 yLast = yCurr;
-            }
+//            }
         }
         curve.lineTo( xLimit, transmittingElectronOrigin.getY() + yCurr * xSign );
         return curve.getGeneralPath();

@@ -61,8 +61,8 @@ public class EmfApplication {
             }
         }
 
-//        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true  );
-        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
+        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true  );
+//        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
