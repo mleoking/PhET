@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.model.salt;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 
 import java.util.*;
+import java.security.InvalidParameterException;
 
 /**
  * Salt
@@ -82,7 +83,47 @@ public class Salt {
     public double getKsp() {
         return ksp;
     }
-    
+
+    /**
+     * Returns the number of anions in a unit lattice
+     * @return
+     */
+    public int getNumAnionsInUnit() {
+        Integer result = getNumIonsInUnit( anionClass );
+        if( result == null ) {
+            throw new InvalidParameterException( );
+        }
+        return result.intValue();
+    }
+
+    /**
+     * Returns the number of cations in a unit lattice
+     * @return
+     */
+    public int getNumCationsInUnit() {
+        Integer result = getNumIonsInUnit( cationClass );
+        if( result == null ) {
+            throw new InvalidParameterException( );
+        }
+        return result.intValue();
+    }
+
+    /**
+     * Returns the number of ions of a type in a unit lattice
+     * @param ionClass the class of ion we're interested in
+     * @return
+     */
+    private Integer getNumIonsInUnit( Class ionClass ) {
+        Integer result = null;
+        for( int i = 0; i < components.length; i++ ) {
+            Component component = components[i];
+            if( component.getIonClass() == ionClass ) {
+                result = component.getLatticeUnitFraction();
+            }
+        }
+        return result;
+    }
+
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------

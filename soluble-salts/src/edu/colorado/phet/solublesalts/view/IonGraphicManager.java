@@ -64,12 +64,6 @@ public class IonGraphicManager implements IonListener {
         imageMap.put( ion.getClass(), ig.getImage() );
     }
 
-    static private BufferedImage setColor( Color color, BufferedImage bImg ) {
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
-        return op.filter( bImg, null );
-    }
-
-
     static private IonGraphic createPImage( Ion ion ) {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
         boolean ionClassRecognized = false;
@@ -89,23 +83,20 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Silver ) {
-            ig.setColor( Color.black  );
+            ig.setColor( Color.black );
             ig.setPolarityMarkerColor( Color.black );
             ionClassRecognized = true;
         }
         if( ion instanceof Iodine ) {
-//            ig.setColor( Color.magenta );
-            ig.setColor( new Color(140, 100, 15) );
+            ig.setColor( new Color( 140, 100, 15 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Copper ) {
-            ig.setColor( new Color(4, 160, 80) );
-//            ig.setColor( Color.cyan );
+            ig.setColor( new Color( 4, 160, 80 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Hydroxide ) {
-//            ig.setColor( Color.orange );
-            ig.setColor( new Color(255,90,13) );
+            ig.setColor( new Color( 255, 90, 13 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Chromium ) {
@@ -117,7 +108,7 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Phosphate ) {
-            ig.setColor( new Color(20, 140, 30 ) );
+            ig.setColor( new Color( 20, 140, 30 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Mercury ) {
@@ -154,7 +145,9 @@ public class IonGraphicManager implements IonListener {
 
     public void ionRemoved( IonEvent event ) {
         IonGraphic ig = (IonGraphic)ionToGraphicMap.get( event.getIon() );
-        graphicContainer.removeChild( ig );
-        ionToGraphicMap.remove( event.getIon() );
+        if( ig != null ) {
+            graphicContainer.removeChild( ig );
+            ionToGraphicMap.remove( event.getIon() );
+        }
     }
 }

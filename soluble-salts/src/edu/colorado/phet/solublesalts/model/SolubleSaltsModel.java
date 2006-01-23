@@ -10,23 +10,19 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -250,10 +246,27 @@ public class SolubleSaltsModel extends BaseModel {
         return heatSource;
     }
 
-    public double getConcentration() {
-        int numIons = ionTracker.getIons().size();
+    /**
+     * The concentration factor is the concentration of anions raised to the power of the number of anions in
+     * a unit lattice, times the concentration of cations raised to the power of the number of cations in
+     * a unit lattice.
+     *
+     * @return
+     */
+    public double getConcentrationFactor() {
+
+
+        Salt salt = getCurrentSalt();
+        int numAnions = ionTracker.getNumIonsOfType( salt.getAnionClass() );
+        int numAnionsInUnit = salt.getNumAnionsInUnit();
+        int numCations = ionTracker.getNumIonsOfType( salt.getCationClass() );
+        int numCationsInUnit = salt.getNumCationsInUnit();
         double volume = vessel.getVolume();
-        return ( (double)numIons ) / volume;
+
+        double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
+                                     * Math.pow( ( numCations / volume ), numCationsInUnit )
+                                     * SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR;
+        return concentrationFactor;
     }
 
     public Shaker getShaker() {
@@ -408,15 +421,17 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void stepInTime( double dt ) {
-            nucleationEnabled = getConcentration() > ksp;
+            nucleationEnabled = getConcentrationFactor() > ksp;
 
             if( !nucleationEnabled ) {
-                while( !crystals.isEmpty() ) {
-                    Crystal crystal = (Crystal)crystals.get( 0 );
+                for( int j = 0; j < crystals.size(); j++ ) {
+                    Crystal crystal = (Crystal)crystals.get( j );
                     List ions = crystal.getIons();
                     for( int i = 0; i < ions.size(); i++ ) {
                         Ion ion = (Ion)ions.get( i );
-                        ion.unbindFrom( crystal );
+                        if( vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
+                            ion.unbindFrom( crystal );
+                        }
                     }
                 }
             }
