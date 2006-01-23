@@ -9,7 +9,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
-import edu.colorado.phet.qm.tests.TestGlassPane;
+//import edu.colorado.phet.qm.tests.TestGlassPane;
 
 /**
  * User: Sam Reid
@@ -52,20 +52,20 @@ public class SchrodingerApplication extends PhetApplication {
 //        testGlassPane( schrodingerApplication );
     }
 
-    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
-        TestGlassPane testGlassPane = new TestGlassPane( schrodingerApplication.getPhetFrame() );
-        schrodingerApplication.getPhetFrame().setGlassPane( testGlassPane );
-        testGlassPane.setVisible( true );
-
-//        JFrame frame2 = new JFrame();
-//        PSwingCanvas pSwingCanvas = new PSwingCanvas();
-//        pSwingCanvas.setSize( 600, 600 );
-//        pSwingCanvas.setPreferredSize( new Dimension( 600, 600 ) );
-//        pSwingCanvas.getLayer().addChild( new PSwing( pSwingCanvas, (JComponent)schrodingerApplication.getPhetFrame().getContentPane() ) );
-//        frame2.setContentPane( pSwingCanvas );
-//        frame2.setVisible( true );
-//        pSwingCanvas.setPanEventHandler( null);
-
-    }
+//    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
+//        TestGlassPane testGlassPane = new TestGlassPane( schrodingerApplication.getPhetFrame() );
+//        schrodingerApplication.getPhetFrame().setGlassPane( testGlassPane );
+//        testGlassPane.setVisible( true );
+//
+////        JFrame frame2 = new JFrame();
+////        PSwingCanvas pSwingCanvas = new PSwingCanvas();
+////        pSwingCanvas.setSize( 600, 600 );
+////        pSwingCanvas.setPreferredSize( new Dimension( 600, 600 ) );
+////        pSwingCanvas.getLayer().addChild( new PSwing( pSwingCanvas, (JComponent)schrodingerApplication.getPhetFrame().getContentPane() ) );
+////        frame2.setContentPane( pSwingCanvas );
+////        frame2.setVisible( true );
+////        pSwingCanvas.setPanEventHandler( null);
+//
+//    }
 
 }
