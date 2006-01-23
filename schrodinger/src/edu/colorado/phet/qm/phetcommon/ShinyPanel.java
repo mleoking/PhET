@@ -33,6 +33,10 @@ public class ShinyPanel extends JPanel {
     protected void paintComponent( Graphics g ) {
         Color lightGray = new Color( 192, 192, 192 );
         Color shadedGray = new Color( 228, 228, 228 );
+
+//        Color lightGray = Color.gray;
+//        Color shadedGray = Color.lightGray;
+
         GradientPaint gradientPaint = new GradientPaint( 0, 0, lightGray, getWidth() / 2, getHeight() / 2, shadedGray, true );
         Graphics2D g2 = (Graphics2D)g;
         g2.setPaint( gradientPaint );

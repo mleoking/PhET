@@ -16,7 +16,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
     private SchrodingerModule module;
 
     public ExpandableDoubleSlitPanel( final SchrodingerModule module ) {
-        super( "Double Slits >>", "Disable <<" );
+        super( "Double Slits >>", "Disable Slits<<" );
         this.module = module;
         addControlFullWidth( new DoubleSlitControlPanel( module.getDiscreteModel(), module ) );
         addListener( new Listener() {
