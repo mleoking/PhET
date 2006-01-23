@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,7 @@ import java.util.Map;
 public class DefaultGunParticle extends GunParticle {
     private JSlider velocitySlider;
     protected VerticalLayoutPanel controlPanel;
-    private PSwing controlPanelPSwing;
+//    private PSwing controlPanelPSwing;
     private ParticleUnits particleUnits;
 
     public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation, ParticleUnits particleUnits ) {
@@ -41,13 +40,13 @@ public class DefaultGunParticle extends GunParticle {
 
         controlPanel = new VerticalLayoutPanel();
         controlPanel.addFullWidth( velocitySlider );
-        controlPanelPSwing = new PSwing( gunGraphic.getComponent(), controlPanel );
+//        controlPanelPSwing = new PSwing( gunGraphic.getComponent(), controlPanel );
     }
 
     public void activate( AbstractGunGraphic gunGraphic ) {
         getSchrodingerModule().setUnits( particleUnits );
         getDiscreteModel().setPropagator( createPropagator() );
-        gunGraphic.setGunControls( controlPanelPSwing );
+        gunGraphic.setGunControls( controlPanel );
 
     }
 

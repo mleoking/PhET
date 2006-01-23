@@ -61,9 +61,9 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
             leftGun.setOffset( new Point2D.Double( origGunLoc.getX() - dx, origGunLoc.getY() - dy ) );
             rightGun.setOffset( new Point2D.Double( origGunLoc.getX() + dx, origGunLoc.getY() - dy ) );
         }
-        if( getGunControls() != null ) {
-            getGunControls().setOffset( getGunControlPSwing().getFullBounds().getX(), getGunControlPSwing().getFullBounds().getMaxY() );
-        }
+//        if( getGunControls() != null ) {
+//            getGunControls().setOffset( getGunControlPSwing().getFullBounds().getX(), getGunControlPSwing().getFullBounds().getMaxY() );
+//        }
     }
 
     protected double getControlOffsetX() {
