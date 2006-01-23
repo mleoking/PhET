@@ -58,6 +58,7 @@ public class SchrodingerScreenNode extends PNode {
     private StopwatchPanel stopwatchPanel;
     private ParticleUnits particleUnits = new ParticleUnits.ElectronUnits();
     private Color TEXT_BACKGROUND = new Color( 255, 245, 190 );
+    private PNode gunTypeChooserGraphic;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -224,6 +225,9 @@ public class SchrodingerScreenNode extends PNode {
                 detectorSheetPNode.setAlignment( wavefunctionGraphic );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
                                               wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
+                if( gunTypeChooserGraphic != null ) {
+                    gunTypeChooserGraphic.setOffset( wavefunctionGraphic.getFullBounds().getX(), wavefunctionGraphic.getFullBounds().getMaxY() );
+                }
             }
         }
     }
@@ -388,5 +392,12 @@ public class SchrodingerScreenNode extends PNode {
         child.addChild( shadowPText );
         child.setOffset( abstractGunGraphic.getFullBounds().getX(), abstractGunGraphic.getFullBounds().getY() );
         timer.start();
+    }
+
+    public void setGunTypeChooserGraphic( PNode chooser ) {
+        addChild( chooser );
+        this.gunTypeChooserGraphic = chooser;
+        invalidateLayout();
+        repaint();
     }
 }
