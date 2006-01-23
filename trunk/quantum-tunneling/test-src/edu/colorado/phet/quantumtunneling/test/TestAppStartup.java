@@ -47,7 +47,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
- * TestAppStartup
+ * TestAppStartup tests a start up problem with PhET simulations.
+ * This problem seems to occur on Windows in simulatons that use
+ * Piccolo and JFreeChart. The "play area" is painted, but all 
+ * other module panels (control panel, clock controls, etc)
+ * are blank.  If the user takes some action to cause a repaint
+ * (eg, opening a dialog) then the blank panels are repainted.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -56,7 +61,6 @@ public class TestAppStartup extends PhetApplication {
     
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 0.1; // model time: dt per clock tick
-    private static final String CLOCK_DISPLAY_PATTERN = "0.0"; // should match precision of MODEL_RATE
     
     private static final double MIN_X = 0;
     private static final double MAX_X = 200;
@@ -80,6 +84,7 @@ public class TestAppStartup extends PhetApplication {
     {
         super( args, "TestAppStartUp", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
         
+        // Add one module to the application...
         IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );
         Module module = new TestModule( clock );
         addModule( module );
@@ -92,35 +97,22 @@ public class TestAppStartup extends PhetApplication {
         private PhetPCanvas _canvas;
         private PSwing _pButton;
         private JFreeChartNode _chartNode;
-        
+   
         public TestModule( IClock clock ) {
-            super( "TestModule", clock, true /* clockStartsPaused */ );
+            super( "TestModule", clock );
             
             setLogoPanel( null );
             
             // Model
             {
-                _series = new XYSeries( "Chaos" );
+                _series = new XYSeries( "Random data" );
                 
-                // Update the data model when the clock ticks...
-                ClockListener clockListener = new ClockAdapter() {
-                    private DecimalFormat _clockFormat = new DecimalFormat( CLOCK_DISPLAY_PATTERN );
-                    
+                getClock().addClockListener( new ClockAdapter() {
+                    // update the model when the clock ticks
                     public void clockTicked( ClockEvent event ) {
-                        updateSeries();
+                        updateModel();
                     }
-                    
-                    private void updateSeries() {
-                        _series.setNotify( false );
-                        _series.clear();
-                        for ( double x = MIN_X; x <= MAX_X + DX; x += DX ) {
-                            double y = MIN_Y + ( Math.random() * ( MAX_Y - MIN_Y ) );
-                            _series.add( x, y );
-                        }
-                        _series.setNotify( true );
-                    }
-                };
-                getClock().addClockListener( clockListener );
+                } );
             }
             
             // Play area
@@ -131,6 +123,7 @@ public class TestAppStartup extends PhetApplication {
                 _canvas.setBackground( BACKGROUND );
                 _canvas.addComponentListener( new ComponentAdapter() { 
                     public void componentResized( ComponentEvent event ) {
+                        // layout the canvas when its size changes
                         layoutCanvas();
                     }
                 } );
@@ -146,8 +139,8 @@ public class TestAppStartup extends PhetApplication {
                 parentNode.addChild( _pButton );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), 
-                                "<html>That's enough singing for now, lads...<br>looks like there's dirty work afoot.</html>" );
+                        Frame frame = PhetApplication.instance().getPhetFrame();
+                        JOptionPane.showMessageDialog( frame, "Press OK" );
                     }
                 } );
                 
@@ -166,6 +159,8 @@ public class TestAppStartup extends PhetApplication {
                 chart.setBackgroundPaint( BACKGROUND );
                 _chartNode = new JFreeChartNode( chart );
                 parentNode.addChild( _chartNode );
+                
+                layoutCanvas();
             }
             
             // Control panel
@@ -177,7 +172,17 @@ public class TestAppStartup extends PhetApplication {
                 controlPanel.addControl( new JCheckBox( "See no evil" ) );
                 controlPanel.addControl( new JCheckBox( "Hear no evil" ) );
                 controlPanel.addControl( new JCheckBox( "Speak no evil" ) );
+                controlPanel.addControlFullWidth( new JSeparator() );
+                controlPanel.addControl( new JCheckBox( "short clowns" ) );
+                controlPanel.addControl( new JCheckBox( "tall clowns" ) );
+                controlPanel.addControl( new JCheckBox( "fat clowns" ) );
+                controlPanel.addControl( new JCheckBox( "skinny clowns" ) );
                 controlPanel.addControl( new JButton( "Release the Clowns" ) );
+                controlPanel.addControlFullWidth( new JSeparator() );
+                controlPanel.addControl( new JCheckBox( "lights" ) );
+                controlPanel.addControl( new JCheckBox( "camera" ) );
+                controlPanel.addControl( new JCheckBox( "action" ) );
+                controlPanel.addControlFullWidth( new JSeparator() );
                 controlPanel.addControl( new JButton( "Check email..." ) );
                 controlPanel.addControl( new JButton( "Take a nap" ) );
                 controlPanel.addControlFullWidth( new JSeparator() );
@@ -186,6 +191,7 @@ public class TestAppStartup extends PhetApplication {
                 JButton resetButton = new JButton( "Reset All" );
                 controlPanel.addControl( resetButton );
                 resetButton.addActionListener( new ActionListener() {
+                    // reset after confirming
                     public void actionPerformed( ActionEvent e ) {
                         Frame frame = PhetApplication.instance().getPhetFrame();
                         int rval = JOptionPane.showConfirmDialog( frame, "Reset all settings?", "Confirm", JOptionPane.YES_NO_OPTION );
@@ -195,29 +201,33 @@ public class TestAppStartup extends PhetApplication {
                     }
                 } );
             }
-            
-            layoutCanvas();
-            
-            // Start the clock
-            getClock().start();
         }
         
         private void layoutCanvas() {
             
             final double margin = 10;
             
-            AffineTransform t1 = new AffineTransform();
-            t1.translate( margin, margin );
-            _pButton.setTransform( t1 );
+            // PSwing button
+            _pButton.setOffset( margin, margin );
             
+            // Chart
             double x = margin;
             double y = margin + _pButton.getFullBounds().getHeight() + margin;
             double w = _canvas.getWidth() - ( 2 * margin );
             double h = _canvas.getHeight() - ( 2 * margin ) - y;
             _chartNode.setBounds( 0, 0, w, h );
-            AffineTransform t2 = new AffineTransform();
-            t2.translate( x, y );
-            _chartNode.setTransform( t2 );
+            _chartNode.setOffset( x, y );
+        }
+        
+        private void updateModel() {
+            // Randomly generate some data...
+            _series.setNotify( false );
+            _series.clear();
+            for ( double x = MIN_X; x <= MAX_X + DX; x += DX ) {
+                double y = MIN_Y + ( Math.random() * ( MAX_Y - MIN_Y ) );
+                _series.add( x, y );
+            }
+            _series.setNotify( true );
         }
     }
 }
