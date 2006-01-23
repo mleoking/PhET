@@ -11,20 +11,19 @@
 
 package edu.colorado.phet.jfreechart.piccolo;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.util.List;
-
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.event.ChartChangeEvent;
 import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.*;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PPaintContext;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 
 /**
@@ -90,14 +89,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
 
     /**
-     * Forces an update of the chart rendering info, which is normally
-     * not updated until the next call to paint.
+     * Forces an update of the chart rendering info,
+     * normally not updated until the next call to paint.
      */
     public void updateChartRenderingInfo() {
         BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
-        PPaintContext paintContext = new PPaintContext( g2 );
-        paint( paintContext );
+        _chart.draw( g2, getBounds(), _info );
     }
 
     /**
@@ -120,13 +118,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Only combined charts have subplots.
      *
      * @param subplotIndex
-     * @throws IndexOutOfBoundsException if subplotIndex is out of bounds
      * @return
+     * @throws IndexOutOfBoundsException if subplotIndex is out of bounds
      */
     public Rectangle2D getDataArea( int subplotIndex ) {
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
-        if ( subplotIndex >= plotInfo.getSubplotCount() ) {
+        if( subplotIndex >= plotInfo.getSubplotCount() ) {
             throw new IndexOutOfBoundsException( "subplotIndex is out of range: " + subplotIndex );
         }
         PlotRenderingInfo subplotInfo = plotInfo.getSubplotInfo( subplotIndex );
@@ -145,12 +143,12 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     private XYPlot getXYPlot() {
         XYPlot plot = null;
-        if ( _chart.getPlot() instanceof XYPlot ) {
-            plot = (XYPlot) _chart.getPlot();
+        if( _chart.getPlot() instanceof XYPlot ) {
+            plot = (XYPlot)_chart.getPlot();
         }
         else {
             throw new UnsupportedOperationException(
-                "only works for charts whose primary plot is an XYPlot" );
+                    "only works for charts whose primary plot is an XYPlot" );
         }
         return plot;
     }
@@ -168,22 +166,22 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         List subplots = null;
         Plot plot = _chart.getPlot();
-        if ( plot instanceof CombinedDomainXYPlot ) {
-            CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) plot;
+        if( plot instanceof CombinedDomainXYPlot ) {
+            CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot)plot;
             subplots = combinedPlot.getSubplots();
         }
-        else if ( plot instanceof CombinedRangeXYPlot ) {
-            CombinedRangeXYPlot combinedPlot = (CombinedRangeXYPlot) plot;
+        else if( plot instanceof CombinedRangeXYPlot ) {
+            CombinedRangeXYPlot combinedPlot = (CombinedRangeXYPlot)plot;
             subplots = combinedPlot.getSubplots();
         }
         else {
             throw new UnsupportedOperationException(
-                "only works for for charts whose primary plot is a CombinedDomainXYPlot or CombinedRangeXYPlot" );
+                    "only works for for charts whose primary plot is a CombinedDomainXYPlot or CombinedRangeXYPlot" );
         }
-        if ( subplotIndex >= subplots.size() ) {
+        if( subplotIndex >= subplots.size() ) {
             throw new IndexOutOfBoundsException( "subplotIndex is out of range: " + subplotIndex );
         }
-        subplot = (XYPlot) subplots.get( subplotIndex );
+        subplot = (XYPlot)subplots.get( subplotIndex );
 
         return subplot;
     }
