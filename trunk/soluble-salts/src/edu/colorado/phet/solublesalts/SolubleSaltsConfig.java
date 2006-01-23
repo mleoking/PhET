@@ -84,4 +84,5 @@ public class SolubleSaltsConfig {
     public static double BINDING_DISTANCE_FACTOR = 2;
     public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
     public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.01;
+    public static double CONCENTRATION_CALIBRATION_FACTOR = 1E-6;
 }

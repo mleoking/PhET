@@ -90,17 +90,27 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     private ModelSlider vesselIonStickSlider;
     private ModelSlider dissociationSlider;
 
+    /**
+     * Constructor
+     * @param module
+     */
     public SolubleSaltsControlPanel( final SolubleSaltsModule module ) {
         super( module );
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
         JPanel concentrationPanel = makeConcentrationPanel( model );
-        JPanel saltPanel = new JPanel( new GridLayout( 3, 1 ) );
+        JPanel saltPanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
+                                                         1,1,1,1,
+                                                         GridBagConstraints.WEST,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0,0,0,0),0,0);
+//        JPanel saltPanel = new JPanel( new GridLayout( 3, 1 ) );
         saltPanel.setBorder( new EtchedBorder() );
-        saltPanel.add( makeSaltSelectionPanel( model ) );
+        saltPanel.add( makeSaltSelectionPanel( model ), gbc );
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
-        saltPanel.add( saltSPinnerPanel );
+        saltPanel.add( saltSPinnerPanel, gbc );
         addControlFullWidth( saltPanel );
         addControl( concentrationPanel );
 
@@ -206,9 +216,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
      * @return
      */
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
+        final DecimalFormat concentrationFormat = new DecimalFormat( "0.00E00" );
         final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-16, 0 );
-        kspSlider.setSliderLabelFormat( new DecimalFormat( "0E00" ) );
-        kspSlider.setTextFieldFormat( new DecimalFormat( "0E00" ) );
+        kspSlider.setSliderLabelFormat( concentrationFormat );
+        kspSlider.setTextFieldFormat(concentrationFormat);
         kspSlider.setNumMajorTicks( 3 );
         kspSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -227,26 +238,45 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         final JTextField concentrationTF = new JTextField( 8 );
         model.addModelElement( new ModelElement() {
-            DecimalFormat format = new DecimalFormat( "0E00" );
-
             public void stepInTime( double dt ) {
-                double concentration = model.getConcentration();
-                concentrationTF.setText( format.format( concentration ) );
+                double concentration = model.getConcentrationFactor();
+                concentrationTF.setText( concentrationFormat.format( concentration ) );
+            }
+        } );
+
+        // DEBUG
+        final ModelSlider calibFactorSlider = new ModelSlider( "Calibration Factor",
+                                                               "",
+                                                               0,
+                                                               1E-5,
+                                                               SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
+                                                               concentrationFormat );
+        calibFactorSlider.setSliderLabelFormat( concentrationFormat );
+        calibFactorSlider.setTextFieldFormat(concentrationFormat);
+        calibFactorSlider.setNumMajorTicks( 3 );
+        calibFactorSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = calibFactorSlider.getValue();
             }
         } );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         panel.setBorder( BorderFactory.createTitledBorder( "Concentration" ) );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
+
         gbc.gridwidth = 2;
         panel.add( kspSlider, gbc );
         gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add( new JLabel( "Concentration:" ), gbc );
+        panel.add( new JLabel( "Conc. factor:" ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add( concentrationTF, gbc );
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        panel.add( calibFactorSlider, gbc );
 
         return panel;
     }
