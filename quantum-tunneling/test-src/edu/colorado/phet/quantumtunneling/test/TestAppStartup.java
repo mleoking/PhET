@@ -15,11 +15,20 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.data.Range;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -29,6 +38,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.quantumtunneling.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -45,6 +55,12 @@ public class TestAppStartup extends PhetApplication {
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 0.1; // model time: dt per clock tick
     private static final String CLOCK_DISPLAY_PATTERN = "0.0"; // should match precision of MODEL_RATE
+    
+    private static final double MIN_X = 0;
+    private static final double MAX_X = 200;
+    private static final double DX = 10;
+    private static final double MIN_Y = 0;
+    private static final double MAX_Y = 100;
     
     public static void main( final String[] args ) {
         try {
@@ -63,11 +79,10 @@ public class TestAppStartup extends PhetApplication {
         IClock clock = new SwingClock( 1000 / CLOCK_RATE, new TimingStrategy.Constant( MODEL_RATE ) );
         Module module = new TestModule( clock );
         addModule( module );
-        
-        Thread.currentThread().sleep( 5 * 1000 );
     }
     
     private static class TestModule extends PiccoloModule {
+        private XYSeries _series;
         private PText _textNode;
         
         public TestModule( IClock clock ) {
@@ -82,15 +97,27 @@ public class TestAppStartup extends PhetApplication {
                     
                     public void clockTicked( ClockEvent event ) {
                         updateTimeDisplay( event.getSimulationTime() );
+                        updateSeries();
                     }
                     
                     public void simulationTimeReset( ClockEvent event ) {
                         updateTimeDisplay( event.getSimulationTime() );
+                        updateSeries();
                     }
                     
                     private void updateTimeDisplay( double time ) {
                         String s = _clockFormat.format( time );
                         _textNode.setText( "t = " + s );
+                    }
+                    
+                    private void updateSeries() {
+                        _series.setNotify( false );
+                        _series.clear();
+                        for ( double x = MIN_X; x <= MAX_X + DX; x += DX ) {
+                            double y = MIN_Y + ( Math.random() * ( MAX_Y - MIN_Y ) );
+                            _series.add( x, y );
+                        }
+                        _series.setNotify( true );
                     }
                 };
                 getClock().addClockListener( clockListener );
@@ -110,7 +137,7 @@ public class TestAppStartup extends PhetApplication {
                 JButton jButton = new JButton( "JButton" );
                 jButton.setOpaque( false );
                 PSwing pSwing = new PSwing( canvas, jButton );
-                pSwing.translate( 300, 100 );
+                pSwing.translate( 10, 10 );
                 parentNode.addChild( pSwing );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -120,9 +147,27 @@ public class TestAppStartup extends PhetApplication {
                 
                 // Text node
                 _textNode = new PText( "PText" );
-                _textNode.translate( 300, 300 );
+                _textNode.translate( 10, 500 );
                 _textNode.scale( 2 );
                 parentNode.addChild( _textNode );
+                
+                // Chart
+                _series = new XYSeries( "Chaos" );
+                XYDataset dataset = new XYSeriesCollection( _series );
+                XYPlot plot = new XYPlot();
+                plot.setDataset( dataset );
+                ValueAxis xAxis = new NumberAxis( "X" );
+                xAxis.setRange( MIN_X, MAX_X );
+                plot.setDomainAxis( xAxis );
+                ValueAxis yAxis = new NumberAxis( "Y" );
+                yAxis.setRange( MIN_Y, MAX_Y );
+                plot.setRangeAxis( yAxis );
+                plot.setRenderer( new StandardXYItemRenderer() );
+                JFreeChart chart = new JFreeChart( plot );
+                JFreeChartNode chartNode = new JFreeChartNode( chart );
+                chartNode.setBounds( 0, 0, 600, 400 );
+                chartNode.translate( 10, 70 );
+                parentNode.addChild( chartNode );
             }
             
             // Control panel
