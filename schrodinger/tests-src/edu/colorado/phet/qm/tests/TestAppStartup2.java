@@ -41,12 +41,14 @@ public class TestAppStartup2 {
             }
         } );
         t.setPriority( Thread.MAX_PRIORITY );
-        t.start();
+
         frame.setSize( 400, 400 );
         frame.setVisible( true );
+        t.start();
+        Thread.sleep( 3000 );
 
-        Thread.sleep( 5000 );
         running = false;
+
     }
 
     static class TestPanel extends JPanel {
