@@ -193,7 +193,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                model.reset();
                 Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
                 model.reset();
@@ -538,7 +537,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                     cationRatio = component.getLatticeUnitFraction().intValue();
                 }
             }
-            anionSpinner.setModel( new SpinnerNumberModel( 0, 0, 100, anionRatio ) );
+            anionSpinner.setModel( new SpinnerNumberModel( 0, 0, 200, anionRatio ) );
             anionSpinner.removeChangeListener( anionSpinnerListener );
             anionSpinnerListener = new IonSpinnerChangeListener( anionSpinner,
                                                                  cationSpinner,
@@ -547,7 +546,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                                  cationRatio );
             anionSpinner.addChangeListener( anionSpinnerListener );
 
-            cationSpinner.setModel( new SpinnerNumberModel( 0, 0, 100, cationRatio ) );
+            cationSpinner.setModel( new SpinnerNumberModel( 0, 0, 200, cationRatio ) );
             cationSpinner.removeChangeListener( cationSpinnerListener );
             cationSpinnerListener = new IonSpinnerChangeListener( cationSpinner,
                                                                   anionSpinner,
