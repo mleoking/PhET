@@ -385,7 +385,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     /**
      * Panel with spinners to add and remove ions from the model
      */
-    private class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.ChangeListener {
+    private class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.ChangeListener,
+                                                             Ion.ChangeListener {
         Salt salt;
         IonSpinner anionSpinner;
         IonSpinner cationSpinner;
@@ -398,50 +399,66 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         public JLabel cationLabel;
         public IonSpinnerChangeListener anionSpinnerListener;
         public IonSpinnerChangeListener cationSpinnerListener;
+        private JTextField numFreeAnionTF;
+        private JTextField numFreeCationTF;
 
         public SaltSpinnerPanel( final SolubleSaltsModel model ) {
             super( new GridBagLayout() );
             this.model = model;
             model.addChangeListener( this );
 
-            GridBagConstraints gbc = new DefaultGridBagConstraints();
-            gbc.insets = new Insets( 5, 0, 0, 0 );
-            gbc.gridwidth = 1;
-
             // Make labels with the names of the ions and icons that corresponds to the ions graphics
             anionClass = model.getCurrentSalt().getCationClass();
             String anionName = getIonName( anionClass );
             anionLabel = new JLabel( anionName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.LEADING );
             anionLabel.setPreferredSize( new Dimension( 100, 20 ) );
-            gbc.anchor = GridBagConstraints.WEST;
-            add( anionLabel, gbc );
 
             cationClass = model.getCurrentSalt().getCationClass();
             String cationName = getIonName( anionClass );
             cationLabel = new JLabel( cationName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.LEADING );
             anionLabel.setPreferredSize( new Dimension( 100, 20 ) );
-            gbc.gridy++;
-            gbc.anchor = GridBagConstraints.WEST;
-            add( cationLabel, gbc );
 
             // Make the spinners
             anionSpinner = new IonSpinner();
             cationSpinner = new IonSpinner();
+
+            // Make readouts for the number of free ions
+            numFreeAnionTF = new JTextField( "", 4 );
+            numFreeAnionTF.setEditable( false );
+            numFreeCationTF = new JTextField( "", 4 );
+            numFreeCationTF.setEditable( false );
+
+            GridBagConstraints gbc = new DefaultGridBagConstraints();
+            gbc.insets = new Insets( 5, 0, 0, 0 );
+            gbc.gridwidth = 1;
+            gbc.anchor = GridBagConstraints.WEST;
+            add( anionLabel, gbc );
+            gbc.gridy++;
+            gbc.anchor = GridBagConstraints.WEST;
+            add( cationLabel, gbc );
             gbc.gridx = 1;
             gbc.gridy = 0;
             add( anionSpinner, gbc );
             gbc.gridy++;
             add( cationSpinner, gbc );
 
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            add( numFreeAnionTF, gbc );
+            gbc.gridy = 1;
+            add( numFreeCationTF, gbc );
+
             setSalt( model.getCurrentSalt() );
 
             model.addIonListener( new IonListener() {
                 public void ionAdded( IonEvent event ) {
                     syncSpinnersWithModel();
+                    event.getIon().addChangeListener( SaltSpinnerPanel.this );
                 }
 
                 public void ionRemoved( IonEvent event ) {
                     syncSpinnersWithModel();
+                    event.getIon().removeChangeListener( SaltSpinnerPanel.this );
                 }
             } );
         }
@@ -453,6 +470,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             cationSpinner.setSyncWithDependentIonspinner( false );
             cationSpinner.setValue( new Integer( model.getNumIonsOfType( cationClass ) ) );
             cationSpinner.setSyncWithDependentIonspinner( true );
+            numFreeAnionTF.setText( new Integer( model.getNumFreeIonsOfType( anionClass )).toString() );
+            numFreeCationTF.setText( new Integer( model.getNumFreeIonsOfType( cationClass )).toString() );
         }
 
         public void setSalt( Salt salt ) {
@@ -506,6 +525,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                                   cationRatio,
                                                                   anionRatio );
             cationSpinner.addChangeListener( cationSpinnerListener );
+        }
+
+        public void stateChanged( Ion.ChangeEvent event ) {
+            syncSpinnersWithModel();
         }
 
         public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {

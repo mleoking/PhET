@@ -39,12 +39,15 @@ public class Shaker extends Particle {
     private double orientation = Math.PI / 4;
     private double openingLength;
     private Salt currentSalt = SolubleSaltsConfig.DEFAULT_SALT;
+    // Max y position that the shaker can be. This prevents it from getting in the water
+    private double maxY;
 
     boolean done;   // debug tool
 
     public Shaker( SolubleSaltsModel model ) {
         this.model = model;
         openingLength = 80;
+        maxY = model.getVessel().getLocation().getY();
     }
 
     public void setCurrentSalt( Salt currentSalt ) {
@@ -53,6 +56,10 @@ public class Shaker extends Particle {
 
     public Salt getCurrentSalt() {
         return currentSalt;
+    }
+
+    public double getMaxY() {
+        return maxY;
     }
 
     public void reset() {

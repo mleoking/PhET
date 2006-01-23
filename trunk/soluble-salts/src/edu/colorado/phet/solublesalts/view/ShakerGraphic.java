@@ -44,7 +44,7 @@ public class ShakerGraphic extends RegisterablePNode {
 
             public void mouseEntered( PInputEvent event ) {
                 PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
-                ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ));
+                ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
             }
 
             public void mouseExited( PInputEvent event ) {
@@ -55,8 +55,11 @@ public class ShakerGraphic extends RegisterablePNode {
             public void mouseDragged( PInputEvent event ) {
                 double dy = event.getDelta().getHeight();
                 Point2D p = getOffset();
-                setOffset( p.getX(), p.getY() + dy );
-                ShakerGraphic.this.shaker.shake( dy );
+                double y = p.getY() + dy;
+                if( y <= ShakerGraphic.this.shaker.getMaxY() ) {
+                    setOffset( p.getX(), p.getY() + dy );
+                    ShakerGraphic.this.shaker.shake( dy );
+                }
             }
 
             public void mousePressed( PInputEvent event ) {

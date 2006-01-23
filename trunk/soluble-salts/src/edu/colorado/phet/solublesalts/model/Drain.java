@@ -15,6 +15,7 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Drain
@@ -29,6 +30,9 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     public static Orientation VERTICAL = new Orientation();
 
     private Line2D opening;
+    // Distance, in ion radii, between an ion and the drain opening that will cause the ion to be
+    // captured by the drain when it's open
+    private int ionCaptureDistance = 8;
 
     public Drain( SolubleSaltsModel model, Point2D location, double openingHeight, Orientation orientation  ) {
         super( model );
@@ -60,12 +64,17 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
             double volume = vessel.getWaterLevel() - getFlow() / area;
             vessel.setWaterLevel( volume );
 
+            ArrayList capturedIons = new ArrayList();
             List ions = getModel().getIons();
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
-                if( opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * 4 ) {
-                    getModel().removeModelElement( ion );
+                if( opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * ionCaptureDistance ) {
+                    capturedIons.add( ion );
                 }
+            }
+            for( int i = 0; i < capturedIons.size(); i++ ) {
+                Ion ion = (Ion)capturedIons.get( i );
+                getModel().removeModelElement( ion );
             }
         }
     }

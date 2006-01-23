@@ -92,9 +92,11 @@ ignorepath      (those elements of the ant classpath that should not be
         <javac srcdir="${src}" destdir="${classes}">
             <src path="${project_home}/piccolo-phet-module/src"/>
             <src path="${project_home}/piccolo-phet-module/piccolo-module/src"/>
+            <src path="${project_home}/piccolo-phet-module/piccolo-module/extras"/>
             <src path="${project_home}/piccolo-phet-module/phetcommon-module/src"/>
             <src path="${project_home}/mechanics-module/src"/>
             <src path="${project_home}/collision-module/src"/>
+            <exclude name="${project_home}/piccolo-phet-module/piccolo-module/extras/edu/umd/cs/piccolox/swt/**"/>
         </javac>
     </target>
 
@@ -108,7 +110,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="${project_home}/phetcommon/data"/>
+            <fileset dir="${project_home}/piccolo-phet-module/phetcommon-module/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>

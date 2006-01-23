@@ -83,8 +83,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 // Set the sign of gamma based on whether the ion is above or below the diagonal throught the water
                 Line2D.Double diagonal = new Line2D.Double( drain.getPosition(), urc );
                 int dir = diagonal.relativeCCW( ion.getPosition() );
-                gamma = Math.abs( gamma );
-                gamma *= dir;
+//                gamma = Math.abs( gamma );
+//                gamma *= dir;
                 v.rotate( gamma );
 
                 // If the flow rate out of the vessel has changed, modify the magnitude of the ion's
