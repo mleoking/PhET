@@ -7,7 +7,6 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ScalarObservable;
@@ -37,8 +36,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private DialGauge pressureGauge;
     final int maxDensity = 200;
 
-    protected SingleSourceWithBoxModule( ApplicationModel appModel ) {
-        super( appModel, SimStrings.get( "ModuleTitle.SingelSourceWithBox" ) );
+    protected SingleSourceWithBoxModule( SoundApplication application ) {
+        super( application, SimStrings.get( "ModuleTitle.SingelSourceWithBox" ) );
         init();
     }
 
@@ -62,7 +61,9 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                                        SimStrings.get( "SingleSourceWithBoxModule.Pressure" ),
                                        SimStrings.get( "SingleSourceWithBoxModule.ATM" ) );
         Rectangle2D.Double gaugeStem = new Rectangle2D.Double( x - 5, y + diam / 2, 10, 20 );
-        pressureGauge.addGraphic( new ShapeGraphic( gaugeStem, Color.black ), 6 );
+
+        // todo: updated 1/21/06
+        pressureGauge.addGraphic( new PhetShapeGraphic( getApparatusPanel(), gaugeStem, Color.black ), 6 );
 
         SoundModel soundModel = (SoundModel)getModel();
         WaveMedium waveMedium = soundModel.getWaveMedium();

@@ -35,30 +35,35 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
     private boolean closkWasPausedOnActivate;
 
     /**
-     * @param appModel
+     * @param application
      */
-    protected SingleSourceMeasureModule( ApplicationModel appModel ) {
-        super( appModel, SimStrings.get( "ModuleTitle.SingleSourceMeasure" ) );
+    protected SingleSourceMeasureModule( SoundApplication application ) {
+        super( application, SimStrings.get( "ModuleTitle.SingleSourceMeasure" ) );
 
-        clock = appModel.getClock();
+        clock = application.getClock();
 
         // Add the ruler
         try {
             BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
             PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi );
-            ruler.setPosition( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
-            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(), ruler,
-                                                                         new Point2D.Double( 200, 100 ) );
+            ruler.setLocation( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
+            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(),
+                                                                         ruler,
+                                                                         new Point2D.Double( SoundConfig.s_meterStickBaseX,
+                                                                                             SoundConfig.s_meterStickBaseY ));
             this.addGraphic( meterStickGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( SimStrings.get( "SingleSourceMeasureModule.Help1" ),
-                                           200, 100 + ruler.getImage().getHeight(),
+            HelpItem help1 = new HelpItem( getApparatusPanel(),
+                                           SimStrings.get( "SingleSourceMeasureModule.Help1" ),
+                                           SoundConfig.s_meterStickBaseX,
+                                           SoundConfig.s_meterStickBaseY + ruler.getImage().getHeight(),
                                            HelpItem.RIGHT, HelpItem.BELOW );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( SimStrings.get( "SingleSourceMeasureModule.Help2" ),
+            HelpItem help2 = new HelpItem( getApparatusPanel(),
+                                           SimStrings.get( "SingleSourceMeasureModule.Help2" ),
                                            s_guidelineBaseX + 30, 70,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );
@@ -74,16 +79,15 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         this.addGraphic( guideline2, 10 );
 
         // Control Panel
-        setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
+        setControlPanel( new MeasureControlPanel( this, application.getClock() ) );
 
         // Stopwatch window
-        stopwatchDlg = new JDialog( appModel.getFrame(), "Stopwatch", false );
+        stopwatchDlg = new JDialog( application.getPhetFrame(), "Stopwatch", false );
         ClockPanelLarge clockPanel = new ClockPanelLarge( getModel() );
-//        ClockPanelLarge clockPanel = new ClockPanelLarge( appModel.getClock() );
         clockPanel.addListener( new StopwatchListener( this ) );
         stopwatchDlg.setContentPane( clockPanel );
         stopwatchDlg.setLocation( 0, 0 );
-        stopwatchDlg.setLocationRelativeTo( appModel.getFrame() );
+        stopwatchDlg.setLocationRelativeTo( application.getPhetFrame() );
         stopwatchDlg.setUndecorated( true );
         stopwatchDlg.setResizable( false );
         stopwatchDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );

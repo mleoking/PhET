@@ -49,12 +49,14 @@ public class SoundModule extends Module implements RgbReporter {
     private AbstractClock clock;
 
     /**
-     * @param appModel
+     * @param application
      * @param name
      */
-    public SoundModule( ApplicationModel appModel, String name ) {
+    public SoundModule( SoundApplication application, String name ) {
+//    public SoundModule( ApplicationModel appModel, String name ) {
         super( name );
-        clock = appModel.getClock();
+        clock = application.getClock();
+//        clock = appModel.getClock();
         this.setModel( new SoundModel( clock ) );
         initModel();
         speakerListener = new Listener( (SoundModel)getModel(),

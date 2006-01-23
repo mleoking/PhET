@@ -6,26 +6,27 @@
  */
 package edu.colorado.phet.sound.view;
 
-
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.util.Translatable;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class VerticalGuideline extends DefaultInteractiveGraphic {
+public class VerticalGuideline extends CompositePhetGraphic {
     private int xLocation;
 
     public VerticalGuideline( final Component component, Color color, int position ) {
         super( null );
         final VerticalLine verticalLine = new VerticalLine( component, color, position );
-        setBoundedGraphic( verticalLine );
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
+        addGraphic( verticalLine );
+        this.setCursor( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
         this.xLocation = position;
-        this.addTranslationBehavior( new Translatable() {
-            public void translate( double dx, double dy ) {
-                xLocation += dx;
+        this.addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent event) {
+                xLocation += event.getDx();
                 verticalLine.setLocation( xLocation );
                 component.repaint();
             }

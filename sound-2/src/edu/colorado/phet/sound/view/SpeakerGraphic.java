@@ -16,6 +16,7 @@ import edu.colorado.phet.sound.model.WaveMedium;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.io.IOException;
 
 public class SpeakerGraphic extends CompositePhetGraphic {
@@ -51,7 +52,7 @@ public class SpeakerGraphic extends CompositePhetGraphic {
 
             public void update() {
                 int coneOffset = (int)( waveMedium.getAmplitudeAt( 0 ) / SoundConfig.s_maxAmplitude * s_maxSpeakerConeExcursion );
-                speakerCone.setPosition( (int)location.getX() + s_speakerConeOffsetX + coneOffset,
+                speakerCone.setLocation( (int)location.getX() + s_speakerConeOffsetX + coneOffset,
                                          (int)location.getY() - speakerConeImg.getHeight( null ) / 2 );
             }
         } );
@@ -59,12 +60,12 @@ public class SpeakerGraphic extends CompositePhetGraphic {
 
     public void setLocation( int x, int y ) {
         this.location.setLocation( x, y );
-        speakerFrame.setPosition( x, y - speakerFrameImg.getHeight( null ) / 2 );
-        speakerCone.setPosition( x + s_speakerConeOffsetX, y - speakerConeImg.getHeight( null ) / 2 );
+        speakerFrame.setLocation( x, y - speakerFrameImg.getHeight( null ) / 2 );
+        speakerCone.setLocation( x + s_speakerConeOffsetX, y - speakerConeImg.getHeight( null ) / 2 );
     }
 
-    public Point2D.Double getLocation() {
-        return location;
+    public Point getLocation() {
+        return new Point( (int)location.getX(), (int)location.getY() );
     }
 
     protected void syncBounds() {
@@ -72,7 +73,7 @@ public class SpeakerGraphic extends CompositePhetGraphic {
     }
 
     public void setConePosition( int x ) {
-        speakerCone.setPosition( (int)location.getX() + s_speakerConeOffsetX + x,
+        speakerCone.setLocation( (int)location.getX() + s_speakerConeOffsetX + x,
                                  (int)location.getY() - speakerConeImg.getHeight( null ) / 2 );
     }
 }

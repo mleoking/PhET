@@ -7,7 +7,7 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
@@ -25,28 +25,24 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class SoundControlPanel extends PhetControlPanel {
-    private ControlPanel soundControlPanel;
+//public class SoundControlPanel extends JPanel {
+
+public class SoundControlPanel extends ControlPanel {
+    private MyControlPanel soundControlPanel;
     private int rowIdx = 0;
     private AmplitudeControlPanel amplitudeControlPanel;
 
     public SoundControlPanel( Module module ) {
         super( module );
-        soundControlPanel = new ControlPanel( module );
-        super.setControlPane( soundControlPanel );
+        soundControlPanel = new MyControlPanel( module );
+        addControl( soundControlPanel );
     }
 
     public void addPanel( JPanel panel ) {
-        try {
-            GraphicsUtil.addGridBagComponent( soundControlPanel, panel,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
-        super.adjustLayout();
+        GridBagConstraints gbc = new GridBagConstraints( 0, rowIdx++, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        soundControlPanel.add( panel, gbc );
     }
 
     public void setAmplitude( double amplitude ) {
@@ -59,9 +55,9 @@ public class SoundControlPanel extends PhetControlPanel {
     //
     // Inner classes for the component panels
     //
-    private class ControlPanel extends JPanel {
+    private class MyControlPanel extends JPanel {
 
-        ControlPanel( Module module ) {
+        MyControlPanel( Module module ) {
             //            final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
             //            drawTestCB.addActionListener( new ActionListener() {
             //                public void actionPerformed( ActionEvent e ) {
@@ -73,20 +69,14 @@ public class SoundControlPanel extends PhetControlPanel {
             if( !( module.getModel() instanceof SoundModel ) ) {
                 throw new RuntimeException( "Type of parameter is invalid" );
             }
-            try {
-                GraphicsUtil.addGridBagComponent( this, new FrequencyControlPanel( (SoundModel)module.getModel() ),
-                                                  0, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                amplitudeControlPanel = new AmplitudeControlPanel( (SoundModel)module.getModel() );
-                GraphicsUtil.addGridBagComponent( this, amplitudeControlPanel,
-                                                  0, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();
-            }
+            GridBagConstraints gbc = new GridBagConstraints( 0, rowIdx++, 1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.HORIZONTAL,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            add( new FrequencyControlPanel( (SoundModel)module.getModel() ), gbc );
+            gbc.gridy = rowIdx++;
+            amplitudeControlPanel = new AmplitudeControlPanel( (SoundModel)module.getModel() );
+            add( amplitudeControlPanel, gbc );
         }
     }
 

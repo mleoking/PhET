@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ScalarObservable;
 import edu.colorado.phet.coreadditions.ScalarObserver;
@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
 // todo: add min and max limits to needle
 // todo: add ScalarObservable interface and ScalarObserver interface
 
-public class DialGauge extends CompositeGraphic implements ScalarObserver {
+public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
     private ScalarObservable dataSource;
     private String title;

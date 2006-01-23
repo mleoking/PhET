@@ -8,17 +8,21 @@ package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-public class InterferenceListenerGraphic extends ListenerGraphic implements InteractiveSpeakerGraphic.MouseReleaseListener {
+public class InterferenceListenerGraphic extends ListenerGraphic {
 
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
@@ -34,7 +38,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
                                         PhetImageGraphic image, double x, double y,
                                         double minX, double minY,
                                         double maxX, double maxY,
-                                        Point2D.Double audioSourceA,
+                                        final Point2D.Double audioSourceA,
                                         Point2D.Double audioSourceB,
                                         Wavefront interferringWavefront,
                                         InteractiveSpeakerGraphic moveableSpeaker ) {
@@ -44,28 +48,22 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         this.audioSourceA = audioSourceA;
         this.audioSourceB = audioSourceB;
         this.interferringWavefront = interferringWavefront;
-        moveableSpeaker.addListener( this );
+
+        addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent translationEvent ) {
+                updateAmplitude();
+            }
+        } );
+
+        moveableSpeaker.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
+                InterferenceListenerGraphic.this.audioSourceA.setLocation( isg.getLocation() );
+                updateAmplitude();
+            }
+        } );
+
         updateAmplitude();
-    }
-
-    /**
-     * @param event
-     */
-    public void mouseDragged( MouseEvent event ) {
-        super.mouseDragged( event );
-        if( soundModule.getCurrentListener() == getListener() ) {
-            updateAmplitude();
-        }
-    }
-
-    /**
-     * @param e
-     */
-    public void mouseReleased( MouseEvent e ) {
-        super.mouseReleased( e );
-        if( soundModule.getCurrentListener() == getListener() ) {
-            updateAmplitude();
-        }
     }
 
     /**
@@ -100,6 +98,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         // amplitudes times the cosine of the phase angle
         double amplitudeA = soundModel.getAmplitude();
         double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ) );
+
         soundModule.getPrimaryOscillator().setAmplitude( maxAmplitude );
     }
 
@@ -111,36 +110,39 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         this.audioSourceB = audioSourceB;
     }
 
-    public void mouseReleased( final InteractiveSpeakerGraphic interactiveGraphic ) {
-        // Determine how far away the speaker that moved is, then set a
-        // timer to wait until the first wave leaving it now will reach us.
-        // When the timer pops, update our amplitude
-        double dist = this.getLocation().distance( interactiveGraphic.getAudioSourceLocation() );
-        final double numTimeSteps = dist / SoundConfig.PROPOGATION_SPEED;
-        Thread sleeper = new Thread( new Runnable() {
-            int counter;
-
-            public void run() {
-                ModelElement counterModelElement = new ModelElement() {
-                    public synchronized void stepInTime( double dt ) {
-                        counter++;
-                    }
-                };
-                InterferenceListenerGraphic.this.soundModel.addModelElement( counterModelElement );
-                while( counter < numTimeSteps ) {
-                    try {
-                        Thread.sleep( 50 );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                }
-                soundModel.removeModelElement( counterModelElement );
-                audioSourceA = interactiveGraphic.getAudioSourceLocation();
-                InterferenceListenerGraphic.this.updateAmplitude();
-                System.out.println( "!!!" );
-            }
-        } );
-        sleeper.start();
-    }
+//    public void mouseReleased( final InteractiveSpeakerGraphic interactiveGraphic ) {
+//
+//        System.out.println( "InterferenceListenerGraphic.mouseReleased" );
+//
+//        // Determine how far away the speaker that moved is, then set a
+//        // timer to wait until the first wave leaving it now will reach us.
+//        // When the timer pops, update our amplitude
+//        double dist = this.getLocation().distance( interactiveGraphic.getAudioSourceLocation() );
+//        final double numTimeSteps = dist / SoundConfig.PROPOGATION_SPEED;
+//        Thread sleeper = new Thread( new Runnable() {
+//            int counter;
+//
+//            public void run() {
+//                ModelElement counterModelElement = new ModelElement() {
+//                    public synchronized void stepInTime( double dt ) {
+//                        counter++;
+//                    }
+//                };
+//                InterferenceListenerGraphic.this.soundModel.addModelElement( counterModelElement );
+//                while( counter < numTimeSteps ) {
+//                    try {
+//                        Thread.sleep( 50 );
+//                    }
+//                    catch( InterruptedException e ) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                soundModel.removeModelElement( counterModelElement );
+//                audioSourceA = interactiveGraphic.getAudioSourceLocation();
+//                InterferenceListenerGraphic.this.updateAmplitude();
+//                System.out.println( "!!!" );
+//            }
+//        } );
+//        sleeper.start();
+//    }
 }

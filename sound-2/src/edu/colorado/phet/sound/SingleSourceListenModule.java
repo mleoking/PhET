@@ -31,19 +31,20 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private AudioControlPanel audioControlPanel;
     private ListenerGraphic listenerGraphic;
 
-    public SingleSourceListenModule( ApplicationModel appModel ) {
-        this( appModel, SimStrings.get( "ModuleTitle.SingleSourceListen" ) );    }
+    public SingleSourceListenModule( SoundApplication application ) {
+        this( application, SimStrings.get( "ModuleTitle.SingleSourceListen" ) );
+    }
 
-    public SingleSourceListenModule( ApplicationModel appModel, boolean showListener ) {
-        this( appModel );
+    public SingleSourceListenModule( SoundApplication application, boolean showListener ) {
+        this( application );
         if( !showListener ) {
             getApparatusPanel().removeGraphic( listenerGraphic );
             audioControlPanel.setAudioAtSpeakerOnly( true );
         }
     }
 
-    protected SingleSourceListenModule( ApplicationModel appModel, String title ) {
-        super( appModel, title );
+    protected SingleSourceListenModule( SoundApplication application, String title ) {
+        super( application, title );
         init();
     }
 
@@ -63,7 +64,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILES[headImageIdx] );
             //            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
-            head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
+            head.setLocation( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             listenerGraphic = new ListenerGraphic( this, headListener, head,
                                                    SoundConfig.s_headBaseX, SoundConfig.s_headBaseY + headOffsetY,
                                                    SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY + headOffsetY,
@@ -71,7 +72,8 @@ public class SingleSourceListenModule extends SingleSourceModule {
             this.addGraphic( listenerGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( SimStrings.get( "SingleSourceListenModule.help1" ),
+            HelpItem help1 = new HelpItem( getApparatusPanel(),
+                                           SimStrings.get( "SingleSourceListenModule.help1" ),
                                            SoundConfig.s_headBaseX,
                                            SoundConfig.s_headBaseY + headOffsetY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );

@@ -94,8 +94,8 @@ public class SoundConfig {
     public static int s_headBaseY = s_speakerBaseY;
     public static int s_headAudioOffsetX = -12;
 
-    public static int s_meterStickBaseX = 400;
-    public static int s_meterStickBaseY = 500;
+    public static int s_meterStickBaseX = 200;
+    public static int s_meterStickBaseY = 100;
 
     public static double HELP_LAYER = Double.MAX_VALUE;
 }

@@ -6,9 +6,12 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.util.Translatable;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.Listener;
@@ -17,9 +20,11 @@ import edu.colorado.phet.sound.model.SoundModel;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.LinkedList;
 
-public class ListenerGraphic extends DefaultInteractiveGraphic {
+public class ListenerGraphic extends CompositePhetGraphic {
+//public class ListenerGraphic extends DefaultInteractiveGraphic {
 
     //
     // Static fields and methods
@@ -47,16 +52,18 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
                             double x, double y,
                             double minX, double minY,
                             double maxX, double maxY ) {
-        super( image );
+        super( module.getApparatusPanel() );
+        addGraphic( image );
         this.location = new Point2D.Double( x, y );
         this.module = module;
         this.model = (SoundModel)module.getModel();
         this.image = image;
         this.listener = listener;
 
-        this.addCursorHandBehavior();
+        this.setCursorHand();
         ListenerTranslationBehavior target = new ListenerTranslationBehavior( minX, minY, maxX, maxY );
-        this.addTranslationBehavior( target );
+        this.addTranslationListener( target );
+
         // Do this to make the listener update
         target.translate( 0, 0 );
     }
@@ -68,18 +75,19 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     public void setMovable( boolean movable ) {
         isMovable = movable;
         if( movable ) {
-            this.addCursorHandBehavior();
+            this.setCursorHand();
         }
         else {
-            this.removeCursorHandBehavior();
+            this.removeCursor();
         }
     }
 
-    protected Point2D.Double getLocation() {
-        return location;
+
+    public Point getLocation() {
+        return new Point( (int)location.getX(), (int)location.getY() );
     }
 
-    private class ListenerTranslationBehavior implements Translatable {
+    private class ListenerTranslationBehavior implements TranslationListener {
         private double minX;
         private double minY;
         private double maxX;
@@ -92,18 +100,23 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             this.maxY = maxY;
         }
 
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            translate( translationEvent.getDx(), translationEvent.getDy() );
+        }
+
         public void translate( double dx, double dy ) {
             if( isMovable ) {
                 double x = Math.max( minX, Math.min( maxX, location.getX() + dx ) );
                 double y = Math.max( minY, Math.min( maxY, location.getY() + dy ) );
                 location.setLocation( x, y );
-                image.setPosition( (int)x, (int)y );
+                image.setLocation( (int)x, (int)y );
 
                 ListenerGraphic.this.earLocation.setLocation( ListenerGraphic.this.getLocation().getX() + s_earOffsetX,
                                                               ListenerGraphic.this.getLocation().getY() + s_earOffsetY );
                 // The hard-coded 100 is to account for the width of the speaker graphic. It should be done in a
                 // different way
-                listener.setLocation( new Point2D.Double( earLocation.x - ( SoundConfig.s_wavefrontBaseX + 100 ), earLocation.y - SoundConfig.s_wavefrontBaseY ) );
+                listener.setLocation( new Point2D.Double( earLocation.x - ( SoundConfig.s_wavefrontBaseX + 100 ),
+                                                          earLocation.y - SoundConfig.s_wavefrontBaseY ) );
             }
         }
     }
@@ -120,8 +133,6 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
      * @param event
      */
     public void mousePressed( MouseEvent event ) {
-        super.mousePressed( event );
-
         // Record the frequency when we started dragging, and the point that
         // the graphic is at in the X axis. These will be used to compute
         // the Doppler-shifted frequency
@@ -139,7 +150,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         // Drawing the graphic later seems to smooth out the waveform graphic drawing somewhat
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                ListenerGraphic.super.mouseDragged( event );
+//                ListenerGraphic.super.mouseDragged( event );
             }
         } );
 
@@ -187,7 +198,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
      * @param e
      */
     public void mouseReleased( MouseEvent e ) {
-        super.mouseReleased( e );
+//        super.mouseReleased( e );
         if( module.getCurrentListener() == this.getListener() ) {
             module.setOscillatorDopplerFrequency( nonDopplerFrequency );
         }
@@ -197,6 +208,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         return listener;
     }
 
+    // DEBUG
     //    public void paint( Graphics2D g ) {
     //        super.paint( g );
     //        g.setColor( Color.red );
