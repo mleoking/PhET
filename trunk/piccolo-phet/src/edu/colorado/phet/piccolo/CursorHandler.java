@@ -83,28 +83,36 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     public void mouseEntered( PInputEvent event ) {
+        pushCursor( event );
+    }
+
+    public void mouseExited( PInputEvent event ) {
+        popCursor( event );
+    }
+
+    public void mousePressed( PInputEvent event ) {
+        pushCursor( event );
+    }
+
+    public void mouseReleased( PInputEvent event ) {
+        popCursor( event );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Cursor push/pop
+    //----------------------------------------------------------------------------
+    
+    private void pushCursor( PInputEvent event ) {
         event.getComponent().pushCursor( cursor );
     }
-
-    //Error handling for case in which: pnode in pcanvas embedded in pswing inside pcanvas in jframe
-    public void mouseExited( PInputEvent event ) {
-        popMe( event );
-    }
-
-    private void popMe( PInputEvent event ) {
+    
+    private void popCursor( PInputEvent event ) {
+        // Exception handling for case in which: pnode in pcanvas embedded in pswing inside pcanvas in jframe
         try {
             event.getComponent().popCursor();
         }
         catch( Exception e ) {
             e.printStackTrace();
         }
-    }
-
-    public void mousePressed( PInputEvent event ) {
-        event.getComponent().pushCursor( cursor );
-    }
-
-    public void mouseReleased( PInputEvent event ) {
-        popMe( event );
     }
 }
