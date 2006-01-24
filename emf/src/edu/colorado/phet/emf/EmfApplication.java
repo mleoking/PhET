@@ -120,7 +120,8 @@ public class EmfApplication {
 //        } );
 //        optionsMenu.add( centerSingleVectorRowOffsetMI );
 //        centerSingleVectorRowOffsetMI.setSelected( true );
-        frame.addMenu( optionsMenu );
+
+//        frame.addMenu( optionsMenu );
 
         // Prevent the frame from being resized
         frame.setResizable( false );
