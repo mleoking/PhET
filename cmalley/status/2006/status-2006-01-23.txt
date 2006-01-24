@@ -1,0 +1,35 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 01/17/06-01/23/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - changed "Reset" button to "Reset All", add confirmation dialog
+  - changed "Measure" button to "Measure Position", relocate to play area
+  - increased size of chart fonts
+  - default to running clock
+  - localized all confirmation and message dialogs
+  - simplified code that does play area layout
+  - reimplemented total energy display (new algorithm)
+  - added zoom feature
+  - added color legend to "Wave Function" views
+  - moved "Show energy values" from Options menu to control panel
+  - published 0.0.9
+  
+  phetcommon:
+  - identified cause of drawing bugs; overuse of event-dispatch thread [with Sam R.]
+  
+WHAT'S NEXT:
+ 
+  o address thread issues in phetcommon
+  
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+ISSUES:
+
+  o none
+
+-- 
