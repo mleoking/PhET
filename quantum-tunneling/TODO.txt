@@ -66,6 +66,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/23/06) - wrote UtilClock that uses java.util.Timer
+(1/23/06) - phetcommon: issues identified, too much stuff in event-dispatch thread!
 (1/23/06) - phetcommon: test program to show that startup repaint problems are not specific to QT
 (1/20/06) - look for redundant method calls in for loops (didn't find any)
 0.0.9 ...
