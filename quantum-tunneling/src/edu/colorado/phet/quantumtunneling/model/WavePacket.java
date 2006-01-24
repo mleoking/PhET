@@ -13,11 +13,15 @@ package edu.colorado.phet.quantumtunneling.model;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.util.Distribution;
+import edu.colorado.phet.quantumtunneling.util.Distribution.DistributionAccessor;
 
 
 /**
@@ -73,6 +77,14 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     }
     
     //----------------------------------------------------------------------------
+    // AbstractWave implementation
+    //----------------------------------------------------------------------------
+    
+    public boolean isInitialized() {
+        return ( _te != null && _pe != null );
+    }
+    
+    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
@@ -121,14 +133,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         return _center;
     }
     
-    public boolean isInitialized() {
-        return ( _te != null && _pe != null );
-    }
-    
-    //----------------------------------------------------------------------------
-    // AbstractWave implementation
-    //----------------------------------------------------------------------------
-    
     public void setTotalEnergy( TotalEnergy te ) {
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -175,6 +179,12 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
 
+    /**
+     * Enables measuring.
+     * Note that each time this is called with true, the wave packet should be measured again.
+     * 
+     * @param enabled true or false
+     */
     public void setMeasureEnabled( boolean enabled ) {
         boolean wasMeasureEnabled = _measureEnabled;
         _measureEnabled = enabled;
@@ -184,11 +194,11 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
                 _saveWidth = _width;
             }
             setNotifyEnabled( false );
-            setCenter( chooseRandomCenter() );
+            setCenter( chooseRandomPosition() );
             setWidth( QTConstants.MEASURING_WIDTH );
             setNotifyEnabled( true );
         }
-        if ( !enabled && wasMeasureEnabled ) {
+        else if ( !enabled && wasMeasureEnabled ) {
             setNotifyEnabled( false );
             setCenter( _saveCenter );
             setWidth( _saveWidth );
@@ -196,12 +206,31 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
     }
     
-    //XXX adhoc implementation, replace with Sam M's algorithm
-    private double chooseRandomCenter() {
-        final double min = QTConstants.POSITION_RANGE.getLowerBound();
-        final double max = QTConstants.POSITION_RANGE.getUpperBound();
-        final double randomCenter = min + ( Math.random() * ( max - min ) );
-        return randomCenter;
+    /*
+     * Select a random position, weighted by the probability density.
+     * The probability that a particle is at a particular sample position
+     * is given by abs( Psi[x,t] )^2 * dx, where dx is the space between
+     * sample positions.
+     * 
+     * @return a position
+     */
+    private double chooseRandomPosition() {
+        double center = 0;
+        double[] positions = _solver.getPositions();
+        Complex[] energies = _solver.getEnergies();
+        if ( positions.length > 1 ) {
+            double dx = positions[1] - positions[0];
+            Distribution distribution = new Distribution();
+            for ( int i = 0; i < positions.length; i++ ) {
+                double abs = energies[i].getAbs();
+                double weight = abs * abs * dx;
+                distribution.add( new Double( positions[i] ), weight );
+            }
+            DistributionAccessor accessor = new DistributionAccessor( distribution, new Random() );
+            Object o = accessor.get();
+            center = ((Double)o).doubleValue();
+        }
+        return center;
     }
     
     //----------------------------------------------------------------------------
