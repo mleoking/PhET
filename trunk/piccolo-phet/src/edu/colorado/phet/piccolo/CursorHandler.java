@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.piccolo;
 
+import java.awt.Cursor;
+
+import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
 
 /**
  * CursorHandler handles cursor behavior for interactive PNodes.
@@ -83,33 +84,37 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     public void mouseEntered( PInputEvent event ) {
-        pushCursor( event );
+        pushCursor( event.getComponent() );
     }
 
     public void mouseExited( PInputEvent event ) {
-        popCursor( event );
+        popCursor( event.getComponent() );
     }
 
     public void mousePressed( PInputEvent event ) {
-        pushCursor( event );
+        pushCursor( event.getComponent() );
     }
 
     public void mouseReleased( PInputEvent event ) {
-        popCursor( event );
+        popCursor( event.getComponent() );
     }
     
     //----------------------------------------------------------------------------
     // Cursor push/pop
     //----------------------------------------------------------------------------
     
-    private void pushCursor( PInputEvent event ) {
-        event.getComponent().pushCursor( cursor );
+    private void pushCursor( PComponent component ) {
+        component.pushCursor( cursor );
     }
     
-    private void popCursor( PInputEvent event ) {
-        // Exception handling for case in which: pnode in pcanvas embedded in pswing inside pcanvas in jframe
+    private void popCursor( PComponent component ) {
+        /* 
+         * Exception handling for case in which: 
+         * PNode in PCanvas embedded in PSwing inside PCanvas in JFrame.
+         * This can result in too many pops.
+         */
         try {
-            event.getComponent().popCursor();
+            component.popCursor();
         }
         catch( Exception e ) {
             e.printStackTrace();
