@@ -65,6 +65,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+0.0.10 ...
 (1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
 (1/23/06) - wrote UtilClock that uses java.util.Timer
 (1/23/06) - phetcommon: issues identified, too much stuff in event-dispatch thread!
