@@ -110,11 +110,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "width must be > 0: " + width );
         }
-        if ( width != _width ) {
-            _width = width;
-            _solver.update();
-            notifyObservers();
-        }
+        _width = width;
+        _solver.update();
+        notifyObservers();
     }
     
     public double getWidth() {
@@ -122,11 +120,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     }
     
     public void setCenter( double center ) {
-        if ( center != _center ) {
-            _center = center;
-            _solver.update();
-            notifyObservers();
-        }
+        _center = center;
+        _solver.update();
+        notifyObservers();
     }
     
     public double getCenter() {
@@ -227,7 +223,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
                 distribution.add( new Double( positions[i] ), weight );
             }
             DistributionAccessor accessor = new DistributionAccessor( distribution, new Random() );
-            Object o = accessor.get();
+            Object o = accessor.nextObject();
             center = ((Double)o).doubleValue();
         }
         return center;
