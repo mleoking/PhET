@@ -59,33 +59,33 @@ public class TestGlassPane extends PCanvas {
 
         for( int i = 0; i < container.getComponentCount(); i++ ) {
             Component c = container.getComponent( i );
+            if( c.isVisible() ) {
+                if( c instanceof JButton ) {
+                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
+                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
+                    path.setPaint( Color.red );
+                    path.setOffset( loc );
+                    getLayer().addChild( path );
+                }
+                else if( c instanceof JCheckBox ) {
+                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
+                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
+                    path.setPaint( Color.blue );
+                    path.setOffset( loc );
+                    getLayer().addChild( path );
+                }
+                else if( c instanceof JSlider ) {
+                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
+                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
+                    path.setPaint( Color.green );
+                    path.setOffset( loc );
+                    getLayer().addChild( path );
+                }
 
-            if( c instanceof JButton ) {
-                Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                path.setPaint( Color.red );
-                path.setOffset( loc );
-                getLayer().addChild( path );
+                else if( c instanceof Container ) {
+                    showAll( (Container)c );
+                }
             }
-            else if( c instanceof JCheckBox ) {
-                Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                path.setPaint( Color.blue );
-                path.setOffset( loc );
-                getLayer().addChild( path );
-            }
-            else if( c instanceof JSlider ) {
-                Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                path.setPaint( Color.green );
-                path.setOffset( loc );
-                getLayer().addChild( path );
-            }
-
-            else if( c instanceof Container ) {
-                showAll( (Container)c );
-            }
-
         }
     }
 }
