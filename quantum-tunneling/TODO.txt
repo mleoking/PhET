@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wave packet is not always shown with width=0.1nm when Measure button is pressed
 - move non-Swing stuff out of event-dispatch thread
 - decide whether to replace Richardson with Falstad model
 
@@ -66,6 +65,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/24/06) - bugfix: wave packet is not always shown with width=0.1nm when Measure button is pressed
 0.0.10 ...
 (1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
 (1/23/06) - wrote UtilClock that uses java.util.Timer

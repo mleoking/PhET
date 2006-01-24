@@ -43,6 +43,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double _width;
     private double _center;
     private WavePacketSolver _solver;
+    private boolean _solverDirty;
     private boolean _measureEnabled;
     private double _saveCenter;
     private double _saveWidth;
@@ -60,6 +61,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _solver = new WavePacketSolver( this );
+        _solverDirty = true;
         _measureEnabled = false;
         _saveCenter = _center;
         _saveWidth = _width;
@@ -96,8 +98,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         if ( enabled != _enabled ) {
             _enabled = enabled;
             if ( _enabled ) {
-                _solver.update();
-                notifyObservers();
+                _solverDirty = true;
             }
         }
     }
@@ -111,8 +112,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             throw new IllegalArgumentException( "width must be > 0: " + width );
         }
         _width = width;
-        _solver.update();
-        notifyObservers();
+        _solverDirty = true;
     }
     
     public double getWidth() {
@@ -121,8 +121,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     
     public void setCenter( double center ) {
         _center = center;
-        _solver.update();
-        notifyObservers();
+        _solverDirty = true;
     }
     
     public double getCenter() {
@@ -159,8 +158,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void setDirection( Direction direction ) {
         _direction = direction;
-        _solver.update();
-        notifyObservers();
+        _solverDirty = true;
     }
 
     public Direction getDirection() {
@@ -189,16 +187,14 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
                 _saveCenter = _center;
                 _saveWidth = _width;
             }
-            setNotifyEnabled( false );
             setCenter( chooseRandomPosition() );
             setWidth( QTConstants.MEASURING_WIDTH );
-            setNotifyEnabled( true );
+            _solverDirty = true;
         }
         else if ( !enabled && wasMeasureEnabled ) {
-            setNotifyEnabled( false );
             setCenter( _saveCenter );
             setWidth( _saveWidth );
-            setNotifyEnabled( true );
+            _solverDirty = true;
         }
     }
     
@@ -234,10 +230,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( _enabled ) {
-            _solver.update();
-            notifyObservers();    
-        }
+        _solverDirty = true;
     }
 
     //----------------------------------------------------------------------------
@@ -245,9 +238,15 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     //----------------------------------------------------------------------------
 
     public void clockTicked( ClockEvent clockEvent ) {
-        if ( _enabled ) {
-            for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
-                _solver.propogate();
+        if ( _enabled && isInitialized() ) {
+            if ( _solverDirty ) {
+                _solver.update();
+                _solverDirty = false;
+            }
+            else {
+                for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
+                    _solver.propogate();
+                }
             }
             notifyObservers();
         }
@@ -260,8 +259,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public void simulationTimeChanged( ClockEvent clockEvent ) {}
 
     public void simulationTimeReset( ClockEvent clockEvent ) {
-        if ( _enabled ) {
+        if ( _enabled && isInitialized() ) {
             _solver.update();
+            _solverDirty = false;
             notifyObservers();
         }
     }
