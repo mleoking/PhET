@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- wave packet is not always shown with width=0.1nm when Measure button is pressed
 - move non-Swing stuff out of event-dispatch thread
 - decide whether to replace Richardson with Falstad model
 
