@@ -267,7 +267,7 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( _wave != null && _wave.isInitialized() && observable == _wave ) {
+        if ( _wave != null && observable == _wave ) {
             updateDatasets();
         }
     }
@@ -277,14 +277,16 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
-        setSeriesNotify( false );
-        if ( _wave instanceof PlaneWave ) {
-            updateDataSet( (PlaneWave) _wave );
+        if ( _wave != null && _wave.isInitialized() ) {
+            setSeriesNotify( false );
+            if ( _wave instanceof PlaneWave ) {
+                updateDataSet( (PlaneWave) _wave );
+            }
+            else if ( _wave instanceof WavePacket ) {
+                updateDataSet( (WavePacket) _wave );
+            }
+            setSeriesNotify( true );
         }
-        else if ( _wave instanceof WavePacket ) {
-            updateDataSet( (WavePacket) _wave );
-        }
-        setSeriesNotify( true );
     }
     
     /*
