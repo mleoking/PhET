@@ -18,95 +18,131 @@ import java.util.*;
 /**
  * Distribution is a collection of objects with scalar weights.
  *
- * @author Sam Reid
+ * @author Sam Reid (revised by Chris Malley)
+ * @version $Revision$
  */
 public class Distribution implements Serializable, Cloneable {
 
-    public static void main( String[] args ) throws UnnormalizableDistributionException {
-        Distribution d = new Distribution();
-        d.test();
+    private Hashtable _hashTable = new Hashtable(); // table of objects and their weights
+
+    /**
+     * Sole constructor.
+     *
+     */
+    public Distribution() {}
+    
+    /**
+     * Adds an object to the distribution, and assigns it a weight.
+     * If the object is already in the distribution, the weight is 
+     * added to its current weight.
+     * 
+     * @param object
+     * @param weight
+     */
+    public void add( Object object, final double weight ) {
+        if ( weight < 0 ) {
+            throw new RuntimeException( "Negative weights not supported in a distribution: " + weight );
+        }
+        double cumulativeWeight = weight;
+        if ( _hashTable.containsKey( object ) ) {
+            cumulativeWeight = getWeight( object ) + weight;
+        }
+        setWeight( object, cumulativeWeight );
+    }
+
+    /**
+     * Gets the number of objects in the distribution.
+     * 
+     * @return
+     */
+    public int getNumObjects() {
+        return _hashTable.size();
     }
     
-    public void test() throws UnnormalizableDistributionException {
-        Distribution originalDistribution = new Distribution();
-        originalDistribution.add( "a", 5 );
-        originalDistribution.add( "b", 20 );
-        DistributionAccessor accessor = new DistributionAccessor( originalDistribution, new Random() );
-        Distribution newDistribution = new Distribution();
-        for ( int i = 0; i < 1230; i++ ) {
-            Object o = accessor.get();
-            System.out.print( o );
-            newDistribution.add( o, 1 );
-        }
-        System.out.println( "\nInitial distribution: " + originalDistribution );
-        System.out.println( "Reloaded dist: " + newDistribution );
-        System.out.println( "normalized-----" );
-        System.out.println( "init=" + originalDistribution.toNormalizedDistribution() );
-        System.out.println( "relo=" + newDistribution.toNormalizedDistribution() );
+    /*
+     * Gets the objects that are in the distribution.
+     * 
+     * @return array of Object
+     */
+    private Object[] getObjects() {
+        return _hashTable.keySet().toArray();
+    }
+    
+    /*
+     * Sets the weigth of an object.
+     * 
+     * @param object
+     * @param weight
+     */
+    private void setWeight( Object object, final double weight ) {
+        _hashTable.put( object, new Double( weight ) );
     }
 
-    private Hashtable _hashTable = new Hashtable();
-
-    public Distribution() {}
-
-    public String toString() {
-        return _hashTable.toString();
-    }
-
-    public void add( Object obj, double a ) {
-        if ( a < 0 ) {
-            throw new RuntimeException( "Negative values not supported in a distribution." );
-        }
-        double value = a;
-        if ( _hashTable.containsKey( obj ) ) {
-            value = getAmount( obj ) + a;
-        }
-        setAmount( obj, value );
-    }
-
-    public void setAmount( Object key, double a ) {
-        _hashTable.put( key, new Double( a ) );
-    }
-
-    public double getAmount( Object key ) {
-        if ( !_hashTable.containsKey( key ) ) {
+    /*
+     * Gets the weight of an object.
+     * 
+     * @param object
+     * @return its weight, 0 if the object is not in the distribution
+     */
+    protected double getWeight( Object object ) {
+        if ( !_hashTable.containsKey( object ) ) {
             return 0;
         }
         else {
-            Object value = _hashTable.get( key );
+            Object value = _hashTable.get( object );
             Double d = (Double) value;
             return d.doubleValue();
         }
     }
 
-    public int numEntries() {
-        return _hashTable.size();
-    }
-
-    public double totalWeight() {
+    /*
+     * Gets the total weight of all objects in the distribution.
+     * 
+     * @return total weight
+     */
+    private double getTotalWeight() {
         double sum = 0;
         for ( Iterator it = _hashTable.keySet().iterator(); it.hasNext(); ) {
             Object next = it.next();
-            sum += getAmount( next );
+            sum += getWeight( next );
         }
         return sum;
     }
 
-    public void normalize() throws UnnormalizableDistributionException {
-        if ( numEntries() == 0 ) {
-            throw new UnnormalizableDistributionException( "An empty distribution cannot be normalized." );
+    /**
+     * Normalizes the distribution, so that all weights are between 0 and 1.
+     */
+    public void normalize() {
+        if ( getNumObjects() == 0 ) {
+            throw new IllegalStateException( "An empty distribution cannot be normalized." );
         }
-        double sum = totalWeight();
+        final double sum = getTotalWeight();
         if ( sum <= 0 ) {
-            throw new UnnormalizableDistributionException( "Illegal total weight: " + sum );
+            throw new IllegalStateException( "Illegal total weight: " + sum );
         }
         for ( Iterator it = _hashTable.keySet().iterator(); it.hasNext(); ) {
             Object key = it.next();
-            double value = getAmount( key );
-            setAmount( key, value / sum );
+            final double value = getWeight( key );
+            setWeight( key, value / sum );
         }
     }
-
+    
+    /**
+     * Gets a normalized distribution, without modifying this distribution.
+     * 
+     * @return a normalized Distribution object
+     */
+    public Distribution toNormalizedDistribution() {
+        Distribution d = (Distribution) clone();
+        d.normalize();
+        return d;
+    }
+    
+    /**
+     * Clones this object.
+     * 
+     * @return a copy (clone)
+     */
     public Object clone() {
         try {
             Distribution clone = (Distribution) super.clone();
@@ -119,73 +155,60 @@ public class Distribution implements Serializable, Cloneable {
         }
     }
 
-    public Distribution toNormalizedDistribution() throws UnnormalizableDistributionException {
-        Distribution d = (Distribution) clone();
-        d.normalize();
-        return d;
+    /**
+     * Provides a string representation of the distibution.
+     * 
+     * @return String
+     */
+    public String toString() {
+        return _hashTable.toString();
     }
 
-    public Object[] getEntries() {
-        return _hashTable.keySet().toArray();
-    }
-
-    public Object[] getEntries( Object[] a ) {
-        return _hashTable.keySet().toArray( a );
-    }
-
-    public Object[] getSortedKeys() {
-        Object[] e = getEntries();
-        Arrays.sort( e, new DistributionComparator() );
-        return e;
-    }
-
-    public Object[] getSortedKeys( Object[] k ) {
-        Object[] e = getEntries( k );
-        Arrays.sort( e, new DistributionComparator() );
-        return e;
-    }
-
-    public void add( Distribution a ) {
-        Object[] entries = a.getEntries();
-        for ( int i = 0; i < entries.length; i++ ) {
-            Object entry = entries[i];
-            add( entry, a.getAmount( entry ) );
-        }
-    }
-
+    /**
+     * DistributionComparator compares two objects in a distribution.
+     */
     private class DistributionComparator implements Comparator {
-
+        // Compare two entries based on their weights.
         public int compare( Object o1, Object o2 ) {
-            double a = Distribution.this.getAmount( o1 );
-            double b = Distribution.this.getAmount( o2 );
+            double a = Distribution.this.getWeight( o1 );
+            double b = Distribution.this.getWeight( o2 );
             return Double.compare( a, b );
         }
     }
 
+    /**
+     * DistributionAccessor randomly accesses objects in a distribution.
+     */
     public static class DistributionAccessor {
 
-        Distribution d;
-        Random r;
+        private Distribution _distribution;
+        private Random _random;
 
-        public DistributionAccessor( Distribution d ) {
-            this( d, new Random() );
+        public DistributionAccessor( Distribution distribution ) {
+            this( distribution, new Random() );
         }
 
-        public DistributionAccessor( Distribution d, Random r ) {
-            this.d = d;
-            this.r = r;
+        public DistributionAccessor( Distribution distribution, Random random ) {
+            _distribution = distribution;
+            _random = random;
         }
 
-        public Object get() {
-            if ( d.totalWeight() <= 0 ) {
+        /**
+         * Randomly selects an object from the distribution.
+         * 
+         * @return an object
+         */
+        public Object nextObject() {
+            double totalWeight = _distribution.getTotalWeight();
+            if ( totalWeight <= 0 ) {
                 throw new RuntimeException( "Cannot access elements in an empty distribution." );
             }
-            double value = r.nextDouble() * d.totalWeight();
+            final double value = _random.nextDouble() * totalWeight;
             double at = 0;
-            Object[] keys = d.getEntries();
+            Object[] keys = _distribution.getObjects();
             for ( int i = 0; i < keys.length; i++ ) {
-                double amount = d.getAmount( keys[i] );
-                at += amount;
+                final double weight = _distribution.getWeight( keys[i] );
+                at += weight;
                 if ( value <= at ) {
                     return keys[i];
                 }
@@ -193,11 +216,32 @@ public class Distribution implements Serializable, Cloneable {
             throw new RuntimeException( "Value not found in distribution: value=" + value + ", at=" + at );
         }
     }
-
-    public static class UnnormalizableDistributionException extends Exception {
-
-        public UnnormalizableDistributionException( String s ) {
-            super( s );
+    
+    /**
+     * Test harness.
+     * 
+     * @param args
+     * @throws UnnormalizableDistributionException
+     */
+    public static void main( String[] args ) {
+        
+        // Created a weighted distribution, using random weights
+        Distribution originalDistribution = new Distribution();
+        originalDistribution.add( "a", (int) ( Math.random() * 100 ) );
+        originalDistribution.add( "b", (int) ( Math.random() * 100 ) );
+        
+        // Use the weighted distribution to create a new distribution.
+        Distribution newDistribution = new Distribution();
+        DistributionAccessor accessor = new DistributionAccessor( originalDistribution );
+        for ( int i = 0; i < 1230; i++ ) {
+            Object object = accessor.nextObject();
+            newDistribution.add( object, 1 );
         }
+        
+        // Compare the distributions; their normalized weights should be almost identical.
+        System.out.println( "originalDistribution: " + originalDistribution );
+        System.out.println( "newDistribution: " + newDistribution );
+        System.out.println( "originalDistribution (normalized):" + originalDistribution.toNormalizedDistribution() );
+        System.out.println( "newDistribution (normalized):" + newDistribution.toNormalizedDistribution() );
     }
 }
