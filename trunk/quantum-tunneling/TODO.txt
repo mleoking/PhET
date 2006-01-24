@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - move non-Swing stuff out of event-dispatch thread
-- implement algorithm for choosing wave packet position when "Measure" button is pressed
 - decide whether to replace Richardson with Falstad model
 
 MEDIUM PRIORITY:
@@ -66,6 +65,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
 (1/23/06) - wrote UtilClock that uses java.util.Timer
 (1/23/06) - phetcommon: issues identified, too much stuff in event-dispatch thread!
 (1/23/06) - phetcommon: test program to show that startup repaint problems are not specific to QT
