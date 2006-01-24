@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- repaint problem with module panels on startup
+- move non-Swing stuff out of event-dispatch thread
 - implement algorithm for choosing wave packet position when "Measure" button is pressed
 - decide whether to replace Richardson with Falstad model
 
