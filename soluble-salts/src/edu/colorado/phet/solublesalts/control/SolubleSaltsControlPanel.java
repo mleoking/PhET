@@ -246,7 +246,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         // DEBUG
         final ModelSlider calibFactorSlider = new ModelSlider( "Calibration Factor",
                                                                "",
-                                                               0,
+                                                               1E-16,
                                                                1E-5,
                                                                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
                                                                concentrationFormat );

@@ -323,7 +323,7 @@ public class Crystal extends Body implements Binder {
      *
      * @param dt
      */
-    private void releaseIon( double dt ) {
+    public void releaseIon( double dt ) {
         Ion ionToRelease = lattice.getLeastBoundIon( getIons(), orientation );
 
         // Sanity check

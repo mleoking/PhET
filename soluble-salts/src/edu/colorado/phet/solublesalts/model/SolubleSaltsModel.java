@@ -30,7 +30,11 @@ import java.util.List;
 
 /**
  * SolubleSaltsModel
- *
+ * <p>
+ * Things the model understands:
+ * <ul>
+ * <li>Ksp, and how to compute the concentrations of ions
+ * </ul>
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -255,13 +259,12 @@ public class SolubleSaltsModel extends BaseModel {
      */
     public double getConcentrationFactor() {
 
-
         Salt salt = getCurrentSalt();
-        int numAnions = ionTracker.getNumIonsOfType( salt.getAnionClass() );
+        int numAnions = ionTracker.getNumFreeIonsOfType( salt.getAnionClass() );
         int numAnionsInUnit = salt.getNumAnionsInUnit();
-        int numCations = ionTracker.getNumIonsOfType( salt.getCationClass() );
+        int numCations = ionTracker.getNumFreeIonsOfType( salt.getCationClass() );
         int numCationsInUnit = salt.getNumCationsInUnit();
-        double volume = vessel.getVolume();
+        double volume = vessel.getWaterLevel() * vessel.getWidth();
 
         double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
                                      * Math.pow( ( numCations / volume ), numCationsInUnit )
@@ -431,6 +434,7 @@ public class SolubleSaltsModel extends BaseModel {
                         Ion ion = (Ion)ions.get( i );
                         if( vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
                             ion.unbindFrom( crystal );
+                            ion.setVelocity( ion.getVelocity().rotate( Math.random() * Math.PI * 2 ));
                         }
                     }
                 }
