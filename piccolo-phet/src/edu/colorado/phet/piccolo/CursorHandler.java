@@ -86,8 +86,18 @@ public class CursorHandler extends PBasicInputEventHandler {
         event.getComponent().pushCursor( cursor );
     }
 
+    //Error handling for case in which: pnode in pcanvas embedded in pswing inside pcanvas in jframe
     public void mouseExited( PInputEvent event ) {
-        event.getComponent().popCursor();
+        popMe( event );
+    }
+
+    private void popMe( PInputEvent event ) {
+        try {
+            event.getComponent().popCursor();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
     public void mousePressed( PInputEvent event ) {
@@ -95,6 +105,6 @@ public class CursorHandler extends PBasicInputEventHandler {
     }
 
     public void mouseReleased( PInputEvent event ) {
-        event.getComponent().popCursor();
+        popMe( event );
     }
 }
