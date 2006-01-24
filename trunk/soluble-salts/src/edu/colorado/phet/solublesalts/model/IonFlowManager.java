@@ -37,6 +37,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
     private SolubleSaltsModel model;
     private double lastDepth;
     private double lastChange;
+    private double lastTimeToEmpty;
 
     public IonFlowManager( SolubleSaltsModel model ) {
         this.model = model;
@@ -44,35 +45,66 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
         model.getDrain().addChangeListener( this );
     }
 
+    double lastDs;
     public void stateChanged( Vessel.ChangeEvent event ) {
         double newDepth = event.getVessel().getWaterLevel();
         double change = newDepth - lastDepth;
         lastDepth = newDepth;
 
+
         // If the rate of water flowing out of the vessel is increasing,
         // increase the velocity of all ions toward the drain
+//        if( change < 0 && change != lastChange ) {
         if( change < 0 /* && change != lastChange */) {
 
             lastChange = change;
             List ions = model.getIons();
             Drain drain = model.getDrain();
+
+            // Determine the distance from the upper right corner of the water to the drain
+            Vessel vessel = event.getVessel();
+            Point2D.Double urc = new Point2D.Double(
+                    vessel.getLocation().getX() + vessel.getWidth(),
+                    vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() );
+            double d = urc.distance( drain.getPosition() );
+            // Determine the number of clock ticks before the vessel is nearly empty
+            double timeToEmpty = ( vessel.getWaterLevel() - 20)  / ( -change );
+            double ds = d / timeToEmpty * 1;
+
+
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
 
-                // Determine the distance from the upper right corner of the water to the drain
-                Vessel vessel = event.getVessel();
-                Point2D.Double urc = new Point2D.Double(
-                        vessel.getLocation().getX() + vessel.getWidth(),
-                        vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() );
-                double d = urc.distance( drain.getPosition() );
-                double timeToEmpty = vessel.getWaterLevel() / (-change);
-                double ds = d / timeToEmpty;
+                // Set the ion's velocity toward the drain to be ds
+                double beta2 = Math.atan2( drain.getPosition().getY() - ion.getPosition().getY(),
+                                          drain.getPosition().getX() - ion.getPosition().getX());
+                Vector2D v2 = new Vector2D.Double( ion.getVelocity() );
+                v2.rotate( -beta2 );
 
+                double d2 = ion.getPosition().distance( drain.getPosition() );
+                double t = ( vessel.getWaterLevel() - 20)  / ( -change );
+                double s = d2 / t;
+
+                v2.setX( ds );
+                v2.rotate( beta2 );
+                ion.setVelocity( v2 );
+
+//                // Determine the distance from the upper right corner of the water to the drain
+//                Vessel vessel = event.getVessel();
+//                Point2D.Double urc = new Point2D.Double(
+//                        vessel.getLocation().getX() + vessel.getWidth(),
+//                        vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() );
+//                double d = urc.distance( drain.getPosition() );
+//                // Determine the number of clock ticks before the vessel is nearly empty
+//                double timeToEmpty = ( vessel.getWaterLevel() - 20)  / (-change);
+//                double ds = d / timeToEmpty;
+//
                 // Rotate the ion's velocity vector toward the drain
                 Vector2D v = ion.getVelocity();
                 Vector2D l = new Vector2D.Double( drain.getPosition().getX()- ion.getPosition().getX(),
                                                   drain.getPosition().getY() - ion.getPosition().getY() );
-                l.normalize().scale( ds * 40 );
+                l.normalize().scale( ds );
+//                l.normalize().scale( ds * 40 );
 //                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
 //                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
 
@@ -87,11 +119,19 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 //                gamma *= dir;
                 v.rotate( gamma );
 
+
+                if ( true ) return;
+
+
                 // If the flow rate out of the vessel has changed, modify the magnitude of the ion's
-                if( change != lastChange ) {
+//                if( change != lastChange ) {
+//                    v.add( l );
+//                }
+                if( ds != lastDs ) {
                     v.add( l );
                 }
             }
+            lastDs = ds;
 
             // Version as of 3:30 1/11/06
 //            lastChange = change;
