@@ -1,3 +1,4 @@
+*New in 0.35 (1-23-2005)
 Added save/load feature for saving barriers/detectors.
 The controls look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
 Made gun controls look like the ones in lasers and made sure they don’t overlap with the gun.
