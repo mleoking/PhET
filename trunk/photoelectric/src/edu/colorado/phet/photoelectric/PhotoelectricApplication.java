@@ -12,10 +12,11 @@ package edu.colorado.phet.photoelectric;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
+//import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 
 import javax.swing.*;
@@ -41,6 +42,7 @@ public class PhotoelectricApplication extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
+//    public static final double DT = 1;
     public static final double DT = 12;
     public static final int FPS = 25;
     private JMenu optionsMenu;
@@ -55,8 +57,9 @@ public class PhotoelectricApplication extends PhetApplication {
                title,
                description,
                version,
-               new SwingTimerClock( DT, FPS, AbstractClock.FRAMES_PER_SECOND ),
-               true,
+//               new SwingClock( DT, 1000 / FPS ),
+//               new SwingTimerClock( DT, FPS, AbstractClock.FRAMES_PER_SECOND ),
+//               true,
                frameSetup );
 
         // Make the frame non-resizable until we make the intensity slider a graphic

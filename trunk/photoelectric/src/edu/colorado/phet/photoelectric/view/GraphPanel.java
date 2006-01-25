@@ -11,7 +11,8 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 
 import java.awt.*;
@@ -26,16 +27,24 @@ import java.awt.*;
  * @version $Revision$
  */
 public class GraphPanel extends ApparatusPanel2 {
-    public GraphPanel( AbstractClock clock ) {
+    private PhotoelectricGraph graph;
+
+    public GraphPanel( IClock clock ) {
+//    public GraphPanel( AbstractClock clock ) {
         super( clock );
         setUseOffscreenBuffer( true );
         setDisplayBorder( false );
     }
 
-    public void setGraph( Chart graph, Insets insets ) {
+    public void setGraph( PhotoelectricGraph graph, Insets insets ) {
         setPreferredSize( new Dimension( (int)graph.getChartSize().getWidth() + insets.left + insets.right,
                                          (int)graph.getChartSize().getHeight() + insets.top + insets.bottom ) );
         graph.setLocation( insets.left, insets.top );
         addGraphic( graph );
+        this.graph = graph;
+    }
+
+    public void clearGraph() {
+        graph.clearData();
     }
 }

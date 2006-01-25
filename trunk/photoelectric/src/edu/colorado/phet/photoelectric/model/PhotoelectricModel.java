@@ -11,13 +11,18 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
+import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -57,7 +62,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     public static double MIN_WAVELENGTH = 100;
     public static double MAX_WAVELENGTH = 800;
     public static double MAX_PHOTONS_PER_SECOND = 500;
-    public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR;
+    public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR / 8;
+//    public static double MAX_CURRENT = MAX_PHOTONS_PER_SECOND * CURRENT_JIMMY_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -97,7 +103,15 @@ public class PhotoelectricModel extends DischargeLampModel {
     /**
      *
      */
-    public PhotoelectricModel( AbstractClock clock ) {
+    public PhotoelectricModel( IClock clock ) {
+//    public PhotoelectricModel( AbstractClock clock ) {
+
+        clock.addClockListener( new ClockAdapter() {
+            public void clockTicked(ClockEvent clockEvent) {
+                stepInTime( PhotoelectricApplication.DT );
+//                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        });
 
         // Set the max and min voltage of the battery
         getBattery().setMaxVoltage( MAX_VOLTAGE );
@@ -121,7 +135,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         beam.addPhotonEmittedListener( new PhotonTracker() );
         beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-                changeListenerProxy.beamIntensityChanged( new ChangeEvent( this ) );
+                changeListenerProxy.beamIntensityChanged( new ChangeEvent( PhotoelectricModel.this ) );
             }
         } );
 
@@ -166,7 +180,8 @@ public class PhotoelectricModel extends DischargeLampModel {
         // Add an intensity meter for the beam
         beamIntensityMeter = new BeamIntensityMeter( clock );
         getBeam().addPhotonEmittedListener( new PhotonEmittedListener() {
-            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+            public void photonEmitted( PhotonEmittedEvent event ) {
+//            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
                 beamIntensityMeter.recordPhoton();
             }
         } );
@@ -178,7 +193,7 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        super.stepInTime( dt );
+//        super.stepInTime( dt );
 
         // Check for photons hitting the cathode
         for( int i = 0; i < photons.size(); i++ ) {
@@ -320,7 +335,8 @@ public class PhotoelectricModel extends DischargeLampModel {
      * Tracks the creation and destruction of photons
      */
     private class PhotonTracker implements PhotonEmittedListener, Photon.LeftSystemEventListener {
-        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+        public void photonEmitted( PhotonEmittedEvent event ) {
+//        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             addModelElement( photon );
             photons.add( photon );

@@ -11,7 +11,8 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 
 /**
  * Ammeter
@@ -24,7 +25,8 @@ public class Ammeter extends ScalarDataRecorder {
     private int clientUpdateInterval = 500;
     private int simulationTimeWindow = 1000;
 
-    public Ammeter( AbstractClock clock ) {
+    public Ammeter( IClock clock ) {
+//    public Ammeter( AbstractClock clock ) {
         super( clock );
         super.setTimeWindow( simulationTimeWindow );
         super.setClientUpdateInterval( clientUpdateInterval );

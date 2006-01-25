@@ -12,7 +12,9 @@ package edu.colorado.phet.photoelectric.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -71,11 +73,11 @@ public class PhotoelectricModule extends BaseLaserModule {
     static private HashMap TARGET_COLORS = new HashMap();
 
     static {
-        TARGET_COLORS.put( PhotoelectricTarget.COPPER, new Color( 210, 130, 30 ) );
-        TARGET_COLORS.put( PhotoelectricTarget.MAGNESIUM, new Color( 130, 150, 170 ) );
-        TARGET_COLORS.put( PhotoelectricTarget.SODIUM, new Color( 160, 180, 160 ) );
-        TARGET_COLORS.put( PhotoelectricTarget.ZINC, new Color( 200, 200, 200 ) );
-        TARGET_COLORS.put( PhotoelectricTarget.PLATINUM, new Color( 203, 230, 230 ) );
+        TARGET_COLORS.put(PhotoelectricTarget.COPPER, new Color(210, 130, 30));
+        TARGET_COLORS.put(PhotoelectricTarget.MAGNESIUM, new Color(130, 150, 170));
+        TARGET_COLORS.put(PhotoelectricTarget.SODIUM, new Color(160, 180, 160));
+        TARGET_COLORS.put(PhotoelectricTarget.ZINC, new Color(200, 200, 200));
+        TARGET_COLORS.put(PhotoelectricTarget.PLATINUM, new Color(203, 230, 230));
     }
 
 //    public static boolean DEBUG = true;
@@ -107,27 +109,31 @@ public class PhotoelectricModule extends BaseLaserModule {
      *
      * @param application
      */
-    public PhotoelectricModule( PhotoelectricApplication application ) {
-        super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ), application.getClock() );
+    public PhotoelectricModule(PhotoelectricApplication application) {
+        super(SimStrings.get("ModuleTitle.PhotoelectricEfect"),
+                new SwingClock(1000 / PhotoelectricApplication.FPS,
+                        PhotoelectricApplication.DT));
+//        super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ), application.getClock() );
 
         // Set up the basic stuff
-        AbstractClock clock = application.getClock();
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
-        apparatusPanel.setPaintStrategy( ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY );
-        apparatusPanel.setBackground( Color.white );
-        setApparatusPanel( apparatusPanel );
+        IClock clock = getClock();
+//        AbstractClock clock = application.getClock();
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2(clock);
+        apparatusPanel.setPaintStrategy(ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY);
+        apparatusPanel.setBackground(Color.white);
+        setApparatusPanel(apparatusPanel);
 
         //----------------------------------------------------------------
         // Model
         //----------------------------------------------------------------
 
         // Set up the model
-        PhotoelectricModel model = new PhotoelectricModel( clock );
-        setModel( model );
-        setControlPanel( new ControlPanel( this ) );
+        PhotoelectricModel model = new PhotoelectricModel(clock);
+        setModel(model);
+        setControlPanel(new ControlPanel(this));
 
         // Set the default work function for the target
-        model.getTarget().setTargetMaterial( PhotoelectricTarget.SODIUM );
+        model.getTarget().setTargetMaterial(PhotoelectricTarget.SODIUM);
 
         //----------------------------------------------------------------
         // View
@@ -135,57 +141,57 @@ public class PhotoelectricModule extends BaseLaserModule {
         Beam beam = model.getBeam();
 
         // Add a graphic for the tube
-        addTubeGraphic( model, getApparatusPanel() );
+        addTubeGraphic(model, getApparatusPanel());
 
         // Add a graphic for the beam
-        addBeamGraphic( beam );
+        addBeamGraphic(beam);
 
         // Add a listener that will place photons right next to the plate when we are in beam view mode
-        beam.addPhotonEmittedListener( new PhotonPlacementManager() );
+        beam.addPhotonEmittedListener(new PhotonPlacementManager());
 
         // Add a listener that will produce photon graphics for the beam and take them away when the photons
         // leave the system
-        beam.addPhotonEmittedListener( new PhotonGraphicManager( this ) );
+        beam.addPhotonEmittedListener(new PhotonGraphicManager(this));
 
         // Add a listener to the target plate that will create electron graphics when electrons
         // are produced, and remove them when they the electrons leave the system.
         PhotoelectricTarget target = model.getTarget();
-        target.addListener( new ElectronGraphicManager( this ) );
+        target.addListener(new ElectronGraphicManager(this));
 
         // Add the battery and wire graphic
-        addCircuitGraphic( apparatusPanel );
+        addCircuitGraphic(apparatusPanel);
 
         // Add a graphic for the target plate
-        addTargetGraphic( model, apparatusPanel );
+        addTargetGraphic(model, apparatusPanel);
 
         // Add a graphic for the anode
-        addAnodeGraphic( model, apparatusPanel );
+        addAnodeGraphic(model, apparatusPanel);
 
         // Put a mask over the part of the light beam that is to the left of the target
-        Rectangle mask = new Rectangle( 0, 0, DischargeLampsConfig.CATHODE_LOCATION.x, 2000 );
-        PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
-                                                             mask,
-                                                             getApparatusPanel().getBackground() );
-        getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + 1 );
+        Rectangle mask = new Rectangle(0, 0, DischargeLampsConfig.CATHODE_LOCATION.x, 2000);
+        PhetShapeGraphic maskGraphic = new PhetShapeGraphic(getApparatusPanel(),
+                mask,
+                getApparatusPanel().getBackground());
+        getApparatusPanel().addGraphic(maskGraphic, PhotoelectricConfig.BEAM_LAYER + 1);
 
         // Add a listener to the model that will flip the battery image when the voltage
         // changes sign
-        model.addChangeListener( new BatteryImageFlipper() );
+        model.addChangeListener(new BatteryImageFlipper());
 
         //----------------------------------------------------------------
         // Controls
         //----------------------------------------------------------------
 
         // Set up the control panel
-        new PhotoelectricControlPanel( this );
+        new PhotoelectricControlPanel(this);
 
         // Add a slider for the battery
         addGraphicBatteryControls();
-        BeamControl beamControl = new BeamControl( getApparatusPanel(),
-                                                   DischargeLampsConfig.BEAM_CONTROL_LOCATION,
-                                                   model.getBeam(),
-                                                   model.getBeam().getMaxPhotonsPerSecond() );
-        getApparatusPanel().addGraphic( beamControl, PhotoelectricConfig.BEAM_LAYER + 1 );
+        BeamControl beamControl = new BeamControl(getApparatusPanel(),
+                DischargeLampsConfig.BEAM_CONTROL_LOCATION,
+                model.getBeam(),
+                model.getBeam().getMaxPhotonsPerSecond());
+        getApparatusPanel().addGraphic(beamControl, PhotoelectricConfig.BEAM_LAYER + 1);
 
         //----------------------------------------------------------------
         // Total hack to get beam to look right when things come up. This should
@@ -198,65 +204,72 @@ public class PhotoelectricModule extends BaseLaserModule {
 //            }
 //        } );
 
+        // Slap an ammeter on the circuit, near the anode
+        {
+            AmmeterViewGraphic avg = new AmmeterViewGraphic(getApparatusPanel(),
+                    getPhotoelectricModel().getAmmeter(),
+                    getPhotoelectricModel());
+            avg.setLocation(DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188);
+            getApparatusPanel().addGraphic(avg, PhotoelectricConfig.CIRCUIT_LAYER + 1);
+        }
+
         //----------------------------------------------------------------
         // Debug
         //----------------------------------------------------------------
 
         // Add options menu item that will show current
-        if( DEBUG ) {
+        if (DEBUG) {
             JMenu optionsMenu = application.getOptionsMenu();
-            final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
-            optionsMenu.add( currentDisplayMI );
+            final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem("Show meters");
+            optionsMenu.add(currentDisplayMI);
 
-            final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
+            final JDialog meterDlg = new JDialog(PhetApplication.instance().getPhetFrame(), false);
 
-            final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
-            final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );
-            JPanel meterPanel = new JPanel( new GridLayout( 2, 1 ) );
-            meterDlg.setContentPane( meterPanel );
-            meterPanel.add( ammeterView );
-            meterPanel.add( intensityView );
+            final AmmeterView ammeterView = new AmmeterView(getPhotoelectricModel().getAmmeter());
+            final IntensityView intensityView = new IntensityView(getPhotoelectricModel().getBeamIntensityMeter());
+            JPanel meterPanel = new JPanel(new GridLayout(2, 1));
+            meterDlg.setContentPane(meterPanel);
+            meterPanel.add(ammeterView);
+            meterPanel.add(intensityView);
             meterDlg.pack();
-            currentDisplayMI.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    meterDlg.setVisible( currentDisplayMI.isSelected() );
+            currentDisplayMI.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    meterDlg.setVisible(currentDisplayMI.isSelected());
                 }
-            } );
+            });
 
             // Slap an ammeter on the circuit, near the anode
-            AmmeterViewGraphic avg = new AmmeterViewGraphic( getApparatusPanel(),
-                                                             getPhotoelectricModel().getAmmeter(),
-                                                             getPhotoelectricModel() );
-            avg.setLocation( DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188 );
-            getApparatusPanel().addGraphic( avg, PhotoelectricConfig.CIRCUIT_LAYER + 1 );
-
-
+            AmmeterViewGraphic avg = new AmmeterViewGraphic(getApparatusPanel(),
+                    getPhotoelectricModel().getAmmeter(),
+                    getPhotoelectricModel());
+            avg.setLocation(DischargeLampsConfig.ANODE_LOCATION.x - 100, DischargeLampsConfig.ANODE_LOCATION.y + 188);
+            getApparatusPanel().addGraphic(avg, PhotoelectricConfig.CIRCUIT_LAYER + 1);
 
             // Add an option to randomize the electron velocities
-            final JRadioButtonMenuItem uniformSpeedOption = new JRadioButtonMenuItem( "Uniform electron speeds" );
+            final JRadioButtonMenuItem uniformSpeedOption = new JRadioButtonMenuItem("Uniform electron speeds");
             optionsMenu.addSeparator();
-            optionsMenu.add( uniformSpeedOption );
-            uniformSpeedOption.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if( uniformSpeedOption.isSelected() ) {
+            optionsMenu.add(uniformSpeedOption);
+            uniformSpeedOption.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (uniformSpeedOption.isSelected()) {
                         getPhotoelectricModel().getTarget().setUniformInitialElectronSpeedStrategy();
                     }
                 }
-            } );
-            final JRadioButtonMenuItem randomizedSpeedOption = new JRadioButtonMenuItem( "Randomized electron speeds" );
-            optionsMenu.add( randomizedSpeedOption );
-            randomizedSpeedOption.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if( randomizedSpeedOption.isSelected() ) {
+            });
+            final JRadioButtonMenuItem randomizedSpeedOption = new JRadioButtonMenuItem("Randomized electron speeds");
+            optionsMenu.add(randomizedSpeedOption);
+            randomizedSpeedOption.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (randomizedSpeedOption.isSelected()) {
                         getPhotoelectricModel().getTarget().setRandomizedInitialElectronSpeedStrategy();
                     }
                 }
-            } );
+            });
             optionsMenu.addSeparator();
             ButtonGroup speedOptionBtnGrp = new ButtonGroup();
-            speedOptionBtnGrp.add( uniformSpeedOption );
-            speedOptionBtnGrp.add( randomizedSpeedOption );
-            uniformSpeedOption.setSelected( true );
+            speedOptionBtnGrp.add(uniformSpeedOption);
+            speedOptionBtnGrp.add(randomizedSpeedOption);
+            uniformSpeedOption.setSelected(true);
         }
 
         //----------------------------------------------------------------
@@ -264,54 +277,54 @@ public class PhotoelectricModule extends BaseLaserModule {
         //----------------------------------------------------------------
 
         // Draw red dots on the beam source location and the middle of the target plate
-        if( DEBUG ) {
-            PhetShapeGraphic beamIndicator = new PhetShapeGraphic( getApparatusPanel(),
-                                                                   new Ellipse2D.Double( beam.getPosition().getX(),
-                                                                                         beam.getPosition().getY(),
-                                                                                         10, 10 ),
-                                                                   Color.red );
-            getApparatusPanel().addGraphic( beamIndicator, 10000 );
-            PhetShapeGraphic cathodIndicator = new PhetShapeGraphic( getApparatusPanel(),
-                                                                     new Ellipse2D.Double( targetPlate.getPosition().getX(),
-                                                                                           targetPlate.getPosition().getY(),
-                                                                                           10, 10 ),
-                                                                     Color.red );
-            getApparatusPanel().addGraphic( cathodIndicator, 10000 );
+        if (DEBUG) {
+            PhetShapeGraphic beamIndicator = new PhetShapeGraphic(getApparatusPanel(),
+                    new Ellipse2D.Double(beam.getPosition().getX(),
+                            beam.getPosition().getY(),
+                            10, 10),
+                    Color.red);
+            getApparatusPanel().addGraphic(beamIndicator, 10000);
+            PhetShapeGraphic cathodIndicator = new PhetShapeGraphic(getApparatusPanel(),
+                    new Ellipse2D.Double(targetPlate.getPosition().getX(),
+                            targetPlate.getPosition().getY(),
+                            10, 10),
+                    Color.red);
+            getApparatusPanel().addGraphic(cathodIndicator, 10000);
         }
     }
 
     /**
      * @param beam
      */
-    private void addBeamGraphic( Beam beam ) {
+    private void addBeamGraphic(Beam beam) {
         try {
-            BufferedImage lampImg = ImageLoader.loadBufferedImage( PhotoelectricConfig.LAMP_IMAGE_FILE );
+            BufferedImage lampImg = ImageLoader.loadBufferedImage(PhotoelectricConfig.LAMP_IMAGE_FILE);
             // Make the lens on the lamp the same size as the beam
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( 100.0 / lampImg.getWidth(),
-                                                                        beam.getBeamWidth() / lampImg.getHeight() );
-            AffineTransformOp scaleTxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
-            lampImg = scaleTxOp.filter( lampImg, null );
-            AffineTransform atx = AffineTransform.getRotateInstance( beam.getDirection(),
-                                                                     beam.getPosition().getX(),
-                                                                     beam.getPosition().getY() );
-            atx.concatenate( AffineTransform.getTranslateInstance( beam.getPosition().getX() - lampImg.getWidth(),
-                                                                   beam.getPosition().getY() - lampImg.getHeight() / 2 ) );
+            AffineTransform scaleTx = AffineTransform.getScaleInstance(100.0 / lampImg.getWidth(),
+                    beam.getBeamWidth() / lampImg.getHeight());
+            AffineTransformOp scaleTxOp = new AffineTransformOp(scaleTx, AffineTransformOp.TYPE_BILINEAR);
+            lampImg = scaleTxOp.filter(lampImg, null);
+            AffineTransform atx = AffineTransform.getRotateInstance(beam.getDirection(),
+                    beam.getPosition().getX(),
+                    beam.getPosition().getY());
+            atx.concatenate(AffineTransform.getTranslateInstance(beam.getPosition().getX() - lampImg.getWidth(),
+                    beam.getPosition().getY() - lampImg.getHeight() / 2));
 
-            LampGraphic lampGraphic = new LampGraphic( beam, getApparatusPanel(), lampImg, atx );
-            getApparatusPanel().addGraphic( lampGraphic, PhotoelectricConfig.LAMP_LAYER );
+            LampGraphic lampGraphic = new LampGraphic(beam, getApparatusPanel(), lampImg, atx);
+            getApparatusPanel().addGraphic(lampGraphic, PhotoelectricConfig.LAMP_LAYER);
 
             // Put a mask behind the lamp graphic to hide the beam or photons that start behind it
-            Rectangle mask = new Rectangle( 0, 0, lampImg.getWidth(), lampImg.getHeight() );
-            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( getApparatusPanel(),
-                                                                 mask,
-                                                                 getApparatusPanel().getBackground() );
-            maskGraphic.setTransform( atx );
-            maskGraphic.setLocation( lampGraphic.getLocation() );
-            getApparatusPanel().addGraphic( maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5 );
-            beamGraphic = new BeamCurtainGraphic( getApparatusPanel(), beam );
-            getApparatusPanel().addGraphic( beamGraphic, PhotoelectricConfig.BEAM_LAYER );
+            Rectangle mask = new Rectangle(0, 0, lampImg.getWidth(), lampImg.getHeight());
+            PhetShapeGraphic maskGraphic = new PhetShapeGraphic(getApparatusPanel(),
+                    mask,
+                    getApparatusPanel().getBackground());
+            maskGraphic.setTransform(atx);
+            maskGraphic.setLocation(lampGraphic.getLocation());
+            getApparatusPanel().addGraphic(maskGraphic, PhotoelectricConfig.BEAM_LAYER + .5);
+            beamGraphic = new BeamCurtainGraphic(getApparatusPanel(), beam);
+            getApparatusPanel().addGraphic(beamGraphic, PhotoelectricConfig.BEAM_LAYER);
         }
-        catch( IOException e ) {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -321,48 +334,48 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     private void addGraphicBatteryControls() {
         Battery battery = getPhotoelectricModel().getBattery();
-        final BatterySlider bSl = new BatterySlider( getApparatusPanel(),
-                                                     80 /* track length */,
-                                                     battery,
-                                                     PhotoelectricModel.VOLTAGE_SCALE_FACTOR );
-        bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
-        bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
-        bSl.setValue( (int)( 0 ) );
-        bSl.addTick( bSl.getMinimum() );
-        bSl.addTick( bSl.getMaximum() );
-        bSl.addTick( 0 );
+        final BatterySlider bSl = new BatterySlider(getApparatusPanel(),
+                80 /* track length */,
+                battery,
+                PhotoelectricModel.VOLTAGE_SCALE_FACTOR);
+        bSl.setMinimum((int) -(battery.getMaxVoltage()));
+        bSl.setMaximum((int) (battery.getMaxVoltage()));
+        bSl.setValue((int) (0));
+        bSl.addTick(bSl.getMinimum());
+        bSl.addTick(bSl.getMaximum());
+        bSl.addTick(0);
         int yBase = 490;
-        bSl.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, yBase );
-        getApparatusPanel().addGraphic( bSl, DischargeLampsConfig.CIRCUIT_LAYER + 10000 );
+        bSl.setLocation((int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, yBase);
+        getApparatusPanel().addGraphic(bSl, DischargeLampsConfig.CIRCUIT_LAYER + 10000);
 
-        final PhetGraphic batteryReadout = new BatteryReadout( getApparatusPanel(),
-                                                               battery,
-                                                               new Point( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
-                                                                          yBase + 15 ),
-                                                               35 );
-        addGraphic( batteryReadout, DischargeLampsConfig.CIRCUIT_LAYER + 10000 );
+        final PhetGraphic batteryReadout = new BatteryReadout(getApparatusPanel(),
+                battery,
+                new Point((int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
+                        yBase + 15),
+                35);
+        addGraphic(batteryReadout, DischargeLampsConfig.CIRCUIT_LAYER + 10000);
     }
 
     /**
      * @param apparatusPanel
      */
-    private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
+    private void addCircuitGraphic(ApparatusPanel apparatusPanel) {
         try {
-            circuitImageA = ImageLoader.loadBufferedImage( "images/circuit-A.png" );
-            circuitImageB = ImageLoader.loadBufferedImage( "images/circuit-B.png" );
-            circuitImageA = scaleImage( circuitImageA );
-            circuitImageB = scaleImage( circuitImageB );
+            circuitImageA = ImageLoader.loadBufferedImage("images/circuit-A.png");
+            circuitImageB = ImageLoader.loadBufferedImage("images/circuit-B.png");
+            circuitImageA = scaleImage(circuitImageA);
+            circuitImageB = scaleImage(circuitImageB);
 
-            circuitGraphic = new PhetImageGraphic( getApparatusPanel() );
-            circuitGraphic.setImage( circuitImageA );
+            circuitGraphic = new PhetImageGraphic(getApparatusPanel());
+            circuitGraphic.setImage(circuitImageA);
         }
-        catch( IOException e ) {
+        catch (IOException e) {
             e.printStackTrace();
         }
-        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ),
-                                             (int)( 110 * externalGraphicsScale ) );
-        circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( circuitGraphic, PhotoelectricConfig.CIRCUIT_LAYER );
+        circuitGraphic.setRegistrationPoint((int) (124 * externalGraphicsScale),
+                (int) (110 * externalGraphicsScale));
+        circuitGraphic.setLocation(DischargeLampsConfig.CATHODE_LOCATION);
+        apparatusPanel.addGraphic(circuitGraphic, PhotoelectricConfig.CIRCUIT_LAYER);
     }
 
     /**
@@ -371,62 +384,62 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param model
      * @param apparatusPanel
      */
-    private void addTubeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+    private void addTubeGraphic(PhotoelectricModel model, ApparatusPanel apparatusPanel) {
         ResonatingCavity tube = model.getTube();
-        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
-        apparatusPanel.addGraphic( tubeGraphic, PhotoelectricConfig.TUBE_LAYER );
+        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic(getApparatusPanel(), tube);
+        apparatusPanel.addGraphic(tubeGraphic, PhotoelectricConfig.TUBE_LAYER);
     }
 
     /**
      * @param model
      * @param apparatusPanel
      */
-    private void addAnodeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        PhetGraphic anodeGraphic = new PhotoelectricPlateGraphic( getApparatusPanel(),
-                                                                  DischargeLampsConfig.CATHODE_LENGTH,
-                                                                  model,
-                                                                  PhotoelectricPlateGraphic.POSITIVE );
-        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
-                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
+    private void addAnodeGraphic(PhotoelectricModel model, ApparatusPanel apparatusPanel) {
+        PhetGraphic anodeGraphic = new PhotoelectricPlateGraphic(getApparatusPanel(),
+                DischargeLampsConfig.CATHODE_LENGTH,
+                model,
+                PhotoelectricPlateGraphic.POSITIVE);
+        anodeGraphic.setRegistrationPoint((int) anodeGraphic.getBounds().getWidth(),
+                (int) anodeGraphic.getBounds().getHeight() / 2);
 
-        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
-        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
-        apparatusPanel.addGraphic( anodeGraphic, PhotoelectricConfig.CIRCUIT_LAYER );
+        anodeGraphic.setRegistrationPoint(0, (int) anodeGraphic.getBounds().getHeight() / 2);
+        anodeGraphic.setLocation(DischargeLampsConfig.ANODE_LOCATION);
+        apparatusPanel.addGraphic(anodeGraphic, PhotoelectricConfig.CIRCUIT_LAYER);
     }
 
     /**
      * @param model
      * @param apparatusPanel
      */
-    private void addTargetGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
+    private void addTargetGraphic(PhotoelectricModel model, ApparatusPanel apparatusPanel) {
         targetPlate = model.getTarget();
-        PlateGraphic targetGraphic = new PhotoelectricPlateGraphic( getApparatusPanel(),
-                                                                    DischargeLampsConfig.CATHODE_LENGTH,
-                                                                    model,
-                                                                    PhotoelectricPlateGraphic.NEGATIVE );
-        targetGraphic.setRegistrationPoint( (int)targetGraphic.getBounds().getWidth(),
-                                            (int)targetGraphic.getBounds().getHeight() / 2 );
+        PlateGraphic targetGraphic = new PhotoelectricPlateGraphic(getApparatusPanel(),
+                DischargeLampsConfig.CATHODE_LENGTH,
+                model,
+                PhotoelectricPlateGraphic.NEGATIVE);
+        targetGraphic.setRegistrationPoint((int) targetGraphic.getBounds().getWidth(),
+                (int) targetGraphic.getBounds().getHeight() / 2);
 
-        targetGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( targetGraphic, PhotoelectricConfig.CIRCUIT_LAYER );
+        targetGraphic.setLocation(DischargeLampsConfig.CATHODE_LOCATION);
+        apparatusPanel.addGraphic(targetGraphic, PhotoelectricConfig.CIRCUIT_LAYER);
 
         // Add a layer on top of the electrode to represent the target material
         double materialOffsetY = 5;
         double materialThickness = 7;
-        Rectangle2D material = new Rectangle2D.Double( targetGraphic.getBounds().getMaxX(),
-                                                       targetGraphic.getBounds().getMinY() + materialOffsetY,
-                                                       materialThickness,
-                                                       targetGraphic.getBounds().getHeight() - 2 * materialOffsetY );
-        Color color = (Color)TARGET_COLORS.get( targetPlate.getMaterial() );
-        final PhetShapeGraphic targetMaterialGraphic = new PhetShapeGraphic( getApparatusPanel(), material, color );
-        getApparatusPanel().addGraphic( targetMaterialGraphic, PhotoelectricConfig.CIRCUIT_LAYER );
+        Rectangle2D material = new Rectangle2D.Double(targetGraphic.getBounds().getMaxX(),
+                targetGraphic.getBounds().getMinY() + materialOffsetY,
+                materialThickness,
+                targetGraphic.getBounds().getHeight() - 2 * materialOffsetY);
+        Color color = (Color) TARGET_COLORS.get(targetPlate.getMaterial());
+        final PhetShapeGraphic targetMaterialGraphic = new PhetShapeGraphic(getApparatusPanel(), material, color);
+        getApparatusPanel().addGraphic(targetMaterialGraphic, PhotoelectricConfig.CIRCUIT_LAYER);
 
         // Add a listener to the target that will set the proper color if the material changes
-        model.addChangeListener( new PhotoelectricModel.ChangeListenerAdapter() {
-            public void targetMaterialChanged( PhotoelectricModel.ChangeEvent event ) {
-                targetMaterialGraphic.setPaint( (Paint)TARGET_COLORS.get( targetPlate.getMaterial() ) );
+        model.addChangeListener(new PhotoelectricModel.ChangeListenerAdapter() {
+            public void targetMaterialChanged(PhotoelectricModel.ChangeEvent event) {
+                targetMaterialGraphic.setPaint((Paint) TARGET_COLORS.get(targetPlate.getMaterial()));
             }
-        } );
+        });
     }
 
     //----------------------------------------------------------------
@@ -437,7 +450,7 @@ public class PhotoelectricModule extends BaseLaserModule {
      * Returns a typed reference to the model
      */
     private PhotoelectricModel getPhotoelectricModel() {
-        return (PhotoelectricModel)getModel();
+        return (PhotoelectricModel) getModel();
     }
 
     /**
@@ -448,16 +461,16 @@ public class PhotoelectricModule extends BaseLaserModule {
      *
      * @param imageGraphic
      */
-    private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
-        if( externalGraphicScaleOp == null ) {
+    private void scaleImageGraphic(PhetImageGraphic imageGraphic) {
+        if (externalGraphicScaleOp == null) {
             int cathodeAnodeScreenDistance = 550;
-            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
-                                           DischargeLampsConfig.CATHODE_LOCATION,
-                                           cathodeAnodeScreenDistance );
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
-            externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+            determineExternalGraphicScale(DischargeLampsConfig.ANODE_LOCATION,
+                    DischargeLampsConfig.CATHODE_LOCATION,
+                    cathodeAnodeScreenDistance);
+            AffineTransform scaleTx = AffineTransform.getScaleInstance(externalGraphicsScale, externalGraphicsScale);
+            externalGraphicScaleOp = new AffineTransformOp(scaleTx, AffineTransformOp.TYPE_BILINEAR);
         }
-        imageGraphic.setImage( externalGraphicScaleOp.filter( imageGraphic.getImage(), null ) );
+        imageGraphic.setImage(externalGraphicScaleOp.filter(imageGraphic.getImage(), null));
     }
 
     /**
@@ -468,16 +481,16 @@ public class PhotoelectricModule extends BaseLaserModule {
      *
      * @param image
      */
-    private BufferedImage scaleImage( BufferedImage image ) {
-        if( externalGraphicScaleOp == null ) {
+    private BufferedImage scaleImage(BufferedImage image) {
+        if (externalGraphicScaleOp == null) {
             int cathodeAnodeScreenDistance = 550;
-            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
-                                           DischargeLampsConfig.CATHODE_LOCATION,
-                                           cathodeAnodeScreenDistance );
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
-            externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+            determineExternalGraphicScale(DischargeLampsConfig.ANODE_LOCATION,
+                    DischargeLampsConfig.CATHODE_LOCATION,
+                    cathodeAnodeScreenDistance);
+            AffineTransform scaleTx = AffineTransform.getScaleInstance(externalGraphicsScale, externalGraphicsScale);
+            externalGraphicScaleOp = new AffineTransformOp(scaleTx, AffineTransformOp.TYPE_BILINEAR);
         }
-        return externalGraphicScaleOp.filter( image, null );
+        return externalGraphicScaleOp.filter(image, null);
     }
 
     /**
@@ -490,8 +503,8 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param p2
      * @param externalGraphicDist
      */
-    private void determineExternalGraphicScale( Point p1, Point p2, int externalGraphicDist ) {
-        externalGraphicsScale = p1.distance( p2 ) / externalGraphicDist;
+    private void determineExternalGraphicScale(Point p1, Point p2, int externalGraphicDist) {
+        externalGraphicsScale = p1.distance(p2) / externalGraphicDist;
     }
 
     public boolean hasHelp() {
@@ -507,9 +520,9 @@ public class PhotoelectricModule extends BaseLaserModule {
      *
      * @param isEnabled
      */
-    public void setPhotonViewEnabled( boolean isEnabled ) {
+    public void setPhotonViewEnabled(boolean isEnabled) {
         viewType = isEnabled ? PHOTON_VIEW : BEAM_VIEW;
-        beamGraphic.setVisible( !isEnabled );
+        beamGraphic.setVisible(!isEnabled);
     }
 
     public boolean getPhotonViewEnabled() {
@@ -521,13 +534,12 @@ public class PhotoelectricModule extends BaseLaserModule {
     //----------------------------------------------------------------
 
     private class BatteryImageFlipper extends PhotoelectricModel.ChangeListenerAdapter {
-        public void voltageChanged( PhotoelectricModel.ChangeEvent event ) {
+        public void voltageChanged(PhotoelectricModel.ChangeEvent event) {
             PhotoelectricModel model = event.getPhotoelectricModel();
-            if( model.getVoltage() > 0 && circuitGraphic.getImage() != circuitImageA ) {
-                circuitGraphic.setImage( circuitImageA );
-            }
-            else if( model.getVoltage() < 0 && circuitGraphic.getImage() != circuitImageB ) {
-                circuitGraphic.setImage( circuitImageB );
+            if (model.getVoltage() > 0 && circuitGraphic.getImage() != circuitImageA) {
+                circuitGraphic.setImage(circuitImageA);
+            } else if (model.getVoltage() < 0 && circuitGraphic.getImage() != circuitImageB) {
+                circuitGraphic.setImage(circuitImageB);
             }
         }
     }
@@ -538,17 +550,18 @@ public class PhotoelectricModule extends BaseLaserModule {
      * intensity of the beam is changed.
      */
     private class PhotonPlacementManager implements PhotonEmittedListener {
-        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
-            if( viewType == BEAM_VIEW ) {
+        public void photonEmitted(PhotonEmittedEvent event) {
+//        public void photonEmittedEventOccurred(PhotonEmittedEvent event) {
+            if (viewType == BEAM_VIEW) {
                 Photon photon = event.getPhoton();
-                Line2D photonPath = new Line2D.Double( photon.getPosition().getX(),
-                                                       photon.getPosition().getY(),
-                                                       photon.getPosition().getX() + photon.getVelocity().getX(),
-                                                       photon.getPosition().getY() + photon.getVelocity().getY() );
-                Point2D p = MathUtil.getLinesIntersection( photonPath.getP1(), photonPath.getP2(),
-                                                           targetPlate.getEndpoints()[0], targetPlate.getEndpoints()[1] );
-                photon.setPosition( p.getX() - photon.getVelocity().getX(),
-                                    p.getY() - photon.getVelocity().getY() );
+                Line2D photonPath = new Line2D.Double(photon.getPosition().getX(),
+                        photon.getPosition().getY(),
+                        photon.getPosition().getX() + photon.getVelocity().getX(),
+                        photon.getPosition().getY() + photon.getVelocity().getY());
+                Point2D p = MathUtil.getLinesIntersection(photonPath.getP1(), photonPath.getP2(),
+                        targetPlate.getEndpoints()[0], targetPlate.getEndpoints()[1]);
+                photon.setPosition(p.getX() - photon.getVelocity().getX(),
+                        p.getY() - photon.getVelocity().getY());
             }
         }
     }

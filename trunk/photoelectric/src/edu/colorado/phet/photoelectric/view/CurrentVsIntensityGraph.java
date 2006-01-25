@@ -28,7 +28,8 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CurrentVsIntensityGraph extends Chart {
+public class CurrentVsIntensityGraph extends PhotoelectricGraph {
+//public class CurrentVsIntensityGraph extends Chart {
 
     //-----------------------------------------------------------------
     // Class data
@@ -51,7 +52,9 @@ public class CurrentVsIntensityGraph extends Chart {
     //-----------------------------------------------------------------
 
     public CurrentVsIntensityGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize, 50, 100, 1, 1 );
+        super( component, range, chartSize, 50, 100, PhotoelectricModel.MAX_CURRENT / 6,
+                PhotoelectricModel.MAX_CURRENT / 6);
+//        super( component, range, chartSize, 50, 100, 1, 1 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );
@@ -118,5 +121,9 @@ public class CurrentVsIntensityGraph extends Chart {
      */
     public void clearLinePlot() {
         lineDataSet.clear();
+    }
+
+    public void clearData() {
+        clearLinePlot();
     }
 }

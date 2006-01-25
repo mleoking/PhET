@@ -11,6 +11,7 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
@@ -74,7 +75,8 @@ public class GraphPanel2 extends JPanel {
                 isVisible = false;
             }
         }
-        controlPanel.setLogoVisible( isVisible );
+        PhetApplication.instance().getModule(0).getLogoPanel().setVisible( isVisible );
+//        controlPanel.setLogoVisible( isVisible );
     }
 
     private void addGraph( String title, final GraphPanel graphPanel, String xLabel, String yLabel ) {
@@ -108,6 +110,7 @@ public class GraphPanel2 extends JPanel {
         cb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 graphPanel.setVisible( cb.isSelected() );
+                graphPanel.clearGraph();
                 currentVsVoltageYLabel.setVisible( cb.isSelected() );
                 currentVsVoltageXLabel.setVisible( cb.isSelected() );
                 setLogoVisibility( controlPanel );

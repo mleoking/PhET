@@ -26,7 +26,8 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class CurrentVsVoltageGraph extends Chart {
+public class CurrentVsVoltageGraph extends PhotoelectricGraph {
+//public class CurrentVsVoltageGraph extends Chart {
 
     //-----------------------------------------------------------------
     // Class data
@@ -52,7 +53,9 @@ public class CurrentVsVoltageGraph extends Chart {
     //-----------------------------------------------------------------
 
     public CurrentVsVoltageGraph( Component component, final PhotoelectricModel model ) {
-        super( component, range, chartSize, 2, 2, 2, 2 );
+        super( component, range, chartSize, 2, 2, PhotoelectricModel.MAX_CURRENT / 6,
+                PhotoelectricModel.MAX_CURRENT / 6 );
+//        super( component, range, chartSize, 2, 2, 2, 2 );
 
 //        PhetTextGraphic yLabel = new PhetTextGraphic( component, titleFont, "Current", Color.black );
 //        setYAxisTitle( yLabel );
@@ -132,6 +135,10 @@ public class CurrentVsVoltageGraph extends Chart {
      * Removes the line plot from the graph
      */
     public void clearLinePlot() {
+        lineDataSet.clear();
+    }
+
+    public void clearData() {
         lineDataSet.clear();
     }
 }
