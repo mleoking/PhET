@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.photoelectric.model.util;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -47,7 +48,8 @@ public class ScalarDataRecorder {
     // Size, in milliseconds, of the sliding window over which samples are averaged
     private double timeWindow;
     private double timeSpanOfEntries;
-    private AbstractClock clock;
+    private IClock clock;
+//    private AbstractClock clock;
     private PeriodicDataComputer periodicDataComputer;
     private double minVal;
     private double maxVal;
@@ -55,7 +57,8 @@ public class ScalarDataRecorder {
     /**
      * @param clock
      */
-    public ScalarDataRecorder( AbstractClock clock ) {
+    public ScalarDataRecorder( IClock clock ) {
+//    public ScalarDataRecorder( AbstractClock clock ) {
         this.clock = clock;
     }
 
@@ -67,7 +70,8 @@ public class ScalarDataRecorder {
      *                             age out of the window, they are discarded from the recorder. The
      *                             units are simulation clock ticks
      */
-    public ScalarDataRecorder( AbstractClock clock,
+    public ScalarDataRecorder( IClock clock,
+//    public ScalarDataRecorder( AbstractClock clock,
                                int clientUpdateInterval,
                                int simulationTimeWindow ) {
         this.clock = clock;
@@ -86,7 +90,8 @@ public class ScalarDataRecorder {
      * record.
      */
     protected synchronized void computeDataStatistics() {
-        double currTime = clock.getRunningTime();
+        double currTime = clock.getSimulationTime();
+//        double currTime = clock.getRunningTime();
 
         // Remove entries from the data record that have aged out of the time window
         if( dataRecord.size() > 0 ) {
@@ -126,7 +131,8 @@ public class ScalarDataRecorder {
      *
      */
     public synchronized void addDataRecordEntry( double value ) {
-        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
+        DataRecordEntry entry = new DataRecordEntry( clock.getSimulationTime(), value );
+//        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
         dataRecord.add( entry );
     }
 
@@ -237,7 +243,8 @@ public class ScalarDataRecorder {
      */
     private class PeriodicDataComputer {
         Timer timer;
-        AbstractClock clock;
+        IClock clock;
+//        AbstractClock clock;
 
         PeriodicDataComputer( int clientUpdateInterval ) {
             this.timer = new Timer( clientUpdateInterval, new ActionListener() {

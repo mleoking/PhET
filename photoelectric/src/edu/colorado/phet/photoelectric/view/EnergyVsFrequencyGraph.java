@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EnergyVsFrequencyGraph extends Chart {
+public class EnergyVsFrequencyGraph extends PhotoelectricGraph {
 
     //-----------------------------------------------------------------
     // Class data
@@ -48,6 +48,7 @@ public class EnergyVsFrequencyGraph extends Chart {
     private DataSet lineDataSet = new DataSet();
     private double kneeFrequency;
     private double lastFrequencyRecorded;
+    private boolean beamOn;
 
     //-----------------------------------------------------------------
     // Instance methods
@@ -90,6 +91,18 @@ public class EnergyVsFrequencyGraph extends Chart {
             public void wavelengthChanged( PhotoelectricModel.ChangeEvent event ) {
                 updateGraph( model );
             }
+
+            public void beamIntensityChanged( PhotoelectricModel.ChangeEvent event ) {
+                if( event.getPhotoelectricModel().getBeam().getPhotonsPerSecond() == 0 ) {
+                    beamOn = false;
+                    dotDataSet.clear();
+                    updateGraph( model );
+                }
+                else {
+                    beamOn = true;
+                    updateGraph( model );
+                }
+            }
         } );
     }
 
@@ -98,10 +111,12 @@ public class EnergyVsFrequencyGraph extends Chart {
     }
 
     private void updateGraph( PhotoelectricModel model ) {
-        double frequency = PhysicsUtil.wavelengthToFrequency( model.getWavelength() );
-        double workFunction = model.getTarget().getMaterial().getWorkFunction();
-        double energy = Math.max( 0, PhysicsUtil.wavelengthToEnergy( model.getWavelength() ) - workFunction );
-        addDataPoint( frequency, energy );
+        if( beamOn ) {
+            double frequency = PhysicsUtil.wavelengthToFrequency( model.getWavelength() );
+            double workFunction = model.getTarget().getMaterial().getWorkFunction();
+            double energy = Math.max( 0, PhysicsUtil.wavelengthToEnergy( model.getWavelength() ) - workFunction );
+            addDataPoint( frequency, energy );
+        }
     }
 
     /**
@@ -133,5 +148,9 @@ public class EnergyVsFrequencyGraph extends Chart {
      */
     public void clearLinePlot() {
         lineDataSet.clear();
+    }
+
+    public void clearData() {
+        clearLinePlot();
     }
 }

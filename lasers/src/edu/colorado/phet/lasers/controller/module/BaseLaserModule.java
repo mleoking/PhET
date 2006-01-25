@@ -35,6 +35,7 @@ import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeter;
+//import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

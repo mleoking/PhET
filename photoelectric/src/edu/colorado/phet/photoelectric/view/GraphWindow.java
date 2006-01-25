@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+//import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
@@ -34,7 +35,8 @@ public class GraphWindow extends JDialog {
     private CurrentVsVoltageGraph currentVsVoltageGraph;
     private CurrentVsIntensityGraph currentVsIntensityGraph;
     private EnergyVsFrequencyGraph energyVsFrequencyGraph;
-    private AbstractClock clock;
+    private IClock clock;
+//    private AbstractClock clock;
     private PhotoelectricModel model;
     private JPanel currentVsVoltagePanel;
     private JPanel currentVsIntensityPanel;
@@ -44,7 +46,8 @@ public class GraphWindow extends JDialog {
     // Constructors and initialization
     //----------------------------------------------------------------
 
-    public GraphWindow( Frame frame, AbstractClock clock, PhotoelectricModel model ) {
+    public GraphWindow( Frame frame, IClock clock, PhotoelectricModel model ) {
+//    public GraphWindow( Frame frame, AbstractClock clock, PhotoelectricModel model ) {
         super( frame, false );
 
         // Set up the defaultFont we want
