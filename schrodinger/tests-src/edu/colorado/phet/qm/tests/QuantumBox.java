@@ -659,12 +659,11 @@ class QuantumBoxFrame extends Frame
             handleResize();
             return;
         }
-        boolean allQuiet = true;
+
         if( !stoppedCheck.getState() && !dragging ) {
             int val = speedBar.getValue();
             double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
             increaseTime( tadd );
-            allQuiet = false;
         }
         else {
             lastTime = 0;
@@ -674,47 +673,23 @@ class QuantumBoxFrame extends Frame
         g.fillRect( 0, 0, winSize.width, winSize.height );
         g.setColor( cv.getForeground() );
 
-        int i, j;
+        int i;
+        int j;
         for( i = 1; i != viewCount; i++ ) {
             g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
             g.drawLine( 0, viewList[i].paneY,
                         winSize.width, viewList[i].paneY );
         }
 
-        int x, y;
-//        xpoints = new int[3]; // XXX
-//        xpoints = new int[3];
         if( dragStop ) {
             resetTime();
         }
-        double norm = 0;
-        double normmult = 0, normmult2 = 0;
-        allQuiet = false;
+
         if( !editingFunc ) {
-            // update phases
-            updatePhase1();
-            for( i = 0; i != maxTerms; i++ ) {
-                for( j = 0; j != maxTerms; j++ ) {
-                    norm += magcoef[i][j] * magcoef[i][j];
-                }
-            }
-            normmult2 = 1 / norm;
-            if( norm == 0 ) {
-                normmult2 = 0;
-            }
-            normmult = Math.sqrt( normmult2 );
-            genFunc( (float)normmult );
+            updatePhases();
         }
-        double brightmult =
-                Math.exp( brightnessBar.getValue() / 200. - 5 );
-        if( norm == 0 ) {
-            normmult = normmult2 = 0;
-        }
-        if( dragStop ) {
-            allQuiet = true;
-        }
+        double brightmult = Math.exp( brightnessBar.getValue() / 200. - 5 );
         if( showMode ) {
-            allQuiet = false;
             modephasecos = Math.cos(
                     elevels[selectedCoefX][selectedCoefY] * t +
                     phasecoefadj[selectedCoefX][selectedCoefY] );
@@ -724,7 +699,7 @@ class QuantumBoxFrame extends Frame
         }
         //System.out.print(xdir + " " + ydir + " " + xFirst + " " +
         //	 viewAngleSin + " " + viewAngleCos+ "\n");
-
+        int x, y;
         if( viewPotential != null ) {
             int floory = viewPotential.y + viewPotential.height - 5;
             double ymult = 200;
@@ -896,31 +871,10 @@ class QuantumBoxFrame extends Frame
         }
 
         realg.drawImage( dbimage, 0, 0, this );
-        if( !stoppedCheck.getState() && !allQuiet ) {
+        if( !stoppedCheck.getState() ) {
             cv.repaint( pause );
         }
     }
-
-    private void updatePhase1() {
-        int i;
-        int j;
-        for( i = 0; i != maxTerms; i++ ) {
-            for( j = 0; j != maxTerms; j++ ) {
-                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
-                    magcoef[i][j] = 0;
-                    phasecoef[i][j] = 0;
-                    phasecoefadj[i][j] = 0;
-                    continue;
-                }
-
-                phasecoef[i][j] =
-                        ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
-                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
-                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
-            }
-        }
-    }
-
 
     void updateMapView( Graphics g, View vmap,
                         float arrayr[][], float arrayi[][],
@@ -2086,5 +2040,40 @@ class QuantumBoxFrame extends Frame
     private void resetTime() {
         t = 0;
     }
+
+    private void updatePhases() {
+        int i;
+        int j;
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
+                    magcoef[i][j] = 0;
+                    phasecoef[i][j] = 0;
+                    phasecoefadj[i][j] = 0;
+                    continue;
+                }
+
+                phasecoef[i][j] =
+                        ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
+                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
+                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
+            }
+        }
+        double norm = 0;
+        double normmult = 0;
+        double normmult2 = 0;
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                norm += magcoef[i][j] * magcoef[i][j];
+            }
+        }
+        normmult2 = 1 / norm;
+        if( norm == 0 ) {
+            normmult2 = 0;
+        }
+        normmult = Math.sqrt( normmult2 );
+        genFunc( (float)normmult );
+    }
+
 };
 
