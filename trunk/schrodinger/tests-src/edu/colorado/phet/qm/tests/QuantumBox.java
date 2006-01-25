@@ -182,7 +182,7 @@ class QuantumBoxFrame extends Frame
             viewCurrent, viewXMap, viewPMap, viewStatesMap;
     View viewList[];
     int viewCount;
-    boolean showMode;
+    boolean showModeDEBUG;
     boolean editingFunc;
     boolean dragStop;
 
@@ -668,18 +668,8 @@ class QuantumBoxFrame extends Frame
         else {
             lastTime = 0;
         }
-        Color gray2 = new Color( 127, 127, 127 );
-        g.setColor( cv.getBackground() );
-        g.fillRect( 0, 0, winSize.width, winSize.height );
-        g.setColor( cv.getForeground() );
-
-        int i;
-        int j;
-        for( i = 1; i != viewCount; i++ ) {
-            g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
-            g.drawLine( 0, viewList[i].paneY,
-                        winSize.width, viewList[i].paneY );
-        }
+        Color gray2 = fillBackground( g );
+        drawViewBounds( g );
 
         if( dragStop ) {
             resetTime();
@@ -689,7 +679,7 @@ class QuantumBoxFrame extends Frame
             updatePhases();
         }
         double brightmult = Math.exp( brightnessBar.getValue() / 200. - 5 );
-        if( showMode ) {
+        if( showModeDEBUG ) {
             modephasecos = Math.cos(
                     elevels[selectedCoefX][selectedCoefY] * t +
                     phasecoefadj[selectedCoefX][selectedCoefY] );
@@ -697,30 +687,27 @@ class QuantumBoxFrame extends Frame
                 modephasecos = -modephasecos;
             }
         }
-        //System.out.print(xdir + " " + ydir + " " + xFirst + " " +
-        //	 viewAngleSin + " " + viewAngleCos+ "\n");
-        int x, y;
         if( viewPotential != null ) {
             int floory = viewPotential.y + viewPotential.height - 5;
             double ymult = 200;
             if( floorValues == null ) {
                 floorValues = new int[floory + 1];
             }
-            for( i = 0; i <= floory; i++ ) {
+            for( int i = 0; i <= floory; i++ ) {
                 floorValues[i] = 0;
             }
-            for( i = 1; i != sampleCount; i++ ) {
-                for( j = 1; j != sampleCount; j++ ) {
+            for( int i = 1; i != sampleCount; i++ ) {
+                for( int j = 1; j != sampleCount; j++ ) {
                     double dy = elevels[i][j];
                     double m = magcoef[i][j] * magcoef[i][j];
                     int mc = (int)( ( 256 - 32 ) * m ) + 1;
-                    y = floory - (int)( ymult * dy );
+                    int y = floory - (int)( ymult * dy );
                     if( y >= 0 && y <= floory ) {
                         floorValues[y] += mc;
                     }
                 }
             }
-            for( i = 0; i <= floory; i++ ) {
+            for( int i = 0; i <= floory; i++ ) {
                 if( floorValues[i] == 0 ) {
                     continue;
                 }
@@ -737,41 +724,9 @@ class QuantumBoxFrame extends Frame
             g.drawLine( x0, 0, x0, floory );
             g.drawLine( viewXMap.x, floory, x0, floory );
 
-//            // calculate expectation value of E
-//            if( norm != 0 && ( expectCheckItem.getState() ||
-//                               uncertaintyCheckItem.getState() ) ) {
-//                double expecte = 0;
-//                double expecte2 = 0;
-//                for( i = 1; i != sampleCount; i++ ) {
-//                    for( j = 1; j != sampleCount; j++ ) {
-//                        double prob = magcoef[i][j] * magcoef[i][j] * normmult2;
-//                        expecte += prob * elevels[i][j];
-//                        expecte2 += prob * elevels[i][j] * elevels[i][j];
-//                    }
-//                }
-//                double uncert = Math.sqrt( expecte2 - expecte * expecte );
-//                if( uncertaintyCheckItem.getState() ) {
-//                    if( !( uncert >= 0 ) ) {
-//                        uncert = 0;
-//                    }
-//                    g.setColor( Color.blue );
-//                    y = floory - (int)( ymult * ( expecte + uncert ) );
-//                    g.drawLine( 0, y, winSize.width, y );
-//                    y = floory - (int)( ymult * ( expecte - uncert ) );
-//                    if( expecte - uncert >= 0 ) {
-//                        g.drawLine( 0, y, winSize.width, y );
-//                    }
-//                }
-//                if( expectCheckItem.getState() ) {
-//                    y = floory - (int)( ymult * expecte );
-//                    g.setColor( Color.red );
-//                    g.drawLine( 0, y, winSize.width, y );
-//                }
-//            }
-
             if( selectedCoefX != -1 && !dragging ) {
                 g.setColor( Color.yellow );
-                y = floory - (int)( ymult * elevels[selectedCoefX][selectedCoefY] );
+                int y = floory - (int)( ymult * elevels[selectedCoefX][selectedCoefY] );
                 g.drawLine( 0, y, winSize.width, y );
             }
         }
@@ -781,7 +736,7 @@ class QuantumBoxFrame extends Frame
         }
         if( viewPMap != null ) {
             int pres = maxTerms * 2;
-            for( x = 0; x != maxTerms * maxTerms * 8; x++ ) {
+            for( int x = 0; x != maxTerms * maxTerms * 8; x++ ) {
                 data[x] = 0;
             }
             int ymult = pres * 2;
@@ -791,8 +746,8 @@ class QuantumBoxFrame extends Frame
             int s2 = maxTerms;
             int poff = ( pres - sampleCount ) / 2;
             //System.out.print(s2 + " " + poff + " " + sampleCount + "\n");
-            for( x = 0; x != sampleCount; x++ ) {
-                for( y = 0; y != sampleCount; y++ ) {
+            for( int x = 0; x != sampleCount; x++ ) {
+                for( int y = 0; y != sampleCount; y++ ) {
                     int o = ( ( x + poff + s2 ) & mask ) * 2 + ( ( y + poff + s2 ) & mask ) * ymult;
                     data[o] = func[x][y];
                     data[o + 1] = funci[x][y];
@@ -806,8 +761,8 @@ class QuantumBoxFrame extends Frame
                 pfuncr = new float[pres + 1][pres + 1];
                 pfunci = new float[pres + 1][pres + 1];
             }
-            for( x = 0; x <= s0; x++ ) {
-                for( y = 0; y <= s0; y++ ) {
+            for( int x = 0; x <= s0; x++ ) {
+                for( int y = 0; y <= s0; y++ ) {
                     int o = ( ( s0 - 1 - x + p0 + s2 ) & mask ) * 2 +
                             ( ( s0 - 1 - y + p0 + s2 ) & mask ) * ymult;
                     pfuncr[x][y] = data[o] * m;
@@ -825,10 +780,10 @@ class QuantumBoxFrame extends Frame
             int termWidth = getTermWidth();
             int stateSize = termWidth;
             int ss2 = termWidth / 2;
-            for( i = 1; i <= maxDispTerms; i++ ) {
-                for( j = 1; j <= maxDispTerms; j++ ) {
-                    x = viewStatesMap.x + ( i - 1 ) * termWidth + ss2;
-                    y = viewStatesMap.y + ( j - 1 ) * termWidth + ss2;
+            for( int i = 1; i <= maxDispTerms; i++ ) {
+                for( int j = 1; j <= maxDispTerms; j++ ) {
+                    int x = viewStatesMap.x + ( i - 1 ) * termWidth + ss2;
+                    int y = viewStatesMap.y + ( j - 1 ) * termWidth + ss2;
                     boolean yel = ( selectedCoefX != -1 &&
                                     elevels[selectedCoefX][selectedCoefY] == elevels[i][j] );
                     g.setColor( yel ? Color.yellow :
@@ -843,8 +798,8 @@ class QuantumBoxFrame extends Frame
             }
             g.setColor( Color.white );
             if( viewStatesMap.x > termWidth * 3 / 2 && aspectRatio == 1 ) {
-                x = winSize.width - stateSize;
-                y = viewStatesMap.y + viewStatesMap.height / 2;
+                int x = winSize.width - stateSize;
+                int y = viewStatesMap.y + viewStatesMap.height / 2;
                 double tcos = Math.cos( -elevels[1][1] * t / 2 + pi / 2 );
                 double tsin = Math.sin( -elevels[1][1] * t / 2 + pi / 2 );
                 int xa = (int)( tcos * ss2 );
@@ -858,8 +813,8 @@ class QuantumBoxFrame extends Frame
 
         if( selectedCoefX != -1 && viewXMap != null ) {
             g.setColor( Color.yellow );
-            for( i = 0; i != selectedCoefX; i++ ) {
-                for( j = 0; j != selectedCoefY; j++ ) {
+            for( int i = 0; i != selectedCoefX; i++ ) {
+                for( int j = 0; j != selectedCoefY; j++ ) {
                     int x1 = viewXMap.x + viewXMap.width * i / selectedCoefX;
                     int x0 = viewXMap.width / selectedCoefX;
                     int y1 = viewXMap.y + viewXMap.height * j / selectedCoefY;
@@ -873,6 +828,21 @@ class QuantumBoxFrame extends Frame
         realg.drawImage( dbimage, 0, 0, this );
         if( !stoppedCheck.getState() ) {
             cv.repaint( pause );
+        }
+    }
+
+    private Color fillBackground( Graphics g ) {
+        Color gray2 = new Color( 127, 127, 127 );
+        g.setColor( cv.getBackground() );
+        g.fillRect( 0, 0, winSize.width, winSize.height );
+        return gray2;
+    }
+
+    private void drawViewBounds( Graphics g ) {
+        for( int i = 1; i != viewCount; i++ ) {
+            g.setColor( i == selectedPaneHandle ? Color.yellow : Color.gray );
+            g.drawLine( 0, viewList[i].paneY,
+                        winSize.width, viewList[i].paneY );
         }
     }
 
@@ -1686,7 +1656,7 @@ class QuantumBoxFrame extends Frame
         if( ( e.getModifiers() & MouseEvent.BUTTON1_MASK ) == 0 ) {
             return;
         }
-        dragging = editingFunc = dragStop = showMode = false;
+        dragging = editingFunc = dragStop = showModeDEBUG = false;
         dragSet = dragClear = false;
         mouseMoved( e );
         cv.repaint( pause );
