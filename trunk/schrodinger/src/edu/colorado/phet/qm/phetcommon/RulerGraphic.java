@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -15,7 +15,7 @@ import java.awt.*;
  * Copyright (c) Jan 16, 2006 by Sam Reid
  */
 
-public class RulerGraphic extends PNode {
+public class RulerGraphic extends PhetPNode {
     private PPath base;
     private String[] readings;
     private String units;
@@ -110,4 +110,5 @@ public class RulerGraphic extends PNode {
         setWidth( width + horizontalInset * 2 );
         update();
     }
+
 }

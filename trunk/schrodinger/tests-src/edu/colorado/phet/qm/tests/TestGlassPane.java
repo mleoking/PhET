@@ -22,6 +22,7 @@ public class TestGlassPane extends PCanvas {
     static ArrayList mouseListeners = new ArrayList();
     static ArrayList mouseMotionListeners = new ArrayList();
     static ArrayList mouseWheelListeners = new ArrayList();
+    public static TestGlassPane instance;
 
     public synchronized void addMouseListener( MouseListener l ) {
         mouseListeners.add( l );
@@ -36,6 +37,7 @@ public class TestGlassPane extends PCanvas {
     }
 
     public TestGlassPane( final JFrame frame ) {
+        instance = this;
         contentPane = frame.getContentPane();
         PPath path = new PPath( new Ellipse2D.Double( 50, 50, 200, 200 ) );
         path.setPaint( Color.blue );
