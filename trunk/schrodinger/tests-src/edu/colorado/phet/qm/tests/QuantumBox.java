@@ -220,15 +220,6 @@ class QuantumBoxFrame extends Frame
     QuantumBox applet;
     boolean useBufferedImage = false;
 
-    int getrand( int x ) {
-        int q = random.nextInt();
-        if( q < 0 ) {
-            q = -q;
-        }
-        return q % x;
-    }
-
-
     QuantumBoxFrame( QuantumBox a ) {
         super( "Quantum 2-D Box Applet v1.5" );
         applet = a;
@@ -645,70 +636,6 @@ class QuantumBoxFrame extends Frame
         cv.repaint( pause );
     }
 
-    // given a QuantumBox shape (func[][]), calculate the frequencies.
-    // Unless novel is true, we also preserve the imaginary parts
-    // (funci[][]) which is the same as preserving the velocity of the
-    // QuantumBox (funci is not quite the velocity but all the velocity
-    // information is contained in it).
-    void transform( boolean novel ) {
-        t = 0;
-        int nn[] = new int[2];
-        nn[0] = nn[1] = maxTerms * 2;
-        int x, y;
-        int ymult = maxTerms * 4;
-        int mx = maxTerms * 2;
-        float sign = -1;
-        for( x = 0; x != maxTerms * maxTerms * 8; x++ ) {
-            data[x] = 0;
-        }
-        for( x = 1; x < sampleCount; x++ ) {
-            for( y = 1; y < sampleCount; y++ ) {
-                float fi = ( novel ) ? 0 : (float)funci[x][y];
-                // copy func[x][y] to data array
-                data[x * 2 + y * ymult] = func[x][y];
-                data[x * 2 + y * ymult + 1] = fi;
-                // copy func[x][y] to (x,-y), (-x,-y), (x,-y)
-                data[( mx - x ) * 2 + y * ymult] = sign * func[x][y];
-                data[( mx - x ) * 2 + y * ymult + 1] = sign * fi;
-                data[( mx - x ) * 2 + ( mx - y ) * ymult] = func[x][y];
-                data[( mx - x ) * 2 + ( mx - y ) * ymult + 1] = fi;
-                data[x * 2 + ( mx - y ) * ymult] = sign * func[x][y];
-                data[x * 2 + ( mx - y ) * ymult + 1] = sign * fi;
-            }
-        }
-        ndfft( data, nn, 2, 1 );
-        double norm = -4. / ( mx * mx );
-
-        // copy frequency info
-        for( x = 0; x != maxTerms; x++ ) {
-            for( y = 0; y != maxTerms; y++ ) {
-                double a = data[x * 2 + y * ymult] * norm;
-                double b = data[x * 2 + y * ymult + 1] * norm;
-                if( a < epsilon && a > -epsilon ) {
-                    a = 0;
-                }
-                if( b < epsilon && b > -epsilon ) {
-                    b = 0;
-                }
-                if( novel ) {
-                    b = 0;
-                }
-                // convert complex coefficient to magnitude and phase
-                magcoef[x][y] = Math.sqrt( a * a + b * b );
-                double ph2 = Math.atan2( b, a );
-                phasecoefadj[x][y] = ph2;
-                phasecoef[x][y] = ph2;
-            }
-        }
-        cv.repaint( pause );
-        if( alwaysNormItem.getState() ) {
-            normalize();
-        }
-        else if( alwaysMaxItem.getState() ) {
-            maximize();
-        }
-    }
-
     int getPanelHeight() {
         return winSize.height / 3;
     }
@@ -736,13 +663,7 @@ class QuantumBoxFrame extends Frame
         if( !stoppedCheck.getState() && !dragging ) {
             int val = speedBar.getValue();
             double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
-            long sysTime = System.currentTimeMillis();
-            if( lastTime == 0 ) {
-                lastTime = sysTime;
-            }
-            tadd *= ( sysTime - lastTime ) * ( 1 / 500. );
-            t += tadd;
-            lastTime = sysTime;
+            increaseTime( tadd );
             allQuiet = false;
         }
         else {
@@ -764,24 +685,16 @@ class QuantumBoxFrame extends Frame
 //        xpoints = new int[3]; // XXX
 //        xpoints = new int[3];
         if( dragStop ) {
-            t = 0;
+            resetTime();
         }
         double norm = 0;
         double normmult = 0, normmult2 = 0;
+        allQuiet = false;
         if( !editingFunc ) {
             // update phases
+            updatePhase1();
             for( i = 0; i != maxTerms; i++ ) {
                 for( j = 0; j != maxTerms; j++ ) {
-                    if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
-                        magcoef[i][j] = phasecoef[i][j] =
-                        phasecoefadj[i][j] = 0;
-                        continue;
-                    }
-                    allQuiet = false;
-                    phasecoef[i][j] =
-                            ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
-                    phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
-                    phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
                     norm += magcoef[i][j] * magcoef[i][j];
                 }
             }
@@ -849,37 +762,37 @@ class QuantumBoxFrame extends Frame
             g.drawLine( x0, 0, x0, floory );
             g.drawLine( viewXMap.x, floory, x0, floory );
 
-            // calculate expectation value of E
-            if( norm != 0 && ( expectCheckItem.getState() ||
-                               uncertaintyCheckItem.getState() ) ) {
-                double expecte = 0;
-                double expecte2 = 0;
-                for( i = 1; i != sampleCount; i++ ) {
-                    for( j = 1; j != sampleCount; j++ ) {
-                        double prob = magcoef[i][j] * magcoef[i][j] * normmult2;
-                        expecte += prob * elevels[i][j];
-                        expecte2 += prob * elevels[i][j] * elevels[i][j];
-                    }
-                }
-                double uncert = Math.sqrt( expecte2 - expecte * expecte );
-                if( uncertaintyCheckItem.getState() ) {
-                    if( !( uncert >= 0 ) ) {
-                        uncert = 0;
-                    }
-                    g.setColor( Color.blue );
-                    y = floory - (int)( ymult * ( expecte + uncert ) );
-                    g.drawLine( 0, y, winSize.width, y );
-                    y = floory - (int)( ymult * ( expecte - uncert ) );
-                    if( expecte - uncert >= 0 ) {
-                        g.drawLine( 0, y, winSize.width, y );
-                    }
-                }
-                if( expectCheckItem.getState() ) {
-                    y = floory - (int)( ymult * expecte );
-                    g.setColor( Color.red );
-                    g.drawLine( 0, y, winSize.width, y );
-                }
-            }
+//            // calculate expectation value of E
+//            if( norm != 0 && ( expectCheckItem.getState() ||
+//                               uncertaintyCheckItem.getState() ) ) {
+//                double expecte = 0;
+//                double expecte2 = 0;
+//                for( i = 1; i != sampleCount; i++ ) {
+//                    for( j = 1; j != sampleCount; j++ ) {
+//                        double prob = magcoef[i][j] * magcoef[i][j] * normmult2;
+//                        expecte += prob * elevels[i][j];
+//                        expecte2 += prob * elevels[i][j] * elevels[i][j];
+//                    }
+//                }
+//                double uncert = Math.sqrt( expecte2 - expecte * expecte );
+//                if( uncertaintyCheckItem.getState() ) {
+//                    if( !( uncert >= 0 ) ) {
+//                        uncert = 0;
+//                    }
+//                    g.setColor( Color.blue );
+//                    y = floory - (int)( ymult * ( expecte + uncert ) );
+//                    g.drawLine( 0, y, winSize.width, y );
+//                    y = floory - (int)( ymult * ( expecte - uncert ) );
+//                    if( expecte - uncert >= 0 ) {
+//                        g.drawLine( 0, y, winSize.width, y );
+//                    }
+//                }
+//                if( expectCheckItem.getState() ) {
+//                    y = floory - (int)( ymult * expecte );
+//                    g.setColor( Color.red );
+//                    g.drawLine( 0, y, winSize.width, y );
+//                }
+//            }
 
             if( selectedCoefX != -1 && !dragging ) {
                 g.setColor( Color.yellow );
@@ -987,6 +900,27 @@ class QuantumBoxFrame extends Frame
             cv.repaint( pause );
         }
     }
+
+    private void updatePhase1() {
+        int i;
+        int j;
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                if( magcoef[i][j] < epsilon && magcoef[i][j] > -epsilon ) {
+                    magcoef[i][j] = 0;
+                    phasecoef[i][j] = 0;
+                    phasecoefadj[i][j] = 0;
+                    continue;
+                }
+
+                phasecoef[i][j] =
+                        ( -elevels[i][j] * t + phasecoefadj[i][j] ) % ( 2 * pi );
+                phasecoefcos[i][j] = Math.cos( phasecoef[i][j] );
+                phasecoefsin[i][j] = Math.sin( phasecoef[i][j] );
+            }
+        }
+    }
+
 
     void updateMapView( Graphics g, View vmap,
                         float arrayr[][], float arrayi[][],
@@ -2067,5 +2001,90 @@ class QuantumBoxFrame extends Frame
         setupDisplay();
     }
 
+    int getrand( int x ) {
+        int q = random.nextInt();
+        if( q < 0 ) {
+            q = -q;
+        }
+        return q % x;
+    }
+
+    // given a QuantumBox shape (func[][]), calculate the frequencies.
+    // Unless novel is true, we also preserve the imaginary parts
+    // (funci[][]) which is the same as preserving the velocity of the
+    // QuantumBox (funci is not quite the velocity but all the velocity
+    // information is contained in it).
+    void transform( boolean novel ) {
+        t = 0;
+        int nn[] = new int[2];
+        nn[0] = nn[1] = maxTerms * 2;
+        int x, y;
+        int ymult = maxTerms * 4;
+        int mx = maxTerms * 2;
+        float sign = -1;
+        for( x = 0; x != maxTerms * maxTerms * 8; x++ ) {
+            data[x] = 0;
+        }
+        for( x = 1; x < sampleCount; x++ ) {
+            for( y = 1; y < sampleCount; y++ ) {
+                float fi = ( novel ) ? 0 : (float)funci[x][y];
+                // copy func[x][y] to data array
+                data[x * 2 + y * ymult] = func[x][y];
+                data[x * 2 + y * ymult + 1] = fi;
+                // copy func[x][y] to (x,-y), (-x,-y), (x,-y)
+                data[( mx - x ) * 2 + y * ymult] = sign * func[x][y];
+                data[( mx - x ) * 2 + y * ymult + 1] = sign * fi;
+                data[( mx - x ) * 2 + ( mx - y ) * ymult] = func[x][y];
+                data[( mx - x ) * 2 + ( mx - y ) * ymult + 1] = fi;
+                data[x * 2 + ( mx - y ) * ymult] = sign * func[x][y];
+                data[x * 2 + ( mx - y ) * ymult + 1] = sign * fi;
+            }
+        }
+        ndfft( data, nn, 2, 1 );
+        double norm = -4. / ( mx * mx );
+
+        // copy frequency info
+        for( x = 0; x != maxTerms; x++ ) {
+            for( y = 0; y != maxTerms; y++ ) {
+                double a = data[x * 2 + y * ymult] * norm;
+                double b = data[x * 2 + y * ymult + 1] * norm;
+                if( a < epsilon && a > -epsilon ) {
+                    a = 0;
+                }
+                if( b < epsilon && b > -epsilon ) {
+                    b = 0;
+                }
+                if( novel ) {
+                    b = 0;
+                }
+                // convert complex coefficient to magnitude and phase
+                magcoef[x][y] = Math.sqrt( a * a + b * b );
+                double ph2 = Math.atan2( b, a );
+                phasecoefadj[x][y] = ph2;
+                phasecoef[x][y] = ph2;
+            }
+        }
+        cv.repaint( pause );
+        if( alwaysNormItem.getState() ) {
+            normalize();
+        }
+        else if( alwaysMaxItem.getState() ) {
+            maximize();
+        }
+    }
+
+    private void increaseTime( double tadd ) {
+        long sysTime = System.currentTimeMillis();
+        if( lastTime == 0 ) {
+            lastTime = sysTime;
+        }
+        tadd *= ( sysTime - lastTime ) * ( 1 / 500. );
+        t += tadd;
+        lastTime = sysTime;
+    }
+
+    private void resetTime() {
+        t = 0;
+    }
 };
 
