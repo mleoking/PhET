@@ -149,19 +149,7 @@ class QuantumBoxFrame extends Frame
 
     Dimension winSize;
     Image dbimage;
-
-    Random random;
-    int maxTerms = 16;
-    int maxDispTerms = 10;
-    int sampleCount;
-    static final double epsilon = .00001;
-    static final double epsilon2 = .003;
     static final int panePad = 4;
-
-    public String getAppletInfo() {
-        return "QuantumBox by Paul Falstad";
-    }
-
     Button groundButton;
     Button blankButton;
     Button normalizeButton;
@@ -197,27 +185,14 @@ class QuantumBoxFrame extends Frame
     boolean showMode;
     boolean editingFunc;
     boolean dragStop;
-    double aspectRatio = 1;
-    double magcoef[][];
-    double phasecoef[][];
-    double phasecoefcos[][];
-    double phasecoefsin[][];
-    double phasecoefadj[][];
-    double modephasecos;
-    double elevels[][];
-    float data[];
-    static final double pi = 3.14159265358979323846;
-    double step;
-    float func[][];
-    float funci[][];
-    float pfuncr[][], pfunci[][];
+
     PhaseColor phaseColors[][];
     PhaseColor whitePhaseColor;
     Color grayLevels[];
     static final int phaseColorCount = 50;
-    int xpoints[];
-    int ypoints[];
-    int floorValues[];
+//    int xpoints[];
+//    int ypoints[];
+
     int selectedCoefX, selectedCoefY;
     int selectedGridX, selectedGridY;
     int selectedPaneHandle;
@@ -239,8 +214,11 @@ class QuantumBoxFrame extends Frame
     boolean dragSet, dragClear;
     double magDragStart;
     boolean dragging;
-    double t;
+
     int pause;
+    QuantumBoxCanvas cv;
+    QuantumBox applet;
+    boolean useBufferedImage = false;
 
     int getrand( int x ) {
         int q = random.nextInt();
@@ -250,15 +228,16 @@ class QuantumBoxFrame extends Frame
         return q % x;
     }
 
-    QuantumBoxCanvas cv;
-    QuantumBox applet;
 
     QuantumBoxFrame( QuantumBox a ) {
         super( "Quantum 2-D Box Applet v1.5" );
         applet = a;
     }
 
-    boolean useBufferedImage = false;
+
+    public String getAppletInfo() {
+        return "QuantumBox by Paul Falstad";
+    }
 
     public void init() {
         String jv = System.getProperty( "java.class.version" );
@@ -666,42 +645,6 @@ class QuantumBoxFrame extends Frame
         cv.repaint( pause );
     }
 
-    void measureE() {
-        normalize();
-        double n = random.nextDouble();
-        int i = 0, j = 0;
-        int picki = -1;
-        int pickj = -1;
-        for( i = 0; i < sampleCount; i++ ) {
-            for( j = 0; j < sampleCount; j++ ) {
-                double m = magcoef[i][j] * magcoef[i][j];
-                n -= m;
-                if( n < 0 ) {
-                    picki = i;
-                    pickj = j;
-                    i = j = sampleCount;
-                    break;
-                }
-            }
-        }
-        if( picki == -1 ) {
-            return;
-        }
-        for( i = 0; i != sampleCount; i++ ) {
-            for( j = 0; j != sampleCount; j++ ) {
-                if( elevels[i][j] != elevels[picki][pickj] ) {
-                    magcoef[i][j] = 0;
-                }
-            }
-        }
-        if( alwaysNormItem.getState() ) {
-            normalize();
-        }
-        else {
-            maximize();
-        }
-    }
-
     // given a QuantumBox shape (func[][]), calculate the frequencies.
     // Unless novel is true, we also preserve the imaginary parts
     // (funci[][]) which is the same as preserving the velocity of the
@@ -818,8 +761,8 @@ class QuantumBoxFrame extends Frame
         }
 
         int x, y;
-        xpoints = new int[3]; // XXX
-        xpoints = new int[3];
+//        xpoints = new int[3]; // XXX
+//        xpoints = new int[3];
         if( dragStop ) {
             t = 0;
         }
@@ -1669,9 +1612,9 @@ class QuantumBoxFrame extends Frame
         if( e.getSource() == maximizeButton ) {
             maximize();
         }
-        if( e.getSource() == measureEItem ) {
-            measureE();
-        }
+//        if( e.getSource() == measureEItem ) {
+//            measureE();
+//        }
     }
 
     public void adjustmentValueChanged( AdjustmentEvent e ) {
@@ -1694,55 +1637,6 @@ class QuantumBoxFrame extends Frame
             return true;
         }
         return super.handleEvent( ev );
-    }
-
-    void setResolution() {
-        int q = resBar.getValue();
-        sampleCount = 1;
-        while( q-- > 0 ) {
-            sampleCount *= 2;
-        }
-        if( sampleCount < 8 ) {
-            sampleCount = 8;
-        }
-        int oldMaxTerms = maxTerms;
-        maxTerms = sampleCount;
-        System.out.print( "sampleCount = " + maxTerms + "\n" );
-        double oldmagcoef     [][] = magcoef;
-        double oldphasecoefadj[][] = phasecoefadj;
-        magcoef = new double[maxTerms][maxTerms];
-        phasecoef = new double[maxTerms][maxTerms];
-        phasecoefcos = new double[maxTerms][maxTerms];
-        phasecoefsin = new double[maxTerms][maxTerms];
-        phasecoefadj = new double[maxTerms][maxTerms];
-        func = new float[maxTerms + 1][maxTerms + 1];
-        funci = new float[maxTerms + 1][maxTerms + 1];
-        pfuncr = pfunci = null;
-        step = pi / sampleCount;
-        aspectRatio = aspectBar.getValue() / 10.;
-        int i, j;
-        data = new float[maxTerms * maxTerms * 2 * 4];
-        elevels = new double[maxTerms][maxTerms];
-        for( i = 0; i != maxTerms; i++ ) {
-            for( j = 0; j != maxTerms; j++ ) {
-                elevels[i][j] = i * i / ( aspectRatio * aspectRatio ) + j * j;
-            }
-        }
-        double mult = .01 / elevels[1][1];
-        for( i = 0; i != maxTerms; i++ ) {
-            for( j = 0; j != maxTerms; j++ ) {
-                elevels[i][j] *= mult;
-            }
-        }
-        if( oldmagcoef != null ) {
-            for( i = 0; i != oldMaxTerms && i != maxTerms; i++ ) {
-                for( j = 0; j != oldMaxTerms && j != maxTerms; j++ ) {
-                    magcoef[i][j] = oldmagcoef[i][j];
-                    phasecoefadj[i][j] = oldphasecoefadj[i][j];
-                }
-            }
-        }
-        setupDisplay();
     }
 
     void findGridPoint2D( View v, int mx, int my ) {
@@ -2100,5 +1994,78 @@ class QuantumBoxFrame extends Frame
         Image memimage;
         int pixels[];
     }
+
+    double t;
+    double aspectRatio = 1;
+    double magcoef[][];//the wave function..?
+    double phasecoef[][];
+    double phasecoefcos[][];
+    double phasecoefsin[][];
+    double phasecoefadj[][];
+    double modephasecos;
+    double elevels[][];
+    float data[];
+    static final double pi = 3.14159265358979323846;
+    double step;
+    float func[][];
+    float funci[][];
+    float pfuncr[][], pfunci[][];
+    static final double epsilon = .00001;
+    static final double epsilon2 = .003;
+    Random random;
+    int maxTerms = 16;
+    int maxDispTerms = 10;
+    int sampleCount;
+    int floorValues[];
+
+    void setResolution() {
+        int q = resBar.getValue();
+        sampleCount = 1;
+        while( q-- > 0 ) {
+            sampleCount *= 2;
+        }
+        if( sampleCount < 8 ) {
+            sampleCount = 8;
+        }
+        int oldMaxTerms = maxTerms;
+        maxTerms = sampleCount;
+        System.out.print( "sampleCount = " + maxTerms + "\n" );
+        double oldmagcoef     [][] = magcoef;
+        double oldphasecoefadj[][] = phasecoefadj;
+        magcoef = new double[maxTerms][maxTerms];
+        phasecoef = new double[maxTerms][maxTerms];
+        phasecoefcos = new double[maxTerms][maxTerms];
+        phasecoefsin = new double[maxTerms][maxTerms];
+        phasecoefadj = new double[maxTerms][maxTerms];
+        func = new float[maxTerms + 1][maxTerms + 1];
+        funci = new float[maxTerms + 1][maxTerms + 1];
+        pfuncr = pfunci = null;
+        step = pi / sampleCount;
+        aspectRatio = aspectBar.getValue() / 10.;
+        int i, j;
+        data = new float[maxTerms * maxTerms * 2 * 4];
+        elevels = new double[maxTerms][maxTerms];
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                elevels[i][j] = i * i / ( aspectRatio * aspectRatio ) + j * j;
+            }
+        }
+        double mult = .01 / elevels[1][1];
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                elevels[i][j] *= mult;
+            }
+        }
+        if( oldmagcoef != null ) {
+            for( i = 0; i != oldMaxTerms && i != maxTerms; i++ ) {
+                for( j = 0; j != oldMaxTerms && j != maxTerms; j++ ) {
+                    magcoef[i][j] = oldmagcoef[i][j];
+                    phasecoefadj[i][j] = oldphasecoefadj[i][j];
+                }
+            }
+        }
+        setupDisplay();
+    }
+
 };
 
