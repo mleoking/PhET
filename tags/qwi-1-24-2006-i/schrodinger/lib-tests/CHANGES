@@ -1,0 +1,79 @@
+---------------------------------------------------------------------------
+JLAPACK 0.6 -- released January 14, 2002
+
+  Changed the way that variables are declared.  f2j now generates variables
+ as local to the method (where possible).  This normally gives better
+ performance than using static class variables.
+
+  Fixed a bug in the simplified interfaces.  Thanks to Michael DiClemente
+ for the bug report.
+
+---------------------------------------------------------------------------
+JLAPACK 0.5 -- released August 23, 2001
+
+  This version can be generated either as Java source or directly as
+ JVM bytecode.  The main change for 0.5 is that the library is based
+ on the LAPACK 3.0 source code.
+
+---------------------------------------------------------------------------
+JLAPACK 0.4 -- unreleased
+
+  This was the first version generated directly as JVM bytecode. This
+ version was never released because it was based on the LAPACK 2.0 sources
+ and we wanted the next release to be based on the LAPACK 3.0 sources.
+
+---------------------------------------------------------------------------
+JLAPACK 0.3a released June 5, 1998
+
+  This is an update to version 0.3, only minor changes have been made.
+
+  This release is reorganized a bit to make life easier on Win 95/NT
+ users.  The JLAPACK classes are now all grouped into one ZIP file,
+ much like the core Java classes.  So, users should adjust their 
+ CLASSPATH to point at the ZIP file instead of jlapack-0.3/classes.
+ The INSTALL file has details.
+
+  Also the source code for the simplified interfaces is now stored in
+ the "ssrc" directory, rather than in "src".
+
+---------------------------------------------------------------------------
+JLAPACK 0.3 released May 22, 1998
+
+  This is the first general release of JLAPACK.
+
+  The major change for this release is that we no longer wrap every
+ scalar in a wrapper.  We wrap only those scalars that really need
+ to be wrapped - that is, they are modified in the function/subroutine
+ or in some called function/subroutine.  This helps a lot in the BLAS
+ and LAPACK libraries since most scalars are not modified.  Of course,
+ this means that the interface is totally different from the previous
+ version.
+
+  This release contains some simplified front-ends to the numerical
+ routines.  They should provide a more "Java-like" interface to the
+ underlying functions by accepting row-major 2D arrays and omitting
+ unnecessary parameters such as leading dimension and offset.
+  
+  Comments from the original fortran source code are now retained
+ in the Java source.
+
+  This release was compiled with Sun's JDK 1.1.6 on Solaris 2.5 with
+ optimization turned off (using -O didn't seem to help much).
+
+---------------------------------------------------------------------------
+JLAPACK 0.2 released Apr 15, 1998
+
+  This release is organized into packages:
+    org.netlib.blas    -  BLAS
+    org.netlib.lapack  -  LAPACK
+    org.netlib.util    -  utilities needed by f2java-translated programs
+
+  This release was also compiled with optimization on.
+
+---------------------------------------------------------------------------
+JLAPACK 0.1 released Apr 1, 1998
+
+  This is basically an early evaluation version distributed to only 
+  a few people.
+
+---------------------------------------------------------------------------
