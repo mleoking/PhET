@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -23,7 +23,7 @@ import java.io.IOException;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class SchrodingerRulerGraphic extends PNode {
+public class SchrodingerRulerGraphic extends PhetPNode {
     public RulerGraphic rulerGraphic;
     boolean horizontal = true;
 //    public BufferedImage horiz;
