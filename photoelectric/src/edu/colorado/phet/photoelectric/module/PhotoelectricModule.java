@@ -14,7 +14,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -113,11 +112,9 @@ public class PhotoelectricModule extends BaseLaserModule {
         super(SimStrings.get("ModuleTitle.PhotoelectricEfect"),
                 new SwingClock(1000 / PhotoelectricApplication.FPS,
                         PhotoelectricApplication.DT));
-//        super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ), application.getClock() );
 
         // Set up the basic stuff
         IClock clock = getClock();
-//        AbstractClock clock = application.getClock();
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2(clock);
         apparatusPanel.setPaintStrategy(ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY);
         apparatusPanel.setBackground(Color.white);
@@ -192,17 +189,6 @@ public class PhotoelectricModule extends BaseLaserModule {
                 model.getBeam(),
                 model.getBeam().getMaxPhotonsPerSecond());
         getApparatusPanel().addGraphic(beamControl, PhotoelectricConfig.BEAM_LAYER + 1);
-
-        //----------------------------------------------------------------
-        // Total hack to get beam to look right when things come up. This should
-        // be removed when BeamCurtainGraphic.update() is fixed
-        //----------------------------------------------------------------
-//        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                Beam beam = getPhotoelectricModel().getBeam();
-//                beam.setPhotonsPerSecond( beam.getPhotonsPerSecond() );
-//            }
-//        } );
 
         // Slap an ammeter on the circuit, near the anode
         {

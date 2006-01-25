@@ -45,7 +45,7 @@ public class PhotoelectricControlPanel {
     public PhotoelectricControlPanel( final PhotoelectricModule module ) {
         final PhotoelectricModel model = (PhotoelectricModel)module.getModel();
 
-        final ControlPanel controlPanel = (ControlPanel)module.getControlPanel();
+        final ControlPanel controlPanel = module.getControlPanel();
 
         //----------------------------------------------------------------
         // Target controls
@@ -61,7 +61,7 @@ public class PhotoelectricControlPanel {
             selectionList.add( PhotoelectricTarget.SODIUM );
             targetMaterials = PhotoelectricTarget.TARGET_MATERIALS;
             for( Iterator iterator = targetMaterials.iterator(); iterator.hasNext(); ) {
-                Object obj = (Object)iterator.next();
+                Object obj = iterator.next();
                 if( obj != PhotoelectricTarget.SODIUM && obj != PhotoelectricTarget.MAGNESIUM ) {
                     selectionList.add( obj );
                 }

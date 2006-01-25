@@ -42,7 +42,6 @@ public class PhotoelectricApplication extends PhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 680 );
 
     // Clock specification
-//    public static final double DT = 1;
     public static final double DT = 12;
     public static final int FPS = 25;
     private JMenu optionsMenu;
@@ -57,9 +56,6 @@ public class PhotoelectricApplication extends PhetApplication {
                title,
                description,
                version,
-//               new SwingClock( DT, 1000 / FPS ),
-//               new SwingTimerClock( DT, FPS, AbstractClock.FRAMES_PER_SECOND ),
-//               true,
                frameSetup );
 
         // Make the frame non-resizable until we make the intensity slider a graphic
