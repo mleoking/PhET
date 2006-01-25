@@ -751,8 +751,7 @@ class QuantumBoxFrame extends Frame
                     b = 0;
                 }
                 // convert complex coefficient to magnitude and phase
-                double r = Math.sqrt( a * a + b * b );
-                magcoef[x][y] = r;
+                magcoef[x][y] = Math.sqrt( a * a + b * b );
                 double ph2 = Math.atan2( b, a );
                 phasecoefadj[x][y] = ph2;
                 phasecoef[x][y] = ph2;
@@ -806,7 +805,6 @@ class QuantumBoxFrame extends Frame
         else {
             lastTime = 0;
         }
-        Color gray1 = new Color( 76, 76, 76 );
         Color gray2 = new Color( 127, 127, 127 );
         g.setColor( cv.getBackground() );
         g.fillRect( 0, 0, winSize.width, winSize.height );
@@ -868,7 +866,6 @@ class QuantumBoxFrame extends Frame
                 modephasecos = -modephasecos;
             }
         }
-        int half = sampleCount / 2;
         //System.out.print(xdir + " " + ydir + " " + xFirst + " " +
         //	 viewAngleSin + " " + viewAngleCos+ "\n");
 
@@ -1051,7 +1048,6 @@ class QuantumBoxFrame extends Frame
     void updateMapView( Graphics g, View vmap,
                         float arrayr[][], float arrayi[][],
                         int res, double brightmult ) {
-        double selectMag = 0;
         g.setColor( Color.white );
         g.drawRect( vmap.x - 1, vmap.y - 1, vmap.width + 2, vmap.height + 2 );
         double maxsq = 0;
@@ -1287,8 +1283,7 @@ class QuantumBoxFrame extends Frame
     }
 
     int getTermWidth() {
-        int termWidth = viewStatesMap.height / maxDispTerms;
-        return termWidth;
+        return viewStatesMap.height / maxDispTerms;
     }
 
     void edit( MouseEvent e ) {
@@ -1429,8 +1424,6 @@ class QuantumBoxFrame extends Frame
     }
 
     void editP( int x, int y ) {
-        int oldgx = selectedGridX;
-        int oldgy = selectedGridY;
         switch( mouseChooser.getSelectedIndex() ) {
             case MOUSE_GAUSS:
                 editPGauss( x, y );
@@ -1593,7 +1586,6 @@ class QuantumBoxFrame extends Frame
     void getMomentumCoords( View v, int x, int y ) {
         int pres = maxTerms * 2;
         int s0 = ( 101 - pZoomBar.getValue() ) * pres / 100;
-        int p0 = ( pres - s0 + 2 ) / 2;
         momentumX =
                 ( ( ( x - v.x - 1 ) * s0 / ( v.width - 2 ) ) - s0 / 2 ) *
                 pi / maxTerms;
@@ -1786,7 +1778,6 @@ class QuantumBoxFrame extends Frame
         int y = e.getY();
         dragX = x;
         dragY = y;
-        int panelHeight = getPanelHeight();
         int oldCoefX = selectedCoefX;
         int oldCoefY = selectedCoefY;
         selectedCoefX = -1;
