@@ -12,10 +12,8 @@ package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
-//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
@@ -40,7 +38,6 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public class PhotoelectricModel extends LaserModel {
 public class PhotoelectricModel extends DischargeLampModel {
 
     //----------------------------------------------------------------
@@ -104,12 +101,10 @@ public class PhotoelectricModel extends DischargeLampModel {
      *
      */
     public PhotoelectricModel( IClock clock ) {
-//    public PhotoelectricModel( AbstractClock clock ) {
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked(ClockEvent clockEvent) {
-                stepInTime( PhotoelectricApplication.DT );
-//                stepInTime( clockEvent.getSimulationTimeChange() );
+                stepInTime( clockEvent.getSimulationTimeChange() );
             }
         });
 
@@ -130,7 +125,6 @@ public class PhotoelectricModel extends DischargeLampModel {
                          beamFanout );
         addModelElement( beam );
         beam.setPhotonsPerSecond( 0 );
-//        beam.setPhotonsPerSecond( MAX_PHOTONS_PER_SECOND );
         beam.setEnabled( true );
         beam.addPhotonEmittedListener( new PhotonTracker() );
         beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
@@ -181,7 +175,6 @@ public class PhotoelectricModel extends DischargeLampModel {
         beamIntensityMeter = new BeamIntensityMeter( clock );
         getBeam().addPhotonEmittedListener( new PhotonEmittedListener() {
             public void photonEmitted( PhotonEmittedEvent event ) {
-//            public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
                 beamIntensityMeter.recordPhoton();
             }
         } );
@@ -264,14 +257,14 @@ public class PhotoelectricModel extends DischargeLampModel {
      * Tells the current as a function of the photon rate of the beam and the work function
      * of the target material.
      *
-     * @return
+     * @return The current that will hit the cathode based on the electrons that are currently leaving
+     * the anode
      */
     public double getCurrent() {
         return getCurrentForVoltage( getVoltage() );
     }
 
     public double getCurrentForVoltage( double voltage ) {
-        double current = 0;
         double electronsPerSecondFromTarget = 0;
         double electronsPerSecondToAnode = 0;
         if( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
@@ -305,7 +298,7 @@ public class PhotoelectricModel extends DischargeLampModel {
      * Returns the stopping voltage for electrons kicked off the current target material
      * by the current wavelength of light
      *
-     * @return
+     * @return The stopping voltage
      */
     public double getStoppingVoltage() {
         double photonEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );

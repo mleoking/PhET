@@ -35,12 +35,14 @@ public class GraphPanel2 extends JPanel {
     private ControlPanel controlPanel;
     private int rowIdx;
     private ArrayList checkBoxes = new ArrayList();
+    private Module module;
 
 
     public GraphPanel2( Module module ) {
         super( new GridBagLayout() );
         PhotoelectricModel model = (PhotoelectricModel)module.getModel();
-        controlPanel = (ControlPanel)module.getControlPanel();
+        controlPanel = module.getControlPanel();
+        this.module = module;
         Insets graphInsets = new Insets( 5, 20, 17, 15 );
 
         GraphPanel cvgPanel2 = new GraphPanel( module.getClock() );
@@ -75,8 +77,7 @@ public class GraphPanel2 extends JPanel {
                 isVisible = false;
             }
         }
-        PhetApplication.instance().getModule(0).getLogoPanel().setVisible( isVisible );
-//        controlPanel.setLogoVisible( isVisible );
+        module.getLogoPanel().setVisible( isVisible );
     }
 
     private void addGraph( String title, final GraphPanel graphPanel, String xLabel, String yLabel ) {
