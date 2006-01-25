@@ -221,6 +221,9 @@ class QuantumBoxFrame extends Frame
     long lastTime;
     int floorValues[];
 
+    double lastGaussWx = -.03;
+    double lastGaussWy = -.03;
+
     QuantumBoxFrame( QuantumBox a ) {
         super( "Quantum 2-D Box Applet v1.5" );
         applet = a;
@@ -345,17 +348,16 @@ class QuantumBoxFrame extends Frame
         }
         catch( Exception e ) { }
 
-        int i, j;
         phaseColors = new PhaseColor[8][phaseColorCount + 1];
-        for( i = 0; i != 8; i++ ) {
-            for( j = 0; j <= phaseColorCount; j++ ) {
+        for( int i = 0; i != 8; i++ ) {
+            for( int j = 0; j <= phaseColorCount; j++ ) {
                 double ang = Math.atan( j / (double)phaseColorCount );
                 phaseColors[i][j] = genPhaseColor( i, ang );
             }
         }
         whitePhaseColor = new PhaseColor( 1, 1, 1 );
         grayLevels = new Color[256];
-        for( i = 0; i != 256; i++ ) {
+        for( int i = 0; i != 256; i++ ) {
             grayLevels[i] = new Color( i, i, i );
         }
 
@@ -583,87 +585,45 @@ class QuantumBoxFrame extends Frame
     public void updateQuantumBox( Graphics realg ) {
         Graphics g = dbimage.getGraphics();
         if( winSize == null || winSize.width == 0 ) {
-            // this works around some weird bug in IE which causes the
-            // applet to not show up properly sometimes.
             handleResize();
             return;
         }
-
         if( !stoppedCheck.getState() && !dragging ) {
-            int val = speedBar.getValue();
-            double tadd = Math.exp( val / 20. ) * ( .1 / 5 );
-            increaseTime( tadd );
+            increaseTime( 4.6 );
         }
         else {
             lastTime = 0;
         }
         Color gray2 = fillBackground( g );
         drawViewBounds( g );
-
         if( dragStop ) {
             resetTime();
         }
-
         if( !editingFunc ) {
             updatePhases();
         }
-        double brightmult = Math.exp( brightnessBar.getValue() / 200. - 5 );
-        if( viewPotential != null ) {
-            int floory = viewPotential.y + viewPotential.height - 5;
-            double ymult = 200;
-//            if( floorValues == null ) {
-//                floorValues = new int[floory + 1];
-//            }
-//            for( int i = 0; i <= floory; i++ ) {
-//                floorValues[i] = 0;
-//            }
-//            for( int i = 1; i != sampleCount; i++ ) {
-//                for( int j = 1; j != sampleCount; j++ ) {
-//                    double dy = elevels[i][j];
-//                    double m = magcoef[i][j] * magcoef[i][j];
-//                    int mc = (int)( ( 256 - 32 ) * m ) + 1;
-//                    int y = floory - (int)( ymult * dy );
-//                    if( y >= 0 && y <= floory ) {
-//                        floorValues[y] += mc;
-//                    }
-//                }
-//            }
-//            for( int i = 0; i <= floory; i++ ) {
-//                if( floorValues[i] == 0 ) {
-//                    continue;
-//                }
-//                int mc = floorValues[i] + 32;
-//                if( mc > 255 ) {
-//                    mc = 255;
-//                }
-//                g.setColor( grayLevels[mc] );
-//                g.drawLine( 0, i, winSize.width, i );
-//            }
-            g.setColor( Color.white );
-            g.drawLine( viewXMap.x, 0, viewXMap.x, floory );
-            int x0 = viewXMap.x + viewXMap.width;
-            g.drawLine( x0, 0, x0, floory );
-            g.drawLine( viewXMap.x, floory, x0, floory );
-
-            if( selectedCoefX != -1 && !dragging ) {
-                g.setColor( Color.yellow );
-                int y = floory - (int)( ymult * elevels[selectedCoefX][selectedCoefY] );
-                g.drawLine( 0, y, winSize.width, y );
-            }
-        }
-
         if( viewXMap != null ) {
+            double brightmult = Math.exp( brightnessBar.getValue() / 200. - 5 );
             updateMapView( g, viewXMap, func, funci, maxTerms, brightmult );
         }
         else {
-            pfuncr = pfunci = null;
+            pfuncr = null;
+            pfunci = null;
         }
-
         if( viewStatesMap != null ) {
             // draw frequency grid
             drawFrequencyGrid( g, gray2 );
         }
 
+        drawXMap( g );
+
+        realg.drawImage( dbimage, 0, 0, this );
+        if( !stoppedCheck.getState() ) {
+            cv.repaint( pause );
+        }
+    }
+
+    private void drawXMap( Graphics g ) {
         if( selectedCoefX != -1 && viewXMap != null ) {
             g.setColor( Color.yellow );
             for( int i = 0; i != selectedCoefX; i++ ) {
@@ -676,11 +636,6 @@ class QuantumBoxFrame extends Frame
                                 x0 * 60 / 100, y0 * 60 / 100 );
                 }
             }
-        }
-
-        realg.drawImage( dbimage, 0, 0, this );
-        if( !stoppedCheck.getState() ) {
-            cv.repaint( pause );
         }
     }
 
@@ -842,63 +797,6 @@ class QuantumBoxFrame extends Frame
         }
     }
 
-    void genFunc( float normmult ) {
-        int nn[] = new int[2];
-        nn[0] = nn[1] = maxTerms * 2;
-        int x, y;
-        int ymult = maxTerms * 4;
-        int mx = maxTerms * 2;
-        float sign = -1;
-        for( x = 0; x != maxTerms * maxTerms * 8; x++ ) {
-            data[x] = 0;
-        }
-        for( x = 0; x != sampleCount; x++ ) {
-            for( y = 0; y != sampleCount; y++ ) {
-                float c = (float)phasecoefcos[x][y];
-                float s = (float)phasecoefsin[x][y];
-                //
-                // use these formulas to generate mode functions using
-                // inverse fft:
-                //
-                // cos(xn) -> (exp(ixn)+exp(-ixn))/2
-                // cos(xn)cos(yn) -> .25*(exp(ixn)exp(iyn))
-                //    +exp(-ixn)exp(-iyn)+exp(-ixn)exp(iyn)+exp(ixn)exp(-iyn)
-                // sin(xn) -> (exp(ixn)-exp(-ixn))/2i
-                // sin(xn)sin(yn) -> -.25*(exp(ixn)exp(iyn)
-                //    +exp(-ixn)exp(-iyn)-exp(-ixn)exp(iyn)-exp(ixn)exp(-iyn)
-                //
-                float a = (float)( -.25 * magcoef[x][y] );
-                float b = 0;
-                float ap = a * c - b * s;
-                float bp = b * c + a * s;
-                data[x * 2 + y * ymult] = ap;
-                data[x * 2 + y * ymult + 1] = bp;
-                if( x > 0 ) {
-                    data[( mx - x ) * 2 + y * ymult] = sign * ap;
-                    data[( mx - x ) * 2 + y * ymult + 1] = sign * bp;
-                    if( y > 0 ) {
-                        data[( mx - x ) * 2 + ( mx - y ) * ymult] = ap;
-                        data[( mx - x ) * 2 + ( mx - y ) * ymult + 1] = bp;
-                    }
-                }
-                if( y > 0 ) {
-                    data[x * 2 + ( mx - y ) * ymult] = sign * ap;
-                    data[x * 2 + ( mx - y ) * ymult + 1] = sign * bp;
-                }
-            }
-        }
-        ndfft( data, nn, 2, -1 );
-        normmult *= ( 1 / 16.f );
-        // double tot = 0;
-        for( x = 0; x <= sampleCount; x++ ) {
-            for( y = 0; y <= sampleCount; y++ ) {
-                func[x][y] = data[x * 2 + y * ymult] * normmult;
-                funci[x][y] = data[x * 2 + y * ymult + 1] * normmult;
-                // tot += func[x][y]*func[x][y] + funci[x][y]*funci[x][y];
-            }
-        }
-        // System.out.print("tot " + tot+ "\n");
-    }
 
     PhaseColor getPhaseColor( double x, double y ) {
         int sector = 0;
@@ -954,21 +852,6 @@ class QuantumBoxFrame extends Frame
             }
         }
         return phaseColors[sector][(int)( val * phaseColorCount )];
-    }
-
-    double logep2 = 0;
-
-    int logcoef( double x ) {
-        double ep2 = epsilon2;
-        int sign = ( x < 0 ) ? -1 : 1;
-        x *= sign;
-        if( x < ep2 ) {
-            return 0;
-        }
-        if( logep2 == 0 ) {
-            logep2 = -Math.log( 2 * ep2 );
-        }
-        return (int)( 255 * sign * ( Math.log( x + ep2 ) + logep2 ) / logep2 );
     }
 
     int getTermWidth() {
@@ -1171,7 +1054,6 @@ class QuantumBoxFrame extends Frame
         transform( false );
     }
 
-    double lastGaussWx = -.03, lastGaussWy = -.03;
 
     void editXGauss( int x, int y ) {
         int i, j;
@@ -1358,9 +1240,6 @@ class QuantumBoxFrame extends Frame
         if( e.getSource() == maximizeButton ) {
             maximize();
         }
-//        if( e.getSource() == measureEItem ) {
-//            measureE();
-//        }
     }
 
     public void adjustmentValueChanged( AdjustmentEvent e ) {
@@ -1489,19 +1368,6 @@ class QuantumBoxFrame extends Frame
         if( e.getClickCount() == 2 && selectedCoefX != -1 ) {
             enterSelectedState();
         }
-    }
-
-    void enterSelectedState() {
-        int i, j;
-        for( i = 0; i != maxTerms; i++ ) {
-            for( j = 0; j != maxTerms; j++ ) {
-                if( selectedCoefX != i || selectedCoefY != j ) {
-                    magcoef[i][j] = 0;
-                }
-            }
-        }
-        magcoef[selectedCoefX][selectedCoefY] = 1;
-        cv.repaint( pause );
     }
 
     public void mouseEntered( MouseEvent e ) {
@@ -1982,7 +1848,7 @@ class QuantumBoxFrame extends Frame
                 magcoef[i][j] *= normmult;
             }
         }
-        cv.repaint( pause );
+//        cv.repaint( pause );
     }
 
     void maximize() {
@@ -2003,7 +1869,92 @@ class QuantumBoxFrame extends Frame
                 magcoef[i][j] *= 1 / maxm;
             }
         }
-        cv.repaint( pause );
+//        cv.repaint( pause );
+    }
+
+    void genFunc( float normmult ) {
+        int nn[] = new int[2];
+        nn[0] = nn[1] = maxTerms * 2;
+        int x, y;
+        int ymult = maxTerms * 4;
+        int mx = maxTerms * 2;
+        float sign = -1;
+        for( x = 0; x != maxTerms * maxTerms * 8; x++ ) {
+            data[x] = 0;
+        }
+        for( x = 0; x != sampleCount; x++ ) {
+            for( y = 0; y != sampleCount; y++ ) {
+                float c = (float)phasecoefcos[x][y];
+                float s = (float)phasecoefsin[x][y];
+                //
+                // use these formulas to generate mode functions using
+                // inverse fft:
+                //
+                // cos(xn) -> (exp(ixn)+exp(-ixn))/2
+                // cos(xn)cos(yn) -> .25*(exp(ixn)exp(iyn))
+                //    +exp(-ixn)exp(-iyn)+exp(-ixn)exp(iyn)+exp(ixn)exp(-iyn)
+                // sin(xn) -> (exp(ixn)-exp(-ixn))/2i
+                // sin(xn)sin(yn) -> -.25*(exp(ixn)exp(iyn)
+                //    +exp(-ixn)exp(-iyn)-exp(-ixn)exp(iyn)-exp(ixn)exp(-iyn)
+                //
+                float a = (float)( -.25 * magcoef[x][y] );
+                float b = 0;
+                float ap = a * c - b * s;
+                float bp = b * c + a * s;
+                data[x * 2 + y * ymult] = ap;
+                data[x * 2 + y * ymult + 1] = bp;
+                if( x > 0 ) {
+                    data[( mx - x ) * 2 + y * ymult] = sign * ap;
+                    data[( mx - x ) * 2 + y * ymult + 1] = sign * bp;
+                    if( y > 0 ) {
+                        data[( mx - x ) * 2 + ( mx - y ) * ymult] = ap;
+                        data[( mx - x ) * 2 + ( mx - y ) * ymult + 1] = bp;
+                    }
+                }
+                if( y > 0 ) {
+                    data[x * 2 + ( mx - y ) * ymult] = sign * ap;
+                    data[x * 2 + ( mx - y ) * ymult + 1] = sign * bp;
+                }
+            }
+        }
+        ndfft( data, nn, 2, -1 );
+        normmult *= ( 1 / 16.f );
+        // double tot = 0;
+        for( x = 0; x <= sampleCount; x++ ) {
+            for( y = 0; y <= sampleCount; y++ ) {
+                func[x][y] = data[x * 2 + y * ymult] * normmult;
+                funci[x][y] = data[x * 2 + y * ymult + 1] * normmult;
+                // tot += func[x][y]*func[x][y] + funci[x][y]*funci[x][y];
+            }
+        }
+        // System.out.print("tot " + tot+ "\n");
+    }
+
+    double logep2 = 0;
+
+    int logcoef( double x ) {
+        double ep2 = epsilon2;
+        int sign = ( x < 0 ) ? -1 : 1;
+        x *= sign;
+        if( x < ep2 ) {
+            return 0;
+        }
+        if( logep2 == 0 ) {
+            logep2 = -Math.log( 2 * ep2 );
+        }
+        return (int)( 255 * sign * ( Math.log( x + ep2 ) + logep2 ) / logep2 );
+    }
+
+    void enterSelectedState() {
+        int i, j;
+        for( i = 0; i != maxTerms; i++ ) {
+            for( j = 0; j != maxTerms; j++ ) {
+                if( selectedCoefX != i || selectedCoefY != j ) {
+                    magcoef[i][j] = 0;
+                }
+            }
+        }
+        magcoef[selectedCoefX][selectedCoefY] = 1;
     }
 };
 
