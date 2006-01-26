@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- charts don't update when Measure is pressed with clock paused
+- add additional damping points
 - move non-Swing stuff out of event-dispatch thread
 - decide whether to replace Richardson with Falstad model
 
@@ -65,6 +67,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/25/06) - HelpPane serves as glass pane, maps getCursor to contentPane, redispatches MouseEvents to contentPane or menuBar
 (1/24/06) - bugfix: wave packet is not always shown with width=0.1nm when Measure button is pressed
 0.0.10 ...
 (1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
@@ -323,6 +326,7 @@ DONE:
 
 
 REJECTED:
+(1/25/06) - abandon specialization of CursorHandler to set top-level component cursor, wrong approach
 (1/20/06) - try native L&F on all platforms (WindowLookAndFeel looks worse than SmoothMetal for this sim)
 (1/20/06) - change time to ns when the time values grows too large to display fs (not worth worrying about)
 (1/20/06) - make Configure dialog smarter about enabling Apply button, compare with original model values (not worth it)
