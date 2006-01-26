@@ -242,7 +242,7 @@ public class HelpPane extends PCanvas {
         }
         
         //----------------------------------------------------------------------------
-        // MouseInputListener implementation -- all events are redispatched
+        // MouseEvent handling -- all events are redispatched
         //----------------------------------------------------------------------------
         
         /**
