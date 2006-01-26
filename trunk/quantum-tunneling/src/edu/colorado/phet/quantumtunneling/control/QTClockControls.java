@@ -180,6 +180,10 @@ public class QTClockControls extends JPanel implements ClockListener {
     // Accessors
     //----------------------------------------------------------------------------
     
+    public JButton getRestartButton() {
+        return _restartButton;
+    }
+    
     /**
      * Gets the clock associated with this control panel.
      * 

@@ -53,6 +53,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private AbstractModule _module; // module that this control panel is associated with
+    private JButton _resetButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -110,13 +111,17 @@ public abstract class AbstractControlPanel extends ControlPanel {
         }
     }
     
+    public JButton getResetButton() {
+        return _resetButton;
+    }
+    
     /**
      * Adds a Reset button to the control panel.
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
-        JButton resetButton = new JButton( SimStrings.get( "button.reset" ) );
-        resetButton.addActionListener( new ActionListener() { 
+        _resetButton = new JButton( SimStrings.get( "button.reset" ) );
+        _resetButton.addActionListener( new ActionListener() { 
             public void actionPerformed( ActionEvent e ) {
                 Frame frame = PhetApplication.instance().getPhetFrame();
                 String message = SimStrings.get( "message.reset" );
@@ -128,7 +133,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
                 }
             }
         } );
-        addControl( resetButton );
+        addControl( _resetButton );
     }
     
     /**
