@@ -28,6 +28,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * The HelpPane is a PCanvas that serves as the glass pane for a specified 
  * parent frame.  Since it's the glass pane, it completely covers the parent 
  * frame's content pane and menu bar.
+ * <p>
+ * Sample usage:
+ * <code>
+ *    JFrame frame = PhetApplication.instance().getPhetFrame();
+ *    HelpPane helpPane = new HelpPane( frame );
+ *    helpPane.setVisible( true );
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
