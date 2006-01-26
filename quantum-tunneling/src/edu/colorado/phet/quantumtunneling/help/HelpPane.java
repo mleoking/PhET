@@ -42,13 +42,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class HelpPane extends PCanvas {
 
     //----------------------------------------------------------------------------
-    // Constructors
+    // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = true; // turn on debug code (colored circles)
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Instance data
     //----------------------------------------------------------------------------
     
     private JFrame _parentFrame;  // we'll be serving as this frame's glass pane
