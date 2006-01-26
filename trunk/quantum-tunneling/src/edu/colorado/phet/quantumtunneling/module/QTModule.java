@@ -38,7 +38,7 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.help.HelpPane;
+import edu.colorado.phet.quantumtunneling.help.HelpGlassPane;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
@@ -241,7 +241,7 @@ public class QTModule extends AbstractModule implements Observer {
 
         {
             JFrame frame = PhetApplication.instance().getPhetFrame();
-            HelpPane helpPane = new HelpPane( frame );
+            HelpGlassPane helpPane = new HelpGlassPane( frame );
             helpPane.setVisible( true );
         }
         
