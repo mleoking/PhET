@@ -24,22 +24,22 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- * HelpPane implements a Piccolo-compatible display system for PhET help items.
- * The HelpPane is a PCanvas that serves as the glass pane for a specified 
+ * HelpGlassPane implements a Piccolo-compatible display system for PhET help items.
+ * The HelpGlassPane is a PCanvas that serves as the glass pane for a specified 
  * parent frame.  Since it's the glass pane, it completely covers the parent 
  * frame's content pane and menu bar.
  * <p>
  * Sample usage:
  * <code>
  *    JFrame frame = PhetApplication.instance().getPhetFrame();
- *    HelpPane helpPane = new HelpPane( frame );
- *    helpPane.setVisible( true );
+ *    HelpGlassPane HelpGlassPane = new HelpGlassPane( frame );
+ *    HelpGlassPane.setVisible( true );
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HelpPane extends PCanvas {
+public class HelpGlassPane extends PCanvas {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -59,12 +59,12 @@ public class HelpPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     /**
-     * Constructs a HelpPane and makes it the glass pane of the 
+     * Constructs a HelpGlassPane and makes it the glass pane of the 
      * specified parent frame.
      * 
      * @param parentFrame the parent frame
      */
-    public HelpPane( final JFrame parentFrame ) {
+    public HelpGlassPane( final JFrame parentFrame ) {
         super();
 
         // we serve as the parent frame's glass pane...
@@ -153,7 +153,8 @@ public class HelpPane extends PCanvas {
     
     /*
      * Recursively navigate through the Swing component hierachy.
-     * Draw a colored circle at the upper-left corner of certain type of components.
+     * For certain component types, draw a circle at their upper-left corner 
+     * using these colors:
      * 
      * RED   = AbstractButton
      * BLUE  = JCheckBox
@@ -247,7 +248,7 @@ public class HelpPane extends PCanvas {
         
         /**
          * Save the mouse location before remapping.
-         * We'll need the mouse location in HelpPane.getCursor.
+         * We'll need the mouse location in HelpGlassPane.getCursor.
          * 
          * @param event
          */
