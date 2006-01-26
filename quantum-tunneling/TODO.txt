@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- LEFT_TOP, LEFT_BOTTOM, RIGHT_TOP and RIGHT_BOTTOM arrow positions don't work for help
 - charts don't update when Measure is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread

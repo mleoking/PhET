@@ -11,10 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -25,7 +23,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
@@ -38,7 +37,8 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.help.HelpGlassPane;
+import edu.colorado.phet.quantumtunneling.help.HelpBubble;
+import edu.colorado.phet.quantumtunneling.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
@@ -101,6 +101,10 @@ public class QTModule extends AbstractModule implements Observer {
     private PotentialEnergyControls _potentialEnergyControls;
     private PSwing _waveFunctionZoomControl;
     private PSwing _probabilityDensityZoomControl;
+    private QTClockControls _clockControls;
+    
+    // Help
+    private HelpPane _helpPane;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -180,15 +184,18 @@ public class QTModule extends AbstractModule implements Observer {
         setControlPanel( _controlPanel );
         
         // Clock Controls
-        QTClockControls clockControls = new QTClockControls( getClock() );
-        clockControls.setLoopVisible( false );
-        clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
-        setClockControlPanel( clockControls );
-        addClockListener( new ClockAdapter() {
-            public void simulationTimeReset( ClockEvent clockEvent ) {
-               handleClockReset();
-            }
-        } ); 
+        {
+            _clockControls = new QTClockControls( getClock() );
+            _clockControls.setLoopVisible( false );
+            _clockControls.setTimeFormat( QTConstants.TIME_FORMAT );
+            setClockControlPanel( _clockControls );
+            addClockListener( new ClockAdapter() {
+
+                public void simulationTimeReset( ClockEvent clockEvent ) {
+                    handleClockReset();
+                }
+            } );
+        }
         
         // Configure button
         {
@@ -239,11 +246,9 @@ public class QTModule extends AbstractModule implements Observer {
         // Help
         //----------------------------------------------------------------------------
 
-        {
-            JFrame frame = PhetApplication.instance().getPhetFrame();
-            HelpGlassPane helpPane = new HelpGlassPane( frame );
-            helpPane.setVisible( true );
-        }
+        JFrame frame = PhetApplication.instance().getPhetFrame();
+        _helpPane = new HelpPane( frame );
+        _helpPane.setVisible( true );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -343,6 +348,26 @@ public class QTModule extends AbstractModule implements Observer {
             transform.translate( probabilityDensityPlotBounds.getX() + ZOOM_X_OFFSET, probabilityDensityPlotBounds.getY() + ZOOM_Y_OFFSET );
             transform.translate( 0, 0 ); // registration point = upper left
             _probabilityDensityZoomControl.setTransform( transform );
+        }
+        
+        // Help items
+        {
+            _helpPane.clear();
+            
+            HelpBubble h1 = new HelpBubble( "Help me, I have no arrow!" );
+            _helpPane.add( h1, 100, 100 );
+            
+            HelpBubble h2 = new HelpBubble( "I'm pointing at an absolute location", HelpBubble.LEFT_TOP, 30 );
+            _helpPane.add( h2, 300, 200 );
+
+            HelpBubble h3 = new HelpBubble( "Restarts the clock", HelpBubble.BOTTOM_CENTER, 40 );
+            _helpPane.add( h3, _clockControls.getRestartButton() );
+            
+            HelpBubble h4 = new HelpBubble( "Configures energy", HelpBubble.RIGHT_BOTTOM, 20 );
+            _helpPane.add( h4, _configureButton, _canvas );
+            
+            HelpBubble h5 = new HelpBubble( "Resets all settings", HelpBubble.RIGHT_CENTER, 30 );
+            _helpPane.add( h5, _controlPanel.getResetButton() );
         }
     }
     

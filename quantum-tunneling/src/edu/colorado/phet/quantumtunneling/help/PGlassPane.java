@@ -24,28 +24,21 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- * HelpGlassPane implements a Piccolo-compatible display system for PhET help items.
- * The HelpGlassPane is a PCanvas that serves as the glass pane for a specified 
- * parent frame.  Since it's the glass pane, it completely covers the parent 
- * frame's content pane and menu bar.
+ * PGlassPane is a Piccolo-based glass pane that does not intercept any
+ * events or cursor requests. All events and calls to getCursor are passed
+ * to the content pane and menu bar of the parent frame.
  * <p>
  * Sample usage:
  * <code>
  *    JFrame frame = PhetApplication.instance().getPhetFrame();
- *    HelpGlassPane HelpGlassPane = new HelpGlassPane( frame );
- *    HelpGlassPane.setVisible( true );
+ *    PGlassPane glassPane = new PGlassPane( frame );
+ *    glassPane.setVisible( true );
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HelpGlassPane extends PCanvas {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean DEBUG = true; // turn on debug code (colored circles)
+public class PGlassPane extends PCanvas {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -59,12 +52,12 @@ public class HelpGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     /**
-     * Constructs a HelpGlassPane and makes it the glass pane of the 
+     * Constructs a PGlassPane and makes it the glass pane of the 
      * specified parent frame.
      * 
      * @param parentFrame the parent frame
      */
-    public HelpGlassPane( final JFrame parentFrame ) {
+    public PGlassPane( JFrame parentFrame ) {
         super();
 
         // we serve as the parent frame's glass pane...
@@ -86,17 +79,14 @@ public class HelpGlassPane extends PCanvas {
         _mouseManager = new MouseManager( parentFrame );
         super.addMouseMotionListener( _mouseManager );
         super.addMouseListener( _mouseManager );
-        
-        if ( DEBUG ) {
-            // Every 1 sec, mark certain components with colored circles...
-            Timer timer = new Timer( 1000, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    getLayer().removeAllChildren();
-                    showAll( parentFrame.getContentPane() );
-                }
-            } );
-            timer.start();
-        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors 
+    //----------------------------------------------------------------------------
+    
+    protected JFrame getParentFrame() {
+        return _parentFrame;
     }
     
     //----------------------------------------------------------------------------
@@ -146,53 +136,6 @@ public class HelpGlassPane extends PCanvas {
     public synchronized void addMouseMotionListener( MouseMotionListener l ) {}
 
     public synchronized void addMouseWheelListener( MouseWheelListener l ) {}
-
-    //----------------------------------------------------------------------------
-    // Debugging 
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Recursively navigate through the Swing component hierachy.
-     * For certain component types, draw a circle at their upper-left corner 
-     * using these colors:
-     * 
-     * RED   = AbstractButton
-     * BLUE  = JCheckBox
-     * GREEN = JSlider
-     * 
-     * @param container
-     */
-    private void showAll( Container container ) {
-        for ( int i = 0; i < container.getComponentCount(); i++ ) {
-            Component c = container.getComponent( i );
-            if ( c.isVisible() ) {
-                if ( c instanceof AbstractButton ) {
-                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                    path.setPaint( Color.RED );
-                    path.setOffset( loc );
-                    getLayer().addChild( path );
-                }
-                else if ( c instanceof JCheckBox ) {
-                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                    path.setPaint( Color.BLUE );
-                    path.setOffset( loc );
-                    getLayer().addChild( path );
-                }
-                else if ( c instanceof JSlider ) {
-                    Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
-                    PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
-                    path.setPaint( Color.GREEN );
-                    path.setOffset( loc );
-                    getLayer().addChild( path );
-                }
-                else if ( c instanceof Container ) {
-                    showAll( (Container) c );
-                }
-            }
-        }
-    }
 
     //----------------------------------------------------------------------------
     // Inner classes
@@ -248,7 +191,7 @@ public class HelpGlassPane extends PCanvas {
         
         /**
          * Save the mouse location before remapping.
-         * We'll need the mouse location in HelpGlassPane.getCursor.
+         * We'll need the mouse location to redirect getCursor calls.
          * 
          * @param event
          */
