@@ -26,10 +26,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * The default cursor is the "hand" cursor, but you can specify your
  * own cursor in one of the constructors.
  * <p/>
- * None of the events received by this handler are marked as "handled",
- * so this handler can co-exist with other event handlers.  Other event
- * handlers should be careful not to mark events as "handled" that this
- * handler needs to see.
+ * None of the events received by this handler are marked as "handled".
  */
 
 public class CursorHandler extends PBasicInputEventHandler {
@@ -47,8 +44,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     // Instance data
     //----------------------------------------------------------------------------
 
-    /* cursor to change to */
-    private Cursor cursor;
+    private Cursor cursor;  // cursor to change to
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -117,6 +113,7 @@ public class CursorHandler extends PBasicInputEventHandler {
             component.popCursor();
         }
         catch( Exception e ) {
+            // attempted to pop an empty cursor stack
             e.printStackTrace();
         }
     }
