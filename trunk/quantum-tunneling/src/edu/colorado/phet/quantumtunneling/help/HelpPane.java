@@ -24,51 +24,107 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- * HelpPane
- * 
- * PROBLEMS:
- * - glass pane doesn't draw until you cause a refresh
- * - glass pane doesn't refresh whenever what it's on top of changes
- * - two strange red circles in upper left of PCanvas
- * - piccolo-phet CursorHandler doesn't work
+ * HelpPane implements a Piccolo-compatible display system for PhET help items.
+ * The HelpPane is a PCanvas that serves as the glass pane for a specified 
+ * parent frame.  Since it's the glass pane, it completely covers the parent 
+ * frame's content pane and menu bar.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class HelpPane extends PCanvas {
 
-    private JFrame parentFrame;
-    private PCanvas playArea;
-    private MouseTracker mouseTracker;
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG = true;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    private JFrame _parentFrame;  // we'll be serving as this frame's glass pane
+    private MouseManager _mouseManager; // manages mouse events & tracks mouse position
 
-    public HelpPane( final JFrame parentFrame, PCanvas playArea ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructs a HelpPane and makes it the glass pane of the 
+     * specified parent frame.
+     * 
+     * @param parentFrame the parent frame
+     */
+    public HelpPane( final JFrame parentFrame ) {
         super();
 
-        this.parentFrame = parentFrame;
-        this.playArea = playArea;
+        // we serve as the parent frame's glass pane...
+        _parentFrame = parentFrame;
+        parentFrame.setGlassPane( this );
 
-        setEnabled( false );
-        setFocusable( false );
-        setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
+        // The glass pane is transparent
+        setBackground( new Color( 0, 0, 0, 0 ) );
+        
+        // Disable pan & zoom
         setPanEventHandler( null );
         setZoomEventHandler( null );
-
+        
+        // Disable interactivity
         getLayer().setPickable( false );
         getLayer().setChildrenPickable( false );
 
-        mouseTracker = new MouseTracker( parentFrame );
-        super.addMouseListener( mouseTracker );
-        super.addMouseMotionListener( mouseTracker );
+        // Mouse location tracking and event redispatching...
+        _mouseManager = new MouseManager( parentFrame );
+        super.addMouseMotionListener( _mouseManager );
+        super.addMouseListener( _mouseManager );
         
-        Timer timer = new Timer( 1000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getLayer().removeAllChildren();
-                showAll( parentFrame.getContentPane() );
-            }
-        } );
-        timer.start();
+        if ( DEBUG ) {
+            // Every 1 sec, mark certain components with colored circles...
+            Timer timer = new Timer( 1000, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    getLayer().removeAllChildren();
+                    showAll( parentFrame.getContentPane() );
+                }
+            } );
+            timer.start();
+        }
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
 
+    /**
+     * Gets the cursor of the component in the content pane 
+     * at the current mouse location.
+     * 
+     * @return the cursor
+     */
+    public Cursor getCursor() {
+        Cursor cursor = null;
+        Component glassPane = this;
+        Point glassPanePoint = _mouseManager.getMouseLocation();
+        Component contentPane = _parentFrame.getContentPane();
+        Point contentPanePoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, contentPane );
+        Component component = SwingUtilities.getDeepestComponentAt( contentPane, contentPanePoint.x, contentPanePoint.y );
+        if ( component != null ) {
+            cursor = component.getCursor();
+        }
+        return cursor;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Overrides 
+    //----------------------------------------------------------------------------
+    
+    /*
+     * If we don't have listeners for these things, then they are
+     * automatically directed to the content pane, menu bar, etc.
+     * So we override the "addListener" methods with stubs.
+     */
+    
     public synchronized void addFocusListener( FocusListener l ) {}
 
     public synchronized void addInputEventListener( PInputEventListener l ) {}
@@ -83,27 +139,25 @@ public class HelpPane extends PCanvas {
 
     public synchronized void addMouseWheelListener( MouseWheelListener l ) {}
 
-//    public Cursor getCursor() {
-//        return playArea.getCursor();
-//    }
-
-    public Cursor getCursor() {
-        Cursor cursor = null;
-        Component sibling = parentFrame.getLayeredPane();
-        int x = mouseTracker.getMouseX();
-        int y = mouseTracker.getMouseY();
-        Component component = SwingUtilities.getDeepestComponentAt( sibling, x, y );
-        if ( component != null ) {
-            cursor = component.getCursor();
-        }
-        return cursor;
-    }
-
+    //----------------------------------------------------------------------------
+    // Debugging 
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Recursively navigate through the Swing component hierachy.
+     * Draw a colored circle at the upper-left corner of certain type of components.
+     * 
+     * RED   = AbstractButton
+     * BLUE  = JCheckBox
+     * GREEN = JSlider
+     * 
+     * @param container
+     */
     private void showAll( Container container ) {
         for ( int i = 0; i < container.getComponentCount(); i++ ) {
             Component c = container.getComponent( i );
             if ( c.isVisible() ) {
-                if ( c instanceof JButton || c instanceof JRadioButton ) {
+                if ( c instanceof AbstractButton ) {
                     Point loc = SwingUtilities.convertPoint( c.getParent(), c.getLocation(), this );
                     PPath path = new PPath( new Ellipse2D.Double( -5, -5, 10, 10 ) );
                     path.setPaint( Color.RED );
@@ -131,18 +185,38 @@ public class HelpPane extends PCanvas {
         }
     }
 
-    /////////////////////////////////////////////
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
 
-    private class MouseTracker implements MouseInputListener {
+    /**
+     * MouseManager manages mouse events for the glass pane.
+     * It redispatches mouse events to the proper component in the content pane
+     * or menu bar, and it keeps track of the current mouse location.
+     */
+    private class MouseManager implements MouseMotionListener, MouseListener {
 
         private JFrame _frame;
         private Point _mouseLocation;
         
-        public MouseTracker( JFrame frame ) {
-            this._frame = frame;
+        //----------------------------------------------------------------------------
+        // Constructors
+        //----------------------------------------------------------------------------
+        
+        /**
+         * Constructor.
+         * 
+         * @param frame the frame for which mouse events are being managed
+         */
+        public MouseManager( JFrame frame ) {
+            _frame = frame;
             _mouseLocation = new Point();
         }
 
+        //----------------------------------------------------------------------------
+        // Accessors
+        //----------------------------------------------------------------------------
+        
         public Point getMouseLocation() {
             return _mouseLocation;
         }
@@ -153,6 +227,25 @@ public class HelpPane extends PCanvas {
         
         public int getMouseY() {
             return _mouseLocation.y;
+        }
+        
+        //----------------------------------------------------------------------------
+        // MouseInputListener implementation -- all events are redispatched
+        //----------------------------------------------------------------------------
+        
+        /**
+         * Save the mouse location before remapping.
+         * We'll need the mouse location in HelpPane.getCursor.
+         * 
+         * @param event
+         */
+        public void mouseMoved( MouseEvent event ) {
+            _mouseLocation.setLocation( event.getPoint() );
+            redispatch( event );
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
+            redispatch( event );
         }
         
         public void mouseClicked( MouseEvent event ) {
@@ -174,16 +267,19 @@ public class HelpPane extends PCanvas {
         public void mouseExited( MouseEvent event ) {
             redispatch( event );
         }
-        
-        public void mouseDragged( MouseEvent event ) {
-            redispatch( event );
-        }
-        
-        public void mouseMoved( MouseEvent event ) {
-            _mouseLocation.setLocation( event.getPoint() );
-            redispatch( event );
-        }
 
+        //----------------------------------------------------------------------------
+        // Redispatching of mouse events
+        //----------------------------------------------------------------------------
+        
+        /*
+         * Redispatches a MouseEvent to the proper component.
+         * The glass pane covers the content pane and the menu bar.
+         * So we look for the component at the mouse's absolute location,
+         * checking the content pane first and then the menu bar.
+         * 
+         * @param mouseEvent
+         */
         private void redispatch( MouseEvent event ) {
             
             Component glassPane = _frame.getGlassPane();
@@ -199,10 +295,8 @@ public class HelpPane extends PCanvas {
                 containerPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, menuBar );
             }
 
-            //XXX: If the event is from a component in a popped-up menu,
-            //XXX: then the container should probably be the menu's
-            //XXX: JPopupMenu, and containerPoint should be adjusted
-            //XXX: accordingly.
+            //TODO: If the event is from a component in a popped-up menu, then the container should
+            //TODO: probably be the menu's JPopupMenu, and containerPoint should be adjusted accordingly.
             
             Component component = SwingUtilities.getDeepestComponentAt( container, containerPoint.x, containerPoint.y );
             if ( component != null ) {
@@ -211,6 +305,14 @@ public class HelpPane extends PCanvas {
             }
         }
         
+        /*
+         * Remaps an existing MouseEvent to a new component and point.
+         * 
+         * @param e
+         * @param component
+         * @param point
+         * @return a new MouseEvent
+         */
         private MouseEvent remapMouseEvent( MouseEvent e, Component component, Point point ) {
             return new MouseEvent( component, e.getID(), e.getWhen(), e.getModifiers(), point.x, point.y, e.getClickCount(), e.isPopupTrigger() );
         }
