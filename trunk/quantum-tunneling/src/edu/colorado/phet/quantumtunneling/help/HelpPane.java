@@ -100,9 +100,9 @@ public class HelpPane extends PCanvas {
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Overrides 
     //----------------------------------------------------------------------------
-
+    
     /**
      * Gets the cursor of the component in the content pane 
      * at the current mouse location.
@@ -122,14 +122,15 @@ public class HelpPane extends PCanvas {
         return cursor;
     }
     
-    //----------------------------------------------------------------------------
-    // Overrides 
-    //----------------------------------------------------------------------------
-    
     /*
-     * If we don't have listeners for these things, then they are
+     * If we don't have listeners for events, then they are
      * automatically directed to the content pane, menu bar, etc.
-     * So we override the "addListener" methods with stubs.
+     * So we override the corresponding "addListener" methods with stubs.
+     * <p>
+     * Note that our constructor added some mouse listeners
+     * by calling super.addMouse*Listener methods. We want 
+     * to override the addMouse*Listener methods so that no one
+     * except us can add one of these listener.
      */
     
     public synchronized void addFocusListener( FocusListener l ) {}
@@ -224,6 +225,10 @@ public class HelpPane extends PCanvas {
         // Accessors
         //----------------------------------------------------------------------------
         
+        private void setMouseLocation( Point p ) {
+            _mouseLocation.setLocation( p );
+        }
+        
         public Point getMouseLocation() {
             return _mouseLocation;
         }
@@ -247,7 +252,7 @@ public class HelpPane extends PCanvas {
          * @param event
          */
         public void mouseMoved( MouseEvent event ) {
-            _mouseLocation.setLocation( event.getPoint() );
+            setMouseLocation( event.getPoint() );
             redispatch( event );
         }
         
