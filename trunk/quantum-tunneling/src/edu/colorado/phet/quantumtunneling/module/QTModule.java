@@ -11,8 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -23,10 +25,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
-import org.jfree.data.Range;
-
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -37,6 +38,7 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
+import edu.colorado.phet.quantumtunneling.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
@@ -140,6 +142,7 @@ public class QTModule extends AbstractModule implements Observer {
         {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
             _canvas.setBackground( QTConstants.CANVAS_BACKGROUND );
+            _canvas.setName( "QTModule PhetPCanvas" );
             setCanvas( _canvas );
         }
         
@@ -235,6 +238,12 @@ public class QTModule extends AbstractModule implements Observer {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+
+        {
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            HelpPane helpPane = new HelpPane( frame );
+            helpPane.setVisible( true );
+        }
         
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -243,7 +252,7 @@ public class QTModule extends AbstractModule implements Observer {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
-        getClock().start();
+//        getClock().start();
     }
     
     //----------------------------------------------------------------------------
