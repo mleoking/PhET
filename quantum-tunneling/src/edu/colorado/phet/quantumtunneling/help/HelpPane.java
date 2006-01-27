@@ -35,39 +35,15 @@ public class HelpPane extends PGlassPane {
         super( parentFrame );
     }
     
-    public void clear() {
-        getLayer().removeAllChildren();
-    }
-    
-    public void add( HelpBubble helpItem, Point2D location ) {
-        add( helpItem, location.getX(), location.getY() );
-    }
-    
-    public void add( HelpBubble helpItem, double x, double y ) {
-        System.out.println( "(" + x + "," + y + ") " + ((HelpBubble)helpItem).getText() );
-        helpItem.setOffset( x, y );
+    public void add( PNode helpItem ) {
         getLayer().addChild( helpItem );
     }
     
-    public void add( HelpBubble helpItem, Component target ) {
-        Point loc = SwingUtilities.convertPoint( target.getParent(), target.getLocation(), this );
-        if ( helpItem.arrowVertical() ) {
-            add( helpItem, loc.x + target.getWidth() / 2, loc.y );
-        }
-        else {
-            add( helpItem, loc.x, loc.y + target.getHeight() / 2 );
-        }
+    public void remove( PNode helpItem ) {
+        getLayer().removeChild( helpItem );
     }
     
-    public void add( HelpBubble helpItem, PNode target, PCanvas canvas ) {
-        Rectangle2D globalBounds = target.getGlobalBounds();
-        Point globalPoint = new Point( (int) globalBounds.getX(), (int) globalBounds.getY() );
-        Point loc = SwingUtilities.convertPoint( canvas.getParent(), globalPoint, this );
-        if ( helpItem.arrowVertical() ) {
-            add( helpItem, loc.x + target.getWidth() / 2, loc.y );
-        }
-        else {
-            add( helpItem, loc.x, loc.y + target.getHeight() / 2 );
-        }
+    public void clear() {
+        getLayer().removeAllChildren();
     }
 }
