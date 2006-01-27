@@ -32,6 +32,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * <code>
  *    JFrame frame = PhetApplication.instance().getPhetFrame();
  *    PGlassPane glassPane = new PGlassPane( frame );
+ *    frame.setGlassPane( glassPane );
  *    glassPane.setVisible( true );
  * </code>
  *
@@ -60,9 +61,8 @@ public class PGlassPane extends PCanvas {
     public PGlassPane( JFrame parentFrame ) {
         super();
 
-        // we serve as the parent frame's glass pane...
+        // the parent frame
         _parentFrame = parentFrame;
-        parentFrame.setGlassPane( this );
 
         // The glass pane is transparent
         setBackground( new Color( 0, 0, 0, 0 ) );

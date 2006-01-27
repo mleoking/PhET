@@ -12,14 +12,17 @@
 package edu.colorado.phet.quantumtunneling.help;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * HelpBubble puts some text in a bubble, with an optional arrow.
@@ -39,7 +42,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley
  * @version $Revision$
  */
-public class HelpBubble extends PComposite {
+public class HelpBubble extends AbstractHelpItem {
     
     //----------------------------------------------------------------------------
     // Public class data
@@ -102,8 +105,8 @@ public class HelpBubble extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public HelpBubble( String text ) {
-        this( text, TOP_LEFT /* don't care */, 0 );
+    public HelpBubble( JComponent helpPanel, String text ) {
+        this( helpPanel, text, TOP_LEFT /* don't care */, 0 );
     }
     
     /**
@@ -112,8 +115,8 @@ public class HelpBubble extends PComposite {
      * @param component the parent Component
      * @param text
      */
-    public HelpBubble( String text, int arrowPosition, double arrowLength ) {
-        super();
+    public HelpBubble( JComponent helpPanel, String text, int arrowPosition, double arrowLength ) {
+        super( helpPanel );
         
         // Validate arguments
         if ( !isValidArrowPostion( arrowPosition ) ) {
@@ -157,7 +160,7 @@ public class HelpBubble extends PComposite {
         addChild( _bubbleNode );
         addChild( _textNode ); // add text last so that it's on top
 
-        layout();
+        updateDisplay();
     }
     
     //----------------------------------------------------------------------------
@@ -166,7 +169,7 @@ public class HelpBubble extends PComposite {
     
     public void setText( String text ) {
         _textNode.setText( text );
-        layout();
+        updateDisplay();
     }
     
     public String getText() {
@@ -175,7 +178,7 @@ public class HelpBubble extends PComposite {
     
     public void setFont( Font font ) {
         _textNode.setFont( font );
-        layout();
+        updateDisplay();
     }
     
     public void setTextPaint( Paint textPaint ) {
@@ -228,12 +231,12 @@ public class HelpBubble extends PComposite {
     // Layout
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Sizes the bubble to fit the text.
      * Creates the arrow with its tip at (0,0).
      * Positions the bubble and text relative to the arrow position.
      */
-    private void layout() {
+    public void updateDisplay() {
         
         // Resize the bubble to fit the text.
         {
@@ -363,5 +366,27 @@ public class HelpBubble extends PComposite {
                 arrowPosition == RIGHT_TOP ||
                 arrowPosition == RIGHT_CENTER ||
                 arrowPosition == RIGHT_BOTTOM );
+    }
+    
+    public Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
+        Point2D p = super.mapLocation( targetNode, targetCanvas );
+        if ( arrowVertical() ) {
+            p.setLocation( p.getX() + targetNode.getWidth() / 2, p.getY() );
+        }
+        else {
+            p.setLocation( p.getX(), p.getY() + targetNode.getHeight() / 2 );
+        }
+        return p;
+    }
+    
+    public Point2D mapLocation( JComponent targetComponent ) {
+        Point2D p = super.mapLocation( targetComponent );
+        if ( arrowVertical() ) {
+            p.setLocation( p.getX() + targetComponent.getWidth() / 2, p.getY() );
+        }
+        else {
+            p.setLocation( p.getX(), p.getY() + targetComponent.getHeight() / 2 );
+        }
+        return p;
     }
 }

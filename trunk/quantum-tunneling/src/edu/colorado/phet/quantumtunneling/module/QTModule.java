@@ -103,9 +103,6 @@ public class QTModule extends AbstractModule implements Observer {
     private PSwing _probabilityDensityZoomControl;
     private QTClockControls _clockControls;
     
-    // Help
-    private HelpPane _helpPane;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -246,9 +243,35 @@ public class QTModule extends AbstractModule implements Observer {
         // Help
         //----------------------------------------------------------------------------
 
+        //XXX put this stuff in a new method, Module.setHelpPane(JComponent)
         JFrame frame = PhetApplication.instance().getPhetFrame();
-        _helpPane = new HelpPane( frame );
-        _helpPane.setVisible( true );
+        HelpPane helpPane = new HelpPane( frame );
+        frame.setGlassPane( helpPane );
+        helpPane.setVisible( true );//XXX
+        
+        HelpBubble h1 = new HelpBubble( helpPane, "Help me, I have no arrow!" );
+        helpPane.add( h1 );
+        h1.pointAt( 100, 100 );
+        
+        HelpBubble h2 = new HelpBubble( helpPane, "I'm pointing at an absolute location", HelpBubble.LEFT_TOP, 30 );
+        helpPane.add( h2 );
+        h2.pointAt( 300, 200 );
+
+        HelpBubble h3 = new HelpBubble( helpPane, "Restarts the clock", HelpBubble.BOTTOM_CENTER, 40 );
+        helpPane.add(  h3 );
+        h3.pointAt( _clockControls.getRestartButton(), frame );
+        
+        HelpBubble h4 = new HelpBubble( helpPane, "Configures energy", HelpBubble.RIGHT_BOTTOM, 20 );
+        helpPane.add( h4 );
+        h4.pointAt( _configureButton, _canvas );
+        
+        HelpBubble h5 = new HelpBubble( helpPane, "Resets all settings", HelpBubble.RIGHT_CENTER, 30 );
+        helpPane.add( h5 );
+        h5.pointAt( _controlPanel.getResetButton(), frame );
+        
+        HelpBubble h6 = new HelpBubble( helpPane, "Drag me", HelpBubble.RIGHT_CENTER, 20 );
+        helpPane.add( h6 );
+        h6.pointAt( _totalEnergyControl, _canvas );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -348,26 +371,6 @@ public class QTModule extends AbstractModule implements Observer {
             transform.translate( probabilityDensityPlotBounds.getX() + ZOOM_X_OFFSET, probabilityDensityPlotBounds.getY() + ZOOM_Y_OFFSET );
             transform.translate( 0, 0 ); // registration point = upper left
             _probabilityDensityZoomControl.setTransform( transform );
-        }
-        
-        // Help items
-        {
-            _helpPane.clear();
-            
-            HelpBubble h1 = new HelpBubble( "Help me, I have no arrow!" );
-            _helpPane.add( h1, 100, 100 );
-            
-            HelpBubble h2 = new HelpBubble( "I'm pointing at an absolute location", HelpBubble.LEFT_TOP, 30 );
-            _helpPane.add( h2, 300, 200 );
-
-            HelpBubble h3 = new HelpBubble( "Restarts the clock", HelpBubble.BOTTOM_CENTER, 40 );
-            _helpPane.add( h3, _clockControls.getRestartButton() );
-            
-            HelpBubble h4 = new HelpBubble( "Configures energy", HelpBubble.RIGHT_BOTTOM, 20 );
-            _helpPane.add( h4, _configureButton, _canvas );
-            
-            HelpBubble h5 = new HelpBubble( "Resets all settings", HelpBubble.RIGHT_CENTER, 30 );
-            _helpPane.add( h5, _controlPanel.getResetButton() );
         }
     }
     
