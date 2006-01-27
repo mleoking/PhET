@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - LEFT_TOP, LEFT_BOTTOM, RIGHT_TOP and RIGHT_BOTTOM arrow positions don't work for help
-- make help items follow moving PNodes or Components
 - charts don't update when Measure is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread
@@ -69,8 +68,9 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(1/27/06) - piccolo-phet: work on help system
-(1/26/06) - piccolo-phet: work on help system
+(1/27/06) - piccolo-phet: help integration with module
+(1/27/06) - piccolo-phet: help items follow objects
+(1/26/06) - piccolo-phet: help items point at locations
 (1/25/06) - piccolo-phet: create a glass pane that maps getCursor to contentPane, redispatches MouseEvents to contentPane or menuBar
 (1/24/06) - bugfix: wave packet is not always shown with width=0.1nm when Measure button is pressed
 0.0.10 ...
