@@ -69,7 +69,9 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(1/25/06) - HelpPane serves as glass pane, maps getCursor to contentPane, redispatches MouseEvents to contentPane or menuBar
+(1/27/06) - piccolo-phet: work on help system
+(1/26/06) - piccolo-phet: work on help system
+(1/25/06) - piccolo-phet: create a glass pane that maps getCursor to contentPane, redispatches MouseEvents to contentPane or menuBar
 (1/24/06) - bugfix: wave packet is not always shown with width=0.1nm when Measure button is pressed
 0.0.10 ...
 (1/23/06) - implement weighted algorithm for choosing wave packet position when "Measure" button is pressed
