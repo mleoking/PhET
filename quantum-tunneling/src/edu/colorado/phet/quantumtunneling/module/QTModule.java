@@ -242,12 +242,9 @@ public class QTModule extends AbstractModule implements Observer {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-
-        //XXX put this stuff in a new method, Module.setHelpPane(JComponent)
+        
+        HelpPane helpPane = getHelpPane();
         JFrame frame = PhetApplication.instance().getPhetFrame();
-        HelpPane helpPane = new HelpPane( frame );
-        frame.setGlassPane( helpPane );
-        helpPane.setVisible( true );//XXX
         
         HelpBubble h1 = new HelpBubble( helpPane, "Help me, I have no arrow!" );
         helpPane.add( h1 );
@@ -281,6 +278,10 @@ public class QTModule extends AbstractModule implements Observer {
         layoutCanvas();
         _canvas.addComponentListener( listener );
 //        getClock().start();
+    }
+    
+    public boolean hasHelp() {
+        return true;
     }
     
     //----------------------------------------------------------------------------

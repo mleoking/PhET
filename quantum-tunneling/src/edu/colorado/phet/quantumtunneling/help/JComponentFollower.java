@@ -11,12 +11,13 @@
 
 package edu.colorado.phet.quantumtunneling.help;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 
 /**
@@ -28,27 +29,27 @@ import javax.swing.JFrame;
 public class JComponentFollower implements IFollower, ComponentListener {
 
     private AbstractHelpItem _helpItem;
-    private JComponent _helpPane;
-    private JComponent _targetComponent;
-    private JFrame _targetFrame;
+    private Component _helpPane;
+    private JComponent _target;
+    private Container _targetContainer;
     
-    public JComponentFollower( AbstractHelpItem helpItem, JComponent helpPane, JComponent targetComponent, JFrame targetFrame ) {
+    public JComponentFollower( AbstractHelpItem helpItem, Component helpPane, JComponent target, Container targetContainer ) {
         _helpItem = helpItem;
         _helpPane = helpPane;
-        _targetComponent = targetComponent;
-        _targetFrame = targetFrame;
+        _target = target;
+        _targetContainer = targetContainer;
         setFollowEnabled( true );
     }
     
     public void setFollowEnabled( boolean enabled ) {
         if ( enabled ) {
-            _targetComponent.addComponentListener( this );
-            _targetFrame.addComponentListener( this );
+            _target.addComponentListener( this );
+            _targetContainer.addComponentListener( this );
             _helpItem.updateDisplay();
         }
         else {
-            _targetComponent.removeComponentListener( this );
-            _targetFrame.removeComponentListener( this );
+            _target.removeComponentListener( this );
+            _targetContainer.removeComponentListener( this );
         }
     }
  
@@ -57,22 +58,22 @@ public class JComponentFollower implements IFollower, ComponentListener {
     }
 
     public void componentMoved( ComponentEvent e ) {
-        if ( e.getSource() == _targetComponent ) {
+        if ( e.getSource() == _target ) {
             follow();
         }
     }
 
     public void componentShown( ComponentEvent e ) {
-        _helpItem.setVisible( _targetComponent.isVisible() );
+        _helpItem.setVisible( _target.isVisible() );
     }
 
     public void componentHidden( ComponentEvent e ) {
-        _helpItem.setVisible( _targetComponent.isVisible() );
+        _helpItem.setVisible( _target.isVisible() );
     }
     
     private void follow() {
         _helpItem.updateDisplay();
-        Point2D p = _helpItem.mapLocation( _targetComponent );
+        Point2D p = _helpItem.mapLocation( _target );
         _helpItem.setOffset( p.getX(), p.getY() );
     }
 }

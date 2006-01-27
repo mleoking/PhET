@@ -11,15 +11,20 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
+
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.quantumtunneling.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
+import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -41,6 +46,9 @@ public abstract class AbstractModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private HelpPane helpPane;
+    private Component restoreGlassPane;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -54,6 +62,9 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public AbstractModule( String title, IClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
+        if ( hasHelp() ) {
+            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -129,5 +140,48 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public void removeClockListener( ClockListener listener ) {
         getClock().removeClockListener( listener );
+    }
+    
+    public void setHelpPane( HelpPane helpPane ) {
+        this.helpPane = helpPane;
+    }
+    
+    public HelpPane getHelpPane() {
+        return helpPane;
+    }
+    
+    public void activate() {
+        super.activate();
+        if ( helpPane != null ) {
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            restoreGlassPane = frame.getGlassPane();
+            frame.setGlassPane( helpPane );
+        }
+        else {
+            restoreGlassPane = null;
+        }
+    }
+    
+    public void deactivate() {
+        if ( restoreGlassPane != null ) {
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            frame.setGlassPane( restoreGlassPane );
+        }
+        super.deactivate();
+    }
+    
+    public void setHelpEnabled( boolean enabled ) {
+        super.setHelpEnabled( enabled );
+        if ( helpPane != null ) {
+            helpPane.setVisible( enabled );
+        }
+    }
+    
+    public void addHelpItem( PNode helpItem ) {
+        helpPane.add( helpItem );
+    }
+    
+    public void removeHelpItem( PNode helpItem ) {
+        helpPane.remove( helpItem );
     }
 }

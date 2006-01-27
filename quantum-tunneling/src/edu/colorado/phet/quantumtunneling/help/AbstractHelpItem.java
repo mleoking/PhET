@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.quantumtunneling.help;
 
+import java.awt.Container;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.umd.cs.piccolo.PCanvas;
@@ -53,18 +53,18 @@ public abstract class AbstractHelpItem extends PNode {
         setOffset( x, y );
     }
     
-    public void pointAt( JComponent targetComponent, JFrame targetFrame ) {
+    public void pointAt( JComponent component, Container topLevelContainer ) {
         if ( _follower != null ) {
             _follower.setFollowEnabled( false );
         }
-        _follower = new JComponentFollower( this, _helpPane, targetComponent, targetFrame );
+        _follower = new JComponentFollower( this, _helpPane, component, topLevelContainer );
     }
     
-    public void pointAt( PNode targetNode, PCanvas targetCanvas ) {
+    public void pointAt( PNode node, PCanvas canvas ) {
         if ( _follower != null ) {
             _follower.setFollowEnabled( false );
         }
-        _follower = new PNodeFollower( this, _helpPane, targetNode, targetCanvas );
+        _follower = new PNodeFollower( this, _helpPane, node, canvas );
     }
     
     public abstract void updateDisplay();
