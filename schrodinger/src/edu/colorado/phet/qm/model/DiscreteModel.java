@@ -39,7 +39,7 @@ public class DiscreteModel implements ModelElement {
     private WaveSetup initter;
 
     private HorizontalDoubleSlit doubleSlitPotential;
-    private MeasurementScale measurementScale;
+//    private MeasurementScale measurementScale;
     private boolean doubleSlitEnabled;
 
     public static final int DEFAULT_WIDTH = 100;
@@ -73,7 +73,7 @@ public class DiscreteModel implements ModelElement {
 
         damping = new Damping();
         doubleSlitPotential = createDoubleSlit();
-        measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
+//        measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
 
         if( DEBUG_WAVES ) {
             final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
@@ -109,9 +109,9 @@ public class DiscreteModel implements ModelElement {
         return sourceWaveModel;
     }
 
-    public MeasurementScale getMeasurementScale() {
-        return measurementScale;
-    }
+//    public MeasurementScale getMeasurementScale() {
+//        return measurementScale;
+//    }
 
     protected static ZeroWave createInitWave() {
         return new ZeroWave();
@@ -347,7 +347,7 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
-    public void setGridSpacing( int nx, int ny ) {
+    public void setGridSize( int nx, int ny ) {
         if( nx != getGridWidth() || ny != getGridHeight() ) {
             getWavefunction().setSize( nx, ny );
             getSourceWave().setSize( nx, ny );
@@ -535,7 +535,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setWaveSize( int width, int height ) {
-        setGridSpacing( width, height );
+        setGridSize( width, height );
         doubleSlitPotential.reset( getGridWidth(), getGridHeight(),
                                    (int)( getGridHeight() * 0.4 ), 3,
                                    8, 14,

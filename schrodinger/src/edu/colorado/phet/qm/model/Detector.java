@@ -34,7 +34,7 @@ public class Detector extends RectangularObject {
     }
 
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
-        super( x, y, width, height );
+        super( discreteModel, x, y, width, height );
         this.discreteModel = discreteModel;
 //        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
     }

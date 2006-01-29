@@ -211,7 +211,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         gridWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
-                module.setGridSpacing( val, val );
+                module.setGridSize( val, val );
             }
         } );
         simulationPanel.addFullWidth( gridWidth );

@@ -1,3 +1,5 @@
+Added a confirm dialog box to reset all.
+Reset now reads "Reset All'
 Make the tabs for the different panels larger. (about twice the current size)
 
 *New in 0.35 (1-23-2005)
