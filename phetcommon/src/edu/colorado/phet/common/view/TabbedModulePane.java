@@ -44,7 +44,7 @@ public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
         application.addModuleObserver( this );
         for( int i = 0; i < modules.length; i++ ) {
             Module module = modules[i];
-            addTab( module.getName(), module.getModulePanel() );
+            addTab( module );
         }
         setOpaque( true );
     }

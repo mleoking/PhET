@@ -105,6 +105,7 @@ public class TestSplitRendering {
         double r = Math.cos( t / 6 );
         double theta = Math.cos( t / 5 ) * 2 * Math.PI;
         AbstractVector2D v = Vector2D.Double.parseAngleAndMagnitude( r, theta );
+        series.clear();
         series.add( v.getX(), v.getY() );
     }
 

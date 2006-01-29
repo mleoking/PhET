@@ -109,11 +109,15 @@ public class PhetApplication {
         this.version = version;
 
         this.moduleManager = new ModuleManager( this );
-        phetFrame = new PhetFrame( this );
+        phetFrame = createPhetFrame( this );
         frameSetup.initialize( phetFrame );
 
         // Handle command line arguments
         parseArgs( args );
+    }
+
+    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
+        return new PhetFrame( phetApplication );
     }
 
     private void showSplashWindow( String title ) {
@@ -240,7 +244,7 @@ public class PhetApplication {
      * (This is a more common name for the moduleAt method.)
      *
      * @param i
-     * @return
+     * @return the module
      */
     public Module getModule( int i ) {
         return moduleAt( i );

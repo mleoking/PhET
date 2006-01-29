@@ -101,7 +101,7 @@ public class PhetFrame extends JFrame {
             return module.getModulePanel();
         }
         else if( contentPanel instanceof ModulePanel ) {
-            return new TabbedModulePane( application, new Module[]{lastAdded, module} );
+            return createTabbedPane( application, new Module[]{lastAdded, module} );
         }
         else if( contentPanel instanceof TabbedModulePane ) {
             TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPanel;
@@ -111,6 +111,10 @@ public class PhetFrame extends JFrame {
         else {
             throw new RuntimeException( "Illegal type for content pane: " + contentPanel );
         }
+    }
+
+    protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
+        return new TabbedModulePane( application, modules );
     }
 
     private void removeModule( Module module ) {
