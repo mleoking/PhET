@@ -1453,135 +1453,6 @@ class QuantumBoxFrame extends Frame
         }
     }
 
-    // n-dimensional discrete FFT from Numerical Recipes
-    void ndfft( float data[], int nn[], int ndim, int isign ) {
-        int ntot = 1;
-        int nprev = 1;
-        int idim;
-        float i2pi = (float)( isign * 2 * pi );
-
-        for( idim = 0; idim < ndim; idim++ ) {
-            ntot *= nn[idim];
-        }
-        //int steps = 0;
-
-        for( idim = 0; idim < ndim; idim++ ) {
-
-            int n = nn[idim];
-            int nrem = ntot / ( n * nprev );
-            int ip1 = 2 * nprev;
-            int ip2 = ip1 * n;
-            int ip3 = ip2 * nrem;
-            int i2rev = 0;
-            int i2;
-            int ifp1;
-
-            /*
-            * Bit reversal stuff.
-            */
-
-            for( i2 = 0; i2 < ip2; i2 += ip1 ) {
-
-                int ibit;
-
-                if( i2 < i2rev ) {
-
-                    int i1;
-
-                    for( i1 = i2; i1 < i2 + ip1; i1 += 2 ) {
-
-                        int i3;
-
-                        for( i3 = i1; i3 < ip3; i3 += ip2 ) {
-
-                            int i3rev = i2rev + i3 - i2;
-                            float tempr = data[i3];
-                            float tempi = data[i3 + 1];
-
-                            data[i3] = data[i3rev];
-                            data[i3 + 1] = data[i3rev + 1];
-                            data[i3rev] = tempr;
-                            data[i3rev + 1] = tempi;
-                            //steps++;
-                        }
-
-                    }
-
-                }
-
-                ibit = ip2 / 2;
-                while( ( ibit > ip1 ) && ( i2rev > ibit - 1 ) ) {
-
-                    i2rev -= ibit;
-                    ibit /= 2;
-
-                }
-
-                i2rev += ibit;
-
-            }
-
-            /*
-            * Danielson-Lanczos stuff.
-            */
-
-            ifp1 = ip1;
-            while( ifp1 < ip2 ) {
-
-                int ifp2 = 2 * ifp1;
-                float theta = i2pi / ( (float)ifp2 / ip1 );
-                float wpr;
-                float wpi;
-                float wr = 1.0f;
-                float wi = 0.0f;
-                int i3;
-
-                wpr = (float)Math.sin( 0.5 * theta );
-                wpr *= wpr * -2.0;
-                wpi = (float)Math.sin( theta );
-
-                for( i3 = 0; i3 < ifp1; i3 += ip1 ) {
-
-                    int i1;
-                    float wtemp;
-
-                    for( i1 = i3; i1 < i3 + ip1; i1 += 2 ) {
-
-                        for( i2 = i1; i2 < ip3; i2 += ifp2 ) {
-
-                            int i21 = i2 + 1;
-                            int k2 = i2 + ifp1;
-                            int k21 = k2 + 1;
-                            float tempr = ( wr * data[k2] ) -
-                                          ( wi * data[k21] );
-                            float tempi = ( wr * data[k21] ) +
-                                          ( wi * data[k2] );
-
-                            data[k2] = data[i2] - tempr;
-                            data[k21] = data[i21] - tempi;
-
-                            data[i2] += tempr;
-                            data[i21] += tempi;
-                            //steps++;
-
-                        }
-
-                    }
-
-                    wtemp = wr;
-                    wr += ( wr * wpr ) - ( wi * wpi );
-                    wi += ( wi * wpr ) + ( wtemp * wpi );
-
-                }
-                ifp1 = ifp2;
-
-            }
-            nprev *= n;
-
-        }
-        //System.out.print(steps + "\n");
-    }
-
     class PhaseColor {
         public double r, g, b;
 
@@ -1956,5 +1827,135 @@ class QuantumBoxFrame extends Frame
         }
         magcoef[selectedCoefX][selectedCoefY] = 1;
     }
+
+    // n-dimensional discrete FFT from Numerical Recipes
+    void ndfft( float data[], int nn[], int ndim, int isign ) {
+        int ntot = 1;
+        int nprev = 1;
+        int idim;
+        float i2pi = (float)( isign * 2 * pi );
+
+        for( idim = 0; idim < ndim; idim++ ) {
+            ntot *= nn[idim];
+        }
+        //int steps = 0;
+
+        for( idim = 0; idim < ndim; idim++ ) {
+
+            int n = nn[idim];
+            int nrem = ntot / ( n * nprev );
+            int ip1 = 2 * nprev;
+            int ip2 = ip1 * n;
+            int ip3 = ip2 * nrem;
+            int i2rev = 0;
+            int i2;
+            int ifp1;
+
+            /*
+            * Bit reversal stuff.
+            */
+
+            for( i2 = 0; i2 < ip2; i2 += ip1 ) {
+
+                int ibit;
+
+                if( i2 < i2rev ) {
+
+                    int i1;
+
+                    for( i1 = i2; i1 < i2 + ip1; i1 += 2 ) {
+
+                        int i3;
+
+                        for( i3 = i1; i3 < ip3; i3 += ip2 ) {
+
+                            int i3rev = i2rev + i3 - i2;
+                            float tempr = data[i3];
+                            float tempi = data[i3 + 1];
+
+                            data[i3] = data[i3rev];
+                            data[i3 + 1] = data[i3rev + 1];
+                            data[i3rev] = tempr;
+                            data[i3rev + 1] = tempi;
+                            //steps++;
+                        }
+
+                    }
+
+                }
+
+                ibit = ip2 / 2;
+                while( ( ibit > ip1 ) && ( i2rev > ibit - 1 ) ) {
+
+                    i2rev -= ibit;
+                    ibit /= 2;
+
+                }
+
+                i2rev += ibit;
+
+            }
+
+            /*
+            * Danielson-Lanczos stuff.
+            */
+
+            ifp1 = ip1;
+            while( ifp1 < ip2 ) {
+
+                int ifp2 = 2 * ifp1;
+                float theta = i2pi / ( (float)ifp2 / ip1 );
+                float wpr;
+                float wpi;
+                float wr = 1.0f;
+                float wi = 0.0f;
+                int i3;
+
+                wpr = (float)Math.sin( 0.5 * theta );
+                wpr *= wpr * -2.0;
+                wpi = (float)Math.sin( theta );
+
+                for( i3 = 0; i3 < ifp1; i3 += ip1 ) {
+
+                    int i1;
+                    float wtemp;
+
+                    for( i1 = i3; i1 < i3 + ip1; i1 += 2 ) {
+
+                        for( i2 = i1; i2 < ip3; i2 += ifp2 ) {
+
+                            int i21 = i2 + 1;
+                            int k2 = i2 + ifp1;
+                            int k21 = k2 + 1;
+                            float tempr = ( wr * data[k2] ) -
+                                          ( wi * data[k21] );
+                            float tempi = ( wr * data[k21] ) +
+                                          ( wi * data[k2] );
+
+                            data[k2] = data[i2] - tempr;
+                            data[k21] = data[i21] - tempi;
+
+                            data[i2] += tempr;
+                            data[i21] += tempi;
+                            //steps++;
+
+                        }
+
+                    }
+
+                    wtemp = wr;
+                    wr += ( wr * wpr ) - ( wi * wpi );
+                    wi += ( wi * wpr ) + ( wtemp * wpi );
+
+                }
+                ifp1 = ifp2;
+
+            }
+            nprev *= n;
+
+        }
+        //System.out.print(steps + "\n");
+    }
+
 };
 

@@ -1,14 +1,20 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
+import edu.colorado.phet.qm.phetcommon.TabLabelIcon;
+
+import java.awt.*;
 //import edu.colorado.phet.qm.tests.TestGlassPane;
 
 /**
@@ -37,6 +43,31 @@ public class SchrodingerApplication extends PhetApplication {
 
     private static IClock createClock() {
         return new SwingClock( 30, 1 );
+    }
+
+    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
+        return new SchrodingerPhetFrame( phetApplication );
+    }
+
+    class SchrodingerPhetFrame extends PhetFrame {
+        public SchrodingerPhetFrame( PhetApplication phetApplication ) {
+            super( phetApplication );
+        }
+
+        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
+            return new MyTabbedModulePane( application, modules );
+        }
+    }
+
+    class MyTabbedModulePane extends TabbedModulePane {
+
+        public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
+            super( application, modules );
+        }
+
+        public void addTab( Module module ) {
+            super.addTab( "", new TabLabelIcon( module.getName() ), module.getModulePanel() );
+        }
     }
 
     private static FrameSetup createFrameSetup() {
