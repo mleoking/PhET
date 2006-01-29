@@ -1,6 +1,3 @@
-
-Put the on/off control on top of the gun and make it look like part of the gun.
-
 Note that you will need to put scaling back in
     so that the size of the box doesn’t change when you change the resolution in Options.
 
@@ -14,11 +11,12 @@ up, the units are inherently tied to the grid.  A scaling factor would
 remove this dependence of the units on the grid, so that changing the
 resolution would not change the units.
 
-Make the tabs for the different panels larger. (about twice the current size)
-
 Rescale both space and time for photons.
 
 Gun should shrink for small screen size (gun size dependent on screen size).
+
+Put the on/off control on top of the gun and make it look like part of the gun.
+    >>Waiting for Sam M's recommendations.
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.

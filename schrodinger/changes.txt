@@ -1,3 +1,5 @@
+Make the tabs for the different panels larger. (about twice the current size)
+
 *New in 0.35 (1-23-2005)
 Added save/load feature for saving barriers/detectors.
 The controls look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
