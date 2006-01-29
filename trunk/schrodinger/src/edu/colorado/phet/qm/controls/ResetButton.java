@@ -16,10 +16,13 @@ import java.awt.event.ActionListener;
 
 public class ResetButton extends JButton {
     public ResetButton( final SchrodingerModule module ) {
-        super( "Reset" );
+        super( "Reset All" );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.reset();
+                boolean confirm = module.confirmReset();
+                if( confirm ) {
+                    module.reset();
+                }
             }
         } );
     }

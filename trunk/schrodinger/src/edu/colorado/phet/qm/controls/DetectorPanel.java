@@ -70,7 +70,7 @@ public class DetectorPanel extends VerticalLayoutPanel {
                 getDiscreteModel().enableAllDetectors();
             }
         } );
-        add( enableAll );
+//        add( enableAll );
         add( removeAll );
     }
 

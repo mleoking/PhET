@@ -19,6 +19,7 @@ import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
@@ -123,10 +124,10 @@ public class SchrodingerModule extends PiccoloModule {
         schrodingerPanel.updateGraphics();
     }
 
-    public void setGridSpacing( final int nx, final int ny ) {
+    public void setGridSize( final int nx, final int ny ) {
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                discreteModel.setGridSpacing( nx, ny );
+                discreteModel.setGridSize( nx, ny );
                 getModel().removeModelElement( this );
             }
         } );
@@ -160,7 +161,7 @@ public class SchrodingerModule extends PiccoloModule {
     public void addPotential() {
         int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - 10 );
         int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - 10 );
-        RectangularPotential rectangularPotential = new RectangularPotential( x, y, 10, 10 );
+        RectangularPotential rectangularPotential = new RectangularPotential( getDiscreteModel(), x, y, 10, 10 );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
@@ -244,5 +245,10 @@ public class SchrodingerModule extends PiccoloModule {
     public void setUnits( ParticleUnits particleUnits ) {
         System.out.println( "particleUnits = " + particleUnits );
         schrodingerPanel.setUnits( particleUnits );
+    }
+
+    public boolean confirmReset() {
+        int answer = JOptionPane.showConfirmDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
+        return answer == JOptionPane.YES_OPTION;
     }
 }
