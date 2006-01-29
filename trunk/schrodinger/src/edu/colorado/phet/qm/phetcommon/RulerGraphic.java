@@ -44,7 +44,7 @@ public class RulerGraphic extends PhetPNode {
         update();
     }
 
-    private void update() {
+    protected void update() {
         doUpdate( getX(), getY(), getWidth(), getHeight() );
     }
 

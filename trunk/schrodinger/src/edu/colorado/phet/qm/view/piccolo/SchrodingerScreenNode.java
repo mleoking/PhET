@@ -33,6 +33,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -86,7 +88,19 @@ public class SchrodingerScreenNode extends PNode {
             digits[i] = new String( i + "" );
         }
         RulerGraphic rg = new RulerGraphic( digits, "units", 500, 60 );
-        rulerGraphic = new SchrodingerRulerGraphic( schrodingerPanel, rg );
+        rulerGraphic = new SchrodingerRulerGraphic( getDiscreteModel(), schrodingerPanel, rg );
+
+        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                updateRulerUnits();
+            }
+        } );
+        wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateRulerUnits();
+            }
+        } );
+
         rulerGraphic.setOffset( 50, 200 );
         setRulerVisible( false );
 
@@ -284,25 +298,9 @@ public class SchrodingerScreenNode extends PNode {
         }
         String origTimeUnits = this.particleUnits.getDt().getUnits();
         this.particleUnits = particleUnits;
-        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
+//        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
-        String[]readings = new String[7];
-        for( int i = 0; i < readings.length; i++ ) {
-            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
-            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-            readings[i] = new String( "" + decimalFormat.format( v ) + "" );
-        }
-        rulerGraphic.getRulerGraphic().setReadings( readings );
-//        double rulerMeasureWidth =
-
-        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
-        double waveAreaViewWidth = wavefunctionGraphic.getWavefunction().getWidth() * particleUnits.getDx().getDisplayValue();
-
-        double rulerViewWidth = readings.length - 1;//units
-        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * rulerViewWidth;
-
-        rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
-        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
+        updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
 
         String newTimeUnits = particleUnits.getDt().getUnits();
@@ -321,6 +319,25 @@ public class SchrodingerScreenNode extends PNode {
             //slow down time
             showTimeSlowDown();
         }
+    }
+
+    private void updateRulerUnits() {
+        String[]readings = new String[7];
+        for( int i = 0; i < readings.length; i++ ) {
+            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
+            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+            readings[i] = new String( "" + decimalFormat.format( v ) + "" );
+        }
+        rulerGraphic.getRulerGraphic().setReadings( readings );
+
+        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
+        double waveAreaViewWidth = wavefunctionGraphic.getWavefunction().getWidth() * particleUnits.getDx().getDisplayValue();
+
+        double rulerViewWidth = readings.length - 1;//units
+        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * rulerViewWidth;
+
+        rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
+        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
     }
 
     private double lowDT = 0.3;
