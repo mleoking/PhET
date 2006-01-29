@@ -17,6 +17,16 @@ Gun should shrink for small screen size (gun size dependent on screen size).
 
 Put the on/off control on top of the gun and make it look like part of the gun.
     >>Waiting for Sam M's recommendations.
+
+Move Save/Load to the file menu
+Ruler should revise size on resolution change or wave area size change.
+
+Sizes should be relative:
+Barriers
+Detectors
+Slits
+Wave velocity
+
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.

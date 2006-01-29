@@ -13,16 +13,49 @@ import java.awt.*;
  */
 
 public class RectangularObject extends SimpleObservable {
+    private DiscreteModel discreteModel;
     private int x;
     private int y;
     private int width;
     private int height;
 
-    public RectangularObject( int x, int y, int width, int height ) {
+    private FractionalSize fractionalSize = new FractionalSize();
+
+    static class FractionalSize {
+        double x;
+        double y;
+        double width;
+        double height;
+
+        public void update( Rectangle bounds, int width, int height ) {
+            this.x = ( (double)bounds.x ) / width;
+            this.y = ( (double)bounds.y ) / height;
+            this.width = ( (double)bounds.width ) / width;
+            this.height = ( (double)bounds.height ) / height;
+        }
+
+        public Rectangle getBounds( int latticeWidth, int latticeHeight ) {
+            return new Rectangle( (int)( x * latticeWidth ), (int)( y * latticeHeight ), (int)( width * latticeWidth ), (int)( height * latticeHeight ) );
+        }
+    }
+
+    public RectangularObject( final DiscreteModel discreteModel, int x, int y, int width, int height ) {
+        this.discreteModel = discreteModel;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        discreteModel.addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                Rectangle b = fractionalSize.getBounds( discreteModel.getWavefunction().getWidth(), discreteModel.getWavefunction().getHeight() );
+                setBounds( b.x, b.y, b.width, b.height );
+            }
+        } );
+        updateFractionalSize();
+    }
+
+    private void updateFractionalSize() {
+        this.fractionalSize.update( getBounds(), discreteModel.getWavefunction().getWidth(), discreteModel.getWavefunction().getHeight() );
     }
 
     public Rectangle getBounds() {
@@ -32,23 +65,32 @@ public class RectangularObject extends SimpleObservable {
     public void translate( int dx, int dy ) {
         x += dx;
         y += dy;
+        updateFractionalSize();
         notifyObservers();
+
     }
 
     public void setLocation( int x, int y ) {
         this.x = x;
         this.y = y;
+        updateFractionalSize();
         notifyObservers();
     }
 
-    public Point getLocation() {
-        return new Point( x, y );
+    public void setBounds( int x, int y, int width, int height ) {
+        setDimension( width, height );
+        setLocation( x, y );
     }
 
     public void setDimension( int width, int height ) {
         this.width = width;
         this.height = height;
+        updateFractionalSize();
         notifyObservers();
+    }
+
+    public Point getLocation() {
+        return new Point( x, y );
     }
 
     public int getWidth() {

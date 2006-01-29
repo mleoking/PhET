@@ -2,18 +2,17 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -24,7 +23,6 @@ import java.text.DecimalFormat;
 
 public class RectangularPotentialGraphic extends RectangleGraphic {
     private RectangularPotential potential;
-    private DecimalFormat format = new DecimalFormat( "0.00" );
     private PText potDisplay;
     private PSwing closeGraphic;
 
