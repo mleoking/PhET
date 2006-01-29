@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.potentials;
 
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.RectangularObject;
 
@@ -15,8 +16,8 @@ public class RectangularPotential extends RectangularObject implements Potential
 
     private double potential = Double.MAX_VALUE / 100.0;
 
-    public RectangularPotential( int x, int y, int width, int height ) {
-        super( x, y, width, height );
+    public RectangularPotential( DiscreteModel discreteModel, int x, int y, int width, int height ) {
+        super( discreteModel, x, y, width, height );
     }
 
     public double getPotential() {

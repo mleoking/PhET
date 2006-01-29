@@ -69,7 +69,7 @@ public class QWIState implements Serializable {
         }
         for( int i = 0; i < rectBarrierList.size(); i++ ) {
             RectBarrierState rectBarrierState = (RectBarrierState)rectBarrierList.get( i );
-            RectangularPotential potential = new RectangularPotential( rectBarrierState.getRectangle().x, rectBarrierState.getRectangle().y, rectBarrierState.getRectangle().width, rectBarrierState.getRectangle().height );
+            RectangularPotential potential = new RectangularPotential( schrodingerModule.getDiscreteModel(), rectBarrierState.getRectangle().x, rectBarrierState.getRectangle().y, rectBarrierState.getRectangle().width, rectBarrierState.getRectangle().height );
             schrodingerModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( schrodingerModule.getSchrodingerPanel(), potential ) );
             schrodingerModule.getDiscreteModel().addPotential( potential );
         }
@@ -126,8 +126,8 @@ public class QWIState implements Serializable {
 //        schrodingerModule
         schrodingerModule.getDiscreteModel().addDetector( new Detector( schrodingerModule.getDiscreteModel(), 5, 6, 7, 8 ) );
         schrodingerModule.getDiscreteModel().addDetector( new Detector( schrodingerModule.getDiscreteModel(), 1, 1, 2, 2 ) );
-        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( 0, 0, 100, 100 ) );
-        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( 9, 9, 9, 9 ) );
+        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( schrodingerModule.getDiscreteModel(), 0, 0, 100, 100 ) );
+        schrodingerModule.getDiscreteModel().addPotential( new RectangularPotential( schrodingerModule.getDiscreteModel(), 9, 9, 9, 9 ) );
 //        persistenceManager.save( new QWIState( schrodingerModule ) );
         Object o = persistenceManager.load();
         System.out.println( "o = " + o );
