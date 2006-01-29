@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -24,12 +25,14 @@ import java.io.IOException;
  */
 
 public class SchrodingerRulerGraphic extends PhetPNode {
+    private DiscreteModel discreteModel;
     public RulerGraphic rulerGraphic;
     boolean horizontal = true;
 //    public BufferedImage horiz;
 //    public BufferedImage vert;
 
-    public SchrodingerRulerGraphic( PSwingCanvas component, RulerGraphic rulerGraphic ) {
+    public SchrodingerRulerGraphic( DiscreteModel discreteModel, PSwingCanvas component, final RulerGraphic rulerGraphic ) {
+        this.discreteModel = discreteModel;
         this.rulerGraphic = rulerGraphic;
 //        horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
 //        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
