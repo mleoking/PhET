@@ -12,9 +12,16 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
+import edu.colorado.phet.qm.persistence.PersistenceManager;
+import edu.colorado.phet.qm.persistence.QWIState;
 import edu.colorado.phet.qm.phetcommon.TabLabelIcon;
 
+import javax.jnlp.UnavailableServiceException;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 //import edu.colorado.phet.qm.tests.TestGlassPane;
 
 /**
@@ -39,6 +46,40 @@ public class SchrodingerApplication extends PhetApplication {
         addModule( new IntensityModule( this, createClock() ) );
         addModule( new SingleParticleModule( this, createClock() ) );
         addModule( new MandelModule( this, createClock() ) );
+
+
+        JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
+        save.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                SchrodingerModule schrodingerModule = getActiveSchrodingerModule();
+                new PersistenceManager( schrodingerModule.getSchrodingerPanel() ).save( new QWIState( schrodingerModule ) );
+            }
+
+        } );
+        getPhetFrame().addFileMenuItem( save );
+
+        JMenuItem load = new JMenuItem( "Load (detectors & barriers)" );
+        load.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    SchrodingerModule schrodingerModule = getActiveSchrodingerModule();
+                    QWIState state = (QWIState)new PersistenceManager( schrodingerModule.getSchrodingerPanel() ).load();
+                    state.restore( schrodingerModule );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                catch( UnavailableServiceException e1 ) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        } );
+        getPhetFrame().addFileMenuItem( load );
+        getPhetFrame().addFileMenuSeparator();
+    }
+
+    private SchrodingerModule getActiveSchrodingerModule() {
+        return (SchrodingerModule)getActiveModule();
     }
 
     private static IClock createClock() {
