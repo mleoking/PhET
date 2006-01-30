@@ -21,4 +21,6 @@ package edu.colorado.phet.quantumtunneling.help;
 public interface IFollower {
 
     public void setFollowEnabled( boolean enabled );
+    
+    public void updatePosition();
 }

@@ -11,10 +11,9 @@
 
 package edu.colorado.phet.quantumtunneling.help;
 
-import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
@@ -26,53 +25,45 @@ import javax.swing.JComponent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class JComponentFollower implements IFollower, ComponentListener {
+public class JComponentFollower extends ComponentAdapter implements IFollower {
 
     private AbstractHelpItem _helpItem;
-    private Component _helpPane;
     private JComponent _target;
-    private Container _targetContainer;
     
-    public JComponentFollower( AbstractHelpItem helpItem, Component helpPane, JComponent target, Container targetContainer ) {
+    public JComponentFollower( AbstractHelpItem helpItem, JComponent target ) {
         _helpItem = helpItem;
-        _helpPane = helpPane;
         _target = target;
-        _targetContainer = targetContainer;
         setFollowEnabled( true );
     }
     
     public void setFollowEnabled( boolean enabled ) {
         if ( enabled ) {
             _target.addComponentListener( this );
-            _targetContainer.addComponentListener( this );
-            _helpItem.updateDisplay();
+            updatePosition();
         }
         else {
             _target.removeComponentListener( this );
-            _targetContainer.removeComponentListener( this );
         }
     }
  
     public void componentResized( ComponentEvent e ) {
-        follow();
+        updatePosition();
     }
 
     public void componentMoved( ComponentEvent e ) {
-        if ( e.getSource() == _target ) {
-            follow();
-        }
+        updatePosition();
     }
-
-    public void componentShown( ComponentEvent e ) {
-        _helpItem.setVisible( _target.isVisible() );
-    }
-
+    
     public void componentHidden( ComponentEvent e ) {
         _helpItem.setVisible( _target.isVisible() );
     }
     
-    private void follow() {
-        _helpItem.updateDisplay();
+    public void componentShown( ComponentEvent e ) {
+        _helpItem.setVisible( _target.isVisible() );
+        updatePosition();
+    }
+    
+    public void updatePosition() {
         Point2D p = _helpItem.mapLocation( _target );
         _helpItem.setOffset( p.getX(), p.getY() );
     }

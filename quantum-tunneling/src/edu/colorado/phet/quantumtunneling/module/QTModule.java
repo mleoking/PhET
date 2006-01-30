@@ -243,8 +243,7 @@ public class QTModule extends AbstractModule implements Observer {
         // Help
         //----------------------------------------------------------------------------
         
-        HelpPane helpPane = getHelpPane();
-        JFrame frame = PhetApplication.instance().getPhetFrame();
+        HelpPane helpPane = getDefaultHelpPane();
         
         HelpBubble h1 = new HelpBubble( helpPane, "Help me, I have no arrow!" );
         helpPane.add( h1 );
@@ -256,7 +255,7 @@ public class QTModule extends AbstractModule implements Observer {
 
         HelpBubble h3 = new HelpBubble( helpPane, "Restarts the clock", HelpBubble.BOTTOM_CENTER, 40 );
         helpPane.add(  h3 );
-        h3.pointAt( _clockControls.getRestartButton(), frame );
+        h3.pointAt( _clockControls.getRestartButton() );
         
         HelpBubble h4 = new HelpBubble( helpPane, "Configures energy", HelpBubble.RIGHT_BOTTOM, 20 );
         helpPane.add( h4 );
@@ -264,7 +263,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpBubble h5 = new HelpBubble( helpPane, "Resets all settings", HelpBubble.RIGHT_CENTER, 30 );
         helpPane.add( h5 );
-        h5.pointAt( _controlPanel.getResetButton(), frame );
+        h5.pointAt( _controlPanel.getResetButton() );
         
         HelpBubble h6 = new HelpBubble( helpPane, "Drag me", HelpBubble.RIGHT_CENTER, 20 );
         helpPane.add( h6 );

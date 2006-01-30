@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.help;
 
-import java.awt.Container;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -53,21 +52,25 @@ public abstract class AbstractHelpItem extends PNode {
         setOffset( x, y );
     }
     
-    public void pointAt( JComponent component, Container topLevelContainer ) {
+    public void pointAt( JComponent component ) {
         if ( _follower != null ) {
             _follower.setFollowEnabled( false );
         }
-        _follower = new JComponentFollower( this, _helpPane, component, topLevelContainer );
+        _follower = new JComponentFollower( this, component );
     }
     
     public void pointAt( PNode node, PCanvas canvas ) {
         if ( _follower != null ) {
             _follower.setFollowEnabled( false );
         }
-        _follower = new PNodeFollower( this, _helpPane, node, canvas );
+        _follower = new PNodeFollower( this, node, canvas );
     }
     
-    public abstract void updateDisplay();
+    public void updatePosition() {
+        if ( _follower != null ) {
+            _follower.updatePosition();
+        }
+    }
     
     public Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
         Rectangle2D globalBounds = targetNode.getGlobalBounds();

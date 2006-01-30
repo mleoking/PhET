@@ -11,15 +11,12 @@
 
 package edu.colorado.phet.quantumtunneling.help;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ListIterator;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -33,17 +30,35 @@ public class HelpPane extends PGlassPane {
 
     public HelpPane( JFrame parentFrame ) {
         super( parentFrame );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateHelpItems();
+            }
+        } );
     }
     
-    public void add( PNode helpItem ) {
+    public void add( AbstractHelpItem helpItem ) {
         getLayer().addChild( helpItem );
     }
     
-    public void remove( PNode helpItem ) {
+    public void remove( AbstractHelpItem helpItem ) {
         getLayer().removeChild( helpItem );
     }
     
     public void clear() {
         getLayer().removeAllChildren();
+    }
+    
+    private void updateHelpItems() {
+        if ( isVisible() ) {
+            ListIterator i = getLayer().getChildrenIterator();
+            while ( i.hasNext() ) {
+                PNode child = (PNode) i.next();
+                if ( child instanceof AbstractHelpItem ) {
+                    AbstractHelpItem helpItem = (AbstractHelpItem) child;
+                    helpItem.updatePosition();
+                }
+            }
+        }
     }
 }
