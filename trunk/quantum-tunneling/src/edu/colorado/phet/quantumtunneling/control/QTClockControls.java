@@ -184,6 +184,10 @@ public class QTClockControls extends JPanel implements ClockListener {
         return _restartButton;
     }
     
+    public JButton getPauseButton() {
+        return _pauseButton;
+    }
+    
     /**
      * Gets the clock associated with this control panel.
      * 

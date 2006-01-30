@@ -31,14 +31,14 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.help.HelpBalloon;
+import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.*;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.help.HelpBubble;
-import edu.colorado.phet.quantumtunneling.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
@@ -244,30 +244,34 @@ public class QTModule extends AbstractModule implements Observer {
         //----------------------------------------------------------------------------
         
         HelpPane helpPane = getDefaultHelpPane();
-        
-        HelpBubble h1 = new HelpBubble( helpPane, "Help me, I have no arrow!" );
-        helpPane.add( h1 );
-        h1.pointAt( 100, 100 );
-        
-        HelpBubble h2 = new HelpBubble( helpPane, "I'm pointing at an absolute location", HelpBubble.LEFT_TOP, 30 );
-        helpPane.add( h2 );
-        h2.pointAt( 300, 200 );
 
-        HelpBubble h3 = new HelpBubble( helpPane, "Restarts the clock", HelpBubble.BOTTOM_CENTER, 40 );
-        helpPane.add(  h3 );
-        h3.pointAt( _clockControls.getRestartButton() );
+        HelpBalloon h1 = new HelpBalloon( helpPane, "<html>Restart the clock to<br>return wave to initial state</html>", HelpBalloon.BOTTOM_RIGHT, 30 );
+        helpPane.add(  h1 );
+        h1.pointAt( _clockControls.getRestartButton() );
         
-        HelpBubble h4 = new HelpBubble( helpPane, "Configures energy", HelpBubble.RIGHT_BOTTOM, 20 );
+        HelpBalloon h2 = new HelpBalloon( helpPane, "<html>Pause the animation.<br>You can change the controls while paused.</html>", HelpBalloon.BOTTOM_LEFT, 30 );
+        helpPane.add(  h2 );
+        h2.pointAt( _clockControls.getPauseButton() );
+        
+        HelpBalloon h3 = new HelpBalloon( helpPane, "<html>Click and drag arrows to change<br>total or potential energy<html>", HelpBalloon.TOP_RIGHT, 20 );
+        helpPane.add( h3 );
+        h3.pointAt( _totalEnergyControl, _canvas );
+        
+        HelpBalloon h4 = new HelpBalloon( helpPane, "Type and display exact values for energy", HelpBalloon.RIGHT_BOTTOM, 20 );
         helpPane.add( h4 );
         h4.pointAt( _configureButton, _canvas );
-        
-        HelpBubble h5 = new HelpBubble( helpPane, "Resets all settings", HelpBubble.RIGHT_CENTER, 30 );
+    
+        HelpBalloon h5 = new HelpBalloon( helpPane, "Zoom in and out", HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( h5 );
-        h5.pointAt( _controlPanel.getResetButton() );
+        h5.pointAt( _waveFunctionZoomControl, _canvas );
         
-        HelpBubble h6 = new HelpBubble( helpPane, "Drag me", HelpBubble.RIGHT_CENTER, 20 );
+        HelpBalloon h6 = new HelpBalloon( helpPane, "Zoom in and out", HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( h6 );
-        h6.pointAt( _totalEnergyControl, _canvas );
+        h6.pointAt( _probabilityDensityZoomControl, _canvas );
+        
+        HelpBalloon h7 = new HelpBalloon( helpPane, "Change shape of potential", HelpBalloon.RIGHT_TOP, 30 );
+        helpPane.add( h7 );
+        h7.pointAt( _controlPanel.getPotentialComboBox() );
         
         //----------------------------------------------------------------------------
         // Initialze the module state

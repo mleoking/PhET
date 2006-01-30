@@ -5,6 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- show/hide help pane properly when switching modules
+- test help with world layer of PhetPCanvas
+- i18n help text
+- specify an arrow angle for help items
 - charts don't update when Measure is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread
@@ -67,6 +71,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/30/06) - piccolo-phet: start integrating help into PiccoloModule
+(1/30/06) - piccolo-phet: convert HelpBalloon to use HTML for text
 (1/30/06) - piccolo-phet: fix help arrow positions
 (1/30/06) - piccolo-phet: cleanup help and javadoc
 (1/27/06) - piccolo-phet: help integration with module
