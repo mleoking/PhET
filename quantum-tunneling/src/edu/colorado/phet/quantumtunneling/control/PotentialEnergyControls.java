@@ -13,6 +13,8 @@ package edu.colorado.phet.quantumtunneling.control;
 
 import java.util.ArrayList;
 
+import org.omg.stub.java.rmi._Remote_Stub;
+
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
@@ -126,6 +128,24 @@ public class PotentialEnergyControls extends PNode {
      */
     public boolean isValuesVisible() {
         return ( (PotentialEnergyDragHandle) _energyDragHandles.get( 0 ) ).isValueVisible();
+    }
+    
+    public PotentialEnergyDragHandle getPotentialEnergyDragHandle( int i ) {
+        if ( i >= 0 && i < _energyDragHandles.size() ) {
+            return (PotentialEnergyDragHandle) _energyDragHandles.get( i );
+        }
+        else {
+            return null;
+        }
+    }
+
+    public RegionBoundaryDragHandle getRegionBoundaryDragHandle( int i ) {
+        if ( i >= 0 && i < _boundaryDragHandles.size() ) {
+            return (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
+        }
+        else {
+            return null;
+        }
     }
     
     //----------------------------------------------------------------------------

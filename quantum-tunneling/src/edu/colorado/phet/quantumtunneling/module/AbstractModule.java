@@ -22,7 +22,7 @@ import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.quantumtunneling.help.HelpPane;
+import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
@@ -42,13 +42,6 @@ public abstract class AbstractModule extends PiccoloModule {
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private Component helpPane;
-    private Component restoreGlassPane;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -61,9 +54,6 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public AbstractModule( String title, IClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
-        if ( hasHelp() ) {
-            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
-        }
     }
     
     //----------------------------------------------------------------------------
@@ -131,72 +121,4 @@ public abstract class AbstractModule extends PiccoloModule {
     public void removeClockListener( ClockListener listener ) {
         getClock().removeClockListener( listener );
     }
-    
-    public void setHelpPane( Component helpPane ) {
-        boolean visible = ( this.helpPane.isVisible() );
-        this.helpPane = helpPane;
-        this.helpPane.setVisible( visible );
-        if ( isActive() ) {
-            setGlassPane();
-        }
-    }
-    
-    public Component getHelpPane() {
-        return helpPane;
-    }
-    
-    public HelpPane getDefaultHelpPane() {
-        if ( helpPane instanceof HelpPane ) {
-            return (HelpPane) helpPane;
-        }
-        else {
-            return null;
-        }
-    }
-    
-    public void setHelpEnabled( boolean enabled ) {
-        super.setHelpEnabled( enabled );
-        if ( helpPane != null ) {
-            helpPane.setVisible( enabled );
-        }
-    }
-    
-    public void activate() {
-        super.activate();
-        setGlassPane();
-    }
-    
-    public void deactivate() {
-        restoreGlassPane();
-        super.deactivate();
-    }
-    
-    private void setGlassPane() {
-        if ( helpPane != null ) {
-            JFrame frame = getFrame();
-            restoreGlassPane = frame.getGlassPane();
-            frame.setGlassPane( helpPane );
-        }
-        else {
-            restoreGlassPane = null;
-        }
-    }
-    
-    private void restoreGlassPane() {
-        if ( restoreGlassPane != null ) {
-            JFrame frame = getFrame();
-            frame.setGlassPane( restoreGlassPane );
-            restoreGlassPane = null;
-        }
-    }
-
-    /**
-     * Gets the module's parent frame.
-     * 
-     * @return Frame
-     */
-    public JFrame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
-    }
-
 }

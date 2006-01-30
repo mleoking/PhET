@@ -590,6 +590,10 @@ public class QTControlPanel extends AbstractControlPanel {
         return _centerSlider.getValue();
     }
     
+    public JComboBox getPotentialComboBox() {
+        return _potentialComboBox;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
