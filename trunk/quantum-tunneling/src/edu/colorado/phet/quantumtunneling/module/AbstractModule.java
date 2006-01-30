@@ -24,7 +24,6 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.quantumtunneling.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
-import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -46,7 +45,7 @@ public abstract class AbstractModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HelpPane helpPane;
+    private Component helpPane;
     private Component restoreGlassPane;
     
     //----------------------------------------------------------------------------
@@ -116,15 +115,6 @@ public abstract class AbstractModule extends PiccoloModule {
     }
     
     /**
-     * Gets the application's Frame.
-     * 
-     * @return Frame
-     */
-    public Frame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
-    }
-    
-    /**
      * Adds a listener to the module's clock.
      * 
      * @param listener
@@ -142,32 +132,26 @@ public abstract class AbstractModule extends PiccoloModule {
         getClock().removeClockListener( listener );
     }
     
-    public void setHelpPane( HelpPane helpPane ) {
+    public void setHelpPane( Component helpPane ) {
+        boolean visible = ( this.helpPane.isVisible() );
         this.helpPane = helpPane;
+        this.helpPane.setVisible( visible );
+        if ( isActive() ) {
+            setGlassPane();
+        }
     }
     
-    public HelpPane getHelpPane() {
+    public Component getHelpPane() {
         return helpPane;
     }
     
-    public void activate() {
-        super.activate();
-        if ( helpPane != null ) {
-            JFrame frame = PhetApplication.instance().getPhetFrame();
-            restoreGlassPane = frame.getGlassPane();
-            frame.setGlassPane( helpPane );
+    public HelpPane getDefaultHelpPane() {
+        if ( helpPane instanceof HelpPane ) {
+            return (HelpPane) helpPane;
         }
         else {
-            restoreGlassPane = null;
+            return null;
         }
-    }
-    
-    public void deactivate() {
-        if ( restoreGlassPane != null ) {
-            JFrame frame = PhetApplication.instance().getPhetFrame();
-            frame.setGlassPane( restoreGlassPane );
-        }
-        super.deactivate();
     }
     
     public void setHelpEnabled( boolean enabled ) {
@@ -177,11 +161,42 @@ public abstract class AbstractModule extends PiccoloModule {
         }
     }
     
-    public void addHelpItem( PNode helpItem ) {
-        helpPane.add( helpItem );
+    public void activate() {
+        super.activate();
+        setGlassPane();
     }
     
-    public void removeHelpItem( PNode helpItem ) {
-        helpPane.remove( helpItem );
+    public void deactivate() {
+        restoreGlassPane();
+        super.deactivate();
     }
+    
+    private void setGlassPane() {
+        if ( helpPane != null ) {
+            JFrame frame = getFrame();
+            restoreGlassPane = frame.getGlassPane();
+            frame.setGlassPane( helpPane );
+        }
+        else {
+            restoreGlassPane = null;
+        }
+    }
+    
+    private void restoreGlassPane() {
+        if ( restoreGlassPane != null ) {
+            JFrame frame = getFrame();
+            frame.setGlassPane( restoreGlassPane );
+            restoreGlassPane = null;
+        }
+    }
+
+    /**
+     * Gets the module's parent frame.
+     * 
+     * @return Frame
+     */
+    public JFrame getFrame() {
+        return PhetApplication.instance().getPhetFrame();
+    }
+
 }

@@ -29,13 +29,11 @@ import edu.umd.cs.piccolo.PNode;
 public class PNodeFollower implements IFollower, PropertyChangeListener {
 
     private AbstractHelpItem _helpItem;
-    private Component _helpPane;
     private PNode _target;
     private PCanvas _targetContainer;
     
-    public PNodeFollower( AbstractHelpItem helpItem, Component helpPane, PNode target, PCanvas targetContainer ) {
+    public PNodeFollower( AbstractHelpItem helpItem, PNode target, PCanvas targetContainer ) {
         _helpItem = helpItem;
-        _helpPane = helpPane;
         _target = target;
         _targetContainer = targetContainer;
         setFollowEnabled( true );
@@ -44,7 +42,7 @@ public class PNodeFollower implements IFollower, PropertyChangeListener {
     public void setFollowEnabled( boolean enabled ) {
         if ( enabled ) {
             _target.addPropertyChangeListener( this );
-            _helpItem.updateDisplay();
+            updatePosition();
         }
         else {
             _target.removePropertyChangeListener( this );
@@ -55,7 +53,10 @@ public class PNodeFollower implements IFollower, PropertyChangeListener {
         if ( PNode.PROPERTY_VISIBLE.equals( event.getPropertyName() ) ) {
             _helpItem.setVisible( _target.getVisible() );
         }
-        _helpItem.updateDisplay();
+        updatePosition();
+    }
+    
+    public void updatePosition() {
         Point2D p = _helpItem.mapLocation( _target, _targetContainer );
         _helpItem.setOffset( p );
     }
