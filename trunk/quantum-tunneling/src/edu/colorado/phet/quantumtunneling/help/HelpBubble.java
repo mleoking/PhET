@@ -457,7 +457,7 @@ public class HelpBubble extends AbstractHelpItem {
         double x = 0;
         double y = 0;
         if ( _arrowPosition == TOP_LEFT ) {
-            x = -_arrowNode.getWidth();
+            x = -_arrowNode.getWidth() / 2;
             y = _arrowNode.getHeight() + _bubbleArrowSpacing;
         }
         else if ( _arrowPosition == TOP_CENTER ) {
@@ -465,11 +465,11 @@ public class HelpBubble extends AbstractHelpItem {
             y = _arrowNode.getHeight() + _bubbleArrowSpacing;
         }
         else if ( _arrowPosition ==  TOP_RIGHT ) {
-            x = -( _bubbleNode.getWidth() - _arrowNode.getWidth() );
+            x = -( _bubbleNode.getWidth() - _arrowNode.getWidth() / 2 );
             y = _arrowNode.getHeight() + _bubbleArrowSpacing;
         }
         else if ( _arrowPosition == BOTTOM_LEFT ) {
-            x = -_arrowNode.getWidth();
+            x = -_arrowNode.getWidth() / 2;
             y = -( _bubbleNode.getHeight() + _arrowNode.getHeight() + _bubbleArrowSpacing );
         }
         else if ( _arrowPosition == BOTTOM_CENTER ) {
@@ -477,12 +477,12 @@ public class HelpBubble extends AbstractHelpItem {
             y = -( _bubbleNode.getHeight() + _arrowNode.getHeight() + _bubbleArrowSpacing );
         }    
         else if ( _arrowPosition == BOTTOM_RIGHT ) {
-            x = -( _bubbleNode.getWidth() - _arrowNode.getWidth() );
+            x = -( _bubbleNode.getWidth() - _arrowNode.getWidth() / 2 );
             y = -( _bubbleNode.getHeight() + _arrowNode.getHeight() + _bubbleArrowSpacing );
         }
         else if ( _arrowPosition == LEFT_TOP ) {
             x = _arrowNode.getWidth() + _bubbleArrowSpacing;
-            y = -_arrowNode.getHeight();
+            y =  -( _arrowNode.getHeight() / 2 );
         }
         else if ( _arrowPosition == LEFT_CENTER ) {
             x = _arrowNode.getWidth() + _bubbleArrowSpacing;
@@ -490,11 +490,11 @@ public class HelpBubble extends AbstractHelpItem {
         }
         else if ( _arrowPosition == LEFT_BOTTOM ) {
             x = _arrowNode.getWidth() + _bubbleArrowSpacing;
-            y = -( _bubbleNode.getHeight() - _arrowNode.getHeight() );
+            y = -( _bubbleNode.getHeight() - _arrowNode.getHeight() / 2 );
         }
         else if ( _arrowPosition == RIGHT_TOP ) {
             x = -( _bubbleNode.getWidth() + _arrowNode.getWidth() + _bubbleArrowSpacing );
-            y = -_arrowNode.getHeight();
+            y = -_arrowNode.getHeight() / 2;
         }
         else if ( _arrowPosition == RIGHT_CENTER ) {
             x = -( _bubbleNode.getWidth() + _arrowNode.getWidth() + _bubbleArrowSpacing );
@@ -502,7 +502,7 @@ public class HelpBubble extends AbstractHelpItem {
         }
         else if ( _arrowPosition == RIGHT_BOTTOM ) {
             x = -( _bubbleNode.getWidth() + _arrowNode.getWidth() + _bubbleArrowSpacing );
-            y = -( _bubbleNode.getHeight() - _arrowNode.getHeight() );
+            y = -( _bubbleNode.getHeight() - _arrowNode.getHeight() / 2 );
         }
         else {
             throw new IllegalArgumentException( "illegal arrow position: " + _arrowPosition );
