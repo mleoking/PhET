@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- LEFT_TOP, LEFT_BOTTOM, RIGHT_TOP and RIGHT_BOTTOM arrow positions don't work for help
 - charts don't update when Measure is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread
@@ -68,6 +67,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/30/06) - piccolo-phet: fix help arrow positions
+(1/30/06) - piccolo-phet: cleanup help and javadoc
 (1/27/06) - piccolo-phet: help integration with module
 (1/27/06) - piccolo-phet: help items follow objects
 (1/26/06) - piccolo-phet: help items point at locations
