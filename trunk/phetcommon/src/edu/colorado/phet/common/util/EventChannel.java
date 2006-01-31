@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common.util;
 
+import javax.swing.*;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,6 +18,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
+import java.security.InvalidParameterException;
 
 /**
  * A proxy that broadcasts method calls to registered objects that implement
@@ -69,11 +71,11 @@ public class EventChannel implements InvocationHandler {
     /**
      * Creates a proxy for a list of objects that implement a specified interface
      *
-     * @param interf
+     * @param interf    The interface for which the channel provides a proxy
      */
     public EventChannel( Class interf ) {
         if( !EventListener.class.isAssignableFrom( interf ) ) {
-            throw new RuntimeException( "Attempt to create proxy for an interface that is not an EventListener" );
+            throw new InvalidParameterException( "Attempt to create proxy for an interface that is not an EventListener" );
         }
         targetInterface = interf;
         proxy = Proxy.newProxyInstance( interf.getClassLoader(),
@@ -91,6 +93,9 @@ public class EventChannel implements InvocationHandler {
         if( targetInterface.isInstance( listener ) ) {
             targets.add( listener );
         }
+        else {
+            throw new InvalidParameterException( "Parameter is not EventListener" );
+        }
     }
 
     /**
@@ -99,7 +104,12 @@ public class EventChannel implements InvocationHandler {
      * @param listener
      */
     public synchronized void removeListener( EventListener listener ) {
-        targets.remove( listener );
+        if( targetInterface.isInstance( listener ) ) {
+            targets.remove( listener );
+        }
+        else {
+            throw new InvalidParameterException( "Parameter is not EventListener" );
+        }
     }
 
     /**
@@ -147,7 +157,7 @@ public class EventChannel implements InvocationHandler {
     }
 
     //----------------------------------------------------------------------------
-    // Invocation Handler
+    // Invocation Handler implementation
     //----------------------------------------------------------------------------
 
     /**
@@ -164,7 +174,7 @@ public class EventChannel implements InvocationHandler {
         try {
             for( int i = 0; i < targets.size(); i++ ) {
                 target = targets.get( i );
-                method.invoke( target, args );
+                invokeMethod( method, target, args );
             }
         }
         catch( InvocationTargetException ite ) {
@@ -175,5 +185,10 @@ public class EventChannel implements InvocationHandler {
             throw new Throwable( t );
         }
         return null;
+    }
+
+    protected void invokeMethod( Method method, Object target, Object[] args ) throws InvocationTargetException,
+                                                                                      IllegalAccessException {
+        method.invoke( target, args );
     }
 }
