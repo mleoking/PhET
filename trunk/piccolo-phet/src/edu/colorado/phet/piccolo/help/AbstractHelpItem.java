@@ -142,8 +142,12 @@ public abstract class AbstractHelpItem extends PNode {
      * 
      * @param node
      * @param canvas
+     * @throws IllegalArgumentException if node is not a descendent of canvas
      */
     public void pointAt( PNode node, PCanvas canvas ) {
+        if ( ! node.isDescendentOf( canvas.getLayer()  ) ) {
+            throw new IllegalArgumentException( "node is not a descendent of canvas" );
+        }
         if ( _follower != null ) {
             _follower.setFollowEnabled( false );
         }
