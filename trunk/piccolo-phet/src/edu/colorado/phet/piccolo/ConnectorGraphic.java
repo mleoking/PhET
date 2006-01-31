@@ -16,6 +16,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -27,6 +29,7 @@ public class ConnectorGraphic extends PPath {
 
     private PNode source;
     private PNode destination;
+    private BufferedImage txtr;
 
     public ConnectorGraphic( PNode src, PNode dst ) {
         this.source = src;
@@ -58,6 +61,9 @@ public class ConnectorGraphic extends PPath {
         globalToLocal( r1c );
         globalToLocal( r2c );
         updateShape( r1c, r2c );
+        if( txtr != null ) {
+            updateTxtr();
+        }
         repaint();
     }
 
@@ -71,5 +77,14 @@ public class ConnectorGraphic extends PPath {
 
     public PNode getDestination() {
         return destination;
+    }
+
+    public void setTexture( BufferedImage txtr ) {
+        this.txtr = txtr;
+        updateTxtr();
+    }
+
+    private void updateTxtr() {
+        setPaint( new TexturePaint( txtr, new Rectangle2D.Double( getFullBounds().getX(), getFullBounds().getY(), txtr.getWidth(), txtr.getHeight() ) ) );
     }
 }

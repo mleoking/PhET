@@ -1,3 +1,4 @@
+*New in 0.36 (1-30-2006)
 Moved Save/Load to the file menu
 Barriers & Detectors resize with the grid (although with some roundoff error)
 Added a confirm dialog box to reset all.
