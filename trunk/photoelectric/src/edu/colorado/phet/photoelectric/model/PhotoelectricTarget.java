@@ -47,6 +47,7 @@ public class PhotoelectricTarget extends Plate {
     static public final DischargeLampElementProperties COPPER = new Copper();
     static public final DischargeLampElementProperties SODIUM = new Sodium();
     static public final DischargeLampElementProperties PLATINUM = new Platinum();
+    static public final DischargeLampElementProperties CALCIUM = new Calcium();
     static public final DischargeLampElementProperties MAGNESIUM = new Magnesium();
     static public final ArrayList TARGET_MATERIALS = new ArrayList();
 
@@ -55,6 +56,7 @@ public class PhotoelectricTarget extends Plate {
         TARGET_MATERIALS.add( COPPER );
         TARGET_MATERIALS.add( SODIUM );
         TARGET_MATERIALS.add( PLATINUM );
+        TARGET_MATERIALS.add( CALCIUM );
         TARGET_MATERIALS.add( MAGNESIUM );
     }
 
