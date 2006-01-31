@@ -2283,8 +2283,9 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
                 avg += elevels[i + 1] - elevels[i];
             }
             avg /= 10;
-            for( i = 1; i != stateCount; i++ )
-            { // if the levels are way off then leave them alone. this // can happen if the offset is too far to the left, for // example.
+            for( i = 1; i != stateCount; i++ ) { // if the levels are way off then leave them alone. this
+                // can happen if the offset is too far to the left, for
+                //  example.
                 if( ( elevels[i] - elevels[i - 1] ) / avg > 2 ) {
                     break;
                 }
