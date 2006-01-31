@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- * TestGlassPane
+ * TestPGlassPane
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

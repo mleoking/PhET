@@ -165,7 +165,7 @@ public abstract class AbstractHelpItem extends PNode {
     protected Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
         Rectangle2D globalBounds = targetNode.getGlobalBounds();
         Point globalPoint = new Point( (int) globalBounds.getX(), (int) globalBounds.getY() );
-        Point helpPanePoint = SwingUtilities.convertPoint( targetCanvas.getParent(), globalPoint, _helpPane );
+        Point helpPanePoint = SwingUtilities.convertPoint( targetCanvas, globalPoint, _helpPane );
         return helpPanePoint;
     }
     
