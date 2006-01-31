@@ -291,7 +291,8 @@ public class DetectorSheetPNode extends PhetPNode {
             path.setStrokePaint( Color.darkGray );
             addChild( path );
             try {
-                txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
+                txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
+//                txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -299,11 +300,13 @@ public class DetectorSheetPNode extends PhetPNode {
         }
 
         public void update() {
-            double connectorHeight = detectorSheetHeight - 10;
+//            double connectorHeight = detectorSheetHeight - 10;
+            double connectorHeight = txtr.getHeight();
+
             double width = detectorSheetControlPanelPNode.getFullBounds().getCenterX() - screenGraphic.getFullBounds().getCenterX();
             Rectangle2D.Double aShape = new Rectangle2D.Double( screenGraphic.getFullBounds().getCenterX(), screenGraphic.getFullBounds().getCenterY() - connectorHeight / 2, width, connectorHeight );
             path.setPathTo( aShape );
-            path.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, 0, txtr.getWidth() / 3.0, txtr.getHeight() / 3.0 ) ) );
+            path.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, aShape.getY(), txtr.getWidth(), txtr.getHeight() ) ) );
         }
     }
 

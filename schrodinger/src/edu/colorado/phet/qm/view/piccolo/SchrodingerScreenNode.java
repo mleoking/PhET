@@ -31,7 +31,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -450,15 +449,17 @@ public class SchrodingerScreenNode extends PNode {
         this.gunControlPanelPSwing = gunControlPanel.getPSwing();
         relayout();
 
-        ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
+
         BufferedImage txtr = null;
         try {
-            txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
+//            txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
+            txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        connectorGraphic.setPaint( new TexturePaint( txtr, new Rectangle2D.Double( 0, 0, txtr.getWidth() / 3.0, txtr.getHeight() / 3.0 ) ) );
+        ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
+        connectorGraphic.setTexture( txtr );
 
         addChild( 3, connectorGraphic );
     }
