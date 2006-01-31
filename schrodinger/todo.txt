@@ -10,6 +10,7 @@ should still be 60 nm wide, which means that the way the units relate to
 up, the units are inherently tied to the grid.  A scaling factor would
 remove this dependence of the units on the grid, so that changing the
 resolution would not change the units.
+>> This will make more sense when we have a nonlocal propagator.
 
 Rescale both space and time for photons.
 
@@ -22,7 +23,7 @@ Ruler should revise size on resolution change or wave area size change.
 
 Sizes should be relative:
 Slits
-Wave velocity
+Wave velocity (hard to do this with a local propagator)
 
 ____________________________________
 Lower Priority
