@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * HelpBalloon is a help item that consists of text (with optional shadow)
@@ -527,7 +528,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param node
      * @param canvas
      */
-    protected Point2D mapLocation( PNode node, PCanvas canvas ) {
+    public Point2D mapLocation( PNode node, PCanvas canvas ) {
         
         // Map the node's location (upper-left corner) to help pane coordinates...
         Point2D p = super.mapLocation( node, canvas );
@@ -565,7 +566,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * 
      * @param component
      */
-    protected Point2D mapLocation( JComponent component ) {
+    public Point2D mapLocation( JComponent component ) {
         
         // Map the component's location (upper-left corner) to help pane coordinates...
         Point2D p = super.mapLocation( component );
@@ -588,6 +589,37 @@ public class HelpBalloon extends AbstractHelpItem {
             p.setLocation( p.getX() + width, p.getY() + ( height / 2 ) );
         }
 
+        return p;
+    }
+    
+    public Point2D mapLocation( JComponent component, PSwing pswing, PCanvas canvas ) {
+        
+        // Map the component's location to help pane coordinates...
+        Point2D p = super.mapLocation( component, pswing, canvas );
+        
+        // Determine the component's dimensions, in help pane coordinates...
+        Rectangle2D fullBounds = component.getBounds();
+        Rectangle2D globalFullBounds = pswing.getParent().localToGlobal( fullBounds );
+        PCamera camera = canvas.getCamera();
+        PAffineTransform transform = camera.getViewTransformReference();
+        Rectangle2D bounds = transform.transform( globalFullBounds, null );
+        double width = bounds.getWidth();
+        double height = bounds.getHeight();
+        
+        // Translate the help pane coordinates, using the component's dimensions and arrow position...
+        if ( isArrowOnTop() ) {
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
+        }
+        else if ( isArrowOnBottom() ) {
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() );
+        }
+        else if ( isArrowOnRight() ) {
+            p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
+        }
+        else {
+            p.setLocation( p.getX() + width, p.getY() + ( height / 2 ) );
+        }
+        
         return p;
     }
 }
