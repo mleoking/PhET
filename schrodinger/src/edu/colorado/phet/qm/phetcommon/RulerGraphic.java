@@ -87,8 +87,9 @@ public class RulerGraphic extends PhetPNode {
 
             if( i == 0 ) {
                 PText unitsGraphic = new PText( units );
+                unitsGraphic.setFont( new LucidaSansFont( 22, true ) );
                 addChild( unitsGraphic );
-                unitsGraphic.setOffset( pText.getOffset().getX() + pText.getFullBounds().getWidth() + 5, pText.getOffset().getY() );
+                unitsGraphic.setOffset( pText.getOffset().getX() + pText.getFullBounds().getWidth() + 5, pText.getOffset().getY() - pText.getFullBounds().getHeight() / 2 );
             }
         }
     }
