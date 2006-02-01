@@ -219,11 +219,11 @@ public abstract class AbstractHelpItem extends PNode {
      */
     protected Point2D mapLocation( PNode node, PCanvas canvas ) {
         // Get the node's global location - above the root node's transform, but below the canvas's view transform.
-        Rectangle2D globalBounds = node.getGlobalBounds();
+        Rectangle2D globalFullBounds = node.getParent().localToGlobal( node.getFullBounds() );
         // Apply the canvas' view transform to get a point in the canvas' coordinate system.
         PCamera camera = canvas.getCamera();
         PAffineTransform transform = camera.getViewTransformReference();
-        Rectangle2D bounds = transform.transform( globalBounds, null );
+        Rectangle2D bounds = transform.transform( globalFullBounds, null );
         int x = (int) bounds.getX();
         int y = (int) bounds.getY();
         // Convert the canvas location to a point in the help pane.
