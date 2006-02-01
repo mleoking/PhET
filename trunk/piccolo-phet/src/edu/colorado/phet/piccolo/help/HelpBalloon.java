@@ -13,16 +13,18 @@ package edu.colorado.phet.piccolo.help;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 /**
  * HelpBalloon is a help item that consists of text (with optional shadow)
@@ -519,48 +521,72 @@ public class HelpBalloon extends AbstractHelpItem {
     
     /**
      * Maps to a point that allows us to point to the center of 
-     * the target, instead of its upper left corner.
+     * one of the target's edges, instead of its upper-left corner.
+     * Which edge is dependent on the arrow position.
      * 
      * @param targetNode
      * @param targetCanvas
      */
     protected Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
+        
+        // Map the target's location (upper-left corner) to help pane coordinates...
         Point2D p = super.mapLocation( targetNode, targetCanvas );
+        
+        // Determine the target's dimensions, in help pane coordinates...
+        Rectangle2D globalBounds = targetNode.getGlobalBounds();
+        PCamera camera = targetCanvas.getCamera();
+        PAffineTransform transform = camera.getViewTransformReference();
+        Rectangle2D bounds = transform.transform( globalBounds, null );
+        double width = bounds.getWidth();
+        double height = bounds.getHeight();
+        
+        // Translate the help pane coordinates, using the target's dimensions and arrow position...
         if ( isArrowOnTop() ) {
-            p.setLocation( p.getX() + targetNode.getWidth() / 2, p.getY() + targetNode.getHeight() );
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
         else if ( isArrowOnBottom() ) {
-            p.setLocation( p.getX() + targetNode.getWidth() / 2, p.getY() );
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() );
         }
         else if ( isArrowOnRight() ) {
-            p.setLocation( p.getX(), p.getY() + targetNode.getHeight() / 2 );
+            p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
         }
         else {
-            p.setLocation( p.getX() + targetNode.getWidth(), p.getY() + targetNode.getHeight() / 2 );
+            p.setLocation( p.getX() + width, p.getY() + ( height / 2 ) );
         }
+        
         return p;
     }
     
     /**
      * Maps to a point that allows us to point to the center of 
-     * the target, instead of its upper left corner.
+     * one of the target's edges, instead of its upper-left corner.
+     * Which edge is dependent on the arrow position.
      * 
      * @param targetComponent
      */
     protected Point2D mapLocation( JComponent targetComponent ) {
+        
+        // Map the target's location (upper-left corner) to help pane coordinates...
         Point2D p = super.mapLocation( targetComponent );
+        
+        // Determine the target's dimensions...
+        double width = targetComponent.getWidth();
+        double height = targetComponent.getHeight();
+        
+        // Translate the help pane coordinates, using the target's dimensions and arrow position...
         if ( isArrowOnTop() ) {
-            p.setLocation( p.getX() + targetComponent.getWidth() / 2, p.getY() + targetComponent.getHeight() );
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
         else if ( isArrowOnBottom() ) {
-            p.setLocation( p.getX() + targetComponent.getWidth() / 2, p.getY() );
+            p.setLocation( p.getX() + ( width / 2 ), p.getY() );
         }
         else if ( isArrowOnRight() ) {
-            p.setLocation( p.getX(), p.getY() + targetComponent.getHeight() / 2 );
+            p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
         }
         else {
-            p.setLocation( p.getX() + targetComponent.getWidth(), p.getY() + targetComponent.getHeight() / 2 );
+            p.setLocation( p.getX() + width, p.getY() + ( height / 2 ) );
         }
+
         return p;
     }
 }

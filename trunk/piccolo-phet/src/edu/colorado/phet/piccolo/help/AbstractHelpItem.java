@@ -22,21 +22,20 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PAffineTransform;
 
 
 /**
  * AbstractHelpItem is the base class for help items.
- * It is concerned with positioning help items on
- * the parent help pane.  The position of a help item may 
- * be static, or it may track some other object (eg, a 
- * JComponent or PNode).
+ * It is concerned with positioning help items on the parent help pane.
+ * The position of a help item may be static, or it may track some other
+ * object (eg, a JComponent or PNode).
  * <p>
- * Note that this class contains no information about the 
- * "look" of a help item.  You must handle the display details
- * in your subclass.
- * <p>
+ * Note that this class contains no information about the "look" of a help item.
+ * You must handle the display details in your subclass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -49,6 +48,7 @@ public abstract class AbstractHelpItem extends PNode {
     
     private JComponent _helpPane; // the parent help pane
     private IFollower _follower; // tracks the position of some object
+    private boolean _enabled; // whether this help item is enabled, see setEnabled
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,6 +61,7 @@ public abstract class AbstractHelpItem extends PNode {
      */
     public AbstractHelpItem( JComponent helpPane ) {
         _helpPane = helpPane;
+        setEnabled( false ); // disabled by default
     }
     
     /**
@@ -93,6 +94,31 @@ public abstract class AbstractHelpItem extends PNode {
     public void updatePosition() {
         if ( _follower != null ) {
             _follower.updatePosition();
+        }
+    }
+    
+    /**
+     * Enables and disables the help item.
+     * When disabled, a help item is invisible and its "follower" does nothing.
+     * When enabled, a help item's visibility and position are determined by its follower.
+     * If the help item is not following anything, then its enabled state determines
+     * its visibility.
+     * 
+     * @param enabled
+     */
+    public void setEnabled( boolean enabled ) {
+        _enabled = enabled;
+        
+        if ( _follower != null ) {
+            _follower.setFollowEnabled( enabled );
+        }
+        else {
+            // if no follower, then simply set visibility
+            setVisible( enabled );
+        }
+        
+        if ( !enabled ) {
+            setVisible( false );
         }
     }
     
@@ -133,6 +159,7 @@ public abstract class AbstractHelpItem extends PNode {
             _follower.setFollowEnabled( false );
         }
         _follower = new JComponentFollower( this, component );
+        _follower.setFollowEnabled( _enabled );
     }
     
     /**
@@ -152,6 +179,7 @@ public abstract class AbstractHelpItem extends PNode {
             _follower.setFollowEnabled( false );
         }
         _follower = new PNodeFollower( this, node, canvas );
+        _follower.setFollowEnabled( _enabled );
     }
     
     //----------------------------------------------------------------------------
@@ -159,7 +187,7 @@ public abstract class AbstractHelpItem extends PNode {
     //----------------------------------------------------------------------------
     
     /**
-     * Maps the location (upper left corner) of a PNode on a specified PCanvas to 
+     * Maps the location (upper-left corner) of a PNode on a specified PCanvas to 
      * the coordinate system of the parent help pane.
      * 
      * @param targetNode
@@ -167,14 +195,21 @@ public abstract class AbstractHelpItem extends PNode {
      * @return
      */
     protected Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
+        // Get the node's global location - above the root node's transform, but below the canvas's view transform.
         Rectangle2D globalBounds = targetNode.getGlobalBounds();
-        Point globalPoint = new Point( (int) globalBounds.getX(), (int) globalBounds.getY() );
-        Point helpPanePoint = SwingUtilities.convertPoint( targetCanvas, globalPoint, _helpPane );
+        // Apply the canvas' view transform to get a point in the canvas' coordinate system.
+        PCamera camera = targetCanvas.getCamera();
+        PAffineTransform transform = camera.getViewTransformReference();
+        Rectangle2D bounds = transform.transform( globalBounds, null );
+        int x = (int) bounds.getX();
+        int y = (int) bounds.getY();
+        // Convert the canvas location to a point in the help pane.
+        Point2D helpPanePoint = SwingUtilities.convertPoint( targetCanvas, x, y, _helpPane );
         return helpPanePoint;
     }
     
     /**
-     * Maps the location (upper left corner) of a JComponent to 
+     * Maps the location (upper-left corner) of a JComponent to 
      * the coordinate system of the parent help pane.
      * 
      * @param targetComponent
@@ -234,7 +269,7 @@ public abstract class AbstractHelpItem extends PNode {
         public JComponentFollower( AbstractHelpItem helpItem, JComponent target ) {
             _helpItem = helpItem;
             _target = target;
-            setFollowEnabled( true );
+            setFollowEnabled( false ); // disabled by default
         }
         
         /* Turns following on and off. */
@@ -311,7 +346,7 @@ public abstract class AbstractHelpItem extends PNode {
             _helpItem = helpItem;
             _target = target;
             _targetContainer = targetContainer;
-            setFollowEnabled( true );
+            setFollowEnabled( false ); // disabled by default
         }
         
         /* Turns following on and off. */
@@ -329,6 +364,7 @@ public abstract class AbstractHelpItem extends PNode {
         /* Synchronizes visibility. */
         public void updateVisibility() {
             _helpItem.setVisible( _target.getVisible() );
+            System.out.println( "AbstractHelpItem.updateVisibility " + _target.getAttribute( "name" ) );//XXX
         }
         
         /* Synchronizes position. */
@@ -336,15 +372,18 @@ public abstract class AbstractHelpItem extends PNode {
             if ( _helpItem.getVisible() ) {
                 Point2D p = _helpItem.mapLocation( _target, _targetContainer );
                 _helpItem.setOffset( p );
+                System.out.println( "AbstractHelpItem.updatePosition " + _target.getAttribute( "name" ) );//XXX
             }
         }
         
         /* Synchronizes position and visibility when a relevant property of the PNode changes. */
-        public void propertyChange( PropertyChangeEvent event ) {  
+        public void propertyChange( PropertyChangeEvent event ) {
             if ( PNode.PROPERTY_VISIBLE.equals( event.getPropertyName() ) ) {
                 updateVisibility();
             }
-            updatePosition();
+            else {
+                updatePosition();
+            }
         }
     }
 }
