@@ -16,6 +16,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.util.PhetUtilities;
 //import edu.colorado.phet.common.view.components.ModelSlider;
 
 import javax.swing.*;
@@ -161,11 +162,13 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( drainFlowMI );
 
         // Debug option
-        JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( "Show debug controls" );
+        final JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( "Show debug controls" );
         debugMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                
+                SolubleSaltsControlPanel controlPanel = (SolubleSaltsControlPanel)PhetUtilities.getActiveModule().getControlPanel();
+                controlPanel.setDebugControlsVisible( debugMI.isSelected() );
             }
         } );
+        optionsMenu.add( debugMI );
     }
 }

@@ -127,8 +127,9 @@ public class SolubleSaltsModel extends BaseModel {
                             vessel.getLocation().getY() - 10 );
     }
 
-    //Not allowed to mess with the way we call our abstract method.
-
+    /**
+     * @param event
+     */
     public void update( ClockEvent event ) {
         super.update( event );
 
@@ -176,6 +177,9 @@ public class SolubleSaltsModel extends BaseModel {
         }
     }
 
+    /**
+     *
+     */
     public void reset() {
         List ions = ionTracker.getIons();
         for( int i = 0; i < ions.size(); i++ ) {
@@ -268,9 +272,6 @@ public class SolubleSaltsModel extends BaseModel {
                                      * Math.pow( ( numCations / volume ), numCationsInUnit )
                                      * Math.pow( SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
                                                  numAnionsInUnit + numCationsInUnit );
-//        double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
-//                                     * Math.pow( ( numCations / volume ), numCationsInUnit )
-//                                     * SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR;
         return concentrationFactor;
     }
 
@@ -309,6 +310,15 @@ public class SolubleSaltsModel extends BaseModel {
         return result;
     }
 
+    /**
+     * Returns the bounds of the water in the vessel
+     *
+     * @return
+     */
+    public Rectangle2D getWaterBounds() {
+        return vessel.getWater().getBounds();
+    }
+
     //-----------------------------------------------------------------
     // Change events and listeners
     //-----------------------------------------------------------------
@@ -321,15 +331,6 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
-    }
-
-    /**
-     * Returns the bounds of the water in the vessel
-     *
-     * @return
-     */
-    public Rectangle2D getWaterBounds() {
-        return vessel.getWater().getBounds();
     }
 
     public class ChangeEvent extends EventObject {
@@ -403,20 +404,8 @@ public class SolubleSaltsModel extends BaseModel {
     }
 
     /**
-     * Tracks the creation and destruction of lattice instances
-     */
-    private class LatticeLifetimeTracker implements Crystal.InstanceLifetimeListener {
-        public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {
-            addModelElement( event.getInstance() );
-        }
-
-        public void instanceDestroyed( Crystal.InstanceLifetimeEvent event ) {
-            removeModelElement( event.getInstance() );
-        }
-    }
-
-    /**
-     * Turns nucleation on and off depending on the concentration of solutes and Ksp
+     * Turns nucleation on and off depending on the concentration of solutes and Ksp, and
+     * releases ions from crystals if the concentration is less than Ksp
      */
     private class NucleationMonitorAgent implements ModelElement, Crystal.InstanceLifetimeListener {
         private List crystals = new ArrayList();
@@ -429,13 +418,23 @@ public class SolubleSaltsModel extends BaseModel {
         public void stepInTime( double dt ) {
             nucleationEnabled = getConcentrationFactor() > ksp;
 
-            while( crystals.size() > 0 && !nucleationEnabled ) {
+            if( crystals.size() > 0 && !nucleationEnabled ) {
                 // pick a crystal at random
-                int i = random.nextInt( crystals.size() - 1 );
-                System.out.println( "crystals = " + crystals.size() );
+                int i = random.nextInt( crystals.size() );
                 Crystal crystal = (Crystal)crystals.get( i );
-                crystal.releaseIon( dt );
-                nucleationEnabled = getConcentrationFactor() > ksp;
+                // Only tell the crystal to toss an ion if the entire crystal is in the water
+                boolean isInWater = true;
+                List ions = crystal.getIons();
+                for( int j = 0; j < ions.size() && isInWater; j++ ) {
+                    Ion ion = (Ion)ions.get( j );
+                    if( !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
+                        isInWater = false;
+                    }
+                }
+                if( isInWater ) {
+                    crystal.releaseIon( dt );
+                    nucleationEnabled = getConcentrationFactor() > ksp;
+                }
             }
         }
 

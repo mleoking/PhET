@@ -285,6 +285,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         vesselIonStickSlider.setVisible( areVisible );
         dissociationSlider.setVisible( areVisible );
         concentrationPanel.setVisible( areVisible );
+        revalidate();
     }
 
 
