@@ -200,7 +200,7 @@ public class PhetPCanvas extends PSwingCanvas {
 
             //use the smaller
             double scale = sx < sy ? sx : sy;
-            scale = scale <= 0 ? 1.0 : scale;//if SCALE is negative or zero, just use SCALE=1
+            scale = scale <= 0 ? 1.0 : scale;//if scale is negative or zero, just use scale=1
 
             return AffineTransform.getScaleInstance( scale, scale );
         }

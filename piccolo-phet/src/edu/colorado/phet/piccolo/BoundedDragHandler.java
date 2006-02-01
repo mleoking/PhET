@@ -64,7 +64,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
                 if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
-                    //let's take data and fit (to account for SCALE, rotation & shear)
+                    //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMinX();
 
@@ -76,7 +76,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                 }
                 if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getFullBounds().getY() ) {
 
-                    //let's take data and fit (to account for SCALE, rotation & shear)
+                    //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getY();
                     double y0 = pickedNode.getGlobalFullBounds().getMinY();
 
@@ -87,7 +87,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinY() );
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
-                    //let's take data and fit (to account for SCALE, rotation & shear)
+                    //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxX();
 
@@ -97,7 +97,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX() );
                 }
                 if( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
-                    //let's take data and fit (to account for SCALE, rotation & shear)
+                    //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getY();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxY();
 
