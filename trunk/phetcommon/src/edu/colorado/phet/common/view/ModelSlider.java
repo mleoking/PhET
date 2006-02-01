@@ -292,7 +292,7 @@ public class ModelSlider extends JPanel {
         Hashtable table = new Hashtable();
         for( int i = 0; i < ticks.length; i++ ) {
             double tick = ticks[i];
-            table.put( new Double( tick ), new JLabel( tick + "" ) );
+            table.put( new Double( tick ), new JLabel( sliderLabelFormat.format( tick)) );
         }
         setModelLabels( table );
 //        relabelSlider();
