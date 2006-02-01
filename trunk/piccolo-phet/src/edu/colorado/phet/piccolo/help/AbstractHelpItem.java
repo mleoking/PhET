@@ -33,7 +33,8 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  * AbstractHelpItem is the base class for help items.
  * It is concerned with positioning help items on the parent help pane.
  * The position of a help item may be static, or it may track some other
- * object (eg, a JComponent or PNode).
+ * object (eg, a JComponent or PNode).  Responsibility for following an
+ * object is delegated to an IFollower.
  * <p>
  * Note that this class contains no information about the "look" of a help item.
  * You must handle the display details in your subclass.
@@ -128,6 +129,27 @@ public abstract class AbstractHelpItem extends PNode {
     //----------------------------------------------------------------------------
     
     /**
+     * Puts a help item at a specified location, in help pane coordinates.
+     * Use this for help items that have no arrow and don't point at an object.
+     * 
+     * @param p location
+     */
+    public void setLocation( Point2D p ) {
+        setLocation( p.getX(), p.getY() );
+    }
+    
+    /**
+     * Puts a help item at a specified location, in help pane coordinates.
+     * Use this for help items that have no arrow and don't point at an object.
+     * 
+     * @param x
+     * @param y
+     */
+    public void setLocation( double x, double y ) {
+        pointAt( x, y );
+    }
+    
+    /**
      * Makes the help item point at point on the screen.
      * The point is in the parent help pane's coordinate system.
      * 
@@ -191,21 +213,21 @@ public abstract class AbstractHelpItem extends PNode {
      * Maps the location (upper-left corner) of a PNode on a specified PCanvas to 
      * the coordinate system of the parent help pane.
      * 
-     * @param targetNode
-     * @param targetCanvas
+     * @param node
+     * @param canvas
      * @return
      */
-    protected Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
+    protected Point2D mapLocation( PNode node, PCanvas canvas ) {
         // Get the node's global location - above the root node's transform, but below the canvas's view transform.
-        Rectangle2D globalBounds = targetNode.getGlobalBounds();
+        Rectangle2D globalBounds = node.getGlobalBounds();
         // Apply the canvas' view transform to get a point in the canvas' coordinate system.
-        PCamera camera = targetCanvas.getCamera();
+        PCamera camera = canvas.getCamera();
         PAffineTransform transform = camera.getViewTransformReference();
         Rectangle2D bounds = transform.transform( globalBounds, null );
         int x = (int) bounds.getX();
         int y = (int) bounds.getY();
         // Convert the canvas location to a point in the help pane.
-        Point2D helpPanePoint = SwingUtilities.convertPoint( targetCanvas, x, y, _helpPane );
+        Point2D helpPanePoint = SwingUtilities.convertPoint( canvas, x, y, _helpPane );
         return helpPanePoint;
     }
     
@@ -213,11 +235,11 @@ public abstract class AbstractHelpItem extends PNode {
      * Maps the location (upper-left corner) of a JComponent to 
      * the coordinate system of the parent help pane.
      * 
-     * @param targetComponent
+     * @param component
      * @return
      */
-    protected Point2D mapLocation( JComponent targetComponent ) {
-        return SwingUtilities.convertPoint( targetComponent.getParent(), targetComponent.getLocation(), _helpPane );
+    protected Point2D mapLocation( JComponent component ) {
+        return SwingUtilities.convertPoint( component.getParent(), component.getLocation(), _helpPane );
     }
     
     //----------------------------------------------------------------------------
@@ -259,41 +281,41 @@ public abstract class AbstractHelpItem extends PNode {
     private static class JComponentFollower implements IFollower, ComponentListener {
 
         private AbstractHelpItem _helpItem;
-        private JComponent _target;
+        private JComponent _component;
         
         /**
          * Constructor.
          * 
          * @param helpItem the help item
-         * @param target the JComponent to follow
+         * @param component the JComponent to follow
          */
-        public JComponentFollower( AbstractHelpItem helpItem, JComponent target ) {
+        public JComponentFollower( AbstractHelpItem helpItem, JComponent component ) {
             _helpItem = helpItem;
-            _target = target;
+            _component = component;
             setFollowEnabled( false ); // disabled by default
         }
         
         /* Turns following on and off. */
         public void setFollowEnabled( boolean enabled ) {
             if ( enabled ) {
-                _target.addComponentListener( this );
+                _component.addComponentListener( this );
                 updateVisibility();
                 updatePosition();
             }
             else {
-                _target.removeComponentListener( this );
+                _component.removeComponentListener( this );
             }
         }
         
         /* Synchronizes visibility. */
         public void updateVisibility() {
-            _helpItem.setVisible( _target.isVisible() );
+            _helpItem.setVisible( _component.isVisible() );
         }
         
         /* Synchronizes position. */
         public void updatePosition() {
             if ( _helpItem.getVisible() ) {
-                Point2D p = _helpItem.mapLocation( _target );
+                Point2D p = _helpItem.mapLocation( _component );
                 _helpItem.setOffset( p.getX(), p.getY() );
             }
         }
@@ -333,21 +355,21 @@ public abstract class AbstractHelpItem extends PNode {
     private static class PNodeFollower implements IFollower, PropertyChangeListener {
 
         private AbstractHelpItem _helpItem;
-        private PNode _target;
-        private PCanvas _targetContainer;
+        private PNode _node;
+        private PCanvas _canvas;
         private ArrayList _watchList; // array of PNodes to watch, includes the target node and all ancestors
         
         /**
          * Constructor.
          * 
          * @param helpItem the help item
-         * @param target the PNode to follow
-         * @param targetContainer the PCanvas that contains the PNode
+         * @param node the PNode to follow
+         * @param canvas the PCanvas that contains the PNode
          */
-        public PNodeFollower( AbstractHelpItem helpItem, PNode target, PCanvas targetContainer ) {
+        public PNodeFollower( AbstractHelpItem helpItem, PNode node, PCanvas canvas ) {
             _helpItem = helpItem;
-            _target = target;
-            _targetContainer = targetContainer;
+            _node = node;
+            _canvas = canvas;
             _watchList = new ArrayList();
             setFollowEnabled( false ); // disabled by default
         }
@@ -366,7 +388,7 @@ public abstract class AbstractHelpItem extends PNode {
         
         /* Synchronizes visibility. */
         public void updateVisibility() {
-            boolean visible = isNodeVisible( _target );
+            boolean visible = isNodeVisible( _node );
             _helpItem.setVisible( visible );
 //            System.out.println( "AbstractHelpItem.updateVisibility " + _target.getAttribute( "name" ) );//XXX
         }
@@ -374,7 +396,7 @@ public abstract class AbstractHelpItem extends PNode {
         /* Synchronizes position. */
         public void updatePosition() {
             if ( _helpItem.getVisible() ) {
-                Point2D p = _helpItem.mapLocation( _target, _targetContainer );
+                Point2D p = _helpItem.mapLocation( _node, _canvas );
                 _helpItem.setOffset( p );
 //                System.out.println( "AbstractHelpItem.updatePosition " + _target.getAttribute( "name" ) );//XXX
             }
@@ -406,7 +428,7 @@ public abstract class AbstractHelpItem extends PNode {
          */
         private void updateWatchList() {
             clearWatchList();
-            PNode node = _target;
+            PNode node = _node;
             while ( node != null ) {
                 node.addPropertyChangeListener( this );
                 _watchList.add( node );

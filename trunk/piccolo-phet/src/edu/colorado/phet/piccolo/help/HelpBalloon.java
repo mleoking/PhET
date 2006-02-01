@@ -521,26 +521,26 @@ public class HelpBalloon extends AbstractHelpItem {
     
     /**
      * Maps to a point that allows us to point to the center of 
-     * one of the target's edges, instead of its upper-left corner.
+     * one of the node's edges, instead of its upper-left corner.
      * Which edge is dependent on the arrow position.
      * 
-     * @param targetNode
-     * @param targetCanvas
+     * @param node
+     * @param canvas
      */
-    protected Point2D mapLocation( PNode targetNode, PCanvas targetCanvas ) {
+    protected Point2D mapLocation( PNode node, PCanvas canvas ) {
         
-        // Map the target's location (upper-left corner) to help pane coordinates...
-        Point2D p = super.mapLocation( targetNode, targetCanvas );
+        // Map the node's location (upper-left corner) to help pane coordinates...
+        Point2D p = super.mapLocation( node, canvas );
         
-        // Determine the target's dimensions, in help pane coordinates...
-        Rectangle2D globalBounds = targetNode.getGlobalBounds();
-        PCamera camera = targetCanvas.getCamera();
+        // Determine the node's dimensions, in help pane coordinates...
+        Rectangle2D globalBounds = node.getGlobalBounds();
+        PCamera camera = canvas.getCamera();
         PAffineTransform transform = camera.getViewTransformReference();
         Rectangle2D bounds = transform.transform( globalBounds, null );
         double width = bounds.getWidth();
         double height = bounds.getHeight();
         
-        // Translate the help pane coordinates, using the target's dimensions and arrow position...
+        // Translate the help pane coordinates, using the node's dimensions and arrow position...
         if ( isArrowOnTop() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
@@ -559,21 +559,21 @@ public class HelpBalloon extends AbstractHelpItem {
     
     /**
      * Maps to a point that allows us to point to the center of 
-     * one of the target's edges, instead of its upper-left corner.
+     * one of the component's edges, instead of its upper-left corner.
      * Which edge is dependent on the arrow position.
      * 
-     * @param targetComponent
+     * @param component
      */
-    protected Point2D mapLocation( JComponent targetComponent ) {
+    protected Point2D mapLocation( JComponent component ) {
         
-        // Map the target's location (upper-left corner) to help pane coordinates...
-        Point2D p = super.mapLocation( targetComponent );
+        // Map the component's location (upper-left corner) to help pane coordinates...
+        Point2D p = super.mapLocation( component );
         
-        // Determine the target's dimensions...
-        double width = targetComponent.getWidth();
-        double height = targetComponent.getHeight();
+        // Determine the component's dimensions...
+        double width = component.getWidth();
+        double height = component.getHeight();
         
-        // Translate the help pane coordinates, using the target's dimensions and arrow position...
+        // Translate the help pane coordinates, using the component's dimensions and arrow position...
         if ( isArrowOnTop() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
