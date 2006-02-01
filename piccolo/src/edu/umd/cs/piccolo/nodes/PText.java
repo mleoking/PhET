@@ -201,7 +201,7 @@ public class PText extends PNode {
 	
 	/**
 	 * Set the font of this PText. Note that in Piccolo if you want to change
-	 * the size of a text object it's often a better idea to scale the PText
+	 * the size of a text object it's often a better idea to SCALE the PText
 	 * node instead of changing the font size to get that same effect. Using
 	 * very large font sizes can slow performance.
 	 */

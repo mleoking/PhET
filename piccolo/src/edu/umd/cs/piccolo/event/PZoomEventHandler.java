@@ -79,7 +79,7 @@ public class PZoomEventHandler extends PDragSequenceEventHandler {
 	/**
 	 * Returns the minimum view magnification factor that this event handler is bound by.
 	 * The default is 0.
-	 * @return the minimum camera view scale
+	 * @return the minimum camera view SCALE
 	 */
 	public double getMinScale() {
 		return minScale;
@@ -87,9 +87,9 @@ public class PZoomEventHandler extends PDragSequenceEventHandler {
 
 	/**
 	 * Sets the minimum view magnification factor that this event handler is bound by.
-	 * The camera is left at its current scale even if <code>minScale</code> is larger than
-	 * the current scale.
-	 * @param minScale the minimum scale, must not be negative.
+	 * The camera is left at its current SCALE even if <code>minScale</code> is larger than
+	 * the current SCALE.
+	 * @param minScale the minimum SCALE, must not be negative.
 	 */
 	public void setMinScale(double minScale) {
 		this.minScale = minScale;
@@ -98,7 +98,7 @@ public class PZoomEventHandler extends PDragSequenceEventHandler {
 	/**
 	 * Returns the maximum view magnification factor that this event handler is bound by.
 	 * The default is Double.MAX_VALUE.
-	 * @return the maximum camera view scale
+	 * @return the maximum camera view SCALE
 	 */
 	public double getMaxScale() {
 		return maxScale;
@@ -106,9 +106,9 @@ public class PZoomEventHandler extends PDragSequenceEventHandler {
 
 	/**
 	 * Sets the maximum view magnification factor that this event handler is bound by.
-	 * The camera is left at its current scale even if <code>maxScale</code> is smaller than
-	 * the current scale. Use Double.MAX_VALUE to specify the largest possible scale. 
-	 * @param maxScale the maximum scale, must not be negative.
+	 * The camera is left at its current SCALE even if <code>maxScale</code> is smaller than
+	 * the current SCALE. Use Double.MAX_VALUE to specify the largest possible SCALE.
+	 * @param maxScale the maximum SCALE, must not be negative.
 	 */
 	public void setMaxScale(double maxScale) {
 		this.maxScale = maxScale;

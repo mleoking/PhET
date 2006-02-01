@@ -23,18 +23,16 @@ import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
-import java.util.List;
+import java.util.*;
 
 /**
  * SolubleSaltsModel
- * <p>
+ * <p/>
  * Things the model understands:
  * <ul>
  * <li>Ksp, and how to compute the concentrations of ions
  * </ul>
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -268,7 +266,11 @@ public class SolubleSaltsModel extends BaseModel {
 
         double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
                                      * Math.pow( ( numCations / volume ), numCationsInUnit )
-                                     * SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR;
+                                     * Math.pow( SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
+                                                 numAnionsInUnit + numCationsInUnit );
+//        double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
+//                                     * Math.pow( ( numCations / volume ), numCationsInUnit )
+//                                     * SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR;
         return concentrationFactor;
     }
 
@@ -417,7 +419,8 @@ public class SolubleSaltsModel extends BaseModel {
      * Turns nucleation on and off depending on the concentration of solutes and Ksp
      */
     private class NucleationMonitorAgent implements ModelElement, Crystal.InstanceLifetimeListener {
-        List crystals = new ArrayList();
+        private List crystals = new ArrayList();
+        private Random random = new Random();
 
         public NucleationMonitorAgent() {
             Crystal.addInstanceLifetimeListener( this );
@@ -426,18 +429,13 @@ public class SolubleSaltsModel extends BaseModel {
         public void stepInTime( double dt ) {
             nucleationEnabled = getConcentrationFactor() > ksp;
 
-            if( !nucleationEnabled ) {
-                for( int j = 0; j < crystals.size(); j++ ) {
-                    Crystal crystal = (Crystal)crystals.get( j );
-                    List ions = crystal.getIons();
-                    for( int i = 0; i < ions.size(); i++ ) {
-                        Ion ion = (Ion)ions.get( i );
-                        if( vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
-                            ion.unbindFrom( crystal );
-                            ion.setVelocity( ion.getVelocity().rotate( Math.random() * Math.PI * 2 ));
-                        }
-                    }
-                }
+            while( crystals.size() > 0 && !nucleationEnabled ) {
+                // pick a crystal at random
+                int i = random.nextInt( crystals.size() - 1 );
+                System.out.println( "crystals = " + crystals.size() );
+                Crystal crystal = (Crystal)crystals.get( i );
+                crystal.releaseIon( dt );
+                nucleationEnabled = getConcentrationFactor() > ksp;
             }
         }
 

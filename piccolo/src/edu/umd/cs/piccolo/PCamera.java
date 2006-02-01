@@ -420,7 +420,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Return the scale applied by the view transform to the layers
+	 * Return the SCALE applied by the view transform to the layers
 	 * viewed by this camera.
 	 */
 	public double getViewScale() {
@@ -447,7 +447,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Set the scale of the view transform that is applied to 
+	 * Set the SCALE of the view transform that is applied to
 	 * the layers viewed by this camera.
 	 */
 	public void setViewScale(double scale) {
@@ -509,9 +509,9 @@ public class PCamera extends PNode {
 	 * 0 then the view will be transformed immediately, and null will be
 	 * returned. Else a new PTransformActivity will get returned that is set to
 	 * animate the camera's view transform to the new bounds. If shouldScale
-	 * is true, then the camera will also scale its view so that the given
+	 * is true, then the camera will also SCALE its view so that the given
 	 * bounds fit fully within the cameras view bounds, else the camera will
-	 * maintain its original scale.
+	 * maintain its original SCALE.
 	 */
 	public PTransformActivity animateViewToCenterBounds(Rectangle2D centerBounds, boolean shouldScaleToFit, long duration) {		
 		PBounds viewBounds = getViewBounds();

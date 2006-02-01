@@ -87,7 +87,7 @@ public class PAffineTransform extends AffineTransform {
 	}
 	
 	public void setScale(double scale) {
-		if (scale == 0) throw new RuntimeException("Can't set scale to 0");
+		if (scale == 0) throw new RuntimeException("Can't set SCALE to 0");
 		scaleAboutPoint(scale / getScale(), 0, 0);
 	}
 

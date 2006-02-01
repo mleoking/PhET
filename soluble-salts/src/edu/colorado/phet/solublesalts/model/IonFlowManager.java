@@ -104,9 +104,9 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 Vector2D l = new Vector2D.Double( drain.getPosition().getX()- ion.getPosition().getX(),
                                                   drain.getPosition().getY() - ion.getPosition().getY() );
                 l.normalize().scale( ds );
-//                l.normalize().scale( ds * 40 );
-//                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
-//                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
+//                l.normalize().SCALE( ds * 40 );
+//                l.normalize().SCALE( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
+//                l.normalize().SCALE( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
 
                 double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 double beta =( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
@@ -144,9 +144,9 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 //                Vector2D v = ion.getVelocity();
 //                Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
 //                                                  ion.getPosition().getY() - drain.getPosition().getY());
-//                l.normalize().scale( change / SPEED_FACTOR * 10);
-////                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
-////                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
+//                l.normalize().SCALE( change / SPEED_FACTOR * 10);
+////                l.normalize().SCALE( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
+////                l.normalize().SCALE( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
 //
 //                double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
 //                double beta =( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
@@ -175,9 +175,9 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 //                Vector2D v = ion.getVelocity();
 //                Vector2D l = new Vector2D.Double( ion.getPosition().getX() - drain.getPosition().getX(),
 //                                                  ion.getPosition().getY() - drain.getPosition().getY());
-////                l.normalize().scale( change * SPEED_FACTOR );
-//                l.normalize().scale( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
-////                l.normalize().scale( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
+////                l.normalize().SCALE( change * SPEED_FACTOR );
+//                l.normalize().SCALE( change / ion.getPosition().distance( drain.getPosition() ) * SPEED_FACTOR * 10);
+////                l.normalize().SCALE( dChange / ion.getPosition().distanceSq( drain.getPosition() ) * SPEED_FACTOR );
 //
 //                double alpha = l.getAngle();
 //

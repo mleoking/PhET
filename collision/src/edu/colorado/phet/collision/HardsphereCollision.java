@@ -133,7 +133,7 @@ public abstract class HardsphereCollision implements Collision {
 //            dVA.setX( bodyA.getVelocity().getX() );
 //            dVA.setY( bodyA.getVelocity().getY() );
 //            dVA.normalize();
-//            dVA.scale( dS );
+//            dVA.SCALE( dS );
 //            if( dE < 0 ) {
 //                bodyA.getVelocity().add( dVA );
 //            }
