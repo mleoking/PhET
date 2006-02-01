@@ -5,7 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- show/hide help pane properly when switching modules
+- help: can't track position of a PComposite at the root level
+- help: can't track position of a JComponent embedded in a PSwing
+- help: can't track position of child node when an ancestor is moved
+- help: can't track visibility of child node when an ancestor's visibility is changed
 - test help with world layer of PhetPCanvas
 - i18n help text
 - specify an arrow angle for help items
@@ -71,6 +74,9 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(1/31/06) - piccolo-phet: write test harness for help (TestHelpPane)
+(1/31/06) - piccolo-phet: apply canvas view transform when mapping coordinates for help
+(1/31/06) - piccolo-phet: show/hide help pane properly when switching modules
 (1/30/06) - piccolo-phet: start integrating help into PiccoloModule
 (1/30/06) - piccolo-phet: convert HelpBalloon to use HTML for text
 (1/30/06) - piccolo-phet: fix help arrow positions
