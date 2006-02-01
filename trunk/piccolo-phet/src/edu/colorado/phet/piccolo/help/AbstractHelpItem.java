@@ -218,15 +218,23 @@ public abstract class AbstractHelpItem extends PNode {
      * @return
      */
     protected Point2D mapLocation( PNode node, PCanvas canvas ) {
-        // Get the node's global location - above the root node's transform, but below the canvas's view transform.
-        Rectangle2D globalFullBounds = node.getParent().localToGlobal( node.getFullBounds() );
-        // Apply the canvas' view transform to get a point in the canvas' coordinate system.
-        PCamera camera = canvas.getCamera();
-        PAffineTransform transform = camera.getViewTransformReference();
-        Rectangle2D bounds = transform.transform( globalFullBounds, null );
-        int x = (int) bounds.getX();
-        int y = (int) bounds.getY();
-        // Convert the canvas location to a point in the help pane.
+        // Determine the node's location in canvas coordinates...
+        int x = 0;
+        int y = 0;
+        {
+            // Get the node's full bounds (union of its bounds and all children) in parent node's local coordinates
+            Rectangle2D fullBounds = node.getFullBounds();
+            // Get the node's global bounds - above the root node's transform, but below the canvas's view transform.
+            Rectangle2D globalFullBounds = node.getParent().localToGlobal( node.getFullBounds() );
+            // Apply the canvas' view transform to get bounds in the canvas' coordinate system.
+            PCamera camera = canvas.getCamera();
+            PAffineTransform transform = camera.getViewTransformReference();
+            Rectangle2D bounds = transform.transform( globalFullBounds, null );
+            x = (int) bounds.getX();
+            y = (int) bounds.getY();
+        }
+        
+        // Convert the canvas location to a location in the help pane.
         Point2D helpPanePoint = SwingUtilities.convertPoint( canvas, x, y, _helpPane );
         return helpPanePoint;
     }

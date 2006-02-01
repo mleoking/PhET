@@ -533,7 +533,8 @@ public class HelpBalloon extends AbstractHelpItem {
         Point2D p = super.mapLocation( node, canvas );
         
         // Determine the node's dimensions, in help pane coordinates...
-        Rectangle2D globalFullBounds = node.getParent().localToGlobal( node.getFullBounds() );
+        Rectangle2D fullBounds = node.getFullBounds(); // in parent's local coordinates
+        Rectangle2D globalFullBounds = node.getParent().localToGlobal( fullBounds );
         PCamera camera = canvas.getCamera();
         PAffineTransform transform = camera.getViewTransformReference();
         Rectangle2D bounds = transform.transform( globalFullBounds, null );
