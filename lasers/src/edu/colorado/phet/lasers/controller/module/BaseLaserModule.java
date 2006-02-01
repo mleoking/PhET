@@ -34,7 +34,7 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
-import edu.colorado.phet.lasers.view.monitors.PowerMeter;
+import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
 //import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import javax.swing.*;
@@ -92,7 +92,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private HelpManager mainPanelHelpManager;
     private ApparatusPanelHelp apparatusPanelHelp;
     private Kaboom kaboom;
-    private PowerMeter powerMeter;
+    private PowerMeterGraphic powerMeter;
+//    private PowerMeter powerMeter;
 
     /**
      *
@@ -131,14 +132,11 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createMirrors();
 
         // Create the power meter
-//        powerMeter = new PowerMeter( getApparatusPanel(),
-        powerMeter = new PowerMeter( PhetApplication.instance().getPhetFrame(),
-                                     new Point( 300, 650 ),
+        powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
                                      getLaserModel(),
                                      rightMirror );
-//        powerMeter.setLocation( 200, 200 );
-//        getApparatusPanel().addGraphic( powerMeter, 1E6 );
-//        powerMeter.setVisible( true );
+        powerMeter.setLocation( new Point( 200, 400 ) );
+        getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
         powerMeter.setVisible( false );
 
         // Set up help
