@@ -242,7 +242,7 @@ public class PhetLookAndFeel {
         if( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         }
-
+        add( keyValuePairs, "TabbedPane", "font", new FontUIResource( new Font( "Lucida Sans", Font.BOLD, 18) ) );
         return keyValuePairs.toArray();
     }
 

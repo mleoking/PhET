@@ -14,7 +14,6 @@ import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
-import edu.colorado.phet.qm.phetcommon.TabLabelIcon;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -105,10 +104,6 @@ public class SchrodingerApplication extends PhetApplication {
         public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
             super( application, modules );
         }
-
-        public void addTab( Module module ) {
-            super.addTab( "", new TabLabelIcon( module.getName() ), module.getModulePanel() );
-        }
     }
 
     private static FrameSetup createFrameSetup() {
@@ -116,12 +111,10 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-//        new PhetLookAndFeel().apply();
+        new PhetLookAndFeel().apply();
         SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
         System.out.println( "SchrodingerApplication.main" );
-
-//        testGlassPane( schrodingerApplication );
     }
 
 //    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
