@@ -201,6 +201,10 @@ public class TestHelpPane extends PhetApplication {
             // Help --------------------------------------------
 
             HelpPane helpPane = getDefaultHelpPane();
+            if ( helpPane == null ) {
+                helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+                setHelpPane( helpPane );
+            }
 
             // Help for stuff in the control panel...
             

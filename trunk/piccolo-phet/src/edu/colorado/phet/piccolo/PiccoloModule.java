@@ -60,9 +60,9 @@ public class PiccoloModule extends Module {
      */
     public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
-        if ( hasHelp() ) {
-            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
-        }
+//        if ( hasHelp() ) {
+//            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+//        }
     }
 
     //----------------------------------------------------------------------------
@@ -142,7 +142,7 @@ public class PiccoloModule extends Module {
      * @return the default help pane
      */
     public HelpPane getDefaultHelpPane() {
-        if ( helpPane instanceof HelpPane ) {
+        if ( helpPane != null && helpPane instanceof HelpPane ) {
             return (HelpPane) helpPane;
         }
         else {
