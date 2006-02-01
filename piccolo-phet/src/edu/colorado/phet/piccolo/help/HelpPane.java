@@ -33,7 +33,7 @@ public class HelpPane extends PGlassPane {
     /**
      * Constructor.
      * 
-     * @param parentFrame
+     * @param parentFrame we serve as the glass pane for this frame
      */
     public HelpPane( JFrame parentFrame ) {
         super( parentFrame );
@@ -77,11 +77,11 @@ public class HelpPane extends PGlassPane {
     }
     
     /**
-     * Updates all help items on the help pane.
+     * Updates all help items.
      * Other nodes on the help pane are not affected.
      */
     public void updateHelpItems() {
-//        if ( isVisible() ) {
+        if ( isVisible() ) {
             ListIterator i = getLayer().getChildrenIterator();
             while ( i.hasNext() ) {
                 PNode child = (PNode) i.next();
@@ -90,6 +90,26 @@ public class HelpPane extends PGlassPane {
                     helpItem.updatePosition();
                 }
             }
-//        }
+        }
+    }
+    
+    /**
+     * Shows and hides the help pane.
+     * When the help pane is invisible, its help items are disabled
+     * so that they don't consume resources tracking the position
+     * and visibility of their target objects.
+     * 
+     * @param visible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        ListIterator i = getLayer().getChildrenIterator();
+        while ( i.hasNext() ) {
+            PNode child = (PNode) i.next();
+            if ( child instanceof AbstractHelpItem ) {
+                AbstractHelpItem helpItem = (AbstractHelpItem) child;
+                helpItem.setEnabled( visible );
+            }
+        }
     }
 }
