@@ -159,5 +159,13 @@ public class OptionsMenu extends JMenu {
             }
         } );
         optionsMenu.add( drainFlowMI );
+
+        // Debug option
+        JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( "Show debug controls" );
+        debugMI.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                
+            }
+        } );
     }
 }
