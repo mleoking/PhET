@@ -90,14 +90,14 @@ public interface TimingStrategy {
     }
 
     /**
-     * The Scaled TimeConverter converts the elapsed wall time in milliseconds to seconds for simulation time, then multiplies by a specified SCALE value.
+     * The Scaled TimeConverter converts the elapsed wall time in milliseconds to seconds for simulation time, then multiplies by a specified scale value.
      */
     public static class Scaled implements TimingStrategy {
         private double scale;
         private double simulationTimeChangeForPausedClock;
 
         /**
-         * Construct a Scaled TimeConverter with the specified SCALE.
+         * Construct a Scaled TimeConverter with the specified scale.
          *
          * @param scale
          */

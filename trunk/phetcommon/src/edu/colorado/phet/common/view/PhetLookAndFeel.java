@@ -330,7 +330,7 @@ public class PhetLookAndFeel {
      * Gets the font size that corresponds to the screen size.
      * Our minimum supported resolution for PhET simulations is 1024x768.
      * For that resolution and higher, we simply use the default font size.
-     * For resolutions of 800x600 or lower, we SCALE the default font size by 800/1024.
+     * For resolutions of 800x600 or lower, we scale the default font size by 800/1024.
      *
      * @return the font size
      */
