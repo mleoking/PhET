@@ -58,8 +58,8 @@ phetgraphics-dir phetgraphics
 # Piccolo-phet
 # This includes code that allows integration of PhET and piccolo,
 # for example PiccoloModule, the subclass of Module that uses Piccolo for graphics, and
-# PhET Pcanvas, which adds phet-specific functionality to Piccolo, like maintaining aspect ratio and adding items to screen
-# or the world coordinate frames.
+# PhetPCanvas, which adds phet-specific functionality to Piccolo, like maintaining aspect 
+# ratio and adding items to screen or the world coordinate frames.
 piccolo-phet-module piccolo-phet &phetcommon-module &piccolo-module
 piccolo-phet-dir piccolo-phet
 
