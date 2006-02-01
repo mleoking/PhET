@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.piccolo.help;
 
-import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -334,6 +335,7 @@ public abstract class AbstractHelpItem extends PNode {
         private AbstractHelpItem _helpItem;
         private PNode _target;
         private PCanvas _targetContainer;
+        private ArrayList _watchList; // array of PNodes to watch, includes the target node and all ancestors
         
         /**
          * Constructor.
@@ -346,25 +348,27 @@ public abstract class AbstractHelpItem extends PNode {
             _helpItem = helpItem;
             _target = target;
             _targetContainer = targetContainer;
+            _watchList = new ArrayList();
             setFollowEnabled( false ); // disabled by default
         }
         
         /* Turns following on and off. */
         public void setFollowEnabled( boolean enabled ) {
             if ( enabled ) {
-                _target.addPropertyChangeListener( this );
+                updateWatchList();
                 updateVisibility();
                 updatePosition();
             }
             else {
-                _target.removePropertyChangeListener( this );
+                clearWatchList();
             }
         }  
         
         /* Synchronizes visibility. */
         public void updateVisibility() {
-            _helpItem.setVisible( _target.getVisible() );
-            System.out.println( "AbstractHelpItem.updateVisibility " + _target.getAttribute( "name" ) );//XXX
+            boolean visible = isNodeVisible( _target );
+            _helpItem.setVisible( visible );
+//            System.out.println( "AbstractHelpItem.updateVisibility " + _target.getAttribute( "name" ) );//XXX
         }
         
         /* Synchronizes position. */
@@ -372,18 +376,72 @@ public abstract class AbstractHelpItem extends PNode {
             if ( _helpItem.getVisible() ) {
                 Point2D p = _helpItem.mapLocation( _target, _targetContainer );
                 _helpItem.setOffset( p );
-                System.out.println( "AbstractHelpItem.updatePosition " + _target.getAttribute( "name" ) );//XXX
+//                System.out.println( "AbstractHelpItem.updatePosition " + _target.getAttribute( "name" ) );//XXX
             }
         }
         
         /* Synchronizes position and visibility when a relevant property of the PNode changes. */
         public void propertyChange( PropertyChangeEvent event ) {
-            if ( PNode.PROPERTY_VISIBLE.equals( event.getPropertyName() ) ) {
+            String propertyName =  event.getPropertyName();
+            if ( PNode.PROPERTY_PARENT.equals( propertyName ) ) {
+                // the node hierachy has changed
+                updateWatchList();
                 updateVisibility();
-            }
-            else {
                 updatePosition();
             }
+            else if ( PNode.PROPERTY_VISIBLE.equals( propertyName ) ) {
+                // the visibility of some node in the hierachy has changed
+                updateVisibility();
+                updatePosition();
+            }
+            else {
+                // the position of some node in the hierachy has changed
+                updatePosition();
+            }
+        }
+        
+        /*
+         * Creates a list of nodes that we are watching.
+         * For each of these nodes, we register as a PropertyChangeListener.
+         */
+        private void updateWatchList() {
+            clearWatchList();
+            PNode node = _target;
+            while ( node != null ) {
+                node.addPropertyChangeListener( this );
+                _watchList.add( node );
+                node = node.getParent();
+            }
+        }
+        
+        /*
+         * Clears the watch list, deregistering as a PropertyChangeListener.
+         */
+        private void clearWatchList() {
+            Iterator i = _watchList.iterator();
+            while ( i.hasNext() ) {
+                ((PNode)i.next()).removePropertyChangeListener( this );
+            }
+            _watchList.clear();
+        }
+        
+        /*
+         * Determines if a node is visible.
+         * A node is visible if it and and all of its ancestors is visible.
+         * 
+         * @param node
+         * @return true or value
+         */
+        private static boolean isNodeVisible( final PNode node ) {
+            boolean visible = node.getVisible();
+            PNode aNode = node;
+            while ( visible && aNode != null ) {
+                aNode = aNode.getParent();
+                if ( aNode != null ) {
+                    visible = aNode.getVisible();
+                }
+            }
+            return visible;
         }
     }
 }
