@@ -206,6 +206,16 @@ public class TestHelpPane extends PhetApplication {
                 setHelpPane( helpPane );
             }
 
+            // Help that doesn't point at anything, has no arrow
+            HelpBalloon noArrowHelp = new HelpBalloon( helpPane, "no arrow" );
+            noArrowHelp.setLocation( 600, 600 );
+            helpPane.add( noArrowHelp );
+            
+            // Help that points at a static location
+            HelpBalloon pointHelp = new HelpBalloon( helpPane, "static point", HelpBalloon.RIGHT_BOTTOM, 20 );
+            pointHelp.pointAt( 500, 650 );
+            helpPane.add( pointHelp );
+            
             // Help for stuff in the control panel...
             
             HelpBalloon screenCheckBoxHelp = new HelpBalloon( helpPane, "Show screen children", HelpBalloon.RIGHT_BOTTOM, 40 );
