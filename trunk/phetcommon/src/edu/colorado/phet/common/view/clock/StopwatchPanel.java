@@ -48,7 +48,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
     private JButton resetBtn;
-    // Time scale factor
+    // Time SCALE factor
     private double scaleFactor = 1;
     private double runningTime = 0;
     private boolean isRunning = false;
@@ -68,7 +68,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     /**
      * @param clock
      * @param timeUnits   Gets printed on the panel
-     * @param scaleFactor Time scale factor
+     * @param scaleFactor Time SCALE factor
      * @param timeFormat  The format that the panel is to show
      */
     public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {

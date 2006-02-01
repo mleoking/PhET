@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.*;
@@ -92,6 +93,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
     /**
      * Constructor
+     *
      * @param module
      */
     public SolubleSaltsControlPanel( final SolubleSaltsModule module ) {
@@ -101,18 +103,19 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         JPanel concentrationPanel = makeConcentrationPanel( model );
         JPanel saltPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
-                                                         1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
                                                          GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0);
-//        JPanel saltPanel = new JPanel( new GridLayout( 3, 1 ) );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         saltPanel.setBorder( new EtchedBorder() );
         saltPanel.add( makeSaltSelectionPanel( model ), gbc );
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         saltPanel.add( saltSPinnerPanel, gbc );
         addControlFullWidth( saltPanel );
-        addControl( concentrationPanel );
+        if( SolubleSaltsConfig.DEBUG ) {
+            addControl( concentrationPanel );
+        }
 
         // Sliders for affinity adjustment
         vesselIonStickSlider = new ModelSlider( "Lattice stick likelihood",
@@ -145,9 +148,15 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         Crystal.setDissociationLikelihood( dissociationSlider.getValue() );
         dissociationSlider.setNumMajorTicks( 5 );
 
-        addControl( vesselIonStickSlider );
-        addControl( dissociationSlider );
-        addControl( makeWaterLevelPanel( model ) );
+        if( SolubleSaltsConfig.DEBUG ) {
+            addControl( vesselIonStickSlider );
+            addControl( dissociationSlider );
+            addControl( makeWaterLevelPanel( model ) );
+        }
+        else {
+            addControl( new WaterLevelReadout( ((SolubleSaltsModel)module.getModel()).getVessel() ) );
+        }
+
 
         // Zoom button
 //        final JToggleButton zoomButton = new JToggleButton( "Zoom" );
@@ -218,7 +227,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         final DecimalFormat concentrationFormat = new DecimalFormat( "0.00E00" );
         final ModelSlider kspSlider = new ModelSlider( "Ksp", "", 0, 3E-16, 0 );
         kspSlider.setSliderLabelFormat( concentrationFormat );
-        kspSlider.setTextFieldFormat(concentrationFormat);
+        kspSlider.setTextFieldFormat( concentrationFormat );
         kspSlider.setNumMajorTicks( 3 );
         kspSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -247,11 +256,11 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         final ModelSlider calibFactorSlider = new ModelSlider( "Calibration Factor",
                                                                "",
                                                                1E-16,
-                                                               1E-5,
+                                                               1E-2,
                                                                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
                                                                concentrationFormat );
         calibFactorSlider.setSliderLabelFormat( concentrationFormat );
-        calibFactorSlider.setTextFieldFormat(concentrationFormat);
+        calibFactorSlider.setTextFieldFormat( concentrationFormat );
         calibFactorSlider.setNumMajorTicks( 3 );
         calibFactorSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -454,8 +463,10 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             // Make readouts for the number of free ions
             numFreeAnionTF = new JTextField( "", 4 );
             numFreeAnionTF.setEditable( false );
+            numFreeAnionTF.setHorizontalAlignment( JTextField.RIGHT );
             numFreeCationTF = new JTextField( "", 4 );
             numFreeCationTF.setEditable( false );
+            numFreeCationTF.setHorizontalAlignment( JTextField.RIGHT );
 
             GridBagConstraints gbc = new DefaultGridBagConstraints();
             gbc.insets = new Insets( 5, 0, 0, 0 );
@@ -499,8 +510,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             cationSpinner.setSyncWithDependentIonspinner( false );
             cationSpinner.setValue( new Integer( model.getNumIonsOfType( cationClass ) ) );
             cationSpinner.setSyncWithDependentIonspinner( true );
-            numFreeAnionTF.setText( new Integer( model.getNumFreeIonsOfType( anionClass )).toString() );
-            numFreeCationTF.setText( new Integer( model.getNumFreeIonsOfType( cationClass )).toString() );
+            numFreeAnionTF.setText( new Integer( model.getNumFreeIonsOfType( anionClass ) ).toString() );
+            numFreeCationTF.setText( new Integer( model.getNumFreeIonsOfType( cationClass ) ).toString() );
         }
 
         public void setSalt( Salt salt ) {
@@ -537,7 +548,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                     cationRatio = component.getLatticeUnitFraction().intValue();
                 }
             }
-            anionSpinner.setModel( new SpinnerNumberModel( 0, 0, 200, anionRatio ) );
+            anionSpinner.setModel( new SpinnerNumberModel( 0, 0, 300, anionRatio ) );
             anionSpinner.removeChangeListener( anionSpinnerListener );
             anionSpinnerListener = new IonSpinnerChangeListener( anionSpinner,
                                                                  cationSpinner,
@@ -546,7 +557,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                                  cationRatio );
             anionSpinner.addChangeListener( anionSpinnerListener );
 
-            cationSpinner.setModel( new SpinnerNumberModel( 0, 0, 200, cationRatio ) );
+            cationSpinner.setModel( new SpinnerNumberModel( 0, 0, 300, cationRatio ) );
             cationSpinner.removeChangeListener( cationSpinnerListener );
             cationSpinnerListener = new IonSpinnerChangeListener( cationSpinner,
                                                                   anionSpinner,
@@ -640,6 +651,23 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         public void setSyncWithDependentIonspinner( boolean syncWithDependentIonspinner ) {
             this.syncWithDependentIonspinner = syncWithDependentIonspinner;
+        }
+    }
+
+    private class WaterLevelReadout extends JPanel implements Vessel.ChangeListener {
+        JTextField readout;
+        DecimalFormat format = new DecimalFormat( "0.00E0" );
+
+        public WaterLevelReadout( Vessel vessel ) {
+            vessel.addChangeListener( this );
+            readout = new JTextField( 6 );
+            readout.setHorizontalAlignment( JTextField.RIGHT );
+            readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ));
+            add( readout );
+        }
+
+        public void stateChanged( Vessel.ChangeEvent event ) {
+            readout.setText( format.format( event.getVessel().getWaterLevel()  * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ));
         }
     }
 }

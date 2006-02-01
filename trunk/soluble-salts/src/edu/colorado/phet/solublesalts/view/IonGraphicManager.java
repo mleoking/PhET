@@ -88,11 +88,11 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Iodine ) {
-            ig.setColor( new Color( 140, 100, 15 ) );
+            ig.setColor( new Color( 140, 10, 10 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Copper ) {
-            ig.setColor( new Color( 4, 160, 80 ) );
+            ig.setColor( new Color( 4, 110, 40 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Hydroxide ) {

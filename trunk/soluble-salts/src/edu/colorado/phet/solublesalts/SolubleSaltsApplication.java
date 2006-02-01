@@ -84,6 +84,10 @@ public class SolubleSaltsApplication extends PhetApplication {
                 double d = Double.parseDouble( arg.substring( 3 ));
                 SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = d;
             }
+            if( arg.substring( 0, 3).equals( "-c=" )) {
+                double c = Double.parseDouble( arg.substring( 3 ));
+                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = c;
+            }
         }
 
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );

@@ -159,7 +159,7 @@ public class RegisterablePNode extends PNode {
 
     /**
      * Prevents the graphic from moving relative to the registration point when the
-     * scale changes.
+     * SCALE changes.
      * @param scale
      */
     public void setScale( double scale ) {

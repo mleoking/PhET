@@ -51,13 +51,13 @@ public class PComposite extends PNode {
 		double dy = y - childBounds.y;
 		double sx = width / childBounds.width;
 		double sy = height / childBounds.height;
-		double scale = sx > sy ? sx : sy;
+		double SCALE = sx > sy ? sx : sy;
 		
 		Iterator i = getChildrenIterator();
 		while (i.hasNext()) {
 			PNode each = (PNode) i.next();
 			each.offset(dx, dy);
-			each.scaleAboutPoint(scale, each.getBoundsReference().x, each.getBoundsReference().y);
+			each.scaleAboutPoint(SCALE, each.getBoundsReference().x, each.getBoundsReference().y);
 		}
 		
 		return super.setBounds(x, y, width, height);
