@@ -60,9 +60,9 @@ public class PiccoloModule extends Module {
      */
     public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
-//        if ( hasHelp() ) {
-//            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
-//        }
+        if ( hasHelp() ) {
+            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+        }
     }
 
     //----------------------------------------------------------------------------

@@ -224,11 +224,7 @@ public class TestHelpPane extends PhetApplication {
             // Help --------------------------------------------
 
             HelpPane helpPane = getDefaultHelpPane();
-            if ( helpPane == null ) {
-                helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
-                setHelpPane( helpPane );
-            }
-
+            
             // Help that doesn't point at anything, has no arrow
             HelpBalloon noArrowHelp = new HelpBalloon( helpPane, "no arrow" );
             noArrowHelp.setLocation( 50, 200 );
