@@ -332,7 +332,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 
 	/**
 	 * Animate this node's transform from its current location when the
-	 * activity starts to the specified location, SCALE, and rotation. If this
+	 * activity starts to the specified location, scale, and rotation. If this
 	 * node descends from the root then the activity will be scheduled, else the
 	 * returned activity should be scheduled manually. If two different
 	 * transform activities are scheduled for the same node at the same time,
