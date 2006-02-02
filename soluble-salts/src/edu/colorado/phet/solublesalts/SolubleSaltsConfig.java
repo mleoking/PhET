@@ -82,7 +82,7 @@ public class SolubleSaltsConfig {
     // Debug flags
     public static boolean RANDOM_WALK = false;
     public static boolean ONE_CRYSTAL_ONLY = false;
-    public static final boolean DEBUG = false;
+    public static boolean DEBUG = false;
 
     // An ion will bind to another if it is within a distance of the open binding site that is less than or
     // equal to this many times the free ion's radius
