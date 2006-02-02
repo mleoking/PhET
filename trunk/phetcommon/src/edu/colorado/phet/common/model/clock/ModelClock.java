@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * ModelClock
- * <p>
+ * <p/>
  * A clock for running a model in its own thread.
  *
  * @author Ron LeMaster
@@ -28,7 +28,6 @@ public class ModelClock extends Clock {
     private List workQueue = Collections.synchronizedList( new ArrayList() );
 
     /**
-     *
      * @param delay
      * @param dt
      */
@@ -37,7 +36,6 @@ public class ModelClock extends Clock {
     }
 
     /**
-     *
      * @param delay
      * @param timingStrategy
      */
@@ -67,7 +65,6 @@ public class ModelClock extends Clock {
     }
 
     /**
-     *
      * @return
      */
     public boolean isPaused() {
@@ -75,7 +72,6 @@ public class ModelClock extends Clock {
     }
 
     /**
-     *
      * @return
      */
     public boolean isRunning() {
@@ -85,6 +81,7 @@ public class ModelClock extends Clock {
     /**
      * Puts a Runnable on the work queue, to be invoked on the
      * next clock tick
+     *
      * @param workItem
      */
     public void invokeLater( Runnable workItem ) {
@@ -103,10 +100,11 @@ public class ModelClock extends Clock {
         public void run() {
             if( isRunning() ) {
                 // Process the work queue
-                for( int i = 0; i < workQueue.size(); i++ ) {
-                    Runnable workItem = (Runnable)workQueue.get( i );
+                while( workQueue.size() > 0 ) {
+                    Runnable workItem = (Runnable)workQueue.remove( 0 );
                     workItem.run();
                 }
+
                 // Do superclass stuff. Includes notifying listeners
                 ModelClock.super.doTick();
             }
