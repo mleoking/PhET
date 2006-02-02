@@ -144,7 +144,7 @@ public class QTModule extends AbstractModule implements Observer {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
             _canvas.setBackground( QTConstants.CANVAS_BACKGROUND );
             _canvas.setName( "QTModule PhetPCanvas" );
-            setCanvas( _canvas );
+            setSimulationPanel( _canvas );
         }
         
         // Root of our scene graph

@@ -11,18 +11,14 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Frame;
 
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
@@ -84,10 +80,12 @@ public abstract class AbstractModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the canvas.
+     * Gets this module's frame.
+     * 
+     * @return JFrame
      */
-    public void setCanvas( PhetPCanvas canvas ) {
-        setPhetPCanvas( canvas );
+    public JFrame getFrame() {
+        return PhetApplication.instance().getPhetFrame();
     }
     
     /**
@@ -97,10 +95,10 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public void setWaitCursorEnabled( boolean enabled ) {
         if ( enabled ) {
-            getPhetPCanvas().setCursor( WAIT_CURSOR );
+            getSimulationPanel().setCursor( WAIT_CURSOR );
         }
         else {
-            getPhetPCanvas().setCursor( DEFAULT_CURSOR );
+            getSimulationPanel().setCursor( DEFAULT_CURSOR );
         }
     }
     
