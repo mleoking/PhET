@@ -28,6 +28,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <!-- Created automatically for this project. Never modify this file-->
     <property file="build.number"/>
 
+
     <!--  Set ant output directories. They get made if they don't exist -->
     <property name="project_home" value=".."/>
     <property name="ant.output" value="${project_home}/ant_output"/>
@@ -40,6 +41,14 @@ ignorepath      (those elements of the ant classpath that should not be
     <property name="development" location="${project_home}"/>
     <property name="backup" location="${project_home}/backup"/>
     <property name="releases" location="${project_home}/releases"/>
+
+
+    <property name="mechanics" value="${project_home}/mechanics-module"/>
+    <property name="controls" value="${project_home}/controls-module"/>
+    <property name="collision" value="${project_home}/collision-module"/>
+    <property name="phetgraphics" value="${project_home}/phetgraphics-module"/>
+    <property name="phetcommon" value="${phetgraphics}/phetcommon-module"/>
+
 
     <!-- Set up child directories, for during the build.  -->
     <property name="src" location="${development}/src"/>
@@ -91,10 +100,14 @@ ignorepath      (those elements of the ant classpath that should not be
         <mkdir dir="${classes}"/>
         <echo message="${addl-classpath}"/>
         <javac srcdir="${src}" destdir="${classes}">
-            <src path="${project_home}/phetcommon/src"/>
-            <src path="${project_home}/mechanics/src"/>
-            <src path="${project_home}/collision/src"/>
-            <src path="${project_home}/controls/src"/>
+            <src path="${phetcommon}/src"/>
+            <src path="${phetgraphics}/src"/>
+            <src path="${mechanics}/src"/>
+            <src path="${controls}/src"/>
+            <src path="${collision}/src"/>
+<!--            <src path="${project_home}/mechanics/src"/>-->
+<!--            <src path="${project_home}/collision/src"/>-->
+<!--            <src path="${project_home}/controls/src"/>-->
         </javac>
     </target>
 
@@ -108,8 +121,10 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="${project_home}/phetcommon/data"/>
-            <fileset dir="${project_home}/controls/data"/>
+            <fileset dir="${phetcommon}/data"/>
+            <fileset dir="${controls}/data"/>
+<!--            <fileset dir="${project_home}/phetcommon/data"/>-->
+<!--            <fileset dir="${project_home}/controls/data"/>-->
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
