@@ -12,7 +12,7 @@ package edu.colorado.phet.piccolo;
 
 import java.awt.Component;
 
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -32,7 +32,6 @@ public class PiccoloModule extends Module {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PhetPCanvas phetPCanvas;
     private Component helpPane;
     private Component restoreGlassPane;
     
@@ -70,35 +69,28 @@ public class PiccoloModule extends Module {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the canvas (aka, "play area").
+     * Gets the PhetPCanvas (aka, "play area").
+     * If the simulation panel is not a PhetPCanvas, null is returned.
      * 
      * @return PhetPCanvas
      */
     public PhetPCanvas getPhetPCanvas() {
+        PhetPCanvas phetPCanvas = null;
+        JComponent simulationPanel = getSimulationPanel();
+        if ( simulationPanel instanceof PhetPCanvas ) {
+            phetPCanvas = (PhetPCanvas) simulationPanel;
+        }
         return phetPCanvas;
     }
 
     /**
-     * Sets the canvas (aka, "play area").
+     * Sets the simulation panel (aka, "play area") to a PhetPCanvas.
      * 
      * @param phetPCanvas
+     * @deprecated use setSimulationPanel
      */
     public void setPhetPCanvas( PhetPCanvas phetPCanvas ) {
-        this.phetPCanvas = phetPCanvas;
         super.setSimulationPanel( phetPCanvas );
-    }
-
-    /**
-     * Is the module well formed?
-     * A well-formed module must have a model and a canvas.
-     * 
-     * @return true or false
-     */
-    public boolean isWellFormed() {
-        boolean result = true;
-        result &= this.getModel() != null;
-        result &= this.getPhetPCanvas() != null;
-        return result;
     }
 
     /* vestige of phetgraphics, called by Module.handleClockTick */
