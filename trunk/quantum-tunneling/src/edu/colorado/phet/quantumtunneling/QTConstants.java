@@ -103,9 +103,9 @@ public class QTConstants {
     // Cursors
     //----------------------------------------------------------------------------
     
-    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
-    public static final Cursor INTERACTIVE_CURSOR = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
+//    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+//    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
+//    public static final Cursor INTERACTIVE_CURSOR = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     
     //----------------------------------------------------------------------------
     // Images
