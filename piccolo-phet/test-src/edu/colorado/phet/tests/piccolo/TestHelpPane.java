@@ -112,7 +112,7 @@ public class TestHelpPane extends PhetApplication {
             
             // Canvas
             PhetPCanvas canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
-            setPhetPCanvas( canvas );
+            setSimulationPanel( canvas );
             canvas.setBackground( canvasColor );
             
             // Composite (path + text) screen child...
