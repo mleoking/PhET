@@ -110,7 +110,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private MathForm _mathFormKeyTime;
     private MathForm _mathFormKeySpaceAndTime;
     private EventListener _eventListener;
-
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -131,7 +131,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         assert ( periodTool != null );
         assert ( periodDisplay != null );
         assert ( animationCycleController != null );
-
+        
         // Things we'll be controlling.
         _fourierSeries = fourierSeries;
         _harmonicsView = harmonicsGraph;
@@ -408,22 +408,19 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
 
         // Layout
-        addFullWidth( presetControlsPanel );
+        addControlFullWidth( presetControlsPanel );
         addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( graphControlsPanel );
+        addControlFullWidth( graphControlsPanel );
         addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( toolControlsPanel );
+        addControlFullWidth( toolControlsPanel );
         addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( mathModePanel );
+        addControlFullWidth( mathModePanel );
         addVerticalSpace( SUBPANEL_SPACING );
-        addFullWidth( audioControlsPanel );
+        addControlFullWidth( audioControlsPanel );
 
         // Dialogs
         Frame parentFrame = PhetApplication.instance().getPhetFrame();
         _expandSumDialog = new ExpandSumDialog( parentFrame, _fourierSeries );
-
-        // Initialize sound
-        initSound();
 
         // Set the state of the controls.
         reset();
@@ -569,13 +566,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
     
     /**
-     * Turns sound on and off.
+     * Turns sound on and off, but does not initialize sound.
+     * <p>
+     * We only want to initialize sound when the user attempts
+     * to use the feature by clicking on the "Sound" check box.
      * 
      * @param enabled true or false
      */
     public void setSoundEnabled( boolean enabled ) {
+        _soundCheckBox.removeActionListener( _eventListener );
         _soundCheckBox.setSelected( enabled );
-        handleSoundOnOff();
+        _soundCheckBox.addActionListener( _eventListener );
+        handleSoundOnOff( false /* do not initialize */ );
     }
     
     /**
@@ -718,7 +720,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 handleCloseExpandSumDialog();
             }
             else if ( event.getSource() == _soundCheckBox ) {
-                handleSoundOnOff();
+                handleSoundOnOff( true /* initialize sound if needed */ );
             }
             else if ( event.getSource() == _sinesRadioButton || event.getSource() == _cosinesRadioButton ) {
                 handleWaveType();
@@ -996,9 +998,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _expandSumCheckBox.setSelected( false );
     }
 
-    private void handleSoundOnOff() {
-        if ( _soundPlayer != null ) {
-            _soundPlayer.setSoundEnabled( _soundCheckBox.isSelected() );
+    private void handleSoundOnOff( boolean initialize ) {
+        if ( _soundCheckBox.isEnabled() ) {
+            if ( _soundPlayer == null && initialize ) {
+                initializeSound();
+            }
+            if ( _soundPlayer != null ) {
+                _soundPlayer.setSoundEnabled( _soundCheckBox.isSelected() );
+            }
         }
     }
 
@@ -1026,15 +1033,29 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     /*
      * Initializes the sound features.
      */
-    private void initSound() {
-        try {
-            _soundPlayer = new FourierSoundPlayer( _fourierSeries );
+    private void initializeSound() {
+        if ( _soundPlayer == null ) {
+            try {
+                _soundPlayer = new FourierSoundPlayer( _fourierSeries );
+            }
+            catch ( Exception e ) {
+                _soundPlayer = null;
+                _soundCheckBox.setEnabled( false );
+                _soundSlider.setEnabled( false );
+                String message = SimStrings.get( "sound.error.init" );
+                handleSoundError( message, e );
+            }
+            _soundPlayer.addSoundErrorListener( this );
         }
-        catch ( LineUnavailableException lue ) {
-            String message = SimStrings.get( "sound.error.init" );
-            handleSoundError( message, lue );
-        }
-        _soundPlayer.addSoundErrorListener( this );
+    }
+    
+    /*
+     * Is sound initialized?
+     * 
+     * @return true or false
+     */
+    private boolean isSoundInitialized() {
+        return ( _soundPlayer != null );
     }
     
     /*

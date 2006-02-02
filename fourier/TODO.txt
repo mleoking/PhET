@@ -6,11 +6,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bug in 3.0: after you pause the clock, animation moves another tick
-- possibly wait to initialize sound until user clicks Sound checkbox, 
-  so that VM doesn't crash if you have bogus sound drivers; also
-  possibly catch any Exception in DiscreteControlPanel.initSound
 
 MEDIUM PRIORITY:
+- Reset button doesn't reset the sound volume in Discrete module
 - hide the "Cheat" panel whenever we start a new game
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - bug: anti-aliasing of plots gets turned off
@@ -64,6 +62,9 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+3.01.00
+(2/2/06) - wait to initialize sound until user clicks Sound checkbox, because some users have hosed audio drivers
+(2/2/06) - handle all Exception types in DiscreteControlPanel.initSound, not just expected audio exceptions
 (1/2/06) - changes to support new ModulePanel layout
 (12/27/05)  changes to support phetcommon's new Module and Clock architecture
 (12/14/05) - minor changes to support separation of phetcommon and phetgraphics into separate CVS projects
