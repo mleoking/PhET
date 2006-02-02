@@ -117,6 +117,20 @@ public class ControlPanel extends JPanel {
     }
     
     /**
+     * Adds vertical space to the control panel using a vertical strut.
+     * 
+     * @param space the amount of space, in pixels
+     */
+    public void addVerticalSpace( int space ) {
+        if ( space > 0 ) {
+            JPanel spacePanel = new JPanel();
+            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+            spacePanel.add( Box.createVerticalStrut( space ) );
+            addControlFullWidth( spacePanel );
+        }
+    }
+    
+    /**
      * Sets the insets used in the content panel.
      * 
      * @param insets
