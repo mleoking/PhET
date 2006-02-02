@@ -87,7 +87,7 @@ public class TestThreadSeparation {
             TestModel model = new TestModel( getClock() );
 
             TestCanvas canvas = new TestCanvas( model );
-            setPhetPCanvas( canvas );
+            setSimulationPanel( canvas );
 
             setControlPanel( new ControlPanel( model, (ModelClock)getClock() ));
         }
