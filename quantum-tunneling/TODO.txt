@@ -5,11 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- help: can't track position of a PComposite at the root level
-- help: can't track position of a JComponent embedded in a PSwing
-- help: can't track position of child node when an ancestor is moved
-- help: can't track visibility of child node when an ancestor's visibility is changed
-- test help with world layer of PhetPCanvas
+- add fix for getCursor exception that SamR is seeing
+- add ability to point a help item at a JComponent embedded in a PSwing
 - i18n help text
 - specify an arrow angle for help items
 - charts don't update when Measure is pressed with clock paused
@@ -18,8 +15,8 @@ HIGH PRIORITY:
 - decide whether to replace Richardson with Falstad model
 
 MEDIUM PRIORITY:
+- set wait cursors on content pane instead of components
 - fix discontinuity in PathRenderer or get rid of it
-- Help items
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - top edge of +1 tick label on Energy plot y axis is clipped
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -74,6 +71,9 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/1/06) - piccolo-phet: add support for help items that point to JComponents embedded in PSwing
+(2/1/06) - piccolo-phet: use fullbounds in help coordinate mapping
+(2/1/06) - piccolo-phet: watch all parent nodes for help item visibility/position changes
 (1/31/06) - piccolo-phet: write test harness for help (TestHelpPane)
 (1/31/06) - piccolo-phet: apply canvas view transform when mapping coordinates for help
 (1/31/06) - piccolo-phet: show/hide help pane properly when switching modules
