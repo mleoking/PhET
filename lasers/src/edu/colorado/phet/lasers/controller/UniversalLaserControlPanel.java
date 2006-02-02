@@ -1,6 +1,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
@@ -90,10 +91,14 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
 
         // Reset button
         gbc.fill = GridBagConstraints.NONE;
-        JButton resetBtn = new JButton( "Reset" );
+        JButton resetBtn = new JButton( SimStrings.get( "LaserControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.reset();
+                int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
+                                                            "<html><center>The panel will reset to its initial conditions.<br>Do you want to proceed?</center></html>" );
+                if( choice == JOptionPane.OK_OPTION ) {
+                    module.reset();
+                }
             }
         } );
         JPanel resetBtnPanel = new JPanel();
