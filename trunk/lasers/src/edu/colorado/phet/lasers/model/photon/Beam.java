@@ -14,13 +14,16 @@ package edu.colorado.phet.lasers.model.photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.Random;
+import java.text.DecimalFormat;
 
 /**
  * CollimatedBeam
@@ -44,8 +47,6 @@ public class Beam extends Particle implements PhotonSource {
     //-----------------------------------------------------------------
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
-//    private Shape bounds;
-//    private Rectangle2D bounds;
     private Vector2D velocity;
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
@@ -159,6 +160,38 @@ public class Beam extends Particle implements PhotonSource {
         rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent( this ) );
     }
 
+    /**
+     *  
+     * @param intensity
+     * @param minWavelength
+     * @param maxWavelength
+     */
+    public void setIntensity( double intensity, double minWavelength, double maxWavelength ) {
+        double wavelengthRange = maxWavelength - minWavelength;
+        double middleWavelength = wavelengthRange / 2 + minWavelength;
+        double photonRate = intensity * ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ));
+        setPhotonsPerSecond( photonRate );
+    }
+
+    public double getIntensity( double minWavelength, double maxWavelength ) {
+        double wavelengthRange = maxWavelength - minWavelength;
+        double middleWavelength = wavelengthRange / 2 + minWavelength;
+        double intensity = photonsPerSecond / ( 1 + ( ( getWavelength() - middleWavelength ) / wavelengthRange ) );
+        return intensity;
+    }
+
+    public double getMaxPhotonsPerSecond() {
+        return this.maxPhotonsPerSecond;
+    }
+
+    public double getMaxIntensity() {
+        return maxPhotonsPerSecond ;
+    }
+
+    public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
+        this.maxPhotonsPerSecond = maxPhotonsPerSecond;
+    }
+
     public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
         wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent( this ) );
@@ -175,6 +208,15 @@ public class Beam extends Particle implements PhotonSource {
     public void setEnabled( boolean enabled ) {
         isEnabled = enabled;
         timeSinceLastPhotonProduced = 0;
+    }
+
+    private Point2D genPosition() {
+        double r = startPositionGenerator.nextDouble();
+        double inset = 10;  // inset from the edges of the "beam" that photons are emitted
+        double d = r * ( ( getBeamWidth() - inset ) / 2 ) * ( startPositionGenerator.nextBoolean() ? 1 : -1 );
+        double dx = d * Math.sin( getDirection() );
+        double dy = -d * Math.cos( getDirection() );
+        return new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy );
     }
 
     //----------------------------------------------------------------
@@ -213,40 +255,23 @@ public class Beam extends Particle implements PhotonSource {
         }
     }
 
-    private Point2D genPosition() {
-        double r = startPositionGenerator.nextDouble();
-        double inset = 10;  // inset from the edges of the "beam" that photons are emitted
-        double d = r * ( ( getBeamWidth() - inset ) / 2 ) * ( startPositionGenerator.nextBoolean() ? 1 : -1 );
-        double dx = d * Math.sin( getDirection() );
-        double dy = -d * Math.cos( getDirection() );
-        return new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy );
-    }
-
     private double getNextTimeToProducePhoton() {
         double temp = isPhotonProductionGaussian ? ( gaussianGenerator.nextGaussian() + 1.0 )
                       : 1;
         return temp / ( photonsPerSecond / 1000 );
     }
 
-    public double getMaxPhotonsPerSecond() {
-        return this.maxPhotonsPerSecond;
-    }
-
-    public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
-        this.maxPhotonsPerSecond = maxPhotonsPerSecond;
-    }
-
     //---------------------------------------------------------------------
     // Event Handling
     //---------------------------------------------------------------------
 
-    private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );
+    private EventChannel rateChangeEventChannel = new ModelEventChannel( RateChangeListener.class );
     private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getListenerProxy();
 
-    private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
+    private EventChannel wavelengthChangeEventChannel = new ModelEventChannel( WavelengthChangeListener.class );
     private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
 
-    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
+    private EventChannel photonEmittedEventChannel = new ModelEventChannel( PhotonEmittedListener.class );
     private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
     public void addRateChangeListener( RateChangeListener rateChangeListener ) {
