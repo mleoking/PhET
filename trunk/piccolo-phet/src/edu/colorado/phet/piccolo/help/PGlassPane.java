@@ -273,9 +273,9 @@ public class PGlassPane extends PCanvas {
          * based on the mouse's position.
          * 
          * problems:
-         * - menu items don't receive mouse events
-         * - menus don't hilite when you move the mouse across the menubar
-         * - menu items don't hilite when you move the mouse down a menu
+         * - menu items don't receive mouse events (PC)
+         * - menus don't hilite when you move the mouse across the menubar (PC & Mac)
+         * - menu items don't hilite when you move the mouse down a menu (PC)
          * - pop-ups and palettes probably don't work (not tested)
          */
         private void redispatch1( MouseEvent event ) {
@@ -308,8 +308,8 @@ public class PGlassPane extends PCanvas {
          * entire frame and contains the content pane, help pane, pop-ups, palettes, etc.
          * 
          * problems:
-         * - menus don't hilite when you move the mouse across the menubar
-         * - menu items don't hilite when you move the mouse down a menu
+         * - menus don't hilite when you move the mouse across the menubar (PC  Mac)
+         * - menu items don't hilite when you move the mouse down a menu (PC)
          */
         private void redispatch2( MouseEvent event ) {
             Component glassPane = _frame.getGlassPane();
@@ -330,8 +330,8 @@ public class PGlassPane extends PCanvas {
          * time they are handled and redispatched so that we can keep track of mouse position.
          * 
          * problems:
-         * - other events (eg, ActionEvent) don't get through to components
-         * - can't select all menu items from the menubar (eg, Help>About)
+         * - other events (eg, ActionEvent) don't get through to components (PC & Mac)
+         * - can't select all menu items from the menubar (eg, Help>About) (PC)
          */
         private void redispatch3( MouseEvent event ) {
             setMouseHandlerEnabled( false );
