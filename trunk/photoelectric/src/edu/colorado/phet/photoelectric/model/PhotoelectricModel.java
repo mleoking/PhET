@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
@@ -186,7 +187,6 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @param dt
      */
     public void stepInTime( double dt ) {
-//        super.stepInTime( dt );
 
         // Check for photons hitting the cathode
         for( int i = 0; i < photons.size(); i++ ) {
@@ -290,8 +290,7 @@ public class PhotoelectricModel extends DischargeLampModel {
             double retardingVoltage = voltage < 0 ? voltage : 0;
             electronsPerSecondToAnode = getStoppingVoltage() < retardingVoltage ? electronsPerSecondFromTarget : 0;
         }
-        current = electronsPerSecondToAnode * CURRENT_JIMMY_FACTOR;
-        return current;
+        return electronsPerSecondToAnode * CURRENT_JIMMY_FACTOR;
     }
 
     /**
@@ -382,7 +381,8 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Events and listeners
     //-----------------------------------------------------------------
 
-    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+//    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private EventChannel changeEventChannel = new ModelEventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {

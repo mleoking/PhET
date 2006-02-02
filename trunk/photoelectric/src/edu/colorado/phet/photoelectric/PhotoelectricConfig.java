@@ -33,5 +33,8 @@ public class PhotoelectricConfig {
     public static final double ELECTRON_LAYER = 900;
 
     public static final Dimension CHART_SIZE = new Dimension( 170, 94 );
-//    public static final Dimension CHART_SIZE = new Dimension( 170, 98 );
+
+    // Model related fields
+    public static final double MIN_WAVELENGTH = 100;
+    public static final double MAX_WAVELENGTH = 850;
 }

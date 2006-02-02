@@ -13,6 +13,7 @@ package edu.colorado.phet.photoelectric.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -208,7 +209,7 @@ public class PhotoelectricTarget extends Plate {
         public void materialChanged( MaterialChangeEvent event );
     }
 
-    private EventChannel materialChangeEventChannel = new EventChannel( MaterialChangeListener.class );
+    private EventChannel materialChangeEventChannel = new ModelEventChannel( MaterialChangeListener.class );
     private MaterialChangeListener materialChangeListenerProxy =
             (MaterialChangeListener)materialChangeEventChannel.getListenerProxy();
 

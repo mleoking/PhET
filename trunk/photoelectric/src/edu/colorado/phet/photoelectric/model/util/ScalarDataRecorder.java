@@ -13,6 +13,7 @@ package edu.colorado.phet.photoelectric.model.util;
 import edu.colorado.phet.common.model.clock.IClock;
 //import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.ModelEventChannel;
 
 import javax.swing.*;
 import java.util.List;
@@ -283,7 +284,7 @@ public class ScalarDataRecorder {
         public void update( UpdateEvent event );
     }
 
-    private EventChannel updateListenerChannel = new EventChannel( UpdateListener.class );
+    private EventChannel updateListenerChannel = new ModelEventChannel( UpdateListener.class );
     private UpdateListener updateListenerProxy = (UpdateListener)updateListenerChannel.getListenerProxy();
 
     public void addUpdateListener( UpdateListener listener ) {

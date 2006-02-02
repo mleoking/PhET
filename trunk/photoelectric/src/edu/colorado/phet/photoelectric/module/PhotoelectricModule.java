@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.ModelClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -111,6 +112,8 @@ public class PhotoelectricModule extends BaseLaserModule {
      */
     public PhotoelectricModule( PhotoelectricApplication application ) {
         super( SimStrings.get( "ModuleTitle.PhotoelectricEfect" ),
+//               new ModelClock( 1000 / PhotoelectricApplication.FPS,
+//                               PhotoelectricApplication.DT ) );
                new SwingClock( 1000 / PhotoelectricApplication.FPS,
                                PhotoelectricApplication.DT ) );
 
