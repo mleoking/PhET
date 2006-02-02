@@ -109,6 +109,9 @@ public class PGlassPane extends PCanvas {
         if ( component != null ) {
             cursor = component.getCursor();
         }
+        if ( cursor == null ) {
+            cursor = super.getCursor();
+        }
         return cursor;
     }
     
