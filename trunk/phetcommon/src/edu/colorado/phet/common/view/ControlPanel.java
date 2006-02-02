@@ -12,10 +12,7 @@ package edu.colorado.phet.common.view;
 
 import java.awt.*;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.Scrollable;
+import javax.swing.*;
 
 import edu.colorado.phet.common.application.Module;
 
@@ -112,6 +109,13 @@ public class ControlPanel extends JPanel {
         contentPanel.validate();
     }
 
+    /**
+     * Adds a full-width separator to the control panel.
+     */
+    public void addSeparator() {
+        addControlFullWidth( new JSeparator() );
+    }
+    
     /**
      * Sets the insets used in the content panel.
      * 
