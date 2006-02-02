@@ -119,6 +119,13 @@ public class TestPGlassPane extends PhetApplication {
 
             JSlider slider2 = new JSlider();
             slider2.setCursor( HAND_CURSOR );
+            
+            JComboBox comboBox = new JComboBox();
+            comboBox.addItem( "choice1" );
+            comboBox.addItem( "choice2" );
+            comboBox.addItem( "choice3" );
+            comboBox.addItem( "choice4" );
+            comboBox.addItem( "choice5" );
  
             // controls embedded in a Box
             Box box = new Box( BoxLayout.Y_AXIS );
@@ -144,6 +151,7 @@ public class TestPGlassPane extends PhetApplication {
             controlPanel.addSeparator();
             controlPanel.addControlFullWidth( slider1 );
             controlPanel.addControlFullWidth( slider2 );
+            controlPanel.addControl( comboBox );
             controlPanel.addSeparator();
             controlPanel.addControlFullWidth( box );
 
