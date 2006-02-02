@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.tests;
+package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
