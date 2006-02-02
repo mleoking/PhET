@@ -6,6 +6,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - bug in 3.0: after you pause the clock, animation moves another tick
+- possibly wait to initialize sound until user clicks Sound checkbox, 
+  so that VM doesn't crash if you have bogus sound drivers; also
+  possibly catch any Exception in DiscreteControlPanel.initSound
 
 MEDIUM PRIORITY:
 - hide the "Cheat" panel whenever we start a new game
