@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.view.monitors;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -46,17 +47,24 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     public PowerMeterGraphic( Component component, LaserModel model, final PartialMirror rightMirror ) throws HeadlessException {
         super( component );
 
+        PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LaserConfig.POWER_METER_IMAGE );
+        addGraphic( bezelImageGraphic );
+
+        int leftInset = 20;
+        int topInset = 30;
+        int middleInset = 25;
         final Meter cavityMeter = new Meter( component,
-                                       new Dimension( 300, 60),
+                                       new Dimension( 200, 30),
                                        Meter.HORIZONTAL,
                                        0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+        cavityMeter.setLocation( leftInset, topInset );
         addGraphic( cavityMeter );
 
         final Meter outsideMeter = new Meter( component,
-                                       new Dimension( 300, 60),
+                                       new Dimension( 200, 30),
                                        Meter.HORIZONTAL,
                                        0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
-        outsideMeter.setLocation( 0, 100 );
+        outsideMeter.setLocation( leftInset, (int)cavityMeter.getLocation().getY() + cavityMeter.getHeight() + middleInset );
         addGraphic( outsideMeter );
 
         model.addLaserListener( new LaserModel.ChangeListenerAdapter() {

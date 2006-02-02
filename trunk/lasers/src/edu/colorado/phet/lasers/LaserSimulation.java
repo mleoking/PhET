@@ -289,6 +289,8 @@ public class LaserSimulation extends PhetApplication {
                 , "Slider.background", background
                 , "RadioButton.background", background
                 , "CheckBox.background", background
+                , "OptionPane.background", background
+                , "TabbedPane.background", background
                 , "Button.background", buttonBackground
             };
             def.addAll( Arrays.asList( defaults ) );
