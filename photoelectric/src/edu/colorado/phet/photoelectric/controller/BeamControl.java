@@ -14,6 +14,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.util.SwingThreadModelListener;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -22,6 +24,7 @@ import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -32,7 +35,8 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener {
+public class BeamControl extends GraphicLayerSet implements SwingThreadModelListener,
+                                                            Beam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
     private IntensitySlider intensitySlider;
 
@@ -44,7 +48,8 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private Point spectrumSliderRelLoc = new Point( 13, 93 );
     private Dimension spectrumSize = new Dimension( 145, 19 );
     private SpectrumSliderWithReadout wavelengthSlider;
-    ;
+    private Beam beam;
+
 
     /**
      * @param apparatusPanel
@@ -55,6 +60,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     public BeamControl( ApparatusPanel apparatusPanel, Point location,
                         Beam beam, double maximumRate ) {
         this.apparatusPanel = apparatusPanel;
+        this.beam = beam;
 
         // The background panel
         PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel,
@@ -78,13 +84,13 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private void addWavelengthSlider( final Beam beam ) {
         // Make a spectrum wavelengthSlider
         final SpectrumSliderWithSquareCursor wavelengthSlider1 = new SpectrumSliderWithSquareCursor( apparatusPanel,
-                                                                                                     100,
-                                                                                                     850 );
+                                                                                                     PhotoelectricConfig.MIN_WAVELENGTH,
+                                                                                                     PhotoelectricConfig.MAX_WAVELENGTH );
         wavelengthSlider = new SpectrumSliderWithReadout( apparatusPanel,
                                                           wavelengthSlider1,
                                                           beam,
-                                                          100,
-                                                          850,
+                                                          PhotoelectricConfig.MIN_WAVELENGTH,
+                                                          PhotoelectricConfig.MAX_WAVELENGTH,
                                                           spectrumSliderLoc );
         wavelengthSlider.setLocation( spectrumSliderRelLoc ); // default is (0,0)
         wavelengthSlider.setOrientation( SpectrumSliderWithSquareCursor.HORIZONTAL ); // default is HORIZONTAL
@@ -95,8 +101,18 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int value = wavelengthSlider.getValue();
-                beam.setWavelength( (int)( value ) );
+                PhetUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        int value = wavelengthSlider.getValue();
+                        beam.setWavelength( (int)( value ) );
+
+                        // When the wavelength changes, the photon rate needs to change, too, so
+                        // we need to make this call
+                        beam.setIntensity( intensitySlider.getValue(),
+                                           PhotoelectricConfig.MIN_WAVELENGTH,
+                                           PhotoelectricConfig.MAX_WAVELENGTH );
+                    }
+                } );
             }
         } );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
@@ -118,7 +134,13 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                beam.setPhotonsPerSecond( intensitySlider.getValue() );
+                PhetUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        beam.setIntensity( intensitySlider.getValue(),
+                                           PhotoelectricConfig.MIN_WAVELENGTH,
+                                           PhotoelectricConfig.MAX_WAVELENGTH );
+                    }
+                } );
             }
         } );
         beam.setPhotonsPerSecond( intensitySlider.getValue() );
@@ -151,6 +173,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     //----------------------------------------------------------------
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-        intensitySlider.setValue( (int)event.getRate() );
+        intensitySlider.setValue( (int)Math.round(beam.getIntensity( PhotoelectricConfig.MIN_WAVELENGTH,
+                                                          PhotoelectricConfig.MAX_WAVELENGTH )) );
     }
 }

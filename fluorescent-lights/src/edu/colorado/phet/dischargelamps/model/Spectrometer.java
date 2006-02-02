@@ -11,6 +11,7 @@
 package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
@@ -82,7 +83,7 @@ public class Spectrometer implements PhotonEmittedListener {
     //----------------------------------------------------------------
     // Listener and event definitions
     //----------------------------------------------------------------
-    private EventChannel changeListenerChannel = new EventChannel( ChangeListener.class );
+    private EventChannel changeListenerChannel = new ModelEventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeListenerChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {

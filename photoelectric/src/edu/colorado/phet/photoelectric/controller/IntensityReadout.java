@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.photon.Beam;
+import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +48,6 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         this.beam = beam;
 
         readout = new JTextField( 3 );
-//        readout.setEditable( false );
         readout.setHorizontalAlignment( JTextField.HORIZONTAL );
         readout.setFont( VALUE_FONT );
         readout.addFocusListener( new FocusListener() {
@@ -78,17 +78,24 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
             text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
             double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
             photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
-            this.beam.setPhotonsPerSecond( photonsPerSecond );
-            update( photonsPerSecond );
+//            this.beam.setIntensity( percent,
+//                                    PhotoelectricConfig.MIN_WAVELENGTH,
+//                                    PhotoelectricConfig.MAX_WAVELENGTH );
+//            this.beam.setPhotonsPerSecond( photonsPerSecond );
+
+            update( percent );
+
+//            update( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.get( "Intensity.message" ));
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( component ), SimStrings.get( "Intensity.message" ) );
             readout.setText( format.format( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ) );
         }
     }
 
     private void update( double intensity ) {
-        readout.setText( format.format( intensity / beam.getMaxPhotonsPerSecond() ) );
+        readout.setText( format.format( intensity / beam.getMaxIntensity() ) );
+//        readout.setText( format.format( intensity / beam.getMaxPhotonsPerSecond() ) );
     }
 
     void setValue( double wavelength ) {
@@ -96,6 +103,9 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     }
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-        update( event.getRate() );
+        update( beam.getIntensity( PhotoelectricConfig.MIN_WAVELENGTH,
+                                   PhotoelectricConfig.MAX_WAVELENGTH ) );
+
+//        update( event.getRate() );
     }
 }
