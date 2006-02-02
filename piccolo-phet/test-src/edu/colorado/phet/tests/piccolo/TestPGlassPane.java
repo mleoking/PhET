@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.tests.piccolo;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -39,6 +36,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Pressing the Help button will display a PGlassPane that puts 
  * colored circles at the upper-left corner of certain Swing controls.
  * See method markComponents for details.
+ * <p>
+ * JButtons and JSliders in the control panel have a hand cursor,
+ * so that you can verify that the cursor is being set correctly.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -48,6 +48,9 @@ public class TestPGlassPane extends PhetApplication {
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
+    
+    // Cursors
+    private static final  Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
 
     /* Test harness */
     public static void main( final String[] args ) {
@@ -85,27 +88,67 @@ public class TestPGlassPane extends PhetApplication {
         public TestModule( String title, Color canvasColor ) {
             super( title, new TestClock(), true /* startsPaused */ );
 
+            // Simulation panel (aka, play area) -----------------------------------
             PhetPCanvas canvas = new PhetPCanvas();
-            canvas.setBackground( canvasColor );
             setSimulationPanel( canvas );
+            canvas.setBackground( canvasColor );
             
+            // Control panel -----------------------------------
+               
             ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
-            controlPanel.addControl( new JLabel( "label1" ) );
-            controlPanel.addControl( new JLabel( "label2" ) );
-            controlPanel.addControl( new JButton( "button1" ) );
-            controlPanel.addControl( new JButton( "button2" ) );
+            
+            ActionListener actionListener = new ActionListener() {
+               public void actionPerformed( ActionEvent event ) {
+                   System.out.println( "actionPerformed: " + event.getActionCommand() );
+               }
+            };
+            
+            JButton button1 = new JButton( "button1" );
+            button1.setCursor( HAND_CURSOR );
+            button1.setActionCommand( "button1" );
+            button1.addActionListener( actionListener  );
+
+            JButton button2 = new JButton( "button2" );
+            button2.setCursor( HAND_CURSOR );
+            button2.setActionCommand( "button2" );
+            button2.addActionListener( actionListener );
+            
+            JSlider slider1 = new JSlider();
+            slider1.setCursor( HAND_CURSOR );
+
+            JSlider slider2 = new JSlider();
+            slider2.setCursor( HAND_CURSOR );
+ 
+            // controls embedded in a Box
+            Box box = new Box( BoxLayout.Y_AXIS );
+            { 
+                JButton button3 = new JButton( "button3" );
+                button3.setCursor( HAND_CURSOR );
+                button3.setActionCommand( "button3" );
+                button3.addActionListener( actionListener );
+
+                JSlider slider3 = new JSlider();
+                slider3.setCursor( HAND_CURSOR );
+                
+                box.add( button3 );
+                box.add( new JCheckBox( "checkBox3" ) );
+                box.add( slider3 );
+            }
+            
+            controlPanel.addControl( button1 );
+            controlPanel.addControl( button2 );
+            controlPanel.addSeparator();
             controlPanel.addControl( new JCheckBox( "checkBox1" ) );
             controlPanel.addControl( new JCheckBox( "checkBox2" ) );
-            controlPanel.addControlFullWidth( new JSlider() );
-            controlPanel.addControlFullWidth( new JSlider() );
-            Box box = new Box( BoxLayout.Y_AXIS );
-            box.add( new JLabel( "label3" ) );
-            box.add( new JButton( "button3" ) );
-            box.add( new JCheckBox( "checkBox3" ) );
-            box.add( new JSlider() );
+            controlPanel.addSeparator();
+            controlPanel.addControlFullWidth( slider1 );
+            controlPanel.addControlFullWidth( slider2 );
+            controlPanel.addSeparator();
             controlPanel.addControlFullWidth( box );
 
+            // Help (glass pane)  -----------------------------------
+            
             JFrame frame = PhetApplication.instance().getPhetFrame();
             JComponent glassPane = new MyGlassPane( frame );
             setHelpPane( glassPane );
@@ -115,16 +158,25 @@ public class TestPGlassPane extends PhetApplication {
             return true;
         }
 
+        /**
+         * Extension of PGlassPane that draws circles at the upper-left corner 
+         * of various JComponents.  See markComponents for details.
+         * 
+         * MyGlassPane
+         *
+         * @author Chris Malley (cmalley@pixelzoom.com)
+         * @version $Revision$
+         */
         private class MyGlassPane extends PGlassPane {
 
             public MyGlassPane( JFrame parentFrame ) {
                 super( parentFrame );
+                
                 // Periodically mark certain components with colored circles...
                 Timer timer = new Timer( 500, new ActionListener() {
-
                     public void actionPerformed( ActionEvent e ) {
                         getLayer().removeAllChildren();
-                        markComponents( getParentFrame().getContentPane() );
+                        markComponents( getParentFrame().getLayeredPane() );
                     }
                 } );
                 timer.start();
