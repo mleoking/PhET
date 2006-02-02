@@ -76,17 +76,20 @@ public class SolubleSaltsApplication extends PhetApplication {
             if( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
             }
-            if( arg.substring( 0, 3).equals( "-s=" )) {
+            if( arg.startsWith( "-s=" )) {
                 double d = Double.parseDouble( arg.substring( 3 ));
                 SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = d;
             }
-            if( arg.substring( 0, 3).equals( "-d=" )) {
+            if( arg.startsWith( "-d=" )) {
                 double d = Double.parseDouble( arg.substring( 3 ));
                 SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = d;
             }
-            if( arg.substring( 0, 3).equals( "-c=" )) {
+            if( arg.startsWith( "-c=" )) {
                 double c = Double.parseDouble( arg.substring( 3 ));
                 SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = c;
+            }
+            if( arg.startsWith("debug=") ) {
+                SolubleSaltsConfig.DEBUG = true;
             }
         }
 

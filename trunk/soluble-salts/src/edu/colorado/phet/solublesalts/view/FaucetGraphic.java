@@ -28,6 +28,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
@@ -52,7 +54,6 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     // Registrations
     public static final int WALL_ATTACHMENT = 1, SPOUT = 2;
     private static final double MAX_WATER_WIDTH = 20.0;
-//    private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
     private static final Color WATER_COLOR =  SolubleSaltsConfig.WATER_COLOR;
 
     //----------------------------------------------------------------------------
@@ -135,6 +136,13 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
                 FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() );
             }
         } );
+        // Add a listener that will shut off the faucet when the mouse is released
+        flowSlider.addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                flowSlider.setValue( 0 );
+            }
+        } );
+
         flowSlider.setPreferredSize( new Dimension( (int)faucetImage.getWidth() / 2, 15 ) );
         PSwing pSwing = new PSwing( pSwingCanvas, flowSlider );
         pSwing.setOffset( 22, 35 );

@@ -120,13 +120,50 @@ public class Crystal extends Body implements Binder {
 
         // Open up the bounds to include the whole model so we can make lattice
         this.lattice.setBounds( model.getBounds() );
+
+        // We need to interleave the positive and negative ions in the list, as much as possible, so the
+        // lattice can be built out without any of them not finding an ion of the opposite polarity to
+        // stick to
+        ArrayList anions = new ArrayList();
+        ArrayList cations = new ArrayList();
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
+            if( ion.getCharge() < 0 ) {
+                cations.add( ion );
+            }
+            else if( ion.getCharge() > 0 ) {
+                anions.add( ion );
+            }
+            else {
+                throw new RuntimeException( "ion with 0 charge" );
+            }
+        }
+        ArrayList ions2 = new ArrayList();
+        int n = Math.max( anions.size(), cations.size() );
+        for( int i = 0; i < n; i++ ) {
+            if( i < anions.size() ) {
+                ions2.add( anions.get( i ) );
+            }
+            if( i < cations.size() ) {
+                ions2.add( cations.get( i ) );
+            }
+        }
+
+        for( int i = 0; i < ions2.size(); i++ ) {
+            Ion ion = (Ion)ions2.get( i );
             addIon( ion );
-            if( this.ions.size() != i + 1) {
+            if( this.ions.size() != i + 1 ) {
                 System.out.println( "Crystal.Crystal: i = " + i + "\tsize = " + this.ions.size() );
             }
         }
+//
+//        for( int i = 0; i < ions.size(); i++ ) {
+//            Ion ion = (Ion)ions.get( i );
+//            addIon( ion );
+//            if( this.ions.size() != i + 1 ) {
+//                System.out.println( "Crystal.Crystal: i = " + i + "\tsize = " + this.ions.size() );
+//            }
+//        }
 
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
