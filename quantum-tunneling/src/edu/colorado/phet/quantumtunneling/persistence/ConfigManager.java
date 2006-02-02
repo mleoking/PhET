@@ -26,9 +26,9 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTApplication;
-import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.DialogUtils;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
+import edu.colorado.phet.quantumtunneling.util.CursorUtils;
 
 
 /**
@@ -121,8 +121,7 @@ public class ConfigManager {
         
         // Configure the application
         QTConfig config = (QTConfig) object;
-        JFrame frame = _app.getPhetFrame();
-        frame.setCursor( QTConstants.WAIT_CURSOR );
+        CursorUtils.setWaitCursorEnabled( true );
         {
             // Global
             _app.load( config );
@@ -135,7 +134,7 @@ public class ConfigManager {
                 }
             }
         }
-        frame.setCursor( QTConstants.DEFAULT_CURSOR );
+        CursorUtils.setWaitCursorEnabled( false );
     }
     
     /*

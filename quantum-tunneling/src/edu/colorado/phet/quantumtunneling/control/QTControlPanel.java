@@ -284,7 +284,7 @@ public class QTControlPanel extends AbstractControlPanel {
                         WIDTH_TICK_PRECISION,
                         WIDTH_LABEL_PRECISION,
                         SimStrings.get( "label.packetWidth" ) + " {0} " + SimStrings.get( "units.position" ), 
-                        DEFAULT_INSETS );
+                        new Insets( 0, 0, 0, 0 ) );
                 _widthSlider.setInverted( true );
                 
                 _centerSlider = new SliderControl( 
@@ -293,7 +293,7 @@ public class QTControlPanel extends AbstractControlPanel {
                         CENTER_TICK_PRECISION,
                         CENTER_LABEL_PRECISION,
                         SimStrings.get( "label.packetCenter" ) + " {0} " + SimStrings.get( "units.position" ),
-                        DEFAULT_INSETS );
+                        new Insets( 0, 0, 0, 0 ) );
                 
                 EasyGridBagLayout layout = new EasyGridBagLayout( _propertiesPanel );
                 _propertiesPanel.setLayout( layout );

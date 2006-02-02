@@ -29,13 +29,6 @@ import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
  * @version $Revision$
  */
 public abstract class AbstractModule extends PiccoloModule {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,20 +79,6 @@ public abstract class AbstractModule extends PiccoloModule {
      */
     public JFrame getFrame() {
         return PhetApplication.instance().getPhetFrame();
-    }
-    
-    /**
-     * Turns the wait cursor on and off.
-     * 
-     * @param enabled true or false
-     */
-    public void setWaitCursorEnabled( boolean enabled ) {
-        if ( enabled ) {
-            getSimulationPanel().setCursor( WAIT_CURSOR );
-        }
-        else {
-            getSimulationPanel().setCursor( DEFAULT_CURSOR );
-        }
     }
     
     /**

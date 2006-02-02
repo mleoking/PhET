@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -21,10 +20,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
+import edu.colorado.phet.quantumtunneling.util.CursorUtils;
 
 
 /**
@@ -35,19 +33,6 @@ import edu.colorado.phet.quantumtunneling.module.AbstractModule;
  */
 public abstract class AbstractControlPanel extends ControlPanel {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Default insets used in all EasyGridBagLayouts
-    public static final Insets DEFAULT_INSETS = new Insets( 0, 0, 0, 0 );
-    
-    // Default amount of vertical space, see addVerticalSpace
-    private static final int DEFAULT_VERTICAL_SPACE = 8;
-    
-    // Font style applied to titled borders
-    protected static final int TITLED_BORDER_FONT_STYLE = Font.ITALIC;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -83,34 +68,10 @@ public abstract class AbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     /**
-     * Adds a separator to the control panel.
-     */
-    public void addSeparator() {
-        addControlFullWidth( new JSeparator() );
-    }
-    
-    /**
-     * Adds a default amout of vertical space to the control panel,
-     * as specified by VERTICAL_SPACE.
-     */
-    public void addVerticalSpace() {
-        addVerticalSpace( DEFAULT_VERTICAL_SPACE );
-    }
-    
-    /**
-     * Adds vertical space to the control panel.
+     * Gets the reset button, usually for attaching a help item to it.
      * 
-     * @param space the amount of space, in pixels
+     * @return the reset button
      */
-    public void addVerticalSpace( int space ) {
-        if ( space > 0 ) {
-            JPanel spacePanel = new JPanel();
-            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
-            spacePanel.add( Box.createVerticalStrut( space ) );
-            addControlFullWidth( spacePanel );
-        }
-    }
-    
     public JButton getResetButton() {
         return _resetButton;
     }
@@ -127,9 +88,9 @@ public abstract class AbstractControlPanel extends ControlPanel {
                 String message = SimStrings.get( "message.reset" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
-                    setWaitCursorEnabled( true );
+                    CursorUtils.setWaitCursorEnabled( true );
                     _module.reset();
-                    setWaitCursorEnabled( false );
+                    CursorUtils.setWaitCursorEnabled( false );
                 }
             }
         } );
@@ -146,24 +107,5 @@ public abstract class AbstractControlPanel extends ControlPanel {
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
         addControlFullWidth( fillerPanel );
-    }
-    
-    //----------------------------------------------------------------
-    // Cursor control methods
-    //----------------------------------------------------------------
-    
-    /**
-     * Turns the wait cursor on and off.
-     * 
-     * @param enabled true or false
-     */
-    public void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
-        if ( enabled ) {
-            frame.setCursor( QTConstants.WAIT_CURSOR );
-        }
-        else {
-            frame.setCursor( QTConstants.DEFAULT_CURSOR );
-        }
     }
 }

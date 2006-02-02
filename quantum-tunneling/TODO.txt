@@ -5,11 +5,13 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add fix for getCursor exception that SamR is seeing
+- when help is enabled, menu items don't hilite when you move the mouse down an open menu  (PC only)
+- when help is enabled, with an open menu, other menu titles don't hilite as you move the mouse across the menu bar (PC & Mac)
 - add ability to point a help item at a JComponent embedded in a PSwing
 - i18n help text
 - specify an arrow angle for help items
-- charts don't update when Measure is pressed with clock paused
+- address graphics performance so that sim draws correctly on slower PCs
+- charts don't update when Measure button is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread
 - decide whether to replace Richardson with Falstad model
@@ -71,6 +73,10 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/2/06) - phetcommon: move some stuff from quantumtunneling.AbstractControlPanel to phetcommon.ControlPanel
+(2/2/06) - move cursor stuff into CursorUtils
+(2/2/06) - piccolo-phet: implement 2 other approached for redispatching MouseEvents in PGlassPane
+(2/2/06) - piccolo-phet: make sure that PGlassPane.getCursor doesn't return null 
 (2/1/06) - piccolo-phet: add support for help items that point to JComponents embedded in PSwing
 (2/1/06) - piccolo-phet: use fullbounds in help coordinate mapping
 (2/1/06) - piccolo-phet: watch all parent nodes for help item visibility/position changes
