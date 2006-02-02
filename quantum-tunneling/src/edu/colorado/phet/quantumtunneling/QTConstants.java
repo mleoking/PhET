@@ -100,14 +100,6 @@ public class QTConstants {
     public static final Color TICK_MARK_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
-    // Cursors
-    //----------------------------------------------------------------------------
-    
-//    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-//    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
-//    public static final Cursor INTERACTIVE_CURSOR = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
-    
-    //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
 
@@ -232,5 +224,5 @@ public class QTConstants {
     public static final double DEFAULT_PACKET_CENTER = -2; // nm
     
     // Richardson algorithm parameters
-    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40;
+    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
 }
