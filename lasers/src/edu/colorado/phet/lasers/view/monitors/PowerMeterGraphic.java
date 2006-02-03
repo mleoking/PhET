@@ -53,19 +53,19 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         int leftInset = 20;
         int topInset = 30;
         int middleInset = 25;
-        final Meter cavityMeter = new Meter( component,
-                                       new Dimension( 200, 30),
-                                       Meter.HORIZONTAL,
-                                       0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
-        cavityMeter.setLocation( leftInset, topInset );
-        addGraphic( cavityMeter );
-
         final Meter outsideMeter = new Meter( component,
                                        new Dimension( 200, 30),
                                        Meter.HORIZONTAL,
                                        0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
-        outsideMeter.setLocation( leftInset, (int)cavityMeter.getLocation().getY() + cavityMeter.getHeight() + middleInset );
+        outsideMeter.setLocation( leftInset, topInset );
         addGraphic( outsideMeter );
+
+        final Meter cavityMeter = new Meter( component,
+                                       new Dimension( 200, 30),
+                                       Meter.HORIZONTAL,
+                                       0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+        cavityMeter.setLocation( leftInset, (int)outsideMeter.getLocation().getY() + outsideMeter.getHeight() + middleInset );
+        addGraphic( cavityMeter );
 
         model.addLaserListener( new LaserModel.ChangeListenerAdapter() {
             public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {

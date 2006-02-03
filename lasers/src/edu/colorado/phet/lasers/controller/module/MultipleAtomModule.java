@@ -226,9 +226,4 @@ public class MultipleAtomModule extends BaseLaserModule {
         this.threeEnergyLevels = threeEnergyLevels;
         getLaserModel().getPumpingBeam().setEnabled( true );
     }
-
-    public void setSwingComponentsVisible( boolean areVisible ) {
-        super.setSwingComponentsVisible( areVisible );
-        pumpBeamControl.setVisible( areVisible );
-    }
 }

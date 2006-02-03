@@ -35,7 +35,6 @@ import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
-//import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -76,9 +75,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private LaserWaveGraphic waveGraphic;
     private LampGraphic pumpLampGraphic;
 
-    // Part of hack to address leaking through mirrors
-//    private ArrayList photons = new ArrayList();
-
     private int numPhotons;
     private boolean displayHighLevelEmissions;
     protected boolean threeEnergyLevels;
@@ -86,24 +82,15 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
     private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
     private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
-//    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
-//    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
     private HelpManager energyLevelsPanelHelpManager;
-    private HelpManager mainPanelHelpManager;
-    private ApparatusPanelHelp apparatusPanelHelp;
     private Kaboom kaboom;
-    private PowerMeterGraphic powerMeter;
-//    private PowerMeter powerMeter;
 
     /**
      *
      */
     public BaseLaserModule( String title, IClock clock ) {
         super( title, clock );
-        init();
-    }
 
-    private void init() {
         // Create the model
         laserModel = new LaserModel();
         setModel( laserModel );
@@ -132,43 +119,16 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createMirrors();
 
         // Create the power meter
-        powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
+        PowerMeterGraphic powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
                                      getLaserModel(),
                                      rightMirror );
         powerMeter.setLocation( new Point( 200, 430 ) );
         getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
-        powerMeter.setVisible( false );
+        powerMeter.setVisible( true );
 
         // Set up help
         createHelp();
-
-//        addLeakHack();
     }
-
-//    private void addLeakHack() {
-//        laserModel.addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                for( int i = 0; i < photons.size(); i++ ) {
-//                    Photon photon = (Photon)photons.get( i );
-//                    if( photon.getPositionPrev().getX() < leftMirror.getPosition().getX()
-//                        && photon.getPosition().getY() > leftMirror.getBounds().getMinY()
-//                        && photon.getPosition().getY() < leftMirror.getBounds().getMaxY()
-//                        && photon.getWavelength() == seedBeam.getWavelength() ) {
-////                        photon.removeFromSystem();
-////                        laserModel.removeModelElement( this );
-//                    }
-//                    if( photon.getPositionPrev().getX() > rightMirror.getPosition().getX()
-//                        && rightMirror.getReflectivity() == 1.0
-//                        && photon.getPosition().getY() > rightMirror.getBounds().getMinY()
-//                        && photon.getPosition().getY() < rightMirror.getBounds().getMaxY()
-//                        && photon.getWavelength() == seedBeam.getWavelength() ) {
-////                        photon.removeFromSystem();
-////                        laserModel.removeModelElement( this );
-//                    }
-//                }
-//            }
-//        } );
-//    }
 
     /**
      *
@@ -180,7 +140,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         laserEnergyLevelsMonitorPanel.adjustPanel();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
         getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
-        powerMeter.setVisible( mirrorsEnabled );
     }
 
     /**
@@ -190,7 +149,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         super.deactivate();
         middleStateMeanLifetime = getLaserModel().getMiddleEnergyState().getMeanLifeTime();
         highStateMeanLifetime = getLaserModel().getHighEnergyState().getMeanLifeTime();
-        powerMeter.setVisible( false );
     }
 
     //----------------------------------------------------------------
@@ -351,17 +309,14 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     private void createHelp() {
-        mainPanelHelpManager = new HelpManager( getApparatusPanel() );
-        apparatusPanelHelp = new ApparatusPanelHelp( this );
-//        new ApparatusPanelHelp( mainPanelHelpManager );
+//        mainPanelHelpManager = new HelpManager( getApparatusPanel() );
+//        apparatusPanelHelp = new ApparatusPanelHelp( this );
         energyLevelsPanelHelpManager = new HelpManager( getEnergyLevelsMonitorPanel() );
         new EnergyLevelPanelHelp( energyLevelsPanelHelpManager );
     }
 
     public void setHelpEnabled( boolean h ) {
         super.setHelpEnabled( h );
-//        mainPanelHelpManager.setHelpEnabled( getApparatusPanel(), h );
-//        apparatusPanelHelp.setHelpEnabled( getApparatusPanel(), h );
         energyLevelsPanelHelpManager.setHelpEnabled( getEnergyLevelsMonitorPanel(), h );
     }
 
@@ -369,10 +324,16 @@ public class BaseLaserModule extends PhetGraphicsModule {
     //-----------------------------------------------------------------------------
     // Getter and setters
     //-----------------------------------------------------------------------------
+
     public int getLasingPhotonView() {
         return lasingPhotonView;
     }
 
+    /**
+     * Sets the type of view displayed for the lasing photons
+     *
+     * @param lasingPhotonView PHOTON_DISCRETE or PHOTON_WAVE
+     */
     public void setLasingPhotonView( int lasingPhotonView ) {
         this.lasingPhotonView = lasingPhotonView;
         switch( lasingPhotonView ) {
@@ -395,13 +356,17 @@ public class BaseLaserModule extends PhetGraphicsModule {
         }
     }
 
+    /**
+     * Set the type of view to be displayed for the pumping beam
+     *
+     * @param pumpingPhotonView PHOTON_DISCRETE or PHOTON_CURTAIN
+     */
     public void setPumpingPhotonView( int pumpingPhotonView ) {
         this.pumpingPhotonView = pumpingPhotonView;
         switch( pumpingPhotonView ) {
             case PHOTON_DISCRETE:
                 getApparatusPanel().removeGraphic( beamCurtainGraphic );
                 PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
-//                pumpingBeam.setFanout( pumpingBeamFanout * 0.5 );
                 break;
             case PHOTON_CURTAIN:
                 if( beamCurtainGraphic == null ) {
@@ -409,7 +374,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 }
                 addGraphic( beamCurtainGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
-//                pumpingBeam.setFanout( pumpingBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -504,9 +468,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         }
         seedBeam.setEnabled( !mirrorsEnabled );
 
-        // Show/hide the power meter
-        powerMeter.setVisible( mirrorsEnabled );
-
+        // Force a repaint
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
 
@@ -533,17 +495,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
     protected void removeAtom( Atom atom ) {
         getModel().removeModelElement( atom );
         atom.removeFromSystem();
-    }
-
-    public void setSwingComponentsVisible( boolean areVisible ) {
-        if( reflectivityControlPanel != null ) {
-            if( !areVisible ) {
-                reflectivityControlPanel.setVisible( areVisible );
-            }
-            else {
-                reflectivityControlPanel.setVisible( this.mirrorsEnabled );
-            }
-        }
     }
 
     public LampGraphic getPumpLampGraphic() {
