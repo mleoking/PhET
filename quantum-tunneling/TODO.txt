@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when help is enabled, menu items don't hilite when you move the mouse down an open menu  (PC only)
-- when help is enabled, with an open menu, other menu titles don't hilite as you move the mouse across the menu bar (PC & Mac)
+- drag handle cursors don't change when help is "on" (other things with CursorHandler are OK)
 - add ability to point a help item at a JComponent embedded in a PSwing
 - i18n help text
 - specify an arrow angle for help items
@@ -73,6 +72,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/2/06) - piccolo-phet: changed PGlassPane to use Sam's cursor management approach
 (2/2/06) - phetcommon: move some stuff from quantumtunneling.AbstractControlPanel to phetcommon.ControlPanel
 (2/2/06) - move cursor stuff into CursorUtils
 (2/2/06) - piccolo-phet: implement 2 other approached for redispatching MouseEvents in PGlassPane
