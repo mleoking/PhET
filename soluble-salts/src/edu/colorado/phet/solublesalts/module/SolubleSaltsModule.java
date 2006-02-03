@@ -70,23 +70,6 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Add some ions for testing
         createTestIons( model );
-
-
-//        TestGraphic tg = new TestGraphic();
-//        tg.setScale( 2 );
-//        tg.setOffset( 500, 500 );
-////        tg.setScale( 2 );
-//        simPanel.addWorldChild( tg );
-//
-//        PPath pp = new PPath( new Ellipse2D.Double(-2,-2,4,4));
-//        pp.setOffset( tg.getOffset() );
-//        pp.setPaint( Color.red );
-//        simPanel.addWorldChild( pp );
-//        PPath pp2 = new PPath( new Ellipse2D.Double(-2,-2,4,4));
-//        pp2.setOffset( 500, 500 );
-//        pp2.setPaint( Color.green );
-//        simPanel.addWorldChild( pp2 );
-
     }
 
     private void createTestIons( final SolubleSaltsModel model ) {
