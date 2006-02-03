@@ -13,14 +13,13 @@ package edu.colorado.phet.piccolo.help;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.SwingUtilities;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
@@ -78,7 +77,7 @@ public class PGlassPane extends PCanvas {
         _mouseHandler = new MouseHandler( parentFrame );
         setMouseHandlerEnabled( true );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors 
     //----------------------------------------------------------------------------
@@ -265,14 +264,14 @@ public class PGlassPane extends PCanvas {
          * @param event
          */
         private void redispatch( MouseEvent event  ) {
-            redispatch2( event );
+            redispatch3( event );
         }
         
         /*
-         * Redispatches a mouse event to either the content pane or the help pane,
+         * Redispatches a MouseEvent to either the content pane or the menu bar,
          * based on the mouse's position.
          * 
-         * problems:
+         * problems (JDK 1.4.2):
          * - menu items don't receive mouse events (PC)
          * - menus don't hilite when you move the mouse across the menubar (PC & Mac)
          * - menu items don't hilite when you move the mouse down a menu (PC)
@@ -280,79 +279,80 @@ public class PGlassPane extends PCanvas {
          */
         private void redispatch1( MouseEvent event ) {
             
-            Component glassPane = _frame.getGlassPane();
-            Container contentPane = _frame.getContentPane();
-            JMenuBar menuBar = _frame.getJMenuBar();
-            
+            Component glassPane = event.getComponent();
             Point glassPanePoint = event.getPoint();
             
-            Container container = contentPane;
-            Point containerPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, contentPane );
+            // Is the mouse position above the content pane?
+            Container container = _frame.getContentPane();
+            Point containerPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, container );
+            
+            // Or is the mouse position above the menu bar?
             if ( containerPoint.y < 0 ) {
-                container = menuBar;
-                containerPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, menuBar );
+                container = _frame.getJMenuBar();
+                containerPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, container );
             }
 
             //TODO: If the event is from a component in a popped-up menu, then the container should
             //TODO: probably be the menu's JPopupMenu, and containerPoint should be adjusted accordingly.
             
+            // Find the deepest component in the container...
             Component component = SwingUtilities.getDeepestComponentAt( container, containerPoint.x, containerPoint.y );
+            
+            // Convert the mouse event and redispatch it to the component...
             if ( component != null ) {
-                Point componentPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, component);
-                component.dispatchEvent( remapMouseEvent( event, component, componentPoint ) );
+                MouseEvent newEvent = SwingUtilities.convertMouseEvent( glassPane, event, component );
+                component.dispatchEvent( newEvent );
             }
         }
         
         /*
-         * Redispatches a mouse event to the frame's layered pane, which covers the 
-         * entire frame and contains the content pane, help pane, pop-ups, palettes, etc.
+         * Redispatches a MouseEvent to the deepest component in the frame's layered pane,
+         * based on the mouse position.  The layered pane covers the entire frame and 
+         * contains the content pane, help pane, pop-ups, palettes, etc.
          * 
-         * problems:
+         * problems (JDK 1.4.2):
          * - menus don't hilite when you move the mouse across the menubar (PC  Mac)
          * - menu items don't hilite when you move the mouse down a menu (PC)
          */
         private void redispatch2( MouseEvent event ) {
-            Component glassPane = _frame.getGlassPane();
+            
+            Component glassPane = event.getComponent();
             Point glassPanePoint = event.getPoint();
+            
+            // Find the corresponding point in the layered pane...
             JLayeredPane layeredPane = _frame.getLayeredPane();
             Point layeredPanePoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, layeredPane );
+            
+            // Find the deepest component at that point in the layered pane...
             Component component = SwingUtilities.getDeepestComponentAt( layeredPane, layeredPanePoint.x, layeredPanePoint.y );
+            
+            // Convert the mouse event and redispatch it to the component...
             if ( component != null ) {
-                Point componentPoint = SwingUtilities.convertPoint( glassPane, glassPanePoint, component);
-                component.dispatchEvent( remapMouseEvent( event, component, componentPoint ) );
+                MouseEvent newEvent = SwingUtilities.convertMouseEvent( glassPane, event, component );
+                component.dispatchEvent( newEvent );
             }
         }
         
         /*
          * Redispatches a mouse event to the parent frame.
-         * Mouse handling is disabled before the redispatch, and enabled after the redispatch.
-         * This effectively sends all MouseEvents through the frame twice, and every other 
+         * Mouse handling is disabled before the redispatch, and re-enabled after the redispatch.
+         * This effectively sends all MouseEvents through the frame twice, and every-other 
          * time they are handled and redispatched so that we can keep track of mouse position.
          * 
-         * problems:
+         * problems (JDK 1.4.2):
          * - other events (eg, ActionEvent) don't get through to components (PC & Mac)
          * - can't select all menu items from the menubar (eg, Help>About) (PC)
          */
         private void redispatch3( MouseEvent event ) {
+            // Turn mouse handling off so that event pass through the glass pane.
             setMouseHandlerEnabled( false );
-            Component component = event.getComponent();
-            Point point = event.getPoint();
-            Point framePoint = SwingUtilities.convertPoint( component, point, _frame );
-            _frame.dispatchEvent( remapMouseEvent( event, _frame, framePoint ) );
+            
+            // Convert the mouse event and redispatch it to the parent frame...
+            MouseEvent newEvent = SwingUtilities.convertMouseEvent( event.getComponent(), event, _frame );
+            _frame.dispatchEvent( newEvent );
+            
+            // Turn mouse handling on so that we can continue to track mouse position.
             setMouseHandlerEnabled( true );
-        }
-        
-        /*
-         * Remaps an existing MouseEvent to a new component and point.
-         * 
-         * @param e
-         * @param component
-         * @param point
-         * @return a new MouseEvent
-         */
-        private MouseEvent remapMouseEvent( MouseEvent e, Component component, Point point ) {
-            return new MouseEvent( component, e.getID(), e.getWhen(), e.getModifiers(), 
-                    point.x, point.y, e.getClickCount(), e.isPopupTrigger(), e.getButton() );
         }
     }
 }
