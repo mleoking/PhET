@@ -10,16 +10,15 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TwoToOneLattice
@@ -31,31 +30,24 @@ public class TwoToOneLattice extends Lattice {
 
     private Class oneIonClass;
     private Class twoIonClass;
-    private double spacing;
 
     public TwoToOneLattice( Class oneIonClass, Class twoIonClass, double spacing ) {
+        super( spacing );
         this.oneIonClass = oneIonClass;
         this.twoIonClass = twoIonClass;
-        this.spacing = spacing;
     }
 
     public Object clone() {
         return new TwoToOneLattice( oneIonClass, twoIonClass, spacing );
     }
 
-    protected List getNeighboringSites( Ion ion, double orientation ) {
-        List sites = new ArrayList();
-        Point2D p = ion.getPosition();
-
-        for( int i = 0; i < 4; i++ ) {
-            double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
-            double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
-            Point2D pNew = new Point2D.Double( x, y );
-//            if( getBounds().contains( pNew ) ) {
-                sites.add( pNew );
-//            }
-        }
-        return sites;
+    protected int getNumNeighboringSites( Ion ion ) {
+//        int cnt = oneIonClass.isInstance( ion ) ? 4 : 2;
+//        if( cnt == 2 ) {
+//            System.out.println( "TwoToOneLattice.getNumNeighboringSites" );
+//        }
+//        return cnt;
+        return oneIonClass.isInstance( ion ) ? 4 : 2;
     }
 
     /**

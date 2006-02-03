@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -30,33 +28,20 @@ import java.util.Random;
 public class PlainCubicLattice extends Lattice {
     private static final Random random = new Random( System.currentTimeMillis() );
 
-    private double spacing;
-
     /**
-     *
      * @param spacing
      */
     public PlainCubicLattice( double spacing ) {
-        this.spacing = spacing;
+        super( spacing );
     }
 
     public Object clone() {
         return new PlainCubicLattice( this.spacing );
     }
 
-    protected List getNeighboringSites( Ion ion, double orientation ) {
-        Point2D p = ion.getPosition();
-        List sites = new ArrayList();
-        for( int i = 0; i < 4; i++ ) {
-            double x = p.getX() + spacing * Math.cos( i * Math.PI / 2 + orientation );
-            double y = p.getY() + spacing * Math.sin( i * Math.PI / 2 + orientation );
-//            if( getBounds().contains( x, y ) ) {
-                sites.add( new Point2D.Double( x, y ));
-//            }
-        }
-        return sites;
+    protected int getNumNeighboringSites( Ion ion ) {
+        return 4;
     }
-
 
     public static void main( String[] args ) {
         Ion a = new Sodium();

@@ -10,16 +10,15 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.Sodium;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TwoToOneLattice
@@ -31,9 +30,9 @@ public class ThreeToOneLattice extends Lattice {
 
     private Class oneIonClass;
     private Class threeIonClass;
-    private double spacing;
 
     public ThreeToOneLattice( Class oneIonClass, Class threeIonClass, double spacing ) {
+        super( spacing );
         this.oneIonClass = oneIonClass;
         this.threeIonClass = threeIonClass;
         this.spacing = spacing;
@@ -43,30 +42,8 @@ public class ThreeToOneLattice extends Lattice {
         return new ThreeToOneLattice( oneIonClass, threeIonClass, spacing );
     }
 
-    protected List getNeighboringSites( Ion ion, double orientation ) {
-        List sites = new ArrayList();
-        Point2D p = ion.getPosition();
-
-        // The cnt is the number of possible bonding sites for an ion of the
-        // parameter's class
-        int cnt = 0;
-        if( oneIonClass.isInstance( ion ) ) {
-            cnt = 6;
-        }
-        else {
-            cnt = 2;
-        }
-
-        // Determine the location of the possible bonding sites for the ion
-        for( int i = 0; i < cnt; i++ ) {
-            double x = p.getX() + spacing * Math.cos( i * Math.PI * 2 / cnt + orientation );
-            double y = p.getY() + spacing * Math.sin( i * Math.PI * 2 / cnt + orientation );
-            Point2D pNew = new Point2D.Double( x, y );
-//            if( getBounds().contains( pNew ) ) {
-                sites.add( pNew );
-//            }
-        }
-        return sites;
+    protected int getNumNeighboringSites( Ion ion ) {
+        return oneIonClass.isInstance( ion ) ? 6 : 2;
     }
 
     /**
