@@ -12,11 +12,15 @@
 package edu.colorado.phet.tests.piccolo;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
+import java.util.EventObject;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -24,10 +28,13 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.model.clock.TimingStrategy;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.PGlassPane;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
@@ -50,7 +57,7 @@ public class TestPGlassPane extends PhetApplication {
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
     
     // Cursors
-    private static final  Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
+    private static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
 
     /* Test harness */
     public static void main( final String[] args ) {
@@ -67,11 +74,22 @@ public class TestPGlassPane extends PhetApplication {
     public TestPGlassPane( String[] args ) throws InterruptedException {
         super( args, "TestPGlassPane", "test of PGlassPane", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-        Module module1 = new TestModule( "Module 1", new Color( 255, 208, 252 ) );
+        Module module1 = new TestModule( "Module 1", new Color( 255, 208, 252 ) /* canvasColor */ );
         addModule( module1 );
 
-        Module module2 = new TestModule( "Module 2", new Color( 208, 255, 252 ) );
+        Module module2 = new TestModule( "Module 2", new Color( 208, 255, 252 ) /* canvasColor */ );
         addModule( module2 );
+        
+        // Menu
+        EventListener listener = new EventListener();
+        JMenu menu = new JMenu( "Test" );
+        getPhetFrame().addMenu( menu );
+        for ( int i = 0; i < 20; i++ ) {
+            JMenuItem item = new JMenuItem( "item" + i );
+            item.setName( "item" + i );
+            item.addActionListener( listener );
+            menu.add( item );
+        }
     }
 
     /* Clock */
@@ -88,72 +106,98 @@ public class TestPGlassPane extends PhetApplication {
         public TestModule( String title, Color canvasColor ) {
             super( title, new TestClock(), true /* startsPaused */ );
 
+            EventListener listener = new EventListener();
+            
             // Simulation panel (aka, play area) -----------------------------------
+            
             PhetPCanvas canvas = new PhetPCanvas();
             setSimulationPanel( canvas );
             canvas.setBackground( canvasColor );
+            
+            // PSwing button
+            JButton button0 = new JButton( "button0" );
+            button0.setName( "button0" );
+            button0.setOpaque( false );
+            button0.addActionListener( listener );
+            PSwing pswing = new PSwing( canvas, button0 );
+            pswing.addInputEventListener( new CursorHandler() );
+            pswing.setOffset( 100, 200 );
+            canvas.getLayer().addChild( pswing );
+            
+            // Pop-up menu attached to right mouse button
+            HTMLGraphic html = new HTMLGraphic( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
+            html.setFont( new Font( "Lucida Sans", Font.PLAIN, 18 ) );
+            html.setOffset( 300, 100 );
+            canvas.getLayer().addChild( html );
+            final JPopupMenu popupMenu = new JPopupMenu();
+            for ( int i = 0; i < 5; i++ ) {
+                JMenuItem item = new JMenuItem( "popup" + i );
+                item.setName( "popup" + i );
+                item.addActionListener( listener );
+                popupMenu.add( item );
+            }
+            canvas.addMouseListener( new MouseInputAdapter() {
+                public void mousePressed( MouseEvent event ) {
+                    if ( event.getButton() == MouseEvent.BUTTON3 ) {
+                        popupMenu.show( event.getComponent(), event.getX(), event.getY() );
+                    }
+                }
+            } );
             
             // Control panel -----------------------------------
                
             ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
-            
-            ActionListener actionListener = new ActionListener() {
-               public void actionPerformed( ActionEvent event ) {
-                   System.out.println( "actionPerformed: " + event.getActionCommand() );
-               }
-            };
-            
+          
             JButton button1 = new JButton( "button1" );
+            button1.setName( "button1" );
             button1.setCursor( HAND_CURSOR );
-            button1.setActionCommand( "button1" );
-            button1.addActionListener( actionListener  );
-
-            JButton button2 = new JButton( "button2" );
-            button2.setCursor( HAND_CURSOR );
-            button2.setActionCommand( "button2" );
-            button2.addActionListener( actionListener );
+            button1.addActionListener( listener  );
+            
+            JCheckBox checkBox1 = new JCheckBox( "checkBox1" );
+            checkBox1.setName( "checkBox1" );
+            checkBox1.addActionListener( listener );
             
             JSlider slider1 = new JSlider();
-            slider1.setCursor( HAND_CURSOR );
-
-            JSlider slider2 = new JSlider();
-            slider2.setCursor( HAND_CURSOR );
+            slider1.setName( "slider1" );
+            slider1.addChangeListener( listener );
             
-            JComboBox comboBox = new JComboBox();
-            comboBox.addItem( "choice1" );
-            comboBox.addItem( "choice2" );
-            comboBox.addItem( "choice3" );
-            comboBox.addItem( "choice4" );
-            comboBox.addItem( "choice5" );
+            Object[] choices = { "choice1", "choice2", "choice3", "choice4" };
+            JComboBox comboBox = new JComboBox( choices );
+            comboBox.setName( "comboBox" );
+            comboBox.addItemListener( listener );
  
-            // controls embedded in a Box
-            Box box = new Box( BoxLayout.Y_AXIS );
-            { 
-                JButton button3 = new JButton( "button3" );
-                button3.setCursor( HAND_CURSOR );
-                button3.setActionCommand( "button3" );
-                button3.addActionListener( actionListener );
-
-                JSlider slider3 = new JSlider();
-                slider3.setCursor( HAND_CURSOR );
+            // controls embedded in a JPanel
+            JPanel panel = new JPanel();
+            {
+                panel.setBorder( new TitledBorder( "title" ) );
                 
-                box.add( button3 );
-                box.add( new JCheckBox( "checkBox3" ) );
-                box.add( slider3 );
+                BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
+                panel.setLayout( layout );
+
+                JButton button2 = new JButton( "button2" );
+                button2.setName( "button2" );
+                button2.setCursor( HAND_CURSOR );
+                button2.addActionListener( listener );
+
+                JCheckBox checkBox2 = new JCheckBox( "checkBox2" );
+                checkBox2.setName( "checkBox2" );
+                checkBox2.addActionListener( listener );
+                
+                JSlider slider2 = new JSlider();
+                slider2.setName( "slider2" );
+                slider2.addChangeListener( listener );
+                
+                panel.add( button2 );
+                panel.add( checkBox2 );
+                panel.add( slider2 );
             }
             
             controlPanel.addControl( button1 );
-            controlPanel.addControl( button2 );
-            controlPanel.addSeparator();
-            controlPanel.addControl( new JCheckBox( "checkBox1" ) );
-            controlPanel.addControl( new JCheckBox( "checkBox2" ) );
-            controlPanel.addSeparator();
+            controlPanel.addControl( checkBox1 );
             controlPanel.addControlFullWidth( slider1 );
-            controlPanel.addControlFullWidth( slider2 );
             controlPanel.addControl( comboBox );
-            controlPanel.addSeparator();
-            controlPanel.addControlFullWidth( box );
+            controlPanel.addControlFullWidth( panel );
 
             // Help (glass pane)  -----------------------------------
             
@@ -232,6 +276,38 @@ public class TestPGlassPane extends PhetApplication {
                     }
                 }
             }
+        }
+    }
+  
+    public static class EventListener implements ActionListener, ChangeListener, ItemListener {
+        
+        public void actionPerformed( ActionEvent e ) {
+            showMessage( getName( e ) + " actionPerformed" );
+        }
+        
+        public void stateChanged( ChangeEvent e ) {
+            if ( e.getSource() instanceof JSlider && ((JSlider)e.getSource()).getValueIsAdjusting() ) {
+                return;
+            }
+            showMessage( getName( e ) + " stateChanged" );
+        }
+
+        public void itemStateChanged( ItemEvent e ) {
+            if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                showMessage( getName( e ) + " " + e.getItem() + " selected" );
+            }
+        }
+        
+        private String getName( EventObject event ) {
+            String name = "?";
+            if ( event.getSource() instanceof JComponent ) {
+                name = ( (JComponent) event.getSource() ).getName();
+            }
+            return name;
+        }
+        
+        private void showMessage( String message ) {
+            JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message );
         }
     }
 }
