@@ -141,8 +141,9 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.reset();
             }
         } );
-
-        addControl( resetBtn );
+        JPanel resetPanel = new JPanel();
+        resetPanel.add( resetBtn );
+        addControl( resetPanel );
 
         //-----------------------------------------------------------------
         // DEBUG
