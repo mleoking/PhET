@@ -266,7 +266,7 @@ public class SolubleSaltsModel extends BaseModel {
         int numAnionsInUnit = salt.getNumAnionsInUnit();
         int numCations = ionTracker.getNumFreeIonsOfType( salt.getCationClass() );
         int numCationsInUnit = salt.getNumCationsInUnit();
-        double volume = vessel.getWaterLevel() * vessel.getWidth();
+        double volume = vessel.getWaterLevel() * vessel.getWidth();// * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
 
         double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
                                      * Math.pow( ( numCations / volume ), numCationsInUnit )
