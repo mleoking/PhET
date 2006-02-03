@@ -25,7 +25,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class Lattice {
+public abstract class Lattice_new {
 
     private static final double SAME_POSITION_TOLERANCE = 3;
     private static Random random = new Random();
@@ -35,12 +35,18 @@ public abstract class Lattice {
     private ArrayList utilRemoveList = new ArrayList();
     protected double spacing;
 
+    private List sites = new ArrayList();
+
     /**
      * @param spacing
      */
-    protected Lattice( double spacing ) {
+    protected Lattice_new( double spacing ) {
         this.spacing = spacing;
     }
+
+//    public void add( Ion ion, double orientation ) {
+//        sites.add( new Site( ion ) );
+//    }
 
     /**
      * Returns the positions of all sites, occupied or not, in the lattice neighboring a specified Ion.
@@ -188,6 +194,7 @@ public abstract class Lattice {
 
 
     public Point2D getNearestOpenSite( Ion ionA, Ion ionB, ArrayList ions, double orientation ) {
+//    public Point2D getNearestOpenSite( Ion ionA, Ion ionB, ArrayList ions, double orientation ) {
 //        List openSites = getOpenNeighboringSites( ionB, ions, Math.atan2( ionA.getPosition().getY() - ionB.getPosition().getY(),
 //                                                                          ionA.getPosition().getX() - ionB.getPosition().getX()) );
         List openSites = getOpenNeighboringSites( ionB, ions, orientation );
@@ -342,27 +349,37 @@ public abstract class Lattice {
     }
 
     private class Site {
-        private List neighboringSites;
-        private Ion ion;
+        private Point2D position;
+        private boolean isOccupied;
 
-        /**
-         * @param ion
-         * @param orientation The orientation of the local bonds. Note that this is not necessarily
-         *                    the orientation of the lattice. When an ion is bound to the lattice, the orientation is the
-         *                    direction to the ion it is binding to.
-         */
-        public void occupy( Ion ion, double orientation ) {
-            int cnt = getNumNeighboringSites( ion );
-            Point2D p = ion.getPosition();
-            List sites = new ArrayList();
-            for( int i = 0; i < cnt; i++ ) {
-                double x = p.getX() + spacing * Math.cos( i * Math.PI * 2 / cnt + orientation );
-                double y = p.getY() + spacing * Math.sin( i * Math.PI * 2 / cnt + orientation );
-                Point2D pNew = new Point2D.Double( x, y );
-                sites.add( pNew );
-            }
-
+        public Site() {
         }
+
+        public Site( Ion ion ) {
+            setPosition( ion.getPosition() );
+            setOccupied( true );
+        }
+
+        public Point2D getPosition() {
+            return position;
+        }
+
+        public void setPosition( Point2D position ) {
+            this.position = position;
+        }
+
+        public boolean isOccupied() {
+            return isOccupied;
+        }
+
+        public void setOccupied( boolean occupied ) {
+            isOccupied = occupied;
+        }
+    }
+
+    private class BindingSpec {
+        Point2D position;
+        double orientation;
     }
 }
 

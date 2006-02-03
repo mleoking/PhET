@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.solublesalts.model.crystal.Crystal;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.Binder;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 import java.util.Random;
 
 
@@ -55,7 +55,9 @@ public class Ion extends Atom {
         this.ionProperties = ionProperties;
     }
 
-    int cnt = 0;
+    public IonProperties getIonProperties() {
+        return ionProperties;
+    }
 
     public void stepInTime( double dt ) {
         if( !isBound() ) {

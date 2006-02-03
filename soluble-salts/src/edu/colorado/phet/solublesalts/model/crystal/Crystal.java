@@ -14,9 +14,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.*;
+import edu.colorado.phet.solublesalts.model.Atom;
+import edu.colorado.phet.solublesalts.model.Binder;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Mercury;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -54,7 +56,6 @@ public class Crystal extends Body implements Binder {
             (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
-    private Rectangle2D waterBounds;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
@@ -95,6 +96,8 @@ public class Crystal extends Body implements Binder {
     private Lattice lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
+    private Rectangle2D waterBounds;
+
 
     //----------------------------------------------------------------
     // Lifecycle
@@ -260,6 +263,7 @@ public class Crystal extends Body implements Binder {
             return false;
         }
 
+        double orientation = 0;
         Point2D placeToPutIon = null;
         switch( getIons().size() ) {
             case 0:
@@ -271,6 +275,9 @@ public class Crystal extends Body implements Binder {
                 break;
             default:
                 placeToPutIon = lattice.getNearestOpenSite( ionA, ionB, ions, orientation );
+
+                orientation = Math.atan2( ionA.getPosition().getY() - ionB.getPosition().getY(),
+                                          ionA.getPosition().getX() - ionB.getPosition().getX() );
         }
 
         if( placeToPutIon != null ) {
@@ -283,7 +290,8 @@ public class Crystal extends Body implements Binder {
                     throw new RuntimeException( "duplicate location" );
                 }
             }
-            ions.add( ionA );
+            ions.add( new BoundIon( ionA, orientation ) );
+//            ions.add( ionA );
             ionA.bindTo( this );
             updateCm();
         }
@@ -559,6 +567,58 @@ public class Crystal extends Body implements Binder {
                 e.printStackTrace();
             }
             noBindList.remove( ion );
+        }
+    }
+
+
+    private class BoundIon extends Ion {
+        private double orientation;
+        private Ion ion;
+
+        public BoundIon( Ion ion, double orientation ) {
+            super( ion.getIonProperties() );
+            this.orientation = orientation;
+            this.ion = ion;
+        }
+
+        public void stepInTime( double dt ) {
+            ion.stepInTime( dt );
+        }
+
+        public void bindTo( Binder binder ) {
+            ion.bindTo( binder );
+        }
+
+        public void unbindFrom( Binder binder ) {
+            ion.unbindFrom( binder );
+        }
+
+        public boolean isBound() {
+            return ion.isBound();
+        }
+
+        public double getCharge() {
+            return ion.getCharge();
+        }
+
+        public Crystal getBindingCrystal() {
+            return ion.getBindingCrystal();
+        }
+
+        public void addChangeListener( ChangeListener listener ) {
+            ion.addChangeListener( listener );
+        }
+
+        public void removeChangeListener( ChangeListener listener ) {
+            ion.removeChangeListener( listener );
+        }
+
+        public double getOrientation() {
+            return orientation;
+        }
+
+        public void setOrientation( double orientation ) {
+            this.orientation = orientation;
         }
     }
 }
