@@ -18,7 +18,6 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -69,6 +68,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     private ModelSlider vesselIonStickSlider;
     private ModelSlider dissociationSlider;
     private JPanel concentrationPanel;
+    private JPanel waterLevelControlPanel;
+    private JButton releaseButton;
 
     /**
      * Constructor
@@ -80,18 +81,20 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
-        concentrationPanel = makeConcentrationPanel( model );
         JPanel saltPanel = new JPanel( new GridBagLayout() );
+        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), "Salt" ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.WEST,
+                                                         GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        saltPanel.setBorder( new EtchedBorder() );
         saltPanel.add( makeSaltSelectionPanel( model ), gbc );
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         saltPanel.add( saltSPinnerPanel, gbc );
         addControlFullWidth( saltPanel );
+
+        // Concentration controls and readouts
+        concentrationPanel = makeConcentrationPanel( model );
         addControl( concentrationPanel );
 
         // Sliders for affinity adjustment
@@ -127,21 +130,9 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         addControl( vesselIonStickSlider );
         addControl( dissociationSlider );
-        addControl( makeWaterLevelPanel( model ) );
-        addControl( new WaterLevelReadout( ( (SolubleSaltsModel)module.getModel() ).getVessel() ) );
-
-        setDebugControlsVisible( SolubleSaltsConfig.DEBUG );
-
-        // Zoom button
-//        final JToggleButton zoomButton = new JToggleButton( "Zoom" );
-//        final ZoomDlg zoomDlg = new ZoomDlg();
-//        zoomButton.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.setZoomEnabled( zoomButton.isSelected() );
-//                zoomDlg.setVisible( zoomButton.isSelected() );
-//            }
-//        } );
-//        addControl( zoomButton );
+        waterLevelControlPanel = makeWaterLevelPanel( model );
+        addControl( waterLevelControlPanel );
+        addControlFullWidth( new WaterLevelReadout( ( (SolubleSaltsModel)module.getModel() ).getVessel() ) );
 
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
@@ -150,12 +141,13 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 model.reset();
             }
         } );
+
         addControl( resetBtn );
 
         //-----------------------------------------------------------------
         // DEBUG
         //-----------------------------------------------------------------
-        JButton releaseButton = new JButton( "Release ion" );
+        releaseButton = new JButton( "Release ion" );
         releaseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 List crystals = model.crystalTracker.getCrystals();
@@ -165,7 +157,11 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 }
             }
         } );
+        releaseButton.setVisible( false );
         addControl( releaseButton );
+
+        // Make debug controls visible or invisible, depending on how the config paramter is set
+        setDebugControlsVisible( SolubleSaltsConfig.DEBUG );
     }
 
     /**
@@ -179,6 +175,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
                 model.reset();
+                revalidate();
             }
         } );
         comboBox.setSelectedItem( defaultSalt );
@@ -186,7 +183,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add( new JLabel( "Salt: " ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add( comboBox, gbc );
@@ -285,6 +281,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         vesselIonStickSlider.setVisible( areVisible );
         dissociationSlider.setVisible( areVisible );
         concentrationPanel.setVisible( areVisible );
+        waterLevelControlPanel.setVisible( areVisible );
+        releaseButton.setVisible( areVisible );
         revalidate();
     }
 
@@ -298,11 +296,21 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         DecimalFormat format = new DecimalFormat( "0.00E0" );
 
         public WaterLevelReadout( Vessel vessel ) {
+            super( new GridBagLayout() );
+
+            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), "Water" ) );
             vessel.addChangeListener( this );
+
+            GridBagConstraints gbc = new DefaultGridBagConstraints();
+            gbc.insets = new Insets( 0, 5, 0, 5 );
+            JLabel waterVolumeLabel = new JLabel( "Volume:", JLabel.RIGHT );
+            add( waterVolumeLabel, gbc );
+
             readout = new JTextField( 6 );
             readout.setHorizontalAlignment( JTextField.RIGHT );
             readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
-            add( readout );
+            gbc.gridx++;
+            add( readout, gbc );
         }
 
         public void stateChanged( Vessel.ChangeEvent event ) {
