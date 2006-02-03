@@ -31,16 +31,13 @@ public class MirrorOnOffControlPanel extends JPanel {
     public MirrorOnOffControlPanel( final BaseLaserModule module ) {
 
         final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
-        final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
         mirrorCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( mirrorCB.isSelected() ) {
-//                    mirrorCB.setText( removeMirrorsStr );
                     module.setMirrorsEnabled( true );
                 }
                 else {
-//                    mirrorCB.setText( addMirrorsStr );
                     module.setMirrorsEnabled( false );
                 }
             }
@@ -49,7 +46,6 @@ public class MirrorOnOffControlPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
-//                                                         GridBagConstraints.NORTHWEST,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.add( mirrorCB, gbc );

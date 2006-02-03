@@ -279,15 +279,4 @@ public class SingleAtomModule extends BaseLaserModule {
             getBeamCurtainGraphic().setVisible( threeEnergyLevels );
         }
     }
-
-    /**
-     * Sets the visibility of Swing components on this module's apparatus panel
-     *
-     * @param areVisible
-     */
-    public void setSwingComponentsVisible( boolean areVisible ) {
-        super.setSwingComponentsVisible( areVisible );
-        pumpBeamControl.setVisible( areVisible );
-        seedBeamControl.setVisible( areVisible );
-    }
 }
