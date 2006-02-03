@@ -10,11 +10,10 @@
  */
 package edu.colorado.phet.common.view;
 
-import java.awt.*;
+import edu.colorado.phet.common.application.Module;
 
 import javax.swing.*;
-
-import edu.colorado.phet.common.application.Module;
+import java.awt.*;
 
 /**
  * ControlPanel is the panel that contains the controls for the simulation.
@@ -23,7 +22,7 @@ import edu.colorado.phet.common.application.Module;
  * @version $Revision$
  */
 public class ControlPanel extends JPanel {
-    
+
     private ContentPanel contentPanel; // holds the controls
     private JScrollPane scrollPane;
     private Scrollable scrollPolicy;
@@ -32,8 +31,16 @@ public class ControlPanel extends JPanel {
      * Constructs a ControlPanel for the specified module.
      *
      * @param module
+     * @deprecated
      */
     public ControlPanel( Module module ) {
+        this();
+    }
+
+    /**
+     * Constructor
+     */
+    public ControlPanel() {
         setLayout( new BorderLayout() );
         contentPanel = new ContentPanel();
         contentPanel.setFillNone();
@@ -41,17 +48,17 @@ public class ControlPanel extends JPanel {
         scrollPane = new JScrollPane( contentPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         add( scrollPane, BorderLayout.CENTER );
-        
+
         // Macintosh fix
         {
             scrollPane.setOpaque( false );
             scrollPane.getViewport().setOpaque( false );
         }
     }
-    
+
     /**
      * Gets the content panel, which holds the controls.
-     * 
+     *
      * @return the content panel
      */
     public ContentPanel getContentPanel() {
@@ -76,28 +83,28 @@ public class ControlPanel extends JPanel {
     public void addControlFullWidth( Component component ) {
         contentPanel.addFullWidth( component );
     }
-    
+
     /**
      * For backward compatibility.
-     * 
-     * @deprecated
+     *
      * @param component
      * @return the component argument
+     * @deprecated
      */
     public Component add( Component component ) {
         return addControl( component );
     }
-    
+
     /**
      * For backward compatibility.
-     * 
-     * @deprecated
+     *
      * @param component
+     * @deprecated
      */
     public void addFullWidth( Component component ) {
         addControlFullWidth( component );
     }
-    
+
     /**
      * Removes a component from the control area
      *
@@ -115,30 +122,30 @@ public class ControlPanel extends JPanel {
     public void addSeparator() {
         addControlFullWidth( new JSeparator() );
     }
-    
+
     /**
      * Adds vertical space to the control panel using a vertical strut.
-     * 
+     *
      * @param space the amount of space, in pixels
      */
     public void addVerticalSpace( int space ) {
-        if ( space > 0 ) {
+        if( space > 0 ) {
             JPanel spacePanel = new JPanel();
             spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
             spacePanel.add( Box.createVerticalStrut( space ) );
             addControlFullWidth( spacePanel );
         }
     }
-    
+
     /**
      * Sets the insets used in the content panel.
-     * 
+     *
      * @param insets
      */
     public void setInsets( Insets insets ) {
         contentPanel.setInsets( insets );
     }
-    
+
     /**
      * Sets a new scroll policy for the JComponent in this ControlPanel.
      *
