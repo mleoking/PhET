@@ -308,7 +308,7 @@ public class PGlassPane extends PCanvas {
         /*
          * Redispatches a MouseEvent to the deepest component in the frame's layered pane,
          * based on the mouse position.  The layered pane covers the entire frame and 
-         * contains the content pane, help pane, pop-ups, palettes, etc.
+         * contains the content pane, menu bar, pop-ups, palettes, etc.
          * 
          * problems (JDK 1.4.2):
          * - menus don't hilite when you move the mouse across the menubar (PC  Mac)
