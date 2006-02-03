@@ -233,7 +233,9 @@ public abstract class AbstractHelpItem extends PNode {
      * @param component
      */
     public void pointAt( JComponent component, PSwing pswing, PCanvas canvas ) {
-        //TODO verify that component is embedded in pswing
+        if ( ! SwingUtilities.isDescendingFrom( component, pswing.getComponent() ) ) {
+            throw new IllegalArgumentException( "component is not embedded in pswing" );
+        }
         if ( ! pswing.isDescendentOf( canvas.getLayer() ) ) {
             throw new IllegalArgumentException( "pswing is not on canvas" );
         }
