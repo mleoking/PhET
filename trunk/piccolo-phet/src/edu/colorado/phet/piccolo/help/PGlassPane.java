@@ -264,7 +264,7 @@ public class PGlassPane extends PCanvas {
          * @param event
          */
         private void redispatch( MouseEvent event  ) {
-            redispatch3( event );
+            redispatch2( event );
         }
         
         /*
