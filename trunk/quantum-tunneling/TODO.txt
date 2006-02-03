@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - drag handle cursors don't change when help is "on" (other things with CursorHandler are OK)
-- add ability to point a help item at a JComponent embedded in a PSwing
+- piccolo-phet: add ability to point a help item at a JComponent embedded in a PSwing
 - i18n help text
 - specify an arrow angle for help items
 - address graphics performance so that sim draws correctly on slower PCs
