@@ -279,6 +279,7 @@ public class TestPGlassPane extends PhetApplication {
         }
     }
   
+    /* Handles various types of events */
     public static class EventListener implements ActionListener, ChangeListener, ItemListener {
         
         public void actionPerformed( ActionEvent e ) {
@@ -287,6 +288,7 @@ public class TestPGlassPane extends PhetApplication {
         
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() instanceof JSlider && ((JSlider)e.getSource()).getValueIsAdjusting() ) {
+                // don't do anything while a JSlider is being dragged
                 return;
             }
             showMessage( getName( e ) + " stateChanged" );
@@ -298,6 +300,7 @@ public class TestPGlassPane extends PhetApplication {
             }
         }
         
+        /* for this test program, we've given every JComponent a name using setName */
         private String getName( EventObject event ) {
             String name = "?";
             if ( event.getSource() instanceof JComponent ) {
