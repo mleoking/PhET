@@ -40,7 +40,6 @@ public class SchrodingerModule extends PiccoloModule {
     private SchrodingerControlPanel schrodingerControlPanel;
     private SchrodingerApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
-    private ParticleUnits particleUnits;
 
     /**
      * @param schrodingerApplication
@@ -49,14 +48,6 @@ public class SchrodingerModule extends PiccoloModule {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
-//        Timer timer = new Timer( 30, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                if( clock.isPaused() ) {
-//                    getSchrodingerPanel().repaint();
-//                }
-//            }
-//        } );
-//        timer.start();
     }
 
     protected void finishInit() {
@@ -251,4 +242,6 @@ public class SchrodingerModule extends PiccoloModule {
         int answer = JOptionPane.showConfirmDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
         return answer == JOptionPane.YES_OPTION;
     }
+
+
 }

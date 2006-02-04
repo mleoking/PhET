@@ -50,6 +50,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
                 updateIntensity();
             }
         } );
+
+
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
@@ -61,6 +63,11 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
         setupObject( beams[0] );
         setOn( true );
+
+//        HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel.getSchrodingerModule().getDefaultHelpPane(), "Increase the Gun Intensity" ,HelpBalloon.BOTTOM_CENTER, 100);
+//        helpBalloon.pointAt( intensitySlider,(PSwing)gunControlPanel.getPSwing(),schrodingerPanel  );
+//        schrodingerPanel.getSchrodingerModule().getDefaultHelpPane().add( helpBalloon );
+
     }
 
     private GunControlPanel createGunControlPanel() {
