@@ -61,7 +61,14 @@ public class IntensityModule extends SchrodingerModule {
             }
 
         } );
+//        HelpBalloon helpItem = new HelpBalloon( super.getDefaultHelpPane(), "The Ruler" ,HelpBalloon.BOTTOM_CENTER, 100);
+//        helpItem.pointAt( getSchrodingerPanel().getSchrodingerScreenNode().getRulerGraphic(), getPhetPCanvas() );
+//        super.getDefaultHelpPane().add( helpItem );
 //        getDiscreteModel().addListener( new DebugIntensityReader() );
+    }
+
+    public boolean hasHelp() {
+        return true;
     }
 
     private boolean isInverseSlits() {
