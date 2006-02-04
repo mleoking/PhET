@@ -106,6 +106,8 @@ public abstract class AbstractGunGraphic extends PNode {
 
     public abstract GunControlPanel getGunControlPanel();
 
+    public abstract boolean isPhotonMode();
+
     public static interface MomentumChangeListener {
         void momentumChanged( double val );
     }

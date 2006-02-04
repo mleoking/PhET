@@ -127,6 +127,10 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
         return gunControlPanel;
     }
 
+    public boolean isPhotonMode() {
+        return currentBeam instanceof PhotonBeam;
+    }
+
     protected void setBeams( HighIntensityBeam[] mybeams ) {
         this.beams = mybeams;
     }

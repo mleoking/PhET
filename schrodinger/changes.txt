@@ -1,3 +1,4 @@
+New in 0.37 (2-3-2006)
 Disabled ruler & timer for photon mode.
 "nm" on ruler is bigger & bolder
 
