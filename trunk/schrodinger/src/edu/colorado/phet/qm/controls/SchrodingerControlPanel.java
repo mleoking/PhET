@@ -2,8 +2,6 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
@@ -63,7 +61,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         try {
-            HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
+            final HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
 
             final JCheckBox ruler = new JCheckBox( "Ruler" );
             ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
@@ -75,11 +73,7 @@ public class SchrodingerControlPanel extends ControlPanel {
                 }
             } );
             addControl( rulerPanel );
-            module.getClock().addClockListener( new ClockAdapter() {
-                public void clockTicked( ClockEvent clockEvent ) {
-                    ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
-                }
-            } );
+
 
             final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
             stopwatchCheckBox.addActionListener( new ActionListener() {
@@ -87,6 +81,21 @@ public class SchrodingerControlPanel extends ControlPanel {
                     getSchrodingerPanel().setStopwatchVisible( stopwatchCheckBox.isSelected() );
                 }
             } );
+            Timer timer = new Timer( 500, new ActionListener() {//todo why does this drag the application if time < 30 ms?
+
+                public void actionPerformed( ActionEvent e ) {
+                    ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
+                    rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+                    stopwatchCheckBox.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+                    ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+                }
+            } );
+            timer.start();
+//            module.getClock().addClockListener( new ClockAdapter() {
+//                public void clockTicked( ClockEvent clockEvent ) {
+//                }
+//            } );
+
             addControl( stopwatchCheckBox );
 
         }

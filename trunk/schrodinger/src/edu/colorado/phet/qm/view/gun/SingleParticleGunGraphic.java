@@ -222,6 +222,10 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         return gunControlPanel;
     }
 
+    public boolean isPhotonMode() {
+        return currentObject instanceof PhotonBeamParticle;
+    }
+
     public boolean isFiring() {
         return currentObject.isFiring();
     }

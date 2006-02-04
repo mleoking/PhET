@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.BoundGraphic;
 import edu.colorado.phet.piccolo.ConnectorGraphic;
+import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.qm.HorizontalConnector;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -69,6 +70,10 @@ public class SchrodingerScreenNode extends PNode {
     private PNode gunTypeChooserGraphic;
     private PSwing stopwatchPanelPSwing;
     private PNode gunControlPanelPSwing;
+    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
+    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
+//    private String slowdownText = "Slowing Time Down";
+//    private String speedupText = "Speeding Time Up";
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -127,6 +132,7 @@ public class SchrodingerScreenNode extends PNode {
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
         stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
+        stopwatchPanelPSwing.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         addChild( stopwatchPanelPSwing );
         stopwatchPanelPSwing.setOffset( 300, 300 );
         setStopwatchVisible( false );
@@ -372,8 +378,7 @@ public class SchrodingerScreenNode extends PNode {
         timer.addActionListener( listener );
         addChild( child );
 
-        String text = "Speeding Time Up";
-        PText shadowPText = new PText( text );
+        PText shadowPText = new PText( speedupText );
         shadowPText.setTextPaint( Color.blue );
 
         BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
@@ -413,8 +418,7 @@ public class SchrodingerScreenNode extends PNode {
         };
         timer.addActionListener( listener );
         addChild( child );
-        String text = "Slowing Time Down";
-        PText shadowPText = new PText( text );
+        PText shadowPText = new PText( slowdownText );
         shadowPText.setTextPaint( Color.blue );
 
         BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );

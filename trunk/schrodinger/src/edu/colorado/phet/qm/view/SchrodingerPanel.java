@@ -299,6 +299,10 @@ public class SchrodingerPanel extends PhetPCanvas {
         schrodingerScreenNode.setGunControlPanel( gunControlPanel );
     }
 
+    public boolean isPhotonMode() {
+        return getGunGraphic().isPhotonMode();
+    }
+
     public static interface Listener {
         public void fadeStateChanged();
 
