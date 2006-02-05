@@ -48,7 +48,7 @@ public class HelpBalloon extends AbstractHelpItem {
     // Public class data
     //----------------------------------------------------------------------------
     
-    // Arrow positions, relative to the text balloon.
+    // Positions where the arrow tail is attached to the balloon.
     public static final Object TOP_LEFT = new String( "top left" );
     public static final Object TOP_CENTER = new String( "top center" );
     public static final Object TOP_RIGHT = new String( "top right" );
@@ -100,7 +100,7 @@ public class HelpBalloon extends AbstractHelpItem {
     private PPath _balloonNode;
     private PPath _arrowNode; 
     
-    private Object _arrowPosition;
+    private Object _arrowTailPosition; // where the arrow tail is attached to the balloon
     private double _arrowLength; // pixels
     private double _arrowRotation; // degrees
     private Dimension _arrowHeadSize;
@@ -131,11 +131,11 @@ public class HelpBalloon extends AbstractHelpItem {
      * 
      * @param helpPanel
      * @param text
-     * @param arrowPosition
+     * @param arrowTailPosition
      * @param arrowLength
      */
-    public HelpBalloon( JComponent helpPanel, String text, Object arrowPosition, double arrowLength ) {
-        this( helpPanel, text, arrowPosition, arrowLength, 0 /* arrowRotation */ );
+    public HelpBalloon( JComponent helpPanel, String text, Object arrowTailPosition, double arrowLength ) {
+        this( helpPanel, text, arrowTailPosition, arrowLength, 0 /* arrowRotation */ );
     }
     
     /**
@@ -146,16 +146,16 @@ public class HelpBalloon extends AbstractHelpItem {
      * 
      * @param helpPanel
      * @param text
-     * @param arrowPosition
+     * @param arrowTailPosition
      * @param arrowLength
      * @param arrowRotation
      */
-    public HelpBalloon( JComponent helpPanel, String text, Object arrowPosition, double arrowLength, double arrowRotation ) {
+    public HelpBalloon( JComponent helpPanel, String text, Object arrowTailPosition, double arrowLength, double arrowRotation ) {
         super( helpPanel );
         
         // Validate arguments
-        if ( !isValidArrowPostion( arrowPosition ) ) {
-            throw new IllegalArgumentException( "invalid arrowPosition: " + arrowPosition );
+        if ( !isValidArrowtailPostion( arrowTailPosition ) ) {
+            throw new IllegalArgumentException( "invalid arrowTailPosition: " + arrowTailPosition );
         }
         if ( ! isValidArrowLength( arrowLength ) ) {
             throw new IllegalArgumentException( "invalid arrowLength: " + arrowLength );
@@ -170,7 +170,7 @@ public class HelpBalloon extends AbstractHelpItem {
         
         // Arrow
         {
-            _arrowPosition = arrowPosition;
+            _arrowTailPosition = arrowTailPosition;
             _arrowLength = arrowLength;
             _arrowRotation = arrowRotation;
             _arrowHeadSize = new Dimension( DEFAULT_ARROW_HEAD_WIDTH, DEFAULT_ARROW_HEAD_HEIGHT );
@@ -365,11 +365,11 @@ public class HelpBalloon extends AbstractHelpItem {
         updateDisplay();
     }
     
-    public void setArrowPosition( Object arrowPosition ) {
-        if ( !isValidArrowPostion( arrowPosition ) ) {
-            throw new IllegalArgumentException( "invalid arrow position: " + arrowPosition );
+    public void setArrowTailPosition( Object arrowTailPosition ) {
+        if ( !isValidArrowtailPostion( arrowTailPosition ) ) {
+            throw new IllegalArgumentException( "invalid arrow tail position: " + arrowTailPosition );
         }
-        _arrowPosition = arrowPosition;
+        _arrowTailPosition = arrowTailPosition;
         updatePosition();
         updateDisplay();
     }
@@ -403,41 +403,41 @@ public class HelpBalloon extends AbstractHelpItem {
     }
     
     protected boolean isArrowOnTop() {
-        return ( _arrowPosition == TOP_LEFT || _arrowPosition == TOP_CENTER || _arrowPosition == TOP_RIGHT  );
+        return ( _arrowTailPosition == TOP_LEFT || _arrowTailPosition == TOP_CENTER || _arrowTailPosition == TOP_RIGHT  );
     }
     
     protected boolean isArrowOnBottom() {
-        return ( _arrowPosition == BOTTOM_LEFT || _arrowPosition == BOTTOM_CENTER || _arrowPosition == BOTTOM_RIGHT );
+        return ( _arrowTailPosition == BOTTOM_LEFT || _arrowTailPosition == BOTTOM_CENTER || _arrowTailPosition == BOTTOM_RIGHT );
     }
     
     protected boolean isArrowOnLeft() {
-        return ( _arrowPosition == LEFT_TOP || _arrowPosition == LEFT_CENTER || _arrowPosition == LEFT_BOTTOM );
+        return ( _arrowTailPosition == LEFT_TOP || _arrowTailPosition == LEFT_CENTER || _arrowTailPosition == LEFT_BOTTOM );
     }
     
     protected boolean isArrowOnRight() {
-        return ( _arrowPosition == RIGHT_TOP || _arrowPosition == RIGHT_CENTER || _arrowPosition == RIGHT_BOTTOM );
+        return ( _arrowTailPosition == RIGHT_TOP || _arrowTailPosition == RIGHT_CENTER || _arrowTailPosition == RIGHT_BOTTOM );
     }
       
     /**
-     * Determines if a  value for "arrow position" is valid.
+     * Determines if a  value for arrow tail position is valid.
      * 
-     * @param arrowPosition
+     * @param arrowTailPosition
      * @return  true or false
      */
-    public boolean isValidArrowPostion( Object arrowPosition ) {
+    public boolean isValidArrowtailPostion( Object arrowTailPosition ) {
         return ( 
-                arrowPosition == TOP_LEFT ||
-                arrowPosition == TOP_CENTER || 
-                arrowPosition == TOP_RIGHT ||
-                arrowPosition == BOTTOM_LEFT ||
-                arrowPosition == BOTTOM_CENTER || 
-                arrowPosition == BOTTOM_RIGHT ||
-                arrowPosition == LEFT_TOP ||
-                arrowPosition == LEFT_CENTER || 
-                arrowPosition == LEFT_BOTTOM ||
-                arrowPosition == RIGHT_TOP ||
-                arrowPosition == RIGHT_CENTER ||
-                arrowPosition == RIGHT_BOTTOM );
+                arrowTailPosition == TOP_LEFT ||
+                arrowTailPosition == TOP_CENTER || 
+                arrowTailPosition == TOP_RIGHT ||
+                arrowTailPosition == BOTTOM_LEFT ||
+                arrowTailPosition == BOTTOM_CENTER || 
+                arrowTailPosition == BOTTOM_RIGHT ||
+                arrowTailPosition == LEFT_TOP ||
+                arrowTailPosition == LEFT_CENTER || 
+                arrowTailPosition == LEFT_BOTTOM ||
+                arrowTailPosition == RIGHT_TOP ||
+                arrowTailPosition == RIGHT_CENTER ||
+                arrowTailPosition == RIGHT_BOTTOM );
     }
     
     public boolean isValidArrowLength( double arrowLength ) {
@@ -511,7 +511,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 tailPoint.setLocation( -_arrowLength, 0 );
             }
             else {
-                throw new IllegalArgumentException( "illegal arrow position: " + _arrowPosition );
+                throw new IllegalArgumentException( "illegal arrow position: " + _arrowTailPosition );
             }
             Arrow arrow = new Arrow( tailPoint, tipPoint, _arrowHeadSize.getHeight(), _arrowHeadSize.getWidth(), _arrowTailWidth );
             
@@ -528,7 +528,7 @@ public class HelpBalloon extends AbstractHelpItem {
         double y = 0;
         final boolean hasArrow = _arrowNode.getVisible();
         final double offset = _arrowHeadSize.getWidth() / 2;
-        if ( _arrowPosition == TOP_LEFT ) {
+        if ( _arrowTailPosition == TOP_LEFT ) {
             if ( !hasArrow ) {
                 x = 0;
                 y = 0;
@@ -538,7 +538,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if ( _arrowPosition == TOP_CENTER ) {
+        else if ( _arrowTailPosition == TOP_CENTER ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth() / 2;
                 y = 0;
@@ -548,7 +548,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if ( _arrowPosition ==  TOP_RIGHT ) {
+        else if ( _arrowTailPosition ==  TOP_RIGHT ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = 0;
@@ -558,7 +558,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if ( _arrowPosition == BOTTOM_LEFT ) {
+        else if ( _arrowTailPosition == BOTTOM_LEFT ) {
             if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight();
@@ -568,7 +568,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }
-        else if ( _arrowPosition == BOTTOM_CENTER ) {
+        else if ( _arrowTailPosition == BOTTOM_CENTER ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth() / 2;
                 y = -_balloonNode.getHeight();
@@ -578,7 +578,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }    
-        else if ( _arrowPosition == BOTTOM_RIGHT ) {
+        else if ( _arrowTailPosition == BOTTOM_RIGHT ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight();
@@ -588,7 +588,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }
-        else if ( _arrowPosition == LEFT_TOP ) {
+        else if ( _arrowTailPosition == LEFT_TOP ) {
             if ( !hasArrow ) {
                 x = 0;
                 y = 0;   
@@ -598,7 +598,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - offset;
             }
         }
-        else if ( _arrowPosition == LEFT_CENTER ) {
+        else if ( _arrowTailPosition == LEFT_CENTER ) {
             if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight() / 2;
@@ -608,7 +608,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - ( _balloonNode.getHeight() / 2 );
             }
         }
-        else if ( _arrowPosition == LEFT_BOTTOM ) {
+        else if ( _arrowTailPosition == LEFT_BOTTOM ) {
             if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight();
@@ -618,7 +618,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - _balloonNode.getHeight() + offset;
             }
         }
-        else if ( _arrowPosition == RIGHT_TOP ) {
+        else if ( _arrowTailPosition == RIGHT_TOP ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = 0;
@@ -628,7 +628,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - offset;
             }
         }
-        else if ( _arrowPosition == RIGHT_CENTER ) {
+        else if ( _arrowTailPosition == RIGHT_CENTER ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight() / 2;
@@ -638,7 +638,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - ( _balloonNode.getHeight() / 2 );
             }
         }
-        else if ( _arrowPosition == RIGHT_BOTTOM ) {
+        else if ( _arrowTailPosition == RIGHT_BOTTOM ) {
             if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight();
@@ -649,7 +649,7 @@ public class HelpBalloon extends AbstractHelpItem {
             }
         }
         else {
-            throw new IllegalArgumentException( "illegal arrow position: " + _arrowPosition );
+            throw new IllegalArgumentException( "illegal arrow position: " + _arrowTailPosition );
         }
         
         _balloonNode.setOffset( x, y );
