@@ -24,9 +24,11 @@ public class ConcreteAtomLattice implements Potential {
         return potential.getPotential( x, y, timestep );
     }
 
-    public void addCircularPotential( CircularPotential circularPotential ) {
+    public void addCircularPotentialNoUpdate( CircularPotential circularPotential ) {
         compositePotential.addPotential( circularPotential );
-        potential.setPotential( compositePotential );
     }
 
+    public void updateAll() {
+        potential.setPotential( compositePotential );
+    }
 }

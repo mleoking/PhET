@@ -17,7 +17,9 @@ import javax.swing.event.ChangeListener;
 public class DGControlPanel extends VerticalLayoutPanel {
     private ModelSlider spacing;
     private ModelSlider radius;
+    private ModelSlider y0;
     private DGModel dgModel;
+
 
     public DGControlPanel( final DGModel dgModel ) {
         this.dgModel = dgModel;
@@ -36,7 +38,16 @@ public class DGControlPanel extends VerticalLayoutPanel {
                 dgModel.setFractionalRadius( radius.getValue() );
             }
         } );
+
+        y0 = new ModelSlider( "y0 (testing only)", "units", 0, 1.0, dgModel.getFractionalY0() );
+        y0.setModelTicks( new double[]{0, 0.5, 1.0} );
+        y0.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                dgModel.setFractionalY0( y0.getValue() );
+            }
+        } );
         addFullWidth( spacing );
         addFullWidth( radius );
+        addFullWidth( y0 );
     }
 }
