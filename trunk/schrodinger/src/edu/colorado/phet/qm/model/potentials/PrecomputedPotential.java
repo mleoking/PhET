@@ -34,6 +34,7 @@ public class PrecomputedPotential implements Potential {
 
     public void setPotential( Potential potential ) {
         this.potential = potential;
+        update( potentialValues.length, potentialValues[0].length );
     }
 
     public void setLatticeSize( int width, int height ) {
