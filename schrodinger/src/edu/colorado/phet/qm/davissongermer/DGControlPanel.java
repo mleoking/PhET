@@ -1,7 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.qm.modules.intensity.IntensityControlPanel;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.qm.controls.ClearButton;
+import edu.colorado.phet.qm.controls.RulerPanel;
+import edu.colorado.phet.qm.model.DiscreteModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,23 +18,32 @@ import java.io.IOException;
  * Copyright (c) Feb 4, 2006 by Sam Reid
  */
 
-public class DGControlPanel extends IntensityControlPanel {
+public class DGControlPanel extends ControlPanel {
     private DGModule dgModule;
 
     public DGControlPanel( DGModule dgModule ) {
         super( dgModule );
-        setupDG();
         this.dgModule = dgModule;
-    }
+        addRulerPanel();
+        addProtractorPanel();
+        addControl( new ClearButton( dgModule.getSchrodingerPanel() ) );
 
-    private void setupDG() {
         DGModel dgModel = new DGModel( getDiscreteModel() );
         addControlFullWidth( new AtomLatticeControlPanel( dgModel ) );
     }
 
-    protected void addMeasuringTools() throws IOException {
-        addRulerPanel();
-        addProtractorPanel();
+    private DiscreteModel getDiscreteModel() {
+        return dgModule.getDiscreteModel();
+    }
+
+    private void addRulerPanel() {
+        try {
+            RulerPanel rulerPanel = new RulerPanel( dgModule.getSchrodingerPanel() );
+            addControl( rulerPanel );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void addProtractorPanel() {

@@ -44,7 +44,7 @@ public class SchrodingerOptionsMenu extends JMenu {
         add( y );
 
         JMenuItem item = new JMenuItem( "Resolution" );
-        final ResolutionControl resolutionControl = new ResolutionControl( schrodingerModule.getSchrodingerControlPanel() );
+        final ResolutionControl resolutionControl = new ResolutionControl( schrodingerModule );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( dialog == null ) {

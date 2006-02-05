@@ -17,13 +17,12 @@ import javax.swing.event.ChangeListener;
  */
 
 public class ResolutionControl extends AdvancedPanel {
-    private SchrodingerControlPanel schrodingerControlPanel;
-
     public static final int DEFAULT_WAVE_SIZE = 60;
+    private SchrodingerModule schrodingerModule;
 
-    public ResolutionControl( SchrodingerControlPanel schrodingerControlPanel ) {
+    public ResolutionControl( SchrodingerModule schrodingerModule ) {
         super( "Resolution>>", "Resolution<<" );
-        this.schrodingerControlPanel = schrodingerControlPanel;
+        this.schrodingerModule = schrodingerModule;
 
         JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
         addControl( screenSizeLabel );
@@ -52,6 +51,6 @@ public class ResolutionControl extends AdvancedPanel {
     }
 
     private SchrodingerModule getSchrodingerModule() {
-        return schrodingerControlPanel.getModule();
+        return schrodingerModule;
     }
 }

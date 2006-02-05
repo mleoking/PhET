@@ -38,9 +38,9 @@ import java.util.Random;
 public class SchrodingerModule extends PiccoloModule {
     private SchrodingerPanel schrodingerPanel;
     private DiscreteModel discreteModel;
-    private SchrodingerControlPanel schrodingerControlPanel;
     private PhetApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
+    private ParticleUnits particleUnits;
 
     /**
      * @param schrodingerApplication
@@ -160,10 +160,6 @@ public class SchrodingerModule extends PiccoloModule {
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
     }
 
-    public SchrodingerControlPanel getSchrodingerControlPanel() {
-        return schrodingerControlPanel;
-    }
-
     public IntensityManager getIntensityDisplay() {
         return getSchrodingerPanel().getIntensityDisplay();
     }
@@ -171,11 +167,11 @@ public class SchrodingerModule extends PiccoloModule {
     protected void setSchrodingerPanel( SchrodingerPanel schrodingerPanel ) {
         setPhetPCanvas( schrodingerPanel );
         this.schrodingerPanel = schrodingerPanel;
+        this.schrodingerPanel.setUnits( particleUnits );
     }
 
     protected void setSchrodingerControlPanel( SchrodingerControlPanel schrodingerControlPanel ) {
         setControlPanel( schrodingerControlPanel );
-        this.schrodingerControlPanel = schrodingerControlPanel;
     }
 
     public PhetFrame getPhetFrame() {
@@ -236,7 +232,10 @@ public class SchrodingerModule extends PiccoloModule {
 
     public void setUnits( ParticleUnits particleUnits ) {
         System.out.println( "particleUnits = " + particleUnits );
-        schrodingerPanel.setUnits( particleUnits );
+        this.particleUnits = particleUnits;
+        if( schrodingerPanel != null ) {
+            schrodingerPanel.setUnits( particleUnits );
+        }
     }
 
     public boolean confirmReset() {

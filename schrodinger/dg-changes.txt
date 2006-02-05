@@ -1,3 +1,6 @@
+Set electrons as only gun type.
+Removed screen graphic & controls.
+
 *New in 0.02 (4-5-2006)
 Added a protractor.
 

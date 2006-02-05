@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 
 /**
@@ -13,7 +14,7 @@ import edu.colorado.phet.qm.modules.intensity.IntensityModule;
  */
 
 public class DGModule extends IntensityModule {
-    private Protractor protractor = new Protractor();
+    private Protractor protractor;
 
     /**
      * @param schrodingerApplication
@@ -22,8 +23,18 @@ public class DGModule extends IntensityModule {
         super( "Davisson-Germer Experiment", schrodingerApplication, clock );
 
         DGControlPanel intensityControlPanel = new DGControlPanel( this );
-        setSchrodingerControlPanel( intensityControlPanel );
+        setControlPanel( intensityControlPanel );
 
+        setupProtractor();
+        getSchrodingerPanel().getSchrodingerScreenNode().getDetectorSheetPNode().setVisible( false );
+    }
+
+    protected HighIntensitySchrodingerPanel createIntensityPanel() {
+        return new DGSchrodingerPanel( this );
+    }
+
+    private void setupProtractor() {
+        protractor = new Protractor();
         protractor.setOffset( 300, 300 );
         getSchrodingerPanel().getSchrodingerScreenNode().addChild( protractor );
         setProtractorVisible( false );

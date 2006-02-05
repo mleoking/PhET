@@ -4,9 +4,7 @@ package edu.colorado.phet.qm.controls;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Propagator;
@@ -114,25 +112,8 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     protected void addRulerPanel() throws IOException {
-        final HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
-
-        final JCheckBox ruler = new JCheckBox( "Ruler" );
-        ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
-        rulerPanel.add( ruler );
-        rulerPanel.add( new JLabel( icon ) );
-        ruler.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
-            }
-        } );
+        RulerPanel rulerPanel = new RulerPanel( getSchrodingerPanel() );
         addControl( rulerPanel );
-        new Timer( 500, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
-                rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-                ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-            }
-        } ).start();
     }
 
     private WaveSetup getWaveSetup() {
