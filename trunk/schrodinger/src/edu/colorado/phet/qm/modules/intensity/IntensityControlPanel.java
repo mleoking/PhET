@@ -22,13 +22,7 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         addControl( new ExpandableDoubleSlitPanel( intensityModule ) );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         advancedPanel.addControlFullWidth( super.createPotentialPanel( getModule() ) );
-//        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
         addControlFullWidth( advancedPanel );
-
-
     }
 
-//    public SlitDetectorPanel getSlitDetectorPanel() {
-//        return getDoubleSlitPanel().getSlitDetectorPanel();
-//    }
 }

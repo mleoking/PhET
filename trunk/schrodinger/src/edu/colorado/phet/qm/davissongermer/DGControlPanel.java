@@ -2,7 +2,11 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.modules.intensity.IntensityControlPanel;
-import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -12,14 +16,31 @@ import edu.colorado.phet.qm.modules.intensity.IntensityModule;
  */
 
 public class DGControlPanel extends IntensityControlPanel {
+    private DGModule dgModule;
 
-    public DGControlPanel( IntensityModule intensityModule ) {
-        super( intensityModule );
+    public DGControlPanel( DGModule dgModule ) {
+        super( dgModule );
         setupDG();
+        this.dgModule = dgModule;
     }
 
     private void setupDG() {
         DGModel dgModel = new DGModel( getDiscreteModel() );
         addControlFullWidth( new AtomLatticeControlPanel( dgModel ) );
+    }
+
+    protected void addMeasuringTools() throws IOException {
+        addRulerPanel();
+        addProtractorPanel();
+    }
+
+    private void addProtractorPanel() {
+        final JCheckBox protractor = new JCheckBox( "Protractor", false );
+        protractor.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dgModule.setProtractorVisible( protractor.isSelected() );
+            }
+        } );
+        addControl( protractor );
     }
 }

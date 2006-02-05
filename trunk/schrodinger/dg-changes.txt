@@ -1,3 +1,6 @@
+*New in 0.02 (4-5-2006)
+Added a protractor.
+
 *New in 0.01 (2-4-2006)
 Added controls for lattice spacing
 Added controls for atom radius
