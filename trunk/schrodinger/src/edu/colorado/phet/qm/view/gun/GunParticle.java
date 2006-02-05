@@ -93,9 +93,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected double getStartDxLattice() {
-//        return 1.0;
         return 0.06 * getDiscreteModel().getGridWidth();
-//        return 0.06 * getDiscreteModel().getGridWidth();
+//        return 0.06 * getDiscreteModel().getGridWidth()/3.0;
     }
 
     private ArrayList changeHandlers = new ArrayList();
