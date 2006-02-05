@@ -253,11 +253,11 @@ public class QTModule extends AbstractModule implements Observer {
         helpPane.add(  h2 );
         h2.pointAt( _clockControls.getPauseButton() );
         
-        HelpBalloon h3 = new HelpBalloon( helpPane, "<html>Click and drag arrows to change<br>total or potential energy<html>", HelpBalloon.TOP_RIGHT, 20 );
+        HelpBalloon h3 = new HelpBalloon( helpPane, "<html>Click and drag arrows to change<br>total or potential energy<html>", HelpBalloon.RIGHT_TOP, 20 );
         helpPane.add( h3 );
         h3.pointAt( _totalEnergyControl, _canvas );
         
-        HelpBalloon h4 = new HelpBalloon( helpPane, "Type and display exact values for energy", HelpBalloon.RIGHT_BOTTOM, 20 );
+        HelpBalloon h4 = new HelpBalloon( helpPane, "<html>Type and display<br>exact values for energy</html>", HelpBalloon.RIGHT_CENTER, 20 );
         helpPane.add( h4 );
         h4.pointAt( _configureButton, _canvas );
     
@@ -269,7 +269,7 @@ public class QTModule extends AbstractModule implements Observer {
         helpPane.add( h6 );
         h6.pointAt( _probabilityDensityZoomControl, _canvas );
         
-        HelpBalloon h7 = new HelpBalloon( helpPane, "Change shape of potential", HelpBalloon.RIGHT_TOP, 30 );
+        HelpBalloon h7 = new HelpBalloon( helpPane, "Change shape of potential", HelpBalloon.TOP_RIGHT, 210, 35 );
         helpPane.add( h7 );
         h7.pointAt( _controlPanel.getPotentialComboBox() );
         
