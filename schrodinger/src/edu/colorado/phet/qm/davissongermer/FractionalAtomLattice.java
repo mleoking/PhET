@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.davissorgermer;
+package edu.colorado.phet.qm.davissongermer;
 
 import java.awt.*;
 
@@ -25,7 +25,7 @@ public class FractionalAtomLattice {
         return spacingBetweenAtoms;
     }
 
-    public void setSpacingBetweenAtoms( double spacingBetweenAtoms ) {
+    public void setSpacing( double spacingBetweenAtoms ) {
         this.spacingBetweenAtoms = spacingBetweenAtoms;
     }
 
@@ -37,10 +37,10 @@ public class FractionalAtomLattice {
         this.atomRadius = atomRadius;
     }
 
-    public void toConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
+    public ConcreteAtomLattice toConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
         int concreteAtomRadius = getConcreteAtomRadius( latticeWidth, latticeHeight );
         int concreteSpacing = getConcreteSpacing( latticeWidth, latticeHeight );
-        ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice();
+        ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice( latticeWidth, latticeHeight );
         for( int xCenter = 0; xCenter < latticeWidth; xCenter += concreteSpacing ) {
             for( int yCenter = 0; yCenter < latticeHeight / 2; yCenter += concreteSpacing ) {
                 Point center = new Point( xCenter, yCenter );
@@ -48,6 +48,7 @@ public class FractionalAtomLattice {
                 concreteAtomLattice.addCircularPotential( circularPotential );
             }
         }
+        return concreteAtomLattice;
     }
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {

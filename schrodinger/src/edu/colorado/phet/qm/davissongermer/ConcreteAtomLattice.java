@@ -1,9 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.davissorgermer;
+package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.PrecomputedPotential;
 
 /**
@@ -15,7 +14,11 @@ import edu.colorado.phet.qm.model.potentials.PrecomputedPotential;
 
 public class ConcreteAtomLattice implements Potential {
     private CompositePotential compositePotential = new CompositePotential();
-    private PrecomputedPotential potential = new PrecomputedPotential( new ConstantPotential(), 100, 100 );
+    private PrecomputedPotential potential;
+
+    public ConcreteAtomLattice( int latticeWidth, int latticeHeight ) {
+        potential = new PrecomputedPotential( compositePotential, latticeWidth, latticeHeight );
+    }
 
     public double getPotential( int x, int y, int timestep ) {
         return potential.getPotential( x, y, timestep );
@@ -23,7 +26,7 @@ public class ConcreteAtomLattice implements Potential {
 
     public void addCircularPotential( CircularPotential circularPotential ) {
         compositePotential.addPotential( circularPotential );
-        potential.
-                Compile
+        potential.setPotential( compositePotential );
     }
+
 }

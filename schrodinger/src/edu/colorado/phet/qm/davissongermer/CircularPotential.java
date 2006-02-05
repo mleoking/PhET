@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.davissorgermer;
+package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.Potential;
 
