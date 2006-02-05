@@ -231,7 +231,7 @@ public class TestHelpPane extends PhetApplication {
             helpPane.add( noArrowHelp );
             
             // Help that points at a static location
-            HelpBalloon pointHelp = new HelpBalloon( helpPane, "static point", HelpBalloon.LEFT_TOP, 20 );
+            HelpBalloon pointHelp = new HelpBalloon( helpPane, "static point", HelpBalloon.BOTTOM_LEFT, 40, 45 );
             pointHelp.pointAt( 50, 150 );
             helpPane.add( pointHelp );
             
@@ -242,7 +242,7 @@ public class TestHelpPane extends PhetApplication {
             screenCheckBoxHelp.setArrowFillPaint( screenChildColor );
             helpPane.add( screenCheckBoxHelp );
             
-            HelpBalloon worldCheckBoxHelp = new HelpBalloon( helpPane, "Show world children", HelpBalloon.RIGHT_TOP, 40 );
+            HelpBalloon worldCheckBoxHelp = new HelpBalloon( helpPane, "Show world children", HelpBalloon.RIGHT_TOP, 40, -45 );
             worldCheckBoxHelp.pointAt( worldCheckBox );
             worldCheckBoxHelp.setArrowFillPaint( worldChildColor );
             helpPane.add( worldCheckBoxHelp );
@@ -253,7 +253,7 @@ public class TestHelpPane extends PhetApplication {
             screenCompositeHelp.pointAt( screenComposite, canvas );
             helpPane.add( screenCompositeHelp );
             
-            HelpBalloon screenTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20 );
+            HelpBalloon screenTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20, -30 );
             screenTextHelp.pointAt( screenText, canvas );
             helpPane.add( screenTextHelp );
             
@@ -269,7 +269,7 @@ public class TestHelpPane extends PhetApplication {
             screenPanelHelp.pointAt( screenPanel, screenPSwing, canvas );
             helpPane.add( screenPanelHelp );
             
-            HelpBalloon screenButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_CENTER, 20 );
+            HelpBalloon screenButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_BOTTOM, 20, -30 );
             screenButton1Help.pointAt( screenButton1, screenPSwing, canvas );
             helpPane.add( screenButton1Help );
       
@@ -279,7 +279,7 @@ public class TestHelpPane extends PhetApplication {
             worldCompositeHelp.pointAt( worldComposite, canvas );
             helpPane.add( worldCompositeHelp );
             
-            HelpBalloon worldTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20 );
+            HelpBalloon worldTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20, -30 );
             worldTextHelp.pointAt( worldText, canvas );
             helpPane.add( worldTextHelp );
             
@@ -295,7 +295,7 @@ public class TestHelpPane extends PhetApplication {
             worldPanelHelp.pointAt( worldPanel, worldPSwing, canvas );
             helpPane.add( worldPanelHelp );
             
-            HelpBalloon worldButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_CENTER, 20 );
+            HelpBalloon worldButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_BOTTOM, 20, -30 );
             worldButton1Help.pointAt( worldButton1, worldPSwing, canvas );
             helpPane.add( worldButton1Help );
         }
