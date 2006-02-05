@@ -302,47 +302,32 @@ public abstract class AbstractHelpItem extends PNode {
      */
     public Point2D mapLocation( JComponent component, PSwing pswing, PCanvas canvas ) {
         
-        // Determine component offset relative to the top-level component embedded in the pswing
-        double xOffset = 0;
-        double yOffset = 0;
-        {
-            Point2D p = null;
-            if ( component == pswing.getComponent() ) {
-                p = new Point2D.Double( 0, 0 );
-            }
-            else if ( component.getParent() == pswing.getComponent() ) {
-                p = component.getLocation();
-            }
-            else {
-                JComponent topComponent = pswing.getComponent();
-                p = SwingUtilities.convertPoint( component.getParent(), component.getLocation(), topComponent );
-            }
-            xOffset = p.getX();
-            yOffset = p.getY();
+        // Determine component's location in pswing's coordinates...
+        Point2D componentLocation = null;
+        if ( component == pswing.getComponent() ) {
+            componentLocation = new Point2D.Double( 0, 0 );
+        }
+        else if ( component.getParent() == pswing.getComponent() ) {
+            componentLocation = component.getLocation();
+        }
+        else {
+            JComponent topComponent = pswing.getComponent();
+            componentLocation = SwingUtilities.convertPoint( component.getParent(), component.getLocation(), topComponent );
         }
         
-        // Determine the pswing's location in canvas coordinates...
-        double pswingX = 0;
-        double pswingY = 0;
+        // Map the component location to canvas coordinates...
+        Point2D canvasPoint = null;
         {
-            // Get the pswing's full bounds (union of its bounds and all children) in parent node's local coordinates
-            Rectangle2D fullBounds = pswing.getFullBounds();
             // Get the pswing's global bounds - above the root node's transform, but below the canvas's view transform.
-            Rectangle2D globalFullBounds = pswing.getParent().localToGlobal( pswing.getFullBounds() );
+            Point2D globalLocation = pswing.localToGlobal( componentLocation );
             // Apply the canvas' view transform to get bounds in the canvas' coordinate system.
             PCamera camera = canvas.getCamera();
             PAffineTransform transform = camera.getViewTransformReference();
-            Rectangle2D bounds = transform.transform( globalFullBounds, null );
-            pswingX = bounds.getX();
-            pswingY = bounds.getY();
+            canvasPoint = transform.transform( globalLocation, null );
         }
         
-        // Apply the offset to the pswing's location...
-        int componentX = (int)( pswingX + xOffset );
-        int componentY = (int)( pswingY + yOffset );
-        
-        // Convert the canvas location to a location in the help pane.
-        Point2D helpPanePoint = SwingUtilities.convertPoint( canvas, componentX, componentY, _helpPane );
+        // Convert from canvas coordinate to help pane coordinates...
+        Point2D helpPanePoint = SwingUtilities.convertPoint( canvas, (int)canvasPoint.getX(), (int)canvasPoint.getY(), _helpPane );
         return helpPanePoint;
     }
     
