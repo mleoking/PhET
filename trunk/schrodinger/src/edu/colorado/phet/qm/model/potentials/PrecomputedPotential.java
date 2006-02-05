@@ -19,7 +19,7 @@ public class PrecomputedPotential implements Potential {
         update( width, height );
     }
 
-    public void update( int width, int height ) {
+    protected void update( int width, int height ) {
         potentialValues = new double[width][height];
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
@@ -30,5 +30,13 @@ public class PrecomputedPotential implements Potential {
 
     public double getPotential( int x, int y, int timestep ) {
         return potentialValues[x][y];
+    }
+
+    public void setPotential( Potential potential ) {
+        this.potential = potential;
+    }
+
+    public void setLatticeSize( int width, int height ) {
+        update( width, height );
     }
 }
