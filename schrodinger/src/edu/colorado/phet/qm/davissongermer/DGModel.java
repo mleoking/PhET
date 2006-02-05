@@ -11,15 +11,16 @@ import edu.colorado.phet.qm.model.DiscreteModel;
  */
 
 public class DGModel {
-    DiscreteModel discreteModel;
-    FractionalAtomLattice fractionalAtomLattice;
-    ConcreteAtomLattice concreteAtomLattice;
+    private DiscreteModel discreteModel;
+    private FractionalAtomLattice fractionalAtomLattice;
+    private ConcreteAtomLattice concreteAtomLattice;
 
     public DGModel( DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;
         concreteAtomLattice = new ConcreteAtomLattice( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
         discreteModel.addPotential( concreteAtomLattice );
-        fractionalAtomLattice = new FractionalAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        fractionalAtomLattice = new FractionalAtomLattice( 0.05, 0.15, 0.5,
+                                                           DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
         updatePotential();
         discreteModel.addListener( new DiscreteModel.Adapter() {
             public void sizeChanged() {
@@ -35,7 +36,8 @@ public class DGModel {
 
     private void updatePotential() {
         discreteModel.removePotential( concreteAtomLattice );
-        concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
+        concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice(
+                discreteModel.getGridWidth(), discreteModel.getGridHeight() );
         discreteModel.addPotential( concreteAtomLattice );
     }
 
