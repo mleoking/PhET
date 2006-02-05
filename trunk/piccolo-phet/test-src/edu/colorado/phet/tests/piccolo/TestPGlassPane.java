@@ -33,6 +33,7 @@ import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.PGlassPane;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -123,6 +124,15 @@ public class TestPGlassPane extends PhetApplication {
             pswing.addInputEventListener( new CursorHandler() );
             pswing.setOffset( 100, 200 );
             canvas.getLayer().addChild( pswing );
+            
+            // PPath
+            PPath pathNode = new PPath();
+            pathNode.setPathToRectangle( 0, 0, 50, 50 );
+            pathNode.setPaint( Color.RED );
+            pathNode.setOffset( 400, 300 );
+            pathNode.addInputEventListener( new CursorHandler() );
+            pathNode.addInputEventListener( new PDragEventHandler() );
+            canvas.getLayer().addChild( pathNode );
             
             // Pop-up menu attached to right mouse button
             HTMLGraphic html = new HTMLGraphic( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
