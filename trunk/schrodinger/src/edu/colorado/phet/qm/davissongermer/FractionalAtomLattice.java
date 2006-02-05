@@ -41,18 +41,29 @@ public class FractionalAtomLattice {
         int concreteAtomRadius = getConcreteAtomRadius( latticeWidth, latticeHeight );
         int concreteSpacing = getConcreteSpacing( latticeWidth, latticeHeight );
         ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice( latticeWidth, latticeHeight );
-        for( int xCenter = 0; xCenter < latticeWidth; xCenter += concreteSpacing ) {
+
+        for( int xCenter = latticeWidth / 2; xCenter <= latticeWidth; xCenter += concreteSpacing ) {
             for( int yCenter = 0; yCenter < latticeHeight / 2; yCenter += concreteSpacing ) {
-                Point center = new Point( xCenter, yCenter );
-                CircularPotential circularPotential = new CircularPotential( center, concreteAtomRadius, potential );
-                concreteAtomLattice.addCircularPotential( circularPotential );
+                addAtom( xCenter, yCenter, concreteAtomRadius, concreteAtomLattice );
+            }
+        }
+        for( int xCenter = latticeWidth / 2 - concreteSpacing; xCenter >= 0; xCenter -= concreteSpacing ) {
+            for( int yCenter = 0; yCenter < latticeHeight / 2; yCenter += concreteSpacing ) {
+                addAtom( xCenter, yCenter, concreteAtomRadius, concreteAtomLattice );
             }
         }
         return concreteAtomLattice;
     }
 
+    private void addAtom( int xCenter, int yCenter, int concreteAtomRadius, ConcreteAtomLattice concreteAtomLattice ) {
+        Point center = new Point( xCenter, yCenter );
+        CircularPotential circularPotential = new CircularPotential( center, concreteAtomRadius, potential );
+        concreteAtomLattice.addCircularPotential( circularPotential );
+    }
+
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
-        return (int)( spacingBetweenAtoms * latticeWidth );
+        int spacing = (int)( spacingBetweenAtoms * latticeWidth );
+        return Math.max( 2 * getConcreteAtomRadius( latticeWidth, latticeHeight ), spacing );
     }
 
     private int getConcreteAtomRadius( int latticeWidth, int latticeHeight ) {

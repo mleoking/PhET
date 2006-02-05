@@ -29,8 +29,8 @@ public class DGControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        radius = new ModelSlider( "Radius", "units", 0, 0.5, dgModel.getFractionalRadius() );
-        radius.setModelTicks( new double[]{0, 0.25, 0.5} );
+        radius = new ModelSlider( "Radius", "units", 0, 0.1, dgModel.getFractionalRadius() );
+        radius.setModelTicks( new double[]{0, 0.05, 0.1} );
         radius.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 dgModel.setFractionalRadius( radius.getValue() );

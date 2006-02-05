@@ -5,8 +5,6 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.*;
-import edu.colorado.phet.qm.davissongermer.DGControlPanel;
-import edu.colorado.phet.qm.davissongermer.DGModel;
 import edu.colorado.phet.qm.model.Detector;
 
 import javax.swing.*;
@@ -57,12 +55,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addControl( new ExpandableDoubleSlitPanel( singleParticleModule ) );
         addControlFullWidth( advancedPanel );
 
-        setupDG();
-    }
-
-    private void setupDG() {
-        DGModel dgModel = new DGModel( getDiscreteModel() );
-        addControlFullWidth( new DGControlPanel( dgModel ) );
 
     }
 
