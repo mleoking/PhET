@@ -12,6 +12,7 @@
 package edu.colorado.phet.tests.piccolo;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -52,7 +53,7 @@ public class TestHelpBalloon extends PhetApplication {
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
     
-    private static final Object DEFAULT_ARROW_POSITION = HelpBalloon.TOP_LEFT;
+    private static final Object DEFAULT_ARROW_TAIL_POSITION = HelpBalloon.TOP_LEFT;
     private static final int DEFAULT_ARROW_LENGTH = 40; // pixels
     private static final int DEFAULT_ARROW_ROTATION = 0; // degrees
 
@@ -114,59 +115,60 @@ public class TestHelpBalloon extends PhetApplication {
             
             // Control panel --------------------------------------------
             
-            Object[] arrowPosition = {
+            Object[] tailPositions = {
               HelpBalloon.TOP_LEFT, HelpBalloon.TOP_CENTER, HelpBalloon.TOP_RIGHT,
               HelpBalloon.BOTTOM_LEFT, HelpBalloon.BOTTOM_CENTER, HelpBalloon.BOTTOM_RIGHT,
               HelpBalloon.LEFT_TOP, HelpBalloon.LEFT_CENTER, HelpBalloon.LEFT_BOTTOM,
               HelpBalloon.RIGHT_TOP, HelpBalloon.RIGHT_CENTER, HelpBalloon.RIGHT_BOTTOM
             };
-            final JComboBox arrowPositionComboBox = new JComboBox( arrowPosition );
-            arrowPositionComboBox.setSelectedItem( DEFAULT_ARROW_POSITION );
-            arrowPositionComboBox.setMaximumRowCount( arrowPosition.length );
-            arrowPositionComboBox.addItemListener( new ItemListener() {
+            final JComboBox tailPositionComboBox = new JComboBox( tailPositions );
+            tailPositionComboBox.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+            tailPositionComboBox.setSelectedItem( DEFAULT_ARROW_TAIL_POSITION );
+            tailPositionComboBox.setMaximumRowCount( tailPositions.length );
+            tailPositionComboBox.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                        _helpBalloon.setArrowPosition( arrowPositionComboBox.getSelectedItem() );
+                        _helpBalloon.setArrowTailPosition( tailPositionComboBox.getSelectedItem() );
                     }
                 }
             } );
-            JPanel arrowPositionPanel = new JPanel();
-            EasyGridBagLayout positionLayout = new EasyGridBagLayout( arrowPositionPanel );
-            arrowPositionPanel.setLayout( positionLayout );
-            positionLayout.addComponent( new JLabel( "position:" ), 0, 0 );
-            positionLayout.addComponent( arrowPositionComboBox, 0, 1 );
+            JPanel tailPositionPanel = new JPanel();
+            EasyGridBagLayout positionLayout = new EasyGridBagLayout( tailPositionPanel );
+            tailPositionPanel.setLayout( positionLayout );
+            positionLayout.addComponent( new JLabel( "tail position:" ), 0, 0 );
+            positionLayout.addComponent( tailPositionComboBox, 0, 1 );
             
-            final JLabel arrowLengthLabel = new JLabel( "length = " + DEFAULT_ARROW_LENGTH );
-            final JSlider arrowLengthSlider = new JSlider();
-            arrowLengthSlider.setMinimum( 0 );
-            arrowLengthSlider.setMaximum( 100 );
-            arrowLengthSlider.setValue( DEFAULT_ARROW_LENGTH );
-            arrowLengthSlider.setMajorTickSpacing( 50 );
-            arrowLengthSlider.setMinorTickSpacing( 10 );
-            arrowLengthSlider.setPaintTicks( true );
-            arrowLengthSlider.setPaintLabels( true );
-            arrowLengthSlider.addChangeListener( new ChangeListener() {
+            final JLabel lengthLabel = new JLabel( "length = " + DEFAULT_ARROW_LENGTH );
+            final JSlider lengthSlider = new JSlider();
+            lengthSlider.setMinimum( 0 );
+            lengthSlider.setMaximum( 100 );
+            lengthSlider.setValue( DEFAULT_ARROW_LENGTH );
+            lengthSlider.setMajorTickSpacing( 50 );
+            lengthSlider.setMinorTickSpacing( 10 );
+            lengthSlider.setPaintTicks( true );
+            lengthSlider.setPaintLabels( true );
+            lengthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    int arrowLength = arrowLengthSlider.getValue();
-                    arrowLengthLabel.setText( "length = " + arrowLength );
-                    _helpBalloon.setArrowLength( arrowLength );
+                    int length = lengthSlider.getValue();
+                    lengthLabel.setText( "length = " + length );
+                    _helpBalloon.setArrowLength( length );
                 }
             } );
             
-            final JLabel arrowRotationLabel = new JLabel( "rotation = " + DEFAULT_ARROW_ROTATION );
-            final JSlider arrowRotationSlider = new JSlider();
-            arrowRotationSlider.setMinimum( (int) HelpBalloon.MIN_ARROW_ROTATION );
-            arrowRotationSlider.setMaximum( (int) HelpBalloon.MAX_ARROW_ROTATION );
-            arrowRotationSlider.setValue( DEFAULT_ARROW_ROTATION );
-            arrowRotationSlider.setMajorTickSpacing( (int) HelpBalloon.MAX_ARROW_ROTATION );
-            arrowRotationSlider.setMinorTickSpacing( 10 );
-            arrowRotationSlider.setPaintTicks( true );
-            arrowRotationSlider.setPaintLabels( true );
-            arrowRotationSlider.addChangeListener( new ChangeListener() {
+            final JLabel rotationLabel = new JLabel( "rotation = " + DEFAULT_ARROW_ROTATION );
+            final JSlider rotationSlider = new JSlider();
+            rotationSlider.setMinimum( (int) HelpBalloon.MIN_ARROW_ROTATION );
+            rotationSlider.setMaximum( (int) HelpBalloon.MAX_ARROW_ROTATION );
+            rotationSlider.setValue( DEFAULT_ARROW_ROTATION );
+            rotationSlider.setMajorTickSpacing( (int) HelpBalloon.MAX_ARROW_ROTATION );
+            rotationSlider.setMinorTickSpacing( 10 );
+            rotationSlider.setPaintTicks( true );
+            rotationSlider.setPaintLabels( true );
+            rotationSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    int arrowRotation = arrowRotationSlider.getValue();
-                    arrowRotationLabel.setText( "rotation = " + arrowRotation );
-                    _helpBalloon.setArrowRotation( arrowRotation );
+                    int rotation = rotationSlider.getValue();
+                    rotationLabel.setText( "rotation = " + rotation );
+                    _helpBalloon.setArrowRotation( rotation );
                 }
             } );
             
@@ -174,11 +176,11 @@ public class TestHelpBalloon extends PhetApplication {
             arrowPanel.setBorder( new TitledBorder( "Arrow attributes" ) );
             EasyGridBagLayout layout = new EasyGridBagLayout( arrowPanel );
             arrowPanel.setLayout( layout );
-            layout.addComponent( arrowPositionPanel, 0, 0 );
-            layout.addComponent( arrowLengthLabel, 1, 0 );
-            layout.addComponent( arrowLengthSlider, 2, 0 );
-            layout.addComponent( arrowRotationLabel, 3, 0 );
-            layout.addComponent( arrowRotationSlider, 4, 0 );
+            layout.addComponent( tailPositionPanel, 0, 0 );
+            layout.addComponent( lengthLabel, 1, 0 );
+            layout.addComponent( lengthSlider, 2, 0 );
+            layout.addComponent( rotationLabel, 3, 0 );
+            layout.addComponent( rotationSlider, 4, 0 );
             
             // Control panel
             ControlPanel controlPanel = new ControlPanel( this );
@@ -192,7 +194,7 @@ public class TestHelpBalloon extends PhetApplication {
             // Help that points at a static location
             _helpBalloon = new HelpBalloon( helpPane, 
                     "<html>This is a HelpBalloon.<br>Adjust its properties<br>in the control panel</html>", 
-                    DEFAULT_ARROW_POSITION, DEFAULT_ARROW_LENGTH, DEFAULT_ARROW_ROTATION );
+                    DEFAULT_ARROW_TAIL_POSITION, DEFAULT_ARROW_LENGTH, DEFAULT_ARROW_ROTATION );
             _helpBalloon.pointAt( pathNode, canvas );
             helpPane.add( _helpBalloon );
         }
