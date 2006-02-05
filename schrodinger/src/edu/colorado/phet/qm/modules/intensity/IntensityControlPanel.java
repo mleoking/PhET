@@ -6,8 +6,6 @@ import edu.colorado.phet.qm.controls.ClearButton;
 import edu.colorado.phet.qm.controls.ExpandableDoubleSlitPanel;
 import edu.colorado.phet.qm.controls.ResetButton;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
-import edu.colorado.phet.qm.davissongermer.DGControlPanel;
-import edu.colorado.phet.qm.davissongermer.DGModel;
 
 /**
  * User: Sam Reid
@@ -27,14 +25,9 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
 //        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
         addControlFullWidth( advancedPanel );
 
-        setupDG();
-    }
-
-    private void setupDG() {
-        DGModel dgModel = new DGModel( getDiscreteModel() );
-        addControlFullWidth( new DGControlPanel( dgModel ) );
 
     }
+
 //    public SlitDetectorPanel getSlitDetectorPanel() {
 //        return getDoubleSlitPanel().getSlitDetectorPanel();
 //    }
