@@ -1,0 +1,4 @@
+*New in 0.01 (2-4-2006)
+Added controls for lattice spacing
+Added controls for atom radius
+Started new project for Davisson-Germer
