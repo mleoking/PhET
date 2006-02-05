@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
@@ -33,7 +34,7 @@ public class IntensityModule extends SchrodingerModule {
         this( "High Intensity", app, clock );
     }
 
-    protected IntensityModule( String name, SchrodingerApplication app, IClock clock ) {
+    protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
         splitModel = new SplitModel();
         setDiscreteModel( splitModel );

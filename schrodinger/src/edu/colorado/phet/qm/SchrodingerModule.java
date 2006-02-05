@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -38,13 +39,13 @@ public class SchrodingerModule extends PiccoloModule {
     private SchrodingerPanel schrodingerPanel;
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
-    private SchrodingerApplication schrodingerApplication;
+    private PhetApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
 
     /**
      * @param schrodingerApplication
      */
-    public SchrodingerModule( String name, SchrodingerApplication schrodingerApplication, final IClock clock ) {
+    public SchrodingerModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );

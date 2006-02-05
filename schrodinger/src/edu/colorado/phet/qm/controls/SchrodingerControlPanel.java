@@ -61,43 +61,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         try {
-            final HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
-
-            final JCheckBox ruler = new JCheckBox( "Ruler" );
-            ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
-            rulerPanel.add( ruler );
-            rulerPanel.add( new JLabel( icon ) );
-            ruler.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
-                }
-            } );
-            addControl( rulerPanel );
-
-
-            final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
-            stopwatchCheckBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    getSchrodingerPanel().setStopwatchVisible( stopwatchCheckBox.isSelected() );
-                }
-            } );
-            Timer timer = new Timer( 500, new ActionListener() {//todo why does this drag the application if time < 30 ms?
-
-                public void actionPerformed( ActionEvent e ) {
-                    ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
-                    rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-                    stopwatchCheckBox.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-                    ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-                }
-            } );
-            timer.start();
-//            module.getClock().addClockListener( new ClockAdapter() {
-//                public void clockTicked( ClockEvent clockEvent ) {
-//                }
-//            } );
-
-            addControl( stopwatchCheckBox );
-
+            addMeasuringTools();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -126,6 +90,49 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
+    }
+
+    protected void addMeasuringTools() throws IOException {
+        addRulerPanel();
+        addStopwatchPanel();
+    }
+
+    protected void addStopwatchPanel() {
+        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
+        stopwatchCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setStopwatchVisible( stopwatchCheckBox.isSelected() );
+            }
+        } );
+        new Timer( 500, new ActionListener() {//todo why does this drag the application if time < 30 ms?
+
+            public void actionPerformed( ActionEvent e ) {
+                stopwatchCheckBox.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+            }
+        } ).start();
+        addControl( stopwatchCheckBox );
+    }
+
+    protected void addRulerPanel() throws IOException {
+        final HorizontalLayoutPanel rulerPanel = new HorizontalLayoutPanel();
+
+        final JCheckBox ruler = new JCheckBox( "Ruler" );
+        ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
+        rulerPanel.add( ruler );
+        rulerPanel.add( new JLabel( icon ) );
+        ruler.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
+            }
+        } );
+        addControl( rulerPanel );
+        new Timer( 500, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
+                rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+                ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+            }
+        } ).start();
     }
 
     private WaveSetup getWaveSetup() {
