@@ -1,3 +1,8 @@
+is 0.1 nm scale correct?
+close button for stopwatch
+modelslider labels have a bug on mac
+
+
 Note that you will need to put scaling back in
     so that the size of the box doesn’t change when you change the resolution in Options.
 
