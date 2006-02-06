@@ -11,7 +11,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - set wait cursors on content pane instead of components
-- fix discontinuity in PathRenderer or get rid of it
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - top edge of +1 tick label on Energy plot y axis is clipped
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -66,6 +65,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - delete PathRenderer, it's buggy and not used
 (2/6/06) - add additional damping points to Richardson solver
 (2/6/06) - WavePacket update and clockTicked need to be synchronized so that t=0 state is drawn consistently
 (2/6/06) - charts don't update when Measure button is pressed with clock paused
