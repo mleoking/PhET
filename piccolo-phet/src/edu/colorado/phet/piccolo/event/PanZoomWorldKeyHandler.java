@@ -8,8 +8,9 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.event;
 
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.activities.PActivity;
 
 import java.awt.event.KeyEvent;

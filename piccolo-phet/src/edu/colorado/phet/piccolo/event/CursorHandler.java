@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.event;
 
 import java.awt.Cursor;
 

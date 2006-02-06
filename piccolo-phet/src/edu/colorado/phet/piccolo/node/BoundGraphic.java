@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.node;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.PNode;

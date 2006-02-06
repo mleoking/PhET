@@ -8,9 +8,12 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.help;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.piccolo.activities.OscillateActivity;
+import edu.colorado.phet.piccolo.node.BoundGraphic;
+import edu.colorado.phet.piccolo.node.HTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivityScheduler;
 import edu.umd.cs.piccolo.util.PPaintContext;

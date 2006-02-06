@@ -20,7 +20,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.colorado.phet.piccolo.node.HTMLGraphic;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
