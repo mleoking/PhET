@@ -5,29 +5,25 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- address graphics performance so that sim draws correctly on slower PCs
+- address graphics performance issues
 - move non-Swing stuff out of event-dispatch thread
-- decide whether to replace Richardson with Falstad model
+- fix dt in Richardson algorithm so that it is related to clock dt
+- set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
 MEDIUM PRIORITY:
-- set wait cursors on content pane (or glass pane?) instead of components
-- set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
-- top edge of +1 tick label on Energy plot y axis is clipped
-- fix dt in Richardson algorithm so that it is related to clock dt
+- decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
+- wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 - pause clock while dragging sliders/handles, restore the clock state on release
 - shapes in the Potential combo box
-- make it run faster/smoother
+- top edge of +1 tick label on Energy plot y axis is clipped
 
 LOW PRIORITY:
-- wait cursors on controls
 - Y axis labels move when zooming causes range to change
-- make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
-- select entire spinner value when it gets focus
 - fix tab order in Configure dialog
+- select entire spinner value when it gets focus in Configure dialog
 - Wiggle Me
-- add build number to "About" dialog
-- add PhET logo to "About" dialog
+- better "About" dialog with build number and logo
 
 OPTIMIZATIONS:
 - remove test-src
