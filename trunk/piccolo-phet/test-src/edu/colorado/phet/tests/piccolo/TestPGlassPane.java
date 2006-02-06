@@ -32,7 +32,7 @@ import edu.colorado.phet.piccolo.CursorHandler;
 import edu.colorado.phet.piccolo.HTMLGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.help.PGlassPane;
+import edu.colorado.phet.piccolo.help.GlassPaneCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -229,7 +229,7 @@ public class TestPGlassPane extends PhetApplication {
          * @author Chris Malley (cmalley@pixelzoom.com)
          * @version $Revision$
          */
-        private class MyGlassPane extends PGlassPane {
+        private class MyGlassPane extends GlassPaneCanvas {
 
             public MyGlassPane( JFrame parentFrame ) {
                 super( parentFrame );
