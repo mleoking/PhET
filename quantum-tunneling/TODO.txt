@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - address graphics performance so that sim draws correctly on slower PCs
-- charts don't update when Measure button is pressed with clock paused
 - add additional damping points
 - move non-Swing stuff out of event-dispatch thread
 - decide whether to replace Richardson with Falstad model
@@ -68,6 +67,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - WavePacket update and clockTicked need to be synchronized so that t=0 state is drawn consistently
+(2/6/06) - charts don't update when Measure button is pressed with clock paused
 (2/6/06) - piccolo-phet: remove all listeners added by PGlassPane when it's invisible
 (2/6/06) - piccolo-phet: replace PhetPCanvas.CursorChangeListener with a MouseListener in PGlassPane
 (2/5/06) - i18n help text
