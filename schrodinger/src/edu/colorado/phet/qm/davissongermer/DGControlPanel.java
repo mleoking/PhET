@@ -42,8 +42,8 @@ public class DGControlPanel extends ControlPanel {
         } );
         addControl( plotCheckBox );
 
-        DGModel dgModel = new DGModel( getDiscreteModel() );
-        addControlFullWidth( new AtomLatticeControlPanel( dgModel ) );
+
+        addControlFullWidth( new AtomLatticeControlPanel( dgModule.getDGModel() ) );
 
         dgPlotFrame = new DGPlotFrame( dgModule.getPhetFrame(), dgModule );
 
