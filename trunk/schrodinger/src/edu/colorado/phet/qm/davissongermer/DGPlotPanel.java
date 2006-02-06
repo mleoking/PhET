@@ -2,8 +2,10 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -16,6 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -32,13 +36,17 @@ public class DGPlotPanel extends PSwingCanvas {
     private XYSeries series;
     private JFreeChartNode jFreeChartNode;
     private int inset = 3;
+    private IndicatorGraphic indicatorGraphic;
+    private JFreeChart chart;
 
     public DGPlotPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
         series = new XYSeries( "series1" );
         dataset = new XYSeriesCollection( series );
 
-        JFreeChart chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity (units)", dataset, PlotOrientation.VERTICAL, false, false, false );
+        chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity (units)", dataset, PlotOrientation.VERTICAL, false, false, false );
+//        chart.getXYPlot().setDomainGridlinesVisible( false );
+//        chart.getXYPlot().setRangeGridlinesVisible( false );
         chart.getXYPlot().getDomainAxis().setRange( 0, 90 );
         chart.getXYPlot().getRangeAxis().setRange( 0, 0.1 );
         jFreeChartNode = new JFreeChartNode( chart );
@@ -52,6 +60,38 @@ public class DGPlotPanel extends PSwingCanvas {
                 replotAll();
             }
         } ).start();
+        indicatorGraphic = new IndicatorGraphic();
+        getLayer().addChild( indicatorGraphic );
+    }
+
+    public void setIndicatorVisible( boolean visible ) {
+        indicatorGraphic.setVisible( visible );
+    }
+
+    public void setIndicatorAngle( double angle ) {
+        Point2D pt = jFreeChartNode.plotToNode( new Point2D.Double( angle, chart.getXYPlot().getRangeAxis().getUpperBound() ) );
+        Point2D bottom = jFreeChartNode.plotToNode( new Point2D.Double( angle, chart.getXYPlot().getRangeAxis().getLowerBound() ) );
+        indicatorGraphic.setOffset( bottom );
+        indicatorGraphic.setIndicatorHeight( pt.getY() - bottom.getY() );
+//        jFreeChartNode.setVisible( false );
+        paintImmediately( 0, 0, getWidth(), getHeight() );
+        repaint( 0, 0, getWidth(), getHeight() );
+//        repaint();
+//        indicatorGraphic.repaint();
+    }
+
+    class IndicatorGraphic extends PhetPNode {
+        private PPath path;
+
+        public IndicatorGraphic() {
+            path = new PPath();
+            setIndicatorHeight( 0 );
+            addChild( path );
+        }
+
+        public void setIndicatorHeight( double height ) {
+            path.setPathTo( new Line2D.Double( 0, 0, 0, height ) );
+        }
     }
 
     public void replotAll() {

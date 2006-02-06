@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class DGControlPanel extends ControlPanel {
     private DGModule dgModule;
-    private DGPlotFrame dgPlotFrame;
+
 
     public DGControlPanel( DGModule dgModule ) {
         super( dgModule );
@@ -32,8 +32,6 @@ public class DGControlPanel extends ControlPanel {
         addRulerPanel();
         addProtractorPanel();
         addControl( new ClearButton( dgModule.getSchrodingerPanel() ) );
-
-
         final JCheckBox plotCheckBox = new JCheckBox( "Plot" );
         plotCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -41,11 +39,8 @@ public class DGControlPanel extends ControlPanel {
             }
         } );
         addControl( plotCheckBox );
-
-
         addControlFullWidth( new AtomLatticeControlPanel( dgModule.getDGModel() ) );
 
-        dgPlotFrame = new DGPlotFrame( dgModule.getPhetFrame(), dgModule );
 
         AbstractGunGraphic gun = dgModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
         if( gun instanceof DGGun ) {
@@ -70,7 +65,7 @@ public class DGControlPanel extends ControlPanel {
     }
 
     private void setPlotVisible( boolean selected ) {
-        dgPlotFrame.setVisible( selected );
+        dgModule.getPlotFrame().setVisible( selected );
     }
 
     private DiscreteModel getDiscreteModel() {

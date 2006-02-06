@@ -18,6 +18,9 @@ import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -31,6 +34,7 @@ public class Protractor extends PhetPNode {
     LegGraphic rightLeg;
     ArcGraphic arcGraphic;
     ReadoutGraphic readoutGraphic;
+    ArrayList listeners = new ArrayList();
 
     public Protractor() {
         leftLeg = new LegGraphic();
@@ -46,6 +50,37 @@ public class Protractor extends PhetPNode {
         leftLeg.setAngle( Math.PI / 2 );
         rightLeg.setAngle( 0.0 );
         update();
+
+        addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                notifyVisibilityChanged();
+            }
+
+        } );
+    }
+
+    private void notifyVisibilityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.visibilityChanged( this );
+        }
+    }
+
+    private void notifyAngleChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.angleChanged( this );
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void angleChanged( Protractor protractor );
+
+        void visibilityChanged( Protractor protractor );
     }
 
     public void setLeftLegPickable( boolean pickable ) {
@@ -58,6 +93,23 @@ public class Protractor extends PhetPNode {
         readoutGraphic.setChildrenPickable( pickable );
     }
 
+    private static double toDegrees( double radians ) {
+        return radians * 360 / Math.PI / 2.0;
+    }
+
+    public double getAngle() {
+        return leftLeg.getAngle() - rightLeg.getAngle();
+    }
+
+    private void update() {
+        leftLeg.update();
+        rightLeg.update();
+        arcGraphic.update();
+        readoutGraphic.update();
+        double newAngle = getAngle();
+        notifyAngleChanged();//todo this will give some spurious events.
+    }
+
     class LegGraphic extends PNode {
         double angle;
         PPath path;
@@ -66,7 +118,7 @@ public class Protractor extends PhetPNode {
 
         public LegGraphic() {
             path = new PPath();
-            path.setStrokePaint( Color.white );
+            path.setStrokePaint( Color.orange );
             path.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 10}, 0 ) );
             addChild( path );
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -103,13 +155,6 @@ public class Protractor extends PhetPNode {
         }
     }
 
-    private void update() {
-        leftLeg.update();
-        rightLeg.update();
-        arcGraphic.update();
-        readoutGraphic.update();
-    }
-
     class ReadoutGraphic extends PNode {
 
         private DefaultDecimalFormat numberFormat = new DefaultDecimalFormat( "0.00" );
@@ -144,9 +189,10 @@ public class Protractor extends PhetPNode {
             return "\u00B0";
         }
 
-        private double getDegrees() {
-            return 360 / Math.PI / 2.0 * Protractor.this.getAngle();
-        }
+    }
+
+    public double getDegrees() {
+        return 360 / Math.PI / 2.0 * Protractor.this.getAngle();
     }
 
     class ArcGraphic extends PNode {
@@ -168,13 +214,5 @@ public class Protractor extends PhetPNode {
                            Vector2D.Double.parseAngleAndMagnitude( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() ) );
             path.setPathTo( arc );
         }
-    }
-
-    private static double toDegrees( double radians ) {
-        return radians * 360 / Math.PI / 2.0;
-    }
-
-    private double getAngle() {
-        return leftLeg.getAngle() - rightLeg.getAngle();
     }
 }

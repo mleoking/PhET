@@ -22,12 +22,14 @@ import java.awt.event.ComponentEvent;
 public class DGModule extends IntensityModule {
     private Protractor protractor;
     private DGModel dgModel = new DGModel( getDiscreteModel() );
+    private DGPlotFrame dgPlotFrame;
 
     /**
      * @param schrodingerApplication
      */
     public DGModule( PhetApplication schrodingerApplication, IClock clock ) {
         super( "Davisson-Germer Experiment", schrodingerApplication, clock );
+        dgPlotFrame = new DGPlotFrame( getPhetFrame(), this );
         DGControlPanel intensityControlPanel = new DGControlPanel( this );
         setControlPanel( intensityControlPanel );
 
@@ -84,6 +86,15 @@ public class DGModule extends IntensityModule {
         protractor = new Protractor();
         protractor.setLeftLegPickable( false );
         protractor.setReadoutGraphicPickable( false );
+        protractor.addListener( new Protractor.Listener() {
+            public void angleChanged( Protractor protractor ) {
+                getPlotPanel().setIndicatorAngle( protractor.getDegrees() );
+            }
+
+            public void visibilityChanged( Protractor protractor ) {
+                getPlotPanel().setIndicatorVisible( protractor.getVisible() );
+            }
+        } );
         getSchrodingerPanel().getSchrodingerScreenNode().addChild( protractor );
         setProtractorVisible( false );
     }
@@ -102,5 +113,13 @@ public class DGModule extends IntensityModule {
 
     public DGModel getDGModel() {
         return dgModel;
+    }
+
+    public DGPlotFrame getPlotFrame() {
+        return dgPlotFrame;
+    }
+
+    public DGPlotPanel getPlotPanel() {
+        return dgPlotFrame.getDgPlotPanel();
     }
 }
