@@ -118,7 +118,7 @@ public class TestAppStartup extends PhetApplication {
             {
                 // Canvas
                 _canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
-                setPhetPCanvas( _canvas );
+                setSimulationPanel( _canvas );
                 _canvas.setBackground( BACKGROUND );
                 _canvas.addComponentListener( new ComponentAdapter() { 
                     public void componentResized( ComponentEvent event ) {
