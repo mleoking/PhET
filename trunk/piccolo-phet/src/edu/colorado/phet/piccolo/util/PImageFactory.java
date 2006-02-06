@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.util;
 
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.colorado.phet.common.view.util.ImageLoader;

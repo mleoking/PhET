@@ -8,8 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.help;
 
+import edu.colorado.phet.piccolo.node.ArrowConnectorGraphic;
+import edu.colorado.phet.piccolo.node.ConnectorGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

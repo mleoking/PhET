@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.piccolo.activities;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;

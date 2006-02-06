@@ -2,8 +2,8 @@
 package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.piccolo.BoundedDragHandler;
-import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.event.BoundedDragHandler;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
