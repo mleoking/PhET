@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.piccolo.PDebugKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;

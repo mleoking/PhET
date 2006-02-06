@@ -3,9 +3,9 @@ package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.BoundGraphic;
-import edu.colorado.phet.piccolo.ConnectorGraphic;
-import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.BoundGraphic;
+import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.colorado.phet.qm.HorizontalConnector;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;

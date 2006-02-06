@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.piccolo.ConnectorGraphic;
+import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
