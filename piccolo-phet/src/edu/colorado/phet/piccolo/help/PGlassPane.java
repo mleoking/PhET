@@ -15,15 +15,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.*;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.PhetPCanvas.CursorChangeEvent;
-import edu.colorado.phet.piccolo.PhetPCanvas.CursorChangeListener;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 
@@ -59,8 +59,11 @@ public class PGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     private JFrame _parentFrame;  // we'll be serving as this frame's glass pane
-    private MouseListener _mouseListener; // handles cursor changes for JComponents
-    private CursorChangeListener _cursorChangeListener; // handles cursor changes for PhetPCanvas
+    private Timer _timer; // periodically adds listeners to components in Swing hierarchy
+    private MouseListener _componentCursorListener; // handles cursor changes for JComponents
+    private MouseMotionListener _canvasCursorListener; // handles cursor changes for nodes on PCanvas
+    private ArrayList _componentList; // list of JComponent that have _componentCursorListener attached
+    private ArrayList _canvasList; // list of PCanvas that have _canvasCursorListener attached
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -89,7 +92,7 @@ public class PGlassPane extends PCanvas {
         getLayer().setChildrenPickable( false );
         
         // JComponent cursor synchronization
-        _mouseListener = new MouseAdapter() {
+        _componentCursorListener = new MouseAdapter() {
             public void mouseEntered( MouseEvent event ) {
                 setCursor( event.getComponent().getCursor() );
             }
@@ -99,20 +102,25 @@ public class PGlassPane extends PCanvas {
             }
         };
         
-        // PhetPCanvas cursor synchronization
-        _cursorChangeListener = new CursorChangeListener() {
-            public void cursorChanged( CursorChangeEvent event ) {
-                setCursor( event.getCursor() );
+        // PCanvas cursor synchronization
+        _canvasCursorListener = new MouseMotionListener() {
+            public void mouseMoved( MouseEvent event ) {
+                setCursor( event.getComponent().getCursor() );
+            }
+            public void mouseDragged( MouseEvent event ) {
+                setCursor( event.getComponent().getCursor() );
             }
         };
         
         // Periodically make sure that all components have cursor-related listeners installed...
-        Timer timer = new Timer( CURSOR_LISTENER_UPDATE_FREQUENCY, new ActionListener() {
+        _timer = new Timer( CURSOR_LISTENER_UPDATE_FREQUENCY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                installCursorListener( _parentFrame.getLayeredPane() );
+                addCursorListeners( _parentFrame.getLayeredPane() );
             }
         } );
-        timer.start();
+        
+        _componentList = new ArrayList();
+        _canvasList = new ArrayList();
     }
 
     //----------------------------------------------------------------------------
@@ -132,6 +140,25 @@ public class PGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     // Overrides 
     //----------------------------------------------------------------------------
+    
+    /**
+     * When the glass pane is visible, start the timer that installs 
+     * cursor-related listeners.  When the glass pane is invisible,
+     * stop the timer and remove all cursor-related listeners, so that
+     * we're not doing any unnecessary work.
+     * 
+     * @param visible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( visible ) {
+            _timer.start();
+        }
+        else {
+            _timer.stop();
+            removeCursorListeners();
+        }
+    }
     
     /*
      * If we don't have listeners for events, then they are
@@ -157,27 +184,31 @@ public class PGlassPane extends PCanvas {
     // MouseListener for cursor control 
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Install the listeners on component and all of its descendents.
      * These listeners handle synchronizing the glass pane's cursor
      * with the components that are beneath it in the layered pane.
+     * <p>
+     * Note that we keep lists of the components that we've added
+     * listeners to.  Since the Swing hierarchy may change, this is the
+     * only way that we can reliably remove all the listeners that 
+     * we've added in removeCursorListeners. 
      * 
      * @param component
      */
-    private void installCursorListener( JComponent component ) {
-        if ( component != null && !( component instanceof PGlassPane ) ) {
-            
-            // PhetPCanvas gets a cursor change lister...
-            if ( component instanceof PhetPCanvas ) {
-                PhetPCanvas canvas = (PhetPCanvas) component;
-                if ( !Arrays.asList( canvas.getCursorChangeListeners() ).contains( _cursorChangeListener ) ) {
-                    canvas.addCursorChangeListener( _cursorChangeListener );
-                }
-            }
+    private void addCursorListeners( JComponent component ) {
+        if ( component != null ) {
             
             // All components get a mouse listener.
-            if ( !Arrays.asList( component.getMouseListeners() ).contains( _mouseListener ) ) {
-                component.addMouseListener( _mouseListener );
+            if ( !_componentList.contains( _componentCursorListener ) ) {
+                component.addMouseListener( _componentCursorListener );
+                _componentList.add( component );
+            }
+            
+            // PhetPCanvas gets an additional mouse lister.
+            if ( component instanceof PCanvas && !_canvasList.contains( component ) ) {
+                component.addMouseMotionListener( _canvasCursorListener );
+                _canvasList.add( component );
             }
             
             // Recursively process all child components...
@@ -185,12 +216,30 @@ public class PGlassPane extends PCanvas {
             for ( int i = 0; i < numberOfChildren; i++ ) {
                 Component child = component.getComponent( i );
                 if ( child instanceof JComponent ) {
-                    installCursorListener( (JComponent) child );
+                    addCursorListeners( (JComponent) child );
                 }
                 else {
                     // ignore other types of Components
                 }
             }
+        }
+    }
+    
+    /*
+     * Removes all listeners that were added via addCursorListeners.
+     * 
+     * @param component
+     */
+    private void removeCursorListeners() {
+        Iterator i = _componentList.iterator();
+        while ( i.hasNext() ) {
+            Component component = (Component) i.next();
+            component.removeMouseListener( _componentCursorListener );
+        }
+        Iterator j = _canvasList.iterator();
+        while ( j.hasNext() ) {
+            Component component = (Component) j.next();
+            component.removeMouseMotionListener( _canvasCursorListener );
         }
     }
 }

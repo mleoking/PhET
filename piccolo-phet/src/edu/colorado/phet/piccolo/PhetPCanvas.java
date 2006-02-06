@@ -39,7 +39,6 @@ public class PhetPCanvas extends PSwingCanvas {
     private TransformStrategy transformStrategy;
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
-    private EventListenerList listenerList;
 
     public PhetPCanvas() {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
@@ -61,7 +60,6 @@ public class PhetPCanvas extends PSwingCanvas {
         getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
-        listenerList = new EventListenerList();
         
         resizeAdapter = new ResizeAdapter();
         addComponentListener( resizeAdapter );
@@ -274,84 +272,6 @@ public class PhetPCanvas extends PSwingCanvas {
                 System.err.println( "Scale evaluated to zero!" );
             }
             return new AffineTransform();
-        }
-    }
-
-    /**
-     * Sets the cursor and notifies all CursorChangeListeners via a CursorChangeEvent.
-     * 
-     * @param cursor
-     */
-    public void setCursor( Cursor cursor ) {
-        super.setCursor( cursor );
-        fireCursorChanged( cursor );
-    }
-    
-    /**
-     * Adds a CursorChangeListener.
-     * 
-     * @param listener
-     */
-    public synchronized void addCursorChangeListener( CursorChangeListener listener ) {
-        listenerList.add( CursorChangeListener.class, listener );
-    }
-    
-    /**
-     * Removes a CursorChangeListener.
-     * 
-     * @param listener
-     */
-    public synchronized void removeCursorChangeListener( CursorChangeListener listener ) {
-        listenerList.remove( CursorChangeListener.class, listener );
-    }
-    
-    /**
-     * Gets an array of all CursorChangeListeners.
-     * 
-     * @return
-     */
-    public synchronized CursorChangeListener[] getCursorChangeListeners() {
-        return (CursorChangeListener[]) listenerList.getListeners( CursorChangeListener.class );
-    }
-    
-    /*
-     * Fires a CursorChangeEvent.
-     * 
-     * @param cursor the new cursor
-     */
-    private void fireCursorChanged( Cursor cursor ) {
-        Object[] listeners = listenerList.getListenerList();
-        CursorChangeEvent event = null;
-        for ( int i = 0; i < listeners.length; i += 2 ) {
-            if ( listeners[i] == CursorChangeListener.class ) {
-                if ( event == null ) {
-                    event = new CursorChangeEvent( this, cursor );
-                }
-                ( (CursorChangeListener) listeners[i + 1] ).cursorChanged( event );
-            }
-        }
-    }
-    
-    /**
-     * CursorChangeListener is the listener interface for receiving
-     * notification about changes to the PhetPCanvas' cursor.
-     */
-    public interface CursorChangeListener extends EventListener {
-        public void cursorChanged( CursorChangeEvent e );
-    }
-    
-    /**
-     * CursorChangeEvent is an event indicating that the PhetPCanvas 
-     * cursor has changed.
-     */
-    public static class CursorChangeEvent extends EventObject {
-        private Cursor cursor;
-        public CursorChangeEvent( Object source, Cursor cursor ) {
-            super( source );
-            this.cursor = cursor;
-        }
-        public Cursor getCursor() {
-            return cursor;
         }
     }
 }
