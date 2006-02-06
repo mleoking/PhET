@@ -39,9 +39,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
- * TestPGlassPane tests PGlassPane.
+ * TestGlassPaneCanvas tests GlassPaneCanvas.
  * <p>
- * Pressing the Help button will display a PGlassPane that puts 
+ * Pressing the Help button will display a GlassPaneCanvas that puts 
  * colored circles at the upper-left corner of certain Swing controls.
  * See method markComponents for details.
  * <p>
@@ -51,7 +51,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestPGlassPane extends PhetApplication {
+public class TestGlassPaneCanvas extends PhetApplication {
 
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
@@ -63,7 +63,7 @@ public class TestPGlassPane extends PhetApplication {
     /* Test harness */
     public static void main( final String[] args ) {
         try {
-            TestPGlassPane app = new TestPGlassPane( args );
+            TestGlassPaneCanvas app = new TestGlassPaneCanvas( args );
             app.startApplication();
         }
         catch ( Exception e ) {
@@ -72,8 +72,8 @@ public class TestPGlassPane extends PhetApplication {
     }
 
     /* Application */
-    public TestPGlassPane( String[] args ) throws InterruptedException {
-        super( args, "TestPGlassPane", "test of PGlassPane", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+    public TestGlassPaneCanvas( String[] args ) throws InterruptedException {
+        super( args, "TestGlassPaneCanvas", "test of GlassPaneCanvas", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module module1 = new TestModule( "Module 1", new Color( 255, 208, 252 ) /* canvasColor */ );
         addModule( module1 );
@@ -221,7 +221,7 @@ public class TestPGlassPane extends PhetApplication {
         }
 
         /**
-         * Extension of PGlassPane that draws circles at the upper-left corner 
+         * Extension of GlassPaneCanvas that draws circles at the upper-left corner 
          * of various JComponents.  See markComponents for details.
          * 
          * MyGlassPane
