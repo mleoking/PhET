@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- specify an arrow angle for help items
 - address graphics performance so that sim draws correctly on slower PCs
 - charts don't update when Measure button is pressed with clock paused
 - add additional damping points
