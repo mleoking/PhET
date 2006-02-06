@@ -43,4 +43,5 @@ public class DGParticle extends DefaultGunParticle {
     public void setStartYFraction( double startYFraction ) {
         this.startYFraction = startYFraction;
     }
+
 }

@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.DiscreteModel;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Feb 4, 2006
@@ -14,6 +16,7 @@ public class DGModel {
     private DiscreteModel discreteModel;
     private FractionalAtomLattice fractionalAtomLattice;
     private ConcreteAtomLattice concreteAtomLattice;
+    private ArrayList listeners = new ArrayList();
 
     public DGModel( DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;
@@ -29,9 +32,22 @@ public class DGModel {
         } );
     }
 
+    static interface Listener {
+        void potentialChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
     public void setFractionalSpacing( double spacing ) {
+        clearWave();
         fractionalAtomLattice.setSpacing( spacing );
         updatePotential();
+    }
+
+    private void clearWave() {
+        discreteModel.clearWavefunction();
     }
 
     private void updatePotential() {
@@ -39,9 +55,14 @@ public class DGModel {
         concreteAtomLattice = fractionalAtomLattice.toConcreteAtomLattice(
                 discreteModel.getGridWidth(), discreteModel.getGridHeight() );
         discreteModel.addPotential( concreteAtomLattice );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.potentialChanged();
+        }
     }
 
     public void setFractionalRadius( double value ) {
+        clearWave();
         fractionalAtomLattice.setAtomRadius( value );
         updatePotential();
     }
@@ -59,7 +80,13 @@ public class DGModel {
     }
 
     public void setFractionalY0( double y0 ) {
+        clearWave();
         fractionalAtomLattice.setY0( y0 );
         updatePotential();
     }
+
+    public ConcreteAtomLattice getConcreteAtomLattice() {
+        return concreteAtomLattice;
+    }
+
 }

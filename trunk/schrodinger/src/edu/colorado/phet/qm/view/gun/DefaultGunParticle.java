@@ -80,11 +80,11 @@ public class DefaultGunParticle extends GunParticle {
         return particleUnits.getMinVelocity().getValue();
     }
 
-    protected void detachListener( ChangeHandler changeHandler ) {
+    public void detachListener( ChangeHandler changeHandler ) {
         velocitySlider.removeChangeListener( changeHandler );
     }
 
-    protected void hookupListener( ChangeHandler changeHandler ) {
+    public void hookupListener( ChangeHandler changeHandler ) {
         velocitySlider.addChangeListener( changeHandler );
     }
 
