@@ -431,6 +431,17 @@ public class MathUtil {
         return value;
     }
 
+    /**
+     * Returns the angle, in radian, of the angle with respect to the x axis of
+     * a directed line segment connecting two points.
+     *
+     * @param origin The origin of the directed line segment
+     * @param end    The endpoint of the directed line segment
+     */
+    public static double getAngle( Point2D origin, Point2D end ) {
+        double theta = Math.atan2( end.getY() - origin.getY(), end.getX() - origin.getX() );
+        return theta;
+    }
 
     /**
      * This class manages a running average.
