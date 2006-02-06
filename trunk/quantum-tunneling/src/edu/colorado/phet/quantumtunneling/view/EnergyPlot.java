@@ -11,14 +11,12 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.BasicStroke;
 import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;

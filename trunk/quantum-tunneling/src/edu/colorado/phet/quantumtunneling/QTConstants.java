@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.text.DecimalFormat;
 
 import org.jfree.data.Range;

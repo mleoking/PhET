@@ -15,7 +15,6 @@ import java.awt.Cursor;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
