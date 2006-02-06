@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
 
 
 /**
- * PGlassPane is a Piccolo-based glass pane that does not intercept any events.
+ * GlassPaneCanvas is a Piccolo-based glass pane that does not intercept any events.
  * The cursor on the glass pane is set by adding a MouseListener (referred to
  * herein as the "cursor listener" on all JComponents in the hierarchy.
  * A Timer is used to periodically ensure that all JComponents have the 
@@ -38,7 +38,7 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
  * Sample usage:
  * <code>
  *    JFrame frame = PhetApplication.instance().getPhetFrame();
- *    PGlassPane glassPane = new PGlassPane( frame );
+ *    GlassPaneCanvas glassPane = new GlassPaneCanvas( frame );
  *    frame.setGlassPane( glassPane );
  *    glassPane.setVisible( true );
  * </code>
@@ -46,7 +46,7 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PGlassPane extends PCanvas {
+public class GlassPaneCanvas extends PCanvas {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -70,11 +70,11 @@ public class PGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     /**
-     * Constructs a PGlassPane.
+     * Constructs a GlassPaneCanvas.
      * 
-     * @param parentFrame this PGlassPane is intended to be the glass pane for parentFrame
+     * @param parentFrame this GlassPaneCanvas is intended to be the glass pane for parentFrame
      */
-    public PGlassPane( JFrame parentFrame ) {
+    public GlassPaneCanvas( JFrame parentFrame ) {
         super();
 
         // the parent frame
@@ -129,7 +129,7 @@ public class PGlassPane extends PCanvas {
     
     /**
      * Gets the parent frame.
-     * This PGlassPane is intended to serves as the glass pane for the parent frame.
+     * This GlassPaneCanvas is intended to serve as the glass pane for the parent frame.
      * 
      * @return the parent frame
      */

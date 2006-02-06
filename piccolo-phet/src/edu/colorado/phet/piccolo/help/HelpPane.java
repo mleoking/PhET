@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HelpPane extends PGlassPane {
+public class HelpPane extends GlassPaneCanvas {
 
     /**
      * Constructor.
