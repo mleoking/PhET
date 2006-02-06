@@ -42,7 +42,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private boolean _enabled;
     private double _width;
     private double _center;
-    private WavePacketSolver _solver;
+    private RichardsonSolver _solver;
     private boolean _measureEnabled;
     private double _saveCenter;
     private double _saveWidth;
@@ -59,7 +59,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _enabled = true;
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
-        _solver = new WavePacketSolver( this );
+        _solver = new RichardsonSolver( this );
         _measureEnabled = false;
         _saveCenter = _center;
         _saveWidth = _width;
@@ -88,7 +88,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Accessors
     //----------------------------------------------------------------------------
     
-    public WavePacketSolver getSolver() {
+    public RichardsonSolver getSolver() {
         return _solver;
     }
     

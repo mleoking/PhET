@@ -18,7 +18,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 
 
 /**
- * WavePacketSolver solves the wave function for a wave packet,
+ * RichardsonSolver solves the wave function for a wave packet,
  * by solving Schrodinger's equation for 1 dimension.
  * <p>
  * The propagation algorithm used herein was adapted from the implementation
@@ -37,7 +37,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WavePacketSolver {
+public class RichardsonSolver {
     
     //----------------------------------------------------------------------
     // Class data
@@ -47,7 +47,8 @@ public class WavePacketSolver {
     private static final double MASS = QTConstants.MASS;
     
     // Damping factors, to prevent periodic boundary condition.
-    private static double[] DAMPING_FACTORS = new double[] { 0.0, 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+    private static double[] DAMPING_FACTORS = 
+        new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
     //----------------------------------------------------------------------
     // Instance data
@@ -81,7 +82,7 @@ public class WavePacketSolver {
      * @param dx
      * @param dt
      */
-    public WavePacketSolver( WavePacket wavePacket ) {
+    public RichardsonSolver( WavePacket wavePacket ) {
         
         _wavePacket = wavePacket;
         _dx = 1;
