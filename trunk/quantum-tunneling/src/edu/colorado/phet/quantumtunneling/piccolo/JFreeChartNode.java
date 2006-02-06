@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.piccolo;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -45,6 +46,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     
     private JFreeChart _chart; // chart associated with the node
     private ChartRenderingInfo _info; // the chart's rendering info
+    private boolean _doubleBuffered; // draws the chart to an offscreen buffer
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,6 +62,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         _info = new ChartRenderingInfo();
         _chart = chart;
         _chart.addChangeListener( this );
+        _doubleBuffered = false;
         updateChartRenderingInfo();
     }
 
@@ -187,6 +190,16 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         return subplot;
     }
     
+    /**
+     * Determines whether the chart is rendered to a buffered image
+     * before being drawn to the paint method's graphics context.
+     * 
+     * @param enabled true or false
+     */
+    public void setDoubleBuffered( boolean enabled ) {
+        _doubleBuffered = enabled;
+    }
+    
     //----------------------------------------------------------------------------
     // Coordinate transforms
     //----------------------------------------------------------------------------
@@ -292,10 +305,39 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Painting the node updates the chart's rendering info.
      */
     protected void paint( PPaintContext paintContext ) {
+        if ( _doubleBuffered ) {
+            paintDoubleBuffered( paintContext );
+        }
+        else {
+            paintDirect( paintContext );
+        }
+    }
+        
+    /*
+     * Paints the node directly to the specified graphics context.
+     * 
+     * @param paintContext
+     */
+    private void paintDirect( PPaintContext paintContext ) {
         Graphics2D g2 = paintContext.getGraphics();
         _chart.draw( g2, getBoundsReference(), _info );
     }
     
+    /*
+     * Paints the node to a buffered image that is
+     * then drawn to the specified graphics context.
+     * 
+     * @param paintContext
+     */
+    private void paintDoubleBuffered( PPaintContext paintContext ) {
+        Rectangle2D bounds = getBoundsReference(); 
+        BufferedImage image = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), _info );
+        Graphics2D g2 = paintContext.getGraphics();
+        AffineTransform transform = new AffineTransform();
+        transform.translate( bounds.getX(), bounds.getY() );
+        g2.drawRenderedImage( image, transform );
+    }
+ 
     //----------------------------------------------------------------------------
     // ChartChangeListener implementation
     //----------------------------------------------------------------------------
