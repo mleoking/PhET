@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 - pause clock while dragging sliders/handles, restore the clock state on release
 - shapes in the Potential combo box
 - top edge of +1 tick label on Energy plot y axis is clipped
+- check Spanish translations, including help layout
 
 LOW PRIORITY:
 - Y axis labels move when zooming causes range to change
@@ -57,6 +58,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - add missing help item on Measure button, adjust positions
 (2/6/06) - remove clock "Loop" control images and code
 (2/6/06) - use Box.createHorizontalStrut to separate clock controls and display
 (2/6/06) - delete PathRenderer, it's buggy and not used
