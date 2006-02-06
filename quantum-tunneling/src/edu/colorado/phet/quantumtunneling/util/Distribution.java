@@ -12,7 +12,10 @@
 package edu.colorado.phet.quantumtunneling.util;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Random;
 
 
 /**

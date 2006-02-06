@@ -24,9 +24,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -163,7 +161,9 @@ public class QTModule extends AbstractModule implements Observer {
             _chart = new QTCombinedChart();
             _chart.getEnergyPlot().setWavePacket( _wavePacket );
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
+            
             _chartNode = new QTCombinedChartNode( _chart );
+            _chartNode.setDoubleBuffered( true );
         }
         
         // Add view nodes to the scene graph

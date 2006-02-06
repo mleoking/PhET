@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.Cursor;
-
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;

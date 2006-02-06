@@ -22,9 +22,9 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.piccolo.ConstrainedDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

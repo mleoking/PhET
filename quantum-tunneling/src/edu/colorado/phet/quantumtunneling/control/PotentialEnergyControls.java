@@ -13,8 +13,6 @@ package edu.colorado.phet.quantumtunneling.control;
 
 import java.util.ArrayList;
 
-import org.omg.stub.java.rmi._Remote_Stub;
-
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
