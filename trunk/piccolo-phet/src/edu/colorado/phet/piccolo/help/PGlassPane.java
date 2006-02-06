@@ -12,6 +12,7 @@
 package edu.colorado.phet.piccolo.help;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.*;
 import java.util.Arrays;
@@ -20,6 +21,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetPCanvas.CursorChangeEvent;
+import edu.colorado.phet.piccolo.PhetPCanvas.CursorChangeListener;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PInputEventListener;
 
@@ -55,7 +59,8 @@ public class PGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     private JFrame _parentFrame;  // we'll be serving as this frame's glass pane
-    private MouseListener _cursorListener; // handles cursor changes
+    private MouseListener _mouseListener; // handles cursor changes for JComponents
+    private CursorChangeListener _cursorChangeListener; // handles cursor changes for PhetPCanvas
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -83,17 +88,25 @@ public class PGlassPane extends PCanvas {
         getLayer().setPickable( false );
         getLayer().setChildrenPickable( false );
         
-        // Cursor control
-        _cursorListener = new MouseAdapter() {
+        // JComponent cursor synchronization
+        _mouseListener = new MouseAdapter() {
             public void mouseEntered( MouseEvent event ) {
                 setCursor( event.getComponent().getCursor() );
             }
             public void mouseExited( MouseEvent e ) {
+                //XXX using the default cursor may be incorrect!
                 setCursor( Cursor.getDefaultCursor() );
             }
         };
         
-        // Periodically make sure that all JComponents have cursorListener
+        // PhetPCanvas cursor synchronization
+        _cursorChangeListener = new CursorChangeListener() {
+            public void cursorChanged( CursorChangeEvent event ) {
+                setCursor( event.getCursor() );
+            }
+        };
+        
+        // Periodically make sure that all components have cursor-related listeners installed...
         Timer timer = new Timer( CURSOR_LISTENER_UPDATE_FREQUENCY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 installCursorListener( _parentFrame.getLayeredPane() );
@@ -145,18 +158,37 @@ public class PGlassPane extends PCanvas {
     //----------------------------------------------------------------------------
     
     /**
-     * Install the cursor listener on component and all of its descendents.
+     * Install the listeners on component and all of its descendents.
+     * These listeners handle synchronizing the glass pane's cursor
+     * with the components that are beneath it in the layered pane.
      * 
      * @param component
      */
     private void installCursorListener( JComponent component ) {
         if ( component != null && !( component instanceof PGlassPane ) ) {
-            if ( !Arrays.asList( component.getMouseListeners() ).contains( _cursorListener ) ) {
-                component.addMouseListener( _cursorListener );
+            
+            // PhetPCanvas gets a cursor change lister...
+            if ( component instanceof PhetPCanvas ) {
+                PhetPCanvas canvas = (PhetPCanvas) component;
+                if ( !Arrays.asList( canvas.getCursorChangeListeners() ).contains( _cursorChangeListener ) ) {
+                    canvas.addCursorChangeListener( _cursorChangeListener );
+                }
             }
-            for ( int i = 0; i < component.getComponentCount(); i++ ) {
-                if ( component.getComponent( i ) instanceof JComponent ) {
-                    installCursorListener( (JComponent) component.getComponent( i ) );
+            
+            // All components get a mouse listener.
+            if ( !Arrays.asList( component.getMouseListeners() ).contains( _mouseListener ) ) {
+                component.addMouseListener( _mouseListener );
+            }
+            
+            // Recursively process all child components...
+            int numberOfChildren = component.getComponentCount();
+            for ( int i = 0; i < numberOfChildren; i++ ) {
+                Component child = component.getComponent( i );
+                if ( child instanceof JComponent ) {
+                    installCursorListener( (JComponent) child );
+                }
+                else {
+                    // ignore other types of Components
                 }
             }
         }
