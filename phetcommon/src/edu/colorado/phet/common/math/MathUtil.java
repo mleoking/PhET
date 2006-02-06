@@ -444,6 +444,21 @@ public class MathUtil {
     }
 
     /**
+     * Returns the point in Cartesian coordinates spcified by radial coordinates with a
+     * specified origin in Cartesian space.
+     *
+     * @param r
+     * @param theta
+     * @param origin
+     * @return
+     */
+    public static Point2D radialToCartesian( double r, double theta, Point2D origin ) {
+        double x = r * Math.cos( theta );
+        double y = r * Math.sin( theta );
+        return new Point2D.Double( origin.getX() + x, origin.getY() + y );
+    }
+
+    /**
      * This class manages a running average.
      */
     public static class Average {
