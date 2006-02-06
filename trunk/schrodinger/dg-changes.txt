@@ -1,6 +1,6 @@
 Added indicator graphic for protractor angle on plot.
 Improved protractor graphics.
-Wave clears when parameters are changes.
+Wave clears when parameters are changed.
 
 *New in 0.04 (2-5-2006)
 Added particle controls;
