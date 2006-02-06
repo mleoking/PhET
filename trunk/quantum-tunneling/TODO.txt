@@ -10,28 +10,24 @@ HIGH PRIORITY:
 - decide whether to replace Richardson with Falstad model
 
 MEDIUM PRIORITY:
-- set wait cursors on content pane instead of components
+- set wait cursors on content pane (or glass pane?) instead of components
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - top edge of +1 tick label on Energy plot y axis is clipped
 - fix dt in Richardson algorithm so that it is related to clock dt
 - add application description to SimStrings files
 - pause clock while dragging sliders/handles, restore the clock state on release
-- restore "phase" veiw state when switching between sum and separate views
-- restore sum/separate state when switching between plane and wave packet
 - shapes in the Potential combo box
 - make it run faster/smoother
 
 LOW PRIORITY:
-- wait cursors on zoom buttons
+- wait cursors on controls
 - Y axis labels move when zooming causes range to change
-- make AbstractWavePacketSolver in case we have other implementations
 - make "about" menu item in HelpMenu accessible so that a different About dialog can be attached
 - select entire spinner value when it gets focus
 - fix tab order in Configure dialog
 - Wiggle Me
 - add build number to "About" dialog
 - add PhET logo to "About" dialog
-- remove clock "Loop" control images and code
 
 OPTIMIZATIONS:
 - remove test-src
@@ -65,6 +61,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - remove clock "Loop" control images and code
+(2/6/06) - use Box.createHorizontalStrut to separate clock controls and display
 (2/6/06) - delete PathRenderer, it's buggy and not used
 (2/6/06) - add additional damping points to Richardson solver
 (2/6/06) - WavePacket update and clockTicked need to be synchronized so that t=0 state is drawn consistently
@@ -353,6 +351,8 @@ DONE:
 
 
 REJECTED:
+(2/6/06) - restore "phase" veiw state when switching between sum and separate views (confusing)
+(23/6/06) - restore sum/separate state when switching between plane and wave packet (confusing)
 (1/25/06) - abandon specialization of CursorHandler to set top-level component cursor, wrong approach
 (1/20/06) - try native L&F on all platforms (WindowLookAndFeel looks worse than SmoothMetal for this sim)
 (1/20/06) - change time to ns when the time values grows too large to display fs (not worth worrying about)

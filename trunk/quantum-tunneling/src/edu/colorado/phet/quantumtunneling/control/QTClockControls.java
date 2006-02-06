@@ -48,14 +48,9 @@ public class QTClockControls extends JPanel implements ClockListener {
     private JButton _playButton;
     private JButton _pauseButton;
     private JButton _stepButton;
-    private JToggleButton _loopButton;
     private JTextField _timeTextField;
     private JLabel _timeUnitsLabel;
     
-    private Icon _loopOnIcon;
-    private Icon _loopOffIcon;
-    
-    private boolean _loopEnabled;
     private NumberFormat _timeFormat;
 
     //----------------------------------------------------------------------------
@@ -79,7 +74,6 @@ public class QTClockControls extends JPanel implements ClockListener {
         String playLabel = SimStrings.get( "button.play" );
         String pauseLabel = SimStrings.get( "button.pause" );
         String stepLabel = SimStrings.get( "button.step" );
-        String loopLabel = SimStrings.get( "button.loop" );
         String timeUnitsLabel = SimStrings.get( "units.time" );
         
         // Icons
@@ -87,16 +81,12 @@ public class QTClockControls extends JPanel implements ClockListener {
         Icon playIcon = null;
         Icon pauseIcon = null;
         Icon stepIcon = null;
-        _loopOnIcon = null;
-        _loopOffIcon = null;
         Icon clockIcon = null;
         try {
             restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_RESTART ) );
             playIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_PLAY ) );
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_PAUSE ) );
             stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_STEP ) );
-            _loopOnIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_LOOP_ON ) );
-            _loopOffIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_LOOP_OFF ) );
             clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {
@@ -118,8 +108,6 @@ public class QTClockControls extends JPanel implements ClockListener {
         _playButton = new JButton( playLabel, playIcon );
         _pauseButton = new JButton( pauseLabel, pauseIcon );
         _stepButton = new JButton( stepLabel, stepIcon );
-        _loopButton = new JToggleButton( loopLabel, _loopOffIcon );
-        _loopButton.setEnabled( false );//XXX
         
         // Layout
         setLayout( new BorderLayout() );
@@ -127,12 +115,11 @@ public class QTClockControls extends JPanel implements ClockListener {
         buttonPanel.add( clockLabel );
         buttonPanel.add( _timeTextField );
         buttonPanel.add( _timeUnitsLabel );
-        buttonPanel.add( new JLabel( "            " ) ); // space between time display and controls
+        buttonPanel.add( Box.createHorizontalStrut( 30 ) ); // space between time display and controls
         buttonPanel.add( _restartButton );
         buttonPanel.add( _playButton );
         buttonPanel.add( _pauseButton );
         buttonPanel.add( _stepButton );
-        buttonPanel.add( _loopButton );
 
         this.add( buttonPanel, BorderLayout.CENTER );
         
@@ -155,11 +142,6 @@ public class QTClockControls extends JPanel implements ClockListener {
         _stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleStep();
-            }
-        } );
-        _loopButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleLoopToggled();
             }
         } );
         
@@ -215,34 +197,6 @@ public class QTClockControls extends JPanel implements ClockListener {
         _timeFormat = format;
     }
     
-    /**
-     * Turns looping on and off.
-     * 
-     * @param true or false
-     */
-    public void setLoopEnabled( boolean enabled ) {
-        _loopEnabled = !enabled;
-        handleLoopToggled();
-    }
-    
-    /**
-     * Is looping enabled?
-     *
-     * @return true or false
-     */
-    public boolean isLoopEnabled() {
-        return _loopEnabled;
-    }
-    
-    /**
-     * Shows or hides the loop button.
-     * 
-     * @param true or false
-     */
-    public void setLoopVisible( boolean visible ) {
-        _loopButton.setVisible( false );
-    }
-    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -262,16 +216,6 @@ public class QTClockControls extends JPanel implements ClockListener {
     
     private void handleStep() {
         _clock.stepClockWhilePaused();
-    }
-    
-    private void handleLoopToggled() {
-        _loopEnabled = !_loopEnabled;
-        if ( _loopEnabled ) {
-            _loopButton.setIcon( _loopOnIcon );
-        }
-        else {
-            _loopButton.setIcon( _loopOffIcon );
-        } 
     }
    
     //----------------------------------------------------------------------------
