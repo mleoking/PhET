@@ -68,6 +68,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - piccolo-phet: remove all listeners added by PGlassPane when it's invisible
+(2/6/06) - piccolo-phet: replace PhetPCanvas.CursorChangeListener with a MouseListener in PGlassPane
 (2/5/06) - i18n help text
 (2/5/06) - piccolo-phet: changes to PhetPCanvas so that PGlassPane knows when cursor changes
 (2/5/06) - add angles to some of the help items
