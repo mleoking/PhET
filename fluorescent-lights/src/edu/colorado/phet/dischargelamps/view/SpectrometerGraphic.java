@@ -38,26 +38,19 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer.ChangeListener {
-//public class SpectrometerGraphic extends CompositePhetGraphic implements Spectrometer.ChangeListener {
 
     private static Color UV_COLOR = new Color( 180, 180, 180 );
 
     // Width, in pixels, of the display area in the image;
     private int imageDisplayWidth = 410;
-
     private PhetImageGraphic backgroundPanel;
-//    private Point displayOrigin = new Point( 50, 115 );
     private Point displayOrigin = new Point( 15, 115 );
     private int displayHeight = 100;
-//    private int displayWidth = 565;
     private int displayWidth = 600;
     private int horizontalDisplayMargin = 80;
-//    private int horizontalDisplayMargin = 30;
     private ArrayList photonMarkers = new ArrayList();
     private double minWavelength = 300; // nm
     private double maxWavelength = 800; // nm
-//    private double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
-//    private double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
     private boolean start = true;
     protected PhetButton startStopBtn;
     boolean startStopEnabled;
@@ -69,7 +62,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     public SpectrometerGraphic( Component component, final Spectrometer spectrometer ) {
         super( component );
 
-//        setIgnoreMouse( true );
         spectrometer.addChangeListener( this );
 
         BufferedImage spectrometerImage = null;
@@ -164,7 +156,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       Color.white,
                                                       (int)( xLocUv - 80 ),
                                                       (int)( displayOrigin.getY() + 15 ) );
-//                                                      (int)( displayOrigin.getY() + 35 ) );
         uvText.setIgnoreMouse( true );
         addGraphic( uvText );
 
@@ -179,7 +170,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       Color.white,
                                                       (int)( xLocIr + 30 ),
                                                       (int)( displayOrigin.getY() + 15 ) );
-//                                                      (int)( displayOrigin.getY() + 35 ) );
         irText.setIgnoreMouse( true );
         addGraphic( irText );
 
@@ -208,7 +198,6 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         } );
         addGraphic( startStopBtn );
         int xLocStartButton = 40;
-//        int xLocStartButton = 280;
         startStopBtn.setLocation( xLocStartButton, (int)( backgroundPanel.getSize().height ) );
         startStopBtn.setRegistrationPoint( 0, startStopBtn.getHeight() );
 
@@ -236,11 +225,9 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 
         if( orgWavelength < minWavelength ) {
             wavelengthLoc -= horizontalDisplayMargin * ( minWavelength - orgWavelength ) / minWavelength;
-//            wavelengthLoc -= 50;
         }
         if( orgWavelength > maxWavelength ) {
             wavelengthLoc += horizontalDisplayMargin * ( orgWavelength - maxWavelength ) / orgWavelength;
-//            wavelengthLoc += 50;
         }
         return wavelengthLoc;
     }
@@ -263,13 +250,11 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             // Create a graphic for the photon
             Ellipse2D.Double shape = new PhotonMarker( wavelengthLoc + displayOrigin.getX(),
                                                        indicatorLoc + displayOrigin.getY() );
-            Color color = null;
-            if( wavelength >= minWavelength && wavelength <= maxWavelength ) {
-                color = new VisibleColor( wavelength );
-            }
-            else {
+            Color color = VisibleColor.wavelengthToColor( wavelength );
+            if( color.getRed() == 0 && color.getGreen() == 0 & color.getBlue() == 0 ) {
                 color = UV_COLOR;
             }
+
             PhetShapeGraphic psg = new PhetShapeGraphic( getComponent(), shape, color );
             psg.setRegistrationPoint( 0, 3 );
             photonMarkers.add( psg );
