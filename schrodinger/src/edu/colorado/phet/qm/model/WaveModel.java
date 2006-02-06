@@ -99,12 +99,12 @@ public class WaveModel {
     }
 
     public void setValue( int i, int j, double real, double imag ) {
-        wavefunction.setValue( i,j,real,imag );
-        propagator.setValue(i,j,real,imag);
+        wavefunction.setValue( i, j, real, imag );
+        propagator.setValue( i, j, real, imag );
     }
 
     public void setMagnitude( double mag ) {
         wavefunction.setMagnitude( mag );
-        propagator.setWavefunctionNorm( mag);
+        propagator.setWavefunctionNorm( mag );
     }
 }

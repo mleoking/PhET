@@ -237,11 +237,11 @@ public class ClassicalWavePropagator extends Propagator {
     }
 
     public void setValue( int i, int j, double real, double imag ) {
-        if (last!=null){
-            last.setValue( i,j,real,imag );
+        if( last != null ) {
+            last.setValue( i, j, real, imag );
         }
-        if (last2!=null){
-            last2.setValue( i,j,real,imag );
+        if( last2 != null ) {
+            last2.setValue( i, j, real, imag );
         }
     }
 }

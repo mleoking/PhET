@@ -3,13 +3,13 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.CursorHandler;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
