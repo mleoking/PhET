@@ -284,7 +284,7 @@ public class PhetPCanvas extends PSwingCanvas {
      */
     public void setCursor( Cursor cursor ) {
         super.setCursor( cursor );
-        fireCursorChanged();
+        fireCursorChanged( cursor );
     }
     
     /**
@@ -316,14 +316,16 @@ public class PhetPCanvas extends PSwingCanvas {
     
     /*
      * Fires a CursorChangeEvent.
+     * 
+     * @param cursor the new cursor
      */
-    private void fireCursorChanged() {
+    private void fireCursorChanged( Cursor cursor ) {
         Object[] listeners = listenerList.getListenerList();
         CursorChangeEvent event = null;
         for ( int i = 0; i < listeners.length; i += 2 ) {
             if ( listeners[i] == CursorChangeListener.class ) {
                 if ( event == null ) {
-                    event = new CursorChangeEvent( this, getCursor() );
+                    event = new CursorChangeEvent( this, cursor );
                 }
                 ( (CursorChangeListener) listeners[i + 1] ).cursorChanged( event );
             }
