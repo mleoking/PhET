@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.gun.DefaultGunParticle;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.ParticleBeam;
@@ -20,13 +19,20 @@ import java.awt.event.ItemListener;
  */
 
 public class DGGun extends HighIntensityGunGraphic {
+    private DGParticle dgParticle;
+
     public DGGun( SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
     }
 
+    public DGParticle getDgParticle() {
+        return dgParticle;
+    }
+
     protected ImagePComboBox initComboBox() {
+        dgParticle = new DGParticle( this );
         final HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
-                new ParticleBeam( DefaultGunParticle.createElectron( this ) )
+                new ParticleBeam( dgParticle )
         };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( mybeams );
