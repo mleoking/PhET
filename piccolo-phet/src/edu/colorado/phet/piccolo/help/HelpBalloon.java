@@ -62,7 +62,7 @@ public class HelpBalloon extends AbstractHelpItem {
     public static final Object RIGHT_CENTER = new String( "right center" );
     public static final Object RIGHT_BOTTOM = new String( "right bottom" );
     
-    public static final double MAX_ARROW_ROTATION = 45; // degrees
+    public static final double MAX_ARROW_ROTATION = 70; // degrees
     public static final double MIN_ARROW_ROTATION = -MAX_ARROW_ROTATION;
     
     //----------------------------------------------------------------------------
