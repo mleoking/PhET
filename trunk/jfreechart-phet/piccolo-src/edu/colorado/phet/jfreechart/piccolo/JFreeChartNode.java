@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.piccolo;
+package edu.colorado.phet.jfreechart.piccolo;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
