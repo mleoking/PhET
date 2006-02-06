@@ -10,19 +10,25 @@
  */
 package edu.colorado.phet.piccolo;
 
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.util.PDebug;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
+import java.util.EventObject;
+
+import javax.swing.BorderFactory;
+import javax.swing.event.EventListenerList;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
@@ -33,6 +39,7 @@ public class PhetPCanvas extends PSwingCanvas {
     private TransformStrategy transformStrategy;
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
+    private EventListenerList listenerList;
 
     public PhetPCanvas() {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
@@ -54,7 +61,8 @@ public class PhetPCanvas extends PSwingCanvas {
         getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
-
+        listenerList = new EventListenerList();
+        
         resizeAdapter = new ResizeAdapter();
         addComponentListener( resizeAdapter );
         addMouseListener( new MouseAdapter() {
@@ -269,4 +277,79 @@ public class PhetPCanvas extends PSwingCanvas {
         }
     }
 
+    /**
+     * Sets the cursor and notifies all CursorChangeListeners via a CursorChangeEvent.
+     * 
+     * @param cursor
+     */
+    public void setCursor( Cursor cursor ) {
+        super.setCursor( cursor );
+        fireCursorChanged();
+    }
+    
+    /**
+     * Adds a CursorChangeListener.
+     * 
+     * @param listener
+     */
+    public synchronized void addCursorChangeListener( CursorChangeListener listener ) {
+        listenerList.add( CursorChangeListener.class, listener );
+    }
+    
+    /**
+     * Removes a CursorChangeListener.
+     * 
+     * @param listener
+     */
+    public synchronized void removeCursorChangeListener( CursorChangeListener listener ) {
+        listenerList.remove( CursorChangeListener.class, listener );
+    }
+    
+    /**
+     * Gets an array of all CursorChangeListeners.
+     * 
+     * @return
+     */
+    public synchronized CursorChangeListener[] getCursorChangeListeners() {
+        return (CursorChangeListener[]) listenerList.getListeners( CursorChangeListener.class );
+    }
+    
+    /*
+     * Fires a CursorChangeEvent.
+     */
+    private void fireCursorChanged() {
+        Object[] listeners = listenerList.getListenerList();
+        CursorChangeEvent event = null;
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == CursorChangeListener.class ) {
+                if ( event == null ) {
+                    event = new CursorChangeEvent( this, getCursor() );
+                }
+                ( (CursorChangeListener) listeners[i + 1] ).cursorChanged( event );
+            }
+        }
+    }
+    
+    /**
+     * CursorChangeListener is the listener interface for receiving
+     * notification about changes to the PhetPCanvas' cursor.
+     */
+    public interface CursorChangeListener extends EventListener {
+        public void cursorChanged( CursorChangeEvent e );
+    }
+    
+    /**
+     * CursorChangeEvent is an event indicating that the PhetPCanvas 
+     * cursor has changed.
+     */
+    public static class CursorChangeEvent extends EventObject {
+        private Cursor cursor;
+        public CursorChangeEvent( Object source, Cursor cursor ) {
+            super( source );
+            this.cursor = cursor;
+        }
+        public Cursor getCursor() {
+            return cursor;
+        }
+    }
 }
