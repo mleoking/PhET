@@ -43,7 +43,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double _width;
     private double _center;
     private WavePacketSolver _solver;
-    private boolean _solverDirty;
     private boolean _measureEnabled;
     private double _saveCenter;
     private double _saveWidth;
@@ -61,7 +60,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _solver = new WavePacketSolver( this );
-        _solverDirty = true;
         _measureEnabled = false;
         _saveCenter = _center;
         _saveWidth = _width;
@@ -97,9 +95,6 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
-            if ( _enabled ) {
-                _solverDirty = true;
-            }
         }
     }
 
@@ -112,7 +107,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             throw new IllegalArgumentException( "width must be > 0: " + width );
         }
         _width = width;
-        _solverDirty = true;
+        update();
     }
     
     public double getWidth() {
@@ -121,7 +116,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     
     public void setCenter( double center ) {
         _center = center;
-        _solverDirty = true;
+        update();
     }
     
     public double getCenter() {
@@ -134,8 +129,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _te = te;
         _te.addObserver( this );
-        _solver.update();
-        notifyObservers();
+        update();
     }
 
     public TotalEnergy getTotalEnergy() {
@@ -148,8 +142,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         _pe = pe;
         _pe.addObserver( this );
-        _solver.update();
-        notifyObservers();
+        update();
     }
 
     public AbstractPotential getPotentialEnergy() {
@@ -158,7 +151,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void setDirection( Direction direction ) {
         _direction = direction;
-        _solverDirty = true;
+        update();
     }
 
     public Direction getDirection() {
@@ -189,13 +182,12 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             }
             setCenter( chooseRandomPosition() );
             setWidth( QTConstants.MEASURING_WIDTH );
-            _solverDirty = true;
         }
         else if ( !enabled && wasMeasureEnabled ) {
             setCenter( _saveCenter );
             setWidth( _saveWidth );
-            _solverDirty = true;
         }
+       update();
     }
     
     /*
@@ -230,23 +222,24 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        _solverDirty = true;
+       update();
+    }
+    
+    // synchronized so that we don't step on clockTicked method
+    private synchronized void update() {
+        _solver.update();
+        notifyObservers();
     }
 
     //----------------------------------------------------------------------------
     // ClockListener implementation
     //----------------------------------------------------------------------------
 
-    public void clockTicked( ClockEvent clockEvent ) {
+    // synchronized so that we don't step on update method
+    public synchronized void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
-            if ( _solverDirty ) {
-                _solver.update();
-                _solverDirty = false;
-            }
-            else {
-                for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
-                    _solver.propogate();
-                }
+            for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
+                _solver.propogate();
             }
             notifyObservers();
         }
@@ -260,9 +253,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void simulationTimeReset( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
-            _solver.update();
-            _solverDirty = false;
-            notifyObservers();
+            update();
         }
     }
 }
