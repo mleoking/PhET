@@ -71,10 +71,11 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(2/2/06) - add angles to some of the help items
-(2/2/06) - piccolo-phet: add arrow rotation angle to HelpBubble
-(2/2/06) - piccolo-phet: fix help item coordinate mapping for JComponent inside PSwing
-(2/2/06) - piccolo-phet: changed PGlassPane to use Sam's cursor management approach
+(2/5/06) - piccolo-phet: changes to PhetPCanvas so that PGlassPane knows when cursor changes
+(2/5/06) - add angles to some of the help items
+(2/5/06) - piccolo-phet: add arrow rotation angle to HelpBubble
+(2/5/06) - piccolo-phet: fix help item coordinate mapping for JComponent inside PSwing
+(2/3/06) - piccolo-phet: changed PGlassPane to use Sam's cursor management approach
 (2/2/06) - phetcommon: move some stuff from quantumtunneling.AbstractControlPanel to phetcommon.ControlPanel
 (2/2/06) - move cursor stuff into CursorUtils
 (2/2/06) - piccolo-phet: implement 2 other approached for redispatching MouseEvents in PGlassPane
