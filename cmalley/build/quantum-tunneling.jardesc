@@ -9,10 +9,11 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
-        <javaElement handleIdentifier="=quantum-tunneling"/>
+        <javaElement handleIdentifier="=jfreechart"/>
+        <javaElement handleIdentifier="=jfreechart-phet"/>
         <javaElement handleIdentifier="=phetcommon"/>
         <javaElement handleIdentifier="=piccolo"/>
         <javaElement handleIdentifier="=piccolo-phet"/>
-        <javaElement handleIdentifier="=jfreechart"/>
+        <javaElement handleIdentifier="=quantum-tunneling"/>
     </selectedElements>
 </jardesc>
