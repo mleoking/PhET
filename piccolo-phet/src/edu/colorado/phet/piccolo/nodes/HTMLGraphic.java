@@ -1,4 +1,4 @@
-package edu.colorado.phet.piccolo.node;
+package edu.colorado.phet.piccolo.nodes;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;

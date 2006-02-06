@@ -3,9 +3,9 @@ package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.piccolo.*;
 import edu.colorado.phet.piccolo.help.WiggleMe;
-import edu.colorado.phet.piccolo.node.ArrowConnectorGraphic;
-import edu.colorado.phet.piccolo.node.ConnectorGraphic;
-import edu.colorado.phet.piccolo.node.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.ArrowConnectorGraphic;
+import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
