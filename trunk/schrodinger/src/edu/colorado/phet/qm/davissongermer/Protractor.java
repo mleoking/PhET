@@ -106,7 +106,6 @@ public class Protractor extends PhetPNode {
         rightLeg.update();
         arcGraphic.update();
         readoutGraphic.update();
-        double newAngle = getAngle();
         notifyAngleChanged();//todo this will give some spurious events.
     }
 
