@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- drag handle cursors don't change when help is "on" (other things with CursorHandler are OK)
-- i18n help text
 - specify an arrow angle for help items
 - address graphics performance so that sim draws correctly on slower PCs
 - charts don't update when Measure button is pressed with clock paused
@@ -71,6 +69,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/5/06) - i18n help text
 (2/5/06) - piccolo-phet: changes to PhetPCanvas so that PGlassPane knows when cursor changes
 (2/5/06) - add angles to some of the help items
 (2/5/06) - piccolo-phet: add arrow rotation angle to HelpBubble
