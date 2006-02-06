@@ -111,7 +111,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     public abstract boolean isFiring();
 
-    class ChangeHandler implements ChangeListener {
+    protected class ChangeHandler implements ChangeListener {
         private AbstractGunGraphic.MomentumChangeListener momentumChangeListener;
 
         public ChangeHandler( AbstractGunGraphic.MomentumChangeListener momentumChangeListener ) {

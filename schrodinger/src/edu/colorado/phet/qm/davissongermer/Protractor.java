@@ -48,15 +48,26 @@ public class Protractor extends PhetPNode {
         update();
     }
 
+    public void setLeftLegPickable( boolean pickable ) {
+        leftLeg.setPickable( pickable );
+        leftLeg.setChildrenPickable( pickable );
+    }
+
+    public void setReadoutGraphicPickable( boolean pickable ) {
+        readoutGraphic.setPickable( pickable );
+        readoutGraphic.setChildrenPickable( pickable );
+    }
+
     class LegGraphic extends PNode {
         double angle;
         PPath path;
-        private int LEG_LENGTH = 500;
+        private int LEG_LENGTH = 250;
+        ProtractorHandleGraphic protractorHandleGraphic;
 
         public LegGraphic() {
             path = new PPath();
-            path.setStrokePaint( Color.blue );
-            path.setStroke( new BasicStroke( 14 ) );
+            path.setStrokePaint( Color.white );
+            path.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 10}, 0 ) );
             addChild( path );
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
             addInputEventListener( new PDragEventHandler() {
@@ -64,6 +75,8 @@ public class Protractor extends PhetPNode {
                     setAngle( getAngle( event ) );
                 }
             } );
+            protractorHandleGraphic = new ProtractorHandleGraphic();
+            addChild( protractorHandleGraphic );
             update();
         }
 
@@ -76,6 +89,8 @@ public class Protractor extends PhetPNode {
             Point2D pt = Vector2D.Double.parseAngleAndMagnitude( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
             Line2D.Double line = new Line2D.Double( pt, new Point2D.Double() );
             path.setPathTo( line );
+            protractorHandleGraphic.setOffset( pt );
+            protractorHandleGraphic.setRotation( angle - Math.PI / 2 );
         }
 
         public double getAngle() {
