@@ -245,31 +245,31 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpPane helpPane = getDefaultHelpPane();
 
-        HelpBalloon h1 = new HelpBalloon( helpPane, "<html>Restart the clock to<br>return wave to initial state</html>", HelpBalloon.BOTTOM_RIGHT, 30 );
+        HelpBalloon h1 = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_RIGHT, 30 );
         helpPane.add(  h1 );
         h1.pointAt( _clockControls.getRestartButton() );
         
-        HelpBalloon h2 = new HelpBalloon( helpPane, "<html>Pause the animation.<br>You can change the controls while paused.</html>", HelpBalloon.BOTTOM_LEFT, 30 );
+        HelpBalloon h2 = new HelpBalloon( helpPane, SimStrings.get( "help.pause" ), HelpBalloon.BOTTOM_LEFT, 30 );
         helpPane.add(  h2 );
         h2.pointAt( _clockControls.getPauseButton() );
         
-        HelpBalloon h3 = new HelpBalloon( helpPane, "<html>Click and drag arrows to change<br>total or potential energy<html>", HelpBalloon.RIGHT_TOP, 20 );
+        HelpBalloon h3 = new HelpBalloon( helpPane, SimStrings.get( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
         helpPane.add( h3 );
         h3.pointAt( _totalEnergyControl, _canvas );
         
-        HelpBalloon h4 = new HelpBalloon( helpPane, "<html>Type and display<br>exact values for energy</html>", HelpBalloon.RIGHT_CENTER, 20 );
+        HelpBalloon h4 = new HelpBalloon( helpPane, SimStrings.get( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
         helpPane.add( h4 );
         h4.pointAt( _configureButton, _canvas );
     
-        HelpBalloon h5 = new HelpBalloon( helpPane, "Zoom in and out", HelpBalloon.LEFT_CENTER, 30 );
+        HelpBalloon h5 = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( h5 );
         h5.pointAt( _waveFunctionZoomControl, _canvas );
         
-        HelpBalloon h6 = new HelpBalloon( helpPane, "Zoom in and out", HelpBalloon.LEFT_CENTER, 30 );
+        HelpBalloon h6 = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( h6 );
         h6.pointAt( _probabilityDensityZoomControl, _canvas );
         
-        HelpBalloon h7 = new HelpBalloon( helpPane, "Change shape of potential", HelpBalloon.TOP_RIGHT, 210, 35 );
+        HelpBalloon h7 = new HelpBalloon( helpPane, SimStrings.get( "help.potentialControl" ), HelpBalloon.RIGHT_TOP, 210, -65 );
         helpPane.add( h7 );
         h7.pointAt( _controlPanel.getPotentialComboBox() );
         
