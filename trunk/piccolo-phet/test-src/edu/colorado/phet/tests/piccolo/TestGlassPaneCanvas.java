@@ -32,7 +32,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.help.GlassPaneCanvas;
-import edu.colorado.phet.piccolo.node.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
