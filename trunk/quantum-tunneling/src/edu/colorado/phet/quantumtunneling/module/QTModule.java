@@ -27,6 +27,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
@@ -714,9 +715,29 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setCenter( center );
     }
     
+    /**
+     * Sets "measure" mode for the waves.
+     * <p>
+     * Temporarily pauses the clock so that we're guaranteed to see
+     * the initial state of the wave.  For wave packets there can
+     * be a race condition where the wave gets propogated before 
+     * it's displayed if the clock is running.
+     * 
+     * @param enabled
+     */
     public void setMeasureEnabled( boolean enabled ) {
+        IClock clock = getClock();
+        boolean clockWasRunning = false;
+        if ( clock.isRunning() ) {
+            clockWasRunning = true;
+            clock.pause();
+        }
+        getClock().pause();
         _planeWave.setMeasureEnabled( enabled );
         _wavePacket.setMeasureEnabled( enabled );
+        if ( clockWasRunning ) {
+            getClock().start();
+        }
     }
     
     private void resetClock() {
