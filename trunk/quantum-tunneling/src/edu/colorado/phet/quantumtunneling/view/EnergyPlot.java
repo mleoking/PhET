@@ -179,7 +179,7 @@ public class EnergyPlot extends XYPlot implements Observer {
      * 
      * @param font
      */
-    public void setAxesFont( Font font ) {
+    public void setAxesLabelFont( Font font ) {
         getDomainAxis().setLabelFont( font );
         getRangeAxis().setLabelFont( font );
     }
