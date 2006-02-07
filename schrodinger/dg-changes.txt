@@ -1,3 +1,4 @@
+*New in 0.05 (2-6-2006)
 Added indicator graphic for protractor angle on plot.
 Improved protractor graphics.
 Wave clears when parameters are changed.
