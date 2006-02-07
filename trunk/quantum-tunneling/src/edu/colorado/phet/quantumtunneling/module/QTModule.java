@@ -163,7 +163,6 @@ public class QTModule extends AbstractModule implements Observer {
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             
             _chartNode = new QTCombinedChartNode( _chart );
-            _chartNode.setDoubleBuffered( true );
         }
         
         // Add view nodes to the scene graph
