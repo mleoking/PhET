@@ -1,15 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Map;
 
 /**
@@ -19,72 +17,20 @@ import java.util.Map;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class SingleParticleGunGraphic extends AbstractGunGraphic {
-    private JButton fireOne;
+public class SingleParticleGunGraphic extends AbstractGunGraphic implements FireParticle {
+    private FireButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
     private AutoFire autoFire;
-    private ImageIcon outIcon;
-    private ImageIcon inIcon;
+
     private PhotonBeamParticle photonBeamParticle;
     protected final JCheckBox autoFireJCheckBox;
     private GunControlPanel gunControlPanel;
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        fireOne = new JButton( "Fire" );
-        fireOne.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
-        fireOne.setForeground( Color.red );
-        fireOne.setMargin( new Insets( 2, 2, 2, 2 ) );
-
-        addButtonEnableDisable();
-
-        try {
-            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
-            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
-            fireOne.setIcon( outIcon );
-            fireOne.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        fireOne.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                if( fireButtonEnabled() ) {
-                    fireOne.setIcon( inIcon );
-                }
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-                if( fireButtonEnabled() ) {
-                    fireOne.setIcon( outIcon );
-                }
-            }
-        } );
-
-        fireOne.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                fireOne.setEnabled( false );
-                clearAndFire();
-                fireOne.setIcon( outIcon );
-                updateGunLocation();
-                getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            }
-        } );
-        fireOne.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                if( fireButtonEnabled() ) {
-                    updateGunLocation();
-                    getGunImageGraphic().translate( 0, 10 );
-                }
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-                if( fireButtonEnabled() ) {
-                    updateGunLocation();
-                }
-            }
-        } );
+        fireOne = new FireButton( this );
+        fireOne.addButtonEnableDisable();
 
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
         autoFireJCheckBox = new AutoFireCheckBox( autoFire );
@@ -116,28 +62,6 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic {
         else {
             return new Point();
         }
-    }
-
-    private boolean fireButtonEnabled() {
-        return fireOne.isEnabled();
-    }
-
-    private void addButtonEnableDisable() {
-        getSchrodingerModule().getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
-                if( magnitude <= AutoFire.THRESHOLD ) {
-                    if( !fireButtonEnabled() ) {
-                        fireOne.setEnabled( true );
-                    }
-                }
-                else {
-                    if( fireButtonEnabled() ) {
-                        fireOne.setEnabled( false );
-                    }
-                }
-            }
-        } );
     }
 
     public void clearAndFire() {

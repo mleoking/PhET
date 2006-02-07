@@ -54,7 +54,7 @@ public abstract class AbstractGunGraphic extends PNode {
         super.layoutChildren();
     }
 
-    protected void updateGunLocation() {
+    public void updateGunLocation() {
         gunImageGraphic.setOffset( getGunLocation() );
     }
 
