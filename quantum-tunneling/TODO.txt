@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Richardson solver's initial state is not always shown when Measure button is pressed
 - address graphics performance issues
 - move non-Swing stuff out of event-dispatch thread
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -60,6 +59,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - temporarily pause the clock when "Measure" is pressed to ensure that initial state is drawn
 (2/6/06) - change help text for Configure button at Sam M's request
 (2/6/06) - add a flag to determine whether JFreeChart is used to draw dynamic elements
 (2/6/06) - add missing help item on Measure button, adjust positions
