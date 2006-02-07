@@ -23,7 +23,7 @@ import java.awt.*;
 public class DGApplication extends PhetApplication {
     public static String TITLE = "Davisson-Germer Experiment";
     public static String DESCRIPTION = "Davisson-Germer Experiment";
-    public static String VERSION = "0.05";
+    public static String VERSION = "0.06";
 
     static {
         PhetLookAndFeel.setLookAndFeel();

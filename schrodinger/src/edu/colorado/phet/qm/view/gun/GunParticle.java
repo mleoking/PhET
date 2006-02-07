@@ -48,7 +48,12 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double px = 0;
         double py = getStartPy();
         Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
-
+        if( phaseLockPoint.y >= currentWave.getHeight() ) {
+            phaseLockPoint.y = currentWave.getHeight() - 1;
+        }
+        if( phaseLockPoint.y < 0 ) {
+            phaseLockPoint.y = 0;
+        }
         double dxLattice = getStartDxLattice();
         GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
                                                          new Vector2D.Double( px, py ), dxLattice, getHBar() );
@@ -67,7 +72,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     protected abstract double getHBar();
 
-    private double getIntensityScale() {
+    public double getIntensityScale() {
         return intensityScale;
     }
 
@@ -167,4 +172,5 @@ public abstract class GunParticle extends ImageComboBox.Item {
     public void setIntensityScale( double intensityScale ) {
         this.intensityScale = intensityScale;
     }
+
 }

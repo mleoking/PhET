@@ -26,14 +26,22 @@ import java.text.DecimalFormat;
  */
 
 public class HighIntensityGunGraphic extends AbstractGunGraphic {
-    private JCheckBox alwaysOnCheckBox;
-    private ModelSlider intensitySlider;
+    protected JCheckBox alwaysOnCheckBox;
+    protected ModelSlider intensitySlider;
     private boolean on = false;
     private HighIntensityBeam[] beams;
     private HighIntensityBeam currentBeam;
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
+
+    protected ModelSlider getIntensitySlider() {
+        return intensitySlider;
+    }
+
+    protected JCheckBox getAlwaysOnCheckBox() {
+        return alwaysOnCheckBox;
+    }
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -70,7 +78,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     }
 
-    private GunControlPanel createGunControlPanel() {
+    protected GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.add( intensitySlider );
         gunControlPanel.add( alwaysOnCheckBox );

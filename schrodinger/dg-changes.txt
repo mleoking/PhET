@@ -1,3 +1,7 @@
+*New in 0.06 (2-6-2006)
+Added single particle fire button.
+Fixed y0=0 crash bug.
+
 *New in 0.05 (2-6-2006)
 Added indicator graphic for protractor angle on plot.
 Improved protractor graphics.
