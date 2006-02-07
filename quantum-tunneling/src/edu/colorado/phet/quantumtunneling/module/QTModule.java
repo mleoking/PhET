@@ -580,7 +580,9 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergy = potentialEnergy;
             _potentialEnergy.addObserver( this );
 
-            _chart.setPotentialEnergy( _potentialEnergy );
+            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+                _chart.setPotentialEnergy( _potentialEnergy );
+            }
             _controlPanel.setPotentialEnergy( _potentialEnergy );
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
             _planeWave.setPotentialEnergy( _potentialEnergy );
@@ -636,7 +638,9 @@ public class QTModule extends AbstractModule implements Observer {
         
         resetClock();
 
-        _chart.setTotalEnergy( _totalEnergy );
+        if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+            _chart.setTotalEnergy( _totalEnergy );
+        }
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
         _wavePacket.setTotalEnergy( totalEnergy );
@@ -657,12 +661,16 @@ public class QTModule extends AbstractModule implements Observer {
         if ( waveType == WaveType.PLANE ) {
             _planeWave.setEnabled( true );
             _wavePacket.setEnabled( false );
-            _chart.getWaveFunctionPlot().setWave( _planeWave );
+            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+                _chart.getWaveFunctionPlot().setWave( _planeWave );
+            }
         }
         else {
             _planeWave.setEnabled( false );
             _wavePacket.setEnabled( true );
-            _chart.getWaveFunctionPlot().setWave( _wavePacket );
+            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+                _chart.getWaveFunctionPlot().setWave( _wavePacket );
+            }
         }
     }
     

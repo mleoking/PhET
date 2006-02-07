@@ -5,12 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- Richardson solver's initial state is not always shown when Measure button is pressed
 - address graphics performance issues
 - move non-Swing stuff out of event-dispatch thread
 - fix dt in Richardson algorithm so that it is related to clock dt
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
 MEDIUM PRIORITY:
+- set default clock state to running
 - decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
@@ -58,6 +60,7 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - add a flag to determine whether JFreeChart is used to draw dynamic elements
 (2/6/06) - add missing help item on Measure button, adjust positions
 (2/6/06) - remove clock "Loop" control images and code
 (2/6/06) - use Box.createHorizontalStrut to separate clock controls and display
