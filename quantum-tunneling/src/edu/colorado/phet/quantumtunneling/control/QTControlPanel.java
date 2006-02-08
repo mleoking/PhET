@@ -73,9 +73,8 @@ public class QTControlPanel extends AbstractControlPanel {
     //----------------------------------------------------------------------------
     
     private QTModule _module;
-    private JComboBox _potentialComboBox;
+    private PotentialComboBox _potentialComboBox;
     private JCheckBox _showValuesCheckBox;
-    private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JRadioButton _separateRadioButton, _sumRadioButton;
     private JRadioButton _leftToRightRadioButton, _rightToLeftRadioButton;
@@ -114,15 +113,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JLabel label = new JLabel( SimStrings.get( "label.potential" ) );
 
             // Potential combo box 
-            {
-                _constantItem = SimStrings.get( "choice.potential.constant" );
-                _stepItem = SimStrings.get( "choice.potential.step" );
-                _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
-                _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
-
-                Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
-                _potentialComboBox = new JComboBox( items );
-            }
+            _potentialComboBox = new PotentialComboBox();
 
             // Show values
             _showValuesCheckBox = new JCheckBox( SimStrings.get( "label.showValues" ) );
@@ -401,21 +392,8 @@ public class QTControlPanel extends AbstractControlPanel {
     
     public void setPotentialEnergy( AbstractPotential pe ) {
         _potentialComboBox.removeItemListener( _listener );
-        if ( pe instanceof ConstantPotential ) {
-            _potentialComboBox.setSelectedItem( _constantItem );
-        }
-        else if ( pe instanceof StepPotential ) {
-            _potentialComboBox.setSelectedItem( _stepItem );
-        }
-        else if ( pe instanceof SingleBarrierPotential ) {
-            _potentialComboBox.setSelectedItem( _singleBarrierItem );
-        }
-        else if ( pe instanceof DoubleBarrierPotential ) {
-            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
-        }
+        PotentialType potentialType = PotentialFactory.getPotentialType( pe );
+        _potentialComboBox.setSelectedPotentialType( potentialType );
         _potentialComboBox.addItemListener( _listener );
     }
     
@@ -425,18 +403,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * @param potentialType
      */
     public void setPotentialType( PotentialType potentialType ) {
-        if ( potentialType == PotentialType.CONSTANT ) {
-            _potentialComboBox.setSelectedItem( _constantItem );
-        }
-        else if ( potentialType == PotentialType.STEP ) {
-            _potentialComboBox.setSelectedItem( _stepItem );
-        }
-        else if ( potentialType == PotentialType.SINGLE_BARRIER ) {
-            _potentialComboBox.setSelectedItem( _singleBarrierItem );
-        }
-        else if ( potentialType == PotentialType.DOUBLE_BARRIER ) {
-            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-        }
+        _potentialComboBox.setSelectedPotentialType( potentialType );
         handlePotentialSelection();
     }
     
@@ -446,21 +413,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * @return
      */
     public PotentialType getPotentialType() {
-        PotentialType potentialType = null;
-        Object selection = _potentialComboBox.getSelectedItem();
-        if ( selection == _constantItem ) {
-            potentialType = PotentialType.CONSTANT;
-        }
-        else if ( selection == _stepItem ) {
-            potentialType = PotentialType.STEP;
-        }
-        else if ( selection == _singleBarrierItem ) {
-            potentialType = PotentialType.SINGLE_BARRIER;
-        }
-        else if ( selection == _doubleBarrierItem ) {
-            potentialType = PotentialType.DOUBLE_BARRIER;
-        }
-        return potentialType;
+        return _potentialComboBox.getSelectedPotentialType();
     }
     
     public void setShowValuesSelected( boolean selected ) {
