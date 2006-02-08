@@ -244,37 +244,25 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpPane helpPane = getDefaultHelpPane();
 
-        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
-        helpPane.add(  restartHelp );
-        restartHelp.pointAt( _clockControls.getRestartButton() );
-        
-        HelpBalloon pauseHelp = new HelpBalloon( helpPane, SimStrings.get( "help.pause" ), HelpBalloon.BOTTOM_LEFT, 80 );
-        helpPane.add(  pauseHelp );
-        pauseHelp.pointAt( _clockControls.getPauseButton() );
+        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
+        helpPane.add( configureHelp );
+        configureHelp.pointAt( _configureButton, _canvas );
         
         HelpBalloon dragHandleHelp = new HelpBalloon( helpPane, SimStrings.get( "help.dragHandle" ), HelpBalloon.RIGHT_TOP, 20 );
         helpPane.add( dragHandleHelp );
         dragHandleHelp.pointAt( _totalEnergyControl, _canvas );
         
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.configure" ), HelpBalloon.RIGHT_CENTER, 20 );
-        helpPane.add( configureHelp );
-        configureHelp.pointAt( _configureButton, _canvas );
-    
-        HelpBalloon zoomHelp1 = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
-        helpPane.add( zoomHelp1 );
-        zoomHelp1.pointAt( _waveFunctionZoomControl, _canvas );
-        
-        HelpBalloon zoomHelp2 = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
-        helpPane.add( zoomHelp2 );
-        zoomHelp2.pointAt( _probabilityDensityZoomControl, _canvas );
-        
-        HelpBalloon potentialHelp = new HelpBalloon( helpPane, SimStrings.get( "help.potentialControl" ), HelpBalloon.RIGHT_TOP, 250, -70 );
-        helpPane.add( potentialHelp );
-        potentialHelp.pointAt( _controlPanel.getPotentialComboBox() );
-        
-        HelpBalloon measureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.measure" ), HelpBalloon.BOTTOM_CENTER, 40 );
+        HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
+        helpPane.add( zoomHelp );
+        zoomHelp.pointAt( _waveFunctionZoomControl, _canvas );
+
+        HelpBalloon measureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.measure" ), HelpBalloon.BOTTOM_LEFT, 40 );
         helpPane.add( measureHelp );
         measureHelp.pointAt( _measureButton, _canvas );
+        
+        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
+        helpPane.add(  restartHelp );
+        restartHelp.pointAt( _clockControls.getRestartButton() );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
