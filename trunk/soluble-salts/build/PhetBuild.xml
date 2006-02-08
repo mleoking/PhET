@@ -96,7 +96,7 @@ ignorepath      (those elements of the ant classpath that should not be
             <src path="${project_home}/piccolo-phet-module/phetcommon-module/src"/>
             <src path="${project_home}/mechanics-module/src"/>
             <src path="${project_home}/collision-module/src"/>
-            <exclude name="${project_home}/piccolo-phet-module/piccolo-module/extras/edu/umd/cs/piccolox/swt/**"/>
+            <exclude name="edu/umd/cs/piccolox/swt/**"/>
         </javac>
     </target>
 
