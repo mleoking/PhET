@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.util;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -169,6 +166,9 @@ public class EventChannel implements InvocationHandler {
         }
         catch( InvocationTargetException ite ) {
             throw new InvocationTargetException( ite, "target = " + target );
+        }
+        catch( UndeclaredThrowableException ute ) {
+            throw new UndeclaredThrowableException( ute, "target = " + target );            
         }
         catch( Throwable t ) {
             System.out.println( "t = " + t );
