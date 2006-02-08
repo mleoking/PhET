@@ -111,42 +111,43 @@ public class GlassPaneCanvas extends PCanvas {
                 setCursor( event.getComponent().getCursor() );
             }
         };
-        
+
         // Periodically make sure that all components have cursor-related listeners installed...
         _timer = new Timer( CURSOR_LISTENER_UPDATE_FREQUENCY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 addCursorListeners( _parentFrame.getLayeredPane() );
             }
         } );
-        
+        _timer.setInitialDelay( 0 );
+
         _componentList = new ArrayList();
         _canvasList = new ArrayList();
     }
 
     //----------------------------------------------------------------------------
-    // Accessors 
+    // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the parent frame.
      * This GlassPaneCanvas is intended to serve as the glass pane for the parent frame.
-     * 
+     *
      * @return the parent frame
      */
     protected JFrame getParentFrame() {
         return _parentFrame;
     }
-    
+
     //----------------------------------------------------------------------------
-    // Overrides 
+    // Overrides
     //----------------------------------------------------------------------------
-    
+
     /**
-     * When the glass pane is visible, start the timer that installs 
+     * When the glass pane is visible, start the timer that installs
      * cursor-related listeners.  When the glass pane is invisible,
      * stop the timer and remove all cursor-related listeners, so that
      * we're not doing any unnecessary work.
-     * 
+     *
      * @param visible
      */
     public void setVisible( boolean visible ) {
@@ -159,13 +160,13 @@ public class GlassPaneCanvas extends PCanvas {
             removeCursorListeners();
         }
     }
-    
+
     /*
      * If we don't have listeners for events, then they are
      * automatically directed to the content pane, menu bar, etc.
      * So we override the corresponding "addListener" methods with stubs.
      */
-    
+
     public synchronized void addFocusListener( FocusListener l ) {}
 
     public synchronized void addInputEventListener( PInputEventListener l ) {}
@@ -181,9 +182,9 @@ public class GlassPaneCanvas extends PCanvas {
     public synchronized void addMouseWheelListener( MouseWheelListener l ) {}
 
     //----------------------------------------------------------------------------
-    // MouseListener for cursor control 
+    // MouseListener for cursor control
     //----------------------------------------------------------------------------
-    
+
     /*
      * Install the listeners on component and all of its descendents.
      * These listeners handle synchronizing the glass pane's cursor
@@ -191,26 +192,26 @@ public class GlassPaneCanvas extends PCanvas {
      * <p>
      * Note that we keep lists of the components that we've added
      * listeners to.  Since the Swing hierarchy may change, this is the
-     * only way that we can reliably remove all the listeners that 
-     * we've added in removeCursorListeners. 
-     * 
+     * only way that we can reliably remove all the listeners that
+     * we've added in removeCursorListeners.
+     *
      * @param component
      */
     private void addCursorListeners( JComponent component ) {
         if ( component != null ) {
-            
+
             // All components get a mouse listener.
             if ( !_componentList.contains( _componentCursorListener ) ) {
                 component.addMouseListener( _componentCursorListener );
                 _componentList.add( component );
             }
-            
+
             // PhetPCanvas gets an additional mouse lister.
             if ( component instanceof PCanvas && !_canvasList.contains( component ) ) {
                 component.addMouseMotionListener( _canvasCursorListener );
                 _canvasList.add( component );
             }
-            
+
             // Recursively process all child components...
             int numberOfChildren = component.getComponentCount();
             for ( int i = 0; i < numberOfChildren; i++ ) {
@@ -224,10 +225,10 @@ public class GlassPaneCanvas extends PCanvas {
             }
         }
     }
-    
+
     /*
      * Removes all listeners that were added via addCursorListeners.
-     * 
+     *
      * @param component
      */
     private void removeCursorListeners() {
@@ -241,5 +242,7 @@ public class GlassPaneCanvas extends PCanvas {
             Component component = (Component) j.next();
             component.removeMouseMotionListener( _canvasCursorListener );
         }
+        _componentList.clear();
+        _canvasList.clear();
     }
 }
