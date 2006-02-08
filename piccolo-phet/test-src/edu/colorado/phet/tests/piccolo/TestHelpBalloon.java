@@ -126,7 +126,7 @@ public class TestHelpBalloon extends PhetApplication {
                     }
                 } );
                 
-                canvasPanel.setBorder( new TitledBorder( "Text properties" ) );
+                canvasPanel.setBorder( new TitledBorder( "Canvas properties" ) );
                 EasyGridBagLayout layout = new EasyGridBagLayout( canvasPanel );
                 canvasPanel.setLayout( layout );
                 int row = 0;
