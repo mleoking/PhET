@@ -53,16 +53,20 @@ JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
 - XYTextAnnotation doesn't support HTML
 
-MACINTOSH
+MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/8/06) - make QTModule easy to switch between plot rendering strategies
+(2/8/06) - write XYPlotNode for drawing XYPlot outside of JFreeChart framework
+(2/8/06) - cleanup XYPlot subclasses so that they can be wrapped in a custom PNode
+(2/8/06) - piccolo-phet: add chart buffering to JFreeChartNode
 0.00.11...
-(2/6/06) - PNode cursor change problem with help on (fixed by Sam Reid)
-(2/6/06) - create PotentialFactory to encapsulate instanceof operations on AbstractPotentials and PotentialTypes
-(2/6/06) - add icons in Potential combo box to indicate potential shapes
-(2/6/06) - piccolo-phet: flesh out TestHelpBalloon to test all properties
-(2/6/06) - remove help items for Pause and lower zoom buttons, as requested
+(2/7/06) - PNode cursor change problem with help on (fixed by Sam Reid)
+(2/7/06) - create PotentialFactory to encapsulate instanceof operations on AbstractPotentials and PotentialTypes
+(2/7/06) - add icons in Potential combo box to indicate potential shapes
+(2/7/06) - piccolo-phet: flesh out TestHelpBalloon to test all properties
+(2/7/06) - remove help items for Pause and lower zoom buttons, as requested
 (2/6/06) - temporarily pause the clock when "Measure" is pressed to ensure that initial state is drawn
 (2/6/06) - change help text for Configure button at Sam M's request
 (2/6/06) - add a flag to determine whether JFreeChart is used to draw dynamic elements
