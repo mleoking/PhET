@@ -37,6 +37,8 @@ import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
@@ -47,14 +49,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestHelpBalloon extends PhetApplication {
 
+    private static final String VERSION = "0.00.01";
+    private static final String TITLE = "TestHelpBalloon";
+    private static final String DESCRIPTION = "test harness for HelpBalloon";
+    
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
     
+    // Arrow property values
     private static final Object DEFAULT_ARROW_TAIL_POSITION = HelpBalloon.TOP_LEFT;
     private static final int DEFAULT_ARROW_LENGTH = 40;
     private static final int DEFAULT_ARROW_ROTATION = 0;
-    
     private static final int MIN_ARROW_ROTATION = (int) HelpBalloon.MIN_ARROW_ROTATION;
     private static final int MAX_ARROW_ROTATION = (int) HelpBalloon.MAX_ARROW_ROTATION;
     
@@ -71,7 +77,7 @@ public class TestHelpBalloon extends PhetApplication {
 
     /* Application */
     public TestHelpBalloon( String[] args ) throws InterruptedException {
-        super( args, "TestHelpBalloon", "test of HelpBalloon", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
+        super( args, TITLE, DESCRIPTION, VERSION, new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module module1 = new TestModule( "Module 1" );
         addModule( module1 );
@@ -109,10 +115,21 @@ public class TestHelpBalloon extends PhetApplication {
             PPath pathNode = new PPath();
             pathNode.setPathToRectangle( 0, 0, 75, 75 );
             pathNode.setPaint( Color.RED );
-            pathNode.setOffset( 150, 150 );
-            pathNode.addInputEventListener( new PDragEventHandler() );
-            pathNode.addInputEventListener( new CursorHandler() );
-            canvas.getLayer().addChild( pathNode );
+            pathNode.setOffset( 0, 0 );
+            
+            PText textNode = new PText( "Drag me" );
+            textNode.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+            textNode.setTextPaint( Color.BLACK );
+            textNode.setOffset( pathNode.getWidth()/2 - textNode.getWidth()/2, pathNode.getHeight()/2 - textNode.getHeight()/2 );
+            
+            PComposite compositeNode = new PComposite();
+            compositeNode.setOffset( 150, 150 );
+            compositeNode.addChild( pathNode );
+            compositeNode.addChild( textNode );
+            compositeNode.addInputEventListener( new PDragEventHandler() );
+            compositeNode.addInputEventListener( new CursorHandler() );
+            
+            canvas.getLayer().addChild( compositeNode );
             
             // Control panel --------------------------------------------
             
