@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
 MEDIUM PRIORITY:
+- total energy gradient sometimes contains "noise" (Mac)
 - set default clock state to running
 - decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
@@ -53,7 +54,6 @@ JFREECHART:
 - XYTextAnnotation doesn't support HTML
 
 MACINTOSH
-- total energy gradient sometimes contains "noise"
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
