@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when help is on, cursor doesn't change over non-PSwing PNodes (JDK 5)
 - address graphics performance issues
+- when help is on, cursor doesn't change over non-PSwing PNodes (JDK 5)
 - fix dt in Richardson algorithm so that it is related to clock dt
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
