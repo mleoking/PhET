@@ -33,14 +33,24 @@ public class QTCombinedChartNode extends JFreeChartNode {
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructor.
+     * 
+     * @param chart
+     * @param buffered
+     */
+    public QTCombinedChartNode( QTCombinedChart chart, boolean buffered ) {
+        super( chart, buffered );
+        setPickable( false );
+        setChildrenPickable( false );
+    }
+    
+    /**
+     * Constructs and unbuffered chart node.
      * 
      * @param chart
      */
     public QTCombinedChartNode( QTCombinedChart chart ) {
-        super( chart );
-        setPickable( false );
-        setChildrenPickable( false );
+        this( chart, false /* buffered */ );
     }
     
     //----------------------------------------------------------------------------

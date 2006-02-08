@@ -91,6 +91,11 @@ public class QTModule extends AbstractModule implements Observer {
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
     
+    // Custom plots
+//    private XYPlotNode _energyPlotNode;
+//    private XYPlotNode _waveFunctionPlotNode;
+//    private XYPlotNode _probabilityDensityPlotNode;
+    
     // Control
     private PSwing _configureButton;
     private PSwing _measureButton;
@@ -160,10 +165,17 @@ public class QTModule extends AbstractModule implements Observer {
         // Combined chart
         {
             _chart = new QTCombinedChart();
-            _chart.getEnergyPlot().setWavePacket( _wavePacket );
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
+            _chart.getEnergyPlot().setPlaneWave( _planeWave );
+            _chart.getEnergyPlot().setWavePacket( _wavePacket );
             
-            _chartNode = new QTCombinedChartNode( _chart );
+            boolean buffered = ( ! QTConstants.JFREECHART_DYNAMIC );
+            _chartNode = new QTCombinedChartNode( _chart, buffered );
+        }
+        
+        // Custom plots
+        if ( !QTConstants.JFREECHART_DYNAMIC ) {
+            //XXX
         }
         
         // Add view nodes to the scene graph
@@ -309,6 +321,11 @@ public class QTModule extends AbstractModule implements Observer {
         Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
         Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
+        
+        // Custom plots  
+        if ( !QTConstants.JFREECHART_DYNAMIC ) {
+            //XXX
+        }
         
         // Drag handles
         {
@@ -507,7 +524,7 @@ public class QTModule extends AbstractModule implements Observer {
             boolean clockRunning = getClock().isRunning();
             getClock().pause();
             WaveType waveType = _controlPanel.getWaveType();
-            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, waveType );
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, _planeWave );
             _configureEnergyDialog.show();
             // Dialog is model, so we stop here until the dialog is closed.
             _configureEnergyDialog.cleanup();
@@ -569,8 +586,12 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergy = potentialEnergy;
             _potentialEnergy.addObserver( this );
 
-            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
-                _chart.setPotentialEnergy( _potentialEnergy );
+            if ( QTConstants.JFREECHART_DYNAMIC ) {
+                _chart.getEnergyPlot().setPotentialEnergy( potentialEnergy );
+                _chart.setRegionMarkers( _potentialEnergy );
+            }
+            else {
+                //XXX
             }
             _controlPanel.setPotentialEnergy( _potentialEnergy );
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
@@ -627,8 +648,11 @@ public class QTModule extends AbstractModule implements Observer {
         
         resetClock();
 
-        if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
-            _chart.setTotalEnergy( _totalEnergy );
+        if ( QTConstants.JFREECHART_DYNAMIC ) {
+            _chart.getEnergyPlot().setTotalEnergy( _totalEnergy );
+        }
+        else {
+            //XXX
         }
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
@@ -646,19 +670,27 @@ public class QTModule extends AbstractModule implements Observer {
     
     public void setWaveType( WaveType waveType ) {
         resetClock();
-        _chart.getEnergyPlot().setWaveType( waveType );
+        
         if ( waveType == WaveType.PLANE ) {
             _planeWave.setEnabled( true );
             _wavePacket.setEnabled( false );
-            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+            if ( QTConstants.JFREECHART_DYNAMIC ) {
+                _chart.getEnergyPlot().showPlaneWave();
                 _chart.getWaveFunctionPlot().setWave( _planeWave );
+            }
+            else {
+                //XXX
             }
         }
         else {
             _planeWave.setEnabled( false );
             _wavePacket.setEnabled( true );
-            if ( QTConstants.DRAW_DYNAMIC_DATA_USING_JFREECHART ) {
+            if ( QTConstants.JFREECHART_DYNAMIC ) {
+                _chart.getEnergyPlot().showWavePacket();
                 _chart.getWaveFunctionPlot().setWave( _wavePacket );
+            }
+            else {
+                //XXX
             }
         }
     }

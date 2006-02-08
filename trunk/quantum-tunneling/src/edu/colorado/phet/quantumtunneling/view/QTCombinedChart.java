@@ -25,6 +25,7 @@ import org.jfree.data.xy.XYSeries;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
+import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
 
 
@@ -80,7 +81,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
         setBackgroundPaint( QTConstants.CHART_BACKGROUND );
         
         // Energy plot...
-        {
+        { 
             _energyPlot = new EnergyPlot();
             _energyPlot.setDomainAxis( null );
             _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
@@ -146,7 +147,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     
     /**
      * Gets a reference to the Energy plot.
-     * 
+     *
      * @return
      */
     public EnergyPlot getEnergyPlot() {
@@ -172,25 +173,11 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     }
     
     /**
-     * Set the total energy model that is displayd in the Energy chart.
-     * 
-     * @param totalEnergy
-     */
-    public void setTotalEnergy( TotalEnergy totalEnergy ) {
-        // Delegate to the energy plot
-        _energyPlot.setTotalEnergy( totalEnergy );
-    }
-    
-    /**
-     * Sets the potential energy model that is displayed in the Energy chart.
+     * Sets the potential energy model that is used to set region markers.
      * 
      * @param potentialEnergy
      */
-    public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
-        // Delegate to the energy plot...
-        _energyPlot.setPotentialEnergy( potentialEnergy );
-        
-        // ...and observe so that we can update region markers.
+    public void setRegionMarkers( AbstractPotential potentialEnergy ) {
         if ( _potentialEnergy != null ) {
             _potentialEnergy.deleteObserver( this );
         }
@@ -253,7 +240,7 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the view to match the model.
+     * Updates region markers when the potential energy changes.
      * 
      * @param observable
      * @param arg

@@ -164,10 +164,11 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     
     /**
+     * Controls when and how JFreeChart is used.
      * true = use JFreeChart to do all chart elements (static and dynamic)
      * false = use JFreeChart to draw static elements, custom code for dynamic elements
      */
-    public static final boolean DRAW_DYNAMIC_DATA_USING_JFREECHART = true;
+    public static final boolean JFREECHART_DYNAMIC = true;
     
     public static final boolean SHOW_VERTICAL_GRIDLINES = false;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
