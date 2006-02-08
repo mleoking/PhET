@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.lasers.view.monitors;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -33,6 +30,7 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * PowerMeter
@@ -41,8 +39,6 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class PowerMeterGraphic extends GraphicLayerSet {
-    private Paint belowLasingPaint = Color.green;
-    private Paint aboveLasingPaint = Color.red;
 
     public PowerMeterGraphic( Component component, LaserModel model, final PartialMirror rightMirror ) throws HeadlessException {
         super( component );
@@ -50,35 +46,40 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         PhetImageGraphic bezelImageGraphic = new PhetImageGraphic( component, LaserConfig.POWER_METER_IMAGE );
         addGraphic( bezelImageGraphic );
 
-        int leftInset = 20;
+        int leftInset = 70;
+//        int leftInset = 20;
         int topInset = 30;
         int middleInset = 25;
-        final Meter outsideMeter = new Meter( component,
-                                       new Dimension( 200, 30),
-                                       Meter.HORIZONTAL,
-                                       0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
-        outsideMeter.setLocation( leftInset, topInset );
+
+        Dimension meterWindowSize = new Dimension( 200, 30 );
+
+        final Meter cavityMeter = new InsideMeter( component,
+                                             meterWindowSize,
+                                             Meter.HORIZONTAL,
+                                             0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+        cavityMeter.setLocation( leftInset, topInset );
+        addGraphic( cavityMeter );
+
+        final Meter outsideMeter = new OutsideMeter( component,
+                                              meterWindowSize,
+                                              Meter.HORIZONTAL,
+                                              0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+        outsideMeter.setLocation( leftInset,
+                                  (int)(cavityMeter.getLocation().getY() + meterWindowSize.getHeight() + middleInset ));
         addGraphic( outsideMeter );
 
-        final Meter cavityMeter = new Meter( component,
-                                       new Dimension( 200, 30),
-                                       Meter.HORIZONTAL,
-                                       0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
-        cavityMeter.setLocation( leftInset, (int)outsideMeter.getLocation().getY() + outsideMeter.getHeight() + middleInset );
-        addGraphic( cavityMeter );
 
         model.addLaserListener( new LaserModel.ChangeListenerAdapter() {
             public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {
                 super.lasingPopulationChanged( event );
                 cavityMeter.update( event.getLasingPopulation() );
-                outsideMeter.update( event.getLasingPopulation() * ( 1 - rightMirror.getReflectivity() ));
+                outsideMeter.update( event.getLasingPopulation() * ( 1 - rightMirror.getReflectivity() ) );
             }
-        });
+        } );
 
         setBoundsDirty();
         repaint();
     }
-
 
     /**
      *
@@ -91,10 +92,16 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         private double max;
         private double min;
         private Insets insets;
-        private Rectangle2D background;
-        private Paint backgroundColor = Color.black;
-        private Paint readoutColor = Color.red;
-        private Rectangle readoutBar;
+        Rectangle2D background;
+        Paint backgroundColor = Color.black;
+        PhetShapeGraphic[] segments;
+        Paint belowLasingPaint = Color.white;
+        Paint lasingPaint = Color.green;
+        Paint aboveLasingPaint = Color.red;
+        int segmentWidth = 3;
+        int interSegmentSpace = 1;
+        double dangerThreshold = LaserConfig.KABOOM_THRESHOLD * 0.8;
+        double scale;
 
         public Meter( Component component, Dimension size, Object orientation, double min, double max ) {
             super( component );
@@ -112,7 +119,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                 this.orientation = orientation;
             }
             else {
-                throw new IllegalArgumentException( );
+                throw new IllegalArgumentException();
             }
 
             setRange( min, max );
@@ -120,14 +127,43 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             // The background
             background = new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() );
             PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component, background, backgroundColor );
-            addGraphic( backgroundGraphic);
+            addGraphic( backgroundGraphic );
 
-            // The readout bar
-            readoutBar = new Rectangle();
-            PhetShapeGraphic readoutGraphic = new PhetShapeGraphic( component, readoutBar, readoutColor );
-            addGraphic( readoutGraphic );
+            // Determine the scale
+            scale = LaserConfig.KABOOM_THRESHOLD / background.getWidth();
 
+            // Create the segments
+            int numSegments = (int)( background.getWidth() / ( segmentWidth + interSegmentSpace ) );
+            segments = new PhetShapeGraphic[numSegments];
+            for( int i = 0; i < segments.length; i++ ) {
+                RoundRectangle2D rr = new RoundRectangle2D.Double( background.getX() + i * ( segmentWidth + interSegmentSpace ),
+                                                                   background.getY() + insets.top,
+                                                                   segmentWidth,
+                                                                   background.getHeight() - insets.top - insets.bottom,
+                                                                   3, 3 );
+                PhetShapeGraphic psg = new PhetShapeGraphic( component, rr, backgroundColor );
+                segments[i] = psg;
+                addGraphic( psg );
+            }
+//                double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
+//                Paint paint = null;
+//                if( segmentValue < LaserConfig.LASING_THRESHOLD ) {
+//                    paint = belowLasingPaint;
+//                }
+//                else if( segmentValue >= LaserConfig.LASING_THRESHOLD
+//                         && segmentValue < dangerThreshold ) {
+//                    paint = lasingPaint;
+//                }
+//                else if( segmentValue >= dangerThreshold ) {
+//                    paint = aboveLasingPaint;
+//                }
+//                else {
+//                    paint = backgroundColor;
+//                }
+//                segments[i].setPaint( paint );
+//            }
 
+            update( 0 );
             setBoundsDirty();
             repaint();
         }
@@ -137,29 +173,92 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             this.max = max;
         }
 
-        public void paint( Graphics2D g2 ) {
-            super.paint( g2 );
-        }
-
         public void update( double value ) {
-            double displayValue = Math.min( value, max );
-
-            if( orientation == HORIZONTAL ) {
-                int barLength = (int)( background.getWidth() * ( displayValue / (max - min)));
-                readoutBar.setRect( background.getX() + insets.left ,
-                                    background.getY() + insets.top,
-                                    barLength - insets.right,
-                                    background.getHeight() - insets.top - insets.bottom );
-            }
-            if( orientation == VERTICAL ) {
-                int barLength = (int)( background.getHeight() * ( displayValue / (max - min)));
-                readoutBar.setRect( background.getX() + insets.left,
-                                    background.getY() + background.getHeight() - barLength + insets.top,
-                                    background.getWidth() - insets.left - insets.right,
-                                    barLength - insets.bottom );
+            for( int i = 0; i < segments.length; i++ ) {
+                PhetShapeGraphic segment = segments[i];
+                double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
+                boolean isSegmentLit = value > segmentValue;
+                segment.setVisible( isSegmentLit );
             }
             setBoundsDirty();
             repaint();
+        }
+    }
+
+    private static class OutsideMeter extends Meter {
+        public OutsideMeter( Component component, Dimension size, Object orientation, double min, double max ) {
+            super( component, size, orientation, min, max );
+
+            // Color the segments
+            for( int i = 0; i < segments.length; i++ ) {
+                segments[i].setPaint( Color.white );
+            }
+        }
+    }
+
+    private static class InsideMeter extends Meter {
+        public InsideMeter( Component component, Dimension size, Object orientation, double min, double max ) {
+            super( component, size, orientation, min, max );
+
+            // Color the segments
+            for( int i = 0; i < segments.length; i++ ) {
+                double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
+                Paint paint = null;
+                if( segmentValue < LaserConfig.LASING_THRESHOLD ) {
+                    paint = belowLasingPaint;
+                }
+                else if( segmentValue >= LaserConfig.LASING_THRESHOLD
+                         && segmentValue < dangerThreshold ) {
+                    paint = lasingPaint;
+                }
+                else if( segmentValue >= dangerThreshold ) {
+                    paint = aboveLasingPaint;
+                }
+                else {
+                    paint = backgroundColor;
+                }
+                segments[i].setPaint( paint );
+            }
+
+            // Add threshold lines to the bezel
+            int lasingThresholdLocX = (int)(LaserConfig.LASING_THRESHOLD / scale);
+            Rectangle2D.Double rect = new Rectangle2D.Double(0,background.getHeight(),1,15);
+            PhetShapeGraphic lasingThresholdIndicator = new PhetShapeGraphic( component,
+                                                                              rect,
+                                                                              new Color( 255, 255, 255 ));
+            lasingThresholdIndicator.setLocation( lasingThresholdLocX, 0);
+            addGraphic( lasingThresholdIndicator );
+
+            PhetShapeGraphic dangerThresholdIndicator = new PhetShapeGraphic( component,
+                                                                              rect,
+                                                                              new Color( 255, 255, 255 ));
+            int dangerThresholdLocX = (int)(dangerThreshold / scale);
+            dangerThresholdIndicator.setLocation( dangerThresholdLocX, 0);
+            addGraphic( dangerThresholdIndicator );
+
+            // Text annotations
+            String lasingStr = "Lasing";
+            Font font = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
+            lasingAnnotation.setComponent( component );
+            lasingAnnotation.setFont( font );
+            lasingAnnotation.setJustification( PhetTextGraphic.SOUTH );
+            lasingAnnotation.setText( lasingStr );
+            lasingAnnotation.setColor( Color.white );
+            lasingAnnotation.setLocation( ( lasingThresholdLocX + dangerThresholdLocX ) / 2,
+                                         (int)background.getHeight()+ 15 );
+            addGraphic( lasingAnnotation );
+
+            String dangerStr = "Danger";
+            PhetTextGraphic dangerAnnotation = new PhetTextGraphic();
+            dangerAnnotation.setComponent( component );
+            dangerAnnotation.setFont( font );
+            dangerAnnotation.setJustification( PhetTextGraphic.SOUTH );
+            dangerAnnotation.setText( dangerStr );
+            dangerAnnotation.setColor( Color.white );
+            dangerAnnotation.setLocation( (int)( dangerThresholdLocX + background.getWidth() ) / 2,
+                                         (int)background.getHeight()+ 15 );
+            addGraphic( dangerAnnotation );
         }
     }
 }
