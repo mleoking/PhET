@@ -238,6 +238,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     public void setBuffered( boolean buffered ) {
         _buffered = buffered;
+        _chartImage = null;
     }
     
     /**
