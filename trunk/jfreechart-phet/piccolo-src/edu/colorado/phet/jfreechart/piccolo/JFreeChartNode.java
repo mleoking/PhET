@@ -16,6 +16,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.jfree.chart.ChartRenderingInfo;
@@ -30,10 +32,18 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * JFreeChartNode is a Piccolo node for displaying a JFreeChart.
+ * <p>
  * The bounds of the node determine the size of the chart.
  * The node registers with the chart to receive notification
  * of changes to any component of the chart.  The chart is 
  * redrawn automatically whenever this notification is received.
+ * <p>
+ * The node can be buffered or unbuffered. If buffered, the 
+ * chart is drawn using an off-screen image that is updated 
+ * whenever the chart or node changes.  If unbuffered, the 
+ * chart is drawn directly to the screen whenever paint is
+ * called; this can be unnecessarily costly if the paint request
+ * is not the result of changes to the chart or node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -46,7 +56,9 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     
     private JFreeChart _chart; // chart associated with the node
     private ChartRenderingInfo _info; // the chart's rendering info
-    private boolean _doubleBuffered; // draws the chart to an offscreen buffer
+    private boolean _buffered; // draws the chart to an offscreen buffer
+    private BufferedImage _chartImage; // buffered chart image
+    private AffineTransform _imageTransform; // transform used in with buffered image
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,15 +66,39 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     
     /**
      * Constructs a node that displays the specified chart.
+     * The chart is not buffered.
      * 
      * @param chart
      */
     public JFreeChartNode( JFreeChart chart ) {
+        this( chart, false /* buffered */ );
+    }
+    
+    /**
+     * Constructs a node that displays the specified chart.
+     * You can specify whether the chart's image should be buffered.
+     * 
+     * @param chart
+     * @param buffered
+     */
+    public JFreeChartNode( JFreeChart chart, boolean buffered ) {
         super();
-        _info = new ChartRenderingInfo();
+
         _chart = chart;
         _chart.addChangeListener( this );
-        _doubleBuffered = false;
+        _info = new ChartRenderingInfo();
+        
+        _buffered = buffered;
+        _chartImage = null;
+        _imageTransform = new AffineTransform();
+        
+        addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                _chartImage = null;
+                repaint();  
+            }
+        } );
+        
         updateChartRenderingInfo();
     }
 
@@ -93,8 +129,11 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     }
     
     /**
-     * Forces an update of the chart rendering info,
+     * Forces an update of the chart's ChartRenderingInfo,
      * normally not updated until the next call to paint.
+     * Call this directly if you have made changes to the
+     * chart and need to calculate something that is based 
+     * on the ChartRenderingInfo before the next paint occurs.
      */
     public void updateChartRenderingInfo() {
         BufferedImage image = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
@@ -193,11 +232,21 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     /**
      * Determines whether the chart is rendered to a buffered image
      * before being drawn to the paint method's graphics context.
+     * The chart's image is generated only when the chart changes.
      * 
-     * @param enabled true or false
+     * @param buffered true or false
      */
-    public void setDoubleBuffered( boolean enabled ) {
-        _doubleBuffered = enabled;
+    public void setBuffered( boolean buffered ) {
+        _buffered = buffered;
+    }
+    
+    /**
+     * Is the chart's image buffered?
+     * 
+     * @return true or false
+     */
+    public boolean isBuffered() {
+        return _buffered;
     }
     
     //----------------------------------------------------------------------------
@@ -305,8 +354,8 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Painting the node updates the chart's rendering info.
      */
     protected void paint( PPaintContext paintContext ) {
-        if ( _doubleBuffered ) {
-            paintDoubleBuffered( paintContext );
+        if ( _buffered ) {
+            paintBuffered( paintContext );
         }
         else {
             paintDirect( paintContext );
@@ -329,13 +378,14 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * 
      * @param paintContext
      */
-    private void paintDoubleBuffered( PPaintContext paintContext ) {
-        Rectangle2D bounds = getBoundsReference(); 
-        BufferedImage image = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), _info );
+    private void paintBuffered( PPaintContext paintContext ) {
+        Rectangle2D bounds = getBoundsReference();
+        if ( _chartImage == null ) {
+            _chartImage = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), _info );
+        }
         Graphics2D g2 = paintContext.getGraphics();
-        AffineTransform transform = new AffineTransform();
-        transform.translate( bounds.getX(), bounds.getY() );
-        g2.drawRenderedImage( image, transform );
+        _imageTransform.setToTranslation( bounds.getX(), bounds.getY() );
+        g2.drawRenderedImage( _chartImage, _imageTransform );
     }
  
     //----------------------------------------------------------------------------
@@ -353,6 +403,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
          * Do not look at event.getSource(), since the source of the event is
          * likely to be one of the chart's components rather than the chart itself.
          */
+        _chartImage = null; // the image needs to be regenerated
         repaint();
     }
 }
