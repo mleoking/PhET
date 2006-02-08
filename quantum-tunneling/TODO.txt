@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - address graphics performance issues
-- when help is on, cursor doesn't change over non-PSwing PNodes (JDK 5)
 - fix dt in Richardson algorithm so that it is related to clock dt
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
@@ -58,6 +57,8 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+0.00.11...
+(2/6/06) - PNode cursor change problem with help on (fixed by Sam Reid)
 (2/6/06) - create PotentialFactory to encapsulate instanceof operations on AbstractPotentials and PotentialTypes
 (2/6/06) - add icons in Potential combo box to indicate potential shapes
 (2/6/06) - piccolo-phet: flesh out TestHelpBalloon to test all properties
