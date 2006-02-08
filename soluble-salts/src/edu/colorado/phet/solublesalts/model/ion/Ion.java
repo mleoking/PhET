@@ -44,7 +44,7 @@ public class Ion extends Atom {
     private Vector2D vSaveUtil = new Vector2D.Double();
 
     public Ion( IonProperties ionProperties ) {
-        this( new Point2D.Double(),
+        this( new Point2D.Double(1,1),
               new Vector2D.Double(),
               new Vector2D.Double(),
               ionProperties );
@@ -65,7 +65,6 @@ public class Ion extends Atom {
             // Random walk
             if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
                 double theta = random.nextDouble() * Math.toRadians( randomWalkTheta ) * MathUtil.nextRandomSign();
-//                double theta = random.nextDouble() * Math.PI * 2;
                 setVelocity( getVelocity().rotate( theta ) );
             }
             super.stepInTime( dt );

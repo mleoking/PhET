@@ -22,9 +22,9 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  */
 public class IonIonCollisionExpert implements CollisionExpert {
     private SphereSphereContactDetector contactDetector = new SphereSphereContactDetector();
-    private BaseModel model;
+    private SolubleSaltsModel model;
 
-    public IonIonCollisionExpert( BaseModel model ) {
+    public IonIonCollisionExpert( SolubleSaltsModel model ) {
         this.model = model;
     }
 
@@ -41,7 +41,8 @@ public class IonIonCollisionExpert implements CollisionExpert {
             if( contactDetector.areInContact( ionA, ionB )
                 && ionA.getCharge() * ionB.getCharge() < 0
                 && ( ionA.isBound() || ionB.isBound() )
-                && !( ionA.isBound() && ionB.isBound() ) ) {
+                && !( ionA.isBound() && ionB.isBound() )
+                && model.isNucleationEnabled() ) {
 
                 if( ionA.isBound() ) {
                     if( ionA.getBindingCrystal().addIon( ionB, ionA ) ) {

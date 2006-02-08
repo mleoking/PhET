@@ -111,7 +111,7 @@ public class SolubleSaltsModel extends BaseModel {
         IonFlowManager ionFlowManager = new IonFlowManager( this );
 
         // Add a model element that will handle collisions between ions and the vessel
-        addModelElement( new IonVesselCollisionAgent() );
+        addModelElement( new CollisionAgent() );
 
         // Add a heat source/sink
         heatSource = new HeatSource( this );
@@ -381,12 +381,12 @@ public class SolubleSaltsModel extends BaseModel {
     /**
      * Detects and handles collisions between ions and the vessel
      */
-    private class IonVesselCollisionAgent implements ModelElement {
+    private class CollisionAgent implements ModelElement {
         IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
 
         public void stepInTime( double dt ) {
 
-            // Look for collisions between ions
+            // Look for collisions between ions and the vessel, and each other
             for( int i = 0; i < numModelElements(); i++ ) {
                 if( modelElementAt( i ) instanceof Ion ) {
                     Ion ion = (Ion)modelElementAt( i );
@@ -403,6 +403,7 @@ public class SolubleSaltsModel extends BaseModel {
         }
     }
 
+
     /**
      * Turns nucleation on and off depending on the concentration of solutes and Ksp, and
      * releases ions from crystals if the concentration is less than Ksp
@@ -416,15 +417,22 @@ public class SolubleSaltsModel extends BaseModel {
         }
 
         public void stepInTime( double dt ) {
+
             nucleationEnabled = getConcentrationFactor() > ksp;
 
-            if( crystals.size() > 0 && !nucleationEnabled ) {
+            // Release ions until we're back above Ksp
+            boolean ionReleased = true;
+            while( crystals.size() > 0 && !nucleationEnabled && ionReleased ) {
+//            if( crystals.size() > 0 && !nucleationEnabled ) {
+                ionReleased = false;
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
                 Crystal crystal = (Crystal)crystals.get( i );
                 // Only tell the crystal to toss an ion if the entire crystal is in the water
                 boolean isInWater = true;
                 List ions = crystal.getIons();
+
+                // If the entire crystal isn't in the water, skip it
                 for( int j = 0; j < ions.size() && isInWater; j++ ) {
                     Ion ion = (Ion)ions.get( j );
                     if( !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
@@ -433,8 +441,9 @@ public class SolubleSaltsModel extends BaseModel {
                 }
                 if( isInWater ) {
                     crystal.releaseIon( dt );
-                    nucleationEnabled = getConcentrationFactor() > ksp;
+                    ionReleased = true;
                 }
+                nucleationEnabled = getConcentrationFactor() > ksp;
             }
         }
 
@@ -446,4 +455,5 @@ public class SolubleSaltsModel extends BaseModel {
             crystals.remove( event.getInstance() );
         }
     }
+
 }

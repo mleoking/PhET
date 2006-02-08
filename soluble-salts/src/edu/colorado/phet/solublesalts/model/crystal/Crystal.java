@@ -290,7 +290,8 @@ public class Crystal extends Body implements Binder {
                     throw new RuntimeException( "duplicate location" );
                 }
             }
-            ions.add( new BoundIon( ionA, orientation ) );
+            ions.add( ionA );
+//            ions.add( new BoundIon( ionA, orientation ) );
 //            ions.add( ionA );
             ionA.bindTo( this );
             updateCm();

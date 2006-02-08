@@ -40,7 +40,8 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
     static {
         DEFAULT_MIN_DIST_TO_LIKE_ION = new Chlorine( new Point2D.Double(),
-                                                     new Vector2D.Double(), new Vector2D.Double() ).getRadius() * 4;
+                                                     new Vector2D.Double(),
+                                                     new Vector2D.Double() ).getRadius() * 4;
     }
 
     private SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
@@ -97,16 +98,6 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                     // have it set the one with maxY as the seed.
                     ion.getBindingCrystal().setVelocity( 0, 0 );
                     ion.getBindingCrystal().setAcceleration( 0, 0 );
-
-//                    if( ion.getBindingCrystal().getSeed() != ion ) {
-//                        ion.getBindingCrystal().setSeed( ion );
-//                    }
-//                    if( ion.getPosition().getY() + ion.getRadius() > vessel.getLocation().getY() + vessel.getDepth() ) {
-//                        double dy = ( vessel.getLocation().getY() + vessel.getDepth() ) -
-//                                    ( ion.getPosition().getY() + ion.getRadius() );
-//                        ion.getBindingCrystal().translate( 0, dy );
-//                    }
-//                    collisionOccurred = true;
                 }
             }
         }
