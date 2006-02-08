@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Faucet
@@ -64,11 +63,11 @@ public class Faucet extends Particle {
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
-        changeEventChannel.addListener( listener);
+        changeEventChannel.addListener( listener );
     }
 
     public void removeChangeListener( ChangeListener listener ) {
-        changeEventChannel.removeListener( listener);
+        changeEventChannel.removeListener( listener );
     }
 
     public class ChangeEvent extends EventObject {

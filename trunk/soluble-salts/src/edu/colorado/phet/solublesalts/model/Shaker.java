@@ -15,16 +15,13 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
-import edu.colorado.phet.solublesalts.model.ion.Bromine;
-import edu.colorado.phet.solublesalts.model.ion.Mercury;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -94,7 +91,7 @@ public class Shaker extends Particle {
 
             int minUnits = 3;
             int maxUnits = 10;
-            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits ;
+            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
 //            numLaticeUnits = 2;
 //            numLaticeUnits = 8;
 //            numLaticeUnits = (int)dy;
@@ -130,7 +127,8 @@ public class Shaker extends Particle {
 
             // Create the crystal
 //            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), finalList );
-            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions, null );
+            crystal = new Crystal( model, (Lattice_new_new)currentSalt.getLattice(), ions, null );
+//            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions, null );
             crystal.setVelocity( v );
         }
     }

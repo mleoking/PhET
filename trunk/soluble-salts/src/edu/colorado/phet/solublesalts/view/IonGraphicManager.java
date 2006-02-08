@@ -10,18 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.*;
 import edu.colorado.phet.solublesalts.model.ion.*;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.umd.cs.piccolo.PNode;
 
-import java.util.HashMap;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * IonGraphicManager

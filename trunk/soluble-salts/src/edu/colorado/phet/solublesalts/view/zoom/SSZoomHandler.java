@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.view.zoom;
 
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.event.InputEvent;
 
@@ -25,7 +25,7 @@ public class SSZoomHandler extends PZoomEventHandler {
 
 
     public SSZoomHandler() {
-        getEventFilter().setAndMask(InputEvent.BUTTON1_MASK );
+        getEventFilter().setAndMask( InputEvent.BUTTON1_MASK );
         setMaxScale( 10 );
         setMinScale( 1 );
 //        getEventFilter().setAndMask(InputEvent.BUTTON1_MASK |

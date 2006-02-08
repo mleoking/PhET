@@ -25,7 +25,8 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PlainCubicLattice extends Lattice {
+public class PlainCubicLattice extends Lattice_new_new {
+//public class PlainCubicLattice extends Lattice {
     private static final Random random = new Random( System.currentTimeMillis() );
 
     /**

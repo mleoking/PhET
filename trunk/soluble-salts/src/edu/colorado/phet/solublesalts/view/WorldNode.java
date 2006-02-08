@@ -11,17 +11,15 @@
 package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.RegisterablePNode;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.Shaker;
-import edu.colorado.phet.solublesalts.model.WaterSource;
-import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.colorado.phet.solublesalts.model.Shaker;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.model.WaterSource;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -39,7 +37,6 @@ public class WorldNode extends PNode {
 
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
-
 //        vesselGraphic.setMinorTickSpacing( 20E-16 );
 //        vesselGraphic.setMajorTickSpacing( 100E-16 );
 //        vesselGraphic.setMinorTickSpacing( 20 );
@@ -75,7 +72,7 @@ public class WorldNode extends PNode {
                                                          FaucetGraphic.RIGHT_FACING,
                                                          FaucetGraphic.SPOUT,
                                                          waterSource,
-                                                         vessel.getLocation().getY() + vessel.getDepth()  );
+                                                         vessel.getLocation().getY() + vessel.getDepth() );
         faucetGraphic.setScale( scale );
         faucetGraphic.setOffset( model.getFaucet().getPosition() );
         this.addChild( faucetGraphic );

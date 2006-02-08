@@ -15,14 +15,11 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
-import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -38,7 +35,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Vessel implements ModelElement, Collidable, Binder {
+public class Vessel implements ModelElement, Collidable {
     // The shape of the vessel's interior
     private Rectangle2D shape;
     private double wallThickness;
@@ -94,7 +91,7 @@ public class Vessel implements ModelElement, Collidable, Binder {
             // todo: combine these lines into a single constructor
             Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice() );
             crystal.addIon( ion );
-            ion.bindTo( crystal );
+//            ion.bindTo( crystal );
         }
     }
 

@@ -10,19 +10,11 @@
  */
 package edu.colorado.phet.solublesalts;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 
 /**

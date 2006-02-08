@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-
 import java.util.EventObject;
 
 /**

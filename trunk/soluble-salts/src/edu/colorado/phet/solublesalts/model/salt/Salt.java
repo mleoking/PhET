@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
 
-import java.util.*;
 import java.security.InvalidParameterException;
+import java.util.List;
 
 /**
  * Salt
@@ -22,13 +22,15 @@ import java.security.InvalidParameterException;
  * @version $Revision$
  */
 public class Salt {
-    private Lattice lattice;
+    private Lattice_new_new lattice;
+//    private Lattice lattice;
     private Class anionClass;
     private Class cationClass;
     private Component[] components;
     private double ksp;
 
-    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
+    protected Salt( List components, Lattice_new_new lattice, Class anionClass, Class cationClass, double ksp ) {
+//    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
         this.ksp = ksp;
         this.components = new Component[components.size()];
         for( int i = 0; i < components.size(); i++ ) {
@@ -68,7 +70,8 @@ public class Salt {
         return components;
     }
 
-    public Lattice getLattice() {
+    public Lattice_new_new getLattice() {
+//    public Lattice getLattice() {
         return lattice;
     }
 
@@ -86,30 +89,33 @@ public class Salt {
 
     /**
      * Returns the number of anions in a unit lattice
+     *
      * @return
      */
     public int getNumAnionsInUnit() {
         Integer result = getNumIonsInUnit( anionClass );
         if( result == null ) {
-            throw new InvalidParameterException( );
+            throw new InvalidParameterException();
         }
         return result.intValue();
     }
 
     /**
      * Returns the number of cations in a unit lattice
+     *
      * @return
      */
     public int getNumCationsInUnit() {
         Integer result = getNumIonsInUnit( cationClass );
         if( result == null ) {
-            throw new InvalidParameterException( );
+            throw new InvalidParameterException();
         }
         return result.intValue();
     }
 
     /**
      * Returns the number of ions of a type in a unit lattice
+     *
      * @param ionClass the class of ion we're interested in
      * @return
      */

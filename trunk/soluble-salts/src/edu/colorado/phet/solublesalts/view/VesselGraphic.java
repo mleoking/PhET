@@ -11,17 +11,15 @@
 package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
-import java.awt.image.AffineTransformOp;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 /**
@@ -93,18 +91,19 @@ public class VesselGraphic extends PNode {
 
     /**
      * Sets the spacing of the major tick marks on the wall of the vessel
+     *
      * @param spacing
      */
     public void setMajorTickSpacing( double spacing ) {
-        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ));
+        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
-            double y = ( vessel.getDepth() - i * ( spacing/SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR) );
+            double y = ( vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
             PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 2,
-                                                       y ));
+                                                       y ) );
             tick.setStroke( new BasicStroke( 2 ) );
-            tick.setStrokePaint( tickColor);
+            tick.setStrokePaint( tickColor );
             addChild( tick );
 
             DecimalFormat format = new DecimalFormat( "0.0E0" );
@@ -112,8 +111,8 @@ public class VesselGraphic extends PNode {
 //            String str = format.format( ( vessel.getDepth() - y ) * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             String str = format.format( ( vessel.getDepth() - y ) * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
 //            String str = Integer.toString( (int)( vessel.getDepth() - y ));
-            str = str.concat( " L");
-            PText text = new PText( str);
+            str = str.concat( " L" );
+            PText text = new PText( str );
             Font orgFont = text.getFont();
             Font newFont = new Font( orgFont.getName(), orgFont.getStyle(), orgFont.getSize() + 12 );
             text.setFont( newFont );
@@ -124,18 +123,19 @@ public class VesselGraphic extends PNode {
 
     /**
      * Sets the spacing of the minor tick marks on the wall of the vessel
+     *
      * @param spacing
      */
     public void setMinorTickSpacing( double spacing ) {
-        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ));
+        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
             double y = vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 4,
-                                                       y ));
+                                                       y ) );
             tick.setStroke( new BasicStroke( 2 ) );
-            tick.setStrokePaint( tickColor);
+            tick.setStrokePaint( tickColor );
             addChild( tick );
         }
     }

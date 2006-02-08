@@ -15,7 +15,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
-import edu.colorado.phet.solublesalts.model.Binder;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 import java.awt.geom.Point2D;
@@ -44,7 +43,7 @@ public class Ion extends Atom {
     private Vector2D vSaveUtil = new Vector2D.Double();
 
     public Ion( IonProperties ionProperties ) {
-        this( new Point2D.Double(1,1),
+        this( new Point2D.Double( 1, 1 ),
               new Vector2D.Double(),
               new Vector2D.Double(),
               ionProperties );
@@ -77,21 +76,14 @@ public class Ion extends Atom {
         }
     }
 
-    public void bindTo( Binder binder ) {
-        if( binder instanceof Crystal ) {
-            bindingCrystal = (Crystal)binder;
-        }
+    public void bindTo( Crystal crystal ) {
+        bindingCrystal = crystal;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-        super.bindTo( binder );
     }
 
-    public void unbindFrom( Binder binder ) {
-        if( binder instanceof Crystal ) {
-            bindingCrystal = null;
-            ( (Crystal)binder ).removeIon( this );
-        }
+    public void unbindFrom( Crystal crystal ) {
+        bindingCrystal = null;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-        super.unbindFrom( binder );
     }
 
     public boolean isBound() {

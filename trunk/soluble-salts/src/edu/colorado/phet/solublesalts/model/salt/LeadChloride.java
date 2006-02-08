@@ -10,16 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.Lead;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Lead;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -30,12 +25,13 @@ import java.util.ArrayList;
  */
 public class LeadChloride extends Salt {
 
-    static private Lattice lattice = new TwoToOneLattice( Chlorine.class, Lead.class, Lead.RADIUS + Chlorine.RADIUS );
+    static private Lattice_new_new lattice = new TwoToOneLattice( Chlorine.class, Lead.class, Lead.RADIUS + Chlorine.RADIUS );
+//    static private Lattice lattice = new TwoToOneLattice( Chlorine.class, Lead.class, Lead.RADIUS + Chlorine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
-        components.add( new Salt.Component( Lead.class, new Integer( 2 ) ));
-        components.add( new Salt.Component( Chlorine.class, new Integer( 1 ) ));
+        components.add( new Salt.Component( Lead.class, new Integer( 2 ) ) );
+        components.add( new Salt.Component( Chlorine.class, new Integer( 1 ) ) );
     }
 
     public LeadChloride() {

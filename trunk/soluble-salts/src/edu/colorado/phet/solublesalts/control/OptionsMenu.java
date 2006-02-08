@@ -11,20 +11,19 @@
 
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.solublesalts.view.IonGraphic;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.IonFlowManager;
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.util.PhetUtilities;
-//import edu.colorado.phet.common.view.components.ModelSlider;
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.IonFlowManager;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class OptionsMenu extends JMenu {
@@ -50,7 +49,7 @@ public class OptionsMenu extends JMenu {
         } );
 
         final JCheckBoxMenuItem oneCrystalMI = new JCheckBoxMenuItem( "One crystal only" );
-        optionsMenu.add(  oneCrystalMI );
+        optionsMenu.add( oneCrystalMI );
         oneCrystalMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = oneCrystalMI.isSelected();
@@ -58,7 +57,7 @@ public class OptionsMenu extends JMenu {
         } );
 
         // Random walk adjustment
-        final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk...");
+        final JMenuItem randomWaltkThetaMI = new JMenuItem( "Adjust random walk..." );
         randomWaltkThetaMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Random Walk Adjusment", false );
@@ -80,7 +79,7 @@ public class OptionsMenu extends JMenu {
                         dlg.setVisible( false );
                     }
                 } );
-                JPanel btnPnl = new JPanel( );
+                JPanel btnPnl = new JPanel();
                 btnPnl.add( btn );
                 dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
                 dlg.pack();
@@ -90,7 +89,7 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( randomWaltkThetaMI );
 
         // Binding distance adjustment
-        final JMenuItem bindingDistanceMI = new JMenuItem( "Adjust binding distance...");
+        final JMenuItem bindingDistanceMI = new JMenuItem( "Adjust binding distance..." );
         bindingDistanceMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Set Binding Distance", false );
@@ -100,7 +99,7 @@ public class OptionsMenu extends JMenu {
                                                           0,
                                                           4,
                                                           SolubleSaltsConfig.BINDING_DISTANCE_FACTOR,
-                                                          new DecimalFormat( "0.0"));
+                                                          new DecimalFormat( "0.0" ) );
                 sldr.setMajorTickSpacing( 0.5 );
                 sldr.setPaintTicks( true );
                 sldr.setPaintLabels( true );
@@ -116,7 +115,7 @@ public class OptionsMenu extends JMenu {
                         dlg.setVisible( false );
                     }
                 } );
-                JPanel btnPnl = new JPanel( );
+                JPanel btnPnl = new JPanel();
                 btnPnl.add( btn );
                 dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
                 dlg.pack();
@@ -126,7 +125,7 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( bindingDistanceMI );
 
         // Drain flow effect on ions
-        final JMenuItem drainFlowMI = new JMenuItem( "Drain flow...");
+        final JMenuItem drainFlowMI = new JMenuItem( "Drain flow..." );
         drainFlowMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Set drain flow effect on ions", false );
@@ -136,7 +135,7 @@ public class OptionsMenu extends JMenu {
                                                           0,
                                                           1E2,
                                                           IonFlowManager.SPEED_FACTOR,
-                                                          new DecimalFormat( "0.0E0"));
+                                                          new DecimalFormat( "0.0E0" ) );
 //                sldr.setMajorTickSpacing( 1E1 );
 //                sldr.setPaintTicks( true );
 //                sldr.setPaintLabels( true );
@@ -152,7 +151,7 @@ public class OptionsMenu extends JMenu {
                         dlg.setVisible( false );
                     }
                 } );
-                JPanel btnPnl = new JPanel( );
+                JPanel btnPnl = new JPanel();
                 btnPnl.add( btn );
                 dlg.getContentPane().add( btnPnl, BorderLayout.SOUTH );
                 dlg.pack();

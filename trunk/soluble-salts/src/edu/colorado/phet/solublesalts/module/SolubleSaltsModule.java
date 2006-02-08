@@ -12,25 +12,24 @@ package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
-import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.IonInitializer;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.SSCanvas;
 import edu.colorado.phet.solublesalts.view.WorldNode;
-import edu.colorado.phet.solublesalts.view.VesselGraphic;
-import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.CursorHandler;
-import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 /**
@@ -53,7 +52,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel();
         setModel( model );
-        simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ));
+        simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ) );
         setPhetPCanvas( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax

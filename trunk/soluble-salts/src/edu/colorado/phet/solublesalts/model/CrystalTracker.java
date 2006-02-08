@@ -12,11 +12,7 @@ package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * CrystalTracker
@@ -63,12 +59,12 @@ public class CrystalTracker implements Crystal.InstanceLifetimeListener {
     }
 
     public List getCrystals() {
-    	List result = new ArrayList();
-    	Collection lists = crystalMap.values();
-    	for( Iterator it = lists.iterator(); it.hasNext(); ) {
-    		List l = (List)it.next();
-    		result.addAll( l );
-    	}
-    	return result;
+        List result = new ArrayList();
+        Collection lists = crystalMap.values();
+        for( Iterator it = lists.iterator(); it.hasNext(); ) {
+            List l = (List)it.next();
+            result.addAll( l );
+        }
+        return result;
     }
 }

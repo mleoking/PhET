@@ -10,16 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
-import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
 import edu.colorado.phet.solublesalts.model.crystal.ThreeToOneLattice;
-import edu.colorado.phet.solublesalts.model.*;
-import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
-import edu.colorado.phet.solublesalts.model.ion.Copper;
 import edu.colorado.phet.solublesalts.model.ion.Chromium;
+import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
@@ -30,13 +25,15 @@ import java.util.ArrayList;
  */
 public class ChromiumHydroxide extends Salt {
 
-    static private Lattice lattice = new ThreeToOneLattice( Chromium.class,
-                                                          Hydroxide.class,
-                                                          Chromium.RADIUS + Hydroxide.RADIUS );
+    static private Lattice_new_new lattice = new ThreeToOneLattice( Chromium.class,
+//    static private Lattice lattice = new ThreeToOneLattice( Chromium.class,
+                                                                    Hydroxide.class,
+                                                                    Chromium.RADIUS + Hydroxide.RADIUS );
     static private ArrayList components = new ArrayList();
+
     static {
-        components.add( new Salt.Component(Chromium.class, new Integer( 1 ) ));
-        components.add( new Salt.Component( Hydroxide.class, new Integer( 3 ) ));
+        components.add( new Salt.Component( Chromium.class, new Integer( 1 ) ) );
+        components.add( new Salt.Component( Hydroxide.class, new Integer( 3 ) ) );
     }
 
     public ChromiumHydroxide() {
