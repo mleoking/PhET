@@ -40,7 +40,10 @@ import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
+import edu.colorado.phet.quantumtunneling.plot.XYPlotNode;
+import edu.colorado.phet.quantumtunneling.view.*;
 import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
+import edu.colorado.phet.quantumtunneling.view.ProbabilityDensityPlot;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
@@ -91,10 +94,15 @@ public class QTModule extends AbstractModule implements Observer {
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
     
-    // Custom plots
-//    private XYPlotNode _energyPlotNode;
-//    private XYPlotNode _waveFunctionPlotNode;
-//    private XYPlotNode _probabilityDensityPlotNode;
+    // Plots
+    private EnergyPlot _energyPlot;
+    private WaveFunctionPlot _waveFunctionPlot;
+    private ProbabilityDensityPlot _probabilityDensityPlot;
+    
+    // Nodes to draw plots separately from chart
+    private XYPlotNode _energyPlotNode;
+    private XYPlotNode _waveFunctionPlotNode;
+    private XYPlotNode _probabilityDensityPlotNode;
     
     // Control
     private PSwing _configureButton;
@@ -157,32 +165,45 @@ public class QTModule extends AbstractModule implements Observer {
             _canvas.addScreenChild( _parentNode );
         }
         
-        // Energy graph legend
-        { 
-            _legend = new EnergyLegend();
-        }
-        
         // Combined chart
         {
             _chart = new QTCombinedChart();
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
-            _chart.getEnergyPlot().setPlaneWave( _planeWave );
-            _chart.getEnergyPlot().setWavePacket( _wavePacket );
             
             boolean buffered = ( ! QTConstants.JFREECHART_DYNAMIC );
             _chartNode = new QTCombinedChartNode( _chart, buffered );
-        }
-        
-        // Custom plots
-        if ( !QTConstants.JFREECHART_DYNAMIC ) {
-            //XXX
-        }
-        
-        // Add view nodes to the scene graph
-        {
-            _parentNode.addChild( _legend );
             _parentNode.addChild( _chartNode );
-        }       
+        }
+        
+        // Energy graph legend
+        { 
+            _legend = new EnergyLegend();
+            _parentNode.addChild( _legend );
+        }
+        
+        // Draw dynamic data using JFreeChart or custom nodes?
+        if ( QTConstants.JFREECHART_DYNAMIC ) {
+            _energyPlot = _chart.getEnergyPlot();
+            _waveFunctionPlot = _chart.getWaveFunctionPlot();
+            _probabilityDensityPlot = _chart.getProbabilityDensityPlot();
+        }
+        else {
+            _energyPlot = new EnergyPlot();
+            _waveFunctionPlot = new WaveFunctionPlot();
+            _probabilityDensityPlot = new ProbabilityDensityPlot( _waveFunctionPlot.getProbabilityDensitySeries() );
+            
+            _energyPlotNode = new XYPlotNode( _energyPlot );
+            _energyPlotNode.setName( "energyPlotNode" );
+            _parentNode.addChild( _energyPlotNode );
+
+            _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
+            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" );
+            _parentNode.addChild( _waveFunctionPlotNode );
+            
+            _probabilityDensityPlotNode = new XYPlotNode( _probabilityDensityPlot );
+            _probabilityDensityPlotNode.setName( "probabilityDensityPlotNode" );
+            _parentNode.addChild( _probabilityDensityPlotNode );
+        } 
         
         //----------------------------------------------------------------------------
         // Control
@@ -322,9 +343,20 @@ public class QTModule extends AbstractModule implements Observer {
         Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
         
-        // Custom plots  
-        if ( !QTConstants.JFREECHART_DYNAMIC ) {
-            //XXX
+        // Custom plot nodes
+        {
+            if ( _energyPlotNode != null ) {
+                _energyPlotNode.setOffset( 0, 0 );
+                _energyPlotNode.setDataArea( energyPlotBounds );
+            }
+            if ( _waveFunctionPlotNode != null ) {
+                _waveFunctionPlotNode.setOffset( 0, 0 );
+                _waveFunctionPlotNode.setDataArea( waveFunctionPlotBounds );
+            }
+            if ( _probabilityDensityPlotNode != null ) {
+                _probabilityDensityPlotNode.setOffset( 0, 0 );
+                _probabilityDensityPlotNode.setDataArea( probabilityDensityPlotBounds );
+            }
         }
         
         // Drag handles
@@ -404,6 +436,9 @@ public class QTModule extends AbstractModule implements Observer {
             _stepPotential = new StepPotential();
             _singleBarrierPotential = new SingleBarrierPotential();
             _doubleBarrierPotential = new DoubleBarrierPotential();
+            
+            _energyPlot.setPlaneWave( _planeWave );
+            _energyPlot.setWavePacket( _wavePacket );
         }
         
         // Controls
@@ -586,13 +621,8 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergy = potentialEnergy;
             _potentialEnergy.addObserver( this );
 
-            if ( QTConstants.JFREECHART_DYNAMIC ) {
-                _chart.getEnergyPlot().setPotentialEnergy( potentialEnergy );
-                _chart.setRegionMarkers( _potentialEnergy );
-            }
-            else {
-                //XXX
-            }
+            _energyPlot.setPotentialEnergy( potentialEnergy );
+            _chart.setRegionMarkers( _potentialEnergy );
             _controlPanel.setPotentialEnergy( _potentialEnergy );
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
             _planeWave.setPotentialEnergy( _potentialEnergy );
@@ -648,12 +678,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         resetClock();
 
-        if ( QTConstants.JFREECHART_DYNAMIC ) {
-            _chart.getEnergyPlot().setTotalEnergy( _totalEnergy );
-        }
-        else {
-            //XXX
-        }
+        _energyPlot.setTotalEnergy( _totalEnergy );
         _totalEnergyControl.setTotalEnergy( _totalEnergy );
         _planeWave.setTotalEnergy( _totalEnergy );
         _wavePacket.setTotalEnergy( totalEnergy );
@@ -674,24 +699,14 @@ public class QTModule extends AbstractModule implements Observer {
         if ( waveType == WaveType.PLANE ) {
             _planeWave.setEnabled( true );
             _wavePacket.setEnabled( false );
-            if ( QTConstants.JFREECHART_DYNAMIC ) {
-                _chart.getEnergyPlot().showPlaneWave();
-                _chart.getWaveFunctionPlot().setWave( _planeWave );
-            }
-            else {
-                //XXX
-            }
+            _energyPlot.showPlaneWave();
+            _waveFunctionPlot.setWave( _planeWave );
         }
         else {
             _planeWave.setEnabled( false );
             _wavePacket.setEnabled( true );
-            if ( QTConstants.JFREECHART_DYNAMIC ) {
-                _chart.getEnergyPlot().showWavePacket();
-                _chart.getWaveFunctionPlot().setWave( _wavePacket );
-            }
-            else {
-                //XXX
-            }
+            _energyPlot.showWavePacket();
+            _waveFunctionPlot.setWave( _wavePacket );
         }
     }
     
