@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,14 +25,16 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
+import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
 
 /**
  * EnergyPlot is the plot that displays total and potential energy.
+ * The total energy display is different depending on whether the
+ * wave is a plane wave or wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -44,16 +45,19 @@ public class EnergyPlot extends XYPlot implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Model references
     private AbstractPotential _potentialEnergy;
     private TotalEnergy  _totalEnergy;
     private WavePacket _wavePacket;
+    private PlaneWave _planeWave;
     
+    // View
     private XYSeries _totalEnergySeries;
     private XYSeries _potentialEnergySeries;
-    
-    private TotalEnergyRenderer _tePacketRenderer; // renderer for total energy for wave packet
-    private int _tePlaneIndex; // total energy data set index for plane wave
-    private int _tePacketIndex; // total energy data set index for wave packet
+    private StandardXYItemRenderer _planeWaveRenderer; // total energy renderer for plane wave
+    private TotalEnergyRenderer _wavePacketRenderer; // total energy renderer for wave packet
+    private int _totalEnergyIndex; // total energy dataset index
+    private int _potentialEnergyIndex; // potential energy dataset index
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,49 +71,42 @@ public class EnergyPlot extends XYPlot implements Observer {
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
         String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
-        int index = 0;
+        int dataSetIndex = 0;
         
         // Potential Energy series
         _potentialEnergySeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
         {
-            int peIndex = index++;
+            _potentialEnergyIndex = dataSetIndex++;
+            // Dataset
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _potentialEnergySeries );
+            setDataset( _potentialEnergyIndex, dataset );
+            // Renderer
             XYItemRenderer renderer = new StandardXYItemRenderer();
             renderer.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
-            setDataset( peIndex, dataset );
-            setRenderer( peIndex, renderer );
+            setRenderer( _potentialEnergyIndex, renderer );
         }
         
-        // Total Energy series
+        // Total Energy series -- switch renderers based on wave type
         _totalEnergySeries = new XYSeries( totalEnergyLabel, false /* autoSort */);
         {
-            // plane wave...
-            {
-                _tePlaneIndex = index++;
-                XYSeriesCollection dataset = new XYSeriesCollection();
-                dataset.addSeries( _totalEnergySeries );
-                XYItemRenderer renderer = new StandardXYItemRenderer();
-                renderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-                renderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
-                setDataset( _tePlaneIndex, dataset );
-                setRenderer( _tePlaneIndex, renderer );
-            }
-
-            // wave packet...
-            {
-                _tePacketIndex = index++;
-                XYSeriesCollection dataset = new XYSeriesCollection();
-                dataset.addSeries( _totalEnergySeries );  // shares the same series!
-                _tePacketRenderer = new TotalEnergyRenderer();
-                _tePacketRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-                _tePacketRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
-                setDataset( _tePacketIndex, dataset );
-                setRenderer( _tePacketIndex, _tePacketRenderer );
-            }
+            _totalEnergyIndex = dataSetIndex++;
+            // Dataset
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _totalEnergySeries );
+            setDataset( _totalEnergyIndex, dataset );
+            // Plane Wave renderer
+            _planeWaveRenderer = new StandardXYItemRenderer();
+            _planeWaveRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            // Wave Packet renderer
+            _wavePacketRenderer = new TotalEnergyRenderer();
+            _wavePacketRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            _wavePacketRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            // Default renderer
+            setRenderer( _totalEnergyIndex, _wavePacketRenderer );
         }
-        setWaveType( WaveType.PLANE );
         
         // X axis 
         PositionAxis xAxis = new PositionAxis();
@@ -132,17 +129,6 @@ public class EnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the wave type, which determines how total energy is displayed.
-     * 
-     * @param true or false
-     */
-    public void setWaveType( WaveType waveType ) {
-        boolean isPlane = ( waveType == WaveType.PLANE );
-        getRenderer( _tePlaneIndex ).setSeriesVisible( new Boolean( isPlane ) );
-        getRenderer( _tePacketIndex ).setSeriesVisible( new Boolean( !isPlane ) );
-    }
     
     /**
      * Sets the total energy model that is displayed.
@@ -168,24 +154,13 @@ public class EnergyPlot extends XYPlot implements Observer {
             _potentialEnergy.deleteObserver( this );
         }
         _potentialEnergy = potentialEnergy;
-        _tePacketRenderer.setPotentialEnergy( potentialEnergy );
         _potentialEnergy.addObserver( this );
+        _wavePacketRenderer.setPotentialEnergy( potentialEnergy );
         updatePotentialEnergy();
-        updateTotalEnergy();
     }
     
     /**
-     * Sets the font used for labeling the axes.
-     * 
-     * @param font
-     */
-    public void setAxesLabelFont( Font font ) {
-        getDomainAxis().setLabelFont( font );
-        getRangeAxis().setLabelFont( font );
-    }
-    
-    /**
-     * Sets the wave packet used by the total energy renderer.
+     * Sets the wave packet.
      * 
      * @param wavePacket
      */
@@ -194,9 +169,51 @@ public class EnergyPlot extends XYPlot implements Observer {
             _wavePacket.deleteObserver( this );
         }
         _wavePacket = wavePacket;
-        _tePacketRenderer.setWavePacket( wavePacket );
         _wavePacket.addObserver( this );
+        _wavePacketRenderer.setWavePacket( wavePacket );
         updateTotalEnergy();
+    }
+    
+    /**
+     * Sets the plane wave.
+     * 
+     * @param planeWave
+     */
+    public void setPlaneWave( PlaneWave planeWave ) {
+        if ( _planeWave != null ) {
+            _planeWave.deleteObserver( this );
+        }
+        _planeWave = planeWave;
+        _planeWave.addObserver( this );
+        updateTotalEnergy();
+    }
+    
+    /**
+     * Displays the total energy based on the wave packet.
+     */
+    public void showWavePacket() {
+        useWavePacketRenderer( true );
+    }
+    
+    /**
+     * Displays the total energy based on the plane wave.
+     */
+    public void showPlaneWave() {
+        useWavePacketRenderer( false );
+    }
+    
+    /*
+     * Installs one of the two total energy renderers.
+     * 
+     * @param visible
+     */
+    private void useWavePacketRenderer( boolean b ) {
+        if ( b ) {
+            setRenderer( _totalEnergyIndex, _wavePacketRenderer );
+        }
+        else {
+            setRenderer( _totalEnergyIndex, _planeWaveRenderer );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -220,11 +237,22 @@ public class EnergyPlot extends XYPlot implements Observer {
         else if ( observable == _wavePacket ) {
             updateTotalEnergy();
         }
+        else if ( observable == _planeWave ) {
+            updateTotalEnergy();
+        }
     }
     
     //----------------------------------------------------------------------------
     // Update handlers
     //----------------------------------------------------------------------------
+
+    /**
+     * Updates everything.
+     */
+    public void update() {
+        updateTotalEnergy();
+        updatePotentialEnergy();
+    }
     
     /*
      * Updates the total energy series to match the model.
@@ -247,11 +275,11 @@ public class EnergyPlot extends XYPlot implements Observer {
         if ( _potentialEnergy != null ) {
             _potentialEnergySeries.setNotify( false );
             _potentialEnergySeries.clear();
-            int numberOfRegions = _potentialEnergy.getNumberOfRegions();
+            final int numberOfRegions = _potentialEnergy.getNumberOfRegions();
             for ( int i = 0; i < numberOfRegions; i++ ) {
-                double start = _potentialEnergy.getStart( i );
-                double end = _potentialEnergy.getEnd( i );
-                double energy = _potentialEnergy.getEnergy( i );
+                final double start = _potentialEnergy.getStart( i );
+                final double end = _potentialEnergy.getEnd( i );
+                final double energy = _potentialEnergy.getEnergy( i );
                 _potentialEnergySeries.add( start, energy );
                 _potentialEnergySeries.add( end, energy );
             }

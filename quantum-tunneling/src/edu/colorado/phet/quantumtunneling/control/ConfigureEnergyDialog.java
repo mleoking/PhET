@@ -38,7 +38,6 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
-import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.view.EnergyPlot;
@@ -90,11 +89,13 @@ public class ConfigureEnergyDialog extends JDialog {
     // Model
     private TotalEnergy _totalEnergy;
     private AbstractPotential _potentialEnergy;
+    private WavePacket _wavePacket;
+    private PlaneWave _planeWave;
     
-    // Chart area
+    // Dialog's "chart area"
     private EnergyPlot _energyPlot;
     
-    // Input area
+    // Dialog's "input area"
     private JPanel _inputPanel;
     private PotentialComboBox _potentialComboBox;
     private JSpinner _teSpinner;
@@ -103,7 +104,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private ArrayList _widthSpinners; // array of JSpinner
     private ArrayList _positionSpinners; // array of JSpinner
     
-    // Action area
+    // Dialog's "action area"
     private JButton _applyButton, _closeButton;
     
     // Misc
@@ -122,11 +123,22 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param parent
      * @param totalEnergy
      * @param potentialEnergy
-     * @param waveType
+     * @param wavePacket
+     * @param planeWave
      */
-    public ConfigureEnergyDialog( Frame parent, QTModule module, TotalEnergy totalEnergy, AbstractPotential potentialEnergy, WavePacket wavePacket, WaveType waveType ) {
+    public ConfigureEnergyDialog( 
+            Frame parent, QTModule module, 
+            TotalEnergy totalEnergy, AbstractPotential potentialEnergy, 
+            WavePacket wavePacket, PlaneWave planeWave ) {
         super( parent );
 
+        // Make copies of the energy models
+        _totalEnergy = new TotalEnergy( totalEnergy );
+        _potentialEnergy = PotentialFactory.clonePotentialEnergy( potentialEnergy );
+        // Keep references to the wave models
+        _wavePacket = wavePacket;
+        _planeWave = planeWave;
+        
         setTitle( SimStrings.get( "title.configureEnergy" ) );
         setModal( true );
         setResizable( false );
@@ -134,12 +146,8 @@ public class ConfigureEnergyDialog extends JDialog {
         _parent = parent;
         _module = module;
         _listener = new EventListener();
-        
-        // Make copies of the model
-        _totalEnergy = new TotalEnergy( totalEnergy );
-        _potentialEnergy = PotentialFactory.clonePotentialEnergy( potentialEnergy );
 
-        createUI( parent, wavePacket, waveType );
+        createUI( parent );
         populateValues();
         
         setLocationRelativeTo( parent );
@@ -166,12 +174,10 @@ public class ConfigureEnergyDialog extends JDialog {
      * Creates the user interface for the dialog.
      * 
      * @param parent the parent Frame
-     * @param wavePacket
-     * @param waveType the wave type
      */
-    private void createUI( Frame parent, WavePacket wavePacket, WaveType waveType ) {
+    private void createUI( Frame parent ) {
         
-        JPanel chartPanel = createChartPanel( wavePacket, waveType );
+        JPanel chartPanel = createChartPanel();
         _inputPanel = new JPanel();
         _inputPanel.add( createInputPanel() );
         JPanel actionsPanel = createActionsPanel();
@@ -203,39 +209,48 @@ public class ConfigureEnergyDialog extends JDialog {
     /*
      * Creates the dialog's chart panel.
      * 
-     * @param wavePacket
-     * @param waveType
      * @return the chart panel
      */
-    private JPanel createChartPanel( WavePacket wavePacket, WaveType waveType ) {
+    private JPanel createChartPanel() {
 
         // Plot
         _energyPlot = new EnergyPlot();
-        _energyPlot.setWaveType( waveType );
-        _energyPlot.setWavePacket( wavePacket );
-        
-        // Font for axes labels and ticks
-        _energyPlot.getDomainAxis().setLabelFont( AXIS_LABEL_FONT );
-        _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
-        _energyPlot.getDomainAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
-        _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
-        _energyPlot.getDomainAxis().setLabelInsets( new RectangleInsets( 10, 0, 0, 0 ) ); // top,left,bottom,right
-        _energyPlot.getRangeAxis().setLabelInsets( new RectangleInsets( 0, 0, 0, 10 ) );
+        {
+            // Labels & tick marks
+            _energyPlot.getDomainAxis().setLabelFont( AXIS_LABEL_FONT );
+            _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+            _energyPlot.getDomainAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            _energyPlot.getDomainAxis().setLabelInsets( new RectangleInsets( 10, 0, 0, 0 ) ); // top,left,bottom,right
+            _energyPlot.getRangeAxis().setLabelInsets( new RectangleInsets( 0, 0, 0, 10 ) );
 
-        // X axis tick units
-        {
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( QTConstants.POSITION_TICK_SPACING, QTConstants.POSITION_TICK_FORMAT ) );
-            _energyPlot.getDomainAxis().setStandardTickUnits( tickUnits );
-            _energyPlot.getDomainAxis().setAutoTickUnitSelection( true );
-        }
-        
-        // Y axis tick units
-        {
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( QTConstants.ENERGY_TICK_SPACING, QTConstants.ENERGY_TICK_FORMAT ) );
-            _energyPlot.getRangeAxis().setStandardTickUnits( tickUnits );
-            _energyPlot.getRangeAxis().setAutoTickUnitSelection( true );
+            // X axis tick units
+            {
+                TickUnits tickUnits = new TickUnits();
+                tickUnits.add( new NumberTickUnit( QTConstants.POSITION_TICK_SPACING, QTConstants.POSITION_TICK_FORMAT ) );
+                _energyPlot.getDomainAxis().setStandardTickUnits( tickUnits );
+                _energyPlot.getDomainAxis().setAutoTickUnitSelection( true );
+            }
+
+            // Y axis tick units
+            {
+                TickUnits tickUnits = new TickUnits();
+                tickUnits.add( new NumberTickUnit( QTConstants.ENERGY_TICK_SPACING, QTConstants.ENERGY_TICK_FORMAT ) );
+                _energyPlot.getRangeAxis().setStandardTickUnits( tickUnits );
+                _energyPlot.getRangeAxis().setAutoTickUnitSelection( true );
+            }
+
+            // Set the waves
+            _energyPlot.setTotalEnergy( _totalEnergy );
+            _energyPlot.setPotentialEnergy( _potentialEnergy );
+            _energyPlot.setWavePacket( _wavePacket );
+            _energyPlot.setPlaneWave( _planeWave );
+            if ( _wavePacket.isEnabled() ) {
+                _energyPlot.showWavePacket();
+            }
+            else {
+                _energyPlot.showPlaneWave();
+            }
         }
         
         // Chart
@@ -426,13 +441,6 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void populateValues() {
         
-        double minX = _energyPlot.getDomainAxis().getRange().getLowerBound();
-        double maxX = _energyPlot.getDomainAxis().getRange().getUpperBound();
-        
-        // Energy plot
-        _energyPlot.setTotalEnergy( _totalEnergy );
-        _energyPlot.setPotentialEnergy( _potentialEnergy );
-        
         // Potential type
         _potentialComboBox.removeItemListener( _listener );
         PotentialType potentialType = PotentialFactory.getPotentialType( _potentialEnergy );
@@ -607,6 +615,7 @@ public class ConfigureEnergyDialog extends JDialog {
 
     /*
      * Handles the "Apply" button.
+     * Sends copies of the energies to the module.
      */
     private void handleApply() {
         if ( _teChanged ) {
@@ -649,6 +658,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handlePotentialTypeChange() {
         PotentialType potentialType = _potentialComboBox.getSelectedPotentialType();
         _potentialEnergy = PotentialFactory.createPotentialEnergy( potentialType );
+        _energyPlot.setPotentialEnergy( _potentialEnergy );
         _peChanged = true;
         _applyButton.setEnabled( true );
         rebuildInputPanel();
