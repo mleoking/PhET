@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- when help is on, cursor doesn't change over non-PSwing PNodes (JDK 5)
 - address graphics performance issues
-- move non-Swing stuff out of event-dispatch thread
 - fix dt in Richardson algorithm so that it is related to clock dt
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
@@ -16,16 +16,15 @@ MEDIUM PRIORITY:
 - add application description to SimStrings files
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 - pause clock while dragging sliders/handles, restore the clock state on release
-- shapes in the Potential combo box
 - top edge of +1 tick label on Energy plot y axis is clipped
 - check Spanish translations, including help layout
 
 LOW PRIORITY:
 - Y axis labels move when zooming causes range to change
-- fix tab order in Configure dialog
+- fix focus traversal order in Configure dialog
 - select entire spinner value when it gets focus in Configure dialog
 - Wiggle Me
-- better "About" dialog with build number and logo
+- improve "About" dialog, add build number and logo
 
 OPTIMIZATIONS:
 - remove test-src
@@ -59,6 +58,10 @@ MACINTOSH
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/6/06) - create PotentialFactory to encapsulate instanceof operations on AbstractPotentials and PotentialTypes
+(2/6/06) - add icons in Potential combo box to indicate potential shapes
+(2/6/06) - piccolo-phet: flesh out TestHelpBalloon to test all properties
+(2/6/06) - remove help items for Pause and lower zoom buttons, as requested
 (2/6/06) - temporarily pause the clock when "Measure" is pressed to ensure that initial state is drawn
 (2/6/06) - change help text for Configure button at Sam M's request
 (2/6/06) - add a flag to determine whether JFreeChart is used to draw dynamic elements
@@ -354,7 +357,8 @@ DONE:
 
 REJECTED:
 (2/6/06) - restore "phase" veiw state when switching between sum and separate views (confusing)
-(23/6/06) - restore sum/separate state when switching between plane and wave packet (confusing)
+(2/6/06) - restore sum/separate state when switching between plane and wave packet (confusing)
+(1/31/06) - move non-Swing stuff out of event-dispatch thread (lots of work, and doesn't affect performance problems)
 (1/25/06) - abandon specialization of CursorHandler to set top-level component cursor, wrong approach
 (1/20/06) - try native L&F on all platforms (WindowLookAndFeel looks worse than SmoothMetal for this sim)
 (1/20/06) - change time to ns when the time values grows too large to display fs (not worth worrying about)

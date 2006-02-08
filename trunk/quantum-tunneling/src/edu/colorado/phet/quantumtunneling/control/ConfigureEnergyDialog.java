@@ -37,6 +37,7 @@ import org.jfree.ui.TextAnchor;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
@@ -95,8 +96,7 @@ public class ConfigureEnergyDialog extends JDialog {
     
     // Input area
     private JPanel _inputPanel;
-    private JComboBox _potentialComboBox;
-    private Object _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem; // potential choices
+    private PotentialComboBox _potentialComboBox;
     private JSpinner _teSpinner;
     private ArrayList _peSpinners; // array of JSpinner
     private JSpinner _stepSpinner;
@@ -137,7 +137,7 @@ public class ConfigureEnergyDialog extends JDialog {
         
         // Make copies of the model
         _totalEnergy = new TotalEnergy( totalEnergy );
-        _potentialEnergy = clonePotentialEnergy( potentialEnergy );
+        _potentialEnergy = PotentialFactory.clonePotentialEnergy( potentialEnergy );
 
         createUI( parent, wavePacket, waveType );
         populateValues();
@@ -262,16 +262,9 @@ public class ConfigureEnergyDialog extends JDialog {
         // Menu panel...
         JPanel menuPanel = new JPanel();
         {
-            // Potential choices...
+            // Potential
             JLabel potentialLabel = new JLabel( SimStrings.get( "label.potential" ) );
-            _constantItem = SimStrings.get( "choice.potential.constant" );
-            _stepItem = SimStrings.get( "choice.potential.step" );
-            _singleBarrierItem = SimStrings.get( "choice.potential.barrier" );
-            _doubleBarrierItem = SimStrings.get( "choice.potential.double" );
-            
-            // Potential menu...
-            Object[] items = { _constantItem, _stepItem, _singleBarrierItem, _doubleBarrierItem };
-            _potentialComboBox = new JComboBox( items );
+            _potentialComboBox = new PotentialComboBox();
             _potentialComboBox.addItemListener( _listener );
 
             // Layout
@@ -400,7 +393,8 @@ public class ConfigureEnergyDialog extends JDialog {
         JPanel inputPanel = new JPanel( new BorderLayout() );
         inputPanel.add( menuPanel, BorderLayout.NORTH );
         inputPanel.add( spinnerPanel, BorderLayout.CENTER );
-        
+
+        inputPanel.setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
         return inputPanel;
     }
 
@@ -441,21 +435,8 @@ public class ConfigureEnergyDialog extends JDialog {
         
         // Potential type
         _potentialComboBox.removeItemListener( _listener );
-        if ( _potentialEnergy instanceof ConstantPotential ) {
-            _potentialComboBox.setSelectedItem( _constantItem );
-        }
-        else if ( _potentialEnergy instanceof StepPotential ) {
-            _potentialComboBox.setSelectedItem( _stepItem );
-        }
-        else if ( _potentialEnergy instanceof SingleBarrierPotential ) {
-            _potentialComboBox.setSelectedItem( _singleBarrierItem );
-        }
-        else if ( _potentialEnergy instanceof DoubleBarrierPotential ) {
-            _potentialComboBox.setSelectedItem( _doubleBarrierItem );
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential type: " + _potentialEnergy.getClass().getName() );
-        }
+        PotentialType potentialType = PotentialFactory.getPotentialType( _potentialEnergy );
+        _potentialComboBox.setSelectedPotentialType( potentialType );
         _potentialComboBox.addItemListener( _listener );
         
         // Total Energy
@@ -633,7 +614,7 @@ public class ConfigureEnergyDialog extends JDialog {
             _teChanged = false;
         }
         if ( _peChanged ) {
-            _module.setPotentialEnergy( clonePotentialEnergy( _potentialEnergy ) ); 
+            _module.setPotentialEnergy( PotentialFactory.clonePotentialEnergy( _potentialEnergy ) ); 
             _peChanged = false;
         }
         _applyButton.setEnabled( false );
@@ -666,31 +647,11 @@ public class ConfigureEnergyDialog extends JDialog {
      * Handles selection in the "Potential" combo box.
      */
     private void handlePotentialTypeChange() {
-        AbstractPotential potentialEnergy = null;
-        
-        Object o = _potentialComboBox.getSelectedItem();
-        if ( o == _constantItem ) {
-            potentialEnergy = new ConstantPotential();
-        }
-        else if ( o == _stepItem ) {
-            potentialEnergy = new StepPotential();
-        }
-        else if ( o == _singleBarrierItem ) {
-            potentialEnergy = new SingleBarrierPotential();
-        }
-        else if ( o == _doubleBarrierItem ) {
-            potentialEnergy = new DoubleBarrierPotential();
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential selection: " + o );
-        }
-        
-        if ( potentialEnergy != _potentialEnergy ) {
-            _potentialEnergy = potentialEnergy;
-            _peChanged = true;
-            _applyButton.setEnabled( true );
-            rebuildInputPanel();
-        }
+        PotentialType potentialType = _potentialComboBox.getSelectedPotentialType();
+        _potentialEnergy = PotentialFactory.createPotentialEnergy( potentialType );
+        _peChanged = true;
+        _applyButton.setEnabled( true );
+        rebuildInputPanel();
     }
     
     /*
@@ -797,29 +758,6 @@ public class ConfigureEnergyDialog extends JDialog {
                 positionSpinner.setValue( new Double( position ) );
             }
         }
-    }
-    
-    /*
-     * Clones a potential energy object. 
-     */
-    private AbstractPotential clonePotentialEnergy( AbstractPotential pe ) {
-        AbstractPotential peNew = null;
-        if ( pe instanceof ConstantPotential ) {
-            peNew = new ConstantPotential( (ConstantPotential) pe );
-        }
-        else if ( pe instanceof StepPotential ) {
-            peNew = new StepPotential( (StepPotential) pe );
-        }
-        else if ( pe instanceof SingleBarrierPotential ) {
-            peNew = new SingleBarrierPotential( (SingleBarrierPotential) pe );
-        }
-        else if ( pe instanceof BarrierPotential ) {
-            peNew = new DoubleBarrierPotential( (DoubleBarrierPotential) pe );
-        }
-        else {
-            throw new IllegalStateException( "unsupported potential type: " + pe.getClass().getName() );
-        }
-        return peNew;
     }
     
     /*
