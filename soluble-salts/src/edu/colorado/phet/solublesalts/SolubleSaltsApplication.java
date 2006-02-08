@@ -12,27 +12,14 @@ package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-//import edu.colorado.phet.common.model.clock.IClock;
-//import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.control.OptionsMenu;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.util.PMouseTracker;
-//import edu.colorado.phet.piccolo.PhetPCanvas;
-//import edu.colorado.phet.piccolo.util.PMouseTracker;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.*;
 
 /**
  * SolubleSaltsApplication
@@ -59,7 +46,7 @@ public class SolubleSaltsApplication extends PhetApplication {
     }
 
     private void setUpOptionsMenu() {
-        this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ));
+        this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
     }
 
     public static void main( String[] args ) {
@@ -69,26 +56,26 @@ public class SolubleSaltsApplication extends PhetApplication {
             if( arg.equals( "-b" ) ) {
                 IonGraphic.showBondIndicators( true );
             }
-            if( arg.startsWith( "-w" )) {
+            if( arg.startsWith( "-w" ) ) {
                 int d = Integer.parseInt( arg.substring( 3 ) );
                 SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d;
             }
             if( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
             }
-            if( arg.startsWith( "-s=" )) {
-                double d = Double.parseDouble( arg.substring( 3 ));
+            if( arg.startsWith( "-s=" ) ) {
+                double d = Double.parseDouble( arg.substring( 3 ) );
                 SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = d;
             }
-            if( arg.startsWith( "-d=" )) {
-                double d = Double.parseDouble( arg.substring( 3 ));
+            if( arg.startsWith( "-d=" ) ) {
+                double d = Double.parseDouble( arg.substring( 3 ) );
                 SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = d;
             }
-            if( arg.startsWith( "-c=" )) {
-                double c = Double.parseDouble( arg.substring( 3 ));
+            if( arg.startsWith( "-c=" ) ) {
+                double c = Double.parseDouble( arg.substring( 3 ) );
                 SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = c;
             }
-            if( arg.startsWith("debug=") ) {
+            if( arg.startsWith( "debug=" ) ) {
                 SolubleSaltsConfig.DEBUG = true;
             }
         }

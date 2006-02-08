@@ -12,13 +12,10 @@ package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
-import java.util.EventObject;
 import java.util.EventListener;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.util.EventObject;
 
 /**
  * Spigot

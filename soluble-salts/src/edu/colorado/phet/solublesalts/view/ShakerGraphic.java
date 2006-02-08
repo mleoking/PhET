@@ -10,19 +10,17 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.piccolo.PImageFactory;
-import edu.colorado.phet.piccolo.RegisterablePNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Shaker;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * ShakerGraphic

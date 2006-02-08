@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.solublesalts.model.affinity;
 
-import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.util.InvalidParameterTypeException;

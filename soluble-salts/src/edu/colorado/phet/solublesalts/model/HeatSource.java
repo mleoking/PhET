@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * HeatSource

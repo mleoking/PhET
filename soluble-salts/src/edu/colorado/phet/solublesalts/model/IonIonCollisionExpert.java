@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.collision.*;
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.SphereSphereContactDetector;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
@@ -45,14 +46,10 @@ public class IonIonCollisionExpert implements CollisionExpert {
                 && model.isNucleationEnabled() ) {
 
                 if( ionA.isBound() ) {
-                    if( ionA.getBindingCrystal().addIon( ionB, ionA ) ) {
-                        ionB.bindTo( ionA.getBindingCrystal() );
-                    }
+                    ionA.getBindingCrystal().addIon( ionB, ionA );
                 }
                 else if( ionB.isBound() ) {
-                    if( ionB.getBindingCrystal().addIon( ionA, ionB ) ) {
-                        ionA.bindTo( ionB.getBindingCrystal() );
-                    }
+                    ionB.getBindingCrystal().addIon( ionA, ionB );
                 }
                 collisionOccured = true;
             }

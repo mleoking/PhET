@@ -12,10 +12,10 @@ package edu.colorado.phet.solublesalts.model;
 
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
-import java.util.List;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Drain
@@ -25,7 +25,9 @@ import java.util.ArrayList;
  */
 public class Drain extends Spigot implements Vessel.ChangeListener {
 
-    public static class Orientation {}
+    public static class Orientation {
+    }
+
     public static Orientation HORIZONTAL = new Orientation();
     public static Orientation VERTICAL = new Orientation();
 
@@ -34,7 +36,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     // captured by the drain when it's open
     private int ionCaptureDistance = 8;
 
-    public Drain( SolubleSaltsModel model, Point2D location, double openingHeight, Orientation orientation  ) {
+    public Drain( SolubleSaltsModel model, Point2D location, double openingHeight, Orientation orientation ) {
         super( model );
         setPosition( location );
         model.getVessel().addChangeListener( this );

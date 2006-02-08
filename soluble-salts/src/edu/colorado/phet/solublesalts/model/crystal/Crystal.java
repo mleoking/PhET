@@ -15,7 +15,6 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
-import edu.colorado.phet.solublesalts.model.Binder;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -45,7 +44,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Crystal extends Body implements Binder {
+public class Crystal extends Body {
 
     //================================================================
     // Class data and methods
@@ -91,9 +90,8 @@ public class Crystal extends Body implements Binder {
 
     private Point2D cm = new Point2D.Double();
     private ArrayList ions = new ArrayList();
-    // The angle that the lattice is oriented at, relative to the x axis
-    private double orientation;
-    private Lattice lattice;
+
+    private Lattice_new_new lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
     private Rectangle2D waterBounds;
@@ -107,7 +105,7 @@ public class Crystal extends Body implements Binder {
      * @param model
      * @param lattice Prototype lattice. A clone is created for this crystal
      */
-    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
+    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice ) {
         this( model, lattice, new ArrayList() );
     }
 
@@ -118,11 +116,11 @@ public class Crystal extends Body implements Binder {
      * @param lattice Prototype lattice. A clone is created for this crystal
      * @param ions
      */
-    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
-        this.lattice = (Lattice)lattice.clone();
+    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions ) {
+        this.lattice = (Lattice_new_new)lattice.clone();
 
         // Open up the bounds to include the whole model so we can make lattice
-        this.lattice.setBounds( model.getBounds() );
+        setWaterBounds( model.getVessel() );
 
         // We need to interleave the positive and negative ions in the list, as much as possible, so the
         // lattice can be built out without any of them not finding an ion of the opposite polarity to
@@ -143,30 +141,23 @@ public class Crystal extends Body implements Binder {
         }
         ArrayList ions2 = new ArrayList();
         int n = Math.max( anions.size(), cations.size() );
+        List list1 = anions.size() > cations.size() ? anions : cations;
+        List list2 = list1 == cations ? anions : cations;
         for( int i = 0; i < n; i++ ) {
-            if( i < anions.size() ) {
-                ions2.add( anions.get( i ) );
+            if( i < list1.size() ) {
+                ions2.add( list1.get( i ) );
             }
-            if( i < cations.size() ) {
-                ions2.add( cations.get( i ) );
+            if( i < list2.size() ) {
+                ions2.add( list2.get( i ) );
             }
         }
 
         for( int i = 0; i < ions2.size(); i++ ) {
             Ion ion = (Ion)ions2.get( i );
-            addIon( ion );
-            if( this.ions.size() != i + 1 ) {
-                System.out.println( "Crystal.Crystal: i = " + i + "\tsize = " + this.ions.size() );
+            if( !addIon( ion ) ) {
+                throw new RuntimeException( "can't add ion" );
             }
         }
-//
-//        for( int i = 0; i < ions.size(); i++ ) {
-//            Ion ion = (Ion)ions.get( i );
-//            addIon( ion );
-//            if( this.ions.size() != i + 1 ) {
-//                System.out.println( "Crystal.Crystal: i = " + i + "\tsize = " + this.ions.size() );
-//            }
-//        }
 
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
@@ -187,7 +178,7 @@ public class Crystal extends Body implements Binder {
      * @param ions
      * @param seed
      */
-    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
+    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions, Ion seed ) {
         this( model, lattice, ions );
         seed = null;
         double maxY = Double.MIN_VALUE;
@@ -258,94 +249,58 @@ public class Crystal extends Body implements Binder {
      * @return
      */
     public boolean addIon( Ion ionA, Ion ionB ) {
+        boolean added = false;
 
         if( noBindList.contains( ionB ) ) {
             return false;
         }
 
-        double orientation = 0;
-        Point2D placeToPutIon = null;
-        switch( getIons().size() ) {
-            case 0:
-                throw new RuntimeException( "Crystal contains no ions" );
-            case 1:
-                orientation = Math.atan2( ionA.getPosition().getY() - lattice.getSeed().getPosition().getY(),
-                                          ionA.getPosition().getX() - lattice.getSeed().getPosition().getX() );
-                placeToPutIon = lattice.getNearestOpenSite( ionA, ions, orientation );
-                break;
-            default:
-                placeToPutIon = lattice.getNearestOpenSite( ionA, ionB, ions, orientation );
-
-                orientation = Math.atan2( ionA.getPosition().getY() - ionB.getPosition().getY(),
-                                          ionA.getPosition().getX() - ionB.getPosition().getX() );
-        }
-
-        if( placeToPutIon != null ) {
-            ionA.setPosition( placeToPutIon );
+        // Check that the ions are of opposite charges
+        if( ionA.getCharge() * ionB.getCharge() < 0 ) {
+            Node nodeB = lattice.getNode( ionB );
 
             // Sanity check
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion testIon = (Ion)ions.get( i );
-                if( testIon.getPosition() == placeToPutIon ) {
-                    throw new RuntimeException( "duplicate location" );
-                }
+            if( nodeB == null ) {
+                throw new RuntimeException( "nodeB = null" );
             }
-            ions.add( ionA );
-//            ions.add( new BoundIon( ionA, orientation ) );
-//            ions.add( ionA );
-            ionA.bindTo( this );
-            updateCm();
+
+            boolean b = lattice.addAtIonNode( ionA, ionB );
+            if( b ) {
+                ions.add( ionA );
+                ionA.bindTo( this );
+                updateCm();
+                added = true;
+            }
+
+            // Sanity check
+            if( !waterBounds.contains( ionA.getPosition() ) ) {
+                waterBounds.contains( ionA.getPosition() );
+                System.out.println( "Crystal.addIon" );
+                throw new RuntimeException( "!waterBounds.contains( ionA.getPosition() )" );
+            }
         }
-
-        return placeToPutIon != null;
+        return added;
     }
-
 
     /**
      * Returns true if the ion was added. If there wasn't a place to put it in
      * the lattice, returns false
      */
     public boolean addIon( Ion ion ) {
+        boolean added = false;
 
         if( noBindList.contains( ion ) ) {
             return false;
         }
-
-        Point2D placeToPutIon = null;
-        switch( getIons().size() ) {
-            case 0:
-                lattice.setSeed( ion );
-                // Give the crystal an orientation that will allow the seed ion to move if the crystal
-                // dissolves before another ion attaches.
-                orientation = ion.getVelocity().getAngle();
-                placeToPutIon = ion.getPosition();
-                setPosition( placeToPutIon );
-                break;
-            case 1:
-                orientation = Math.atan2( ion.getPosition().getY() - lattice.getSeed().getPosition().getY(),
-                                          ion.getPosition().getX() - lattice.getSeed().getPosition().getX() );
-                placeToPutIon = lattice.getNearestOpenSite( ion, ions, orientation );
-                break;
-            default:
-                placeToPutIon = lattice.getNearestOpenSite( ion, ions, orientation );
-        }
-
-        if( placeToPutIon != null ) {
-            ion.setPosition( placeToPutIon );
-
-            // Sanity check
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion testIon = (Ion)ions.get( i );
-                if( testIon.getPosition() == placeToPutIon ) {
-                    throw new RuntimeException( "duplicate location" );
-                }
+        else if( true ) {
+            added = lattice.add( ion );
+            if( added ) {
+                ions.add( ion );
+                ion.bindTo( this );
+                updateCm();
             }
-            ions.add( ion );
-            ion.bindTo( this );
-            updateCm();
         }
-
-        return placeToPutIon != null;
+        return added;
     }
 
     /**
@@ -356,7 +311,7 @@ public class Crystal extends Body implements Binder {
      */
     public void removeIon( Ion ion ) {
         getIons().remove( ion );
-
+        lattice.removeIon( ion );
         // If there aren't any ions left in the crystal, the crystal should be removed
         // from the model
         if( getIons().size() == 0 ) {
@@ -370,7 +325,7 @@ public class Crystal extends Body implements Binder {
      * @param dt
      */
     public void releaseIon( double dt ) {
-        Ion ionToRelease = lattice.getLeastBoundIon( getIons(), orientation );
+        Ion ionToRelease = lattice.getLeastBoundIon( getIons(), 0 );
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
@@ -387,8 +342,8 @@ public class Crystal extends Body implements Binder {
 
         Vector2D v = determineReleaseVelocity( ionToRelease );
         ionToRelease.setVelocity( v );
-        removeIon( ionToRelease );
         ionToRelease.unbindFrom( this );
+        removeIon( ionToRelease );
 
         // Give the ion a step so that it isn't in contact with the crystal
         ionToRelease.stepInTime( dt );
@@ -419,7 +374,13 @@ public class Crystal extends Body implements Binder {
         }
 
         // Get the unoccupied sites around the ion being release
-        List openSites = lattice.getOpenNeighboringSites( ionToRelease, ions, orientation );
+        List openSites = lattice.getOpenNeighboringSites( ionToRelease );
+
+        if( openSites.size() == 0 ) {
+            System.out.println( "openSites.size() = " + openSites.size() );
+            return new Vector2D.Double();
+        }
+
         double maxAngle = Double.MIN_VALUE;
         double minAngle = Double.MAX_VALUE;
 
@@ -458,7 +419,6 @@ public class Crystal extends Body implements Binder {
         }
 
         // If we get here, there is only one open site adjacent to the ion being released
-        System.out.println( "openSites.size() = " + openSites.size() );
         Point2D point2D = (Point2D)openSites.get( 0 );
         Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
                                                  point2D.getY() - ionToRelease.getPosition().getY() );
@@ -468,8 +428,10 @@ public class Crystal extends Body implements Binder {
 
         angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
         Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
-        if( releaseVelocity.getMagnitude() < 0.001 ) {
-            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.001" );
+
+        // Sanity check
+        if( releaseVelocity.getMagnitude() < 0.0001 ) {
+            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
         }
         return releaseVelocity;
     }
@@ -568,58 +530,6 @@ public class Crystal extends Body implements Binder {
                 e.printStackTrace();
             }
             noBindList.remove( ion );
-        }
-    }
-
-
-    private class BoundIon extends Ion {
-        private double orientation;
-        private Ion ion;
-
-        public BoundIon( Ion ion, double orientation ) {
-            super( ion.getIonProperties() );
-            this.orientation = orientation;
-            this.ion = ion;
-        }
-
-        public void stepInTime( double dt ) {
-            ion.stepInTime( dt );
-        }
-
-        public void bindTo( Binder binder ) {
-            ion.bindTo( binder );
-        }
-
-        public void unbindFrom( Binder binder ) {
-            ion.unbindFrom( binder );
-        }
-
-        public boolean isBound() {
-            return ion.isBound();
-        }
-
-        public double getCharge() {
-            return ion.getCharge();
-        }
-
-        public Crystal getBindingCrystal() {
-            return ion.getBindingCrystal();
-        }
-
-        public void addChangeListener( ChangeListener listener ) {
-            ion.addChangeListener( listener );
-        }
-
-        public void removeChangeListener( ChangeListener listener ) {
-            ion.removeChangeListener( listener );
-        }
-
-        public double getOrientation() {
-            return orientation;
-        }
-
-        public void setOrientation( double orientation ) {
-            this.orientation = orientation;
         }
     }
 }

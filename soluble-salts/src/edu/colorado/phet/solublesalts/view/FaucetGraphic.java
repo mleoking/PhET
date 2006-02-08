@@ -13,7 +13,7 @@ package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.RegisterablePNode;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Spigot;
 import edu.colorado.phet.solublesalts.model.WaterSource;
@@ -54,7 +54,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     // Registrations
     public static final int WALL_ATTACHMENT = 1, SPOUT = 2;
     private static final double MAX_WATER_WIDTH = 20.0;
-    private static final Color WATER_COLOR =  SolubleSaltsConfig.WATER_COLOR;
+    private static final Color WATER_COLOR = SolubleSaltsConfig.WATER_COLOR;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -129,7 +129,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
 
         // Water Flow slider
         flowSlider = new JSlider( 0, (int)spigot.getMaxFlow(), 0 );
-        flowSlider.setBackground( Color.black);
+        flowSlider.setBackground( Color.black );
         flowSlider.addChangeListener( new ChangeListener() {
             public void stateChanged
                     ( ChangeEvent e ) {
