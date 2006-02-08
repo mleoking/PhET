@@ -26,6 +26,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -97,6 +98,7 @@ public class HelpBalloon extends AbstractHelpItem {
     
     private HTMLGraphic _textNode;
     private HTMLGraphic _shadowTextNode;
+    private PComposite _compositeTextNode;
     private PPath _balloonNode;
     private PPath _arrowNode; 
     
@@ -207,12 +209,15 @@ public class HelpBalloon extends AbstractHelpItem {
             _shadowTextNode.setFont( DEFAULT_TEXT_FONT );
             _shadowTextNode.setColor( DEFAULT_SHADOW_TEXT_COLOR );
             _shadowTextNode.setVisible( false ); // default is no shadow text
+            
+            _compositeTextNode = new PComposite();
+            _compositeTextNode.addChild( _shadowTextNode );
+            _compositeTextNode.addChild( _textNode ); // add text last so that it's on top
         }
 
         addChild( _arrowNode );
         addChild( _balloonNode );
-        addChild( _shadowTextNode );
-        addChild( _textNode ); // add text last so that it's on top
+        addChild( _compositeTextNode ); // add text last so that it's on top
 
         _updateEnabled = true;
         updateDisplay();
@@ -278,6 +283,7 @@ public class HelpBalloon extends AbstractHelpItem {
         
     public void setShadowTextEnabled( boolean enabled ) {
         _shadowTextNode.setVisible( enabled );
+        updateDisplay();
     }
     
     public void setShadowTextColor( Color color ) {
@@ -292,6 +298,10 @@ public class HelpBalloon extends AbstractHelpItem {
     public void setShadowTextOffset( double x, double y ) {
         _shadowTextOffset.setSize( x, y );
         updateDisplay();
+    }
+    
+    public void setShadowTextOffset( double xy ) {
+        setShadowTextOffset( xy, xy );
     }
 
     // Balloon attributes ------------------------------------------------------
@@ -482,8 +492,12 @@ public class HelpBalloon extends AbstractHelpItem {
         
         // Resize the balloon to fit the text.
         {
-            double width = _textNode.getWidth() + ( 2 * _textMargin );
-            double height = _textNode.getHeight() + ( 2 * _textMargin );
+            Rectangle2D bounds = _textNode.getBounds();
+            if ( _shadowTextNode.getVisible() ) {
+                bounds = _compositeTextNode.getFullBounds();
+            }
+            double width = bounds.getWidth() + ( 2 * _textMargin );
+            double height = bounds.getHeight() + ( 2 * _textMargin );
             Shape shape = new RoundRectangle2D.Double( 0, 0, width, height, _balloonCornerRadius, _balloonCornerRadius );
             _balloonNode.setPathTo( shape );
         }
@@ -653,8 +667,34 @@ public class HelpBalloon extends AbstractHelpItem {
         }
         
         _balloonNode.setOffset( x, y );
-        _textNode.setOffset( x + _textMargin, y + _textMargin );
-        _shadowTextNode.setOffset( x + _textMargin + _shadowTextOffset.getWidth(), y + _textMargin + _shadowTextOffset.getHeight() );
+        if ( _shadowTextNode.getVisible() ) {
+            double tx = 0;
+            double ty = 0;
+            double sx = 0;
+            double sy = 0;
+            if ( _shadowTextOffset.getWidth() > 0 ) {
+                tx = x + _textMargin;
+                sx = x + _textMargin + _shadowTextOffset.getWidth();
+            }
+            else {
+                tx = x + _textMargin + Math.abs( _shadowTextOffset.getWidth() );
+                sx = x + _textMargin;
+            }
+            if ( _shadowTextOffset.getHeight() > 0 ) {
+                ty = y + _textMargin;
+                sy = y + _textMargin + _shadowTextOffset.getHeight();
+            }
+            else {
+                ty = y + _textMargin + Math.abs( _shadowTextOffset.getHeight() );
+                sy = y + _textMargin;
+            }
+            _textNode.setOffset( tx, ty );
+            _shadowTextNode.setOffset( sx, sy );
+        }
+        else {
+            _textNode.setOffset( x + _textMargin, y + _textMargin );
+            _shadowTextNode.setOffset( x + _textMargin, y + _textMargin  );
+        }
     }
     
     //----------------------------------------------------------------------------
