@@ -11,16 +11,14 @@
 
 package edu.colorado.phet.tests.piccolo;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.MessageFormat;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -54,9 +52,12 @@ public class TestHelpBalloon extends PhetApplication {
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
     
     private static final Object DEFAULT_ARROW_TAIL_POSITION = HelpBalloon.TOP_LEFT;
-    private static final int DEFAULT_ARROW_LENGTH = 40; // pixels
-    private static final int DEFAULT_ARROW_ROTATION = 0; // degrees
-
+    private static final int DEFAULT_ARROW_LENGTH = 40;
+    private static final int DEFAULT_ARROW_ROTATION = 0;
+    
+    private static final int MIN_ARROW_ROTATION = (int) HelpBalloon.MIN_ARROW_ROTATION;
+    private static final int MAX_ARROW_ROTATION = (int) HelpBalloon.MAX_ARROW_ROTATION;
+    
     /* Test harness */
     public static void main( final String[] args ) {
         try {
@@ -70,7 +71,7 @@ public class TestHelpBalloon extends PhetApplication {
 
     /* Application */
     public TestHelpBalloon( String[] args ) throws InterruptedException {
-        super( args, "TestHelpBalloon", "test of HelpBalloon", "0.1", new FrameSetup.CenteredWithSize( 640, 480 ) );
+        super( args, "TestHelpBalloon", "test of HelpBalloon", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module module1 = new TestModule( "Module 1" );
         addModule( module1 );
@@ -102,7 +103,7 @@ public class TestHelpBalloon extends PhetApplication {
             // Play area --------------------------------------------
             
             // Canvas
-            PhetPCanvas canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
+            final PhetPCanvas canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
             setSimulationPanel( canvas );
             
             PPath pathNode = new PPath();
@@ -115,80 +116,265 @@ public class TestHelpBalloon extends PhetApplication {
             
             // Control panel --------------------------------------------
             
-            Object[] tailPositions = {
-              HelpBalloon.TOP_LEFT, HelpBalloon.TOP_CENTER, HelpBalloon.TOP_RIGHT,
-              HelpBalloon.BOTTOM_LEFT, HelpBalloon.BOTTOM_CENTER, HelpBalloon.BOTTOM_RIGHT,
-              HelpBalloon.LEFT_TOP, HelpBalloon.LEFT_CENTER, HelpBalloon.LEFT_BOTTOM,
-              HelpBalloon.RIGHT_TOP, HelpBalloon.RIGHT_CENTER, HelpBalloon.RIGHT_BOTTOM
-            };
-            final JComboBox tailPositionComboBox = new JComboBox( tailPositions );
-            tailPositionComboBox.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-            tailPositionComboBox.setSelectedItem( DEFAULT_ARROW_TAIL_POSITION );
-            tailPositionComboBox.setMaximumRowCount( tailPositions.length );
-            tailPositionComboBox.addItemListener( new ItemListener() {
-                public void itemStateChanged( ItemEvent e ) {
-                    if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                        _helpBalloon.setArrowTailPosition( tailPositionComboBox.getSelectedItem() );
+            JPanel canvasPanel = new JPanel();
+            {
+                final JButton canvasColorButton = new JButton( "canvas color..." );
+                canvasColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Canvas color", Color.WHITE );
+                        canvas.setBackground( color );
                     }
-                }
-            } );
-            JPanel tailPositionPanel = new JPanel();
-            EasyGridBagLayout positionLayout = new EasyGridBagLayout( tailPositionPanel );
-            tailPositionPanel.setLayout( positionLayout );
-            positionLayout.addComponent( new JLabel( "tail position:" ), 0, 0 );
-            positionLayout.addComponent( tailPositionComboBox, 0, 1 );
+                } );
+                
+                canvasPanel.setBorder( new TitledBorder( "Text properties" ) );
+                EasyGridBagLayout layout = new EasyGridBagLayout( canvasPanel );
+                canvasPanel.setLayout( layout );
+                int row = 0;
+                layout.addComponent( canvasColorButton, row++, 0 );
+            }
             
-            final JLabel lengthLabel = new JLabel( "length = " + DEFAULT_ARROW_LENGTH );
-            final JSlider lengthSlider = new JSlider();
-            lengthSlider.setMinimum( 0 );
-            lengthSlider.setMaximum( 100 );
-            lengthSlider.setValue( DEFAULT_ARROW_LENGTH );
-            lengthSlider.setMajorTickSpacing( 50 );
-            lengthSlider.setMinorTickSpacing( 10 );
-            lengthSlider.setPaintTicks( true );
-            lengthSlider.setPaintLabels( true );
-            lengthSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    int length = lengthSlider.getValue();
-                    lengthLabel.setText( "length = " + length );
-                    _helpBalloon.setArrowLength( length );
-                }
-            } );
+            JPanel textPanel = new JPanel();
+            {
+                final JButton textColorButton = new JButton( "text color..." );
+                textColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Text color", Color.BLACK );
+                        _helpBalloon.setTextColor( color );
+                    }
+                } );
+                
+                final LabeledSlider fontSizeSlider = new LabeledSlider( "font size = {0} points", 8, 24, 12, 24-8, 1 );
+                fontSizeSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        Font font = new Font( "Lucida Sans", Font.PLAIN, fontSizeSlider.getValue() );
+                        _helpBalloon.setFont( font );
+                    }
+                } );
+                
+                final LabeledSlider marginSlider = new LabeledSlider( "text margin = {0} pixels", 0, 20, 4, 20-0, 1 );
+                marginSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setTextMargin( marginSlider.getValue() );
+                    }
+                } );
+                
+                textPanel.setBorder( new TitledBorder( "Text properties" ) );
+                EasyGridBagLayout layout = new EasyGridBagLayout( textPanel );
+                textPanel.setLayout( layout );
+                int row = 0;
+                layout.addComponent( textColorButton, row++, 0 );
+                layout.addComponent( fontSizeSlider, row++, 0 );
+                layout.addComponent( marginSlider, row++, 0 );
+            }
             
-            final JLabel rotationLabel = new JLabel( "rotation = " + DEFAULT_ARROW_ROTATION );
-            final JSlider rotationSlider = new JSlider();
-            rotationSlider.setMinimum( (int) HelpBalloon.MIN_ARROW_ROTATION );
-            rotationSlider.setMaximum( (int) HelpBalloon.MAX_ARROW_ROTATION );
-            rotationSlider.setValue( DEFAULT_ARROW_ROTATION );
-            rotationSlider.setMajorTickSpacing( (int) HelpBalloon.MAX_ARROW_ROTATION );
-            rotationSlider.setMinorTickSpacing( 10 );
-            rotationSlider.setPaintTicks( true );
-            rotationSlider.setPaintLabels( true );
-            rotationSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    int rotation = rotationSlider.getValue();
-                    rotationLabel.setText( "rotation = " + rotation );
-                    _helpBalloon.setArrowRotation( rotation );
-                }
-            } );
+            JPanel shadowPanel = new JPanel();
+            { 
+                final JCheckBox shadowCheckBox = new JCheckBox( "shadow enabled" );
+                shadowCheckBox.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setShadowTextEnabled( shadowCheckBox.isSelected() );
+                    }
+                } );
+
+                final LabeledSlider shadowOffsetSlider = new LabeledSlider( "shadow offset = {0} pixels", -5, 5, 1, 5, 1 );
+                shadowOffsetSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setShadowTextOffset( shadowOffsetSlider.getValue() );
+                    }
+                } );
+                
+                final JButton shadowColorButton = new JButton( "shadow color..." );
+                shadowColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "shadow color", Color.RED );
+                        _helpBalloon.setShadowTextColor( color );
+                    }
+                } );
+                
+                shadowPanel.setBorder( new TitledBorder( "Shadow properties" ) );
+                EasyGridBagLayout layout = new EasyGridBagLayout( shadowPanel );
+                shadowPanel.setLayout( layout );
+                int row = 0;
+                layout.addComponent( shadowCheckBox, row++, 0 );
+                layout.addComponent( shadowOffsetSlider, row++, 0 );
+                layout.addComponent( shadowColorButton, row++, 0 );
+            }
+            
+            JPanel balloonPanel = new JPanel();
+            {
+                final JButton fillColorButton = new JButton( "balloon fill color..." );
+                fillColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Balloon fill color", Color.YELLOW );
+                        _helpBalloon.setBalloonFillPaint( color );
+                    }
+                } );
+ 
+                final JButton strokeColorButton = new JButton( "balloon stroke color..." );
+                strokeColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Balloon stroke color", Color.BLACK );
+                        _helpBalloon.setBalloonStrokePaint( color );
+                    }
+                } );
+                
+                final LabeledSlider strokeWidthSlider = new LabeledSlider( "balloon stroke width = {0} pixels", 1, 10, 1, 10-1, 1 );
+                strokeWidthSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setBalloonStroke( new BasicStroke( strokeWidthSlider.getValue() ) );
+                    }
+                } );
+                
+                final LabeledSlider cornerRadiusSlider = new LabeledSlider( "balloon corner radius = {0} pixels", 0, 50, 15, 50-0, 5 );
+                cornerRadiusSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setBalloonCornerRadius( cornerRadiusSlider.getValue() );
+                    }
+                } );
+                
+                final LabeledSlider spacingSlider = new LabeledSlider( "arrow/balloon spacing = {0} pixels", 0, 10, 0, 10-0, 1 );
+                spacingSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setArrowBalloonSpacing(spacingSlider.getValue() );
+                    }
+                } );
+
+                balloonPanel.setBorder( new TitledBorder( "Balloon properties" ) );
+                EasyGridBagLayout layout = new EasyGridBagLayout( balloonPanel );
+                balloonPanel.setLayout( layout );
+                int row = 0;
+                layout.addComponent( fillColorButton, row++, 0 );
+                layout.addComponent( strokeColorButton, row++, 0 );
+                layout.addComponent( strokeWidthSlider, row++, 0 );
+                layout.addComponent( cornerRadiusSlider, row++, 0 );
+                layout.addComponent( spacingSlider, row++, 0 );
+            }
             
             JPanel arrowPanel = new JPanel();
-            arrowPanel.setBorder( new TitledBorder( "Arrow attributes" ) );
-            EasyGridBagLayout layout = new EasyGridBagLayout( arrowPanel );
-            arrowPanel.setLayout( layout );
-            layout.addComponent( tailPositionPanel, 0, 0 );
-            layout.addComponent( lengthLabel, 1, 0 );
-            layout.addComponent( lengthSlider, 2, 0 );
-            layout.addComponent( rotationLabel, 3, 0 );
-            layout.addComponent( rotationSlider, 4, 0 );
+            {
+                Object[] tailPositions = { 
+                        HelpBalloon.TOP_LEFT, HelpBalloon.TOP_CENTER, HelpBalloon.TOP_RIGHT, 
+                        HelpBalloon.BOTTOM_LEFT, HelpBalloon.BOTTOM_CENTER, HelpBalloon.BOTTOM_RIGHT, 
+                        HelpBalloon.LEFT_TOP, HelpBalloon.LEFT_CENTER, HelpBalloon.LEFT_BOTTOM, 
+                        HelpBalloon.RIGHT_TOP, HelpBalloon.RIGHT_CENTER, HelpBalloon.RIGHT_BOTTOM };
+                final JComboBox tailPositionComboBox = new JComboBox( tailPositions );
+                tailPositionComboBox.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+                tailPositionComboBox.setSelectedItem( DEFAULT_ARROW_TAIL_POSITION );
+                tailPositionComboBox.setMaximumRowCount( tailPositions.length );
+                tailPositionComboBox.addItemListener( new ItemListener() {
+
+                    public void itemStateChanged( ItemEvent e ) {
+                        if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                            _helpBalloon.setArrowTailPosition( tailPositionComboBox.getSelectedItem() );
+                        }
+                    }
+                } );
+                JPanel tailPositionPanel = new JPanel();
+                EasyGridBagLayout positionLayout = new EasyGridBagLayout( tailPositionPanel );
+                tailPositionPanel.setLayout( positionLayout );
+                positionLayout.addComponent( new JLabel( "arrow tail position:" ), 0, 0 );
+                positionLayout.addComponent( tailPositionComboBox, 0, 1 );
+
+                final LabeledSlider lengthSlider = new LabeledSlider( "arrow length = {0} pixels", 0, 200, 40, 200-0, 10 );
+                lengthSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setArrowLength( lengthSlider.getValue() );
+                    }
+                } );
+
+                final LabeledSlider rotationSlider = new LabeledSlider( "arrow rotation = {0} degrees", 
+                        MIN_ARROW_ROTATION, MAX_ARROW_ROTATION, DEFAULT_ARROW_ROTATION, MAX_ARROW_ROTATION, 10 );
+                rotationSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setArrowRotation( rotationSlider.getValue() );
+                    }
+                } );
+
+                final LabeledSlider headWidthSlider = new LabeledSlider( "arrow head width = {0} pixels", 5, 30, 10, 30-5, 1 );
+                final LabeledSlider headHeightSlider = new LabeledSlider( "arrow head height = {0} pixels", 5, 30, 10, 30-5, 1 );
+                ChangeListener headListener = new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        int headWidth = headWidthSlider.getValue();
+                        int headHeight = headHeightSlider.getValue();
+                        _helpBalloon.setArrowHeadSize( headWidth, headHeight );
+                    }
+                };
+                headWidthSlider.addChangeListener( headListener );
+                headHeightSlider.addChangeListener( headListener );
+
+                final LabeledSlider tailWidthSlider = new LabeledSlider( "arrow tail width = {0} pixels", 1, 30, 5, 30-1, 1 );
+                tailWidthSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setArrowTailWidth( tailWidthSlider.getValue() );
+                    }
+                } );
+                
+                final LabeledSlider strokeWidthSlider = new LabeledSlider( "arrow stroke width = {0} pixels", 1, 10, 1, 10-1, 1 );
+                strokeWidthSlider.addChangeListener( new ChangeListener() {
+
+                    public void stateChanged( ChangeEvent e ) {
+                        _helpBalloon.setArrowStroke( new BasicStroke( strokeWidthSlider.getValue() ) );
+                    }
+                } );
+
+                final JButton fillColorButton = new JButton( "arrow fill color..." );
+                fillColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Arrow fill color", Color.YELLOW );
+                        _helpBalloon.setArrowFillPaint( color );
+                    }
+                } );
+ 
+                final JButton strokeColorButton = new JButton( "arrow stroke color..." );
+                strokeColorButton.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent event ) {
+                        Color color = JColorChooser.showDialog( getFrame(), "Arrow stroke color", Color.BLACK );
+                        _helpBalloon.setArrowStrokePaint( color );
+                    }
+                } );
+                
+                arrowPanel.setBorder( new TitledBorder( "Arrow properties" ) );
+                EasyGridBagLayout layout = new EasyGridBagLayout( arrowPanel );
+                arrowPanel.setLayout( layout );
+                int row = 0;
+                layout.addComponent( tailPositionPanel, row++, 0 );
+                layout.addComponent( lengthSlider, row++, 0 );
+                layout.addComponent( rotationSlider, row++, 0 );
+                layout.addComponent( headWidthSlider, row++, 0 );
+                layout.addComponent( headHeightSlider, row++, 0 );
+                layout.addComponent( tailWidthSlider, row++, 0 );
+                layout.addComponent( fillColorButton, row++, 0 );
+                layout.addComponent( strokeColorButton, row++, 0 );
+                layout.addComponent( strokeWidthSlider, row++, 0 );
+            }
             
             // Control panel
             ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
-            controlPanel.addControl( arrowPanel );
+            controlPanel.addControlFullWidth( canvasPanel );
+            controlPanel.addVerticalSpace( 20 );
+            controlPanel.addControlFullWidth( textPanel );
+            controlPanel.addVerticalSpace( 20 );
+            controlPanel.addControlFullWidth( shadowPanel );
+            controlPanel.addVerticalSpace( 20 );
+            controlPanel.addControlFullWidth( balloonPanel );
+            controlPanel.addVerticalSpace( 20 );
+            controlPanel.addControlFullWidth( arrowPanel );
             
             // Help --------------------------------------------
 
+            setHelpEnabled( true );
+            
             HelpPane helpPane = getDefaultHelpPane();
             
             // Help that points at a static location
@@ -202,6 +388,56 @@ public class TestHelpBalloon extends PhetApplication {
         /* Enables the help button and help menu item */
         public boolean hasHelp() {
             return true;
+        }
+        
+        public JFrame getFrame() {
+            return PhetApplication.instance().getPhetFrame();
+        }
+    }
+   
+    private static class LabeledSlider extends JPanel {
+        
+        private JLabel _label;
+        private String _format;
+        private JSlider _slider;
+        
+        public LabeledSlider( String format, int min, int max, int value, int majorTickSpacing, int minorTickSpacing ) {
+            _format = format;
+            _label = new JLabel();
+            _slider = new JSlider();
+            _slider.setMinimum( min );
+            _slider.setMaximum( max );
+            _slider.setValue( value );
+            _slider.setMajorTickSpacing( majorTickSpacing );
+            _slider.setMinorTickSpacing( minorTickSpacing );
+            _slider.setPaintTicks( true );
+            _slider.setPaintLabels( true );
+            _slider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent event ) {
+                   updateLabel();
+                }
+            } );
+            updateLabel();
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( this );
+            setLayout( layout );
+            layout.addComponent( _label, 0, 0 );
+            layout.addComponent( _slider, 1, 0 );
+        }
+        
+        private void updateLabel() {
+            int value = _slider.getValue();
+            Object[] args = { new Integer( value ) };
+            String string = MessageFormat.format( _format, args );
+            _label.setText( string );
+        }
+        
+        public int getValue() {
+            return _slider.getValue();
+        }
+        
+        public void addChangeListener( ChangeListener listener ) {
+            _slider.addChangeListener( listener );
         }
     }
 }
