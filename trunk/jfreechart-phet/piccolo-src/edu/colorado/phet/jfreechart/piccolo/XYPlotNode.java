@@ -212,7 +212,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     
     /**
      * Sets the data area. 
-     * Drawing of the plot's data will be clipped to this rectangle.
+     * Drawing of the plot's datasets will be clipped to this rectangle.
      * The data area is in the node's local coordinate system.
      * 
      * @param dataArea
