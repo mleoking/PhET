@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -42,6 +44,8 @@ import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -260,10 +264,28 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Energy drag handles
         {
+            // This handler pauses the clock while we're dragging.
+            PBasicInputEventHandler dragHandler = new PBasicInputEventHandler() {
+                private boolean _clockIsRunning = false;
+                public void mousePressed( PInputEvent event ) {
+                    _clockIsRunning = getClock().isRunning();
+                    if ( _clockIsRunning ) {
+                        getClock().pause();
+                    }
+                }
+                public void mouseReleased( PInputEvent event ) {
+                    if ( _clockIsRunning ) {
+                        getClock().start();
+                    }
+                }
+            };
+            
             _totalEnergyControl = new TotalEnergyDragHandle( _chartNode );
             _totalEnergyControl.setXAxisPosition( QTConstants.POSITION_RANGE.getUpperBound() - 1 );
+            _totalEnergyControl.addInputEventListener( dragHandler );
             
             _potentialEnergyControls = new PotentialEnergyControls( _chartNode );
+            _potentialEnergyControls.addInputEventListener( dragHandler );
         }
         
         // Zoom buttons

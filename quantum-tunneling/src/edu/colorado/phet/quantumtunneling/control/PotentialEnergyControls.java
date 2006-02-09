@@ -12,10 +12,12 @@
 package edu.colorado.phet.quantumtunneling.control;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 
 
 /**
@@ -143,6 +145,19 @@ public class PotentialEnergyControls extends PNode {
         }
         else {
             return null;
+        }
+    }
+    
+    public void addInputEventListener( PInputEventListener listener ) {
+        Iterator i = _boundaryDragHandles.iterator();
+        while ( i.hasNext() ) {
+            PNode node = (PNode) i.next();
+            node.addInputEventListener( listener );
+        }
+        Iterator j = _energyDragHandles.iterator();
+        while ( j.hasNext() ) {
+            PNode node = (PNode) j.next();
+            node.addInputEventListener( listener );
         }
     }
     
