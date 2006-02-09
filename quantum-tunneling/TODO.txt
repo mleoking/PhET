@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- address graphics performance issues
+- profile XYPlotNode approach to rendering XYPlot
 - fix dt in Richardson algorithm so that it is related to clock dt
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 
@@ -57,6 +57,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/8/06) - zoom buttons should be opaque
+(2/8/06) - cleanup and migrate XYPlotNode to jfreechart-phet
 (2/8/06) - make QTModule easy to switch between plot rendering strategies
 (2/8/06) - write XYPlotNode for drawing XYPlot outside of JFreeChart framework
 (2/8/06) - cleanup XYPlot subclasses so that they can be wrapped in a custom PNode
