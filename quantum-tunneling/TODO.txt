@@ -7,10 +7,11 @@ IN PROGRESS:
 HIGH PRIORITY:
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
-- cache the total energy gradient as an image, update only when necessary
 
 MEDIUM PRIORITY:
 - total energy gradient sometimes contains "noise" (Mac)
+- draw region markers with a PNode so that drag handles are snappier
+- cache the total energy gradient as an image, update only when necessary
 - set default clock state to running
 - decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
