@@ -81,12 +81,12 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * // Update the XYPlotNode's data area if the chart changes...
  * chart.addChangeListener( new ChartChangeListener() {
  *     public void chartChanged( ChartChangeEvent e ) {
- *         // update plotNode's data area
+ *         // set the plotNode's data area, as above
  *     }
  * } );
  * chartNode.addPropertyChangeListener( new PropertyChangeListener() {
  *     public void propertyChanged( PropertyChangeEvent e ) {
- *         // update plotNode's data area
+ *         // set the plotNode's data area, as above
  *     }
  * } );
  *
