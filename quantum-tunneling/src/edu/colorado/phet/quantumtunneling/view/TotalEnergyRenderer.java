@@ -65,7 +65,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
     private static final Color CENTER_COLOR = QTConstants.TOTAL_ENERGY_COLOR;
-    private static final Color EDGE_COLOR = QTConstants.CHART_BACKGROUND; // more efficient than using alpha
+    private static final Color EDGE_COLOR = 
+        new Color( CENTER_COLOR.getRed(), CENTER_COLOR.getGreen(), CENTER_COLOR.getBlue(), 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
