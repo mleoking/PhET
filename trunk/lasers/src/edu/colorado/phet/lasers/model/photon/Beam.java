@@ -14,9 +14,7 @@ package edu.colorado.phet.lasers.model.photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -265,13 +263,13 @@ public class Beam extends Particle implements PhotonSource {
     // Event Handling
     //---------------------------------------------------------------------
 
-    private EventChannel rateChangeEventChannel = new ModelEventChannel( RateChangeListener.class );
+    private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );
     private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getListenerProxy();
 
-    private EventChannel wavelengthChangeEventChannel = new ModelEventChannel( WavelengthChangeListener.class );
+    private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
     private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
 
-    private EventChannel photonEmittedEventChannel = new ModelEventChannel( PhotonEmittedListener.class );
+    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
     private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
     public void addRateChangeListener( RateChangeListener rateChangeListener ) {
