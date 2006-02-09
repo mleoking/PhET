@@ -26,10 +26,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
- * XYPlotNode is a node that draws an XYPlot's data in a specified data area.
+ * XYPlotNode is a node that draws an XYPlot's datasets in a specified data area.
  * This node is used to render an XYPlot outside of the JFreeChart framework.
- * Note that only the plot's data is drawn -- the plot's other parts (axes, 
- * labels, ticks, gridlines, etc.) are not drawn.
+ * Note that only the plot's datasets are drawn -- the plot's other parts 
+ * (axes, labels, ticks, gridlines, etc.) are not drawn.
  * <p>
  * One place where you might use this node is to improve the performance
  * of a dynamic chart. JFreeChart really isn't up to the task of drawing
@@ -123,16 +123,25 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param plot
+     */
     public XYPlotNode( XYPlot plot ) {
         super();
         _plot = plot;
         _plot.addChangeListener( this );
         _dataArea = new Rectangle2D.Double( 0, 0, 1, 1 );
-        _dataAreaStroked = true;
+        _dataAreaStroked = true; // see setDataAreaStroked
         _name = null;
         _renderingHints = null;
     }
 
+    /**
+     * Call this method before releasing all references to this object.
+     * This cleans up any listener associations made with the plot.
+     */
     public void cleanup() {
         if ( _plot != null ) {
             _plot.removeChangeListener( this );
@@ -166,7 +175,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     /**
      * Gets the plot.
      * 
-     * @return
+     * @return the plot
      */
     public XYPlot getPlot() {
         return _plot;
@@ -195,7 +204,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     /**
      * Gets the rendering hints.
      * 
-     * @return
+     * @return rendering hints
      */
     public RenderingHints getRenderingHints() {
         return _renderingHints;
@@ -204,8 +213,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     /**
      * Sets the data area. 
      * Drawing of the plot's data will be clipped to this rectangle.
-     * The coordinates of the data area are expressed in the node's
-     * local coordinate system.
+     * The data area is in the node's local coordinate system.
      * 
      * @param dataArea
      */
@@ -218,15 +226,20 @@ public class XYPlotNode extends PPath implements PlotChangeListener  {
     /**
      * Gets the data area, in the node's local coordinate system.
      * 
-     * @return
+     * @return data area
      */
     public Rectangle2D getDataArea() {
         return new Rectangle2D.Double( _dataArea.getX(), _dataArea.getY(), _dataArea.getWidth(), _dataArea.getHeight() );
     }
     
     /**
-     * Enables or disables stroking of the data area.
+     * Enables or disables stroking of the data area (enabled by default).
      * The plot's outline stroke and paint are used.
+     * The border is usually stroked by the plot's draw method, 
+     * but since we're only rendering datasets, the border won't be drawn.
+     * If you're drawing on top of a JFreeChart, you probably want to
+     * leave this enabled, since plotting the data may overwrite some
+     * of the border.
      * 
      * @param dataAreaStroke
      */
