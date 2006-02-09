@@ -89,6 +89,13 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the wave packet.
+     * The wave packet's initial width and center affect the total energy
+     * probability distribution.
+     * 
+     * @param wavePacket
+     */
     public void setWavePacket( WavePacket wavePacket ) {
         _wavePacket = wavePacket;
     }
