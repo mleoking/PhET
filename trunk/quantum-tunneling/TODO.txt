@@ -15,7 +15,6 @@ MEDIUM PRIORITY:
 - decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
-- pause clock while dragging sliders/handles, restore the clock state on release
 - top edge of +1 tick label on Energy plot y axis is clipped
 - check Spanish translations, including help layout
 
@@ -57,6 +56,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/8/06) - reduce QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK from 40 to 20
+(2/8/06) - pause clock while dragging sliders/handles, restore the clock state on release
 (2/8/06) - zoom buttons should be opaque
 (2/8/06) - cleanup and migrate XYPlotNode to jfreechart-phet
 (2/8/06) - make QTModule easy to switch between plot rendering strategies
