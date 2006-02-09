@@ -232,5 +232,5 @@ public class QTConstants {
     public static final double DEFAULT_PACKET_CENTER = -2; // nm
     
     // Richardson algorithm parameters
-    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 20; //XXX this is wasteful!
+    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
 }
