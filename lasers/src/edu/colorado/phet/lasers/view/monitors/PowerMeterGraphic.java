@@ -47,25 +47,22 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         addGraphic( bezelImageGraphic );
 
         int leftInset = 70;
-//        int leftInset = 20;
         int topInset = 30;
         int middleInset = 25;
 
         Dimension meterWindowSize = new Dimension( 200, 30 );
 
         final Meter cavityMeter = new InsideMeter( component,
-                                             meterWindowSize,
-                                             Meter.HORIZONTAL,
-                                             0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+                                                   meterWindowSize,
+                                                   Meter.HORIZONTAL );
         cavityMeter.setLocation( leftInset, topInset );
         addGraphic( cavityMeter );
 
         final Meter outsideMeter = new OutsideMeter( component,
-                                              meterWindowSize,
-                                              Meter.HORIZONTAL,
-                                              0, LaserConfig.KABOOM_THRESHOLD * 1.1 );
+                                                     meterWindowSize,
+                                                     Meter.HORIZONTAL );
         outsideMeter.setLocation( leftInset,
-                                  (int)(cavityMeter.getLocation().getY() + meterWindowSize.getHeight() + middleInset ));
+                                  (int)( cavityMeter.getLocation().getY() + meterWindowSize.getHeight() + middleInset ) );
         addGraphic( outsideMeter );
 
 
@@ -84,13 +81,11 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     /**
      *
      */
-    private static class Meter extends CompositePhetGraphic {
+    private abstract static class Meter extends CompositePhetGraphic {
         final static Object HORIZONTAL = new Object();
         final static Object VERTICAL = new Object();
 
         Object orientation;
-        private double max;
-        private double min;
         private Insets insets;
         Rectangle2D background;
         Paint backgroundColor = Color.black;
@@ -103,7 +98,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         double dangerThreshold = LaserConfig.KABOOM_THRESHOLD * 0.8;
         double scale;
 
-        public Meter( Component component, Dimension size, Object orientation, double min, double max ) {
+        public Meter( Component component, Dimension size, Object orientation ) {
             super( component );
 
             boolean validOrientation = false;
@@ -121,8 +116,6 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             else {
                 throw new IllegalArgumentException();
             }
-
-            setRange( min, max );
 
             // The background
             background = new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() );
@@ -145,32 +138,10 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                 segments[i] = psg;
                 addGraphic( psg );
             }
-//                double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
-//                Paint paint = null;
-//                if( segmentValue < LaserConfig.LASING_THRESHOLD ) {
-//                    paint = belowLasingPaint;
-//                }
-//                else if( segmentValue >= LaserConfig.LASING_THRESHOLD
-//                         && segmentValue < dangerThreshold ) {
-//                    paint = lasingPaint;
-//                }
-//                else if( segmentValue >= dangerThreshold ) {
-//                    paint = aboveLasingPaint;
-//                }
-//                else {
-//                    paint = backgroundColor;
-//                }
-//                segments[i].setPaint( paint );
-//            }
 
             update( 0 );
             setBoundsDirty();
             repaint();
-        }
-
-        public void setRange( double min, double max ) {
-            this.min = min;
-            this.max = max;
         }
 
         public void update( double value ) {
@@ -186,8 +157,8 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     }
 
     private static class OutsideMeter extends Meter {
-        public OutsideMeter( Component component, Dimension size, Object orientation, double min, double max ) {
-            super( component, size, orientation, min, max );
+        public OutsideMeter( Component component, Dimension size, Object orientation ) {
+            super( component, size, orientation );
 
             // Color the segments
             for( int i = 0; i < segments.length; i++ ) {
@@ -197,8 +168,8 @@ public class PowerMeterGraphic extends GraphicLayerSet {
     }
 
     private static class InsideMeter extends Meter {
-        public InsideMeter( Component component, Dimension size, Object orientation, double min, double max ) {
-            super( component, size, orientation, min, max );
+        public InsideMeter( Component component, Dimension size, Object orientation ) {
+            super( component, size, orientation );
 
             // Color the segments
             for( int i = 0; i < segments.length; i++ ) {
@@ -221,24 +192,24 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             }
 
             // Add threshold lines to the bezel
-            int lasingThresholdLocX = (int)(LaserConfig.LASING_THRESHOLD / scale);
-            Rectangle2D.Double rect = new Rectangle2D.Double(0,background.getHeight(),1,15);
+            int lasingThresholdLocX = (int)( LaserConfig.LASING_THRESHOLD / scale );
+            Rectangle2D.Double rect = new Rectangle2D.Double( 0, background.getHeight(), 1, 15 );
             PhetShapeGraphic lasingThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,
-                                                                              new Color( 255, 255, 255 ));
-            lasingThresholdIndicator.setLocation( lasingThresholdLocX, 0);
+                                                                              new Color( 255, 255, 255 ) );
+            lasingThresholdIndicator.setLocation( lasingThresholdLocX, 0 );
             addGraphic( lasingThresholdIndicator );
 
             PhetShapeGraphic dangerThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,
-                                                                              new Color( 255, 255, 255 ));
-            int dangerThresholdLocX = (int)(dangerThreshold / scale);
-            dangerThresholdIndicator.setLocation( dangerThresholdLocX, 0);
+                                                                              new Color( 255, 255, 255 ) );
+            int dangerThresholdLocX = (int)( dangerThreshold / scale );
+            dangerThresholdIndicator.setLocation( dangerThresholdLocX, 0 );
             addGraphic( dangerThresholdIndicator );
 
             // Text annotations
             String lasingStr = "Lasing";
-            Font font = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
             lasingAnnotation.setFont( font );
@@ -246,7 +217,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             lasingAnnotation.setText( lasingStr );
             lasingAnnotation.setColor( Color.white );
             lasingAnnotation.setLocation( ( lasingThresholdLocX + dangerThresholdLocX ) / 2,
-                                         (int)background.getHeight()+ 15 );
+                                          (int)background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
             String dangerStr = "Danger";
@@ -257,7 +228,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             dangerAnnotation.setText( dangerStr );
             dangerAnnotation.setColor( Color.white );
             dangerAnnotation.setLocation( (int)( dangerThresholdLocX + background.getWidth() ) / 2,
-                                         (int)background.getHeight()+ 15 );
+                                          (int)background.getHeight() + 15 );
             addGraphic( dangerAnnotation );
         }
     }
