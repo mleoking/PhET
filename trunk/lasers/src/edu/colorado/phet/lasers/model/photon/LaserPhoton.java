@@ -34,29 +34,16 @@ public class LaserPhoton extends Photon {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
-//    static private HashMap photonToStimRecordMap = new HashMap();
-
     public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
         LaserPhoton.stimulationBounds = stimulationBounds;
     }
 
     static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
-//        StimRecord stimRecord = (StimRecord)photonToStimRecordMap.get( stimulatingPhoton );
-//        if( stimRecord == null ) {
-//            stimRecord = new StimRecord();
-//            photonToStimRecordMap.put( stimulatingPhoton, stimRecord );
-//        }
-//        stimRecord.numStimulatedPhotons++;
         Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
-
-
-//        int idx = stimRecord.addChildPhoton( newPhoton );
         int idx = 1;
         int yOffset = ( 1 + idx / 2 ) * 4;
-//        int yOffset = stimRecord.numStimulatedPhotons * 4;
         int sign = idx % 2 == 0 ? 1 : -1;
-//        int sign = random.nextBoolean() ? 1 : -1;
         double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
         double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
         double newY = stimulatingPhoton.getPosition().getY() + dy;
@@ -70,11 +57,9 @@ public class LaserPhoton extends Photon {
         if( newY < minY || newY > maxY ) {
             newY = atom.getPosition().getY();
             newX = atom.getPosition().getX() - 10;
-//            stimRecord.numStimulatedPhotons = 1;
         }
         newPhoton.setPosition( newX, newY );
 
-//        newPhoton.addLeftSystemListener( new ChildPhotonTracker( stimRecord ) );
         return newPhoton;
     }
 

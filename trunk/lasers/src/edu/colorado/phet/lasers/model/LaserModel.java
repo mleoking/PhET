@@ -35,11 +35,20 @@ import java.util.*;
 
 public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
+    //----------------------------------------------------------------
+    // Class fields
+    //----------------------------------------------------------------
+
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
     static private int height = 800;
     static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
     static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
+
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
 
     private Beam stimulatingBeam;
     private Beam pumpingBeam;
@@ -423,9 +432,10 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-    // Event Handling
-    //
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+
     private EventChannel laserEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)laserEventChannel.getListenerProxy();
 
@@ -474,6 +484,10 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         removeModelElement( event.getPhoton() );
     }
 
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+    
     /**
      * Keeps track of number of atoms in each state
      */
