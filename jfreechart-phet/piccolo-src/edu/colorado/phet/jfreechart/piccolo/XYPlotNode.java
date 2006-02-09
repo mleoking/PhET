@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.jfreechart.piccolo;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.event.PlotChangeEvent;
@@ -27,7 +29,80 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * XYPlotNode is a node that draws an XYPlot's data in a specified data area.
  * This node is used to render an XYPlot outside of the JFreeChart framework.
  * Note that only the plot's data is drawn -- the plot's other parts (axes, 
- * labels, ticks) are not drawn.
+ * labels, ticks, gridlines, etc.) are not drawn.
+ * <p>
+ * One place where you might use this node is to improve the performance
+ * of a dynamic chart. JFreeChart really isn't up to the task of drawing
+ * lots of dyamic data, but you can use a JFreeChart to draw the static 
+ * chart elements, and one or more XYPlotNodes to draw the dynamic data.
+ * Here's an example:
+ * <code>
+ * // Create your own plot subclass
+ * public class MyXYPlot extends XYPlot {
+ *     private XYSeries mySeries;
+ *     public MyXYPlot() {
+ *         // Set up datasets, renderers, axes, labels, ticks, gridlines, etc.
+ *         // Do NOT set up any data.
+ *     }
+ *     public XYSeries getMySeries() {
+ *          return mySeries;
+ *     }
+ * }
+ * 
+ * // Create 2 identical plots, one of which will never contain data.
+ * // MYXYPlot sets up datasets, renders, axes, labels, ticks, gridlines, etc.
+ * MyXYPlot plotNoData = new MyXYPlot(...);
+ * MyXYPlot plotWithData = new MyXYPlot(...);
+ * 
+ * // Put the dataless plot in a buffered chart node.
+ * // The chart will be drawn using a buffered image, and the image
+ * // will change only when the chart changes.  Since we're not 
+ * // going to add data to plotNoData, the data won't affect the chart.
+ * JFreeChart chart = new JFreeChart(..., plotNoData,...);
+ * JFreeChartNode chartNode = new JFreeChartNode( chart );
+ * chartNode.setBuffered( true );
+ * 
+ * // Put the plot with data in an XYPlotNode.
+ * XYPlotNode plotNode = new XYPlotNode( plotWithData );
+ * 
+ * // Make the XYPlotNode look like the chart
+ * plotNode.setRenderingHints( chart.getRenderingHints );
+ * 
+ * // Set the XYPlotNode's data area using the chart's rendering info.
+ * chartNode.updateChartRenderingInfo();
+ * PlotRenderingInfo chartInfo = chart.getChartRenderingInfo().getPlotInfo();
+ * Rectangle2D chartDataAreaReference = plotInfo.getDataArea();
+ * // Copy the reference so we don't whack the plotInfo's data area!
+ * Rectangle2D chartDataArea = new Rectangle2D.Double( dataAreaReference );
+ * Rectangle2D globalDataArea = chartNode.localToGlobal( localDataArea );
+ * Rectangle2D plotDataArea = plotNode.globalToLocal( globalDataArea );
+ * plotNode.setDataArea( plotDataArea );
+ * 
+ * // Update the XYPlotNode's data area if the chart changes...
+ * chart.addChangeListener( new ChartChangeListener() {
+ *     public void chartChanged( ChartChangeEvent e ) {
+ *         // update plotNode's data area
+ *     }
+ * } );
+ * chartNode.addPropertyChangeListener( new PropertyChangeListener() {
+ *     public void propertyChanged( PropertyChangeEvent e ) {
+ *         // update plotNode's data area
+ *     }
+ * } );
+ *
+ * // Add the nodes to a PCanvas.
+ * PCanvas canvas = new PCanvas(...);
+ * canvas.getLayer().addChild( chartNode );
+ * chartNode.setOffset(....);
+ * canvas.getLayer().addChild( plotNode );
+ * plotNode.setOffset(...);
+ * 
+ * // Add data to the XYPlotNode's plot...
+ * XYSeries series = plotWithData.getMySeries();
+ * for (..... ) {
+ *     series.add( ... );
+ * }
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
