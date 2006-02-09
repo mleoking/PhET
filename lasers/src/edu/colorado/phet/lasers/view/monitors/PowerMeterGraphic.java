@@ -83,7 +83,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         Paint aboveLasingPaint = Color.red;
         int segmentWidth = 3;
         int interSegmentSpace = 1;
-        double dangerThreshold = LaserConfig.KABOOM_THRESHOLD * 0.8;
+        double dangerThreshold = LaserConfig.KABOOM_THRESHOLD * 0.75;
         double scale;
 
         public Meter( Component component, Dimension size, Object orientation ) {
@@ -181,7 +181,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
 
             // Add threshold lines to the bezel
             int lasingThresholdLocX = (int)( LaserConfig.LASING_THRESHOLD / scale );
-            Rectangle2D.Double rect = new Rectangle2D.Double( 0, background.getHeight(), 1, 15 );
+            Rectangle2D.Double rect = new Rectangle2D.Double( 0, background.getHeight(), 2, 15 );
             PhetShapeGraphic lasingThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,
                                                                               new Color( 255, 255, 255 ) );
@@ -203,7 +203,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             lasingAnnotation.setFont( font );
             lasingAnnotation.setJustification( PhetTextGraphic.SOUTH );
             lasingAnnotation.setText( lasingStr );
-            lasingAnnotation.setColor( Color.white );
+            lasingAnnotation.setColor( Color.green );
             lasingAnnotation.setLocation( ( lasingThresholdLocX + dangerThresholdLocX ) / 2,
                                           (int)background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
@@ -214,7 +214,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             dangerAnnotation.setFont( font );
             dangerAnnotation.setJustification( PhetTextGraphic.SOUTH );
             dangerAnnotation.setText( dangerStr );
-            dangerAnnotation.setColor( Color.white );
+            dangerAnnotation.setColor( Color.red );
             dangerAnnotation.setLocation( (int)( dangerThresholdLocX + background.getWidth() ) / 2,
                                           (int)background.getHeight() + 15 );
             addGraphic( dangerAnnotation );
