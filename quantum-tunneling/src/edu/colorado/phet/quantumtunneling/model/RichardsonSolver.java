@@ -149,7 +149,7 @@ public class RichardsonSolver {
         
         boolean zero = isSolutionZero();
         
-        _dt = 0.8 * MASS * _dx * _dx / HBAR;//XXX Richardson algorithm doesn't work without this specific value
+        _dt = 0.8 * MASS * _dx * _dx / HBAR; //XXX Richardson algorithm doesn't work without this specific value
         
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
@@ -161,7 +161,7 @@ public class RichardsonSolver {
             vx *= -1;
         }
         
-        // Deterine the position range, including extra "damping" points that won't be visible.
+        // Determine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final double minX = pe.getStart( 0 ) - DAMPING_FACTORS.length;
