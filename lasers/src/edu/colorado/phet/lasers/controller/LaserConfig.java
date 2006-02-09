@@ -1,13 +1,12 @@
-/**
- * Class: LaserConfig
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -19,7 +18,7 @@ import java.awt.geom.Point2D;
 public class LaserConfig {
 
     // Version
-    public static final String VERSION = "4.03";
+    public static final String VERSION = "4.02";
 
     // Localization
     public static final String localizedStringsPath = "localization/LasersStrings";

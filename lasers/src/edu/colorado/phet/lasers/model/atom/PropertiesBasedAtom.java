@@ -14,6 +14,8 @@ import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * PropertiesBasedAtom
+ * <p>
+ * An Atom that gets its model-dependent specification from an ElementProperties object
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -21,7 +23,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
 public class PropertiesBasedAtom extends Atom {
 
     private EnergyEmissionStrategy energyEmissionStrategy;
-//    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 
 
     /**
@@ -30,7 +31,6 @@ public class PropertiesBasedAtom extends Atom {
     public PropertiesBasedAtom( LaserModel model, ElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
-//        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
         if( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
@@ -65,7 +65,6 @@ public class PropertiesBasedAtom extends Atom {
     }
 
     public void setElementProperties( ElementProperties elementProperties ) {
-//        this.energyAbsorptionStrategy = elementProperties.getEnergyAbsorptionStrategy();
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
         super.setStates( elementProperties.getStates() );
     }

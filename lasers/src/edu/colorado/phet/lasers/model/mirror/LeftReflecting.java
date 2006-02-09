@@ -1,14 +1,21 @@
-/**
- * Class: LeftReflecting
- * Class: edu.colorado.phet.lasers.model.mirror
- * User: Ron LeMaster
- * Date: Mar 31, 2003
- * Time: 7:20:26 PM
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
 
+/**
+ * A ReflectionStrategy that reflects to the left. That is, it reflects
+ * photons that are traveling to the right.
+ */
 public class LeftReflecting implements ReflectionStrategy {
 
     public boolean reflects( Photon photon ) {

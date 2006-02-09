@@ -1,18 +1,22 @@
-/**
- * Class: BandPass
- * Package: edu.colorado.phet.lasers.model.mirror
- * Author: Another Guy
- * Date: Apr 2, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
 
+/**
+ * A ReflectionStrategy that reflects photons whose wavelengths
+ * are between two cutoff points. Probably misnamed. It's really
+ * more of a notch.
+ */
 public class BandPass implements ReflectionStrategy {
 
     private double cutoffLow;

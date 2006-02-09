@@ -1,18 +1,20 @@
-/**
- * Class: Partial
- * Package: edu.colorado.phet.lasers.model.mirror
- * Author: Another Guy
- * Date: Apr 2, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
 
+/**
+ * A ReflectionStrategy that reflects a specified fraction of photons
+ */ 
 public class Partial implements ReflectionStrategy {
 
     private double reflectivity;
@@ -32,7 +34,7 @@ public class Partial implements ReflectionStrategy {
      */
     public void setReflectivity( double reflectivity ) {
         if( reflectivity < 0 || reflectivity > 1 ) {
-            throw new RuntimeException( "Reflectivity not between 0 and 1.0" );
+            throw new IllegalArgumentException( "Reflectivity not between 0 and 1.0" );
         }
         this.reflectivity = reflectivity;
     }

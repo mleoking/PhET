@@ -12,9 +12,9 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -435,7 +435,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         if( baseSphereImg == null ) {
             try {
                 baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
-//                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-med.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();

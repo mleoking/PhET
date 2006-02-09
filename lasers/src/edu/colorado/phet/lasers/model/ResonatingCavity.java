@@ -1,12 +1,12 @@
-/**
- * Class: ResonatingCavity
- * Package: edu.colorado.phet.lasers.model
- * Author: Another Guy
- * Date: Mar 26, 2003
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model;
 

@@ -57,7 +57,7 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener
                 xOffset = -thickness;
                 break;
             default:
-                throw new RuntimeException( "Invalid direction specified in constructor" );
+                throw new IllegalArgumentException( "Invalid direction specified in constructor" );
         }
         mirror.addListener( this );
         update( mirror.getReflectivity() );

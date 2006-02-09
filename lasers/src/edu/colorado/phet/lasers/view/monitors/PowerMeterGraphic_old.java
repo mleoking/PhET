@@ -10,29 +10,16 @@
  */
 package edu.colorado.phet.lasers.view.monitors;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-//import org.jfree.chart.ChartFactory;
-//import org.jfree.chart.ChartPanel;
-//import org.jfree.chart.JFreeChart;
-//import org.jfree.chart.plot.CategoryPlot;
-//import org.jfree.chart.plot.PlotOrientation;
-//import org.jfree.chart.renderer.category.BarRenderer;
-//import org.jfree.data.category.DefaultCategoryDataset;
-//import org.jfree.ui.RectangleInsets;
-//import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 
 /**
  * PowerMeter

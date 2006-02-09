@@ -1,19 +1,18 @@
-/**
- * Class: SimulationRateControlPanel
- * Class: ${PACKAGE}
- * User: Ron LeMaster
- * Date: Mar 28, 2003
- * Time: 9:44:21 AM
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.TimingStrategy;
 import edu.colorado.phet.common.model.clock.TimeConverter;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -24,6 +23,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+/**
+ * A panel that provides control over the clock rate
+ */
 public class SimulationRateControlPanel extends JPanel {
 
     private JSlider simulationRateSlider;

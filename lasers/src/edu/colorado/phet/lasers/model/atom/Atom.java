@@ -164,7 +164,6 @@ public class Atom extends SolidSphere {
     public void setPosition( double x, double y ) {
         super.setPosition( x, y );
         if( changeListenerProxy != null ) {
-//            && getPosition().getX() != getPositionPrev().getX() || getPosition().getY() != getPositionPrev().getY() ) {
             changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
         }
     }
@@ -177,7 +176,6 @@ public class Atom extends SolidSphere {
     public void setPosition( Point2D position ) {
         super.setPosition( position );
         if( changeListenerProxy != null ) {
-//            && getPosition().getX() != getPositionPrev().getX() || getPosition().getY() != getPositionPrev().getY() ) {
             changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
         }
     }
@@ -217,7 +215,6 @@ public class Atom extends SolidSphere {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        double wavelength = emittedPhoton.getWavelength();
         photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 

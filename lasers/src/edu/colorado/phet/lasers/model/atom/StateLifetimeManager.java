@@ -35,7 +35,6 @@ class StateLifetimeManager implements ModelElement {
     private BaseModel model;
     private EmissionDirectionStrategy emissionDirectionStrategy =
             new SometimesHorizontalButMostlyRandomEmissionDirectionStrategy( 0.10 );
-//    private EmissionDirectionStrategy emissionDirectionStrategy = new RandomEmissionDirectionStrategy();
 
     /**
      * @param atom              The atom whose state's lifetime we are to manage

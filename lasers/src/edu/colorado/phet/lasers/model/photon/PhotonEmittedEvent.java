@@ -1,7 +1,6 @@
 package edu.colorado.phet.lasers.model.photon;
 
 import java.util.EventObject;
-import java.util.EventListener;
 
 /**
  * Class: PhotonEmittedEvent

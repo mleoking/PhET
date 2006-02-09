@@ -109,7 +109,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
                 beam.setPhotonsPerSecond( intensitySlider.getValue() );
             }
         } );
-        beam.addWavelengthChangeListener( new WavelengthChangeListener( intensitySlider ) );
+        beam.addWavelengthChangeListener( new WavelengthChangeListener() );
     }
 
     public IntensitySlider getIntensityControl() {
@@ -117,11 +117,6 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     }
 
     public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
-        private IntensitySlider slider;
-
-        public WavelengthChangeListener( IntensitySlider slider ) {
-            this.slider = slider;
-        }
 
         public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             intensitySlider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
@@ -145,6 +140,6 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     }
 
     public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-
+        // noop
     }
 }

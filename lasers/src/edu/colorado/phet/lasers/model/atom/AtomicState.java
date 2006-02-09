@@ -27,13 +27,11 @@ import java.util.EventObject;
  */
 public class AtomicState {
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // Class
-    //
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
 
-//    static public final double minWavelength = 300;
     static public final double minWavelength = Photon.BLUE - 20;
-//    static public final double maxWavelength = 800;
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = PhysicsUtil.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = PhysicsUtil.wavelengthToEnergy( minWavelength );
@@ -48,10 +46,10 @@ public class AtomicState {
         return STIMULATION_LIKELIHOOD;
     }
 
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // Instance
-    //
     private double energyLevel;
     private double meanLifetime = Double.POSITIVE_INFINITY;
     private AtomicState nextHigherState;
@@ -175,6 +173,11 @@ public class AtomicState {
         return result;
     }
 
+    /**
+     *
+     * @param atom
+     * @param photon
+     */
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
         // See if the photon knocks the atom to a higher state
@@ -279,9 +282,9 @@ public class AtomicState {
         states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Inner classes
-    //
+    //----------------------------------------------------------------
 
     /**
      * A class that represents the highest energy and shortest wavelength we will allow

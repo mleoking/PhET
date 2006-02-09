@@ -18,7 +18,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * PhotoModule
+ * PhotoWindow
+ * <p>
+ * A dialog that shows an annotated photo of a real laser.
  *
  * @author Ron LeMaster
  * @version $Revision$

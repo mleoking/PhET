@@ -1,13 +1,12 @@
-/**
- * Class: PartialMirror
- * Package: edu.colorado.phet.lasers.model
- * Author: Another Guy
- * Date: Mar 31, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
@@ -23,44 +22,8 @@ import java.util.EventObject;
  */
 public class PartialMirror extends Mirror {
 
-    // Fraction of photons the mirror reflects. Must be number between
-    // 0 an 1
-    // Default partial reflection strategy
     private Partial partialStrategy;
 
-
-    ///////////////////////////////////////////////////////////////////////
-    // Events and listeners
-    //
-    private EventChannel eventChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
-
-    public interface Listener extends EventListener {
-        void reflectivityChanged( ReflectivityChangedEvent event );
-    }
-
-    public class ReflectivityChangedEvent extends EventObject {
-        public ReflectivityChangedEvent( Object source ) {
-            super( source );
-        }
-
-        public double getReflectivity() {
-            return ( (PartialMirror)source ).getReflectivity();
-        }
-    }
-
-    public void addListener( Listener listener ) {
-        eventChannel.addListener( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        eventChannel.removeListener( listener );
-    }
-
-
-    //////////////////////////////////////////////////////////////////////
-    // Instance
-    //
     public PartialMirror( Point2D end1, Point2D end2 ) {
         super( end1, end2 );
         partialStrategy = new Partial( 1.0f );
@@ -91,21 +54,32 @@ public class PartialMirror extends Mirror {
         this.reflectionStrategies.add( reflectionStrategy );
     }
 
-    /**
-     * This method is arranged so that if a photon is not reflected by the partially
-     * reflecting mirror, it will not be reconsidered in the next time step. If this
-     * is not done, we can't control the percent of photons that get through, because
-     * some of them get considered more than once.
-     * @param photon
-     * @return
-     */
-    //    public boolean reflects( Photon photon ) {
-    //        boolean result = super.reflects( photon );
-    //        if( result && !partialStrategy.reflects( photon )) {
-    //            throw new RuntimeException( "TBI" );
-    ////            result = false;
-    ////            photon.setCollidable( false );
-    //        }
-    //        return result;
-    //    }
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public interface Listener extends EventListener {
+        void reflectivityChanged( ReflectivityChangedEvent event );
+    }
+
+    public class ReflectivityChangedEvent extends EventObject {
+        public ReflectivityChangedEvent( Object source ) {
+            super( source );
+        }
+
+        public double getReflectivity() {
+            return ( (PartialMirror)source ).getReflectivity();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
+    }
 }
