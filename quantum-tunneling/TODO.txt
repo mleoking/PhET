@@ -55,7 +55,6 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-(2/8/06) - reduce QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK from 40 to 20
 (2/8/06) - profile XYPlotNode approach to rendering XYPlot (30% graphics, 70% model)
 (2/8/06) - pause clock while dragging sliders/handles, restore the clock state on release
 (2/8/06) - zoom buttons should be opaque
