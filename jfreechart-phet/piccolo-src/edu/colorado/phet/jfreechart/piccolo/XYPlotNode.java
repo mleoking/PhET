@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * <p>
  * One place where you might use this node is to improve the performance
  * of a dynamic chart. JFreeChart really isn't up to the task of drawing
- * lots of dyamic data, but you can use a JFreeChart to draw the static 
+ * lots of dyamic data. But you can use a JFreeChart to draw the static 
  * chart elements, and one or more XYPlotNodes to draw the dynamic data.
  * Here's an example:
  * <code>
@@ -66,11 +66,11 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * XYPlotNode plotNode = new XYPlotNode( plotWithData );
  * 
  * // Make the XYPlotNode look like the chart
- * plotNode.setRenderingHints( chart.getRenderingHints );
+ * plotNode.setRenderingHints( chart.getRenderingHints() );
  * 
  * // Set the XYPlotNode's data area using the chart's rendering info.
  * chartNode.updateChartRenderingInfo();
- * PlotRenderingInfo chartInfo = chart.getChartRenderingInfo().getPlotInfo();
+ * PlotRenderingInfo plotInfo = chart.getChartRenderingInfo().getPlotInfo();
  * Rectangle2D chartDataAreaReference = plotInfo.getDataArea();
  * // Copy the reference so we don't whack the plotInfo's data area!
  * Rectangle2D chartDataArea = new Rectangle2D.Double( dataAreaReference );
@@ -81,26 +81,26 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * // Update the XYPlotNode's data area if the chart changes...
  * chart.addChangeListener( new ChartChangeListener() {
  *     public void chartChanged( ChartChangeEvent e ) {
- *         // set the plotNode's data area, as above
+ *         // set the plotNode's data area, as above...
  *     }
  * } );
  * chartNode.addPropertyChangeListener( new PropertyChangeListener() {
  *     public void propertyChanged( PropertyChangeEvent e ) {
- *         // set the plotNode's data area, as above
+ *         // set the plotNode's data area, as above...
  *     }
  * } );
  *
  * // Add the nodes to a PCanvas.
- * PCanvas canvas = new PCanvas(...);
+ * PCanvas canvas = new PCanvas();
  * canvas.getLayer().addChild( chartNode );
- * chartNode.setOffset(....);
+ * chartNode.setOffset(...);
  * canvas.getLayer().addChild( plotNode );
  * plotNode.setOffset(...);
  * 
  * // Add data to the XYPlotNode's plot...
  * XYSeries series = plotWithData.getMySeries();
- * for (..... ) {
- *     series.add( ... );
+ * for (...) {
+ *     series.add(...);
  * }
  * </code>
  *
