@@ -57,6 +57,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+0.00.12...
 (2/9/06) - update interactively while dragging wave packet width & center sliders
 (2/9/06) - add a bit of whitespace below zero on Probability Density plot
 (2/9/06) - add a bit of whitespace above and above energy range in Energy plot
