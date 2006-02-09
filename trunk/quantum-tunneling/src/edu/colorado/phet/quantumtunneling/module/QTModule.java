@@ -346,7 +346,7 @@ public class QTModule extends AbstractModule implements Observer {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
-//        getClock().start();
+        getClock().start();
     }
     
     public boolean hasHelp() {
