@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-
-Main-Class: edu.colorado.phet.quantumtunneling.test.TestAppStartup
-
-CVS-Tag: testappstartup-0-0-0-2006-01-23

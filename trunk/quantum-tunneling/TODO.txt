@@ -28,10 +28,8 @@ LOW PRIORITY:
 - improve "About" dialog, add build number and logo
 
 OPTIMIZATIONS:
-- remove test-src
 - reduce the range of energy; smaller (E-V) means we can use a larger x-axis step
 - disable chart gridlines to improve drag handle responsiveness
-- split JFreeCharts into separate charts for plots and backgrounds (if it proves worth the trouble)
 - flatten static elements
 - setPickable(false) on non-interactive graphics
 
@@ -45,10 +43,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 PHETCOMMON:
-- create a piccolo version of HelpManager
-- factor an interface out of Module and PiccoloModule
-- factor an interface out of ApparatusPanel and PiccoloApparatusPanel
-- add help support to PiccoloModule
+
 
 JFREECHART:
 - CombinedDomainXYPlot.addDomainMarker doesn't do anything
