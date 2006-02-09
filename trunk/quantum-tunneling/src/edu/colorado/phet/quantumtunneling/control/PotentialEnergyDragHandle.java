@@ -95,25 +95,24 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
      * Updates the drag bounds and position of the drag handle.
      */
     public void updateDragBounds() {
-        if ( _potentialEnergy != null ) {
-            // Determine the bounds of the energy chart.
-            Rectangle2D energyPlotBounds = _chartNode.getEnergyPlotBounds();
 
-            // Determine the drag bounds, in local node coordinates
-            Point2D start = _chartNode.energyToNode( new Point2D.Double( _potentialEnergy.getStart( _regionIndex ), 0 ) );
-            Point2D end = _chartNode.energyToNode( new Point2D.Double( _potentialEnergy.getEnd( _regionIndex ), 0 ) );
-            double x = start.getX();
-            double y = energyPlotBounds.getY();
-            double w = end.getX() - start.getX();
-            double h = energyPlotBounds.getHeight();
-            Rectangle2D regionBounds = new Rectangle2D.Double( x, y, w, h );
-            
-            // Convert to global coordinates
-            regionBounds = _chartNode.localToGlobal( regionBounds );
+        // Determine the drag bounds, in local node coordinates
+        Point2D xMin = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
+        Point2D xMax = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getUpperBound(), 0 ) );
+        // +y is down!
+        Point2D yMax = _chartNode.energyToNode( new Point2D.Double( 0, QTConstants.ENERGY_RANGE.getLowerBound() ) );
+        Point2D yMin = _chartNode.energyToNode( new Point2D.Double( 0, QTConstants.ENERGY_RANGE.getUpperBound() ) );
+        double x = xMin.getX();
+        double y = yMin.getY();
+        double w = xMax.getX() - xMin.getX();
+        double h = yMax.getY() - yMin.getY();
+        Rectangle2D dragBounds = new Rectangle2D.Double( x, y, w, h );
 
-            setDragBounds( regionBounds );
-            updatePosition();
-        }
+        // Convert to global coordinates
+        dragBounds = _chartNode.localToGlobal( dragBounds );
+
+        setDragBounds( dragBounds );
+        updatePosition();
     }
     
     /*

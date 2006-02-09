@@ -107,9 +107,23 @@ public class TotalEnergyDragHandle extends AbstractDragHandle implements Observe
      * Updates the drag bounds and position of the drag handle.
      */
     public void updateDragBounds() {
-        Rectangle2D energyPlotBounds = _chartNode.getEnergyPlotBounds();
-        energyPlotBounds = _chartNode.localToGlobal( energyPlotBounds );
-        setDragBounds( energyPlotBounds );
+
+        Point2D xMin = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getLowerBound(), 0 ) );
+        Point2D xMax = _chartNode.energyToNode( new Point2D.Double( QTConstants.POSITION_RANGE.getUpperBound(), 0 ) );
+        // +y is down!
+        Point2D yMax = _chartNode.energyToNode( new Point2D.Double( 0, QTConstants.ENERGY_RANGE.getLowerBound() ) );
+        Point2D yMin = _chartNode.energyToNode( new Point2D.Double( 0, QTConstants.ENERGY_RANGE.getUpperBound() ) );
+        
+        double x = xMin.getX();
+        double y = yMin.getY();
+        double w = xMax.getX() - xMin.getX();
+        double h = yMax.getY() - yMin.getY();
+        Rectangle2D dragBounds = new Rectangle2D.Double( x, y, w, h );
+        
+        // Convert to global coordinates
+        dragBounds = _chartNode.localToGlobal( dragBounds );
+        
+        setDragBounds( dragBounds );
         updatePosition();
     }
     

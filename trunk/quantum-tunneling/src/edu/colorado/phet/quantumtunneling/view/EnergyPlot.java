@@ -114,7 +114,7 @@ public class EnergyPlot extends XYPlot implements Observer {
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( QTConstants.ENERGY_RANGE );
+        yAxis.setRange( QTConstants.ENERGY_RANGE.getLowerBound() * 1.05, QTConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
         yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
         yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
 
