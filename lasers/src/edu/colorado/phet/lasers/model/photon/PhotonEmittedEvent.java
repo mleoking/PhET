@@ -1,20 +1,20 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.lasers.model.photon;
 
 import java.util.EventObject;
 
 /**
- * Class: PhotonEmittedEvent
- * Package: edu.colorado.phet.lasers.model.photon
- * Author: Another Guy
- * Date: Nov 19, 2004
- * <p/>
- * CVS Info:
- * Current revision:   $Revision$
- * On branch:          $Name$
- * Latest change by:   $Author$
- * On date:            $Date$
+ * PhotonEmittedEvent
  */
-
 public class PhotonEmittedEvent extends EventObject {
     private Photon photon;
 
