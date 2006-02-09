@@ -382,7 +382,8 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private void paintBuffered( PPaintContext paintContext ) {
         Rectangle2D bounds = getBoundsReference();
         if ( _chartImage == null ) {
-            _chartImage = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), _info );
+            _chartImage = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), 
+                    BufferedImage.TYPE_INT_ARGB, _info );
         }
         Graphics2D g2 = paintContext.getGraphics();
         _imageTransform.setToTranslation( bounds.getX(), bounds.getY() );
