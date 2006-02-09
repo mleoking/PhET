@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- potential energy levels can be dragged below -1 and aren't visible
+- reset/pause clock while dragging wave packet width or center sliders, update while dragging
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
 - cache the total energy gradient as an image, update only when necessary
@@ -57,6 +57,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/9/06) - update interactively while dragging wave packet width & center sliders
 (2/9/06) - add a bit of whitespace below zero on Probability Density plot
 (2/9/06) - add a bit of whitespace above and above energy range in Energy plot
 (2/9/06) - fix drag handles so that they use ranges, not plot dimensions, to constrain drag
