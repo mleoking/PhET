@@ -11,8 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.module;
 
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -42,10 +41,6 @@ import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.plot.XYPlotNode;
 import edu.colorado.phet.quantumtunneling.view.*;
-import edu.colorado.phet.quantumtunneling.view.EnergyLegend;
-import edu.colorado.phet.quantumtunneling.view.ProbabilityDensityPlot;
-import edu.colorado.phet.quantumtunneling.view.QTCombinedChart;
-import edu.colorado.phet.quantumtunneling.view.QTCombinedChartNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -143,7 +138,7 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setEnabled( false );
         addClockListener( _wavePacket );
         
-        // Energy model is created in reset method!
+        // Energy models are created in reset method!
         
         //----------------------------------------------------------------------------
         // View
@@ -170,8 +165,7 @@ public class QTModule extends AbstractModule implements Observer {
             _chart = new QTCombinedChart();
             _chart.setBackgroundPaint( QTConstants.CANVAS_BACKGROUND );
             
-            boolean buffered = ( ! QTConstants.JFREECHART_DYNAMIC );
-            _chartNode = new QTCombinedChartNode( _chart, buffered );
+            _chartNode = new QTCombinedChartNode( _chart );
             _parentNode.addChild( _chartNode );
         }
         
@@ -181,27 +175,49 @@ public class QTModule extends AbstractModule implements Observer {
             _parentNode.addChild( _legend );
         }
         
-        // Draw dynamic data using JFreeChart or custom nodes?
+        // This is where we decide how much of the drawing JFreeChart will be doing...
         if ( QTConstants.JFREECHART_DYNAMIC ) {
+            /*
+             * If JFreeChart is being used to draw all elements (both static and dynamic) 
+             * then get references to the plots that are in the combined chart.
+             * We'll add our data to those plots so that the chart changes dynamically.
+             */
             _energyPlot = _chart.getEnergyPlot();
             _waveFunctionPlot = _chart.getWaveFunctionPlot();
             _probabilityDensityPlot = _chart.getProbabilityDensityPlot();
         }
         else {
+            /*
+             * If JFreeChart is being used to draw only static elements, then turn on
+             * buffering of the chart node.  The chart will be drawn as an image, and
+             * the image will be created only when the chart changes.  To limit the 
+             * changes that occur to the chart, we won't be adding any data to it.
+             * So we'll create our own plots, to which we'll add the data. And we'll
+             * draw those plots top of the static chart using XYPlotNodes.  We'll use 
+             * some of the chart's rendering hints for the XYPlot nodes so that the 
+             * "look" is consistent with the static chart.
+             */
+            _chartNode.setBuffered( true );
+            
             _energyPlot = new EnergyPlot();
             _waveFunctionPlot = new WaveFunctionPlot();
             _probabilityDensityPlot = new ProbabilityDensityPlot( _waveFunctionPlot.getProbabilityDensitySeries() );
             
+            RenderingHints renderingHints = _chart.getRenderingHints();
+            
             _energyPlotNode = new XYPlotNode( _energyPlot );
-            _energyPlotNode.setName( "energyPlotNode" );
+            _energyPlotNode.setRenderingHints( renderingHints );
+            _energyPlotNode.setName( "energyPlotNode" ); // debug
             _parentNode.addChild( _energyPlotNode );
 
             _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
-            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" );
+            _waveFunctionPlotNode.setRenderingHints( renderingHints );
+            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
             _parentNode.addChild( _waveFunctionPlotNode );
             
             _probabilityDensityPlotNode = new XYPlotNode( _probabilityDensityPlot );
-            _probabilityDensityPlotNode.setName( "probabilityDensityPlotNode" );
+            _probabilityDensityPlotNode.setRenderingHints( renderingHints );
+            _probabilityDensityPlotNode.setName( "probabilityDensityPlotNode" ); // debug
             _parentNode.addChild( _probabilityDensityPlotNode );
         } 
         
@@ -252,12 +268,16 @@ public class QTModule extends AbstractModule implements Observer {
         
         // Zoom buttons
         {
-            ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, _chart.getWaveFunctionPlot(), 
-                    QTConstants.WAVE_FUNCTION_ZOOM_SPECS, QTConstants.DEFAULT_WAVE_FUNCTION_ZOOM_INDEX );
+            // NOTE: Zoom both the chart and the XYPlotNodes!
+            ZoomControl z1 = new ZoomControl( ZoomControl.VERTICAL, QTConstants.WAVE_FUNCTION_ZOOM_SPECS, QTConstants.DEFAULT_WAVE_FUNCTION_ZOOM_INDEX );
+            z1.addPlot( _chart.getWaveFunctionPlot() );
+            z1.addPlot( _waveFunctionPlot );
             _waveFunctionZoomControl = new PSwing( _canvas, z1 );
             
-            ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, _chart.getProbabilityDensityPlot(), 
-                    QTConstants.PROBABILITY_DENSITY_ZOOM_SPECS, QTConstants.DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX );
+            // NOTE: Zoom both the chart and the XYPlotNodes!
+            ZoomControl z2 = new ZoomControl( ZoomControl.VERTICAL, QTConstants.PROBABILITY_DENSITY_ZOOM_SPECS, QTConstants.DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX );
+            z2.addPlot( _chart.getProbabilityDensityPlot() );
+            z2.addPlot( _probabilityDensityPlot );
             _probabilityDensityZoomControl = new PSwing( _canvas, z2 );
         }
         
@@ -343,7 +363,7 @@ public class QTModule extends AbstractModule implements Observer {
         Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
         
-        // Custom plot nodes
+        // Plot nodes (these exist if JFreeChart is not drawing dynamic elements)
         {
             if ( _energyPlotNode != null ) {
                 _energyPlotNode.setOffset( 0, 0 );
@@ -372,7 +392,7 @@ public class QTModule extends AbstractModule implements Observer {
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( QTConstants.PIXELS_PER_SAMPLE_POINT, 0 ) );
             double dx = p2.getX() - p1.getX();
             _wavePacket.getSolver().setDx( dx );
-            _chart.getWaveFunctionPlot().setDx( dx );
+            _waveFunctionPlot.setDx( dx );
         }
        
         // Legend
@@ -711,19 +731,19 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setRealVisible( boolean visible ) {
-        _chart.getWaveFunctionPlot().setRealVisible( visible );
+        _waveFunctionPlot.setRealVisible( visible );
     }
     
     public void setImaginaryVisible( boolean visible ) {
-        _chart.getWaveFunctionPlot().setImaginaryVisible( visible );
+        _waveFunctionPlot.setImaginaryVisible( visible );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
-        _chart.getWaveFunctionPlot().setMagnitudeVisible( visible );
+        _waveFunctionPlot.setMagnitudeVisible( visible );
     }
     
     public void setPhaseVisible( boolean visible ) {
-        _chart.getWaveFunctionPlot().setPhaseVisible( visible );
+        _waveFunctionPlot.setPhaseVisible( visible );
     }
     
     public void setDirection( Direction direction ) {
@@ -737,7 +757,7 @@ public class QTModule extends AbstractModule implements Observer {
     }
     
     public void setIRView( IRView irView ) {
-        _chart.getWaveFunctionPlot().setIRView( irView );
+        _waveFunctionPlot.setIRView( irView );
     }
     
     public void setWavePacketWidth( double width ) {

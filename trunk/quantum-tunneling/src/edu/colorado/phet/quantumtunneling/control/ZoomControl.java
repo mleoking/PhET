@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,12 +49,12 @@ public class ZoomControl extends JPanel {
     private static final int SPACING_BETWEEN_BUTTONS = 2; // pixels
     
     private int _orientation;
-    private XYPlot _plot;
+    private ArrayList _plots; // array of XYPlot
     private ZoomSpec[] _specs;
     private int _zoomIndex;
     JButton _zoomInButton, _zoomOutButton;
     
-    public ZoomControl( int orientation, XYPlot plot, ZoomSpec[] specs, int startingIndex ) {
+    public ZoomControl( int orientation, ZoomSpec[] specs, int startingIndex ) {
         super();
 
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
@@ -65,7 +67,7 @@ public class ZoomControl extends JPanel {
         this.setOpaque( false );
         
         _orientation = orientation;
-        _plot = plot;
+        _plots = new ArrayList();
         _specs = specs;
         _zoomIndex = startingIndex;
         
@@ -118,6 +120,16 @@ public class ZoomControl extends JPanel {
         setRange( _zoomIndex );
     }
     
+    public void addPlot( XYPlot plot ) {
+        if ( ! _plots.contains( plot ) ) {
+            _plots.add( plot );
+        }
+    }
+    
+    public void removePlot( XYPlot plot ) {
+        _plots.remove( plot );
+    }
+    
     public int getZoomIndex() {
         return _zoomIndex;
     }
@@ -144,20 +156,27 @@ public class ZoomControl extends JPanel {
     }
     
     private void setRange( int index ) {
+        
         ZoomSpec spec = _specs[ index ];
         Range range = spec.getRange();
         double tickSpacing = spec.getTickSpacing();
         String tickPattern = spec.getTickPattern();
         TickUnits tickUnits = new TickUnits();
         tickUnits.add( new NumberTickUnit( tickSpacing, new DecimalFormat( tickPattern ) ) );
-        if ( _orientation == HORIZONTAL ) {
-            _plot.getDomainAxis().setRange( range );
-            _plot.getDomainAxis().setStandardTickUnits( tickUnits );
+        
+        Iterator i = _plots.iterator();
+        while ( i.hasNext() ) {
+            XYPlot plot = (XYPlot) i.next();
+            if ( _orientation == HORIZONTAL ) {
+                plot.getDomainAxis().setRange( range );
+                plot.getDomainAxis().setStandardTickUnits( tickUnits );
+            }
+            else {
+                plot.getRangeAxis().setRange( range );
+                plot.getRangeAxis().setStandardTickUnits( tickUnits );
+            }
         }
-        else {
-            _plot.getRangeAxis().setRange( range );
-            _plot.getRangeAxis().setStandardTickUnits( tickUnits );
-        }
+        
         _zoomInButton.setEnabled( index > 0 );
         _zoomOutButton.setEnabled( index < _specs.length - 1 );
     }
