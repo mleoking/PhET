@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- reset/pause clock while dragging wave packet width or center sliders, update while dragging
 - set QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
 - cache the total energy gradient as an image, update only when necessary
