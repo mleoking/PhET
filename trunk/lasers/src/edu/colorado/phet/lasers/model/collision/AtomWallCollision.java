@@ -18,18 +18,6 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 
 public class AtomWallCollision extends SphereWallCollision {
 
-    private Atom atom;
-
-    /**
-     * Provided so class can register a prototype with the CollisionFactory
-     */
-    private AtomWallCollision() {
-        // NOP
-    }
-
-    public AtomWallCollision( Atom atom, Wall wall ) {
-    }
-
     /**
      * @param particleA
      * @param particleB
@@ -38,10 +26,10 @@ public class AtomWallCollision extends SphereWallCollision {
     public Collision createIfApplicable( Particle particleA, Particle particleB ) {
         Collision result = null;
         if( particleA instanceof Atom && particleB instanceof Wall ) {
-            result = new AtomWallCollision( (Atom)particleA, (Wall)particleB );
+            result = new AtomWallCollision();
         }
         else if( particleB instanceof Wall && particleB instanceof Atom ) {
-            result = new AtomWallCollision( (Atom)particleB, (Wall)particleA );
+            result = new AtomWallCollision();
         }
         return result;
     }

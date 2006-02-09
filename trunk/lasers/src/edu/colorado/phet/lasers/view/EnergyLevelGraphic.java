@@ -17,8 +17,9 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.translation.Translat
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;

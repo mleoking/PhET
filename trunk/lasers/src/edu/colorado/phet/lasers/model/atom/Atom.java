@@ -200,14 +200,7 @@ public class Atom extends SolidSphere {
             newState.enterState(this );
         }
 
-        boolean emitPhotonOnLeavingState = false;
-        if( newState instanceof MiddleEnergyState ) {
-            emitPhotonOnLeavingState = true;
-        }
-        // If you don't want photons to be emitted from all states, comment this out
-        emitPhotonOnLeavingState = true;
-
-        this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
+        this.stateLifetimeManager = new StateLifetimeManager( this, true, model );
         changeListenerProxy.stateChanged( new ChangeEvent( this, newState, oldState ) );
     }
 

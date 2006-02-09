@@ -71,9 +71,6 @@ public class DischargeLampModel extends LaserModel {
      */
     public DischargeLampModel() {
 
-        // This is the place to set the mean lifetime for the various atomic states
-//        MiddleEnergyState.instance().setMeanLifetime( .00001 );
-
         // Make the battery
         battery = new Battery( -MAX_VOLTAGE, MAX_VOLTAGE );
         battery.addChangeListener( new Battery.ChangeListener() {
