@@ -24,7 +24,6 @@ public class PropertiesBasedAtom extends Atom {
 
     private EnergyEmissionStrategy energyEmissionStrategy;
 
-
     /**
      * @param model
      */

@@ -11,7 +11,7 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**

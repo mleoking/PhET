@@ -13,8 +13,9 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.model.PhysicsUtil;
 
 import java.util.EventListener;
 import java.util.EventObject;

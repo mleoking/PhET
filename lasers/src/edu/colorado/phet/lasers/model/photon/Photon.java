@@ -14,8 +14,9 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.lasers.model.PhysicsUtil;
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
@@ -50,10 +51,6 @@ public class Photon extends Particle implements Collidable {
     static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
     static private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
-    // The bounds within which a stimulated photon must be created. This keeps them inside the
-    // laser cavity
-    static private Rectangle2D stimulationBounds;
-
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
     static private int freePoolSize = 2000;
@@ -81,15 +78,10 @@ public class Photon extends Particle implements Collidable {
         photonEmittedEventChannel.addListener( listener );
     }
 
-    public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
-        Photon.stimulationBounds = stimulationBounds;
-    }
-
     //----------------------------------------------------------------
     // Instance data and methods
     //----------------------------------------------------------------
 
-    private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
     // is a reference to that photon.
     private Photon parentPhoton;
