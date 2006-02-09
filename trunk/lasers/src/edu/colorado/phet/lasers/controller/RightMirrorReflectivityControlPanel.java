@@ -1,12 +1,12 @@
-/**
- * Class: RightMirrorReflectivityControlPanel
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Apr 1, 2003
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -19,6 +19,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+/**
+ * A panel that provides a control for the reflectivity of the laser's right mirror
+ */
 public class RightMirrorReflectivityControlPanel extends JPanel implements SimpleObserver {
 
     private JSlider reflectivitySlider;
@@ -72,18 +75,10 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets( 0, 0, 0, 5 );
         this.add( reflectivityTF, gbc );
-
-        //        Border border = new TitledBorder( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
-        //        this.setBorder( border );
     }
-
-    //    private void updateReflectivity( float reflectivity ) {
-    //        new SetCavityReflectivityCmd( reflectivity ).doIt();
-    //    }
 
     public void update() {
         int reflectivity = (int)( mirror.getReflectivity() * 100 );
-        //        int reflectivity = (int)( cavity.getReflectivity() * 100 );
         if( reflectivitySlider.getValue() != reflectivity ) {
             reflectivityTF.setText( Integer.toString( reflectivity ) );
             reflectivitySlider.setValue( reflectivity );

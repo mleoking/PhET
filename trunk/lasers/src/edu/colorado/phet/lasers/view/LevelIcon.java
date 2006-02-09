@@ -11,11 +11,8 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**

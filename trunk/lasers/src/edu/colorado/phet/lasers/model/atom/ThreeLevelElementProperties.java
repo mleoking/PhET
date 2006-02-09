@@ -15,7 +15,9 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**
- * LaserAtomElementProperties
+ * ThreeLevelElementProperties
+ * <p>
+ * ElementProperties for a 3 level laser atom
  *
  * @author Ron LeMaster
  * @version $Revision$

@@ -31,7 +31,6 @@ public class ApparatusPanelHelp extends HelpManager {
     private HelpItem reflectivityHI;
 
     public ApparatusPanelHelp( BaseLaserModule module ) {
-//    public ApparatusPanelHelp( HelpManager helpManager ) {
         Component component = module.getApparatusPanel();
         this.module = module;
 

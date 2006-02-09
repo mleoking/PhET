@@ -1,7 +1,18 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
@@ -95,7 +106,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
-                                                            "<html><center>The panel will reset to its initial conditions.<br>Do you want to proceed?</center></html>" );
+                                                            SimStrings.get( "ResetAll.confirmationMessage") );
                 if( choice == JOptionPane.OK_OPTION ) {
                     module.reset();
                 }

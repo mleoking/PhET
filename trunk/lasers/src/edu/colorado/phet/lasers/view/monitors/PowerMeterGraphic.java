@@ -11,25 +11,13 @@
 package edu.colorado.phet.lasers.view.monitors;
 
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-//import org.jfree.chart.ChartFactory;
-//import org.jfree.chart.ChartPanel;
-//import org.jfree.chart.JFreeChart;
-//import org.jfree.chart.plot.CategoryPlot;
-//import org.jfree.chart.plot.PlotOrientation;
-//import org.jfree.chart.renderer.category.BarRenderer;
-//import org.jfree.data.category.DefaultCategoryDataset;
-//import org.jfree.ui.RectangleInsets;
-//import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 /**
@@ -208,7 +196,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             addGraphic( dangerThresholdIndicator );
 
             // Text annotations
-            String lasingStr = "Lasing";
+            String lasingStr = SimStrings.get( "PowerMeter.Lasing" );
             Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
@@ -220,7 +208,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                                           (int)background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
-            String dangerStr = "Danger";
+            String dangerStr = SimStrings.get("PowerMeter.Danger");
             PhetTextGraphic dangerAnnotation = new PhetTextGraphic();
             dangerAnnotation.setComponent( component );
             dangerAnnotation.setFont( font );

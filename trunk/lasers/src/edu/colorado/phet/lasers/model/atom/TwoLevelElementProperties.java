@@ -15,7 +15,9 @@ import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**
- * LaserAtomElementProperties
+ * TwoLevelElementProperties
+ * <p>
+ * ElementProperties for the 2 level atom in the laser simulation
  *
  * @author Ron LeMaster
  * @version $Revision$

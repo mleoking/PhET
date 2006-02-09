@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -37,7 +36,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
+ * MultipleAtomModule
+ * <p>
+ * Module that has full laser capabilities
  */
 public class MultipleAtomModule extends BaseLaserModule {
 
@@ -169,7 +170,6 @@ public class MultipleAtomModule extends BaseLaserModule {
     private void addAtoms( Rectangle2D cavityBounds ) {
         Atom atom = null;
         atoms = new ArrayList();
-//        int numAtoms = 2;
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
@@ -202,17 +202,9 @@ public class MultipleAtomModule extends BaseLaserModule {
      *
      */
     public void activate( ) {
-        super.activate(  );
+        super.activate();
         super.setThreeEnergyLevels( true );
     }
-
-    /**
-     *
-     */
-    public void deactivate() {
-        super.deactivate();
-    }
-
 
     /**
      * Extends the base class behavior. After letting the base class behavior

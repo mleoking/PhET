@@ -11,10 +11,10 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -33,10 +33,14 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Kaboom
+ * <p>
+ * An animated graphic that declared that the laser has blown up.
+ * <p>
+ * Unued, commented code is still in here that makes an image of the apparatus panel, then
+ * gractures it nad makes the pieces spin away, off the frame.
  *
  * @author Ron LeMaster
  * @version $Revision$

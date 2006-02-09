@@ -1,19 +1,16 @@
-/**
- * Class: AtomAtomCollision
- * Package: edu.colorado.phet.lasers.model.collision
- * Author: Another Guy
- * Date: Mar 21, 2003
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.collision.HardsphereCollision;
-import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.collision.SphereSphereExpert;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
-
-import java.awt.geom.Point2D;
 
 public class AtomAtomCollision extends SphereSphereExpert {
 //public class AtomAtomCollision extends HardsphereCollision {

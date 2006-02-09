@@ -14,6 +14,9 @@ import java.util.Arrays;
 
 /**
  * ElementProperties
+ * <p>
+ * A specification class that contains the properties for an element that are
+ * required by the model.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -24,7 +27,6 @@ public class ElementProperties {
     private boolean levelsMovable;
     private AtomicState[] states;
     private EnergyEmissionStrategy energyEmissionStrategy;
-//    private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double meanStateLifetime;
     private double workFunction;
 

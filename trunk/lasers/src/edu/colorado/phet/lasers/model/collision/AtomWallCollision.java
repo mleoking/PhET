@@ -1,14 +1,12 @@
-/**
- * Class: AtomWallCollision
- * Class: ${PACKAGE}
- * User: Ron LeMaster
- * Date: Mar 28, 2003
- * Time: 11:01:44 AM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.collision;
 
@@ -30,7 +28,6 @@ public class AtomWallCollision extends SphereWallCollision {
     }
 
     public AtomWallCollision( Atom atom, Wall wall ) {
-//        super( atom, wall );
     }
 
     /**
@@ -48,11 +45,4 @@ public class AtomWallCollision extends SphereWallCollision {
         }
         return result;
     }
-
-    //
-    // Static fields and methods
-    //
-//    static public void register() {
-//        CollisionFactory.addPrototype( new AtomWallCollision() );
-//    }
 }

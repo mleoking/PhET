@@ -22,8 +22,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
-import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
 import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
+import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -123,7 +123,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                      getLaserModel(),
                                      rightMirror );
         powerMeter.setLocation( new Point( 175, 430 ) );
-//        powerMeter.setLocation( new Point( 200, 430 ) );
         getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
         powerMeter.setVisible( true );
 
@@ -310,8 +309,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     private void createHelp() {
-//        mainPanelHelpManager = new HelpManager( getApparatusPanel() );
-//        apparatusPanelHelp = new ApparatusPanelHelp( this );
         energyLevelsPanelHelpManager = new HelpManager( getEnergyLevelsMonitorPanel() );
         new EnergyLevelPanelHelp( energyLevelsPanelHelpManager );
     }

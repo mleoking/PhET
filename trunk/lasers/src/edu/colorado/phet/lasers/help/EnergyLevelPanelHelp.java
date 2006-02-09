@@ -41,7 +41,6 @@ public class EnergyLevelPanelHelp {
         energyLevelHI.setAntiAlias( true );
         energyLevelHI.setFont( font );
 
-        Point2D lifetimeSliderHILoc = new Point2D.Double( 320, 20 );
         HelpItem lifetimeSliderHI = new HelpItem( component,
                                                   SimStrings.get( "Help.lifetimeSlider" ),
                                                   energyLevelHILoc,

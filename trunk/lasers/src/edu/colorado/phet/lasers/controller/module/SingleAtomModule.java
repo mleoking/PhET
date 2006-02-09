@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -30,7 +29,6 @@ import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
-//import edu.colorado.phet.lasers.view.monitors.PowerMeter;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -230,11 +228,6 @@ public class SingleAtomModule extends BaseLaserModule {
                 seedBeam.removeListener( this );
             }
         } );
-
-//        Font font = new JLabel( "" ).getFont();
-//        PhetTextGraphic textGraphic = new PhetTextGraphic( getApparatusPanel(), font, "!@#", Color.red );
-//        WiggleMe wm = new WiggleMe( new Rectangle( 500, 500 ), getClock(), new Point2D.Double( 200, 600 ), textGraphic );
-//        getApparatusPanel().addGraphic( textGraphic );
     }
 
     /**
@@ -252,13 +245,6 @@ public class SingleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
         laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
-    }
-
-    /**
-     *
-     */
-    public void deactivate() {
-        super.deactivate();
     }
 
     /**

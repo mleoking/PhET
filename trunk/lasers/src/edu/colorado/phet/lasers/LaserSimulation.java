@@ -1,13 +1,12 @@
-/**
- * Class: LaserApplication
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers;
 
@@ -40,7 +39,6 @@ import java.util.Arrays;
 
 public class LaserSimulation extends PhetApplication {
     static IClock clock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
-//    static IClock clock = new SwingClock( LaserConfig.DT, LaserConfig.FPS, IClock.FRAMES_PER_SECOND );
     private JDialog photoDlg;
 
     public LaserSimulation( String[] args ) {
@@ -63,8 +61,7 @@ public class LaserSimulation extends PhetApplication {
             multipleAtomModule
         };
         setModules( modules );
-//        setInitialModule( singleAtomModule );
-        
+
         for( int i = 0; i < modules.length; i++ ) {
             JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
             photoBtn.addActionListener( new ActionListener() {
@@ -127,48 +124,6 @@ public class LaserSimulation extends PhetApplication {
                 }
             }
         } );
-
-        // Additions to the debug menu
-//        JMenu debugMenu = getPhetFrame().getDebugMenu();
-//        if( debugMenu != null ) {
-//            final JRadioButtonMenuItem grayErgyRepStrategy = new JRadioButtonMenuItem( "Gray energy levels" );
-//            grayErgyRepStrategy.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    if( grayErgyRepStrategy.isSelected() ) {
-//                        AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.GrayScaleStrategy() );
-//                    }
-//                }
-//            } );
-//            colorEnergyRepStrategy.setSelected( true );
-//            ButtonGroup energyRegBG = new ButtonGroup();
-//            energyRegBG.add( colorEnergyRepStrategy );
-//            energyRegBG.add( grayErgyRepStrategy );
-//
-//            debugMenu.addSeparator();
-//            debugMenu.add( colorEnergyRepStrategy );
-//            debugMenu.add( grayErgyRepStrategy );
-//            debugMenu.addSeparator();
-//
-//            JMenuItem groundStateMinLifetimeMI = new JMenuItem( "Adjust minimum ground state lifetime..." );
-//            debugMenu.add( groundStateMinLifetimeMI );
-//            groundStateMinLifetimeMI.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    final JSlider gstSlider = new JSlider( 0, 1000, 0 );
-//                    gstSlider.setMajorTickSpacing( 200 );
-//                    gstSlider.setPaintTicks( true );
-//                    gstSlider.setPaintLabels( true );
-//                    gstSlider.addChangeListener( new ChangeListener() {
-//                        public void stateChanged( ChangeEvent e ) {
-//                            GroundState.setMinLifetime( gstSlider.getValue() );
-//                        }
-//                    } );
-//                    gstSlider.setValue( (int)GroundState.getMinLifetime() );
-//                    JPanel jp = new JPanel();
-//                    jp.add( gstSlider );
-//                    JOptionPane.showMessageDialog( getPhetFrame(), jp );
-//                }
-//            } );
-//        }
     }
 
     public void displayHighToMidEmission( boolean selected ) {

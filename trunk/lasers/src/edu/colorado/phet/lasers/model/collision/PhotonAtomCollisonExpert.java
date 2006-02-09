@@ -1,14 +1,12 @@
-/**
- * Class: PhotonAtomCollisonExpert
- * Class: edu.colorado.phet.lasers.model.collision
- * User: Ron LeMaster
- * Date: Oct 23, 2004
- * Time: 7:34:16 AM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.collision;
 
@@ -43,7 +41,6 @@ public class PhotonAtomCollisonExpert implements CollisionExpert {
                 }
             }
         }
-
         return false;
     }
 }

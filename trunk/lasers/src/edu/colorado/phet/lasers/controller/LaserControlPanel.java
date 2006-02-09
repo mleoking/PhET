@@ -1,8 +1,12 @@
-/**
- * Class: LaserControlPanel
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Oct 27, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller;
 
