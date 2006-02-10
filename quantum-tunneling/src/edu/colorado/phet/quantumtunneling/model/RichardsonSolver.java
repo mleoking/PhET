@@ -151,11 +151,11 @@ public class RichardsonSolver {
         // Determine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
-        final double minX = pe.getStart( 0 );
-        final double maxX = pe.getEnd( numberOfRegions - 1 );
+        final double minX = pe.getStart( 0 ) - ( _dx * DAMPING_FACTORS.length );
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * DAMPING_FACTORS.length );
         
         // Calculate the number of sample points.
-        final int numberOfPoints = (int)( ( maxX - minX ) / _dx )  + DAMPING_FACTORS.length + 1;
+        final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;
         
         // Initialize constants used by the propagator.
         final double epsilon = HBAR * _dt / ( MASS * _dx * _dx );
