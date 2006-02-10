@@ -36,6 +36,13 @@ public class TestDFT {
         wavefunction.scale( 2.0 );
         showWavefunction( "FFT2D", wavefunction );
         printWaveToScreen( wavefunction );
+
+        Wavefunction w3 = new SplitOperatorPropagator().inverseFFT( wavefunction );
+        w3.normalize();
+        showWavefunction( "FFT2D-1", w3 );
+        Wavefunction w4 = new SplitOperatorPropagator().forwardFFT( wavefunction );
+        w4.normalize();
+        showWavefunction( "FFT2D-2forward", w4 );
     }
 
     private void showWavefunction( String title, Wavefunction wavefunction ) {

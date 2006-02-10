@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.model;
 import edu.colorado.phet.qm.model.math.Complex;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 
@@ -274,5 +275,25 @@ public class Wavefunction {
 
     public Wavefunction createEmptyWavefunction() {
         return new Wavefunction( getWidth(), getHeight() );
+    }
+
+    public void printWaveToScreen() {
+        DecimalFormat formatter = new DecimalFormat( "0.00" );
+        for( int k = 0; k < getHeight(); k++ ) {
+            for( int i = 0; i < getWidth(); i++ ) {
+                Complex val = valueAt( i, k );
+                String s = formatter.format( val.getReal() );
+                if( s.equals( formatter.format( -0.000000001 ) ) ) {
+                    s = formatter.format( 0 );
+                }
+                String spaces = "  ";
+                if( s.startsWith( "-" ) ) {
+                    spaces = " ";
+                }
+                System.out.print( spaces + s );
+
+            }
+            System.out.println( "" );
+        }
     }
 }

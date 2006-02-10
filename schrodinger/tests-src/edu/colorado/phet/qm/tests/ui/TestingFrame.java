@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests;
+package edu.colorado.phet.qm.tests.ui;
 /*
 * This example is from javareference.com
 * for more information visit,
