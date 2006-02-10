@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
 
@@ -18,14 +18,25 @@ public class SplitOperatorPropagator extends Propagator {
         super( potential );
     }
 
-    public void propagate( Wavefunction w ) {
-        Wavefunction copy = w.copy();
-        for( int i = 1; i < w.getWidth() - 1; i++ ) {
-            for( int j = 1; j < w.getHeight() - 1; j++ ) {
-                Complex avg = ( copy.valueAt( i + 1, j ) ).plus( copy.valueAt( i - 1, j ) ).plus( copy.valueAt( i, j + 1 ) ).plus( copy.valueAt( i, j - 1 ) );
-                w.setValue( i, j, avg.times( 0.25 ) );
-            }
-        }
+    public void propagate( Wavefunction psi ) {
+        Wavefunction expV = new Wavefunction( psi.getWidth(), psi.getHeight() );
+        Wavefunction expT = new Wavefunction( psi.getWidth(), psi.getHeight() );
+        psi = multiply( expV, psi );
+        Wavefunction phi = forwardFFT( psi );
+        phi = multiply( expT, phi );
+        psi = inverseFFT( phi );
+    }
+
+    private Wavefunction inverseFFT( Wavefunction phi ) {
+        return phi;
+    }
+
+    private Wavefunction forwardFFT( Wavefunction psi ) {
+        return psi;
+    }
+
+    private Wavefunction multiply( Wavefunction a, Wavefunction b ) {
+        return a;
     }
 
     public void reset() {
