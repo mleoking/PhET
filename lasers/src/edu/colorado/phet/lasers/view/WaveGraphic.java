@@ -14,7 +14,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
+import edu.colorado.phet.quantum.model.Tube;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -41,7 +42,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
     private double elapsedTime = 0;
     private Stroke stroke = new BasicStroke( 2f );
 
-    private ResonatingCavity cavity;
+    private Tube cavity;
     private int level;
     private Rectangle curtainBounds = new Rectangle();
     // Controls the maximum darkness of the visible beam. Smaller == darker
@@ -56,7 +57,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
      */
     public WaveGraphic( Component component, Point2D origin, double extent,
                         double lambda, double period, double amplitude,
-                        Color color, ResonatingCavity cavity ) {
+                        Color color, Tube cavity ) {
         super( component );
         this.origin = origin;
         this.extent = extent;

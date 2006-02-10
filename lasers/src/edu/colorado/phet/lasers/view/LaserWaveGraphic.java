@@ -12,9 +12,10 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.quantum.model.Tube;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -47,7 +48,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     private int numLasingPhotons;
     private ApparatusPanel apparatusPanel;
 
-    public LaserWaveGraphic( ApparatusPanel apparatusPanel, ResonatingCavity cavity,
+    public LaserWaveGraphic( ApparatusPanel apparatusPanel, Tube cavity,
                              PartialMirror mirror, BaseLaserModule module, final AtomicState[] atomicStates ) {
 
         this.apparatusPanel = apparatusPanel;

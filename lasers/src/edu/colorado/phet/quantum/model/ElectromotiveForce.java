@@ -8,15 +8,16 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model.atom;
+package edu.colorado.phet.quantum.model;
 
+import edu.colorado.phet.common.math.Vector2D;
 
 /**
- * EnergyAbsorptionStrategy
+ * ElectromotiveForce
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface EnergyEmissionStrategy {
-    public AtomicState emitEnergy( Atom atom );
+public interface ElectromotiveForce {
+    Vector2D getElectronAcceleration();
 }

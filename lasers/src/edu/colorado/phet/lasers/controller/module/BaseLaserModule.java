@@ -24,7 +24,7 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.lasers.model.mirror.BandPass;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -35,6 +35,7 @@ import edu.colorado.phet.quantum.model.*;
 import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.quantum.view.AtomGraphic;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
+import edu.colorado.phet.quantum.view.TubeGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -58,7 +59,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     static public final int PHOTON_WAVE = 1;
     static public final int PHOTON_CURTAIN = 2;
 
-    private ResonatingCavity cavity;
+    private Tube cavity;
     private Point2D laserOrigin;
     private LaserModel laserModel;
     private PartialMirror rightMirror;
@@ -171,9 +172,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private void createCavity() {
         laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
                                           s_origin.getY() );
-        cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
+        cavity = new Tube( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
-        ResonatingCavityGraphic cavityCavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+        TubeGraphic cavityCavityGraphic = new TubeGraphic( getApparatusPanel(), cavity );
         addGraphic( cavityCavityGraphic, LaserConfig.CAVITY_LAYER );
     }
 
@@ -386,7 +387,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         return laserOrigin;
     }
 
-    public ResonatingCavity getCavity() {
+    public Tube getCavity() {
         return cavity;
     }
 

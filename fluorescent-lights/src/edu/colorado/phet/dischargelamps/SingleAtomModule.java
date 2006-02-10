@@ -11,18 +11,21 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
+import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.quantum.model.Atom;
 import edu.colorado.phet.quantum.model.Electron;
 import edu.colorado.phet.quantum.model.ElectronSource;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.quantum.view.AtomGraphic;
 
 import javax.swing.*;
@@ -146,18 +149,9 @@ public class SingleAtomModule extends DischargeLampModule {
         }
 
         // Slow motion check box
-        JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( SimStrings.get( "Controls.SlowMotion" ) ) {
-            public void actionPerformed( ActionEvent e ) {
-                JCheckBox cb = (JCheckBox)e.getSource();
-                if( cb.isSelected() ) {
-                    getClock().setSimulationTime( DischargeLampsConfig.DT / 5 );
-                }
-                else {
-                    getClock().setSimulationTime( DischargeLampsConfig.DT );
-                }
-            }
-        } );
-        getControlPanel().add( slowMotionCB );
+//        getControlPanel().add( new SlowMotionCheckBox( (Clock)getClock() ) );
+
+        // Set the size of the panel
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );
 
         getControlPanel().remove( getOptionsPanel() );
@@ -199,7 +193,7 @@ public class SingleAtomModule extends DischargeLampModule {
      *
      * @param tube
      */
-    private void addAtom( ResonatingCavity tube ) {
+    private void addAtom( Tube tube ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
         atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );

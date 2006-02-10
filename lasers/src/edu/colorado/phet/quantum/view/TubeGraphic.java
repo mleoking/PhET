@@ -4,29 +4,30 @@
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.lasers.view;
+package edu.colorado.phet.quantum.view;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
+import edu.colorado.phet.quantum.model.Tube;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
-public class ResonatingCavityGraphic extends CompositePhetGraphic implements ResonatingCavity.ChangeListener {
+public class TubeGraphic extends CompositePhetGraphic implements Tube.ChangeListener {
 
     private Ellipse2D end1 = new Ellipse2D.Double();
     private Ellipse2D end2 = new Ellipse2D.Double();
     private Line2D top = new Line2D.Double();
     private Line2D bottom = new Line2D.Double();
     private Rectangle bounds = new Rectangle();
-    private ResonatingCavity cavity;
+    private Tube cavity;
     private Stroke stroke = new BasicStroke( 1.5f );
     private Color color = Color.black;
 
-    public ResonatingCavityGraphic( Component component, ResonatingCavity cavity ) {
+    public TubeGraphic( Component component, Tube cavity ) {
         super( component );
         this.cavity = cavity;
         addGraphic( new PhetShapeGraphic( component, end1, stroke, color ) );
@@ -54,7 +55,7 @@ public class ResonatingCavityGraphic extends CompositePhetGraphic implements Res
         bounds.setRect( end1.getMinX(), end1.getMinY(), end2.getMaxX() - end1.getMinX(), end2.getMaxY() - end1.getMinY() );
     }
 
-    public void CavityChanged( ResonatingCavity.ChangeEvent event ) {
+    public void CavityChanged( Tube.ChangeEvent event ) {
         update();
     }
 }

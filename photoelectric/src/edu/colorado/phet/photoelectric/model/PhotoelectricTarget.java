@@ -81,7 +81,7 @@ public class PhotoelectricTarget extends Plate {
      * @param p2
      */
     public PhotoelectricTarget( DischargeLampModel model, Point2D p1, Point2D p2 ) {
-        super( model, p1, p2 );
+        super( model, model, p1, p2 );
         line = new Line2D.Double( p1, p2 );
     }
 

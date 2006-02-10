@@ -52,7 +52,7 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
 
     private Beam stimulatingBeam;
     private Beam pumpingBeam;
-    private ResonatingCavity resonatingCavity;
+    private Tube tube;
     private List bodies = new LinkedList();
     private Rectangle2D boundingRectangle = new Rectangle2D.Double( minX,
                                                                     minY,
@@ -110,8 +110,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         if( modelElement instanceof Mirror ) {
             mirrors.add( modelElement );
         }
-        if( modelElement instanceof ResonatingCavity ) {
-            this.resonatingCavity = (ResonatingCavity)modelElement;
+        if( modelElement instanceof Tube ) {
+            this.tube = (Tube)modelElement;
         }
     }
 
@@ -254,12 +254,12 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
         changeListenerProxy.atomicStatesChanged( new ChangeEvent( this ) );
     }
 
-    public ResonatingCavity getResonatingCavity() {
-        return resonatingCavity;
+    public Tube getResonatingCavity() {
+        return tube;
     }
 
-    public void setResonatingCavity( ResonatingCavity resonatingCavity ) {
-        this.resonatingCavity = resonatingCavity;
+    public void setResonatingCavity( Tube tube ) {
+        this.tube = tube;
     }
 
     public Beam getSeedBeam() {
@@ -359,13 +359,13 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
             for( int i = 0; i < collidablesA.size(); i++ ) {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
+                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
+                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
                     for( int j = 0; j < collidablesB.size(); j++ ) {
                         Collidable collidable2 = (Collidable)collidablesB.get( j );
                         if( collidable1 != collidable2
                             && ( !( collidable2 instanceof Photon )
-                                 || ( resonatingCavity.getBounds().contains( ( (Photon)collidable2 ).getPosition() ) ) ) ) {
+                                 || ( tube.getBounds().contains( ( (Photon)collidable2 ).getPosition() ) ) ) ) {
                             for( int k = 0; k < collisionExperts.size(); k++ ) {
                                 CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
                                 collisionExpert.detectAndDoCollision( collidable1, collidable2 );
@@ -387,8 +387,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
             for( int i = 0; i < collidablesA.size(); i++ ) {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
+                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
+                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
                     for( int k = 0; k < collisionExperts.size(); k++ ) {
                         CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
                         collisionExpert.detectAndDoCollision( collidable1, body );
@@ -413,8 +413,8 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
             for( int i = 0; i < photons.size(); i++ ) {
                 Photon photon = (Photon)photons.get( i );
                 if( !( photon instanceof Photon )
-                    || ( resonatingCavity.getBounds().contains( photon.getPosition() ) )
-                    || ( resonatingCavity.getBounds().contains( photon.getPositionPrev() ) ) ) {
+                    || ( tube.getBounds().contains( photon.getPosition() ) )
+                    || ( tube.getBounds().contains( photon.getPositionPrev() ) ) ) {
 
                     for( int j = 0; j < atoms.size(); j++ ) {
                         Atom atom = (Atom)atoms.get( j );
@@ -428,7 +428,7 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
                 }
             }
             collisionMechanism.doIt( photons, mirrors );
-            collisionMechanism.doIt( atoms, resonatingCavity );
+            collisionMechanism.doIt( atoms, tube );
         }
     }
 

@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.lasers.model;
+package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.collision.Box2D;
 import edu.colorado.phet.common.util.EventChannel;
@@ -18,14 +18,14 @@ import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class ResonatingCavity extends Box2D {
+public class Tube extends Box2D {
 
     private Point2D origin;
     private double width;
     private double height;
     private Rectangle2D bounds;
 
-    public ResonatingCavity( Point2D origin, double width, double height ) {
+    public Tube( Point2D origin, double width, double height ) {
         super( origin, new Point2D.Double( origin.getX() + width, origin.getY() + height ) );
         this.origin = origin;
         this.width = width;
@@ -80,7 +80,7 @@ public class ResonatingCavity extends Box2D {
     }
 
     public interface ChangeListener extends EventListener {
-        void CavityChanged( ResonatingCavity.ChangeEvent event );
+        void CavityChanged( Tube.ChangeEvent event );
     }
 
     public class ChangeEvent extends EventObject {
@@ -89,7 +89,7 @@ public class ResonatingCavity extends Box2D {
         }
 
         public Rectangle2D getBounds() {
-            return ( (ResonatingCavity)getSource() ).getBounds();
+            return ( (Tube)getSource() ).getBounds();
         }
     }
 }
