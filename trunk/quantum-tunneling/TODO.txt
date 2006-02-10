@@ -6,6 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - apply ProGuard
+- verify that antialiasing is on for XYPlotNodes
 - cut position range in half so we can cut RICHARDSON_STEPS_PER_CLOCK_TICK in half
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
