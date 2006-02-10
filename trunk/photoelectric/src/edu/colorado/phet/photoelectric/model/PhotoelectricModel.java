@@ -11,18 +11,20 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.PhysicsUtil;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.*;
-import edu.colorado.phet.common.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.photon.*;
+import edu.colorado.phet.quantum.model.PhotonEmittedListener;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
-import edu.colorado.phet.photoelectric.PhotoelectricApplication;
+import edu.colorado.phet.quantum.model.PhotonSource;
+import edu.colorado.phet.quantum.*;
+import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

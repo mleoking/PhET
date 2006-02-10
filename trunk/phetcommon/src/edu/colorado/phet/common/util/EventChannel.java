@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.common.util;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-import java.security.InvalidParameterException;
 
 /**
  * A proxy that broadcasts method calls to registered objects that implement

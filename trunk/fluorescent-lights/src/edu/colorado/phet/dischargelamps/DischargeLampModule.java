@@ -25,17 +25,12 @@ import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
-import edu.colorado.phet.lasers.model.photon.LaserPhoton;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
-import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
-import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
+import edu.colorado.phet.quantum.view.AtomGraphic;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
+import edu.colorado.phet.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -57,7 +52,6 @@ import java.util.Random;
  * @version $Revision$
  */
 public class DischargeLampModule extends PhetGraphicsModule {
-//public class DischargeLampModule extends BaseLaserModule {
 
     //----------------------------------------------------------------
     // Class data
@@ -68,7 +62,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
     private static final double DEFAULT_VOLTAGE = 23.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-//    private static final double DEFAULT_VOLTAGE = 4.2 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
 
     //----------------------------------------------------------------
     // Instance data
@@ -117,9 +110,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
 
-        // Turn off a switch in the base class that prevents certain photons from being displayed
-//        setDisplayHighLevelEmissions( true );
-        
         // Set up the model
         model = new DischargeLampModel();
         model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
@@ -160,7 +150,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
         // Needed to handle something that is inherited from the Lasers simulation. When
         // the code is properly decoupled, this can go away.
-        LaserPhoton.setStimulationBounds( model.getTube().getBounds() );
+        StimulatedPhoton.setStimulationBounds( model.getTube().getBounds() );
 
     }
 

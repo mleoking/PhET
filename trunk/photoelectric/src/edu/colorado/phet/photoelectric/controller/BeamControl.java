@@ -10,21 +10,22 @@
  */
 package edu.colorado.phet.photoelectric.controller;
 
+import edu.colorado.phet.common.util.PhetUtilities;
+import edu.colorado.phet.common.util.SwingThreadModelListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.common.util.SwingThreadModelListener;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.photon.Beam;
+import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.model.Beam;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.*;
 import java.awt.*;
 
 /**

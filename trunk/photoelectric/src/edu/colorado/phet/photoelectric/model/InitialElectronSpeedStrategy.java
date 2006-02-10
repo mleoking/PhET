@@ -12,7 +12,6 @@
 package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.model.PhysicsUtil;
-import edu.colorado.phet.common.model.PhysicsUtil;
 
 import java.util.Random;
 

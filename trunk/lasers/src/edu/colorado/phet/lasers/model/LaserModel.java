@@ -22,12 +22,12 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.atom.*;
-import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
+import edu.colorado.phet.lasers.model.atom.LaserElementProperties;
+import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
+import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.photon.Beam;
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

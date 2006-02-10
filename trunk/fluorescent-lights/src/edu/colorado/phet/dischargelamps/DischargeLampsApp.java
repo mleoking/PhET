@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.TimingStrategy;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.quantum.view.AtomGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -56,7 +56,6 @@ public class DischargeLampsApp extends PhetApplication {
         DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
                                                                          new SwingClock( 1000 / DischargeLampsConfig.FPS, DischargeLampsConfig.DT ),
                                                                          30,
-                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS,
                                                                          maxSpeed );
         setModules( new Module[]{singleAtomModule,
                                  multipleAtomModule} );

@@ -11,17 +11,12 @@
 
 package edu.colorado.phet.chart;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Stroke;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**

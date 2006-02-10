@@ -23,18 +23,18 @@ import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
-import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.BandPass;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
-import edu.colorado.phet.lasers.model.photon.*;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
+import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
+import edu.colorado.phet.quantum.view.AtomGraphic;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -135,7 +135,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
      */
     public void activate() {
         super.activate();
-        LaserPhoton.setStimulationBounds( cavity.getBounds() );
+        StimulatedPhoton.setStimulationBounds( cavity.getBounds() );
         // Needed to make the energy levels panel get its model-view transform right
         laserEnergyLevelsMonitorPanel.adjustPanel();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );

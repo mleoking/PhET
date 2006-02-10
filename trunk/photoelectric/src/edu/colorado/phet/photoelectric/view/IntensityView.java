@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.photoelectric.model.Ammeter;
-import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
+import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
 
 import javax.swing.*;
 import java.awt.*;

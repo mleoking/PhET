@@ -13,8 +13,8 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.common.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.quantum.model.Atom;
+import edu.colorado.phet.quantum.model.Electron;
 
 import java.util.Random;
 

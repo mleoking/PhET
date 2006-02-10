@@ -20,11 +20,11 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
-import edu.colorado.phet.lasers.model.photon.Beam;
 import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.quantum.model.Atom;
+import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.quantum.model.Beam;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

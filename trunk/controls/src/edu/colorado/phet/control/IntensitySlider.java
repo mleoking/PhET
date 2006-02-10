@@ -11,20 +11,13 @@
 
 package edu.colorado.phet.control;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * IntensitySlider is a slider used to control intensity. Intensity is a

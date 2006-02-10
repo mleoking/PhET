@@ -20,9 +20,9 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.Plate;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.quantum.model.Atom;
+import edu.colorado.phet.quantum.model.GroundState;
+import edu.colorado.phet.quantum.model.Plate;
 
 import java.awt.*;
 import java.awt.geom.Line2D;

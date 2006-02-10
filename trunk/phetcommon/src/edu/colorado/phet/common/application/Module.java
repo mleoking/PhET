@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.common.application;
 
-import javax.swing.JComponent;
-
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
@@ -19,6 +17,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
 
 /**
  * The Module is the fundamental unit of a phet simulation.

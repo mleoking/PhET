@@ -16,14 +16,14 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.Electron;
-import edu.colorado.phet.dischargelamps.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.quantum.model.Atom;
+import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.quantum.model.ElectronSource;
+import edu.colorado.phet.quantum.view.AtomGraphic;
 
 import javax.swing.*;
 import java.awt.*;

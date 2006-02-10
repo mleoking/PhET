@@ -11,7 +11,6 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;

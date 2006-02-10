@@ -13,10 +13,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
-import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
+import edu.colorado.phet.quantum.model.*;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with

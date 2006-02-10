@@ -10,7 +10,9 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.quantum.model.ElementProperties;
+import edu.colorado.phet.quantum.model.ElementProperties;
+import edu.colorado.phet.quantum.model.ElementProperties;
 
 /**
  * TargetMaterial

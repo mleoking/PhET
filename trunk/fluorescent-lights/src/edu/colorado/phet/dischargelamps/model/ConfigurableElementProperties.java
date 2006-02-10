@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.quantum.AtomicStateFactory;
+import edu.colorado.phet.quantum.model.AtomicState;
 
 /**
  * HydrogenProperties
