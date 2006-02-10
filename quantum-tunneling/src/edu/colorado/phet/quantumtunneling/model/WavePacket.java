@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
-import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.model.RichardsonSolver.RComplex;
 import edu.colorado.phet.quantumtunneling.util.Distribution;
 import edu.colorado.phet.quantumtunneling.util.Distribution.DistributionAccessor;
 
@@ -201,7 +201,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private double chooseRandomPosition() {
         double center = 0;
         double[] positions = _solver.getPositions();
-        Complex[] energies = _solver.getEnergies();
+        RComplex[] energies = _solver.getEnergies();
         if ( positions.length > 1 ) {
             double dx = positions[1] - positions[0];
             Distribution distribution = new Distribution();
@@ -237,7 +237,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
             for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
-                _solver.propogate();
+                _solver.propagate();
             }
             notifyObservers();
         }

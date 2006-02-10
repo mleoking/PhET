@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.model.RichardsonSolver.RComplex;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 
 
@@ -370,12 +371,12 @@ public class WaveFunctionPlot extends XYPlot implements Observer {
         // x coordinates...
         double[] positions = wavePacket.getSolver().getPositions();
         // y coordinates...
-        Complex[] psi = wavePacket.getSolver().getEnergies();
+        RComplex[] psi = wavePacket.getSolver().getEnergies();
         
         final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = positions[i];
-            Complex energy = psi[i];
+            RComplex energy = psi[i];
             _incidentRealSeries.add( position, energy.getReal() );
             _incidentImaginarySeries.add( position, energy.getImaginary() );
             _incidentMagnitudeSeries.add( position, energy.getAbs() );
