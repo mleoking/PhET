@@ -31,7 +31,7 @@ public class SplitModel extends DiscreteModel {
     }
 
     public SplitModel( int width, int height ) {
-        this( width, height, INIT_DT, createInitWave() );
+        this( width, height, DEFAULT_DT, createInitWave() );
     }
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {

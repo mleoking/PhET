@@ -46,14 +46,14 @@ public class DiscreteModel implements ModelElement {
     private boolean slitAbsorptive = true;
     public static final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
     protected static final boolean DEBUG_WAVES = false;
-    protected static final double INIT_DT = 1E-5;
+    public static final double DEFAULT_DT = 1E-5;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
     }
 
     public DiscreteModel( int width, int height ) {
-        this( width, height, INIT_DT, createInitWave() );
+        this( width, height, DEFAULT_DT, createInitWave() );
     }
 
     public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
@@ -61,14 +61,14 @@ public class DiscreteModel implements ModelElement {
         this.sourcePotential = new CompositePotential();
         this.deltaTime = deltaTime;
         this.wave = wave;
-        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential, 1, 1 ) );
+        this.waveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, compositePotential, 1, 1 ) );
 
         detectorSet = new DetectorSet( getWavefunction() );
 //        detectorSet.setOneShotDetectors( oneShotDetectors );
         initter = new WaveSetup( wave );
         initter.initialize( getWavefunction() );
 
-        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, wave, sourcePotential, 1, 1 ) );
+        sourceWaveModel = new WaveModel( new Wavefunction( width, height ), new ModifiedRichardsonPropagator( deltaTime, sourcePotential, 1, 1 ) );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
