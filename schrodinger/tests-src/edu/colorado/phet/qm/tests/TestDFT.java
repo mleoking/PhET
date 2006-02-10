@@ -30,14 +30,7 @@ public class TestDFT {
 
     private void start() {
         Wavefunction wavefunction = new Wavefunction( 200, 200 );
-        int squareSize = 10;
-        for( int i = wavefunction.getWidth() / 2 - squareSize / 2; i <= wavefunction.getWidth() / 2 + squareSize / 2; i++ )
-        {
-            for( int k = wavefunction.getHeight() / 2 - squareSize / 2; k <= wavefunction.getHeight() / 2 + squareSize / 2; k++ )
-            {
-                wavefunction.setValue( i, k, 1.0, 0.0 );
-            }
-        }
+        SquareWavefunction.setToSquare( wavefunction, 10 );
         showWavefunction( "Original", wavefunction );
 
         wavefunction = QWIFFT2D.forwardFFT( wavefunction );
@@ -53,5 +46,6 @@ public class TestDFT {
         w4.normalize();
         showWavefunction( "FFT2D-2forward", w4 );
     }
+
 
 }

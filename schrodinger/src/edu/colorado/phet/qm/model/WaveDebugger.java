@@ -37,6 +37,13 @@ public class WaveDebugger {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
+    public void setSimpleWavefunctionGraphic( SimpleWavefunctionGraphic simpleWavefunctionGraphic ) {
+        phetPCanvas.removeScreenChild( this.simpleWavefunctionGraphic );
+        this.simpleWavefunctionGraphic = simpleWavefunctionGraphic;
+        phetPCanvas.addScreenChild( this.simpleWavefunctionGraphic );
+        phetPCanvas.repaint();
+    }
+
     public void setColorMap( ColorMap colorMap ) {
         simpleWavefunctionGraphic.setColorMap( colorMap );
         update();
@@ -53,5 +60,11 @@ public class WaveDebugger {
 
     public void update() {
         simpleWavefunctionGraphic.update();
+    }
+
+    public void setWavefunction( Wavefunction wavefunction ) {
+        this.wavefunction = wavefunction;
+        simpleWavefunctionGraphic.setWavefunction( wavefunction );
+        update();
     }
 }
