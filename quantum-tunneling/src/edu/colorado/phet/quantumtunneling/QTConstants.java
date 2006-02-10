@@ -144,12 +144,12 @@ public class QTConstants {
     // Probability Density
     public static final ZoomSpec[] PROBABILITY_DENSITY_ZOOM_SPECS = {
                          /* range, tickSpacing, tickPattern */
-            new ZoomSpec( new Range( -0.0125, 0.25 ), 0.05, "0.00" ),
-            new ZoomSpec( new Range( -0.05, 1 ),      0.25, "0.00" ),
-            new ZoomSpec( new Range( -0.1125, 2.25 ), 0.5,  "0.0" ),
-            new ZoomSpec( new Range( -0.2, 4 ),       1,    "0" ),
-            new ZoomSpec( new Range( -0.3125, 6.25 ), 1,    "0" ),
-            new ZoomSpec( new Range( -0.45, 9 ),      1,    "0" )
+            new ZoomSpec( new Range( 0, 0.25 ), 0.05, "0.00" ),
+            new ZoomSpec( new Range( 0, 1 ),    0.25, "0.00" ),
+            new ZoomSpec( new Range( 0, 2.25 ), 0.5,  "0.0" ),
+            new ZoomSpec( new Range( 0, 4 ),    1,    "0" ),
+            new ZoomSpec( new Range( 0, 6.25 ), 1,    "0" ),
+            new ZoomSpec( new Range( 0, 9 ),    1,    "0" )
     };
     public static final int DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX = 3;
     public static final Range DEFAULT_PROBABILITY_DENSITY_RANGE = PROBABILITY_DENSITY_ZOOM_SPECS[ DEFAULT_PROBABILTY_DENSITY_ZOOM_INDEX ].getRange();
