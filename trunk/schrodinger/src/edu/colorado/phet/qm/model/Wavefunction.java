@@ -65,6 +65,12 @@ public class Wavefunction {
         setMagnitudeDirty();
     }
 
+    public Wavefunction getNormalizedInstance() {
+        Wavefunction w = copy();
+        w.normalize();
+        return w;
+    }
+
     public static interface Listener {
         void cleared();
 
