@@ -3,11 +3,8 @@ package edu.colorado.phet.qm.tests;
 
 import edu.colorado.phet.qm.model.WaveDebugger;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.propagators.SplitOperatorPropagator;
 import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
-
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -35,7 +32,7 @@ public class TestDFT {
         wavefunction.normalize();
         wavefunction.scale( 2.0 );
         showWavefunction( "FFT2D", wavefunction );
-        printWaveToScreen( wavefunction );
+        wavefunction.printWaveToScreen();
 
         Wavefunction w3 = new SplitOperatorPropagator().inverseFFT( wavefunction );
         w3.normalize();
@@ -49,26 +46,6 @@ public class TestDFT {
         WaveDebugger waveDebugger = new WaveDebugger( title, wavefunction, 2, 2 );
         waveDebugger.setComplexColorMap( new MagnitudeColorMap() );
         waveDebugger.setVisible( true );
-    }
-
-    private void printWaveToScreen( Wavefunction wavefunction ) {
-        DecimalFormat formatter = new DecimalFormat( "0.00" );
-        for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-            for( int i = 0; i < wavefunction.getWidth(); i++ ) {
-                Complex val = wavefunction.valueAt( i, k );
-                String s = formatter.format( val.getReal() );
-                if( s.equals( formatter.format( -0.000000001 ) ) ) {
-                    s = formatter.format( 0 );
-                }
-                String spaces = "  ";
-                if( s.startsWith( "-" ) ) {
-                    spaces = " ";
-                }
-                System.out.print( spaces + s );
-
-            }
-            System.out.println( "" );
-        }
     }
 
     public static void main( String[] args ) {
