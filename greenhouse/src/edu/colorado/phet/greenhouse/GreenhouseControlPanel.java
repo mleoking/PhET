@@ -26,11 +26,15 @@ public class GreenhouseControlPanel extends JPanel {
     private ModelSlider greenhouseGasConcentrationControl;
     private GreenhouseCompositionPane greenhouseGasCompositionPane;
     private GreenhouseModule module;
+    private Color panelBackground;
 
     public GreenhouseControlPanel( final GreenhouseModule module ) {
 
         this.module = module;
         final GreenhouseModel model = module.getGreenhouseModel();
+
+        panelBackground = Color.darkGray;
+        setBackground( panelBackground);
 
         //
         // Create the controls
@@ -154,6 +158,14 @@ public class GreenhouseControlPanel extends JPanel {
         }
         catch( AWTException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        }
+
+
+
+        Component[] components = this.getComponents();
+        for( int i = 0; i < components.length; i++ ) {
+            Component component = components[i];
+            component.setBackground( panelBackground);
         }
     }
 
