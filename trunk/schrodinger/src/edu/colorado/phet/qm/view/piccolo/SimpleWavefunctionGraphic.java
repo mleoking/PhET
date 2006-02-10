@@ -32,8 +32,12 @@ public class SimpleWavefunctionGraphic extends PNode {
     private ColorMap colorMap;
 
     public SimpleWavefunctionGraphic( Wavefunction wavefunction ) {
+        this( wavefunction, 10, 10 );
+    }
+
+    public SimpleWavefunctionGraphic( Wavefunction wavefunction, int dx, int dy ) {
         this.wavefunction = wavefunction;
-        ColorGrid colorGrid = new ColorGrid( 10, 10, wavefunction.getWidth(), wavefunction.getHeight() );
+        ColorGrid colorGrid = new ColorGrid( dx, dy, wavefunction.getWidth(), wavefunction.getHeight() );
         colorGridNode = new ColorGridNode( colorGrid );
         addChild( colorGridNode );
 
