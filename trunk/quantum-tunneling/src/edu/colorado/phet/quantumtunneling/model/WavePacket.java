@@ -236,9 +236,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
-            for ( int i = 0; i < QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK; i++ ) {
-                _solver.propagate();
-            }
+            _solver.propagate( QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK );
             notifyObservers();
         }
     }
