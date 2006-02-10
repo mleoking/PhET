@@ -49,17 +49,18 @@ public class QWIFFT2D {
 
     public static Wavefunction forwardFFT( Wavefunction psi ) {
         double[]data = toArray( psi );
+        System.out.println( "data.length = " + data.length );
         new FFT2D( psi.getWidth(), psi.getHeight() ).transform( data );
+//        FFT_N_Dimensional.ndfft( data, new int[]{psi.getWidth()-1, psi.getHeight()-1}, 2, +1 );
         Wavefunction wavefunction = parseData( data, psi.getWidth(), psi.getHeight() );
-//        wavefunction.scale( 1.0 / 200 );
         return wavefunction;
     }
 
     public static Wavefunction inverseFFT( Wavefunction phi ) {
         double[]data = toArray( phi );
         new FFT2D( phi.getWidth(), phi.getHeight() ).inverse( data );
+//        FFT_N_Dimensional.ndfft( data, new int[]{phi.getWidth(), phi.getHeight()}, 2, -1);
         Wavefunction wavefunction = parseData( data, phi.getWidth(), phi.getHeight() );
-//        wavefunction.scale( 1.0/200);
         return wavefunction;
     }
 }
