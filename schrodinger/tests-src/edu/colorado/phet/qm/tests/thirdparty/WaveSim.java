@@ -1,9 +1,11 @@
-package edu.colorado.phet.qm.tests;/*
+package edu.colorado.phet.qm.tests.thirdparty;/*
  * Integrating the Schrodinger Wave Equation
  * John L. Richardson
  * jlr@sgi.com
  * December 1995
  */
+
+import edu.colorado.phet.qm.tests.thirdparty.complex;
 
 import java.awt.*;
 
@@ -380,31 +382,3 @@ public class WaveSim extends java.applet.Applet implements Runnable {
     }
 }
 
-class complex {
-    double re, im;
-
-    complex( double x, double y ) {
-        re = x;
-        im = y;
-    }
-
-    public void add( complex a, complex b ) {
-        re = a.re + b.re;
-        im = a.im + b.im;
-    }
-
-    public void mult( complex a, complex b ) {
-        re = a.re * b.re - a.im * b.im;
-        im = a.re * b.im + a.im * b.re;
-    }
-
-    public void set( complex a ) {
-        re = a.re;
-        im = a.im;
-    }
-
-    public void scale( double scale ) {
-        re *= scale;
-        im *= scale;
-    }
-}

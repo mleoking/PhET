@@ -1,5 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests;
+package edu.colorado.phet.qm.tests.thirdparty;
+
+import edu.colorado.phet.qm.tests.thirdparty.QuantumCirc;
+import edu.colorado.phet.qm.tests.thirdparty.QuantumCircCanvas;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,7 +17,7 @@ import java.util.Random;
  * Time: 5:48:51 PM
  * Copyright (c) Jan 17, 2006 by Sam Reid
  */
-class QuantumCircFrame extends Frame
+public class QuantumCircFrame extends Frame
         implements ComponentListener, ActionListener, AdjustmentListener,
                    MouseMotionListener, MouseListener, ItemListener {
 
@@ -82,7 +85,7 @@ class QuantumCircFrame extends Frame
     double elevels[][];
     double xformbuf[];
     double lzspectrum[];
-    static final double pi = 3.14159265358979323846;
+    public static final double pi = 3.14159265358979323846;
     double step;
     double func[][];
     double funci[][];

@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests;
+package edu.colorado.phet.qm.tests.thirdparty;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 5:48:43 PM
  * Copyright (c) Jan 17, 2006 by Sam Reid
  */
-class QuantumCircCanvas extends Canvas {
+public class QuantumCircCanvas extends Canvas {
     QuantumCircFrame pg;
 
     QuantumCircCanvas( QuantumCircFrame p ) {

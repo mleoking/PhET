@@ -1,16 +1,11 @@
-/* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests;
+package edu.colorado.phet.qm.tests.thirdparty;// QuantumStates.java (C) 2002 by Paul Falstad, www.falstad.com import java.awt.*;
 
 import java.awt.*;
 
-/**
- * User: Sam Reid
- * Date: Jan 17, 2006
- * Time: 5:49:25 PM
- * Copyright (c) Jan 17, 2006 by Sam Reid
- */
-class QuantumCircLayout implements LayoutManager {
-    public QuantumCircLayout() {
+import edu.colorado.phet.qm.tests.thirdparty.DecentScrollbar;
+
+public class QuantumStatesLayout implements LayoutManager {
+    public QuantumStatesLayout() {
     }
 
     public void addLayoutComponent( String name, Component c ) {
@@ -28,24 +23,33 @@ class QuantumCircLayout implements LayoutManager {
     }
 
     public void layoutContainer( Container target ) {
+        int barwidth = 0;
+        int i;
+        for( i = 1; i < target.getComponentCount(); i++ ) {
+            Component m = target.getComponent( i );
+            if( m.isVisible() ) {
+                Dimension d = m.getPreferredSize();
+                if( d.width > barwidth ) {
+                    barwidth = d.width;
+                }
+            }
+        }
         Insets insets = target.insets();
         int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw * 7 / 10;
+        int cw = targetw - barwidth;
         int targeth = target.size().height - ( insets.top + insets.bottom );
         target.getComponent( 0 ).move( insets.left, insets.top );
         target.getComponent( 0 ).resize( cw, targeth );
-        int barwidth = targetw - cw;
         cw += insets.left;
-        int i;
         int h = insets.top;
         for( i = 1; i < target.getComponentCount(); i++ ) {
             Component m = target.getComponent( i );
             if( m.isVisible() ) {
                 Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar ) {
+                if( m instanceof Scrollbar || m instanceof DecentScrollbar ) {
                     d.width = barwidth;
                 }
-                if( m instanceof Choice ) {
+                if( m instanceof Choice && d.width > barwidth ) {
                     d.width = barwidth;
                 }
                 if( m instanceof Label ) {
@@ -58,4 +62,10 @@ class QuantumCircLayout implements LayoutManager {
             }
         }
     }
-}
+};
+
+;
+
+;
+
+;

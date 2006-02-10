@@ -1,158 +1,22 @@
-package edu.colorado.phet.qm.tests;// QuantumStates.java (C) 2002 by Paul Falstad, www.falstad.com import java.awt.*;
+/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.qm.tests.thirdparty;
 
-import org.netlib.lapack.Dstedc;
-import org.netlib.util.intW;
-
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Random;
 import java.util.Vector;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
 
-class QuantumStatesCanvas extends Canvas {
-    QuantumStatesFrame pg;
+import org.netlib.util.intW;
+import org.netlib.lapack.Dstedc;
 
-    QuantumStatesCanvas( QuantumStatesFrame p ) {
-        pg = p;
-    }
-
-    public Dimension getPreferredSize() {
-        return new Dimension( 300, 400 );
-    }
-
-    public void update( Graphics g ) {
-        pg.updateQuantumStates( g );
-    }
-
-    public void paint( Graphics g ) {
-        pg.updateQuantumStates( g );
-    }
-};
-
-class QuantumStatesLayout implements LayoutManager {
-    public QuantumStatesLayout() {
-    }
-
-    public void addLayoutComponent( String name, Component c ) {
-    }
-
-    public void removeLayoutComponent( Component c ) {
-    }
-
-    public Dimension preferredLayoutSize( Container target ) {
-        return new Dimension( 500, 500 );
-    }
-
-    public Dimension minimumLayoutSize( Container target ) {
-        return new Dimension( 100, 100 );
-    }
-
-    public void layoutContainer( Container target ) {
-        int barwidth = 0;
-        int i;
-        for( i = 1; i < target.getComponentCount(); i++ ) {
-            Component m = target.getComponent( i );
-            if( m.isVisible() ) {
-                Dimension d = m.getPreferredSize();
-                if( d.width > barwidth ) {
-                    barwidth = d.width;
-                }
-            }
-        }
-        Insets insets = target.insets();
-        int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw - barwidth;
-        int targeth = target.size().height - ( insets.top + insets.bottom );
-        target.getComponent( 0 ).move( insets.left, insets.top );
-        target.getComponent( 0 ).resize( cw, targeth );
-        cw += insets.left;
-        int h = insets.top;
-        for( i = 1; i < target.getComponentCount(); i++ ) {
-            Component m = target.getComponent( i );
-            if( m.isVisible() ) {
-                Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar || m instanceof DecentScrollbar ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Choice && d.width > barwidth ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Label ) {
-                    h += d.height / 5;
-                    d.width = barwidth;
-                }
-                m.move( cw, h );
-                m.resize( d.width, d.height );
-                h += d.height;
-            }
-        }
-    }
-};
-
-public class QuantumStates extends Applet implements ComponentListener {
-    QuantumStatesFrame qf;
-
-    void destroyFrame() {
-        if( qf != null ) {
-            qf.dispose();
-        }
-        qf = null;
-        repaint();
-    }
-
-    boolean started = false;
-
-    public void init() {
-        addComponentListener( this );
-    }
-
-    void showFrame() {
-        if( qf == null ) {
-            started = true;
-            qf = new QuantumStatesFrame( this );
-            qf.init();
-            repaint();
-        }
-    }
-
-    public void paint( Graphics g ) {
-        String s = "Applet is open in a separate window.";
-        if( !started ) {
-            s = "Applet is starting.";
-        }
-        else if( qf == null ) {
-            s = "Applet is finished.";
-        }
-        else {
-            qf.show();
-        }
-        g.drawString( s, 10, 30 );
-    }
-
-    public void componentHidden( ComponentEvent e ) {
-    }
-
-    public void componentMoved( ComponentEvent e ) {
-    }
-
-    public void componentShown( ComponentEvent e ) {
-        showFrame();
-    }
-
-    public void componentResized( ComponentEvent e ) {
-    }
-
-    public void destroy() {
-        if( qf != null ) {
-            qf.dispose();
-        }
-        qf = null;
-        repaint();
-    }
-};
-
+/**
+ * User: Sam Reid
+ * Date: Feb 9, 2006
+ * Time: 9:15:27 PM
+ * Copyright (c) Feb 9, 2006 by Sam Reid
+ */
 class QuantumStatesFrame extends Frame implements ComponentListener, ActionListener, MouseMotionListener, MouseListener, ItemListener, DecentScrollbarListener {
     Thread engine = null;
     Dimension winSize;
@@ -206,12 +70,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
     Choice mouseChooser;
     Choice setupChooser;
     Vector setupList;
-    Setup setup;
+    QuantumStatesFrame.Setup setup;
     DecentScrollbar forceBar, speedBar, resBar;
     DecentScrollbar massBar, aux1Bar, aux2Bar, aux3Bar;
     Label aux1Label, aux2Label, aux3Label;
-    View viewPotential, viewX, viewP, viewParity, viewStates, viewSumAll, viewDensity, viewCurrent, viewLeft, viewRight, viewInfo;
-    View viewList[];
+    QuantumStatesFrame.View viewPotential, viewX, viewP, viewParity, viewStates, viewSumAll, viewDensity, viewCurrent, viewLeft, viewRight, viewInfo;
+    QuantumStatesFrame.View viewList[];
     int viewCount;
     double magcoef[];
     double phasecoef[];
@@ -252,7 +116,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
     int pause;
     static final int phaseColorCount = 480;
     Color phaseColors[];
-    FFT fft;
+    QuantumStatesFrame.FFT fft;
 
     int getrand( int x ) {
         int q = random.nextInt();
@@ -276,7 +140,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         xpoints = new int[5];
         ypoints = new int[5];
         setupList = new Vector();
-        Setup s = new InfiniteWellSetup();
+        QuantumStatesFrame.Setup s = new QuantumStatesFrame.InfiniteWellSetup();
         while( s != null ) {
             setupList.addElement( s );
             s = s.createNext();
@@ -333,9 +197,9 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         setupChooser = new Choice();
         int i;
         for( i = 0; i != setupList.size(); i++ ) {
-            setupChooser.add( "Setup: " + ( (Setup)setupList.elementAt( i ) ).getName() );
+            setupChooser.add( "Setup: " + ( (QuantumStatesFrame.Setup)setupList.elementAt( i ) ).getName() );
         }
-        setup = (Setup)setupList.elementAt( 0 );
+        setup = (QuantumStatesFrame.Setup)setupList.elementAt( 0 );
         setupChooser.addItemListener( this );
         add( setupChooser );
         mouseChooser = new Choice();
@@ -453,35 +317,35 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         int potsize = ( viewPotential == null ) ? 0 : viewPotential.height;
         int statesize = ( viewStates == null ) ? 50 : viewStates.height;
         viewX = viewP = viewParity = viewCurrent = viewLeft = viewRight = viewStates = viewPotential = viewInfo = viewSumAll = viewDensity = null;
-        viewList = new View[20];
+        viewList = new QuantumStatesFrame.View[20];
         int i = 0;
         if( eCheckItem.getState() ) {
-            viewList[i++] = viewPotential = new View(); /*if (densityCheckItem.getState()) viewList[i++] = viewDensity = new View();*/
+            viewList[i++] = viewPotential = new QuantumStatesFrame.View(); /*if (densityCheckItem.getState()) viewList[i++] = viewDensity = new View();*/
         }
         if( xCheckItem.getState() ) {
-            viewList[i++] = viewX = new View();
+            viewList[i++] = viewX = new QuantumStatesFrame.View();
         }
         if( sumAllCheckItem.getState() ) {
-            viewList[i++] = viewSumAll = new View();
+            viewList[i++] = viewSumAll = new QuantumStatesFrame.View();
         }
         if( pCheckItem.getState() ) {
-            viewList[i++] = viewP = new View();
+            viewList[i++] = viewP = new QuantumStatesFrame.View();
         }
         if( parityCheckItem.getState() ) {
-            viewList[i++] = viewParity = new View();
+            viewList[i++] = viewParity = new QuantumStatesFrame.View();
         }
         if( currentCheckItem.getState() ) {
-            viewList[i++] = viewCurrent = new View();
+            viewList[i++] = viewCurrent = new QuantumStatesFrame.View();
         }
         if( leftRightCheckItem.getState() && setup.allowLeftRight() ) {
-            viewList[i++] = viewLeft = new View();
-            viewList[i++] = viewRight = new View();
+            viewList[i++] = viewLeft = new QuantumStatesFrame.View();
+            viewList[i++] = viewRight = new QuantumStatesFrame.View();
         }
         if( infoCheckItem.getState() ) {
-            viewList[i++] = viewInfo = new View();
+            viewList[i++] = viewInfo = new QuantumStatesFrame.View();
         }
         if( statesCheckItem.getState() ) {
-            viewList[i++] = viewStates = new View();
+            viewList[i++] = viewStates = new QuantumStatesFrame.View();
         }
         viewCount = i;
         int sizenum = viewCount;
@@ -501,7 +365,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         }
         int cury = 0;
         for( i = 0; i != viewCount; i++ ) {
-            View v = viewList[i];
+            QuantumStatesFrame.View v = viewList[i];
             int h = toth / sizenum;
             if( v == viewPotential && potsize > 0 ) {
                 h = potsize;
@@ -525,7 +389,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
     void setGraphLines() {
         int i;
         for( i = 0; i != viewCount; i++ ) {
-            View v = viewList[i];
+            QuantumStatesFrame.View v = viewList[i];
             v.mid_y = v.y + v.height / 2;
             v.ymult = .90 * v.height / 2;
             v.lower_y = (int)( v.mid_y + v.ymult );
@@ -900,10 +764,10 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             if( viewX != null ) {
                 viewLeft.scale = viewRight.scale = viewX.scale;
             }
-            if( setup instanceof HarmonicOscillatorSetup ) {
+            if( setup instanceof QuantumStatesFrame.HarmonicOscillatorSetup ) {
                 doOscLeftRight( g );
             }
-            else if( setup instanceof InfiniteWellSetup ) {
+            else if( setup instanceof QuantumStatesFrame.InfiniteWellSetup ) {
                 doBoxLeftRight( g, normmult );
             }
         }
@@ -1034,7 +898,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
 
     int stateColSize, stateSize;
 
-    void drawFunction( Graphics g, View view, double fr[], double fi[], int count, int offset ) {
+    void drawFunction( Graphics g, QuantumStatesFrame.View view, double fr[], double fi[], int count, int offset ) {
         int i;
         double expectx = 0;
         double expectx2 = 0;
@@ -1190,7 +1054,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return;
         }
         if( modesLeft == null ) { // calculate imaginary part of left-moving waves // (modes[][] is real part)
-            int width = ( (InfiniteWellSetup)setup ).getOffset() - 1;
+            int width = ( (QuantumStatesFrame.InfiniteWellSetup)setup ).getOffset() - 1;
             modesLeft = new double[stateCount][sampleCount];
             int i, j;
             for( i = 0; i != stateCount; i++ ) {
@@ -1246,8 +1110,8 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
 
     void editHandle( int y ) {
         int dy = y - viewList[selectedPaneHandle].y;
-        View upper = viewList[selectedPaneHandle - 1];
-        View lower = viewList[selectedPaneHandle];
+        QuantumStatesFrame.View upper = viewList[selectedPaneHandle - 1];
+        QuantumStatesFrame.View lower = viewList[selectedPaneHandle];
         int minheight = 10;
         if( upper.height + dy < minheight || lower.height - dy < minheight ) {
             return;
@@ -1438,7 +1302,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
     }
 
     void editFuncPoint( int x, int y ) {
-        View v = ( selection == SEL_X ) ? viewX : viewPotential;
+        QuantumStatesFrame.View v = ( selection == SEL_X ) ? viewX : viewPotential;
         int lox = x * sampleCount / winSize.width;
         int hix = ( ( x + 1 ) * sampleCount - 1 ) / winSize.width;
         double val = ( v.mid_y - y ) / v.ymult;
@@ -1636,7 +1500,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         pdatai = new double[pSampleCount];
         parityData = new double[100];
         currentData = new double[sampleCount];
-        fft = new FFT( pSampleCount );
+        fft = new QuantumStatesFrame.FFT( pSampleCount );
     }
 
     void genStates( boolean getStates ) {
@@ -1910,7 +1774,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         for( i = 0; i != sampleCount; i++ ) {
             func[i] = funci[i] = pot[i] = 0;
         }
-        setup = (Setup)setupList.elementAt( setupChooser.getSelectedIndex() );
+        setup = (QuantumStatesFrame.Setup)setupList.elementAt( setupChooser.getSelectedIndex() );
         aux1Bar.setValue( 100 );
         aux2Bar.setValue( 100 );
         aux3Bar.setValue( 100 );
@@ -2113,7 +1977,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
 
         abstract void select();
 
-        abstract Setup createNext();
+        abstract QuantumStatesFrame.Setup createNext();
 
         void fudgeLevels() {
         }
@@ -2138,7 +2002,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
 
     ;
 
-    class InfiniteWellSetup extends Setup {
+    class InfiniteWellSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Infinite Well";
         }
@@ -2185,12 +2049,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             s[o] = "Well width = " + getLengthText( sampleCount - getOffset() * 2 );
         }
 
-        Setup createNext() {
-            return new FiniteWellSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellSetup();
         }
     }
 
-    class FiniteWellSetup extends Setup {
+    class FiniteWellSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Finite Well";
         }
@@ -2226,12 +2090,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             s[o] += ", Well depth = " + getEnergyText( 1 - getFloor(), false );
         }
 
-        Setup createNext() {
-            return new HarmonicOscillatorSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.HarmonicOscillatorSetup();
         }
     }
 
-    class HarmonicOscillatorSetup extends Setup {
+    class HarmonicOscillatorSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Harmonic Oscillator";
         }
@@ -2293,12 +2157,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new FiniteWellPairSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellPairSetup();
         }
     }
 
-    class FiniteWellPairSetup extends Setup {
+    class FiniteWellPairSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Well Pair";
         }
@@ -2345,12 +2209,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             s[o + 1] = "Well separation = " + getLengthText( getSep() * 2 );
         }
 
-        Setup createNext() {
-            return new FiniteWellPairCoupledSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellPairCoupledSetup();
         }
     }
 
-    class FiniteWellPairCoupledSetup extends Setup {
+    class FiniteWellPairCoupledSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Coupled Well Pair";
         }
@@ -2398,12 +2262,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             s[o + 1] += ", Wall potential = " + getEnergyText( getWallEnergy(), true );
         }
 
-        Setup createNext() {
-            return new AsymmetricWellSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.AsymmetricWellSetup();
         }
     }
 
-    class AsymmetricWellSetup extends Setup {
+    class AsymmetricWellSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Asymmetric Well";
         }
@@ -2442,12 +2306,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return 1;
         }
 
-        Setup createNext() {
-            return new InfiniteWellFieldSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.InfiniteWellFieldSetup();
         }
     }
 
-    class InfiniteWellFieldSetup extends Setup {
+    class InfiniteWellFieldSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Infinite Well + Field";
         }
@@ -2486,12 +2350,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return 0;
         }
 
-        Setup createNext() {
-            return new WellPairCoupledFieldSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.WellPairCoupledFieldSetup();
         }
     }
 
-    class WellPairCoupledFieldSetup extends Setup {
+    class WellPairCoupledFieldSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Coupled Wells + Field";
         }
@@ -2526,12 +2390,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new CoulombSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.CoulombSetup();
         }
     }
 
-    class CoulombSetup extends Setup {
+    class CoulombSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Coulomb";
         }
@@ -2562,12 +2426,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return 1;
         }
 
-        Setup createNext() {
-            return new QuarticOscillatorSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.QuarticOscillatorSetup();
         }
     }
 
-    class QuarticOscillatorSetup extends Setup {
+    class QuarticOscillatorSetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Quartic Oscillator";
         }
@@ -2597,12 +2461,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return 1;
         }
 
-        Setup createNext() {
-            return new FiniteWellArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellArraySetup();
         }
     }
 
-    class FiniteWellArraySetup extends Setup {
+    class FiniteWellArraySetup extends QuantumStatesFrame.Setup {
         int width;
         int wellCount;
 
@@ -2658,12 +2522,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new HarmonicWellArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.HarmonicWellArraySetup();
         }
     }
 
-    class HarmonicWellArraySetup extends FiniteWellArraySetup {
+    class HarmonicWellArraySetup extends QuantumStatesFrame.FiniteWellArraySetup {
         String getName() {
             return "Well Array (Harmonic)";
         }
@@ -2706,12 +2570,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new CoulombWellArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.CoulombWellArraySetup();
         }
     }
 
-    class CoulombWellArraySetup extends FiniteWellArraySetup {
+    class CoulombWellArraySetup extends QuantumStatesFrame.FiniteWellArraySetup {
         String getName() {
             return "Well Array (Coulomb)";
         }
@@ -2767,12 +2631,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new FiniteWellArrayFieldSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellArrayFieldSetup();
         }
     }
 
-    class FiniteWellArrayFieldSetup extends Setup {
+    class FiniteWellArrayFieldSetup extends QuantumStatesFrame.Setup {
         int width;
         int wellCount;
 
@@ -2839,12 +2703,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             pot[0] = pot[sampleCount - 1] = infiniteEnergy;
         }
 
-        Setup createNext() {
-            return new FiniteWellArrayImpureSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellArrayImpureSetup();
         }
     }
 
-    class FiniteWellArrayImpureSetup extends FiniteWellArraySetup {
+    class FiniteWellArrayImpureSetup extends QuantumStatesFrame.FiniteWellArraySetup {
         String getName() {
             return "Well Array w/ Impurity";
         }
@@ -2895,12 +2759,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return -1;
         }
 
-        Setup createNext() {
-            return new FiniteWellArrayDislocSetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWellArrayDislocSetup();
         }
     }
 
-    class FiniteWellArrayDislocSetup extends FiniteWellArraySetup {
+    class FiniteWellArrayDislocSetup extends QuantumStatesFrame.FiniteWellArraySetup {
         String getName() {
             return "Well Array w/ Dislocation";
         }
@@ -2952,12 +2816,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             return -1;
         }
 
-        Setup createNext() {
-            return new RandomWellArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.RandomWellArraySetup();
         }
     }
 
-    class RandomWellArraySetup extends FiniteWellArraySetup {
+    class RandomWellArraySetup extends QuantumStatesFrame.FiniteWellArraySetup {
         String getName() {
             return "Random Well Array";
         }
@@ -2994,12 +2858,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new FiniteWell2ArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.FiniteWell2ArraySetup();
         }
     }
 
-    class FiniteWell2ArraySetup extends Setup {
+    class FiniteWell2ArraySetup extends QuantumStatesFrame.Setup {
         int width;
         int wellCount;
 
@@ -3054,12 +2918,12 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
-            return new DeltaArraySetup();
+        QuantumStatesFrame.Setup createNext() {
+            return new QuantumStatesFrame.DeltaArraySetup();
         }
     } /*class SinusoidalLatticeSetup extends Setup { String getName() { return "Sinusoidal Lattice"; } void select() { aux1Label.setText("Well Count"); aux2Label.setText("Well Depth"); } int getAuxBarCount() { return 2; } void drawPotential() { int n = aux1Bar.getValue() / 10; double amp = aux2Bar.getValue()/100.; int buf = sampleCount/10; int i; for (i = 0; i != sampleCount; i++) pot[i] = 1; for (i = buf; i != sampleCount-buf; i++) { double xx = (i-buf)/(sampleCount-buf*2.); pot[i] = 1-amp*(1-Math.cos(xx*2*pi*n)); } } Setup createNext() { return new DeltaArraySetup(); } }*/
 
-    class DeltaArraySetup extends Setup {
+    class DeltaArraySetup extends QuantumStatesFrame.Setup {
         String getName() {
             return "Delta Fn Array";
         }
@@ -3095,7 +2959,7 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
             }
         }
 
-        Setup createNext() {
+        QuantumStatesFrame.Setup createNext() {
             return null;
         }
     }
@@ -3104,116 +2968,4 @@ class QuantumStatesFrame extends Frame implements ComponentListener, ActionListe
         int mid_y, lower_y;
         double ymult, ymult2, scale;
     }
-};
-
-interface DecentScrollbarListener {
-    abstract void scrollbarValueChanged( DecentScrollbar ds );
-
-    abstract void scrollbarFinished( DecentScrollbar dc );
-} // this is a scrollbar that notifies us when the user is _done_ fiddling // with the value.
-
-class DecentScrollbar extends Canvas implements MouseListener, MouseMotionListener {
-    int value, lo, hi;
-    DecentScrollbarListener listener;
-
-    DecentScrollbar( DecentScrollbarListener parent, int start, int lo_, int hi_ ) {
-        value = start;
-        lo = lo_;
-        hi = hi_;
-        listener = parent;
-        addMouseListener( this );
-        addMouseMotionListener( this );
-        gray1 = new Color( 104, 104, 104 );
-        gray2 = new Color( 168, 168, 168 );
-        gray3 = new Color( 192, 192, 192 );
-        gray4 = new Color( 224, 224, 224 );
-    }
-
-    Color gray1, gray2, gray3, gray4;
-
-    public Dimension getPreferredSize() {
-        return new Dimension( 20, 20 );
-    }
-
-    static final int tw = 8;
-    boolean dragging;
-    int thumbpos, dragoffset;
-
-    public void paint( Graphics g ) {
-        Dimension size = getSize();
-        int w = size.width;
-        int h = size.height;
-        int x = thumbpos = ( value - lo ) * ( w - 2 - tw ) / ( hi - lo ) + 1;
-        g.setColor( gray2 );
-        g.fillRect( 0, 0, w, h );
-        g.setColor( gray3 );
-        g.fillRect( x, 2, tw, h - 4 );
-        g.setColor( gray4 );
-        g.drawLine( 0, h - 1, w, h - 1 );
-        g.drawLine( w - 1, 1, w - 1, h - 1 );
-        g.drawLine( x, 1, x + tw - 1, 1 );
-        g.drawLine( x, 1, x, h - 2 );
-        g.setColor( gray1 );
-        g.drawLine( 0, 0, w - 1, 0 );
-        g.drawLine( 0, 0, 0, h - 1 );
-        g.drawLine( x + tw - 1, 2, x + tw - 1, h - 2 );
-        g.drawLine( x + 1, h - 2, x + tw - 1, h - 2 );
-    }
-
-    int getValue() {
-        return value;
-    }
-
-    boolean setValue( int v ) {
-        if( v < lo ) {
-            v = lo;
-        }
-        if( v > hi ) {
-            v = hi;
-        }
-        if( value == v ) {
-            return false;
-        }
-        value = v;
-        repaint();
-        return true;
-    }
-
-    public void mousePressed( MouseEvent e ) {
-        if( thumbpos <= e.getX() && thumbpos + tw >= e.getX() ) {
-            dragging = true;
-            dragoffset = e.getX() - thumbpos;
-        }
-    }
-
-    public void mouseReleased( MouseEvent e ) {
-        if( dragging ) {
-            listener.scrollbarFinished( this );
-        }
-        dragging = false;
-    }
-
-    public void mouseClicked( MouseEvent e ) {
-    }
-
-    public void mouseEntered( MouseEvent e ) {
-    }
-
-    public void mouseExited( MouseEvent e ) {
-    }
-
-    public void mouseDragged( MouseEvent e ) {
-        if( !dragging ) {
-            return;
-        }
-        int x = e.getX() - dragoffset;
-        Dimension size = getSize();
-        int v = ( x - 1 ) * ( hi - lo ) / ( size.width - 2 - tw ) + lo;
-        if( setValue( v ) ) {
-            listener.scrollbarValueChanged( this );
-        }
-    }
-
-    public void mouseMoved( MouseEvent e ) {
-    }
-};
+}
