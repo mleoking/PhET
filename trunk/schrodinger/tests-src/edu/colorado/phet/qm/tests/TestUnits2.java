@@ -21,21 +21,6 @@ import java.text.DecimalFormat;
  */
 
 public class TestUnits2 {
-//
-//    public static class NeutronUnits extends ParticleUnits {
-////        private double scaleDown=0.00000001;
-//        private double scaleDown = 1;//0.0000000001;
-//
-//        public NeutronUnits() {
-//            setHbar( new Value( 0.000658, 1, "eV ps" ) );
-//            setDx( new Value( 1.0, 0.1, "nm" ) );
-//            setDt( new Value( 1, 1, "ps" ) );
-//
-//            setMass( new Value( 104800000, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
-//            setMinVelocity( new Value( 5 * scaleDown, 0.1, "km/s" ) );
-//            setMaxVelocity( new Value( 20 * scaleDown, 0.1, "km/s" ) );
-//        }
-//    }
 
     public TestUnits2() {
         Wavefunction wavefunction = new Wavefunction( 50, 50 );

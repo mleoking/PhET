@@ -1,13 +1,62 @@
-package edu.colorado.phet.qm.tests;// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
+package edu.colorado.phet.qm.tests.thirdparty;
+
+// Decompiled by DJ v3.7.7.81 Copyright 2004 Atanas Neshkov  Date: 6/17/2005 5:52:20 PM
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
 // Decompiler options: packimports(3)
 // Source File Name:   t_d_quant.java
+///http://www.fen.bilkent.edu.tr/~yalabik/applets/t_d_quant.class
 
+import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
 
-public class t_d_quant extends Applet
+public class BCTestORIG extends Applet
+
         implements Runnable {
+    Thread animatorThread;
+    Dimension offDimension;
+    Image offImage;
+    Graphics offGraphics;
+    private Button clear_button;
+    private Choice state_choices;
+    private int rw;
+    private int rh;
+    private int rx;
+    private int ry;
+    private int mode;
+    private int x;
+    private int y;
+    private int x_sm;
+    private int x_bg;
+    private int last_x;
+    private int last_y;
+    double cfo[][];
+    private static double buf[][] = new double[2][256];
+    double psi[][];
+    double cpot[][];
+    double cenerg[][];
+    double bfou[][];
+    double bsi[][];
+    double csi[][];
+    double xsi[][];
+    double cc[][][];
+    double bksq[][];
+    int pot[];
+    double dt;
+    double xnorm;
+    double bnorm;
+    double scale;
+    int nn;
+    int n_bound;
+    int n_bound2;
+    int nbo;
+    double pi;
+    int i0;
+    double xk0;
+    double width;
+    int mu;
+    int linen;
+    int looper;
 
     public void init() {
         setBackground( Color.black );
@@ -542,7 +591,7 @@ public class t_d_quant extends Applet
 
     }
 
-    public t_d_quant() {
+    public BCTestORIG() {
         rw = 256;
         rh = 200;
         cfo = new double[2][257];
@@ -564,49 +613,17 @@ public class t_d_quant extends Applet
         looper = -1;
     }
 
-    Thread animatorThread;
-    Dimension offDimension;
-    Image offImage;
-    Graphics offGraphics;
-    private Button clear_button;
-    private Choice state_choices;
-    private int rw;
-    private int rh;
-    private int rx;
-    private int ry;
-    private int mode;
-    private int x;
-    private int y;
-    private int x_sm;
-    private int x_bg;
-    private int last_x;
-    private int last_y;
-    double cfo[][];
-    private static double buf[][] = new double[2][256];
-    double psi[][];
-    double cpot[][];
-    double cenerg[][];
-    double bfou[][];
-    double bsi[][];
-    double csi[][];
-    double xsi[][];
-    double cc[][][];
-    double bksq[][];
-    int pot[];
-    double dt;
-    double xnorm;
-    double bnorm;
-    double scale;
-    int nn;
-    int n_bound;
-    int n_bound2;
-    int nbo;
-    double pi;
-    int i0;
-    double xk0;
-    double width;
-    int mu;
-    int linen;
-    int looper;
+    public static void main( String[] args ) {
+        Applet a = new BCTestORIG();
+
+        a.setSize( 600, 600 );
+        JFrame f = new JFrame();
+        f.setContentPane( a );
+        f.pack();
+        f.show();
+        a.init();
+        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        f.setSize( 600, 600 );
+    }
 
 }
