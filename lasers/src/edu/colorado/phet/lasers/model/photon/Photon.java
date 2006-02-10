@@ -14,17 +14,14 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.model.PhysicsUtil;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Random;
 
 /**
  * Class: Photon
@@ -46,16 +43,17 @@ public class Photon extends Particle implements Collidable {
     static public double MIN_VISIBLE_WAVELENGTH = 380;
     static public double MAX_VISIBLE_WAVELENGTH = 710;
     static public double GRAY = 5000;
-    static private Random random = new Random();
 
     static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
     static private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
-    // Free pool of photons. We do this so we don't have to use the heap
-    // at run-time
-    static private int freePoolSize = 2000;
-    static private ArrayList freePool = new ArrayList( freePoolSize );
-
+    /**
+     * Creates a photon
+     *
+     * @param location
+     * @param velocity
+     * @return
+     */
     static public Photon create( Point2D location, Vector2D velocity ) {
         Photon newPhoton = new Photon();
         newPhoton.setPosition( location );
