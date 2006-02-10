@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - apply ProGuard
-- verify that antialiasing is on for XYPlotNodes
 - cut position range in half so we can cut RICHARDSON_STEPS_PER_CLOCK_TICK in half
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -56,6 +55,8 @@ MACINTOSH:
 
 DONE:
 0.00.12...
+(2/10/06) - verified that antialiasing is on for XYPlotNodes
+(2/10/06) - remove space below zero on Prob Density plot
 (2/9/06) - update interactively while dragging wave packet width & center sliders
 (2/9/06) - add a bit of whitespace below zero on Probability Density plot
 (2/9/06) - add a bit of whitespace above and above energy range in Energy plot
