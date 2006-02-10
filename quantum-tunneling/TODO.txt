@@ -54,6 +54,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/10/06) - move #steps loop inside RichardsonSolver propogate to reduce method calls
 (2/10/06) - rewrite RichardsonSolver so that no classes are involved in doing complex math
 (2/10/06) - replace method calls with duplicate code in RichardsonSolver.propagate to improve performance
 (2/10/06) - use a lightweight complex number implementation in RichardsonSolver to reduce method calls

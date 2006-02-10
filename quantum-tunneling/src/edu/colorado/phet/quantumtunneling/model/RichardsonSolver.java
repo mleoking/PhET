@@ -207,8 +207,10 @@ public class RichardsonSolver {
      * I'm also doing my own complex number addition and multiplication.
      * These operations used to be handled by a complex number class,
      * but the method calls were another source of performance problems.
+     * 
+     * @param steps how many steps to advance
      */
-    public void propagate() {
+    public void propagate( int steps ) {
         
         double r1, r2, r3, r4; // reusable real parts
         double i1, i2, i3, i4; // reusable imaginary parts
@@ -220,198 +222,201 @@ public class RichardsonSolver {
         
         final int n = _Psi.length; // number of samples
 
-        // Starting at 0...
-        for ( int i = 0; i < n-1; i += 2 ) {
-            // A = Psi[i]
-            r1 = _Psi[i]._real;
-            i1 = _Psi[i]._imaginary;
-            
-            // B = Psi[i+1]
-            r2 = _Psi[i+1]._real;
-            i2 = _Psi[i+1]._imaginary;
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[i]._real = r3 + r4;
-            _Psi[i]._imaginary = i3 + i4;
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[i+1]._real = r3 + r4;
-            _Psi[i+1]._imaginary = i3 + i4;
-        }
+        for ( int step = 0; step < steps; step++ ) {
 
-        // Starting at 1...
-        for ( int i = 1; i < n-1; i += 2 ) {
-            // A = Psi[i]
-            r1 = _Psi[i]._real;
-            i1 = _Psi[i]._imaginary;
-            
-            // B = Psi[i+1]
-            r2 = _Psi[i+1]._real;
-            i2 = _Psi[i+1]._imaginary;
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[i]._real = r3 + r4;
-            _Psi[i]._imaginary = i3 + i4;
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[i+1]._real = r3 + r4;
-            _Psi[i+1]._imaginary = i3 + i4;
-        }
-        
-        // Wrap around...
-        {
-            // A = Psi[n-1]
-            r1 = _Psi[n-1]._real;
-            i1 = _Psi[n-1]._imaginary;
-            
-            // B = Psi[0]
-            r2 = _Psi[0]._real;
-            i2 = _Psi[0]._imaginary;
-            
-            // Psi[n-1] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[n-1]._real = r3 + r4;
-            _Psi[n-1]._imaginary = i3 + i4;
-            
-            // Psi[0] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[0]._real = r3 + r4;
-            _Psi[0]._imaginary = i3 + i4;
-        }
-        
-        // Apply propagator values...
-        for ( int i = 0; i < n-1; i++ ) {
-            // Psi[i] = Psi[i] * EtoV[i]
-            r1 = _Psi[i]._real;
-            i1 = _Psi[i]._imaginary;
-            r2 = _EtoV[i]._real;
-            i2 = _EtoV[i]._imaginary;
-            _Psi[i]._real = r1 * r2 - i1 * i2;
-            _Psi[i]._imaginary = r1 * i2 + i1 * r2;
-        }
+            // Starting at 0...
+            for ( int i = 0; i < n - 1; i += 2 ) {
+                // A = Psi[i]
+                r1 = _Psi[i]._real;
+                i1 = _Psi[i]._imaginary;
 
-        // Now do what we did above, but in the reverse order...
-        
-        // Wrap around...
-        {
-            // A = Psi[n-1]
-            r1 = _Psi[n-1]._real;
-            i1 = _Psi[n-1]._imaginary;
-            
-            // B = Psi[0]
-            r2 = _Psi[0]._real;
-            i2 = _Psi[0]._imaginary;
-            
-            // Psi[n-1] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[n-1]._real = r3 + r4;
-            _Psi[n-1]._imaginary = i3 + i4;
-            
-            // Psi[0] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[0]._real = r3 + r4;
-            _Psi[0]._imaginary = i3 + i4;
-        }
+                // B = Psi[i+1]
+                r2 = _Psi[i + 1]._real;
+                i2 = _Psi[i + 1]._imaginary;
 
-        // Starting at 1...
-        for ( int i = 1; i < n-1; i += 2 ) {
-            // A = Psi[i]
-            r1 = _Psi[i]._real;
-            i1 = _Psi[i]._imaginary;
-            
-            // B = Psi[i+1]
-            r2 = _Psi[i+1]._real;
-            i2 = _Psi[i+1]._imaginary;
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[i]._real = r3 + r4;
-            _Psi[i]._imaginary = i3 + i4;
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[i+1]._real = r3 + r4;
-            _Psi[i+1]._imaginary = i3 + i4;
-        }
+                // Psi[i] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[i]._real = r3 + r4;
+                _Psi[i]._imaginary = i3 + i4;
 
-        // Starting at 0...
-        for ( int i = 0; i < n-1; i += 2 ) {
-            // A = Psi[i]
-            r1 = _Psi[i]._real;
-            i1 = _Psi[i]._imaginary;
-            
-            // B = Psi[i+1]
-            r2 = _Psi[i+1]._real;
-            i2 = _Psi[i+1]._imaginary;
-            
-            // Psi[i] = (alpha * A) + (beta * B)
-            r3 = alphaReal * r1 - alphaImaginary * i1;
-            i3 = alphaReal * i1 + alphaImaginary * r1;
-            r4 = betaReal * r2 - betaImaginary * i2;
-            i4 = betaReal * i2 + betaImaginary * r2;
-            _Psi[i]._real = r3 + r4;
-            _Psi[i]._imaginary = i3 + i4;
-            
-            // Psi[i+1] = (alpha * B) + (beta * A)
-            r3 = alphaReal * r2 - alphaImaginary * i2;
-            i3 = alphaReal * i2 + alphaImaginary * r2;
-            r4 = betaReal * r1 - betaImaginary * i1;
-            i4 = betaReal * i1 + betaImaginary * r1;
-            _Psi[i+1]._real = r3 + r4;
-            _Psi[i+1]._imaginary = i3 + i4;
-        }
+                // Psi[i+1] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[i + 1]._real = r3 + r4;
+                _Psi[i + 1]._imaginary = i3 + i4;
+            }
 
-        /*
-         * Damps the values near the min and max positions
-         * to prevent periodic boundary conditions.
-         * Otherwise, the wave will appear to exit from one
-         * edge of the display and enter on the other edge.
-         */
-        if ( _Psi.length < DAMPING_FACTORS.length ) {
-            return;
-        }
-        for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
-            double scale = DAMPING_FACTORS[i];
-            // left edge...
-            _Psi[i]._real *= scale;
-            _Psi[i]._imaginary *= scale;
-            // right edge...
-            _Psi[ _Psi.length - i - 1 ]._real *= scale;
-            _Psi[ _Psi.length - i - 1 ]._imaginary *= scale;
+            // Starting at 1...
+            for ( int i = 1; i < n - 1; i += 2 ) {
+                // A = Psi[i]
+                r1 = _Psi[i]._real;
+                i1 = _Psi[i]._imaginary;
+
+                // B = Psi[i+1]
+                r2 = _Psi[i + 1]._real;
+                i2 = _Psi[i + 1]._imaginary;
+
+                // Psi[i] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[i]._real = r3 + r4;
+                _Psi[i]._imaginary = i3 + i4;
+
+                // Psi[i+1] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[i + 1]._real = r3 + r4;
+                _Psi[i + 1]._imaginary = i3 + i4;
+            }
+
+            // Wrap around...
+            {
+                // A = Psi[n-1]
+                r1 = _Psi[n - 1]._real;
+                i1 = _Psi[n - 1]._imaginary;
+
+                // B = Psi[0]
+                r2 = _Psi[0]._real;
+                i2 = _Psi[0]._imaginary;
+
+                // Psi[n-1] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[n - 1]._real = r3 + r4;
+                _Psi[n - 1]._imaginary = i3 + i4;
+
+                // Psi[0] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[0]._real = r3 + r4;
+                _Psi[0]._imaginary = i3 + i4;
+            }
+
+            // Apply propagator values...
+            for ( int i = 0; i < n - 1; i++ ) {
+                // Psi[i] = Psi[i] * EtoV[i]
+                r1 = _Psi[i]._real;
+                i1 = _Psi[i]._imaginary;
+                r2 = _EtoV[i]._real;
+                i2 = _EtoV[i]._imaginary;
+                _Psi[i]._real = r1 * r2 - i1 * i2;
+                _Psi[i]._imaginary = r1 * i2 + i1 * r2;
+            }
+
+            // Now do what we did above, but in the reverse order...
+
+            // Wrap around...
+            {
+                // A = Psi[n-1]
+                r1 = _Psi[n - 1]._real;
+                i1 = _Psi[n - 1]._imaginary;
+
+                // B = Psi[0]
+                r2 = _Psi[0]._real;
+                i2 = _Psi[0]._imaginary;
+
+                // Psi[n-1] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[n - 1]._real = r3 + r4;
+                _Psi[n - 1]._imaginary = i3 + i4;
+
+                // Psi[0] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[0]._real = r3 + r4;
+                _Psi[0]._imaginary = i3 + i4;
+            }
+
+            // Starting at 1...
+            for ( int i = 1; i < n - 1; i += 2 ) {
+                // A = Psi[i]
+                r1 = _Psi[i]._real;
+                i1 = _Psi[i]._imaginary;
+
+                // B = Psi[i+1]
+                r2 = _Psi[i + 1]._real;
+                i2 = _Psi[i + 1]._imaginary;
+
+                // Psi[i] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[i]._real = r3 + r4;
+                _Psi[i]._imaginary = i3 + i4;
+
+                // Psi[i+1] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[i + 1]._real = r3 + r4;
+                _Psi[i + 1]._imaginary = i3 + i4;
+            }
+
+            // Starting at 0...
+            for ( int i = 0; i < n - 1; i += 2 ) {
+                // A = Psi[i]
+                r1 = _Psi[i]._real;
+                i1 = _Psi[i]._imaginary;
+
+                // B = Psi[i+1]
+                r2 = _Psi[i + 1]._real;
+                i2 = _Psi[i + 1]._imaginary;
+
+                // Psi[i] = (alpha * A) + (beta * B)
+                r3 = alphaReal * r1 - alphaImaginary * i1;
+                i3 = alphaReal * i1 + alphaImaginary * r1;
+                r4 = betaReal * r2 - betaImaginary * i2;
+                i4 = betaReal * i2 + betaImaginary * r2;
+                _Psi[i]._real = r3 + r4;
+                _Psi[i]._imaginary = i3 + i4;
+
+                // Psi[i+1] = (alpha * B) + (beta * A)
+                r3 = alphaReal * r2 - alphaImaginary * i2;
+                i3 = alphaReal * i2 + alphaImaginary * r2;
+                r4 = betaReal * r1 - betaImaginary * i1;
+                i4 = betaReal * i1 + betaImaginary * r1;
+                _Psi[i + 1]._real = r3 + r4;
+                _Psi[i + 1]._imaginary = i3 + i4;
+            }
+
+            /*
+             * Damps the values near the min and max positions
+             * to prevent periodic boundary conditions.
+             * Otherwise, the wave will appear to exit from one
+             * edge of the display and enter on the other edge.
+             */
+            if ( _Psi.length < DAMPING_FACTORS.length ) {
+                return;
+            }
+            for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
+                double scale = DAMPING_FACTORS[i];
+                // left edge...
+                _Psi[i]._real *= scale;
+                _Psi[i]._imaginary *= scale;
+                // right edge...
+                _Psi[_Psi.length - i - 1]._real *= scale;
+                _Psi[_Psi.length - i - 1]._imaginary *= scale;
+            }
         }
     }
     
