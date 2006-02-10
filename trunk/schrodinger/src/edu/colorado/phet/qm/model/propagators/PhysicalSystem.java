@@ -12,14 +12,26 @@ import java.awt.geom.Rectangle2D;
 
 public class PhysicalSystem {
     private Rectangle2D.Double modelArea;
+    private int width;
+    private int height;
     private double hbar;
+    private Lattice2D spaceLattice;
+    private Lattice2D momentumLattice;
 
-    public void setupLattices( int width, int height, double xmin, double ymin, double xmax, double ymax, double hbar ) {
-        Lattice2D spaceLattice = new Lattice2D( width, height );
-        double dx = ( xmax - xmin ) / width;//todo minus one in denominator?
-        double dy = ( ymax - ymin ) / height;
-        double x = xmin;
-        double y = ymin;
+    public PhysicalSystem( int width, int height, double hbar, Rectangle2D.Double modelArea ) {
+        this.width = width;
+        this.height = height;
+        this.hbar = hbar;
+        this.modelArea = modelArea;
+        updateLattices();
+    }
+
+    public void updateLattices() {
+        spaceLattice = new Lattice2D( width, height );
+        double dx = modelArea.width / width;//todo minus one in denominator?
+        double dy = modelArea.height / height;
+        double x = modelArea.x;
+        double y = modelArea.y;
         for( int i = 0; i < spaceLattice.getWidth(); i++ ) {
             for( int k = 0; k < spaceLattice.getHeight(); k++ ) {
                 spaceLattice.setValue( i, k, x, y );
@@ -28,18 +40,15 @@ public class PhysicalSystem {
             x += dx;
         }
 
-        Lattice2D momentumLattice = new Lattice2D( width, height );
+        momentumLattice = new Lattice2D( width, height );
         double dpx = 2.0 * Math.PI * hbar / dx / width;
         double dpy = 2.0 * Math.PI * hbar / dy / height;
 
         double px = 0;
         double py = 0;
-        for( int i = 0; i < momentumLattice.getWidth() / 2; i++ ) {
-            for( int k = 0; k < momentumLattice.getHeight() / 2; k++ ) {
+        for( int i = 0; i < momentumLattice.getWidth(); i++ ) {
+            for( int k = 0; k < momentumLattice.getHeight(); k++ ) {
                 momentumLattice.setValue( i, k, px, py );
-                momentumLattice.setValue( i, height - k - 1, px, -py );
-                momentumLattice.setValue( width - i - 1, k, -px, py );
-                momentumLattice.setValue( width - i - 1, height - k - 1, -px, -py );
                 py += dpy;                         //todo update py correctly
             }
             px += dpx;

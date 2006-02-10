@@ -6,8 +6,12 @@ import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.WaveDebugger;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.propagators.QWIFFT2D;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
+import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
+import edu.colorado.phet.qm.view.piccolo.SimpleWavefunctionGraphic;
 
 import java.awt.geom.Point2D;
 
@@ -18,28 +22,30 @@ import java.awt.geom.Point2D;
  * Copyright (c) Dec 21, 2005 by Sam Reid
  */
 
-public class TestUnits2 {
+public class SimpleWaveTest {
 
-    public TestUnits2() {
-        Wavefunction wavefunction = new Wavefunction( 50, 50 );
+    public SimpleWaveTest() {
+        Wavefunction wavefunction = new Wavefunction( 100, 100 );
         ParticleUnits.NeutronUnits neutronUnits = new ParticleUnits.NeutronUnits();
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
-        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ),
+        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( wavefunction.getWidth() / 2, wavefunction.getHeight() / 2 ),
                                                             new Vector2D.Double( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 
-        WaveDebugger waveDebugger = new WaveDebugger( "wave", wavefunction );
+        WaveDebugger waveDebugger = new WaveDebugger( "wave", wavefunction, 2, 2 );
         waveDebugger.setComplexColorMap( new VisualColorMap3() );
         waveDebugger.setVisible( true );
-
-        wavefunction.printWaveToScreen();
+//        Thread.sleep( 1000 );
+        wavefunction = QWIFFT2D.forwardFFT( wavefunction );
+        wavefunction.normalize();
+        wavefunction.scale( 2.0 );
+        waveDebugger.setSimpleWavefunctionGraphic( new SimpleWavefunctionGraphic( wavefunction, 2, 2, new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() ) ) );
     }
 
-
-    public static void main( String[] args ) {
-        new TestUnits2().start();
+    public static void main( String[] args ) throws InterruptedException {
+        new SimpleWaveTest().start();
     }
 
     private void start() {

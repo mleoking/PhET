@@ -36,12 +36,16 @@ public class SimpleWavefunctionGraphic extends PNode {
     }
 
     public SimpleWavefunctionGraphic( Wavefunction wavefunction, int dx, int dy ) {
+        this( wavefunction, dx, dy, new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() ) );
+    }
+
+    public SimpleWavefunctionGraphic( Wavefunction wavefunction, int dx, int dy, ColorMap colorMap ) {
         this.wavefunction = wavefunction;
         ColorGrid colorGrid = new ColorGrid( dx, dy, wavefunction.getWidth(), wavefunction.getHeight() );
         colorGridNode = new ColorGridNode( colorGrid );
         addChild( colorGridNode );
 
-        this.colorMap = new ComplexColorMapAdapter( wavefunction, new MagnitudeColorMap() );
+        this.colorMap = colorMap;
 
         borderGraphic = new PPath( colorGridNode.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
@@ -55,6 +59,11 @@ public class SimpleWavefunctionGraphic extends PNode {
         };
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, pcl );
+        update();
+    }
+
+    public void setWavefunction( Wavefunction wavefunction ) {
+        this.wavefunction = wavefunction;
         update();
     }
 
@@ -127,4 +136,5 @@ public class SimpleWavefunctionGraphic extends PNode {
     public Dimension getCellDimensions() {
         return new Dimension( colorGridNode.getCellWidth(), colorGridNode.getCellHeight() );
     }
+
 }

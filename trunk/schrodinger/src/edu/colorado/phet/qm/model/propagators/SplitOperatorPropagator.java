@@ -6,7 +6,6 @@ import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 
 /**
  * User: Sam Reid
@@ -16,15 +15,13 @@ import edu.colorado.phet.qm.model.potentials.ConstantPotential;
  */
 
 public class SplitOperatorPropagator extends Propagator {
+    PhysicalSystem physicalSystem;
     double dt = 0.01;
     private double mass = 1.0;
 
-    public SplitOperatorPropagator() {
-        this( new ConstantPotential( 0 ) );
-    }
-
-    public SplitOperatorPropagator( Potential potential ) {
+    public SplitOperatorPropagator( PhysicalSystem physicalSystem, Potential potential ) {
         super( potential );
+        this.physicalSystem = physicalSystem;
     }
 
     public void propagate( Wavefunction w ) {
@@ -87,7 +84,7 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new SplitOperatorPropagator( getPotential() );
+        return new SplitOperatorPropagator( physicalSystem, getPotential() );
     }
 
     public void normalize() {
