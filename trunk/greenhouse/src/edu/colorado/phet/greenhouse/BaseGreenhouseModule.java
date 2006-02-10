@@ -238,12 +238,7 @@ public abstract class BaseGreenhouseModule extends Module {
             photonView.setVisible( false );
             if( n >= BaseGreenhouseModule.invisiblePhotonCnt ) {
                 photonView.setVisible( true );
-                if( photon.getWavelength() == GreenhouseConfig.irWavelength
-                        && photon.getLocation().getY() > 1 ) {
-                    System.out.println();
-                }
                 drawingCanvas.addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
-//                getApparatusPanel().addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
 
                 // reset counter
                 n = 0;

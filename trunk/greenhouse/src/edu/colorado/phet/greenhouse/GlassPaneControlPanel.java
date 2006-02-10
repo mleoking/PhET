@@ -22,6 +22,7 @@ public class GlassPaneControlPanel extends JPanel {
 
     public GlassPaneControlPanel( final GlassPaneModule module ) {
 
+        
         //
         // Create the controls
         //

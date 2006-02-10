@@ -93,6 +93,8 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
         disk.setPaint( new Color( red, 255, 0 ) );
+
+        disk.setPaint( Color.cyan);
         if( earthAnimation != null ) {
             g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
         }
