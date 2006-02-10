@@ -20,7 +20,9 @@ public class FFT_N_Dimensional {
      * <p/>
      * Replaces data by its ndim-dimensional discrete Fourier transform, if isign is input as +1.
      * nn[1..ndim] is an integer array containing the lengths of each dimension
-     * (number of complex values), which MUST all be powers of 2. data is a real array of length
+     * (number of complex values), which MUST all be powers of 2.
+     * <p/>
+     * data is a real array of length
      * twice the product of these lengths, in which the data are stored as in a
      * multidimensional complex array; real and imaginary parts of each
      * element are in cosecutive locations, and the rightmost index of the array
@@ -36,7 +38,7 @@ public class FFT_N_Dimensional {
      */
 
 
-    void ndfft( float data[], int nn[], int ndim, int isign ) {
+    public static void ndfft( double data[], int nn[], int ndim, int isign ) {
         int ntot = 1;
         int nprev = 1;
         int idim;
@@ -77,8 +79,8 @@ public class FFT_N_Dimensional {
                         for( i3 = i1; i3 < ip3; i3 += ip2 ) {
 
                             int i3rev = i2rev + i3 - i2;
-                            float tempr = data[i3];
-                            float tempi = data[i3 + 1];
+                            double tempr = data[i3];
+                            double tempi = data[i3 + 1];
 
                             data[i3] = data[i3rev];
                             data[i3 + 1] = data[i3rev + 1];
@@ -134,10 +136,10 @@ public class FFT_N_Dimensional {
                             int i21 = i2 + 1;
                             int k2 = i2 + ifp1;
                             int k21 = k2 + 1;
-                            float tempr = ( wr * data[k2] ) -
-                                          ( wi * data[k21] );
-                            float tempi = ( wr * data[k21] ) +
-                                          ( wi * data[k2] );
+                            double tempr = ( wr * data[k2] ) -
+                                           ( wi * data[k21] );
+                            double tempi = ( wr * data[k21] ) +
+                                           ( wi * data[k2] );
 
                             data[k2] = data[i2] - tempr;
                             data[k21] = data[i21] - tempi;

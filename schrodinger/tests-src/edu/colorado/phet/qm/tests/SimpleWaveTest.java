@@ -28,7 +28,7 @@ public class SimpleWaveTest {
     private WaveDebugger waveDebugger;
 
     public SimpleWaveTest() {
-        wavefunction = new Wavefunction( 200, 200 );
+        wavefunction = new Wavefunction( 256, 256 );
         ParticleUnits.NeutronUnits neutronUnits = new ParticleUnits.NeutronUnits();
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
