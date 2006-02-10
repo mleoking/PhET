@@ -36,6 +36,9 @@ public class GreenhouseControlPanel extends JPanel {
         // Create the controls
         //
 
+        // PhET logo
+        JLabel logo = new JLabel( (new ImageIcon( new ImageLoader().loadImage( "images/Phet-Flatirons-logo-3-small.gif" )))) ;
+
         // Incident photon's from the sun
         final SliderWithReadout sunRateControl = new SliderWithReadout( SimStrings.get( "GreenhouseControlPanel.SunRateSlider" ),
                                                                         "", 0,
@@ -128,6 +131,8 @@ public class GreenhouseControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
+            GraphicsUtil.addGridBagComponent( this, logo, 0, rowIdx++, 1, 1,
+                                              GridBagConstraints.NONE, GridBagConstraints.NORTH );
 //            GraphicsUtil.addGridBagComponent( this, sunRateControl, 0, rowIdx++, 1, 1,
 //                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
 //            GraphicsUtil.addGridBagComponent( this, earthEmissivityControl, 0, rowIdx++, 1, 1,
@@ -155,7 +160,7 @@ public class GreenhouseControlPanel extends JPanel {
     private class AtmosphereSelectionPane extends JPanel {
 
         private AbstractAction pickNoGG = new AbstractAction() {
-            String[] concentrations = new String[]{ "", "", "", ""};
+            String[] concentrations = new String[]{"", "", "", ""};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
@@ -165,7 +170,7 @@ public class GreenhouseControlPanel extends JPanel {
         };
 
         private AbstractAction pickIceAgeGG = new AbstractAction() {
-            String[] concentrations = new String[]{ "", "200 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ), "", ""};
+            String[] concentrations = new String[]{"", "200 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ), "", ""};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
@@ -176,10 +181,10 @@ public class GreenhouseControlPanel extends JPanel {
 
         private AbstractAction pickPreIndRevGG = new AbstractAction() {
             String[] concentrations = new String[]{
-                            "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
-                            "280 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-                            "730 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-                            "270 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
+                "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
+                "280 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
+                "730 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
+                "270 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
@@ -190,10 +195,10 @@ public class GreenhouseControlPanel extends JPanel {
 
         private AbstractAction pickTodayGG = new AbstractAction() {
             String[] concentrations = new String[]{
-                            "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
-                            "370 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-                            "1843 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-                            "317 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
+                "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
+                "370 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
+                "1843 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
+                "317 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
@@ -203,7 +208,7 @@ public class GreenhouseControlPanel extends JPanel {
         };
 
         private AbstractAction pickTomorrowGG = new AbstractAction() {
-            String[] concentrations = new String[]{ "?", "?", "?", "?"};
+            String[] concentrations = new String[]{"?", "?", "?", "?"};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
