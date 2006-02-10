@@ -11,7 +11,7 @@ import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import java.awt.*;
-//import edu.colorado.phet.qm.tests.TestGlassPane;
+//import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
 /**
  * User: Sam Reid

@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-//import edu.colorado.phet.qm.tests.TestGlassPane;
+//import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
 /**
  * User: Sam Reid

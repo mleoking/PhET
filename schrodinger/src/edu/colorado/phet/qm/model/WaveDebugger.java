@@ -22,11 +22,15 @@ public class WaveDebugger {
     private SimpleWavefunctionGraphic simpleWavefunctionGraphic;
 
     public WaveDebugger( String name, Wavefunction wavefunction ) {
+        this( name, wavefunction, 10, 10 );
+    }
+
+    public WaveDebugger( String name, Wavefunction wavefunction, int dx, int dy ) {
         this.wavefunction = wavefunction;
         frame = new JFrame( name );
         phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
-        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( wavefunction );
+        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( wavefunction, dx, dy );
         simpleWavefunctionGraphic.setComplexColorMap( new GrayscaleColorMap.Real() );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
         frame.setSize( 600, 600 );

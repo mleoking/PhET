@@ -53,6 +53,17 @@ public class Wavefunction {
         }
     }
 
+    public void maximize() {
+        double max = 0;
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
+                max = Math.max( valueAt( i, j ).abs(), max );
+            }
+        }
+        scale( 1.0 / max );
+        setMagnitudeDirty();
+    }
+
     public static interface Listener {
         void cleared();
 
