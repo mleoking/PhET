@@ -1,146 +1,19 @@
-package edu.colorado.phet.qm.tests;// QuantumBox.java (C) 2001 by Paul Falstad, www.falstad.com
+/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.qm.tests.thirdparty;
 
-import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.MemoryImageSource;
+import java.awt.event.*;
+import java.util.Random;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Random;
 
-class QuantumBoxCanvas extends Canvas {
-    QuantumBoxFrame pg;
-
-    QuantumBoxCanvas( QuantumBoxFrame p ) {
-        pg = p;
-    }
-
-    public Dimension getPreferredSize() {
-        return new Dimension( 300, 400 );
-    }
-
-    public void update( Graphics g ) {
-        pg.updateQuantumBox( g );
-    }
-
-    public void paint( Graphics g ) {
-        pg.updateQuantumBox( g );
-    }
-};
-
-class QuantumBoxLayout implements LayoutManager {
-    public QuantumBoxLayout() {
-    }
-
-    public void addLayoutComponent( String name, Component c ) {
-    }
-
-    public void removeLayoutComponent( Component c ) {
-    }
-
-    public Dimension preferredLayoutSize( Container target ) {
-        return new Dimension( 500, 500 );
-    }
-
-    public Dimension minimumLayoutSize( Container target ) {
-        return new Dimension( 100, 100 );
-    }
-
-    public void layoutContainer( Container target ) {
-        Insets insets = target.insets();
-        int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw * 7 / 10;
-        int targeth = target.size().height - ( insets.top + insets.bottom );
-        target.getComponent( 0 ).move( insets.left, insets.top );
-        target.getComponent( 0 ).resize( cw, targeth );
-        int barwidth = targetw - cw;
-        cw += insets.left;
-        int i;
-        int h = insets.top;
-        for( i = 1; i < target.getComponentCount(); i++ ) {
-            Component m = target.getComponent( i );
-            if( m.isVisible() ) {
-                Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Choice ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Label ) {
-                    h += d.height / 5;
-                    d.width = barwidth;
-                }
-                m.move( cw, h );
-                m.resize( d.width, d.height );
-                h += d.height;
-            }
-        }
-    }
-};
-
-public class QuantumBox extends Applet implements ComponentListener {
-    QuantumBoxFrame ogf;
-
-    void destroyFrame() {
-        if( ogf != null ) {
-            ogf.dispose();
-        }
-        ogf = null;
-        repaint();
-    }
-
-    boolean started = false;
-
-    public void init() {
-        addComponentListener( this );
-    }
-
-    void showFrame() {
-        if( ogf == null ) {
-            started = true;
-            ogf = new QuantumBoxFrame( this );
-            ogf.init();
-            repaint();
-        }
-    }
-
-    public void paint( Graphics g ) {
-        String s = "Applet is open in a separate window.";
-        if( !started ) {
-            s = "Applet is starting.";
-        }
-        else if( ogf == null ) {
-            s = "Applet is finished.";
-        }
-        else {
-            ogf.show();
-        }
-        g.drawString( s, 10, 30 );
-    }
-
-    public void componentHidden( ComponentEvent e ) {
-    }
-
-    public void componentMoved( ComponentEvent e ) {
-    }
-
-    public void componentShown( ComponentEvent e ) {
-        showFrame();
-    }
-
-    public void componentResized( ComponentEvent e ) {
-    }
-
-    public void destroy() {
-        if( ogf != null ) {
-            ogf.dispose();
-        }
-        ogf = null;
-        repaint();
-    }
-};
-
+/**
+ * User: Sam Reid
+ * Date: Feb 9, 2006
+ * Time: 9:14:04 PM
+ * Copyright (c) Feb 9, 2006 by Sam Reid
+ */
 class QuantumBoxFrame extends Frame
         implements ComponentListener, ActionListener, AdjustmentListener,
                    MouseMotionListener, MouseListener, ItemListener {
@@ -178,16 +51,16 @@ class QuantumBoxFrame extends Frame
     Scrollbar phasorBar;
     Scrollbar aspectBar;
     Scrollbar brightnessBar;
-    View viewPotential, viewX, viewP, viewStates,
+    QuantumBoxFrame.View viewPotential, viewX, viewP, viewStates,
             viewCurrent, viewXMap, viewPMap, viewStatesMap;
-    View viewList[];
+    QuantumBoxFrame.View viewList[];
     int viewCount;
     boolean showModeDEBUG;
     boolean editingFunc;
     boolean dragStop;
 
-    PhaseColor phaseColors[][];
-    PhaseColor whitePhaseColor;
+    QuantumBoxFrame.PhaseColor phaseColors[][];
+    QuantumBoxFrame.PhaseColor whitePhaseColor;
     Color grayLevels[];
     static final int phaseColorCount = 50;
 
@@ -348,14 +221,14 @@ class QuantumBoxFrame extends Frame
         }
         catch( Exception e ) { }
 
-        phaseColors = new PhaseColor[8][phaseColorCount + 1];
+        phaseColors = new QuantumBoxFrame.PhaseColor[8][phaseColorCount + 1];
         for( int i = 0; i != 8; i++ ) {
             for( int j = 0; j <= phaseColorCount; j++ ) {
                 double ang = Math.atan( j / (double)phaseColorCount );
                 phaseColors[i][j] = genPhaseColor( i, ang );
             }
         }
-        whitePhaseColor = new PhaseColor( 1, 1, 1 );
+        whitePhaseColor = new QuantumBoxFrame.PhaseColor( 1, 1, 1 );
         grayLevels = new Color[256];
         for( int i = 0; i != 256; i++ ) {
             grayLevels[i] = new Color( i, i, i );
@@ -387,7 +260,7 @@ class QuantumBoxFrame extends Frame
         return mi;
     }
 
-    PhaseColor genPhaseColor( int sec, double ang ) {
+    QuantumBoxFrame.PhaseColor genPhaseColor( int sec, double ang ) {
         // convert to 0 .. 2*pi angle
         ang += sec * pi / 4;
         // convert to 0 .. 6
@@ -395,26 +268,26 @@ class QuantumBoxFrame extends Frame
         int hsec = (int)ang;
         double a2 = ang % 1;
         double a3 = 1. - a2;
-        PhaseColor c = null;
+        QuantumBoxFrame.PhaseColor c = null;
         switch( hsec ) {
             case 6:
             case 0:
-                c = new PhaseColor( 1, a2, 0 );
+                c = new QuantumBoxFrame.PhaseColor( 1, a2, 0 );
                 break;
             case 1:
-                c = new PhaseColor( a3, 1, 0 );
+                c = new QuantumBoxFrame.PhaseColor( a3, 1, 0 );
                 break;
             case 2:
-                c = new PhaseColor( 0, 1, a2 );
+                c = new QuantumBoxFrame.PhaseColor( 0, 1, a2 );
                 break;
             case 3:
-                c = new PhaseColor( 0, a3, 1 );
+                c = new QuantumBoxFrame.PhaseColor( 0, a3, 1 );
                 break;
             case 4:
-                c = new PhaseColor( a2, 0, 1 );
+                c = new QuantumBoxFrame.PhaseColor( a2, 0, 1 );
                 break;
             case 5:
-                c = new PhaseColor( 1, 0, a3 );
+                c = new QuantumBoxFrame.PhaseColor( 1, 0, a3 );
                 break;
         }
         return c;
@@ -437,19 +310,19 @@ class QuantumBoxFrame extends Frame
         int potsize = ( viewPotential == null ) ? 50 : viewPotential.height;
         int statesize = ( viewStates == null ) ? 150 : viewStates.height;
         viewPotential = viewStates = viewX = viewP = null;
-        viewList = new View[10];
+        viewList = new QuantumBoxFrame.View[10];
         int i = 0;
         if( eCheckItem.getState() ) {
-            viewList[i++] = viewPotential = new View();
+            viewList[i++] = viewPotential = new QuantumBoxFrame.View();
         }
         if( xCheckItem.getState() ) {
-            viewList[i++] = viewX = new View();
+            viewList[i++] = viewX = new QuantumBoxFrame.View();
         }
         if( pCheckItem.getState() ) {
-            viewList[i++] = viewP = new View();
+            viewList[i++] = viewP = new QuantumBoxFrame.View();
         }
         if( statesCheckItem.getState() ) {
-            viewList[i++] = viewStates = new View();
+            viewList[i++] = viewStates = new QuantumBoxFrame.View();
         }
         viewCount = i;
         int sizenum = viewCount;
@@ -467,7 +340,7 @@ class QuantumBoxFrame extends Frame
         toth -= panePad * 2 * ( viewCount - 1 );
         int cury = 0;
         for( i = 0; i != viewCount; i++ ) {
-            View v = viewList[i];
+            QuantumBoxFrame.View v = viewList[i];
             int h = ( sizenum == 0 ) ? toth : toth / sizenum;
             if( v == viewPotential && potsize > 0 ) {
                 h = potsize;
@@ -492,22 +365,22 @@ class QuantumBoxFrame extends Frame
         viewXMap = viewPMap = null;
         viewStatesMap = null;
         if( viewStates != null ) {
-            viewStatesMap = new View( viewStates );
+            viewStatesMap = new QuantumBoxFrame.View( viewStates );
             viewStatesMap.x = ( winSize.width - viewStatesMap.height ) / 2;
             viewStatesMap.width -= viewStatesMap.x * 2;
         }
         if( viewX != null ) {
-            viewXMap = new View( viewX );
+            viewXMap = new QuantumBoxFrame.View( viewX );
             processMap( viewXMap, aspectRatio );
         }
         if( viewP != null ) {
-            viewPMap = new View( viewP );
+            viewPMap = new QuantumBoxFrame.View( viewP );
             processMap( viewPMap, 1 / aspectRatio );
         }
         floorValues = null;
     }
 
-    void processMap( View v, double ar ) {
+    void processMap( QuantumBoxFrame.View v, double ar ) {
         double a = v.width / (double)v.height;
         int w, h;
         if( ar > a ) {
@@ -560,7 +433,7 @@ class QuantumBoxFrame extends Frame
                 v.pixels[i] = 0xFF000000;
             }
             v.imageSource = new MemoryImageSource( v.width, v.height,
-                                                   v.pixels, 0, v.width );
+                                                                  v.pixels, 0, v.width );
             v.imageSource.setAnimated( true );
             v.imageSource.setFullBufferUpdates( true );
             v.memimage = cv.createImage( v.imageSource );
@@ -689,7 +562,7 @@ class QuantumBoxFrame extends Frame
         }
     }
 
-    void updateMapView( Graphics g, View vmap,
+    void updateMapView( Graphics g, QuantumBoxFrame.View vmap,
                         float arrayr[][], float arrayi[][],
                         int res, double brightmult ) {
         g.setColor( Color.white );
@@ -751,7 +624,7 @@ class QuantumBoxFrame extends Frame
                     fv = Math.sqrt( fv );
                 }
                 fv *= 255 * vmap.scale * brightmult;
-                PhaseColor c = getPhaseColor( fr, fi );
+                QuantumBoxFrame.PhaseColor c = getPhaseColor( fr, fi );
                 if( fv > 255 ) {
                     fv = 255;
                 }
@@ -798,7 +671,7 @@ class QuantumBoxFrame extends Frame
     }
 
 
-    PhaseColor getPhaseColor( double x, double y ) {
+    QuantumBoxFrame.PhaseColor getPhaseColor( double x, double y ) {
         int sector = 0;
         double val = 0;
         if( probCheckItem.getState() ) {
@@ -886,8 +759,8 @@ class QuantumBoxFrame extends Frame
 
     void editHandle( int y ) {
         int dy = y - viewList[selectedPaneHandle].paneY;
-        View upper = viewList[selectedPaneHandle - 1];
-        View lower = viewList[selectedPaneHandle];
+        QuantumBoxFrame.View upper = viewList[selectedPaneHandle - 1];
+        QuantumBoxFrame.View lower = viewList[selectedPaneHandle];
         int minheight = 10;
         if( upper.height + dy < minheight || lower.height - dy < minheight ) {
             return;
@@ -1154,7 +1027,7 @@ class QuantumBoxFrame extends Frame
 
     double momentumX, momentumY;
 
-    void getMomentumCoords( View v, int x, int y ) {
+    void getMomentumCoords( QuantumBoxFrame.View v, int x, int y ) {
         int pres = maxTerms * 2;
         int s0 = ( 101 - pZoomBar.getValue() ) * pres / 100;
         momentumX =
@@ -1264,7 +1137,7 @@ class QuantumBoxFrame extends Frame
         return super.handleEvent( ev );
     }
 
-    void findGridPoint2D( View v, int mx, int my ) {
+    void findGridPoint2D( QuantumBoxFrame.View v, int mx, int my ) {
         int res1 = maxTerms + 1;
         selectedGridX = ( mx - v.x ) * res1 / v.width;
         selectedGridY = ( my - v.y ) * res1 / v.height;
@@ -1467,7 +1340,7 @@ class QuantumBoxFrame extends Frame
         View() {
         }
 
-        View( View v ) {
+        View( QuantumBoxFrame.View v ) {
             super( v );
         }
 
@@ -1957,5 +1830,4 @@ class QuantumBoxFrame extends Frame
         //System.out.print(steps + "\n");
     }
 
-};
-
+}

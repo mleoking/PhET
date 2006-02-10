@@ -1,149 +1,22 @@
-package edu.colorado.phet.qm.tests;// Ripple.java (c) 2001 by Paul Falstad, www.falstad.com
+/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.qm.tests.thirdparty;
 
-import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
+import java.awt.image.BufferedImage;
+import java.awt.event.*;
+import java.util.Random;
+import java.util.Vector;
+import java.util.StringTokenizer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
-class RippleCanvas extends Canvas {
-    RippleFrame pg;
-
-    RippleCanvas( RippleFrame p ) {
-        pg = p;
-    }
-
-    public Dimension getPreferredSize() {
-        return new Dimension( 300, 400 );
-    }
-
-    public void update( Graphics g ) {
-        pg.updateRipple( g );
-    }
-
-    public void paint( Graphics g ) {
-        pg.updateRipple( g );
-    }
-};
-
-class RippleLayout implements LayoutManager {
-    public RippleLayout() {
-    }
-
-    public void addLayoutComponent( String name, Component c ) {
-    }
-
-    public void removeLayoutComponent( Component c ) {
-    }
-
-    public Dimension preferredLayoutSize( Container target ) {
-        return new Dimension( 500, 500 );
-    }
-
-    public Dimension minimumLayoutSize( Container target ) {
-        return new Dimension( 100, 100 );
-    }
-
-    public void layoutContainer( Container target ) {
-        Insets insets = target.insets();
-        int targetw = target.size().width - insets.left - insets.right;
-        int cw = targetw * 7 / 10;
-        int targeth = target.size().height - ( insets.top + insets.bottom );
-        target.getComponent( 0 ).move( insets.left, insets.top );
-        target.getComponent( 0 ).resize( cw, targeth );
-        int barwidth = targetw - cw;
-        cw += insets.left;
-        int i;
-        int h = insets.top;
-        for( i = 1; i < target.getComponentCount(); i++ ) {
-            Component m = target.getComponent( i );
-            if( m.isVisible() ) {
-                Dimension d = m.getPreferredSize();
-                if( m instanceof Scrollbar ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Choice && d.width > barwidth ) {
-                    d.width = barwidth;
-                }
-                if( m instanceof Label ) {
-                    h += d.height / 5;
-                    d.width = barwidth;
-                }
-                m.move( cw, h );
-                m.resize( d.width, d.height );
-                h += d.height;
-            }
-        }
-    }
-};
-
-public class Ripple extends Applet implements ComponentListener {
-    RippleFrame ogf;
-
-    void destroyFrame() {
-        if( ogf != null ) {
-            ogf.dispose();
-        }
-        ogf = null;
-        repaint();
-    }
-
-    boolean started = false;
-
-    public void init() {
-        addComponentListener( this );
-    }
-
-    void showFrame() {
-        if( ogf == null ) {
-            started = true;
-            ogf = new RippleFrame( this );
-            ogf.init();
-            repaint();
-        }
-    }
-
-    public void paint( Graphics g ) {
-        String s = "Applet is open in a separate window.";
-        if( !started ) {
-            s = "Applet is starting.";
-        }
-        else if( ogf == null ) {
-            s = "Applet is finished.";
-        }
-        else {
-            ogf.show();
-        }
-        g.drawString( s, 10, 30 );
-    }
-
-    public void componentHidden( ComponentEvent e ) {
-    }
-
-    public void componentMoved( ComponentEvent e ) {
-    }
-
-    public void componentShown( ComponentEvent e ) {
-        showFrame();
-    }
-
-    public void componentResized( ComponentEvent e ) {
-    }
-
-    public void destroy() {
-        if( ogf != null ) {
-            ogf.dispose();
-        }
-        ogf = null;
-        repaint();
-    }
-};
-
+/**
+ * User: Sam Reid
+ * Date: Feb 9, 2006
+ * Time: 9:20:13 PM
+ * Copyright (c) Feb 9, 2006 by Sam Reid
+ */
 class RippleFrame extends Frame
         implements ComponentListener, ActionListener, AdjustmentListener,
                    MouseMotionListener, MouseListener, ItemListener {
@@ -182,7 +55,7 @@ class RippleFrame extends Frame
     Choice setupChooser;
     Choice colorChooser;
     Vector setupList;
-    Setup setup;
+    RippleFrame.Setup setup;
     Scrollbar dampingBar;
     Scrollbar speedBar;
     Scrollbar freqBar;
@@ -201,7 +74,7 @@ class RippleFrame extends Frame
     boolean walls[];
     boolean exceptional[];
     int medium[];
-    OscSource sources[];
+    RippleFrame.OscSource sources[];
     static final int MODE_SETFUNC = 0;
     static final int MODE_WALLS = 1;
     static final int MODE_MEDIUM = 2;
@@ -273,7 +146,7 @@ class RippleFrame extends Frame
 
     public void init() {
         setupList = new Vector();
-        Setup s = new SingleSourceSetup();
+        RippleFrame.Setup s = new RippleFrame.SingleSourceSetup();
         while( s != null ) {
             setupList.addElement( s );
             s = s.createNext();
@@ -286,7 +159,7 @@ class RippleFrame extends Frame
             useBufferedImage = true;
         }
 
-        sources = new OscSource[20];
+        sources = new RippleFrame.OscSource[20];
         setLayout( new RippleLayout() );
         cv = new RippleCanvas( this );
         cv.addComponentListener( this );
@@ -298,7 +171,7 @@ class RippleFrame extends Frame
         int i;
         for( i = 0; i != setupList.size(); i++ ) {
             setupChooser.add( "Setup: " +
-                              ( (Setup)setupList.elementAt( i ) ).getName() );
+                              ( (RippleFrame.Setup)setupList.elementAt( i ) ).getName() );
         }
         setupChooser.addItemListener( this );
         add( setupChooser );
@@ -417,7 +290,7 @@ class RippleFrame extends Frame
         doColor();
         random = new Random();
         setDamping();
-        setup = (Setup)setupList.elementAt( setupChooser.getSelectedIndex() );
+        setup = (RippleFrame.Setup)setupList.elementAt( setupChooser.getSelectedIndex() );
         reinit();
         cv.setBackground( Color.black );
         cv.setForeground( Color.lightGray );
@@ -821,9 +694,9 @@ class RippleFrame extends Frame
                     if( sourcePlane ) {
                         if( !skip ) {
                             for( j = 0; j != sourceCount / 2; j++ ) {
-                                OscSource src1 = sources[j * 2];
-                                OscSource src2 = sources[j * 2 + 1];
-                                OscSource src3 = sources[j];
+                                RippleFrame.OscSource src1 = sources[j * 2];
+                                RippleFrame.OscSource src2 = sources[j * 2 + 1];
+                                RippleFrame.OscSource src3 = sources[j];
                                 drawPlaneSource( src1.x, src1.y,
                                                  src2.x, src2.y, src3.v, w );
                             }
@@ -844,7 +717,7 @@ class RippleFrame extends Frame
                             sources[0].y = sy;
                         }
                         for( i = 0; i != sourceCount; i++ ) {
-                            OscSource src = sources[i];
+                            RippleFrame.OscSource src = sources[i];
                             func[src.x + gw * src.y] = src.v;
                             funci[src.x + gw * src.y] = 0;
                         }
@@ -1045,7 +918,7 @@ class RippleFrame extends Frame
         }
         int intf = ( gridSizeY / 2 - windowOffsetY ) * winSize.height / windowHeight;
         for( i = 0; i != sourceCount; i++ ) {
-            OscSource src = sources[i];
+            RippleFrame.OscSource src = sources[i];
             int xx = src.getScreenX();
             int yy = src.getScreenY();
             plotSource( i, xx, yy );
@@ -1476,7 +1349,7 @@ class RippleFrame extends Frame
         int y = me.getY();
         int i;
         for( i = 0; i != sourceCount; i++ ) {
-            OscSource src = sources[i];
+            RippleFrame.OscSource src = sources[i];
             int sx = src.getScreenX();
             int sy = src.getScreenY();
             int r2 = ( sx - x ) * ( sx - x ) + ( sy - y ) * ( sy - y );
@@ -1679,7 +1552,7 @@ class RippleFrame extends Frame
         setBrightness( 10 );
         auxBar.setValue( 1 );
         fixedEndsCheck.setState( true );
-        setup = (Setup)
+        setup = (RippleFrame.Setup)
                 setupList.elementAt( setupChooser.getSelectedIndex() );
         setup.select();
         setup.doSetupSources();
@@ -1849,20 +1722,20 @@ class RippleFrame extends Frame
             if( !( oldPlane && oldSCount == sourceCount ) ) {
                 int x2 = windowOffsetX + windowWidth - 1;
                 int y2 = windowOffsetY + windowHeight - 1;
-                sources[0] = new OscSource( windowOffsetX, windowOffsetY + 1 );
-                sources[1] = new OscSource( x2, windowOffsetY + 1 );
-                sources[2] = new OscSource( windowOffsetX, y2 );
-                sources[3] = new OscSource( x2, y2 );
+                sources[0] = new RippleFrame.OscSource( windowOffsetX, windowOffsetY + 1 );
+                sources[1] = new RippleFrame.OscSource( x2, windowOffsetY + 1 );
+                sources[2] = new RippleFrame.OscSource( windowOffsetX, y2 );
+                sources[3] = new RippleFrame.OscSource( x2, y2 );
             }
         }
         else if( !( oldSCount == sourceCount && !oldPlane ) ) {
-            sources[0] = new OscSource( gridSizeX / 2, windowOffsetY + 1 );
-            sources[1] = new OscSource( gridSizeX / 2, gridSizeY - windowOffsetY - 2 );
-            sources[2] = new OscSource( windowOffsetX + 1, gridSizeY / 2 );
-            sources[3] = new OscSource( gridSizeX - windowOffsetX - 2, gridSizeY / 2 );
+            sources[0] = new RippleFrame.OscSource( gridSizeX / 2, windowOffsetY + 1 );
+            sources[1] = new RippleFrame.OscSource( gridSizeX / 2, gridSizeY - windowOffsetY - 2 );
+            sources[2] = new RippleFrame.OscSource( windowOffsetX + 1, gridSizeY / 2 );
+            sources[3] = new RippleFrame.OscSource( gridSizeX - windowOffsetX - 2, gridSizeY / 2 );
             int i;
             for( i = 4; i < sourceCount; i++ ) {
-                sources[i] = new OscSource( windowOffsetX + 1 + i * 2, gridSizeY / 2 );
+                sources[i] = new RippleFrame.OscSource( windowOffsetX + 1 + i * 2, gridSizeY / 2 );
             }
         }
     }
@@ -1906,7 +1779,7 @@ class RippleFrame extends Frame
             return 1;
         }
 
-        abstract Setup createNext();
+        abstract RippleFrame.Setup createNext();
 
         void eachFrame() {
         }
@@ -1918,7 +1791,7 @@ class RippleFrame extends Frame
 
     ;
 
-    class SingleSourceSetup extends Setup {
+    class SingleSourceSetup extends RippleFrame.Setup {
         String getName() {
             return "Single Source";
         }
@@ -1928,12 +1801,12 @@ class RippleFrame extends Frame
             setBrightness( 27 );
         }
 
-        Setup createNext() {
-            return new DoubleSourceSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.DoubleSourceSetup();
         }
     }
 
-    class DoubleSourceSetup extends Setup {
+    class DoubleSourceSetup extends RippleFrame.Setup {
         String getName() {
             return "Two Sources";
         }
@@ -1951,12 +1824,12 @@ class RippleFrame extends Frame
             sources[0].x = sources[1].x = gridSizeX / 2;
         }
 
-        Setup createNext() {
-            return new QuadrupleSourceSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.QuadrupleSourceSetup();
         }
     }
 
-    class QuadrupleSourceSetup extends Setup {
+    class QuadrupleSourceSetup extends RippleFrame.Setup {
         String getName() {
             return "Four Sources";
         }
@@ -1966,12 +1839,12 @@ class RippleFrame extends Frame
             setFreqBar( 15 );
         }
 
-        Setup createNext() {
-            return new SingleSlitSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.SingleSlitSetup();
         }
     }
 
-    class SingleSlitSetup extends Setup {
+    class SingleSlitSetup extends RippleFrame.Setup {
         String getName() {
             return "Single Slit";
         }
@@ -1991,12 +1864,12 @@ class RippleFrame extends Frame
             setFreqBar( 25 );
         }
 
-        Setup createNext() {
-            return new DoubleSlitSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.DoubleSlitSetup();
         }
     }
 
-    class DoubleSlitSetup extends Setup {
+    class DoubleSlitSetup extends RippleFrame.Setup {
         String getName() {
             return "Double Slit";
         }
@@ -2017,12 +1890,12 @@ class RippleFrame extends Frame
             setFreqBar( 22 );
         }
 
-        Setup createNext() {
-            return new TripleSlitSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.TripleSlitSetup();
         }
     }
 
-    class TripleSlitSetup extends Setup {
+    class TripleSlitSetup extends RippleFrame.Setup {
         String getName() {
             return "Triple Slit";
         }
@@ -2044,12 +1917,12 @@ class RippleFrame extends Frame
             setFreqBar( 22 );
         }
 
-        Setup createNext() {
-            return new ObstacleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ObstacleSetup();
         }
     }
 
-    class ObstacleSetup extends Setup {
+    class ObstacleSetup extends RippleFrame.Setup {
         String getName() {
             return "Obstacle";
         }
@@ -2065,12 +1938,12 @@ class RippleFrame extends Frame
             setFreqBar( 20 );
         }
 
-        Setup createNext() {
-            return new HalfPlaneSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.HalfPlaneSetup();
         }
     }
 
-    class HalfPlaneSetup extends Setup {
+    class HalfPlaneSetup extends RippleFrame.Setup {
         String getName() {
             return "Half Plane";
         }
@@ -2086,12 +1959,12 @@ class RippleFrame extends Frame
             setFreqBar( 25 );
         }
 
-        Setup createNext() {
-            return new DipoleSourceSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.DipoleSourceSetup();
         }
     }
 
-    class DipoleSourceSetup extends Setup {
+    class DipoleSourceSetup extends RippleFrame.Setup {
         String getName() {
             return "Dipole Source";
         }
@@ -2110,12 +1983,12 @@ class RippleFrame extends Frame
             setBrightness( 33 );
         }
 
-        Setup createNext() {
-            return new LateralQuadrupoleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.LateralQuadrupoleSetup();
         }
     }
 
-    class LateralQuadrupoleSetup extends Setup {
+    class LateralQuadrupoleSetup extends RippleFrame.Setup {
         String getName() {
             return "Lateral Quadrupole";
         }
@@ -2137,12 +2010,12 @@ class RippleFrame extends Frame
             setBrightness( 33 );
         }
 
-        Setup createNext() {
-            return new LinearQuadrupoleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.LinearQuadrupoleSetup();
         }
     }
 
-    class LinearQuadrupoleSetup extends Setup {
+    class LinearQuadrupoleSetup extends RippleFrame.Setup {
         String getName() {
             return "Linear Quadrupole";
         }
@@ -2164,12 +2037,12 @@ class RippleFrame extends Frame
             setBrightness( 33 );
         }
 
-        Setup createNext() {
-            return new HexapoleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.HexapoleSetup();
         }
     }
 
-    class HexapoleSetup extends Setup {
+    class HexapoleSetup extends RippleFrame.Setup {
         String getName() {
             return "Hexapole";
         }
@@ -2196,12 +2069,12 @@ class RippleFrame extends Frame
             brightnessBar.setValue( 648 );
         }
 
-        Setup createNext() {
-            return new OctupoleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.OctupoleSetup();
         }
     }
 
-    class OctupoleSetup extends HexapoleSetup {
+    class OctupoleSetup extends RippleFrame.HexapoleSetup {
         String getName() {
             return "Octupole";
         }
@@ -2214,8 +2087,8 @@ class RippleFrame extends Frame
             auxBar.setValue( 29 );
         }
 
-        Setup createNext() {
-            return new Multi12Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Multi12Setup();
         }
     }
 
@@ -2230,7 +2103,7 @@ class RippleFrame extends Frame
      }
      Setup createNext() { return new Multi12Setup(); }
      }*/
-    class Multi12Setup extends HexapoleSetup {
+    class Multi12Setup extends RippleFrame.HexapoleSetup {
         String getName() {
             return "12-Pole";
         }
@@ -2243,8 +2116,8 @@ class RippleFrame extends Frame
             auxBar.setValue( 29 );
         }
 
-        Setup createNext() {
-            return new PlaneWaveSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PlaneWaveSetup();
         }
     }
 
@@ -2270,7 +2143,7 @@ class RippleFrame extends Frame
      }
      Setup createNext() { return new PlaneWaveSetup(); }
      }*/
-    class PlaneWaveSetup extends Setup {
+    class PlaneWaveSetup extends RippleFrame.Setup {
         String getName() {
             return "Plane Wave";
         }
@@ -2281,12 +2154,12 @@ class RippleFrame extends Frame
             setFreqBar( 15 );
         }
 
-        Setup createNext() {
-            return new IntersectingPlaneWavesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.IntersectingPlaneWavesSetup();
         }
     }
 
-    class IntersectingPlaneWavesSetup extends Setup {
+    class IntersectingPlaneWavesSetup extends RippleFrame.Setup {
         String getName() {
             return "Intersecting Planes";
         }
@@ -2306,12 +2179,12 @@ class RippleFrame extends Frame
             sources[3].y = windowOffsetY + windowHeight - 1;
         }
 
-        Setup createNext() {
-            return new PhasedArray1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PhasedArray1Setup();
         }
     }
 
-    class PhasedArray1Setup extends Setup {
+    class PhasedArray1Setup extends RippleFrame.Setup {
         String getName() {
             return "Phased Array 1";
         }
@@ -2335,12 +2208,12 @@ class RippleFrame extends Frame
             return (float)Math.sin( w + ph );
         }
 
-        Setup createNext() {
-            return new PhasedArray2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PhasedArray2Setup();
         }
     }
 
-    class PhasedArray2Setup extends PhasedArray1Setup {
+    class PhasedArray2Setup extends RippleFrame.PhasedArray1Setup {
         String getName() {
             return "Phased Array 2";
         }
@@ -2362,12 +2235,12 @@ class RippleFrame extends Frame
             return (float)Math.sin( w + ph );
         }
 
-        Setup createNext() {
-            return new PhasedArray3Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PhasedArray3Setup();
         }
     }
 
-    class PhasedArray3Setup extends PhasedArray2Setup {
+    class PhasedArray3Setup extends RippleFrame.PhasedArray2Setup {
         String getName() {
             return "Phased Array 3";
         }
@@ -2380,12 +2253,12 @@ class RippleFrame extends Frame
             return (float)Math.sin( w - ph );
         }
 
-        Setup createNext() {
-            return new DopplerSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.DopplerSetup();
         }
     }
 
-    class DopplerSetup extends Setup {
+    class DopplerSetup extends RippleFrame.Setup {
         String getName() {
             return "Doppler Effect 1";
         }
@@ -2397,12 +2270,12 @@ class RippleFrame extends Frame
             fixedEndsCheck.setState( false );
         }
 
-        Setup createNext() {
-            return new Doppler2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Doppler2Setup();
         }
     }
 
-    class Doppler2Setup extends Setup {
+    class Doppler2Setup extends RippleFrame.Setup {
         String getName() {
             return "Doppler Effect 2";
         }
@@ -2463,12 +2336,12 @@ class RippleFrame extends Frame
             }
         }
 
-        Setup createNext() {
-            return new SonicBoomSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.SonicBoomSetup();
         }
     }
 
-    class SonicBoomSetup extends Setup {
+    class SonicBoomSetup extends RippleFrame.Setup {
         String getName() {
             return "Sonic Boom";
         }
@@ -2485,8 +2358,8 @@ class RippleFrame extends Frame
             auxBar.setValue( 30 );
         }
 
-        Setup createNext() {
-            return new BigModeSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BigModeSetup();
         }
     }
 
@@ -2516,7 +2389,7 @@ class RippleFrame extends Frame
         }
     }
 
-    class BigModeSetup extends Setup {
+    class BigModeSetup extends RippleFrame.Setup {
         String getName() {
             return "Big 1x1 Mode";
         }
@@ -2537,12 +2410,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new OneByOneModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.OneByOneModesSetup();
         }
     }
 
-    class OneByOneModesSetup extends Setup {
+    class OneByOneModesSetup extends RippleFrame.Setup {
         String getName() {
             return "1x1 Modes";
         }
@@ -2570,12 +2443,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new OneByNModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.OneByNModesSetup();
         }
     }
 
-    class OneByNModesSetup extends Setup {
+    class OneByNModesSetup extends RippleFrame.Setup {
         String getName() {
             return "1xN Modes";
         }
@@ -2605,12 +2478,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new NByNModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.NByNModesSetup();
         }
     }
 
-    class NByNModesSetup extends Setup {
+    class NByNModesSetup extends RippleFrame.Setup {
         String getName() {
             return "NxN Modes";
         }
@@ -2647,12 +2520,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new OneByNModeCombosSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.OneByNModeCombosSetup();
         }
     }
 
-    class OneByNModeCombosSetup extends Setup {
+    class OneByNModeCombosSetup extends RippleFrame.Setup {
         String getName() {
             return "1xN Mode Combos";
         }
@@ -2696,12 +2569,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new NByNModeCombosSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.NByNModeCombosSetup();
         }
     }
 
-    class NByNModeCombosSetup extends Setup {
+    class NByNModeCombosSetup extends RippleFrame.Setup {
         String getName() {
             return "NxN Mode Combos";
         }
@@ -2755,12 +2628,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new ZeroByOneModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ZeroByOneModesSetup();
         }
     }
 
-    class ZeroByOneModesSetup extends Setup {
+    class ZeroByOneModesSetup extends RippleFrame.Setup {
         String getName() {
             return "0x1 Acoustic Modes";
         }
@@ -2789,12 +2662,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new ZeroByNModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ZeroByNModesSetup();
         }
     }
 
-    class ZeroByNModesSetup extends Setup {
+    class ZeroByNModesSetup extends RippleFrame.Setup {
         String getName() {
             return "0xN Acoustic Modes";
         }
@@ -2825,12 +2698,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new NByNAcoModesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.NByNAcoModesSetup();
         }
     }
 
-    class NByNAcoModesSetup extends Setup {
+    class NByNAcoModesSetup extends RippleFrame.Setup {
         String getName() {
             return "NxN Acoustic Modes";
         }
@@ -2866,12 +2739,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new CoupledCavitiesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.CoupledCavitiesSetup();
         }
     }
 
-    class CoupledCavitiesSetup extends Setup {
+    class CoupledCavitiesSetup extends RippleFrame.Setup {
         String getName() {
             return "Coupled Cavities";
         }
@@ -2904,12 +2777,12 @@ class RippleFrame extends Frame
             dampingBar.setValue( 1 );
         }
 
-        Setup createNext() {
-            return new BeatsSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BeatsSetup();
         }
     }
 
-    class BeatsSetup extends Setup {
+    class BeatsSetup extends RippleFrame.Setup {
         String getName() {
             return "Beats";
         }
@@ -2928,12 +2801,12 @@ class RippleFrame extends Frame
             setFreqBar( 18 );
         }
 
-        Setup createNext() {
-            return new SlowMediumSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.SlowMediumSetup();
         }
     }
 
-    class SlowMediumSetup extends Setup {
+    class SlowMediumSetup extends RippleFrame.Setup {
         String getName() {
             return "Slow Medium";
         }
@@ -2944,12 +2817,12 @@ class RippleFrame extends Frame
             setBrightness( 33 );
         }
 
-        Setup createNext() {
-            return new RefractionSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.RefractionSetup();
         }
     }
 
-    class RefractionSetup extends Setup {
+    class RefractionSetup extends RippleFrame.Setup {
         String getName() {
             return "Refraction";
         }
@@ -2969,12 +2842,12 @@ class RippleFrame extends Frame
         void select() {
         }
 
-        Setup createNext() {
-            return new InternalReflectionSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.InternalReflectionSetup();
         }
     }
 
-    class InternalReflectionSetup extends Setup {
+    class InternalReflectionSetup extends RippleFrame.Setup {
         String getName() {
             return "Internal Reflection";
         }
@@ -2994,12 +2867,12 @@ class RippleFrame extends Frame
         void select() {
         }
 
-        Setup createNext() {
-            return new CoatingSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.CoatingSetup();
         }
     }
 
-    class CoatingSetup extends Setup {
+    class CoatingSetup extends RippleFrame.Setup {
         String getName() {
             return "Anti-Reflective Coating";
         }
@@ -3022,12 +2895,12 @@ class RippleFrame extends Frame
             setBrightness( 28 );
         }
 
-        Setup createNext() {
-            return new ZonePlateEvenSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ZonePlateEvenSetup();
         }
     }
 
-    class ZonePlateEvenSetup extends Setup {
+    class ZonePlateEvenSetup extends RippleFrame.Setup {
         int zoneq;
 
         ZonePlateEvenSetup() {
@@ -3069,12 +2942,12 @@ class RippleFrame extends Frame
             setBrightness( zoneq == 1 ? 4 : 7 );
         }
 
-        Setup createNext() {
-            return new ZonePlateOddSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ZonePlateOddSetup();
         }
     }
 
-    class ZonePlateOddSetup extends ZonePlateEvenSetup {
+    class ZonePlateOddSetup extends RippleFrame.ZonePlateEvenSetup {
         ZonePlateOddSetup() {
             zoneq = 0;
         }
@@ -3083,12 +2956,12 @@ class RippleFrame extends Frame
             return "Zone Plate (Odd)";
         }
 
-        Setup createNext() {
-            return new CircleSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.CircleSetup();
         }
     }
 
-    class CircleSetup extends Setup {
+    class CircleSetup extends RippleFrame.Setup {
         CircleSetup() {
             circle = true;
         }
@@ -3143,12 +3016,12 @@ class RippleFrame extends Frame
             setBrightness( 16 );
         }
 
-        Setup createNext() {
-            return new EllipseSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.EllipseSetup();
         }
     }
 
-    class EllipseSetup extends CircleSetup {
+    class EllipseSetup extends RippleFrame.CircleSetup {
         EllipseSetup() {
             circle = false;
         }
@@ -3157,12 +3030,12 @@ class RippleFrame extends Frame
             return "Ellipse";
         }
 
-        Setup createNext() {
-            return new ResonantCavitiesSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ResonantCavitiesSetup();
         }
     }
 
-    class ResonantCavitiesSetup extends Setup {
+    class ResonantCavitiesSetup extends RippleFrame.Setup {
         String getName() {
             return "Resonant Cavities 1";
         }
@@ -3198,12 +3071,12 @@ class RippleFrame extends Frame
             return .1;
         }
 
-        Setup createNext() {
-            return new ResonantCavities2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ResonantCavities2Setup();
         }
     }
 
-    class ResonantCavities2Setup extends Setup {
+    class ResonantCavities2Setup extends RippleFrame.Setup {
         String getName() {
             return "Resonant Cavities 2";
         }
@@ -3238,12 +3111,12 @@ class RippleFrame extends Frame
             return .03;
         }
 
-        Setup createNext() {
-            return new RoomResonanceSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.RoomResonanceSetup();
         }
     }
 
-    class RoomResonanceSetup extends Setup {
+    class RoomResonanceSetup extends RippleFrame.Setup {
         String getName() {
             return "Room Resonance";
         }
@@ -3281,12 +3154,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new Waveguides1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Waveguides1Setup();
         }
     }
 
-    class Waveguides1Setup extends Setup {
+    class Waveguides1Setup extends RippleFrame.Setup {
         String getName() {
             return "Waveguides 1";
         }
@@ -3314,12 +3187,12 @@ class RippleFrame extends Frame
             setFreqBar( 14 );
         }
 
-        Setup createNext() {
-            return new Waveguides2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Waveguides2Setup();
         }
     }
 
-    class Waveguides2Setup extends Waveguides1Setup {
+    class Waveguides2Setup extends RippleFrame.Waveguides1Setup {
         String getName() {
             return "Waveguides 2";
         }
@@ -3329,12 +3202,12 @@ class RippleFrame extends Frame
             setFreqBar( 8 );
         }
 
-        Setup createNext() {
-            return new Waveguides3Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Waveguides3Setup();
         }
     }
 
-    class Waveguides3Setup extends Setup {
+    class Waveguides3Setup extends RippleFrame.Setup {
         String getName() {
             return "Waveguides 3";
         }
@@ -3364,12 +3237,12 @@ class RippleFrame extends Frame
             setFreqBar( 16 );
         }
 
-        Setup createNext() {
-            return new Waveguides4Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Waveguides4Setup();
         }
     }
 
-    class Waveguides4Setup extends Waveguides3Setup {
+    class Waveguides4Setup extends RippleFrame.Waveguides3Setup {
         String getName() {
             return "Waveguides 4";
         }
@@ -3381,12 +3254,12 @@ class RippleFrame extends Frame
             fixedEndsCheck.setState( false );
         }
 
-        Setup createNext() {
-            return new Waveguides5Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.Waveguides5Setup();
         }
     }
 
-    class Waveguides5Setup extends Waveguides3Setup {
+    class Waveguides5Setup extends RippleFrame.Waveguides3Setup {
         String getName() {
             return "Waveguides 5";
         }
@@ -3457,8 +3330,8 @@ class RippleFrame extends Frame
             }
         }
 
-        Setup createNext() {
-            return new ParabolicMirror1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ParabolicMirror1Setup();
         }
     }
 
@@ -3490,7 +3363,7 @@ class RippleFrame extends Frame
      }
      Setup createNext() { return new ParabolicMirror1Setup(); }
      }*/
-    class ParabolicMirror1Setup extends Setup {
+    class ParabolicMirror1Setup extends RippleFrame.Setup {
         String getName() {
             return "Parabolic Mirror 1";
         }
@@ -3527,12 +3400,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new ParabolicMirror2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ParabolicMirror2Setup();
         }
     }
 
-    class ParabolicMirror2Setup extends ParabolicMirror1Setup {
+    class ParabolicMirror2Setup extends RippleFrame.ParabolicMirror1Setup {
         String getName() {
             return "Parabolic Mirror 2";
         }
@@ -3544,12 +3417,12 @@ class RippleFrame extends Frame
             setSources();
         }
 
-        Setup createNext() {
-            return new SoundDuctSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.SoundDuctSetup();
         }
     }
 
-    class SoundDuctSetup extends Setup {
+    class SoundDuctSetup extends RippleFrame.Setup {
         String getName() {
             return "Sound Duct";
         }
@@ -3567,12 +3440,12 @@ class RippleFrame extends Frame
             setBrightness( 60 );
         }
 
-        Setup createNext() {
-            return new BaffledPistonSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BaffledPistonSetup();
         }
     }
 
-    class BaffledPistonSetup extends Setup {
+    class BaffledPistonSetup extends RippleFrame.Setup {
         String getName() {
             return "Baffled Piston";
         }
@@ -3603,12 +3476,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new LowPassFilter1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.LowPassFilter1Setup();
         }
     }
 
-    class LowPassFilter1Setup extends Setup {
+    class LowPassFilter1Setup extends RippleFrame.Setup {
         String getName() {
             return "Low-Pass Filter 1";
         }
@@ -3640,12 +3513,12 @@ class RippleFrame extends Frame
             setBrightness( 38 );
         }
 
-        Setup createNext() {
-            return new LowPassFilter2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.LowPassFilter2Setup();
         }
     }
 
-    class LowPassFilter2Setup extends LowPassFilter1Setup {
+    class LowPassFilter2Setup extends RippleFrame.LowPassFilter1Setup {
         String getName() {
             return "Low-Pass Filter 2";
         }
@@ -3655,12 +3528,12 @@ class RippleFrame extends Frame
             setFreqBar( 17 );
         }
 
-        Setup createNext() {
-            return new HighPassFilter1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.HighPassFilter1Setup();
         }
     }
 
-    class HighPassFilter1Setup extends Setup {
+    class HighPassFilter1Setup extends RippleFrame.Setup {
         String getName() {
             return "High-Pass Filter 1";
         }
@@ -3687,12 +3560,12 @@ class RippleFrame extends Frame
             setFreqBar( 17 );
         }
 
-        Setup createNext() {
-            return new HighPassFilter2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.HighPassFilter2Setup();
         }
     }
 
-    class HighPassFilter2Setup extends HighPassFilter1Setup {
+    class HighPassFilter2Setup extends RippleFrame.HighPassFilter1Setup {
         String getName() {
             return "High-Pass Filter 2";
         }
@@ -3702,12 +3575,12 @@ class RippleFrame extends Frame
             setFreqBar( 7 );
         }
 
-        Setup createNext() {
-            return new BandStopFilter1Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BandStopFilter1Setup();
         }
     }
 
-    class BandStopFilter1Setup extends Setup {
+    class BandStopFilter1Setup extends RippleFrame.Setup {
         String getName() {
             return "Band-Stop Filter 1";
         }
@@ -3753,12 +3626,12 @@ class RippleFrame extends Frame
             setFreqBar( 2 );
         }
 
-        Setup createNext() {
-            return new BandStopFilter2Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BandStopFilter2Setup();
         }
     }
 
-    class BandStopFilter2Setup extends BandStopFilter1Setup {
+    class BandStopFilter2Setup extends RippleFrame.BandStopFilter1Setup {
         String getName() {
             return "Band-Stop Filter 2";
         }
@@ -3768,12 +3641,12 @@ class RippleFrame extends Frame
             setFreqBar( 10 );
         }
 
-        Setup createNext() {
-            return new BandStopFilter3Setup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BandStopFilter3Setup();
         }
     }
 
-    class BandStopFilter3Setup extends BandStopFilter1Setup {
+    class BandStopFilter3Setup extends RippleFrame.BandStopFilter1Setup {
         String getName() {
             return "Band-Stop Filter 3";
         }
@@ -3784,12 +3657,12 @@ class RippleFrame extends Frame
             setFreqBar( 4 );
         }
 
-        Setup createNext() {
-            return new PlanarConvexLensSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PlanarConvexLensSetup();
         }
     }
 
-    class PlanarConvexLensSetup extends Setup {
+    class PlanarConvexLensSetup extends RippleFrame.Setup {
         String getName() {
             return "Planar Convex Lens";
         }
@@ -3822,12 +3695,12 @@ class RippleFrame extends Frame
             setBrightness( 6 );
         }
 
-        Setup createNext() {
-            return new BiconvexLensSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.BiconvexLensSetup();
         }
     }
 
-    class BiconvexLensSetup extends Setup {
+    class BiconvexLensSetup extends RippleFrame.Setup {
         String getName() {
             return "Biconvex Lens";
         }
@@ -3865,12 +3738,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new PlanarConcaveSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PlanarConcaveSetup();
         }
     }
 
-    class PlanarConcaveSetup extends Setup {
+    class PlanarConcaveSetup extends RippleFrame.Setup {
         String getName() {
             return "Planar Concave Lens";
         }
@@ -3903,12 +3776,12 @@ class RippleFrame extends Frame
             setFreqBar( 19 );
         }
 
-        Setup createNext() {
-            return new CircularPrismSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.CircularPrismSetup();
         }
     }
 
-    class CircularPrismSetup extends Setup {
+    class CircularPrismSetup extends RippleFrame.Setup {
         String getName() {
             return "Circular Prism";
         }
@@ -3940,12 +3813,12 @@ class RippleFrame extends Frame
             setFreqBar( 9 );
         }
 
-        Setup createNext() {
-            return new RightAnglePrismSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.RightAnglePrismSetup();
         }
     }
 
-    class RightAnglePrismSetup extends Setup {
+    class RightAnglePrismSetup extends RippleFrame.Setup {
         String getName() {
             return "Right-Angle Prism";
         }
@@ -3973,12 +3846,12 @@ class RippleFrame extends Frame
             setFreqBar( 11 );
         }
 
-        Setup createNext() {
-            return new PorroPrismSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.PorroPrismSetup();
         }
     }
 
-    class PorroPrismSetup extends Setup {
+    class PorroPrismSetup extends RippleFrame.Setup {
         String getName() {
             return "Porro Prism";
         }
@@ -4012,12 +3885,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new ScatteringSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.ScatteringSetup();
         }
     }
 
-    class ScatteringSetup extends Setup {
+    class ScatteringSetup extends RippleFrame.Setup {
         String getName() {
             return "Scattering";
         }
@@ -4032,12 +3905,12 @@ class RippleFrame extends Frame
             setBrightness( 52 );
         }
 
-        Setup createNext() {
-            return new LloydsMirrorSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.LloydsMirrorSetup();
         }
     }
 
-    class LloydsMirrorSetup extends Setup {
+    class LloydsMirrorSetup extends RippleFrame.Setup {
         String getName() {
             return "Lloyd's Mirror";
         }
@@ -4057,12 +3930,12 @@ class RippleFrame extends Frame
         void doSetupSources() {
         }
 
-        Setup createNext() {
-            return new TempGradient1();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.TempGradient1();
         }
     }
 
-    class TempGradient1 extends Setup {
+    class TempGradient1 extends RippleFrame.Setup {
         String getName() {
             return "Temperature Gradient 1";
         }
@@ -4099,12 +3972,12 @@ class RippleFrame extends Frame
             sources[0].y = windowOffsetY + windowHeight - 2;
         }
 
-        Setup createNext() {
-            return new TempGradient2();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.TempGradient2();
         }
     }
 
-    class TempGradient2 extends Setup {
+    class TempGradient2 extends RippleFrame.Setup {
         String getName() {
             return "Temperature Gradient 2";
         }
@@ -4137,12 +4010,12 @@ class RippleFrame extends Frame
             sources[0].y = windowOffsetY + windowHeight / 4;
         }
 
-        Setup createNext() {
-            return new TempGradient3();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.TempGradient3();
         }
     }
 
-    class TempGradient3 extends Setup {
+    class TempGradient3 extends RippleFrame.Setup {
         String getName() {
             return "Temperature Gradient 3";
         }
@@ -4176,12 +4049,12 @@ class RippleFrame extends Frame
             sources[0].y = windowOffsetY + windowHeight / 4;
         }
 
-        Setup createNext() {
-            return new TempGradient4();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.TempGradient4();
         }
     }
 
-    class TempGradient4 extends TempGradient3 {
+    class TempGradient4 extends RippleFrame.TempGradient3 {
         String getName() {
             return "Temperature Gradient 4";
         }
@@ -4209,12 +4082,12 @@ class RippleFrame extends Frame
             setBrightness( 31 );
         }
 
-        Setup createNext() {
-            return new DispersionSetup();
+        RippleFrame.Setup createNext() {
+            return new RippleFrame.DispersionSetup();
         }
     }
 
-    class DispersionSetup extends Setup {
+    class DispersionSetup extends RippleFrame.Setup {
         String getName() {
             return "Dispersion";
         }
@@ -4243,7 +4116,7 @@ class RippleFrame extends Frame
             auxBar.setValue( 30 );
         }
 
-        Setup createNext() {
+        RippleFrame.Setup createNext() {
             return null;
         }
     }

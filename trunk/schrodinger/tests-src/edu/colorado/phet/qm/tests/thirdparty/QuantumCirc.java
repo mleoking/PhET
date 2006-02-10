@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests;// QuantumCirc.java (C) 2001 by Paul Falstad, www.falstad.com
+package edu.colorado.phet.qm.tests.thirdparty;// QuantumCirc.java (C) 2001 by Paul Falstad, www.falstad.com
 
 import java.applet.Applet;
 import java.awt.*;
