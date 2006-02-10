@@ -65,12 +65,6 @@ public class RichardsonSolver {
     private RComplex _alpha; // special parameter for Richardson algorithm
     private RComplex _beta; // special parameter for Richardson algorithm
     
-    // Reusable complex numbers
-    private RComplex _c1;
-    private RComplex _c2;
-    private RComplex _c3;
-    private RComplex _c4;
-    
     //----------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------
@@ -85,11 +79,6 @@ public class RichardsonSolver {
         _wavePacket = wavePacket;
         _dx = 1;
         _dt = QTConstants.CLOCK_STEP;
-                
-        _c1 = new RComplex();
-        _c2 = new RComplex();
-        _c3 = new RComplex();
-        _c4 = new RComplex();
         
         update();
     }
@@ -209,176 +198,201 @@ public class RichardsonSolver {
     /**
      * Propagates the solution by 1 step.
      * <p>
-     * Note that thre's a lot of duplicate code here.
+     * Note that this method contains a lot of duplicate code.
      * The body of each for loop could easily be made into a method; ditto for the damping code.
      * (In fact, that's the way the I originally implemented this.)
      * But this method is such a bottleneck, that reducing method calls results
-     * in big performance savings.  So 9sadly) we're trading off good code design for performance.
+     * in big performance savings.  So (sadly) we're trading off good code design for performance.
+     * <p>
+     * I'm also doing my own complex number addition and multiplication.
+     * These operations used to be handled by a complex number class,
+     * but the method calls were another source of performance problems.
      */
     public void propagate() {
-        int numberOfPoints = _Psi.length;
+        
+        double r1, r2, r3, r4; // reusable real parts
+        double i1, i2, i3, i4; // reusable imaginary parts
+        
+        final double alphaReal = _alpha._real;
+        final double alphaImaginary = _alpha._imaginary;
+        final double betaReal = _beta._real;
+        final double betaImaginary = _beta._imaginary;
+        
+        final int n = _Psi.length; // number of samples
 
         // Starting at 0...
-        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
+        for ( int i = 0; i < n-1; i += 2 ) {
             // A = Psi[i]
-            _c1.setValue( _Psi[i] );
+            r1 = _Psi[i]._real;
+            i1 = _Psi[i]._imaginary;
             
             // B = Psi[i+1]
-            _c2.setValue( _Psi[i+1] );
+            r2 = _Psi[i+1]._real;
+            i2 = _Psi[i+1]._imaginary;
             
             // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[i]._real = r3 + r4;
+            _Psi[i]._imaginary = i3 + i4;
             
             // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i+1].setValue( _c3 );
-            _Psi[i+1].add( _c4 );
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[i+1]._real = r3 + r4;
+            _Psi[i+1]._imaginary = i3 + i4;
         }
 
         // Starting at 1...
-        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
+        for ( int i = 1; i < n-1; i += 2 ) {
             // A = Psi[i]
-            _c1.setValue( _Psi[i] );
+            r1 = _Psi[i]._real;
+            i1 = _Psi[i]._imaginary;
             
             // B = Psi[i+1]
-            _c2.setValue( _Psi[i+1] );
+            r2 = _Psi[i+1]._real;
+            i2 = _Psi[i+1]._imaginary;
             
             // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[i]._real = r3 + r4;
+            _Psi[i]._imaginary = i3 + i4;
             
             // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i+1].setValue( _c3 );
-            _Psi[i+1].add( _c4 );
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[i+1]._real = r3 + r4;
+            _Psi[i+1]._imaginary = i3 + i4;
         }
         
         // Wrap around...
         {
-            int i = numberOfPoints - 1;
-            int j = 0;
+            // A = Psi[n-1]
+            r1 = _Psi[n-1]._real;
+            i1 = _Psi[n-1]._imaginary;
             
-            // A = Psi[i]
-            _c1.setValue( _Psi[i] );
-
-            // B = Psi[j]
-            _c2.setValue( _Psi[j] );
-
-            // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
-
-            // Psi[j] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[j].setValue( _c3 );
-            _Psi[j].add( _c4 );
+            // B = Psi[0]
+            r2 = _Psi[0]._real;
+            i2 = _Psi[0]._imaginary;
+            
+            // Psi[n-1] = (alpha * A) + (beta * B)
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[n-1]._real = r3 + r4;
+            _Psi[n-1]._imaginary = i3 + i4;
+            
+            // Psi[0] = (alpha * B) + (beta * A)
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[0]._real = r3 + r4;
+            _Psi[0]._imaginary = i3 + i4;
         }
         
         // Apply propagator values...
-        for ( int i = 0; i < numberOfPoints; i++ ) {
-            _Psi[i].multiply( _EtoV[i] );
+        for ( int i = 0; i < n-1; i++ ) {
+            // Psi[i] = Psi[i] * EtoV[i]
+            r1 = _Psi[i]._real;
+            i1 = _Psi[i]._imaginary;
+            r2 = _EtoV[i]._real;
+            i2 = _EtoV[i]._imaginary;
+            _Psi[i]._real = r1 * r2 - i1 * i2;
+            _Psi[i]._imaginary = r1 * i2 + i1 * r2;
         }
 
         // Now do what we did above, but in the reverse order...
         
         // Wrap around...
         {
-            int i = numberOfPoints - 1;
-            int j = 0;
+            // A = Psi[n-1]
+            r1 = _Psi[n-1]._real;
+            i1 = _Psi[n-1]._imaginary;
             
-            // A = Psi[i]
-            _c1.setValue( _Psi[i] );
-
-            // B = Psi[j]
-            _c2.setValue( _Psi[j] );
-
-            // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
-
-            // Psi[j] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[j].setValue( _c3 );
-            _Psi[j].add( _c4 );
+            // B = Psi[0]
+            r2 = _Psi[0]._real;
+            i2 = _Psi[0]._imaginary;
+            
+            // Psi[n-1] = (alpha * A) + (beta * B)
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[n-1]._real = r3 + r4;
+            _Psi[n-1]._imaginary = i3 + i4;
+            
+            // Psi[0] = (alpha * B) + (beta * A)
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[0]._real = r3 + r4;
+            _Psi[0]._imaginary = i3 + i4;
         }
 
         // Starting at 1...
-        for ( int i = 1; i < numberOfPoints - 1; i += 2 ) {
+        for ( int i = 1; i < n-1; i += 2 ) {
             // A = Psi[i]
-            _c1.setValue( _Psi[i] );
+            r1 = _Psi[i]._real;
+            i1 = _Psi[i]._imaginary;
             
             // B = Psi[i+1]
-            _c2.setValue( _Psi[i+1] );
+            r2 = _Psi[i+1]._real;
+            i2 = _Psi[i+1]._imaginary;
             
             // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[i]._real = r3 + r4;
+            _Psi[i]._imaginary = i3 + i4;
             
             // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i+1].setValue( _c3 );
-            _Psi[i+1].add( _c4 );
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[i+1]._real = r3 + r4;
+            _Psi[i+1]._imaginary = i3 + i4;
         }
 
         // Starting at 0...
-        for ( int i = 0; i < numberOfPoints - 1; i += 2 ) {
+        for ( int i = 0; i < n-1; i += 2 ) {
             // A = Psi[i]
-            _c1.setValue( _Psi[i] );
+            r1 = _Psi[i]._real;
+            i1 = _Psi[i]._imaginary;
             
             // B = Psi[i+1]
-            _c2.setValue( _Psi[i+1] );
+            r2 = _Psi[i+1]._real;
+            i2 = _Psi[i+1]._imaginary;
             
             // Psi[i] = (alpha * A) + (beta * B)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c1 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c2 );
-            _Psi[i].setValue( _c3 );
-            _Psi[i].add( _c4 );
+            r3 = alphaReal * r1 - alphaImaginary * i1;
+            i3 = alphaReal * i1 + alphaImaginary * r1;
+            r4 = betaReal * r2 - betaImaginary * i2;
+            i4 = betaReal * i2 + betaImaginary * r2;
+            _Psi[i]._real = r3 + r4;
+            _Psi[i]._imaginary = i3 + i4;
             
             // Psi[i+1] = (alpha * B) + (beta * A)
-            _c3.setValue( _alpha );
-            _c3.multiply( _c2 );
-            _c4.setValue( _beta );
-            _c4.multiply( _c1 );
-            _Psi[i+1].setValue( _c3 );
-            _Psi[i+1].add( _c4 );
+            r3 = alphaReal * r2 - alphaImaginary * i2;
+            i3 = alphaReal * i2 + alphaImaginary * r2;
+            r4 = betaReal * r1 - betaImaginary * i1;
+            i4 = betaReal * i1 + betaImaginary * r1;
+            _Psi[i+1]._real = r3 + r4;
+            _Psi[i+1]._imaginary = i3 + i4;
         }
 
         /*
@@ -392,8 +406,12 @@ public class RichardsonSolver {
         }
         for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
             double scale = DAMPING_FACTORS[i];
-            _Psi[i].scale( scale ); // left edge
-            _Psi[ _Psi.length - i - 1 ].scale( scale ); // right edge
+            // left edge...
+            _Psi[i]._real *= scale;
+            _Psi[i]._imaginary *= scale;
+            // right edge...
+            _Psi[ _Psi.length - i - 1 ]._real *= scale;
+            _Psi[ _Psi.length - i - 1 ]._imaginary *= scale;
         }
     }
     
@@ -427,6 +445,11 @@ public class RichardsonSolver {
      * RComplex provides the bare minimum of complex number functionality
      * needed by the Richardson algorithm. The goal is to minimize method
      * calls that occur in the Richardson propagate method.
+     * <p>
+     * The propagator should access the real and imaginary members 
+     * directly, and not use any of the other methods.  The other 
+     * methods are for use by clients that need to do something with
+     * the solution values.
      */
     public static class RComplex {
         
@@ -450,26 +473,11 @@ public class RichardsonSolver {
             return _imaginary;
         }
         
-        public void setValue( RComplex c ) {
-            _real = c._real;
-            _imaginary = c._imaginary;
-        }
-        
-        public void add( RComplex c ) {
-            _real += c._real;
-            _imaginary += c._imaginary;
-        }
-        
         public void multiply( RComplex c ) {
             double newReal = _real * c._real - _imaginary * c._imaginary;
             double newImaginary = _real * c._imaginary + _imaginary * c._real;
             _real = newReal;
             _imaginary = newImaginary;
-        }
-        
-        public void scale( double scale ) {
-            _real *= scale;
-            _imaginary *= scale;
         }
         
         public double getAbs() {
