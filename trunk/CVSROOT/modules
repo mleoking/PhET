@@ -149,7 +149,7 @@ ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 john-travoltage travoltage
 
 # Lasers
-lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module &jfreechart-dir
+lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module
 
 # Localizations
 localizations localizations
