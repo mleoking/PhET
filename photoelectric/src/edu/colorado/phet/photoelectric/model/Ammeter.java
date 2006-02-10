@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
-//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
 
 /**
  * Ammeter

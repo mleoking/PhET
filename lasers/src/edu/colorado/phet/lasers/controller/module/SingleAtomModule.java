@@ -22,13 +22,9 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.PropertiesBasedAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
-import edu.colorado.phet.lasers.model.photon.Beam;
-import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.quantum.model.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

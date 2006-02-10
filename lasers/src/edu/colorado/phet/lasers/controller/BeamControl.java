@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSliderWithSquareCursor;
-import edu.colorado.phet.lasers.model.photon.Beam;
+import edu.colorado.phet.quantum.model.Beam;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

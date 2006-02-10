@@ -12,7 +12,7 @@ package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.lasers.model.atom.ElementProperties;
+import edu.colorado.phet.quantum.model.ElementProperties;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

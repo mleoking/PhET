@@ -10,14 +10,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.common.model.PhysicsUtil;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.quantum.model.AtomicState;
 
 import java.awt.*;
 

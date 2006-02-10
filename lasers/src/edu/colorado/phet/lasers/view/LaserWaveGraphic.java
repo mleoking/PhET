@@ -6,16 +6,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.common.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.quantum.model.AtomicState;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

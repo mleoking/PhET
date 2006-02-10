@@ -15,8 +15,10 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.photon.Beam;
+import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
+import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.model.Beam;
 
 import javax.swing.*;
 import java.awt.*;

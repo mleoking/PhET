@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.chart;
 
-import java.awt.Component;
-
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
+
+import java.awt.*;
 
 public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer, PhetGraphicListener {
     private DataSet dataSet;

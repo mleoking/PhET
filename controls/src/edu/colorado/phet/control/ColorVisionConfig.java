@@ -11,8 +11,7 @@
 
 package edu.colorado.phet.control;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * ColorVisionConfig contains global configuration values for the Color Vision

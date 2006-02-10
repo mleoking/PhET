@@ -16,7 +16,7 @@ import edu.colorado.phet.collision.CollisionUtil;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.quantum.model.Photon;
 
 import java.awt.geom.Line2D;
 import java.util.HashMap;

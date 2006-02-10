@@ -11,17 +11,16 @@
 package edu.colorado.phet.photoelectric.model.util;
 
 import edu.colorado.phet.common.model.clock.IClock;
-//import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.ModelEventChannel;
 
 import javax.swing.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.EventListener;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 
 /**

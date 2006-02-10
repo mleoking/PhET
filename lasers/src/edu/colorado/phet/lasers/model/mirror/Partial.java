@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.quantum.model.Photon;
 
 /**
  * A ReflectionStrategy that reflects a specified fraction of photons

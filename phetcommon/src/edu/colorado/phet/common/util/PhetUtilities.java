@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.util;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.ModelClock;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ModelClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.PhetFrame;
 

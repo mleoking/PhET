@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.model.DefaultEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
-import edu.colorado.phet.lasers.model.atom.EnergyEmissionStrategy;
+import edu.colorado.phet.quantum.model.EnergyEmissionStrategy;
 
 /**
  * Zinc
