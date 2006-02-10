@@ -4,13 +4,16 @@ package edu.colorado.phet.qm.tests;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
-import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
+import edu.colorado.phet.qm.model.propagators.PhysicalSystem;
+import edu.colorado.phet.qm.model.propagators.QWIFFT2D;
+import edu.colorado.phet.qm.model.propagators.SplitOperatorPropagator;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.piccolo.SimpleWavefunctionGraphic;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -20,12 +23,12 @@ import java.awt.geom.Point2D;
  */
 
 public class SimpleWaveTest {
-    private ModifiedRichardsonPropagator modifiedRichardsonPropagator;
+    private Propagator propagator;
     private Wavefunction wavefunction;
     private WaveDebugger waveDebugger;
 
     public SimpleWaveTest() {
-        wavefunction = new Wavefunction( 100, 100 );
+        wavefunction = new Wavefunction( 200, 200 );
         ParticleUnits.NeutronUnits neutronUnits = new ParticleUnits.NeutronUnits();
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
@@ -37,7 +40,9 @@ public class SimpleWaveTest {
         waveDebugger = new WaveDebugger( "wave", wavefunction, 2, 2 );
         waveDebugger.setComplexColorMap( new VisualColorMap3() );
         waveDebugger.setVisible( true );
-        modifiedRichardsonPropagator = new ModifiedRichardsonPropagator( DiscreteModel.DEFAULT_DT, new ConstantPotential(), 1.0, 1.0 );
+//        propagator = new ModifiedRichardsonPropagator( DiscreteModel.DEFAULT_DT, new ConstantPotential(), 1.0, 1.0 );
+        double hbar = 1.0;
+        propagator = new SplitOperatorPropagator( new PhysicalSystem( wavefunction.getWidth(), wavefunction.getHeight(), hbar, new Rectangle2D.Double( 0, 0, 1, 1 ) ), new ConstantPotential() );
     }
 
     private void updateGraphics() {
@@ -49,11 +54,37 @@ public class SimpleWaveTest {
     }
 
     private void start() throws InterruptedException {
-        for( int i = 0; i < 100; i++ ) {
-            modifiedRichardsonPropagator.propagate( wavefunction );
-            updateGraphics();
-            Thread.sleep( 30 );
-        }
+//        testTranslaton();
+        Wavefunction orig = wavefunction.copy();
+        System.out.println( "orig.getMagnitude() = " + orig.getMagnitude() );
+        show( "orig", orig, 2, 2 );
+
+        Wavefunction a = QWIFFT2D.forwardFFT( orig );
+        System.out.println( "a.getMagnitude() = " + a.getMagnitude() );
+        show( "a", a.getNormalizedInstance(), 2, 2 );
+
+        Wavefunction b = QWIFFT2D.inverseFFT( a );
+        System.out.println( "b.getMagnitude() = " + b.getMagnitude() );
+        show( "b", b, 2, 2 );
+
+//        for( int i = 0; i < 1; i++ ) {
+//            propagator.propagate( wavefunction );
+////            wavefunction.normalize();
+//            updateGraphics();
+//            Thread.sleep( 30 );
+//        }
+    }
+
+    private void show( String s, Wavefunction w, int dx, int dy ) {
+        WaveDebugger waveDebugger = new WaveDebugger( s, w, dx, dy );
+        waveDebugger.setComplexColorMap( new VisualColorMap3() );
+        waveDebugger.setVisible( true );
+    }
+
+    private void testTranslaton() {
+        double[]w = QWIFFT2D.toArray( wavefunction );
+        Wavefunction wax = QWIFFT2D.parseData( w, wavefunction.getWidth(), wavefunction.getHeight() );
+        new WaveDebugger( "wax", wax, 2, 2 ).setVisible( true );
     }
 
 }

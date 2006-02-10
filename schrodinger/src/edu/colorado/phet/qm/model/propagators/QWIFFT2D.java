@@ -34,13 +34,6 @@ public class QWIFFT2D {
         return data;
     }
 
-    public static Wavefunction forwardFFT( Wavefunction psi ) {
-        FFT2D fft2D = new FFT2D( psi.getWidth(), psi.getHeight() );
-        double[]data = toArray( psi );
-        fft2D.transform( data );
-        return parseData( data, psi.getWidth(), psi.getHeight() );
-    }
-
     public static Wavefunction parseData( double[] data, int numRows, int numCols ) {
         Wavefunction wavefunction = new Wavefunction( numRows, numCols );
         int rowspan = 2 * numCols;
@@ -54,10 +47,19 @@ public class QWIFFT2D {
         return wavefunction;
     }
 
+    public static Wavefunction forwardFFT( Wavefunction psi ) {
+        double[]data = toArray( psi );
+        new FFT2D( psi.getWidth(), psi.getHeight() ).transform( data );
+        Wavefunction wavefunction = parseData( data, psi.getWidth(), psi.getHeight() );
+//        wavefunction.scale( 1.0 / 200 );
+        return wavefunction;
+    }
+
     public static Wavefunction inverseFFT( Wavefunction phi ) {
-        FFT2D fft2D = new FFT2D( phi.getWidth(), phi.getHeight() );
-        double[]data = QWIFFT2D.toArray( phi );
-        fft2D.backtransform( data );
-        return parseData( data, phi.getWidth(), phi.getHeight() );
+        double[]data = toArray( phi );
+        new FFT2D( phi.getWidth(), phi.getHeight() ).inverse( data );
+        Wavefunction wavefunction = parseData( data, phi.getWidth(), phi.getHeight() );
+//        wavefunction.scale( 1.0/200);
+        return wavefunction;
     }
 }
