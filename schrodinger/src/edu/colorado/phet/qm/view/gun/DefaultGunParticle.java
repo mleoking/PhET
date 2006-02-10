@@ -53,7 +53,7 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     private Propagator createPropagator() {
-        return new ModifiedRichardsonPropagator( getDT(), getDiscreteModel().getWave(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
+        return new ModifiedRichardsonPropagator( getDT(), getDiscreteModel().getPotential(), getHBar(), getParticleMass() );
     }
 
     protected double getHBar() {

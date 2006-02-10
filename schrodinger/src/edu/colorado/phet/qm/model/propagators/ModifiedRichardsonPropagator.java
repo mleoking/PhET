@@ -2,14 +2,13 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.Wave;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
-    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential, double hbar, double mass ) {
-        super( TAU, wave, potential, hbar, mass );
+    public ModifiedRichardsonPropagator( double TAU, Potential potential, double hbar, double mass ) {
+        super( TAU, potential, hbar, mass );
     }
 
     protected Complex createAlpha() {
@@ -42,7 +41,7 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 //        modifiedRichardsonPropagator.setHBar( super.getHBar() );
 //        modifiedRichardsonPropagator.setMass( super.getMass() );
         return new ModifiedRichardsonPropagator(
-                getDeltaTime(), super.getWave(), super.getPotential(), getHBar(), getMass() );
+                getDeltaTime(), super.getPotential(), getHBar(), getMass() );
     }
 
     public void normalize() {
