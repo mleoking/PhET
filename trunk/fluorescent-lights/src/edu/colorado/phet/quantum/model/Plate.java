@@ -11,6 +11,7 @@
 package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Point2D;
 
@@ -26,9 +27,9 @@ public class Plate extends Electrode {
     private ElectronSource source;
     private ElectronSink sink;
 
-    public Plate( DischargeLampModel model, Point2D p1, Point2D p2 ) {
+    public Plate( BaseModel model, ElectromotiveForce emf, Point2D p1, Point2D p2 ) {
         super( p1, p2 );
-        source = new ElectronSource( model, p1, p2, this );
+        source = new ElectronSource( emf, p1, p2, this );
         model.addModelElement( source );
         sink = new ElectronSink( model, p1, p2 );
         model.addModelElement( sink );

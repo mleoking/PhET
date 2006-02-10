@@ -81,5 +81,8 @@ public class DischargeLampsConfig {
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts
-    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
+    public static final double VOLTAGE_CALIBRATION_FACTOR = 1;
+//    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
+    // Factor that makes the electron acceleration come out right for the potential between the plates
+    public static final double ELECTRON_ACCELERATION_CALIBRATION_FACTOR = 1 / 5.55;
 }

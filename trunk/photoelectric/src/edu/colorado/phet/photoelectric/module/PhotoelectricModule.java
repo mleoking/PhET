@@ -28,13 +28,13 @@ import edu.colorado.phet.dischargelamps.model.Battery;
 import edu.colorado.phet.dischargelamps.view.BatteryReadout;
 import edu.colorado.phet.quantum.view.PlateGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
 import edu.colorado.phet.quantum.model.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.quantum.view.TubeGraphic;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
@@ -45,6 +45,7 @@ import edu.colorado.phet.photoelectric.view.*;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.model.Beam;
 import edu.colorado.phet.quantum.view.PlateGraphic;
+import edu.colorado.phet.quantum.view.TubeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -376,8 +377,8 @@ public class PhotoelectricModule extends BaseLaserModule {
      * @param apparatusPanel
      */
     private void addTubeGraphic( PhotoelectricModel model, ApparatusPanel apparatusPanel ) {
-        ResonatingCavity tube = model.getTube();
-        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
+        Tube tube = model.getTube();
+        TubeGraphic tubeGraphic = new TubeGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, PhotoelectricConfig.TUBE_LAYER );
     }
 

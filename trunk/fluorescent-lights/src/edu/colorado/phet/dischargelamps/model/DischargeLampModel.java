@@ -12,11 +12,12 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.quantum.model.*;
 
 import java.awt.geom.Point2D;
@@ -35,7 +36,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampModel extends LaserModel {
+public class DischargeLampModel extends LaserModel implements ElectromotiveForce {
 
     //-----------------------------------------------------------------
     // Class data 
@@ -53,7 +54,7 @@ public class DischargeLampModel extends LaserModel {
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private Spectrometer spectrometer;
     private Vector2D electronAcceleration = new Vector2D.Double();
-    private ResonatingCavity tube;
+    private Tube tube;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
     private HeatingElement leftHandHeatingElement;
@@ -79,14 +80,26 @@ public class DischargeLampModel extends LaserModel {
 
         // Make the plates
         leftHandPlate = new Plate( this,
+                                   this,
                                    DischargeLampsConfig.CATHODE_LINE.getP1(),
                                    DischargeLampsConfig.CATHODE_LINE.getP2() );
         leftHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
+        leftHandPlate.addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
+            public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+                addModelElement( event.getElectron() );
+            }
+        } );
 
         rightHandPlate = new Plate( this,
+                                    this,
                                     DischargeLampsConfig.ANODE_LINE.getP1(),
                                     DischargeLampsConfig.ANODE_LINE.getP2() );
         rightHandPlate.addStateChangeListener( new ElectrodeStateChangeListener() );
+        rightHandPlate.addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
+            public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+                addModelElement( event.getElectron() );
+            }
+        } );
 
         // Make the heating elements
         leftHandHeatingElement = new HeatingElement();
@@ -105,7 +118,7 @@ public class DischargeLampModel extends LaserModel {
         double height = DischargeLampsConfig.CATHODE_LENGTH
                         + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
         Point2D tubeLocation = new Point2D.Double( x, y );
-        tube = new ResonatingCavity( tubeLocation, length, height );
+        tube = new Tube( tubeLocation, length, height );
         addModelElement( tube );
 
         // Make the spectrometer.
@@ -210,7 +223,7 @@ public class DischargeLampModel extends LaserModel {
     // Getters and setters
     //----------------------------------------------------------------
 
-    public ResonatingCavity getTube() {
+    public Tube getTube() {
         return tube;
     }
 
@@ -332,8 +345,8 @@ public class DischargeLampModel extends LaserModel {
             double potentialDiff = leftHandPlate.getPotential() - rightHandPlate.getPotential();
 
             // Determine the acceleration that electrons will experience
-//            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) / DischargeLampsConfig.PIXELS_PER_NM );
-            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
+            setElectronAcceleration( potentialDiff * DischargeLampsConfig.ELECTRON_ACCELERATION_CALIBRATION_FACTOR, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
+//            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
             for( int i = 0; i < electrons.size(); i++ ) {
                 Electron electron = (Electron)electrons.get( i );
                 electron.setAcceleration( getElectronAcceleration() );

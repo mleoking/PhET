@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
@@ -20,17 +21,15 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.control.CurrentSlider;
+import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.quantum.model.Tube;
+import edu.colorado.phet.quantum.view.TubeGraphic;
 import edu.colorado.phet.quantum.model.*;
-import edu.colorado.phet.quantum.view.AnnotatedAtomGraphic;
-import edu.colorado.phet.quantum.view.AtomGraphic;
-import edu.colorado.phet.quantum.view.PhotonGraphic;
-import edu.colorado.phet.quantum.view.PlateGraphic;
+import edu.colorado.phet.quantum.view.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -67,7 +66,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     // Instance data
     //----------------------------------------------------------------
 
-    private ResonatingCavity tube;
+    private Tube tube;
     // The states in which the atoms can be
     private Random random = new Random();
     private DischargeLampModel model;
@@ -122,11 +121,11 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
         // Create a listener on the apparatus panel that will maintain the bounds of the model
         // to be conformant with the panel
-        apparatusPanel.addChangeListener( new ApparatusPanel2.ChangeListener() {
-            public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-                model.setBounds( new Rectangle2D.Double( 0, 0, event.getCanvasSize().getWidth(), event.getCanvasSize().getHeight() ) );
-            }
-        } );
+//        apparatusPanel.addChangeListener( new ApparatusPanel2.ChangeListener() {
+//            public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
+//                model.setBounds( new Rectangle2D.Double( 0, 0, event.getCanvasSize().getWidth(), event.getCanvasSize().getHeight() ) );
+//            }
+//        } );
 
         // Create the element properties we will use
         configurableElement = new ConfigurableElementProperties( 2, model );
@@ -210,8 +209,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * @param apparatusPanel
      */
     private void addTubeGraphic( ApparatusPanel apparatusPanel ) {
-        ResonatingCavity tube = model.getTube();
-        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
+        Tube tube = model.getTube();
+        TubeGraphic tubeGraphic = new TubeGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
         this.tube = tube;
     }
@@ -331,14 +330,13 @@ public class DischargeLampModule extends PhetGraphicsModule {
             controlPanel.addFullWidth( energyLevelsMonitorPanel );
         }
 
-        // Panel with general options
         {
             optionsPanel = new JPanel( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, //0,
                                                              1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.WEST,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                             new Insets( 0, 40, 0, 0 ), 0, 0 );
             optionsPanel.setBorder( new TitledBorder( SimStrings.get( "Controls.Options" ) ) );
             JPanel cbPanel = new JPanel( new GridLayout( 2, 1 ) );
 
@@ -362,6 +360,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             } );
             cbPanel.add( squiggleCB );
             optionsPanel.add( cbPanel, gbc );
+            optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
             controlPanel.addFullWidth( optionsPanel );
         }
     }
@@ -372,7 +371,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * @param tube
      * @param numAtoms
      */
-    protected void addAtoms( ResonatingCavity tube, int numAtoms, double maxSpeed ) {
+    protected void addAtoms( Tube tube, int numAtoms, double maxSpeed ) {
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
@@ -452,7 +451,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     /**
      * @return
      */
-    protected ResonatingCavity getTube() {
+    protected Tube getTube() {
         return tube;
     }
 

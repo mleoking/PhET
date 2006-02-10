@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +79,7 @@ public class Kaboom implements ModelElement {
 
         final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
 
-        ResonatingCavity cavity = module.getCavity();
+        Tube cavity = module.getCavity();
         Rectangle2D bounds = cavity.getBounds();
         bounds = RectangleUtils.expand( bounds, 30, 20 );
         bounds.setRect( bounds.getMinX(), bounds.getMinY(), ap.getWidth() - bounds.getMinX(), bounds.getHeight() );

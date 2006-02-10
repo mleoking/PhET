@@ -19,7 +19,7 @@ import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.quantum.model.Atom;
@@ -54,7 +54,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
 
         // Set the size of the cavity
-        ResonatingCavity cavity = getCavity();
+        Tube cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
 
         // Set up the beams

@@ -139,6 +139,7 @@ public class PhotoelectricModel extends DischargeLampModel {
 
         // Create the right-hand plate
         rightHandPlate = new Plate( this,
+                                    this,
                                     DischargeLampsConfig.ANODE_LINE.getP1(),
                                     DischargeLampsConfig.ANODE_LINE.getP2() );
         this.addModelElement( rightHandPlate );

@@ -12,8 +12,8 @@ package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -49,21 +49,25 @@ public class ElectronSource implements ModelElement {
     private Random random = new Random( System.currentTimeMillis() );
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
-    private DischargeLampModel model;
+    private ElectromotiveForce emf;
+//    private DischargeLampModel emf;
     private Point2D p1;
     private Point2D p2;
     private Plate plate;
     private Object electronProductionMode;
+//    private BaseModel model;
 
     /**
      * Emits electrons along a line between two points
      *
-     * @param model
+     * @param emf
      * @param p1    One endpoint of the line
      * @param p2    The other endpoint of the line
      */
-    public ElectronSource( DischargeLampModel model, Point2D p1, Point2D p2, Plate plate ) {
-        this.model = model;
+    public ElectronSource( ElectromotiveForce emf, Point2D p1, Point2D p2, Plate plate ) {
+//    public ElectronSource( DischargeLampModel emf, Point2D p1, Point2D p2, Plate plate ) {
+//        this.model = model;
+        this.emf = emf;
         this.p1 = p1;
         this.p2 = p2;
         this.plate = plate;
@@ -101,12 +105,12 @@ public class ElectronSource implements ModelElement {
             // Determine where the electron will be emitted from
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-            Vector2D direction = new Vector2D.Double( model.getElectronAcceleration() );
+            Vector2D direction = new Vector2D.Double( emf.getElectronAcceleration() );
             if( direction.getMagnitude() > 0 ) {
                 direction.normalize().scale( Electron.ELECTRON_RADIUS );
             }
             electron.setPosition( x + direction.getX(), y + direction.getY() );
-            model.addModelElement( electron );
+//            model.addModelElement( electron );
             electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
         }
         return electron;
