@@ -106,7 +106,7 @@ fourier-module fourier &charts-module
 shaper-module shaper &charts-module
 
 # Quantum Tunneling
-quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-module
+quantum-tunneling-module quantum-tunneling &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
 
 #============================================================================
 # Simulations
