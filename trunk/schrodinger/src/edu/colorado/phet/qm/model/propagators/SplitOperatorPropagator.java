@@ -64,7 +64,43 @@ public class SplitOperatorPropagator extends Propagator {
         return wavefunction;
     }
 
+    private Complex getExpTValueWraparound( int i, int j, Wavefunction wavefunction ) {
+        double px = ( i + wavefunction.getWidth() / 2 ) % wavefunction.getWidth();//wavefunction.getWidth()-i-1;
+        double py = ( j + wavefunction.getHeight() / 2 ) % wavefunction.getHeight();
+        double psquared = px * px + py * py;
+        double ke = psquared * scale;
+        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
+            return new Complex();
+        }
+//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
+//            return new Complex( );
+//        }
+        //scale is directly or inversely proportional to each of the following:
+        // the physical area of the box L*W (in meters)
+        // the time step dt (in seconds)
+        //the mass of the particle (kg)
+        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
+    }
+
     private Complex getExpTValue( int i, int j, Wavefunction wavefunction ) {
+        double px = i;//wavefunction.getWidth()-i-1;
+        double py = j;
+        double psquared = px * px + py * py;
+        double ke = psquared * scale;
+        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
+            return new Complex();
+        }
+//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
+//            return new Complex( );
+//        }
+        //scale is directly or inversely proportional to each of the following:
+        // the physical area of the box L*W (in meters)
+        // the time step dt (in seconds)
+        //the mass of the particle (kg)
+        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
+    }
+
+    private Complex getExpTValueOK( int i, int j, Wavefunction wavefunction ) {
         double px = i;//wavefunction.getWidth()-i-1;
         double py = j;
         double psquared = px * px + py * py;
