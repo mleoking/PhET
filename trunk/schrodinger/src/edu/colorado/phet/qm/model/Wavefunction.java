@@ -284,7 +284,10 @@ public class Wavefunction {
     }
 
     public void printWaveToScreen() {
-        DecimalFormat formatter = new DecimalFormat( "0.00" );
+        printWaveToScreen( new DecimalFormat( "0.00" ) );
+    }
+
+    public void printWaveToScreen( DecimalFormat formatter ) {
         for( int k = 0; k < getHeight(); k++ ) {
             for( int i = 0; i < getWidth(); i++ ) {
                 Complex val = valueAt( i, k );

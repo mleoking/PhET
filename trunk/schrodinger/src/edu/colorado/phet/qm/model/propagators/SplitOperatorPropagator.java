@@ -5,8 +5,10 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
+import edu.colorado.phet.qm.model.WaveDebugger;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,15 +32,22 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public void propagate( Wavefunction w ) {
-        Wavefunction psi = w.copy();
-        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
+//        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
-        psi = multiplyPointwise( expV, psi );
-//        new WaveDebugger( "psi1", psi, 2, 2 ).setVisible( true );
+//        new WaveDebugger( "expt",expT.getNormalizedInstance(),10,10).setVisible( true );
+//        Wavefunction psi = multiplyPointwise( expV, w.copy() );
+        Wavefunction psi = w.copy();
         Wavefunction phi = QWIFFT2D.forwardFFT( psi );
+        waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
         phi = multiplyPointwise( expT, phi );
         psi = QWIFFT2D.inverseFFT( phi );
+//        psi = multiplyPointwise( expV, psi );
         w.setWavefunction( psi );
+    }
+
+    public static void main( String[] args ) {
+        Wavefunction expt = new SplitOperatorPropagator( null, null ).getExpT( 100, 100 );
+        expt.printWaveToScreen( new DecimalFormat( "0.000000" ) );
     }
 
     private Wavefunction getExpV( int width, int height ) {
@@ -49,13 +58,33 @@ public class SplitOperatorPropagator extends Propagator {
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-                wavefunction.setValue( i, k, getExpTValue( i, k ) );
+                wavefunction.setValue( i, k, getExpTValue( i, k, wavefunction ) );
             }
         }
         return wavefunction;
     }
 
+    private Complex getExpTValue( int i, int j, Wavefunction wavefunction ) {
+        double px = i;//wavefunction.getWidth()-i-1;
+        double py = j;
+        double psquared = px * px + py * py;
+        double ke = psquared * scale;
+        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
+            return new Complex();
+        }
+//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
+//            return new Complex( );
+//        }
+        //scale is directly or inversely proportional to each of the following:
+        // the physical area of the box L*W (in meters)
+        // the time step dt (in seconds)
+        //the mass of the particle (kg)
+        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
+    }
+
     static double scale;
+
+    private static WaveDebugger waveDebugger;
 
     static {
         JFrame controls = new JFrame( "SOM controls" );
@@ -73,18 +102,10 @@ public class SplitOperatorPropagator extends Propagator {
         controls.pack();
         controls.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         controls.setVisible( true );
-    }
 
-    private Complex getExpTValue( int i, int j ) {
-        double px = i;
-        double py = j;
-        double psquared = px * px + py * py;
-        double ke = psquared * scale;
-        //scale is directly or inversely proportional to each of the following:
-        // the physical area of the box L*W (in meters)
-        // the time step dt (in seconds)
-        //the mass of the particle (kg)
-        return Complex.exponentiateImaginary( ke );//todo why the sign error?
+        waveDebugger = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 2, 2 );
+        waveDebugger.setComplexColorMap( new VisualColorMap3() );
+        waveDebugger.setVisible( true );
     }
 
     private Complex getExpTValuePhysical( int i, int j ) {
@@ -101,7 +122,6 @@ public class SplitOperatorPropagator extends Propagator {
         double py = dpy * j;
         double pSquared = px * px + py * py;
         double numerator = pSquared * dt / 2 / mass;
-
 
         return Complex.exponentiateImaginary( -numerator );
     }
