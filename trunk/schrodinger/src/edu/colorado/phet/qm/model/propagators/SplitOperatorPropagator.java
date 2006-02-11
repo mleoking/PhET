@@ -80,7 +80,7 @@ public class SplitOperatorPropagator extends Propagator {
         // the physical area of the box L*W (in meters)
         // the time step dt (in seconds)
         //the mass of the particle (kg)
-        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
+        return Complex.exponentiateImaginary( -ke );
     }
 
     private Complex getExpTValue( int i, int j, Wavefunction wavefunction ) {
@@ -98,7 +98,7 @@ public class SplitOperatorPropagator extends Propagator {
         // the physical area of the box L*W (in meters)
         // the time step dt (in seconds)
         //the mass of the particle (kg)
-        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
+        return Complex.exponentiateImaginary( -ke );
     }
 
     static double scale;
@@ -109,7 +109,7 @@ public class SplitOperatorPropagator extends Propagator {
         JFrame controls = new JFrame( "SOM controls" );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 1, 0.5, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 scale = modelSlider.getValue();
