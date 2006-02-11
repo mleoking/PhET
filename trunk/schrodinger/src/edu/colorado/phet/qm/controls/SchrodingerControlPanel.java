@@ -9,6 +9,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
+import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -17,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 /**
@@ -109,6 +111,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } ).start();
         addControl( stopwatchCheckBox );
+        addControl( createPropagatorPanel() );
     }
 
     protected void addRulerPanel() throws IOException {
@@ -121,31 +124,35 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     protected VerticalLayoutPanel createPropagatorPanel() {
-        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
+        VerticalLayoutPanel propagatorPanel = new VerticalLayoutPanel();
+        propagatorPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
 
         JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getPotential(), 1, 1 ) );
-        layoutPanel.add( richardson );
+        propagatorPanel.add( richardson );
 
         JRadioButton modified = createPropagatorButton( buttonGroup, "Modified Richardson", new ModifiedRichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getPotential(), 1, 1 ) );
-        layoutPanel.add( modified );
+        propagatorPanel.add( modified );
 
         JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
-        layoutPanel.add( crank );
+        propagatorPanel.add( crank );
 
         JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator( getDiscreteModel().getPotential() ) );
-        layoutPanel.add( light );
+        propagatorPanel.add( light );
 
         classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel().getPotential() );
         JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
-        layoutPanel.add( lap );
+
+        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( new PhysicalSystem( getDiscreteModel().getWavefunction().getWidth(), getDiscreteModel().getWavefunction().getHeight(), 1.0, new Rectangle2D.Double( 0, 0, 10, 10 ) ), new ConstantPotential() ) );
+        propagatorPanel.add( som );
+
+        propagatorPanel.add( lap );
         lap.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 initClassicalWave( classicalPropagator2ndOrder );
             }
         } );
-        return layoutPanel;
+        return propagatorPanel;
     }
 
     private void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {

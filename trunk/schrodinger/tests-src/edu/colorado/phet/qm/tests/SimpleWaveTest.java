@@ -55,6 +55,19 @@ public class SimpleWaveTest {
 
     private void start() throws InterruptedException {
 //        testTranslaton();
+//        testFFT();
+
+        for( int i = 0; i < 3; i++ ) {
+            propagator.propagate( wavefunction );
+////            wavefunction.normalize();
+            show( "[" + i + "]", wavefunction, 2, 2 );
+//            updateGraphics();
+//            Thread.sleep( 30 );
+//        }
+        }
+    }
+
+    private void testFFT() {
         Wavefunction orig = wavefunction.copy();
         System.out.println( "orig.getMagnitude() = " + orig.getMagnitude() );
         show( "orig", orig, 2, 2 );
@@ -66,13 +79,6 @@ public class SimpleWaveTest {
         Wavefunction b = QWIFFT2D.inverseFFT( a );
         System.out.println( "b.getMagnitude() = " + b.getMagnitude() );
         show( "b", b, 2, 2 );
-
-//        for( int i = 0; i < 1; i++ ) {
-//            propagator.propagate( wavefunction );
-////            wavefunction.normalize();
-//            updateGraphics();
-//            Thread.sleep( 30 );
-//        }
     }
 
     private void show( String s, Wavefunction w, int dx, int dy ) {

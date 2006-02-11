@@ -19,13 +19,11 @@ public class CrankNicholsonPropagator extends Propagator {
     private static final Complex TWO = new Complex( 2, 0 );
     private static final Complex MINUS_ONE = new Complex( -1, 0 );
     private Wave wave;
-//    private Potential potential;
 
     public CrankNicholsonPropagator( double TAU, Wave wave, Potential potential ) {
         super( potential );
         this.deltaTime = TAU;
         this.wave = wave;
-//        setPotential( potential );
         simulationTime = 0.0;
         timeStep = 0;
     }
@@ -142,10 +140,6 @@ public class CrankNicholsonPropagator extends Propagator {
     public void setDeltaTime( double deltaTime ) {
         this.deltaTime = deltaTime;
     }
-
-//    public void setPotential( Potential potential ) {
-//        this.potential = potential;
-//    }
 
     public double getSimulationTime() {
         return simulationTime;
