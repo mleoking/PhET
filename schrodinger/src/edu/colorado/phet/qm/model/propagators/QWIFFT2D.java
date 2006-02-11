@@ -49,7 +49,7 @@ public class QWIFFT2D {
 
     public static Wavefunction forwardFFT( Wavefunction psi ) {
         double[]data = toArray( psi );
-        System.out.println( "data.length = " + data.length );
+//        System.out.println( "data.length = " + data.length );
         new FFT2D( psi.getWidth(), psi.getHeight() ).transform( data );
 //        FFT_N_Dimensional.ndfft( data, new int[]{psi.getWidth()-1, psi.getHeight()-1}, 2, +1 );
         Wavefunction wavefunction = parseData( data, psi.getWidth(), psi.getHeight() );
