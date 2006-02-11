@@ -58,23 +58,24 @@ public class SplitOperatorPropagator extends Propagator {
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-                wavefunction.setValue( i, k, getExpTValue( i, k, wavefunction ) );
+                wavefunction.setValue( i, k, getExpTValueWraparound( i, k, wavefunction ) );
             }
         }
         return wavefunction;
     }
 
     private Complex getExpTValueWraparound( int i, int j, Wavefunction wavefunction ) {
-        double px = ( i + wavefunction.getWidth() / 2 ) % wavefunction.getWidth();//wavefunction.getWidth()-i-1;
-        double py = ( j + wavefunction.getHeight() / 2 ) % wavefunction.getHeight();
+        double px = i;
+        double py = j;
+        if( i >= wavefunction.getWidth() / 2 ) {
+            px = wavefunction.getWidth() - i;
+        }
+        if( j >= wavefunction.getHeight() / 2 ) {
+            py = wavefunction.getHeight() - j;
+        }
+
         double psquared = px * px + py * py;
         double ke = psquared * scale;
-        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
-            return new Complex();
-        }
-//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
-//            return new Complex( );
-//        }
         //scale is directly or inversely proportional to each of the following:
         // the physical area of the box L*W (in meters)
         // the time step dt (in seconds)
@@ -100,24 +101,6 @@ public class SplitOperatorPropagator extends Propagator {
         return Complex.exponentiateImaginary( -ke );//todo why the sign error?
     }
 
-    private Complex getExpTValueOK( int i, int j, Wavefunction wavefunction ) {
-        double px = i;//wavefunction.getWidth()-i-1;
-        double py = j;
-        double psquared = px * px + py * py;
-        double ke = psquared * scale;
-        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
-            return new Complex();
-        }
-//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
-//            return new Complex( );
-//        }
-        //scale is directly or inversely proportional to each of the following:
-        // the physical area of the box L*W (in meters)
-        // the time step dt (in seconds)
-        //the mass of the particle (kg)
-        return Complex.exponentiateImaginary( -ke );//todo why the sign error?
-    }
-
     static double scale;
 
     private static WaveDebugger waveDebugger;
@@ -126,7 +109,7 @@ public class SplitOperatorPropagator extends Propagator {
         JFrame controls = new JFrame( "SOM controls" );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.001, 0.0001, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 1, 0.5, textFieldFormat, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 scale = modelSlider.getValue();
