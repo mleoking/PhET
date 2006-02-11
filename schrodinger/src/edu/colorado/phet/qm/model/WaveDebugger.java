@@ -62,9 +62,9 @@ public class WaveDebugger {
         simpleWavefunctionGraphic.update();
     }
 
-    public void setWavefunction( Wavefunction wavefunction ) {
+    public void setWavefunction( Wavefunction wavefunction, ComplexColorMap complexColorMap ) {
+        simpleWavefunctionGraphic.setWavefunction( wavefunction, complexColorMap );
         this.wavefunction = wavefunction;
-        simpleWavefunctionGraphic.setWavefunction( wavefunction );
         update();
     }
 }
