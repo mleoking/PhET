@@ -234,7 +234,7 @@ public abstract class Module {
      * If you have replaced the standard LogoPanel,
      * then use getModulePanel().getLogoPanel().
      * 
-     * @param LogoPanel
+     * @return LogoPanel
      */
     public LogoPanel getLogoPanel() {
         LogoPanel logoPanel = null;
