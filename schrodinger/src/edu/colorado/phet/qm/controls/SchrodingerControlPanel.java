@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -18,7 +17,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 /**
@@ -143,7 +141,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel().getPotential() );
         JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
 
-        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( new PhysicalSystem( getDiscreteModel().getWavefunction().getWidth(), getDiscreteModel().getWavefunction().getHeight(), 1.0, new Rectangle2D.Double( 0, 0, 10, 10 ) ), new ConstantPotential() ) );
+        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( getDiscreteModel().getPotential() ) );
         propagatorPanel.add( som );
 
         propagatorPanel.add( lap );
