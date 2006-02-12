@@ -32,16 +32,16 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public void propagate( Wavefunction w ) {
-//        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
+        Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
 //        new WaveDebugger( "expt",expT.getNormalizedInstance(),10,10).setVisible( true );
-//        Wavefunction psi = multiplyPointwise( expV, w.copy() );
-        Wavefunction psi = w.copy();
+        Wavefunction psi = multiplyPointwise( expV, w.copy() );
+//        Wavefunction psi = w.copy();
         Wavefunction phi = QWIFFT2D.forwardFFT( psi );
         waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
         phi = multiplyPointwise( expT, phi );
         psi = QWIFFT2D.inverseFFT( phi );
-//        psi = multiplyPointwise( expV, psi );
+        psi = multiplyPointwise( expV, psi );
         w.setWavefunction( psi );
     }
 
@@ -51,7 +51,28 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction getExpV( int width, int height ) {
-        return ones( width, height );
+        Wavefunction wavefunction = new Wavefunction( width, height );
+        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+            for( int k = 0; k < wavefunction.getHeight(); k++ ) {
+                wavefunction.setValue( i, k, getExpValue( i, k, wavefunction ) );
+            }
+        }
+//        return ones( width, height );
+        return wavefunction;
+    }
+
+    private Complex getExpValue( int i, int k, Wavefunction wavefunction ) {
+        Potential p = getPotential();
+        double dt = 1.0;
+        double potential = p.getPotential( i, k, 0 );
+//        if( potential != 0.0 ) {
+//            System.out.println( "potential = " + potential );
+//
+//        }
+//        else {
+//            return Complex.exponentiateImaginary( 0 );
+//        }
+        return Complex.exponentiateImaginary( -potential * dt / 2.0 );
     }
 
     private Wavefunction getExpT( int width, int height ) {
@@ -83,24 +104,6 @@ public class SplitOperatorPropagator extends Propagator {
         return Complex.exponentiateImaginary( -ke );
     }
 
-    private Complex getExpTValue( int i, int j, Wavefunction wavefunction ) {
-        double px = i;//wavefunction.getWidth()-i-1;
-        double py = j;
-        double psquared = px * px + py * py;
-        double ke = psquared * scale;
-        if( i >= wavefunction.getWidth() - 5 || j >= wavefunction.getHeight() - 5 ) {
-            return new Complex();
-        }
-//        if (i>wavefunction.getWidth()*0.9||j>wavefunction.getHeight()*0.9){
-//            return new Complex( );
-//        }
-        //scale is directly or inversely proportional to each of the following:
-        // the physical area of the box L*W (in meters)
-        // the time step dt (in seconds)
-        //the mass of the particle (kg)
-        return Complex.exponentiateImaginary( -ke );
-    }
-
     static double scale;
 
     private static WaveDebugger waveDebugger;
@@ -109,7 +112,8 @@ public class SplitOperatorPropagator extends Propagator {
         JFrame controls = new JFrame( "SOM controls" );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
+//        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.004, textFieldFormat, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 scale = modelSlider.getValue();
