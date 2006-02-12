@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LaserSimulation extends PhetApplication {
-    static IClock clock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
+    IClock singleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
+    IClock multipleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
     private JDialog photoDlg;
 
     public LaserSimulation( String[] args ) {
@@ -54,8 +55,8 @@ public class LaserSimulation extends PhetApplication {
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
 
-        Module singleAtomModule = new SingleAtomModule( clock );
-        Module multipleAtomModule = new MultipleAtomModule( clock );
+        Module singleAtomModule = new SingleAtomModule( singleAtomModuleClock );
+        Module multipleAtomModule = new MultipleAtomModule( multipleAtomModuleClock );
         Module[] modules = new Module[]{
             singleAtomModule,
             multipleAtomModule
