@@ -119,7 +119,7 @@ class StateLifetimeManager implements ModelElement {
         /**
          * The direction the photon is supposed to go, in radians
          *
-         * @return
+         * @return The direction the photon is supposed to go
          */
         double getEmissionDirection();
     }
