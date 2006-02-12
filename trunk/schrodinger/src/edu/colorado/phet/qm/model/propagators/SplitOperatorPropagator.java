@@ -23,31 +23,23 @@ import java.text.DecimalFormat;
  */
 
 public class SplitOperatorPropagator extends Propagator {
-    private PhysicalSystem physicalSystem;
+//    private PhysicalSystem physicalSystem;
 
-
-    public SplitOperatorPropagator( PhysicalSystem physicalSystem, Potential potential ) {
+    public SplitOperatorPropagator( Potential potential ) {
         super( potential );
-        this.physicalSystem = physicalSystem;
+//        this.physicalSystem = physicalSystem;
     }
 
     public void propagate( Wavefunction w ) {
         Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
-//        new WaveDebugger( "expt",expT.getNormalizedInstance(),10,10).setVisible( true );
         Wavefunction psi = multiplyPointwise( expV, w.copy() );
-//        Wavefunction psi = w.copy();
         Wavefunction phi = QWIFFT2D.forwardFFT( psi );
         waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
         phi = multiplyPointwise( expT, phi );
         psi = QWIFFT2D.inverseFFT( phi );
         psi = multiplyPointwise( expV, psi );
         w.setWavefunction( psi );
-    }
-
-    public static void main( String[] args ) {
-        Wavefunction expt = new SplitOperatorPropagator( null, null ).getExpT( 100, 100 );
-        expt.printWaveToScreen( new DecimalFormat( "0.000000" ) );
     }
 
     private Wavefunction getExpV( int width, int height ) {
@@ -65,13 +57,9 @@ public class SplitOperatorPropagator extends Propagator {
         Potential p = getPotential();
         double dt = 1.0;
         double potential = p.getPotential( i, k, 0 );
-//        if( potential != 0.0 ) {
-//            System.out.println( "potential = " + potential );
-//
-//        }
-//        else {
-//            return Complex.exponentiateImaginary( 0 );
-//        }
+        if( potential != 0.0 ) {
+            potential = Double.MAX_VALUE / 2;
+        }
         return Complex.exponentiateImaginary( -potential * dt / 2.0 );
     }
 
@@ -177,7 +165,7 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new SplitOperatorPropagator( physicalSystem, getPotential() );
+        return new SplitOperatorPropagator( getPotential() );
     }
 
     public void normalize() {

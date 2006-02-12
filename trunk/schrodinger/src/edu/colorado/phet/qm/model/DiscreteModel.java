@@ -276,7 +276,8 @@ public class DiscreteModel implements ModelElement {
     private HorizontalDoubleSlit createDoubleSlit() {
         return new HorizontalDoubleSlit( getGridWidth(),
                                          getGridHeight(),
-                                         (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * getGridWidth() / 100.0 ), (int)( 13 * getGridWidth() / 100.0 ), DEFAULT_POTENTIAL_BARRIER_VALUE );
+                                         (int)( getGridHeight() * 0.4 ), 3, (int)( 8 * getGridWidth() / 100.0 ), (int)( 13 * getGridWidth() / 100.0 ),
+                                         DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     protected void beforeTimeStep() {

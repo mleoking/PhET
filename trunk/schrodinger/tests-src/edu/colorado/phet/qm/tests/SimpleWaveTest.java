@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.tests;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
-import edu.colorado.phet.qm.model.propagators.PhysicalSystem;
 import edu.colorado.phet.qm.model.propagators.QWIFFT2D;
 import edu.colorado.phet.qm.model.propagators.SplitOperatorPropagator;
 import edu.colorado.phet.qm.model.waves.GaussianWave2D;
@@ -13,7 +12,6 @@ import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.qm.view.piccolo.SimpleWavefunctionGraphic;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -42,7 +40,7 @@ public class SimpleWaveTest {
         waveDebugger.setVisible( true );
 //        propagator = new ModifiedRichardsonPropagator( DiscreteModel.DEFAULT_DT, new ConstantPotential(), 1.0, 1.0 );
         double hbar = 1.0;
-        propagator = new SplitOperatorPropagator( new PhysicalSystem( wavefunction.getWidth(), wavefunction.getHeight(), hbar, new Rectangle2D.Double( 0, 0, 1, 1 ) ), new ConstantPotential() );
+        propagator = new SplitOperatorPropagator( new ConstantPotential() );
     }
 
     private void updateGraphics() {
