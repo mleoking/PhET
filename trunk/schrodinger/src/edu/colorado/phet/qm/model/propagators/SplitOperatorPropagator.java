@@ -3,16 +3,16 @@ package edu.colorado.phet.qm.model.propagators;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.model.Potential;
-import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.WaveDebugger;
-import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
@@ -23,11 +23,64 @@ import java.text.DecimalFormat;
  */
 
 public class SplitOperatorPropagator extends Propagator {
-//    private PhysicalSystem physicalSystem;
 
-    public SplitOperatorPropagator( Potential potential ) {
+    private double scale;
+    private WaveDebugger waveDebugger;
+//    private PhysicalSystem physicalSystem;
+    static boolean displayMomentumWavefunction = false;
+    Wavefunction expT = null;
+    Wavefunction expV = null;
+    private DiscreteModel discreteModel;
+
+    public SplitOperatorPropagator( DiscreteModel discreteModel, Potential potential ) {
         super( potential );
+        this.discreteModel = discreteModel;
+        if( discreteModel != null ) {
+            discreteModel.addListener( new DiscreteModel.Adapter() {
+                public void potentialChanged() {
+                    updateExpV();
+                }
+
+            } );
+        }
+        addDebugControls();
 //        this.physicalSystem = physicalSystem;
+    }
+
+    private void addDebugControls() {
+        JFrame controls = new JFrame( "SOM controls" );
+        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+        DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
+//        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.004, textFieldFormat, textFieldFormat );
+        modelSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setScale( modelSlider.getValue() );
+            }
+
+        } );
+        scale = modelSlider.getValue();
+        verticalLayoutPanel.add( modelSlider );
+        final JCheckBox comp = new JCheckBox( "Show momenta" );
+        comp.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                displayMomentumWavefunction = comp.isSelected();
+            }
+        } );
+        verticalLayoutPanel.add( comp );
+        controls.setContentPane( verticalLayoutPanel );
+        controls.pack();
+        controls.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        controls.setVisible( true );
+
+        waveDebugger = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 2, 2 );
+        waveDebugger.setComplexColorMap( new VisualColorMap3() );
+        waveDebugger.setVisible( true );
+    }
+
+    private void setScale( double value ) {
+        this.scale = value;
+        expT = null;
     }
 
     public void propagate( Wavefunction w ) {
@@ -35,25 +88,42 @@ public class SplitOperatorPropagator extends Propagator {
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
         Wavefunction psi = multiplyPointwise( expV, w.copy() );
         Wavefunction phi = QWIFFT2D.forwardFFT( psi );
-        waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
+        if( displayMomentumWavefunction ) {
+            waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
+        }
         phi = multiplyPointwise( expT, phi );
         psi = QWIFFT2D.inverseFFT( phi );
         psi = multiplyPointwise( expV, psi );
         w.setWavefunction( psi );
     }
 
+    private void updateExpV() {
+        expV = null;
+    }
+
     private Wavefunction getExpV( int width, int height ) {
+        if( expV != null && expV.getSize().equals( new Dimension( width, height ) ) ) {
+            return expV;//use cached value.
+        }
+        else {
+            expV = createExpV( width, height );
+            return expV;
+        }
+    }
+
+    private Wavefunction createExpV( int width, int height ) {
+        System.out.println( "SplitOperatorPropagator.createExpV" );
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-                wavefunction.setValue( i, k, getExpValue( i, k, wavefunction ) );
+                wavefunction.setValue( i, k, getExpVValue( i, k, wavefunction ) );
             }
         }
 //        return ones( width, height );
         return wavefunction;
     }
 
-    private Complex getExpValue( int i, int k, Wavefunction wavefunction ) {
+    private Complex getExpVValue( int i, int k, Wavefunction wavefunction ) {
         Potential p = getPotential();
         double dt = 1.0;
         double potential = p.getPotential( i, k, 0 );
@@ -64,6 +134,17 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction getExpT( int width, int height ) {
+        if( expT != null && expT.getSize().equals( new Dimension( width, height ) ) ) {
+            return expT;//use cached value.
+        }
+        else {
+            expT = createExpT( width, height );
+            return expT;
+        }
+    }
+
+    private Wavefunction createExpT( int width, int height ) {
+        System.out.println( "SplitOperatorPropagator.createExpT" );
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
@@ -92,32 +173,9 @@ public class SplitOperatorPropagator extends Propagator {
         return Complex.exponentiateImaginary( -ke );
     }
 
-    static double scale;
-
-    private static WaveDebugger waveDebugger;
-
-    static {
-        JFrame controls = new JFrame( "SOM controls" );
-        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-//        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.004, textFieldFormat, textFieldFormat );
-        modelSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                scale = modelSlider.getValue();
-            }
-        } );
-        scale = modelSlider.getValue();
-        verticalLayoutPanel.add( modelSlider );
-        controls.setContentPane( verticalLayoutPanel );
-        controls.pack();
-        controls.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        controls.setVisible( true );
-
-        waveDebugger = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 2, 2 );
-        waveDebugger.setComplexColorMap( new VisualColorMap3() );
-        waveDebugger.setVisible( true );
-    }
+//    static {
+//
+//    }
 
     private Complex getExpTValuePhysical( int i, int j ) {
         double h = 1;
@@ -165,7 +223,7 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new SplitOperatorPropagator( getPotential() );
+        return new SplitOperatorPropagator( discreteModel, getPotential() );
     }
 
     public void normalize() {

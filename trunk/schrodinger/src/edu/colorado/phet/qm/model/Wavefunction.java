@@ -71,6 +71,10 @@ public class Wavefunction {
         return w;
     }
 
+    public Dimension getSize() {
+        return new Dimension( getWidth(), getHeight() );
+    }
+
     public static interface Listener {
         void cleared();
 

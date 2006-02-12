@@ -141,7 +141,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel().getPotential() );
         JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
 
-        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( getDiscreteModel().getPotential() ) );
+        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( getDiscreteModel(), getDiscreteModel().getPotential() ) );
         propagatorPanel.add( som );
 
         propagatorPanel.add( lap );

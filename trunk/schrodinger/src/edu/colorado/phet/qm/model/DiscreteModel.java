@@ -395,6 +395,14 @@ public class DiscreteModel implements ModelElement {
                 sourcePotential.addPotential( p );//the source wave has no barrier (so the barrier looks absorptive)
             }
         }
+        notifyPotentialChanged();
+    }
+
+    private void notifyPotentialChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.potentialChanged();
+        }
     }
 
     public void clearPotential() {

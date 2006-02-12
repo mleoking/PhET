@@ -40,7 +40,7 @@ public class SimpleWaveTest {
         waveDebugger.setVisible( true );
 //        propagator = new ModifiedRichardsonPropagator( DiscreteModel.DEFAULT_DT, new ConstantPotential(), 1.0, 1.0 );
         double hbar = 1.0;
-        propagator = new SplitOperatorPropagator( new ConstantPotential() );
+        propagator = new SplitOperatorPropagator( null, new ConstantPotential() );
     }
 
     private void updateGraphics() {
