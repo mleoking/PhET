@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
+import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.quantum.model.*;
 
@@ -187,7 +188,8 @@ public class SingleAtomModule extends BaseLaserModule {
         setThreeEnergyLevels( false );
 
         // Add an atom
-        atom = new PropertiesBasedAtom( getLaserModel(), new TwoLevelElementProperties() );
+        atom = new LaserAtom( getLaserModel(), new TwoLevelElementProperties() );
+//        atom = new PropertiesBasedAtom( getLaserModel(), new TwoLevelElementProperties() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
