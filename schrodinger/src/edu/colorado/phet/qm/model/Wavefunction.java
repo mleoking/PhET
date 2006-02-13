@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 
 public class Wavefunction {
-    private Complex[][] wavefunction;
+    public Complex[][] wavefunction;
     private double magnitude = 0.0;
     private boolean magnitudeDirty = true;
 

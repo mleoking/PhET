@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -30,6 +29,7 @@ public class SplitOperatorPropagator extends Propagator {
     static boolean displayMomentumWavefunction = false;
     Wavefunction expT = null;
     Wavefunction expV = null;
+    Wavefunction temp = null;
     private DiscreteModel discreteModel;
 
     public SplitOperatorPropagator( DiscreteModel discreteModel, Potential potential ) {
@@ -86,15 +86,23 @@ public class SplitOperatorPropagator extends Propagator {
     public void propagate( Wavefunction w ) {
         Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
-        Wavefunction psi = multiplyPointwise( expV, w.copy() );
-        Wavefunction phi = QWIFFT2D.forwardFFT( psi );
+        Wavefunction temp = getTempWavefunction( w.getWidth(), w.getHeight() );
+        multiplyPointwise( expV, w.copy(), temp );
+        Wavefunction phi = QWIFFT2D.forwardFFT( temp );
         if( displayMomentumWavefunction ) {
             waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
         }
-        phi = multiplyPointwise( expT, phi );
-        psi = QWIFFT2D.inverseFFT( phi );
-        psi = multiplyPointwise( expV, psi );
-        w.setWavefunction( psi );
+        multiplyPointwise( expT, phi, temp );
+        Wavefunction psi2 = QWIFFT2D.inverseFFT( temp );
+        multiplyPointwise( expV, psi2, temp );
+        w.setWavefunction( temp );
+    }
+
+    private Wavefunction getTempWavefunction( int width, int height ) {
+        if( temp == null || temp.getWidth() != width || temp.getHeight() != height ) {
+            temp = new Wavefunction( width, height );
+        }
+        return temp;
     }
 
     private void updateExpV() {
@@ -102,13 +110,10 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction getExpV( int width, int height ) {
-        if( expV != null && expV.getSize().equals( new Dimension( width, height ) ) ) {
-            return expV;//use cached value.
-        }
-        else {
+        if( expV == null || expV.getWidth() != width || expV.getHeight() != height ) {
             expV = createExpV( width, height );
-            return expV;
         }
+        return expV;
     }
 
     private Wavefunction createExpV( int width, int height ) {
@@ -119,7 +124,6 @@ public class SplitOperatorPropagator extends Propagator {
                 wavefunction.setValue( i, k, getExpVValue( i, k, wavefunction ) );
             }
         }
-//        return ones( width, height );
         return wavefunction;
     }
 
@@ -134,13 +138,10 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction getExpT( int width, int height ) {
-        if( expT != null && expT.getSize().equals( new Dimension( width, height ) ) ) {
-            return expT;//use cached value.
-        }
-        else {
+        if( expT == null || expT.getWidth() != width || expT.getHeight() != height ) {
             expT = createExpT( width, height );
-            return expT;
         }
+        return expT;
     }
 
     private Wavefunction createExpT( int width, int height ) {
@@ -206,11 +207,15 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
 
-    private Wavefunction multiplyPointwise( Wavefunction a, Wavefunction b ) {
-        Wavefunction result = new Wavefunction( a.getWidth(), a.getHeight() );
+    private Wavefunction multiplyPointwise( Wavefunction a, Wavefunction b, Wavefunction result ) {
+//        Wavefunction result = new Wavefunction( a.getWidth(), a.getHeight() );
         for( int i = 0; i < result.getWidth(); i++ ) {
             for( int k = 0; k < result.getHeight(); k++ ) {
-                result.setValue( i, k, a.valueAt( i, k ).times( b.valueAt( i, k ) ) );
+                Complex x = a.wavefunction[i][k];
+                Complex y = b.wavefunction[i][k];
+                double real = x.real * y.real - x.imag * y.imag;
+                double imag = x.real * y.imag + x.imag * y.real;
+                result.wavefunction[i][k].setValue( real, imag );
             }
         }
         return result;

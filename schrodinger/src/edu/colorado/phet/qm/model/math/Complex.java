@@ -9,8 +9,8 @@ package edu.colorado.phet.qm.model.math;
  */
 
 public class Complex {
-    private double real;
-    private double imag;
+    public double real;
+    public double imag;
 
     public Complex( double real, double imag ) {
         this.real = real;
