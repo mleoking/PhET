@@ -92,9 +92,9 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         redsToAve[0] = red;
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
-        disk.setPaint( new Color( red, 255, 0 ) );
+//        disk.setPaint( new Color( red, 255, 0 ) );
 
-        disk.setPaint( Color.cyan);
+//        disk.setPaint( Color.cyan);
         if( earthAnimation != null ) {
             g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
         }
@@ -111,12 +111,28 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void setVirginEarth() {
         isIceAge = false;
-        setBackDrop( null, null );
+//        setBackDrop( null, null );
+        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+//        disk.setPaint( Color.green );
+        disk.setPaint( new Color( 51, 160, 44 ) );
     }
 
     public void setToday() {
         isIceAge = false;
         setBackDrop( "images/today.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        disk.setPaint( Color.green );
+    }
+
+    public void set1750() {
+        isIceAge = false;
+        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        disk.setPaint( new Color( 51, 160, 44 ) );
+    }
+
+    public void setVenus() {
+        isIceAge = false;
+        setBackDrop(null, null );
+        disk.setPaint( new Color( 150, 130, 80 ));
     }
 
 
@@ -133,6 +149,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     public void setIceAge() {
         isIceAge = true;
         setBackDrop( "images/iceage-3.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ));
+        disk.setPaint( new Color( 0, 180, 100 ) );
     }
 
     private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
