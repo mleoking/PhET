@@ -9,6 +9,8 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.qm.modules.intensity.IntensityModule;
+import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
@@ -40,10 +42,9 @@ public class SchrodingerApplication extends PhetApplication {
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
 
-//        addModule( new IntensityModule( this, createClock() ) );
+        addModule( new IntensityModule( this, createClock() ) );
         addModule( new SingleParticleModule( this, createClock() ) );
-//        addModule( new MandelModule( this, createClock() ) );
-
+        addModule( new MandelModule( this, createClock() ) );
 
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
         save.addActionListener( new ActionListener() {

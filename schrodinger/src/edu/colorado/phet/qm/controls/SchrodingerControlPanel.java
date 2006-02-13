@@ -1,15 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
-import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -28,7 +25,7 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-    private ClassicalWavePropagator classicalPropagator2ndOrder;
+
     private InitialConditionPanel initialConditionPanel;
     private AdvancedPanel advancedPanel;
 
@@ -78,15 +75,15 @@ public class SchrodingerControlPanel extends ControlPanel {
         advSim.addControlFullWidth( simulationPanel );
         advancedPanel.addControlFullWidth( advSim );
 
-        final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
-        speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
-        speed.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double x = new ModelViewTransform1D( 0, 0.5, speed.getMinimum(), speed.getMaximum() ).viewToModel( speed.getValue() );
-                System.out.println( "x = " + x );
-                classicalPropagator2ndOrder.setSpeed( x );
-            }
-        } );
+//        final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
+//        speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
+//        speed.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                double x = new ModelViewTransform1D( 0, 0.5, speed.getMinimum(), speed.getMaximum() ).viewToModel( speed.getValue() );
+//                System.out.println( "x = " + x );
+////                classicalPropagator2ndOrder.setSpeed( x );
+//            }
+//        } );
 
     }
 
@@ -122,54 +119,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     protected VerticalLayoutPanel createPropagatorPanel() {
-        VerticalLayoutPanel propagatorPanel = new VerticalLayoutPanel();
-        propagatorPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
-        ButtonGroup buttonGroup = new ButtonGroup();
-
-        JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getPotential(), 1, 1 ) );
-        propagatorPanel.add( richardson );
-
-        JRadioButton modified = createPropagatorButton( buttonGroup, "Modified Richardson", new ModifiedRichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getPotential(), 1, 1 ) );
-        propagatorPanel.add( modified );
-
-        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
-        propagatorPanel.add( crank );
-
-        JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator( getDiscreteModel().getPotential() ) );
-        propagatorPanel.add( light );
-
-        classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel().getPotential() );
-        JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
-
-        JRadioButton som = createPropagatorButton( buttonGroup, "Split Operator", new SplitOperatorPropagator( getDiscreteModel(), getDiscreteModel().getPotential() ) );
-        propagatorPanel.add( som );
-
-        propagatorPanel.add( lap );
-        lap.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                initClassicalWave( classicalPropagator2ndOrder );
-            }
-        } );
-        return propagatorPanel;
-    }
-
-    private void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {
-        initialConditionPanel.initClassicalWave( propagator2ndOrder );
-    }
-
-    private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
-
-        JRadioButton radioButton = new JRadioButton( s );
-        buttonGroup.add( radioButton );
-        if( getDiscreteModel().getPropagator().getClass().equals( propagator.getClass() ) ) {
-            radioButton.setSelected( true );
-        }
-        radioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().setPropagator( propagator );
-            }
-        } );
-        return radioButton;
+        return new PropagatorPanel( getDiscreteModel() );
     }
 
     private InitialConditionPanel createInitialConditionPanel() {
