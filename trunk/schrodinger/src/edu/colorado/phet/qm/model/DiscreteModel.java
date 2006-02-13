@@ -437,6 +437,14 @@ public class DiscreteModel implements ModelElement {
         this.waveModel.setPropagator( propagator );
         sourceWaveModel.setPropagator( propagator.copy() );
         sourceWaveModel.getPropagator().setPotential( sourcePotential );
+        notifyPropagatorChanged();
+    }
+
+    private void notifyPropagatorChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.propagatorChanged();
+        }
     }
 
     public Propagator getPropagator() {
@@ -553,6 +561,8 @@ public class DiscreteModel implements ModelElement {
     }
 
     public static interface Listener {
+        void propagatorChanged();
+
         void finishedTimeStep( DiscreteModel model );
 
         void sizeChanged();
@@ -567,6 +577,9 @@ public class DiscreteModel implements ModelElement {
     }
 
     public static class Adapter implements Listener {
+
+        public void propagatorChanged() {
+        }
 
         public void finishedTimeStep( DiscreteModel model ) {
         }

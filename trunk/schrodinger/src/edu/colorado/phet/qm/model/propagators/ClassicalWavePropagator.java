@@ -15,18 +15,9 @@ import java.awt.*;
 public class ClassicalWavePropagator extends Propagator {
     private Wavefunction last2;
     private Wavefunction last;
-    private double speed = 0.4;
 
     public ClassicalWavePropagator( Potential potential ) {
         super( potential );
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed( double speed ) {
-        this.speed = speed;
     }
 
     public void initialize( Wavefunction last, Wavefunction last2 ) {
