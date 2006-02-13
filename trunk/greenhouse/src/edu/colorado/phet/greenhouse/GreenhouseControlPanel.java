@@ -27,6 +27,7 @@ public class GreenhouseControlPanel extends JPanel {
     private GreenhouseCompositionPane greenhouseGasCompositionPane;
     private GreenhouseModule module;
     private Color panelBackground;
+    private Color panelForeground;
 
     public GreenhouseControlPanel( final GreenhouseModule module ) {
 
@@ -34,7 +35,7 @@ public class GreenhouseControlPanel extends JPanel {
         final GreenhouseModel model = module.getGreenhouseModel();
 
         panelBackground = Color.darkGray;
-        setBackground( panelBackground);
+        panelForeground = Color.white;
 
         //
         // Create the controls
@@ -105,7 +106,7 @@ public class GreenhouseControlPanel extends JPanel {
         } );
         thermometerCB.setSelected( module.isThermometerEnabled() );
 
-        // todo: HACK!!! make the control panel listen to thye module for this?
+        // todo: HACK!!! make the control panel listen to the module for this?
         thermometerCB.setSelected( true );
 
         // Ratio of photons to see
@@ -160,27 +161,106 @@ public class GreenhouseControlPanel extends JPanel {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
 
+        setBackground( this );
+    }
 
-
-        Component[] components = this.getComponents();
+    private void setBackground( Container container ) {
+        container.setBackground( panelBackground);
+        Component[] components = container.getComponents();
         for( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
             component.setBackground( panelBackground);
+            component.setForeground( panelForeground );
+            if( component instanceof Container) {
+                setBackground( (Container)component );
+            }
         }
+
     }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
 
     private class AtmosphereSelectionPane extends JPanel {
 
-        private AbstractAction pickNoGG = new AbstractAction() {
+        AtmosphereSelectionPane() {
+            JRadioButton adjustableGGRB = new JRadioButton();
+            adjustableGGRB.setAction( pickAdjustableGG );
+            adjustableGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Adjustable" ) );
+
+//            JRadioButton noGGRB = new JRadioButton();
+//            noGGRB.setAction( pickNoGG );
+//            noGGRB.setText( SimStrings.get( "GreenhouseControlPanel.NoGasesLabel" ) );
+//
+            JRadioButton iceAgeGGRB = new JRadioButton();
+            iceAgeGGRB.setAction( pickIceAgeGG );
+            iceAgeGGRB.setText( SimStrings.get( "GreenhouseControlPanel.IceAgeLabel" ) );
+
+            JRadioButton preIndRevGGRB = new JRadioButton();
+            preIndRevGGRB.setAction( pickPreIndRevGG );
+            preIndRevGGRB.setText( SimStrings.get( "GreenhouseControlPanel.PreIndustrialLabel" ) );
+
+            JRadioButton todayGGRB = new JRadioButton();
+            todayGGRB.setAction( pickTodayGG );
+            todayGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TodayLabel" ) );
+
+            JRadioButton venusGGRB = new JRadioButton();
+            venusGGRB.setAction( pickVenusGG );
+            venusGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Venus" ) );
+
+//            JRadioButton tomorrowGGRB = new JRadioButton();
+//            tomorrowGGRB.setAction( pickTomorrowGG );
+//            tomorrowGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TomorrowLabel" ) );
+//            ButtonGroup ggBG = new ButtonGroup();
+//
+            ButtonGroup ggBG = new ButtonGroup();
+            ggBG.add( adjustableGGRB );
+//            ggBG.add( noGGRB );
+            ggBG.add( iceAgeGGRB );
+            ggBG.add( preIndRevGGRB );
+            ggBG.add( todayGGRB );
+            ggBG.add( venusGGRB );
+//            ggBG.add( tomorrowGGRB );
+            todayGGRB.setSelected( true );
+//            noGGRB.setSelected( true );
+
+            this.setLayout( new GridLayout( 5, 1 ) );
+            this.add( adjustableGGRB );
+//            this.add( noGGRB );
+            this.add( iceAgeGGRB );
+            this.add( preIndRevGGRB );
+            this.add( todayGGRB );
+            this.add( venusGGRB );
+//            this.add( tomorrowGGRB );
+
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
+            titledBorder.setTitleJustification( TitledBorder.LEFT );
+            this.setBorder( titledBorder );
+        }
+
+        private AbstractAction pickAdjustableGG = new AbstractAction() {
             String[] concentrations = new String[]{"", "", "", ""};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
                 greenhouseGasConcentrationControl.setModelValue( 0 );
                 GreenhouseControlPanel.this.module.setVirginEarth();
+                greenhouseGasConcentrationControl.setEnabled( true );
+                module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             }
         };
 
+//        private AbstractAction pickNoGG = new AbstractAction() {
+//            String[] concentrations = new String[]{"", "", "", ""};
+//
+//            public void actionPerformed( ActionEvent e ) {
+//                greenhouseGasCompositionPane.setConcentrations( concentrations );
+//                greenhouseGasConcentrationControl.setModelValue( 0 );
+//                GreenhouseControlPanel.this.module.setVirginEarth();
+//            }
+//        };
+//
         private AbstractAction pickIceAgeGG = new AbstractAction() {
             String[] concentrations = new String[]{"", "200 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ), "", ""};
 
@@ -188,6 +268,8 @@ public class GreenhouseControlPanel extends JPanel {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationIceAge );
                 GreenhouseControlPanel.this.module.setIceAge();
+                greenhouseGasConcentrationControl.setEnabled( false );
+                module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             }
         };
 
@@ -202,6 +284,8 @@ public class GreenhouseControlPanel extends JPanel {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentration1750 );
                 GreenhouseControlPanel.this.module.setPreIndRev();
+                greenhouseGasConcentrationControl.setEnabled( false );
+                module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             }
         };
 
@@ -216,59 +300,39 @@ public class GreenhouseControlPanel extends JPanel {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
                 GreenhouseControlPanel.this.module.setToday();
+                greenhouseGasConcentrationControl.setEnabled( false );
+                module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             }
         };
 
-        private AbstractAction pickTomorrowGG = new AbstractAction() {
-            String[] concentrations = new String[]{"?", "?", "?", "?"};
+        private AbstractAction pickVenusGG = new AbstractAction() {
+            String[] concentrations = new String[]{
+                "",
+                "96.5% ",
+                "",
+                ""};
 
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasCompositionPane.setConcentrations( concentrations );
-                greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.maxGreenhouseGasConcentration * 0.9 );
-                GreenhouseControlPanel.this.module.setTomorrow();
+                greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
+                GreenhouseControlPanel.this.module.setVenus();
+                greenhouseGasConcentrationControl.setEnabled( false );
+
+                module.getEarth().setBaseTemperature( GreenhouseConfig.venusBaseTemperature );
             }
         };
+//
+//        private AbstractAction pickTomorrowGG = new AbstractAction() {
+//            String[] concentrations = new String[]{"?", "?", "?", "?"};
+//
+//            public void actionPerformed( ActionEvent e ) {
+//                greenhouseGasCompositionPane.setConcentrations( concentrations );
+//                greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.maxGreenhouseGasConcentration * 0.9 );
+//                GreenhouseControlPanel.this.module.setTomorrow();
+//                greenhouseGasConcentrationControl.setEnabled( false );
+//            }
+//        };
 
-        AtmosphereSelectionPane() {
-            JRadioButton noGGRB = new JRadioButton();
-            noGGRB.setAction( pickNoGG );
-            noGGRB.setText( SimStrings.get( "GreenhouseControlPanel.NoGasesLabel" ) );
-
-            JRadioButton iceAgeGGRB = new JRadioButton();
-            iceAgeGGRB.setAction( pickIceAgeGG );
-            iceAgeGGRB.setText( SimStrings.get( "GreenhouseControlPanel.IceAgeLabel" ) );
-
-            JRadioButton preIndRevGGRB = new JRadioButton();
-            preIndRevGGRB.setAction( pickPreIndRevGG );
-            preIndRevGGRB.setText( SimStrings.get( "GreenhouseControlPanel.PreIndustrialLabel" ) );
-
-            JRadioButton todayGGRB = new JRadioButton();
-            todayGGRB.setAction( pickTodayGG );
-            todayGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TodayLabel" ) );
-
-            JRadioButton tomorrowGGRB = new JRadioButton();
-            tomorrowGGRB.setAction( pickTomorrowGG );
-            tomorrowGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TomorrowLabel" ) );
-            ButtonGroup ggBG = new ButtonGroup();
-
-            ggBG.add( noGGRB );
-            ggBG.add( iceAgeGGRB );
-            ggBG.add( preIndRevGGRB );
-            ggBG.add( todayGGRB );
-            ggBG.add( tomorrowGGRB );
-            noGGRB.setSelected( true );
-
-            this.setLayout( new GridLayout( 5, 1 ) );
-            this.add( noGGRB );
-            this.add( iceAgeGGRB );
-            this.add( preIndRevGGRB );
-            this.add( todayGGRB );
-            this.add( tomorrowGGRB );
-
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
-            titledBorder.setTitleJustification( TitledBorder.LEFT );
-            this.setBorder( titledBorder );
-        }
     }
 
 
@@ -295,6 +359,10 @@ public class GreenhouseControlPanel extends JPanel {
                 ch4TF,
                 n2oTF
             };
+            h2oTF.setEditable( false );
+            co2TF.setEditable( false );
+            ch4TF.setEditable( false );
+            n2oTF.setEditable( false );
 
             this.setLayout( new GridBagLayout() );
             TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
@@ -382,6 +450,11 @@ public class GreenhouseControlPanel extends JPanel {
         void setModelValue( double value ) {
             slider.setValue( (int)tx.modelToView( value ) );
         }
+
+        public void setEnabled( boolean enabled ) {
+            super.setEnabled( enabled );
+            slider.setEnabled( enabled );
+        }
     }
 
     class SliderWithReadout extends JPanel {
@@ -431,6 +504,11 @@ public class GreenhouseControlPanel extends JPanel {
 
         void addChangeListener( ChangeListener changeListener ) {
             slider.addChangeListener( changeListener );
+        }
+
+        public void setEnabled( boolean enabled ) {
+            super.setEnabled( enabled );
+            slider.setEnabled( enabled );
         }
     }
 }

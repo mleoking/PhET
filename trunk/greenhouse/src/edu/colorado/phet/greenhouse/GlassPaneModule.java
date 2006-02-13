@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.awt.*;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
     private GlassPane glassPane;
@@ -54,6 +55,8 @@ public class GlassPaneModule extends BaseGreenhouseModule {
 
         // Set up the controls
         setControlPanel( new GlassPaneControlPanel( this ) );
+        getControlPanel().setPreferredSize( new Dimension( 200, 400 ) );
+        getControlPanel().setSize( new Dimension( 200, 400 ) );
 
         // Jimmy the temperature
         getEarth().setJimmyArray( jimmyArray );

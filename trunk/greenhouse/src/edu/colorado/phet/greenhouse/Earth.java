@@ -21,6 +21,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     double emissivity = GreenhouseConfig.defaultEarthEmissivity;
     private CircularPhotonEmitter photonSource;
     private BasicPhotonAbsorber photonAbsorber;
+    private double baseTemperature;
     private double temperature;
     private static final int temperatureHistoryLength = 200;
     private double[] temperatureHistory = new double[temperatureHistoryLength];
@@ -36,6 +37,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         photonSource.addListener( this );
         photonAbsorber = new BasicPhotonAbsorber();
         temperature = GreenhouseConfig.earthBaseTemperature;
+        baseTemperature = GreenhouseConfig.earthBaseTemperature;
     }
 
     public void stepInTime( double dt ) {
@@ -46,6 +48,10 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         }
     }
 
+    public void setBaseTemperature( double baseTemperature ) {
+        this.baseTemperature = baseTemperature;
+    }
+
     private void computeTemperature() {
         double thSum = 0;
         for( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
@@ -54,7 +60,8 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
             temperatureHistory[i + 1] = temperatureHistory[i];
         }
         temperatureHistory[0] =
-                GreenhouseConfig.earthBaseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
+                baseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
+//                GreenhouseConfig.earthBaseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
 
         if( temperatureHistory[0] < 265 ) {
 //            temperatureHistory[0] -=12;

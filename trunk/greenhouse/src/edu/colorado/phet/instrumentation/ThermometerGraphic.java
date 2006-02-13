@@ -40,6 +40,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     public ThermometerGraphic( Thermometer thermometer ) {
         thermometer.addObserver( this );
         this.thermometer = thermometer;
+//        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer-2.png" );
         thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer.png" );
         thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background.png" );
         thermometerBI = new BufferedImage( thermometerBackground.getWidth(),

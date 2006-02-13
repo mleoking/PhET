@@ -22,6 +22,7 @@ public class GreenhouseConfig {
     // Earth parameters
     public static final double earthBaseTemperature = 251;
     public static final double earthRadius = 6370;
+    public static double venusBaseTemperature = 750;
 
     // Photon parameters. Note that the speedOfLight is for visualization purposes only,
     // not energy calculations.

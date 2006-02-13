@@ -124,8 +124,13 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         earthGraphic.setTomorrow();
     }
 
+    public void setVenus() {
+        earthGraphic.setVenus();
+    }
+
     public void setPreIndRev() {
-        earthGraphic.setToday();
+        earthGraphic.set1750();
+//        earthGraphic.setToday();
     }
 
 
