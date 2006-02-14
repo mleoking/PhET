@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.qm.model.Potential;
-
 import java.awt.*;
 
 /**
@@ -12,30 +10,15 @@ import java.awt.*;
  * Copyright (c) Feb 4, 2006 by Sam Reid
  */
 
-public class CircularPotential implements Potential {
-    private Point center;
-    private int radius;
-    private double potentialValue;
+public class CircularPotential extends AtomPotential {
 
     public CircularPotential( Point center, int radius, double potentialValue ) {
-        this.center = center;
-        this.radius = radius;
-        this.potentialValue = potentialValue;
+        super( center, radius, potentialValue );
     }
 
-    public double getPotential( int x, int y, int timestep ) {
-        Point testPoint = new Point( x, y );
-        double dist = testPoint.distance( center );
-        if( dist <= radius ) {
-            return getPotentialValue();
-        }
-        else {
-            return 0.0;
-        }
-    }
-
-    private double getPotentialValue() {
-        return potentialValue;
+    protected boolean inRange( Point testPoint ) {
+        double dist = testPoint.distance( super.getCenter() );
+        return dist <= super.getRadius();
     }
 
 }
