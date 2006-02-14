@@ -61,8 +61,9 @@ public class FractionalAtomLattice {
 
     private void addAtom( int xCenter, int yCenter, int concreteAtomRadius, ConcreteAtomLattice concreteAtomLattice ) {
         Point center = new Point( xCenter, yCenter );
-        CircularPotential circularPotential = new CircularPotential( center, concreteAtomRadius, potential );
-        concreteAtomLattice.addCircularPotentialNoUpdate( circularPotential );
+//        AtomPotential atomPotential = new CircularPotential( center, concreteAtomRadius, potential );
+        AtomPotential atomPotential = new RectanglePotential( center, concreteAtomRadius, potential );
+        concreteAtomLattice.addAtomPotentialNoUpdate( atomPotential );
     }
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
