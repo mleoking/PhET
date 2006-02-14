@@ -434,9 +434,11 @@ public class DiscreteModel implements ModelElement {
 //    }
 
     public void setPropagator( Propagator propagator ) {
+        this.getPropagator().deactivate();
         this.waveModel.setPropagator( propagator );
         sourceWaveModel.setPropagator( propagator.copy() );
         sourceWaveModel.getPropagator().setPotential( sourcePotential );
+        this.getPropagator().activate();
         notifyPropagatorChanged();
     }
 

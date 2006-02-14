@@ -1,7 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -20,6 +23,7 @@ import java.util.Map;
 public class SchrodingerOptionsMenu extends JMenu {
     private SchrodingerModule schrodingerModule;
     private JDialog dialog;
+    private JDialog propagatorControlFrame;
 
     public SchrodingerOptionsMenu( final SchrodingerModule schrodingerModule ) {
         super( "Options" );
@@ -67,6 +71,26 @@ public class SchrodingerOptionsMenu extends JMenu {
         } );
         add( printModelParameters );
 
+        addSeparator();
+        JMenuItem propagators = new JMenuItem( "Propagators" );
+        propagators.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( propagatorControlFrame == null ) {
+                    propagatorControlFrame = new JDialog( schrodingerModule.getPhetFrame(), "Propagators" );
+
+                    propagatorControlFrame.setContentPane( new PropagatorPanel( getDiscreteModel() ) );
+                    propagatorControlFrame.pack();
+                    SwingUtils.centerDialogInParent( propagatorControlFrame );
+                }
+                propagatorControlFrame.setVisible( true );
+            }
+
+        } );
+        add( propagators );
+    }
+
+    private DiscreteModel getDiscreteModel() {
+        return schrodingerModule.getDiscreteModel();
     }
 
     private void printModelParameters() {

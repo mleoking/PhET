@@ -106,7 +106,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } ).start();
         addControl( stopwatchCheckBox );
-        addControl( createPropagatorPanel() );
+        addControl( new PropagatorPanel( getDiscreteModel() ) );
     }
 
     protected void addRulerPanel() throws IOException {
@@ -118,9 +118,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         return initialConditionPanel.getWaveSetup();
     }
 
-    protected VerticalLayoutPanel createPropagatorPanel() {
-        return new PropagatorPanel( getDiscreteModel() );
-    }
 
     private InitialConditionPanel createInitialConditionPanel() {
         return new InitialConditionPanel( this );
