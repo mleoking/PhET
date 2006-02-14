@@ -72,6 +72,7 @@ public class GreenhouseApplication extends PhetApplication {
         frame.setDefaultLookAndFeelDecorated( true );
 //        frame.setIconImage( lookAndFeel.getSmallIconImage() );
 
+//        s_application.startApplication( greenhouseModule2 );
         s_application.startApplication( greenhouseModule );
 
     }

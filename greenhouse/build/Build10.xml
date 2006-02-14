@@ -135,7 +135,6 @@
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">
             <packageset dir="src" defaultexcludes="yes">
             </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2003 Sam Reid. All Rights Reserved.</i>]]></bottom>
             <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
         </javadoc>
     </target>

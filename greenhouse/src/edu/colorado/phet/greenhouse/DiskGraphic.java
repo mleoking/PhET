@@ -43,5 +43,6 @@ public class DiskGraphic implements Graphic, ShapeGraphicType {
                                    disk.getCM().getX() + disk.getRadius(),
                                    disk.getCM().getY() - disk.getRadius() );
 //        circle.setFrame(disk.getCM().getX(),);
+        System.out.println( "circle = " + circle.getBounds() );
     }
 }
