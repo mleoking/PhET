@@ -42,6 +42,8 @@ public class VesselGraphic extends PNode {
 
     public VesselGraphic( Vessel vessel ) {
 
+        this.vessel = vessel;
+
         // Listen for state changes in the vessel
         vessel.addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
@@ -55,6 +57,9 @@ public class VesselGraphic extends PNode {
         water.setPaint( waterColor );
         water.setStrokePaint( null );
         this.addChild( water );
+
+        setMinorTickSpacing( 20E-16 );
+        setMajorTickSpacing( 100E-16 );
 
         update( vessel );
     }
@@ -80,13 +85,6 @@ public class VesselGraphic extends PNode {
                                                  vessel.getShape().getWidth(),
                                                  vessel.getWaterLevel() ) );
         setOffset( vessel.getLocation() );
-
-//        setMinorTickSpacing( 20 );
-        setMinorTickSpacing( 20E-16 );
-        setMajorTickSpacing( 100E-16 );
-//        setMinorTickSpacing( 20 );
-//        setMajorTickSpacing( 100 );
-
     }
 
     /**
@@ -98,19 +96,18 @@ public class VesselGraphic extends PNode {
         int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
             double y = ( vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
-            PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
+            PPath tick = new PPath( new Line2D.Double( vessel.getWidth() + 2,
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 2,
                                                        y ) );
             tick.setStroke( new BasicStroke( 2 ) );
             tick.setStrokePaint( tickColor );
+            tick.setPaint( tickColor );
             addChild( tick );
 
             DecimalFormat format = new DecimalFormat( "0.0E0" );
 
-//            String str = format.format( ( vessel.getDepth() - y ) * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             String str = format.format( ( vessel.getDepth() - y ) * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
-//            String str = Integer.toString( (int)( vessel.getDepth() - y ));
             str = str.concat( " L" );
             PText text = new PText( str );
             Font orgFont = text.getFont();
@@ -130,12 +127,13 @@ public class VesselGraphic extends PNode {
         int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
             double y = vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
-            PPath tick = new PPath( new Line2D.Double( vessel.getWidth(),
+            PPath tick = new PPath( new Line2D.Double( vessel.getWidth() + 2,
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 4,
                                                        y ) );
             tick.setStroke( new BasicStroke( 2 ) );
             tick.setStrokePaint( tickColor );
+            tick.setPaint( tickColor );
             addChild( tick );
         }
     }
