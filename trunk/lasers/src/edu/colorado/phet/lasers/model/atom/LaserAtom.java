@@ -1,63 +1,76 @@
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.quantum.model.PropertiesBasedAtom;
+import edu.colorado.phet.quantum.model.ElementProperties;
+import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Ron LeMaster
- * Date: Feb 12, 2006
- * Time: 2:27:49 PM
- * To change this template use File | Settings | File Templates.
+ * LaserAtom
+ * <p>
+ * A PropertiesBasedAtom that has a minimum time it must psend in the ground state
+ * after entering it before it can collide with a photon.
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class LaserAtom extends PropertiesBasedAtom {
 
-    public static long stimulationPreventionTime = 00;
+    private Boolean canCollideInGroundState = Boolean.TRUE;
 
-    public static void setStimulationPreventionTime( long time ) {
-        stimulationPreventionTime = time;
+    public LaserAtom( LaserModel model, ElementProperties elementProperties ) {
+        super( model, elementProperties );
     }
 
-    private Boolean canBeStimulated = Boolean.TRUE;
-
-    public LaserAtom(LaserModel model, ElementProperties elementProperties) {
-        super(model, elementProperties);
+    public LaserAtom( LaserModel model, AtomicState[] states ) {
+        super( model, states );
     }
 
-    public LaserAtom(LaserModel model, AtomicState[] states) {
-        super(model, states);
-    }
+    public void collideWithPhoton( Photon photon ) {
+        boolean canCollide = false;
+        if( getCurrState() != getGroundState() ) {
+            canCollide = true;
+        }
+        else {
+            synchronized( canCollideInGroundState ) {
+                canCollide = canCollideInGroundState.booleanValue();
+            }
+        }
 
-    public synchronized void setCurrState(final AtomicState newState) {
-        super.setCurrState(newState);
-        if (getCurrState() == getGroundState()) {
-            new StimulationPreventionAgent().start();
-        } else {
-            canBeStimulated = Boolean.TRUE;
+        if( canCollide ) {
+            super.collideWithPhoton( photon );
         }
     }
 
-    public synchronized void collideWithPhoton(Photon photon) {
-        if (canBeStimulated.booleanValue()) {
-            super.collideWithPhoton(photon);
+    public void setCurrState( AtomicState newState ) {
+        super.setCurrState( newState );
+        if( newState == getGroundState() && canCollideInGroundState != null ) {
+            new MinLifetimeTimer().start();
         }
     }
 
-    private class StimulationPreventionAgent extends Thread {
+    /**
+     * Agent that flips the flag that controls the time that an atom must remain in the ground state
+     */
+    private class MinLifetimeTimer extends Thread {
+        long minLifetime = LaserConfig.MINIMUM_GROUND_STATE_LIFETIME;
 
         public void run() {
-            super.run();
-            synchronized( canBeStimulated ) {
-                canBeStimulated = Boolean.FALSE;
+            synchronized( canCollideInGroundState ) {
+                canCollideInGroundState = Boolean.FALSE;
             }
             try {
-                Thread.sleep( stimulationPreventionTime );
-            } catch (InterruptedException e) {
+                Thread.sleep( minLifetime );
+            }
+            catch( InterruptedException e ) {
                 e.printStackTrace();
             }
-            synchronized( canBeStimulated ) {
-                canBeStimulated = Boolean.TRUE;
+            synchronized( canCollideInGroundState ) {
+                canCollideInGroundState = Boolean.TRUE;
             }
         }
     }
+
 }
