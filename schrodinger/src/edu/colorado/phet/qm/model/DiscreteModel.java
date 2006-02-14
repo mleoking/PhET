@@ -73,6 +73,11 @@ public class DiscreteModel implements ModelElement {
 
         damping = new Damping();
         doubleSlitPotential = createDoubleSlit();
+        doubleSlitPotential.addListener( new HorizontalDoubleSlit.Listener() {
+            public void slitChanged() {
+                notifyPotentialChanged();
+            }
+        } );
 //        measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
 
         if( DEBUG_WAVES ) {

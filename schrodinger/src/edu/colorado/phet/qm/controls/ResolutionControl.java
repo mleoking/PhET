@@ -27,7 +27,7 @@ public class ResolutionControl extends AdvancedPanel {
         JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
         addControl( screenSizeLabel );
 
-        final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( DEFAULT_WAVE_SIZE, 10, 200, 5 ) );
+        final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( DEFAULT_WAVE_SIZE, 10, 1024, 5 ) );
         getSchrodingerModule().setWaveSize( DEFAULT_WAVE_SIZE );
 
         screenSize.addChangeListener( new ChangeListener() {

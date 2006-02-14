@@ -72,7 +72,7 @@ public class PropagatorPanel extends VerticalLayoutPanel {
         radioButton.setSelected( getDiscreteModel().getPropagator().getClass().isAssignableFrom( propagator.getClass() ) );
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void propagatorChanged() {
-                radioButton.setSelected( getDiscreteModel().getPropagator().getClass().isAssignableFrom( propagator.getClass() ) );
+                radioButton.setSelected( getDiscreteModel().getPropagator().getClass().equals( propagator.getClass() ) );
             }
         } );
         return radioButton;
