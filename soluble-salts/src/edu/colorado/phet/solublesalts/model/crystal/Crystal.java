@@ -55,6 +55,7 @@ public class Crystal extends Body {
             (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
+    private SolubleSaltsModel model;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
@@ -94,6 +95,8 @@ public class Crystal extends Body {
     private Lattice_new_new lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
+    // Keeps track of the bounds of the water in the vessel
+    private VesselListener vesselListener = new VesselListener();
     private Rectangle2D waterBounds;
 
 
@@ -118,6 +121,7 @@ public class Crystal extends Body {
      */
     public Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions ) {
         this.lattice = (Lattice_new_new)lattice.clone();
+        this.model = model;
 
         // Open up the bounds to include the whole model so we can make lattice
         setWaterBounds( model.getVessel() );
@@ -159,11 +163,7 @@ public class Crystal extends Body {
             }
         }
 
-        model.getVessel().addChangeListener( new Vessel.ChangeListener() {
-            public void stateChanged( Vessel.ChangeEvent event ) {
-                setWaterBounds( event.getVessel() );
-            }
-        } );
+        model.getVessel().addChangeListener( vesselListener );
         setWaterBounds( model.getVessel() );
 
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
@@ -205,6 +205,7 @@ public class Crystal extends Body {
     }
 
     public void leaveModel() {
+        model.getVessel().removeChangeListener( vesselListener );
         instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
     }
 
@@ -530,6 +531,12 @@ public class Crystal extends Body {
                 e.printStackTrace();
             }
             noBindList.remove( ion );
+        }
+    }
+
+    private class VesselListener implements Vessel.ChangeListener {
+        public void stateChanged( Vessel.ChangeEvent event ) {
+            setWaterBounds( event.getVessel() );
         }
     }
 }

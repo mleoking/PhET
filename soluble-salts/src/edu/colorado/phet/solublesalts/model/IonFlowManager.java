@@ -48,10 +48,10 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
     double lastDs;
 
     public void stateChanged( Vessel.ChangeEvent event ) {
+
         double newDepth = event.getVessel().getWaterLevel();
         double change = newDepth - lastDepth;
         lastDepth = newDepth;
-
 
         // If the rate of water flowing out of the vessel is increasing,
         // increase the velocity of all ions toward the drain
@@ -70,7 +70,6 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             // Determine the number of clock ticks before the vessel is nearly empty
             double timeToEmpty = ( vessel.getWaterLevel() - 20 ) / ( -change );
             double ds = d / timeToEmpty * 1;
-
 
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
@@ -110,6 +109,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
                 double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 double beta = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+//                double gamma = ( alpha - beta ) * 0.5;
                 double gamma = ( alpha - beta ) * 0.05;
 
                 // Set the sign of gamma based on whether the ion is above or below the diagonal throught the water
@@ -121,7 +121,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
 
                 if( true ) {
-                    return;
+//                    return;
                 }
 
 
@@ -193,5 +193,6 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
     }
 
     public void stateChanged( Spigot.ChangeEvent event ) {
+//        System.out.println( "IonFlowManager.stateChanged BBBB" );
     }
 }
