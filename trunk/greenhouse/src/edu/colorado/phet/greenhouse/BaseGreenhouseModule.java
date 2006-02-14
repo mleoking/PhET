@@ -153,7 +153,10 @@ public abstract class BaseGreenhouseModule extends Module {
         else {
             getApparatusPanel().removeGraphic( sunGraphic );
             sunGraphic.stopAnimation();
+            earthGraphic.stopAnimation();
 
+            ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
+            thermometerEnabled( true );
             ( (TestApparatusPanel)getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
 //            ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
