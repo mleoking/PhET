@@ -106,7 +106,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } ).start();
         addControl( stopwatchCheckBox );
-        addControl( new PropagatorPanel( getDiscreteModel() ) );
+//        addControl( new PropagatorPanel( getDiscreteModel() ) );
     }
 
     protected void addRulerPanel() throws IOException {

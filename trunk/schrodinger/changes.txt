@@ -1,3 +1,6 @@
+New in 0.38 (2-13-06)
+Added Split Operator Method propagator (available in Propagators menu).
+
 New in 0.37 (2-3-2006), Posted on the main site on 2-13-2006
 Disabled ruler & timer for photon mode.
 "nm" on ruler is bigger & bolder
