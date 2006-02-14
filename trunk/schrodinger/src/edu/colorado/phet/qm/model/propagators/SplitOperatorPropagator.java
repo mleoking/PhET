@@ -23,14 +23,15 @@ import java.text.DecimalFormat;
 
 public class SplitOperatorPropagator extends Propagator {
 
-    private double scale;
-    private WaveDebugger waveDebugger;
-//    private PhysicalSystem physicalSystem;
-    static boolean displayMomentumWavefunction = false;
-    Wavefunction expT = null;
-    Wavefunction expV = null;
-    Wavefunction temp = null;
+    private double scale = 0.004;
+    private WaveDebugger momentumDisplay;
+
+    private Wavefunction expT = null;
+    private Wavefunction expV = null;
+    private Wavefunction temp = null;
     private DiscreteModel discreteModel;
+
+    static boolean displayMomentumWavefunction = false;
 
     public SplitOperatorPropagator( DiscreteModel discreteModel, Potential potential ) {
         super( potential );
@@ -40,26 +41,31 @@ public class SplitOperatorPropagator extends Propagator {
                 public void potentialChanged() {
                     updateExpV();
                 }
-
             } );
         }
+    }
+
+    public void activate() {
+        super.activate();
         addDebugControls();
-//        this.physicalSystem = physicalSystem;
+    }
+
+    public void deactivate() {
+        super.deactivate();
     }
 
     private void addDebugControls() {
         JFrame controls = new JFrame( "SOM controls" );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         DecimalFormat textFieldFormat = new DecimalFormat( "0.0000000" );
-//        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.0001, textFieldFormat, textFieldFormat );
-        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, 0.004, textFieldFormat, textFieldFormat );
+        final ModelSlider modelSlider = new ModelSlider( "scale", "1/p^2", 0, 0.1, scale, textFieldFormat, textFieldFormat );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScale( modelSlider.getValue() );
             }
 
         } );
-        scale = modelSlider.getValue();
+//        scale = modelSlider.getValue();
         verticalLayoutPanel.add( modelSlider );
         final JCheckBox comp = new JCheckBox( "Show momenta" );
         comp.addActionListener( new ActionListener() {
@@ -73,9 +79,13 @@ public class SplitOperatorPropagator extends Propagator {
         controls.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         controls.setVisible( true );
 
-        waveDebugger = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 2, 2 );
-        waveDebugger.setComplexColorMap( new VisualColorMap3() );
-        waveDebugger.setVisible( true );
+        initMomentumDisplay();
+    }
+
+    private void initMomentumDisplay() {
+        momentumDisplay = new WaveDebugger( "wave", new Wavefunction( 50, 50 ), 3, 3 );
+        momentumDisplay.setComplexColorMap( new VisualColorMap3() );
+        momentumDisplay.setVisible( true );
     }
 
     private void setScale( double value ) {
@@ -87,10 +97,13 @@ public class SplitOperatorPropagator extends Propagator {
         Wavefunction expV = getExpV( w.getWidth(), w.getHeight() );
         Wavefunction expT = getExpT( w.getWidth(), w.getHeight() );
         Wavefunction temp = getTempWavefunction( w.getWidth(), w.getHeight() );
-        multiplyPointwise( expV, w.copy(), temp );
+        multiplyPointwise( expV, w, temp );
         Wavefunction phi = QWIFFT2D.forwardFFT( temp );
         if( displayMomentumWavefunction ) {
-            waveDebugger.setWavefunction( phi.copy(), new VisualColorMap3() );
+            if( momentumDisplay == null ) {
+                initMomentumDisplay();
+            }
+            momentumDisplay.setWavefunction( phi.copy(), new VisualColorMap3() );
         }
         multiplyPointwise( expT, phi, temp );
         Wavefunction psi2 = QWIFFT2D.inverseFFT( temp );
@@ -117,17 +130,16 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction createExpV( int width, int height ) {
-        System.out.println( "SplitOperatorPropagator.createExpV" );
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-                wavefunction.setValue( i, k, getExpVValue( i, k, wavefunction ) );
+                wavefunction.setValue( i, k, getExpVValue( i, k ) );
             }
         }
         return wavefunction;
     }
 
-    private Complex getExpVValue( int i, int k, Wavefunction wavefunction ) {
+    private Complex getExpVValue( int i, int k ) {
         Potential p = getPotential();
         double dt = 1.0;
         double potential = p.getPotential( i, k, 0 );
@@ -145,7 +157,6 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     private Wavefunction createExpT( int width, int height ) {
-        System.out.println( "SplitOperatorPropagator.createExpT" );
         Wavefunction wavefunction = new Wavefunction( width, height );
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int k = 0; k < wavefunction.getHeight(); k++ ) {
@@ -174,10 +185,6 @@ public class SplitOperatorPropagator extends Propagator {
         return Complex.exponentiateImaginary( -ke );
     }
 
-//    static {
-//
-//    }
-
     private Complex getExpTValuePhysical( int i, int j ) {
         double h = 1;
         double boxLength = 1;
@@ -196,19 +203,7 @@ public class SplitOperatorPropagator extends Propagator {
         return Complex.exponentiateImaginary( -numerator );
     }
 
-    private Wavefunction ones( int width, int height ) {
-        Wavefunction wavefunction = new Wavefunction( width, height );
-        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
-            for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-                wavefunction.setValue( i, k, 1, 0 );
-            }
-        }
-        return wavefunction;
-    }
-
-
     private Wavefunction multiplyPointwise( Wavefunction a, Wavefunction b, Wavefunction result ) {
-//        Wavefunction result = new Wavefunction( a.getWidth(), a.getHeight() );
         for( int i = 0; i < result.getWidth(); i++ ) {
             for( int k = 0; k < result.getHeight(); k++ ) {
                 Complex x = a.wavefunction[i][k];
@@ -240,4 +235,13 @@ public class SplitOperatorPropagator extends Propagator {
     public void setValue( int i, int j, double real, double imag ) {
     }
 
+    private Wavefunction ones( int width, int height ) {
+        Wavefunction wavefunction = new Wavefunction( width, height );
+        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+            for( int k = 0; k < wavefunction.getHeight(); k++ ) {
+                wavefunction.setValue( i, k, 1, 0 );
+            }
+        }
+        return wavefunction;
+    }
 }

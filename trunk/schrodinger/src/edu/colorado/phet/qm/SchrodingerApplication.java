@@ -34,6 +34,7 @@ public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
     public static String VERSION = "0.37";
+    private String[] args;
 
     static {
         PhetLookAndFeel.setLookAndFeel();
@@ -41,6 +42,7 @@ public class SchrodingerApplication extends PhetApplication {
 
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
+        this.args = args;
 
         addModule( new IntensityModule( this, createClock() ) );
         addModule( new SingleParticleModule( this, createClock() ) );
@@ -82,6 +84,10 @@ public class SchrodingerApplication extends PhetApplication {
 
     private static IClock createClock() {
         return new SwingClock( 30, 1 );
+    }
+
+    public String[] getArgs() {
+        return args;
     }
 
     protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {

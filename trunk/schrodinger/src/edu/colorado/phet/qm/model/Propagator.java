@@ -23,6 +23,12 @@ public abstract class Propagator {
         listeners.add( listener );
     }
 
+    public void deactivate() {
+    }
+
+    public void activate() {
+    }
+
     public static interface Listener {
         void deltaTimeChanged( Propagator propagator );
     }
