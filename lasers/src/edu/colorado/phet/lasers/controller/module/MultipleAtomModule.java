@@ -19,12 +19,11 @@ import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.quantum.model.Tube;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
+import edu.colorado.phet.lasers.model.atom.LaserAtom;
+import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.quantum.model.Atom;
-import edu.colorado.phet.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.model.Beam;
+import edu.colorado.phet.quantum.model.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
 
 /**
  * MultipleAtomModule
- * <p>
+ * <p/>
  * Module that has full laser capabilities
  */
 public class MultipleAtomModule extends BaseLaserModule {
@@ -142,7 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
     public void reset() {
         super.reset();
-        deactivate( );
+        deactivate();
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
         laserControlPanel = new UniversalLaserControlPanel( this );
@@ -151,7 +150,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         laserControlPanel.setThreeEnergyLevels( true );
         setMirrorsEnabled( false );
         setDisplayHighLevelEmissions( false );
-        activate( );
+        activate();
 
         // Reset the energy levels. We only need to get the states from one atom, since all atoms share the
         // same state objects
@@ -173,7 +172,16 @@ public class MultipleAtomModule extends BaseLaserModule {
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
-            atom = new Atom( getLaserModel(), numEnergyLevels );
+            ElementProperties properties = null;
+            if( getThreeEnergyLevels() ) {
+                properties = new ThreeLevelElementProperties();
+            }
+            else {
+                properties = new TwoLevelElementProperties();
+            }
+//            atom = new PropertiesBasedAtom( getLaserModel(), properties );
+            atom = new LaserAtom( getLaserModel(), properties );
+//            atom = new Atom( getLaserModel(), numEnergyLevels );
             boolean placed = false;
 
             // Place atoms so they don't overlap
@@ -201,7 +209,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public void activate( ) {
+    public void activate() {
         super.activate();
         super.setThreeEnergyLevels( true );
     }
