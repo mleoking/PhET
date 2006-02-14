@@ -74,7 +74,6 @@ public class GreenhouseControlPanel extends JPanel {
         greenhouseGasConcentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setGreenhouseGasConcentration( greenhouseGasConcentrationControl.getModelValue() );
-                System.out.println( greenhouseGasConcentrationControl.getModelValue() );
             }
         } );
 
