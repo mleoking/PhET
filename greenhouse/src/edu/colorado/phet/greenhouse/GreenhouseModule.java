@@ -38,7 +38,7 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         createCloud( getEarth().getLocation().getX() + 5.5,
                      getEarth().getLocation().getY() + Earth.radius + 5.8,
                      6, .4 );
-        setVirginEarth();
+//        setVirginEarth();
 
         // Set up the controls
         setControlPanel( new GreenhouseControlPanel( this ) );
@@ -107,32 +107,32 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         }
     }
 
-
-    public void setVirginEarth() {
-        earthGraphic.setVirginEarth();
-    }
-
-    public void setIceAge() {
-        earthGraphic.setIceAge();
-    }
-
-    public void setToday() {
-        earthGraphic.setToday();
-    }
-
-    public void setTomorrow() {
-        earthGraphic.setTomorrow();
-    }
-
-    public void setVenus() {
-        earthGraphic.setVenus();
-    }
-
-    public void setPreIndRev() {
-        earthGraphic.set1750();
+//
+//    public void setVirginEarth() {
+//        earthGraphic.setVirginEarth();
+//    }
+//
+//    public void setIceAge() {
+//        earthGraphic.setIceAge();
+//    }
+//
+//    public void setToday() {
 //        earthGraphic.setToday();
-    }
-
+//    }
+//
+//    public void setTomorrow() {
+//        earthGraphic.setTomorrow();
+//    }
+//
+//    public void setVenus() {
+//        earthGraphic.setVenus();
+//    }
+//
+//    public void setPreIndRev() {
+//        earthGraphic.set1750();
+////        earthGraphic.setToday();
+//    }
+//
 
     //
     // Inner classes

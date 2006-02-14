@@ -61,7 +61,6 @@ public abstract class BaseGreenhouseModule extends Module {
         // Set up the model and apparatus panel
         double modelHeight = EARTH_DIAM + SUN_DIAM + SUN_EARTH_DIST * 2;
         initialModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -EARTH_DIAM * 20,
-//        initialModelBounds = new Rectangle2D.Double( -modelHeight * 4 / 3 / 2, -EARTH_DIAM * 4,
                                                      modelHeight * 4 / 3,
                                                      modelHeight );
         modelHeight = exposedEarth + Atmosphere.troposphereThickness;
@@ -71,19 +70,13 @@ public abstract class BaseGreenhouseModule extends Module {
 
 
         GreenhouseModel model = new GreenhouseModel( finalModelBounds );
-//        GreenhouseModel model = new GreenhouseModel( initialModelBounds );
         this.setModel( model );
 
-//        ApparatusPanel apparatusPanel = new MultiTxApparatusPanel( new FlipperAffineTransformFactory( initialModelBounds ) );
         ApparatusPanel apparatusPanel = new TestApparatusPanel( 4 / 3, new FlipperAffineTransformFactory( initialModelBounds ) );
         this.setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.black );
 
-//        drawingCanvas = new BufferedGraphic2( apparatusPanel );
         drawingCanvas = apparatusPanel.getCompositeGraphic();
-//        drawingCanvas = new CompositeGraphic();
-//        BufferedGraphic2 bg = new BufferedGraphic2(apparatusPanel );
-//        drawingCanvas.addGraphic(bg,0);
 
         //
         // Create the model elements and their view elements
@@ -92,7 +85,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
         // Create the earth
         double gamma = Math.atan( ( finalModelBounds.getWidth() / 2 ) / Earth.radius );
-//        double gamma = Math.atan( ( initialModelBounds.getWidth() / 2 ) / Earth.radius );
         earth = new Earth( new Point2D.Double( 0, -Earth.radius + exposedEarth ), Math.PI / 2 - gamma, Math.PI / 2 + gamma );
         model.setEarth( earth );
         earth.getPhotonSource().setProductionRate( 1E-2 );
@@ -107,7 +99,6 @@ public abstract class BaseGreenhouseModule extends Module {
         model.setAtmosphere( atmosphere );
         AtmosphereGraphic atmosphereGraphic = new AtmosphereGraphic( atmosphere );
         atmosphere.addScatterEventListener( new GreenhouseModule.ModuleScatterEventListener() );
-//        apparatusPanel.addGraphic( atmosphereGraphic, GreenhouseConfig.ATMOSPHERE_GRAPHIC_LAYER );
         drawingCanvas.addGraphic( atmosphereGraphic, GreenhouseConfig.ATMOSPHERE_GRAPHIC_LAYER );
 
         // Create the sun
@@ -137,8 +128,6 @@ public abstract class BaseGreenhouseModule extends Module {
         thermometer.setLocation( new Point2D.Double( finalModelBounds.getX() + 2, .5 ) );
         model.addModelElement( thermometer );
         thermometerGraphic = new ThermometerGraphic( thermometer );
-//        drawingCanvas.addGraphic( thermometerGraphic, ApparatusPanel.LAYER_DEFAULT );
-//        apparatusPanel.addGraphic( drawingCanvas, ApparatusPanel.LAYER_DEFAULT );
 
         // Set initial conditions
 //        setVirginEarth();
@@ -296,6 +285,34 @@ public abstract class BaseGreenhouseModule extends Module {
         phetApplication.getApplicationModel().getClock().stop();
     }
 
+
+
+    public void setVirginEarth() {
+        earthGraphic.setVirginEarth();
+    }
+
+    public void setIceAge() {
+        earthGraphic.setIceAge();
+    }
+
+    public void setToday() {
+        earthGraphic.setToday();
+    }
+
+    public void setTomorrow() {
+        earthGraphic.setTomorrow();
+    }
+
+    public void setVenus() {
+        earthGraphic.setVenus();
+    }
+
+    public void setPreIndRev() {
+        earthGraphic.set1750();
+//        earthGraphic.setToday();
+    }
+
+
     //
     // Inner classes
     //
@@ -312,6 +329,9 @@ public abstract class BaseGreenhouseModule extends Module {
         public void run() {
 
             try {
+                // Prevent a backdrop from appearing
+                earthGraphic.setNoBackdrop();
+
                 // Sit here until things outside this thread are initialized
                 while( PhetApplication.instance() == null ) {
                     Thread.sleep( 200 );
@@ -377,6 +397,9 @@ public abstract class BaseGreenhouseModule extends Module {
                 e.printStackTrace();
             }
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
+
+            // Set the default view
+            setToday();
         }
     }
 }
