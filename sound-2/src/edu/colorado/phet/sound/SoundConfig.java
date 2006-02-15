@@ -25,6 +25,9 @@ public class SoundConfig {
         return s_waitTime;
     }
 
+    // Version
+    public static final String VERSION = "2.05.03";
+
     // Localization
     public static final String localizedStringsPath = "localization/SoundStrings";
 

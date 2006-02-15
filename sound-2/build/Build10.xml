@@ -91,7 +91,9 @@ ignorepath      (those elements of the ant classpath that should not be
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}" classpath="${lib}/phetcommon.jar">
+<!--        <javac srcdir="${src}" destdir="${classes}" classpath="${lib}/phetcommon.jar">-->
+        <javac srcdir="${src}" destdir="${classes}">
+            <src path="${project_home}/phetcommon/src"/>
         </javac>
     </target>
 
@@ -113,6 +115,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="${project_home}/phetcommon/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>

@@ -25,7 +25,7 @@ public class SoundApplication extends PhetApplication {
 
         super( args, SimStrings.get( "SoundApplication.title" ),
                SimStrings.get( "SoundApplication.description" ),
-               SimStrings.get( "SoundApplication.version" ),
+               SoundConfig.VERSION,
                new SoundClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ),
                true,
                new FrameSetup.CenteredWithSize( 900, 750 ) );

@@ -75,13 +75,14 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
         InteractiveSpeakerGraphic iSpeakerGraphicA = new InteractiveSpeakerGraphic( speakerGraphicA, wgA );
-//        iSpeakerGraphicA.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
-//                System.out.println( "audioSourceA.get = " + audioSourceA.get );
-//                audioSourceA.setLocation( isg.getAudioSourceLocation() );
-//            }
-//        } );
+
+        iSpeakerGraphicA.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
+                audioSourceA.setLocation( isg.getAudioSourceLocation() );
+            }
+        } );
+
         getApparatusPanel().addGraphic( iSpeakerGraphicA, 8 );
 
         // Add the lower wave and speaker
