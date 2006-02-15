@@ -126,25 +126,17 @@ public class LaserSimulation extends PhetApplication {
             }
         } );
 
-        final JMenuItem setMinGroundStateLifetimeMI = new JMenuItem( "Set min ground state lifetime...");
-        setMinGroundStateLifetimeMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new JDialog( ){
-
-                };
-            }
-        } );
-        final ModelSlider minLifetimeSlider = new ModelSlider( "Min ground state lifetime",
-                                                         "msec",
-                                                         0, 1000,
-                                                         LaserConfig.MINIMUM_GROUND_STATE_LIFETIME,
-                                                         new DecimalFormat( "#"));
-        minLifetimeSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                LaserConfig.MINIMUM_GROUND_STATE_LIFETIME = (int)minLifetimeSlider.getValue();
-            }
-        } );
-        optionMenu.add( minLifetimeSlider );
+//        final ModelSlider minLifetimeSlider = new ModelSlider( "Min ground state lifetime",
+//                                                         "msec",
+//                                                         0, 1000,
+//                                                         LaserConfig.MINIMUM_GROUND_STATE_LIFETIME,
+//                                                         new DecimalFormat( "#"));
+//        minLifetimeSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                LaserConfig.MINIMUM_GROUND_STATE_LIFETIME = (int)minLifetimeSlider.getValue();
+//            }
+//        } );
+//        optionMenu.add( minLifetimeSlider );
     }
 
     public void displayHighToMidEmission( boolean selected ) {
