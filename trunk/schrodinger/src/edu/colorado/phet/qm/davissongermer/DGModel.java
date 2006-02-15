@@ -30,6 +30,7 @@ public class DGModel {
                 updatePotential();
             }
         } );
+        discreteModel.setBarrierAbsorptive( false );
     }
 
     static interface Listener {
