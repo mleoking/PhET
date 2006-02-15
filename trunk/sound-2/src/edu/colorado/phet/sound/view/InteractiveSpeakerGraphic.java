@@ -16,6 +16,7 @@ import edu.colorado.phet.sound.SoundConfig;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class InteractiveSpeakerGraphic extends CompositePhetGraphic {
@@ -38,10 +39,12 @@ public class InteractiveSpeakerGraphic extends CompositePhetGraphic {
         return new Point2D.Double( waveMediumGraphic.getOrigin().getX(), waveMediumGraphic.getOrigin().getY() );
     }
 
+    /**
+     * Agent that moves the speaker and wave graphics if the the speaker is moved. Also notifies any change listeners
+     */
     private class SpeakerTranslator implements TranslationListener {
         public void translationOccurred( TranslationEvent event ) {
             Point2D p = speakerGraphic.getLocation();
-//            speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + event.getDy() ) );
             speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + 2 * MathUtil.getSign( event.getDy() ) ) );
             waveMediumGraphic.setOrigin( new Point2D.Double( SoundConfig.s_wavefrontBaseX, speakerGraphic.getLocation().y ) );
             changeListenerProxy.stateChanged( new ChangeEvent( InteractiveSpeakerGraphic.this ) );

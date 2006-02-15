@@ -49,16 +49,16 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         this.audioSourceB = audioSourceB;
         this.interferringWavefront = interferringWavefront;
 
+        // If this graphic moves, update the amplitude
         addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
                 updateAmplitude();
             }
         } );
 
+        // If the moveable speaker moves, we need to update the amplitude
         moveableSpeaker.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                InteractiveSpeakerGraphic isg = (InteractiveSpeakerGraphic)e.getSource();
-                InterferenceListenerGraphic.this.audioSourceA.setLocation( isg.getLocation() );
                 updateAmplitude();
             }
         } );
@@ -73,10 +73,12 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      */
     public void paint( Graphics2D g ) {
         super.paint( g );
-        //        g.setColor( Color.red );
-        //        g.drawArc( (int)earLocation.x - 2, (int)earLocation.y - 2, 4, 4, 0, 360 );
-        //        g.drawArc( (int)audioSourceA.x - 2, (int)audioSourceA.y - 2, 4, 4, 0, 360 );
-        //        g.drawArc( (int)audioSourceB.x - 2, (int)audioSourceB.y - 2, 4, 4, 0, 360 );
+
+        // debug
+//        g.setColor( Color.red );
+//        g.drawArc( (int)earLocation.x - 2, (int)earLocation.y - 2, 4, 4, 0, 360 );
+//        g.drawArc( (int)audioSourceA.x - 2, (int)audioSourceA.y - 2, 4, 4, 0, 360 );
+//        g.drawArc( (int)audioSourceB.x - 2, (int)audioSourceB.y - 2, 4, 4, 0, 360 );
     }
 
     /**
