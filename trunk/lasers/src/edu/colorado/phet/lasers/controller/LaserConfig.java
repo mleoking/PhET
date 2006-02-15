@@ -51,7 +51,6 @@ public class LaserConfig {
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
 
     public static int MINIMUM_GROUND_STATE_LIFETIME = 200;
-//    public static final int MINIMUM_GROUND_STATE_LIFETIME = 200;
     public static final double STIMULATION_LIKELIHOOD = 0.2;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
