@@ -1,10 +1,9 @@
--injars 'ant_output\jars\schrodinger.jar'
--injars 'jfreechart-dir\lib\gnujaxp.jar'
--injars 'jfreechart-dir\lib\jcommon-1.0.0.jar'
--injars 'jfreechart-dir\lib\jfreechart-1.0.0.jar'
--injars 'jfreechart-dir\lib\servlet.jar'
--injars 'jfreechart-dir\lib\junit.jar'
--injars 'lib\jnlp.jar'
+-injars ant_output\jars\schrodinger.jar
+-injars jfreechart-dir\lib\jcommon-1.0.0.jar
+-injars jfreechart-dir\lib\jfreechart-1.0.0.jar
+-injars jfreechart-dir\lib\servlet.jar
+-injars jfreechart-dir\lib\junit.jar
+-injars lib\jnlp.jar
 -outjars ant_output\jars\schrodinger-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
@@ -27,6 +26,23 @@
     public **[] values();
 }
 
+# Also keep - Bean classes. Keep all bean classes along with their getters
+# and setters.
+-keep class edu.colorado.phet.qm.persistence.* {
+    void set*(%);
+    void set*(**);
+    void set*(%[]);
+    void set*(**[]);
+    void set*(int,%);
+    void set*(int,**);
+    % get*();
+    ** get*();
+    %[] get*();
+    **[] get*();
+    % get*(int);
+    ** get*(int);
+}
+
 #JFreeChartResources: For loading property files.
 -keep class org.jfree.chart.resources.JFreeChartResources
 
@@ -36,20 +52,6 @@
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembernames class * {
     native <methods>;
-}
-
-# Remove - System method calls. Remove all invocations of System
-# methods without side effects whose return values are not used.
--assumenosideeffects public class java.lang.System {
-    public static native long currentTimeMillis();
-    static java.lang.Class getCallerClass();
-    public static native int identityHashCode(java.lang.Object);
-    public static java.lang.SecurityManager getSecurityManager();
-    public static java.util.Properties getProperties();
-    public static java.lang.String getProperty(java.lang.String);
-    public static java.lang.String getenv(java.lang.String);
-    public static native java.lang.String mapLibraryName(java.lang.String);
-    public static java.lang.String getProperty(java.lang.String,java.lang.String);
 }
 
 # Remove - Math method calls. Remove all invocations of Math
@@ -104,17 +106,17 @@
 # Remove - String method calls. Remove all invocations of String
 # methods without side effects whose return values are not used.
 -assumenosideeffects public class java.lang.String {
-    public String();
-    public String(byte[]);
-    public String(byte[],int);
-    public String(byte[],int,int);
-    public String(byte[],int,int,int);
-    public String(byte[],int,int,java.lang.String);
-    public String(byte[],java.lang.String);
-    public String(char[]);
-    public String(char[],int,int);
-    public String(java.lang.String);
-    public String(java.lang.StringBuffer);
+    public <init>();
+    public <init>(byte[]);
+    public <init>(byte[],int);
+    public <init>(byte[],int,int);
+    public <init>(byte[],int,int,int);
+    public <init>(byte[],int,int,java.lang.String);
+    public <init>(byte[],java.lang.String);
+    public <init>(char[]);
+    public <init>(char[],int,int);
+    public <init>(java.lang.String);
+    public <init>(java.lang.StringBuffer);
     public static java.lang.String copyValueOf(char[]);
     public static java.lang.String copyValueOf(char[],int,int);
     public static java.lang.String valueOf(boolean);
@@ -172,10 +174,10 @@
 # Remove - StringBuffer method calls. Remove all invocations of
 # StringBuffer methods without side effects whose return values are not used.
 -assumenosideeffects public class java.lang.StringBuffer {
-    public StringBuffer();
-    public StringBuffer(int);
-    public StringBuffer(java.lang.String);
-    public StringBuffer(java.lang.CharSequence);
+    public <init>();
+    public <init>(int);
+    public <init>(java.lang.String);
+    public <init>(java.lang.CharSequence);
     public java.lang.String toString();
     public char charAt(int);
     public int capacity();
@@ -192,10 +194,10 @@
 # Remove - StringBuilder method calls. Remove all invocations of
 # StringBuilder methods without side effects whose return values are not used.
 -assumenosideeffects public class java.lang.StringBuilder {
-    public StringBuilder();
-    public StringBuilder(int);
-    public StringBuilder(java.lang.String);
-    public StringBuilder(java.lang.CharSequence);
+    public <init>();
+    public <init>(int);
+    public <init>(java.lang.String);
+    public <init>(java.lang.CharSequence);
     public java.lang.String toString();
     public char charAt(int);
     public int capacity();
@@ -207,4 +209,18 @@
     public int length();
     public java.lang.String substring(int);
     public java.lang.String substring(int,int);
+}
+
+# Remove - System method calls. Remove all invocations of System
+# methods without side effects whose return values are not used.
+-assumenosideeffects public class java.lang.System {
+    public static native long currentTimeMillis();
+    static java.lang.Class getCallerClass();
+    public static native int identityHashCode(java.lang.Object);
+    public static java.lang.SecurityManager getSecurityManager();
+    public static java.util.Properties getProperties();
+    public static java.lang.String getProperty(java.lang.String);
+    public static java.lang.String getenv(java.lang.String);
+    public static native java.lang.String mapLibraryName(java.lang.String);
+    public static java.lang.String getProperty(java.lang.String,java.lang.String);
 }

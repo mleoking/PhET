@@ -33,7 +33,7 @@ import java.io.IOException;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.38";
+    public static String VERSION = "0.39";
     private String[] args;
 
     static {
