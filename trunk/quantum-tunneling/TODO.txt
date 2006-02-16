@@ -6,21 +6,22 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - apply ProGuard
+- improve responsiveness of drag handles and JSliders
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
+- decide whether to replace Richardson with Falstad model
 
 MEDIUM PRIORITY:
 - total energy gradient sometimes contains "noise" (Mac)
 - draw region markers with a PNode so that drag handles are snappier
 - cache the total energy gradient as an image, update only when necessary
 - set default clock state to running
-- decide whether to replace Richardson with Falstad model
 - add application description to SimStrings files
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
-- top edge of +1 tick label on Energy plot y axis is clipped
 - check Spanish translations, including help layout
 
 LOW PRIORITY:
+- top edge of +1 tick label on Energy plot y axis is clipped
 - Y axis labels move when zooming causes range to change
 - fix focus traversal order in Configure dialog
 - select entire spinner value when it gets focus in Configure dialog
@@ -29,7 +30,6 @@ LOW PRIORITY:
 
 OPTIMIZATIONS:
 - reduce the range of energy; smaller (E-V) means we can use a larger x-axis step
-- disable chart gridlines to improve drag handle responsiveness
 - flatten static elements
 - setPickable(false) on non-interactive graphics
 
@@ -377,6 +377,7 @@ DONE:
 
 
 REJECTED:
+(2/16/06) - disable chart gridlines to improve drag handle responsiveness (no longer an issue, entire chart is an image)
 (2/6/06) - restore "phase" veiw state when switching between sum and separate views (confusing)
 (2/6/06) - restore sum/separate state when switching between plane and wave packet (confusing)
 (1/31/06) - move non-Swing stuff out of event-dispatch thread (lots of work, and doesn't affect performance problems)
