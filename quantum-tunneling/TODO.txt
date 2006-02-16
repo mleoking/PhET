@@ -53,6 +53,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
 (2/16/06) - catch all types of Exception when loading or saving configuration
 (2/16/06) - add clock state to persistence
 (2/15/06) - work on Proguard, missing classes with Save/Load feature
