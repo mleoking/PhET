@@ -1,3 +1,6 @@
+*New in 0.07
+Feasibility test for square atoms.
+
 *New in 0.06 (2-6-2006)
 Added single particle fire button.
 Fixed y0=0 crash bug.
