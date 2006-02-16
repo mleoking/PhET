@@ -20,8 +20,10 @@ import java.awt.event.ActionListener;
 
 public class GlassPaneControlPanel extends JPanel {
 
-    public GlassPaneControlPanel( final GlassPaneModule module ) {
+    private static Color panelBackground = new Color( 110, 110, 110 );
+    private static Color panelForeground = Color.white;
 
+    public GlassPaneControlPanel( final GlassPaneModule module ) {
         
         //
         // Create the controls
@@ -87,5 +89,23 @@ public class GlassPaneControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
+
+        setBackground( this );
+    }
+
+    private void setBackground( Container container ) {
+        container.setBackground( panelBackground );
+        Component[] components = container.getComponents();
+        for( int i = 0; i < components.length; i++ ) {
+            Component component = components[i];
+            component.setBackground( panelBackground );
+            if( component.getForeground().equals( Color.black ) ) {
+                component.setForeground( panelForeground );
+            }
+            if( component instanceof Container ) {
+                setBackground( (Container)component );
+            }
+        }
+
     }
 }
