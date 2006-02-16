@@ -182,6 +182,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         boolean evacuateToggle = true;
         private JButton airButton;
         private JSlider densitySlider;
+        private BoxEvacuator boxEvacuator;
+        private Color airButtonEnabledBackground;
 
         public BoxAirDensityControlPanel( final VariableWaveMediumAttenuationFunction attenuationFunction ) {
 
@@ -190,7 +192,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             airButton = new JButton( evacuateLabel );
             airButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    new BoxEvacuator().start();
+                    boxEvacuator = new BoxEvacuator();
+                    boxEvacuator.start();
                 }
             } );
 
@@ -205,6 +208,15 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             setAirDensity( densitySlider, maxValue, attenuationFunction );
             densitySlider.setEnabled( false );
 
+            JButton resetBtn = new JButton( SimStrings.get("ClockPanelLarge.Reset" ));
+            resetBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if( boxEvacuator != null ) {
+                        boxEvacuator.kill();
+                    }
+                }
+            } );
+
             this.setLayout( new GridBagLayout() );
             Insets insets = new Insets( 0, 0, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -212,53 +224,18 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                                                              GridBagConstraints.HORIZONTAL,
                                                              insets, 0, 0 );
             this.add( airButton, gbc );
-            airButton.setBackground( new Color( 100, 200, 100 ) );
-            gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                          GridBagConstraints.CENTER,
-                                          GridBagConstraints.HORIZONTAL,
-                                          insets, 0, 0 );
+            airButtonEnabledBackground = new Color( 100, 200, 100 );
+            airButton.setBackground( airButtonEnabledBackground );
+//            gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+//                                          GridBagConstraints.CENTER,
+//                                          GridBagConstraints.HORIZONTAL,
+//                                          insets, 0, 0 );
             //            this.add( densitySlider, gbc );
+            gbc.gridy++;
+            gbc.fill = GridBagConstraints.NONE;
+            add( resetBtn, gbc );
             this.setBorder( new TitledBorder( SimStrings.get( "SingleSourceWithBoxModule.BorderTitle" ) ) );
             this.setPreferredSize( new Dimension( 120, 120 ) );
-        }
-
-        class BoxEvacuator extends Thread {
-            private int maxValue;
-            private int minValue;
-
-            BoxEvacuator() {
-                this.maxValue = densitySlider.getMaximum();
-                this.minValue = densitySlider.getMinimum();
-            }
-
-            public void run() {
-                try {
-                    // Disable the button so it can't be clicked while were doing out thing
-                    airButton.setEnabled( false );
-                    Color buttonBackground = airButton.getBackground();
-                    airButton.setBackground( Color.gray );
-
-                    // Pump air out or in
-                    int incr = evacuateToggle ? -1 : 1;
-                    int value = evacuateToggle ? maxValue : minValue;
-                    int stop = evacuateToggle ? minValue : maxValue;
-                    while( value != stop ) {
-                        value += incr;
-                        densitySlider.setValue( value );
-                        setAirDensity( value, maxValue, attenuationFunction );
-                        Thread.sleep( 100 );
-                    }
-
-                    // Enable the button and set its text
-                    evacuateToggle = !evacuateToggle;
-                    airButton.setText( evacuateToggle ? evacuateLabel : addLabel );
-                    airButton.setEnabled( true );
-                    airButton.setBackground( buttonBackground );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         private void setAirDensity( final JSlider densitySlider, final int maxValue, final VariableWaveMediumAttenuationFunction attenuationFunction ) {
@@ -276,8 +253,72 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             airDensityObservable.notifyObservers();
         }
 
+        class BoxEvacuator extends Thread {
+            private int maxValue;
+            private int minValue;
+            private Boolean kill = Boolean.FALSE;
+
+            BoxEvacuator() {
+                this.maxValue = densitySlider.getMaximum();
+                this.minValue = densitySlider.getMinimum();
+            }
+
+            public void run() {
+                kill = Boolean.FALSE;
+                try {
+                    // Disable the button so it can't be clicked while were doing out thing
+                    airButton.setEnabled( false );
+                    Color buttonBackground = airButton.getBackground();
+                    airButton.setBackground( Color.gray );
+
+                    // Pump air out or in
+                    int incr = evacuateToggle ? -1 : 1;
+                    int value = evacuateToggle ? maxValue : minValue;
+                    int stop = evacuateToggle ? minValue : maxValue;
+                    while( value != stop ) {
+
+                        value += incr;
+                        densitySlider.setValue( value );
+                        setAirDensity( value, maxValue, attenuationFunction );
+                        Thread.sleep( 100 );
+
+                        // Check to see if we got a kill message
+                        synchronized( kill ) {
+                            if( kill.booleanValue() ) {
+                                return;
+                            }
+                        }
+                    }
+
+                    // Enable the button and set its text
+                    evacuateToggle = !evacuateToggle;
+                    airButton.setText( evacuateToggle ? evacuateLabel : addLabel );
+                    airButton.setEnabled( true );
+                    airButton.setBackground( buttonBackground );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            synchronized void  kill() {
+                kill = Boolean.TRUE;
+                reset();
+            }
+
+            void reset() {
+                evacuateToggle = true;
+                airButton.setText( evacuateLabel );
+                airButton.setEnabled( true );
+                airButton.setBackground( airButtonEnabledBackground );
+                setAirDensity( maxDensity, maxDensity, attenuationFunction );
+            }
+        }
     }
 
+    /**
+     *
+     */
     private class VariableWaveMediumAttenuationFunction implements AttenuationFunction {
         private Shape variableRegion;
         private double variableRegionAttenuation = 1;
