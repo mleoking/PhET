@@ -7,22 +7,18 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.MessageFormatter;
+import edu.colorado.phet.coreadditions.ModelViewTx1D;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -33,6 +29,8 @@ public class GreenhouseControlPanel extends JPanel {
     private static Color preIndRevColor = Color.green;
     private static Color todayColor = Color.white;
     private static Color venusColor = Color.cyan;
+    private static Color panelBackground = new Color( 110, 110, 110 );
+    private static Color panelForeground = Color.white;
 
 
     private ModelSlider greenhouseGasConcentrationControl;
@@ -65,8 +63,6 @@ public class GreenhouseControlPanel extends JPanel {
 
 
     private GreenhouseModule module;
-    private Color panelBackground;
-    private Color panelForeground;
 
     /**
      * @param module
@@ -75,9 +71,6 @@ public class GreenhouseControlPanel extends JPanel {
 
         this.module = module;
         final GreenhouseModel model = module.getGreenhouseModel();
-
-        panelBackground = Color.darkGray;
-        panelForeground = Color.white;
 
         // PhET logo
         JLabel logo = new JLabel( ( new ImageIcon( new ImageLoader().loadImage( "images/Phet-Flatirons-logo-3-small.gif" ) ) ) );
@@ -206,6 +199,7 @@ public class GreenhouseControlPanel extends JPanel {
         setBackground( this );
     }
 
+    
     private void setBackground( Container container ) {
         container.setBackground( panelBackground );
         Component[] components = container.getComponents();
@@ -281,6 +275,7 @@ public class GreenhouseControlPanel extends JPanel {
             this.add( venusCompositionPane, gbc );
 
             TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
+            titledBorder.setTitleColor( panelForeground );
             titledBorder.setTitleJustification( TitledBorder.LEFT );
             this.setBorder( titledBorder );
 
@@ -438,6 +433,7 @@ public class GreenhouseControlPanel extends JPanel {
             this.setPreferredSize( new Dimension( width, 120 ) );
 
             titledBorder.setTitleJustification( TitledBorder.LEFT );
+            titledBorder.setTitleColor( panelForeground );
             this.setBorder( titledBorder );
             try {
                 for( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
