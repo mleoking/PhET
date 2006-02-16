@@ -121,8 +121,7 @@ public class ConfigManager {
         
         // Configure the application
         QTConfig config = (QTConfig) object;
-        CursorUtils.setWaitCursorEnabled( true );
-        {
+        try {
             // Global
             _app.load( config );
             
@@ -134,13 +133,15 @@ public class ConfigManager {
                 }
             }
         }
-        CursorUtils.setWaitCursorEnabled( false );
+        catch ( Exception e ) {
+            showError( SimStrings.get( "Load.error.message" ), e );
+        }
     }
     
     /*
      * Implementation of "Save" for non-Web Start clients, uses JFileChooser and java.io.
      */
-    public void saveLocal( Object object ) throws Exception {
+    private void saveLocal( Object object ) throws Exception {
        
         JFrame frame = _app.getPhetFrame();
         
@@ -187,7 +188,7 @@ public class ConfigManager {
     /*
      * Implementation of "Load" for non-Web Start clients, uses JFileChooser and java.io.
      */
-    public Object loadLocal() throws Exception {
+    private Object loadLocal() throws Exception {
         JFrame frame = _app.getPhetFrame();
         
         // Choose the file to load.
@@ -312,34 +313,34 @@ public class ConfigManager {
         return object;
     }
     
-    /**
-     * Determines if you application was started using Java Web Start.
+    /*
+     * Determines if the simulation was started using Java Web Start.
      * 
      * @return true or false
      */
-    public static boolean wasWebStarted() {
+    private static boolean wasWebStarted() {
         return ( System.getProperty( "javawebstart.version" ) != null );
     }
     
-    /**
+    /*
      * Shows the error message associated with an exception in an
      * error dialog, and prints a stack trace to the console.
      * 
      * @param format
      * @param e
      */
-    public void showError( String format, Exception e ) {
+    private void showError( String format, Exception e ) {
         showError( format, e.getMessage() );
         e.printStackTrace();
     }
     
-    /**
+    /*
      * Shows the error message in an error dialog.
      * 
      * @param format
      * @param e
      */
-    public void showError( String format, String errorMessage ) {
+    private void showError( String format, String errorMessage ) {
         JFrame frame = _app.getPhetFrame();
         String title = SimStrings.get( "title.error" );
         Object[] args = { errorMessage };
@@ -347,13 +348,13 @@ public class ConfigManager {
         DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
     }
     
-    /**
+    /*
      * Gets the directory name portion of a filename.
      * 
      * @param filename
      * @return directory name
      */
-    public static String getDirectoryName( String filename ) {
+    private static String getDirectoryName( String filename ) {
         String directoryName = null;
         int index = filename.lastIndexOf( File.pathSeparatorChar );
         if ( index != -1 ) {
