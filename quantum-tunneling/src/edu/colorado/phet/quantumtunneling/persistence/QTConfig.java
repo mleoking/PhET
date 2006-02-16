@@ -27,7 +27,7 @@ import edu.colorado.phet.quantumtunneling.model.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTConfig implements Serializable {
+public class QTConfig implements QTSerializable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -76,7 +76,7 @@ public class QTConfig implements Serializable {
      * GlobalConfig is a JavaBean-compliant data structure that stores
      * global configuration information.
      */
-    public class GlobalConfig implements Serializable {
+    public class GlobalConfig implements QTSerializable {
 
         //----------------------------------------------------------------------------
         // Instance data
@@ -123,7 +123,7 @@ public class QTConfig implements Serializable {
      * ModuleConfig is a JavaBean-compliant data structure that stores
      * module configuration information.
      */
-    public class ModuleConfig implements Serializable {
+    public class ModuleConfig implements QTSerializable {
         
         //----------------------------------------------------------------------------
         // Instance data
@@ -441,7 +441,7 @@ public class QTConfig implements Serializable {
     /**
      * A JavaBean-compliant data structure for saving region information.
      */
-    public static class RegionConfig {
+    public static class RegionConfig implements QTSerializable {
         private double _start;
         private double _end;
         private double _energy;
