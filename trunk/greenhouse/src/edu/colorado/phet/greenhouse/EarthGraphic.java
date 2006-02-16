@@ -112,17 +112,12 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     public void setNoBackdrop() {
         isIceAge = false;
         setBackDrop( null, null );
-        System.out.println( "EarthGraphic.setNoBackdrop" );
-//        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 51, 160, 44 ) );
     }
 
     public void setVirginEarth() {
         isIceAge = false;
-//        setBackDrop( null, null );
         setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        System.out.println( "EarthGraphic.setVirginEarth" );
-//        disk.setPaint( Color.green );
         disk.setPaint( new Color( 51, 160, 44 ) );
     }
 
@@ -147,11 +142,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void setTomorrow() {
         isIceAge = false;
-//        Image img = ImageLoader.fetchImage( "images/white-test.gif" );
-//        BufferedImage bi = new BufferedImage( img.getWidth( null ), img.getHeight( null ), BufferedImage.TYPE_INT_ARGB );
-//        Graphics g = bi.getGraphics();
-//        g.drawImage( img, 0, 0, null );
-//        setBackDropBI( bi, new Point2D.Double( 0, .5 ) );
         setBackDrop( null, new Point2D.Double( 0, .5 ) );
     }
 
@@ -164,12 +154,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
         if( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
-            System.out.println( "AAAAA" );
         }
         if( backdropImageFileName != null && !backdropImageFileName.equals( "" ) ) {
             backdropGraphic = new ImageGraphic( backdropImageFileName, location );
             apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
-            System.out.println( "BBBBB" );
         }
     }
 

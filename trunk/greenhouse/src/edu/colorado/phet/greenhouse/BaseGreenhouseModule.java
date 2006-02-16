@@ -116,6 +116,7 @@ public abstract class BaseGreenhouseModule extends Module {
         sunGraphic = new StarGraphic( sun, initialModelBounds );
         apparatusPanel.addGraphic( sunGraphic, 10 );
 
+
         // Create a black hole to suck away any photons that are beyond the
         // model bounds
         BlackHole blackHole = new BlackHole( model );
@@ -211,7 +212,6 @@ public abstract class BaseGreenhouseModule extends Module {
     public void removeScatterEvent( ScatterEvent event ) {
         getModel().removeModelElement( event );
         ScatterEventGraphic seg = (ScatterEventGraphic)scatterToGraphicMap.get( event );
-//        drawingCanvas.removeGraphic( seg );
         getApparatusPanel().removeGraphic( seg );
         scatterToGraphicMap.remove( event );
     }
@@ -257,7 +257,6 @@ public abstract class BaseGreenhouseModule extends Module {
         public void photonAbsorbed( Photon photon ) {
             PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
             getApparatusPanel().removeGraphic( photonView );
-//            drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
         }
     }
@@ -270,7 +269,6 @@ public abstract class BaseGreenhouseModule extends Module {
                 if( ( (PhotonGraphic)photonToGraphicsMap.get( photon ) ).isVisible() ) {
                     ScatterEventGraphic seg = new ScatterEventGraphic( se );
                     getApparatusPanel().addGraphic( seg, GreenhouseConfig.PHOTON_GRAPHIC_LAYER - 1 );
-//            drawingCanvas.addGraphic( seg, GreenhouseModule.PHOTON_GRAPHIC_LAYER - 1 );
                     scatterToGraphicMap.put( se, seg );
                 }
             }
@@ -309,7 +307,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public void setPreIndRev() {
         earthGraphic.set1750();
-//        earthGraphic.setToday();
     }
 
 
@@ -324,6 +321,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 Rectangle2D.Double finalModelBounds ) {
             this.currModelBounds = currModelBounds;
             this.finalModelBounds = finalModelBounds;
+            earthGraphic.setNoBackdrop();
         }
 
         public void run() {
@@ -390,6 +388,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 getApparatusPanel().removeGraphic( sunGraphic );
                 sunGraphic.stopAnimation();
                 earthGraphic.stopAnimation();
+                earthGraphic.setToday();
                 ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
                 thermometerEnabled( true );
             }
@@ -398,8 +397,10 @@ public abstract class BaseGreenhouseModule extends Module {
             }
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
-            // Set the default view
+            // Set the default view. Note that this is a real mess. It works in conjunction with code in
+            // GreenhouseControlPanel.AtmoshpereSelectionPane
             setToday();
+
         }
     }
 }
