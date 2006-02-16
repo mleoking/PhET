@@ -509,6 +509,9 @@ public class QTModule extends AbstractModule implements Observer {
     public void save( QTConfig appConfig ) {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
         
+        // Clock
+        config.setClockRunning( getClock().isRunning() );
+        
         // Model
         config.saveTotalEnergy( _totalEnergy );
         config.setMinRegionWidth( _constantPotential.getMinRegionWidth() ); // assume the same for all potentials!
@@ -543,6 +546,14 @@ public class QTModule extends AbstractModule implements Observer {
      */
     public void load( QTConfig appConfig ) {
         QTConfig.ModuleConfig config = appConfig.getModuleConfig();
+        
+        // Clock
+        if ( config.isClockRunning() ) {
+            getClock().start();
+        }
+        else {
+            getClock().pause();
+        }
         
         // Model
         setTotalEnergy( config.loadTotalEnergy() );

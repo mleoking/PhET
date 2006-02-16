@@ -129,6 +129,9 @@ public class QTConfig implements Serializable {
         // Instance data
         //----------------------------------------------------------------------------
         
+        // Clock
+        private boolean _clockRunning;
+        
         // Model properties
         private double _totalEnergy;
         private double _minRegionWidth;
@@ -164,6 +167,14 @@ public class QTConfig implements Serializable {
         //----------------------------------------------------------------------------
         // Accessors
         //----------------------------------------------------------------------------
+        
+        public void setClockRunning( boolean clockRunning ) {
+            _clockRunning = clockRunning;
+        }
+        
+        public boolean isClockRunning() {
+            return _clockRunning;
+        }
         
         public RegionConfig[] getConstantRegions() {
             return _constantRegions;
