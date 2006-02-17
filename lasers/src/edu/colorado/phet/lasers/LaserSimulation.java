@@ -15,6 +15,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -38,6 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LaserSimulation extends PhetApplication {
+
+    static {
+        PhetLookAndFeel.setLookAndFeel();
+    }
+
     IClock singleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
     IClock multipleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
     private JDialog photoDlg;
@@ -169,14 +175,14 @@ public class LaserSimulation extends PhetApplication {
             }
         }
         else {
-            try {
-                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
-            }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();
-            }
+            new LaserAppLookAndFeel().apply();
+//            try {
+//                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
+//            }
+//            catch( UnsupportedLookAndFeelException e ) {
+//                e.printStackTrace();
+//            }
         }
-
 
         LaserSimulation simulation = new LaserSimulation( args );
         simulation.startApplication();
@@ -186,7 +192,8 @@ public class LaserSimulation extends PhetApplication {
     // Definition of look and feel
     //----------------------------------------------------------------
 
-    private static class LaserAppLookAndFeel extends LandF {
+    private static class LaserAppLookAndFeel extends PhetLookAndFeel {
+//    private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );
         //        static Color yellowishBackground = new Color( 249, 221, 162 );
         static Color greenishBackground = new Color( 138, 156, 148 );
@@ -208,8 +215,19 @@ public class LaserSimulation extends PhetApplication {
         //        static Color controlTextColor = new Color( 0, 0, 0 );
         static Font font = new Font( "SansSerif", Font.BOLD, 12 );
 
+//        Color backgroundColor = new Color( 60, 80, 60 );
+//        Color buttonBackgroundColor = new Color( 60, 60, 100 );
+//        Color controlTextColor = new Color( 230, 230, 230 );
+//        Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
+
         public LaserAppLookAndFeel() {
-            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+            super();
+//            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+            setBackgroundColor( backgroundColor );
+            setFont( font );
+            setTabFont( font );
+            setTitledBorderFont( font );
+            setButtonBackgroundColor( buttonBackgroundColor );
         }
     }
 
