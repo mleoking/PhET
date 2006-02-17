@@ -122,8 +122,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
         // Create the power meter
         PowerMeterGraphic powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
-                                     getLaserModel(),
-                                     rightMirror );
+                                                              getLaserModel(),
+                                                              rightMirror );
         powerMeter.setLocation( new Point( 175, 430 ) );
         getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
         powerMeter.setVisible( true );
@@ -557,12 +557,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }
-                else{
+                else {
                     double energyLevelDiff = laserModel.getMiddleEnergyState().getEnergyLevel() -
-                                               laserModel.getGroundState().getEnergyLevel();
-                    if( Math.abs( photon.getEnergy() - energyLevelDiff) <= LaserConfig.ENERGY_TOLERANCE ) {
-                    isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
-                                               }
+                                             laserModel.getGroundState().getEnergyLevel();
+                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= LaserConfig.ENERGY_TOLERANCE ) {
+                        isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
+                    }
                 }
             }
 
