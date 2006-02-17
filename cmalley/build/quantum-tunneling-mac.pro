@@ -1,6 +1,5 @@
 -injars /Volumes/files/phet-workspace/jars/quantumtunneling.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/jcommon-1.0.0.jar
--injars /Volumes/files/phet-workspace/jfreechart/lib/gnujaxp.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/servlet.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/junit.jar
 -injars /Volumes/files/phet-workspace/quantum-tunneling/lib/jnlp.jar
@@ -33,7 +32,10 @@
 
 -keep class org.jfree.ui.about.Licenses
 
--keep class gnu.xml.aelfred2.JAXPFactory
+-keep class * extends edu.colorado.phet.quantumtunneling.persistence.QTSerializable {
+    <fields>;
+    <methods>;
+}
 
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembernames class * {
