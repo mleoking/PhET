@@ -148,11 +148,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
-            double newWavelength = PhysicsUtil.energyToWavelength( newEnergy );
-            // The +1 and -1 are needed to make sure that floating point errors don't put the energy
-            // and wavelength out of range
-            newWavelength = Math.min( Math.max( newWavelength, LaserConfig.MIN_WAVELENGTH + 1 ),
-                                      LaserConfig.MAX_WAVELENGTH - 1 );
+            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( LaserConfig.MIN_WAVELENGTH ) + groundStateEnergy);
             atomicState.setEnergyLevel( newEnergy );
             atomicState.determineEmittedPhotonWavelength();
 
