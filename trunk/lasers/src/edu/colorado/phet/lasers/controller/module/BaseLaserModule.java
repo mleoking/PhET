@@ -78,7 +78,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
     private int numPhotons;
     private boolean displayHighLevelEmissions;
-    protected boolean threeEnergyLevels;
+    private boolean threeEnergyLevels;
+//    protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
     private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;

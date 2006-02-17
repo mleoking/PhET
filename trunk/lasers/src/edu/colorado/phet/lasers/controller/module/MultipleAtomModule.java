@@ -207,14 +207,6 @@ public class MultipleAtomModule extends BaseLaserModule {
     }
 
     /**
-     *
-     */
-    public void activate() {
-        super.activate();
-        super.setThreeEnergyLevels( true );
-    }
-
-    /**
      * Extends the base class behavior. After letting the base class behavior
      * happen, the pumping beam is enabled, since this is the only beam shown
      * on the multiple atom panel.
@@ -223,7 +215,6 @@ public class MultipleAtomModule extends BaseLaserModule {
      */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         super.setThreeEnergyLevels( threeEnergyLevels );
-        this.threeEnergyLevels = threeEnergyLevels;
         getLaserModel().getPumpingBeam().setEnabled( true );
     }
 }
