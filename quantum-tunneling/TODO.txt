@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- test all features after applying ProGuard
+- get rid of reflection at boundaries
 - improve responsiveness of drag handles and JSliders
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -54,6 +54,7 @@ MACINTOSH:
 DONE:
 (2/17/06) - add application description to SimStrings files
 0.00.14...
+(2/17/06) - test all features after applying ProGuard
 (2/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
 (2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
 (2/16/06) - catch all types of Exception when loading or saving configuration
