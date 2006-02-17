@@ -119,7 +119,7 @@ public class QWIState implements Serializable {
         }
 
         public DetectorState( Detector detector ) {
-            super.setRectangle( new Rectangle( detector.getBounds() ) );
+            super( new Rectangle( detector.getBounds() ) );
         }
     }
 

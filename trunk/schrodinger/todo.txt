@@ -4,6 +4,8 @@ Add separate control for box physical size (independent of lattice size).
 
 Add units to split operator method.
 
+Mac osx10.3 still exhibits out of memory errors.
+
 is 0.1 nm scale correct?
 close button for stopwatch
 modelslider labels have a bug on mac
