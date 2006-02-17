@@ -27,7 +27,6 @@ public class QWIState implements Serializable {
     private ArrayList rectBarrierList = new ArrayList();
 
     public QWIState() {
-
     }
 
     public QWIState( SchrodingerModule schrodingerModule ) {
@@ -42,6 +41,14 @@ public class QWIState implements Serializable {
                 rectBarrierList.add( new RectBarrierState( (RectangularPotential)pot ) );
             }
         }
+    }
+
+    public ArrayList getDetectorList() {
+        return detectorList;
+    }
+
+    public void setDetectorList( ArrayList detectorList ) {
+        this.detectorList = detectorList;
     }
 
     public ArrayList getRectBarrierList() {
@@ -76,14 +83,12 @@ public class QWIState implements Serializable {
     }
 
     public static class SerializableRect implements Serializable {
-
         private Rectangle rectangle;
 
         public SerializableRect() {
         }
 
         public SerializableRect( Rectangle rect ) {
-            //To change body of created methods use File | Settings | File Templates.
             this.rectangle = new Rectangle( rect );
         }
 
@@ -96,7 +101,7 @@ public class QWIState implements Serializable {
         }
 
         public String toString() {
-            return super.toString() + ", " + rectangle;    //To change body of overridden methods use File | Settings | File Templates.
+            return super.toString() + ", " + rectangle;
         }
     }
 
@@ -114,12 +119,11 @@ public class QWIState implements Serializable {
         }
 
         public DetectorState( Detector detector ) {
-            super.setRectangle( new Rectangle( detector.getBounds() );
+            super.setRectangle( new Rectangle( detector.getBounds() ) );
         }
     }
 
     public static void main( String[] args ) throws Exception {
-
         SchrodingerApplication app = new SchrodingerApplication( args );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         SchrodingerModule schrodingerModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
@@ -132,13 +136,5 @@ public class QWIState implements Serializable {
         Object o = persistenceManager.load();
         System.out.println( "o = " + o );
         System.exit( 0 );
-    }
-
-    public ArrayList getDetectorList() {
-        return detectorList;
-    }
-
-    public void setDetectorList( ArrayList detectorList ) {
-        this.detectorList = detectorList;
     }
 }
