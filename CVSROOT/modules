@@ -106,7 +106,7 @@ fourier-module fourier &charts-module
 shaper-module shaper &charts-module
 
 # Quantum Tunneling
-quantum-tunneling-module quantum-tunneling &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
+quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-module
 
 #============================================================================
 # Simulations
@@ -149,7 +149,7 @@ ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 john-travoltage travoltage
 
 # Lasers
-lasers lasers &phetgraphics-module &collision-module &controls-module &mechanics-module
+lasers lasers &phetgraphics-module &collision-dir &controls-dir &mechanics-dir
 
 # Localizations
 localizations localizations
@@ -170,7 +170,9 @@ moving-man movingman &phetcommon-module &charts-0module
 nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Photoelectric effect
-photoelectric photoelectric &dischargelamps &charts-module
+#photoelectric photoelectric &dischargelamps &charts-module
+photoelectric photoelectric &dischargelamps &charts-dir
+
 
 # Radio Waves
 radio-waves emf 
