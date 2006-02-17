@@ -170,9 +170,7 @@ moving-man movingman &phetcommon-module &charts-0module
 nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Photoelectric effect
-#photoelectric photoelectric &dischargelamps &charts-module
 photoelectric photoelectric &dischargelamps &charts-dir
-
 
 # Radio Waves
 radio-waves emf 
