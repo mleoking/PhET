@@ -163,8 +163,8 @@ public class WallInterferenceModule extends SingleSourceModule {
                                                          (int)s_initialWallAngle );
             wallAngleSlider.setPreferredSize( new Dimension( 25, 100 ) );
             wallAngleSlider.setPaintTicks( true );
-            wallAngleSlider.setMajorTickSpacing( 10 );
-            wallAngleSlider.setMinorTickSpacing( 5 );
+            wallAngleSlider.setMajorTickSpacing( 20 );
+            wallAngleSlider.setMinorTickSpacing( 10 );
             wallAngleSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     WallInterferenceModule.this.setWallAngle( wallAngleSlider.getValue() );
