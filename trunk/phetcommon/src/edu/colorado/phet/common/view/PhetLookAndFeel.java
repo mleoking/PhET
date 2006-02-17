@@ -60,13 +60,13 @@ public class PhetLookAndFeel {
 
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
-            "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
-            "Label", "Menu", "MenuBar", "MenuItem",
-            "OptionPane", "Panel",
-            "RadioButton", "RadioButtonMenuItem",
-            "Slider", "Spinner",
-            "TabbedPane", "TextArea", "TextField", "TextPane",
-            "ScrollBar", "Viewport"
+        "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
+        "Label", "Menu", "MenuBar", "MenuItem",
+        "OptionPane", "Panel",
+        "RadioButton", "RadioButtonMenuItem",
+        "Slider", "Spinner",
+        "TabbedPane", "TextArea", "TextField", "TextPane",
+        "ScrollBar", "Viewport"
     };
 
     //----------------------------------------------------------------------------
@@ -76,6 +76,7 @@ public class PhetLookAndFeel {
     private int os; // the operating system
     private Font font;
     private Font titledBorderFont;
+    private Font tabFont;
     private Color foregroundColor;
     private Color backgroundColor;
     private Color textFieldBackgroundColor;
@@ -103,6 +104,7 @@ public class PhetLookAndFeel {
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;
+        tabFont = new Font( "Lucida Sans", Font.BOLD, 18 );
         insets = null;
     }
 
@@ -116,6 +118,14 @@ public class PhetLookAndFeel {
 
     public void setFont( Font font ) {
         this.font = font;
+    }
+
+    public Font getTabFont() {
+        return tabFont;
+    }
+
+    public void setTabFont( Font tabFont ) {
+        this.tabFont = tabFont;
     }
 
     public Font getTitledBorderFont() {
@@ -195,6 +205,7 @@ public class PhetLookAndFeel {
         ColorUIResource foregroundResource = null;
         ColorUIResource textFieldBackgroundResource = null;
         InsetsUIResource insetsResource = null;
+        ColorUIResource buttonBackgroundResource = null;
 
         // Construct UI resources
         if( font != null ) {
@@ -242,7 +253,13 @@ public class PhetLookAndFeel {
         if( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         }
-        add( keyValuePairs, "TabbedPane", "font", new FontUIResource( new Font( "Lucida Sans", Font.BOLD, 18) ) );
+
+        if( buttonBackgroundResource != null ) {
+            add( keyValuePairs, "Button", "background", buttonBackgroundResource );
+        }
+
+        add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
+
         return keyValuePairs.toArray();
     }
 
