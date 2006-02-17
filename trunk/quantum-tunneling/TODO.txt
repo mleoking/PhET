@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- apply ProGuard
 - improve responsiveness of drag handles and JSliders
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -53,6 +52,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+92/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
 (2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
 (2/16/06) - catch all types of Exception when loading or saving configuration
 (2/16/06) - add clock state to persistence
