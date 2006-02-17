@@ -28,6 +28,9 @@ information.
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
     </information>
+    <security>
+        <j2ee-application-client-permissions/>
+    </security>
 
     <resources>
         <j2se version="1.4+"/>
