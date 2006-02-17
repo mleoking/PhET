@@ -31,21 +31,6 @@ public class SoundApplication extends PhetApplication {
                true,
                new FrameSetup.CenteredWithSize( 900, 750 ) );
 
-        // Must not be resizable, because the performance tanks when you make the
-        // window bigger. SHOULD BE FIXED!!!
-        getPhetFrame().setResizable( false );
-
-        // Set up the modules
-        Module singleSourceModule = new SingleSourceListenModule( this );
-        Module measureModule = new SingleSourceMeasureModule( this );
-        Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-        Module wallInterferenceModule = new WallInterferenceModule( this );
-        Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
-        this.setModules( new Module[]{singleSourceModule, measureModule,
-                                      twoSourceIntereferenceModule, wallInterferenceModule,
-                                      evacuatedBoxModule} );
-        this.setInitialModule( singleSourceModule );
-
         // Set the look and feel to Metal, so the stopwatch dialog and the multi-line
         // tabs look right on the Mac
         try {
@@ -63,6 +48,21 @@ public class SoundApplication extends PhetApplication {
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
+
+        // Must not be resizable, because the performance tanks when you make the
+        // window bigger. SHOULD BE FIXED!!!
+        getPhetFrame().setResizable( false );
+
+        // Set up the modules
+        Module singleSourceModule = new SingleSourceListenModule( this );
+        Module measureModule = new SingleSourceMeasureModule( this );
+        Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+        Module wallInterferenceModule = new WallInterferenceModule( this );
+        Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
+        this.setModules( new Module[]{singleSourceModule, measureModule,
+                                      twoSourceIntereferenceModule, wallInterferenceModule,
+                                      evacuatedBoxModule} );
+        this.setInitialModule( singleSourceModule );
 
     }
 
