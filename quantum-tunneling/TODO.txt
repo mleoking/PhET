@@ -53,7 +53,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
-92/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
+0.00.14...
+(2/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
 (2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
 (2/16/06) - catch all types of Exception when loading or saving configuration
 (2/16/06) - add clock state to persistence
