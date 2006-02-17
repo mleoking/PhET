@@ -40,11 +40,14 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     public ThermometerGraphic( Thermometer thermometer ) {
         thermometer.addObserver( this );
         this.thermometer = thermometer;
-//        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer-2.png" );
-        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer.png" );
-        thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background.png" );
-        thermometerBI = new BufferedImage( thermometerBackground.getWidth(),
-                                           thermometerBackground.getHeight(),
+        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer-2.png" );
+//        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer.png" );
+        thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background-2.png" );
+//        thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background.png" );
+        thermometerBI = new BufferedImage( thermometerBody.getWidth(),
+                                           thermometerBody.getHeight(),
+//        thermometerBI = new BufferedImage( thermometerBackground.getWidth(),
+//                                           thermometerBackground.getHeight(),
                                            BufferedImage.TYPE_INT_ARGB );
         update();
     }
@@ -78,7 +81,8 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         // Create the variable part of the thermometer: The red rectangle
         double temperatureHeight = Math.max( 0, Math.min( ( temperature - GreenhouseConfig.earthBaseTemperature ) / 10, 3.5 ) );
         temperatureHeight *= Math.abs( orgTx.getScaleY() );
-        Rectangle2D.Double temperatureRect = new Rectangle2D.Double( 10,
+        int redColumnXLoc = 20;
+        Rectangle2D.Double temperatureRect = new Rectangle2D.Double( redColumnXLoc,
                                                                      thermometerBackground.getHeight() - 55 - temperatureHeight,
                                                                      30,
                                                                      temperatureHeight );
@@ -91,24 +95,47 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         gbi.fill( temperatureRect );
         gbi.drawImage( thermometerBody, 0, 0, this );
 
+        // Temperatures
         gbi.setFont( temperatureFont );
-        String s = formatter.format( thermometer.getTemperature() ) + SimStrings.get( "ThermometerGraphic.TempUnits" );
+        String s = formatter.format( thermometer.getTemperature() ) + SimStrings.get( "ThermometerGraphic.KelvinUnits" );
         FontMetrics fontMetrics = gbi.getFontMetrics();
-        int width = thermometerBI.getWidth() - 14;
+        int width = thermometerBI.getWidth() - 25;
+//        int width = thermometerBI.getWidth() - 14;
         int height = fontMetrics.getHeight();
         int centerX = thermometerBI.getWidth() / 2;
-        int textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
+//        int textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
         int boxLeft = centerX - width / 2;
-        int up = 20;
+        int textLeft = boxLeft + width - fontMetrics.stringWidth( s ) - fontMetrics.stringWidth( " " );
+
+        // Kelvin
+        int up = 40;
+//        int up = 20;
         gbi.setColor( Color.white );
         gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
         gbi.setColor( Color.black );
         gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
         gbi.setColor( Color.black );
         gbi.drawString( s, textLeft, thermometerBI.getHeight() - up );
+
+        // Fahrenheit
+        s = formatter.format( kelvinToFahrenheit( thermometer.getTemperature() ) ) + SimStrings.get( "ThermometerGraphic.FahrenheitUnits" );
+        up -= height;
+        gbi.setColor( Color.white );
+        gbi.fillRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.setColor( Color.black );
+        gbi.drawRect( boxLeft, thermometerBI.getHeight() - up - height + fontMetrics.getDescent(), width, height  );
+        gbi.setColor( Color.black );
+        textLeft = boxLeft + width - fontMetrics.stringWidth( s ) - fontMetrics.stringWidth( " " );
+//        textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
+        gbi.drawString( s, textLeft, thermometerBI.getHeight() - up );
         g2.drawImage( thermometerBI, thermometerTx, this );
     }
 
+
+    private double kelvinToFahrenheit( double k ) {
+        double f = ((k - 273.15 ) * 1.8 ) + 32;
+        return f;
+    }
 
     // Attempt to get things to draw properly by delaying this to the end of the Swing thread cycle.
     private class Drawer implements Runnable {
