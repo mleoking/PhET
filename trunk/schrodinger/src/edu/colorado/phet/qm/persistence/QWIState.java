@@ -77,7 +77,7 @@ public class QWIState implements Serializable {
 
     public static class SerializableRect implements Serializable {
 
-        Rectangle rectangle;
+        private Rectangle rectangle;
 
         public SerializableRect() {
         }
@@ -114,7 +114,7 @@ public class QWIState implements Serializable {
         }
 
         public DetectorState( Detector detector ) {
-            this.rectangle = new Rectangle( detector.getBounds() );
+            super.setRectangle( new Rectangle( detector.getBounds() );
         }
     }
 
