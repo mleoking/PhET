@@ -557,9 +557,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }
-                else if( photon.getEnergy() == laserModel.getMiddleEnergyState().getEnergyLevel() -
-                                               laserModel.getGroundState().getEnergyLevel() ) {
+                else{
+                    double energyLevelDiff = laserModel.getMiddleEnergyState().getEnergyLevel() -
+                                               laserModel.getGroundState().getEnergyLevel();
+                    if( Math.abs( photon.getEnergy() - energyLevelDiff) <= LaserConfig.ENERGY_TOLERANCE ) {
                     isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
+                                               }
                 }
             }
 
