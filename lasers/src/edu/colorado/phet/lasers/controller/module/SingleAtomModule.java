@@ -242,7 +242,7 @@ public class SingleAtomModule extends BaseLaserModule {
         catch( InterruptedException e ) {
             e.printStackTrace();
         }
-        laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
+        laserControlPanel.setThreeEnergyLevels( getThreeEnergyLevels() );
     }
 
     /**
