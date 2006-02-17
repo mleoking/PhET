@@ -16,7 +16,6 @@ MEDIUM PRIORITY:
 - draw region markers with a PNode so that drag handles are snappier
 - cache the total energy gradient as an image, update only when necessary
 - set default clock state to running
-- add application description to SimStrings files
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 - check Spanish translations, including help layout
 
@@ -53,6 +52,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/17/06) - add application description to SimStrings files
 0.00.14...
 (2/16/06) - fix Load feature after ProGuard is applied (remove gnujaxp.jar from input jars)
 (2/16/06) - add QTSerializable marker interface to all persistence classes so that ProGuard keeps them
