@@ -1,8 +1,9 @@
 -injars myjavabean.jar
 -outjars myjavabean-mac-pro.jar
 
--libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
--libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
+#-libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
+#-libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
+-libraryjars C:\j2sdk1.4.2_05\jre\lib\rt.jar
 
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
