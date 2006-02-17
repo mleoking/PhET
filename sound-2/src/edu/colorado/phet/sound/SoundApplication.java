@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.model.SoundClock;
 
+import javax.swing.*;
 import java.util.Locale;
 import java.util.ArrayList;
 
@@ -44,6 +45,24 @@ public class SoundApplication extends PhetApplication {
                                       twoSourceIntereferenceModule, wallInterferenceModule,
                                       evacuatedBoxModule} );
         this.setInitialModule( singleSourceModule );
+
+        // Set the look and feel to Metal, so the stopwatch dialog and the multi-line
+        // tabs look right on the Mac
+        try {
+            UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel");
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
 
     }
 
