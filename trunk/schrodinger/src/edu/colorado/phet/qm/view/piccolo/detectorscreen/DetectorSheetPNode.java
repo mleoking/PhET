@@ -198,8 +198,15 @@ public class DetectorSheetPNode extends PhetPNode {
 
         int w = wavefunctionGraphic.getWavefunctionGraphicWidth();
         int h = detectorSheetHeight;
-        System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
-        bufferedImage = new BufferedImage( w, h, BufferedImage.TYPE_INT_RGB );
+
+        if( bufferedImage != null && bufferedImage.getWidth() == w && bufferedImage.getHeight() == h ) {
+            //noop
+            System.out.println( "Avoiding recreate: same size." );
+        }
+        else {
+            System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
+            bufferedImage = new BufferedImage( w, h, BufferedImage.TYPE_INT_RGB );
+        }
     }
 
     public int getOpacity() {
