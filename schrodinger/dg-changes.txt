@@ -1,3 +1,4 @@
+*New in 0.08 (2-18-2006)
 Center the protractor on the lead atom.
 Added "save snapshot" feature to the Intensity Plot.
 You can choose between Square/Circular atoms in the control panel.
