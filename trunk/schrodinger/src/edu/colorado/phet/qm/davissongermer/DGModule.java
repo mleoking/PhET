@@ -65,7 +65,11 @@ public class DGModule extends IntensityModule {
 
     private void updateProtractor() {
         WavefunctionGraphic wavefunctionGraphic = getSchrodingerPanel().getWavefunctionGraphic();
-        protractor.setOffset( wavefunctionGraphic.getFullBounds().getCenterX(), wavefunctionGraphic.getFullBounds().getCenterY() );
+        double y0 = dgModel.getFractionalAtomLattice().getY0();
+
+        protractor.setOffset( wavefunctionGraphic.getFullBounds().getCenterX(),
+                              y0 * wavefunctionGraphic.getFullBounds().getHeight() + wavefunctionGraphic.getFullBounds().getY() );
+//        wavefunctionGraphic.getFullBounds().getCenterY() );
     }
 
     private DGParticle getDGParticle() {
@@ -138,5 +142,9 @@ public class DGModule extends IntensityModule {
 
     public void setAtomShapeSquare() {
         dgModel.setAtomShapeSquare();
+    }
+
+    public DGPlotPanel getDGPlotPanel() {
+        return getPlotPanel();
     }
 }

@@ -40,7 +40,7 @@ public class DGPlotPanel extends PSwingCanvas {
 
     public DGPlotPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
-        intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
+//        intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
         intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
         series = new XYSeries( "series1" );
         dataset = new XYSeriesCollection( series );
@@ -65,6 +65,16 @@ public class DGPlotPanel extends PSwingCanvas {
         getLayer().addChild( indicatorGraphic );
     }
 
+    public void setEdgeIntensityReader() {
+        this.intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
+        replotAll();
+    }
+
+    public void setRadialIntensityReader() {
+        this.intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
+        replotAll();
+    }
+
     public void setIndicatorVisible( boolean visible ) {
         indicatorGraphic.setVisible( visible );
     }
@@ -79,6 +89,14 @@ public class DGPlotPanel extends PSwingCanvas {
         repaint( 0, 0, getWidth(), getHeight() );
 //        repaint();
 //        indicatorGraphic.repaint();
+    }
+
+    public boolean isIntensityReaderEdge() {
+        return intensityReader instanceof EdgeIntensityReader;
+    }
+
+    public boolean isIntensityReaderRadial() {
+        return intensityReader instanceof RadialIntensityReader;
     }
 
     class IndicatorGraphic extends PhetPNode {
