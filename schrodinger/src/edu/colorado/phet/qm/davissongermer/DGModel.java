@@ -33,6 +33,10 @@ public class DGModel {
         } );
     }
 
+    public FractionalAtomLattice getFractionalAtomLattice() {
+        return fractionalAtomLattice;
+    }
+
     private FractionalAtomLattice createAtomLattice( boolean circular ) {
         return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
                new SquareAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
@@ -61,7 +65,7 @@ public class DGModel {
     }
 
     public Point getCenterAtomPoint() {
-        return fractionalAtomLattice.getCenterAtomConcretePoint();
+        return fractionalAtomLattice.getCenterAtomConcretePoint( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
     }
 
     static interface Listener {

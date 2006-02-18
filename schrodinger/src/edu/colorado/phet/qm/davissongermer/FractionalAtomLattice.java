@@ -43,7 +43,7 @@ public abstract class FractionalAtomLattice {
         int concreteAtomRadius = getConcreteAtomRadius( latticeWidth, latticeHeight );
         int concreteSpacing = getConcreteSpacing( latticeWidth, latticeHeight );
         ConcreteAtomLattice concreteAtomLattice = new ConcreteAtomLattice( latticeWidth, latticeHeight );
-        int concreteY0 = (int)( y0 * latticeHeight );
+        int concreteY0 = getConcreteY0( latticeHeight );
 
         for( int xCenter = latticeWidth / 2; xCenter <= latticeWidth; xCenter += concreteSpacing ) {
             for( int yCenter = concreteY0; yCenter >= 0; yCenter -= concreteSpacing ) {
@@ -59,8 +59,13 @@ public abstract class FractionalAtomLattice {
         return concreteAtomLattice;
     }
 
-    public Point getCenterAtomConcretePoint() {
-        return null;
+    private int getConcreteY0( int latticeHeight ) {
+        int concreteY0 = (int)( y0 * latticeHeight );
+        return concreteY0;
+    }
+
+    public Point getCenterAtomConcretePoint( int latticeWidth, int latticeHeight ) {
+        return new Point( latticeWidth / 2, getConcreteY0( latticeHeight ) );
     }
 
     private void addAtom( int xCenter, int yCenter, int concreteAtomRadius, ConcreteAtomLattice concreteAtomLattice ) {
