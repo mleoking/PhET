@@ -10,7 +10,7 @@ import java.awt.*;
  * Copyright (c) Feb 4, 2006 by Sam Reid
  */
 
-public class FractionalAtomLattice {
+public abstract class FractionalAtomLattice {
     private double spacingBetweenAtoms;
     private double potential;
     private double atomRadius;
@@ -59,12 +59,17 @@ public class FractionalAtomLattice {
         return concreteAtomLattice;
     }
 
+    public Point getCenterAtomConcretePoint() {
+        return null;
+    }
+
     private void addAtom( int xCenter, int yCenter, int concreteAtomRadius, ConcreteAtomLattice concreteAtomLattice ) {
         Point center = new Point( xCenter, yCenter );
-//        AtomPotential atomPotential = new CircularPotential( center, concreteAtomRadius, potential );
-        AtomPotential atomPotential = new RectanglePotential( center, concreteAtomRadius, potential );
+        AtomPotential atomPotential = createPotential( center, concreteAtomRadius, potential );
         concreteAtomLattice.addAtomPotentialNoUpdate( atomPotential );
     }
+
+    protected abstract AtomPotential createPotential( Point center, int concreteAtomRadius, double potential );
 
     private int getConcreteSpacing( int latticeWidth, int latticeHeight ) {
         int spacing = (int)( spacingBetweenAtoms * latticeWidth );
@@ -82,4 +87,5 @@ public class FractionalAtomLattice {
     public void setY0( double y0 ) {
         this.y0 = y0;
     }
+
 }

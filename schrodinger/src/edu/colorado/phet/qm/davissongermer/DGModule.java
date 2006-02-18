@@ -60,6 +60,7 @@ public class DGModule extends IntensityModule {
                 updateProtractor();
             }
         } );
+        getDiscreteModel().setBarrierAbsorptive( false );
     }
 
     private void updateProtractor() {
@@ -121,5 +122,21 @@ public class DGModule extends IntensityModule {
 
     public DGPlotPanel getPlotPanel() {
         return dgPlotFrame.getDgPlotPanel();
+    }
+
+    public boolean isAtomShapeCircular() {
+        return dgModel.isAtomShapeCircular();
+    }
+
+    public boolean isAtomShapeSquare() {
+        return dgModel.isAtomShapeSquare();
+    }
+
+    public void setAtomShapeCircular() {
+        dgModel.setAtomShapeCircular();
+    }
+
+    public void setAtomShapeSquare() {
+        dgModel.setAtomShapeSquare();
     }
 }

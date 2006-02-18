@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.davissongermer;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
@@ -35,12 +34,14 @@ public class DGPlotPanel extends PSwingCanvas {
     private DGModule dgModule;
     private XYSeries series;
     private JFreeChartNode jFreeChartNode;
-    private int inset = 3;
     private IndicatorGraphic indicatorGraphic;
     private JFreeChart chart;
+    private DGIntensityReader intensityReader;
 
     public DGPlotPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
+        intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
+        intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
         series = new XYSeries( "series1" );
         dataset = new XYSeriesCollection( series );
 
@@ -109,40 +110,7 @@ public class DGPlotPanel extends PSwingCanvas {
     }
 
     private double getIntensity( double angle ) {
-        Point gridLocation = toGridLocation( angle );
-        Complex value = getWavefunction().valueAt( gridLocation.x, gridLocation.y );
-        return value.abs();
+        return intensityReader.getIntensity( angle );
     }
 
-    private Point toGridLocation( double degrees ) {
-        if( degrees < 45 ) {
-            return toGridLocationBottom( degrees );
-        }
-        else {
-            return toGridLocationSide( degrees );
-        }
-    }
-
-    private Point toGridLocationSide( double degrees ) {
-        int yoffset = (int)( ( getWavefunction().getWidth() / 2 - inset ) * Math.tan( Math.toRadians( 90 - degrees ) ) );
-        return new Point( getWavefunction().getWidth() - inset, getWavefunction().getHeight() / 2 + yoffset );
-    }
-
-    private Point toGridLocationBottom( double degrees ) {
-        int xoffset = (int)( ( getWavefunction().getHeight() / 2 - inset ) * Math.tan( Math.toRadians( degrees ) ) );
-        return new Point( xoffset + getWavefunction().getWidth() / 2, getWavefunction().getHeight() - inset );
-    }
-
-    public static void main( String[] args ) {
-        DGPlotPanel dgPlotPanel = new DGPlotPanel( null ) {
-            protected Wavefunction getWavefunction() {
-                return new Wavefunction( 100, 100 );
-            }
-        };
-        double dAngle = 1;
-        for( double angle = 0; angle <= 90; angle += dAngle ) {
-            Point loc = dgPlotPanel.toGridLocation( angle );
-            System.out.println( "angle=" + angle + ", loc=" + loc );
-        }
-    }
 }

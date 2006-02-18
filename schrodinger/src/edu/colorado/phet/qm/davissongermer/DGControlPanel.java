@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.controls.ClearButton;
 import edu.colorado.phet.qm.controls.RulerPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -25,7 +26,6 @@ import java.io.IOException;
 public class DGControlPanel extends ControlPanel {
     private DGModule dgModule;
 
-
     public DGControlPanel( DGModule dgModule ) {
         super( dgModule );
         this.dgModule = dgModule;
@@ -40,7 +40,6 @@ public class DGControlPanel extends ControlPanel {
         } );
         addControl( plotCheckBox );
         addControlFullWidth( new AtomLatticeControlPanel( dgModule.getDGModel() ) );
-
 
         AbstractGunGraphic gun = dgModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
         if( gun instanceof DGGun ) {
@@ -61,6 +60,36 @@ public class DGControlPanel extends ControlPanel {
                 }
             } );
             addControl( y0 );
+        }
+        addControlFullWidth( new AtomShapeControlPanel( dgModule ) );
+    }
+
+    static class AtomShapeControlPanel extends VerticalLayoutPanel {
+        public AtomShapeControlPanel( final DGModule dgModule ) {
+            setBorder( BorderFactory.createTitledBorder( "Atom Shape" ) );
+            JRadioButton circular = new JRadioButton( "Circular", dgModule.isAtomShapeCircular() );
+            JRadioButton squares = new JRadioButton( "Square", dgModule.isAtomShapeSquare() );
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( circular );
+            buttonGroup.add( squares );
+            circular.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    dgModule.setAtomShapeCircular();
+                }
+            } );
+            squares.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    dgModule.setAtomShapeSquare();
+                }
+            } );
+            if( circular.isSelected() ) {
+                add( circular );
+                add( squares );
+            }
+            else {
+                add( squares );
+                add( circular );
+            }
         }
     }
 

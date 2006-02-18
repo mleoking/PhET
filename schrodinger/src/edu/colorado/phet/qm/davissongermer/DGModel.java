@@ -2,7 +2,9 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.Wavefunction;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -22,15 +24,44 @@ public class DGModel {
         this.discreteModel = discreteModel;
         concreteAtomLattice = new ConcreteAtomLattice( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
         discreteModel.addPotential( concreteAtomLattice );
-        fractionalAtomLattice = new FractionalAtomLattice( 0.05, 0.15, 0.5,
-                                                           DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        fractionalAtomLattice = createAtomLattice( true );
         updatePotential();
         discreteModel.addListener( new DiscreteModel.Adapter() {
             public void sizeChanged() {
                 updatePotential();
             }
         } );
-        discreteModel.setBarrierAbsorptive( false );
+    }
+
+    private FractionalAtomLattice createAtomLattice( boolean circular ) {
+        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
+               new SquareAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+    }
+
+    public Wavefunction getWavefunction() {
+        return discreteModel.getWavefunction();
+    }
+
+    public boolean isAtomShapeCircular() {
+        return fractionalAtomLattice instanceof CircularAtomLattice;
+    }
+
+    public boolean isAtomShapeSquare() {
+        return fractionalAtomLattice instanceof SquareAtomLattice;
+    }
+
+    public void setAtomShapeCircular() {
+        this.fractionalAtomLattice = createAtomLattice( true );
+        updatePotential();
+    }
+
+    public void setAtomShapeSquare() {
+        this.fractionalAtomLattice = createAtomLattice( false );
+        updatePotential();
+    }
+
+    public Point getCenterAtomPoint() {
+        return fractionalAtomLattice.getCenterAtomConcretePoint();
     }
 
     static interface Listener {
