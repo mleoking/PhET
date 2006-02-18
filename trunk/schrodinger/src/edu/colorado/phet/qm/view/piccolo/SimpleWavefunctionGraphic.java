@@ -32,7 +32,7 @@ public class SimpleWavefunctionGraphic extends PNode {
     private ColorMap colorMap;
 
     public SimpleWavefunctionGraphic( Wavefunction wavefunction ) {
-        this( wavefunction, 10, 10 );
+        this( wavefunction, 1, 1 );
     }
 
     public SimpleWavefunctionGraphic( Wavefunction wavefunction, int dx, int dy ) {
