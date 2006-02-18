@@ -1,3 +1,6 @@
+Added "save snapshot" feature to the Intensity Plot.
+You can choose between Square/Circular atoms in the control panel.
+
 *New in 0.07
 Feasibility test for square atoms.
 

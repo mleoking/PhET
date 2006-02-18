@@ -31,4 +31,5 @@ public class ConcreteAtomLattice implements Potential {
     public void updateAll() {
         potential.setPotential( compositePotential );
     }
+
 }

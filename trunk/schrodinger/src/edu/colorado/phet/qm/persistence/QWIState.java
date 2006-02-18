@@ -70,38 +70,64 @@ public class QWIState implements Serializable {
         for( int i = 0; i < detectorList.size(); i++ ) {
             DetectorState detectorState = (DetectorState)detectorList.get( i );
             Detector detector = new Detector( schrodingerModule.getDiscreteModel(),
-                                              detectorState.getRectangle().x, detectorState.getRectangle().y, detectorState.getRectangle().width, detectorState.getRectangle().height );
+                                              detectorState.getX(), detectorState.getY(), detectorState.getWidth(), detectorState.getHeight() );
             schrodingerModule.getDiscreteModel().addDetector( detector );
             schrodingerModule.getSchrodingerPanel().addDetectorGraphic( detector );
         }
         for( int i = 0; i < rectBarrierList.size(); i++ ) {
             RectBarrierState rectBarrierState = (RectBarrierState)rectBarrierList.get( i );
-            RectangularPotential potential = new RectangularPotential( schrodingerModule.getDiscreteModel(), rectBarrierState.getRectangle().x, rectBarrierState.getRectangle().y, rectBarrierState.getRectangle().width, rectBarrierState.getRectangle().height );
+            RectangularPotential potential = new RectangularPotential( schrodingerModule.getDiscreteModel(), rectBarrierState.getX(), rectBarrierState.getY(), rectBarrierState.getWidth(), rectBarrierState.getHeight() );
             schrodingerModule.getSchrodingerPanel().addRectangularPotentialGraphic( new RectangularPotentialGraphic( schrodingerModule.getSchrodingerPanel(), potential ) );
             schrodingerModule.getDiscreteModel().addPotential( potential );
         }
     }
 
     public static class SerializableRect implements Serializable {
-        private Rectangle rectangle;
+        private int x;
+        private int y;
+        private int width;
+        private int height;
 
         public SerializableRect() {
         }
 
         public SerializableRect( Rectangle rect ) {
-            this.rectangle = new Rectangle( rect );
+            this.x = rect.x;
+            this.y = rect.y;
+            this.width = rect.width;
+            this.height = rect.height;
         }
 
-        public Rectangle getRectangle() {
-            return rectangle;
+        public int getX() {
+            return x;
         }
 
-        public void setRectangle( Rectangle rectangle ) {
-            this.rectangle = rectangle;
+        public void setX( int x ) {
+            this.x = x;
         }
 
-        public String toString() {
-            return super.toString() + ", " + rectangle;
+        public int getY() {
+            return y;
+        }
+
+        public void setY( int y ) {
+            this.y = y;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth( int width ) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight( int height ) {
+            this.height = height;
         }
     }
 
