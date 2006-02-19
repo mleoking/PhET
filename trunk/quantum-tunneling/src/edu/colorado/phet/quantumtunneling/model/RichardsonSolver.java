@@ -51,8 +51,10 @@ public class RichardsonSolver {
     private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
     
     /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
-    private static double[] DAMPING_FACTORS = 
-        new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+    private static double[] DAMPING_FACTORS = new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+
+    /* Damping coefficients from QWI simulation */
+//    private static double[] DAMPING_FACTORS = new double[] { 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
     //----------------------------------------------------------------------
     // Instance data
