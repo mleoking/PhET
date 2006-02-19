@@ -45,6 +45,7 @@ public class RichardsonSolver {
     
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
+    private static final double EPSILON = 0.8;  // some magic constant
     
     // Damping factors, to prevent periodic boundary condition.
     private static double[] DAMPING_FACTORS = 
@@ -57,7 +58,6 @@ public class RichardsonSolver {
     private WavePacket _wavePacket;
     
     private double _dx;
-    private double _dt;
     private double _positions[]; // position at each sample point
     private RComplex _Psi[]; // wave function values at each sample point
     private RComplex _EtoV[]; // potential energy propagator = exp(-i*V(x)*dt/hbar)
@@ -78,7 +78,6 @@ public class RichardsonSolver {
         
         _wavePacket = wavePacket;
         _dx = 1;
-        _dt = QTConstants.CLOCK_STEP;
         
         update();
     }
@@ -136,7 +135,8 @@ public class RichardsonSolver {
         
         boolean zero = isSolutionZero();
         
-        _dt = 0.8 * MASS * _dx * _dx / HBAR; //XXX Richardson algorithm doesn't work without this specific value
+//        final double dt = QTConstants.CLOCK_STEP;
+        final double dt = EPSILON * MASS * _dx * _dx / HBAR; //XXX Richardson algorithm doesn't work unless dt is this function of dx
         
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
@@ -158,9 +158,8 @@ public class RichardsonSolver {
         final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;
         
         // Initialize constants used by the propagator.
-        final double epsilon = HBAR * _dt / ( MASS * _dx * _dx );
-        _alpha = new RComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
-        _beta = new RComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        _alpha = new RComplex( 0.5 * ( 1.0 + Math.cos( EPSILON / 2 ) ), -0.5 * Math.sin( EPSILON / 2 ) );
+        _beta = new RComplex( ( Math.sin( EPSILON / 4 ) ) * Math.sin( EPSILON / 4 ), 0.5 * Math.sin( EPSILON / 2 ) );
 
         // Initialize the data arrays used by the propagator.
         _positions = new double[numberOfPoints];
@@ -178,7 +177,7 @@ public class RichardsonSolver {
                 final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
                 _Psi[i] = new RComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position - center ) / HBAR ) );
                 _Psi[i].multiply( A );
-                final double s = getPotentialEnergy( position ) * _dt / HBAR;
+                final double s = getPotentialEnergy( position ) * dt / HBAR;
                 _EtoV[i] = new RComplex( Math.cos( s ), -Math.sin( s ) );
             }
         }
