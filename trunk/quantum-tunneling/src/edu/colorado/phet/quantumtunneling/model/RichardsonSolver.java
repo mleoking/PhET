@@ -404,17 +404,16 @@ public class RichardsonSolver {
              * Otherwise, the wave will appear to exit from one
              * edge of the display and enter on the other edge.
              */
-            if ( _Psi.length < DAMPING_FACTORS.length ) {
-                return;
-            }
-            for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
-                double scale = DAMPING_FACTORS[i];
-                // left edge...
-                _Psi[i]._real *= scale;
-                _Psi[i]._imaginary *= scale;
-                // right edge...
-                _Psi[_Psi.length - i - 1]._real *= scale;
-                _Psi[_Psi.length - i - 1]._imaginary *= scale;
+            if ( _Psi.length > DAMPING_FACTORS.length ) {
+                for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
+                    double scale = DAMPING_FACTORS[i];
+                    // left edge...
+                    _Psi[i]._real *= scale;
+                    _Psi[i]._imaginary *= scale;
+                    // right edge...
+                    _Psi[_Psi.length - i - 1]._real *= scale;
+                    _Psi[_Psi.length - i - 1]._imaginary *= scale;
+                }
             }
         }
     }
