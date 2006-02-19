@@ -46,8 +46,11 @@ public class RichardsonSolver {
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
     private static final double EPSILON = 0.8;  // some magic constant
+   
+    /* Each damping coefficient is applied to this many adjacent samples */
+    private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
     
-    // Damping factors, to prevent periodic boundary condition.
+    /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
     private static double[] DAMPING_FACTORS = 
         new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
@@ -151,8 +154,9 @@ public class RichardsonSolver {
         // Determine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
-        final double minX = pe.getStart( 0 ) - ( _dx * DAMPING_FACTORS.length );
-        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * DAMPING_FACTORS.length );
+        final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_FACTORS.length;
+        final double minX = pe.getStart( 0 ) - ( _dx * numberOfDampedSamples );
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * numberOfDampedSamples );
         
         // Calculate the number of sample points.
         final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;
@@ -404,9 +408,10 @@ public class RichardsonSolver {
              * Otherwise, the wave will appear to exit from one
              * edge of the display and enter on the other edge.
              */
-            if ( _Psi.length > DAMPING_FACTORS.length ) {
-                for ( int i = 0; i < DAMPING_FACTORS.length; i++ ) {
-                    double scale = DAMPING_FACTORS[i];
+            final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_FACTORS.length;
+            if ( _Psi.length > numberOfDampedSamples ) {
+                for ( int i = 0; i < numberOfDampedSamples; i++ ) {
+                    final double scale = DAMPING_FACTORS[i/SAMPLES_PER_DAMPING_COEFFICIENT ];
                     // left edge...
                     _Psi[i]._real *= scale;
                     _Psi[i]._imaginary *= scale;
