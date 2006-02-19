@@ -52,6 +52,10 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/19/06) - try bigger damping space, doesn't solve the problem
+(2/19/06) - add ability to apply damping coefficients to multiple adjacent samples
+(2/19/06) - make EPSILON a constant in RichardsonSolver
+(2/19/06) - try to tweak Richardson, no luck
 (2/17/06) - add application description to SimStrings files
 0.00.14...
 (2/17/06) - test all features after applying ProGuard
