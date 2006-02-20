@@ -57,6 +57,9 @@ public class QTConstants {
     /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
     
+    /* Is the time display visible next to the clock controls? */
+    public static final boolean TIME_DISPLAY_VISIBLE = true;
+    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
@@ -232,5 +235,5 @@ public class QTConstants {
     public static final double DEFAULT_PACKET_CENTER = -2; // nm
     
     // Richardson algorithm parameters
-    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
+    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 25; //XXX this is wasteful!
 }
