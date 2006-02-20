@@ -5,12 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- hide time display for now
 - get rid of reflection at boundaries
 - improve responsiveness of drag handles and JSliders
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
-- decide whether to replace Richardson with Falstad model
+- replace Richardson algoritm
 
 MEDIUM PRIORITY:
 - total energy gradient sometimes contains "noise" (Mac)
