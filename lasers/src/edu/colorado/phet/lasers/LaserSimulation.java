@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -41,11 +42,18 @@ import java.util.Arrays;
 public class LaserSimulation extends PhetApplication {
 
     static {
-        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel.setLookAndFeel();
     }
+
+    // todo: These are static only temporarily, so I can get the look and feel right for the clock control panel
+    // This should not be a permanant thing!!!!!
+    private static Module singleAtomModule;
+    private static Module multipleAtomModule;
+
 
     IClock singleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
     IClock multipleAtomModuleClock = new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT );
+
     private JDialog photoDlg;
 
     public LaserSimulation( String[] args ) {
@@ -61,8 +69,8 @@ public class LaserSimulation extends PhetApplication {
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
 
-        Module singleAtomModule = new SingleAtomModule( singleAtomModuleClock );
-        Module multipleAtomModule = new MultipleAtomModule( multipleAtomModuleClock );
+        singleAtomModule = new SingleAtomModule( singleAtomModuleClock );
+        multipleAtomModule = new MultipleAtomModule( multipleAtomModuleClock );
         Module[] modules = new Module[]{
             singleAtomModule,
             multipleAtomModule
@@ -175,25 +183,35 @@ public class LaserSimulation extends PhetApplication {
             }
         }
         else {
-            new LaserAppLookAndFeel().apply();
-//            try {
-//                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
-//            }
-//            catch( UnsupportedLookAndFeelException e ) {
-//                e.printStackTrace();
-//            }
+//            new LaserAppLookAndFeel().apply();
+            try {
+                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
         }
 
         LaserSimulation simulation = new LaserSimulation( args );
         simulation.startApplication();
+
+        SwingUtilities.updateComponentTreeUI( singleAtomModule.getClockControlPanel() );
+        SwingUtilities.updateComponentTreeUI( multipleAtomModule.getClockControlPanel() );
     }
 
     //----------------------------------------------------------------
     // Definition of look and feel
     //----------------------------------------------------------------
 
-    private static class LaserAppLookAndFeel extends PhetLookAndFeel {
-//    private static class LaserAppLookAndFeel extends LandF {
+//    private static class LaserAppLookAndFeel extends PhetLookAndFeel {
+    private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );
         //        static Color yellowishBackground = new Color( 249, 221, 162 );
         static Color greenishBackground = new Color( 138, 156, 148 );
@@ -221,13 +239,12 @@ public class LaserSimulation extends PhetApplication {
 //        Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
 
         public LaserAppLookAndFeel() {
-            super();
-//            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
-            setBackgroundColor( backgroundColor );
-            setFont( font );
-            setTabFont( font );
-            setTitledBorderFont( font );
-            setButtonBackgroundColor( buttonBackgroundColor );
+//            super();
+            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+//            setBackgroundColor( backgroundColor );
+//            setFont( font );
+//            setTabFont( font );
+//            setTitledBorderFont( font );
         }
     }
 
