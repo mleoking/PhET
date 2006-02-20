@@ -296,12 +296,22 @@ public class ConfigureEnergyDialog extends JDialog {
         JPanel spinnerPanel = new JPanel();
         {
             EasyGridBagLayout inputPanelLayout = new EasyGridBagLayout( spinnerPanel );
-            inputPanelLayout.setMinimumWidth( 0, 25 );
-            inputPanelLayout.setMinimumWidth( 4, 60 );
-            inputPanelLayout.setMinimumWidth( 5, 25 );
-
+            inputPanelLayout.setMinimumWidth( 1, 60 );
             spinnerPanel.setLayout( inputPanelLayout );
-            int row = 0;
+            
+            JPanel leftColumn = new JPanel();
+            EasyGridBagLayout leftLayout = new EasyGridBagLayout( leftColumn );
+            leftLayout.setMinimumWidth( 0, 25 );
+            leftColumn.setLayout( leftLayout );
+            int leftRow = 0;
+            inputPanelLayout.addComponent( leftColumn, 0, 0 );
+            
+            JPanel rightColumn = new JPanel();
+            EasyGridBagLayout rightLayout = new EasyGridBagLayout( rightColumn );
+            rightLayout.setMinimumWidth( 0, 25 );
+            rightColumn.setLayout( rightLayout );
+            int rightRow = 1;
+            inputPanelLayout.addComponent( rightColumn, 0, 2 );
 
             // Total Energy
             {
@@ -310,18 +320,18 @@ public class ConfigureEnergyDialog extends JDialog {
                 _teSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT );
                 _teSpinner.addChangeListener( _listener );
                 JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
-                inputPanelLayout.addAnchoredComponent( teLabel, row, 0, 2, 1, GridBagConstraints.EAST );
-                inputPanelLayout.addComponent( _teSpinner, row, 2 );
-                inputPanelLayout.addComponent( teUnits, row, 3 );
-                row++;
+                leftLayout.addAnchoredComponent( teLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
+                leftLayout.addComponent( _teSpinner, leftRow, 2 );
+                leftLayout.addComponent( teUnits, leftRow, 3 );
+                leftRow++;
             }
 
             // Potential Energy for each region...
             {
                 JLabel peTitle = new JLabel( SimStrings.get( "label.potentialEnergy" ) );
                 peTitle.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
-                inputPanelLayout.addAnchoredComponent( peTitle, row, 0, 4, 1, GridBagConstraints.WEST );
-                row++;
+                leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
+                leftRow++;
                 int numberOfRegions = _potentialEnergy.getNumberOfRegions();
                 _peSpinners = new ArrayList();
                 for ( int i = 0; i < numberOfRegions; i++ ) {
@@ -331,10 +341,10 @@ public class ConfigureEnergyDialog extends JDialog {
                     peSpinner.addChangeListener( _listener );
                     _peSpinners.add( peSpinner );
                     JLabel peUnits = new JLabel( SimStrings.get( "units.energy" ) );
-                    inputPanelLayout.addAnchoredComponent( peLabel, row, 1, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( peSpinner, row, 2, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( peUnits, row, 3, GridBagConstraints.WEST );
-                    row++;
+                    leftLayout.addAnchoredComponent( peLabel, leftRow, 1, GridBagConstraints.EAST );
+                    leftLayout.addAnchoredComponent( peSpinner, leftRow, 2, GridBagConstraints.EAST );
+                    leftLayout.addAnchoredComponent( peUnits, leftRow, 3, GridBagConstraints.WEST );
+                    leftRow++;
                 }
             }
 
@@ -346,10 +356,10 @@ public class ConfigureEnergyDialog extends JDialog {
                 _stepSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
                 _stepSpinner.addChangeListener( _listener );
                 JLabel stepUnits = new JLabel( SimStrings.get( "units.position" ) );
-                inputPanelLayout.addAnchoredComponent( stepLabel, row, 0, 2, 1, GridBagConstraints.EAST );
-                inputPanelLayout.addComponent( _stepSpinner, row, 2 );
-                inputPanelLayout.addComponent( stepUnits, row, 3 );
-                row++;
+                leftLayout.addAnchoredComponent( stepLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
+                leftLayout.addComponent( _stepSpinner, leftRow, 2 );
+                leftLayout.addComponent( stepUnits, leftRow, 3 );
+                leftRow++;
             }
             
             // Barriers...
@@ -357,18 +367,14 @@ public class ConfigureEnergyDialog extends JDialog {
             _positionSpinners = null;
             if ( _potentialEnergy instanceof BarrierPotential ) {
 
-                row = 1;
-                int column = 5;
-
                 int numberOfBarriers = ( (BarrierPotential) _potentialEnergy ).getNumberOfBarriers();
 
                 // Barrier Positions...
                 _positionSpinners = new ArrayList();
                 JLabel positionTitle = new JLabel( SimStrings.get( "label.barrierPosition" ) );
                 positionTitle.setForeground( BARRIER_PROPERTIES_COLOR );
-                inputPanelLayout.addAnchoredComponent( positionTitle, row, column, 4, 1, GridBagConstraints.WEST );
-                row++;
-                column++;
+                rightLayout.addAnchoredComponent( positionTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
+                rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
@@ -376,20 +382,18 @@ public class ConfigureEnergyDialog extends JDialog {
                     positionSpinner.addChangeListener( _listener );
                     _positionSpinners.add( positionSpinner );
                     JLabel positionUnits = new JLabel( SimStrings.get( "units.position" ) );
-                    inputPanelLayout.addAnchoredComponent( positionLabel, row, column, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( positionSpinner, row, column + 1, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( positionUnits, row, column + 2, GridBagConstraints.WEST );
-                    row++;
+                    rightLayout.addAnchoredComponent( positionLabel, rightRow, 1, GridBagConstraints.EAST );
+                    rightLayout.addAnchoredComponent( positionSpinner, rightRow, 2, GridBagConstraints.EAST );
+                    rightLayout.addAnchoredComponent( positionUnits, rightRow, 3, GridBagConstraints.WEST );
+                    rightRow++;
                 }
-                column--;
                 
                 // Barrier Widths...
                 _widthSpinners = new ArrayList();
                 JLabel widthTitle = new JLabel( SimStrings.get( "label.barrierWidth" ) );
                 widthTitle.setForeground( BARRIER_PROPERTIES_COLOR );
-                inputPanelLayout.addAnchoredComponent( widthTitle, row, column, 4, 1, GridBagConstraints.WEST );
-                row++;
-                column++;
+                rightLayout.addAnchoredComponent( widthTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
+                rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
@@ -397,10 +401,10 @@ public class ConfigureEnergyDialog extends JDialog {
                     widthSpinner.addChangeListener( _listener );
                     _widthSpinners.add( widthSpinner );
                     JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
-                    inputPanelLayout.addAnchoredComponent( widthLabel, row, column, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( widthSpinner, row, column + 1, GridBagConstraints.EAST );
-                    inputPanelLayout.addAnchoredComponent( widthUnits, row, column + 2, GridBagConstraints.WEST );
-                    row++;
+                    rightLayout.addAnchoredComponent( widthLabel, rightRow, 1, GridBagConstraints.EAST );
+                    rightLayout.addAnchoredComponent( widthSpinner, rightRow, 2, GridBagConstraints.EAST );
+                    rightLayout.addAnchoredComponent( widthUnits, rightRow, 3, GridBagConstraints.WEST );
+                    rightRow++;
                 }
             }
         }
