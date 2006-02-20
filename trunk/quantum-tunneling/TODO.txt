@@ -22,7 +22,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
 - Y axis labels move when zooming causes range to change
-- fix focus traversal order in Configure dialog
 - select entire spinner value when it gets focus in Configure dialog
 - Wiggle Me
 - improve "About" dialog, add build number and logo
@@ -52,6 +51,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/20/06) - fix focus traversal order in Configure Energy dialog
 (2/20/06) - hide the time display until we can make it accurate for wave packets
 (2/20/06) - reduce RICHARDSON_STEPS_PER_CLOCK_TICK=25 so that it runs at about the same speed as plane wave
 (2/20/06) - add doc to RichardsonSolver about why it fails for our set of parameters
