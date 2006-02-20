@@ -45,7 +45,6 @@ public class RichardsonSolver {
     
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
-    private static final double EPSILON = 0.8;  // some magic constant
    
     /* Each damping coefficient is applied to this many adjacent samples */
     private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
@@ -140,8 +139,19 @@ public class RichardsonSolver {
         
         boolean zero = isSolutionZero();
         
+        /*
+         * Analyis by Sam Reid:
+         * Most ODE (ordinary differential equation) solvers fail to work 
+         * when you increase dt too high.  In this simulation, we have a set
+         * of parameters that pushes dt past the failure point.  In the code 
+         * below, if s > PI/2 or epsilon > PI, then the propagator terms
+         * (alpha, beta, EtoV) have the wrong form, and the solver fails.
+         * 
+         * So for now, we're forced to override dt with something 
+         * more reasonable (ie, the formula from Richardson's original code).
+         */
 //        final double dt = QTConstants.CLOCK_STEP;
-        final double dt = EPSILON * MASS * _dx * _dx / HBAR; //XXX Richardson algorithm doesn't work unless dt is this function of dx
+        final double dt = 0.8 * MASS * _dx * _dx / HBAR;
         
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
@@ -160,19 +170,20 @@ public class RichardsonSolver {
         final double minX = pe.getStart( 0 ) - ( _dx * numberOfDampedSamples );
         final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * numberOfDampedSamples );
         
-        // Calculate the number of sample points.
-        final int numberOfPoints = (int)( ( maxX - minX ) / _dx ) + 1;
+        // Calculate the number of samples.
+        final int numberOfSamples = (int)( ( maxX - minX ) / _dx ) + 1;
         
         // Initialize constants used by the propagator.
-        _alpha = new RComplex( 0.5 * ( 1.0 + Math.cos( EPSILON / 2 ) ), -0.5 * Math.sin( EPSILON / 2 ) );
-        _beta = new RComplex( ( Math.sin( EPSILON / 4 ) ) * Math.sin( EPSILON / 4 ), 0.5 * Math.sin( EPSILON / 2 ) );
+        final double epsilon = HBAR * dt / ( MASS * _dx * _dx );
+        _alpha = new RComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
+        _beta = new RComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
         // Initialize the data arrays used by the propagator.
-        _positions = new double[numberOfPoints];
-        _Psi = new RComplex[numberOfPoints];
-        _EtoV = new RComplex[numberOfPoints];
+        _positions = new double[numberOfSamples];
+        _Psi = new RComplex[numberOfSamples];
+        _EtoV = new RComplex[numberOfSamples];
         RComplex A = new RComplex( 1 / ( Math.pow( Math.PI, 0.25 ) * Math.sqrt( width ) ), 0 ); // normalization constant
-        for ( int i = 0; i < numberOfPoints; i++ ) {
+        for ( int i = 0; i < numberOfSamples; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
             if ( zero ) {
