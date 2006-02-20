@@ -53,6 +53,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/20/06) - hide the time display until we can make it accurate for wave packets
+(2/20/06) - reduce RICHARDSON_STEPS_PER_CLOCK_TICK=25 so that it runs at about the same speed as plane wave
 (2/20/06) - add doc to RichardsonSolver about why it fails for our set of parameters
 (2/20/06) - restore epsilon as a function of dt in RichardsonSolver
 (2/19/06) - try bigger damping space, doesn't solve the problem

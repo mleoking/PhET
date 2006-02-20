@@ -94,34 +94,42 @@ public class QTClockControls extends JPanel implements ClockListener {
         }
         
         // Time display
-        JLabel clockLabel = new JLabel( clockIcon );
-        _timeTextField = new JTextField( "0000000000");
-        _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
-        _timeTextField.setText( "0" );
-        _timeTextField.setEditable( false );
-        _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
-        _timeUnitsLabel = new JLabel( timeUnitsLabel );
-        _timeFormat = new DecimalFormat( "0" );
+        JPanel timePanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        {
+            JLabel clockLabel = new JLabel( clockIcon );
+            _timeTextField = new JTextField( "0000000000" );
+            _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
+            _timeTextField.setText( "0" );
+            _timeTextField.setEditable( false );
+            _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
+            _timeUnitsLabel = new JLabel( timeUnitsLabel );
+            _timeFormat = new DecimalFormat( "0" );
+            timePanel.add( clockLabel );
+            timePanel.add( _timeTextField );
+            timePanel.add( _timeUnitsLabel );
+        }
         
         // Clock control buttons
-        _restartButton = new JButton( restartLabel, restartIcon );
-        _playButton = new JButton( playLabel, playIcon );
-        _pauseButton = new JButton( pauseLabel, pauseIcon );
-        _stepButton = new JButton( stepLabel, stepIcon );
+        JPanel controlsPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        {
+            _restartButton = new JButton( restartLabel, restartIcon );
+            _playButton = new JButton( playLabel, playIcon );
+            _pauseButton = new JButton( pauseLabel, pauseIcon );
+            _stepButton = new JButton( stepLabel, stepIcon );
+            
+            controlsPanel.add( _restartButton );
+            controlsPanel.add( _playButton );
+            controlsPanel.add( _pauseButton );
+            controlsPanel.add( _stepButton );
+        }
         
         // Layout
-        setLayout( new BorderLayout() );
-        JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        buttonPanel.add( clockLabel );
-        buttonPanel.add( _timeTextField );
-        buttonPanel.add( _timeUnitsLabel );
-        buttonPanel.add( Box.createHorizontalStrut( 30 ) ); // space between time display and controls
-        buttonPanel.add( _restartButton );
-        buttonPanel.add( _playButton );
-        buttonPanel.add( _pauseButton );
-        buttonPanel.add( _stepButton );
-
-        this.add( buttonPanel, BorderLayout.CENTER );
+        setLayout(  new FlowLayout( FlowLayout.CENTER ) );
+        if ( QTConstants.TIME_DISPLAY_VISIBLE ) {
+            add( timePanel );
+            add( Box.createHorizontalStrut( 30 ) ); // space between time display and controls
+        }
+        add( controlsPanel );
         
         // Interactivity
         _restartButton.addActionListener( new ActionListener() {
@@ -236,9 +244,11 @@ public class QTClockControls extends JPanel implements ClockListener {
      * Updates the time display.
      */
     private void updateTimeDisplay() {
-        double time = _clock.getSimulationTime();
-        String sValue = _timeFormat.format( time );
-        _timeTextField.setText( sValue );
+        if ( QTConstants.TIME_DISPLAY_VISIBLE ) {
+            double time = _clock.getSimulationTime();
+            String sValue = _timeFormat.format( time );
+            _timeTextField.setText( sValue );
+        }
     }
     
     //----------------------------------------------------------------------------
