@@ -50,7 +50,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      * @param module
      */
     public AbstractControlPanel( AbstractModule module ) {
-        super( module );
+        super();
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
