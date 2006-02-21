@@ -12,17 +12,14 @@ HIGH PRIORITY:
 - replace Richardson algoritm
 
 MEDIUM PRIORITY:
-- total energy gradient sometimes contains "noise" (Mac)
 - draw region markers with a PNode so that drag handles are snappier
 - cache the total energy gradient as an image, update only when necessary
-- set default clock state to running
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 - check Spanish translations, including help layout
 
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
 - Y axis labels move when zooming causes range to change
-- Wiggle Me
 - improve "About" dialog, add build number and logo
 
 OPTIMIZATIONS:
@@ -389,6 +386,7 @@ DONE:
 
 
 REJECTED:
+(2/20/06) - Wiggle Me (none requested)
 (2/20/06 ) - select entire spinner value when it gets focus in Configure dialog (see bugs.sun.com, Bug ID 4699955)
 (2/16/06) - disable chart gridlines to improve drag handle responsiveness (no longer an issue, entire chart is an image)
 (2/6/06) - restore "phase" veiw state when switching between sum and separate views (confusing)
