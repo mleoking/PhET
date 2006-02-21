@@ -30,7 +30,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * QTControlPanel is the sole control panel.
+ * BSControlPanel is the sole control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -38,7 +38,16 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSControlPanel extends BSAbstractControlPanel {
 
     //----------------------------------------------------------------------------
-    // Class data
+    // Class data (public)
+    //----------------------------------------------------------------------------
+    
+    // Display types
+    public static final int DISPLAY_WAVE_FUNCTION = 0;
+    public static final int DISPLAY_PROBABIITY_DENSITY = 1;
+    public static final int DISPLAY_CLASSICAL_PARTICLE = 2;
+    
+    //----------------------------------------------------------------------------
+    // Class data (private)
     //----------------------------------------------------------------------------
     
     private static final String EXPAND_SYMBOL = ">>";
@@ -62,6 +71,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private BSModule _module;
     private JComboBox _potentialComboBox;
+    private JButton _configureWellButton;
     private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton, _classicalParticleRadioButton;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JButton _advancedButton;
@@ -92,25 +102,33 @@ public class BSControlPanel extends BSAbstractControlPanel {
             setMinumumWidth( width );
         }
         
-        // Potential
-        JPanel energyPanel = new JPanel();
+        // Potential Well
+        JPanel wellPanel = new JPanel();
         {
             // Potential label
             JLabel label = new JLabel( SimStrings.get( "label.well" ) );
 
             // Potential combo box 
             _potentialComboBox = new JComboBox();
+            _potentialComboBox.addItem( SimStrings.get( "choice.well.hydrogenAtom") );
+            _potentialComboBox.addItem( SimStrings.get( "choice.well.harmonicOscillator") );
+            _potentialComboBox.addItem( SimStrings.get( "choice.well.infiniteSquare") );
+            _potentialComboBox.addItem( SimStrings.get( "choice.well.finiteSquare") );
+            _potentialComboBox.addItem( SimStrings.get( "choice.well.asymmetric") );
+            
+            // Configure button
+            _configureWellButton = new JButton( SimStrings.get( "button.configureWell" ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, INDENTATION );
-            layout.addComponent( label, 0, 1 );
-            layout.addComponent( _potentialComboBox, 1, 1 );
-            energyPanel.setLayout( new BorderLayout() );
-            energyPanel.add( innerPanel, BorderLayout.WEST );
+            layout.addComponent( label, 0, 0 );
+            layout.addComponent( _potentialComboBox, 1, 0 );
+            layout.addComponent( _configureWellButton, 2, 0 );
+            wellPanel.setLayout( new BorderLayout() );
+            wellPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Display 
@@ -119,10 +137,29 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Display label
             JLabel label = new JLabel( SimStrings.get( "label.display" ) );
             
-            //
+            // Radio buttons
             _waveFunctionRadioButton = new JRadioButton( SimStrings.get( "choice.display.waveFunction" ) );
             _probabilityDensityRadioButton = new JRadioButton( SimStrings.get( "choice.display.probabilityDensity" ) );
             _classicalParticleRadioButton = new JRadioButton( SimStrings.get( "choice.display.classicalParticle" ) );
+            
+            // Button group
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _waveFunctionRadioButton );
+            buttonGroup.add( _probabilityDensityRadioButton );
+            buttonGroup.add( _classicalParticleRadioButton );
+            
+            // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, INDENTATION );
+            layout.addComponent( label, 0, 1 );
+            layout.addComponent( _waveFunctionRadioButton, 1, 1 );
+            layout.addComponent( _probabilityDensityRadioButton, 2, 1 );
+            layout.addComponent( _classicalParticleRadioButton, 3, 1 );
+            displayPanel.setLayout( new BorderLayout() );
+            displayPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Wave Function View 
@@ -175,7 +212,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
         
         // Layout
         {  
-            addControlFullWidth( energyPanel );
+            addControlFullWidth( wellPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addControlFullWidth( displayPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addControlFullWidth( viewPanel );
@@ -198,6 +238,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // Color key creation
+    //----------------------------------------------------------------------------
+    
     /*
      * Creates a color key by drawing a solid horizontal line and putting it in a JLabel.
      * 
@@ -273,6 +317,33 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     public boolean isPhaseSelected() {
         return _phaseCheckBox.isSelected();
+    }
+    
+    public void setDisplayType( int displayType ) {
+        if ( displayType == DISPLAY_WAVE_FUNCTION ) {
+            _waveFunctionRadioButton.setSelected( true );
+        }
+        else if ( displayType == DISPLAY_PROBABIITY_DENSITY ) {
+            _probabilityDensityRadioButton.setSelected( true );
+        }
+        else if ( displayType == DISPLAY_CLASSICAL_PARTICLE ) {
+            _classicalParticleRadioButton.setSelected( true );
+        }
+        else {
+            throw new IllegalArgumentException( "invalid display type: " + displayType );
+        }
+        handleDisplaySelection();
+    }
+    
+    public int getDisplayType() {
+        int displayType = DISPLAY_CLASSICAL_PARTICLE;
+        if ( _waveFunctionRadioButton.isSelected() ) {
+            displayType = DISPLAY_WAVE_FUNCTION;
+        }
+        else if ( _probabilityDensityRadioButton.isSelected() ) {
+            displayType = DISPLAY_PROBABIITY_DENSITY;
+        }
+        return displayType;
     }
     
     //----------------------------------------------------------------------------
@@ -354,6 +425,24 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
     
     private void handleDisplaySelection() {
-        //XXX
+        if ( _waveFunctionRadioButton.isSelected() ) {
+            setWaveFunctionViewOptionsEnabled( true );
+            _module.setDisplayType( DISPLAY_WAVE_FUNCTION );
+        }
+        else if ( _probabilityDensityRadioButton.isSelected() ) {
+            setWaveFunctionViewOptionsEnabled( true );
+            _module.setDisplayType( DISPLAY_PROBABIITY_DENSITY );
+        }
+        else if ( _classicalParticleRadioButton.isSelected() ) {
+            setWaveFunctionViewOptionsEnabled( false );
+            _module.setDisplayType( DISPLAY_CLASSICAL_PARTICLE );
+        }
+    }
+    
+    private void setWaveFunctionViewOptionsEnabled( boolean enabled ) {
+        _realCheckBox.setEnabled( enabled );
+        _imaginaryCheckBox.setEnabled( enabled );
+        _magnitudeCheckBox.setEnabled( enabled );
+        _phaseCheckBox.setEnabled( enabled );
     }
 }

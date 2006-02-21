@@ -84,8 +84,6 @@ public class BSModule extends BSAbstractModule {
      */
     public BSModule() {
         super( SimStrings.get( "BSModule.title" ), new BSClock(), true /* startsPaused */ );
-
-        setLogoPanel( null );
         
         //----------------------------------------------------------------------------
         // Model
@@ -211,7 +209,16 @@ public class BSModule extends BSAbstractModule {
      */
     public void reset() {
         
-     //XXX
+        // Model
+        //XXX
+        
+        // Controls
+        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setRealSelected( true );
+        _controlPanel.setImaginarySelected( false );
+        _controlPanel.setMagnitudeSelected( false );
+        _controlPanel.setPhaseSelected( false );
+        //XXX
     }
     
     /**
@@ -225,6 +232,15 @@ public class BSModule extends BSAbstractModule {
         // Clock
         config.setClockRunning( getClock().isRunning() );
         
+        // Model
+        //XXX
+        
+        // Control panel
+        config.setDisplayType( _controlPanel.getDisplayType() );
+        config.setRealSelected( _controlPanel.isRealSelected() );
+        config.setImaginarySelected( _controlPanel.isImaginarySelected() );
+        config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
+        config.setPhaseSelected( _controlPanel.isPhaseSelected() );
         //XXX
     }
     
@@ -244,6 +260,15 @@ public class BSModule extends BSAbstractModule {
             getClock().pause();
         }
     
+        // Model
+        //XXX
+        
+        // Control panel
+        _controlPanel.setDisplayType( config.getDisplayType() );
+        _controlPanel.setRealSelected( config.isRealSelected() );
+        _controlPanel.setImaginarySelected( config.isImaginarySelected() );
+        _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
+        _controlPanel.setPhaseSelected( config.isPhaseSelected() );
         //XXXX
     }
     
@@ -263,6 +288,11 @@ public class BSModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setDisplayType( int displayType ) {
+        //XX displayType is one of the BSControlPanel.DISPLAY_* constants
+        resetClock();
+    }
     
     public void setRealVisible( boolean visible ) {
         //XXX
