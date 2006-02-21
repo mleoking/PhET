@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.phetcommon.UIController;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
@@ -87,6 +88,14 @@ public class SchrodingerOptionsMenu extends JMenu {
 
         } );
         add( propagators );
+
+        JMenuItem ui = new JMenuItem( "UI" );
+        ui.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                UIController.showUIController();
+            }
+        } );
+        add( ui );
     }
 
     private DiscreteModel getDiscreteModel() {
