@@ -12,10 +12,7 @@
 package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -784,14 +781,33 @@ public class ConfigureEnergyDialog extends JDialog {
     /*
      * Common spinner used in this dialog.
      */
-    private static class CommonSpinner extends JSpinner {
+    private static class CommonSpinner extends JSpinner implements FocusListener {
+        
+        private JFormattedTextField _textField;
+        
         public CommonSpinner( double value, double min, double max, double step, String format ) {
             super( );
+            // model
             SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
             setModel( model );
-            setEditor( new JSpinner.NumberEditor( this, format ) );
+            // editor
+            NumberEditor numberEditor = new NumberEditor( this, format );
+            setEditor( numberEditor );
+            _textField = numberEditor.getTextField();
+            _textField.addFocusListener( this );
+            // size
             setPreferredSize( SPINNER_SIZE );
             setMinimumSize( SPINNER_SIZE );
         }
+
+        /*
+         * When the spinner gains focus, select its contents.
+         * NOTE: This currently does not work; see Bug ID 4699955 at bugs.sun.com
+         */
+        public void focusGained( FocusEvent e ) {
+            _textField.selectAll();
+        }
+
+        public void focusLost( FocusEvent e ) {}
     }
 }
