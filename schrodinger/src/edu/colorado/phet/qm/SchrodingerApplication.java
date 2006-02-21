@@ -120,6 +120,7 @@ public class SchrodingerApplication extends PhetApplication {
         SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
         System.out.println( "SchrodingerApplication.main" );
+//        UIController.showUIController();
     }
 
 //    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
