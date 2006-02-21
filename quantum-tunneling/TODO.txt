@@ -47,6 +47,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/20/06) - removes used of deprecated ControlPanel constructor
 (2/20/06) - phetcommon: fix spacing above and below description in About dialog
 (2/20/06) - add code to select spinner values during focus traversal, even though it doesn't work due to Bug ID 4699955
 (2/20/06) - fix focus traversal order in Configure Energy dialog
