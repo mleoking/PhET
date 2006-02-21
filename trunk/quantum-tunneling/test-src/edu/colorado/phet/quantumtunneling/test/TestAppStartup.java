@@ -164,7 +164,7 @@ public class TestAppStartup extends PhetApplication {
             
             // Control panel
             {
-                ControlPanel controlPanel = new ControlPanel( this );
+                ControlPanel controlPanel = new ControlPanel();
                 setControlPanel( controlPanel );
                 
                 // Misc controls that do nothing
