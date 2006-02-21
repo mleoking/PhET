@@ -93,6 +93,9 @@ mechnics-dir mechanics
 # Chris Malley's simulations
 #============================================================================
 
+# Bound States
+bound-states-module bound-states &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
+
 # Color Vision
 color-vision-module colorvision3 &phetcommon-module
 
@@ -106,7 +109,7 @@ fourier-module fourier &charts-module
 shaper-module shaper &charts-module
 
 # Quantum Tunneling
-quantum-tunneling-module quantum-tunneling &piccolo-phet-module &jfreechart-module
+quantum-tunneling-module quantum-tunneling &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
 
 #============================================================================
 # Simulations

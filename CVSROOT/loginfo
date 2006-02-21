@@ -52,6 +52,7 @@
 ^stripchart\(/\|$\) mail -s "CVS commit: stripchart" ronlemaster cmalley samreid
 
 # Simulations
+^bound-states\(/\|$\) mail -s "CVS commit: bound-states" cmalley
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
