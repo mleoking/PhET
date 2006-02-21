@@ -26,9 +26,9 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTApplication;
-import edu.colorado.phet.quantumtunneling.control.DialogUtils;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 import edu.colorado.phet.quantumtunneling.util.CursorUtils;
+import edu.colorado.phet.quantumtunneling.util.DialogUtils;
 
 
 /**
@@ -41,7 +41,7 @@ import edu.colorado.phet.quantumtunneling.util.CursorUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ConfigManager {
+public class QTPersistenceManager {
 
     private QTApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
@@ -52,7 +52,7 @@ public class ConfigManager {
      * 
      * @param app
      */
-    public ConfigManager( QTApplication app ) {
+    public QTPersistenceManager( QTApplication app ) {
         _app = app;
         _useJNLP = wasWebStarted();
     }

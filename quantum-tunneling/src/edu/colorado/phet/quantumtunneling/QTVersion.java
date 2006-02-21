@@ -18,7 +18,7 @@ package edu.colorado.phet.quantumtunneling;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Version {
+public class QTVersion {
   
     public static final String NUMBER = "sandbox";
     public static final String CVS_TAG = "quantumtunneling-sandbox";
@@ -27,5 +27,5 @@ public class Version {
 //    public static final String CVS_TAG = "quantumtunneling-0-00-15-2006-02-20";
     
     /* This class is not intended for instantiation. */
-    private Version() {}
+    private QTVersion() {}
 }
