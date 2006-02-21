@@ -51,7 +51,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private static final String EXPAND_SYMBOL = ">>";
     private static final String COLLAPSE_SYMBOL = "<<";
     
-    private static final int LEFT_MARGIN = 0; // pixels
+    private static final int INDENTATION = 0; // pixels
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
     private static final double CENTER_TICK_SPACING = 4.0; // nm
@@ -67,6 +67,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private static final int COLOR_KEY_HEIGHT = 3; // pixels
     private static final int PHASE_KEY_WIDTH = COLOR_KEY_WIDTH;
     private static final int PHASE_KEY_HEIGHT = 10;
+    private static final int COLOR_KEY_SPACING = 7; // pixels, space between checkbox and color key
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -123,7 +124,7 @@ public class QTControlPanel extends AbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( _potentialComboBox, 1, 1 );
             layout.addComponent( _showValuesCheckBox, 2, 1 );
@@ -140,21 +141,41 @@ public class QTControlPanel extends AbstractControlPanel {
             _magnitudeCheckBox = new JCheckBox( SimStrings.get( "choice.view.magnitude" ) );
             _phaseCheckBox = new JCheckBox( SimStrings.get( "choice.view.phase" ) );
             
+            // Real
+            JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            realPanel.add( _realCheckBox);
+            realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
+            realPanel.add( createColorKey( QTConstants.INCIDENT_REAL_WAVE_COLOR ) );
+            
+            // Imaginary
+            JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            imaginaryPanel.add( _imaginaryCheckBox );
+            imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
+            imaginaryPanel.add( createColorKey( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR ) );
+            
+            // Magnitude
+            JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            magnitudePanel.add( _magnitudeCheckBox );
+            magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
+            magnitudePanel.add( createColorKey( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR ) );   
+            
+            // Phase 
+            JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
+            phasePanel.add( _phaseCheckBox );
+            phasePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
+            phasePanel.add( createPhaseKey() ); 
+            
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
-            layout.addComponent( _realCheckBox, 1, 1 );
-            layout.addComponent( createColorKey( QTConstants.INCIDENT_REAL_WAVE_COLOR ), 1, 2 );
-            layout.addComponent( _imaginaryCheckBox, 2, 1 );
-            layout.addComponent( createColorKey( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR ), 2, 2 );
-            layout.addComponent( _magnitudeCheckBox, 3, 1 );
-            layout.addComponent( createColorKey( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR ), 3, 2 );
-            layout.addComponent( _phaseCheckBox, 4, 1 );
-            layout.addComponent( createPhaseKey(), 4, 2 );
+            layout.addComponent( realPanel, 1, 1 );
+            layout.addComponent( imaginaryPanel, 2, 1 );
+            layout.addComponent( magnitudePanel, 3, 1 );
+            layout.addComponent( phasePanel, 4, 1 );
             viewPanel.setLayout( new BorderLayout() );
             viewPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -183,7 +204,7 @@ public class QTControlPanel extends AbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( buttonPanel, 1, 1 );
             irPanel.setLayout( new BorderLayout() );
@@ -229,7 +250,7 @@ public class QTControlPanel extends AbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( buttonPanel, 1, 1 );
             directionPanel.setLayout( new BorderLayout() );
@@ -251,7 +272,7 @@ public class QTControlPanel extends AbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
             layout.addComponent( _planeWaveRadioButton, 1, 1 );
             layout.addComponent( _packetWaveRadioButton, 2, 1 );
@@ -298,7 +319,7 @@ public class QTControlPanel extends AbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, LEFT_MARGIN );
+            layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( _propertiesButton, 0, 1 );
             layout.addComponent( _propertiesPanel, 1, 1 );
             propertiesPanel.setLayout( new BorderLayout() );
