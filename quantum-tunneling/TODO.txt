@@ -46,6 +46,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+0.00.15...
 (2/20/06) - move color legends closer to their checkboxes in control panel
 (2/20/06) - check Spanish translations, adjust help layout
 (2/20/06) - phetcommon: fix Spanish strings in About dialog
