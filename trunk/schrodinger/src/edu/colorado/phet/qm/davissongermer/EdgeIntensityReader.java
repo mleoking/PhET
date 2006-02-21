@@ -14,7 +14,7 @@ import java.awt.*;
  */
 
 public class EdgeIntensityReader implements DGIntensityReader {
-    private int inset = 3;
+    private int inset = 5;
     private DGModel dgModel;
 
     public EdgeIntensityReader( DGModel dgModel ) {
@@ -23,6 +23,7 @@ public class EdgeIntensityReader implements DGIntensityReader {
 
     public double getIntensity( double angle ) {
         Point gridLocation = toGridLocation( angle );
+//        System.out.println( "angle = " + angle +", gridlocation="+gridLocation);
         Complex value = getWavefunction().valueAt( gridLocation.x, gridLocation.y );
         return value.abs();
     }
@@ -32,7 +33,9 @@ public class EdgeIntensityReader implements DGIntensityReader {
     }
 
     private Point toGridLocation( double degrees ) {
-        if( degrees < 45 ) {
+        double threshold = getThreshold();
+//        System.out.println( "threshold = " + threshold );
+        if( degrees < threshold ) {
             return toGridLocationBottom( degrees );
         }
         else {
@@ -40,13 +43,21 @@ public class EdgeIntensityReader implements DGIntensityReader {
         }
     }
 
+    private double getThreshold() {
+        return Math.toDegrees( Math.atan2( getWavefunction().getWidth() / 2, getDistanceFromSouthToCenterAtom() ) );
+    }
+
+    private int getDistanceFromSouthToCenterAtom() {
+        return getWavefunction().getHeight() - dgModel.getCenterAtomPoint().y;
+    }
+
     private Point toGridLocationSide( double degrees ) {
         int yoffset = (int)( ( getWavefunction().getWidth() / 2 - inset ) * Math.tan( Math.toRadians( 90 - degrees ) ) );
-        return new Point( getWavefunction().getWidth() - inset, getWavefunction().getHeight() / 2 + yoffset );
+        return new Point( getWavefunction().getWidth() - inset, dgModel.getCenterAtomPoint().y + yoffset );
     }
 
     private Point toGridLocationBottom( double degrees ) {
-        int xoffset = (int)( ( getWavefunction().getHeight() / 2 - inset ) * Math.tan( Math.toRadians( degrees ) ) );
+        int xoffset = (int)( ( getDistanceFromSouthToCenterAtom() - inset ) * Math.tan( Math.toRadians( degrees ) ) );
         return new Point( xoffset + getWavefunction().getWidth() / 2, getWavefunction().getHeight() - inset );
     }
 }

@@ -17,9 +17,11 @@ import java.awt.event.ActionListener;
 
 public class DGPlotFrame extends JDialog {
     private DGPlotPanel dgPlotPanel;
+    private Frame owner;
 
     public DGPlotFrame( Frame owner, DGModule dgModule ) {
         super( owner, "Intensity Plot", false );
+        this.owner = owner;
         dgPlotPanel = new DGPlotPanel( dgModule );
         JPanel contentPane = new JPanel();
         contentPane.setLayout( new BorderLayout() );
@@ -37,12 +39,16 @@ public class DGPlotFrame extends JDialog {
             JButton saveButton = new JButton( "Save Snapshot" );
             saveButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel() );
+                    saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame() );
                 }
             } );
             setFill( GridBagConstraints.NONE );
             add( saveButton );
         }
+    }
+
+    private Frame getOwnerFrame() {
+        return owner;
     }
 
     public DGPlotPanel getDgPlotPanel() {
