@@ -23,7 +23,7 @@ import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
-import edu.colorado.phet.quantumtunneling.persistence.ConfigManager;
+import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
@@ -46,7 +46,7 @@ public class QTApplication extends PhetApplication {
     private QTModule _module;
     
     // PersistanceManager handles loading/saving application configurations.
-    private ConfigManager _persistenceManager;
+    private QTPersistenceManager _persistenceManager;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -93,7 +93,7 @@ public class QTApplication extends PhetApplication {
         PhetFrame frame = getPhetFrame();
         
         if ( _persistenceManager == null ) {
-            _persistenceManager = new ConfigManager( this );
+            _persistenceManager = new QTPersistenceManager( this );
         }
         
         // File menu
@@ -132,8 +132,8 @@ public class QTApplication extends PhetApplication {
 
     public void save( QTConfig appConfig ) {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
-        config.setCvsTag( Version.CVS_TAG );
-        config.setVersionNumber( Version.NUMBER );
+        config.setCvsTag( QTVersion.CVS_TAG );
+        config.setVersionNumber( QTVersion.NUMBER );
     }
 
     public void load( QTConfig appConfig ) {
@@ -158,7 +158,7 @@ public class QTApplication extends PhetApplication {
         // Title, etc.
         String title = SimStrings.get( "title.quantumTunneling" );
         String description = SimStrings.get( "QTApplication.description" );
-        String version = Version.NUMBER;
+        String version = QTVersion.NUMBER;
 
         // Frame setup
         int width = QTConstants.APP_FRAME_WIDTH;

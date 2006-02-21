@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.control;
+package edu.colorado.phet.quantumtunneling.util;
 
 import java.awt.Component;
 

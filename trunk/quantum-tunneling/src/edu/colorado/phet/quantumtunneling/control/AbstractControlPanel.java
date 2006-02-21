@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 import edu.colorado.phet.quantumtunneling.util.CursorUtils;
+import edu.colorado.phet.quantumtunneling.util.DialogUtils;
 
 
 /**
