@@ -88,7 +88,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        final String msg = phetApplication.getTitle() + "\n" + phetApplication.getDescription() + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
+        final String msg = phetApplication.getTitle() + "\n\n" + phetApplication.getDescription() + "\n\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + phetApplication.getVersion() + "\n\n" + javaVersion + "\n";
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + phetApplication.getTitle(), JOptionPane.INFORMATION_MESSAGE, icon );
