@@ -97,16 +97,16 @@ mechnics-dir mechanics
 bound-states-module bound-states &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
 
 # Color Vision
-color-vision-module colorvision3 &phetcommon-module
+color-vision-module colorvision3 &phetcommon-dir
 
 # Faraday's Law
-faraday-module faraday &phetgraphics-module
+faraday-module faraday &phetcommon-dir &phetgraphics-dir
 
 # Fourier Transforms
-fourier-module fourier &charts-module
+fourier-module fourier &phetcommon-dir &phetgraphics-dir &charts-dir
 
 # Optical Pulse Shaper
-shaper-module shaper &charts-module
+shaper-module shaper &phetcommon-dir &phetgraphics-dir &charts-dir
 
 # Quantum Tunneling
 quantum-tunneling-module quantum-tunneling &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
