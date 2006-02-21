@@ -177,7 +177,7 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
      */
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy ) {
-            updateDragBounds();
+            updatePosition();
             updateText();
         }
     }

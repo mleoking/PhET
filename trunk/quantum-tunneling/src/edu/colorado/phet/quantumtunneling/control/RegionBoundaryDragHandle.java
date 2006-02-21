@@ -132,6 +132,7 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
     
     /*
      * Updates the drag handle's position based on the region boundary.
+     * The handle corresponds to the end of the region.
      */
     private void updatePosition() {
         if ( _potentialEnergy != null ) {
@@ -199,7 +200,7 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
      */
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy ) {
-            updateDragBounds();
+            updatePosition();
             updateText();
         }
     }
