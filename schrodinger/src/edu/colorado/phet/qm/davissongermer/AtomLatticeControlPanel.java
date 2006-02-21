@@ -38,7 +38,7 @@ public class AtomLatticeControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        y0 = new ModelSlider( "y0 (testing only)", "units", 0, 1.0, dgModel.getFractionalY0() );
+        y0 = new ModelSlider( "Vertical Position", "units", 0, 1.0, dgModel.getFractionalY0() );
         y0.setModelTicks( new double[]{0, 0.5, 1.0} );
         y0.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

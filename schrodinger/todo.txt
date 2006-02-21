@@ -35,6 +35,15 @@ Sizes should be relative:
 Slits
 Wave velocity (hard to do this with a local propagator)
 
+__________________________
+Davisson-Germer
+
+The atoms should be further back (0.25 or so).
+
+Finally, where are you calculating the wave intensity for your
+plot.  If you do it further from the atoms, the pattern looks much
+cleaner.  Can you move the plotting distance or include a parameter
+that we can play with to do so?
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.

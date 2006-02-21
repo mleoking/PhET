@@ -19,12 +19,13 @@ public class DGModel {
     private FractionalAtomLattice fractionalAtomLattice;
     private ConcreteAtomLattice concreteAtomLattice;
     private ArrayList listeners = new ArrayList();
+    private double defaultLatticeY0 = 0.25;
 
     public DGModel( DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;
         concreteAtomLattice = new ConcreteAtomLattice( discreteModel.getGridWidth(), discreteModel.getGridHeight() );
         discreteModel.addPotential( concreteAtomLattice );
-        fractionalAtomLattice = createAtomLattice( true );
+        fractionalAtomLattice = createAtomLattice( false );
         updatePotential();
         discreteModel.addListener( new DiscreteModel.Adapter() {
             public void sizeChanged() {
@@ -38,8 +39,8 @@ public class DGModel {
     }
 
     private FractionalAtomLattice createAtomLattice( boolean circular ) {
-        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
-               new SquareAtomLattice( 0.05, 0.15, 0.5, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
+        return circular ? ( (FractionalAtomLattice)new CircularAtomLattice( 0.05, 0.15, defaultLatticeY0, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE ) ) :
+               new SquareAtomLattice( 0.05, 0.15, defaultLatticeY0, DiscreteModel.DEFAULT_POTENTIAL_BARRIER_VALUE );
     }
 
     public Wavefunction getWavefunction() {

@@ -1,5 +1,8 @@
+*New in 0.10 (2-20-2006)
 Atoms are square by default.
 Saved-Snapshot remains "in-front," rather than being hidden by the application.
+Fixed edge intensity reader to center on head atom (rather than center of the screen).
+Decreased memory requirements on startup.
 
 *New in 0.08 (2-18-2006)
 Center the protractor on the lead atom.
