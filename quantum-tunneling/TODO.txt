@@ -12,10 +12,10 @@ HIGH PRIORITY:
 - replace Richardson algoritm
 
 MEDIUM PRIORITY:
+- parts of help items outside play area don't draw/erase when clock is running
 - draw region markers with a PNode so that drag handles are snappier
 - cache the total energy gradient as an image, update only when necessary
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
-- check Spanish translations, including help layout
 
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
@@ -47,6 +47,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/20/06) - check Spanish translations, adjust help layout
+(2/20/06) - phetcommon: fix Spanish strings in About dialog
 (2/20/06) - make potential drag handles a bit more responsive by not computing drag bounds so often
 (2/20/06) - removes used of deprecated ControlPanel constructor
 (2/20/06) - phetcommon: fix spacing above and below description in About dialog
