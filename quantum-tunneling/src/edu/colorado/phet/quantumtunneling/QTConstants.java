@@ -58,7 +58,7 @@ public class QTConstants {
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
     
     /* Is the time display visible next to the clock controls? */
-    public static final boolean TIME_DISPLAY_VISIBLE = true;
+    public static final boolean TIME_DISPLAY_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Fonts
