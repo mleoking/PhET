@@ -5,16 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- cache the total energy gradient as an image, update only when necessary
+- draw region markers with a PNode so that drag handles are snappier
 - get rid of wave packet reflection at boundaries
-- improve responsiveness of drag handles and JSliders
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
 - replace Richardson algoritm
 
 MEDIUM PRIORITY:
 - parts of help items outside play area don't draw/erase when clock is running
-- draw region markers with a PNode so that drag handles are snappier
-- cache the total energy gradient as an image, update only when necessary
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 
 LOW PRIORITY:
