@@ -36,6 +36,7 @@ MACINTOSH:
 
 
 DONE:
+(2/22/06) - review design draft #2
 (2/22/06) - fix sliders in control panel
 (2/22/06) - hide Restart button
 (2/22/06) - add charts to play area
@@ -45,7 +46,7 @@ DONE:
 (2/21/06) - set up ProGuard .pro file
 (2/21/06) - set up eclipse .jardesc file
 (2/21/06) - set up simulation framework, based on design draft
-(2/20/06) - review first design draft
+(2/20/06) - review design draft #1
 ^^^^^^^^^^^^^^^^^^^^^^ DEVELOPMENT BEGINS ^^^^^^^^^^^^^^^^^^^^^^
 
 
