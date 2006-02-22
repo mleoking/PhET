@@ -20,29 +20,31 @@ public class t_d_quant extends Applet implements Runnable {
     private Button clear_button;
     private Choice state_choices;
 
-    private int rw = 256;
+//    private static int LATTICE_SIZE = 256;
+    private static int LATTICE_SIZE = 1024;
+    private int rw = LATTICE_SIZE;
     private int rh = 200;
     private int rx, ry;
     private int mode = PACKET;
     private int last_x;
 
-    static private double[][] FFTBuffer = new double[2][256];
+    static private double[][] FFTBuffer = new double[2][LATTICE_SIZE];
 
-    double[][] cfo = new double[2][257];
+    double[][] cfo = new double[2][LATTICE_SIZE + 1];
 
-    double[][] psi = new double[2][256];
-    double[][] cpot = new double[2][256];
-    double[][] cenerg = new double[2][256];
+    double[][] psi = new double[2][LATTICE_SIZE];
+    double[][] cpot = new double[2][LATTICE_SIZE];
+    double[][] cenerg = new double[2][LATTICE_SIZE];
     double[][] bfou = new double[2][17];
     double[][] bsi = new double[2][16];
     double[][] csi = new double[2][16];
     double[][] xsi = new double[2][16];
     double[][][] cc = new double[2][16][16];
     double[][] bksq = new double[2][16];
-    int[] pot = new int[256];
+    int[] pot = new int[LATTICE_SIZE];
     double dt = 0.5;
     double xnorm, bnorm, scale;
-    int nn = 256;
+    int nn = LATTICE_SIZE;
     int n_bound = 8;
     int n_bound2;
     int nbo;
@@ -365,37 +367,17 @@ public class t_d_quant extends Applet implements Runnable {
     }
 
     public void run() {
-//        int axis = getAxis();
-
         Graphics g = this.getGraphics();
         Dimension d = getSize();
 
         if( offGraphics == null ) {
             offDimension = d;
-            offImage = createImage( d.width, d.height );
+            offImage = createImage( LATTICE_SIZE, LATTICE_SIZE );
             offGraphics = offImage.getGraphics();
         }
 
         while( Thread.currentThread() == animatorThread ) {
-            for( int i = 0; i < nn; i++ ) {
-                double xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
-                if( mode != PACKET ) {
-                    if( i < i0 ) {
-                        xx = 1.;
-                    }
-                    if( i < n_bound2 ) {
-                        xsi[0][i] = Math.cos( getXK00() * i );
-                        xsi[1][i] = Math.sin( getXK00() * i );
-                    }
-                }
-                psi[0][i] = xx * Math.cos( getXK00() * i );
-                psi[1][i] = xx * Math.sin( getXK00() * i );
-            }
-
-            for( int i = 0; i < nn; i++ ) {
-                cpot[0][i] = Math.cos( dt * scale * ( rh - pot[i] - 20 ) );
-                cpot[1][i] = -Math.sin( dt * scale * ( rh - pot[i] - 20 ) );
-            }
+            initAlgorithm();
 
 /*
 c
@@ -559,6 +541,28 @@ c  */
         }   /*  closes while  */
     }
 
+    private void initAlgorithm() {
+        for( int i = 0; i < nn; i++ ) {
+            double xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
+            if( mode != PACKET ) {
+                if( i < i0 ) {
+                    xx = 1.;
+                }
+                if( i < n_bound2 ) {
+                    xsi[0][i] = Math.cos( getXK00() * i );
+                    xsi[1][i] = Math.sin( getXK00() * i );
+                }
+            }
+            psi[0][i] = xx * Math.cos( getXK00() * i );
+            psi[1][i] = xx * Math.sin( getXK00() * i );
+        }
+
+        for( int i = 0; i < nn; i++ ) {
+            cpot[0][i] = Math.cos( dt * scale * ( rh - pot[i] - 20 ) );
+            cpot[1][i] = -Math.sin( dt * scale * ( rh - pot[i] - 20 ) );
+        }
+    }
+
     private void plot( Graphics g ) {
         offGraphics.setColor( getBackground() );
         offGraphics.fillRect( 0, 0, rw, rh );
@@ -608,7 +612,6 @@ c  */
         }
 
         offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
-
         g.drawImage( offImage, 0, 0, this );
 
         if( loop == looper ) {
