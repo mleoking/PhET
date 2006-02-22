@@ -20,8 +20,8 @@ public class t_d_quant extends Applet implements Runnable {
     private Button clear_button;
     private Choice state_choices;
 
-//    private static int LATTICE_SIZE = 256;
-    private static int LATTICE_SIZE = 1024;
+    private static int LATTICE_SIZE = 256;
+//    private static int LATTICE_SIZE = 1024;
     private int rw = LATTICE_SIZE;
     private int rh = 200;
     private int rx, ry;
@@ -372,7 +372,7 @@ public class t_d_quant extends Applet implements Runnable {
 
         if( offGraphics == null ) {
             offDimension = d;
-            offImage = createImage( LATTICE_SIZE, LATTICE_SIZE );
+            offImage = createImage( d.width, d.height );
             offGraphics = offImage.getGraphics();
         }
 
