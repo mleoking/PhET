@@ -20,6 +20,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -71,13 +72,14 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private BSModule _module;
     private JComboBox _potentialComboBox;
-    private JButton _configureWellButton;
     private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton, _classicalParticleRadioButton;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JButton _advancedButton;
     private String _sAdvancedExpand, _sAdvancedCollapse;
     private JPanel _advancedPanel;
-    private JLabel _c1, _c2, _c3, _c4;
+    private SliderControl _numberSlider, _widthSlider, _depthSlider, _spacingSlider;
+    private NumberSpinnerControl _c1Spinner, _c2Spinner, _c3Spinner, _c4Spinner;
+    private JButton _normalizeButton;
     
     private EventListener _listener;
 
@@ -116,9 +118,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _potentialComboBox.addItem( SimStrings.get( "choice.well.finiteSquare") );
             _potentialComboBox.addItem( SimStrings.get( "choice.well.asymmetric") );
             
-            // Configure button
-            _configureWellButton = new JButton( SimStrings.get( "button.configureWell" ) );
-            
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -126,7 +125,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
             layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( label, 0, 0 );
             layout.addComponent( _potentialComboBox, 1, 0 );
-            layout.addComponent( _configureWellButton, 2, 0 );
             wellPanel.setLayout( new BorderLayout() );
             wellPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -210,6 +208,61 @@ public class BSControlPanel extends BSAbstractControlPanel {
             viewPanel.add( innerPanel, BorderLayout.WEST );
         }
         
+        // Advanced button
+        {
+            _sAdvancedExpand = SimStrings.get( "button.advanced" ) + " " + EXPAND_SYMBOL;
+            _sAdvancedCollapse = SimStrings.get( "button.advanced" ) + " " + COLLAPSE_SYMBOL;
+            _advancedButton = new JButton( _sAdvancedExpand  );
+        }
+        
+        // Advanced panel
+        _advancedPanel = new JPanel();
+        {
+            _numberSlider = new SliderControl( 1, 10, 1, 0, 0, SimStrings.get( "label.numberOfWells" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
+            _numberSlider.setInverted( true );
+            
+            _widthSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellWidth" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
+            _widthSlider.setInverted( true );
+
+            _depthSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellDepth" ) + " {0} " + SimStrings.get( "units.energy" ), new Insets( 0, 0, 0, 0 ) );
+            _depthSlider.setInverted( true );
+            
+            _spacingSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellSpacing" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
+            _spacingSlider.setInverted( true );
+            
+            JPanel superpositionPanel = new JPanel();
+            {
+                superpositionPanel.setBorder( new TitledBorder( SimStrings.get( "title.superpositionState" ) ) );
+
+                Dimension spinnerSize = new Dimension( 55, 25 );
+                _c1Spinner = new NumberSpinnerControl( SimStrings.get( "label.c1" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c2Spinner = new NumberSpinnerControl( SimStrings.get( "label.c2" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c3Spinner = new NumberSpinnerControl( SimStrings.get( "label.c3" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c4Spinner = new NumberSpinnerControl( SimStrings.get( "label.c4" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                
+                _normalizeButton = new JButton( SimStrings.get( "button.normalize" ) );
+                
+                EasyGridBagLayout layout = new EasyGridBagLayout( superpositionPanel );
+                superpositionPanel.setLayout( layout );
+                layout.setAnchor( GridBagConstraints.WEST );
+                layout.addComponent( _c1Spinner, 0, 0 );
+                layout.addComponent( _c2Spinner, 1, 0 );
+                layout.addComponent( _c3Spinner, 0, 1 );
+                layout.addComponent( _c4Spinner, 1, 1 );
+                layout.addComponent( _normalizeButton, 2, 0 );
+            }
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( _advancedPanel );
+            _advancedPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            layout.addComponent( _numberSlider, row++, 0 );
+            layout.addComponent( _widthSlider, row++, 0 );
+            layout.addComponent( _depthSlider, row++, 0 );
+            layout.addComponent( _spacingSlider, row++, 0 );
+            layout.addComponent( superpositionPanel, row++, 0 );
+        }
+        
         // Layout
         {  
             addControlFullWidth( wellPanel );
@@ -219,6 +272,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addControlFullWidth( viewPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addControl( _advancedButton );
+            addControlFullWidth( _advancedPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addResetButton();
@@ -235,6 +292,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
             _phaseCheckBox.addActionListener( _listener );
+            _advancedButton.addActionListener( _listener );
         }
     }
 
@@ -346,6 +404,15 @@ public class BSControlPanel extends BSAbstractControlPanel {
         return displayType;
     }
     
+    public void setAdvancedVisible( boolean visible ) {
+        _advancedPanel.setVisible( !visible );
+        handleAdvancedButton();
+    }
+    
+    public boolean isAdvancedVisible() {
+        return _advancedPanel.isVisible();
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -382,6 +449,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
             }
             else if ( event.getSource() == _classicalParticleRadioButton ) {
                 handleDisplaySelection();
+            }
+            else if ( event.getSource() == _advancedButton ) {
+                handleAdvancedButton();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -444,5 +514,16 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _imaginaryCheckBox.setEnabled( enabled );
         _magnitudeCheckBox.setEnabled( enabled );
         _phaseCheckBox.setEnabled( enabled );
+    }
+    
+    private void handleAdvancedButton() {
+        if ( _advancedPanel.isVisible() ) {
+            _advancedPanel.setVisible( false );
+            _advancedButton.setText( _sAdvancedExpand );
+        }
+        else {
+            _advancedPanel.setVisible( true );
+            _advancedButton.setText( _sAdvancedCollapse );
+        }
     }
 }

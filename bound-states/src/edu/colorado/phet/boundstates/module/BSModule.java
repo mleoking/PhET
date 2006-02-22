@@ -218,6 +218,7 @@ public class BSModule extends BSAbstractModule {
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
         _controlPanel.setPhaseSelected( false );
+        _controlPanel.setAdvancedVisible( false );
         //XXX
     }
     
