@@ -122,19 +122,29 @@ public abstract class Lattice_new_new {
             throw new RuntimeException( "originNode == null" );
         }
 
+        // If we are adding the second ion to the lattice, then the position of the new ion establishes
+        // the orienation of the bonds on the seed node.
+        if( nodes.size() == 1 ) {
+            double orientation = MathUtil.getAngle( originNode.getPosition(), ionA.getPosition() );
+            originNode.setBaseOrientation( orientation );
+        }
+
         // Find the open bonds on the ionB node
         List bonds = originNode.getBonds();
         ArrayList openBonds = new ArrayList();
         for( int i = 0; i < bonds.size() && !added; i++ ) {
             Bond bond = (Bond)bonds.get( i );
-            if( bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ) {
+            if( bond.isOpen( ionB ) && bounds.contains( bond.getOpenPosition() ) ) {
+//            if( bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ) {
                 openBonds.add( bond );
             }
         }
 
         // Pick an open node at random and attached a new node for ionA to the end of it
         if( openBonds.size() > 0 ) {
-            Bond bondToUse = (Bond)openBonds.get( random.nextInt( openBonds.size() ) );
+            System.out.println( "take out after debug" );
+            Bond bondToUse = (Bond)openBonds.get( 0 );
+//            Bond bondToUse = (Bond)openBonds.get( random.nextInt( openBonds.size() ) );
             addNewNode( ionA, bondToUse );
             added = true;
         }
@@ -162,15 +172,36 @@ public abstract class Lattice_new_new {
         newNode.addBond( bond );
         bond.setDestination( newNode );
 
-        // The orientation of the bond comes from the first node added to the bond. Because of this,
-        // we have to add pi to the orientation for the new bonds, since they are emmanating from
+        // Create new bonds
+        // The orientation of the bond that came in as a parameter comes from the first node added to the bond.
+        // Because of this, we have to add pi to the orientation for the new bonds, since they are emmanating from
         // this new node.
         int cnt = getNumNeighboringSites( ion );
         for( int k = 1; k < cnt; k++ ) {
-            double orientation = k * Math.PI * 2 / cnt + ( bond.getOrientation() + Math.PI );
+            double orientation = ( k * Math.PI * 2 / cnt + ( bond.getOrientation() + Math.PI ) ) % ( Math.PI * 2 );
             Bond newBond = new Bond( orientation, spacing );
-            newBond.setOrigin( newNode );
-            newNode.addBond( newBond );
+
+            // Determine if there is already a bond where this one would go. This can happen easily, if a new node
+            // is being created at a place that is at the open end of more than one existing bond.
+            boolean addNewBond = true;
+            for( int i = 0; i < nodes.size(); i++ ) {
+                Node node = (Node)nodes.get( i );
+                List bonds = node.getBonds();
+                for( int j = 0; j < bonds.size(); j++ ) {
+                    Bond existingBond = (Bond)bonds.get( j );
+                    System.out.println( "AAAAAAAAAAAAA" );
+                    if( existingBond.isOpen() && existingBond.getOpenPosition() == ion.getPosition() ) {
+                        System.out.println( "BBBBBBBBB" );
+                        existingBond.setDestination( newNode );
+                        newNode.addBond( existingBond );
+                        addNewBond = false;
+                    }
+                }
+            }
+            if( addNewBond ) {
+                newBond.setOrigin( newNode );
+                newNode.addBond( newBond );
+            }
         }
         nodes.add( newNode );
     }

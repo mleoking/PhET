@@ -95,6 +95,9 @@ public class Node {
             Bond bond = (Bond)bonds.get( i );
             numOpenBonds += bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ? 1 : 0;
         }
+        if( numOpenBonds / bonds.size() == 0 ) {
+            System.out.println( "Node.getBindingMetric" );
+        }
         return numOpenBonds / bonds.size();
     }
 }
