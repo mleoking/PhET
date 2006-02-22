@@ -23,8 +23,7 @@ public class t_d_quant extends Applet implements Runnable {
     private int rw = 256;
     private int rh = 200;
     private int rx, ry, mode;
-    private int x, y, x_sm, x_bg, last_x, last_y;
-
+    private int last_x;
 
     double[][] cfo = new double[2][257];
     static private double[][] buf = new double[2][256];
@@ -93,33 +92,26 @@ public class t_d_quant extends Applet implements Runnable {
         xk0 = 0.25;
         width = 10.;
 
+        initPotential();
+        initFFT();
+        initFFTInjected();
+        initLagrangeExtensionPolynomial();
 
-        for( i = 0; i < nn; i++ ) {
-            if( ( ( i > 100 ) && ( i < 105 ) ) || ( ( i > 115 ) && ( i < 120 ) ) ) {
-                pot[i] = 4 * rh / 5;
-            }
-            else {
-                pot[i] = rh - 20;
-            }
-        }
+        animatorThread = new Thread( this );
+        animatorThread.start();
+    }
 
-/* initialization of fft variables */
-
-        for( i = 0; i <= nn; i++ ) {
-            xx = 2 * i * pi / nn;
-            cfo[0][i] = Math.cos( xx );
-            cfo[1][i] = Math.sin( xx );
-        }
-
-/* initialization of fft variables for the injected wave: */
-
-        for( i = 0; i <= n_bound2; i++ ) {
-            xx = 2 * i * pi / n_bound2;
-            bfou[0][i] = Math.cos( xx );
-            bfou[1][i] = Math.sin( xx );
-        }
-
-/* initialization of the Lagrange extension polynomial */
+    private void initLagrangeExtensionPolynomial() {
+        int i;
+        int j;
+        int k;
+        double a;
+        double b;
+        double c;
+        double d;
+        double f;
+        double e;
+        /* initialization of the Lagrange extension polynomial */
 
         for( i = 0; i < n_bound; i++ ) {
             for( j = 0; j < n_bound; j++ ) {
@@ -127,7 +119,7 @@ public class t_d_quant extends Applet implements Runnable {
                 cc[1][i][j] = 0.;
                 for( k = 0; k < n_bound; k++ ) {
                     if( j != k ) {
-/*  implementing  cc(i,j)=cc(i,j)*(-bfou(i)-bfou(k))/(bfou(j)-bfou(k)) */
+                        /*  implementing  cc(i,j)=cc(i,j)*(-bfou(i)-bfou(k))/(bfou(j)-bfou(k)) */
                         a = -bfou[0][i] - bfou[0][k];
                         b = -bfou[1][i] - bfou[1][k];
                         c = bfou[0][j] - bfou[0][k];
@@ -160,9 +152,40 @@ public class t_d_quant extends Applet implements Runnable {
             cenerg[0][i] = Math.cos( a ) * xnorm;
             cenerg[1][i] = -Math.sin( a ) * xnorm;
         }
+    }
 
-        animatorThread = new Thread( this );
-        animatorThread.start();
+    private void initFFTInjected() {
+        int i;
+        double xx;
+        /* initialization of fft variables for the injected wave: */
+
+        for( i = 0; i <= n_bound2; i++ ) {
+            xx = 2 * i * pi / n_bound2;
+            bfou[0][i] = Math.cos( xx );
+            bfou[1][i] = Math.sin( xx );
+        }
+    }
+
+    private void initFFT() {
+        int i;
+        double xx;
+        for( i = 0; i <= nn; i++ ) {
+            xx = 2 * i * pi / nn;
+            cfo[0][i] = Math.cos( xx );
+            cfo[1][i] = Math.sin( xx );
+        }
+    }
+
+    private void initPotential() {
+        int i;
+        for( i = 0; i < nn; i++ ) {
+            if( ( ( i > 100 ) && ( i < 105 ) ) || ( ( i > 115 ) && ( i < 120 ) ) ) {
+                pot[i] = 4 * rh / 5;
+            }
+            else {
+                pot[i] = rh - 20;
+            }
+        }
     }
 
 
@@ -181,6 +204,8 @@ public class t_d_quant extends Applet implements Runnable {
             animatorThread = null;
         }
 
+        int x_sm;
+        int x_bg;
         if( last_x < x ) {
             x_sm = last_x + 1;
             x_bg = x + 1;
@@ -225,7 +250,6 @@ public class t_d_quant extends Applet implements Runnable {
         }
 
         last_x = x;
-        last_y = y;
         return true;
     }
 
@@ -259,7 +283,6 @@ public class t_d_quant extends Applet implements Runnable {
         pot[x] = y;
 
         last_x = x;
-        last_y = y;
 
         return true;
     }
