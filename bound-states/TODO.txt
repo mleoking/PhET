@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-
+- complete the design
 
 MEDIUM PRIORITY:
 
