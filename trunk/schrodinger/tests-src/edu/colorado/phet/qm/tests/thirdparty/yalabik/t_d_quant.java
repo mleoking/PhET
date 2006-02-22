@@ -289,7 +289,6 @@ public class t_d_quant extends Applet implements Runnable {
         // If the Reset button was clicked on, handle it.
         if( event.target == clear_button ) {
             Graphics g = this.getGraphics();
-            Rectangle r = this.bounds();
             g.setColor( this.getBackground() );
             g.fillRect( rx, ry, rw, rh );
 
@@ -362,7 +361,7 @@ public class t_d_quant extends Applet implements Runnable {
         int axis = 2 * rh / 5;
 
         Graphics g = this.getGraphics();
-        Dimension d = size();
+        Dimension d = getSize();
 
         if( offGraphics == null ) {
             offDimension = d;
