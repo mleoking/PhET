@@ -173,19 +173,19 @@ public class BSControlPanel extends BSAbstractControlPanel {
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             realPanel.add( _realCheckBox);
             realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            realPanel.add( createColorKey( BSConstants.INCIDENT_REAL_WAVE_COLOR ) );
+            realPanel.add( createColorKey( BSConstants.REAL_WAVE_COLOR ) );
             
             // Imaginary
             JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             imaginaryPanel.add( _imaginaryCheckBox );
             imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            imaginaryPanel.add( createColorKey( BSConstants.INCIDENT_IMAGINARY_WAVE_COLOR ) );
+            imaginaryPanel.add( createColorKey( BSConstants.IMAGINARY_WAVE_COLOR ) );
             
             // Magnitude
             JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             magnitudePanel.add( _magnitudeCheckBox );
             magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            magnitudePanel.add( createColorKey( BSConstants.INCIDENT_MAGNITUDE_WAVE_COLOR ) );   
+            magnitudePanel.add( createColorKey( BSConstants.MAGNITUDE_WAVE_COLOR ) );   
             
             // Phase 
             JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
@@ -411,6 +411,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     public boolean isAdvancedVisible() {
         return _advancedPanel.isVisible();
+    }
+    
+    /* For help item supper */
+    public JComponent getPotentialControl() {
+        return _potentialComboBox;
     }
     
     //----------------------------------------------------------------------------

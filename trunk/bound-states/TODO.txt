@@ -36,6 +36,8 @@ MACINTOSH:
 
 
 DONE:
+(2/22/06) - add charts to play area
+(2/22/06) - finish fleshing out control panel so that it contains everything in design doc
 (2/22/06) - change title to "Quantum Bound States"
 (2/21/06) - flesh out control panel a bit
 (2/21/06) - set up ProGuard .pro file
