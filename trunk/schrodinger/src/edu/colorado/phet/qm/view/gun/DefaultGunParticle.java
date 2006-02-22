@@ -41,6 +41,11 @@ public class DefaultGunParticle extends GunParticle {
         controlPanel.addFullWidth( velocitySlider );
     }
 
+    public double getSliderFraction() {
+        double val = velocitySlider.getValue();
+        return val / 1000;
+    }
+
     public void activate( AbstractGunGraphic gunGraphic ) {
         getSchrodingerModule().setUnits( particleUnits );
         getDiscreteModel().setPropagator( createPropagator() );

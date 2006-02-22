@@ -147,4 +147,8 @@ public class DGModule extends IntensityModule {
     public DGPlotPanel getDGPlotPanel() {
         return getPlotPanel();
     }
+
+    public DGSchrodingerPanel getDGSchrodingerPanel() {
+        return (DGSchrodingerPanel)getSchrodingerPanel();
+    }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -18,10 +19,12 @@ import java.awt.event.ActionListener;
 public class DGPlotFrame extends JDialog {
     private DGPlotPanel dgPlotPanel;
     private Frame owner;
+    private DGModule dgModule;
 
     public DGPlotFrame( Frame owner, DGModule dgModule ) {
         super( owner, "Intensity Plot", false );
         this.owner = owner;
+        this.dgModule = dgModule;
         dgPlotPanel = new DGPlotPanel( dgModule );
         JPanel contentPane = new JPanel();
         contentPane.setLayout( new BorderLayout() );
@@ -39,11 +42,23 @@ public class DGPlotFrame extends JDialog {
             JButton saveButton = new JButton( "Save Snapshot" );
             saveButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame() );
+                    double sliderFraction = dgPlotFrame.dgModule.getDGSchrodingerPanel().getDGGunGraphic().getDgParticle().getSliderFraction();
+                    double val = sliderFraction * 2.0 / 3.0 + 2.0 / 3.0;
+                    DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+                    String text = decimalFormat.format( val ) + "*v";
+                    saveDGPanel.savePanel( dgPlotFrame.getDgPlotPanel(), dgPlotFrame.getOwnerFrame(), text );
                 }
             } );
             setFill( GridBagConstraints.NONE );
             add( saveButton );
+
+            JButton clearButton = new JButton( "Clear Snapshots" );
+            clearButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    dgPlotFrame.getDgPlotPanel().clearSnapshots();
+                }
+            } );
+            add( clearButton );
         }
     }
 

@@ -20,4 +20,8 @@ public class DGSchrodingerPanel extends HighIntensitySchrodingerPanel {
     protected HighIntensityGunGraphic createGun() {
         return new DGGun( this );
     }
+
+    public DGGun getDGGunGraphic() {
+        return (DGGun)super.getGunGraphic();
+    }
 }
