@@ -136,8 +136,8 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
-        resetBtn.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent arg0 ) {
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 model.reset();
             }
         } );

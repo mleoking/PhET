@@ -11,6 +11,7 @@
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
 
@@ -65,6 +66,20 @@ public class Bond {
      * @return
      */
     public boolean isOpen() {
+        return nodes[1] == null;
+    }
+
+    public boolean isOpen( Ion ion ) {
+
+        System.out.println( "Bond.isOpen():  Get rid of this after debug" );
+        if( nodes[1] != null && ion == nodes[1].getIon() ) {
+            return false;
+        }
+
+        if( !( nodes[0] != null && nodes[0].getIon() == ion )
+            && !( nodes[1] != null && nodes[1].getIon() == ion ) ) {
+            System.out.println( "Bond.isOpen" );
+        }
         return nodes[1] == null;
     }
 

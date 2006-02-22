@@ -271,14 +271,33 @@ public class Crystal extends Body {
                 ionA.bindTo( this );
                 updateCm();
                 added = true;
+
+                // debug
+                for( int i = 0; i < ions.size(); i++ ) {
+                    Ion ion1 = (Ion)ions.get( i );
+                    if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
+                        && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
+                        && ion1 != ionA ) {
+                        System.out.println( "Crystal.addIon" );
+                        removeIon( ionA );
+                        lattice.addAtIonNode( ionA, ionB );
+                        for( int j = 0; j < ions.size(); j++ ) {
+                            Ion ion = (Ion)ions.get( j );
+                            if( Math.abs( ion.getPosition().getX() - ionA.getPosition().getX() ) < 2
+                                && Math.abs( ion.getPosition().getY() - ionA.getPosition().getY() ) < 2
+                                && ion != ionA ) {
+                                System.out.println( "Crystal.addIon" );
+                            }
+                        }
+                    }
+                }
             }
 
             // Sanity check
             if( !waterBounds.contains( ionA.getPosition() ) ) {
-                waterBounds.contains( ionA.getPosition() );
-                System.out.println( "Crystal.addIon" );
                 throw new RuntimeException( "!waterBounds.contains( ionA.getPosition() )" );
             }
+
         }
         return added;
     }
@@ -299,6 +318,16 @@ public class Crystal extends Body {
                 ions.add( ion );
                 ion.bindTo( this );
                 updateCm();
+            }
+        }
+
+        // debug
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion1 = (Ion)ions.get( i );
+            if( Math.abs( ion1.getPosition().getX() - ion.getPosition().getX() ) < 2
+                && Math.abs( ion1.getPosition().getY() - ion.getPosition().getY() ) < 2
+                && ion1 != ion ) {
+                System.out.println( "Crystal.addIon" );
             }
         }
         return added;
