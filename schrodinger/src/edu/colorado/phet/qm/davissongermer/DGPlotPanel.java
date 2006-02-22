@@ -9,7 +9,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -28,9 +27,9 @@ import java.awt.geom.Point2D;
  */
 
 public class DGPlotPanel extends PSwingCanvas {
-    private XYDataset dataset;
-    private int width = 700;
-    private int height = 300;
+    private XYSeriesCollection dataset;
+    private int width = 750;
+    private int height = 350;
     private DGModule dgModule;
     private XYSeries series;
     private JFreeChartNode jFreeChartNode;
@@ -40,14 +39,12 @@ public class DGPlotPanel extends PSwingCanvas {
 
     public DGPlotPanel( DGModule dgModule ) {
         this.dgModule = dgModule;
-//        intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
-        intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
-        series = new XYSeries( "series1" );
+//        intensityReader = new RadialIntensityReader( dgModule.getDGModel() );
+        intensityReader = new EdgeIntensityReader( dgModule.getDGModel() );
+        series = new XYSeries( "Live Data" );
         dataset = new XYSeriesCollection( series );
 
-        chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity (units)", dataset, PlotOrientation.VERTICAL, false, false, false );
-//        chart.getXYPlot().setDomainGridlinesVisible( false );
-//        chart.getXYPlot().setRangeGridlinesVisible( false );
+        chart = ChartFactory.createScatterPlot( "Intensity Plot", "Angle (degrees)", "Intensity (units)", dataset, PlotOrientation.VERTICAL, true, false, false );
         chart.getXYPlot().getDomainAxis().setRange( 0, 90 );
         chart.getXYPlot().getRangeAxis().setRange( 0, 0.1 );
         jFreeChartNode = new JFreeChartNode( chart );
@@ -97,6 +94,28 @@ public class DGPlotPanel extends PSwingCanvas {
 
     public boolean isIntensityReaderRadial() {
         return intensityReader instanceof RadialIntensityReader;
+    }
+
+    static int savedSeriesIndex = 0;
+
+    public void saveDataAsLayer( String text ) {
+//        XYSeries savedSeries = new XYSeries( "[" + savedSeriesIndex+"] "+text, false, true );
+        XYSeries savedSeries = new XYSeries( text, false, true );
+        copy( series, savedSeries );
+        dataset.addSeries( savedSeries );
+        savedSeriesIndex++;
+    }
+
+    private void copy( XYSeries source, XYSeries dest ) {
+        dest.clear();
+        for( int i = 0; i < source.getItemCount(); i++ ) {
+            dest.add( source.getX( i ), source.getY( i ) );
+        }
+    }
+
+    public void clearSnapshots() {
+        dataset.removeAllSeries();
+        dataset.addSeries( series );
     }
 
     class IndicatorGraphic extends PhetPNode {

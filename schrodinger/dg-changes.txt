@@ -1,3 +1,9 @@
+*New in 0.11 (2-21-2006)
+Save Snapshot layers the data in the same graph.
+Added a graph legend (shows what fraction of the default velocity you used).
+Save Snapshot datasets cycle colors (if it hits a light color like yellow, just record another data point).
+Edge-based intensity reader is used by default (not radial)
+
 *New in 0.10 (2-20-2006)
 Atoms are square by default.
 Saved-Snapshot remains "in-front," rather than being hidden by the application.

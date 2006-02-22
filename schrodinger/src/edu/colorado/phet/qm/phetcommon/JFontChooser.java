@@ -223,17 +223,18 @@ public class JFontChooser extends JDialog {
     }
 
     public void setFont( Font font ) {
-        if( font == null ) {
+        if( font == null && txtSample != null ) {
             font = txtSample.getFont();
         }
+        if( fontList != null && sizeList != null && cbBold != null && cbItalic != null ) {
+            fontList.setSelectedValue( font.getName(), true );
+            fontList.ensureIndexIsVisible( fontList.getSelectedIndex() );
+            sizeList.setSelectedValue( "" + font.getSize(), true );
+            sizeList.ensureIndexIsVisible( sizeList.getSelectedIndex() );
 
-        fontList.setSelectedValue( font.getName(), true );
-        fontList.ensureIndexIsVisible( fontList.getSelectedIndex() );
-        sizeList.setSelectedValue( "" + font.getSize(), true );
-        sizeList.ensureIndexIsVisible( sizeList.getSelectedIndex() );
-
-        cbBold.setSelected( font.isBold() );
-        cbItalic.setSelected( font.isItalic() );
+            cbBold.setSelected( font.isBold() );
+            cbItalic.setSelected( font.isItalic() );
+        }
     }
 
     public Font getFont() {
@@ -246,6 +247,10 @@ public class JFontChooser extends JDialog {
     }
 
     private Font getCurrentFont() {
+        if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null )
+        {
+            return new Font( "Lucida Sans", Font.PLAIN, 12 );
+        }
         String fontFamily = (String)fontList.getSelectedValue();
         int fontSize = Integer.parseInt( (String)sizeList.getSelectedValue() );
 

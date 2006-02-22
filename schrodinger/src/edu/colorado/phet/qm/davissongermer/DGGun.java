@@ -46,9 +46,7 @@ public class DGGun extends HighIntensityGunGraphic implements FireParticle {
     }
 
     public void clearAndFire() {
-//        clearWavefunction();
         fireParticle();
-//        fireOne.setEnabled( false );
     }
 
     protected GunControlPanel createGunControlPanel() {
@@ -62,10 +60,6 @@ public class DGGun extends HighIntensityGunGraphic implements FireParticle {
         gunControlPanel.add( getIntensitySlider() );//todo unprotect data
         gunControlPanel.add( getAlwaysOnCheckBox() );//todo unprotect data
         return gunControlPanel;
-    }
-
-    private void clearWavefunction() {
-        getDiscreteModel().clearWavefunction();
     }
 
     public void fireParticle() {
