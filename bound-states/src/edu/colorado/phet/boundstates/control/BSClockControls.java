@@ -169,14 +169,6 @@ public class BSClockControls extends JPanel implements ClockListener {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public JButton getRestartButton() {
-        return _restartButton;
-    }
-    
-    public JButton getPauseButton() {
-        return _pauseButton;
-    }
-    
     /**
      * Gets the clock associated with this control panel.
      * 
@@ -202,6 +194,27 @@ public class BSClockControls extends JPanel implements ClockListener {
      */
     public void setTimeFormat( NumberFormat format ) {
         _timeFormat = format;
+    }
+    
+    /**
+     * Controls visibility of the Restart button.
+     * 
+     * @param visible true or false
+     */
+    public void setRestartVisible( boolean visible ) {
+        _restartButton.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors for attaching help items
+    //----------------------------------------------------------------------------
+    
+    public JComponent getRestartComponent() {
+        return _restartButton;
+    }
+    
+    public JComponent getPauseComponent() {
+        return _pauseButton;
     }
     
     //----------------------------------------------------------------------------

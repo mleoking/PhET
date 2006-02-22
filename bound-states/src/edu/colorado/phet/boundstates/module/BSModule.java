@@ -185,6 +185,7 @@ public class BSModule extends BSAbstractModule {
         {
             _clockControls = new BSClockControls( getClock() );
             _clockControls.setTimeFormat( BSConstants.TIME_FORMAT );
+            _clockControls.setRestartVisible( false );
             setClockControlPanel( _clockControls );
             addClockListener( new ClockAdapter() {
                 public void simulationTimeReset( ClockEvent clockEvent ) {
