@@ -13,8 +13,12 @@ package edu.colorado.phet.boundstates.module;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.BSClockControls;
@@ -22,10 +26,11 @@ import edu.colorado.phet.boundstates.control.BSControlPanel;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
-import edu.colorado.phet.boundstates.view.BSEnergyLegend;
+import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
@@ -64,10 +69,16 @@ public class BSModule extends BSAbstractModule {
     private PhetPCanvas _canvas;
     private PNode _parentNode;
     private BSEnergyLegend _legend;
+    private BSCombinedChart _chart;
+    private BSCombinedChartNode _chartNode;
     
     // Plots
+    private BSEnergyPlot _energyPlot;
+    private BSWaveFunctionPlot _waveFunctionPlot;
     
     // Nodes to draw plots separately from chart
+    private XYPlotNode _energyPlotNode;
+    private XYPlotNode _waveFunctionPlotNode;
 
     // Controls
     private BSControlPanel _controlPanel;
@@ -108,6 +119,15 @@ public class BSModule extends BSAbstractModule {
             _canvas.addScreenChild( _parentNode );
         }
         
+        // Combined chart
+        {
+            _chart = new BSCombinedChart();
+            _chart.setBackgroundPaint( BSConstants.CANVAS_BACKGROUND );
+            
+            _chartNode = new BSCombinedChartNode( _chart );
+            _parentNode.addChild( _chartNode );
+        }
+        
         // Energy graph legend
         { 
             _legend = new BSEnergyLegend();
@@ -121,6 +141,8 @@ public class BSModule extends BSAbstractModule {
              * then get references to the plots that are in the combined chart.
              * We'll add our data to those plots so that the chart changes dynamically.
              */
+            _energyPlot = _chart.getEnergyPlot();
+            _waveFunctionPlot = _chart.getWaveFunctionPlot();
         }
         else {
             /*
@@ -133,6 +155,22 @@ public class BSModule extends BSAbstractModule {
              * some of the chart's rendering hints for the XYPlot nodes so that the 
              * "look" is consistent with the static chart.
              */
+            _chartNode.setBuffered( true );
+            
+            _energyPlot = new BSEnergyPlot();
+            _waveFunctionPlot = new BSWaveFunctionPlot();
+
+            RenderingHints renderingHints = _chart.getRenderingHints();
+            
+            _energyPlotNode = new XYPlotNode( _energyPlot );
+            _energyPlotNode.setRenderingHints( renderingHints );
+            _energyPlotNode.setName( "energyPlotNode" ); // debug
+            _parentNode.addChild( _energyPlotNode );
+
+            _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
+            _waveFunctionPlotNode.setRenderingHints( renderingHints );
+            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
+            _parentNode.addChild( _waveFunctionPlotNode );
         } 
         
         //----------------------------------------------------------------------------
@@ -166,9 +204,9 @@ public class BSModule extends BSAbstractModule {
         
         HelpPane helpPane = getDefaultHelpPane();
 
-        HelpBalloon configureHelp = new HelpBalloon( helpPane, "Help", HelpBalloon.LEFT_CENTER, 20 );
+        HelpBalloon configureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.potentialControl" ), HelpBalloon.RIGHT_CENTER, 40 );
         helpPane.add( configureHelp );
-        configureHelp.pointAt( 100, 100 );
+        configureHelp.pointAt( _controlPanel.getPotentialControl() );
         
         //----------------------------------------------------------------------------
         // Initialze the module state
@@ -193,11 +231,57 @@ public class BSModule extends BSAbstractModule {
      * This is called whenever the canvas size changes.
      */
     private void layoutCanvas() {
-        
+
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
-     
-        //XXX
+
+        // Location and dimensions of combined chart
+        final double chartWidth = _canvas.getWidth() - ( 2 * X_MARGIN );
+        final double chartHeight = _canvas.getHeight() - ( legendHeight + ( 2 * Y_MARGIN ) + Y_SPACING );
+
+        // Charts
+        {
+            _chartNode.setBounds( 0, 0, chartWidth, chartHeight );
+            AffineTransform chartTransform = new AffineTransform();
+            chartTransform.translate( X_MARGIN, Y_MARGIN + legendHeight + Y_SPACING );
+            chartTransform.translate( 0, 0 ); // registration point @ upper left
+            _chartNode.setTransform( chartTransform );
+            _chartNode.updateChartRenderingInfo();
+        }
+
+        // Bounds of plots, in global coordinates -- get these after transforming the chart!
+        Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
+        Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
+
+        // Plot nodes (these exist if JFreeChart is not drawing dynamic elements)
+        {
+            if ( _energyPlotNode != null ) {
+                _energyPlotNode.setOffset( 0, 0 );
+                _energyPlotNode.setDataArea( energyPlotBounds );
+            }
+            if ( _waveFunctionPlotNode != null ) {
+                _waveFunctionPlotNode.setOffset( 0, 0 );
+                _waveFunctionPlotNode.setDataArea( waveFunctionPlotBounds );
+            }
+        }
+
+        // dx (sample point spacing)
+        {
+            // All charts have the same x axis, so just use the Energy chart.
+            Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
+            Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( BSConstants.PIXELS_PER_SAMPLE_POINT, 0 ) );
+            double dx = p2.getX() - p1.getX();
+            //XXX now do something with dx...
+        }
+
+        // Legend
+        {
+            // Aligned with left edge of energy plot, centered in space about energy plot
+            AffineTransform legendTransform = new AffineTransform();
+            legendTransform.translate( energyPlotBounds.getX(), Y_MARGIN );
+            legendTransform.translate( 0, 0 ); // upper left
+            _legend.setTransform( legendTransform );
+        }
     }
     
     //----------------------------------------------------------------------------

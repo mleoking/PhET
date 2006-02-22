@@ -90,12 +90,9 @@ public class BSConstants {
     public static final Color PLOT_BACKGROUND = Color.WHITE;
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
-    public static final Color INCIDENT_REAL_WAVE_COLOR = Color.RED;
-    public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = Color.BLUE;
-    public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.BLACK;
-    public static final Color REFLECTED_REAL_WAVE_COLOR = INCIDENT_REAL_WAVE_COLOR;
-    public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
-    public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
+    public static final Color REAL_WAVE_COLOR = Color.RED;
+    public static final Color IMAGINARY_WAVE_COLOR = Color.BLUE;
+    public static final Color MAGNITUDE_WAVE_COLOR = Color.BLACK;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
     public static final Color TICK_MARK_COLOR = Color.BLACK;
@@ -123,7 +120,7 @@ public class BSConstants {
     public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0" );
     
     // Wave Function
-    public static final Range DEFAULT_PROBABILITY_DENSITY_RANGE = new Range( 0, 1.2 );
+    public static final Range WAVE_FUNCTION_RANGE = new Range( 0, 1.2 );
     
     // Position
     public static final Range POSITION_RANGE = new Range( -5, 5 ); // nm
@@ -139,7 +136,7 @@ public class BSConstants {
      * true = use JFreeChart to do all chart elements (static and dynamic)
      * false = use JFreeChart to draw static elements, custom code for dynamic elements
      */
-    public static final boolean JFREECHART_DYNAMIC = true;
+    public static final boolean JFREECHART_DYNAMIC = false;
     
     public static final boolean SHOW_VERTICAL_GRIDLINES = false;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
