@@ -56,8 +56,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private static final int INDENTATION = 0; // pixels
     private static final int SUBPANEL_SPACING = 5; // pixels
-    private static final double WIDTH_TICK_SPACING = 1.0; // nm
-    private static final double CENTER_TICK_SPACING = 4.0; // nm
+    private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
     
     // Color key
     private static final int COLOR_KEY_WIDTH = 25; // pixels
@@ -218,16 +217,20 @@ public class BSControlPanel extends BSAbstractControlPanel {
         // Advanced panel
         _advancedPanel = new JPanel();
         {
-            _numberSlider = new SliderControl( 1, 10, 1, 0, 0, SimStrings.get( "label.numberOfWells" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
-            _numberSlider.setInverted( true );
+            String sNumber = SimStrings.get( "label.numberOfWells" ) + " {0}";
+            _numberSlider = new SliderControl( 1, 1, 10, 1, 0, 0, sNumber, SLIDER_INSETS );
+            _numberSlider.getSlider().setSnapToTicks( true );
             
-            _widthSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellWidth" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
+            String sWidth = SimStrings.get( "label.wellWidth" ) + " {0} " + SimStrings.get( "units.position" );
+            _widthSlider = new SliderControl( 2, .1, 10, 5, 1, 1, sWidth, SLIDER_INSETS );
             _widthSlider.setInverted( true );
 
-            _depthSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellDepth" ) + " {0} " + SimStrings.get( "units.energy" ), new Insets( 0, 0, 0, 0 ) );
+            String sDepth = SimStrings.get( "label.wellDepth" ) + " {0} " + SimStrings.get( "units.energy" );
+            _depthSlider = new SliderControl( 2, .1, 10, 5, 1, 1, sDepth, SLIDER_INSETS );
             _depthSlider.setInverted( true );
             
-            _spacingSlider = new SliderControl( 1, 10, 1, 0, 1, SimStrings.get( "label.wellSpacing" ) + " {0} " + SimStrings.get( "units.position" ), new Insets( 0, 0, 0, 0 ) );
+            String sSpacing = SimStrings.get( "label.wellSpacing" ) + " {0} " + SimStrings.get( "units.position" );
+            _spacingSlider = new SliderControl( 2, .1, 10, 5, 1, 1, sSpacing, SLIDER_INSETS );
             _spacingSlider.setInverted( true );
             
             JPanel superpositionPanel = new JPanel();
@@ -426,9 +429,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
      * EventListener dispatches events for all controls in this control panel.
      */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
-        
-        private boolean _clockIsRunning = false;
-        private boolean _sliderIsAdjusting = false;
         
         public EventListener() {}
 
