@@ -55,6 +55,8 @@ public class t_d_quant extends Applet implements Runnable {
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
     private static final long LOOP_DELAY = 30;
+    private double t;
+    private int loop;
 
     public void init() {
         // Set the background color
@@ -253,7 +255,6 @@ public class t_d_quant extends Applet implements Runnable {
 
         stopAnimatorThread();
 
-
         if( x + 1 < rw ) {
             g.setColor( this.getBackground() );
             g.drawLine( x, pot[x], x + 1, pot[x + 1] );
@@ -355,10 +356,16 @@ public class t_d_quant extends Applet implements Runnable {
         }
     }
 
-    public void run() {
-        double xx, a, b, t, psi_scale, psi_big, xk00;
+    public double getXK00() {
+        return mode == PACKET ? xk0 : ( (int)( xk0 * 8. / pi + .5 ) ) * pi / 8.;
+    }
 
-        int axis = 2 * rh / 5;
+    public double getPsiScale() {
+        return mode == PACKET ? rh * 0.3 : rh * 0.2;
+    }
+
+    public void run() {
+//        int axis = getAxis();
 
         Graphics g = this.getGraphics();
         Dimension d = getSize();
@@ -370,28 +377,19 @@ public class t_d_quant extends Applet implements Runnable {
         }
 
         while( Thread.currentThread() == animatorThread ) {
-            if( mode == PACKET ) {
-                xk00 = xk0;
-                psi_scale = rh * 0.3;
-            }
-            else {
-                xk00 = ( (int)( xk0 * 8. / pi + .5 ) ) * pi / 8.;
-                psi_scale = rh * 0.2;
-            }
-
             for( int i = 0; i < nn; i++ ) {
-                xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
+                double xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
                 if( mode != PACKET ) {
                     if( i < i0 ) {
                         xx = 1.;
                     }
                     if( i < n_bound2 ) {
-                        xsi[0][i] = Math.cos( xk00 * i );
-                        xsi[1][i] = Math.sin( xk00 * i );
+                        xsi[0][i] = Math.cos( getXK00() * i );
+                        xsi[1][i] = Math.sin( getXK00() * i );
                     }
                 }
-                psi[0][i] = xx * Math.cos( xk00 * i );
-                psi[1][i] = xx * Math.sin( xk00 * i );
+                psi[0][i] = xx * Math.cos( getXK00() * i );
+                psi[1][i] = xx * Math.sin( getXK00() * i );
             }
 
             for( int i = 0; i < nn; i++ ) {
@@ -405,8 +403,8 @@ c
 c ************* start the computation loop **************
 c
 */
-            t = 0.;
-            for( int loop = 0; ; loop++ ) {
+            t = 0.0;
+            for( loop = 0; ; loop++ ) {
                 try {
                     Thread.sleep( LOOP_DELAY );
                 }
@@ -419,8 +417,8 @@ c
                 }
 
                 for( int i = 0; i < nn; i++ ) {
-                    a = psi[0][i];
-                    b = psi[1][i];
+                    double a = psi[0][i];
+                    double b = psi[1][i];
                     psi[0][i] = a * cpot[0][i] - b * cpot[1][i];
                     psi[1][i] = a * cpot[1][i] + b * cpot[0][i];
                 }
@@ -474,8 +472,8 @@ c
    do the momentum space updating and normalization
 */
                 for( int i = 0; i < n_bound2; i++ ) {
-                    a = bsi[0][i];
-                    b = bsi[1][i];
+                    double a = bsi[0][i];
+                    double b = bsi[1][i];
                     bsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
                     bsi[1][i] = a * bksq[1][i] + b * bksq[0][i];
 
@@ -512,8 +510,8 @@ c
 /*   do the momentum space updating and normalization  */
 
                 for( int i = 0; i < nn; i++ ) {
-                    a = psi[0][i];
-                    b = psi[1][i];
+                    double a = psi[0][i];
+                    double b = psi[1][i];
                     psi[0][i] = a * cenerg[0][i] - b * cenerg[1][i];
                     psi[1][i] = a * cenerg[1][i] + b * cenerg[0][i];
                 }
@@ -553,64 +551,74 @@ c time to make the increments...
 c and plot ...
 c  */
 
-                t = t + dt;
+                this.t = t + dt;
                 mu = ( mu + 1 ) % nn;
 
-                offGraphics.setColor( getBackground() );
-                offGraphics.fillRect( 0, 0, rw, rh );
-                offGraphics.setColor( Color.red );
-                for( int k = 1; k < rw; k++ ) {
-                    offGraphics.drawLine( k - 1, pot[k - 1], k, pot[k] );
-                }
-
-                psi_big = 0.;
-                for( int k = 0; k < nn; k++ ) {
-                    xx = psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k];
-                    if( psi_big < xx ) {
-                        psi_big = xx;
-                    }
-                    xx = Math.abs( psi[0][k] );
-                    if( psi_big < xx ) {
-                        psi_big = xx;
-                    }
-                    xx = Math.abs( psi[1][k] );
-                    if( psi_big < xx ) {
-                        psi_big = xx;
-                    }
-                }
-
-                offGraphics.setColor( Color.yellow );
-                int old_psi = axis - (int)( psi_scale * psi[0][0] );
-                for( int k = 1; k < nn; k++ ) {
-                    int ii = axis - (int)( psi_scale * psi[0][k] );
-                    offGraphics.drawLine( k - 1, old_psi, k, ii );
-                    old_psi = ii;
-                }
-                offGraphics.setColor( Color.green );
-                old_psi = axis - (int)( psi_scale * psi[1][0] );
-                for( int k = 1; k < nn; k++ ) {
-                    int ii = axis - (int)( psi_scale * psi[1][k] );
-                    offGraphics.drawLine( k - 1, old_psi, k, ii );
-                    old_psi = ii;
-                }
-                offGraphics.setColor( Color.white );
-                old_psi = axis - (int)( psi_scale * Math.sqrt( psi[0][0] * psi[0][0] + psi[1][0] * psi[1][0] ) );
-                for( int k = 1; k < nn; k++ ) {
-                    int ii = axis - (int)( psi_scale * Math.sqrt( psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k] ) );
-                    offGraphics.drawLine( k - 1, old_psi, k, ii );
-                    old_psi = ii;
-                }
-
-                offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
-
-                g.drawImage( offImage, 0, 0, this );
-
-                if( loop == looper ) {
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] + " end of loop", 10, linen += 10 );
-                    g.drawString( "psi_scale=" + psi_scale, 10, linen += 10 );
-                }
+                plot( g );
             }  /* closes for - loop  */
         }   /*  closes while  */
+    }
+
+    private void plot( Graphics g ) {
+        offGraphics.setColor( getBackground() );
+        offGraphics.fillRect( 0, 0, rw, rh );
+        offGraphics.setColor( Color.red );
+        for( int k = 1; k < rw; k++ ) {
+            offGraphics.drawLine( k - 1, pot[k - 1], k, pot[k] );
+        }
+
+        double psi_big = 0.;
+        for( int k = 0; k < nn; k++ ) {
+            double xx = psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k];
+            if( psi_big < xx ) {
+                psi_big = xx;
+            }
+            xx = Math.abs( psi[0][k] );
+            if( psi_big < xx ) {
+                psi_big = xx;
+            }
+            xx = Math.abs( psi[1][k] );
+            if( psi_big < xx ) {
+                psi_big = xx;
+            }
+        }
+
+        offGraphics.setColor( Color.yellow );
+        double psi_scale = getPsiScale();
+        int old_psi = getAxis() - (int)( psi_scale * psi[0][0] );
+        int axis = getAxis();
+        for( int k = 1; k < nn; k++ ) {
+            int ii = axis - (int)( psi_scale * psi[0][k] );
+            offGraphics.drawLine( k - 1, old_psi, k, ii );
+            old_psi = ii;
+        }
+        offGraphics.setColor( Color.green );
+        old_psi = axis - (int)( psi_scale * psi[1][0] );
+        for( int k = 1; k < nn; k++ ) {
+            int ii = axis - (int)( psi_scale * psi[1][k] );
+            offGraphics.drawLine( k - 1, old_psi, k, ii );
+            old_psi = ii;
+        }
+        offGraphics.setColor( Color.white );
+        old_psi = axis - (int)( psi_scale * Math.sqrt( psi[0][0] * psi[0][0] + psi[1][0] * psi[1][0] ) );
+        for( int k = 1; k < nn; k++ ) {
+            int ii = axis - (int)( psi_scale * Math.sqrt( psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k] ) );
+            offGraphics.drawLine( k - 1, old_psi, k, ii );
+            old_psi = ii;
+        }
+
+        offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
+
+        g.drawImage( offImage, 0, 0, this );
+
+        if( loop == looper ) {
+            g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] + " end of loop", 10, linen += 10 );
+            g.drawString( "psi_scale=" + psi_scale, 10, linen += 10 );
+        }
+    }
+
+    private int getAxis() {
+        return 2 * rh / 5;
     }
 
 
