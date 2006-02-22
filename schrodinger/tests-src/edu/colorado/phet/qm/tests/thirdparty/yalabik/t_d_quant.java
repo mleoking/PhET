@@ -22,11 +22,14 @@ public class t_d_quant extends Applet implements Runnable {
 
     private int rw = 256;
     private int rh = 200;
-    private int rx, ry, mode;
+    private int rx, ry;
+    private int mode = PACKET;
     private int last_x;
 
+    static private double[][] FFTBuffer = new double[2][256];
+
     double[][] cfo = new double[2][257];
-    static private double[][] buf = new double[2][256];
+
     double[][] psi = new double[2][256];
     double[][] cpot = new double[2][256];
     double[][] cenerg = new double[2][256];
@@ -37,7 +40,8 @@ public class t_d_quant extends Applet implements Runnable {
     double[][][] cc = new double[2][16][16];
     double[][] bksq = new double[2][16];
     int[] pot = new int[256];
-    double dt = 0.5, xnorm, bnorm, scale;
+    double dt = 0.5;
+    double xnorm, bnorm, scale;
     int nn = 256;
     int n_bound = 8;
     int n_bound2;
@@ -48,11 +52,11 @@ public class t_d_quant extends Applet implements Runnable {
     int mu = 20;
     int linen = 80;
     int looper = -1;
+    private static final int PACKET = 1;
+    private static final int INJECTED = 2;
+    private static final long LOOP_DELAY = 30;
 
     public void init() {
-        int i, j, k;
-        double xx, a, b, c, d, e, f;
-
         // Set the background color
         this.setBackground( Color.black );
         this.setForeground( Color.white );
@@ -73,11 +77,20 @@ public class t_d_quant extends Applet implements Runnable {
         state_choices.setBackground( Color.lightGray );
         this.add( new Label( "Type of wave:" ) );
         this.add( state_choices );
-        mode = 1;
+        mode = PACKET;
 
-        Rectangle r = this.bounds();
+        initParameters();
+        initPotential();
+        initFFT();
+        initFFTInjected();
+        initLagrangeExtensionPolynomial();
 
-//      rw=r.width;
+        animatorThread = new Thread( this );
+        animatorThread.start();
+    }
+
+    private void initParameters() {
+        Rectangle r = this.getBounds();
         rh = r.height;
         rx = r.x;
         ry = r.y;
@@ -91,41 +104,24 @@ public class t_d_quant extends Applet implements Runnable {
         i0 = 30;
         xk0 = 0.25;
         width = 10.;
-
-        initPotential();
-        initFFT();
-        initFFTInjected();
-        initLagrangeExtensionPolynomial();
-
-        animatorThread = new Thread( this );
-        animatorThread.start();
     }
 
     private void initLagrangeExtensionPolynomial() {
-        int i;
-        int j;
-        int k;
-        double a;
-        double b;
-        double c;
-        double d;
-        double f;
-        double e;
         /* initialization of the Lagrange extension polynomial */
 
-        for( i = 0; i < n_bound; i++ ) {
-            for( j = 0; j < n_bound; j++ ) {
+        for( int i = 0; i < n_bound; i++ ) {
+            for( int j = 0; j < n_bound; j++ ) {
                 cc[0][i][j] = 1.;
                 cc[1][i][j] = 0.;
-                for( k = 0; k < n_bound; k++ ) {
+                for( int k = 0; k < n_bound; k++ ) {
                     if( j != k ) {
                         /*  implementing  cc(i,j)=cc(i,j)*(-bfou(i)-bfou(k))/(bfou(j)-bfou(k)) */
-                        a = -bfou[0][i] - bfou[0][k];
-                        b = -bfou[1][i] - bfou[1][k];
-                        c = bfou[0][j] - bfou[0][k];
-                        d = bfou[1][j] - bfou[1][k];
-                        f = c * c + d * d;
-                        e = ( a * c + b * d ) / f;
+                        double a = -bfou[0][i] - bfou[0][k];
+                        double b = -bfou[1][i] - bfou[1][k];
+                        double c = bfou[0][j] - bfou[0][k];
+                        double d = bfou[1][j] - bfou[1][k];
+                        double f = c * c + d * d;
+                        double e = ( a * c + b * d ) / f;
                         f = ( b * c - a * d ) / f;
                         a = cc[0][i][j];
                         b = cc[1][i][j];
@@ -139,15 +135,15 @@ public class t_d_quant extends Applet implements Runnable {
         xnorm = 1. / nn;
         bnorm = 1. / n_bound2;
 
-        for( i = 0; i < n_bound2; i++ ) {
-            a = Math.sin( pi * i / n_bound2 );
+        for( int i = 0; i < n_bound2; i++ ) {
+            double a = Math.sin( pi * i / n_bound2 );
             a = 4. * a * a * dt;
             bksq[0][i] = Math.cos( a ) * bnorm;
             bksq[1][i] = -Math.sin( a ) * bnorm;
         }
 
-        for( i = 0; i < nn; i++ ) {
-            a = Math.sin( pi * i / nn );
+        for( int i = 0; i < nn; i++ ) {
+            double a = Math.sin( pi * i / nn );
             a = 4. * a * a * dt;
             cenerg[0][i] = Math.cos( a ) * xnorm;
             cenerg[1][i] = -Math.sin( a ) * xnorm;
@@ -155,22 +151,18 @@ public class t_d_quant extends Applet implements Runnable {
     }
 
     private void initFFTInjected() {
-        int i;
-        double xx;
         /* initialization of fft variables for the injected wave: */
 
-        for( i = 0; i <= n_bound2; i++ ) {
-            xx = 2 * i * pi / n_bound2;
+        for( int i = 0; i <= n_bound2; i++ ) {
+            double xx = 2 * i * pi / n_bound2;
             bfou[0][i] = Math.cos( xx );
             bfou[1][i] = Math.sin( xx );
         }
     }
 
     private void initFFT() {
-        int i;
-        double xx;
-        for( i = 0; i <= nn; i++ ) {
-            xx = 2 * i * pi / nn;
+        for( int i = 0; i <= nn; i++ ) {
+            double xx = 2 * i * pi / nn;
             cfo[0][i] = Math.cos( xx );
             cfo[1][i] = Math.sin( xx );
         }
@@ -199,10 +191,7 @@ public class t_d_quant extends Applet implements Runnable {
         if( y >= rh ) { y = rh - 1;}
         if( x + 1 >= rw || x < 1 ) {return true; }
 
-        if( animatorThread != null ) {
-            animatorThread.stop();
-            animatorThread = null;
-        }
+        stopAnimatorThread();
 
         int x_sm;
         int x_bg;
@@ -262,10 +251,7 @@ public class t_d_quant extends Applet implements Runnable {
         if( y >= rh ) {y = rh - 1;}
         if( x >= rw || x < 0 ) {return true; }
 
-        if( animatorThread != null ) {
-            animatorThread.stop();
-            animatorThread = null;
-        }
+        stopAnimatorThread();
 
 
         if( x + 1 < rw ) {
@@ -289,10 +275,7 @@ public class t_d_quant extends Applet implements Runnable {
 
     // Called when the user releases the mouse button
     public boolean mouseUp( Event e, int x, int y ) {
-        if( animatorThread != null ) {
-            animatorThread.stop();
-            animatorThread = null;
-        }
+        stopAnimatorThread();
         animatorThread = new Thread( this );
         animatorThread.start();
 
@@ -301,12 +284,7 @@ public class t_d_quant extends Applet implements Runnable {
 
     // Called when the user clicks the button or chooses a color
     public boolean action( Event event, Object arg ) {
-        int i, k;
-
-        if( animatorThread != null ) {
-            animatorThread.stop();
-            animatorThread = null;
-        }
+        stopAnimatorThread();
 
         // If the Reset button was clicked on, handle it.
         if( event.target == clear_button ) {
@@ -315,7 +293,7 @@ public class t_d_quant extends Applet implements Runnable {
             g.setColor( this.getBackground() );
             g.fillRect( rx, ry, rw, rh );
 
-            for( i = 0; i < nn; i++ ) {
+            for( int i = 0; i < nn; i++ ) {
                 if( ( ( i > 100 ) && ( i < 105 ) ) || ( ( i > 115 ) && ( i < 120 ) ) ) {
                     pot[i] = 4 * rh / 5;
                 }
@@ -326,7 +304,7 @@ public class t_d_quant extends Applet implements Runnable {
 
 
             g.setColor( Color.red );
-            for( k = 1; k < rw; k++ ) {
+            for( int k = 1; k < rw; k++ ) {
                 g.drawLine( k - 1, pot[k - 1], k, pot[k] );
             }
 
@@ -337,12 +315,11 @@ public class t_d_quant extends Applet implements Runnable {
         }
         // Otherwise if a color was chosen, handle that
         else if( event.target == state_choices ) {
-            String statename = (String)arg;
             if( arg.equals( "packet" ) ) {
-                mode = 1;
+                mode = PACKET;
             }
             else if( arg.equals( "injected" ) ) {
-                mode = 2;
+                mode = INJECTED;
             }
 
             if( animatorThread == null ) {
@@ -359,31 +336,30 @@ public class t_d_quant extends Applet implements Runnable {
     }
 
     public void start() {
-        if( animatorThread != null ) {
-            animatorThread.stop();
-            animatorThread = null;
-        }
+        stopAnimatorThread();
         animatorThread = new Thread( this );
         animatorThread.start();
     }
 
     public void stop() {
         //Stop the animating thread.
+        stopAnimatorThread();
+        //Get rid of the objects necessary for double buffering.
+        offGraphics = null;
+        offImage = null;
+    }
+
+    private void stopAnimatorThread() {
         if( animatorThread != null ) {
             animatorThread.stop();
             animatorThread = null;
         }
-        //Get rid of the objects necessary for double buffering.
-        offGraphics = null;
-        offImage = null;
-//  System.exit(0);
     }
 
     public void run() {
-        int i, j, k, ii, old_psi, loop, axis;
         double xx, a, b, t, psi_scale, psi_big, xk00;
 
-        axis = 2 * rh / 5;
+        int axis = 2 * rh / 5;
 
         Graphics g = this.getGraphics();
         Dimension d = size();
@@ -395,8 +371,7 @@ public class t_d_quant extends Applet implements Runnable {
         }
 
         while( Thread.currentThread() == animatorThread ) {
-
-            if( mode == 1 ) {
+            if( mode == PACKET ) {
                 xk00 = xk0;
                 psi_scale = rh * 0.3;
             }
@@ -405,9 +380,9 @@ public class t_d_quant extends Applet implements Runnable {
                 psi_scale = rh * 0.2;
             }
 
-            for( i = 0; i < nn; i++ ) {
+            for( int i = 0; i < nn; i++ ) {
                 xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
-                if( mode != 1 ) {
+                if( mode != PACKET ) {
                     if( i < i0 ) {
                         xx = 1.;
                     }
@@ -420,7 +395,7 @@ public class t_d_quant extends Applet implements Runnable {
                 psi[1][i] = xx * Math.sin( xk00 * i );
             }
 
-            for( i = 0; i < nn; i++ ) {
+            for( int i = 0; i < nn; i++ ) {
                 cpot[0][i] = Math.cos( dt * scale * ( rh - pot[i] - 20 ) );
                 cpot[1][i] = -Math.sin( dt * scale * ( rh - pot[i] - 20 ) );
             }
@@ -432,14 +407,19 @@ c ************* start the computation loop **************
 c
 */
             t = 0.;
-            for( loop = 0; ; loop++ ) {
-
+            for( int loop = 0; ; loop++ ) {
+                try {
+                    Thread.sleep( LOOP_DELAY );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
                 if( loop == looper ) {
                     g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
                                   " at start" + nn, 10, linen += 10 );
                 }
 
-                for( i = 0; i < nn; i++ ) {
+                for( int i = 0; i < nn; i++ ) {
                     a = psi[0][i];
                     b = psi[1][i];
                     psi[0][i] = a * cpot[0][i] - b * cpot[1][i];
@@ -455,10 +435,10 @@ c
 
 /*  form the bc vector bsi for i~nn and csi for i~1  */
 
-                for( i = 0; i < n_bound; i++ ) {
-                    for( j = 0; j < 2; j++ ) {
+                for( int i = 0; i < n_bound; i++ ) {
+                    for( int j = 0; j < 2; j++ ) {
                         bsi[j][i] = psi[j][nn - n_bound + i];
-                        if( mode == 1 ) {
+                        if( mode == PACKET ) {
                             csi[j][i] = psi[j][i];
                         }
                         else {
@@ -469,29 +449,18 @@ c
 
 /* extend this vector using the Lagrange extarpolation with positive ft: */
 
-                for( i = 0; i < n_bound; i++ ) {
-                    for( j = 0; j < 2; j++ ) {
+                for( int i = 0; i < n_bound; i++ ) {
+                    for( int j = 0; j < 2; j++ ) {
                         bsi[j][n_bound + i] = 0;
                         csi[j][n_bound + i] = 0;
-//        xsi[j][n_bound+i]=0;
                     }
-                    for( k = 0; k < n_bound; k++ ) {
+                    for( int k = 0; k < n_bound; k++ ) {
 /* implementing    bsi(n_bound+i)=bsi(n_bound+i)+bsi(k)*(cc(i,k))  */
-                        bsi[0][n_bound + i] = bsi[0][n_bound + i] + bsi[0][k] * cc[0][i][k]
-                                              - bsi[1][k] * cc[1][i][k];
-                        bsi[1][n_bound + i] = bsi[1][n_bound + i] + bsi[0][k] * cc[1][i][k]
-                                              + bsi[1][k] * cc[0][i][k];
+                        bsi[0][n_bound + i] = bsi[0][n_bound + i] + bsi[0][k] * cc[0][i][k] - bsi[1][k] * cc[1][i][k];
+                        bsi[1][n_bound + i] = bsi[1][n_bound + i] + bsi[0][k] * cc[1][i][k] + bsi[1][k] * cc[0][i][k];
 /* implementing     csi(nn_bound+i)=csi(n_bound+i)+csi(k)*conjg(cc(i,k))  */
-                        csi[0][n_bound + i] = csi[0][n_bound + i] + csi[0][k] * cc[0][i][k]
-                                              + csi[1][k] * cc[1][i][k];
-                        csi[1][n_bound + i] = csi[1][n_bound + i] - csi[0][k] * cc[1][i][k]
-                                              + csi[1][k] * cc[0][i][k];
-//        if(mode != 1){
-//        xsi[0][n_bound+i]=xsi[0][n_bound+i]+xsi[0][k]*cc[0][i][k]
-//                                           +xsi[1][k]*cc[1][i][k] ;
-//        xsi[1][n_bound+i]=xsi[1][n_bound+i]-xsi[0][k]*cc[1][i][k]
-//                                           +xsi[1][k]*cc[0][i][k] ;
-//        }
+                        csi[0][n_bound + i] = csi[0][n_bound + i] + csi[0][k] * cc[0][i][k] + csi[1][k] * cc[1][i][k];
+                        csi[1][n_bound + i] = csi[1][n_bound + i] - csi[0][k] * cc[1][i][k] + csi[1][k] * cc[0][i][k];
                     }  /* for k */
                 }    /* for i */
 
@@ -499,13 +468,13 @@ c
 
                 fft( n_bound2, bfou, bsi, -1 );
                 fft( n_bound2, bfou, csi, -1 );
-                if( mode != 1 ) {
+                if( mode != PACKET ) {
                     fft( n_bound2, bfou, xsi, -1 );
                 }
 /*
    do the momentum space updating and normalization
 */
-                for( i = 0; i < n_bound2; i++ ) {
+                for( int i = 0; i < n_bound2; i++ ) {
                     a = bsi[0][i];
                     b = bsi[1][i];
                     bsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
@@ -516,7 +485,7 @@ c
                     csi[0][i] = a * bksq[0][i] - b * bksq[1][i];
                     csi[1][i] = a * bksq[1][i] + b * bksq[0][i];
 
-                    if( mode != 1 ) {
+                    if( mode != PACKET ) {
                         a = xsi[0][i];
                         b = xsi[1][i];
                         xsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
@@ -528,7 +497,7 @@ c
 
                 fft( n_bound2, bfou, bsi, 1 );
                 fft( n_bound2, bfou, csi, 1 );
-                if( mode != 1 ) {
+                if( mode != PACKET ) {
                     fft( n_bound2, bfou, xsi, 1 );
                 }
 
@@ -543,7 +512,7 @@ c
 
 /*   do the momentum space updating and normalization  */
 
-                for( i = 0; i < nn; i++ ) {
+                for( int i = 0; i < nn; i++ ) {
                     a = psi[0][i];
                     b = psi[1][i];
                     psi[0][i] = a * cenerg[0][i] - b * cenerg[1][i];
@@ -567,10 +536,10 @@ c
 /* interpolate the boundary region between the two forms of solutions  */
 
 
-                for( i = 0; i < nbo; i++ ) {
-                    for( j = 0; j < 2; j++ ) {
+                for( int i = 0; i < nbo; i++ ) {
+                    for( int j = 0; j < 2; j++ ) {
                         psi[j][nn - nbo + i] = bsi[j][nbo + i];
-                        if( mode == 1 ) {
+                        if( mode == PACKET ) {
                             psi[j][i] = csi[j][i];
                         }
                         else {
@@ -591,12 +560,12 @@ c  */
                 offGraphics.setColor( getBackground() );
                 offGraphics.fillRect( 0, 0, rw, rh );
                 offGraphics.setColor( Color.red );
-                for( k = 1; k < rw; k++ ) {
+                for( int k = 1; k < rw; k++ ) {
                     offGraphics.drawLine( k - 1, pot[k - 1], k, pot[k] );
                 }
 
                 psi_big = 0.;
-                for( k = 0; k < nn; k++ ) {
+                for( int k = 0; k < nn; k++ ) {
                     xx = psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k];
                     if( psi_big < xx ) {
                         psi_big = xx;
@@ -610,31 +579,29 @@ c  */
                         psi_big = xx;
                     }
                 }
-//    psi_scale=rh*0.3/psi_big;
-//    psi_scale=rh*0.3;
+
                 offGraphics.setColor( Color.yellow );
-                old_psi = axis - (int)( psi_scale * psi[0][0] );
-                for( k = 1; k < nn; k++ ) {
-                    ii = axis - (int)( psi_scale * psi[0][k] );
+                int old_psi = axis - (int)( psi_scale * psi[0][0] );
+                for( int k = 1; k < nn; k++ ) {
+                    int ii = axis - (int)( psi_scale * psi[0][k] );
                     offGraphics.drawLine( k - 1, old_psi, k, ii );
                     old_psi = ii;
                 }
                 offGraphics.setColor( Color.green );
                 old_psi = axis - (int)( psi_scale * psi[1][0] );
-                for( k = 1; k < nn; k++ ) {
-                    ii = axis - (int)( psi_scale * psi[1][k] );
+                for( int k = 1; k < nn; k++ ) {
+                    int ii = axis - (int)( psi_scale * psi[1][k] );
                     offGraphics.drawLine( k - 1, old_psi, k, ii );
                     old_psi = ii;
                 }
                 offGraphics.setColor( Color.white );
                 old_psi = axis - (int)( psi_scale * Math.sqrt( psi[0][0] * psi[0][0] + psi[1][0] * psi[1][0] ) );
-                for( k = 1; k < nn; k++ ) {
-                    ii = axis - (int)( psi_scale * Math.sqrt( psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k] ) );
+                for( int k = 1; k < nn; k++ ) {
+                    int ii = axis - (int)( psi_scale * Math.sqrt( psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k] ) );
                     offGraphics.drawLine( k - 1, old_psi, k, ii );
                     old_psi = ii;
                 }
 
-//    g.setColor(Color.white);
                 offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
 
                 g.drawImage( offImage, 0, 0, this );
@@ -643,8 +610,6 @@ c  */
                     g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] + " end of loop", 10, linen += 10 );
                     g.drawString( "psi_scale=" + psi_scale, 10, linen += 10 );
                 }
-
-
             }  /* closes for - loop  */
         }   /*  closes while  */
     }
@@ -664,7 +629,7 @@ c call fft(ny,i,nx,psi,cfouy,ibtrvy,1,buf) for all i.le.nx
 
         for( i = 0; i < n; i++ ) {
             for( j = 0; j < 2; j++ ) {
-                buf[j][i] = vect[j][i];
+                FFTBuffer[j][i] = vect[j][i];
             }
         }
 
@@ -692,10 +657,10 @@ c call fft(ny,i,nx,psi,cfouy,ibtrvy,1,buf) for all i.le.nx
                     K = J + no2;
                     L = j + L0;
                     M = L + nh;
-                    buf1r = buf[0][L];
-                    buf1i = buf[1][L];
-                    buf2r = buf[0][M];
-                    buf2i = buf[1][M];
+                    buf1r = FFTBuffer[0][L];
+                    buf1i = FFTBuffer[1][L];
+                    buf2r = FFTBuffer[0][M];
+                    buf2i = FFTBuffer[1][M];
                     vect[0][J] = buf1r + cfr * buf2r - cfi * buf2i;
                     vect[1][J] = buf1i + cfi * buf2r + cfr * buf2i;
                     vect[0][K] = buf1r - cfr * buf2r + cfi * buf2i;
@@ -712,7 +677,7 @@ c call fft(ny,i,nx,psi,cfouy,ibtrvy,1,buf) for all i.le.nx
             if( nh != 1 ) {
                 for( i = 0; i < n; i++ ) {
                     for( j = 0; j < 2; j++ ) {
-                        buf[j][i] = vect[j][i];
+                        FFTBuffer[j][i] = vect[j][i];
                     }
                 }
             }
