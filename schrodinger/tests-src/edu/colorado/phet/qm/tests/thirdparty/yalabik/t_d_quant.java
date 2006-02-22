@@ -52,7 +52,6 @@ public class t_d_quant extends Applet implements Runnable {
     int i0;
     double xk0, width;
     int mu = 20;
-    int linen = 80;
     int looper = -1;
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
@@ -393,139 +392,7 @@ c
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-                if( loop == looper ) {
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
-                                  " at start" + nn, 10, linen += 10 );
-                }
-
-                for( int i = 0; i < nn; i++ ) {
-                    double a = psi[0][i];
-                    double b = psi[1][i];
-                    psi[0][i] = a * cpot[0][i] - b * cpot[1][i];
-                    psi[1][i] = a * cpot[1][i] + b * cpot[0][i];
-                }
-                linen = 80;
-                if( loop == looper ) {
-                    g.drawString( "cpot[" + mu + "]=" + cpot[0][mu] + " " + cpot[1][mu] +
-                                  " at start", 10, linen += 10 );
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
-                                  " after cpot", 10, linen += 10 );
-                }
-
-/*  form the bc vector bsi for i~nn and csi for i~1  */
-
-                for( int i = 0; i < n_bound; i++ ) {
-                    for( int j = 0; j < 2; j++ ) {
-                        bsi[j][i] = psi[j][nn - n_bound + i];
-                        if( mode == PACKET ) {
-                            csi[j][i] = psi[j][i];
-                        }
-                        else {
-                            csi[j][i] = psi[j][i] - xsi[j][i];
-                        }
-                    }
-                }
-
-/* extend this vector using the Lagrange extarpolation with positive ft: */
-
-                for( int i = 0; i < n_bound; i++ ) {
-                    for( int j = 0; j < 2; j++ ) {
-                        bsi[j][n_bound + i] = 0;
-                        csi[j][n_bound + i] = 0;
-                    }
-                    for( int k = 0; k < n_bound; k++ ) {
-/* implementing    bsi(n_bound+i)=bsi(n_bound+i)+bsi(k)*(cc(i,k))  */
-                        bsi[0][n_bound + i] = bsi[0][n_bound + i] + bsi[0][k] * cc[0][i][k] - bsi[1][k] * cc[1][i][k];
-                        bsi[1][n_bound + i] = bsi[1][n_bound + i] + bsi[0][k] * cc[1][i][k] + bsi[1][k] * cc[0][i][k];
-/* implementing     csi(nn_bound+i)=csi(n_bound+i)+csi(k)*conjg(cc(i,k))  */
-                        csi[0][n_bound + i] = csi[0][n_bound + i] + csi[0][k] * cc[0][i][k] + csi[1][k] * cc[1][i][k];
-                        csi[1][n_bound + i] = csi[1][n_bound + i] - csi[0][k] * cc[1][i][k] + csi[1][k] * cc[0][i][k];
-                    }  /* for k */
-                }    /* for i */
-
-/*  develop this part of wf (using periodic bc)  */
-
-                fft( n_bound2, bfou, bsi, -1 );
-                fft( n_bound2, bfou, csi, -1 );
-                if( mode != PACKET ) {
-                    fft( n_bound2, bfou, xsi, -1 );
-                }
-/*
-   do the momentum space updating and normalization
-*/
-                for( int i = 0; i < n_bound2; i++ ) {
-                    double a = bsi[0][i];
-                    double b = bsi[1][i];
-                    bsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
-                    bsi[1][i] = a * bksq[1][i] + b * bksq[0][i];
-
-                    a = csi[0][i];
-                    b = csi[1][i];
-                    csi[0][i] = a * bksq[0][i] - b * bksq[1][i];
-                    csi[1][i] = a * bksq[1][i] + b * bksq[0][i];
-
-                    if( mode != PACKET ) {
-                        a = xsi[0][i];
-                        b = xsi[1][i];
-                        xsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
-                        xsi[1][i] = a * bksq[1][i] + b * bksq[0][i];
-                    }
-                }
-
-/*   inverse transform to position space   */
-
-                fft( n_bound2, bfou, bsi, 1 );
-                fft( n_bound2, bfou, csi, 1 );
-                if( mode != PACKET ) {
-                    fft( n_bound2, bfou, xsi, 1 );
-                }
-
-/*   fourier transform the wavefunction:  */
-
-                fft( nn, cfo, psi, -1 );
-
-                if( loop == looper ) {
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
-                                  " after fft", 10, linen += 10 );
-                }
-
-/*   do the momentum space updating and normalization  */
-
-                for( int i = 0; i < nn; i++ ) {
-                    double a = psi[0][i];
-                    double b = psi[1][i];
-                    psi[0][i] = a * cenerg[0][i] - b * cenerg[1][i];
-                    psi[1][i] = a * cenerg[1][i] + b * cenerg[0][i];
-                }
-
-                if( loop == looper ) {
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
-                                  " after cenerg", 10, linen += 10 );
-                }
-
-/*   inverse transform to position space  */
-
-                fft( nn, cfo, psi, 1 );
-
-                if( loop == looper ) {
-                    g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] +
-                                  " after i-fft", 10, linen += 10 );
-                }
-
-/* interpolate the boundary region between the two forms of solutions  */
-
-
-                for( int i = 0; i < nbo; i++ ) {
-                    for( int j = 0; j < 2; j++ ) {
-                        psi[j][nn - nbo + i] = bsi[j][nbo + i];
-                        if( mode == PACKET ) {
-                            psi[j][i] = csi[j][i];
-                        }
-                        else {
-                            psi[j][i] = csi[j][i] + xsi[j][i];
-                        }
-                    }
-                }
+                updateWavefunction();
 
 /*
 c simulation is over only for one tour...
@@ -539,6 +406,116 @@ c  */
                 plot( g );
             }  /* closes for - loop  */
         }   /*  closes while  */
+    }
+
+    private void updateWavefunction() {
+
+        for( int i = 0; i < nn; i++ ) {
+            double a = psi[0][i];
+            double b = psi[1][i];
+            psi[0][i] = a * cpot[0][i] - b * cpot[1][i];
+            psi[1][i] = a * cpot[1][i] + b * cpot[0][i];
+        }
+
+/*  form the bc vector bsi for i~nn and csi for i~1  */
+
+        for( int i = 0; i < n_bound; i++ ) {
+            for( int j = 0; j < 2; j++ ) {
+                bsi[j][i] = psi[j][nn - n_bound + i];
+                if( mode == PACKET ) {
+                    csi[j][i] = psi[j][i];
+                }
+                else {
+                    csi[j][i] = psi[j][i] - xsi[j][i];
+                }
+            }
+        }
+
+/* extend this vector using the Lagrange extarpolation with positive ft: */
+
+        for( int i = 0; i < n_bound; i++ ) {
+            for( int j = 0; j < 2; j++ ) {
+                bsi[j][n_bound + i] = 0;
+                csi[j][n_bound + i] = 0;
+            }
+            for( int k = 0; k < n_bound; k++ ) {
+                /* implementing    bsi(n_bound+i)=bsi(n_bound+i)+bsi(k)*(cc(i,k))  */
+                bsi[0][n_bound + i] = bsi[0][n_bound + i] + bsi[0][k] * cc[0][i][k] - bsi[1][k] * cc[1][i][k];
+                bsi[1][n_bound + i] = bsi[1][n_bound + i] + bsi[0][k] * cc[1][i][k] + bsi[1][k] * cc[0][i][k];
+                /* implementing     csi(nn_bound+i)=csi(n_bound+i)+csi(k)*conjg(cc(i,k))  */
+                csi[0][n_bound + i] = csi[0][n_bound + i] + csi[0][k] * cc[0][i][k] + csi[1][k] * cc[1][i][k];
+                csi[1][n_bound + i] = csi[1][n_bound + i] - csi[0][k] * cc[1][i][k] + csi[1][k] * cc[0][i][k];
+            }  /* for k */
+        }    /* for i */
+
+/*  develop this part of wf (using periodic bc)  */
+
+        fft( n_bound2, bfou, bsi, -1 );
+        fft( n_bound2, bfou, csi, -1 );
+        if( mode != PACKET ) {
+            fft( n_bound2, bfou, xsi, -1 );
+        }
+/*
+   do the momentum space updating and normalization
+*/
+        for( int i = 0; i < n_bound2; i++ ) {
+            double a = bsi[0][i];
+            double b = bsi[1][i];
+            bsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
+            bsi[1][i] = a * bksq[1][i] + b * bksq[0][i];
+
+            a = csi[0][i];
+            b = csi[1][i];
+            csi[0][i] = a * bksq[0][i] - b * bksq[1][i];
+            csi[1][i] = a * bksq[1][i] + b * bksq[0][i];
+
+            if( mode != PACKET ) {
+                a = xsi[0][i];
+                b = xsi[1][i];
+                xsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
+                xsi[1][i] = a * bksq[1][i] + b * bksq[0][i];
+            }
+        }
+
+/*   inverse transform to position space   */
+
+        fft( n_bound2, bfou, bsi, 1 );
+        fft( n_bound2, bfou, csi, 1 );
+        if( mode != PACKET ) {
+            fft( n_bound2, bfou, xsi, 1 );
+        }
+
+/*   fourier transform the wavefunction:  */
+
+        fft( nn, cfo, psi, -1 );
+
+/*   do the momentum space updating and normalization  */
+
+        for( int i = 0; i < nn; i++ ) {
+            double a = psi[0][i];
+            double b = psi[1][i];
+            psi[0][i] = a * cenerg[0][i] - b * cenerg[1][i];
+            psi[1][i] = a * cenerg[1][i] + b * cenerg[0][i];
+        }
+
+/*   inverse transform to position space  */
+
+        fft( nn, cfo, psi, 1 );
+
+/* interpolate the boundary region between the two forms of solutions  */
+
+
+        for( int i = 0; i < nbo; i++ ) {
+            for( int j = 0; j < 2; j++ ) {
+                psi[j][nn - nbo + i] = bsi[j][nbo + i];
+                if( mode == PACKET ) {
+                    psi[j][i] = csi[j][i];
+                }
+                else {
+                    psi[j][i] = csi[j][i] + xsi[j][i];
+                }
+            }
+        }
     }
 
     private void initAlgorithm() {
@@ -614,10 +591,6 @@ c  */
         offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
         g.drawImage( offImage, 0, 0, this );
 
-        if( loop == looper ) {
-            g.drawString( "Psi[" + mu + "]=" + psi[0][mu] + " " + psi[1][mu] + " end of loop", 10, linen += 10 );
-            g.drawString( "psi_scale=" + psi_scale, 10, linen += 10 );
-        }
     }
 
     private int getAxis() {
