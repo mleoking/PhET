@@ -61,6 +61,7 @@ public class SliderControl extends JPanel implements ChangeListener {
     /**
      * Constructor.
      * 
+     * @param value initial value (model coordinates)
      * @param min minimum value (model coordinates)
      * @param max maximum value (model coordinates)
      * @param tickSpacing space between tick marks (model coordinates)
@@ -70,7 +71,8 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param insets insets
      * @throws IllegalArgumentException
      */
-    public SliderControl( 
+    public SliderControl(
+            double value,
             double min, 
             double max, 
             double tickSpacing,
@@ -117,6 +119,7 @@ public class SliderControl extends JPanel implements ChangeListener {
             _slider = new JSlider();
             _slider.setMinimum( (int) ( _min * _multiplier ) );
             _slider.setMaximum( (int) ( _max * _multiplier ) );
+            _slider.setValue( (int) ( value * _multiplier ) );
 
             // Ticks
             _slider.setMajorTickSpacing( (int) ( ( _max - _min ) * _multiplier ) );
@@ -146,6 +149,7 @@ public class SliderControl extends JPanel implements ChangeListener {
     /**
      * Constructor. Same as other constructor, but uses default insets.
      * 
+     * @param value
      * @param min
      * @param max
      * @param tickSpacing
@@ -154,13 +158,14 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param labelFormat
      */
     public SliderControl( 
+            double value,
             double min, 
             double max, 
             double tickSpacing,
             int tickPrecision,
             int labelPrecision,
             String labelFormat  ) {
-        this( min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, null );
+        this( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, null );
     }
     
     //----------------------------------------------------------------------------
@@ -216,7 +221,9 @@ public class SliderControl extends JPanel implements ChangeListener {
      */
     public void setInverted( boolean inverted ) {
         if ( isInverted() != inverted ) {
+            double value = getValue();
             _slider.setInverted( inverted );
+            setValue( value );
             updateTickLabels();
         }
     }
