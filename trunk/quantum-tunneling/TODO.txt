@@ -46,6 +46,7 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/22/06) - fix bug in RichardsonSolver.isSolutionZero; should be zero based on wave packet center
 (2/21/06) - fix title comment in SimStrings file, remove redundant control panel width specification
 0.00.15...
 (2/20/06) - move color legends closer to their checkboxes in control panel
