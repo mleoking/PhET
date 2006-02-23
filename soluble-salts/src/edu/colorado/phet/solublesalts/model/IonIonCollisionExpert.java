@@ -46,13 +46,14 @@ public class IonIonCollisionExpert implements CollisionExpert {
                 && model.isNucleationEnabled() ) {
 
                 if( ionA.isBound() ) {
-                    ionA.getBindingCrystal().addIon( ionB, ionA );
+                    ionA.getBindingCrystal().addIonNextToIon( ionB, ionA );
                 }
                 else if( ionB.isBound() ) {
-                    ionB.getBindingCrystal().addIon( ionA, ionB );
+                    ionB.getBindingCrystal().addIonNextToIon( ionA, ionB );
                 }
                 collisionOccured = true;
             }
+
             // If the ions are of like charge, then they should do a
             // hard-sphere collision
 //            if( contactDetector.areInContact( ionA, ionB )
