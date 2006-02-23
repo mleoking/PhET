@@ -437,29 +437,21 @@ public class RichardsonSolver {
     }
     
     /**
-     * The wave function solution should be zero if the first 
-     * region encountered by the wave (dependent on direction)
-     * has E < V. (where E=total energy, V=potential energy)
+     * The wave function solution should be zero if the region that the wave packet
+     * is centered in has E < V. (where E=total energy, V=potential energy)
      * 
      * @return true or false
      */
     protected boolean isSolutionZero() {
-        
-        boolean isZero = false;
-        AbstractPotential pe = _wavePacket.getPotentialEnergy();
-        
+        // E
         final double E = _wavePacket.getTotalEnergy().getEnergy();
-        final int firstRegionIndex = 0;
-        final int lastRegionIndex = pe.getNumberOfRegions() - 1;
         
-        if ( _wavePacket.isLeftToRight() && E < pe.getEnergy( firstRegionIndex ) ) {
-            isZero = true;
-        }
-        else if ( _wavePacket.isRightToLeft() && E < pe.getEnergy( lastRegionIndex ) ) {
-            isZero = true;
-        }
+        // V at wave packet's center
+        AbstractPotential pe = _wavePacket.getPotentialEnergy();
+        final int regionIndex = pe.getRegionIndexAt( _wavePacket.getCenter() );
+        final double V = pe.getEnergy( regionIndex );
         
-        return isZero;
+        return E < V;
     }
      
     /**
