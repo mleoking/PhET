@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- draw region markers with a PNode instead of updating chart image, so that PE drag handles are snappier
+- draw region markers with a PNode instead of updating chart image (verified that PE drag handles are snappier)
 - get rid of wave packet reflection at boundaries
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
