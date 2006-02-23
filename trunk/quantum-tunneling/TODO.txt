@@ -5,8 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- cache the total energy gradient as an image, update only when necessary
-- draw region markers with a PNode so that drag handles are snappier
+- draw region markers with a PNode instead of updating chart image, so that PE drag handles are snappier
 - get rid of wave packet reflection at boundaries
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
@@ -14,15 +13,13 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - parts of help items outside play area don't draw/erase when clock is running
+- zoom buttons sometimes aren't drawn or look transparent
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
 
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
-- Y axis labels move when zooming causes range to change
-- improve "About" dialog, add build number and logo
 
 OPTIMIZATIONS:
-- reduce the range of energy; smaller (E-V) means we can use a larger x-axis step
 - flatten static elements
 - setPickable(false) on non-interactive graphics
 
@@ -35,15 +32,6 @@ CLEANUP:
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
-PHETCOMMON:
-
-
-JFREECHART:
-- CombinedDomainXYPlot.addDomainMarker doesn't do anything
-- XYTextAnnotation doesn't support HTML
-
-MACINTOSH:
-- AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
 (2/22/06) - EnergyPlot total energy plot should update when wave packet's width or center changes, not when it propagates
@@ -396,6 +384,9 @@ DONE:
 
 
 REJECTED:
+(2/22/06) - cache the total energy gradient as an image, update only when necessary (there would be negligible benfit; the times it needs to change are when we're things are sluggish)
+(2/22/06) - improve "About" dialog, add build number and logo (phetcommon, no one has asked for this)
+(2/22/06) - Y axis labels move when zooming causes range to change (JFreeChart behavior, no one has complained)
 (2/20/06) - Wiggle Me (none requested)
 (2/20/06 ) - select entire spinner value when it gets focus in Configure dialog (see bugs.sun.com, Bug ID 4699955)
 (2/16/06) - disable chart gridlines to improve drag handle responsiveness (no longer an issue, entire chart is an image)
