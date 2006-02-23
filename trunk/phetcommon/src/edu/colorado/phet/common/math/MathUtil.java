@@ -163,6 +163,19 @@ public class MathUtil {
     }
 
     /**
+     * Tells if two Point2D objects are equal by value, within a specified eps
+     *
+     * @param p1
+     * @param p2
+     * @param eps The tolerance to be applied the to equality test
+     * @return true if the points are equal by value within epsilon of each other
+     */
+    public static boolean isApproxEqual( Point2D p1, Point2D p2, double eps ) {
+        return MathUtil.isApproxEqual( p1.getX(), p2.getX(), eps )
+               && MathUtil.isApproxEqual( p1.getY(), p2.getY(), eps );
+    }
+
+    /**
      * Tells if two double values are equal, within a specified tolerance
      *
      * @param x
