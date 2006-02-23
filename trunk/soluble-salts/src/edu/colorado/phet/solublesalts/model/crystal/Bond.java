@@ -45,11 +45,20 @@ public class Bond {
         nodes[0] = node;
     }
 
+    public Node getOrigin() {
+        return nodes[0];
+    }
+
     public void setDestination( Node node ) {
         if( nodes[1] != null ) {
             throw new RuntimeException( "destination already set" );
         }
         nodes[1] = node;
+    }
+
+
+    public Node getDestination() {
+        return nodes[1];
     }
 
     public void setOrientation( double orientation ) {
@@ -112,7 +121,7 @@ public class Bond {
         if( nodes[0] == node ) {
             nodes[0] = nodes[1];
             nodes[1] = null;
-            setOrientation( getOrientation() + Math.PI );
+            setOrientation( ( getOrientation() + Math.PI ) % ( Math.PI * 2 ) );
         }
         else if( nodes[1] == node ) {
             nodes[1] = null;

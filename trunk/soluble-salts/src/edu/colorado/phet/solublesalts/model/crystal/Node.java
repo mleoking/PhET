@@ -13,7 +13,6 @@ package edu.colorado.phet.solublesalts.model.crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,11 @@ public class Node {
     private Ion ion;
     private List bonds = new ArrayList();
 
+    /**
+     * Only constructor
+     *
+     * @param ion
+     */
     public Node( Ion ion ) {
         this.ion = ion;
     }
@@ -54,12 +58,10 @@ public class Node {
     }
 
     /**
-     * Sets the theta of all the node's bond to be based off a given
-     * angle.
+     * Sets the theta of all the node's bond to be based off a given angle.
      *
      * @param theta
      */
-
     public void setBaseOrientation( double theta ) {
         // Get the current base theta of the bonds
         double baseOrientation = ( (Bond)bonds.get( 0 ) ).getOrientation();
@@ -72,32 +74,19 @@ public class Node {
         }
     }
 
-    public int getNumOpenBonds() {
-        int cnt = 0;
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
-            cnt += bond.isOpen() ? 1 : 0;
-        }
-        return cnt;
-    }
-
     /**
-     * Returns a double that characterizes how strongly the node it bound. It is the quotient of
-     * the number of open bonds whose open ends are within specified bounds divided by the
-     * node's total number of bonds. A low binding metric indicates a tightly bound node.
+     * Tells if this node is the origin of any bonds that have nodes at their destinations
      *
-     * @param bounds
      * @return
      */
-    public double getBindingMetric( Rectangle2D bounds ) {
-        double numOpenBonds = 0;
-        for( int i = 0; i < bonds.size(); i++ ) {
+    public boolean hasNoChildren() {
+        boolean result = true;
+        for( int i = 0; i < bonds.size() && result == true; i++ ) {
             Bond bond = (Bond)bonds.get( i );
-            numOpenBonds += bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ? 1 : 0;
+            if( bond.getOrigin() == this && bond.getDestination() != null ) {
+                result = false;
+            }
         }
-        if( numOpenBonds / bonds.size() == 0 ) {
-            System.out.println( "Node.getBindingMetric" );
-        }
-        return numOpenBonds / bonds.size();
+        return result;
     }
 }

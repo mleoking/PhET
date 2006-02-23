@@ -47,21 +47,35 @@ public class PlainCubicLattice extends Lattice_new_new {
     public static void main( String[] args ) {
         Ion a = new Sodium();
         a.setPosition( 300, 400 );
-        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
+        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( 10 ) );
+//        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
         l.addIon( a );
+
         Ion b = new Chlorine();
         b.setPosition( new Point2D.Double( 290, 400 ) );
-        l.addIon( b );
+        l.addIonNextToIon( b, a );
+
+        Ion a2 = new Sodium();
+        a2.setPosition( 290, 390 );
+        l.addIonNextToIon( a2, b );
 
         Ion b2 = new Chlorine();
-        b2.setPosition( new Point2D.Double( 290, 400 ) );
-        l.addIon( b2 );
+        b2.setPosition( new Point2D.Double( 300, 390 ) );
+        l.addIonNextToIon( b2, a );
+
+        Ion b3 = new Chlorine();
+        b3.setPosition( new Point2D.Double( 300, 390 ) );
+        l.addIonNextToIon( b3, a2 );
+
+        Ion a3 = new Sodium();
+        a3.setPosition( 290, 410 );
+        l.addIonNextToIon( a3, b3 );
 
         printLattice( l );
 
 //        l.releaseIon( 10 );
 
-        printLattice( l );
+//        printLattice( l );
 
 //        PlainCubicForm pcf = (PlainCubicForm)l.getForm();
 //        List ap = pcf.getNeighboringSites( a.getPosition(), Math.PI / 4 );

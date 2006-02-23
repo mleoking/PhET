@@ -189,12 +189,19 @@ public class Crystal extends Body {
                 seed = testIon;
             }
         }
+
+        // Sanity check
         if( seed == null ) {
             throw new RuntimeException( "seed == null" );
         }
         setSeed( seed );
     }
 
+    /**
+     * Sets the bounds in which the crystal can grow
+     *
+     * @param vessel
+     */
     void setWaterBounds( Vessel vessel ) {
         waterBounds = vessel.getWater().getBounds();
         lattice.setBounds( waterBounds );
@@ -249,10 +256,12 @@ public class Crystal extends Body {
      * @param ionB The ion next to which the other ion should be placed
      * @return
      */
-    public boolean addIon( Ion ionA, Ion ionB ) {
+    public boolean addIonNextToIon( Ion ionA, Ion ionB ) {
         boolean added = false;
 
+        // If the ion is prevented from binding, don't do anything
         if( noBindList.contains( ionB ) ) {
+            System.out.println( "Crystal.addIonNextToIon: on nobind list" );
             return false;
         }
 
@@ -278,17 +287,20 @@ public class Crystal extends Body {
                     if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
                         && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
                         && ion1 != ionA ) {
-                        System.out.println( "Crystal.addIon" );
+                        System.out.println( "Crystal.addIonNextToIon" );
                         removeIon( ionA );
-                        lattice.addAtIonNode( ionA, ionB );
-                        for( int j = 0; j < ions.size(); j++ ) {
-                            Ion ion = (Ion)ions.get( j );
-                            if( Math.abs( ion.getPosition().getX() - ionA.getPosition().getX() ) < 2
-                                && Math.abs( ion.getPosition().getY() - ionA.getPosition().getY() ) < 2
-                                && ion != ionA ) {
-                                System.out.println( "Crystal.addIon" );
-                            }
-                        }
+                        ionA.unbindFrom( this );
+                        added = false;
+                        updateCm();
+//                        lattice.addAtIonNode( ionA, ionB );
+//                        for( int j = 0; j < ions.size(); j++ ) {
+//                            Ion ion = (Ion)ions.get( j );
+//                            if( Math.abs( ion.getPosition().getX() - ionA.getPosition().getX() ) < 2
+//                                && Math.abs( ion.getPosition().getY() - ionA.getPosition().getY() ) < 2
+//                                && ion != ionA ) {
+//                                System.out.println( "Crystal.addIonNextToIon" );
+//                            }
+//                        }
                     }
                 }
             }
@@ -310,9 +322,16 @@ public class Crystal extends Body {
         boolean added = false;
 
         if( noBindList.contains( ion ) ) {
+            System.out.println( "Crystal.addIon: on nobind list" );
             return false;
         }
         else if( true ) {
+
+            // Sanity check
+            if( ions.size() > 0 ) {
+                throw new RuntimeException( "ions.size() > 0" );
+            }
+
             added = lattice.add( ion );
             if( added ) {
                 ions.add( ion );
@@ -321,7 +340,7 @@ public class Crystal extends Body {
             }
         }
 
-        // debug
+        // Debug: Sanity check to see ifwe are putting an ion where one already is
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion1 = (Ion)ions.get( i );
             if( Math.abs( ion1.getPosition().getX() - ion.getPosition().getX() ) < 2
@@ -334,7 +353,7 @@ public class Crystal extends Body {
     }
 
     /**
-     * This method is only to be used when a client remves an ion from the
+     * This method is only to be used when a client removes an ion from the
      * crystal. It is not to be used when the crystal itself releases the ion
      *
      * @param ion
@@ -355,7 +374,7 @@ public class Crystal extends Body {
      * @param dt
      */
     public void releaseIon( double dt ) {
-        Ion ionToRelease = lattice.getLeastBoundIon( getIons(), 0 );
+        Ion ionToRelease = lattice.getLeastBoundIon( getIons() );
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
@@ -403,12 +422,21 @@ public class Crystal extends Body {
             return ionToRelease.getVelocity();
         }
 
+        if( true ) {
+            double angle = random.nextDouble() * Math.PI * 2;
+            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+//            return releaseVelocity;
+        }
+
         // Get the unoccupied sites around the ion being release
         List openSites = lattice.getOpenNeighboringSites( ionToRelease );
 
         if( openSites.size() == 0 ) {
-            System.out.println( "openSites.size() = " + openSites.size() );
-            return new Vector2D.Double();
+            double angle = random.nextDouble() * Math.PI * 2;
+            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            return releaseVelocity;
+//            System.out.println( "openSites.size() = " + openSites.size() );
+//            return new Vector2D.Double();
         }
 
         double maxAngle = Double.MIN_VALUE;
@@ -461,7 +489,8 @@ public class Crystal extends Body {
 
         // Sanity check
         if( releaseVelocity.getMagnitude() < 0.0001 ) {
-            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
+            System.out.println( "Crystal.determineReleaseVelocity < 0.0001" );
+//            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
         }
         return releaseVelocity;
     }
@@ -555,6 +584,7 @@ public class Crystal extends Body {
         public void run() {
             try {
                 Thread.sleep( SolubleSaltsConfig.RELEASE_ESCAPE_TIME );
+                Thread.sleep( 5000 );
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();
