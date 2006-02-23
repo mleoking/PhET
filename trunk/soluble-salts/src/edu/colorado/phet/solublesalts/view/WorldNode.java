@@ -56,7 +56,7 @@ public class WorldNode extends PNode {
         {
             Shaker shaker = model.getShaker();
             RegisterablePNode shakerGraphic = new ShakerGraphic( shaker );
-            shakerGraphic.setRegistrationPoint( shakerGraphic.getFullBounds().getWidth() / 2,
+            shakerGraphic.setRegistrationPoint( shakerGraphic.getFullBounds().getWidth() / 3,
                                                 shakerGraphic.getFullBounds().getHeight() / 2 );
             shakerGraphic.rotateInPlace( -Math.PI / 4 );
             shakerGraphic.setOffset( shaker.getPosition().getX(), shaker.getPosition().getY() );

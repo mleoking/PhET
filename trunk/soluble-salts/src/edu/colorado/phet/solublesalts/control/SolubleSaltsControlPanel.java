@@ -58,8 +58,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 //        saltMap.put( "Mercury Bromide", new MercuryBromide() );
     }
 
-    static private String defaultSalt = "Silver Iodide";
-//    static private String defaultSalt = "Mercury Bromide";
+//    static private String DEFAULT_SALT_NAME = "Mercury Bromide";
 
     //----------------------------------------------------------------
     // Instance data and methods
@@ -179,7 +178,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 revalidate();
             }
         } );
-        comboBox.setSelectedItem( defaultSalt );
+        comboBox.setSelectedItem( SolubleSaltsConfig.DEFAULT_SALT_NAME );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();

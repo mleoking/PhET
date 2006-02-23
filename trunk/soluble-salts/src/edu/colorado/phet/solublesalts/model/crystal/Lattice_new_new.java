@@ -72,9 +72,9 @@ public abstract class Lattice_new_new {
         // If this is the second ion, the we need to establish orientation for the seed node's bonds
         else if( nodes.size() == 1 && ( (Node)nodes.get( 0 ) ).getPolarity() * ion.getCharge() < 0 ) {
 
-            if( true ) {
-                throw new RuntimeException( "shouldn't be used A" );
-            }
+//            if( true ) {
+//                throw new RuntimeException( "shouldn't be used A" );
+//            }
 
             Node originNode = (Node)nodes.get( 0 );
             double orientation = MathUtil.getAngle( originNode.getPosition(), ion.getPosition() );
@@ -89,9 +89,9 @@ public abstract class Lattice_new_new {
         // Fimd an open bond that will accept an ion of the right polarity
         else {
 
-            if( true ) {
-                throw new RuntimeException( "shouldn't be used B" );
-            }
+//            if( true ) {
+//                throw new RuntimeException( "shouldn't be used B" );
+//            }
 
             for( int i = 0; i < nodes.size(); i++ ) {
                 Node node = (Node)nodes.get( i );
@@ -346,6 +346,10 @@ public abstract class Lattice_new_new {
             oldSeed = seed;
         }
         seed = seedIon;
+
+        // Make all the bonds radiate out from the seed
+        new SeedSetter().setSeed( seed );
+
         seed.notifyObservers();
         if( oldSeed != null ) {
             oldSeed.notifyObservers();
@@ -390,6 +394,37 @@ public abstract class Lattice_new_new {
     abstract public Object clone();
 
 
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    private class SeedSetter {
+
+        void setSeed( Ion ion ) {
+            Node node = getNode( ion );
+            visitNode( node, new ArrayList(), null );
+        }
+
+        private void visitNode( Node node, List nodesVisited, Bond incomingBond ) {
+            List bonds = node.getBonds();
+            nodesVisited.add( node );
+            for( int i = 0; i < bonds.size(); i++ ) {
+                Bond bond = (Bond)bonds.get( i );
+                if( bond != incomingBond && bond.getOrigin() != node ) {
+                    Node otherNode = bond.getOrigin();
+                    bond.removeNode( otherNode );
+                    bond.removeNode( node );
+                    bond.setOrigin( node );
+                    bond.setDestination( otherNode );
+                }
+                Node destinationNode = bond.getDestination();
+                if( destinationNode != null && !nodesVisited.contains( destinationNode ) ) {
+                    visitNode( destinationNode, nodesVisited, bond );
+                }
+            }
+        }
+    }
+
     /**
      * Test code
      *
@@ -400,6 +435,7 @@ public abstract class Lattice_new_new {
                                                            Hydroxide.class,
                                                            Copper.RADIUS + Hydroxide.RADIUS );
         testLattice.setBounds( new Rectangle2D.Double( 0, 0, 1000, 1000 ) );
+
         Ion ion1 = new Copper();
         ion1.setPosition( 10, 15 );
         testLattice.add( ion1 );

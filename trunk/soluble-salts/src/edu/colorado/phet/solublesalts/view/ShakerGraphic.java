@@ -58,6 +58,12 @@ public class ShakerGraphic extends RegisterablePNode {
                     setOffset( p.getX(), p.getY() + dy );
                     ShakerGraphic.this.shaker.shake( dy );
                 }
+
+                // If the shaker moved up, then reset it so it can shake out more salt the next time it
+                // moves down
+                if( dy < 0 ) {
+                    ShakerGraphic.this.shaker.reset();
+                }
             }
 
             public void mousePressed( PInputEvent event ) {
