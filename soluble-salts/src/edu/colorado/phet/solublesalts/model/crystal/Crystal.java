@@ -264,7 +264,7 @@ public class Crystal extends Body {
         boolean added = false;
 
         // If the ion is prevented from binding, don't do anything
-        if( noBindList.contains( ionB ) ) {
+        if( noBindList.contains( ionA ) ) {
             System.out.println( "Crystal.addIonNextToIon: on nobind list" );
             return false;
         }
@@ -291,7 +291,7 @@ public class Crystal extends Body {
                     if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
                         && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
                         && ion1 != ionA ) {
-                        System.out.println( "Crystal.addIonNextToIon" );
+                        System.out.println( "dupes" );
                         removeIon( ionA );
                         ionA.unbindFrom( this );
                         added = false;
@@ -310,7 +310,7 @@ public class Crystal extends Body {
             }
 
             // Sanity check
-            if( !waterBounds.contains( ionA.getPosition() ) ) {
+            if( added && !waterBounds.contains( ionA.getPosition() ) ) {
                 throw new RuntimeException( "!waterBounds.contains( ionA.getPosition() )" );
             }
 
@@ -429,6 +429,7 @@ public class Crystal extends Body {
         if( true ) {
             double angle = random.nextDouble() * Math.PI * 2;
             Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+//            System.out.println( "releaseVelocity.getMagnitude() = " + releaseVelocity.getMagnitude() );
 //            return releaseVelocity;
         }
 
@@ -588,7 +589,6 @@ public class Crystal extends Body {
         public void run() {
             try {
                 Thread.sleep( SolubleSaltsConfig.RELEASE_ESCAPE_TIME );
-                Thread.sleep( 5000 );
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();
