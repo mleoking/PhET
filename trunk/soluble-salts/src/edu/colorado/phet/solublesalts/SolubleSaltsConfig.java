@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
 public class SolubleSaltsConfig {
 
     // Descriptive information
-    public static final String TITLE = "Soluble Salts";
+    public static final String TITLE = "Slightly Soluble Salts";
     public static final String DESCRIPTION = "Soluble Salts";
     public static final String VERSION = "0.00.01";
 
@@ -67,11 +67,6 @@ public class SolubleSaltsConfig {
     // be bound to that lattice again
     public static final long RELEASE_ESCAPE_TIME = 2000;
 
-    // Debug flags
-    public static boolean RANDOM_WALK = false;
-    public static boolean ONE_CRYSTAL_ONLY = false;
-    public static boolean DEBUG = false;
-
     // An ion will bind to another if it is within a distance of the open binding site that is less than or
     // equal to this many times the free ion's radius
     public static double BINDING_DISTANCE_FACTOR = 2;
@@ -81,4 +76,8 @@ public class SolubleSaltsConfig {
 //    public static double CONCENTRATION_CALIBRATION_FACTOR = 1E-6;
     public static double VOLUME_CALIBRATION_FACTOR = 580E-16 / 500;
 
+    // Debug flags
+    public static boolean RANDOM_WALK = false;
+    public static boolean ONE_CRYSTAL_ONLY = false;
+    public static boolean DEBUG = false;
 }

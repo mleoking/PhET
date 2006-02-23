@@ -32,6 +32,10 @@ import java.util.HashMap;
 public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.ChangeListener,
                                                         Ion.ChangeListener {
 
+    //----------------------------------------------------------------
+    // Class fields
+    //----------------------------------------------------------------
+
     static private HashMap ionClassToName = new HashMap();
 
     static {
@@ -50,6 +54,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     }
 
 
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     Salt salt;
     IonSpinner anionSpinner;
     IonSpinner cationSpinner;
@@ -64,7 +72,11 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     public SaltSpinnerPanel.IonSpinnerChangeListener cationSpinnerListener;
     private JTextField numFreeAnionTF;
     private JTextField numFreeCationTF;
+    private final int maxIons = 300;
 
+    /**
+     * @param model
+     */
     public SaltSpinnerPanel( final SolubleSaltsModel model ) {
         super( new GridBagLayout() );
         this.model = model;
@@ -150,6 +162,9 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         } );
     }
 
+    /**
+     *
+     */
     private void syncSpinnersWithModel() {
         anionSpinner.setSyncWithDependentIonspinner( false );
         anionSpinner.setValue( new Integer( model.getNumIonsOfType( anionClass ) ) );
@@ -161,6 +176,9 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         numFreeCationTF.setText( new Integer( model.getNumFreeIonsOfType( cationClass ) ).toString() );
     }
 
+    /**
+     * @param salt
+     */
     public void setSalt( Salt salt ) {
         if( salt.getAnionClass() != this.anionClass ) {
             this.anionClass = salt.getAnionClass();
@@ -195,7 +213,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
                 cationRatio = component.getLatticeUnitFraction().intValue();
             }
         }
-        anionSpinner.setModel( new SpinnerNumberModel( 0, 0, 300, anionRatio ) );
+        anionSpinner.setModel( new SpinnerNumberModel( 0, 0, maxIons, anionRatio ) );
         anionSpinner.removeChangeListener( anionSpinnerListener );
         anionSpinnerListener = new SaltSpinnerPanel.IonSpinnerChangeListener( anionSpinner,
                                                                               cationSpinner,
@@ -204,7 +222,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
                                                                               cationRatio );
         anionSpinner.addChangeListener( anionSpinnerListener );
 
-        cationSpinner.setModel( new SpinnerNumberModel( 0, 0, 300, cationRatio ) );
+        cationSpinner.setModel( new SpinnerNumberModel( 0, 0, maxIons, cationRatio ) );
         cationSpinner.removeChangeListener( cationSpinnerListener );
         cationSpinnerListener = new SaltSpinnerPanel.IonSpinnerChangeListener( cationSpinner,
                                                                                anionSpinner,

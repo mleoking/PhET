@@ -309,6 +309,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             readout = new JTextField( 6 );
             readout.setHorizontalAlignment( JTextField.RIGHT );
             readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+            readout.setEditable( false );
             gbc.gridx++;
             add( readout, gbc );
         }
