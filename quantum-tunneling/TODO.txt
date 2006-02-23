@@ -6,12 +6,12 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - draw region markers with a PNode instead of updating chart image (verified that PE drag handles are snappier)
-- get rid of wave packet reflection at boundaries
-- set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
-- fix dt in Richardson algorithm so that it is related to clock dt
-- replace Richardson algoritm
+- replace Richardson algorithm
+- eliminate reflection at boundaries
 
 MEDIUM PRIORITY:
+- set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
+- fix dt in Richardson algorithm so that it is related to clock dt
 - parts of help items outside play area don't draw/erase when clock is running
 - zoom buttons sometimes aren't drawn or look transparent
 - wait cursors on controls (configure, measure, zoom, reset, potential, load/save)
