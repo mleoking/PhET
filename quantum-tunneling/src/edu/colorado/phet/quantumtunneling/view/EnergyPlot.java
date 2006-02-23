@@ -49,7 +49,9 @@ public class EnergyPlot extends XYPlot implements Observer {
     private AbstractPotential _potentialEnergy;
     private TotalEnergy  _totalEnergy;
     private WavePacket _wavePacket;
-    private PlaneWave _planeWave;
+    
+    private double _previousWavePacketWidth = Double.NaN;
+    private double _previousWavePacketCenter = Double.NaN;
     
     // View
     private XYSeries _totalEnergySeries;
@@ -175,20 +177,6 @@ public class EnergyPlot extends XYPlot implements Observer {
     }
     
     /**
-     * Sets the plane wave.
-     * 
-     * @param planeWave
-     */
-    public void setPlaneWave( PlaneWave planeWave ) {
-        if ( _planeWave != null ) {
-            _planeWave.deleteObserver( this );
-        }
-        _planeWave = planeWave;
-        _planeWave.addObserver( this );
-        updateTotalEnergy();
-    }
-    
-    /**
      * Displays the total energy based on the wave packet.
      */
     public void showWavePacket() {
@@ -235,10 +223,9 @@ public class EnergyPlot extends XYPlot implements Observer {
             updateTotalEnergy();
         }
         else if ( observable == _wavePacket ) {
-            updateTotalEnergy();
-        }
-        else if ( observable == _planeWave ) {
-            updateTotalEnergy();
+            if ( _wavePacket.getWidth() != _previousWavePacketWidth || _wavePacket.getCenter() != _previousWavePacketCenter ) {
+                updateTotalEnergy();
+            }
         }
     }
     
@@ -265,6 +252,11 @@ public class EnergyPlot extends XYPlot implements Observer {
             _totalEnergySeries.add( range.getLowerBound(), _totalEnergy.getEnergy() );
             _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
             _totalEnergySeries.setNotify( true );
+            
+            if ( _wavePacket != null ) {
+                _previousWavePacketWidth = _wavePacket.getWidth();
+                _previousWavePacketCenter = _wavePacket.getCenter();
+            }
         }
     }
     
