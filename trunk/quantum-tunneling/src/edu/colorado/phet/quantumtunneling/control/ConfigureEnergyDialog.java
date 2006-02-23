@@ -242,7 +242,6 @@ public class ConfigureEnergyDialog extends JDialog {
             _energyPlot.setTotalEnergy( _totalEnergy );
             _energyPlot.setPotentialEnergy( _potentialEnergy );
             _energyPlot.setWavePacket( _wavePacket );
-            _energyPlot.setPlaneWave( _planeWave );
             if ( _wavePacket.isEnabled() ) {
                 _energyPlot.showWavePacket();
             }

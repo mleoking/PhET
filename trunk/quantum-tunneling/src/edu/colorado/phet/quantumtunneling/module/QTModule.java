@@ -479,7 +479,6 @@ public class QTModule extends AbstractModule implements Observer {
             _singleBarrierPotential = new SingleBarrierPotential();
             _doubleBarrierPotential = new DoubleBarrierPotential();
             
-            _energyPlot.setPlaneWave( _planeWave );
             _energyPlot.setWavePacket( _wavePacket );
         }
         

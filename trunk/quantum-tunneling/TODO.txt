@@ -46,6 +46,8 @@ MACINTOSH:
 - AquaOptionPaneUI adds option buttons in reverse order of other platforms
 
 DONE:
+(2/22/06) - EnergyPlot total energy plot should update when wave packet's width or center changes, not when it propagates
+(2/22/06) - EnergyPlot should not be an observer of the plane wave
 (2/22/06) - fix bug in RichardsonSolver.isSolutionZero; should be zero based on wave packet center
 (2/21/06) - fix title comment in SimStrings file, remove redundant control panel width specification
 0.00.15...
