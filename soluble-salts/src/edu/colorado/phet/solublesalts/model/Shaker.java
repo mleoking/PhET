@@ -74,7 +74,7 @@ public class Shaker extends Particle {
         Ion ion = null;
         Crystal crystal = null;
 
-        if( !done ) {
+        if( !done && dy > 0 ) {
             // Debug: to shake only one crystal, uncomment the next line
             done = true;
             setPosition( getPosition().getX(), getPosition().getY() + dy );
@@ -84,7 +84,7 @@ public class Shaker extends Particle {
             double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
             Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
             v.rotate( theta );
-            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign();
+            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
             double x = getPosition().getX() + l * Math.cos( orientation );
             double y = getPosition().getY() + l * Math.sin( orientation );
             Point2D p = new Point2D.Double( x, y );
@@ -121,7 +121,8 @@ public class Shaker extends Particle {
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion1 = (Ion)ions.get( i );
                 ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
-                                  this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001 ) );
+                                  this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.1 ) );
+//                                  this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.001 ) );
                 model.addModelElement( ion1 );
             }
 
@@ -130,6 +131,8 @@ public class Shaker extends Particle {
             crystal = new Crystal( model, (Lattice_new_new)currentSalt.getLattice(), ions, null );
 //            crystal = new Crystal( model, (Lattice)currentSalt.getLattice(), ions, null );
             crystal.setVelocity( v );
+
+            System.out.println( "Shaker.shake" );
         }
     }
 }

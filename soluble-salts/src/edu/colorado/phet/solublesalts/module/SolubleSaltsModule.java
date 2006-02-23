@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -46,6 +47,11 @@ public class SolubleSaltsModule extends PiccoloModule {
     private Random random = new Random( System.currentTimeMillis() );
     private SSCanvas simPanel;
 
+    /**
+     * Only constructor
+     *
+     * @param clock
+     */
     public SolubleSaltsModule( IClock clock ) {
         super( SimStrings.get( "Module.title" ), clock );
 
@@ -67,8 +73,11 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the control panel
         setControlPanel( new SolubleSaltsControlPanel( this ) );
 
+        // Set the default salt
+        model.setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );
+
         // Add some ions for testing
-        createTestIons( model );
+//        createTestIons( model );
     }
 
     private void createTestIons( final SolubleSaltsModel model ) {

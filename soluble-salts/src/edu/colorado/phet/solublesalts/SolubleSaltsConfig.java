@@ -11,7 +11,7 @@
 package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.solublesalts.model.salt.Salt;
-import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
+import edu.colorado.phet.solublesalts.model.salt.SilverIodide;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -35,7 +35,8 @@ public class SolubleSaltsConfig {
     public static final int FPS = 25;
 
     // Defaults
-    public static final Salt DEFAULT_SALT = new SodiumChloride();
+    public static final Salt DEFAULT_SALT = new SilverIodide();
+    public static String DEFAULT_SALT_NAME = "Silver Iodide";
 
     // Physical things
 //    public static final double SCALE = 500 / 580E-16;

@@ -113,7 +113,8 @@ public class Crystal extends Body {
     }
 
     /**
-     * Creates a crystal from a list of ions. The first ion in the list is the seed
+     * Creates a crystal from a list of ions. The first ion in the list is the seed. This constructor
+     * makes a crystal regardless of whether the ions are in the water. It is used by the Shaker.
      *
      * @param model
      * @param lattice Prototype lattice. A clone is created for this crystal
@@ -123,8 +124,9 @@ public class Crystal extends Body {
         this.lattice = (Lattice_new_new)lattice.clone();
         this.model = model;
 
-        // Open up the bounds to include the whole model so we can make lattice
-        setWaterBounds( model.getVessel() );
+        // Open up the bounds to include the whole model so we can make the lattice
+        lattice.setBounds( model.getBounds() );
+//        setWaterBounds( model.getVessel() );
 
         // We need to interleave the positive and negative ions in the list, as much as possible, so the
         // lattice can be built out without any of them not finding an ion of the opposite polarity to
@@ -164,6 +166,8 @@ public class Crystal extends Body {
         }
 
         model.getVessel().addChangeListener( vesselListener );
+
+        // Reset the water bounds so that they will be respeced by other constructors
         setWaterBounds( model.getVessel() );
 
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
@@ -328,9 +332,9 @@ public class Crystal extends Body {
         else if( true ) {
 
             // Sanity check
-            if( ions.size() > 0 ) {
-                throw new RuntimeException( "ions.size() > 0" );
-            }
+//            if( ions.size() > 0 ) {
+//                throw new RuntimeException( "ions.size() > 0" );
+//            }
 
             added = lattice.add( ion );
             if( added ) {
