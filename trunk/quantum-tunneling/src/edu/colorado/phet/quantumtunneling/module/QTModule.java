@@ -92,16 +92,22 @@ public class QTModule extends AbstractModule implements Observer {
     private EnergyLegend _legend;
     private QTCombinedChartNode _chartNode;
     private QTCombinedChart _chart;
+    private QTRegionMarkerManager _regionMarkerManager;
     
     // Plots
     private EnergyPlot _energyPlot;
     private WaveFunctionPlot _waveFunctionPlot;
     private ProbabilityDensityPlot _probabilityDensityPlot;
     
-    // Nodes to draw plots separately from chart
+    // Nodes to plot datasets separately from chart
     private XYPlotNode _energyPlotNode;
     private XYPlotNode _waveFunctionPlotNode;
     private XYPlotNode _probabilityDensityPlotNode;
+    
+    // Nodes to draw markers separately from chart
+    private QTMarkerNode _energyMarkerNode;
+    private QTMarkerNode _waveFunctionMarkerNode;
+    private QTMarkerNode _probabilityDensityMarkerNode;
     
     // Control
     private PSwing _configureButton;
@@ -209,21 +215,45 @@ public class QTModule extends AbstractModule implements Observer {
             
             RenderingHints renderingHints = _chart.getRenderingHints();
             
-            _energyPlotNode = new XYPlotNode( _energyPlot );
-            _energyPlotNode.setRenderingHints( renderingHints );
-            _energyPlotNode.setName( "energyPlotNode" ); // debug
-            _parentNode.addChild( _energyPlotNode );
-
-            _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
-            _waveFunctionPlotNode.setRenderingHints( renderingHints );
-            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
-            _parentNode.addChild( _waveFunctionPlotNode );
+            // marker nodes
+            {
+                _energyMarkerNode = new QTMarkerNode( _energyPlot );
+                _energyMarkerNode.setRenderingHints( renderingHints );
+                _parentNode.addChild( _energyMarkerNode );
+                
+                _waveFunctionMarkerNode = new QTMarkerNode( _waveFunctionPlot );
+                _waveFunctionMarkerNode.setRenderingHints( renderingHints );
+                _parentNode.addChild( _waveFunctionMarkerNode );
+                
+                _probabilityDensityMarkerNode = new QTMarkerNode( _probabilityDensityPlot );
+                _probabilityDensityMarkerNode.setRenderingHints( renderingHints );
+                _parentNode.addChild( _probabilityDensityMarkerNode );
+            }
             
-            _probabilityDensityPlotNode = new XYPlotNode( _probabilityDensityPlot );
-            _probabilityDensityPlotNode.setRenderingHints( renderingHints );
-            _probabilityDensityPlotNode.setName( "probabilityDensityPlotNode" ); // debug
-            _parentNode.addChild( _probabilityDensityPlotNode );
-        } 
+            // plot nodes
+            {
+                _energyPlotNode = new XYPlotNode( _energyPlot );
+                _energyPlotNode.setRenderingHints( renderingHints );
+                _energyPlotNode.setName( "energyPlotNode" ); // debug
+                _parentNode.addChild( _energyPlotNode );
+
+                _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
+                _waveFunctionPlotNode.setRenderingHints( renderingHints );
+                _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
+                _parentNode.addChild( _waveFunctionPlotNode );
+
+                _probabilityDensityPlotNode = new XYPlotNode( _probabilityDensityPlot );
+                _probabilityDensityPlotNode.setRenderingHints( renderingHints );
+                _probabilityDensityPlotNode.setName( "probabilityDensityPlotNode" ); // debug
+                _parentNode.addChild( _probabilityDensityPlotNode );
+            }
+        }
+        
+        // Wire up the region marker manager after deciding which plots to use (above).
+        _regionMarkerManager = new QTRegionMarkerManager();
+        _regionMarkerManager.addPlot( _energyPlot );
+        _regionMarkerManager.addPlot( _waveFunctionPlot );
+        _regionMarkerManager.addPlot( _probabilityDensityPlot );
         
         //----------------------------------------------------------------------------
         // Control
@@ -385,7 +415,7 @@ public class QTModule extends AbstractModule implements Observer {
         Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
         Rectangle2D probabilityDensityPlotBounds = _chartNode.localToGlobal( _chartNode.getProbabilityDensityPlotBounds() );
         
-        // Plot nodes (these exist if JFreeChart is not drawing dynamic elements)
+        // Plot and marker nodes (these exist if JFreeChart is not drawing dynamic elements)
         {
             if ( _energyPlotNode != null ) {
                 _energyPlotNode.setOffset( 0, 0 );
@@ -398,6 +428,18 @@ public class QTModule extends AbstractModule implements Observer {
             if ( _probabilityDensityPlotNode != null ) {
                 _probabilityDensityPlotNode.setOffset( 0, 0 );
                 _probabilityDensityPlotNode.setDataArea( probabilityDensityPlotBounds );
+            }
+            if ( _energyMarkerNode != null ) {
+                _energyMarkerNode.setOffset( 0, 0 );
+                _energyMarkerNode.setDataArea( energyPlotBounds );
+            }
+            if ( _waveFunctionMarkerNode != null ) {
+                _waveFunctionMarkerNode.setOffset( 0, 0 );
+                _waveFunctionMarkerNode.setDataArea( waveFunctionPlotBounds );
+            }
+            if ( _probabilityDensityMarkerNode != null ) {
+                _probabilityDensityMarkerNode.setOffset( 0, 0 );
+                _probabilityDensityMarkerNode.setDataArea( probabilityDensityPlotBounds );
             }
         }
         
@@ -674,7 +716,7 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergy.addObserver( this );
 
             _energyPlot.setPotentialEnergy( potentialEnergy );
-            _chart.setRegionMarkers( _potentialEnergy );
+            _regionMarkerManager.setPotentialEnergy( _potentialEnergy );
             _controlPanel.setPotentialEnergy( _potentialEnergy );
             _potentialEnergyControls.setPotentialEnergy( _potentialEnergy );
             _planeWave.setPotentialEnergy( _potentialEnergy );

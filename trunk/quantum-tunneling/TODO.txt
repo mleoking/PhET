@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - publish 0.00.16 by 3:00PM on 2/24/06
-- draw region markers with a PNode instead of updating chart image (verified that PE drag handles are snappier)
 - replace Richardson algorithm
 - eliminate reflection at boundaries
 
@@ -35,6 +34,11 @@ CLEANUP:
 
 
 DONE:
+(2/24/06) - draw region markers with QTMarkerNode instead of QTCombinedChart
+(2/24/06) - add a "region marker manager" instead of having QTCombinedChart manage markers
+(2/24/06) - create a QTMarkerNode, a piccolo node for drawing JFreeChart markers directly
+(2/24/06) - change all plots to extend QTXYPlot so that we can draw their markers directly
+(2/24/06) - QTXYPlot extends XYPlot to make marker drawing methods public
 (2/24/06) - if measure button is pushed while wave packet solution is zero, don't change the packet's center
 (2/24/06) - don't pause the clock while dragging sliders, it's causing problems
 (2/22/06) - EnergyPlot total energy plot should update when wave packet's width or center changes, not when it propagates

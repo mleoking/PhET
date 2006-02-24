@@ -12,34 +12,28 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Font;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.TickUnits;
-import org.jfree.chart.plot.*;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
-import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
 
 
 /**
  * QTCombinedChart is a "combined chart" (in JFreeChart terminology).
  * It combines plots for "Energy", "Wave Function" and "Probability Density",
- * and has them share a common x-axis for "Position".  This combined 
- * chart also manages vertical region markers which indicate the
- * boundaries between potential energy regions.
+ * and has them share a common x-axis for "Position".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTCombinedChart extends JFreeChart implements Observer {
+public class QTCombinedChart extends JFreeChart {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -173,81 +167,11 @@ public class QTCombinedChart extends JFreeChart implements Observer {
     }
     
     /**
-     * Sets the potential energy model that is used to set region markers.
+     * Gets the chart's CombinedDomainXYPlot.
      * 
-     * @param potentialEnergy
+     * @return
      */
-    public void setRegionMarkers( AbstractPotential potentialEnergy ) {
-        if ( _potentialEnergy != null ) {
-            _potentialEnergy.deleteObserver( this );
-        }
-        _potentialEnergy = potentialEnergy;
-        _potentialEnergy.addObserver( this );
-        updateRegionMarkers();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Markers
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the region markers to match the the model.
-     */
-    private void updateRegionMarkers() {
-        clearRegionMarkers();
-        int numberOfRegions = _potentialEnergy.getNumberOfRegions();
-        for ( int i = 1; i < numberOfRegions; i++ ) {
-            double start = _potentialEnergy.getStart( i );
-            addRegionMarker( start );
-        }
-    }
-    
-    /*
-     * Adds a region marker at the specified position.
-     * A region marker is a vertical line that denotes the 
-     * boundary between two regions.
-     * 
-     * @param x
-     */
-    private void addRegionMarker( double x ) {
-
-        Marker marker = new ValueMarker( x );
-        marker.setPaint( QTConstants.REGION_MARKER_COLOR );
-        marker.setStroke( QTConstants.REGION_MARKER_STROKE );
-        
-        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
-        List subPlots = combinedPlot.getSubplots();
-        for ( int i = 0; i < subPlots.size(); i ++ ) {
-            XYPlot plot = (XYPlot) subPlots.get( i );
-            plot.addDomainMarker( marker );
-        }
-    }
-    
-    /*
-     * Clears all region markers.
-     */
-    private void clearRegionMarkers() {
-        CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) getPlot();
-        List subPlots = combinedPlot.getSubplots();
-        for ( int i = 0; i < subPlots.size(); i ++ ) {
-            XYPlot plot = (XYPlot) subPlots.get( i );
-            plot.clearDomainMarkers();
-        }
-    }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates region markers when the potential energy changes.
-     * 
-     * @param observable
-     * @param arg
-     */
-    public void update( Observable observable, Object arg ) {
-        if ( observable == _potentialEnergy ) {
-            updateRegionMarkers();
-        }
+    public CombinedDomainXYPlot getCombinedDomainXYPlot() {
+        return (CombinedDomainXYPlot) getPlot();
     }
 }
