@@ -5,14 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- publish 0.00.16 by 3:00PM on 2/24/06
 - replace Richardson algorithm
 - eliminate reflection at boundaries
+- possibly add sum/separate feature for wave packet
 
 MEDIUM PRIORITY:
 - set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
-- parts of help items outside play area don't draw/erase when clock is running
+- parts of help items in "static" areas of the screen don't draw/erase when clock is running
 - zoom buttons sometimes aren't drawn or look transparent
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
 
