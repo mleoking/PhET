@@ -199,12 +199,12 @@ public class Distribution implements Serializable, Cloneable {
         /**
          * Randomly selects an object from the distribution.
          * 
-         * @return an object
+         * @return an object, possibly null
          */
         public Object nextObject() {
             double totalWeight = _distribution.getTotalWeight();
             if ( totalWeight <= 0 ) {
-                throw new RuntimeException( "Cannot access elements in an empty distribution." );
+                return null;
             }
             final double value = _random.nextDouble() * totalWeight;
             double at = 0;
