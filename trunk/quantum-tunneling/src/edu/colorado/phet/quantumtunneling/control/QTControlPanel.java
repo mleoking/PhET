@@ -577,9 +577,6 @@ public class QTControlPanel extends AbstractControlPanel {
      */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
         
-        private boolean _clockIsRunning = false;
-        private boolean _sliderIsAdjusting = false;
-        
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
@@ -617,28 +614,11 @@ public class QTControlPanel extends AbstractControlPanel {
         }
         
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _widthSlider || event.getSource() == _centerSlider ) {
-                if ( !_sliderIsAdjusting ) {
-                    // when the user first grabs the slider...
-                    _sliderIsAdjusting = true;
-                    _clockIsRunning = _module.getClock().isRunning();
-                    _module.getClock().pause();
-                    _module.getClock().resetSimulationTime();
-                }
-                else if ( !_widthSlider.isAdjusting() ) {
-                    // when the user lets go of the slider...
-                    _sliderIsAdjusting = false;
-                    if ( _clockIsRunning ) {
-                        _module.getClock().start();
-                    }
-                }
-                
-                if ( event.getSource() == _widthSlider ) {
-                    handleWidthSlider();
-                }
-                else if ( event.getSource() == _centerSlider ) {
-                    handleCenterSlider();
-                }
+            if ( event.getSource() == _widthSlider ) {
+                handleWidthSlider();
+            }
+            else if ( event.getSource() == _centerSlider ) {
+                handleCenterSlider();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
