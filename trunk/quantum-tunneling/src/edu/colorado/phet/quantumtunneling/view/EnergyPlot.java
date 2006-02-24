@@ -16,7 +16,6 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
@@ -26,7 +25,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
-import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
@@ -39,7 +37,7 @@ import edu.colorado.phet.quantumtunneling.model.WavePacket;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class EnergyPlot extends XYPlot implements Observer {
+public class EnergyPlot extends QTXYPlot implements Observer {
     
     //----------------------------------------------------------------------------
     // Instance data

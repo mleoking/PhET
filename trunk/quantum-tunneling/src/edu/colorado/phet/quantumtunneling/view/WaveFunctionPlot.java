@@ -16,7 +16,6 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -39,7 +38,7 @@ import edu.colorado.phet.quantumtunneling.util.Complex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WaveFunctionPlot extends XYPlot implements Observer {
+public class WaveFunctionPlot extends QTXYPlot implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data

@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -29,7 +28,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ProbabilityDensityPlot extends XYPlot {
+public class ProbabilityDensityPlot extends QTXYPlot {
     
     //----------------------------------------------------------------------------
     // Constructors
