@@ -265,7 +265,6 @@ public class Crystal extends Body {
 
         // If the ion is prevented from binding, don't do anything
         if( noBindList.contains( ionA ) ) {
-            System.out.println( "Crystal.addIonNextToIon: on nobind list" );
             return false;
         }
 
@@ -291,12 +290,15 @@ public class Crystal extends Body {
                     if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
                         && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
                         && ion1 != ionA ) {
+//                        if( ions.size() <= 6 ) {
+//                            System.out.println( lattice.toStringRep() );
                         System.out.println( "dupes" );
+//                        }
                         removeIon( ionA );
                         ionA.unbindFrom( this );
                         added = false;
                         updateCm();
-//                        lattice.addAtIonNode( ionA, ionB );
+                        lattice.addAtIonNode( ionA, ionB );
 //                        for( int j = 0; j < ions.size(); j++ ) {
 //                            Ion ion = (Ion)ions.get( j );
 //                            if( Math.abs( ion.getPosition().getX() - ionA.getPosition().getX() ) < 2

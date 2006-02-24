@@ -201,6 +201,7 @@ public abstract class Lattice_new_new {
         for( int k = 1; k < cnt; k++ ) {
             double orientation = ( k * Math.PI * 2 / cnt + ( bond.getOrientation() + Math.PI ) ) % ( Math.PI * 2 );
             Bond newBond = new Bond( orientation, spacing );
+            newBond.setOrigin( newNode );
 
             // Determine if there is already a bond where this one would go. This can happen easily, if a new node
             // is being created at a place that is at the open end of more than one existing bond.
@@ -211,15 +212,20 @@ public abstract class Lattice_new_new {
                 for( int j = 0; j < bonds.size(); j++ ) {
                     Bond existingBond = (Bond)bonds.get( j );
                     if( existingBond.isOpen()
-                        && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) ) {
+                        && MathUtil.isApproxEqual( existingBond.getOrigin().getPosition(),
+                                                   newBond.getOpenPosition(),
+                                                   SAME_POSITION_TOLERANCE ) ) {
+//                        && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) ) {
                         existingBond.setDestination( newNode );
                         newNode.addBond( existingBond );
                         addNewBond = false;
+
+                        // todo: Need to clear the new bond so it can be garbage collected?
                     }
                 }
             }
             if( addNewBond ) {
-                newBond.setOrigin( newNode );
+//                newBond.setOrigin( newNode );
                 newNode.addBond( newBond );
             }
         }
@@ -371,6 +377,34 @@ public abstract class Lattice_new_new {
         return bounds;
     }
 
+    //----------------------------------------------------------------
+    // Utility
+    //----------------------------------------------------------------
+    public String toStringRep() {
+        Node node = getNode( getSeed() );
+        StringBuffer sb = visitNode( node );
+
+        return sb.toString();
+    }
+
+    private StringBuffer visitNode( Node node ) {
+        StringBuffer sb = new StringBuffer();
+        sb.append( node.toString() + " | " + node.getPosition().toString() );
+        sb.append( "\n" );
+        List bonds = node.getBonds();
+        for( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond)bonds.get( i );
+            sb.append( "\t" + bond.getOrientation() + bond.getOrigin() + " : " + bond.getDestination() + "  " + "\n" );
+        }
+
+        for( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond)bonds.get( i );
+            if( bond.getDestination() != node && bond.getDestination() != null ) {
+                sb.append( visitNode( bond.getDestination() ) );
+            }
+        }
+        return sb;
+    }
 
 
     //----------------------------------------------------------------
@@ -398,6 +432,9 @@ public abstract class Lattice_new_new {
     // Inner classes
     //----------------------------------------------------------------
 
+    /**
+     * Sets the direction of all the arcs in the lattice graph so that they point outward from a designated seed node
+     */
     private class SeedSetter {
 
         void setSeed( Ion ion ) {
@@ -410,12 +447,15 @@ public abstract class Lattice_new_new {
             nodesVisited.add( node );
             for( int i = 0; i < bonds.size(); i++ ) {
                 Bond bond = (Bond)bonds.get( i );
+
+                // Do we need to reverse this bond?
                 if( bond != incomingBond && bond.getOrigin() != node ) {
                     Node otherNode = bond.getOrigin();
                     bond.removeNode( otherNode );
                     bond.removeNode( node );
                     bond.setOrigin( node );
                     bond.setDestination( otherNode );
+                    bond.setOrientation( bond.getOrientation() + Math.PI );
                 }
                 Node destinationNode = bond.getDestination();
                 if( destinationNode != null && !nodesVisited.contains( destinationNode ) ) {
