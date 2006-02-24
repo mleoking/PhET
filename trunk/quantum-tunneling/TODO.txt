@@ -34,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+0.00.16...
 (2/24/06) - draw region markers with QTMarkerNode instead of QTCombinedChart
 (2/24/06) - add a "region marker manager" instead of having QTCombinedChart manage markers
 (2/24/06) - create a QTMarkerNode, a piccolo node for drawing JFreeChart markers directly
