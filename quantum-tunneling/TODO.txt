@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- publish 0.00.16 by 3:00PM on 2/24/06
+- bug: clock sometimes ends up paused after user drags wave packet center slider (clock paused during drag, not restored properly)
 - draw region markers with a PNode instead of updating chart image (verified that PE drag handles are snappier)
 - replace Richardson algorithm
 - eliminate reflection at boundaries
