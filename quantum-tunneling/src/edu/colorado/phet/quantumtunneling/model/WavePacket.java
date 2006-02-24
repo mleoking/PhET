@@ -187,7 +187,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             setCenter( _saveCenter );
             setWidth( _saveWidth );
         }
-       update();
+        update();
     }
     
     /*
@@ -212,7 +212,17 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             }
             DistributionAccessor accessor = new DistributionAccessor( distribution, new Random() );
             Object o = accessor.nextObject();
-            center = ((Double)o).doubleValue();
+            if ( o != null ) {
+                center = ((Double)o).doubleValue();
+            }
+            else {
+                /* 
+                 * If the distribution returned null, then it's likely because the 
+                 * wave function solution is zero.  In this case, we want to 
+                 * simply leave the wave function center where it is.
+                 */
+                center = getCenter(); 
+            }
         }
         return center;
     }
