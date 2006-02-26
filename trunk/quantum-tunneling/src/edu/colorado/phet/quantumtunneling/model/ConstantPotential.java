@@ -30,7 +30,7 @@ public class ConstantPotential extends AbstractPotential {
      * Constructor.
      */
     public ConstantPotential() {
-        this( QTConstants.DEFAULT_POTENTIAL_ENERGY );
+        this( 0 );
     }
     
     public ConstantPotential( double energy ) {
