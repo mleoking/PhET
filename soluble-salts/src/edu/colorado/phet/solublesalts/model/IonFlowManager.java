@@ -20,7 +20,8 @@ import java.util.*;
  * IonFlowManager
  * <p/>
  * Adjusts the motion of ions when the flow of water out of the vessel
- * changes. When it decrease, ions move toward the drain.
+ * changes. When it decrease, ions move toward the drain. When the drain shuts, the
+ * ions' velocities are restored to their original magnitudes.
  *
  * @author Ron LeMaster
  * @version $Revision$
