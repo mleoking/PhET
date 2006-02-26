@@ -51,13 +51,11 @@ public class t_d_quant extends Applet implements Runnable {
     double pi;
     int i0;
     double xk0, width;
-    int mu = 20;
     int looper = -1;
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
     private static final long LOOP_DELAY = 30;
     private double t;
-    private int loop;
 
     public void init() {
         // Set the background color
@@ -384,8 +382,7 @@ c
 c ************* start the computation loop **************
 c
 */
-            t = 0.0;
-            for( loop = 0; ; loop++ ) {
+            while( true ) {
                 try {
                     Thread.sleep( LOOP_DELAY );
                 }
@@ -399,10 +396,7 @@ c simulation is over only for one tour...
 c time to make the increments...
 c and plot ...
 c  */
-
-                this.t = t + dt;
-                mu = ( mu + 1 ) % nn;
-
+                this.t += dt;
                 plot( g );
             }  /* closes for - loop  */
         }   /*  closes while  */
