@@ -27,51 +27,51 @@ import java.util.Random;
  */
 public class PlainCubicLattice extends Lattice_new_new {
 //public class PlainCubicLattice extends Lattice {
-    private static final Random random = new Random( System.currentTimeMillis() );
+    private static final Random random = new Random(System.currentTimeMillis());
 
     /**
      * @param spacing
      */
-    public PlainCubicLattice( double spacing ) {
-        super( spacing );
+    public PlainCubicLattice(double spacing) {
+        super(spacing);
     }
 
     public Object clone() {
-        return new PlainCubicLattice( this.spacing );
+        return new PlainCubicLattice(this.spacing);
     }
 
-    protected int getNumNeighboringSites( Ion ion ) {
+    protected int getNumNeighboringSites(Ion ion) {
         return 4;
     }
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         Ion a = new Sodium();
-        a.setPosition( 300, 400 );
-        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( 10 ) );
+        a.setPosition(300, 500);
+        Crystal l = new Crystal(new SolubleSaltsModel(), new PlainCubicLattice(10));
 //        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
-        l.addIon( a );
+        l.addIon(a);
 
         Ion b = new Chlorine();
-        b.setPosition( new Point2D.Double( 290, 400 ) );
-        l.addIonNextToIon( b, a );
-
-        Ion a2 = new Sodium();
-        a2.setPosition( 290, 390 );
-        l.addIonNextToIon( a2, b );
+        b.setPosition(new Point2D.Double(307, 498));
+        l.addIonNextToIon(b, a);
 
         Ion b2 = new Chlorine();
-        b2.setPosition( new Point2D.Double( 300, 390 ) );
-        l.addIonNextToIon( b2, a );
+        b2.setPosition(new Point2D.Double(297, 495));
+        l.addIonNextToIon(b2, a);
+
+        Ion a2 = new Sodium();
+        a2.setPosition(302, 490);
+        l.addIonNextToIon(a2, b);
 
         Ion b3 = new Chlorine();
-        b3.setPosition( new Point2D.Double( 300, 390 ) );
-        l.addIonNextToIon( b3, a2 );
+        b3.setPosition(new Point2D.Double(300, 490));
+        l.addIonNextToIon(b3, a2);
 
         Ion a3 = new Sodium();
-        a3.setPosition( 290, 410 );
-        l.addIonNextToIon( a3, b3 );
+        a3.setPosition(290, 410);
+        l.addIonNextToIon(a3, b3);
 
-        printLattice( l );
+        printLattice(l);
 
 //        l.releaseIon( 10 );
 
@@ -85,11 +85,11 @@ public class PlainCubicLattice extends Lattice_new_new {
 //        }
     }
 
-    private static void printLattice( Crystal l ) {
+    private static void printLattice(Crystal l) {
         List ions = l.getIons();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
-            System.out.println( "ion.getPosition() = " + ion.getPosition() );
+        for (int i = 0; i < ions.size(); i++) {
+            Ion ion = (Ion) ions.get(i);
+            System.out.println("ion.getPosition() = " + ion.getPosition());
         }
     }
 }

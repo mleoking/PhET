@@ -11,9 +11,12 @@
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Bond
@@ -26,34 +29,78 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class Bond {
+
+    static EventChannel constructionChannel = new EventChannel(ConstructionListener.class);
+    static ConstructionListener constructionListenerProxy = (ConstructionListener) constructionChannel.getListenerProxy();
+    private boolean debug;
+
+    static public class ConstructionEvent extends EventObject {
+        private Bond bond;
+
+        public ConstructionEvent(Bond bond) {
+            super(Bond.class);
+            this.bond = bond;
+        }
+
+        public Bond getInstance() {
+            return bond;
+        }
+    }
+
+    static public interface ConstructionListener extends EventListener {
+        void instanceConstructed(ConstructionEvent event);
+
+        void instanceRemoved(ConstructionEvent event);
+    }
+
+    static public void addConstructionListener(ConstructionListener listener) {
+        constructionChannel.addListener(listener);
+    }
+
+    static public void removeConstructionListener(ConstructionListener listener) {
+        constructionChannel.removeListener(listener);
+    }
+
+
     private Node[] nodes = new Node[2];
     private double orientation;
     private double length;
+    private EventChannel changeEventChannel = new EventChannel(ChangeListener.class);
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     /**
      * @param orientation
      */
-    public Bond( double orientation, double length ) {
+    public Bond(Node origin, double orientation, double length) {
+        setOrigin(origin);
         this.orientation = orientation;
         this.length = length;
+        constructionListenerProxy.instanceConstructed(new ConstructionEvent(this));
     }
 
-    public void setOrigin( Node node ) {
-        if( nodes[0] != null ) {
-            throw new RuntimeException( "origin already set" );
-        }
+    protected void finalize() throws Throwable {
+        super.finalize();
+        constructionListenerProxy.instanceRemoved(new ConstructionEvent(this));
+    }
+
+    public void setOrigin(Node node) {
+//        if( nodes[0] != null ) {
+//            throw new RuntimeException( "origin already set" );
+//        }
         nodes[0] = node;
+        changeListenerProxy.stateChanged(new ChangeEvent(this));
     }
 
     public Node getOrigin() {
         return nodes[0];
     }
 
-    public void setDestination( Node node ) {
-        if( nodes[1] != null ) {
-            throw new RuntimeException( "destination already set" );
+    public void setDestination(Node node) {
+        if (nodes[1] != null) {
+            throw new RuntimeException("destination already set");
         }
         nodes[1] = node;
+        changeListenerProxy.stateChanged(new ChangeEvent(this));
     }
 
 
@@ -61,8 +108,9 @@ public class Bond {
         return nodes[1];
     }
 
-    public void setOrientation( double orientation ) {
+    public void setOrientation(double orientation) {
         this.orientation = orientation;
+        changeListenerProxy.stateChanged(new ChangeEvent(this));
     }
 
     public double getOrientation() {
@@ -78,16 +126,16 @@ public class Bond {
         return nodes[1] == null;
     }
 
-    public boolean isOpen( Ion ion ) {
+    public boolean isOpen(Ion ion) {
 
-        System.out.println( "Bond.isOpen():  Get rid of this after debug" );
-        if( nodes[1] != null && ion == nodes[1].getIon() ) {
+        System.out.println("Bond.isOpen():  Get rid of this after debug");
+        if (nodes[1] != null && ion == nodes[1].getIon()) {
             return false;
         }
 
-        if( !( nodes[0] != null && nodes[0].getIon() == ion )
-            && !( nodes[1] != null && nodes[1].getIon() == ion ) ) {
-            System.out.println( "Bond.isOpen" );
+        if (!(nodes[0] != null && nodes[0].getIon() == ion)
+                && !(nodes[1] != null && nodes[1].getIon() == ion)) {
+            System.out.println("Bond.isOpen");
         }
         return nodes[1] == null;
     }
@@ -98,15 +146,13 @@ public class Bond {
      * @param originNode
      * @return
      */
-    public Node traverse( Node originNode ) {
-        if( nodes[0] == originNode ) {
+    public Node traverse(Node originNode) {
+        if (nodes[0] == originNode) {
             return nodes[1];
-        }
-        else if( nodes[1] == originNode ) {
+        } else if (nodes[1] == originNode) {
             return nodes[0];
-        }
-        else {
-            throw new IllegalArgumentException( "originNode is not part of the bond" );
+        } else {
+            throw new IllegalArgumentException("originNode is not part of the bond");
         }
     }
 
@@ -115,20 +161,19 @@ public class Bond {
      *
      * @param node
      */
-    public void removeNode( Node node ) {
+    public void removeNode(Node node) {
         // If the origin node is being removed, replace it with the destination node, and update the
         // orientation so it is relative to the new origin node.
-        if( nodes[0] == node ) {
+        if (nodes[0] == node) {
             nodes[0] = nodes[1];
             nodes[1] = null;
-            setOrientation( ( getOrientation() + Math.PI ) % ( Math.PI * 2 ) );
-        }
-        else if( nodes[1] == node ) {
+            setOrientation((getOrientation() + Math.PI) % (Math.PI * 2));
+        } else if (nodes[1] == node) {
             nodes[1] = null;
+        } else {
+            throw new RuntimeException("node not associated with bond");
         }
-        else {
-            throw new RuntimeException( "node not associated with bond" );
-        }
+        changeListenerProxy.stateChanged(new ChangeEvent(this));
     }
 
     /**
@@ -137,9 +182,47 @@ public class Bond {
      * @return
      */
     public Point2D getOpenPosition() {
-        if( !isOpen() ) {
-            throw new RuntimeException( "bond not open" );
+        if (!isOpen()) {
+            throw new RuntimeException("bond not open");
         }
-        return MathUtil.radialToCartesian( length, orientation, nodes[0].getPosition() );
+        return MathUtil.radialToCartesian(length, orientation, nodes[0].getPosition());
     }
+
+    public void setDebugEnabled(boolean b) {
+        debug = b;
+        changeListenerProxy.stateChanged(new ChangeEvent(this));
+    }
+
+    public boolean isDebugEnabled() {
+        return debug;
+    }
+
+
+    //----------------------------------------------------------------
+    // Event and listener definitions
+    //----------------------------------------------------------------
+
+
+    public void addChangeListener(ChangeListener listener) {
+        changeEventChannel.addListener(listener);
+    }
+
+    public void removeChangeListener(ChangeListener listener) {
+        changeEventChannel.removeListener(listener);
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent(Object source) {
+            super(source);
+        }
+
+        public Bond getBond() {
+            return (Bond) getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged(ChangeEvent event);
+    }
+
 }

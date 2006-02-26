@@ -41,8 +41,8 @@ public class SolubleSaltsConfig {
     // Physical things
 //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
-    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
+    public static final Point2D VESSEL_ULC = new Point2D.Double(150 / SCALE, 250 / SCALE); // upper-left corner of vessel
+    public static final Dimension VESSEL_SIZE = new Dimension((int) (700 / SCALE), (int) (500 / SCALE));
     public static final double VESSEL_WALL_THICKNESS = 20 / SCALE;
     public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
     public static final double DEFAULT_LATTICE_SPEED = 3;
@@ -58,7 +58,7 @@ public class SolubleSaltsConfig {
     public static final String FLAMES_IMAGE_FILE = IMAGE_PATH + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
-    public static final Color WATER_COLOR = new Color( 200, 230, 255 );
+    public static final Color WATER_COLOR = new Color(200, 230, 255);
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";
@@ -80,4 +80,5 @@ public class SolubleSaltsConfig {
     public static boolean RANDOM_WALK = false;
     public static boolean ONE_CRYSTAL_ONLY = false;
     public static boolean DEBUG = false;
+    public static boolean SHOW_BONDS = false;
 }
