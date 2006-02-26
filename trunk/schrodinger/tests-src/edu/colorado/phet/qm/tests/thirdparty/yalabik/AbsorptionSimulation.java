@@ -1,7 +1,8 @@
 package edu.colorado.phet.qm.tests.thirdparty.yalabik;
 
-import java.applet.Applet;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /* Cemal Yalabik yalabik@fen.bilkent.edu.tr  */
 
@@ -9,7 +10,7 @@ import java.awt.*;
 out with the intent of porting the program eventually to Java.
 This version is for a 1-d system. */
 
-public class t_d_quant extends Applet implements Runnable {
+public class AbsorptionSimulation extends JComponent implements Runnable {
 
     Thread animatorThread;
 
@@ -20,15 +21,15 @@ public class t_d_quant extends Applet implements Runnable {
     private Button clear_button;
     private Choice state_choices;
 
-    private static int LATTICE_SIZE = 256;
-//    private static int LATTICE_SIZE = 1024;
+    public static int LATTICE_SIZE = 256;
+//    public static int LATTICE_SIZE = 1024;
     private int rw = LATTICE_SIZE;
     private int rh = 200;
     private int rx, ry;
     private int mode = PACKET;
     private int last_x;
 
-    static private double[][] FFTBuffer = new double[2][LATTICE_SIZE];
+    private double[][] FFTBuffer = new double[2][LATTICE_SIZE];
 
     double[][] cfo = new double[2][LATTICE_SIZE + 1];
 
@@ -54,10 +55,25 @@ public class t_d_quant extends Applet implements Runnable {
     int looper = -1;
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
-    private static final long LOOP_DELAY = 30;
+    public static long LOOP_DELAY = 30;
     private double t;
+    private boolean running = true;
+
+    public AbsorptionSimulation() {
+        init();
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning( boolean running ) {
+        this.running = running;
+    }
 
     public void init() {
+        setSize( 1024, 800 );
+        setPreferredSize( new Dimension( 1024, 800 ) );
         // Set the background color
         this.setBackground( Color.black );
         this.setForeground( Color.white );
@@ -369,11 +385,11 @@ public class t_d_quant extends Applet implements Runnable {
 
         if( offGraphics == null ) {
             offDimension = d;
-            offImage = createImage( d.width, d.height );
+            offImage = new BufferedImage( d.width, d.height, BufferedImage.TYPE_INT_RGB );
             offGraphics = offImage.getGraphics();
         }
 
-        while( Thread.currentThread() == animatorThread ) {
+        while( Thread.currentThread() == animatorThread && running ) {
             initAlgorithm();
 
 /*
@@ -382,7 +398,7 @@ c
 c ************* start the computation loop **************
 c
 */
-            while( true ) {
+            while( running ) {
                 try {
                     Thread.sleep( LOOP_DELAY );
                 }
@@ -400,6 +416,7 @@ c  */
                 plot( g );
             }  /* closes for - loop  */
         }   /*  closes while  */
+        System.out.println( "Exited..." );
     }
 
     private void updateWavefunction() {
@@ -583,8 +600,15 @@ c  */
         }
 
         offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
-        g.drawImage( offImage, 0, 0, this );
+//        g.drawImage( offImage, 0, 0, this );
+        paintImmediately( 0, 0, getWidth(), getHeight() );
+    }
 
+    public void paint( Graphics g ) {
+        super.paint( g );
+        if( offImage != null ) {
+            g.drawImage( offImage, 0, 0, this );
+        }
     }
 
     private int getAxis() {
@@ -592,7 +616,7 @@ c  */
     }
 
 
-    static public void fft( int n, double[][] cfou, double[][] vect, int mode )
+    public void fft( int n, double[][] cfou, double[][] vect, int mode )
 /*
 Cemal Yalabik, 1987 (Temple University-Physics) Fast Fourier Transform
 c Vectorization may be forced on all inner do loops.
@@ -664,4 +688,15 @@ c call fft(ny,i,nx,psi,cfouy,ibtrvy,1,buf) for all i.le.nx
     }
 
 
+    public void dispose() {
+        running = false;
+    }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( new AbsorptionSimulation() );
+        frame.pack();
+        frame.setVisible( true );
+    }
 }
