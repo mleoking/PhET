@@ -132,7 +132,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         scale = 1.2 / rh;
 
 /* Initial wavepacket parameters  */
-        i0 = 30;
+//        i0 = 30;
+        i0 = latticeSize - 50;
         width = 10.;
     }
 
