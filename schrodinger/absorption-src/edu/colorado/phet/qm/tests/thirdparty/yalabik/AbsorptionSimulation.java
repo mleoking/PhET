@@ -21,32 +21,32 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private Button clear_button;
     private Choice state_choices;
 
-    public static int LATTICE_SIZE = 256;
-    public static double XK0_VALUE = 0.25;
-//    public static int LATTICE_SIZE = 1024;
-    private int rw = LATTICE_SIZE;
+    private int latticeSize;
+//    public static double XK0_VALUE = 0.25;
+
     private int rh = 200;
     private int rx, ry;
     private int mode = PACKET;
     private int last_x;
 
-    private double[][] FFTBuffer = new double[2][LATTICE_SIZE];
-
-    double[][] cfo = new double[2][LATTICE_SIZE + 1];
-
-    double[][] psi = new double[2][LATTICE_SIZE];
-    double[][] cpot = new double[2][LATTICE_SIZE];
-    double[][] cenerg = new double[2][LATTICE_SIZE];
+    private double[][] FFTBuffer;
+    double[][] cfo;
+    double[][] psi;
+    double[][] cpot;
+    double[][] cenerg;
+    private int rw;
+    int[] pot;
+    int nn;
     double[][] bfou = new double[2][17];
     double[][] bsi = new double[2][16];
     double[][] csi = new double[2][16];
     double[][] xsi = new double[2][16];
     double[][][] cc = new double[2][16][16];
     double[][] bksq = new double[2][16];
-    int[] pot = new int[LATTICE_SIZE];
-    public static double dt = 0.5;
+
+    private double dt = 0.5;
     double xnorm, bnorm, scale;
-    int nn = LATTICE_SIZE;
+
     int n_bound = 8;
     int n_bound2;
     int nbo;
@@ -56,12 +56,36 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     int looper = -1;
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
-    public static long LOOP_DELAY = 30;
+    private long loopDelay = 30;
     private double t;
     private boolean running = true;
-
+    public static final int DEFAULT_DELAY = 30;
+    public static final int DEFAULT_LATTICE_SIZE = 256;
+    public static final double DEFAULT_XK0 = 0.25;
+    public static final double DEFAULT_DT = 0.5;
 
     public AbsorptionSimulation() {
+        this( DEFAULT_DELAY, DEFAULT_LATTICE_SIZE, DEFAULT_XK0, DEFAULT_DT );
+    }
+
+    public AbsorptionSimulation( long loopDelay, int latticeSize, double xk0, double dt ) {
+        System.out.println( "loopDelay = " + loopDelay );
+        System.out.println( "latticeSize = " + latticeSize );
+        System.out.println( "xk0 = " + xk0 );
+        System.out.println( "dt = " + dt );
+        this.loopDelay = loopDelay;
+        this.latticeSize = latticeSize;
+
+        FFTBuffer = new double[2][latticeSize];
+        cfo = new double[2][latticeSize + 1];
+        psi = new double[2][latticeSize];
+        cpot = new double[2][latticeSize];
+        cenerg = new double[2][latticeSize];
+        rw = latticeSize;
+        pot = new int[latticeSize];
+        nn = latticeSize;
+        this.xk0 = xk0;
+        this.dt = dt;
         init();
     }
 
@@ -121,7 +145,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
 
 /* Initial wavepacket parameters  */
         i0 = 30;
-        xk0 = XK0_VALUE;
+//        xk0 = XK0_VALUE;
         width = 10.;
     }
 
@@ -402,7 +426,7 @@ c
 */
             while( running ) {
                 try {
-                    Thread.sleep( LOOP_DELAY );
+                    Thread.sleep( loopDelay );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
