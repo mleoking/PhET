@@ -75,14 +75,16 @@ public class Shaker extends Particle {
      */
     public void shake(double dy) {
 
-        this.setPosition(getPosition().getX(), getPosition().getY() + dy);
+        // Set the shaker's position
+        setPosition(getPosition().getX(), getPosition().getY() + dy);
+
         Ion ion = null;
         Crystal crystal = null;
 
+        // If the shaker moved downward, shake out a crystal
         if (!done && dy > 0) {
             // Debug: to shake only one crystal, uncomment the next line
             done = true;
-            setPosition(getPosition().getX(), getPosition().getY() + dy);
 
             IonFactory ionFactory = new IonFactory();
             ArrayList ions = new ArrayList();
