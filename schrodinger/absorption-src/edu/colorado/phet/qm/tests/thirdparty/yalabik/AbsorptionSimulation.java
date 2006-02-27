@@ -20,7 +20,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     Thread animatorThread;
 
     Dimension offDimension;
-    Image offImage;
+    BufferedImage offImage;
     Graphics offGraphics;
 
     private Button clear_button;
@@ -630,6 +630,9 @@ c  */
     public void paint( Graphics g ) {
         super.paint( g );
         if( offImage != null ) {
+//            Graphics2D g2=(Graphics2D)g;
+//            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//            g2.drawRenderedImage( (RenderedImage)offImage,AffineTransform.getScaleInstance( 0.75,0.75) );
             g.drawImage( offImage, 0, 0, this );
         }
     }
