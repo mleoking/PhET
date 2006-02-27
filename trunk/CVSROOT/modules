@@ -146,7 +146,8 @@ forces1d forces1d &phetcommon-module &charts-module
 greenhouse-effect greenhouse
 
 # Ideal gas
-ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
+ideal-gas ideal-gas-v3 &phetcommon-dir &phetgraphics-dir &mechanics-module
+#ideal-gas ideal-gas-v3 &phetcommon-module &mechanics-module
 
 # John Travoltage
 john-travoltage travoltage
