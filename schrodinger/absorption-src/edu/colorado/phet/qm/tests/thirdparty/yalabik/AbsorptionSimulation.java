@@ -22,6 +22,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private Choice state_choices;
 
     public static int LATTICE_SIZE = 256;
+    public static double XK0_VALUE = 0.25;
 //    public static int LATTICE_SIZE = 1024;
     private int rw = LATTICE_SIZE;
     private int rh = 200;
@@ -43,7 +44,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     double[][][] cc = new double[2][16][16];
     double[][] bksq = new double[2][16];
     int[] pot = new int[LATTICE_SIZE];
-    double dt = 0.5;
+    public static double dt = 0.5;
     double xnorm, bnorm, scale;
     int nn = LATTICE_SIZE;
     int n_bound = 8;
@@ -58,6 +59,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     public static long LOOP_DELAY = 30;
     private double t;
     private boolean running = true;
+
 
     public AbsorptionSimulation() {
         init();
@@ -119,7 +121,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
 
 /* Initial wavepacket parameters  */
         i0 = 30;
-        xk0 = 0.25;
+        xk0 = XK0_VALUE;
         width = 10.;
     }
 

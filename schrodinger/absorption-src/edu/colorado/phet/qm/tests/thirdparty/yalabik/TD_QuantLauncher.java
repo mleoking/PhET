@@ -23,6 +23,8 @@ public class TD_QuantLauncher {
     private int latticeSize = AbsorptionSimulation.LATTICE_SIZE;
     private long loopDelay = AbsorptionSimulation.LOOP_DELAY;
     private Simulation oldSim;
+    private double xk0;
+    private double dt;
 
     public TD_QuantLauncher() {
         jframe = new JFrame( "Feasibility Test" );
@@ -47,6 +49,23 @@ public class TD_QuantLauncher {
         verticalLayoutPanel.add( new JLabel( "Animation Delay(milliseconds)" ) );
         verticalLayoutPanel.add( delay );
 
+        final JSpinner k0 = new JSpinner( new SpinnerNumberModel( AbsorptionSimulation.XK0_VALUE, 0, 1.0, 0.01 ) );
+        k0.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                xk0 = ( (Number)k0.getValue() ).doubleValue();
+            }
+        } );
+        verticalLayoutPanel.add( new JLabel( "xk0" ) );
+        verticalLayoutPanel.add( k0 );
+
+        final JSpinner dtSpinner = new JSpinner( new SpinnerNumberModel( AbsorptionSimulation.dt, 0, 1, 0.01 ) );
+        dtSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                dt = ( (Number)dtSpinner.getValue() ).doubleValue();
+            }
+        } );
+        verticalLayoutPanel.add( new JLabel( "dt" ) );
+        verticalLayoutPanel.add( dtSpinner );
 
         JButton launch = new JButton( "Launch Simulation" );
         launch.addActionListener( new ActionListener() {
@@ -55,6 +74,8 @@ public class TD_QuantLauncher {
             }
         } );
         verticalLayoutPanel.add( launch );
+
+
         jframe.setContentPane( verticalLayoutPanel );
         jframe.pack();
     }
@@ -94,6 +115,8 @@ public class TD_QuantLauncher {
             } );
             AbsorptionSimulation.LOOP_DELAY = loopDelay;
             AbsorptionSimulation.LATTICE_SIZE = latticeSize;
+            AbsorptionSimulation.XK0_VALUE = xk0;
+            AbsorptionSimulation.dt = dt;
             app = new AbsorptionSimulation();
 
             frame.setContentPane( app );
