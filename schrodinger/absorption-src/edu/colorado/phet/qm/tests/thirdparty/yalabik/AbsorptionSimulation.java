@@ -39,23 +39,20 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     double[][] cenerg;
     private int rw;
     int[] pot;
-//    int nn;
-    double[][] bfou = new double[2][17];
-    double[][] bsi = new double[2][16];
-    double[][] csi = new double[2][16];
-    double[][] xsi = new double[2][16];
-    double[][][] cc = new double[2][16][16];
-    double[][] bksq = new double[2][16];
+    int numBoundaryPoints = 8;
+    double[][] bfou = new double[2][numBoundaryPoints * 2 + 1];
+    double[][] bsi = new double[2][numBoundaryPoints * 2];
+    double[][] csi = new double[2][numBoundaryPoints * 2];
+    double[][] xsi = new double[2][numBoundaryPoints * 2];
+    double[][][] cc = new double[2][numBoundaryPoints * 2][numBoundaryPoints * 2];
+    double[][] bksq = new double[2][numBoundaryPoints * 2];
 
     private double dt = 0.5;
     double xnorm, bnorm, scale;
 
-    int n_bound = 8;
-    int n_bound2;
-    int nbo;
-    double pi;
     int i0;
-    double xk0, width;
+    double xk0;
+    double width;
     int looper = -1;
     private static final int PACKET = 1;
     private static final int INJECTED = 2;
@@ -82,10 +79,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         cenerg = new double[2][latticeSize];
         rw = latticeSize;
         pot = new int[latticeSize];
-//        nn = latticeSize;
         this.xk0 = xk0;
         this.dt = dt;
-
 
         setSize( 1024, 800 );
         setPreferredSize( new Dimension( 1024, 800 ) );
@@ -135,25 +130,20 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         rx = r.x;
         ry = r.y;
         scale = 1.2 / rh;
-        pi = 4. * Math.atan( 1. );
-
-        n_bound2 = n_bound + n_bound;
-        nbo = n_bound / 2;
 
 /* Initial wavepacket parameters  */
         i0 = 30;
-//        xk0 = XK0_VALUE;
         width = 10.;
     }
 
     private void initLagrangeExtensionPolynomial() {
         /* initialization of the Lagrange extension polynomial */
 
-        for( int i = 0; i < n_bound; i++ ) {
-            for( int j = 0; j < n_bound; j++ ) {
+        for( int i = 0; i < numBoundaryPoints; i++ ) {
+            for( int j = 0; j < numBoundaryPoints; j++ ) {
                 cc[0][i][j] = 1.;
                 cc[1][i][j] = 0.;
-                for( int k = 0; k < n_bound; k++ ) {
+                for( int k = 0; k < numBoundaryPoints; k++ ) {
                     if( j != k ) {
                         /*  implementing  cc(i,j)=cc(i,j)*(-bfou(i)-bfou(k))/(bfou(j)-bfou(k)) */
                         double a = -bfou[0][i] - bfou[0][k];
@@ -173,17 +163,17 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         }        /* for i */
 
         xnorm = 1. / latticeSize;
-        bnorm = 1. / n_bound2;
+        bnorm = 1. / ( numBoundaryPoints * 2 );
 
-        for( int i = 0; i < n_bound2; i++ ) {
-            double a = Math.sin( pi * i / n_bound2 );
+        for( int i = 0; i < ( numBoundaryPoints * 2 ); i++ ) {
+            double a = Math.sin( Math.PI * i / ( numBoundaryPoints * 2 ) );
             a = 4. * a * a * dt;
             bksq[0][i] = Math.cos( a ) * bnorm;
             bksq[1][i] = -Math.sin( a ) * bnorm;
         }
 
         for( int i = 0; i < latticeSize; i++ ) {
-            double a = Math.sin( pi * i / latticeSize );
+            double a = Math.sin( Math.PI * i / latticeSize );
             a = 4. * a * a * dt;
             cenerg[0][i] = Math.cos( a ) * xnorm;
             cenerg[1][i] = -Math.sin( a ) * xnorm;
@@ -193,8 +183,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private void initFFTInjected() {
         /* initialization of fft variables for the injected wave: */
 
-        for( int i = 0; i <= n_bound2; i++ ) {
-            double xx = 2 * i * pi / n_bound2;
+        for( int i = 0; i <= ( numBoundaryPoints * 2 ); i++ ) {
+            double xx = 2 * i * Math.PI / ( numBoundaryPoints * 2 );
             bfou[0][i] = Math.cos( xx );
             bfou[1][i] = Math.sin( xx );
         }
@@ -202,7 +192,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
 
     private void initFFT() {
         for( int i = 0; i <= latticeSize; i++ ) {
-            double xx = 2 * i * pi / latticeSize;
+            double xx = 2 * i * Math.PI / latticeSize;
             cfo[0][i] = Math.cos( xx );
             cfo[1][i] = Math.sin( xx );
         }
@@ -211,7 +201,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private void initPotential() {
         int i;
         for( i = 0; i < latticeSize; i++ ) {
-            if( ( ( i > 100 ) && ( i < 120 ) ) ) {//|| ( ( i > 115 ) && ( i < 120 ) ) ) {
+            if( ( ( i > 100 ) && ( i < 120 ) ) ) {
                 pot[i] = 4 * rh / 5;
             }
             else {
@@ -395,7 +385,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     }
 
     public double getXK00() {
-        return mode == PACKET ? xk0 : ( (int)( xk0 * 8. / pi + .5 ) ) * pi / 8.;
+        return mode == PACKET ? xk0 : ( (int)( xk0 * 8. / Math.PI + .5 ) ) * Math.PI / 8.;
     }
 
     public double getPsiScale() {
@@ -436,7 +426,7 @@ c time to make the increments...
 c and plot ...
 c  */
                 this.t += dt;
-                plot( g );
+                plot();
             }  /* closes for - loop  */
         }   /*  closes while  */
         System.out.println( "Exited..." );
@@ -453,9 +443,9 @@ c  */
 
 /*  form the bc vector bsi for i~latticeSize and csi for i~1  */
 
-        for( int i = 0; i < n_bound; i++ ) {
+        for( int i = 0; i < numBoundaryPoints; i++ ) {
             for( int j = 0; j < 2; j++ ) {
-                bsi[j][i] = psi[j][latticeSize - n_bound + i];
+                bsi[j][i] = psi[j][latticeSize - numBoundaryPoints + i];
                 if( mode == PACKET ) {
                     csi[j][i] = psi[j][i];
                 }
@@ -467,32 +457,32 @@ c  */
 
 /* extend this vector using the Lagrange extarpolation with positive ft: */
 
-        for( int i = 0; i < n_bound; i++ ) {
+        for( int i = 0; i < numBoundaryPoints; i++ ) {
             for( int j = 0; j < 2; j++ ) {
-                bsi[j][n_bound + i] = 0;
-                csi[j][n_bound + i] = 0;
+                bsi[j][numBoundaryPoints + i] = 0;
+                csi[j][numBoundaryPoints + i] = 0;
             }
-            for( int k = 0; k < n_bound; k++ ) {
+            for( int k = 0; k < numBoundaryPoints; k++ ) {
                 /* implementing    bsi(n_bound+i)=bsi(n_bound+i)+bsi(k)*(cc(i,k))  */
-                bsi[0][n_bound + i] = bsi[0][n_bound + i] + bsi[0][k] * cc[0][i][k] - bsi[1][k] * cc[1][i][k];
-                bsi[1][n_bound + i] = bsi[1][n_bound + i] + bsi[0][k] * cc[1][i][k] + bsi[1][k] * cc[0][i][k];
+                bsi[0][numBoundaryPoints + i] = bsi[0][numBoundaryPoints + i] + bsi[0][k] * cc[0][i][k] - bsi[1][k] * cc[1][i][k];
+                bsi[1][numBoundaryPoints + i] = bsi[1][numBoundaryPoints + i] + bsi[0][k] * cc[1][i][k] + bsi[1][k] * cc[0][i][k];
                 /* implementing     csi(nn_bound+i)=csi(n_bound+i)+csi(k)*conjg(cc(i,k))  */
-                csi[0][n_bound + i] = csi[0][n_bound + i] + csi[0][k] * cc[0][i][k] + csi[1][k] * cc[1][i][k];
-                csi[1][n_bound + i] = csi[1][n_bound + i] - csi[0][k] * cc[1][i][k] + csi[1][k] * cc[0][i][k];
+                csi[0][numBoundaryPoints + i] = csi[0][numBoundaryPoints + i] + csi[0][k] * cc[0][i][k] + csi[1][k] * cc[1][i][k];
+                csi[1][numBoundaryPoints + i] = csi[1][numBoundaryPoints + i] - csi[0][k] * cc[1][i][k] + csi[1][k] * cc[0][i][k];
             }  /* for k */
         }    /* for i */
 
 /*  develop this part of wf (using periodic bc)  */
 
-        fft( n_bound2, bfou, bsi, -1 );
-        fft( n_bound2, bfou, csi, -1 );
+        fft( ( numBoundaryPoints * 2 ), bfou, bsi, -1 );
+        fft( ( numBoundaryPoints * 2 ), bfou, csi, -1 );
         if( mode != PACKET ) {
-            fft( n_bound2, bfou, xsi, -1 );
+            fft( ( numBoundaryPoints * 2 ), bfou, xsi, -1 );
         }
 /*
    do the momentum space updating and normalization
 */
-        for( int i = 0; i < n_bound2; i++ ) {
+        for( int i = 0; i < ( numBoundaryPoints * 2 ); i++ ) {
             double a = bsi[0][i];
             double b = bsi[1][i];
             bsi[0][i] = a * bksq[0][i] - b * bksq[1][i];
@@ -513,10 +503,10 @@ c  */
 
 /*   inverse transform to position space   */
 
-        fft( n_bound2, bfou, bsi, 1 );
-        fft( n_bound2, bfou, csi, 1 );
+        fft( ( numBoundaryPoints * 2 ), bfou, bsi, 1 );
+        fft( ( numBoundaryPoints * 2 ), bfou, csi, 1 );
         if( mode != PACKET ) {
-            fft( n_bound2, bfou, xsi, 1 );
+            fft( ( numBoundaryPoints * 2 ), bfou, xsi, 1 );
         }
 
 /*   fourier transform the wavefunction:  */
@@ -539,9 +529,9 @@ c  */
 /* interpolate the boundary region between the two forms of solutions  */
 
 
-        for( int i = 0; i < nbo; i++ ) {
+        for( int i = 0; i < numBoundaryPoints / 2; i++ ) {
             for( int j = 0; j < 2; j++ ) {
-                psi[j][latticeSize - nbo + i] = bsi[j][nbo + i];
+                psi[j][latticeSize - numBoundaryPoints / 2 + i] = bsi[j][numBoundaryPoints / 2 + i];
                 if( mode == PACKET ) {
                     psi[j][i] = csi[j][i];
                 }
@@ -559,7 +549,7 @@ c  */
                 if( i < i0 ) {
                     xx = 1.;
                 }
-                if( i < n_bound2 ) {
+                if( i < ( numBoundaryPoints * 2 ) ) {
                     xsi[0][i] = Math.cos( getXK00() * i );
                     xsi[1][i] = Math.sin( getXK00() * i );
                 }
@@ -574,7 +564,7 @@ c  */
         }
     }
 
-    private void plot( Graphics g ) {
+    private void plot() {
         offGraphics.setColor( getBackground() );
         offGraphics.fillRect( 0, 0, rw, rh );
         offGraphics.setColor( Color.red );
@@ -623,16 +613,12 @@ c  */
         }
 
         offGraphics.drawString( "t = " + t, 10, 4 * rh / 5 );
-//        g.drawImage( offImage, 0, 0, this );
         paintImmediately( 0, 0, getWidth(), getHeight() );
     }
 
     public void paint( Graphics g ) {
         super.paint( g );
         if( offImage != null ) {
-//            Graphics2D g2=(Graphics2D)g;
-//            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-//            g2.drawRenderedImage( (RenderedImage)offImage,AffineTransform.getScaleInstance( 0.75,0.75) );
             g.drawImage( offImage, 0, 0, this );
         }
     }
