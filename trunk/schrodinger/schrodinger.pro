@@ -20,6 +20,10 @@
     public static void main(java.lang.String[]);
 }
 
+-keepclasseswithmembers public class edu.colorado.phet.qm.tests.thirdparty.yalabik.TD_QuantLauncher {
+    public static void main(java.lang.String[]);
+}
+
 # Also keep - Enumerations. Keep a method that is required in enumeration
 # classes.
 -keepclassmembers class * extends java.lang.Enum {
