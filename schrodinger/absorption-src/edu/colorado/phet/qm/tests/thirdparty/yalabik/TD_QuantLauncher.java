@@ -20,12 +20,12 @@ import java.awt.event.WindowEvent;
 
 public class TD_QuantLauncher {
     private JFrame jframe;
-//    this( 30, 256, 0.25, 0.5 );
+
     private int latticeSize = AbsorptionSimulation.DEFAULT_LATTICE_SIZE;
     private long loopDelay = AbsorptionSimulation.DEFAULT_DELAY;
-    private Simulation oldSim;
     private double xk0 = AbsorptionSimulation.DEFAULT_XK0;
     private double dt = AbsorptionSimulation.DEFAULT_DT;
+    private Simulation oldSim;
 
     public TD_QuantLauncher() {
         jframe = new JFrame( "Feasibility Test" );
@@ -59,7 +59,7 @@ public class TD_QuantLauncher {
         verticalLayoutPanel.add( new JLabel( "xk0" ) );
         verticalLayoutPanel.add( k0 );
 
-        final JSpinner dtSpinner = new JSpinner( new SpinnerNumberModel( dt, 0, 1, 0.01 ) );
+        final JSpinner dtSpinner = new JSpinner( new SpinnerNumberModel( dt, 0, 100, 0.01 ) );
         dtSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 dt = ( (Number)dtSpinner.getValue() ).doubleValue();
@@ -114,10 +114,6 @@ public class TD_QuantLauncher {
                     stop();
                 }
             } );
-//            AbsorptionSimulation.LOOP_DELAY = loopDelay;
-//            AbsorptionSimulation.LATTICE_SIZE = latticeSize;
-//            AbsorptionSimulation.XK0_VALUE = xk0;
-//            AbsorptionSimulation.dt = dt;
             app = new AbsorptionSimulation( loopDelay, latticeSize, xk0, dt );
 
             frame.setContentPane( app );

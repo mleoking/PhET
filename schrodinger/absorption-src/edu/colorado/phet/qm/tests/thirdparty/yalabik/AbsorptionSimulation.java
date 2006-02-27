@@ -12,6 +12,11 @@ This version is for a 1-d system. */
 
 public class AbsorptionSimulation extends JComponent implements Runnable {
 
+    public static final int DEFAULT_DELAY = 30;
+    public static final int DEFAULT_LATTICE_SIZE = 256;
+    public static final double DEFAULT_XK0 = 0.25;
+    public static final double DEFAULT_DT = 0.5;
+
     Thread animatorThread;
 
     Dimension offDimension;
@@ -22,8 +27,6 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private Choice state_choices;
 
     private int latticeSize;
-//    public static double XK0_VALUE = 0.25;
-
     private int rh = 200;
     private int rx, ry;
     private int mode = PACKET;
@@ -59,10 +62,6 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private long loopDelay = 30;
     private double t;
     private boolean running = true;
-    public static final int DEFAULT_DELAY = 30;
-    public static final int DEFAULT_LATTICE_SIZE = 256;
-    public static final double DEFAULT_XK0 = 0.25;
-    public static final double DEFAULT_DT = 0.5;
 
     public AbsorptionSimulation() {
         this( DEFAULT_DELAY, DEFAULT_LATTICE_SIZE, DEFAULT_XK0, DEFAULT_DT );
@@ -86,18 +85,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         nn = latticeSize;
         this.xk0 = xk0;
         this.dt = dt;
-        init();
-    }
 
-    public boolean isRunning() {
-        return running;
-    }
 
-    public void setRunning( boolean running ) {
-        this.running = running;
-    }
-
-    public void init() {
         setSize( 1024, 800 );
         setPreferredSize( new Dimension( 1024, 800 ) );
         // Set the background color
@@ -130,6 +119,14 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
 
         animatorThread = new Thread( this );
         animatorThread.start();
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning( boolean running ) {
+        this.running = running;
     }
 
     private void initParameters() {
@@ -214,7 +211,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     private void initPotential() {
         int i;
         for( i = 0; i < nn; i++ ) {
-            if( ( ( i > 100 ) && ( i < 105 ) ) || ( ( i > 115 ) && ( i < 120 ) ) ) {
+            if( ( ( i > 100 ) && ( i < 120 ) ) ) {//|| ( ( i > 115 ) && ( i < 120 ) ) ) {
                 pot[i] = 4 * rh / 5;
             }
             else {
