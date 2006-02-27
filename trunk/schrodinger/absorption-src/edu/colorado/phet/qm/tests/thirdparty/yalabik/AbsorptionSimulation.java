@@ -39,7 +39,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     double[][] cenerg;
     private int rw;
     int[] pot;
-    int nn;
+//    int nn;
     double[][] bfou = new double[2][17];
     double[][] bsi = new double[2][16];
     double[][] csi = new double[2][16];
@@ -82,7 +82,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
         cenerg = new double[2][latticeSize];
         rw = latticeSize;
         pot = new int[latticeSize];
-        nn = latticeSize;
+//        nn = latticeSize;
         this.xk0 = xk0;
         this.dt = dt;
 
@@ -172,7 +172,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
             }      /* for j */
         }        /* for i */
 
-        xnorm = 1. / nn;
+        xnorm = 1. / latticeSize;
         bnorm = 1. / n_bound2;
 
         for( int i = 0; i < n_bound2; i++ ) {
@@ -182,8 +182,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
             bksq[1][i] = -Math.sin( a ) * bnorm;
         }
 
-        for( int i = 0; i < nn; i++ ) {
-            double a = Math.sin( pi * i / nn );
+        for( int i = 0; i < latticeSize; i++ ) {
+            double a = Math.sin( pi * i / latticeSize );
             a = 4. * a * a * dt;
             cenerg[0][i] = Math.cos( a ) * xnorm;
             cenerg[1][i] = -Math.sin( a ) * xnorm;
@@ -201,8 +201,8 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
     }
 
     private void initFFT() {
-        for( int i = 0; i <= nn; i++ ) {
-            double xx = 2 * i * pi / nn;
+        for( int i = 0; i <= latticeSize; i++ ) {
+            double xx = 2 * i * pi / latticeSize;
             cfo[0][i] = Math.cos( xx );
             cfo[1][i] = Math.sin( xx );
         }
@@ -210,7 +210,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
 
     private void initPotential() {
         int i;
-        for( i = 0; i < nn; i++ ) {
+        for( i = 0; i < latticeSize; i++ ) {
             if( ( ( i > 100 ) && ( i < 120 ) ) ) {//|| ( ( i > 115 ) && ( i < 120 ) ) ) {
                 pot[i] = 4 * rh / 5;
             }
@@ -331,7 +331,7 @@ public class AbsorptionSimulation extends JComponent implements Runnable {
             g.setColor( this.getBackground() );
             g.fillRect( rx, ry, rw, rh );
 
-            for( int i = 0; i < nn; i++ ) {
+            for( int i = 0; i < latticeSize; i++ ) {
                 if( ( ( i > 100 ) && ( i < 105 ) ) || ( ( i > 115 ) && ( i < 120 ) ) ) {
                     pot[i] = 4 * rh / 5;
                 }
@@ -444,18 +444,18 @@ c  */
 
     private void updateWavefunction() {
 
-        for( int i = 0; i < nn; i++ ) {
+        for( int i = 0; i < latticeSize; i++ ) {
             double a = psi[0][i];
             double b = psi[1][i];
             psi[0][i] = a * cpot[0][i] - b * cpot[1][i];
             psi[1][i] = a * cpot[1][i] + b * cpot[0][i];
         }
 
-/*  form the bc vector bsi for i~nn and csi for i~1  */
+/*  form the bc vector bsi for i~latticeSize and csi for i~1  */
 
         for( int i = 0; i < n_bound; i++ ) {
             for( int j = 0; j < 2; j++ ) {
-                bsi[j][i] = psi[j][nn - n_bound + i];
+                bsi[j][i] = psi[j][latticeSize - n_bound + i];
                 if( mode == PACKET ) {
                     csi[j][i] = psi[j][i];
                 }
@@ -521,11 +521,11 @@ c  */
 
 /*   fourier transform the wavefunction:  */
 
-        fft( nn, cfo, psi, -1 );
+        fft( latticeSize, cfo, psi, -1 );
 
 /*   do the momentum space updating and normalization  */
 
-        for( int i = 0; i < nn; i++ ) {
+        for( int i = 0; i < latticeSize; i++ ) {
             double a = psi[0][i];
             double b = psi[1][i];
             psi[0][i] = a * cenerg[0][i] - b * cenerg[1][i];
@@ -534,14 +534,14 @@ c  */
 
 /*   inverse transform to position space  */
 
-        fft( nn, cfo, psi, 1 );
+        fft( latticeSize, cfo, psi, 1 );
 
 /* interpolate the boundary region between the two forms of solutions  */
 
 
         for( int i = 0; i < nbo; i++ ) {
             for( int j = 0; j < 2; j++ ) {
-                psi[j][nn - nbo + i] = bsi[j][nbo + i];
+                psi[j][latticeSize - nbo + i] = bsi[j][nbo + i];
                 if( mode == PACKET ) {
                     psi[j][i] = csi[j][i];
                 }
@@ -553,7 +553,7 @@ c  */
     }
 
     private void initAlgorithm() {
-        for( int i = 0; i < nn; i++ ) {
+        for( int i = 0; i < latticeSize; i++ ) {
             double xx = Math.exp( -( i - i0 ) * ( i - i0 ) / ( width * width ) );
             if( mode != PACKET ) {
                 if( i < i0 ) {
@@ -568,7 +568,7 @@ c  */
             psi[1][i] = xx * Math.sin( getXK00() * i );
         }
 
-        for( int i = 0; i < nn; i++ ) {
+        for( int i = 0; i < latticeSize; i++ ) {
             cpot[0][i] = Math.cos( dt * scale * ( rh - pot[i] - 20 ) );
             cpot[1][i] = -Math.sin( dt * scale * ( rh - pot[i] - 20 ) );
         }
@@ -583,7 +583,7 @@ c  */
         }
 
         double psi_big = 0.;
-        for( int k = 0; k < nn; k++ ) {
+        for( int k = 0; k < latticeSize; k++ ) {
             double xx = psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k];
             if( psi_big < xx ) {
                 psi_big = xx;
@@ -602,21 +602,21 @@ c  */
         double psi_scale = getPsiScale();
         int old_psi = getAxis() - (int)( psi_scale * psi[0][0] );
         int axis = getAxis();
-        for( int k = 1; k < nn; k++ ) {
+        for( int k = 1; k < latticeSize; k++ ) {
             int ii = axis - (int)( psi_scale * psi[0][k] );
             offGraphics.drawLine( k - 1, old_psi, k, ii );
             old_psi = ii;
         }
         offGraphics.setColor( Color.green );
         old_psi = axis - (int)( psi_scale * psi[1][0] );
-        for( int k = 1; k < nn; k++ ) {
+        for( int k = 1; k < latticeSize; k++ ) {
             int ii = axis - (int)( psi_scale * psi[1][k] );
             offGraphics.drawLine( k - 1, old_psi, k, ii );
             old_psi = ii;
         }
         offGraphics.setColor( Color.white );
         old_psi = axis - (int)( psi_scale * Math.sqrt( psi[0][0] * psi[0][0] + psi[1][0] * psi[1][0] ) );
-        for( int k = 1; k < nn; k++ ) {
+        for( int k = 1; k < latticeSize; k++ ) {
             int ii = axis - (int)( psi_scale * Math.sqrt( psi[0][k] * psi[0][k] + psi[1][k] * psi[1][k] ) );
             offGraphics.drawLine( k - 1, old_psi, k, ii );
             old_psi = ii;
