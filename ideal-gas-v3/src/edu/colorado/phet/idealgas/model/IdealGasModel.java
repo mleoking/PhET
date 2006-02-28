@@ -14,7 +14,10 @@ import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.mechanics.Body;
 
@@ -68,12 +71,13 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private Shape modelBounds;
 //    private Rectangle2D modelBounds;
     private double targetTemperature;
+    private SimpleObservable simpleObservable = new SimpleObservable();
 
     /**
      * @param dt
      */
     public IdealGasModel( double dt ) {
-        // Add a collision collisionGod
+        // Add a collisionGod
         collisionGod = new CollisionGod( this, dt,
                                          new Rectangle2D.Double( 0, 0,
                                                                  600,
@@ -460,6 +464,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // Clear the added-energy accumulator
         deltaKE = 0;
 
+        // Adjust the energy of every Body in the system
         if( totalEnergyPre != 0 && ratio != 1 ) {
             for( int i = 0; i < this.numModelElements(); i++ ) {
                 ModelElement element = this.modelElementAt( i );
@@ -679,9 +684,18 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         this.modelBounds = a;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Event handling
-    //
+    //----------------------------------------------------------------
+    // Event Handling
+    //----------------------------------------------------------------
+
+    public void addObserver( SimpleObserver observer ) {
+        simpleObservable.addObserver( observer );
+    }
+
+    public void notifyObservers() {
+        simpleObservable.notifyObservers();
+    }
+
     public void gravityChanged( Gravity.ChangeEvent event ) {
         adjustEnergyForGravity( event.getChange() );
     }

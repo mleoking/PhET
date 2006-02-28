@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
@@ -38,7 +38,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
      *
      * @param clock
      */
-    public RigidHollowSphereModule( AbstractClock clock ) {
+    public RigidHollowSphereModule( SimulationClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
         double xOrigin = 200;
         double yOrigin = 250;

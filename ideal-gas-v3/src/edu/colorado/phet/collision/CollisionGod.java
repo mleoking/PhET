@@ -426,8 +426,6 @@ public class CollisionGod {
     /**
      * A region within the physical system
      */
-// Try making it a linked list instead of a HashSet. That way, we can avoid using
-// iterators when going through them
     public class Region extends LinkedList {
         double xMin;
         double xMax;

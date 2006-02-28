@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -45,7 +46,7 @@ public class Pump extends SimpleObservable implements GasSource {
     protected static final float MAX_V = -30;
 
     private IdealGasModel model;
-    private Module module;
+    private PhetGraphicsModule module;
     private Class currentGasSpecies = HeavySpecies.class;
     private PumpingEnergyStrategy pumpingEnergyStrategy;
 
@@ -61,7 +62,7 @@ public class Pump extends SimpleObservable implements GasSource {
      * @param box
      * @param pumpingEnergyStrategy
      */
-    public Pump( Module module, Box2D box, PumpingEnergyStrategy pumpingEnergyStrategy ) {
+    public Pump( PhetGraphicsModule module, Box2D box, PumpingEnergyStrategy pumpingEnergyStrategy ) {
         this.pumpingEnergyStrategy = pumpingEnergyStrategy;
         if( box == null ) {
             throw new RuntimeException( "box cannot be null" );

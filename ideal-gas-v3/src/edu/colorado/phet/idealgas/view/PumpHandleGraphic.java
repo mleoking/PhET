@@ -7,12 +7,13 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.model.clock.Clock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.model.Pump;
 
 import java.awt.*;
@@ -56,9 +57,9 @@ public class PumpHandleGraphic extends CompositePhetGraphic {
             lastYPumped = yNew;
 
             // If the simulation is paused, unpause it
-            AbstractClock clock = PhetApplication.instance().getClock();
+            IClock clock = PhetApplication.instance().getActiveModule().getClock();
             if( clock.isPaused() == true ) {
-                clock.setPaused( false );
+                clock.pause();
             }
         }
         lastYTracked = yNew;

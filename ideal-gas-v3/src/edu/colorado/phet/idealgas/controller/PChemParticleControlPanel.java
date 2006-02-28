@@ -14,6 +14,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 /**
  * PumpControlPanel
@@ -28,7 +29,7 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
         super( module, gasSource );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
-        getModule().getModel().addObserver( new SimpleObserver() {
+        ((IdealGasModel)getModule().getModel()).addObserver( new SimpleObserver() {
             public void update() {
                 int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
                 getHeavySpinner().setValue( new Integer( h ) );
@@ -36,7 +37,7 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
         } );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
-        getModule().getModel().addObserver( new SimpleObserver() {
+        ((IdealGasModel)getModule().getModel()).addObserver( new SimpleObserver() {
             public void update() {
                 int h = getModule().getIdealGasModel().getLightSpeciesCnt();
                 getLightSpinner().setValue( new Integer( h ) );

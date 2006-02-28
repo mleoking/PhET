@@ -6,53 +6,37 @@
  */
 package edu.colorado.phet.idealgas;
 
-import edu.colorado.phet.common.application.ApplicationModel;
+//import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
+//import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
+import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AdvancedGasApplication extends PhetApplication {
 
-    static class IdealGasApplicationModel extends ApplicationModel {
-        public IdealGasApplicationModel() {
-            super( SimStrings.get( "UnimolecularApplication.title" ),
-                   SimStrings.get( "UnimolecularApplication.description" ),
-                   IdealGasConfig.VERSION,
-                   IdealGasConfig.FRAME_SETUP );
-
-            // Set the color scheme
-            IdealGasConfig.COLOR_SCHEME = IdealGasConfig.WHITE_BACKGROUND_COLOR_SCHEME;
-
-            // Create the clock
-            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true );
-            setClock( clock );
-
-            // Create the modules
-            Module movableWallsModule = new MovableWallsModule( getClock() );
-            setModule( movableWallsModule );
-
-            // Set the initial size
-            setFrameCenteredSize( 920, 700 );
-        }
-    }
 
     public AdvancedGasApplication( String[] args ) {
         super( args, SimStrings.get( "UnimolecularApplication.title" ),
                SimStrings.get( "UnimolecularApplication.description" ),
                IdealGasConfig.VERSION,
-               new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
-               true,
+//               new SwingClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
+//               true,
                IdealGasConfig.FRAME_SETUP );
 
-        setModules( new Module[] { new MovableWallsModule( getClock() ) } );
+        SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
+
+        setModules( new Module[] { new MovableWallsModule( clock ) } );
+//        setModules( new Module[] { new MovableWallsModule( getClock() ) } );
 
     }
 
@@ -62,9 +46,9 @@ public class AdvancedGasApplication extends PhetApplication {
         for( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
             if( arg.startsWith( "-B" ) ) {
-                ModuleManager mm = this.getModuleManager();
-                for( int j = 0; j < mm.numModules(); j++ ) {
-                    ApparatusPanel ap = mm.moduleAt( j ).getApparatusPanel();
+                PhetGraphicsModule[] modules = (PhetGraphicsModule[])this.getModules();
+                for( int j = 0; j < modules.length; j++ ) {
+                    ApparatusPanel ap = modules[j].getApparatusPanel();
                     ap.setBackground( Color.black );
                     ap.paintImmediately( ap.getBounds() );
                 }

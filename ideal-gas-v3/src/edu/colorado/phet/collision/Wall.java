@@ -12,6 +12,7 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.coreadditions.Translatable;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,7 +29,7 @@ import java.util.EventObject;
  * @version $Revision$
  */
 
-public class Wall extends CollidableBody {
+public class Wall extends CollidableBody implements Translatable {
     private Vector2D velocity = new Vector2D.Double();
     private Rectangle2D rep = new Rectangle2D.Double();
     private Rectangle2D movementBounds;

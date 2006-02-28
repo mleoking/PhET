@@ -13,7 +13,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
@@ -40,7 +40,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private Class gasSpecies = LightSpecies.class;
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
-    public HeliumBalloonModule( AbstractClock clock ) {
+    public HeliumBalloonModule( SimulationClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
 
         // So we'll get events sent by parent classes

@@ -15,13 +15,10 @@ import edu.colorado.phet.collision.VerticalBarrier;
 import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import javax.swing.*;
@@ -46,7 +43,7 @@ public class DiffusionModule extends AdvancedModule {
      *
      * @param clock
      */
-    public DiffusionModule( final AbstractClock clock ) {
+    public DiffusionModule( final SimulationClock clock ) {
         super( clock, "Diffusion" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
@@ -98,7 +95,7 @@ public class DiffusionModule extends AdvancedModule {
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModel().stepInTime( -clock.getDt() );
+                ((IdealGasModel)getModel()).stepInTime( -clock.getDt() );
             }
         } );
     }
