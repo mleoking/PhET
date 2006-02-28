@@ -130,12 +130,22 @@ public class QTApplication extends PhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
+    /**
+     * Saves global state.
+     * 
+     * @param appConfig
+     */
     public void save( QTConfig appConfig ) {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
         config.setCvsTag( QTVersion.CVS_TAG );
         config.setVersionNumber( QTVersion.NUMBER );
     }
 
+    /**
+     * Loads global state.
+     * 
+     * @param appConfig
+     */
     public void load( QTConfig appConfig ) {
         QTConfig.GlobalConfig config = appConfig.getGlobalConfig();
         // nothing to do...

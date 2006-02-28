@@ -25,21 +25,35 @@ import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 
 
 /**
- * PotentialComboBox
+ * PotentialComboBox is the combo box for choosing the potential type.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class PotentialComboBox extends JComboBox {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Dimension ICON_SIZE = new Dimension( 50, 20 );
     private static final Stroke ICON_STROKE = new BasicStroke( 2f );
     private static final Color ICON_COLOR = QTConstants.POTENTIAL_ENERGY_COLOR;
+    private static final int ICON_MARGIN = 4;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private static ArrayList _choices;
     
-
-
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public PotentialComboBox() {
         
         if ( _choices == null ) {
@@ -55,22 +69,10 @@ public class PotentialComboBox extends JComboBox {
         PotentialComboBoxRenderer renderer = new PotentialComboBoxRenderer();
         setRenderer( renderer );
     }
-
-    public PotentialType getSelectedPotentialType() {
-        return ((PotentialChoice)getSelectedItem()).getPotentialType();
-    }
     
-    public void setSelectedPotentialType( PotentialType potentialType ) {
-        Iterator i = _choices.iterator();
-        while ( i.hasNext() ) {
-            PotentialChoice choice = (PotentialChoice) i.next();
-            if ( choice.getPotentialType() == potentialType ) {
-                setSelectedItem( choice );
-                break;
-            }
-        }
-    }
-    
+    /*
+     * Initialzes the combo box.
+     */
     private static synchronized void initChoices() {
         
         if ( _choices != null ) {
@@ -94,8 +96,42 @@ public class PotentialComboBox extends JComboBox {
         _choices.add( doubleBarrierItem );
     }
     
-    private static final int ICON_MARGIN = 4;
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
+    /**
+     * Gets the current selection.
+     * 
+     * @return a PotentialType
+     */
+    public PotentialType getSelectedPotentialType() {
+        return ((PotentialChoice)getSelectedItem()).getPotentialType();
+    }
+    
+    /**
+     * Sets the current selection.
+     * 
+     * @param potentialType
+     */
+    public void setSelectedPotentialType( PotentialType potentialType ) {
+        Iterator i = _choices.iterator();
+        while ( i.hasNext() ) {
+            PotentialChoice choice = (PotentialChoice) i.next();
+            if ( choice.getPotentialType() == potentialType ) {
+                setSelectedItem( choice );
+                break;
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Icon creators
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates the "constant potential" icon.
+     */
     private static ImageIcon createConstantIcon() {
         final int w = ICON_SIZE.width;
         final int h = ICON_SIZE.height;
@@ -110,6 +146,9 @@ public class PotentialComboBox extends JComboBox {
         return new ImageIcon( bi );
     }
     
+    /*
+     * Creates the "step potential" icon.
+     */
     private static ImageIcon createStepIcon() {
         final int w = ICON_SIZE.width;
         final int h = ICON_SIZE.height;
@@ -126,6 +165,9 @@ public class PotentialComboBox extends JComboBox {
         return new ImageIcon( bi );
     }
     
+    /*
+     * Creates the "single barrier potential" icon.
+     */
     private static ImageIcon createSingleBarrierIcon() {
         final int w = ICON_SIZE.width;
         final int h = ICON_SIZE.height;
@@ -144,6 +186,9 @@ public class PotentialComboBox extends JComboBox {
         return new ImageIcon( bi );
     }
     
+    /*
+     * Creates the "double barrier potential" icon.
+     */
     private static ImageIcon createDoubleBarrierIcon() {
         final int w = ICON_SIZE.width;
         final int h = ICON_SIZE.height;
@@ -166,6 +211,14 @@ public class PotentialComboBox extends JComboBox {
         return new ImageIcon( bi );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * PotentialChoice is the object that is added to the combo box.
+     * Each of these objects represents a choice.
+     */
     private static class PotentialChoice {
 
         private PotentialType _potentialType;
@@ -191,6 +244,10 @@ public class PotentialComboBox extends JComboBox {
         }
     }
     
+    /*
+     * PotentialComboBoxRenderer renders a combo box choice as 
+     * a text label with an icon positioned to the right of the text.
+     */
     private class PotentialComboBoxRenderer extends JLabel implements ListCellRenderer {
 
         public PotentialComboBoxRenderer() {
