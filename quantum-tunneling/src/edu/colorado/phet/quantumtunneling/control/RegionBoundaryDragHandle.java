@@ -43,6 +43,11 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param chartNode
+     */
     public RegionBoundaryDragHandle( QTCombinedChartNode chartNode ) {
         super( AbstractDragHandle.HORIZONTAL );
         setValueFormat( QTConstants.POSITION_FORMAT );

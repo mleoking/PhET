@@ -44,6 +44,11 @@ public class PotentialEnergyDragHandle extends AbstractDragHandle implements Obs
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param chartNode
+     */
     public PotentialEnergyDragHandle( QTCombinedChartNode chartNode ) {
         super( AbstractDragHandle.VERTICAL );
         setValueFormat( QTConstants.ENERGY_FORMAT );

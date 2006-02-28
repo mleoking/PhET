@@ -130,6 +130,12 @@ public class PotentialEnergyControls extends PNode {
         return ( (PotentialEnergyDragHandle) _energyDragHandles.get( 0 ) ).isValueVisible();
     }
     
+    /**
+     * Gets the energy drag handle for region i.
+     * 
+     * @param i
+     * @return
+     */
     public PotentialEnergyDragHandle getPotentialEnergyDragHandle( int i ) {
         if ( i >= 0 && i < _energyDragHandles.size() ) {
             return (PotentialEnergyDragHandle) _energyDragHandles.get( i );
@@ -139,6 +145,13 @@ public class PotentialEnergyControls extends PNode {
         }
     }
 
+    /**
+     * Gets the region boundary drag handle for the boundary between 
+     * regions i and i+1.
+     * 
+     * @param i
+     * @return
+     */
     public RegionBoundaryDragHandle getRegionBoundaryDragHandle( int i ) {
         if ( i >= 0 && i < _boundaryDragHandles.size() ) {
             return (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
@@ -148,6 +161,11 @@ public class PotentialEnergyControls extends PNode {
         }
     }
     
+    /**
+     * Adds an InputEventListener to each of the drag handles.
+     * 
+     * @param listener
+     */
     public void addInputEventListener( PInputEventListener listener ) {
         Iterator i = _boundaryDragHandles.iterator();
         while ( i.hasNext() ) {
@@ -165,6 +183,9 @@ public class PotentialEnergyControls extends PNode {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the drag bounds for all of the drag handles.
+     */
     public void updateDragBounds() {
         // update the energy drag handles
         for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
