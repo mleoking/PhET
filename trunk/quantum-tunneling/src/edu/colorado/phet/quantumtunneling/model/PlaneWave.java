@@ -70,7 +70,7 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     //---------------------------------------------------------------------------- 
     
     public boolean isInitialized() {
-        return ( _te != null && _pe != null );
+        return ( _te != null && _pe != null && _solver != null );
     }
     
     //----------------------------------------------------------------------------
@@ -152,6 +152,30 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
             _measureEnabled = enabled;
             notifyObservers();
         }
+    }
+    
+    /**
+     * Use this method to ask if the solution is zero with energy values
+     * that this wave is observing.
+     * 
+     * @param te
+     * @param pe
+     * @return true or false
+     */
+    public boolean isSolutionZero() {
+        return isSolutionZero( _te, _pe );
+    }
+    
+    /**
+     * Use this method to ask if the solution would be zero with some hypothetical
+     * energy values. This is useful when we're using the Configure Energy dialog.
+     * 
+     * @param te
+     * @param pe
+     * @return true or false
+     */
+    public boolean isSolutionZero( TotalEnergy te, AbstractPotential pe ) {
+        return AbstractPlaneSolver.isSolutionZero( te, pe, _direction );
     }
     
     //----------------------------------------------------------------------------
