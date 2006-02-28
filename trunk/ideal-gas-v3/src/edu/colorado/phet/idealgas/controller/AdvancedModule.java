@@ -12,9 +12,9 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.VerticalBarrier;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -56,7 +56,7 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @param clock
      * @param name
      */
-    public AdvancedModule( AbstractClock clock, String name ) {
+    public AdvancedModule( SimulationClock clock, String name ) {
         super( clock, name );
         init();
     }
@@ -66,7 +66,7 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @param s
      * @param model
      */
-    public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
+    public AdvancedModule( SimulationClock clock, String s, PChemModel model ) {
         super( clock, s, model );
         init();
     }

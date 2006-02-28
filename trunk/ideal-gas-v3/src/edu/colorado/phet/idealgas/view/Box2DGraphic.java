@@ -6,12 +6,14 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+//import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+//import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 
@@ -58,6 +60,7 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
         internalBoxGraphic = new InternalBoxGraphic( component );
         this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         addTranslationListener( new Translator() );
+//        addTranslationListener( new Translator() );
     }
 
     public void setWallColor( Color wallColor ) {

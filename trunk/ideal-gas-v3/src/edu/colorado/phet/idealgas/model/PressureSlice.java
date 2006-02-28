@@ -7,11 +7,12 @@
 package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
 import edu.colorado.phet.mechanics.Body;
 
@@ -41,14 +42,14 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     // Flag to say whether observers should be updated on every time step or only each time the
     // time averaging window has passed
     boolean updateContinuously = true;
-    private AbstractClock clock;
+    private Clock clock;
 
     /**
      * @param box
      * @param model
      * @param clock
      */
-    public PressureSlice( Box2D box, IdealGasModel model, AbstractClock clock ) {
+    public PressureSlice( Box2D box, IdealGasModel model, SimulationClock clock ) {
         this.box = box;
         this.model = model;
         this.clock = clock;

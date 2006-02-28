@@ -29,7 +29,7 @@ import java.util.EventObject;
  * <p/>
  * The panel has its own clock that has the same dt as the clock provided as a parameter in the constructor.
  */
-public class StopwatchPanel extends JPanel implements ClockTickListener, ClockStateListener, ModelElement {
+public class StopwatchPanel extends JPanel implements ClockListener, ModelElement {
 
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat = new DecimalFormat( "0.00" );
@@ -178,32 +178,54 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     //----------------------------------------------------------------
     boolean savedResetState;
 
+    public void clockTicked( ClockEvent clockEvent ) {
+        String s = clockFormat.format( clockEvent.getSimulationTime() );
+        clockTF.setText( s );
+    }
+
+    public void clockStarted( ClockEvent clockEvent ) {
+        resetBtn.setEnabled( savedResetState );
+    }
+
+    public void clockPaused( ClockEvent clockEvent ) {
+        savedResetState = resetBtn.isEnabled();
+        resetBtn.setEnabled( true );
+    }
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {
+
+    }
+
     /**
      * Responds to state changes in the simulation clock
      *
      * @param event
      */
-    public void stateChanged( ClockStateEvent event ) {
-        if( event.getIsPaused() ) {
-            savedResetState = resetBtn.isEnabled();
-            resetBtn.setEnabled( true );
-        }
-        else {
-            resetBtn.setEnabled( savedResetState );
-        }
-    }
+//    public void stateChanged( ClockStateEvent event ) {
+//        if( event.getIsPaused() ) {
+//            savedResetState = resetBtn.isEnabled();
+//            resetBtn.setEnabled( true );
+//        }
+//        else {
+//            resetBtn.setEnabled( savedResetState );
+//        }
+//    }
 
     /**
      * Responds to ticks of the stopwatch clock
      *
      * @param event
      */
-    public void clockTicked( ClockTickEvent event ) {
-        AbstractClock c = (AbstractClock)event.getSource();
-        // TODO: scale factor goes here
-        String s = clockFormat.format( c.getRunningTime() );
-        clockTF.setText( s );
-    }
+//    public void clockTicked( ClockTickEvent event ) {
+//        Clock c = (Clock)event.getSource();
+//        // TODO: scale factor goes here
+//        String s = clockFormat.format( c.getRunningTime() );
+//        clockTF.setText( s );
+//    }
 
     public void stepInTime( double dt ) {
         if( isRunning ) {

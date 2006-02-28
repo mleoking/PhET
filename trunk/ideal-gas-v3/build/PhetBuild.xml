@@ -91,8 +91,9 @@ ignorepath      (those elements of the ant classpath that should not be
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" sourcepath="sourcePath" destdir="${classes}">
             <src path="${project_home}/src"/>
-            <src path="${project_home}/phetcommon/src"/>
-            <src path="${project_home}/mechanics/src"/>
+            <src path="${project_home}/phetcommon-dir/src"/>
+            <src path="${project_home}/phetgraphics-dir/src"/>
+            <src path="${project_home}/mechanics-module/src"/>
         </javac>
     </target>
 
@@ -106,7 +107,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="${project_home}/phetcommon/data"/>
+            <fileset dir="${project_home}/phetcommon-dir/data"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>

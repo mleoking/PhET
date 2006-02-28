@@ -45,7 +45,7 @@ public class IdealGasConfig {
     public static final String TITLE = "Ideal Gas Law";
     public static final String DESCRIPTION = "<html>A simulation for investigating"
                                              + "<br>the model of gasses.</html>";
-    public static final String VERSION = "3.03";
+    public static final String VERSION = "3.04";
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";

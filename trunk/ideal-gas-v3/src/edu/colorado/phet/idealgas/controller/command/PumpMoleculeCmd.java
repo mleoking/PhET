@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -31,7 +32,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     protected static final float DEFAULT_ENERGY = IdealGasModel.DEFAULT_ENERGY;
 
     private GasMolecule molecule;
-    private Module module;
+    private PhetGraphicsModule module;
     protected Class speciesClass;
     private IdealGasModel idealGasModel;
     static private Random random = new Random();
@@ -45,7 +46,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
      */
     public PumpMoleculeCmd( IdealGasModel model,
                             GasMolecule molecule,
-                            Module module ) {
+                            PhetGraphicsModule module ) {
         super( model, molecule );
         this.idealGasModel = model;
         this.molecule = molecule;

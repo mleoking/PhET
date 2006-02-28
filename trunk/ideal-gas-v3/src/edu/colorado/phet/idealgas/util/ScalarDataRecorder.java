@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.util;
 
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,13 +30,13 @@ public class ScalarDataRecorder {
     // Size, in milliseconds, of the sliding window over which samples are averaged
     private double timeWindow = 5;
     private double timeSpanOfEntries;
-    private AbstractClock clock;
+    private Clock clock;
 
-    public ScalarDataRecorder( AbstractClock clock ) {
+    public ScalarDataRecorder( Clock clock ) {
         this.clock = clock;
     }
 
-    public ScalarDataRecorder( AbstractClock clock, int updatePeriod ) {
+    public ScalarDataRecorder( Clock clock, int updatePeriod ) {
         this.clock = clock;
         new PeriodicDataComputer( updatePeriod ).start();
     }
@@ -62,7 +62,8 @@ public class ScalarDataRecorder {
     }
 
     public synchronized void computeDataStatistics() {
-        double currTime = clock.getRunningTime();
+        double currTime = clock.getSimulationTime();
+//        double currTime = clock.getRunningTime();
 
         // Remove entries from the data record that have aged out of the time window
         if( dataRecord.size() > 0 ) {
@@ -92,7 +93,8 @@ public class ScalarDataRecorder {
      *
      */
     public synchronized void addDataRecordEntry( double value ) {
-        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
+        DataRecordEntry entry = new DataRecordEntry( clock.getSimulationTime(), value );
+//        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
         dataRecord.add( entry );
     }
 
@@ -136,7 +138,7 @@ public class ScalarDataRecorder {
      */
     private class PeriodicDataComputer {
         Timer timer;
-        AbstractClock clock;
+        Clock clock;
 
         public PeriodicDataComputer( int updatePeriod ) {
             this.timer = new Timer( updatePeriod, new ActionListener() {

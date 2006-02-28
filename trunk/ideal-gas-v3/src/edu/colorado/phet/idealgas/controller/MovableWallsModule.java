@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -68,7 +68,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     /**
      * @param clock
      */
-    public MovableWallsModule( final AbstractClock clock ) {
+    public MovableWallsModule( final SimulationClock clock ) {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>", new PChemModel( clock.getDt() ) );
 
         //----------------------------------------------------------------
@@ -147,7 +147,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModel().stepInTime( -clock.getDt() );
+                ((IdealGasModel)getModel()).stepInTime( -clock.getDt() );
             }
         } );
     }
