@@ -15,6 +15,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.MutableComplex;
+import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 
 /**
@@ -37,7 +38,7 @@ import edu.colorado.phet.quantumtunneling.util.MutableComplex;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RichardsonSolver {
+public class RichardsonSolver implements IWavePacketSolver {
 
     //----------------------------------------------------------------------
     // Class data
@@ -63,11 +64,11 @@ public class RichardsonSolver {
     
     private double _dx;
     private double _positions[]; // position at each sample point
-    private RComplex _Psi[]; // wave function values at each sample point
-    private RComplex _EtoV[]; // potential energy propagator = exp(-i*V(x)*dt/hbar)
+    private LightweightComplex _Psi[]; // wave function values at each sample point
+    private LightweightComplex _EtoV[]; // potential energy propagator = exp(-i*V(x)*dt/hbar)
     
-    private RComplex _alpha; // special parameter for Richardson algorithm
-    private RComplex _beta; // special parameter for Richardson algorithm
+    private LightweightComplex _alpha; // special parameter for Richardson algorithm
+    private LightweightComplex _beta; // special parameter for Richardson algorithm
     
     //----------------------------------------------------------------------
     // Constructors
@@ -91,26 +92,25 @@ public class RichardsonSolver {
     //----------------------------------------------------------------------
     
     /**
-     * Gets the position (x) coordinates of the wave function solution.
+     * Gets the position (x) coordinates that were used to compute the wave function solution.
      * 
      * @return double[]
      */
-    public double[] getPositions() {
+    public double[] getPositionValues() {
         return _positions;
     }
     
     /**
-     * Gets the energy (y) coordinates of the wave function solution.
+     * Gets the wave function values.
      * 
-     * @return Complex[]
+     * @return LightweightComplex[]
      */
-    public RComplex[] getEnergies() {
+    public LightweightComplex[] getWaveFunctionValues() {
         return _Psi;
     }
     
     /**
-     * Sets the dx (position spacing) between sample points in the 
-     * wave function solution.
+     * Sets the dx (position spacing) between sample points.
      * 
      * @param dx
      */
@@ -175,27 +175,27 @@ public class RichardsonSolver {
         
         // Initialize constants used by the propagator.
         final double epsilon = HBAR * dt / ( MASS * _dx * _dx );
-        _alpha = new RComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
-        _beta = new RComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        _alpha = new LightweightComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
+        _beta = new LightweightComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
         // Initialize the data arrays used by the propagator.
         _positions = new double[numberOfSamples];
-        _Psi = new RComplex[numberOfSamples];
-        _EtoV = new RComplex[numberOfSamples];
-        RComplex A = new RComplex( 1 / ( Math.pow( Math.PI, 0.25 ) * Math.sqrt( width ) ), 0 ); // normalization constant
+        _Psi = new LightweightComplex[numberOfSamples];
+        _EtoV = new LightweightComplex[numberOfSamples];
+        LightweightComplex A = new LightweightComplex( 1 / ( Math.pow( Math.PI, 0.25 ) * Math.sqrt( width ) ), 0 ); // normalization constant
         for ( int i = 0; i < numberOfSamples; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
             if ( zero ) {
-                _Psi[i] = new RComplex( 0, 0 );
-                _EtoV[i] = new RComplex( 0, 0 );
+                _Psi[i] = new LightweightComplex( 0, 0 );
+                _EtoV[i] = new LightweightComplex( 0, 0 );
             }
             else {
                 final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
-                _Psi[i] = new RComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position - center ) / HBAR ) );
+                _Psi[i] = new LightweightComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position - center ) / HBAR ) );
                 _Psi[i].multiply( A );
                 final double s = getPotentialEnergy( position ) * dt / HBAR;
-                _EtoV[i] = new RComplex( Math.cos( s ), -Math.sin( s ) );
+                _EtoV[i] = new LightweightComplex( Math.cos( s ), -Math.sin( s ) );
             }
         }
     }
@@ -212,7 +212,7 @@ public class RichardsonSolver {
     }
     
     /**
-     * Propagates the solution by 1 step.
+     * Propagates the solution by a specified number of steps.
      * <p>
      * Note that this method contains a lot of duplicate code.
      * The body of each for loop could easily be made into a method; ditto for the damping code.
@@ -224,7 +224,7 @@ public class RichardsonSolver {
      * These operations used to be handled by a complex number class,
      * but the method calls were another source of performance problems.
      * 
-     * @param steps how many steps to advance
+     * @param steps number of steps to propagate
      */
     public void propagate( int steps ) {
         
@@ -452,53 +452,5 @@ public class RichardsonSolver {
         final double V = pe.getEnergy( regionIndex );
         
         return E < V;
-    }
-     
-    /**
-     * RComplex provides the bare minimum of complex number functionality
-     * needed by the Richardson algorithm. The goal is to minimize method
-     * calls that occur in the Richardson propagate method.
-     * <p>
-     * The propagator should access the real and imaginary members 
-     * directly, and not use any of the other methods.  The other 
-     * methods are for use by clients that need to do something with
-     * the solution values.
-     */
-    public static class RComplex {
-        
-        private double _real;
-        private double _imaginary;
-        
-        public RComplex() {
-            this( 0, 0 );
-        }
-        
-        public RComplex( double real, double imaginary ) {
-            _real = real;
-            _imaginary = imaginary;
-        }
-        
-        public double getReal() {
-            return _real;
-        }
-        
-        public double getImaginary() {
-            return _imaginary;
-        }
-        
-        public void multiply( RComplex c ) {
-            double newReal = _real * c._real - _imaginary * c._imaginary;
-            double newImaginary = _real * c._imaginary + _imaginary * c._real;
-            _real = newReal;
-            _imaginary = newImaginary;
-        }
-        
-        public double getAbs() {
-            return ( Math.sqrt( ( _real * _real ) + ( _imaginary * _imaginary ) ) );
-        }
-        
-        public double getPhase() {
-            return Math.atan2( _imaginary, _real );
-        }
     }
 }

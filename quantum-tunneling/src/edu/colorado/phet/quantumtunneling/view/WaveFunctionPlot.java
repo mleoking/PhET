@@ -25,8 +25,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.model.RichardsonSolver.RComplex;
 import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 
 /**
@@ -368,14 +368,14 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         clearAllSeries();
         
         // x coordinates...
-        double[] positions = wavePacket.getPositions();
+        double[] positions = wavePacket.getPositionValues();
         // y coordinates...
-        RComplex[] psi = wavePacket.getEnergies();
+        LightweightComplex[] psi = wavePacket.getWaveFunctionValues();
         
         final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = positions[i];
-            RComplex energy = psi[i];
+            LightweightComplex energy = psi[i];
             _incidentRealSeries.add( position, energy.getReal() );
             _incidentImaginarySeries.add( position, energy.getImaginary() );
             _incidentMagnitudeSeries.add( position, energy.getAbs() );

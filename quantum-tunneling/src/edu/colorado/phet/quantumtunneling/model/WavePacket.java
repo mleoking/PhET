@@ -19,8 +19,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
-import edu.colorado.phet.quantumtunneling.model.RichardsonSolver.RComplex;
 import edu.colorado.phet.quantumtunneling.util.Distribution;
+import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 import edu.colorado.phet.quantumtunneling.util.Distribution.DistributionAccessor;
 
 
@@ -42,7 +42,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private boolean _enabled;
     private double _width;
     private double _center;
-    private RichardsonSolver _solver;
+    private IWavePacketSolver _solver;
     private boolean _measureEnabled;
     private double _saveCenter;
     private double _saveWidth;
@@ -109,21 +109,21 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     }
     
     /**
-     * Gets the position values (x axis) for the wave function solution.
+     * Gets the position values (x axis) used in calculation the wave function solution.
      * 
      * @return
      */
-    public double[] getPositions() {
-        return _solver.getPositions();
+    public double[] getPositionValues() {
+        return _solver.getPositionValues();
     }
     
     /**
-     * Gets the energy values (y axis) for the wave function solution.
+     * Gets the wave function values (y axis).
      * 
      * @return
      */
-    public RComplex[] getEnergies() {
-        return _solver.getEnergies();
+    public LightweightComplex[] getWaveFunctionValues() {
+        return _solver.getWaveFunctionValues();
     }
     
     /**
@@ -286,8 +286,8 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
      */
     private double chooseRandomPosition() {
         double center = 0;
-        double[] positions = _solver.getPositions();
-        RComplex[] energies = _solver.getEnergies();
+        double[] positions = _solver.getPositionValues();
+        LightweightComplex[] energies = _solver.getWaveFunctionValues();
         if ( positions.length > 1 ) {
             double dx = positions[1] - positions[0];
             Distribution distribution = new Distribution();
