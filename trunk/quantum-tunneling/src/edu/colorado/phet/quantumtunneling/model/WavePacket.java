@@ -51,6 +51,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     */
     public WavePacket() {
         super();
         _te = null;
@@ -65,6 +68,9 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _saveWidth = _width;
     }
     
+    /**
+     * Call this method before releasing all references to objects of this type.
+     */
     public void cleanup() {
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -80,6 +86,11 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // AbstractWave implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Is the wave packet initialized?
+     * 
+     * @return true or false
+     */
     public boolean isInitialized() {
         return ( _te != null && _pe != null );
     }
@@ -88,20 +99,58 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Accessors
     //----------------------------------------------------------------------------
     
-    public RichardsonSolver getSolver() {
-        return _solver;
+    /**
+     * Sets the dx used by the solver.
+     * 
+     * @param dx
+     */
+    public void setDx( double dx ) {
+        _solver.setDx( dx );
     }
     
+    /**
+     * Gets the position values (x axis) for the wave function solution.
+     * 
+     * @return
+     */
+    public double[] getPositions() {
+        return _solver.getPositions();
+    }
+    
+    /**
+     * Gets the energy values (y axis) for the wave function solution.
+     * 
+     * @return
+     */
+    public RComplex[] getEnergies() {
+        return _solver.getEnergies();
+    }
+    
+    /**
+     * Enables or disables this model object.
+     * 
+     * @param enabled
+     */
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
         }
     }
 
+    /**
+     * Is this object enabled?
+     * 
+     * @return
+     */
     public boolean isEnabled() {
         return _enabled;
     }
     
+    /**
+     * Sets the wave packet's initial width.
+     * 
+     * @param width
+     */
     public void setWidth( double width ) {
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "width must be > 0: " + width );
@@ -110,19 +159,39 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         update();
     }
     
+    /**
+     * Gets the wave packet's initial width.
+     * 
+     * @return
+     */
     public double getWidth() {
         return _width;
     }
     
+    /**
+     * Sets the wave packet's initial center.
+     * 
+     * @param center
+     */
     public void setCenter( double center ) {
         _center = center;
         update();
     }
     
+    /**
+     * Gets the wave packet's initial center.
+     * 
+     * @return
+     */
     public double getCenter() {
         return _center;
     }
     
+    /**
+     * Sets the total energy.
+     * 
+     * @param te
+     */
     public void setTotalEnergy( TotalEnergy te ) {
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -132,10 +201,20 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         update();
     }
 
+    /**
+     * Gets the total energy.
+     * 
+     * @return
+     */
     public TotalEnergy getTotalEnergy() {
         return _te;
     }
 
+    /**
+     * Sets the potential energy.
+     * 
+     * @param pe
+     */
     public void setPotentialEnergy( AbstractPotential pe ) {
         if ( _pe != null ) {
             _pe.deleteObserver( this );
@@ -145,25 +224,32 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         update();
     }
 
+    /**
+     * Gets the potential energy.
+     * 
+     * @return
+     */
     public AbstractPotential getPotentialEnergy() {
         return _pe;
     }
 
+    /**
+     * Sets the direction of the wave packet.
+     * 
+     * @param direction
+     */
     public void setDirection( Direction direction ) {
         _direction = direction;
         update();
     }
 
+    /**
+     * Gets the direction of the wave packet.
+     * 
+     * @return
+     */
     public Direction getDirection() {
         return _direction;
-    }
-    
-    public boolean isLeftToRight() {
-        return ( _direction == Direction.LEFT_TO_RIGHT );
-    }
-    
-    public boolean isRightToLeft() {
-        return ( _direction == Direction.RIGHT_TO_LEFT );
     }
 
     /**
@@ -231,10 +317,21 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Resets the solver whenever the total energy or potential energy changes.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
-       update();
+        if ( _enabled ) {
+            update();
+        }
     }
     
+    /*
+     * Resets the solver.
+     */
     private void update() {
         _solver.update();
         notifyObservers();
@@ -244,6 +341,11 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     // ClockListener implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Propagates the solver each time clock ticks.
+     * 
+     * @param clockEvent
+     */
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
             _solver.propagate( QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK );
@@ -257,6 +359,11 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {}
 
+    /**
+     * Resets the solver when the clock is reset.
+     * 
+     * @param clockEvent
+     */
     public void simulationTimeReset( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
             update();

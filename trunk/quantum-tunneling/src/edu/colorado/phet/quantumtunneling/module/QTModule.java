@@ -455,7 +455,7 @@ public class QTModule extends AbstractModule implements Observer {
             Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( QTConstants.PIXELS_PER_SAMPLE_POINT, 0 ) );
             double dx = p2.getX() - p1.getX();
-            _wavePacket.getSolver().setDx( dx );
+            _wavePacket.setDx( dx );
             _waveFunctionPlot.setDx( dx );
         }
        
