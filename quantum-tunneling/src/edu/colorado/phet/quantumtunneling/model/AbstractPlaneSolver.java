@@ -204,9 +204,7 @@ public abstract class AbstractPlaneSolver {
     protected abstract void updateCoefficients();
     
     /**
-     * The wave function solution should be zero if the first 
-     * region encountered by the wave (dependent on direction)
-     * has E < V. (where E=total energy, V=potential energy)
+     * Is the solution zero for the energies that are assigned to this solver instance?
      * <p>
      * This method should be used by subclasses in their 
      * implementation of the <code>solve</code> method.
@@ -214,17 +212,31 @@ public abstract class AbstractPlaneSolver {
      * @return true or false
      */
     protected boolean isSolutionZero() {
+        return isSolutionZero( getTotalEnergy(), getPotentialEnergy(), _direction );
+    }
+    
+    /**
+     * The wave function solution should be zero if the first 
+     * region encountered by the wave (dependent on direction)
+     * has E < V. (where E=total energy, V=potential energy)
+     * 
+     * @param te the total energy
+     * @param pe the potential energy
+     * @param the direction of the wave
+     * @return true or false
+     */
+    public static boolean isSolutionZero( TotalEnergy te, AbstractPotential pe, Direction direction ) {
         
         boolean isZero = false;
         
-        final double E = getTotalEnergy().getEnergy();
+        final double E = te.getEnergy();
         final int firstRegionIndex = 0;
-        final int lastRegionIndex = getPotentialEnergy().getNumberOfRegions() - 1;
+        final int lastRegionIndex = pe.getNumberOfRegions() - 1;
         
-        if ( isLeftToRight() && E < getPotentialEnergy().getEnergy( firstRegionIndex ) ) {
+        if ( direction == Direction.LEFT_TO_RIGHT && E < pe.getEnergy( firstRegionIndex ) ) {
             isZero = true;
         }
-        else if ( isRightToLeft() && E < getPotentialEnergy().getEnergy( lastRegionIndex ) ) {
+        else if (  direction == Direction.RIGHT_TO_LEFT && E < pe.getEnergy( lastRegionIndex ) ) {
             isZero = true;
         }
         
