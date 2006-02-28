@@ -60,6 +60,11 @@ public abstract class AbstractControlPanel extends ControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the module that this control panel is part of.
+     * 
+     * @return the module
+     */
     public AbstractModule getModule() {
         return _module;
     }
