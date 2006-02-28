@@ -308,14 +308,18 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
             readout = new JTextField( 6 );
             readout.setHorizontalAlignment( JTextField.RIGHT );
-            readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+            setReadoutValue( vessel );
             readout.setEditable( false );
             gbc.gridx++;
             add( readout, gbc );
         }
 
         public void stateChanged( Vessel.ChangeEvent event ) {
-            readout.setText( format.format( event.getVessel().getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+            setReadoutValue( event.getVessel() );
+        }
+
+        private void setReadoutValue( Vessel vessel ) {
+            readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         }
     }
 }

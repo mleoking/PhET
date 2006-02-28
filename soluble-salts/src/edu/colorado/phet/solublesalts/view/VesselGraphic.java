@@ -58,8 +58,10 @@ public class VesselGraphic extends PNode {
         water.setStrokePaint( null );
         this.addChild( water );
 
-        setMinorTickSpacing( 20E-16 );
-        setMajorTickSpacing( 100E-16 );
+        setMinorTickSpacing( 0.5E-16 );
+        setMajorTickSpacing( 1E-16 );
+//        setMinorTickSpacing( 20E-16 );
+//        setMajorTickSpacing( 100E-16 );
 
         update( vessel );
     }
