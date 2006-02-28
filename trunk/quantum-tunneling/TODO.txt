@@ -35,6 +35,8 @@ CLEANUP:
 
 
 DONE:
+(2/28/06) - extract interface IWavePacketSolver out of RichardsonSolver, so that SamR can experiment with other algorithms
+(2/28/06) - refactor model.RichardsonSolver.RComplex into util.LightweightComplex
 (2/28/06) - make WavePacket the only client of RichardsonSolver
 (2/28/06) - make total energy line dashed when E<V
 (2/28/06) - use a Line2D in TotalEnergyRenderer so that it matches StandardXYItemRenderer used for plane waves
