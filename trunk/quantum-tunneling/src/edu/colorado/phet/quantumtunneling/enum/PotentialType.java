@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.enum;
 
 
 /**
- * PotentialType
+ * PotentialType is an enumeration of potential energy types.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
