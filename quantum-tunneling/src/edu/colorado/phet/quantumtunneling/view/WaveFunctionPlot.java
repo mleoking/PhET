@@ -368,9 +368,9 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         clearAllSeries();
         
         // x coordinates...
-        double[] positions = wavePacket.getSolver().getPositions();
+        double[] positions = wavePacket.getPositions();
         // y coordinates...
-        RComplex[] psi = wavePacket.getSolver().getEnergies();
+        RComplex[] psi = wavePacket.getEnergies();
         
         final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
