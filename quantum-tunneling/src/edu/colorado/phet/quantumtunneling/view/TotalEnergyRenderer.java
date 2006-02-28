@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
@@ -74,6 +75,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     
     private WavePacket _wavePacket;
     private AbstractPotential _potentialEnergy;
+    
+    private Line2D _line; // reusable line
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,6 +87,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      */
     public TotalEnergyRenderer() {
         super();
+        _line = new Line2D.Double();
     }
 
     //----------------------------------------------------------------------------
@@ -172,10 +176,12 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         
         if ( E0 <= V0 ) {
-            // Draw a line...
+            // Draw a line.
+            // Use a Line2D so that this renderer matches the StandardXYItemRenderer used for plane waves.
             g2.setPaint( getSeriesPaint( series ) );
             g2.setStroke( getSeriesStroke( series ) );
-            g2.drawLine( (int)minX, (int)averageY, (int)maxX, (int)averageY );
+            _line.setLine( minX, averageY, maxX, averageY );
+            g2.draw( _line );
         }
         else {
             // Axis (model) coordinates
