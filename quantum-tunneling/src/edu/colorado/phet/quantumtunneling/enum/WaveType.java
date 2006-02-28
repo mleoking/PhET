@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.enum;
 
 
 /**
- * WaveType
+ * WaveType is an enumeration of wave types.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

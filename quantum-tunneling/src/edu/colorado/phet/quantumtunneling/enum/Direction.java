@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.enum;
 
 
 /**
- * Direction
+ * Direction is an enumeration of wave directions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
