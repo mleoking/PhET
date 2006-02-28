@@ -99,8 +99,18 @@ public class BaseModel {
     public void update( ClockEvent event ) {
         commandList.doIt();
         double simulationTimeChange = event.getSimulationTimeChange();
+        stepInTime( simulationTimeChange );
+    }
+
+    /**
+     * Steps all the model elements. This needs to be provided as a protected method for backward compatibility
+     * for older simulations
+     * 
+     * @param dt
+     */
+    protected void stepInTime( double dt ) {
         for( int i = 0; i < numModelElements(); i++ ) {
-            modelElementAt( i ).stepInTime( simulationTimeChange );
+            modelElementAt( i ).stepInTime( dt );
         }
     }
 
