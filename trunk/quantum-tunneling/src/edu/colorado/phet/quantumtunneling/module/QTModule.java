@@ -367,7 +367,7 @@ public class QTModule extends AbstractModule implements Observer {
         
         HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
         helpPane.add(  restartHelp );
-        restartHelp.pointAt( _clockControls.getRestartButton() );
+        restartHelp.pointAt( _clockControls.getRestartComponent() );
         
         //----------------------------------------------------------------------------
         // Initialze the module state

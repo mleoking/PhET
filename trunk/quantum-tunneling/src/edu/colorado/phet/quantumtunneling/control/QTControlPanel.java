@@ -411,6 +411,11 @@ public class QTControlPanel extends AbstractControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the potential energy type by looking at a potential energy object.
+     * 
+     * @param pe
+     */
     public void setPotentialEnergy( AbstractPotential pe ) {
         _potentialComboBox.removeItemListener( _listener );
         PotentialType potentialType = PotentialFactory.getPotentialType( pe );
@@ -437,57 +442,105 @@ public class QTControlPanel extends AbstractControlPanel {
         return _potentialComboBox.getSelectedPotentialType();
     }
     
+    /**
+     * Determines whether values are shown next to the energy drag handles.
+     * @param selected
+     */
     public void setShowValuesSelected( boolean selected ) {
         _showValuesCheckBox.setSelected( selected );
         handleShowValuesSelection();
     }
     
+    /**
+     * Are values shown next to the energy drag handles?
+     * @return true or false
+     */
     public boolean isShowValuesSelected() {
         return _showValuesCheckBox.isSelected();
     }
     
+    /**
+     * Selects the "real" view.
+     * @param selected
+     */
     public void setRealSelected( boolean selected ) {
         _realCheckBox.setSelected( selected );
         handleRealSelection();
     }
     
+    /**
+     * Is the "real" view selected?
+     * @return
+     */
     public boolean isRealSelected() {
         return _realCheckBox.isSelected();
     }
     
+    /**
+     * Selects the "imaginary" view.
+     * @param selected
+     */
     public void setImaginarySelected( boolean selected ) {
         _imaginaryCheckBox.setSelected( selected );
         handleImaginarySelection();
     }
     
+    /**
+     * Is the "imaginary" view selected?
+     * @return
+     */
     public boolean isImaginarySelected() {
         return _imaginaryCheckBox.isSelected();
     }
     
+    /**
+     * Selects the "magnitude" view.
+     * @param selected
+     */
     public void setMagnitudeSelected( boolean selected ) {
         _magnitudeCheckBox.setSelected( selected );
         handleMagnitudeSelection();
     }
     
+    /**
+     * Is the "magnitude" view selected?
+     * @return
+     */
     public boolean isMagnitudeSelected() {
         return _magnitudeCheckBox.isSelected();
     }
     
+    /**
+     * Selects the "phase" view.
+     * @param selected
+     */
     public void setPhaseSelected( boolean selected ) {
         _phaseCheckBox.setSelected( selected );
         handlePhaseSelection();
     }
     
+    /**
+     * Is the "phase" view selected?
+     * @return
+     */
     public boolean isPhaseSelected() {
         return _phaseCheckBox.isSelected();
     }
     
+    /**
+     * Sets the sum/separate control value.
+     * @param irView
+     */
     public void setIRView( IRView irView ) {
         _separateRadioButton.setSelected( irView == IRView.SEPARATE );
         _sumRadioButton.setSelected( irView == IRView.SUM );
         handleIRViewSelection();
     }
     
+    /**
+     * Gets the sum/separate control value.
+     * @return
+     */
     public IRView getIRView() {
         if ( _separateRadioButton.isSelected() ) {
             return IRView.SEPARATE;
@@ -497,12 +550,20 @@ public class QTControlPanel extends AbstractControlPanel {
         }
     }
     
+    /**
+     * Sets the direction control value.
+     * @param direction
+     */
     public void setDirection( Direction direction ) {
         _leftToRightRadioButton.setSelected( direction == Direction.LEFT_TO_RIGHT );
         _rightToLeftRadioButton.setSelected( direction == Direction.RIGHT_TO_LEFT );
         handleDirectionSelection();
     }
     
+    /**
+     * Gets the direction control value.
+     * @return
+     */
     public Direction getDirection() {
         if ( _leftToRightRadioButton.isSelected() ) {
             return Direction.LEFT_TO_RIGHT;
@@ -537,34 +598,63 @@ public class QTControlPanel extends AbstractControlPanel {
         }
     }
     
+    /**
+     * Sets the visibility of the wave packet properties panel.
+     * @param visible
+     */
     public void setPropertiesVisible( boolean visible ) {
         _propertiesPanel.setVisible( !visible );
         handlePropertiesButton();
     }
     
+    /**
+     * Is the wave packet properties panel visible?
+     * @return true or false
+     */
     public boolean isPropertiesVisible() {
         return _propertiesPanel.isVisible();
     }
     
+    /**
+     * Sets the wave packet width control value.
+     * @param width
+     */
     public void setPacketWidth( double width ) {
         _widthSlider.setValue( width );
         handleWidthSlider();
     }
     
+    /**
+     * Gets the wave packet width control value.
+     * @return
+     */
     public double getPacketWidth() {
         return _widthSlider.getValue();
     }
     
+    /**
+     * Sets the wave packet center control value.
+     * @param center
+     */
     public void setPacketCenter( double center ) {
         _centerSlider.setValue( center );
         handleCenterSlider();
     }
     
+    /**
+     * Gets the wave packet center control value.
+     * @return
+     */
     public double getPacketCenter() {
         return _centerSlider.getValue();
     }
     
-    public JComboBox getPotentialComboBox() {
+    /**
+     * Gets the component used to set the potential type,
+     * used for attaching help items.
+     * @return
+     */
+    public JComponent getPotentialComponent() {
         return _potentialComboBox;
     }
     

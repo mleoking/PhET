@@ -170,11 +170,19 @@ public class QTClockControls extends JPanel implements ClockListener {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public JButton getRestartButton() {
+    /**
+     * Gets the "Restart" component, used for attaching help items.
+     * @return
+     */
+    public JComponent getRestartComponent() {
         return _restartButton;
     }
     
-    public JButton getPauseButton() {
+    /**
+     * Gets the "Pause" component, used for attaching help items.
+     * @return
+     */
+    public JComponent getPauseComponent() {
         return _pauseButton;
     }
     

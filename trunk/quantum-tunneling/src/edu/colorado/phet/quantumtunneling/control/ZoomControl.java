@@ -35,12 +35,16 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 
 /**
- * ZoomControl
+ * ZoomControl is a control for zooming in and out.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class ZoomControl extends JPanel {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     public static final int HORIZONTAL = SwingConstants.HORIZONTAL;
     public static final int VERTICAL = SwingConstants.VERTICAL;
@@ -48,12 +52,27 @@ public class ZoomControl extends JPanel {
     private static final Insets MARGIN = new Insets( 0, 0, 0, 0 ); // top,left,bottom,right
     private static final int SPACING_BETWEEN_BUTTONS = 2; // pixels
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private int _orientation;
     private ArrayList _plots; // array of XYPlot
     private ZoomSpec[] _specs;
     private int _zoomIndex;
     JButton _zoomInButton, _zoomOutButton;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param orientation
+     * @param specs the specification of each zoom level
+     * @param startingIndex
+     */
     public ZoomControl( int orientation, ZoomSpec[] specs, int startingIndex ) {
         super();
 
@@ -120,20 +139,44 @@ public class ZoomControl extends JPanel {
         setRange( _zoomIndex );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a plot to the collection of plots that will be zoomed.
+     * 
+     * @param plot
+     */
     public void addPlot( XYPlot plot ) {
         if ( ! _plots.contains( plot ) ) {
             _plots.add( plot );
         }
     }
     
+    /**
+     * Removes a plot from the collection of plots that will be zoomed.
+     * 
+     * @param plot
+     */
     public void removePlot( XYPlot plot ) {
         _plots.remove( plot );
     }
     
+    /**
+     * Gets the current zoom index.
+     * The zoom index is an index into the constructor's specs argument.
+     * @return
+     */
     public int getZoomIndex() {
         return _zoomIndex;
     }
     
+    /**
+     * Sets the zoom index.
+     * 
+     * @param zoomIndex
+     */
     public void setZoomIndex( int zoomIndex ) {
         if ( zoomIndex < 0 || zoomIndex > _specs.length - 1 ) {
             _zoomIndex = 0;
@@ -145,16 +188,27 @@ public class ZoomControl extends JPanel {
         setRange( _zoomIndex );
     }
 
+    /*
+     * Zooms in one level.
+     */
     private void handleZoomIn() {
         _zoomIndex--;
         setRange( _zoomIndex );
     }
     
+    /*
+     * Zooms out one level.
+     */
     private void handleZoomOut() {
         _zoomIndex++;
         setRange( _zoomIndex );
     }
     
+    /*
+     * Sets the range and tick marks.
+     * The index indentifies the zoom level specification that we should use.
+     * @param index
+     */
     private void setRange( int index ) {
         
         ZoomSpec spec = _specs[ index ];
@@ -181,6 +235,14 @@ public class ZoomControl extends JPanel {
         _zoomOutButton.setEnabled( index < _specs.length - 1 );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * ZoomSpec describes a zoom level.
+     * A zoom level has a range, tick spacing, and tick pattern (format of the tick labels).
+     */
     public static class ZoomSpec {
         
         private Range _range;
