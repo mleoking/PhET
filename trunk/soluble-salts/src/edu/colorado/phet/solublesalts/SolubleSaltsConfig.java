@@ -39,10 +39,11 @@ public class SolubleSaltsConfig {
     public static String DEFAULT_SALT_NAME = "Silver Iodide";
 
     // Physical things
+    public static final double AVAGADROS_NUMBER = 6.022E23;
 //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
-    public static final Point2D VESSEL_ULC = new Point2D.Double(150 / SCALE, 250 / SCALE); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension((int) (700 / SCALE), (int) (500 / SCALE));
+    public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
+    public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
     public static final double VESSEL_WALL_THICKNESS = 20 / SCALE;
     public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
     public static final double DEFAULT_LATTICE_SPEED = 3;
@@ -58,7 +59,7 @@ public class SolubleSaltsConfig {
     public static final String FLAMES_IMAGE_FILE = IMAGE_PATH + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
-    public static final Color WATER_COLOR = new Color(200, 230, 255);
+    public static final Color WATER_COLOR = new Color( 200, 230, 255 );
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";
@@ -71,10 +72,9 @@ public class SolubleSaltsConfig {
     // equal to this many times the free ion's radius
     public static double BINDING_DISTANCE_FACTOR = 2;
     public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
-    public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.01;
-    public static double CONCENTRATION_CALIBRATION_FACTOR = 1E-3;   // 2/3/06
-//    public static double CONCENTRATION_CALIBRATION_FACTOR = 1E-6;
-    public static double VOLUME_CALIBRATION_FACTOR = 580E-16 / 500;
+    public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
+    public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
+    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
 
     // Debug flags
     public static boolean RANDOM_WALK = false;

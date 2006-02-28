@@ -266,12 +266,10 @@ public class SolubleSaltsModel extends BaseModel {
         int numAnionsInUnit = salt.getNumAnionsInUnit();
         int numCations = ionTracker.getNumFreeIonsOfType( salt.getCationClass() );
         int numCationsInUnit = salt.getNumCationsInUnit();
-        double volume = vessel.getWaterLevel() * vessel.getWidth();// * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
-
-        double concentrationFactor = Math.pow( ( numAnions / volume ), numAnionsInUnit )
-                                     * Math.pow( ( numCations / volume ), numCationsInUnit )
-                                     * Math.pow( SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR,
-                                                 numAnionsInUnit + numCationsInUnit );
+        double volume = vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
+        double denominator = volume * SolubleSaltsConfig.AVAGADROS_NUMBER;
+        double concentrationFactor = Math.pow( ( numAnions / denominator ), numAnionsInUnit )
+                                     * Math.pow( ( numCations / denominator ), numCationsInUnit );
         return concentrationFactor;
     }
 
@@ -423,7 +421,6 @@ public class SolubleSaltsModel extends BaseModel {
             // Release ions until we're back above Ksp
             boolean ionReleased = true;
             while( crystals.size() > 0 && !nucleationEnabled && ionReleased ) {
-//            if( crystals.size() > 0 && !nucleationEnabled ) {
                 ionReleased = false;
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
