@@ -24,7 +24,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
+import edu.colorado.phet.quantumtunneling.model.PlaneWave;
 import edu.colorado.phet.quantumtunneling.model.TotalEnergy;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
 
@@ -47,9 +49,11 @@ public class EnergyPlot extends QTXYPlot implements Observer {
     private AbstractPotential _potentialEnergy;
     private TotalEnergy  _totalEnergy;
     private WavePacket _wavePacket;
+    private PlaneWave _planeWave;
     
     private double _previousWavePacketWidth = Double.NaN;
     private double _previousWavePacketCenter = Double.NaN;
+    private Direction _previousPlaneWaveDirection = null;
     
     // View
     private XYSeries _totalEnergySeries;
@@ -99,11 +103,11 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             // Plane Wave renderer
             _planeWaveRenderer = new StandardXYItemRenderer();
             _planeWaveRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-            _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_SOLID_STROKE );
             // Wave Packet renderer
             _wavePacketRenderer = new TotalEnergyRenderer();
             _wavePacketRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
-            _wavePacketRenderer.setStroke( QTConstants.TOTAL_ENERGY_STROKE );
+            _wavePacketRenderer.setStroke( QTConstants.TOTAL_ENERGY_DASHED_STROKE );
             // Default renderer
             setRenderer( _totalEnergyIndex, _wavePacketRenderer );
         }
@@ -157,6 +161,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         _potentialEnergy.addObserver( this );
         _wavePacketRenderer.setPotentialEnergy( potentialEnergy );
         updatePotentialEnergy();
+        updateTotalEnergy();
     }
     
     /**
@@ -171,6 +176,21 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         _wavePacket = wavePacket;
         _wavePacket.addObserver( this );
         _wavePacketRenderer.setWavePacket( wavePacket );
+        updateTotalEnergy();
+    }
+    
+    /**
+     * Sets the plane wave.
+     * 
+     * @param planeWave
+     */
+    public void setPlaneWave( PlaneWave planeWave ) {
+        if ( _planeWave != null ) {
+            _planeWave.deleteObserver( this );
+        }
+        _planeWave = planeWave;
+        _planeWave.addObserver( this );
+        _previousPlaneWaveDirection = _planeWave.getDirection();
         updateTotalEnergy();
     }
     
@@ -200,6 +220,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         else {
             setRenderer( _totalEnergyIndex, _planeWaveRenderer );
         }
+        updateTotalEnergy();
     }
     
     //----------------------------------------------------------------------------
@@ -222,6 +243,11 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         }
         else if ( observable == _wavePacket ) {
             if ( _wavePacket.getWidth() != _previousWavePacketWidth || _wavePacket.getCenter() != _previousWavePacketCenter ) {
+                updateTotalEnergy();
+            }
+        }
+        else if ( observable == _planeWave ) {
+            if ( _planeWave.getDirection() != _previousPlaneWaveDirection ) {
                 updateTotalEnergy();
             }
         }
@@ -251,9 +277,19 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             _totalEnergySeries.add( range.getUpperBound(), _totalEnergy.getEnergy() );
             _totalEnergySeries.setNotify( true );
             
-            if ( _wavePacket != null ) {
+            if ( _wavePacket != null && _wavePacket.isInitialized() ) {
                 _previousWavePacketWidth = _wavePacket.getWidth();
                 _previousWavePacketCenter = _wavePacket.getCenter();
+            }
+            
+            if ( _planeWave != null && _planeWave.isInitialized() ) {
+                if ( _planeWave.isSolutionZero( _totalEnergy, _potentialEnergy ) ) {
+                    _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_DASHED_STROKE );
+                }
+                else {
+                    _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_SOLID_STROKE );
+                }
+                _previousPlaneWaveDirection = _planeWave.getDirection();
             }
         }
     }
