@@ -43,9 +43,17 @@ import edu.colorado.phet.quantumtunneling.util.DialogUtils;
  */
 public class QTPersistenceManager {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private QTApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
     private boolean _useJNLP; // whether to use JNLP services
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -56,6 +64,10 @@ public class QTPersistenceManager {
         _app = app;
         _useJNLP = wasWebStarted();
     }
+    
+    //----------------------------------------------------------------------------
+    // Save
+    //----------------------------------------------------------------------------
     
     /**
      * Saves the application state to a file as an XML-encoded FourierConfig object.
@@ -90,54 +102,7 @@ public class QTPersistenceManager {
             showError( SimStrings.get( "Save.error.message" ), e );
         }
     }
-    
-    /**
-     * Loads the application state from a file as an XML-encoded FourierConfig object.
-     */
-    public void load() {
-        
-        // Load a configuration object.
-        Object object = null;
-        try {
-            if ( _useJNLP ) {
-                object = loadJNLP();
-            }
-            else {
-                object = loadLocal();
-            }
-        }
-        catch ( Exception e ) {
-            showError( SimStrings.get( "Load.error.message" ), e );
-        }
-        if ( object == null ) {
-            return;
-        }
-        
-        // Verify the object's type
-        if ( !( object instanceof QTConfig ) ) {
-            showError( SimStrings.get( "Load.error.message" ), SimStrings.get( "Load.error.contents" ) );
-            return;
-        }
-        
-        // Configure the application
-        QTConfig config = (QTConfig) object;
-        try {
-            // Global
-            _app.load( config );
-            
-            // Modules
-            Module[] modules = _app.getModules();
-            for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof AbstractModule ) {
-                    ( (AbstractModule) modules[i] ).load( config );
-                }
-            }
-        }
-        catch ( Exception e ) {
-            showError( SimStrings.get( "Load.error.message" ), e );
-        }
-    }
-    
+      
     /*
      * Implementation of "Save" for non-Web Start clients, uses JFileChooser and java.io.
      */
@@ -186,47 +151,6 @@ public class QTPersistenceManager {
     }
     
     /*
-     * Implementation of "Load" for non-Web Start clients, uses JFileChooser and java.io.
-     */
-    private Object loadLocal() throws Exception {
-        JFrame frame = _app.getPhetFrame();
-        
-        // Choose the file to load.
-        JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SimStrings.get( "title.load" ) );
-        int rval = fileChooser.showOpenDialog( frame );
-        _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
-        File selectedFile = fileChooser.getSelectedFile();
-        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-            return null;
-        }
-
-        // XML decode directly from the file.
-        Object object = null;
-        String filename = selectedFile.getAbsolutePath();
-        FileInputStream fis = new FileInputStream( filename );
-        BufferedInputStream bis = new BufferedInputStream( fis );
-        XMLDecoder decoder = new XMLDecoder( bis );
-        decoder.setExceptionListener( new ExceptionListener() {
-            private int errors = 0;
-            // Report the first recoverable exception.
-            public void exceptionThrown( Exception e ) {
-                if ( errors == 0 ) {
-                    showError( SimStrings.get( "Load.error.decode" ), e );
-                    errors++;
-                }
-            }      
-        } );
-        object = decoder.readObject();
-        decoder.close();
-        if ( object == null ) {
-            throw new Exception( SimStrings.get( "Load.error.contents" ) );
-        }
-
-        return object;
-    }
-    
-    /*
      * Implementation of "Save" for Web Start clients, uses JNLP services.
      */
     private void saveJNLP( Object object ) throws Exception {
@@ -268,6 +192,98 @@ public class QTPersistenceManager {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Load
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Loads the application state from a file as an XML-encoded FourierConfig object.
+     */
+    public void load() {
+        
+        // Load a configuration object.
+        Object object = null;
+        try {
+            if ( _useJNLP ) {
+                object = loadJNLP();
+            }
+            else {
+                object = loadLocal();
+            }
+        }
+        catch ( Exception e ) {
+            showError( SimStrings.get( "Load.error.message" ), e );
+        }
+        if ( object == null ) {
+            return;
+        }
+        
+        // Verify the object's type
+        if ( !( object instanceof QTConfig ) ) {
+            showError( SimStrings.get( "Load.error.message" ), SimStrings.get( "Load.error.contents" ) );
+            return;
+        }
+        
+        // Configure the application
+        QTConfig config = (QTConfig) object;
+        try {
+            // Global
+            _app.load( config );
+            
+            // Modules
+            Module[] modules = _app.getModules();
+            for ( int i = 0; i < modules.length; i++ ) {
+                if ( modules[i] instanceof AbstractModule ) {
+                    ( (AbstractModule) modules[i] ).load( config );
+                }
+            }
+        }
+        catch ( Exception e ) {
+            showError( SimStrings.get( "Load.error.message" ), e );
+        }
+    }
+ 
+    /*
+     * Implementation of "Load" for non-Web Start clients, uses JFileChooser and java.io.
+     */
+    private Object loadLocal() throws Exception {
+        JFrame frame = _app.getPhetFrame();
+        
+        // Choose the file to load.
+        JFileChooser fileChooser = new JFileChooser( _directoryName );
+        fileChooser.setDialogTitle( SimStrings.get( "title.load" ) );
+        int rval = fileChooser.showOpenDialog( frame );
+        _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
+        File selectedFile = fileChooser.getSelectedFile();
+        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
+            return null;
+        }
+
+        // XML decode directly from the file.
+        Object object = null;
+        String filename = selectedFile.getAbsolutePath();
+        FileInputStream fis = new FileInputStream( filename );
+        BufferedInputStream bis = new BufferedInputStream( fis );
+        XMLDecoder decoder = new XMLDecoder( bis );
+        decoder.setExceptionListener( new ExceptionListener() {
+            private int errors = 0;
+            // Report the first recoverable exception.
+            public void exceptionThrown( Exception e ) {
+                if ( errors == 0 ) {
+                    showError( SimStrings.get( "Load.error.decode" ), e );
+                    errors++;
+                }
+            }      
+        } );
+        object = decoder.readObject();
+        decoder.close();
+        if ( object == null ) {
+            throw new Exception( SimStrings.get( "Load.error.contents" ) );
+        }
+
+        return object;
+    }
+
     /*
      * Implementation of "Load" for Web Start clients, uses JNLP services.
      */
@@ -313,14 +329,9 @@ public class QTPersistenceManager {
         return object;
     }
     
-    /*
-     * Determines if the simulation was started using Java Web Start.
-     * 
-     * @return true or false
-     */
-    private static boolean wasWebStarted() {
-        return ( System.getProperty( "javawebstart.version" ) != null );
-    }
+    //----------------------------------------------------------------------------
+    // Error handling
+    //----------------------------------------------------------------------------
     
     /*
      * Shows the error message associated with an exception in an
@@ -348,6 +359,19 @@ public class QTPersistenceManager {
         DialogUtils.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
     }
     
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Determines if the simulation was started using Java Web Start.
+     * 
+     * @return true or false
+     */
+    private static boolean wasWebStarted() {
+        return ( System.getProperty( "javawebstart.version" ) != null );
+    }
+    
     /*
      * Gets the directory name portion of a filename.
      * 
@@ -362,4 +386,5 @@ public class QTPersistenceManager {
         }
         return directoryName;
     }
+
 }
