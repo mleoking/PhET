@@ -418,7 +418,11 @@ public class BSModule extends BSAbstractModule {
     }
     
     public void showEigenstateCheckBoxes( boolean visible ) {
-        _totalEnergyNode.setCheckBoxesVisible( visible );
+        _totalEnergyNode.showEigenstateCheckBoxes( visible );
+    }
+    
+    public void scaleEigenstateCheckBoxes( double scale ) {
+        _totalEnergyNode.scaleEigenstateCheckBoxes( scale );
     }
     
     public void setEigenstateLineWidth( double width ) {

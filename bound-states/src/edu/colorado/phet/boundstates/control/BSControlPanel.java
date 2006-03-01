@@ -85,6 +85,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private String _sDeveloperExpand, _sDeveloperCollapse;
     private JPanel _developerPanel;
     private JCheckBox _showEigenstateCheckboxes;
+    private SliderControl _eigenstateCheckBoxesScaleSlider;
     private SliderControl _eigenstateWidthSlider;
     
     private EventListener _listener;
@@ -285,6 +286,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _developerPanel.setVisible( false );
         {
             _showEigenstateCheckboxes = new JCheckBox( "Show eigenstate checkboxes" );
+                  
+            _eigenstateCheckBoxesScaleSlider = new SliderControl( 1, 0.5, 1.5, 0.5, 1, 1, "Scale eigenstate check boxes: {0}:1", SLIDER_INSETS );
             
             _eigenstateWidthSlider = new SliderControl( 2, 1, 4, 1, 1, 1, "Eigenstate line width: {0} pixels", SLIDER_INSETS );
             
@@ -293,6 +296,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             layout.addComponent( _showEigenstateCheckboxes, row++, 0 );
+            layout.addComponent( _eigenstateCheckBoxesScaleSlider, row++, 0 );
             layout.addComponent( _eigenstateWidthSlider, row++, 0 );
         }
         
@@ -332,6 +336,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _advancedButton.addActionListener( _listener );
             _developerButton.addActionListener( _listener );
             _showEigenstateCheckboxes.addActionListener( _listener );
+            _eigenstateCheckBoxesScaleSlider.addChangeListener( _listener );
             _eigenstateWidthSlider.addChangeListener( _listener );
         }
     }
@@ -507,7 +512,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
         }
         
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _eigenstateWidthSlider ) {
+            if ( event.getSource() == _eigenstateCheckBoxesScaleSlider ) {
+                handleEigenstateCheckBoxesScale();
+            }
+            else if ( event.getSource() == _eigenstateWidthSlider ) {
                 handleEigenstateWidth();
             }
             else {
@@ -598,5 +606,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private void handleEigenstateWidth() {
         double width = _eigenstateWidthSlider.getValue();
         _module.setEigenstateLineWidth( width );
+    }
+    
+    private void handleEigenstateCheckBoxesScale() {
+        double scale = _eigenstateCheckBoxesScaleSlider.getValue();
+        _module.scaleEigenstateCheckBoxes( scale );
     }
 }

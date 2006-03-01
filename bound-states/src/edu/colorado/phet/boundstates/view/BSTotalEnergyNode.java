@@ -55,6 +55,7 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
     
     private Stroke _unselectedStroke;
     private Stroke _selectedStroke;
+    private double _checkBoxesScale;
     
     public BSTotalEnergyNode( BSTotalEnergy totalEnergy, BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
@@ -69,6 +70,7 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         _selectionIndex = 0;
         _checkBoxes = new ArrayList();
         _checkBoxesVisible = false;
+        _checkBoxesScale = 1.0;
         
         _unselectedStroke = BSConstants.TOTAL_ENERGY_UNSELECTED_STROKE;
         _selectedStroke = BSConstants.TOTAL_ENERGY_SELECTED_STROKE;
@@ -91,8 +93,13 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         }
     }
     
-    public void setCheckBoxesVisible( boolean visible ) {
+    public void showEigenstateCheckBoxes( boolean visible ) {
         _checkBoxesVisible = visible;
+        updateDisplay();
+    }
+    
+    public void scaleEigenstateCheckBoxes( double scale ) {
+        _checkBoxesScale = scale;
         updateDisplay();
     }
     
@@ -138,10 +145,11 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
             checkBox.setOpaque( false );
             checkBox.addActionListener( this );
             PSwing pswing = new PSwing( _canvas, checkBox );
+            pswing.scale( _checkBoxesScale );
             pswing.setVisible( _checkBoxesVisible );
             
-            double x = pRight.getX() - ( (i+1) * pswing.getWidth() );
-            double y = pRight.getY() - ( pswing.getHeight() / 2 );
+            double x = pRight.getX() - ( (i+1) * pswing.getFullBounds().getWidth() );
+            double y = pRight.getY() - ( pswing.getFullBounds().getHeight() / 2 );
             pswing.setOffset( x, y );
             addChild( pswing );
             _checkBoxes.add( checkBox );
