@@ -6,14 +6,14 @@ package edu.colorado.phet.quantumtunneling.model.rungekutta;
  * complex number is immutable; arithmetic operations may therefore be
  * combined using any combination of composed or cascaded method invocations.
  */
-class Complex {
+class RK4Complex {
     /**
      * Creates a new complex number
      *
      * @param re The real part of this number
      * @param im The imaginary part of this number
      */
-    public Complex( double re, double im ) {
+    public RK4Complex( double re, double im ) {
         this.re = re;
         this.im = im;
     }
@@ -22,7 +22,7 @@ class Complex {
     /**
      * Creates a new complex number with no imaginary component
      */
-    public Complex( double d ) {
+    public RK4Complex( double d ) {
         this( d, 0 );
     }
 
@@ -30,63 +30,63 @@ class Complex {
     /**
      * @return This number plus the specified real number
      */
-    public Complex add( double d ) {
-        return new Complex( re + d, im );
+    public RK4Complex add( double d ) {
+        return new RK4Complex( re + d, im );
     }
 
 
     /**
      * @return This number plus the specified complex number
      */
-    public Complex add( Complex c ) {
-        return new Complex( re + c.re, im + c.im );
+    public RK4Complex add( RK4Complex c ) {
+        return new RK4Complex( re + c.re, im + c.im );
     }
 
 
     /**
      * @return This number minus the specified real number
      */
-    public Complex subtract( double d ) {
-        return new Complex( re - d, im );
+    public RK4Complex subtract( double d ) {
+        return new RK4Complex( re - d, im );
     }
 
 
     /**
      * @return This number minus the specified complex number
      */
-    public Complex subtract( Complex c ) {
-        return new Complex( re - c.re, im - c.im );
+    public RK4Complex subtract( RK4Complex c ) {
+        return new RK4Complex( re - c.re, im - c.im );
     }
 
 
     /**
      * @return This number multiplied by the specified real number
      */
-    public Complex multiply( double d ) {
-        return new Complex( re * d, im * d );
+    public RK4Complex multiply( double d ) {
+        return new RK4Complex( re * d, im * d );
     }
 
 
     /**
      * @return This number multiplied by the specified complex number
      */
-    public Complex multiply( Complex c ) {
-        return new Complex( c.re * re - c.im * im, re * c.im + c.re * im );
+    public RK4Complex multiply( RK4Complex c ) {
+        return new RK4Complex( c.re * re - c.im * im, re * c.im + c.re * im );
     }
 
 
     /**
      * @return This number divided by the specified real number
      */
-    public Complex divide( double d ) {
-        return new Complex( re / d, im / d );
+    public RK4Complex divide( double d ) {
+        return new RK4Complex( re / d, im / d );
     }
 
 
     /**
      * @return This number divided by the specified complex number
      */
-    public Complex divide( Complex c ) {
+    public RK4Complex divide( RK4Complex c ) {
         return multiply( c.reciprocal() );
     }
 
@@ -119,15 +119,15 @@ class Complex {
     /**
      * @return The negation of this complex number
      */
-    public Complex negate() {
-        return new Complex( -re, -im );
+    public RK4Complex negate() {
+        return new RK4Complex( -re, -im );
     }
 
 
     /**
      * @return The reciprocal of this complex number
      */
-    public Complex reciprocal() {
+    public RK4Complex reciprocal() {
         double r = 1 / modulus();
         double theta = -argument();
         return polar( r, theta );
@@ -137,7 +137,7 @@ class Complex {
     /**
      * @return The square root of this complex number
      */
-    public Complex sqrt() {
+    public RK4Complex sqrt() {
         double r = Math.sqrt( modulus() );
         double theta = argument() / 2;
         return polar( r, theta );
@@ -161,7 +161,7 @@ class Complex {
      * @throws NullPointerException If <code>o</code> is <code>null</code>
      */
     public boolean equals( Object o ) {
-        Complex c = (Complex)o;
+        RK4Complex c = (RK4Complex)o;
         return ( c.re == re ) && ( c.im == im );
     }
 
@@ -183,8 +183,8 @@ class Complex {
      * @param theta The argument
      * @return r*exp(i*theta)
      */
-    public static Complex polar( double r, double theta ) {
-        return new Complex( r * Math.cos( theta ), r * Math.sin( theta ) );
+    public static RK4Complex polar( double r, double theta ) {
+        return new RK4Complex( r * Math.cos( theta ), r * Math.sin( theta ) );
     }
 
 
@@ -194,7 +194,7 @@ class Complex {
      * @param c The number to be exponentiated
      * @return exp(c);
      */
-    public static Complex e( Complex c ) {
+    public static RK4Complex e( RK4Complex c ) {
         return polar( Math.exp( c.re ), c.im );
     }
 
@@ -206,8 +206,8 @@ class Complex {
      * Set to <code>true</code> to enable warnings
      */
     public static boolean DEBUG_WARNINGS = false;
-    public static final Complex
-            ONE = new Complex( 1 ),
-            ZERO = new Complex( 0 ),
-            I = new Complex( 0, 1 );
+    public static final RK4Complex
+            ONE = new RK4Complex( 1 ),
+            ZERO = new RK4Complex( 0 ),
+            I = new RK4Complex( 0, 1 );
 }
