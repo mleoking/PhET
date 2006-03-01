@@ -29,6 +29,9 @@ public class PrecomputedPotential implements Potential {
     }
 
     public double getPotential( int x, int y, int timestep ) {
+        if( x < 0 || x >= potentialValues.length || y < 0 || y >= potentialValues[0].length ) {
+            return 0;
+        }
         return potentialValues[x][y];
     }
 
