@@ -78,11 +78,14 @@ public class QTModule extends AbstractModule implements Observer {
 
     // Model
     private TotalEnergy _totalEnergy;
-    private AbstractPotential _potentialEnergy;
+    private AbstractPotential _potentialEnergy; // the potential that is currently displayed
+    
+    // One instance of each potential type, so we can switch between them and retain state.
     private ConstantPotential _constantPotential;
     private StepPotential _stepPotential;
     private SingleBarrierPotential _singleBarrierPotential;
     private DoubleBarrierPotential _doubleBarrierPotential;
+    
     private PlaneWave _planeWave;
     private WavePacket _wavePacket;
     
@@ -126,8 +129,6 @@ public class QTModule extends AbstractModule implements Observer {
     
     /**
      * Sole constructor.
-     * 
-     * @param clock
      */
     public QTModule() {
         super( SimStrings.get( "title.quantumTunneling" ), new QTClock(), true /* startsPaused */ );
@@ -379,6 +380,15 @@ public class QTModule extends AbstractModule implements Observer {
         getClock().start();
     }
     
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Indicates the this module has help.
+     * 
+     * @return true
+     */
     public boolean hasHelp() {
         return true;
     }
@@ -628,12 +638,18 @@ public class QTModule extends AbstractModule implements Observer {
     
     private class EventListener extends ComponentAdapter implements ActionListener {
 
+        /*
+         * Redo the "play area" layout when the application frame is resized.
+         */
         public void componentResized( ComponentEvent event ) {
             if ( event.getSource() == _canvas ) {
                 layoutCanvas();
             }
         }
         
+        /*
+         * Handles buttons on the "play area".
+         */
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _configureButton.getComponent() ) {
                 handleConfigureButton();
@@ -669,6 +685,12 @@ public class QTModule extends AbstractModule implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the type of potential.
+     * This selects the appropriate potential instance and makes 
+     * it the one that is visible.
+     * @param potentialType
+     */
     public void setPotentialType( PotentialType potentialType ) {
         AbstractPotential pe = null;
         if ( potentialType == PotentialType.CONSTANT ) {
@@ -689,6 +711,10 @@ public class QTModule extends AbstractModule implements Observer {
         setPotentialEnergy( pe );
     }
     
+    /**
+     * Sets the potential energy model.
+     * @param potentialEnergy
+     */
     public void setPotentialEnergy( AbstractPotential potentialEnergy ) {
         
         // Replace one of the model elements.
@@ -727,6 +753,10 @@ public class QTModule extends AbstractModule implements Observer {
         resetClock();
     }
     
+    /**
+     * Sets the constant potential instance.
+     * @param potential
+     */
     public void setConstantPotential( ConstantPotential potential ) {
         if ( _potentialEnergy == _constantPotential ) {
             setPotentialEnergy( potential );
@@ -736,6 +766,10 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /**
+     * Sets the step potential instance.
+     * @param potential
+     */
     public void setStepPotential( StepPotential potential ) {
         if ( _potentialEnergy == _stepPotential ) {
             setPotentialEnergy( potential );
@@ -745,6 +779,10 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /**
+     * Sets the single barrier potential instance.
+     * @param potential
+     */
     public void setSingleBarrierPotential( SingleBarrierPotential potential ) {
         if ( _potentialEnergy == _singleBarrierPotential ) {
             setPotentialEnergy( potential );
@@ -754,6 +792,10 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /**
+     * Sets the double barrier potential instance.
+     * @param potential
+     */
     public void setDoubleBarrierPotential( DoubleBarrierPotential potential ) {
         if ( _potentialEnergy == _doubleBarrierPotential ) {
             setPotentialEnergy( potential );
@@ -763,6 +805,10 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /**
+     * Sets the total energy model.
+     * @param totalEnergy
+     */
     public void setTotalEnergy( TotalEnergy totalEnergy ) {
         
         if ( _totalEnergy != null ) {
@@ -779,15 +825,27 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setTotalEnergy( totalEnergy );
     }
     
+    /**
+     * Sets visibility of values on the energy drag handles.
+     * @param visible
+     */
     public void setValuesVisible( boolean visible ) {
         _totalEnergyControl.setValueVisible( visible );
         _potentialEnergyControls.setValuesVisible( visible );
     }
     
+    /**
+     * Are values visible on the energy drag handles?
+     * @return
+     */
     public boolean isValuesVisible() {
         return _totalEnergyControl.isValueVisible();
     }
     
+    /**
+     * Sets the wave type.
+     * @param waveType
+     */
     public void setWaveType( WaveType waveType ) {
         resetClock();
         
@@ -805,22 +863,42 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /**
+     * Sets visibility of the "real" view.
+     * @param visible
+     */
     public void setRealVisible( boolean visible ) {
         _waveFunctionPlot.setRealVisible( visible );
     }
-    
+   
+    /**
+     * Sets visibility of the "imaginary" view.
+     * @param visible
+     */
     public void setImaginaryVisible( boolean visible ) {
         _waveFunctionPlot.setImaginaryVisible( visible );
     }
     
+    /**
+     * Sets visibility of the "magnitude" view.
+     * @param visible
+     */
     public void setMagnitudeVisible( boolean visible ) {
         _waveFunctionPlot.setMagnitudeVisible( visible );
     }
     
+    /**
+     * Sets visibility of the "phase" view.
+     * @param visible
+     */
     public void setPhaseVisible( boolean visible ) {
         _waveFunctionPlot.setPhaseVisible( visible );
     }
     
+    /**
+     * Sets the wave direction.
+     * @param direction
+     */
     public void setDirection( Direction direction ) {
         _planeWave.setNotifyEnabled( false );
         _wavePacket.setNotifyEnabled( false );
@@ -831,15 +909,27 @@ public class QTModule extends AbstractModule implements Observer {
         _wavePacket.setNotifyEnabled( true );
     }
     
+    /**
+     * Sets the "incident/refected" view (sum or separate).
+     * @param irView
+     */
     public void setIRView( IRView irView ) {
         _waveFunctionPlot.setIRView( irView );
     }
     
+    /**
+     * Sets the wave packet's width.
+     * @param width
+     */
     public void setWavePacketWidth( double width ) {
         resetClock();
         _wavePacket.setWidth( width );
     }
     
+    /**
+     * Sets the wave packet's center.
+     * @param center
+     */
     public void setWavePacketCenter( double center ) {
         resetClock();
         _wavePacket.setCenter( center );
@@ -870,10 +960,16 @@ public class QTModule extends AbstractModule implements Observer {
         }
     }
     
+    /*
+     * Resets the simulation clock.
+     */
     private void resetClock() {
         getClock().resetSimulationTime();
     }
     
+    /*
+     * Does any house-keeping required when the simulation clock is reset.
+     */
     private void handleClockReset() {
         setMeasureEnabled( false );
     }
