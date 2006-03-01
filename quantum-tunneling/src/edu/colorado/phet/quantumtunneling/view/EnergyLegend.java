@@ -30,10 +30,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class EnergyLegend extends PNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double MARGIN = 5;
     private static final Stroke BORDER_STROKE = new BasicStroke( 0.5f );
     private static final Color BORDER_COLOR = Color.BLACK;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public EnergyLegend() {
         super();

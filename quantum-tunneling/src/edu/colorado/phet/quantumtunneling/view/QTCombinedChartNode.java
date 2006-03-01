@@ -21,7 +21,9 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 
 
 /**
- * QTCombinedChartNode
+ * QTCombinedChartNode is a piccolo node that draws a QTCombinedChart.
+ * It has utility methods for getting plot bounds, and for converting 
+ * energy values between model and view coordinates. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -32,6 +32,12 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * (datasets, axes, labels, ticks, gridlines, etc.) are not drawn.
  * <p>
  * Usage is similar to XYPlotNode in jfreechart-phet.
+ * <p>
+ * NOTE: Markers for all layers (foreground and background) are drawn at the same time.
+ * If this becomes an issue in the future, then we will need to specify which
+ * layer's markers should be drawn in the constructor. You would then create separate
+ * nodes for foreground and background markers, and place them in the desired 
+ * piccolo layer.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
