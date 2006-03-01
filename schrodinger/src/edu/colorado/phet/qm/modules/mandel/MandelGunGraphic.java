@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
@@ -35,7 +34,7 @@ public class MandelGunGraphic extends HighIntensityGunGraphic {
             leftGun.setPickable( false );
             leftGun.setChildrenPickable( false );
             BufferedImage newImage = ImageLoader.loadBufferedImage( "images/gun2-ii.gif" );
-            newImage = BufferedImageUtils.flipX( newImage );
+//            newImage = BufferedImageUtils.flipX( newImage );
             rightGun = new PImage( newImage );
             rightGun.setPickable( false );
             rightGun.setChildrenPickable( false );
