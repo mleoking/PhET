@@ -36,10 +36,6 @@ public class SchrodingerApplication extends PhetApplication {
     public static String VERSION = "0.41";
     private String[] args;
 
-    static {
-        PhetLookAndFeel.setLookAndFeel();
-    }
-
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
@@ -112,21 +108,21 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     private static FrameSetup createFrameSetup() {
-        return new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+//        return new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        return new FrameSetup.CenteredWithSize( 1062, 906 );
     }
 
     public static void main( String[] args ) {
+        PhetLookAndFeel.setLookAndFeel();
         new PhetLookAndFeel().apply();
-        SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
+        final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
+        new Timer( 100, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "schrodingerApplication.getPhetFrame().getSize() = " + schrodingerApplication.getPhetFrame().getSize() );
+            }
+        } ).start();
         System.out.println( "SchrodingerApplication.main" );
-//        UIController.showUIController();
     }
-
-//    private static void testGlassPane( SchrodingerApplication schrodingerApplication ) {
-//        TestGlassPane testGlassPane = new TestGlassPane( schrodingerApplication.getPhetFrame() );
-//        schrodingerApplication.getPhetFrame().setGlassPane( testGlassPane );
-//        testGlassPane.setVisible( true );
-//    }
 
 }
