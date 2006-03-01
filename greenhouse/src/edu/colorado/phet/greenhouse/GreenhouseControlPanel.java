@@ -242,17 +242,17 @@ public class GreenhouseControlPanel extends JPanel {
             todayGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TodayLabel" ) );
             todayGGRB.setForeground( todayColor );
 
-            JRadioButton venusGGRB = new JRadioButton();
-            venusGGRB.setAction( pickVenusGG );
-            venusGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Venus" ) );
-            venusGGRB.setForeground( venusColor );
+//            JRadioButton venusGGRB = new JRadioButton();
+//            venusGGRB.setAction( pickVenusGG );
+//            venusGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Venus" ) );
+//            venusGGRB.setForeground( venusColor );
 
             ButtonGroup ggBG = new ButtonGroup();
             ggBG.add( adjustableGGRB );
             ggBG.add( iceAgeGGRB );
             ggBG.add( preIndRevGGRB );
             ggBG.add( todayGGRB );
-            ggBG.add( venusGGRB );
+//            ggBG.add( venusGGRB );
 
             iceAgeCompositionPane.setVisible( false );
             seventeenFiftyCompositionPane.setVisible( false );
@@ -271,7 +271,7 @@ public class GreenhouseControlPanel extends JPanel {
             this.add( seventeenFiftyCompositionPane, gbc );
             this.add( todayGGRB, gbc );
             this.add( todayCompositionPane, gbc );
-            this.add( venusGGRB, gbc );
+//            this.add( venusGGRB, gbc );
             this.add( venusCompositionPane, gbc );
 
             TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
