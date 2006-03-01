@@ -69,7 +69,8 @@ public class BSConstants {
     // Strokes
     //----------------------------------------------------------------------------
     
-    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( 4f );
+    public static final Stroke TOTAL_ENERGY_UNSELECTED_STROKE = new BasicStroke( 2f );
+    public static final Stroke TOTAL_ENERGY_SELECTED_STROKE = new BasicStroke( 3f );
     public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
     public static final Stroke INCIDENT_REAL_WAVE_STROKE = new BasicStroke( 1f );
     public static final Stroke INCIDENT_IMAGINARY_WAVE_STROKE = new BasicStroke( 1f );
@@ -88,7 +89,8 @@ public class BSConstants {
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
     public static final Color CHART_BACKGROUND = Color.WHITE;
     public static final Color PLOT_BACKGROUND = Color.WHITE;
-    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
+    public static final Color TOTAL_ENERGY_UNSELECTED_COLOR = new Color( 23, 172, 18 ); // dark green
+    public static final Color TOTAL_ENERGY_SELECTED_COLOR = Color.GREEN;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color REAL_WAVE_COLOR = Color.RED;
     public static final Color IMAGINARY_WAVE_COLOR = Color.BLUE;
