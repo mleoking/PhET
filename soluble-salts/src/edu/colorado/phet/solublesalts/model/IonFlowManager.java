@@ -60,8 +60,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
         // If the rate of water flowing out of the vessel is increasing,
         // increase the velocity of all ions toward the drain
-//        if( change < 0 && change != lastChange ) {
-        if( change < 0 ) {
+        if( change < 0 && change != lastChange ) {
+//        if( change < 0 ) {
 
             lastChange = change;
             List ions = model.getIons();
@@ -70,7 +70,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             // Determine the distance from the upper right corner of the water to the drain
             Vessel vessel = event.getVessel();
             Point2D.Double urc = new Point2D.Double( vessel.getLocation().getX() + vessel.getWidth(),
-                                                     vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() );
+                                                     vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() / 2 );
+//                                                     vessel.getLocation().getY() + vessel.getDepth() - vessel.getWaterLevel() );
             double d = urc.distance( drain.getPosition() );
             // Determine the number of clock ticks before the vessel is nearly empty
             double timeToEmpty = ( vessel.getWaterLevel() - 0 ) / ( -change );
@@ -88,15 +89,15 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 // Set the ion's velocity toward the drain to be ds
                 double beta2 = Math.atan2( drain.getPosition().getY() - ion.getPosition().getY(),
                                            drain.getPosition().getX() - ion.getPosition().getX() );
-                Vector2D v2 = new Vector2D.Double( ion.getVelocity() );
-                v2.rotate( -beta2 );
+                Vector2D v2 = new Vector2D.Double( ds, 0 );
+//                Vector2D v2 = new Vector2D.Double( ds * 0.001, 0 );
+//                Vector2D v2 = new Vector2D.Double( ion.getVelocity() );
+//                v2.rotate( -beta2 );
 
-                double d2 = ion.getPosition().distance( drain.getPosition() );
-                double t = ( vessel.getWaterLevel() - 20 ) / ( -change );
-                double s = d2 / t;
-
-                v2.setX( ds );
+//                v2.setX( ds );
+//                v2.setX( ds * 0.75);
                 v2.rotate( beta2 );
+//                v2.add( ion.getVelocity() );
                 ion.setVelocity( v2 );
 
                 // Rotate the ion's velocity vector toward the drain
@@ -106,10 +107,10 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 l.normalize().scale( ds );
                 double alpha = ( l.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 double beta = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-                double gamma = ( alpha - beta ) * 0.05;
+                double gamma = ( alpha - beta ) * 0.01;
 
                 // Set the sign of gamma based on whether the ion is above or below the diagonal throught the water
-                v.rotate( gamma );
+//                v.rotate( gamma );
 
                 // If the flow rate out of the vessel has changed, modify the magnitude of the ion's
                 if( ds != lastDs ) {
