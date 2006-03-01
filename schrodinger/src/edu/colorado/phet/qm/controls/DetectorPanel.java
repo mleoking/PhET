@@ -44,6 +44,12 @@ public class DetectorPanel extends VerticalLayoutPanel {
                 getDiscreteModel().getDetectorSet().setRepeats( repeats.isSelected() );
             }
         } );
+        final JCheckBox oneshot = new JCheckBox( "One-Shot", !getDiscreteModel().getDetectorSet().isRepeats() );
+        repeats.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().getDetectorSet().setRepeats( !oneshot.isSelected() );
+            }
+        } );
 
         final JCheckBox autodetect = new JCheckBox( "Autodetect", getDiscreteModel().isAutoDetect() );
         autodetect.addActionListener( new ActionListener() {
@@ -54,7 +60,8 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
 
         add( autodetect );
-        add( repeats );
+//        add( repeats );
+        add( oneshot );
 
         final JButton detect = new JButton( "Detect!" );
         detect.addActionListener( new ActionListener() {

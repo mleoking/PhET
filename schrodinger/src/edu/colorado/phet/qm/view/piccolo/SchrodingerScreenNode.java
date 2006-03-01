@@ -70,10 +70,10 @@ public class SchrodingerScreenNode extends PNode {
     private PNode gunTypeChooserGraphic;
     private PSwing stopwatchPanelPSwing;
     private PNode gunControlPanelPSwing;
-    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
-    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
-//    private String slowdownText = "Slowing Time Down";
-//    private String speedupText = "Speeding Time Up";
+//    private String slowdownText = "Slowing down the simulation to observe faster phenomenon...";
+//    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
+    private String slowdownText = "Slowing Time Down";
+    private String speedupText = "Speeding Time Up";
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
