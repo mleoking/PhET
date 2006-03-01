@@ -208,6 +208,10 @@ public class IntensitySlider extends JPanel implements ChangeListener {
         if( super.isVisible() ) {
             Graphics2D g2 = (Graphics2D)g;
 
+            // Required with newer look and feel code
+            _slider.setOpaque( false );
+            _containerPanel.setOpaque( false );
+
             // Save any graphics state that we'll be touching.
             Paint oldPaint = g2.getPaint();
             Stroke oldStroke = g2.getStroke();
