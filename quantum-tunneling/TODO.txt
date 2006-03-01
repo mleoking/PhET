@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add developer knobs for mass, hbar, dt, propagator steps
+- add developer knobs for mass, hbar, dt, propagator steps, threshold?
 - decide on correct behavior when we measure in a region where E<V
 - replace Richardson algorithm
 - eliminate reflection at boundaries
