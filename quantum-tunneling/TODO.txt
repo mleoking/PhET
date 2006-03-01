@@ -36,9 +36,9 @@ CLEANUP:
 
 
 DONE:
-(3/1/06) - sync with Sam's additions for RK4Solver, test
+(3/1/06) - sync & test with Sam's additions for RK4Solver
 (3/1/06) - bugfix: Richardson propagator was skipping the last psi value when applying EtoV
-(2/28/06) - sync with Sam's additions and changes for SplitOperatorSolver, test
+(2/28/06) - sync & test with Sam's additions and changes for SplitOperatorSolver
 (2/28/06) - fill in all missing javadoc
 (2/28/06) - extract interface IWavePacketSolver out of RichardsonSolver, so that SamR can experiment with other algorithms
 (2/28/06) - refactor model.RichardsonSolver.RComplex into util.LightweightComplex
