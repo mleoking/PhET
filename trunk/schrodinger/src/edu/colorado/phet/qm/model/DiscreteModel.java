@@ -47,6 +47,7 @@ public class DiscreteModel implements ModelElement {
     public static final double DEFAULT_POTENTIAL_BARRIER_VALUE = Double.MAX_VALUE / 1000;
     protected static final boolean DEBUG_WAVES = false;
     public static final double DEFAULT_DT = 1E-5;
+    private FractionalDoubleSlit fractionalDoubleSlit;
 
     public DiscreteModel() {
         this( DEFAULT_WIDTH, DEFAULT_WIDTH );
@@ -78,7 +79,7 @@ public class DiscreteModel implements ModelElement {
                 notifyPotentialChanged();
             }
         } );
-//        measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
+        fractionalDoubleSlit = new FractionalDoubleSlit( this, 0.4, 0.05, 0.14, 0.25 );
 
         if( DEBUG_WAVES ) {
             final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
@@ -96,6 +97,10 @@ public class DiscreteModel implements ModelElement {
                 }
             } );
         }
+    }
+
+    public FractionalDoubleSlit getFractionalDoubleSlit() {
+        return fractionalDoubleSlit;
     }
 
     public void setRepeats( boolean repeats ) {
@@ -560,10 +565,6 @@ public class DiscreteModel implements ModelElement {
 
     public void setWaveSize( int width, int height ) {
         setGridSize( width, height );
-        doubleSlitPotential.reset( getGridWidth(), getGridHeight(),
-                                   (int)( getGridHeight() * 0.4 ), 3,
-                                   8, 14,
-                                   DEFAULT_POTENTIAL_BARRIER_VALUE );
         clearWavefunction();
     }
 

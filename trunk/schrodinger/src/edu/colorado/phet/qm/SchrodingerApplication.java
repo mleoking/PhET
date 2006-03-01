@@ -113,7 +113,7 @@ public class SchrodingerApplication extends PhetApplication {
         return new FrameSetup() {
             public void initialize( JFrame frame ) {
                 int width = 900;
-                int height = 680;
+                int height = 704;
                 Toolkit tk = Toolkit.getDefaultToolkit();
                 Dimension d = tk.getScreenSize();
                 int x = ( d.width - width ) / 2;

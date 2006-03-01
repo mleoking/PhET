@@ -73,6 +73,7 @@ public class HorizontalDoubleSlit implements Potential {
 
         this.leftSlit = new Rectangle( (int)leftBar.getMaxX(), y, slitSize, height );
         this.rightSlit = new Rectangle( (int)midBar.getMaxX(), y, slitSize, height );
+        System.out.println( "leftSlit = " + leftSlit );
         CompositePotential compositePotential = new CompositePotential();
         if( inverse ) {
             compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
