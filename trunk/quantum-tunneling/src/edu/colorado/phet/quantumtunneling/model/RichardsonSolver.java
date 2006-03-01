@@ -322,7 +322,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
 
             // Apply propagator values...
-            for ( int i = 0; i < n - 1; i++ ) {
+            for ( int i = 0; i < n; i++ ) {
                 // Psi[i] = Psi[i] * EtoV[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
