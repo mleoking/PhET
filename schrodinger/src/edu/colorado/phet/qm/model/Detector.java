@@ -39,8 +39,8 @@ public class Detector extends RectangularObject {
 //        this.oneShotDetection = discreteModel.getDetectorSet().isOneShotDetectors();
     }
 
-    public void setDimension( int width, int height ) {
-        super.setDimension( width, height );
+    public void setSize( int width, int height ) {
+        super.setSize( width, height );
         numTimeStepsBetweenDetect = ( width + height ) / 2;
     }
 
@@ -180,7 +180,7 @@ public class Detector extends RectangularObject {
     }
 
     public void setRect( Rectangle rectangle ) {
-        setDimension( rectangle.width, rectangle.height );
+        setSize( rectangle.width, rectangle.height );
         setLocation( rectangle.x, rectangle.y );
     }
 

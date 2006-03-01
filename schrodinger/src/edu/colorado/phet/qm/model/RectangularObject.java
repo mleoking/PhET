@@ -48,7 +48,7 @@ public class RectangularObject extends SimpleObservable {
         discreteModel.addListener( new DiscreteModel.Adapter() {
             public void sizeChanged() {
                 Rectangle b = fractionalSize.getBounds( discreteModel.getWavefunction().getWidth(), discreteModel.getWavefunction().getHeight() );
-                setBounds( b.x, b.y, b.width, b.height );
+                setBoundsInternal( b.x, b.y, b.width, b.height );
             }
         } );
         updateFractionalSize();
@@ -70,6 +70,14 @@ public class RectangularObject extends SimpleObservable {
 
     }
 
+    private void setBoundsInternal( int x, int y, int width, int height ) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        notifyObservers();
+    }
+
     public void setLocation( int x, int y ) {
         this.x = x;
         this.y = y;
@@ -78,11 +86,11 @@ public class RectangularObject extends SimpleObservable {
     }
 
     public void setBounds( int x, int y, int width, int height ) {
-        setDimension( width, height );
+        setSize( width, height );
         setLocation( x, y );
     }
 
-    public void setDimension( int width, int height ) {
+    public void setSize( int width, int height ) {
         this.width = width;
         this.height = height;
         updateFractionalSize();

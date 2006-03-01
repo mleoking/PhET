@@ -187,7 +187,7 @@ public class RectangleGraphic extends PNode {
                 int newHeight = origDim.height + modelDY;
                 newWidth = Math.max( newWidth, 0 );
                 newHeight = Math.max( newHeight, 0 );
-                rectangularObject.setDimension( newWidth, newHeight );
+                rectangularObject.setSize( newWidth, newHeight );
             }
 
         }
