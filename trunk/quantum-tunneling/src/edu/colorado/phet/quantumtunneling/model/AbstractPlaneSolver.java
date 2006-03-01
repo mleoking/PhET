@@ -91,27 +91,50 @@ public abstract class AbstractPlaneSolver {
     // Accessors
     //----------------------------------------------------------------------
     
+    /**
+     * Gets the total energy model associated with the solver.
+     * @return
+     */
     protected TotalEnergy getTotalEnergy() {
         return _te;
     }
     
+    /**
+     * Gets the potential energy model associated with the solver.
+     * @return
+     */
     protected AbstractPotential getPotentialEnergy() {
         return _pe;
     }
     
+    /**
+     * Sets the direction used for calculating the solution.
+     * @param direction
+     */
     public void setDirection( Direction direction ) {
         _direction = direction;
         update();
     }
     
+    /**
+     * Gets the direction used for calculating the solution.
+     * @return direction
+     */
     public Direction getDirection() {
         return _direction;
     }
     
+    /*
+     * Is the direction left to right?
+     * @return
+     */
     protected boolean isLeftToRight() {
         return ( _direction == Direction.LEFT_TO_RIGHT );
     }
     
+    /*
+     * Is the direction right to left?
+     */
     protected boolean isRightToLeft() {
         return ( _direction == Direction.RIGHT_TO_LEFT );
     }
