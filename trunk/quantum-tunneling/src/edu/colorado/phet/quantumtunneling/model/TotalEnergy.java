@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * TotalEnergy
+ * TotalEnergy is the model of total energy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -30,10 +30,18 @@ public class TotalEnergy extends QTObservable {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructs a total energy with value zero.
+     */
     public TotalEnergy() {
         this( 0 );
     }
     
+    /**
+     * Constructs a total energy with a specified value.
+     * 
+     * @param energy
+     */
     public TotalEnergy( final double energy ) {
         _energy = energy;
     }
@@ -51,6 +59,10 @@ public class TotalEnergy extends QTObservable {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the energy.
+     * @param energy
+     */
     public void setEnergy( final double energy ) {
         if ( energy != _energy ) {
             _energy = energy;
@@ -58,6 +70,10 @@ public class TotalEnergy extends QTObservable {
         }
     }
     
+    /**
+     * Gets the energy.
+     * @return
+     */
     public double getEnergy() {
         return _energy;
     }

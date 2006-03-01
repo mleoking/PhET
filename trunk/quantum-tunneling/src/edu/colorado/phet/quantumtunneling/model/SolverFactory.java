@@ -15,7 +15,7 @@ import edu.colorado.phet.quantumtunneling.enum.Direction;
 
 
 /**
- * SolverFactory
+ * SolverFactory is a factory for creating plane wave function solvers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
