@@ -8,6 +8,7 @@ Constrained resolution changes to ensure lattice cells are always an integral nu
 Resolution changes don't resize screen graphics.
 Potential barriers, detectors, slits respect change in resolution.
 Ruler respects change in resolution.
+In two lasers panel, made guns so that the box doesn’t need to resize when you go from one panel to the next.
 
 New in 0.40 (2-20-2006)
 Added a UI test facility.
