@@ -50,28 +50,28 @@ public class RK4Solver extends RichardsonSolver {
     //
     //	alpha = i*hbar/(2*mu);	beta = -i/hbar
     protected void advanceOnce( double dt ) {
-        Complex[]psi = toComplex( getWaveFunctionValues() );
+        RK4Complex[]psi = toComplex( getWaveFunctionValues() );
         int len = psi.length;
 
         //System.err.println("t = "+t);
         //System.err.println("h = "+h);
 
-        Complex alpha = new Complex( 0, 1 );
-        Complex beta = new Complex( 0, -1 );
+        RK4Complex alpha = new RK4Complex( 0, 1 );
+        RK4Complex beta = new RK4Complex( 0, -1 );
 
         //	Precalculate beta*pot[i]
-        Complex[] betaPot = new Complex[psi.length];
+        RK4Complex[] betaPot = new RK4Complex[psi.length];
         for( int i = 0; i < betaPot.length; i++ ) {
             betaPot[i] = beta.multiply( super.getPotentialEnergy( getPositionValues()[i] ) );
 //            betaPot[i] = beta.multiply( 0.0);
         }
         //System.err.println("beta*pot at i=len/2 is:  "+betaPot[len/2]);
 
-        Complex[] newPsi = new Complex[len];
-        Complex[] k1 = new Complex[len];
-        Complex[] k2 = new Complex[len];
-        Complex[] k3 = new Complex[len];
-        Complex[] k4 = new Complex[len];
+        RK4Complex[] newPsi = new RK4Complex[len];
+        RK4Complex[] k1 = new RK4Complex[len];
+        RK4Complex[] k2 = new RK4Complex[len];
+        RK4Complex[] k3 = new RK4Complex[len];
+        RK4Complex[] k4 = new RK4Complex[len];
 
         //	First step
         for( int i = 0; i < len; i++ ) {
@@ -117,10 +117,10 @@ public class RK4Solver extends RichardsonSolver {
         t += dt;
     }
 
-    private Complex[] toComplex( LightweightComplex[] waveFunctionValues ) {
-        Complex[]c = new Complex[waveFunctionValues.length];
+    private RK4Complex[] toComplex( LightweightComplex[] waveFunctionValues ) {
+        RK4Complex[]c = new RK4Complex[waveFunctionValues.length];
         for( int i = 0; i < c.length; i++ ) {
-            c[i] = new Complex( waveFunctionValues[i].getReal(), waveFunctionValues[i].getImaginary() );
+            c[i] = new RK4Complex( waveFunctionValues[i].getReal(), waveFunctionValues[i].getImaginary() );
         }
         return c;
     }
@@ -136,12 +136,12 @@ public class RK4Solver extends RichardsonSolver {
      * @param i The index at which the derivative is required
      * @return (c[i+1]+c[i-1]-2c[i])/(h*h)
      */
-    protected Complex xderiv( Complex[] c, int i ) {
+    protected RK4Complex xderiv( RK4Complex[] c, int i ) {
         if( i <= 1 ) {
-            return Complex.ZERO;
+            return RK4Complex.ZERO;
         }
         if( i >= c.length - 2 ) {
-            return Complex.ZERO;
+            return RK4Complex.ZERO;
         }
 
         return c[i].multiply( -2 ).add( c[i - 1] ).add( c[i + 1] ).divide( h * h );
