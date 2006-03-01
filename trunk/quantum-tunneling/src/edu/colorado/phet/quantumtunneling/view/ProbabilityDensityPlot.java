@@ -24,6 +24,7 @@ import edu.colorado.phet.quantumtunneling.QTConstants;
 
 /**
  * ProbabilityDensityPlot is the plot that displays probability density.
+ * Its data series is managed by WaveFunctionPlot.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -54,6 +54,12 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     private AbstractWave _wave;
     private double _dx;
     
+    /**
+     * NOTE: 
+     * The "incident" series do double duty as "sum" series.
+     * The "reflected" series are used only when the incident and reflected 
+     * components are being viewed separately.
+     */
     private XYSeries _incidentRealSeries;
     private XYSeries _incidentImaginarySeries;
     private XYSeries _incidentMagnitudeSeries;
@@ -210,6 +216,11 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets dx, the position delta between sample points in model coordinates.
+     * 
+     * @param dx
+     */
     public void setDx( double dx ) {
         if ( dx <= 0 ) {
             throw new IllegalArgumentException( "dx must be > 0: " + dx );
@@ -218,10 +229,21 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         updateDatasets();
     }
     
+    /**
+     * Gets the probability density series.
+     * This series is managed here, but displayed by ProbabilityDensityPlot.
+     * 
+     * @return
+     */
     public XYSeries getProbabilityDensitySeries() {
         return _probabilityDensitySeries;
     }
     
+    /**
+     * Sets the wave that the plot will display.
+     * 
+     * @param planeWave
+     */
     public void setWave( AbstractWave planeWave ) {
         if ( _wave != null ) {
             _wave.deleteObserver( this );
@@ -231,25 +253,51 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         updateDatasets();
     }
     
+    /**
+     * Sets visibility of the "real" data series.
+     * 
+     * @param visible
+     */
     public void setRealVisible( boolean visible ) {
         getRenderer( _incidentRealIndex ).setSeriesVisible( new Boolean( visible ) );
         getRenderer( _reflectedRealIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
+    /**
+     * Sets visibility of the "imaginary" data series.
+     * 
+     * @param visible
+     */
     public void setImaginaryVisible( boolean visible ) {
         getRenderer( _incidentImaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
         getRenderer( _reflectedImaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
+    /**
+     * Sets visibility of the "magnitude" data series.
+     * 
+     * @param visible
+     */
     public void setMagnitudeVisible( boolean visible ) {
         getRenderer( _incidentMagnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
         getRenderer( _reflectedMagnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
+    /**
+     * Sets visibility of the "phase" data series.
+     * 
+     * @param visible
+     */
     public void setPhaseVisible( boolean visible ) {
         getRenderer( _phaseIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
+    /**
+     * Determines whether incident and reflected wave components are
+     * viewed separately or as a sum.
+     * 
+     * @param irView
+     */
     public void setIRView( IRView irView ) {
         _irView = irView;
         updateDatasets();
@@ -275,6 +323,11 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Calls the proper update method based on the type of wave.
+     * Unfortunately the update process is quite different for 
+     * plane wave and wave packets.
+     */
     private void updateDatasets() {
         if ( _wave != null && _wave.isInitialized() ) {
             setSeriesNotify( false );
