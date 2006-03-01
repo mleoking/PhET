@@ -43,6 +43,11 @@ public class PhotonWave {
                 waveSource.updateBoundaryConditions( discreteModel );
             }
         };
+        discreteModel.addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                updateWaveSource();
+            }
+        } );
     }
 
     public void setMomentum( double momentum ) {

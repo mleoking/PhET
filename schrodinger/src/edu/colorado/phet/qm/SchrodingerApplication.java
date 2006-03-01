@@ -109,7 +109,19 @@ public class SchrodingerApplication extends PhetApplication {
 
     private static FrameSetup createFrameSetup() {
 //        return new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
-        return new FrameSetup.CenteredWithSize( 1062, 906 );
+//        return new FrameSetup.CenteredWithSize( 900, 680 );
+        return new FrameSetup() {
+            public void initialize( JFrame frame ) {
+                int width = 900;
+                int height = 680;
+                Toolkit tk = Toolkit.getDefaultToolkit();
+                Dimension d = tk.getScreenSize();
+                int x = ( d.width - width ) / 2;
+                int y = 0;
+                frame.setLocation( x, y );
+                frame.setSize( width, height );
+            }
+        };
     }
 
     public static void main( String[] args ) {
@@ -117,12 +129,12 @@ public class SchrodingerApplication extends PhetApplication {
         new PhetLookAndFeel().apply();
         final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
-        new Timer( 100, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "schrodingerApplication.getPhetFrame().getSize() = " + schrodingerApplication.getPhetFrame().getSize() );
-            }
-        } ).start();
-        System.out.println( "SchrodingerApplication.main" );
+//        new Timer( 100, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "schrodingerApplication.getPhetFrame().getSize() = " + schrodingerApplication.getPhetFrame().getSize() );
+//            }
+//        } ).start();
+//        System.out.println( "SchrodingerApplication.main" );
     }
 
 }

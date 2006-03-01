@@ -24,6 +24,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
@@ -41,6 +42,7 @@ public class SchrodingerModule extends PiccoloModule {
     private PhetApplication schrodingerApplication;
     private SchrodingerOptionsMenu optionsMenu;
     private ParticleUnits particleUnits;
+    private ArrayList listeners = new ArrayList();
 
     /**
      * @param schrodingerApplication
@@ -77,11 +79,19 @@ public class SchrodingerModule extends PiccoloModule {
     public void activate() {
         super.activate();
         schrodingerApplication.getPhetFrame().addMenu( optionsMenu );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.activated();
+        }
     }
 
     public void deactivate() {
         super.deactivate();
         schrodingerApplication.getPhetFrame().removeMenu( optionsMenu );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.deactivated();
+        }
     }
 
     protected void setDiscreteModel( DiscreteModel model ) {
@@ -240,4 +250,21 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
 
+    public void setCellSize( int size ) {
+        schrodingerPanel.setCellSize( size );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        void deactivated();
+
+        void activated();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
 }
