@@ -24,6 +24,8 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.BSClockControls;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
 import edu.colorado.phet.boundstates.model.BSClock;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSTotalEnergy;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
@@ -63,7 +65,7 @@ public class BSModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
-
+    private BSTotalEnergy _totalEnergy;
     
     // View
     private PhetPCanvas _canvas;
@@ -71,6 +73,7 @@ public class BSModule extends BSAbstractModule {
     private BSEnergyLegend _legend;
     private BSCombinedChart _chart;
     private BSCombinedChartNode _chartNode;
+    private BSTotalEnergyNode _totalEnergyNode;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -99,6 +102,10 @@ public class BSModule extends BSAbstractModule {
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
+        
+        double[] energies = { 1, 2, 2.5, 3, 3.25, 3.5, 3.75, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.55, 4.6, 4.65, 4.7, 4.75 };
+        BSEigenstate[] eigenstates = BSEigenstate.createEigenstates( energies );
+        _totalEnergy = new BSTotalEnergy( eigenstates );
         
         //----------------------------------------------------------------------------
         // View
@@ -172,6 +179,9 @@ public class BSModule extends BSAbstractModule {
             _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
             _parentNode.addChild( _waveFunctionPlotNode );
         } 
+        
+        _totalEnergyNode = new BSTotalEnergyNode( _totalEnergy, _chartNode, _canvas );
+        _parentNode.addChild( _totalEnergyNode );
         
         //----------------------------------------------------------------------------
         // Control
@@ -248,8 +258,11 @@ public class BSModule extends BSAbstractModule {
             chartTransform.translate( 0, 0 ); // registration point @ upper left
             _chartNode.setTransform( chartTransform );
             _chartNode.updateChartRenderingInfo();
+            
+            _totalEnergyNode.setTransform( chartTransform );
+            _totalEnergyNode.updateDisplay();
         }
-
+        
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
         Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
         Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
@@ -402,5 +415,13 @@ public class BSModule extends BSAbstractModule {
     
     private void handleClockReset() {
         //XXX
+    }
+    
+    public void showEigenstateCheckBoxes( boolean visible ) {
+        _totalEnergyNode.setCheckBoxesVisible( visible );
+    }
+    
+    public void setEigenstateLineWidth( double width ) {
+        _totalEnergyNode.setStrokeWidth( width );
     }
 }

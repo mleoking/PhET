@@ -80,6 +80,13 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private NumberSpinnerControl _c1Spinner, _c2Spinner, _c3Spinner, _c4Spinner;
     private JButton _normalizeButton;
     
+    // Developer only controls...
+    private JButton _developerButton;
+    private String _sDeveloperExpand, _sDeveloperCollapse;
+    private JPanel _developerPanel;
+    private JCheckBox _showEigenstateCheckboxes;
+    private SliderControl _eigenstateWidthSlider;
+    
     private EventListener _listener;
 
     //----------------------------------------------------------------------------
@@ -266,6 +273,29 @@ public class BSControlPanel extends BSAbstractControlPanel {
             layout.addComponent( superpositionPanel, row++, 0 );
         }
         
+        // Developer button
+        {
+            _sDeveloperExpand = "Developer" + " " + EXPAND_SYMBOL;
+            _sDeveloperCollapse = "Developer" + " " + COLLAPSE_SYMBOL;
+            _developerButton = new JButton( _sDeveloperExpand  );
+        }
+        
+        // Developer controls
+        _developerPanel = new JPanel();
+        _developerPanel.setVisible( false );
+        {
+            _showEigenstateCheckboxes = new JCheckBox( "Show eigenstate checkboxes" );
+            
+            _eigenstateWidthSlider = new SliderControl( 2, 1, 4, 1, 1, 1, "Eigenstate line width: {0} pixels", SLIDER_INSETS );
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( _developerPanel );
+            _developerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            layout.addComponent( _showEigenstateCheckboxes, row++, 0 );
+            layout.addComponent( _eigenstateWidthSlider, row++, 0 );
+        }
+        
         // Layout
         {  
             addControlFullWidth( wellPanel );
@@ -279,6 +309,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             addSeparator();
             addControl( _advancedButton );
             addControlFullWidth( _advancedPanel );
+            addVerticalSpace( SUBPANEL_SPACING );
+            addSeparator();
+            addControl( _developerButton );
+            addControlFullWidth( _developerPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addResetButton();
@@ -296,6 +330,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _magnitudeCheckBox.addActionListener( _listener );
             _phaseCheckBox.addActionListener( _listener );
             _advancedButton.addActionListener( _listener );
+            _developerButton.addActionListener( _listener );
+            _showEigenstateCheckboxes.addActionListener( _listener );
+            _eigenstateWidthSlider.addChangeListener( _listener );
         }
     }
 
@@ -458,13 +495,24 @@ public class BSControlPanel extends BSAbstractControlPanel {
             else if ( event.getSource() == _advancedButton ) {
                 handleAdvancedButton();
             }
+            else if ( event.getSource() == _developerButton ) {
+                handleDeveloperButton();
+            }
+            else if ( event.getSource() == _showEigenstateCheckboxes ) {
+                handleShowEigenstateCheckBoxes();
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
         
         public void stateChanged( ChangeEvent event ) {
-            //XXX
+            if ( event.getSource() == _eigenstateWidthSlider ) {
+                handleEigenstateWidth();
+            }
+            else {
+                throw new IllegalArgumentException( "unexpected event: " + event );
+            }
         }
 
         public void itemStateChanged( ItemEvent event ) {
@@ -530,5 +578,25 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _advancedPanel.setVisible( true );
             _advancedButton.setText( _sAdvancedCollapse );
         }
+    }
+    
+    private void handleDeveloperButton() {
+        if ( _developerPanel.isVisible() ) {
+            _developerPanel.setVisible( false );
+            _developerButton.setText( _sDeveloperExpand );
+        }
+        else {
+            _developerPanel.setVisible( true );
+            _developerButton.setText( _sDeveloperCollapse );
+        }
+    }
+    
+    private void handleShowEigenstateCheckBoxes() {
+        _module.showEigenstateCheckBoxes( _showEigenstateCheckboxes.isSelected() );
+    }
+    
+    private void handleEigenstateWidth() {
+        double width = _eigenstateWidthSlider.getValue();
+        _module.setEigenstateLineWidth( width );
     }
 }
