@@ -14,8 +14,7 @@ package edu.colorado.phet.quantumtunneling.model;
 
 
 /**
- * SingleBarrierPotential is a convenience class for creating
- * and testing for single barriers.
+ * SingleBarrierPotential is a convenience class for creating single barriers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -15,7 +15,7 @@ import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 
 
 /**
- * PotentialFactory
+ * PotentialFactory is a factory for creating potential energy objects.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -43,6 +43,9 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     */
     public PlaneWave() {
         super();
         _te = null;
@@ -54,6 +57,9 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         _measureEnabled = false;
     }
     
+    /**
+     * Call this method before releasing all references to an object of this type.
+     */
     public void cleanup() {
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -69,6 +75,10 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     // AbstractWave implementation
     //---------------------------------------------------------------------------- 
     
+    /**
+     * Is this object fully initialized?
+     * @return true or false
+     */
     public boolean isInitialized() {
         return ( _te != null && _pe != null && _solver != null );
     }
@@ -77,6 +87,10 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Enables or disables this object.
+     * @param enabled
+     */
     public void setEnabled( boolean enabled ) {
         if ( enabled != _enabled ) {
             _enabled = enabled;
@@ -85,14 +99,27 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         }
     }
     
+    /**
+     * Is this object enabled?
+     * @return true or false
+     */
     public boolean isEnabled() {
         return _enabled;
     }
     
+    /**
+     * Gets the current simulation time.
+     * The value returned is valid only if the object is enabled.
+     * @return
+     */
     private double getTime() {
         return _time;
     }
     
+    /**
+     * Sets the total energy model.
+     * @param te
+     */
     public void setTotalEnergy( TotalEnergy te ) {
         if ( _te != null ) {
             _te.deleteObserver( this );
@@ -103,10 +130,18 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         notifyObservers();
     }
     
+    /**
+     * Gets the total energy model.
+     * @return
+     */
     public TotalEnergy getTotalEnergy() { 
         return _te;
     }
     
+    /**
+     * Sets the potential energy model.
+     * @param pe
+     */
     public void setPotentialEnergy( AbstractPotential pe ) {
         if ( _pe != null ) {
             _pe.deleteObserver( this );
@@ -117,10 +152,18 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         notifyObservers();
     }
     
+    /**
+     * Gets the potential energy model.
+     * @return
+     */
     public AbstractPotential getPotentialEnergy() {
         return _pe;
     }
     
+    /**
+     * Sets the wave's direction.
+     * @param direction
+     */
     public void setDirection( Direction direction ) {
         _direction = direction;
         if ( _solver != null ) {
@@ -128,10 +171,19 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         }
     }
 
+    /**
+     * Gets the wave's direction.
+     * @return
+     */
     public Direction getDirection() {
         return _direction;
     }
     
+    /**
+     * Solves the wave function for a specified position.
+     * @param x positon, in model corrdinates
+     * @return
+     */
     public WaveFunctionSolution solveWaveFunction( double x ) {
         WaveFunctionSolution solution = null;
         if ( _solver != null && !_measureEnabled ) {
@@ -141,12 +193,19 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
         return solution;
     }
     
+    /*
+     * Updates the solver.
+     */
     private void updateSolver() {
         if ( _enabled && _pe != null && _te != null ) {
             _solver = SolverFactory.createSolver( _te, _pe, _direction );
         }
     }
     
+    /**
+     * Enables or disables "measure" mode.
+     * @param enabled true or false
+     */
     public void setMeasureEnabled( boolean enabled ) {
         if ( enabled != _measureEnabled ) {
             _measureEnabled = enabled;
@@ -182,6 +241,10 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the wave packet in response to some change in 
+     * total energy or potential energy.
+     */
     public void update( Observable observable, Object arg ) {
         if ( _enabled ) {
             _solver.update();
@@ -199,6 +262,11 @@ public class PlaneWave extends AbstractWave implements Observer, ClockListener {
 
     public void clockPaused( ClockEvent clockEvent ) {}
 
+    /**
+     * When the simulation time changes, record the time and notify observers. 
+     * The observers are then responsible for calling solveWaveFunction for 
+     * the new time value. 
+     */
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         if ( _enabled && _te != null && _pe != null ) {
             _time = clockEvent.getSimulationTime();
