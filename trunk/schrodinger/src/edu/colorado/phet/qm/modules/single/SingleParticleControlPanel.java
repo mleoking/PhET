@@ -25,7 +25,7 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         super( singleParticleModule );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
-        advancedPanel.addControlFullWidth( super.createPotentialPanel( singleParticleModule ) );
+        advancedPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
         advancedPanel.addControlFullWidth( detectorPanel );
 //        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
 
@@ -47,15 +47,16 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
         VerticalLayoutPanel colorPanel = new VisualizationPanel( getSchrodingerPanel() );
-        addControlFullWidth( colorPanel );
+        addControl( colorPanel );
 
 //        super.addSlitCheckbox();
         addControl( new ResetButton( singleParticleModule ) );
         addControl( new ClearButton( singleParticleModule.getSchrodingerPanel() ) );
-        addControl( new ExpandableDoubleSlitPanel( singleParticleModule ) );
-        addControlFullWidth( advancedPanel );
+        ExpandableDoubleSlitPanel doubleSlitPanel = new ExpandableDoubleSlitPanel( singleParticleModule );
+        addControl( doubleSlitPanel );
+        addControl( advancedPanel );
 
-
+        setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }
 
     private void createDetectorArray() {

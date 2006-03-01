@@ -12,6 +12,7 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
         this.module = module;
-
+        getContentPanel().setAnchor( GridBagConstraints.WEST );
         this.initialConditionPanel = createInitialConditionPanel();
         AdvancedPanel advancedICPanel = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedICPanel.addControlFullWidth( this.initialConditionPanel );
@@ -84,71 +85,25 @@ public class SchrodingerControlPanel extends ControlPanel {
 ////                classicalPropagator2ndOrder.setSpeed( x );
 //            }
 //        } );
+//        setPreferredWidth();
+    }
 
+    protected void setPreferredWidth( int width ) {
+        setPreferredSize( new Dimension( width, getPreferredSize().height ) );
     }
 
     protected void addMeasuringTools() throws IOException {
-        addRulerPanel();
-        addStopwatchPanel();
-    }
-
-    protected void addStopwatchPanel() {
-        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
-        stopwatchCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setStopwatchVisible( stopwatchCheckBox.isSelected() );
-            }
-        } );
-        new Timer( 500, new ActionListener() {//todo why does this drag the application if time < 30 ms?
-
-            public void actionPerformed( ActionEvent e ) {
-                stopwatchCheckBox.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-            }
-        } ).start();
-        addControl( stopwatchCheckBox );
-//        addControl( new PropagatorPanel( getDiscreteModel() ) );
-    }
-
-    protected void addRulerPanel() throws IOException {
-        RulerPanel rulerPanel = new RulerPanel( getSchrodingerPanel() );
-        addControl( rulerPanel );
+        getContentPanel().setFillNone();
+        addControl( new RulerPanel( getSchrodingerPanel() ) );
+        addControl( new StopwatchCheckBox( getSchrodingerPanel() ) );
     }
 
     private WaveSetup getWaveSetup() {
         return initialConditionPanel.getWaveSetup();
     }
 
-
     private InitialConditionPanel createInitialConditionPanel() {
         return new InitialConditionPanel( this );
-    }
-
-    protected VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
-        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-        layoutPanel.setFillNone();
-        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
-
-        JButton clear = new JButton( "Remove All" );
-        clear.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                clearPotential();
-            }
-        } );
-
-        JButton newBarrier = new JButton( "Add Barrier" );
-        newBarrier.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.addPotential();
-            }
-        } );
-        layoutPanel.add( newBarrier );
-        layoutPanel.add( clear );
-
-        return layoutPanel;
-    }
-
-    private void clearPotential() {
-        module.clearPotential();
     }
 
     private VerticalLayoutPanel createSimulationPanel( final SchrodingerModule module ) {

@@ -2,10 +2,7 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.controls.ClearButton;
-import edu.colorado.phet.qm.controls.ExpandableDoubleSlitPanel;
-import edu.colorado.phet.qm.controls.ResetButton;
-import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
+import edu.colorado.phet.qm.controls.*;
 
 /**
  * User: Sam Reid
@@ -19,10 +16,12 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         super( intensityModule );
         addControl( new ResetButton( intensityModule ) );
         addControl( new ClearButton( intensityModule.getSchrodingerPanel() ) );
-        addControl( new ExpandableDoubleSlitPanel( intensityModule ) );
+        ExpandableDoubleSlitPanel expandableDoubleSlitPanel = new ExpandableDoubleSlitPanel( intensityModule );
+        addControl( expandableDoubleSlitPanel );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-        advancedPanel.addControlFullWidth( super.createPotentialPanel( getModule() ) );
-        addControlFullWidth( advancedPanel );
+        advancedPanel.addControlFullWidth( new PotentialPanel( getModule() ) );
+        addControl( advancedPanel );
+        setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }
 
 }
