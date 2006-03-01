@@ -241,7 +241,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void setWaveSize( int width, int height ) {
-        schrodingerScreenNode.setWaveSize( width, height );
+        schrodingerScreenNode.setWaveGraphicGridSize( width, height );
     }
 
     public Rectangle waveAreaToScreen( Rectangle gridRect ) {
@@ -301,6 +301,10 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     public boolean isPhotonMode() {
         return getGunGraphic().isPhotonMode();
+    }
+
+    public void setCellSize( int size ) {
+        schrodingerScreenNode.setCellSize( size );
     }
 
     public static interface Listener {

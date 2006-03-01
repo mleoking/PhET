@@ -3,6 +3,7 @@ Switched detector control from "auto-repeat" to “one shot.”
 Reworded “Speeding up time” messages.
 Set control panel so that it’s always as wide as it is when “double slits” is open, so that it doesn’t resize when you open it.
 Screen brightness reduced to 2 significant digits after decimal.
+Shrunk the window size so there is not so much extra space in the play area.
 
 New in 0.40 (2-20-2006)
 Added a UI test facility.

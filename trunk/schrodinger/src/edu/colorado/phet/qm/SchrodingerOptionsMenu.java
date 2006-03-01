@@ -57,6 +57,16 @@ public class SchrodingerOptionsMenu extends JMenu {
 
                     dialog.setContentPane( resolutionControl.getControls() );
                     dialog.pack();
+                    schrodingerModule.addListener( new SchrodingerModule.Listener() {
+                        public void deactivated() {
+                            schrodingerModule.removeListener( this );
+                            dialog.setVisible( false );
+                            dialog.dispose();
+                        }
+
+                        public void activated() {
+                        }
+                    } );
                 }
                 dialog.show();
             }

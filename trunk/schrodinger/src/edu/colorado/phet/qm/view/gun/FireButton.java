@@ -89,7 +89,8 @@ public class FireButton extends JButton {
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
-                if( magnitude <= AutoFire.THRESHOLD ) {
+//                System.out.println( "magnitude = " + magnitude +", threshold="+AutoFire.THRESHOLD);
+                if( magnitude <= AutoFire.THRESHOLD || Double.isNaN( magnitude ) ) {
                     if( !fireButtonEnabled() ) {
                         setEnabled( true );
                     }

@@ -74,6 +74,8 @@ public class SchrodingerScreenNode extends PNode {
 //    private String speedupText = "Speeding up the simulation to observe slower phenomenon...";
     private String slowdownText = "Slowing Time Down";
     private String speedupText = "Speeding Time Up";
+    private boolean rescaleWaveGraphic = false;
+    private int cellSize = 8;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -97,6 +99,7 @@ public class SchrodingerScreenNode extends PNode {
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void sizeChanged() {
                 updateRulerUnits();
+                layoutChildren( true );
             }
         } );
         wavefunctionGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
@@ -220,7 +223,7 @@ public class SchrodingerScreenNode extends PNode {
         return null;
     }
 
-    public void setWaveSize( int width, int height ) {
+    public void setWaveGraphicGridSize( int width, int height ) {
         wavefunctionGraphic.setGridDimensions( width, height );
         relayout();
     }
@@ -240,6 +243,11 @@ public class SchrodingerScreenNode extends PNode {
             super.layoutChildren();
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
                 wavefunctionGraphic.setCellDimensions( getCellDimensions() );
+                System.out.println( "getCellDimensions() = " + getCellDimensions() );
+                int colorGridWidth = wavefunctionGraphic.getColorGrid().getBufferedImage().getWidth();
+                int latticeWidth = getWavefunctionGraphic().getWavefunction().getWidth();
+                System.out.println( "latticeWidth = " + latticeWidth );
+                System.out.println( "colorGridImageWidth = " + colorGridWidth );
                 double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
                 double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
                 double mainWidth = maxX - minX;
@@ -263,11 +271,29 @@ public class SchrodingerScreenNode extends PNode {
                     gunControlPanelPSwing.setOffset( pt.getX(),
                                                      screenHeight - gunControlPanelPSwing.getFullBounds().getHeight() - insetY );
                 }
+                if( rescaleWaveGraphic ) {
+                    wavefunctionGraphic.setScale( 1.0 );
+                    double scaleX = getAvailableWaveAreaSize().width / wavefunctionGraphic.getFullBounds().getWidth();
+                    double scaleY = getAvailableWaveAreaSize().height / wavefunctionGraphic.getFullBounds().getHeight();
+                    double min = Math.min( scaleX, scaleY );
+                    wavefunctionGraphic.setScale( min );
+                }
             }
         }
     }
 
     private Dimension getCellDimensions() {
+        return new Dimension( getCellSize(), getCellSize() );
+//        Dimension availableAreaForWaveform = getAvailableWaveAreaSize();
+//        int nx = schrodingerPanel.getDiscreteModel().getGridWidth();
+//        int ny = schrodingerPanel.getDiscreteModel().getGridHeight();
+//        int cellWidth = availableAreaForWaveform.width / nx;
+//        int cellHeight = availableAreaForWaveform.height / ny;
+//        int min = Math.min( cellWidth, cellHeight );
+//        return new Dimension( min, min );
+    }
+
+    public Dimension getAvailableWaveAreaSize() {
         Dimension availableSize = schrodingerPanel.getSize();
         availableSize.width -= getDetectorSheetControlPanelNode().getFullBounds().getWidth();
         availableSize.width -= WAVE_AREA_LAYOUT_INSET_X;
@@ -275,13 +301,7 @@ public class SchrodingerScreenNode extends PNode {
         availableSize.height -= abstractGunGraphic.getFullBounds().getHeight();
         availableSize.height -= WAVE_AREA_LAYOUT_INSET_Y;
 
-        Dimension availableAreaForWaveform = new Dimension( availableSize.width, availableSize.height );
-        int nx = schrodingerPanel.getDiscreteModel().getGridWidth();
-        int ny = schrodingerPanel.getDiscreteModel().getGridHeight();
-        int cellWidth = availableAreaForWaveform.width / nx;
-        int cellHeight = availableAreaForWaveform.height / ny;
-        int min = Math.min( cellWidth, cellHeight );
-        return new Dimension( min, min );
+        return new Dimension( availableSize.width, availableSize.height );
     }
 
     private PNode getDetectorSheetControlPanelNode() {
@@ -336,11 +356,11 @@ public class SchrodingerScreenNode extends PNode {
         rulerGraphic.getRulerGraphic().setReadings( readings );
 
         double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
-        double waveAreaViewWidth = wavefunctionGraphic.getWavefunction().getWidth() * particleUnits.getDx().getDisplayValue();
+        double waveAreaViewWidth = 480 / 8 * particleUnits.getDx().getDisplayValue();
 
         double rulerViewWidth = readings.length - 1;//units
         double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * rulerViewWidth;
-
+        System.out.println( "rulerPixelWidth = " + rulerPixelWidth );
         rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
         rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
     }
@@ -466,5 +486,19 @@ public class SchrodingerScreenNode extends PNode {
         connectorGraphic.setTexture( txtr );
 
         addChild( 3, connectorGraphic );
+    }
+
+    public void setCellSize( int size ) {
+        if( this.cellSize != size ) {
+//            int waveSize = 480 / size;
+//            System.out.println( "waveSize = " + waveSize );
+            this.cellSize = size;
+//            getDiscreteModel().setWaveSize( waveSize, waveSize );
+//            layoutChildren( true );
+        }
+    }
+
+    public int getCellSize() {
+        return cellSize;
     }
 }
