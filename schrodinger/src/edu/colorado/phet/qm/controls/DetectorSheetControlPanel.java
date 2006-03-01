@@ -53,7 +53,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1.0, 0.2, new DecimalFormat( "0.000" ) );
+        brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1.0, 0.2, new DecimalFormat( "0.0" ) );
         brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
         this.brightnessModelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
