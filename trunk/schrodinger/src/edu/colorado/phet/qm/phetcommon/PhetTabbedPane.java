@@ -95,6 +95,14 @@ public class PhetTabbedPane extends JPanel {
             public void mouseReleased( PInputEvent e ) {
                 setSelectedTab( tab );
             }
+
+            public void mouseEntered( PInputEvent event ) {
+                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            }
+
+            public void mouseExited( PInputEvent event ) {
+                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+            }
         } );
         if( tabPane.getTabs().length == 0 ) {
             setSelectedTab( tab );
