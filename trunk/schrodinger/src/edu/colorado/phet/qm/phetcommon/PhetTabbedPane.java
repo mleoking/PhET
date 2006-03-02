@@ -139,6 +139,7 @@ public class PhetTabbedPane extends JPanel {
         private int tabTopInset = 2;
         private PImage logo;
         private TabNode activeTab;
+        private static final int LEFT_TAB_INSET = 10;
 
         public TabNode getActiveTab() {
             return activeTab;
@@ -181,7 +182,7 @@ public class PhetTabbedPane extends JPanel {
 
         private void relayout() {
             tabBase.setTabBaseWidth( getWidth() );
-            int x = TabNode.tabInsets.left + 2;
+            int x = TabNode.tabInsets.left + LEFT_TAB_INSET;
             for( int i = 0; i < tabs.size(); i++ ) {
                 TabNode tabNode = (TabNode)tabs.get( i );
                 tabNode.setOffset( x, TabNode.tabInsets.top + tabTopInset );
@@ -297,6 +298,9 @@ public class PhetTabbedPane extends JPanel {
             public void keyTyped( KeyEvent e ) {
             }
         } );
+        JMenuBar jmenubar = new JMenuBar();
+        jmenubar.add( new JMenu( "File Menu" ) );
+        frame.setJMenuBar( jmenubar );
         frame.setContentPane( phetTabbedPane );
         frame.pack();
     }
