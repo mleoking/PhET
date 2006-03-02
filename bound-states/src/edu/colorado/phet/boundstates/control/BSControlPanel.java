@@ -287,7 +287,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
         {
             _showEigenstateCheckboxes = new JCheckBox( "Show eigenstate checkboxes" );
                   
-            _eigenstateCheckBoxesScaleSlider = new SliderControl( 1, 0.5, 1.5, 0.5, 1, 1, "Scale eigenstate check boxes: {0}:1", SLIDER_INSETS );
+            _eigenstateCheckBoxesScaleSlider = new SliderControl( 1, 0.5, 1.5, 0.5, 1, 1, "Scale eigenstate check boxes: {0}.", SLIDER_INSETS );
             
             _eigenstateWidthSlider = new SliderControl( 2, 1, 4, 1, 1, 1, "Eigenstate line width: {0} pixels", SLIDER_INSETS );
             
