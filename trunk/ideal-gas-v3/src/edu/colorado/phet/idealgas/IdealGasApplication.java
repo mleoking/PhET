@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.util.FrameRateReporter;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -34,7 +35,10 @@ public class IdealGasApplication extends PhetApplication {
 //               true,
                IdealGasConfig.FRAME_SETUP );
 
+//        SimulationClock clock = new SimulationClock( 20, IdealGasConfig.TIME_STEP);
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP);
+
+        FrameRateReporter frameRateReporter = new FrameRateReporter( clock );
 
         final IdealGasModule idealGasModule = new IdealGasModule( clock );
         Module[] modules = new Module[]{

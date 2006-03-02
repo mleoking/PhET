@@ -32,6 +32,11 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
         super.setIgnoreMouse( true );
     }
 
+
+    public void paint( Graphics2D g2 ) {
+        super.paint( g2 );
+    }
+
     public void update() {
         super.setLocation( (int)( molecule.getCM().getX() - molecule.getRadius() ),
                            (int)( molecule.getCM().getY() - molecule.getRadius() ) );
