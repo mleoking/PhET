@@ -110,10 +110,9 @@ public class BSCombinedChart extends JFreeChart {
             plot.setGap( CHART_SPACING );
             plot.setOrientation( PlotOrientation.VERTICAL );
 
-            // Add the subplots, weights all the same
-            final int weight = 1;
-            plot.add( _energyPlot, weight );
-            plot.add( _waveFunctionPlot, weight );
+            // Add the subplots, energy plot is twice the size of wave function plot.
+            plot.add( _energyPlot, 2 );
+            plot.add( _waveFunctionPlot, 1 );
         }
     }
     

@@ -36,6 +36,7 @@ MACINTOSH:
 
 
 DONE:
+(3/2/06) - make Energy plot occupy 2/3 of play area
 (3/1/06) - mocked up the interface for selecting eigenstates to demonstrate problems
 (2/22/06) - review design draft #2
 (2/22/06) - fix sliders in control panel

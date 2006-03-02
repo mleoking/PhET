@@ -118,8 +118,8 @@ public class BSConstants {
     
     // Energy
     public static final Range ENERGY_RANGE = new Range( 0, 5 ); // eV
-    public static final double ENERGY_TICK_SPACING = 1;
-    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0" );
+    public static final double ENERGY_TICK_SPACING = 0.5;
+    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Wave Function
     public static final Range WAVE_FUNCTION_RANGE = new Range( 0, 1.2 );
