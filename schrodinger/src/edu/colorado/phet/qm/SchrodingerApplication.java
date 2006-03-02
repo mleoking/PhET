@@ -103,7 +103,7 @@ public class SchrodingerApplication extends PhetApplication {
     class MyTabbedModulePane extends TabbedModulePane {
 
         public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
-            super( application, modules );
+            super( application, modules, new Color( 200, 200, 255 ), Color.gray );
         }
     }
 
