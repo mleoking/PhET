@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -30,6 +32,11 @@ public class PhetTabbedPane extends JPanel {
     private TabPane tabPane;
     private JComponent body;
     private Color selectedTabColor;
+    private ArrayList changeListeners = new ArrayList();
+
+    public void addChangeListener( ChangeListener changeListener ) {
+        changeListeners.add( changeListener );
+    }
 
     public PhetTabbedPane() {
         this( new Color( 150, 150, 255 ) );
@@ -38,10 +45,65 @@ public class PhetTabbedPane extends JPanel {
     public PhetTabbedPane( Color selectedTabColor ) {
         super( new BorderLayout() );
         this.selectedTabColor = selectedTabColor;
-        body = new JLabel( "This space for rent." );
+        body = new JPanel();//empty to start
         tabPane = new TabPane( selectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setBody( body );
+    }
+
+    public void addTab( String title, JComponent content ) {
+        final TabNode tab = new TabNode( title, content, selectedTabColor );
+        tab.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseReleased( PInputEvent e ) {
+                setSelectedTab( tab );
+            }
+        } );
+        if( tabPane.getTabs().length == 0 ) {
+            setSelectedTab( tab );
+            tabPane.setActiveTab( tab );
+        }
+        else {
+            tab.setSelected( false );
+        }
+
+        tabPane.addTab( tab );
+    }
+
+    public void setSelectedIndex( int index ) {
+        setSelectedTab( tabPane.getTabs()[index] );
+    }
+
+    private void setSelectedTab( TabNode tab ) {
+        setBody( tab.getContentPanel() );
+        tab.setSelected( true );
+        for( int i = 0; i < tabPane.getTabs().length; i++ ) {
+            TabNode t = tabPane.getTabs()[i];
+            if( t != tab ) {
+                t.setSelected( false );
+            }
+        }
+        tabPane.setActiveTab( tab );
+        notifySelectionChanged();
+    }
+
+    private void notifySelectionChanged() {
+        ChangeEvent changeEvent = new ChangeEvent( this );
+        for( int i = 0; i < changeListeners.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener)changeListeners.get( i );
+            changeListener.stateChanged( changeEvent );
+        }
+    }
+
+    private void setBody( JComponent contentPanel ) {
+        if( body != null ) {
+            remove( body );
+        }
+        this.body = contentPanel;
+        add( contentPanel, BorderLayout.CENTER );
+        invalidate();
+        doLayout();
+        validateTree();
+        repaint();
     }
 
     public static class TabNode extends PNode {
@@ -50,7 +112,7 @@ public class PhetTabbedPane extends JPanel {
         private final PText ptext;
         private final PPath background;
         private boolean selected;
-        private static final Insets tabInsets = new Insets( 2, 4, 0, 4 );
+        private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );
         private float tiltWidth = 11;
         private Color selectedTabColor;
 
@@ -110,7 +172,8 @@ public class PhetTabbedPane extends JPanel {
         }
 
         private Font getTabFont() {
-            return new Font( "Lucida Sans", Font.BOLD, 24 );
+//            return new Font( "Lucida Sans", Font.BOLD, 24 );
+            return new Font( "Lucida Sans", Font.BOLD, 22 );
         }
     }
 
@@ -226,52 +289,6 @@ public class PhetTabbedPane extends JPanel {
             }
             getLayer().addChild( tab );
         }
-    }
-
-    public void addTab( String title, JComponent content ) {
-        final TabNode tab = new TabNode( title, content, selectedTabColor );
-        tab.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseReleased( PInputEvent e ) {
-                setActiveTab( tab );
-            }
-        } );
-        if( tabPane.getTabs().length == 0 ) {
-            setActiveTab( tab );
-            tabPane.setActiveTab( tab );
-        }
-        else {
-            tab.setSelected( false );
-        }
-
-        tabPane.addTab( tab );
-    }
-
-    public void setActiveTab( int index ) {
-        setActiveTab( tabPane.getTabs()[index] );
-    }
-
-    private void setActiveTab( TabNode tab ) {
-        setBody( tab.getContentPanel() );
-        tab.setSelected( true );
-        for( int i = 0; i < tabPane.getTabs().length; i++ ) {
-            TabNode t = tabPane.getTabs()[i];
-            if( t != tab ) {
-                t.setSelected( false );
-            }
-        }
-        tabPane.setActiveTab( tab );
-    }
-
-    private void setBody( JComponent contentPanel ) {
-        if( body != null ) {
-            remove( body );
-        }
-        this.body = contentPanel;
-        add( contentPanel, BorderLayout.CENTER );
-        invalidate();
-        doLayout();
-        validateTree();
-        repaint();
     }
 
     public static void main( String[] args ) {
