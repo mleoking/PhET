@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 public class SingleParticleGunGraphic extends AbstractGunGraphic implements FireParticle {
-    private FireButton fireOne;
+    private PlainFireButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
     private AutoFire autoFire;
@@ -29,7 +29,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
 
     public SingleParticleGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        fireOne = new FireButton( this );
+        fireOne = new PlainFireButton( this, this );
         fireOne.addButtonEnableDisable();
 
         autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
@@ -39,12 +39,14 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
 //        addChild( gunControlPanel.getPSwing() );
 
         setGunParticle( gunItems[0] );
+//        setOnGunControl( new PSwing( schrodingerPanel, fireOne ) );
+        setOnGunControl( fireOne );
     }
 
     private GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.setFillNone();
-        gunControlPanel.add( fireOne );
+//        gunControlPanel.add( fireOne );
         gunControlPanel.add( autoFireJCheckBox );
 
         return gunControlPanel;

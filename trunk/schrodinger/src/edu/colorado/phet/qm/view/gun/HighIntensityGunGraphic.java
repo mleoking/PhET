@@ -5,8 +5,10 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
+import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -45,21 +47,28 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        alwaysOnCheckBox = new JCheckBox( "On", true );
+        alwaysOnCheckBox = new JCheckBox( "On", on ) {
+            protected void paintComponent( Graphics g ) {
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintComponent( g );
+            }
+        };
+        alwaysOnCheckBox.setVerticalTextPosition( AbstractButton.BOTTOM );
+        alwaysOnCheckBox.setHorizontalTextPosition( AbstractButton.CENTER );
         alwaysOnCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setOn( alwaysOnCheckBox.isSelected() );
             }
         } );
-        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, 0, new DecimalFormat( "0.000" ) );
+        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
         intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateIntensity();
             }
         } );
-
-
+        updateIntensity();
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
@@ -70,24 +79,24 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 //        addChild( gunControlPanel.getPSwing() );
 
         setupObject( beams[0] );
-        setOn( true );
+//        setOn( true );
 
 //        HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel.getSchrodingerModule().getDefaultHelpPane(), "Increase the Gun Intensity" ,HelpBalloon.BOTTOM_CENTER, 100);
 //        helpBalloon.pointAt( intensitySlider,(PSwing)gunControlPanel.getPSwing(),schrodingerPanel  );
 //        schrodingerPanel.getSchrodingerModule().getDefaultHelpPane().add( helpBalloon );
-
+        alwaysOnCheckBox.setFont( new LucidaSansFont( 13, true ) );
+        alwaysOnCheckBox.setBackground( gunBackgroundColor );
+        setOnGunControl( new PSwing( schrodingerPanel, alwaysOnCheckBox ) );
     }
 
     protected GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.add( intensitySlider );
-        gunControlPanel.add( alwaysOnCheckBox );
         return gunControlPanel;
     }
 
     protected void layoutChildren() {
         super.layoutChildren();
-//        gunControlPanel.getPSwing().setOffset( getControlOffsetX(), getControlOffsetY() );
     }
 
     protected double getControlOffsetX() {
@@ -151,7 +160,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
             }
             beam.activate( this );
             currentBeam = beam;
-            currentBeam.setHighIntensityModeOn( alwaysOnCheckBox.isSelected() );
+            currentBeam.setHighIntensityModeOn( on );
+            System.out.println( "alwaysOnCheckBox.isSelected() = " + alwaysOnCheckBox.isSelected() );
         }
         updateGunLocation();
     }
@@ -167,7 +177,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 
     public void setOn( boolean on ) {
         this.on = on;
-        currentBeam.setHighIntensityModeOn( on );
+        if( currentBeam != null ) {
+            currentBeam.setHighIntensityModeOn( on );
+        }
     }
 
     public boolean isOn() {
