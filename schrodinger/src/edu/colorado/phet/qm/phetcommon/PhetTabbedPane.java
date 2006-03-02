@@ -285,8 +285,9 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public TabPane( Color selectedTabColor ) {
-            logo = PImageFactory.create( "images/phetlogo2.png" );
-            logo.scale( 0.9 );
+//            logo = PImageFactory.create( "images/phetlogo2.png" );
+            logo = PImageFactory.create( "images/phetlogo3.png" );
+//            logo.scale( 0.9 );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
@@ -328,7 +329,7 @@ public class PhetTabbedPane extends JPanel {
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
             tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() );
-            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), 2 );
+            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), 0 );
             if( tabs.size() > 0 ) {
                 TabNode lastTab = (TabNode)tabs.get( tabs.size() - 1 );
                 if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
