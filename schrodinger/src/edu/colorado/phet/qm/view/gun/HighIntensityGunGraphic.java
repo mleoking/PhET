@@ -36,6 +36,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
+    private PSwing onPswing;
 
     protected ModelSlider getIntensitySlider() {
         return intensitySlider;
@@ -86,7 +87,22 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic {
 //        schrodingerPanel.getSchrodingerModule().getDefaultHelpPane().add( helpBalloon );
         alwaysOnCheckBox.setFont( new LucidaSansFont( 13, true ) );
         alwaysOnCheckBox.setBackground( gunBackgroundColor );
-        setOnGunControl( new PSwing( schrodingerPanel, alwaysOnCheckBox ) );
+        onPswing = new PSwing( schrodingerPanel, alwaysOnCheckBox );
+        setOnGunControl( onPswing );
+
+//        final HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel, "Turn on the Laser" );
+//        helpBalloon.pointAt( onPswing, schrodingerPanel );
+//        helpBalloon.setArrowLength( 100 );
+//        helpBalloon.setVisible( true );
+////        schrodingerPanel
+////        addChild( helpBalloon);
+//        schrodingerPanel.getSchrodingerScreenNode().addChild( helpBalloon );
+//        alwaysOnCheckBox.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                schrodingerPanel.getSchrodingerScreenNode().removeChild( helpBalloon );
+//                alwaysOnCheckBox.removeActionListener( this );
+//            }
+//        } );
     }
 
     protected GunControlPanel createGunControlPanel() {
