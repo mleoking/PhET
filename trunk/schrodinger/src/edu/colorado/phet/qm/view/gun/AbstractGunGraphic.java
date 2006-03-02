@@ -58,6 +58,10 @@ public abstract class AbstractGunGraphic extends PNode {
         setVisible( true );
     }
 
+    public PNode getOnGunGraphic() {
+        return onGunGraphic;
+    }
+
     public abstract GunControlPanel getGunControlPanel();
 
     public abstract boolean isPhotonMode();

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
@@ -20,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 //import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
@@ -35,12 +38,14 @@ public class SchrodingerApplication extends PhetApplication {
     public static String DESCRIPTION = "Quantum Wave Interference";
     public static String VERSION = "0.41";
     private String[] args;
+    private IntensityModule intensityModule;
 
     public SchrodingerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
 
-        addModule( new IntensityModule( this, createClock() ) );
+        intensityModule = new IntensityModule( this, createClock() );
+        addModule( intensityModule );
         addModule( new SingleParticleModule( this, createClock() ) );
         addModule( new MandelModule( this, createClock() ) );
 
@@ -129,12 +134,48 @@ public class SchrodingerApplication extends PhetApplication {
         new PhetLookAndFeel().apply();
         final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
-//        new Timer( 100, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "schrodingerApplication.getPhetFrame().getSize() = " + schrodingerApplication.getPhetFrame().getSize() );
-//            }
-//        } ).start();
-//        System.out.println( "SchrodingerApplication.main" );
+
+        final HelpBalloon helpBalloon = new HelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser", HelpBalloon.BOTTOM_CENTER, 100 );
+        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getGunImageGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
+
+        schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
+        helpBalloon.setVisible( true );
+        helpBalloon.setEnabled( true );
+        final Timer timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                double frequency = 1.0 * 1.0 / 1000.0;
+                helpBalloon.setArrowLength( 100 - 20 * Math.sin( System.currentTimeMillis() * frequency ) );
+            }
+        } );
+        schrodingerApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                helpBalloon.setVisible( false );
+                helpBalloon.setEnabled( false );
+                schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().removeChild( helpBalloon );
+                schrodingerApplication.intensityModule.getSchrodingerPanel().removeMouseListener( this );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+        } );
+
+        timer.start();
+        Timer t2 = new Timer( 5000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                timer.stop();
+            }
+        } );
+        t2.setInitialDelay( 5000 );
+        t2.start();
     }
 
 }
