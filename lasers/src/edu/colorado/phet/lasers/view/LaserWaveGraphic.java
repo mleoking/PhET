@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.PhysicsUtil;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -41,17 +41,22 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     // The waves that are shown when the thins is not lasing
     private int numNonLasingExternalWaveGraphics = 5;
     private WaveGraphic[] nonLasingExternalWaveGraphics = new WaveGraphic[numNonLasingExternalWaveGraphics];
-    // Angle that is considered horizontal, for purposes of lasing
-    private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
     private Stroke stroke = new BasicStroke( 2f );
     private PartialMirror mirror;
     private int numLasingPhotons;
-    private ApparatusPanel apparatusPanel;
 
+    /**
+     * Constructor
+     *
+     * @param apparatusPanel
+     * @param cavity
+     * @param mirror
+     * @param module
+     * @param atomicStates
+     */
     public LaserWaveGraphic( ApparatusPanel apparatusPanel, Tube cavity,
                              PartialMirror mirror, BaseLaserModule module, final AtomicState[] atomicStates ) {
 
-        this.apparatusPanel = apparatusPanel;
         LaserModel model = module.getLaserModel();
 
         // Have the model tell us when the number of lasing photons changes
