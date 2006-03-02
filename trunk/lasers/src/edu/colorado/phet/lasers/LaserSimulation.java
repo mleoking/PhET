@@ -31,6 +31,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,6 +39,8 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Properties;
 
 public class LaserSimulation extends PhetApplication {
 
@@ -165,8 +168,25 @@ public class LaserSimulation extends PhetApplication {
 
         String arch = System.getProperty( "os.name", "" );
 
+        setLAF( arch );
+
+        LaserSimulation simulation = new LaserSimulation( args );
+        simulation.startApplication();
+
+        SwingUtilities.updateComponentTreeUI( singleAtomModule.getModulePanel() );
+        SwingUtilities.updateComponentTreeUI( multipleAtomModule.getModulePanel() );
+    }
+
+    private static void setLAF( String arch ) {
+
+        UIManager.LookAndFeelInfo[] lafs =   UIManager.getInstalledLookAndFeels();
+        for( int i = 0; i < lafs.length; i++ ) {
+            UIManager.LookAndFeelInfo laf = lafs[i];
+            System.out.println( "laf.getName() = " + laf.getClassName() );
+        }
         // Install the look and feel. If we're not on Windows,
         // then use the native L&F
+
         if( !arch.toLowerCase().startsWith( "windows" ) ) {
             // Get the native look and feel class name
             String nativeLF = UIManager.getSystemLookAndFeelClassName();
@@ -192,18 +212,27 @@ public class LaserSimulation extends PhetApplication {
             }
         }
 
-        try {
-            UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
 
-        LaserSimulation simulation = new LaserSimulation( args );
-        simulation.startApplication();
-
-        SwingUtilities.updateComponentTreeUI( singleAtomModule.getClockControlPanel() );
-        SwingUtilities.updateComponentTreeUI( multipleAtomModule.getClockControlPanel() );
+//        try {
+//            String nativeLF = UIManager.getSystemLookAndFeelClassName();
+//            UIManager.setLookAndFeel( nativeLF );
+//            UIManager.setLookAndFeel( "javax.swing.plaf.metal.MetalLookAndFeel" );
+////            String nativeLF = UIManager.getSystemLookAndFeelClassName();
+////            UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+////            UIManager.setLookAndFeel( new MetalLookAndFeel() );
+//        }
+//        catch( UnsupportedLookAndFeelException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( IllegalAccessException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( InstantiationException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( ClassNotFoundException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     //----------------------------------------------------------------
@@ -222,7 +251,8 @@ public class LaserSimulation extends PhetApplication {
         //        static Color backgroundColor = new Color( 98, 98, 98 );
         //        static Color backgroundColor = new Color( 98, 116, 108 );
         static Color backgroundColor = greenishBackground;
-        //        static Color backgroundColor = purpleishBackground;
+//        static Color backgroundColor = new Color( 210, 210, 210 );
+//                static Color backgroundColor = purpleishBackground;
         //        static Color buttonBackgroundColor = new Color( 220, 230, 160 );
         static Color buttonBackgroundColor = yellowishBackground;
         //        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
@@ -243,7 +273,7 @@ public class LaserSimulation extends PhetApplication {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
 //            setBackgroundColor( backgroundColor );
 //            setFont( font );
-//            setTabFont( font );
+////            setTabFont( font );
 //            setTitledBorderFont( font );
         }
     }
@@ -294,7 +324,8 @@ public class LaserSimulation extends PhetApplication {
                 , "CheckBox.background", background
                 , "OptionPane.background", background
                 , "TabbedPane.background", background
-                , "Button.background", buttonBackground
+//                , "TabbedPane.selected", new ColorUIResource( new Color( 255, 60, 60 ))
+//                , "Button.background", buttonBackground
             };
             def.addAll( Arrays.asList( defaults ) );
             table.putDefaults( def.toArray() );
@@ -309,6 +340,14 @@ public class LaserSimulation extends PhetApplication {
                 , "TitledBorder.titleColor", color
             };
             table.putDefaults( moreDefaults );
+
+            // Set the background color of the buttons is we are running Java version 1.4
+            if( System.getProperty( "java.version").startsWith( "1.4")) {
+                table.putDefaults( new Object[] {
+                    "Button.background", buttonBackground
+                });
+            }
         }
     }
+
 }

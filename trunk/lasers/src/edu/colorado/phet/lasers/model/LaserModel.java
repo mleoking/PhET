@@ -138,9 +138,11 @@ public class  LaserModel extends BaseModel implements Photon.LeftSystemEventList
 
     private boolean isLasingPhoton( Photon photon ) {
         double middleToGroundEnergyDiff = getMiddleEnergyState().getEnergyLevel() - getGroundState().getEnergyLevel();
-        return ( ( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
-                   || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow )
+        return ( Math.abs( photon.getVelocity().getAngle() % Math.PI ) < angleWindow
                 && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
+//        return ( ( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
+//                   || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow )
+//                && ( Math.abs( photon.getEnergy() - middleToGroundEnergyDiff ) <= LaserConfig.ENERGY_TOLERANCE ));
     }
 
     public void removeModelElement( ModelElement modelElement ) {

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.quantum.view;
 
-import edu.colorado.phet.common.model.PhysicsUtil;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
