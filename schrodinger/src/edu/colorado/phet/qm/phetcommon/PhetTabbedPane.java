@@ -11,13 +11,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
+import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
@@ -220,6 +219,11 @@ public class PhetTabbedPane extends JPanel {
         public String getText() {
             return text;
         }
+
+        public void setSelectedTabColor( Color color ) {
+            this.selectedTabColor = color;
+            updatePaint();
+        }
     }
 
     static class TabBase extends PNode {
@@ -242,8 +246,21 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public void updatePaint() {
-            path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight, selectedTabColor.darker() ) );
+            path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight, darker( selectedTabColor, 75 ) ) );
         }
+
+        public void setSelectedTabColor( Color color ) {
+            this.selectedTabColor = color;
+            updatePaint();
+        }
+    }
+
+    public static int darker( int value, int d ) {
+        return Math.max( 0, value - d );
+    }
+
+    public static Color darker( Color a, int d ) {
+        return new Color( darker( a.getRed(), d ), darker( a.getGreen(), d ), darker( a.getBlue(), d ) );
     }
 
     static class TabPane extends PCanvas {
@@ -364,37 +381,45 @@ public class PhetTabbedPane extends JPanel {
         public void removeTabAt( int i ) {
             tabs.remove( i );
         }
+
+        public void setSelectedTabColor( Color color ) {
+            for( int i = 0; i < tabs.size(); i++ ) {
+                TabNode tabNode = (TabNode)tabs.get( i );
+                tabNode.setSelectedTabColor( color );
+            }
+            tabBase.setSelectedTabColor( color );
+        }
     }
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Tab Test" );
-        PhetTabbedPane phetTabbedPane = new PhetTabbedPane();
-        phetTabbedPane.addTab( "Hello Tab", new JLabel( "Hello" ) );
-        phetTabbedPane.addTab( "Slider Tab", new JSlider() );
-        phetTabbedPane.addTab( "Color Chooser", new JColorChooser() );
-        JButton content = new JButton( "Button" );
-        phetTabbedPane.addTab( "A Button", content );
-
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
-        frame.addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_X ) {
-                    System.exit( 0 );
-                }
-            }
-
-            public void keyReleased( KeyEvent e ) {
-            }
-
-            public void keyTyped( KeyEvent e ) {
+        final PhetTabbedPane phetTabbedPane = new PhetTabbedPane();
+        phetTabbedPane.addTab( "Hello!", new JLabel( "Hello" ) );
+        phetTabbedPane.addTab( "Slider", new JSlider() );
+        final JColorChooser colorChooser = new JColorChooser();
+        colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent evt ) {
+                ColorSelectionModel model = colorChooser.getSelectionModel();
+                // Get the new color value
+                Color newColor = model.getSelectedColor();
+                phetTabbedPane.setSelectedTabColor( newColor );
             }
         } );
-        JMenuBar jmenubar = new JMenuBar();
-        jmenubar.add( new JMenu( "File Menu" ) );
-        frame.setJMenuBar( jmenubar );
+        phetTabbedPane.addTab( "Tab Colors", colorChooser );
+        JButton content = new JButton( "button" );
+        phetTabbedPane.addTab( "Large Button", content );
+
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
         frame.setContentPane( phetTabbedPane );
-        frame.pack();
+        frame.setSize( 1000, 400 );
+
+        frame.setVisible( true );
+    }
+
+    private void setSelectedTabColor( Color color ) {
+        this.selectedTabColor = color;
+        tabPane.setSelectedTabColor( color );
     }
 
 }
