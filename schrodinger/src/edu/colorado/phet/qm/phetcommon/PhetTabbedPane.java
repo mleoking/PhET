@@ -34,12 +34,12 @@ public class PhetTabbedPane extends JPanel {
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
 
-    public void addChangeListener( ChangeListener changeListener ) {
-        changeListeners.add( changeListener );
-    }
-
     public PhetTabbedPane() {
         this( new Color( 150, 150, 255 ) );
+    }
+
+    public int getTabCount() {
+        return tabPane.getTabCount();
     }
 
     public PhetTabbedPane( Color selectedTabColor ) {
@@ -49,6 +49,23 @@ public class PhetTabbedPane extends JPanel {
         tabPane = new TabPane( selectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setBody( body );
+    }
+
+    public String getTitleAt( int i ) {
+        return tabPane.getTitleAt( i );
+    }
+
+    public void removeTabAt( int i ) {
+        tabPane.removeTabAt( i );
+        setSelectedIndex( i - 1 );
+    }
+
+    public void addChangeListener( ChangeListener changeListener ) {
+        changeListeners.add( changeListener );
+    }
+
+    public int getSelectedIndex() {
+        return tabPane.getSelectedIndex();
     }
 
     public void addTab( String title, JComponent content ) {
@@ -175,6 +192,10 @@ public class PhetTabbedPane extends JPanel {
 //            return new Font( "Lucida Sans", Font.BOLD, 24 );
             return new Font( "Lucida Sans", Font.BOLD, 22 );
         }
+
+        public String getText() {
+            return text;
+        }
     }
 
     static class TabBase extends PNode {
@@ -288,6 +309,26 @@ public class PhetTabbedPane extends JPanel {
                 getLayer().removeChild( tab );
             }
             getLayer().addChild( tab );
+        }
+
+        public int getSelectedIndex() {
+            return tabs.indexOf( activeTab );
+        }
+
+        public int getTabCount() {
+            return tabs.size();
+        }
+
+        public String getTitleAt( int i ) {
+            return tabAt( i ).getText();
+        }
+
+        private TabNode tabAt( int i ) {
+            return (TabNode)tabs.get( i );
+        }
+
+        public void removeTabAt( int i ) {
+            tabs.remove( i );
         }
     }
 
