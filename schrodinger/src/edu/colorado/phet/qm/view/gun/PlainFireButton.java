@@ -3,16 +3,16 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -22,60 +22,58 @@ import java.io.IOException;
  * Copyright (c) Feb 6, 2006 by Sam Reid
  */
 
-public class FireButton extends JButton {
-    private ImageIcon outIcon;
-    private ImageIcon inIcon;
+public class PlainFireButton extends PNode {
+    private BufferedImage outIcon;
+    private BufferedImage inIcon;
+    private PImage icon;
+    private ShadowPText text;
+    private SingleParticleGunGraphic gun;
     private FireParticle fireParticle;
+    private boolean enabled = true;
+    private BufferedImage grayIcon;
 
-    public FireButton( FireParticle fireParticle ) {
-        super( "Fire" );
+    public PlainFireButton( SingleParticleGunGraphic gun, FireParticle fireParticle ) {
+        this.gun = gun;
         this.fireParticle = fireParticle;
-        setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
-        setForeground( Color.red );
-        setMargin( new Insets( 2, 2, 2, 2 ) );
-        setVerticalTextPosition( AbstractButton.BOTTOM );
-        setHorizontalTextPosition( AbstractButton.CENTER );
+        icon = new PImage();
+        text = new ShadowPText( "FIRE" );
+        text.setShadowOffset( 1, 1 );
+        text.setShadowColor( Color.black );
+        text.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
+        text.setTextPaint( Color.red );
         try {
-            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-out-40.gif" ) );
-            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/button-in-40.gif" ) );
-            setIcon( outIcon );
-            setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            outIcon = ImageLoader.loadBufferedImage( "images/button-out-40.gif" );
+            inIcon = ImageLoader.loadBufferedImage( "images/button-in-40.gif" );
+            grayIcon = ImageLoader.loadBufferedImage( "images/button-out-40-gray.gif" );
+            icon = new PImage( outIcon );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
+        setIcon( outIcon );
+        addChild( icon );
+        addChild( text );
+        text.setOffset( icon.getFullBounds().getWidth() / 2 - text.getFullBounds().getWidth() / 2, icon.getFullBounds().getHeight() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
                 if( fireButtonEnabled() ) {
                     setIcon( inIcon );
+                    pullback();
                 }
             }
 
-            public void mouseReleased( MouseEvent e ) {
-                if( fireButtonEnabled() ) {
-                    setIcon( outIcon );
-                }
-            }
-        } );
-
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-//                setEnabled( false );
+            public void mouseReleased( PInputEvent event ) {
+//                if( fireButtonEnabled() ) {
+//                    setIcon( outIcon );
+//                }
+                releasePullback();
                 fireParticle();
             }
-
         } );
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                pullback();
-            }
+    }
 
-
-            public void mouseReleased( MouseEvent e ) {
-                releasePullback();
-            }
-        } );
-
+    private void setIcon( BufferedImage image ) {
+        icon.setImage( image );
     }
 
     private void releasePullback() {
@@ -93,7 +91,8 @@ public class FireButton extends JButton {
 
     private void fireParticle() {
         clearAndFire();
-        setIcon( outIcon );
+//        setIcon( outIcon );
+        setIcon( inIcon );
         updateGunLocation();
         getSchrodingerPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
@@ -102,8 +101,7 @@ public class FireButton extends JButton {
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
-//                System.out.println( "magnitude = " + magnitude +", threshold="+AutoFire.THRESHOLD);
-                if( magnitude <= AutoFire.THRESHOLD || Double.isNaN( magnitude ) ) {
+                if( ( magnitude <= AutoFire.THRESHOLD || Double.isNaN( magnitude ) ) && !gun.isFiring() ) {
                     if( !fireButtonEnabled() ) {
                         setEnabled( true );
                     }
@@ -117,8 +115,13 @@ public class FireButton extends JButton {
         } );
     }
 
+    public void setEnabled( boolean b ) {
+        this.enabled = b;
+        setIcon( enabled ? outIcon : inIcon );
+    }
+
     private boolean fireButtonEnabled() {
-        return isEnabled();
+        return enabled;
     }
 
     private SchrodingerModule getSchrodingerModule() {
