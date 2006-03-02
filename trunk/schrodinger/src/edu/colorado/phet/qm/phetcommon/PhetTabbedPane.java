@@ -1,10 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.phetcommon;
 
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -27,12 +29,17 @@ import java.util.ArrayList;
 public class PhetTabbedPane extends JPanel {
     private TabPane tabPane;
     private JComponent body;
-    public static final Color selectedTabColor = new Color( 150, 150, 255 );
+    private Color selectedTabColor;
 
     public PhetTabbedPane() {
+        this( new Color( 150, 150, 255 ) );
+    }
+
+    public PhetTabbedPane( Color selectedTabColor ) {
         super( new BorderLayout() );
+        this.selectedTabColor = selectedTabColor;
         body = new JLabel( "This space for rent." );
-        tabPane = new TabPane();
+        tabPane = new TabPane( selectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setBody( body );
     }
@@ -45,8 +52,10 @@ public class PhetTabbedPane extends JPanel {
         private boolean selected;
         private static final Insets tabInsets = new Insets( 2, 4, 0, 4 );
         private float tiltWidth = 11;
+        private Color selectedTabColor;
 
-        public TabNode( String text, JComponent content ) {
+        public TabNode( String text, JComponent content, Color selectedTabColor ) {
+            this.selectedTabColor = selectedTabColor;
             this.text = text;
             this.content = content;
 
@@ -89,7 +98,7 @@ public class PhetTabbedPane extends JPanel {
 
         private Paint getBackgroundPaint() {
             if( selected ) {
-                return new GradientPaint( 0, 0, selectedTabColor.brighter(), 0, 4, selectedTabColor );
+                return new GradientPaint( 0, -4, selectedTabColor.brighter(), 0, 5, selectedTabColor );
             }
             else {
                 return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 15, new Color( 200, 200, 200 ) );
@@ -107,14 +116,13 @@ public class PhetTabbedPane extends JPanel {
 
     static class TabBase extends PNode {
         private final PPath path;
-        private int tabBaseHeight = 8;
+        private int tabBaseHeight = 6;
 
-        public TabBase() {
+        public TabBase( Color selectedTabColor ) {
             path = new PPath( new Rectangle( 0, 0, 200, 5 ) );
             path.setPaint( selectedTabColor );
-//            path.setPaint( Color.green);
             int y0 = 0;
-            path.setPaint( new GradientPaint( 0, y0, selectedTabColor, 0, y0 + 5, selectedTabColor.darker() ) );
+            path.setPaint( new GradientPaint( 0, y0, selectedTabColor, 0, y0 + tabBaseHeight + 4, selectedTabColor.darker() ) );
             path.setStroke( null );
             addChild( path );
         }
@@ -127,13 +135,24 @@ public class PhetTabbedPane extends JPanel {
     static class TabPane extends PCanvas {
         private ArrayList tabs = new ArrayList();
         private double distBetweenTabs = -6;
-        private TabBase tabBase = new TabBase();
+        private TabBase tabBase;
         private int tabTopInset = 2;
+        private PImage logo;
+        private TabNode activeTab;
 
-        public TabPane() {
+        public TabNode getActiveTab() {
+            return activeTab;
+        }
+
+        public TabPane( Color selectedTabColor ) {
+            logo = PImageFactory.create( "images/phetlogo2.png" );
+            logo.scale( 0.9 );
+            tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
             setOpaque( false );
+
+            getLayer().addChild( logo );
             getLayer().addChild( tabBase );
             addComponentListener( new ComponentListener() {
                 public void componentHidden( ComponentEvent e ) {
@@ -150,12 +169,14 @@ public class PhetTabbedPane extends JPanel {
                     relayout();
                 }
             } );
+            relayout();
         }
 
         public void addTab( TabNode tab ) {
             tabs.add( tab );
             getLayer().addChild( 0, tab );
             relayout();
+            setActiveTab( getActiveTab() );//updates
         }
 
         private void relayout() {
@@ -166,10 +187,21 @@ public class PhetTabbedPane extends JPanel {
                 tabNode.setOffset( x, TabNode.tabInsets.top + tabTopInset );
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
-            tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() - 1 );
+            tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() );
+            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), 2 );
+            if( tabs.size() > 0 ) {
+                TabNode lastTab = (TabNode)tabs.get( tabs.size() - 1 );
+                if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
+                    logo.setVisible( false );
+                }
+                else {
+                    logo.setVisible( true );
+                }
+            }
         }
 
         public Dimension getPreferredSize() {
+            relayout();
             int h = 0;
             for( int i = 0; i < tabs.size(); i++ ) {
                 TabNode tabNode = (TabNode)tabs.get( i );
@@ -185,22 +217,36 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public void setActiveTab( TabNode tab ) {
-            getLayer().removeChild( tab );
-            getLayer().addChild( tab );
+            this.activeTab = tab;
             getLayer().removeChild( tabBase );
             getLayer().addChild( tabBase );
+            if( getLayer().getChildrenReference().contains( tab ) ) {
+                getLayer().removeChild( tab );
+            }
+            getLayer().addChild( tab );
         }
     }
 
-    private void addTab( String title, JComponent content ) {
-        final TabNode tab = new TabNode( title, content );
+    public void addTab( String title, JComponent content ) {
+        final TabNode tab = new TabNode( title, content, selectedTabColor );
         tab.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent e ) {
                 setActiveTab( tab );
             }
-
         } );
+        if( tabPane.getTabs().length == 0 ) {
+            setActiveTab( tab );
+            tabPane.setActiveTab( tab );
+        }
+        else {
+            tab.setSelected( false );
+        }
+
         tabPane.addTab( tab );
+    }
+
+    public void setActiveTab( int index ) {
+        setActiveTab( tabPane.getTabs()[index] );
     }
 
     private void setActiveTab( TabNode tab ) {
