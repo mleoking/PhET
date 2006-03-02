@@ -12,6 +12,8 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.ModulePanel;
+import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import java.awt.*;
@@ -75,6 +77,9 @@ public class PhetApplication {
     private ModuleManager moduleManager;
 
     private SplashWindow splashWindow;
+
+    private Color selectedTabBackgroundColor = Color.white;
+    private Color selectedTabForegroundColor = Color.black;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -387,5 +392,31 @@ public class PhetApplication {
      */
     public Module[] getModules() {
         return moduleManager.getModules();
+    }
+
+    public void setSelectedTabBackgroundColor( Color selectedTabBackgroundColor ) {
+        this.selectedTabBackgroundColor = selectedTabBackgroundColor;
+        setSelectedTabColors();
+    }
+
+    public Color getSelectedTabBackgroundColor() {
+        return selectedTabBackgroundColor;
+    }
+
+    public void setSelectedTabForegroundColor( Color selectedTabForegroundColor ) {
+        this.selectedTabForegroundColor = selectedTabForegroundColor;
+        setSelectedTabColors();
+    }
+
+    public Color getSelectedTabForegroundColor() {
+        return selectedTabForegroundColor;
+    }
+
+    private void setSelectedTabColors() {
+        Container contentPane = getPhetFrame().getContentPane();
+        if( contentPane instanceof TabbedModulePane) {
+            TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPane;
+            tabbedModulePane.setColors( selectedTabBackgroundColor, selectedTabForegroundColor );
+        }
     }
 }

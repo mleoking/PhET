@@ -114,7 +114,9 @@ public class PhetFrame extends JFrame {
     }
 
     protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-        return new TabbedModulePane( application, modules );
+        return new TabbedModulePane( application, modules,
+                                     application.getSelectedTabBackgroundColor(),
+                                     application.getSelectedTabForegroundColor() );
     }
 
     private void removeModule( Module module ) {

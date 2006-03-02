@@ -14,10 +14,12 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetTabbedPane;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
@@ -26,11 +28,15 @@ import javax.swing.event.ChangeListener;
  * @author Sam and Ron
  * @version $Revision$
  */
-public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
+public class TabbedModulePane extends PhetTabbedPane  implements ModuleObserver {
+//public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
     private Module current;
     private PhetApplication application;
 
-    public TabbedModulePane( final PhetApplication application, final Module[] modules ) {
+    public TabbedModulePane( final PhetApplication application, final Module[] modules,
+                             Color selectedTabBackgroundColor,
+                             Color selectedTabForegroundColor ) {
+        super( selectedTabBackgroundColor, selectedTabForegroundColor );
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
