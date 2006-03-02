@@ -45,10 +45,32 @@ public class PhetTabbedPane extends JPanel {
     public PhetTabbedPane( Color selectedTabColor ) {
         super( new BorderLayout() );
         this.selectedTabColor = selectedTabColor;
-        body = new JPanel();//empty to start
+        body = new JPanel();//empty body to start
         tabPane = new TabPane( selectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setBody( body );
+        addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+    }
+
+    private void relayout() {
+        Rectangle bounds = body.getBounds();
+        for( int i = 0; i < getTabCount(); i++ ) {
+            tabPane.getTabs()[i].getContentPanel().setBounds( bounds );//to mimic behavior in JTabbedPane
+        }
     }
 
     public String getTitleAt( int i ) {
@@ -82,7 +104,6 @@ public class PhetTabbedPane extends JPanel {
         else {
             tab.setSelected( false );
         }
-
         tabPane.addTab( tab );
     }
 
@@ -162,8 +183,12 @@ public class PhetTabbedPane extends JPanel {
             this.selected = selected;
             ptext.setFont( getTabFont() );
             ptext.setTextPaint( getTextPaint() );
-            background.setPaint( getBackgroundPaint() );
             background.setStroke( getBorderStroke() );
+            updatePaint();
+        }
+
+        private void updatePaint() {
+            background.setPaint( getBackgroundPaint() );
             background.setStrokePaint( getBorderStrokePaint() );
         }
 
@@ -177,10 +202,10 @@ public class PhetTabbedPane extends JPanel {
 
         private Paint getBackgroundPaint() {
             if( selected ) {
-                return new GradientPaint( 0, -4, selectedTabColor.brighter(), 0, 5, selectedTabColor );
+                return new GradientPaint( 0, (float)background.getFullBounds().getY() - 2, selectedTabColor.brighter(), 0, (float)( background.getFullBounds().getY() + 6 ), selectedTabColor );
             }
             else {
-                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 15, new Color( 200, 200, 200 ) );
+                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 15, new Color( 200, 200, 200 ) );//grayed out
             }
         }
 
@@ -189,7 +214,6 @@ public class PhetTabbedPane extends JPanel {
         }
 
         private Font getTabFont() {
-//            return new Font( "Lucida Sans", Font.BOLD, 24 );
             return new Font( "Lucida Sans", Font.BOLD, 22 );
         }
 
@@ -201,18 +225,24 @@ public class PhetTabbedPane extends JPanel {
     static class TabBase extends PNode {
         private final PPath path;
         private int tabBaseHeight = 6;
+        private Color selectedTabColor;
 
         public TabBase( Color selectedTabColor ) {
-            path = new PPath( new Rectangle( 0, 0, 200, 5 ) );
+            this.selectedTabColor = selectedTabColor;
+            path = new PPath( new Rectangle( 0, 0, 200, tabBaseHeight ) );
             path.setPaint( selectedTabColor );
-            int y0 = 0;
-            path.setPaint( new GradientPaint( 0, y0, selectedTabColor, 0, y0 + tabBaseHeight + 4, selectedTabColor.darker() ) );
+            path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight + 4, selectedTabColor.darker() ) );
             path.setStroke( null );
             addChild( path );
+            updatePaint();
         }
 
         public void setTabBaseWidth( int width ) {
             path.setPathTo( new Rectangle( 0, 0, width, tabBaseHeight ) );
+        }
+
+        public void updatePaint() {
+            path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight, selectedTabColor.darker() ) );
         }
     }
 
@@ -220,7 +250,7 @@ public class PhetTabbedPane extends JPanel {
         private ArrayList tabs = new ArrayList();
         private double distBetweenTabs = -6;
         private TabBase tabBase;
-        private int tabTopInset = 2;
+        private int tabTopInset = 3;
         private PImage logo;
         private TabNode activeTab;
         private static final int LEFT_TAB_INSET = 10;
@@ -269,7 +299,7 @@ public class PhetTabbedPane extends JPanel {
             int x = TabNode.tabInsets.left + LEFT_TAB_INSET;
             for( int i = 0; i < tabs.size(); i++ ) {
                 TabNode tabNode = (TabNode)tabs.get( i );
-                tabNode.setOffset( x, TabNode.tabInsets.top + tabTopInset );
+                tabNode.setOffset( x, tabTopInset );
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
             tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() );
@@ -283,6 +313,10 @@ public class PhetTabbedPane extends JPanel {
                     logo.setVisible( true );
                 }
             }
+            for( int i = 0; i < tabs.size(); i++ ) {
+                tabAt( i ).updatePaint();
+            }
+            tabBase.updatePaint();
         }
 
         public Dimension getPreferredSize() {
