@@ -2,11 +2,9 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
-import edu.colorado.phet.qm.HorizontalConnector;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -32,10 +30,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -489,17 +485,7 @@ public class SchrodingerScreenNode extends PNode {
             this.gunControlPanelPSwing = gunControlPanel.getPSwing();
             relayout();
 
-            BufferedImage txtr = null;
-            try {
-//            txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
-                txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
-            connectorGraphic.setTexture( txtr );
-
+            ConnectorGraphic connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunGraphic );
             addChild( 3, connectorGraphic );
         }
     }

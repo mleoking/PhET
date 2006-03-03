@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -29,16 +30,12 @@ import java.util.Map;
 
 public abstract class AbstractGunGraphic extends PNode {
     protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel-2.gif";
-    private final int gunControlAreaY = 77;
-    protected final Color gunBackgroundColor = new Color( 119, 125, 255 );
     public static final int GUN_PARTICLE_OFFSET = 35;
-
     private SchrodingerPanel schrodingerPanel;
     private PImage gunImageGraphic;
     private ArrayList listeners = new ArrayList();
     private ImagePComboBox comboBox;
     private PNode onGunGraphic;
-    private double onGunControlDX = -3;
 
     public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -82,7 +79,7 @@ public abstract class AbstractGunGraphic extends PNode {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        onGunGraphic.setOffset( gunImageGraphic.getFullBounds().getX() + gunImageGraphic.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + onGunControlDX, gunControlAreaY + gunImageGraphic.getFullBounds().getY() );
+        onGunGraphic.setOffset( gunImageGraphic.getFullBounds().getX() + gunImageGraphic.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + gunImageGraphic.getFullBounds().getY() );
     }
 
     public void updateGunLocation() {
