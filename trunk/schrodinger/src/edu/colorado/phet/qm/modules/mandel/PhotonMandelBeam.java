@@ -13,9 +13,9 @@ import edu.colorado.phet.qm.view.gun.PhotonBeam;
  */
 
 public class PhotonMandelBeam extends PhotonBeam {
-    private MandelGunGraphic mandelGun;
+    private MandelGunSet mandelGun;
 
-    public PhotonMandelBeam( MandelGunGraphic mandelGun, Photon photon ) {
+    public PhotonMandelBeam( MandelGunSet mandelGun, Photon photon ) {
         super( mandelGun, photon );
         this.mandelGun = mandelGun;
     }

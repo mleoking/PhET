@@ -31,7 +31,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         setGunGraphic( highIntensityGun );
         addGunChooserGraphic();
 
-        super.addGunControlPanel();
+        doAddGunControlPanel();
 
         getIntensityDisplay().setHighIntensityMode();
 
@@ -41,6 +41,10 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
+    }
+
+    protected void doAddGunControlPanel() {
+        super.addGunControlPanel();
     }
 
     protected void addGunChooserGraphic() {

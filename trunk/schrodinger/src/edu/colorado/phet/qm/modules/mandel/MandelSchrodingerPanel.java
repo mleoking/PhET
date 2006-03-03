@@ -19,12 +19,16 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
         this.mandelModule = mandelModule;
     }
 
+    protected void doAddGunControlPanel() {
+//        super.doAddGunControlPanel();//not.
+    }
+
     protected MandelModule getMandelModule() {
         return mandelModule;
     }
 
     protected HighIntensityGunGraphic createGun() {
-        return new MandelGunGraphic( this );
+        return new MandelGunSet( this );
     }
 
     protected boolean useGunChooserGraphic() {

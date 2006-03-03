@@ -1,19 +1,15 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -22,32 +18,25 @@ import java.io.IOException;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelGunGraphic extends HighIntensityGunGraphic {
-    public PImage leftGun;
-    public PImage rightGun;
+public class MandelGunSet extends HighIntensityGunGraphic {
+    private MandelGun leftGun;
+    private MandelGun rightGun;
 
-    public MandelGunGraphic( MandelSchrodingerPanel mandelSchrodingerPanel ) {
+    public MandelGunSet( MandelSchrodingerPanel mandelSchrodingerPanel ) {
         super( mandelSchrodingerPanel );
-        getGunImageGraphic().setVisible( false );
-        try {
-            leftGun = new PImage( ImageLoader.loadBufferedImage( "images/mandel-gun.gif" ) );
-            leftGun.setPickable( false );
-            leftGun.setChildrenPickable( false );
-            BufferedImage newImage = ImageLoader.loadBufferedImage( "images/gun2-ii.gif" );
-//            newImage = BufferedImageUtils.flipX( newImage );
-            rightGun = new PImage( newImage );
-            rightGun.setPickable( false );
-            rightGun.setChildrenPickable( false );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        leftGun = new MandelGun( "images/mandel-gun.gif", mandelSchrodingerPanel );
+        rightGun = new MandelGun( "images/gun2-ii.gif", mandelSchrodingerPanel );
 
-        addChild( 0, leftGun );
-        addChild( 0, rightGun );
-//        leftGun.setOffset( new Point2D.Double( origGunLoc.x - dx, origGunLoc.y ) );
-//        rightGun.setOffset( new Point2D.Double( origGunLoc.x + dx, origGunLoc.y ) );
-//        getComboBoxGraphic().setVisible( false );
+        getOnGunGraphic().setVisible( false );
+        getOnGunGraphic().setPickable( false );
+        getOnGunGraphic().setChildrenPickable( false );
+
+        getGunImageGraphic().setVisible( false );
+        getGunImageGraphic().setPickable( false );
+        getGunImageGraphic().setChildrenPickable( false );
+
+        addChild( leftGun );
+        addChild( rightGun );
         layoutChildren();
     }
 

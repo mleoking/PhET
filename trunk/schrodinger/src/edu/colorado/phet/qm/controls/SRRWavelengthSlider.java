@@ -30,8 +30,8 @@ import java.util.ArrayList;
 public class SRRWavelengthSlider extends PNode {
     private SpectrumSliderKnob spectrumSliderKnob;
     private Function.LinearFunction linearFunction;
-    protected final PImage colorBackgroundNode;
-    protected final PText phetTextGraphic;
+    private PImage colorBackgroundNode;
+    private PText phetTextGraphic;
     private PPath boundGraphic;
 
     public SRRWavelengthSlider( Component component ) {
@@ -49,12 +49,14 @@ public class SRRWavelengthSlider extends PNode {
         }
         g2.dispose();
         colorBackgroundNode = new PImage( image );
-        addChild( colorBackgroundNode );
         spectrumSliderKnob = new SpectrumSliderKnob( component, new Dimension( 20, 20 ), 0 );
-        addChild( spectrumSliderKnob );
         spectrumSliderKnob.setOffset( 0, image.getHeight() );
         spectrumSliderKnob.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         spectrumSliderKnob.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseEntered( PInputEvent event ) {
+                System.out.println( "SRRWavelengthSlider.mouseEntered" );
+            }
+
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 Point2D pt = event.getPositionRelativeTo( SRRWavelengthSlider.this );
@@ -63,26 +65,31 @@ public class SRRWavelengthSlider extends PNode {
                 dragPointChanged();
             }
         } );
-
         phetTextGraphic = new PText( "Wavelength" );
-        addChild( phetTextGraphic );
-//        phetTextGraphic.setOffset( 0, -phetTextGraphic.getHeight() - 5 );
-//        phetTextGraphic.setOffset( 0, 0 );
 
         colorBackgroundNode.setOffset( 0, getTextOffsetY() );
         spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );
-
+        addChild( phetTextGraphic );
+        addChild( colorBackgroundNode );
+        addChild( spectrumSliderKnob );
         layoutChildren();
         boundGraphic = new PPath( getFullBounds() );
         boundGraphic.setPaint( new JLabel().getBackground() );
         boundGraphic.setStrokePaint( null );
+        boundGraphic.setPickable( false );
+        boundGraphic.setChildrenPickable( false );
         addChild( 0, boundGraphic );
+
         dragPointChanged();
         setOpaque( false );
     }
 
     private double getTextOffsetY() {
         return phetTextGraphic.getHeight() + 5;
+    }
+
+    public VisibleColor getVisibleColor() {
+        return new VisibleColor( getWavelength() );
     }
 
     private void dragPointChanged() {

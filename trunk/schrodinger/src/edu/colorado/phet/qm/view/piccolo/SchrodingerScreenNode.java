@@ -469,23 +469,31 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public void setGunControlPanel( GunControlPanel gunControlPanel ) {
-        addChild( gunControlPanel.getPSwing() );
-        this.gunControlPanelPSwing = gunControlPanel.getPSwing();
-        relayout();
+        if( gunControlPanel == null ) {
+            if( this.gunControlPanelPSwing != null ) {
+                removeChild( this.gunControlPanelPSwing );
+            }
+            this.gunControlPanelPSwing = null;
+            relayout();
+        }
+        else {
+            addChild( gunControlPanel.getPSwing() );
+            this.gunControlPanelPSwing = gunControlPanel.getPSwing();
+            relayout();
 
-
-        BufferedImage txtr = null;
-        try {
+            BufferedImage txtr = null;
+            try {
 //            txtr = ImageLoader.loadBufferedImage( "images/computertexture.gif" );
-            txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
-        connectorGraphic.setTexture( txtr );
+                txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            ConnectorGraphic connectorGraphic = new HorizontalConnector( gunControlPanelPSwing, abstractGunGraphic );
+            connectorGraphic.setTexture( txtr );
 
-        addChild( 3, connectorGraphic );
+            addChild( 3, connectorGraphic );
+        }
     }
 
     public void setCellSize( int size ) {
