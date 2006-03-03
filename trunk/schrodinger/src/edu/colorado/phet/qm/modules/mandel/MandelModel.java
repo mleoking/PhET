@@ -14,7 +14,8 @@ public class MandelModel extends DiscreteModel {
     private WaveModel rightWaveModel;
     private WaveModel leftWaveModel;
 
-    private Mode mode = new NormalMode();
+    private boolean split = false;
+    private static final boolean DEBUG_MANDEL_WAVES = true;
 
     public MandelModel() {
         this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
@@ -28,10 +29,10 @@ public class MandelModel extends DiscreteModel {
         super( width, height, deltaTime, wave );
         rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
         leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
-
+        super.setBarrierAbsorptive( false );
         setDetectionCausesCollapse( false );//since it's a split model
 
-        if( DEBUG_WAVES ) {
+        if( DEBUG_MANDEL_WAVES ) {
             final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );
             addListener( new Adapter() {
@@ -57,7 +58,25 @@ public class MandelModel extends DiscreteModel {
     }
 
     protected void step() {
-        mode.step();
+        beforeTimeStep();
+        if( !split ) {
+            getWaveModel().propagate();
+            getDamping().damp( getWavefunction() );
+        }
+        else {
+            leftWaveModel.propagate();
+            rightWaveModel.propagate();
+            getDamping().damp( leftWaveModel.getWavefunction() );
+            getDamping().damp( rightWaveModel.getWavefunction() );
+        }
+        incrementTimeStep();
+        finishedTimeStep();
+    }
+
+    public void clearAllWaves() {
+        super.clearAllWaves();
+        leftWaveModel.clear();
+        rightWaveModel.clear();
     }
 
     public void reset() {
@@ -88,40 +107,24 @@ public class MandelModel extends DiscreteModel {
         return rightWaveModel.getPropagator();
     }
 
-    private void superStep() {
-        super.step();
+    public void setSplitMode( boolean split ) {
+        this.split = split;
     }
 
-    public void setSplitMode( boolean split ) {
-        this.mode = split ? (Mode)new SplitMode() : new NormalMode();
+    public boolean isSplit() {
+        return split;
+    }
+
+    public WaveModel getLeftWaveModel() {
+        return leftWaveModel;
+    }
+
+    public WaveModel getRightWaveModel() {
+        return rightWaveModel;
     }
 
     static interface Mode {
         void step();
-    }
-
-    class NormalMode implements Mode {
-        public void step() {
-            MandelModel.this.superStep();
-        }
-    }
-
-    class SplitMode implements Mode {
-        public void step() {
-            beforeTimeStep();
-            getPropagationStrategy().step();
-            finishStep();
-        }
-
-        private void finishStep() {
-            rightWaveModel.propagate();
-            leftWaveModel.propagate();
-            getDamping().damp( getRightWavefunction() );
-            getDamping().damp( getLeftWavefunction() );
-
-            incrementTimeStep();
-            finishedTimeStep();
-        }
     }
 
     public void setWaveSize( int width, int height ) {

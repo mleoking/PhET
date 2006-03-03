@@ -78,6 +78,7 @@ public class MandelGun extends PhetPNode {
 
             public void setOn( boolean ison ) {
                 on = ison;
+                fireIntensityChanged();
             }
         } );
         onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
@@ -136,7 +137,7 @@ public class MandelGun extends PhetPNode {
     }
 
     public double getIntensity() {
-        return intensitySlider.getValue() / 100.0;
+        return on ? intensitySlider.getValue() / 100.0 : 0.0;
     }
 
     public static interface Listener {

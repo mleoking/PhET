@@ -201,8 +201,12 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     private void updateWavefunctionGraphic() {
-        getWavefunctionGraphic().setColorMap( createColorMap() );
+        updateWavefunctionColorMap();
         updateWaveGraphic();
+    }
+
+    protected void updateWavefunctionColorMap() {
+        getWavefunctionGraphic().setColorMap( createColorMap() );
     }
 
     public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {

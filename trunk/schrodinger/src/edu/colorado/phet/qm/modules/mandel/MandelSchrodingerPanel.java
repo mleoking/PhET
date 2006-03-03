@@ -3,6 +3,9 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 
@@ -53,12 +56,8 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
         return (MandelGunSet)getGunGraphic();
     }
 
-    public void setSplitGraphics() {
-        getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
-    }
-
-    public void setNormalGraphics() {
-        super.setNormalGraphics();
+    public void setSplitMode( boolean splitMode ) {
+        updateWavefunctionColorMap();
     }
 
     public void wavelengthChanged() {
@@ -67,5 +66,19 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
 
     public MandelGunSet getMandelGunSet() {
         return getGunSet();
+    }
+
+    protected ColorMap createColorMap() {
+        if( getMandelModule() == null || getMandelModule().getMandelModel() == null ) {
+            return new PhotonColorMap( this, 0, new WaveValueAccessor.Magnitude() );
+        }
+        if( getMandelModule().getMandelModel().isSplit() ) {
+            System.out.println( "MandelSchrodingerPanel.createColorMap: using mandelSplitColorMap" );
+            return new MandelSplitColorMap( mandelModule );
+        }
+        else {
+            System.out.println( "MandelSchrodingerPanel.createColorMap: using photonColormap (average)." );
+            return new PhotonColorMap( this, ( getLeftGun().getWavelength() + getRightGun().getWavelength() ) / 2, new WaveValueAccessor.Magnitude() );
+        }
     }
 }

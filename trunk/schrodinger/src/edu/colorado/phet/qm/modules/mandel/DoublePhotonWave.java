@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.CylinderSource;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.PhotonWave;
 import edu.colorado.phet.qm.model.Wave;
@@ -14,27 +15,59 @@ import edu.colorado.phet.qm.model.Wave;
  */
 
 public class DoublePhotonWave extends PhotonWave {
-    public double dPhase = 0;
-    private MandelWave mandelWave;
+    private double dPhase = 0;
     private MandelModule.BeamParam leftParam;
     private MandelModule.BeamParam rightParam;
+    private CylinderSource leftWaveSource;
+    private CylinderSource rightWaveSource;
 
     public DoublePhotonWave( SchrodingerModule schrodingerModule, DiscreteModel discreteModel ) {
         super( schrodingerModule, discreteModel );
         setOn();
         setIntensity( 1.0 );
-
+        this.leftWaveSource = new CylinderSource( createRectRegionForCylinder(), createWave( super.getPhase() ) );
+        this.rightWaveSource = new CylinderSource( createRectRegionForCylinder(), createWave( super.getPhase() ) );
     }
 
-    protected Wave createWave( double phase ) {
+    protected void initializeEntrantWave() {
+        leftWaveSource.setRegion( createRectRegionForCylinder() );
+        rightWaveSource.setRegion( createRectRegionForCylinder() );
         if( leftParam == null ) {
-            leftParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWavefunction() );
-            rightParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWavefunction() );
+            leftParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWaveModel() );
+            rightParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWaveModel() );
         }
-        double insetX = getDiscreteModel().getWavefunction().getWidth() * getFractionalInset();
-        mandelWave = new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
-                                     getDiscreteModel().getWavefunction().getWidth() );
-        return mandelWave;
+        leftWaveSource.setWave( createLeftWave( leftParam, rightParam, getPhase() ) );
+        rightWaveSource.setWave( createRightWave( leftParam, rightParam, getPhase() ) );
+        leftWaveSource.initializeEntrantWave( leftParam.getWaveModel(), getDiscreteModel().getSimulationTime() );
+        rightWaveSource.initializeEntrantWave( rightParam.getWaveModel(), getDiscreteModel().getSimulationTime() );
+    }
+
+    protected Wave createLeftWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
+        double insetX = getInsetX();
+        if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
+            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
+                                   getDiscreteModel().getWavefunction().getWidth() );
+        }
+        else {
+            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), 0,
+                                   getDiscreteModel().getWavefunction().getWidth() );
+        }
+    }
+
+    protected Wave createRightWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
+        double insetX = getInsetX();
+        if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
+            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
+                                   getDiscreteModel().getWavefunction().getWidth() );
+        }
+        else {
+            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, 0, getTotalWaveMagnitudeRight(),
+                                   getDiscreteModel().getWavefunction().getWidth() );
+        }
+    }
+
+    private double getInsetX() {
+        return getDiscreteModel().getWavefunction().getWidth() * getFractionalInset();
     }
 
     private double getTotalWaveMagnitudeRight() {

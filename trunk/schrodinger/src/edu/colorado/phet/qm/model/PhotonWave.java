@@ -40,7 +40,7 @@ public class PhotonWave {
         };
         waveSourceBoundaryConditionSetter = new DiscreteModel.Adapter() {
             public void beforeTimeStep( DiscreteModel discreteModel ) {
-                waveSource.initializeEntrantWave( discreteModel );
+                initializeEntrantWave();
             }
         };
         discreteModel.addListener( new DiscreteModel.Adapter() {
@@ -48,6 +48,16 @@ public class PhotonWave {
                 updateWaveSource();
             }
         } );
+    }
+
+    protected void initializeEntrantWave() {
+//        waveSource.initializeEntrantWave( discreteModel);
+        waveSource.initializeEntrantWave( discreteModel.getWaveModel(), discreteModel.getSimulationTime() );
+        waveSource.initializeEntrantWave( discreteModel.getSourceWaveModel(), discreteModel.getSimulationTime() );
+    }
+
+    public CylinderSource getWaveSource() {
+        return waveSource;
     }
 
     public void setMomentum( double momentum ) {
@@ -81,7 +91,7 @@ public class PhotonWave {
         updateWaveSource();
     }
 
-    private void updateWaveSource() {
+    protected void updateWaveSource() {
         waveSource.setWave( createWave( phase ) );
     }
 
@@ -92,7 +102,7 @@ public class PhotonWave {
         return new FlatDampedWave( planeWave, intensity * intensityScale, getDiscreteModel().getGridWidth() );
     }
 
-    private Rectangle createRectRegionForCylinder() {
+    protected Rectangle createRectRegionForCylinder() {
         return new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight,
                               getWavefunction().getWidth(), waveSourceHeight );
     }
@@ -123,5 +133,9 @@ public class PhotonWave {
 
     public double getIntensityScale() {
         return intensityScale;
+    }
+
+    public double getPhase() {
+        return phase;
     }
 }
