@@ -34,7 +34,7 @@ public class RK4Solver extends RichardsonSolver {
         t = 0;
     }
 
-    public void propagate( int steps ) {
+    public void propagate() {
         advanceOnce(dt);
     }
 
