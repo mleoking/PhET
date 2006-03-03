@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 
 Main-Class: edu.colorado.phet.quantumtunneling.QTApplication
 
-CVS-Tag: quantumtunneling-0-00-16-2006-02-24
+CVS-Tag: quantumtunneling-0-00-17-2006-03-02
 
 
 
