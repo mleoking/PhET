@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -70,6 +71,7 @@ public class PlainFireButton extends PNode {
                 fireParticle();
             }
         } );
+        addInputEventListener( new CursorHandler() );
     }
 
     private void setIcon( BufferedImage image ) {

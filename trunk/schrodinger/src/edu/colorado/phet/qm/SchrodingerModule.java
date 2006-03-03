@@ -51,6 +51,7 @@ public class SchrodingerModule extends PiccoloModule {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         setModel( new BaseModel() );
+        setLogoPanelVisible( false );
     }
 
     protected void finishInit() {
