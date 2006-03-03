@@ -65,6 +65,9 @@ public class RichardsonControls extends JDialog {
     private static final int STEPS_DELTA = 1;
     private static final String STEPS_FORMAT = "0";
     
+    private static final String DX_FORMAT = "0.0000";
+    private static final DecimalFormat DX_FORMATTER = new DecimalFormat( DX_FORMAT );
+    
     private static final Dimension SPINNER_SIZE = new Dimension( 125, 25 );
     
     //----------------------------------------------------------------------
@@ -77,13 +80,14 @@ public class RichardsonControls extends JDialog {
     private DoubleSpinner _hbarSpinner;
     private DoubleSpinner _dtSpinner;
     private DoubleSpinner _stepsSpinner;
+    private JLabel _dxDisplay;
 
     //----------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------
     
     public RichardsonControls( Frame owner, RichardsonSolver solver ) {
-        super( owner, "Richardson controls" );
+        super( owner, "Richardson Controls" );
         
         _solver = solver;
         
@@ -111,6 +115,10 @@ public class RichardsonControls extends JDialog {
             DecimalFormat stepsFormat = new DecimalFormat( STEPS_FORMAT );
             JLabel stepsRange = new JLabel( "(" + stepsFormat.format( STEPS_MIN ) + "-" + stepsFormat.format( STEPS_MAX ) + ")" );
             
+            JLabel dxLabel = new JLabel( "dx:" );
+            _dxDisplay = new JLabel( DX_FORMATTER.format( _solver.getDx() ) );
+            JLabel dxUnits = new JLabel( "nm" );
+            
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             panel.setLayout( layout );
             int row = 0;
@@ -130,6 +138,10 @@ public class RichardsonControls extends JDialog {
             layout.addAnchoredComponent( _stepsSpinner, row, 1, GridBagConstraints.WEST );
             layout.addAnchoredComponent( stepsRange, row, 2, GridBagConstraints.WEST );
             row++;
+            layout.addAnchoredComponent( dxLabel, row, 0, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _dxDisplay, row, 1, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( dxUnits, row, 2, GridBagConstraints.WEST );
+            row++;
         }
         
         getContentPane().add( panel );
@@ -148,6 +160,7 @@ public class RichardsonControls extends JDialog {
         _hbarSpinner.setDoubleValue( _solver.getHbar() );
         _dtSpinner.setDoubleValue( _solver.getDt() );
         _stepsSpinner.setDoubleValue( _solver.getSteps() );
+        _dxDisplay.setText( DX_FORMATTER.format( _solver.getDx() ) );
     }
     
     //----------------------------------------------------------------------
