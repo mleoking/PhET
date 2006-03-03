@@ -9,12 +9,14 @@ import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.gun.SRRWavelengthSliderComponent;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,8 +26,9 @@ import java.awt.*;
  */
 
 public class MandelGun extends PhetPNode {
-    PImage pimage;
+    private PImage pimage;
     private GunControlPanel gunControlPanel;
+    private ArrayList listeners = new ArrayList();
 
     public MandelGun( String image, SchrodingerPanel schrodingerPanel ) {
         pimage = PImageFactory.create( image );
@@ -48,6 +51,33 @@ public class MandelGun extends PhetPNode {
                 intensitySlider.setColor( wavelengthSliderGraphic.getVisibleColor() );
             }
         } );
+        intensitySlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+
+            }
+        } );
 //        addChild( new SRRWavelengthSlider( schrodingerPanel ));
+    }
+
+    public void setControlsOffset( double x, double y ) {
+        gunControlPanel.getPSwing().setOffset( x, y );
+    }
+
+    public PNode getGunControlPanelPSwing() {
+        return gunControlPanel.getPSwing();
+    }
+
+    public PNode getGunImageGraphic() {
+        return pimage;
+    }
+
+    public static interface Listener {
+        void wavelengthChanged();
+
+        void intensityChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }

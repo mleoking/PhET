@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
-import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
 
@@ -44,9 +43,9 @@ public class SchrodingerApplication extends PhetApplication {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
 
-        intensityModule = new IntensityModule( this, createClock() );
-        addModule( intensityModule );
-        addModule( new SingleParticleModule( this, createClock() ) );
+//        intensityModule = new IntensityModule( this, createClock() );
+//        addModule( intensityModule );
+//        addModule( new SingleParticleModule( this, createClock() ) );
         addModule( new MandelModule( this, createClock() ) );
 
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
@@ -135,6 +134,10 @@ public class SchrodingerApplication extends PhetApplication {
         final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
 
+//        addWiggleMe( schrodingerApplication );
+    }
+
+    private static void addWiggleMe( final SchrodingerApplication schrodingerApplication ) {
         final HelpBalloon helpBalloon = new HelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser", HelpBalloon.BOTTOM_CENTER, 100 );
         helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getGunImageGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
 

@@ -79,7 +79,7 @@ public class SchrodingerPanel extends PhetPCanvas {
                 updateScreen();
             }
         } );
-        schrodingerScreenNode = new SchrodingerScreenNode( module, this );
+        schrodingerScreenNode = createSchrodingerScreenNode( module );
         getPhetRootNode().addScreenChild( schrodingerScreenNode );
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
@@ -95,6 +95,10 @@ public class SchrodingerPanel extends PhetPCanvas {
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 //        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
 //        schrodingerScreenNode.addChild( intensityReader );
+    }
+
+    protected SchrodingerScreenNode createSchrodingerScreenNode( SchrodingerModule module ) {
+        return new SchrodingerScreenNode( module, this );
     }
 
     private void doGunFired() {
