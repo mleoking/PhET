@@ -40,7 +40,7 @@ public class PhotonWave {
         };
         waveSourceBoundaryConditionSetter = new DiscreteModel.Adapter() {
             public void beforeTimeStep( DiscreteModel discreteModel ) {
-                waveSource.updateBoundaryConditions( discreteModel );
+                waveSource.initializeEntrantWave( discreteModel );
             }
         };
         discreteModel.addListener( new DiscreteModel.Adapter() {
@@ -119,5 +119,9 @@ public class PhotonWave {
 
     public double getTotalWaveMagnitude() {
         return waveMagnitude * intensity * intensityScale;
+    }
+
+    public double getIntensityScale() {
+        return intensityScale;
     }
 }

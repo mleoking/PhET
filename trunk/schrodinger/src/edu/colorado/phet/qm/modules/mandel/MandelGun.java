@@ -46,8 +46,6 @@ public class MandelGun extends PhetPNode {
         intensitySlider.setValue( 100 );
         VerticalLayoutPanel vlp = new VerticalLayoutPanel();
         vlp.addFullWidth( intensitySlider );
-//        vlp.addFullWidth( new JLabel( "GunControl goes here" ) );
-
         wavelengthSliderGraphic = new SRRWavelengthSlider( schrodingerPanel );
         final SRRWavelengthSliderComponent srrWavelengthSliderComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
         vlp.addFullWidth( srrWavelengthSliderComponent );
@@ -85,7 +83,6 @@ public class MandelGun extends PhetPNode {
         onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );
-//        Photon photon=new Photon( );
     }
 
     private void fireColorChanged() {
@@ -136,6 +133,10 @@ public class MandelGun extends PhetPNode {
 
     public Photon getPhoton() {
         return null;
+    }
+
+    public double getIntensity() {
+        return intensitySlider.getValue() / 100.0;
     }
 
     public static interface Listener {

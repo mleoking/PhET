@@ -17,11 +17,9 @@ import java.awt.*;
 public class MandelSplitColorMap implements ColorMap {
     private PhotonColorMap leftColorMap;
     private PhotonColorMap rightColorMap;
-    private MandelModule mandelModule;
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
     public MandelSplitColorMap( MandelModule mandelModule ) {
-        this.mandelModule = mandelModule;
         leftColorMap = new PhotonColorMap( mandelModule.getSchrodingerPanel(), mandelModule.getMandelSchrodingerPanel().getLeftGun().getWavelength(), waveValueAccessor );
         rightColorMap = new PhotonColorMap( mandelModule.getSchrodingerPanel(), mandelModule.getMandelSchrodingerPanel().getRightGun().getWavelength(), waveValueAccessor );
     }

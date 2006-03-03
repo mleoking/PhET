@@ -64,4 +64,8 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     public void wavelengthChanged() {
         getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
     }
+
+    public MandelGunSet getMandelGunSet() {
+        return getGunSet();
+    }
 }
