@@ -194,6 +194,9 @@ public class DetectorSheetPNode extends PhetPNode {
         if( bufferedImage != null && bufferedImage.getWidth() == w && bufferedImage.getHeight() == h ) {
             //noop
             System.out.println( "Avoiding recreate: same size." );
+            Graphics2D g2 = bufferedImage.createGraphics();
+            g2.setPaint( Color.black );
+            g2.fillRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
         }
         else {
             System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
