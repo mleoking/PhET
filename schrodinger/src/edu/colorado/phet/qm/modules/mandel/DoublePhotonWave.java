@@ -15,17 +15,46 @@ import edu.colorado.phet.qm.model.Wave;
 
 public class DoublePhotonWave extends PhotonWave {
     public double dPhase = 0;
+    private MandelWave mandelWave;
+    private MandelModule.BeamParam leftParam;
+    private MandelModule.BeamParam rightParam;
 
     public DoublePhotonWave( SchrodingerModule schrodingerModule, DiscreteModel discreteModel ) {
         super( schrodingerModule, discreteModel );
+        setOn();
+        setIntensity( 1.0 );
+
     }
 
     protected Wave createWave( double phase ) {
+        if( leftParam == null ) {
+            leftParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWavefunction() );
+            rightParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWavefunction() );
+        }
         double insetX = getDiscreteModel().getWavefunction().getWidth() * getFractionalInset();
-        return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitude(), getDiscreteModel().getWavefunction().getWidth() );
+        mandelWave = new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
+                                     getDiscreteModel().getWavefunction().getWidth() );
+        return mandelWave;
+    }
+
+    private double getTotalWaveMagnitudeRight() {
+        return getMagnitude() * getIntensityScale() * rightParam.getIntensity();
+    }
+
+    private double getTotalWaveMagnitudeLeft() {
+        return getMagnitude() * getIntensityScale() * leftParam.getIntensity();
     }
 
     public static double getFractionalInset() {
         return 0.3;
+    }
+
+    public void setBeamParameters( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam ) {
+        setOn();
+        setIntensity( 1.0 );
+        this.leftParam = leftParam;
+        this.rightParam = rightParam;
+        System.out.println( "leftParam = " + leftParam );
+        System.out.println( "rightParam = " + rightParam );
     }
 }

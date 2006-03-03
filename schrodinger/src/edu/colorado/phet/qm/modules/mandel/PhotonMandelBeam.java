@@ -14,6 +14,7 @@ import edu.colorado.phet.qm.view.gun.PhotonBeam;
 
 public class PhotonMandelBeam extends PhotonBeam {
     private MandelGunSet mandelGun;
+    private DoublePhotonWave doublePhotonWave;
 
     public PhotonMandelBeam( MandelGunSet mandelGun, Photon photon ) {
         super( mandelGun, photon );
@@ -21,7 +22,13 @@ public class PhotonMandelBeam extends PhotonBeam {
     }
 
     protected PhotonWave createCylinderWave() {
-        return new DoublePhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+        if( doublePhotonWave == null ) {
+            this.doublePhotonWave = new DoublePhotonWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
+        }
+        return doublePhotonWave;
     }
 
+    public void setBeamParameters( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam ) {
+        doublePhotonWave.setBeamParameters( leftParam, rightParam );
+    }
 }

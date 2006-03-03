@@ -23,6 +23,8 @@ import java.awt.geom.Point2D;
 public class MandelGunSet extends HighIntensityGunGraphic {
     private MandelGun leftGun;
     private MandelGun rightGun;
+    private Photon photon;
+    private PhotonMandelBeam photonMandelBeam;
 
     public MandelGunSet( MandelSchrodingerPanel mandelSchrodingerPanel ) {
         super( mandelSchrodingerPanel );
@@ -72,12 +74,14 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         return width / 2 - width * DoublePhotonWave.getFractionalInset();
     }
 
-    protected ImagePComboBox initComboBox() {
-        Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+    public void setBeamParameters( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam ) {
+        photonMandelBeam.setBeamParameters( leftParam, rightParam );
+    }
 
-        final HighIntensityBeam[] beams = new HighIntensityBeam[]{
-                new PhotonMandelBeam( this, photon )
-        };
+    protected ImagePComboBox initComboBox() {
+        photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        photonMandelBeam = new PhotonMandelBeam( this, photon );
+        final HighIntensityBeam[] beams = new HighIntensityBeam[]{photonMandelBeam};
         setBeams( beams );
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
@@ -99,4 +103,5 @@ public class MandelGunSet extends HighIntensityGunGraphic {
     public MandelGun getRightGun() {
         return rightGun;
     }
+
 }

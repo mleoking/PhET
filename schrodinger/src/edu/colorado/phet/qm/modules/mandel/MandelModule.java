@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
 import java.util.ArrayList;
@@ -55,14 +56,6 @@ public class MandelModule extends SchrodingerModule {
         return mandelSchrodingerPanel;
     }
 
-//    public boolean isRightDetectorEnabled() {
-//        return splitModel.containsDetector( splitModel.getRightDetector() );
-//    }
-//
-//    public boolean isLeftDetectorEnabled() {
-//        return splitModel.containsDetector( splitModel.getLeftDetector() );
-//    }
-
     public ColorData getRootColor() {
         return mandelSchrodingerPanel.getRootColor();
     }
@@ -93,7 +86,38 @@ public class MandelModule extends SchrodingerModule {
         return mandelSchrodingerPanel.getRightGun();
     }
 
+    public static class BeamParam {
+        double wavelength;
+        double intensity;
+        Wavefunction wavefunction;
+
+        public BeamParam( double leftWavelength, double leftIntensity, Wavefunction leftWavefunction ) {
+            this.wavelength = leftWavelength;
+            this.intensity = leftIntensity;
+            this.wavefunction = leftWavefunction;
+        }
+
+        public double getWavelength() {
+            return wavelength;
+        }
+
+        public double getIntensity() {
+            return intensity;
+        }
+
+        public Wavefunction getWavefunction() {
+            return wavefunction;
+        }
+
+        public String toString() {
+            return "wavelength=" + wavelength + ", intensity=" + intensity + ", wavefunction=" + wavefunction;
+        }
+    }
+
     private void synchronizeModel() {
+        BeamParam leftParam = new BeamParam( getLeftGun().getWavelength(), getLeftGun().getIntensity(), splitModel.getWavefunction() );
+        BeamParam rightParam = new BeamParam( getRightGun().getWavelength(), getRightGun().getIntensity(), splitModel.getWavefunction() );
+        mandelSchrodingerPanel.getMandelGunSet().setBeamParameters( leftParam, rightParam );
         if( getWavefunctionDifference() < 10 ) {
             setSplitMode( false );
         }
