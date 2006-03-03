@@ -2,10 +2,8 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.propagators.NullPropagator;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
 
 /**
@@ -94,6 +92,10 @@ public class MandelModel extends DiscreteModel {
         super.step();
     }
 
+    public void setSplitMode( boolean split ) {
+        this.mode = split ? (Mode)new SplitMode() : new NormalMode();
+    }
+
     static interface Mode {
         void step();
     }
@@ -105,7 +107,6 @@ public class MandelModel extends DiscreteModel {
     }
 
     class SplitMode implements Mode {
-
         public void step() {
             beforeTimeStep();
             getPropagationStrategy().step();
@@ -121,30 +122,6 @@ public class MandelModel extends DiscreteModel {
             incrementTimeStep();
             finishedTimeStep();
         }
-    }
-
-    public static Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {
-        Wavefunction sum = leftRegion.createEmptyWavefunction();
-        for( int i = 0; i < sum.getWidth(); i++ ) {
-            for( int j = 0; j < sum.getHeight(); j++ ) {
-
-                Complex left = leftRegion.valueAt( i, j );
-                Complex right = rightRegion.valueAt( i, j );
-                double both = sumMagnitudes( left, right );
-                sum.setValue( i, j, new Complex( both, 0 ) );
-            }
-        }
-        return sum;
-    }
-
-    public static double sumMagnitudes( Complex left, Complex right ) {
-        double lhs = left.abs();
-        double rhs = right.abs();
-        return lhs + rhs;
-    }
-
-    public void updateWavefunctionAfterDetection() {
-        reduceWavefunctionNorm( IntensityManager.NORM_DECREMENT );//todo this used to work okay
     }
 
     public void setWaveSize( int width, int height ) {
