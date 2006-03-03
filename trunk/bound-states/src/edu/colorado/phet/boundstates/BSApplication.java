@@ -17,7 +17,9 @@ import java.io.IOException;
 
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.boundstates.module.BSModule;
+import edu.colorado.phet.boundstates.module.BSDoubleModule;
+import edu.colorado.phet.boundstates.module.BSManyModule;
+import edu.colorado.phet.boundstates.module.BSSingleModule;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
@@ -44,7 +46,9 @@ public class BSApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSModule _module;
+    private BSSingleModule _singleModule;
+    private BSDoubleModule _doubleModule;
+    private BSManyModule _manyModule;
     
     // PersistanceManager handles loading/saving application configurations.
     private BSPersistenceManager _persistenceManager;
@@ -82,8 +86,12 @@ public class BSApplication extends PhetApplication {
      * @param clock
      */
     private void initModules() {
-        _module = new BSModule();
-        addModule( _module );
+        _singleModule = new BSSingleModule();
+        addModule( _singleModule );
+        _doubleModule = new BSDoubleModule();
+        addModule( _doubleModule );
+        _manyModule = new BSManyModule();
+        addModule( _manyModule );
     }
     
     /*
