@@ -33,13 +33,11 @@ public class DiscreteModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
-//    private boolean oneShotDetectors = false;
     private Damping damping;
     private boolean paused = false;
     private WaveSetup initter;
 
     private HorizontalDoubleSlit doubleSlitPotential;
-//    private MeasurementScale measurementScale;
     private boolean doubleSlitEnabled;
 
     public static final int DEFAULT_WIDTH = 100;
