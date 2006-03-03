@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.SplitModel;
+import edu.colorado.phet.qm.model.MandelModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
@@ -16,11 +16,11 @@ import java.awt.*;
  */
 
 public class SplitColorMap implements ColorMap {
-    private SplitModel splitModel;
+    private MandelModel splitModel;
     private ColorData rootColor;
     private double intensityScale = 20;
 
-    public SplitColorMap( SplitModel splitModel, HighIntensitySchrodingerPanel schrodingerPanelHigh ) {
+    public SplitColorMap( MandelModel splitModel, HighIntensitySchrodingerPanel schrodingerPanelHigh ) {
         this.splitModel = splitModel;
         setRootColor( schrodingerPanelHigh.getRootColor() );
     }

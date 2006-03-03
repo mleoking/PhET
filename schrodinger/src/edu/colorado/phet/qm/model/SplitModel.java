@@ -169,11 +169,11 @@ public class SplitModel extends DiscreteModel {
 
     class NormalMode implements Mode {
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-            return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
+            return MandelModel.this.superGetDetectionRegion( height, detectionY, width, h );
         }
 
         public void step() {
-            SplitModel.this.superStep();
+            MandelModel.this.superStep();
         }
     }
 

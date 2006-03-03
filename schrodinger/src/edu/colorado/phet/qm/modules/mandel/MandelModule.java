@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.SplitModel;
+import edu.colorado.phet.qm.model.MandelModel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 
 public class MandelModule extends SchrodingerModule {
 
-    private SplitModel splitModel;
+    private MandelModel splitModel;
     private MandelSchrodingerPanel mandelSchrodingerPanel;
     private MandelControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
 
     public MandelModule( SchrodingerApplication app, IClock clock ) {
         super( "2 Lasers", app, clock );
-        splitModel = new SplitModel();
+        splitModel = new MandelModel();
         setDiscreteModel( splitModel );
         mandelSchrodingerPanel = new MandelSchrodingerPanel( this );
         setSchrodingerPanel( mandelSchrodingerPanel );
@@ -48,7 +48,7 @@ public class MandelModule extends SchrodingerModule {
         synchronizeModel();
     }
 
-    public SplitModel getSplitModel() {
+    public MandelModel getSplitModel() {
         return splitModel;
     }
 
@@ -103,20 +103,11 @@ public class MandelModule extends SchrodingerModule {
     }
 
     private void synchronizeModel() {
-        //four cases:
-        if( isLeftGunOn() && isRightGunOn() && getWavefunctionDifference() < 10 ) {
+        if( getWavefunctionDifference() < 10 ) {
             setSplitMode( false );
         }
         else {
             setSplitMode( true );
-        }
-        if( isLeftGunOn() && isRightGunOn() && getWavefunctionDifference() >= 10 ) {
-
-        }
-        else if( isLeftGunOn() ) {
-            if( isLeftGunOn() && !isRightGunOn() ) {
-
-            }
         }
     }
 
