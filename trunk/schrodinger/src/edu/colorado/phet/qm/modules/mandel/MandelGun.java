@@ -8,10 +8,7 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.gun.GunControlPanel;
-import edu.colorado.phet.qm.view.gun.OnOffCheckBox;
-import edu.colorado.phet.qm.view.gun.OnOffItem;
-import edu.colorado.phet.qm.view.gun.SRRWavelengthSliderComponent;
+import edu.colorado.phet.qm.view.gun.*;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.colorado.phet.qm.view.piccolo.HorizontalWireConnector;
 import edu.umd.cs.piccolo.PNode;
@@ -52,24 +49,26 @@ public class MandelGun extends PhetPNode {
 //        vlp.addFullWidth( new JLabel( "GunControl goes here" ) );
 
         wavelengthSliderGraphic = new SRRWavelengthSlider( schrodingerPanel );
-        SRRWavelengthSliderComponent srrWavelengthSliderComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
+        final SRRWavelengthSliderComponent srrWavelengthSliderComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
         vlp.addFullWidth( srrWavelengthSliderComponent );
         gunControlPanel.setGunControls( vlp );
         addChild( gunControlPanel.getPSwing() );
-
+        wavelengthSliderGraphic.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                srrWavelengthSliderComponent.repaint();
+            }
+        } );
         wavelengthSliderGraphic.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateSliderColor();
                 fireColorChanged();
             }
-
         } );
         updateSliderColor();
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 fireIntensityChanged();
             }
-
         } );
         ConnectorGraphic connectorGraphic = new HorizontalWireConnector( pimage, gunControlPanel.getPSwing() );
         addChild( 0, connectorGraphic );
@@ -86,6 +85,7 @@ public class MandelGun extends PhetPNode {
         onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );
+//        Photon photon=new Photon( );
     }
 
     private void fireColorChanged() {
@@ -132,6 +132,10 @@ public class MandelGun extends PhetPNode {
 
     public double getWavelength() {
         return wavelengthSliderGraphic.getWavelength();
+    }
+
+    public Photon getPhoton() {
+        return null;
     }
 
     public static interface Listener {

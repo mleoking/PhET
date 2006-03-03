@@ -221,7 +221,7 @@ public class DiscreteModel implements ModelElement {
         }
     }
 
-    interface PropagationStrategy {
+    public interface PropagationStrategy {
         void step();
     }
 

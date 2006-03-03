@@ -14,14 +14,8 @@ import edu.colorado.phet.qm.model.math.Complex;
 public class MandelDampedWave implements Wave {
     private Wave wave;
     private double intensity;
-//    private int x0 = 50;//todo magick.
     private int x0;
-//    private double dxLattice = 4.0;
-//    private double dxLattice = 10;
-//    private double dxLattice = 2;
-
     private double dxLattice = 4;
-//    private int radiusForMax = 3;
 
     public MandelDampedWave( int x0, Wave wave, double intensity, int waveWidth ) {
         this.x0 = x0;

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
+import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
 
@@ -23,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-//import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
 /**
  * User: Sam Reid
@@ -43,9 +43,9 @@ public class SchrodingerApplication extends PhetApplication {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
 
-//        intensityModule = new IntensityModule( this, createClock() );
-//        addModule( intensityModule );
-//        addModule( new SingleParticleModule( this, createClock() ) );
+        intensityModule = new IntensityModule( this, createClock() );
+        addModule( intensityModule );
+        addModule( new SingleParticleModule( this, createClock() ) );
         addModule( new MandelModule( this, createClock() ) );
 
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );

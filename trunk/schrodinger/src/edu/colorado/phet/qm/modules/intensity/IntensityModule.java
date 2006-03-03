@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.MandelModel;
+import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 
 public class IntensityModule extends SchrodingerModule {
-    private MandelModel splitModel;
+    private SplitModel splitModel;
     private HighIntensitySchrodingerPanel highIntensitySchrodingerPanel;
     private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
@@ -36,7 +36,7 @@ public class IntensityModule extends SchrodingerModule {
 
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
-        splitModel = new MandelModel();
+        splitModel = new SplitModel();
         setDiscreteModel( splitModel );
         highIntensitySchrodingerPanel = createIntensityPanel();
         setSchrodingerPanel( highIntensitySchrodingerPanel );
@@ -80,7 +80,7 @@ public class IntensityModule extends SchrodingerModule {
         return new HighIntensitySchrodingerPanel( this );
     }
 
-    public MandelModel getSplitModel() {
+    public SplitModel getSplitModel() {
         return splitModel;
     }
 
