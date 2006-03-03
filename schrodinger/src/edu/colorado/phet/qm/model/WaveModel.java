@@ -107,4 +107,8 @@ public class WaveModel {
         wavefunction.setMagnitude( mag );
         propagator.setWavefunctionNorm( mag );
     }
+
+    public boolean containsLocation( int i, int k ) {
+        return wavefunction.containsLocation( i, k );
+    }
 }
