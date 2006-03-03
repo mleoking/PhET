@@ -221,7 +221,7 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     protected ColorMap createColorMap() {
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
-            return new PhotonColorMap( this, photon, getWaveValueAccessor() );
+            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
         }
         else {
             return new ComplexColorMapAdapter( getDiscreteModel().getWavefunction(), complexColorMap );

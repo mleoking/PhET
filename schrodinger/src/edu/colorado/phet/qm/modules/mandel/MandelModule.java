@@ -4,8 +4,6 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.MandelModel;
-import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
 import java.util.ArrayList;
@@ -36,6 +34,7 @@ public class MandelModule extends SchrodingerModule {
         finishInit();
         MandelGun.Listener listener = new MandelGun.Listener() {
             public void wavelengthChanged() {
+                mandelSchrodingerPanel.wavelengthChanged();
                 synchronizeModel();
             }
 
@@ -52,7 +51,7 @@ public class MandelModule extends SchrodingerModule {
         return splitModel;
     }
 
-    public HighIntensitySchrodingerPanel getIntensityPanel() {
+    public MandelSchrodingerPanel getMandelSchrodingerPanel() {
         return mandelSchrodingerPanel;
     }
 
@@ -90,27 +89,17 @@ public class MandelModule extends SchrodingerModule {
         return mandelSchrodingerPanel.getLeftGun();
     }
 
-    private boolean isRightGunOn() {
-        return getRightGun().isOn();
-    }
-
     private MandelGun getRightGun() {
         return mandelSchrodingerPanel.getRightGun();
-    }
-
-    private boolean isLeftGunOn() {
-        return getLeftGun().isOn();
     }
 
     private void synchronizeModel() {
         if( getWavefunctionDifference() < 10 ) {
             setSplitMode( false );
-
         }
         else {
             setSplitMode( true );
         }
-
     }
 
     private void setSplitMode( boolean splitMode ) {

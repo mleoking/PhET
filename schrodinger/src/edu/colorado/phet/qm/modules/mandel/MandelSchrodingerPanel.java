@@ -52,4 +52,16 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     private MandelGunSet getGunSet() {
         return (MandelGunSet)getGunGraphic();
     }
+
+    public void setSplitGraphics() {
+        getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
+    }
+
+    public void setNormalGraphics() {
+        super.setNormalGraphics();
+    }
+
+    public void wavelengthChanged() {
+        getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
+    }
 }
