@@ -17,39 +17,5 @@ public class MandelControlPanel extends SchrodingerControlPanel {
         super( mandelModule );
         addControl( new ResetButton( mandelModule ) );
         addControl( new ClearButton( mandelModule.getSchrodingerPanel() ) );
-//        addControl( new ExpandableDoubleSlitPanel( mandelModule ) );
-//        AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
-//        advancedPanel.addControlFullWidth( super.createPotentialPanel( mandelModule ) );
-//        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
-//        addControlFullWidth( advancedPanel );
-
-//        final ModelSlider modelSlider = new ModelSlider( "Wave Dist from wall.", "", 0, 50, DoublePhotonWave.insetX );
-//        modelSlider.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                int value = (int)modelSlider.getValue();
-////                DoublePhotonWave.insetX = value;
-//            }
-//        } );
-//
-//
-//        final ModelSlider dPhase = new ModelSlider( "Delta Phase", "", 0, Math.PI * 2, DoublePhotonWave.dPhase );
-//        dPhase.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-////                DoublePhotonWave.dPhase = dPhase.getValue();
-//            }
-//        } );
-//
-//        final ModelSlider dSigma = new ModelSlider( "Wave Width", "", 1, 12, MandelDampedWave.dxLattice );
-//        dSigma.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                MandelDampedWave.dxLattice = dSigma.getValue();
-//            }
-//        } );
-
-//        addControlFullWidth( modelSlider );
-//        addControlFullWidth( dPhase );
-//        addControlFullWidth( dSigma );
-
-
     }
 }
