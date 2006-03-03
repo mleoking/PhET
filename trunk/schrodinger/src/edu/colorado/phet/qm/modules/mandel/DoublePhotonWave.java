@@ -5,7 +5,6 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.PhotonWave;
 import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.waves.MandelWave;
 
 /**
  * User: Sam Reid
