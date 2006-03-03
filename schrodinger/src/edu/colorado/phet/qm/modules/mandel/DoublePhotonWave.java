@@ -15,8 +15,6 @@ import edu.colorado.phet.qm.model.waves.MandelWave;
  */
 
 public class DoublePhotonWave extends PhotonWave {
-
-//    public int insetX = 30;
     public double dPhase = 0;
 
     public DoublePhotonWave( SchrodingerModule schrodingerModule, DiscreteModel discreteModel ) {
@@ -24,8 +22,6 @@ public class DoublePhotonWave extends PhotonWave {
     }
 
     protected Wave createWave( double phase ) {
-//        System.out.println( "Creating mandel wave, momentum=" + getMomentum() );
-
         double insetX = getDiscreteModel().getWavefunction().getWidth() * getFractionalInset();
         return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitude(), getDiscreteModel().getWavefunction().getWidth() );
     }

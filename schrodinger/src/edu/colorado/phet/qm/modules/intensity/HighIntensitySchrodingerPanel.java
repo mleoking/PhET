@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
@@ -18,14 +17,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
-    private SchrodingerModule intensityModule;
+    private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
     private SplitColorMap splitColorMap;
     private HighIntensityGunGraphic highIntensityGun;
     public static final boolean SMOOTH_SCREEN_DEFAULT = true;
 
-    public HighIntensitySchrodingerPanel( SchrodingerModule intensityModule ) {
+    public HighIntensitySchrodingerPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
         highIntensityGun = createGun();
@@ -39,13 +38,9 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( this, getIntensityDisplay() );
         setSmoothScreen( SMOOTH_SCREEN_DEFAULT );
-        setColorMap();
+        splitColorMap = new SplitColorMap( intensityModule.getSplitModel(), this );
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
-    }
-
-    protected void setColorMap() {
-        splitColorMap = new SplitColorMap( ( (IntensityModule)intensityModule ).getSplitModel(), this );
     }
 
     protected void addGunChooserGraphic() {
@@ -129,6 +124,10 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
     public void setWaveSize( int width, int height ) {
         super.setWaveSize( width, height );
         highIntensityGun.setOn( highIntensityGun.isOn() );
+    }
+
+    public IntensityModule getIntensityModule() {
+        return intensityModule;
     }
 
 }
