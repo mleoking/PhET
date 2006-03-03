@@ -5,6 +5,8 @@ import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
 import edu.umd.cs.piccolo.PCanvas;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * User: Sam Reid
@@ -25,6 +27,23 @@ public class SRRWavelengthSliderComponent extends PCanvas {
         setZoomEventHandler( null );
         setOpaque( false );
         setBackground( new Color( 0, 0, 0, 0 ) );
+        addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                System.out.println( "SRRWavelengthSliderComponent.mousePressed" );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+        } );
     }
 
     public void setOpaque( boolean isOpaque ) {

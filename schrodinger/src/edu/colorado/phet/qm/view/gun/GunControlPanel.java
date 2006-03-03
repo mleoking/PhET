@@ -45,7 +45,6 @@ public class GunControlPanel extends VerticalLayoutPanel {
 
     public PNode getPSwing() {
         return gunControlPSwing;
-
     }
 
     public Component add( Component comp ) {
