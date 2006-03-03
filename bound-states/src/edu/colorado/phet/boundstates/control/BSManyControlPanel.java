@@ -33,12 +33,12 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSControlPanel
+ * BSManyControlPanel
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSControlPanel extends BSAbstractControlPanel {
+public class BSManyControlPanel extends BSAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data (public)
@@ -70,7 +70,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private BSManyModule _module;
 
     // Energy controls
-    private BSWellComboBox _wellComboBox;
+    private BSWellComboBox _wellTypeComboBox;
     private SliderControl _numberOfWellsSlider;
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
@@ -95,7 +95,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
      * 
      * @param module
      */
-    public BSControlPanel( BSManyModule module ) {
+    public BSManyControlPanel( BSManyModule module ) {
         super( module );
 
         _module = module;
@@ -118,7 +118,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             JLabel label = new JLabel( SimStrings.get( "label.well" ) );
 
             // Potential combo box 
-            _wellComboBox = new BSWellComboBox();
+            _wellTypeComboBox = new BSWellComboBox();
 
             // Number of wells
             String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
@@ -136,12 +136,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
-            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             int row = 0;
             int col = 0;
             layout.addComponent( label, row, col, 2, 1 );
             row++;
-            layout.addComponent( _wellComboBox, row, col );
+            layout.addComponent( _wellTypeComboBox, row, col );
             row++;
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
@@ -310,7 +309,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
         // Interactivity
         {
             _listener = new EventListener();
-            _wellComboBox.addItemListener( _listener );
+            _wellTypeComboBox.addItemListener( _listener );
             _numberOfWellsSlider.addChangeListener( _listener );
             _configureEnergyButton.addActionListener( _listener );
             _superpositionButton.addActionListener( _listener );
@@ -369,11 +368,51 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
 
+    public void setWellType( WellType wellType ) {
+        _wellTypeComboBox.setSelectedWellType( wellType );
+        handleWellTypeSelection();
+    }
+    
+    public WellType getWellType() {
+        return _wellTypeComboBox.getSelectedWellType();
+    }
+    
+    public void setNumberOfWells( int numberOfWells ) {
+        _numberOfWellsSlider.setValue( numberOfWells );
+        handleNumberOfWells();
+    }
+    
+    public int getNumberOfWells() {
+        return (int) _numberOfWellsSlider.getValue();
+    }
+
+    public void setDisplayType( int displayType ) {
+        if ( displayType == DISPLAY_WAVE_FUNCTION ) {
+            _waveFunctionRadioButton.setSelected( true );
+        }
+        else if ( displayType == DISPLAY_PROBABIITY_DENSITY ) {
+            _probabilityDensityRadioButton.setSelected( true );
+        }
+        else {
+            throw new IllegalArgumentException( "invalid display type: " + displayType );
+        }
+        handleDisplaySelection();
+    }
+
+    public int getDisplayType() {
+        int displayType = DISPLAY_WAVE_FUNCTION;
+        if ( _probabilityDensityRadioButton.isSelected() ) {
+            displayType = DISPLAY_PROBABIITY_DENSITY;
+        }
+        return displayType;
+    }
+
     public void setRealSelected( boolean selected ) {
         _realCheckBox.setSelected( selected );
         handleRealSelection();
     }
-
+    
+    
     public boolean isRealSelected() {
         return _realCheckBox.isSelected();
     }
@@ -405,30 +444,29 @@ public class BSControlPanel extends BSAbstractControlPanel {
         return _phaseCheckBox.isSelected();
     }
 
-    public void setDisplayType( int displayType ) {
-        if ( displayType == DISPLAY_WAVE_FUNCTION ) {
-            _waveFunctionRadioButton.setSelected( true );
-        }
-        else if ( displayType == DISPLAY_PROBABIITY_DENSITY ) {
-            _probabilityDensityRadioButton.setSelected( true );
-        }
-        else {
-            throw new IllegalArgumentException( "invalid display type: " + displayType );
-        }
-        handleDisplaySelection();
+    public void setParticleMass( double mass ) {
+        _massSlider.setValue( mass / BSConstants.ELECTRON_MASS );;
+        handleMassSlider();
+    }
+    
+    public double getParticleMass() {
+        return _massSlider.getValue() * BSConstants.ELECTRON_MASS;
     }
 
-    public int getDisplayType() {
-        int displayType = DISPLAY_WAVE_FUNCTION;
-        if ( _probabilityDensityRadioButton.isSelected() ) {
-            displayType = DISPLAY_PROBABIITY_DENSITY;
-        }
-        return displayType;
-    }
-
-    /* For help item supper */
+    //----------------------------------------------------------------------------
+    // Generic getters, for attaching help items
+    //----------------------------------------------------------------------------
+    
     public JComponent getPotentialControl() {
-        return _wellComboBox;
+        return _wellTypeComboBox;
+    }
+    
+    public JComponent getNumberOfWellsControl() {
+        return _numberOfWellsSlider;
+    }
+    
+    public JComponent getParticleMassControl() {
+        return _massSlider;
     }
 
     //----------------------------------------------------------------------------
@@ -487,8 +525,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
         public void itemStateChanged( ItemEvent event ) {
             if ( event.getStateChange() == ItemEvent.SELECTED ) {
-                if ( event.getSource() == _wellComboBox ) {
-                    handleWellSelection();
+                if ( event.getSource() == _wellTypeComboBox ) {
+                    handleWellTypeSelection();
                 }
                 else {
                     throw new IllegalArgumentException( "unexpected event: " + event );
@@ -497,8 +535,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
         }
     }
 
-    private void handleWellSelection() {
-        WellType wellType = _wellComboBox.getSelectedWellType();
+    private void handleWellTypeSelection() {
+        WellType wellType = _wellTypeComboBox.getSelectedWellType();
         _module.setWellType( wellType );
     }
 

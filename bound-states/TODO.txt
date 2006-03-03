@@ -5,7 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- complete the design
+- move all common control stuff into BSAbstractControlPanel
+- move all common module stuff into BSAbstractModule
+- replace BSClockControls with standard controls and stopwatch
+- Superposition dialog
+- Configure Energy dialog
+- interaction with eignestate lines
+- well curves and drag handles
+- commandline options for choosing which modules to display
+- update persistence code to include new modules
 
 MEDIUM PRIORITY:
 
