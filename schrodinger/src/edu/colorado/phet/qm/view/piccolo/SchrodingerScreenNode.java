@@ -250,9 +250,13 @@ public class SchrodingerScreenNode extends PNode {
                 System.out.println( "colorGridImageWidth = " + colorGridWidth );
                 double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
                 double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
+                minX = Math.max( minX, 0 );
                 double mainWidth = maxX - minX;
                 double availableWidth = schrodingerPanel.getWidth() - mainWidth;
-                wavefunctionGraphic.setOffset( availableWidth / 2, detectorSheetPNode.getDetectorHeight() );
+                double wavefunctionGraphicX = getWavefunctionGraphicX( availableWidth );
+                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
+                wavefunctionGraphic.setOffset( wavefunctionGraphicX, detectorSheetPNode.getDetectorHeight() );
+//                wavefunctionGraphic.setOffset( 5, detectorSheetPNode.getDetectorHeight() );
 
                 detectorSheetPNode.setAlignment( wavefunctionGraphic );
                 abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
@@ -280,6 +284,10 @@ public class SchrodingerScreenNode extends PNode {
                 }
             }
         }
+    }
+
+    protected double getWavefunctionGraphicX( double availableWidth ) {
+        return availableWidth / 2;
     }
 
     private Dimension getCellDimensions() {

@@ -25,8 +25,9 @@ public class MandelGunSet extends HighIntensityGunGraphic {
     public MandelGunSet( MandelSchrodingerPanel mandelSchrodingerPanel ) {
         super( mandelSchrodingerPanel );
         leftGun = new MandelGun( "images/mandel-gun.gif", mandelSchrodingerPanel );
+        leftGun.setControlsOffset( -leftGun.getGunControlPanelPSwing().getFullBounds().getWidth() + 50, 0 );
         rightGun = new MandelGun( "images/gun2-ii.gif", mandelSchrodingerPanel );
-
+        rightGun.setControlsOffset( rightGun.getGunImageGraphic().getFullBounds().getWidth(), 0 );
         getOnGunGraphic().setVisible( false );
         getOnGunGraphic().setPickable( false );
         getOnGunGraphic().setChildrenPickable( false );
