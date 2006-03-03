@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
-import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 
 /**
@@ -13,8 +12,8 @@ import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
  */
 
 public class DGSchrodingerPanel extends HighIntensitySchrodingerPanel {
-    public DGSchrodingerPanel( IntensityModule intensityModule ) {
-        super( intensityModule );
+    public DGSchrodingerPanel( DGModule dgModule ) {
+        super( dgModule );
     }
 
     protected HighIntensityGunGraphic createGun() {
@@ -23,5 +22,9 @@ public class DGSchrodingerPanel extends HighIntensitySchrodingerPanel {
 
     public DGGun getDGGunGraphic() {
         return (DGGun)super.getGunGraphic();
+    }
+
+    protected void setColorMap() {
+//        super.setColorMap();//todo
     }
 }

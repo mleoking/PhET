@@ -6,9 +6,9 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
@@ -180,7 +180,7 @@ public class SchrodingerModule extends PiccoloModule {
         this.schrodingerPanel.setUnits( particleUnits );
     }
 
-    protected void setSchrodingerControlPanel( SchrodingerControlPanel schrodingerControlPanel ) {
+    protected void setSchrodingerControlPanel( ControlPanel schrodingerControlPanel ) {
         setControlPanel( schrodingerControlPanel );
     }
 
