@@ -11,10 +11,12 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import javax.swing.JFrame;
+
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.control.RichardsonControls;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
-import edu.colorado.phet.quantumtunneling.util.Complex;
-import edu.colorado.phet.quantumtunneling.util.MutableComplex;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 
@@ -44,9 +46,6 @@ public class RichardsonSolver implements IWavePacketSolver {
     // Class data
     //----------------------------------------------------------------------
 
-    private static final double HBAR = QTConstants.HBAR;
-    private static final double MASS = QTConstants.MASS;
-
     /* Each damping coefficient is applied to this many adjacent samples */
     private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
 
@@ -62,7 +61,12 @@ public class RichardsonSolver implements IWavePacketSolver {
 
     private WavePacket _wavePacket;
 
+    private double _mass;
+    private double _hbar;
     private double _dx;
+    private double _dt;
+    private int _steps;
+    
     private double _positions[]; // position at each sample point
     private LightweightComplex _Psi[]; // wave function values at each sample point
     private LightweightComplex _EtoV[]; // potential energy propagator = exp(-i*V(x)*dt/hbar)
@@ -70,6 +74,8 @@ public class RichardsonSolver implements IWavePacketSolver {
     private LightweightComplex _alpha; // special parameter for Richardson algorithm
     private LightweightComplex _beta; // special parameter for Richardson algorithm
 
+    private RichardsonControls _controlsUI; // developer controls
+    
     //----------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------
@@ -82,8 +88,15 @@ public class RichardsonSolver implements IWavePacketSolver {
     public RichardsonSolver( WavePacket wavePacket ) {
 
         _wavePacket = wavePacket;
+        
+        _mass = QTConstants.MASS;
+        _hbar = QTConstants.HBAR;
+        _steps = QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK;
+        _dt = QTConstants.CLOCK_STEP;
         _dx = 1;
-
+        
+        _controlsUI = null;
+        
         update();
     }
 
@@ -116,7 +129,48 @@ public class RichardsonSolver implements IWavePacketSolver {
      */
     public void setDx( double dx ) {
         _dx = dx;
+        overrideDt(); // repair dt whenever the sim's window is resized
         update();
+    }
+    
+    public double getDx() {
+        return _dx;
+    }
+    
+    public void setDt( double dt ) {
+        _dt = dt;
+        update();
+    }
+    
+    public double getDt() {
+        return _dt;
+    }
+    
+    public void setHbar( double hbar ) {
+        _hbar = hbar;
+        update();
+    }
+    
+    public double getHbar() {
+        return _hbar;
+    }
+    
+    public void setMass( double mass ) {
+        _mass = mass;
+        update();
+    }
+    
+    public double getMass() {
+        return _mass;
+    }
+    
+    public void setSteps( int steps ) {
+        _steps = steps;
+        update();
+    }
+    
+    public int getSteps() {
+        return _steps;
     }
 
     /**
@@ -128,37 +182,53 @@ public class RichardsonSolver implements IWavePacketSolver {
         }
     }
 
+    /*
+     * Overrides the value of dt, setting it to something that 
+     * doesn't cause this algorithm to fail.
+     * 
+     * Analyis by Sam Reid:
+     * Most ODE (ordinary differential equation) solvers fail to work
+     * when you increase dt too high.  In this simulation, we have a set
+     * of parameters that pushes dt past the failure point.  In the code
+     * below, if s > PI/2 or epsilon > PI, then the propagator terms
+     * (alpha, beta, EtoV) have the wrong form, and the solver fails.
+     *
+     * So for now, we're forced to override dt with something
+     * more reasonable (ie, the formula from Richardson's original code).
+     */
+    private void overrideDt() {
+        _dt = 0.8 * _mass * _dx * _dx / _hbar;
+    }
+    
     //----------------------------------------------------------------------
     // Richardson algorithm
     //----------------------------------------------------------------------
-
+    
     /*
      * Sets the initial conditions.
      */
     private void reset() {
 
+        // Developer controls...
+        if ( QTConstants.RICHARDSON_CONTROLS_ENABLED ) {
+            JFrame frame = PhetApplication.instance().getPhetFrame();
+            if ( _controlsUI == null ) {
+                _controlsUI = new RichardsonControls( frame, this );
+            }
+            else {
+                _controlsUI.refresh();
+            }
+            _controlsUI.show();
+        }
+        
         boolean zero = isSolutionZero();
-
-        /*
-         * Analyis by Sam Reid:
-         * Most ODE (ordinary differential equation) solvers fail to work
-         * when you increase dt too high.  In this simulation, we have a set
-         * of parameters that pushes dt past the failure point.  In the code
-         * below, if s > PI/2 or epsilon > PI, then the propagator terms
-         * (alpha, beta, EtoV) have the wrong form, and the solver fails.
-         *
-         * So for now, we're forced to override dt with something
-         * more reasonable (ie, the formula from Richardson's original code).
-         */
-//        final double dt = QTConstants.CLOCK_STEP;
-        final double dt = 0.8 * MASS * _dx * _dx / HBAR;
 
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
         final double center = _wavePacket.getCenter();
         final double E = _wavePacket.getTotalEnergy().getEnergy();
         final double V = _wavePacket.getPotentialEnergy().getEnergyAt( center );
-        double vx = Math.sqrt( 2 * ( E - V ) / MASS );
+        double vx = Math.sqrt( 2 * ( E - V ) / _mass );
         if ( _wavePacket.getDirection() == Direction.RIGHT_TO_LEFT ) {
             vx *= -1;
         }
@@ -174,7 +244,7 @@ public class RichardsonSolver implements IWavePacketSolver {
         final int numberOfSamples = (int)( ( maxX - minX ) / _dx ) + 1;
 
         // Initialize constants used by the propagator.
-        final double epsilon = HBAR * dt / ( MASS * _dx * _dx );
+        final double epsilon = _hbar * _dt / ( _mass * _dx * _dx );
         _alpha = new LightweightComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
         _beta = new LightweightComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
@@ -192,9 +262,9 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
             else {
                 final double r = Math.exp( -( ( position - center ) / width ) * ( ( position - center ) / width ) / 2 );
-                _Psi[i] = new LightweightComplex( r * Math.cos( MASS * vx * ( position - center ) / HBAR ), r * Math.sin( MASS * vx * ( position - center ) / HBAR ) );
+                _Psi[i] = new LightweightComplex( r * Math.cos( _mass * vx * ( position - center ) / _hbar ), r * Math.sin( _mass * vx * ( position - center ) / _hbar ) );
                 _Psi[i].multiply( A );
-                final double s = getPotentialEnergy( position ) * dt / HBAR;
+                final double s = getPotentialEnergy( position ) * _dt / _hbar;
                 _EtoV[i] = new LightweightComplex( Math.cos( s ), -Math.sin( s ) );
             }
         }
@@ -211,7 +281,11 @@ public class RichardsonSolver implements IWavePacketSolver {
         return _wavePacket.getPotentialEnergy().getEnergyAt( position );
     }
 
-    /**
+    public void propagate() {
+        propagate( _steps );
+    }
+    
+    /*
      * Propagates the solution by a specified number of steps.
      * <p>
      * Note that this method contains a lot of duplicate code.
@@ -226,7 +300,7 @@ public class RichardsonSolver implements IWavePacketSolver {
      *
      * @param steps number of steps to propagate
      */
-    public void propagate( int steps ) {
+    private void propagate( int steps ) {
 
         double r1, r2, r3, r4; // reusable real parts
         double i1, i2, i3, i4; // reusable imaginary parts

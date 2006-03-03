@@ -49,9 +49,7 @@ public interface IWavePacketSolver {
     public void update();
 
     /**
-     * Propagates the solution by a spoecified number of steps.
-     * 
-     * @param steps how many steps to advance
+     * Propagates the solution one step.
      */
-    public void propagate( int steps );
+    public void propagate();
 }

@@ -31,11 +31,8 @@ public class SplitOperatorSolver extends RichardsonSolver {
         super( wavePacket );
     }
 
-    public void propagate( int steps ) {
+    public void propagate() {
         propagateOnce();
-//        for( int i = 0; i < steps; i++ ) {
-//            propagateOnce();
-//        }
         show();
     }
 

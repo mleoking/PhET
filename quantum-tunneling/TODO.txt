@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add developer knobs for mass, hbar, dt, propagator steps, threshold?
 - decide on correct behavior when we measure in a region where E<V
 - replace Richardson algorithm
 - eliminate reflection at boundaries
@@ -36,6 +35,9 @@ CLEANUP:
 
 
 DONE:
+(3/2/06) - add developer controls for Richardson mass, hbar, dt, steps
+(3/2/06) - changed IWavePacketSolver interface and all subclasses so that #steps is handled by the solver
+(3/2/06) - broke out DoubleSpinner into its own class, added getDoubleValue and setDoubleValue convenience methods
 (3/1/06) - sync & test with Sam's additions for RK4Solver
 (3/1/06) - bugfix: Richardson propagator was skipping the last psi value when applying EtoV
 (2/28/06) - sync & test with Sam's additions and changes for SplitOperatorSolver
