@@ -53,7 +53,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
 
     private static final int INDENTATION = 0; // pixels
-    private static final int SUBPANEL_SPACING = 15; // pixels
+    private static final int SUBPANEL_SPACING = 10; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
     // Color key
@@ -71,6 +71,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     // Energy controls
     private BSWellComboBox _wellComboBox;
+    private SliderControl _numberOfWellsSlider;
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
 
@@ -119,6 +120,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Potential combo box 
             _wellComboBox = new BSWellComboBox();
 
+            // Number of wells
+            String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
+            _numberOfWellsSlider = new SliderControl( 1, 1, 10, 1, 0, 0, numberFormat, SLIDER_INSETS );
+            _numberOfWellsSlider.getSlider().setSnapToTicks( true );
+            
             // Configure button
             _configureEnergyButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
 
@@ -130,6 +136,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
+            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             int row = 0;
             int col = 0;
             layout.addComponent( label, row, col, 2, 1 );
@@ -139,6 +146,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
             layout.addComponent( _superpositionButton, row, col );
+            row++;
+            layout.addComponent( _numberOfWellsSlider, row, col );
             row++;
             energyControlsPanel.setLayout( new BorderLayout() );
             energyControlsPanel.add( innerPanel, BorderLayout.WEST );
@@ -173,6 +182,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
                 innerPanel.setLayout( layout );
                 layout.setAnchor( GridBagConstraints.WEST );
+                layout.setInsets( new Insets( 0, 0, 0, 0 ) );
                 layout.setMinimumWidth( 0, indentation );
                 int row = 0;
                 int col = 0;
@@ -225,6 +235,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
                 innerPanel.setLayout( layout );
                 layout.setAnchor( GridBagConstraints.WEST );
+                layout.setInsets( new Insets( 0, 0, 0, 0 ) );
                 layout.setMinimumWidth( 0, indentation );
                 int row = 0;
                 int col = 0;
@@ -264,7 +275,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Mass slider
 
             String massFormat = "<html>" + SimStrings.get( "label.particleMass" ) + " {0}m<sub>e</sub>" + "</html>";
-            _massSlider = new SliderControl( 1.0, 1.0, 10.0, 5.0, 1, 1, massFormat );
+            _massSlider = new SliderControl( 1.0, 1.0, 10.0, 5.0, 1, 1, massFormat, SLIDER_INSETS );
             _massSlider.setInverted( true );
             // Put a label at each tick mark.
             Hashtable labelTable = new Hashtable();
@@ -278,6 +289,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
+            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             layout.addComponent( _massSlider, 0, 0 );
             particleControlsPanel.setLayout( new BorderLayout() );
             particleControlsPanel.add( innerPanel, BorderLayout.WEST );
@@ -299,6 +311,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
         {
             _listener = new EventListener();
             _wellComboBox.addItemListener( _listener );
+            _numberOfWellsSlider.addChangeListener( _listener );
             _configureEnergyButton.addActionListener( _listener );
             _superpositionButton.addActionListener( _listener );
             _waveFunctionRadioButton.addActionListener( _listener );
@@ -461,7 +474,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
         }
 
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _massSlider ) {
+            if ( event.getSource() == _numberOfWellsSlider ) {
+                handleNumberOfWells();
+            }
+            else if ( event.getSource() == _massSlider ) {
                 handleMassSlider();
             }
             else {
@@ -486,6 +502,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _module.setWellType( wellType );
     }
 
+    private void handleNumberOfWells() {
+        int numberOfWells = (int) _numberOfWellsSlider.getValue();
+        _module.setNumberOfWells( numberOfWells );
+    }
+    
     private void handleConfigureEnergyButton() {
         _module.showConfigureEnergyDialog();
     }
