@@ -36,6 +36,7 @@ MACINTOSH:
 
 
 DONE:
+(3/3/06) - add all control panel accessor methods
 (3/3/06) - create icons for well combo box
 (3/3/06) - redo control panel with final set of controls
 (3/3/06) - create 3 modules
