@@ -24,5 +24,7 @@ public class BSDoubleModule extends BSManyModule {
 
     public BSDoubleModule() {
         super( SimStrings.get( "BSDoubleModule.title" ) );
+        setNumberOfWells( 2 );
+        //XXX disable controls that aren't relevant
     }
 }

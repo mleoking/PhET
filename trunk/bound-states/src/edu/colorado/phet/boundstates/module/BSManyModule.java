@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.BSClockControls;
-import edu.colorado.phet.boundstates.control.BSControlPanel;
+import edu.colorado.phet.boundstates.control.BSManyControlPanel;
 import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -85,7 +85,7 @@ public class BSManyModule extends BSAbstractModule {
     private XYPlotNode _waveFunctionPlotNode;
 
     // Controls
-    private BSControlPanel _controlPanel;
+    private BSManyControlPanel _controlPanel;
     private BSClockControls _clockControls;
     
     //----------------------------------------------------------------------------
@@ -199,7 +199,7 @@ public class BSManyModule extends BSAbstractModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new BSControlPanel( this );
+        _controlPanel = new BSManyControlPanel( this );
         setControlPanel( _controlPanel );
         
         // Clock Controls
@@ -322,7 +322,7 @@ public class BSManyModule extends BSAbstractModule {
         //XXX
         
         // Controls
-        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setDisplayType( BSManyControlPanel.DISPLAY_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
@@ -417,7 +417,7 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void setDisplayType( int displayType ) {
-        //XX displayType is one of the BSControlPanel.DISPLAY_* constants
+        //XX displayType is one of the BSManyControlPanel.DISPLAY_* constants
         resetClock();
     }
     
