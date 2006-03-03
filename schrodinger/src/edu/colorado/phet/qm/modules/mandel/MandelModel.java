@@ -132,4 +132,15 @@ public class MandelModel extends DiscreteModel {
         rightWaveModel.setWaveSize( width, height );
         leftWaveModel.setWaveSize( width, height );
     }
+
+    public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
+        if( split ) {
+            Wavefunction sum = getLeftWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h );
+            sum.add( getRightWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h ) );
+            return sum;
+        }
+        else {
+            return getWavefunction().copyRegion( 0, detectionY, width, h );
+        }
+    }
 }

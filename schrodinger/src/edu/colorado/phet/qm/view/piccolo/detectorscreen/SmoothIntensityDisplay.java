@@ -6,7 +6,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,8 +22,9 @@ public class SmoothIntensityDisplay {
     private SchrodingerPanel schrodingerPanel;
     private IntensityManager intensityManager;
     private double[] histogram;
-    private Photon photon;
+//    private Photon photon;
     private double brightness = 1.0f;
+    private ColorData colorData;
 
     public SmoothIntensityDisplay( SchrodingerPanel schrodingerPanel, IntensityManager intensityManager ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -94,11 +95,11 @@ public class SmoothIntensityDisplay {
         float v = (float)( x / 10.0 );
         v *= brightness;
         v = (float)MathUtil.clamp( 0, v, 1.0 );
-        if( photon == null ) {
+        if( colorData == null ) {
             return new Color( v * 0.8f, v * 0.8f, v );
         }
         else {
-            return photon.getRootColor().toColor( v );
+            return colorData.toColor( v );
         }
     }
 
@@ -141,8 +142,8 @@ public class SmoothIntensityDisplay {
         paintSheet();
     }
 
-    public void setPhotonColor( Photon photon ) {
-        this.photon = photon;
+    public void setPhotonColor( ColorData colorData ) {
+        this.colorData = colorData;
     }
 
     public void setBrightness( double brightness ) {

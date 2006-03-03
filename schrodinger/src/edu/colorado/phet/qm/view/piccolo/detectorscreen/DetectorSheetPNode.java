@@ -104,11 +104,8 @@ public class DetectorSheetPNode extends PhetPNode {
 
     protected void layoutChildren() {
         screenGraphic.setTransform( new AffineTransform() );
-//        screenGraphic.getTransformReference( true ).shear( 0.45, 0 );
         double shearfac = Math.tan( shearAngle );
         screenGraphic.getTransformReference( true ).shear( shearfac, 0 );
-        //todo Don't hard code this translation.
-//        screenGraphic.translate( -42, 62 );
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth() + 12, screenGraphic.getFullBounds().getY() );
         connectorGraphic.update();
     }
@@ -117,9 +114,6 @@ public class DetectorSheetPNode extends PhetPNode {
         double offsetDX = screenGraphic.getFullBounds().getHeight() / 2.0 * Math.tan( shearAngle );
         setOffset( wavefunctionGraphic.getFullBounds().getX() - offsetDX,
                    wavefunctionGraphic.getFullBounds().getY() - screenGraphic.getFullBounds().getHeight() / 2.0 );
-//                detectorSheetPNode.setOffset( wavefunctionGraphic.getFullBounds().getX(),
-//                                              wavefunctionGraphic.getFullBounds().getY() - detectorSheetPNode.getFullBounds().getHeight() / 2.0 );
-
     }
 
     public void synchronizeFadeState() {
@@ -194,7 +188,6 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     private void recreateImage() {
-
         int w = wavefunctionGraphic.getWavefunctionGraphicWidth();
         int h = detectorSheetHeight;
 
@@ -294,12 +287,11 @@ public class DetectorSheetPNode extends PhetPNode {
 
         public MyConnectorGraphic() {
             path = new PPath();
-            path.setStroke( new BasicStroke( 2 ) );
+//            path.setStroke( new BasicStroke( 2 ) );
             path.setStrokePaint( Color.darkGray );
             addChild( path );
             try {
                 txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
-//                txtr = ImageLoader.loadBufferedImage( "images/wire.png" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -307,7 +299,6 @@ public class DetectorSheetPNode extends PhetPNode {
         }
 
         public void update() {
-//            double connectorHeight = detectorSheetHeight - 10;
             double connectorHeight = txtr.getHeight();
 
             double width = detectorSheetControlPanelPNode.getFullBounds().getCenterX() - screenGraphic.getFullBounds().getCenterX();

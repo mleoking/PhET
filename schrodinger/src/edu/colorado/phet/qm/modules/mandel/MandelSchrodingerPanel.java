@@ -63,8 +63,13 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
 
     public void wavelengthChanged() {
         getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
+        updateDetectorColors();
+    }
+
+    public void updateDetectorColors() {
         double avgWavelength = ( getLeftGun().getWavelength() * getLeftGun().getIntensity() + getRightGun().getWavelength() * getRightGun().getIntensity() ) / ( getLeftGun().getIntensity() + getRightGun().getIntensity() );
         getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( avgWavelength ) );
+        getSmoothIntensityDisplay().setPhotonColor( new ColorData( avgWavelength ) );
     }
 
     public MandelGunSet getMandelGunSet() {
