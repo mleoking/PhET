@@ -205,7 +205,7 @@ public class RegionBoundaryDragHandle extends AbstractDragHandle implements Obse
      */
     public void update( Observable o, Object arg ) {
         if ( o == _potentialEnergy ) {
-            updatePosition();
+            updateDragBounds();
             updateText();
         }
     }
