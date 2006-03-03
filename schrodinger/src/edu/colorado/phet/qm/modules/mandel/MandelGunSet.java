@@ -5,6 +5,8 @@ import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
+import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
+import edu.colorado.phet.qm.view.piccolo.PinkGunDetails;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -26,8 +28,12 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         super( mandelSchrodingerPanel );
         leftGun = new MandelGun( "images/mandel-gun.gif", mandelSchrodingerPanel );
         leftGun.setControlsOffset( -leftGun.getGunControlPanelPSwing().getFullBounds().getWidth() + 50, 0 );
+        leftGun.setControlBackgroundColor( BlueGunDetails.gunBackgroundColor );
+        leftGun.translateOnGunControls( 0, 5 );
         rightGun = new MandelGun( "images/gun2-ii.gif", mandelSchrodingerPanel );
         rightGun.setControlsOffset( rightGun.getGunImageGraphic().getFullBounds().getWidth(), 0 );
+        rightGun.setControlBackgroundColor( PinkGunDetails.backgroundColor );
+        rightGun.translateOnGunControls( 10, 5 );
         getOnGunGraphic().setVisible( false );
         getOnGunGraphic().setPickable( false );
         getOnGunGraphic().setChildrenPickable( false );
