@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+0.00.17...
 (3/2/06) - add developer controls for Richardson mass, hbar, dt, steps
 (3/2/06) - changed IWavePacketSolver interface and all subclasses so that #steps is handled by the solver
 (3/2/06) - broke out DoubleSpinner into its own class, added getDoubleValue and setDoubleValue convenience methods
