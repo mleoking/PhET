@@ -116,7 +116,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
             splitColorMap.setRootColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
         }
         if( smoothIntensityDisplay != null ) {
-            smoothIntensityDisplay.setPhotonColor( photon );
+            smoothIntensityDisplay.setPhotonColor( photon == null ? null : photon.getRootColor() );
         }
     }
 
