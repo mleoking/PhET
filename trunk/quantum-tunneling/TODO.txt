@@ -36,6 +36,7 @@ CLEANUP:
 
 DONE:
 0.00.17...
+(3/3/06) - fix PotentialEnergyDragHandle and RegionBoundaryDragHandle that I screwed up on 2/20, need to recompute drag bounds more frequently (roll into 0.00.17)
 (3/3/06) - change x-axis tick spacing to 1, add vertical grid lines (roll into 0.00.17)
 (3/3/06) - change range of mass and hbar controls (roll into 0.00.17)
 (3/3/06) - add dx (read only) to Richardson controls (roll into 0.00.17)
