@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 - decide on correct behavior when we measure in a region where E<V
 - replace Richardson algorithm
-- eliminate reflection at boundaries
+- eliminate reflection and circularity at boundaries
 - possibly add sum/separate feature for wave packet
 
 MEDIUM PRIORITY:
