@@ -45,13 +45,13 @@ public class RichardsonControls extends JDialog {
     // Class data
     //----------------------------------------------------------------------
     
-    private static final double MASS_MIN = 0.1;
-    private static final double MASS_MAX = 100.0;
-    private static final double MASS_DELTA = 0.1;
-    private static final String MASS_FORMAT = "0.0";
+    private static final double MASS_MIN = 0.01;
+    private static final double MASS_MAX = 1000.0;
+    private static final double MASS_DELTA = 0.01;
+    private static final String MASS_FORMAT = "0.00";
    
     private static final double HBAR_MIN = 0.001;
-    private static final double HBAR_MAX = 10.000;
+    private static final double HBAR_MAX = 100.000;
     private static final double HBAR_DELTA = 0.001;
     private static final String HBAR_FORMAT = "0.000";
     
