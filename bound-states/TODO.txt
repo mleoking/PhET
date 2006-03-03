@@ -36,6 +36,9 @@ MACINTOSH:
 
 
 DONE:
+(3/3/06) - create icons for well combo box
+(3/3/06) - redo control panel with final set of controls
+(3/3/06) - create 3 modules
 (3/2/06) - make Energy plot occupy 2/3 of play area
 (3/1/06) - mocked up the interface for selecting eigenstates to demonstrate problems
 (2/22/06) - review design draft #2

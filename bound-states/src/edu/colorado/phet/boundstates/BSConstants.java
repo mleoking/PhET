@@ -111,7 +111,13 @@ public class BSConstants {
     public static final String IMAGE_RESTART = IMAGES_DIRECTORY + "restartButton.gif";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
- 
+  
+    //----------------------------------------------------------------------------
+    // Electron
+    //----------------------------------------------------------------------------
+    
+    public static final double ELECTRON_MASS = 5.7;
+    
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------

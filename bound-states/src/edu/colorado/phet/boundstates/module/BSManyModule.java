@@ -23,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.BSClockControls;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
+import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSTotalEnergy;
@@ -40,12 +41,12 @@ import edu.umd.cs.piccolo.PNode;
 
 
 /**
- * QTModule is the sole module.
+ * BSManyModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSModule extends BSAbstractModule {
+public class BSManyModule extends BSAbstractModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -92,12 +93,22 @@ public class BSModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructor.
+     */
+    public BSManyModule() {
+        this( SimStrings.get( "BSManyModule.title" ) );
+    }
+    
+    /*
+     * Constructor for use by subclasses, so they can specify a different title.
      * 
      * @param clock
      */
-    public BSModule() {
-        super( SimStrings.get( "BSModule.title" ), new BSClock(), true /* startsPaused */ );
+    protected BSManyModule( String title ) {
+        super( title, new BSClock(), true /* startsPaused */ );
+        
+        // hide the PhET logo
+        setLogoPanel( null );
         
         //----------------------------------------------------------------------------
         // Model
@@ -226,7 +237,7 @@ public class BSModule extends BSAbstractModule {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
-        getClock().start();
+//        getClock().start();
     }
     
     public boolean hasHelp() {
@@ -316,7 +327,6 @@ public class BSModule extends BSAbstractModule {
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
         _controlPanel.setPhaseSelected( false );
-        _controlPanel.setAdvancedVisible( false );
         //XXX
     }
     
@@ -388,6 +398,18 @@ public class BSModule extends BSAbstractModule {
     // Accessors
     //----------------------------------------------------------------------------
     
+    public void setWellType( WellType wellType ) {
+        //XXX
+    }
+    
+    public void showConfigureEnergyDialog() {
+        //XXX
+    }
+    
+    public void showSuperpositionStateDialog() {
+        //XXX
+    }
+    
     public void setDisplayType( int displayType ) {
         //XX displayType is one of the BSControlPanel.DISPLAY_* constants
         resetClock();
@@ -408,6 +430,10 @@ public class BSModule extends BSAbstractModule {
     public void setPhaseVisible( boolean visible ) {
         //XXX
     }
+    
+    public void setParticleMass( double mass ) {
+        //XXX
+    }
 
     private void resetClock() {
         getClock().resetSimulationTime();
@@ -415,17 +441,5 @@ public class BSModule extends BSAbstractModule {
     
     private void handleClockReset() {
         //XXX
-    }
-    
-    public void showEigenstateCheckBoxes( boolean visible ) {
-        _totalEnergyNode.showEigenstateCheckBoxes( visible );
-    }
-    
-    public void scaleEigenstateCheckBoxes( double scale ) {
-        _totalEnergyNode.scaleEigenstateCheckBoxes( scale );
-    }
-    
-    public void setEigenstateLineWidth( double width ) {
-        _totalEnergyNode.setStrokeWidth( width );
     }
 }
