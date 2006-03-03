@@ -1,7 +1,7 @@
 New in 0.43 (3-3-2006)
 Added Separate gun controls for 2-Laser panel.
 2-Laser panel has guns interfere when wavelength is close, otherwise addition is normal.
- Intensity Display for 2-Laser panel mixes colors.
+Intensity Display for 2-Laser panel mixes colors.
 
 New in 0.42 (3-2-2006)
 Switched detector control from "auto-repeat" to “one shot.”
