@@ -152,4 +152,8 @@ public class MandelModel extends DiscreteModel {
             return getWavefunction().copyRegion( 0, detectionY, width, h );
         }
     }
+
+    public void updateWavefunctionAfterDetection() {
+//        clearAllWaves();
+    }
 }

@@ -168,10 +168,6 @@ public class SchrodingerPanel extends PhetPCanvas {
         return schrodingerScreenNode.getDetectorSheetPNode();
     }
 
-//    public RulerGraphic getRulerGraphic() {
-//        return schrodingerScreenNode.getRulerGraphic();
-//    }
-
     public AbstractGunGraphic getGunGraphic() {
         return schrodingerScreenNode.getGunGraphic();
     }
