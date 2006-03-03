@@ -37,6 +37,7 @@ public class MandelModule extends SchrodingerModule {
             public void wavelengthChanged() {
                 clearWaves();
                 mandelSchrodingerPanel.wavelengthChanged();
+                mandelSchrodingerPanel.updateDetectorColors();
                 synchronizeModel();
             }
 
@@ -48,6 +49,11 @@ public class MandelModule extends SchrodingerModule {
         getLeftGun().addListener( listener );
         getRightGun().addListener( listener );
         synchronizeModel();
+//        addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                mandelSchrodingerPanel.updateDetectorColors();
+//            }
+//        } );
     }
 
     private void clearWaves() {

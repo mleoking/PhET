@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
-import edu.colorado.phet.qm.model.WaveModel;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
@@ -23,27 +23,31 @@ public class MandelSplitColorMap implements ColorMap {
     public MandelSplitColorMap( MandelModule mandelModule ) {
         leftColorMapMini = new MiniPhotonColorMap(
                 mandelModule.getMandelSchrodingerPanel().getLeftGun().getWavelength(),
-                waveValueAccessor, mandelModule.getMandelModel().getLeftWaveModel() );
+                waveValueAccessor, mandelModule.getMandelModel().getLeftWaveModel().getWavefunction() );
         rightColorMapMini = new MiniPhotonColorMap(
                 mandelModule.getMandelSchrodingerPanel().getRightGun().getWavelength(),
-                waveValueAccessor, mandelModule.getMandelModel().getRightWaveModel() );
+                waveValueAccessor, mandelModule.getMandelModel().getRightWaveModel().getWavefunction() );
+    }
+
+    public static Color add( Color a, Color b ) {
+        return new Color( Math.min( a.getRed() + b.getRed(), 255 ), Math.min( a.getGreen() + b.getGreen(), 255 ), Math.min( a.getBlue() + b.getBlue(), 255 ) );
     }
 
     public Paint getColor( int i, int k ) {
         Color a = (Color)leftColorMapMini.getColor( i, k );
         Color b = (Color)rightColorMapMini.getColor( i, k );
 
-        return new Color( Math.min( a.getRed() + b.getRed(), 255 ), Math.min( a.getGreen() + b.getGreen(), 255 ), Math.min( a.getBlue() + b.getBlue(), 255 ) );
+        return add( a, b );
     }
 
-    private class MiniPhotonColorMap implements ColorMap {
+    public static class MiniPhotonColorMap implements ColorMap {
         private WaveValueAccessor waveValueAccessor;
         private double intensityScale = 20;
         private ColorData rootColor;
-        private WaveModel wave;
+        private Wavefunction wave;
 
         public MiniPhotonColorMap( double wavelengthNM,
-                                   WaveValueAccessor waveValueAccessor, WaveModel wave ) {
+                                   WaveValueAccessor waveValueAccessor, Wavefunction wave ) {
             this.wave = wave;
             if( waveValueAccessor == null ) {
                 throw new RuntimeException( "Null waveValueAccessor" );
@@ -53,7 +57,7 @@ public class MandelSplitColorMap implements ColorMap {
         }
 
         public Paint getColor( int i, int k ) {
-            double abs = Math.min( waveValueAccessor.getValue( wave.getWavefunction(), i, k ) * intensityScale, 1.0 );
+            double abs = Math.min( waveValueAccessor.getValue( wave, i, k ) * intensityScale, 1.0 );
             return rootColor.toColor( abs );
         }
 
