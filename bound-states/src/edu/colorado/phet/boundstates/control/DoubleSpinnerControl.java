@@ -29,15 +29,12 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-/*
- * Common spinner used in this dialog.
- */
-public class NumberSpinnerControl extends JPanel implements FocusListener {
+public class DoubleSpinnerControl extends JPanel implements FocusListener {
     
     private JSpinner _spinner;
     private JFormattedTextField _textField;
     
-    public NumberSpinnerControl( String label, double value, double min, double max, double step, String format, Dimension size ) {
+    public DoubleSpinnerControl( String label, double value, double min, double max, double step, String format, Dimension size ) {
         super( );
         
         // Label
@@ -68,6 +65,14 @@ public class NumberSpinnerControl extends JPanel implements FocusListener {
         }
     }
 
+    public double getValue() {
+        return ((Double) _spinner.getValue()).doubleValue();
+    }
+    
+    public void setValue( double value ) {
+        _spinner.setValue( new Double( value ) );
+    }
+    
     public void addChangeListener( ChangeListener l ) {
         _spinner.addChangeListener( l );
     }

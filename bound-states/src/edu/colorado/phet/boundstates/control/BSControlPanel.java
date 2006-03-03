@@ -77,7 +77,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private String _sAdvancedExpand, _sAdvancedCollapse;
     private JPanel _advancedPanel;
     private SliderControl _numberSlider, _widthSlider, _depthSlider, _spacingSlider;
-    private NumberSpinnerControl _c1Spinner, _c2Spinner, _c3Spinner, _c4Spinner;
+    private DoubleSpinnerControl _c1Spinner, _c2Spinner, _c3Spinner, _c4Spinner;
     private JButton _normalizeButton;
     
     // Developer only controls...
@@ -246,10 +246,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 superpositionPanel.setBorder( new TitledBorder( SimStrings.get( "title.superpositionState" ) ) );
 
                 Dimension spinnerSize = new Dimension( 55, 25 );
-                _c1Spinner = new NumberSpinnerControl( SimStrings.get( "label.c1" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
-                _c2Spinner = new NumberSpinnerControl( SimStrings.get( "label.c2" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
-                _c3Spinner = new NumberSpinnerControl( SimStrings.get( "label.c3" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
-                _c4Spinner = new NumberSpinnerControl( SimStrings.get( "label.c4" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c1Spinner = new DoubleSpinnerControl( SimStrings.get( "label.c1" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c2Spinner = new DoubleSpinnerControl( SimStrings.get( "label.c2" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c3Spinner = new DoubleSpinnerControl( SimStrings.get( "label.c3" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
+                _c4Spinner = new DoubleSpinnerControl( SimStrings.get( "label.c4" ), 0.25, 0, 1, 0.01, "0.00", spinnerSize );
                 
                 _normalizeButton = new JButton( SimStrings.get( "button.normalize" ) );
                 
