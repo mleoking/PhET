@@ -41,6 +41,10 @@ import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
  */
 public class RichardsonControls extends JDialog {
 
+    //----------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------
+    
     private static final double MASS_MIN = 0.1;
     private static final double MASS_MAX = 100.0;
     private static final double MASS_DELTA = 0.1;
@@ -63,6 +67,10 @@ public class RichardsonControls extends JDialog {
     
     private static final Dimension SPINNER_SIZE = new Dimension( 125, 25 );
     
+    //----------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------
+    
     private RichardsonSolver _solver;
     
     private DoubleSpinner _massSpinner;
@@ -70,6 +78,10 @@ public class RichardsonControls extends JDialog {
     private DoubleSpinner _dtSpinner;
     private DoubleSpinner _stepsSpinner;
 
+    //----------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------
+    
     public RichardsonControls( Frame owner, RichardsonSolver solver ) {
         super( owner, "Richardson controls" );
         
@@ -137,6 +149,10 @@ public class RichardsonControls extends JDialog {
         _dtSpinner.setDoubleValue( _solver.getDt() );
         _stepsSpinner.setDoubleValue( _solver.getSteps() );
     }
+    
+    //----------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------
     
     /*
      * EventListener dispatches events for all controls in this control panel.
