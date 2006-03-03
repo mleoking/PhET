@@ -1,3 +1,5 @@
+Bug: "Hits" in mandel has wrong color.
+
 Add separate control for box physical size (independent of lattice size).
 
 Add units to split operator method.
