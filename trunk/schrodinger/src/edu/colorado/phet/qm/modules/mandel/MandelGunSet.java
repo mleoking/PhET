@@ -92,4 +92,11 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         return imageComboBox;
     }
 
+    public MandelGun getLeftGun() {
+        return leftGun;
+    }
+
+    public MandelGun getRightGun() {
+        return rightGun;
+    }
 }
