@@ -12,7 +12,6 @@ import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -225,8 +224,9 @@ public class DetectorSheetPNode extends PhetPNode {
         detectorSheetControlPanel.setSaveButtonVisible( b );
     }
 
-    public void setDisplayPhotonColor( Photon photon ) {
-        this.rootColor = photon == null ? null : new ColorData( photon.getWavelengthNM() );
+    public void setDisplayPhotonColor( ColorData colorData ) {
+        this.rootColor = colorData;
+        System.out.println( "rootColor = " + rootColor );
     }
 
     public SchrodingerPanel getSchrodingerPanel() {

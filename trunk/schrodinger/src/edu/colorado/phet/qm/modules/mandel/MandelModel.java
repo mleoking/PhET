@@ -15,7 +15,7 @@ public class MandelModel extends DiscreteModel {
     private WaveModel leftWaveModel;
 
     private boolean split = false;
-    private static final boolean DEBUG_MANDEL_WAVES = true;
+    private static final boolean DEBUG_MANDEL_WAVES = false;
 
     public MandelModel() {
         this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
