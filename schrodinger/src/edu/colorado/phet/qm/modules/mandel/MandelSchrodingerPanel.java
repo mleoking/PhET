@@ -26,7 +26,7 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     }
 
     protected void doAddGunControlPanel() {
-//        super.doAddGunControlPanel();//not.
+//don't  super.doAddGunControlPanel(), please
     }
 
     protected MandelModule getMandelModule() {
@@ -39,5 +39,17 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
 
     protected boolean useGunChooserGraphic() {
         return false;
+    }
+
+    public MandelGun getLeftGun() {
+        return getGunSet().getLeftGun();
+    }
+
+    public MandelGun getRightGun() {
+        return getGunSet().getRightGun();
+    }
+
+    private MandelGunSet getGunSet() {
+        return (MandelGunSet)getGunGraphic();
     }
 }
