@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.math.Complex;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.propagators.NullPropagator;
 
@@ -135,9 +136,17 @@ public class MandelModel extends DiscreteModel {
 
     public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
         if( split ) {
-            Wavefunction sum = getLeftWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h );
-            sum.add( getRightWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h ) );
-            return sum;
+            Wavefunction left = getLeftWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h );
+            Wavefunction right = getRightWaveModel().getWavefunction().copyRegion( 0, detectionY, width, h );
+            Wavefunction avg = left.copy();
+            for( int i = 0; i < avg.getWidth(); i++ ) {
+                for( int j = 0; j < avg.getHeight(); j++ ) {
+                    Complex a = left.valueAt( i, j );
+                    Complex b = right.valueAt( i, j );
+                    avg.setValue( i, j, ( a.abs() + b.abs() ) / 2.0, 0 );
+                }
+            }
+            return avg;
         }
         else {
             return getWavefunction().copyRegion( 0, detectionY, width, h );
