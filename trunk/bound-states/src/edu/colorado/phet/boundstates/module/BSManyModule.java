@@ -400,6 +400,12 @@ public class BSManyModule extends BSAbstractModule {
     
     public void setWellType( WellType wellType ) {
         //XXX
+        resetClock();
+    }
+    
+    public void setNumberOfWells( int numberOfWells ) {
+        //XXX
+        resetClock();
     }
     
     public void showConfigureEnergyDialog() {
@@ -433,6 +439,7 @@ public class BSManyModule extends BSAbstractModule {
     
     public void setParticleMass( double mass ) {
         //XXX
+        resetClock();
     }
 
     private void resetClock() {
