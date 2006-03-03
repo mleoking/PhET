@@ -167,7 +167,7 @@ public class QTConstants {
     
     // Position
     public static final Range POSITION_RANGE = new Range( -8, 12 ); // nm
-    public static final double POSITION_TICK_SPACING = 2; // nm
+    public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
     //----------------------------------------------------------------------------
@@ -181,7 +181,7 @@ public class QTConstants {
      */
     public static final boolean JFREECHART_DYNAMIC = false;
     
-    public static final boolean SHOW_VERTICAL_GRIDLINES = false;
+    public static final boolean SHOW_VERTICAL_GRIDLINES = true;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
     
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
