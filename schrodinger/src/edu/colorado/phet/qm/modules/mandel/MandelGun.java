@@ -109,6 +109,14 @@ public class MandelGun extends PhetPNode {
         onGunGraphic.translate( dx, dy );
     }
 
+    public boolean isOn() {
+        return on;
+    }
+
+    public double getWavelength() {
+        return wavelengthSliderGraphic.getWavelength();
+    }
+
     public static interface Listener {
         void wavelengthChanged();
 
