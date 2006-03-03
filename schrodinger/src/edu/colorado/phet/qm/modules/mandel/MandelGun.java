@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.controls.IntensitySlider;
@@ -82,6 +83,7 @@ public class MandelGun extends PhetPNode {
             }
         } );
         onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
+        onGunGraphic.addInputEventListener( new CursorHandler() );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );
     }

@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view.gun;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -73,6 +74,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
         onPswing = new PSwing( schrodingerPanel, alwaysOnCheckBox );
+        onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
 
 //        final HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel, "Turn on the Laser" );

@@ -133,13 +133,15 @@ public class SchrodingerApplication extends PhetApplication {
         new PhetLookAndFeel().apply();
         final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
-
-//        addWiggleMe( schrodingerApplication );
+        if( schrodingerApplication.intensityModule != null ) {
+            addWiggleMe( schrodingerApplication );
+        }
     }
 
     private static void addWiggleMe( final SchrodingerApplication schrodingerApplication ) {
         final HelpBalloon helpBalloon = new HelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser", HelpBalloon.BOTTOM_CENTER, 100 );
-        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getGunImageGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
+//        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getGunImageGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
+        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
 
         schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
         helpBalloon.setVisible( true );
