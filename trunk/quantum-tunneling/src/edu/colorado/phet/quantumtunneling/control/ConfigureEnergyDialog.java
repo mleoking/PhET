@@ -96,11 +96,11 @@ public class ConfigureEnergyDialog extends JDialog {
     // Dialog's "input area"
     private JPanel _inputPanel;
     private PotentialComboBox _potentialComboBox;
-    private JSpinner _teSpinner;
-    private ArrayList _peSpinners; // array of JSpinner
-    private JSpinner _stepSpinner;
-    private ArrayList _widthSpinners; // array of JSpinner
-    private ArrayList _positionSpinners; // array of JSpinner
+    private DoubleSpinner _teSpinner;
+    private ArrayList _peSpinners; // array of NumberSpinner
+    private DoubleSpinner _stepSpinner;
+    private ArrayList _widthSpinners; // array of NumberSpinner
+    private ArrayList _positionSpinners; // array of NumberSpinner
     
     // Dialog's "action area"
     private JButton _applyButton, _closeButton;
@@ -315,7 +315,7 @@ public class ConfigureEnergyDialog extends JDialog {
             {
                 JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
                 teLabel.setForeground( new Color( 16, 159, 33 ) ); // dark green
-                _teSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT );
+                _teSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                 _teSpinner.addChangeListener( _listener );
                 JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
                 leftLayout.addAnchoredComponent( teLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
@@ -335,7 +335,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfRegions; i++ ) {
                     JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
                     peLabel.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
-                    JSpinner peSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT );
+                    DoubleSpinner peSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                     peSpinner.addChangeListener( _listener );
                     _peSpinners.add( peSpinner );
                     JLabel peUnits = new JLabel( SimStrings.get( "units.energy" ) );
@@ -351,7 +351,7 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
                 stepLabel.setForeground( Color.BLACK );
-                _stepSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
+                _stepSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                 _stepSpinner.addChangeListener( _listener );
                 JLabel stepUnits = new JLabel( SimStrings.get( "units.position" ) );
                 leftLayout.addAnchoredComponent( stepLabel, leftRow, 0, 2, 1, GridBagConstraints.EAST );
@@ -376,7 +376,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    JSpinner positionSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
+                    DoubleSpinner positionSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     positionSpinner.addChangeListener( _listener );
                     _positionSpinners.add( positionSpinner );
                     JLabel positionUnits = new JLabel( SimStrings.get( "units.position" ) );
@@ -395,7 +395,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
                     widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
-                    JSpinner widthSpinner = new CommonSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT );
+                    DoubleSpinner widthSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     widthSpinner.addChangeListener( _listener );
                     _widthSpinners.add( widthSpinner );
                     JLabel widthUnits = new JLabel( SimStrings.get( "units.position" ) );
@@ -456,7 +456,7 @@ public class ConfigureEnergyDialog extends JDialog {
         // Potential Energy per region
         for ( int i = 0; i < _peSpinners.size(); i++ ) {
             double pe = _potentialEnergy.getEnergy( i );
-            JSpinner peSpinner = (JSpinner) _peSpinners.get( i );
+            DoubleSpinner peSpinner = (DoubleSpinner) _peSpinners.get( i );
             peSpinner.setValue( new Double( pe ) );
         }
         
@@ -469,7 +469,7 @@ public class ConfigureEnergyDialog extends JDialog {
         // Barrier Width
         if ( _widthSpinners != null ) {
             for ( int i = 0; i < _widthSpinners.size(); i++ ) {
-                JSpinner widthSpinner = (JSpinner) _widthSpinners.get( i );
+                DoubleSpinner widthSpinner = (DoubleSpinner) _widthSpinners.get( i );
                 int regionIndex = BarrierPotential.toRegionIndex( i );
                 double width = ( (BarrierPotential) _potentialEnergy ).getWidth( regionIndex );
                 widthSpinner.setValue( new Double( width ) );
@@ -479,7 +479,7 @@ public class ConfigureEnergyDialog extends JDialog {
         // Barrier Positions
         if ( _positionSpinners != null ) {
             for ( int i = 0; i < _positionSpinners.size(); i++ ) {
-                JSpinner positionSpinner = (JSpinner) _positionSpinners.get( i );
+                DoubleSpinner positionSpinner = (DoubleSpinner) _positionSpinners.get( i );
                 int regionIndex = BarrierPotential.toRegionIndex( i );
                 double position = ( (BarrierPotential) _potentialEnergy ).getStart( regionIndex );
                 positionSpinner.setValue( new Double( position ) );
@@ -670,8 +670,7 @@ public class ConfigureEnergyDialog extends JDialog {
      * Handles a change in total energy.
      */
     private void handleTotalEnergyChange() {
-        Double value = (Double) _teSpinner.getValue();
-        double energy = value.doubleValue();
+        double energy = _teSpinner.getDoubleValue();
         if ( energy >= MIN_ENERGY && energy <= MAX_ENERGY ) {
             _totalEnergy.setEnergy( energy );
             _teChanged = true;
@@ -680,7 +679,7 @@ public class ConfigureEnergyDialog extends JDialog {
         else {
             warnInvalidInput();
             energy = _totalEnergy.getEnergy();
-            _teSpinner.setValue( new Double( energy ) );
+            _teSpinner.setDoubleValue( energy );
         }
     }
     
@@ -688,11 +687,10 @@ public class ConfigureEnergyDialog extends JDialog {
      * Handles a change in the potential energy of a region.
      */
     private void handlePotentialEnergyChange( int regionIndex ) {
-        JSpinner peSpinner = (JSpinner) _peSpinners.get( regionIndex );
-        Double value = (Double) peSpinner.getValue();
-        double energy = value.doubleValue();
+        DoubleSpinner peSpinner = (DoubleSpinner) _peSpinners.get( regionIndex );
+        double energy = peSpinner.getDoubleValue();
         if ( energy >= MIN_ENERGY && energy <= MAX_ENERGY ) {
-            _potentialEnergy.setEnergy( regionIndex, value.doubleValue() );
+            _potentialEnergy.setEnergy( regionIndex, energy );
             updateMarkersAndAnnotations();
             _peChanged = true;
             _applyButton.setEnabled( true );
@@ -700,7 +698,7 @@ public class ConfigureEnergyDialog extends JDialog {
         else {
             warnInvalidInput();
             energy = _potentialEnergy.getEnergy( regionIndex );
-            peSpinner.setValue( new Double( energy ) );
+            peSpinner.setDoubleValue( energy );
         }
     }
     
@@ -710,8 +708,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleStepPositionChange() {
         if ( _potentialEnergy instanceof StepPotential ) {
             StepPotential step = (StepPotential) _potentialEnergy;
-            Double value = (Double) _stepSpinner.getValue();
-            double position = value.doubleValue();
+            double position = _stepSpinner.getDoubleValue();
             boolean success = step.setStepPosition( position );
             if ( success ) {
                 updateMarkersAndAnnotations();
@@ -721,7 +718,7 @@ public class ConfigureEnergyDialog extends JDialog {
             else {
                 warnInvalidInput();
                 position = step.getStepPosition();
-                _stepSpinner.setValue( new Double( position ) );
+                _stepSpinner.setDoubleValue( position );
             }
         }
     }
@@ -732,9 +729,8 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleBarrierWidthChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
             BarrierPotential barrier = (BarrierPotential) _potentialEnergy;
-            JSpinner widthSpinner = (JSpinner) _widthSpinners.get( barrierIndex );
-            Double value = (Double) widthSpinner.getValue();
-            double width = value.doubleValue();
+            DoubleSpinner widthSpinner = (DoubleSpinner) _widthSpinners.get( barrierIndex );
+            double width = widthSpinner.getDoubleValue();
             boolean success = barrier.setBarrierWidth( barrierIndex, width );
             if ( success ) {
                 updateMarkersAndAnnotations();
@@ -743,8 +739,7 @@ public class ConfigureEnergyDialog extends JDialog {
             }
             else {
                 warnInvalidInput();
-                width = barrier.getBarrierWidth( barrierIndex );
-                widthSpinner.setValue( new Double( width ) );
+                widthSpinner.setDoubleValue( width );
             }
         }
     }
@@ -755,9 +750,8 @@ public class ConfigureEnergyDialog extends JDialog {
     private void handleBarrierPositionChange( int barrierIndex ) {
         if ( _potentialEnergy instanceof BarrierPotential ) {
             BarrierPotential bp = (BarrierPotential) _potentialEnergy;
-            JSpinner positionSpinner = (JSpinner) _positionSpinners.get( barrierIndex );
-            Double value = (Double) positionSpinner.getValue();
-            double position = value.doubleValue();
+            DoubleSpinner positionSpinner = (DoubleSpinner) _positionSpinners.get( barrierIndex );
+            double position = positionSpinner.getDoubleValue();
             boolean success = bp.setBarrierPosition( barrierIndex, position );
             if ( success ) {
                 updateMarkersAndAnnotations();
@@ -767,7 +761,7 @@ public class ConfigureEnergyDialog extends JDialog {
             else {
                 warnInvalidInput();
                 position = bp.getBarrierPosition( barrierIndex );
-                positionSpinner.setValue( new Double( position ) );
+                positionSpinner.setDoubleValue( position );
             }
         }
     }
@@ -777,38 +771,5 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private void warnInvalidInput() {
         Toolkit.getDefaultToolkit().beep();
-    }
-    
-    /*
-     * Common spinner used in this dialog.
-     */
-    private static class CommonSpinner extends JSpinner implements FocusListener {
-        
-        private JFormattedTextField _textField;
-        
-        public CommonSpinner( double value, double min, double max, double step, String format ) {
-            super( );
-            // model
-            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            setModel( model );
-            // editor
-            NumberEditor numberEditor = new NumberEditor( this, format );
-            setEditor( numberEditor );
-            _textField = numberEditor.getTextField();
-            _textField.addFocusListener( this );
-            // size
-            setPreferredSize( SPINNER_SIZE );
-            setMinimumSize( SPINNER_SIZE );
-        }
-
-        /*
-         * When the spinner gains focus, select its contents.
-         * NOTE: This currently does not work; see Bug ID 4699955 at bugs.sun.com
-         */
-        public void focusGained( FocusEvent e ) {
-            _textField.selectAll();
-        }
-
-        public void focusLost( FocusEvent e ) {}
     }
 }
