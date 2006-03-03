@@ -60,13 +60,16 @@ public class MandelGun extends PhetPNode {
         wavelengthSliderGraphic.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateSliderColor();
+                fireColorChanged();
             }
+
         } );
         updateSliderColor();
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-
+                fireIntensityChanged();
             }
+
         } );
         ConnectorGraphic connectorGraphic = new HorizontalWireConnector( pimage, gunControlPanel.getPSwing() );
         addChild( 0, connectorGraphic );
@@ -83,6 +86,20 @@ public class MandelGun extends PhetPNode {
         onGunGraphic = new PSwing( schrodingerPanel, onOffCheckBox );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );
+    }
+
+    private void fireColorChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.wavelengthChanged();
+        }
+    }
+
+    private void fireIntensityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.intensityChanged();
+        }
     }
 
     private void updateSliderColor() {
