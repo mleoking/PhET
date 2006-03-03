@@ -9,6 +9,7 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
@@ -196,7 +197,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     public void setPhoton( Photon photon ) {
         this.photon = photon;
 
-        getDetectorSheetPNode().setDisplayPhotonColor( photon );
+        getDetectorSheetPNode().setDisplayPhotonColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
         updateWavefunctionGraphic();
     }
 

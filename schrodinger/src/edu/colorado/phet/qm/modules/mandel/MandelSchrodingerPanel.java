@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
+import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
@@ -62,6 +63,8 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
 
     public void wavelengthChanged() {
         getWavefunctionGraphic().setColorMap( new MandelSplitColorMap( getMandelModule() ) );
+        double avgWavelength = ( getLeftGun().getWavelength() * getLeftGun().getIntensity() + getRightGun().getWavelength() * getRightGun().getIntensity() ) / ( getLeftGun().getIntensity() + getRightGun().getIntensity() );
+        getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( avgWavelength ) );
     }
 
     public MandelGunSet getMandelGunSet() {
