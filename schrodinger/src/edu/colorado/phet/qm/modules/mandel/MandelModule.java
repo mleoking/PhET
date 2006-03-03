@@ -56,13 +56,13 @@ public class MandelModule extends SchrodingerModule {
         return mandelSchrodingerPanel;
     }
 
-    public boolean isRightDetectorEnabled() {
-        return splitModel.containsDetector( splitModel.getRightDetector() );
-    }
-
-    public boolean isLeftDetectorEnabled() {
-        return splitModel.containsDetector( splitModel.getLeftDetector() );
-    }
+//    public boolean isRightDetectorEnabled() {
+//        return splitModel.containsDetector( splitModel.getRightDetector() );
+//    }
+//
+//    public boolean isLeftDetectorEnabled() {
+//        return splitModel.containsDetector( splitModel.getLeftDetector() );
+//    }
 
     public ColorData getRootColor() {
         return mandelSchrodingerPanel.getRootColor();
@@ -105,10 +105,12 @@ public class MandelModule extends SchrodingerModule {
     private void synchronizeModel() {
         if( getWavefunctionDifference() < 10 ) {
             setSplitMode( false );
+
         }
         else {
             setSplitMode( true );
         }
+
     }
 
     private void setSplitMode( boolean splitMode ) {

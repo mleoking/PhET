@@ -4,7 +4,6 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.qm.model.Wave;
 import edu.colorado.phet.qm.model.math.Complex;
-import edu.colorado.phet.qm.model.waves.MandelDampedWave;
 import edu.colorado.phet.qm.model.waves.PlaneWave2D;
 
 /**
