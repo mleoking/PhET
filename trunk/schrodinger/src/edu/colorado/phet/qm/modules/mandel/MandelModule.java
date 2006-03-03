@@ -4,12 +4,9 @@ package edu.colorado.phet.qm.modules.mandel;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.SchrodingerApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
-import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
 
 import java.util.ArrayList;
 
@@ -35,7 +32,6 @@ public class MandelModule extends SchrodingerModule {
         setSchrodingerPanel( mandelSchrodingerPanel );
         intensityControlPanel = new MandelControlPanel( this );
         setSchrodingerControlPanel( intensityControlPanel );
-        synchronizeModel();
 
         finishInit();
         MandelGun.Listener listener = new MandelGun.Listener() {
@@ -49,6 +45,7 @@ public class MandelModule extends SchrodingerModule {
         };
         getLeftGun().addListener( listener );
         getRightGun().addListener( listener );
+        synchronizeModel();
     }
 
     public SplitModel getSplitModel() {
@@ -85,27 +82,6 @@ public class MandelModule extends SchrodingerModule {
         listeners.add( listener );
     }
 
-    private void setDetectorEnabled( Detector detector, boolean selected ) {
-        boolean splitMode = shouldBeSplitMode();
-        if( selected ) {
-            splitModel.addDetector( detector );
-            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( mandelSchrodingerPanel, detector );
-            mandelSchrodingerPanel.addDetectorGraphic( detectorGraphic );
-        }
-        else {
-            splitModel.removeDetector( detector );
-            mandelSchrodingerPanel.removeDetectorGraphic( detector );
-        }
-        boolean newSplitMode = shouldBeSplitMode();
-        if( newSplitMode != splitMode ) {
-            synchronizeModel();
-        }
-    }
-
-    private boolean shouldBeSplitMode() {
-        return isLeftGunOn() && isRightGunOn() && getWavefunctionDifference() < 10;
-    }
-
     private double getWavefunctionDifference() {
         return Math.abs( getLeftGun().getWavelength() - getRightGun().getWavelength() );
     }
@@ -127,7 +103,24 @@ public class MandelModule extends SchrodingerModule {
     }
 
     private void synchronizeModel() {
-        boolean splitMode = shouldBeSplitMode();
+        //four cases:
+        if( isLeftGunOn() && isRightGunOn() && getWavefunctionDifference() < 10 ) {
+            setSplitMode( false );
+        }
+        else {
+            setSplitMode( true );
+        }
+        if( isLeftGunOn() && isRightGunOn() && getWavefunctionDifference() >= 10 ) {
+
+        }
+        else if( isLeftGunOn() ) {
+            if( isLeftGunOn() && !isRightGunOn() ) {
+
+            }
+        }
+    }
+
+    private void setSplitMode( boolean splitMode ) {
         splitModel.setSplitMode( splitMode );
         mandelSchrodingerPanel.setSplitMode( splitMode );
     }
