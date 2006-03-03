@@ -17,7 +17,10 @@ public class ColorData {
     private float b;
 
     public ColorData( double wavelength ) {
-        VisibleColor c = new VisibleColor( wavelength );
+        this( new VisibleColor( wavelength ) );
+    }
+
+    public ColorData( Color c ) {
         this.r = c.getRed() / 255.0f;
         this.g = c.getGreen() / 255.0f;
         this.b = c.getBlue() / 255.0f;

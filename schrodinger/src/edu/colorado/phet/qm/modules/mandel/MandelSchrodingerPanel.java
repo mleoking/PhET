@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.mandel;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
@@ -9,6 +10,8 @@ import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -67,9 +70,38 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     }
 
     public void updateDetectorColors() {
-        double avgWavelength = ( getLeftGun().getWavelength() * getLeftGun().getIntensity() + getRightGun().getWavelength() * getRightGun().getIntensity() ) / ( getLeftGun().getIntensity() + getRightGun().getIntensity() );
-        getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( avgWavelength ) );
-        getSmoothIntensityDisplay().setPhotonColor( new ColorData( avgWavelength ) );
+//        ColorData leftColor=new ColorData( getLeftGun().getWavelength());
+//        ColorData rightColor=new ColorData( getRightGun().getWavelength( ));
+//        Color a=leftColor.toColor( getLeftGun().getIntensity()*20);
+//        Color b=rightColor.toColor( getRightGun().getIntensity( )*20);
+//        Color sum=MandelSplitColorMap.add( a,b);
+//        VisibleColor visibleColor=new VisibleColor( sum );
+//        double wav=visibleColor.getWavelength();
+//
+//
+//        getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( wav ) );
+//        getSmoothIntensityDisplay().setPhotonColor( new ColorData( wav ) );
+
+//        MandelSplitColorMap mandelSplitColorMap = new MandelSplitColorMap( getMandelModule() );
+//        Color mix = (Color)mandelSplitColorMap.getColor( 10, 10 );
+//        System.out.println( "mix = " + mix );
+//        getSmoothIntensityDisplay().setPhotonColor( new ColorData( mix ) );
+
+//        double avgWavelength = ( getLeftGun().getWavelength() * getLeftGun().getIntensity() + getRightGun().getWavelength() * getRightGun().getIntensity() ) / ( getLeftGun().getIntensity() + getRightGun().getIntensity() );
+//        getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( avgWavelength ) );
+//        getSmoothIntensityDisplay().setPhotonColor( new ColorData( avgWavelength ) );
+
+        VisibleColor leftColor = new VisibleColor( getLeftGun().getWavelength() );
+        VisibleColor rightColor = new VisibleColor( getRightGun().getWavelength() );
+        Color mix = mix( leftColor, getLeftGun().getIntensity(), rightColor, getRightGun().getIntensity() );
+        getSmoothIntensityDisplay().setPhotonColor( new ColorData( mix ) );
+    }
+
+    public static Color mix( Color c1, double intensityA, Color c2, double intensityB ) {
+        float r = (float)( ( c1.getRed() * intensityA + c2.getRed() * intensityB ) / 255.0 );
+        float g = (float)( ( c1.getGreen() * intensityA + c2.getGreen() * intensityB ) / 255.0 );
+        float b = (float)( ( c1.getBlue() * intensityA + c2.getBlue() * intensityB ) / 255.0 );
+        return new Color( Math.min( r, 1 ), Math.min( g, 1 ), Math.min( b, 1 ) );
     }
 
     public MandelGunSet getMandelGunSet() {
