@@ -10,19 +10,23 @@
  */
 package edu.colorado.phet.common.view;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * ClockControlPanel
@@ -55,12 +59,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         step = new JButton( SimStrings.get( "Common.ClockControlPanel.Step" ), stepIcon );
         step.setEnabled( false );
 
-        // If the LAF isn't Metal or a derivative, setOpaque( false ) for the buttons
-        if( !( UIManager.getLookAndFeel() instanceof MetalLookAndFeel ) ) {
-            play.setOpaque( false );
-            pause.setOpaque( false );
-            step.setOpaque( false );
-        }
+        SwingUtils.fixButtonOpacity( play );
+        SwingUtils.fixButtonOpacity( pause );
+        SwingUtils.fixButtonOpacity( step );
 
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
