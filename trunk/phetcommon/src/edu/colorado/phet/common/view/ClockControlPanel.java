@@ -94,8 +94,7 @@ public class ClockControlPanel extends JPanel implements ClockListener {
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        play.setEnabled( false );
-        pause.setEnabled( true );
+        stateChanged( clock.isPaused() );
     }
 
     private BufferedImage loadImage( String s ) {
