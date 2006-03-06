@@ -50,39 +50,39 @@ public class Crystal extends Body {
     // Class data and methods
     //================================================================
 
-    private static EventChannel instanceLifetimeEventChannel = new EventChannel(InstanceLifetimeListener.class);
+    private static EventChannel instanceLifetimeEventChannel = new EventChannel( InstanceLifetimeListener.class );
     protected static InstanceLifetimeListener instanceLifetimeListenerProxy =
-            (InstanceLifetimeListener) instanceLifetimeEventChannel.getListenerProxy();
-    private static Random random = new Random(System.currentTimeMillis());
+            (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
+    private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
     private SolubleSaltsModel model;
 
-    public static void setDissociationLikelihood(double dissociationLikelihood) {
+    public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
     }
 
     public static class InstanceLifetimeEvent extends EventObject {
-        public InstanceLifetimeEvent(Object source) {
-            super(source);
+        public InstanceLifetimeEvent( Object source ) {
+            super( source );
         }
 
         public Crystal getInstance() {
-            return (Crystal) getSource();
+            return (Crystal)getSource();
         }
     }
 
     public static interface InstanceLifetimeListener extends EventListener {
-        void instanceCreated(InstanceLifetimeEvent event);
+        void instanceCreated( InstanceLifetimeEvent event );
 
-        void instanceDestroyed(InstanceLifetimeEvent event);
+        void instanceDestroyed( InstanceLifetimeEvent event );
     }
 
-    public static void addInstanceLifetimeListener(InstanceLifetimeListener listener) {
-        instanceLifetimeEventChannel.addListener(listener);
+    public static void addInstanceLifetimeListener( InstanceLifetimeListener listener ) {
+        instanceLifetimeEventChannel.addListener( listener );
     }
 
-    public static void removeInstanceLifetimeListener(InstanceLifetimeListener listener) {
-        instanceLifetimeEventChannel.removeListener(listener);
+    public static void removeInstanceLifetimeListener( InstanceLifetimeListener listener ) {
+        instanceLifetimeEventChannel.removeListener( listener );
     }
 
     //================================================================
@@ -99,7 +99,6 @@ public class Crystal extends Body {
     private VesselListener vesselListener = new VesselListener();
     private Rectangle2D waterBounds;
 
-
     //----------------------------------------------------------------
     // Lifecycle
     //----------------------------------------------------------------
@@ -108,8 +107,8 @@ public class Crystal extends Body {
      * @param model
      * @param lattice Prototype lattice. A clone is created for this crystal
      */
-    public Crystal(SolubleSaltsModel model, Lattice_new_new lattice) {
-        this(model, lattice, new ArrayList());
+    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice ) {
+        this( model, lattice, new ArrayList() );
     }
 
     /**
@@ -120,55 +119,83 @@ public class Crystal extends Body {
      * @param lattice Prototype lattice. A clone is created for this crystal
      * @param ions
      */
-    public Crystal(SolubleSaltsModel model, Lattice_new_new lattice, List ions) {
-        this.lattice = (Lattice_new_new) lattice.clone();
+    private Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions ) {
+        this.lattice = (Lattice_new_new)lattice.clone();
         this.model = model;
 
         // Open up the bounds to include the whole model so we can make the lattice
-        lattice.setBounds(model.getBounds());
-//        setWaterBounds( model.getVessel() );
+        lattice.setBounds( model.getBounds() );
 
         // We need to interleave the positive and negative ions in the list, as much as possible, so the
         // lattice can be built out without any of them not finding an ion of the opposite polarity to
         // stick to
         ArrayList anions = new ArrayList();
         ArrayList cations = new ArrayList();
-        for (int i = 0; i < ions.size(); i++) {
-            Ion ion = (Ion) ions.get(i);
-            if (ion.getCharge() < 0) {
-                cations.add(ion);
-            } else if (ion.getCharge() > 0) {
-                anions.add(ion);
-            } else {
-                throw new RuntimeException("ion with 0 charge");
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            if( ion.getCharge() < 0 ) {
+                cations.add( ion );
+            }
+            else if( ion.getCharge() > 0 ) {
+                anions.add( ion );
+            }
+            else {
+                throw new RuntimeException( "ion with 0 charge" );
             }
         }
         ArrayList ions2 = new ArrayList();
-        int n = Math.max(anions.size(), cations.size());
-        List list1 = anions.size() > cations.size() ? anions : cations;
-        List list2 = list1 == cations ? anions : cations;
-        for (int i = 0; i < n; i++) {
-            if (i < list1.size()) {
-                ions2.add(list1.get(i));
-            }
-            if (i < list2.size()) {
-                ions2.add(list2.get(i));
+        List listA = model.getCurrentSalt().getNumAnionsInUnit() < model.getCurrentSalt().getNumCationsInUnit() ?
+                     anions : cations;
+        List listB = listA == anions ? cations : anions;
+
+        Iterator itA = listA.iterator();
+        Iterator itB = listB.iterator();
+        while( itA.hasNext() && itB.hasNext() ) {
+            ions2.add( itA.next() );
+            ions2.add( itB.next() );
+        }
+        while( itA.hasNext() ) {
+            ions2.add( itA.next() );
+        }
+        while( itB.hasNext() ) {
+            ions2.add( itB.next() );
+        }
+
+        // Add all the ions to the lattice. Because of the possible ratios of different ions and the order
+        // in which we try to add them, some ions might not find a spot to bond the first time we try to
+        // add them. Those that don't get successfully added the first time are put on a retry list.
+        List retryList = new ArrayList();
+        for( int i = 0; i < ions2.size(); i++ ) {
+            Ion ion = (Ion)ions2.get( i );
+            if( !addIon( ion ) ) {
+                retryList.add( ion );
             }
         }
 
-        for (int i = 0; i < ions2.size(); i++) {
-            Ion ion = (Ion) ions2.get(i);
-            if (!addIon(ion)) {
-                throw new RuntimeException("can't add ion");
+        // Retry adding ions that couldn't find a bond the first time through the list.
+        int maxRetries = 10;
+        int numRetries = 0;
+        for( int i = 0; i <= maxRetries && !retryList.isEmpty(); i++ ) {
+            numRetries = i;
+            for( int j= 0; j < retryList.size(); j++ ) {
+                Ion ion = (Ion)retryList.get( j );
+                if( addIon( ion ) ) {
+                    retryList.remove( ion );
+                    break;
+                }
             }
         }
+        if( numRetries >= maxRetries ) {
+            throw new RuntimeException( "maxRetries exceeded");
+        }
 
-        model.getVessel().addChangeListener(vesselListener);
+        // todo: Is this doing anything? It isn't done in the other constructors
+        model.getVessel().addChangeListener( vesselListener );
 
         // Reset the water bounds so that they will be respeced by other constructors
-        setWaterBounds(model.getVessel());
+        setWaterBounds( model.getVessel() );
 
-        instanceLifetimeListenerProxy.instanceCreated(new InstanceLifetimeEvent(this));
+        instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
     }
 
     /**
@@ -180,23 +207,23 @@ public class Crystal extends Body {
      * @param ions
      * @param seed
      */
-    public Crystal(SolubleSaltsModel model, Lattice_new_new lattice, List ions, Ion seed) {
-        this(model, lattice, ions);
+    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions, Ion seed ) {
+        this( model, lattice, ions );
         seed = null;
         double maxY = Double.MIN_VALUE;
-        for (int i = 0; i < ions.size(); i++) {
-            Ion testIon = (Ion) ions.get(i);
-            if (testIon.getPosition().getY() + testIon.getRadius() > maxY) {
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion testIon = (Ion)ions.get( i );
+            if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
                 maxY = testIon.getPosition().getY() + testIon.getRadius();
                 seed = testIon;
             }
         }
 
         // Sanity check
-        if (seed == null) {
-            throw new RuntimeException("seed == null");
+        if( seed == null ) {
+            throw new RuntimeException( "seed == null" );
         }
-        setSeed(seed);
+        setSeed( seed );
     }
 
     /**
@@ -204,9 +231,9 @@ public class Crystal extends Body {
      *
      * @param vessel
      */
-    void setWaterBounds(Vessel vessel) {
+    void setWaterBounds( Vessel vessel ) {
         waterBounds = vessel.getWater().getBounds();
-        lattice.setBounds(waterBounds);
+        lattice.setBounds( waterBounds );
     }
 
     public Point2D getPosition() {
@@ -214,8 +241,8 @@ public class Crystal extends Body {
     }
 
     public void leaveModel() {
-        model.getVessel().removeChangeListener(vesselListener);
-        instanceLifetimeListenerProxy.instanceDestroyed(new InstanceLifetimeEvent(this));
+        model.getVessel().removeChangeListener( vesselListener );
+        instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
     }
 
     public Point2D getCM() {
@@ -223,26 +250,26 @@ public class Crystal extends Body {
     }
 
     public double getMomentOfInertia() {
-        throw new RuntimeException("not implemented ");
+        throw new RuntimeException( "not implemented " );
     }
 
     private void updateCm() {
-        cm.setLocation(0, 0);
-        for (int i = 0; i < ions.size(); i++) {
-            Atom atom = (Atom) ions.get(i);
-            cm.setLocation(cm.getX() + atom.getPosition().getX(),
-                    cm.getY() + atom.getPosition().getY());
+        cm.setLocation( 0, 0 );
+        for( int i = 0; i < ions.size(); i++ ) {
+            Atom atom = (Atom)ions.get( i );
+            cm.setLocation( cm.getX() + atom.getPosition().getX(),
+                            cm.getY() + atom.getPosition().getY() );
         }
-        cm.setLocation(cm.getX() / ions.size(),
-                cm.getY() / ions.size());
+        cm.setLocation( cm.getX() / ions.size(),
+                        cm.getY() / ions.size() );
     }
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < ions.size(); i++) {
-            Ion ion = (Ion) ions.get(i);
-            String s2 = new String("ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n");
-            sb.append(s2);
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            String s2 = new String( "ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n" );
+            sb.append( s2 );
         }
         return sb.toString();
     }
@@ -258,38 +285,38 @@ public class Crystal extends Body {
      * @param ionB The ion next to which the other ion should be placed
      * @return
      */
-    public boolean addIonNextToIon(Ion ionA, Ion ionB) {
+    public boolean addIonNextToIon( Ion ionA, Ion ionB ) {
         boolean added = false;
 
         // If the ion is prevented from binding, don't do anything
-        if (noBindList.contains(ionA)) {
+        if( noBindList.contains( ionA ) ) {
             return false;
         }
 
         // Check that the ions are of opposite charges
-        if (ionA.getCharge() * ionB.getCharge() < 0) {
+        if( ionA.getCharge() * ionB.getCharge() < 0 ) {
 
             // Sanity check
-            Node nodeB = lattice.getNode(ionB);
-            if (nodeB == null) {
-                throw new RuntimeException("nodeB = null");
+            Node nodeB = lattice.getNode( ionB );
+            if( nodeB == null ) {
+                throw new RuntimeException( "nodeB = null" );
             }
 
-            boolean b = lattice.addAtIonNode(ionA, ionB);
-            if (b) {
-                ions.add(ionA);
-                ionA.bindTo(this);
+            boolean b = lattice.addAtIonNode( ionA, ionB );
+            if( b ) {
+                ions.add( ionA );
+                ionA.bindTo( this );
                 updateCm();
                 added = true;
 
                 // debug
-                for (int i = 0; i < ions.size(); i++) {
-                    Ion ion1 = (Ion) ions.get(i);
-                    if (Math.abs(ion1.getPosition().getX() - ionA.getPosition().getX()) < 2
-                            && Math.abs(ion1.getPosition().getY() - ionA.getPosition().getY()) < 2
-                            && ion1 != ionA) {
-                        removeIon(ionA);
-                        ionA.unbindFrom(this);
+                for( int i = 0; i < ions.size(); i++ ) {
+                    Ion ion1 = (Ion)ions.get( i );
+                    if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
+                        && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
+                        && ion1 != ionA ) {
+                        removeIon( ionA );
+                        ionA.unbindFrom( this );
                         added = false;
                         updateCm();
 //                        lattice.addAtIonNode( ionA, ionB );
@@ -306,8 +333,8 @@ public class Crystal extends Body {
             }
 
             // Sanity check
-            if (added && !waterBounds.contains(ionA.getPosition())) {
-                throw new RuntimeException("!waterBounds.contains( ionA.getPosition() )");
+            if( added && !waterBounds.contains( ionA.getPosition() ) ) {
+                throw new RuntimeException( "!waterBounds.contains( ionA.getPosition() )" );
             }
 
         }
@@ -318,34 +345,35 @@ public class Crystal extends Body {
      * Returns true if the ion was added. If there wasn't a place to put it in
      * the lattice, returns false
      */
-    public boolean addIon(Ion ion) {
+    public boolean addIon( Ion ion ) {
         boolean added = false;
 
-        if (noBindList.contains(ion)) {
-            System.out.println("Crystal.addIon: on nobind list");
+        if( noBindList.contains( ion ) ) {
+            System.out.println( "Crystal.addIon: on nobind list" );
             return false;
-        } else if (true) {
+        }
+        else if( true ) {
 
             // Sanity check
 //            if( ions.size() > 0 ) {
 //                throw new RuntimeException( "ions.size() > 0" );
 //            }
 
-            added = lattice.add(ion);
-            if (added) {
-                ions.add(ion);
-                ion.bindTo(this);
+            added = lattice.add( ion );
+            if( added ) {
+                ions.add( ion );
+                ion.bindTo( this );
                 updateCm();
             }
         }
 
         // Debug: Sanity check to see ifwe are putting an ion where one already is
-        for (int i = 0; i < ions.size(); i++) {
-            Ion ion1 = (Ion) ions.get(i);
-            if (Math.abs(ion1.getPosition().getX() - ion.getPosition().getX()) < 2
-                    && Math.abs(ion1.getPosition().getY() - ion.getPosition().getY()) < 2
-                    && ion1 != ion) {
-                System.out.println("Crystal.addIon");
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion1 = (Ion)ions.get( i );
+            if( Math.abs( ion1.getPosition().getX() - ion.getPosition().getX() ) < 2
+                && Math.abs( ion1.getPosition().getY() - ion.getPosition().getY() ) < 2
+                && ion1 != ion ) {
+                System.out.println( "Crystal.addIon" );
             }
         }
         return added;
@@ -357,13 +385,13 @@ public class Crystal extends Body {
      *
      * @param ion
      */
-    public void removeIon(Ion ion) {
-        getIons().remove(ion);
-        lattice.removeIon(ion);
+    public void removeIon( Ion ion ) {
+        getIons().remove( ion );
+        lattice.removeIon( ion );
         // If there aren't any ions left in the crystal, the crystal should be removed
         // from the model
-        if (getIons().size() == 0) {
-            instanceLifetimeListenerProxy.instanceDestroyed(new InstanceLifetimeEvent(this));
+        if( getIons().size() == 0 ) {
+            instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
         }
     }
 
@@ -372,39 +400,39 @@ public class Crystal extends Body {
      *
      * @param dt
      */
-    public void releaseIon(double dt) {
-        Ion ionToRelease = lattice.getLeastBoundIon(getIons());
+    public void releaseIon( double dt ) {
+        Ion ionToRelease = lattice.getLeastBoundIon( getIons() );
 
         // Sanity check
-        if (ionToRelease == getSeed() && ions.size() > 1) {
-            throw new RuntimeException("ionToRelease == getSeed() && ions.size() > 1");
+        if( ionToRelease == getSeed() && ions.size() > 1 ) {
+            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
         // Sanity check
-        if (ionToRelease == null) {
-            throw new RuntimeException("no ion found to release");
+        if( ionToRelease == null ) {
+            throw new RuntimeException( "no ion found to release" );
         }
 
-        Thread t = new Thread(new NoBindTimer(ionToRelease));
+        Thread t = new Thread( new NoBindTimer( ionToRelease ) );
         t.start();
 
-        Vector2D v = determineReleaseVelocity(ionToRelease);
-        ionToRelease.setVelocity(v);
-        ionToRelease.unbindFrom(this);
-        removeIon(ionToRelease);
+        Vector2D v = determineReleaseVelocity( ionToRelease );
+        ionToRelease.setVelocity( v );
+        ionToRelease.unbindFrom( this );
+        removeIon( ionToRelease );
 
         // Give the ion a step so that it isn't in contact with the crystal
-        ionToRelease.stepInTime(dt);
+        ionToRelease.stepInTime( dt );
 
         // If there aren't any ions left in the crystal, remove it from the model
-        if (getIons().size() == 0) {
+        if( getIons().size() == 0 ) {
             leaveModel();
         }
     }
 
 
-    public void releaseIonDebug(double dt) {
-        releaseIon(dt);
+    public void releaseIonDebug( double dt ) {
+        releaseIon( dt );
     }
 
     /**
@@ -413,27 +441,27 @@ public class Crystal extends Body {
      * @param ionToRelease
      * @return
      */
-    private Vector2D determineReleaseVelocity(Ion ionToRelease) {
+    private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
 
         // If this is the seed ion, then just send it off with the velocity it had before it seeded the
         // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
-        if (ionToRelease == this.getSeed()) {
+        if( ionToRelease == this.getSeed() ) {
             return ionToRelease.getVelocity();
         }
 
-        if (true) {
+        if( true ) {
             double angle = random.nextDouble() * Math.PI * 2;
-            Vector2D releaseVelocity = new Vector2D.Double(ionToRelease.getVelocity().getMagnitude(), 0).rotate(angle);
+            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
 //            System.out.println( "releaseVelocity.getMagnitude() = " + releaseVelocity.getMagnitude() );
 //            return releaseVelocity;
         }
 
         // Get the unoccupied sites around the ion being release
-        List openSites = lattice.getOpenNeighboringSites(ionToRelease);
+        List openSites = lattice.getOpenNeighboringSites( ionToRelease );
 
-        if (openSites.size() == 0) {
+        if( openSites.size() == 0 ) {
             double angle = random.nextDouble() * Math.PI * 2;
-            Vector2D releaseVelocity = new Vector2D.Double(ionToRelease.getVelocity().getMagnitude(), 0).rotate(angle);
+            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
 //            System.out.println( "openSites.size() = " + openSites.size() );
 //            return new Vector2D.Double();
@@ -442,54 +470,54 @@ public class Crystal extends Body {
         double maxAngle = Double.MIN_VALUE;
         double minAngle = Double.MAX_VALUE;
 
-        if (openSites.size() > 1) {
-            for (int i = 0; i < openSites.size() - 1; i++) {
-                Point2D p1 = (Point2D) openSites.get(i);
-                Vector2D.Double v1 = new Vector2D.Double(p1.getX() - ionToRelease.getPosition().getX(),
-                        p1.getY() - ionToRelease.getPosition().getY());
-                double angle1 = (v1.getAngle() + Math.PI * 2) % (Math.PI * 2);
-                for (int j = i + 1; j < openSites.size(); j++) {
+        if( openSites.size() > 1 ) {
+            for( int i = 0; i < openSites.size() - 1; i++ ) {
+                Point2D p1 = (Point2D)openSites.get( i );
+                Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
+                                                          p1.getY() - ionToRelease.getPosition().getY() );
+                double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+                for( int j = i + 1; j < openSites.size(); j++ ) {
 
                     // If the two open sites we're now looking at are adjacent, set the velocity to point between them
-                    Point2D p2 = (Point2D) openSites.get(j);
-                    Vector2D.Double v2 = new Vector2D.Double(p2.getX() - ionToRelease.getPosition().getX(),
-                            p2.getY() - ionToRelease.getPosition().getY());
-                    double angle2 = (v2.getAngle() + Math.PI * 2) % (Math.PI * 2);
-                    if (Math.abs(angle2 - angle1) < Math.PI) {
-                        double angle = random.nextDouble() * (angle2 - angle1) + angle1;
-                        Vector2D releaseVelocity = new Vector2D.Double(ionToRelease.getVelocity().getMagnitude(), 0).rotate(angle);
+                    Point2D p2 = (Point2D)openSites.get( j );
+                    Vector2D.Double v2 = new Vector2D.Double( p2.getX() - ionToRelease.getPosition().getX(),
+                                                              p2.getY() - ionToRelease.getPosition().getY() );
+                    double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+                    if( Math.abs( angle2 - angle1 ) < Math.PI ) {
+                        double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
+                        Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
                         return releaseVelocity;
                     }
                 }
             }
 
-            Point2D p1 = (Point2D) openSites.get(0);
-            Vector2D.Double v1 = new Vector2D.Double(p1.getX() - ionToRelease.getPosition().getX(),
-                    p1.getY() - ionToRelease.getPosition().getY());
-            double angle1 = (v1.getAngle() + Math.PI * 2) % (Math.PI * 2);
-            Point2D p2 = (Point2D) openSites.get(1);
-            Vector2D.Double v2 = new Vector2D.Double(p2.getX() - ionToRelease.getPosition().getX(),
-                    p2.getY() - ionToRelease.getPosition().getY());
-            double angle2 = (v2.getAngle() + Math.PI * 2) % (Math.PI * 2);
-            double angle = random.nextDouble() * (angle2 - angle1) + angle1;
-            Vector2D releaseVelocity = new Vector2D.Double(ionToRelease.getVelocity().getMagnitude(), 0).rotate(angle);
+            Point2D p1 = (Point2D)openSites.get( 0 );
+            Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
+                                                      p1.getY() - ionToRelease.getPosition().getY() );
+            double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+            Point2D p2 = (Point2D)openSites.get( 1 );
+            Vector2D.Double v2 = new Vector2D.Double( p2.getX() - ionToRelease.getPosition().getX(),
+                                                      p2.getY() - ionToRelease.getPosition().getY() );
+            double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
+            double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
+            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
         // If we get here, there is only one open site adjacent to the ion being released
-        Point2D point2D = (Point2D) openSites.get(0);
-        Vector2D.Double v = new Vector2D.Double(point2D.getX() - ionToRelease.getPosition().getX(),
-                point2D.getY() - ionToRelease.getPosition().getY());
-        double angle = (v.getAngle() + Math.PI * 2) % (Math.PI * 2);
+        Point2D point2D = (Point2D)openSites.get( 0 );
+        Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
+                                                 point2D.getY() - ionToRelease.getPosition().getY() );
+        double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
         maxAngle = angle > maxAngle ? angle : maxAngle;
         minAngle = angle < minAngle ? angle : minAngle;
 
-        angle = random.nextDouble() * (maxAngle - minAngle) + minAngle;
-        Vector2D releaseVelocity = new Vector2D.Double(ionToRelease.getVelocity().getMagnitude(), 0).rotate(angle);
+        angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
+        Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
 
         // Sanity check
-        if (releaseVelocity.getMagnitude() < 0.0001) {
-            System.out.println("Crystal.determineReleaseVelocity < 0.0001");
+        if( releaseVelocity.getMagnitude() < 0.0001 ) {
+            System.out.println( "Crystal.determineReleaseVelocity < 0.0001" );
 //            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
         }
         return releaseVelocity;
@@ -501,12 +529,12 @@ public class Crystal extends Body {
      * @param dx
      * @param dy
      */
-    public void translate(double dx, double dy) {
-        for (int i = 0; i < ions.size(); i++) {
-            Ion ion = (Ion) ions.get(i);
-            ion.translate(dx, dy);
+    public void translate( double dx, double dy ) {
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            ion.translate( dx, dy );
         }
-        super.translate(dx, dy);
+        super.translate( dx, dy );
     }
 
     //----------------------------------------------------------------
@@ -517,8 +545,8 @@ public class Crystal extends Body {
         return lattice.getSeed();
     }
 
-    public void setSeed(Ion ion) {
-        lattice.setSeed(ion);
+    public void setSeed( Ion ion ) {
+        lattice.setSeed( ion );
     }
 
     public ArrayList getIons() {
@@ -531,9 +559,9 @@ public class Crystal extends Body {
 
     public List getOccupiedSites() {
         List l = new ArrayList();
-        for (int i = 0; i < ions.size(); i++) {
-            Atom atom = (Atom) ions.get(i);
-            l.add(atom.getPosition());
+        for( int i = 0; i < ions.size(); i++ ) {
+            Atom atom = (Atom)ions.get( i );
+            l.add( atom.getPosition() );
         }
         return l;
     }
@@ -543,8 +571,8 @@ public class Crystal extends Body {
      *
      * @param bounds
      */
-    public void setBounds(Rectangle2D bounds) {
-        lattice.setBounds(bounds);
+    public void setBounds( Rectangle2D bounds ) {
+        lattice.setBounds( bounds );
     }
 
     //----------------------------------------------------------------
@@ -557,12 +585,12 @@ public class Crystal extends Body {
      *
      * @param dt
      */
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
         // Only dissociate if the lattice is in the water
-        if (waterBounds.contains(getPosition()) && random.nextDouble() < dissociationLikelihood) {
-            releaseIon(dt);
+        if( waterBounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
+            releaseIon( dt );
         }
-        super.stepInTime(dt);
+        super.stepInTime( dt );
     }
 
     //================================================================
@@ -576,24 +604,25 @@ public class Crystal extends Body {
     private class NoBindTimer implements Runnable {
         private Ion ion;
 
-        public NoBindTimer(Ion ion) {
+        public NoBindTimer( Ion ion ) {
             this.ion = ion;
-            noBindList.add(ion);
+            noBindList.add( ion );
         }
 
         public void run() {
             try {
-                Thread.sleep(SolubleSaltsConfig.RELEASE_ESCAPE_TIME);
-            } catch (InterruptedException e) {
+                Thread.sleep( SolubleSaltsConfig.RELEASE_ESCAPE_TIME );
+            }
+            catch( InterruptedException e ) {
                 e.printStackTrace();
             }
-            noBindList.remove(ion);
+            noBindList.remove( ion );
         }
     }
 
     private class VesselListener implements Vessel.ChangeListener {
-        public void stateChanged(Vessel.ChangeEvent event) {
-            setWaterBounds(event.getVessel());
+        public void stateChanged( Vessel.ChangeEvent event ) {
+            setWaterBounds( event.getVessel() );
         }
     }
 }

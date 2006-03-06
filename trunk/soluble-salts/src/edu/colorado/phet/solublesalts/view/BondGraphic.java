@@ -75,7 +75,7 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
                 Ellipse2D e = new Ellipse2D.Double(bond.getOpenPosition().getX(), bond.getOpenPosition().getY(), 2, 2);
                 PPath pp = new PPath(e);
                 pp.setStrokePaint(Color.blue);
-                addChild(pp);
+//                addChild(pp);
             }
         }
     }

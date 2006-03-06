@@ -103,7 +103,8 @@ public class SolubleSaltsModel extends BaseModel {
         drain = new Drain( this,
                            new Point2D.Double( vessel.getLocation().getX() - vessel.getWallThickness(),
                                                vessel.getLocation().getY() + vessel.getDepth() - 30 ),
-                           60, Drain.HORIZONTAL );
+                           60, Drain.HORIZONTAL,
+                           vesselWallThickness );
         addModelElement( drain );
 
         // Create an agent that will manage the flow of ions toward the drain when water is

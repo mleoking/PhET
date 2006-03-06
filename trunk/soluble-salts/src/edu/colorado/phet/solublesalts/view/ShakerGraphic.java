@@ -55,7 +55,7 @@ public class ShakerGraphic extends RegisterablePNode {
                 double dy = event.getDelta().getHeight();
                 Point2D p = getOffset();
                 double y = p.getY() + dy;
-                if (y <= shaker.getMaxY()) {
+                if (y <= shaker.getMaxY() && y >= shaker.getMinY() ) {
                     setOffset(p.getX(), p.getY() + dy);
                     shaker.shake(dy);
                 }
