@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -118,6 +119,14 @@ public class ClockControlPanel extends JPanel implements ClockListener {
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         stateChanged( clock.isPaused() );
+    }
+    
+    public void addToLeft( JComponent component ) {
+        add( component, BorderLayout.WEST );
+    }
+    
+    public void addToRight( JComponent component ) {
+        add( component, BorderLayout.EAST );
     }
 
     ////////////////////////////////////////////////////////////////////////////
