@@ -484,11 +484,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // Remove any molecules from the system that have escaped the box
         // The s_escapeOffset in the if statement is to let the molecules float outside
         // the box before they go away completely
+        removeList.clear();
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement body = this.modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
+                    System.out.println( "modelBounds = " + modelBounds );
+                    System.out.println( "gasMolecule = " + gasMolecule.getPosition() );
                     removeList.add( gasMolecule );
                 }
             }
@@ -498,7 +501,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             this.bodies.remove( gasMolecule );
             removeModelElement( gasMolecule );
         }
-        removeList.clear();
 
         // Compute some useful statistics
         int numGasMolecules = 0;
@@ -675,13 +677,18 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         this.modelBounds = modelBounds;
 
         Shape s = box.getBoundsInternal();
-        this.modelBounds = s;
+        int padding = 50;
+        this.modelBounds = new Rectangle2D.Double( s.getBounds().getX() - padding,
+                                                   s.getBounds().getY() - padding,
+                                                   s.getBounds().getWidth() + 2 * padding,
+                                                   s.getBounds().getHeight() + 2 * padding);
         Point2D p1 = box.getOpening()[0];
         Point2D p2 = box.getOpening()[1];
         Rectangle2D r = new Rectangle2D.Double( p1.getX(), 0, p2.getX() - p1.getX(), p1.getY() );
+//        System.out.println( "r = " + r );
         Area a = new Area( s );
         a.add( new Area( r ) );
-        this.modelBounds = a;
+//        this.modelBounds = a;
     }
 
     //----------------------------------------------------------------

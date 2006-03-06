@@ -5,7 +5,7 @@
  * Time: 2:48:01 PM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.idealgas.controller;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;

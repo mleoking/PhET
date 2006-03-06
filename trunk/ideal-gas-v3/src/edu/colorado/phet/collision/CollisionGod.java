@@ -39,8 +39,16 @@ public class CollisionGod {
     private double regionOverlap;
     private List collisionExperts;
     private Box2D box;
+    private HashMap wallToRegion = new HashMap();
 
-
+    /**
+     *
+     * @param model
+     * @param dt
+     * @param bounds
+     * @param numRegionsX
+     * @param numRegionsY
+     */
     public CollisionGod( IdealGasModel model, double dt,
                          Rectangle2D.Double bounds, int numRegionsX, int numRegionsY ) {
         this.model = model;
@@ -69,6 +77,12 @@ public class CollisionGod {
         }
     }
 
+    /**
+     * Causes the collision god to detect and handle collisions
+     *
+     * @param dt
+     * @param collisionExperts
+     */
     public void doYourThing( double dt, List collisionExperts ) {
         this.collisionExperts = collisionExperts;
         List bodies = model.getBodies();
@@ -76,7 +90,9 @@ public class CollisionGod {
         adjustMoleculeWallRelations( bodies );
 
         // Do the miscellaneous collisions after the gas to gas collisions. This
-        // seems to help keep things more graphically accurate
+        // seems to help keep things more graphically accurate. Note that gas-gas collisions
+        // must be detected,even if they aren't executed, because otherwise performance will
+        // be different when they are switched off.
         doGasToGasCollisions();
         doMiscCollisions( bodies );
         for( int i = 0; i < regions.length; i++ ) {
@@ -90,6 +106,10 @@ public class CollisionGod {
         keepMoleculesInBox( bodies );
     }
 
+    /**
+     *
+     * @param bodies
+     */
     private void adjustMoleculeWallRelations( List bodies ) {
         ArrayList walls = new ArrayList();
         for( int j = 0; j < bodies.size(); j++ ) {
@@ -146,7 +166,6 @@ public class CollisionGod {
             }
         }
     }
-
 
     /**
      * Makes sure all gas molecules are in the correct regions.
@@ -263,31 +282,11 @@ public class CollisionGod {
                 } while( fixupDone );
             }
         }
-//
-//        // Assign molecules to region relative to walls
-//        for( int j = 0; j < bodies.size(); j++ ) {
-//            CollidableBody body = (CollidableBody)bodies.get( j );
-//            if( body instanceof GasMolecule ) {
-//                GasMolecule molecule = (GasMolecule)body;
-//                for( int i = 0; i < walls.size(); i++ ) {
-//                    Wall wall = (Wall)walls.get( i );
-//                    if( molecule.getPosition().getX() < wall.getBounds().getMinX() + wall.getBounds().getWidth() / 2 ) {
-//                        MoleculeDescriptor desc = (MoleculeDescriptor)wallToRegion.get( molecule );
-//                        if( desc == null ) {
-//                            desc = new MoleculeDescriptor( wall, molecule );
-//                            wallToRegion.put( wall, desc );
-//                        }
-//                        else {
-//                            desc.update();
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
-    private HashMap wallToRegion = new HashMap();
-
+    /**
+     *
+     */
     private void doGasToGasCollisions() {
         // Do particle-particle collisions. Each region collides with
         // itself and the regions to the right and below.
@@ -324,7 +323,7 @@ public class CollisionGod {
 
     private boolean detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
         boolean haveCollided = false;
-// todo: I don't think the haveCollided thing does any good.
+        // todo: I don't think the haveCollided thing does any good.
         for( int i = 0; i < collisionExperts.size(); i++ ) {
             //        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
@@ -333,6 +332,11 @@ public class CollisionGod {
         return haveCollided;
     }
 
+    /**
+     * Add a body to the region map
+     *
+     * @param body
+     */
     private void addBody( Body body ) {
         if( overlappingRegions ) {
             assignRegions( body );
@@ -347,6 +351,11 @@ public class CollisionGod {
         }
     }
 
+    /**
+     * Remove a body from the region map
+     *
+     * @param body
+     */
     private void removeBody( Body body ) {
         if( overlappingRegions ) {
             int iLimit = numRegionsX;
@@ -369,6 +378,11 @@ public class CollisionGod {
         }
     }
 
+    /**
+     * Assign a body to the proper regions
+     *
+     * @param body
+     */
     private void assignRegions( Body body ) {
         double x = body.getPosition().getX();
         double y = body.getPosition().getY();
@@ -448,9 +462,9 @@ public class CollisionGod {
         }
     }
 
-//----------------------------------------------------------------
-// Inner classes
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
     private class MoleculeDescriptor {
         static final int LEFT = 1;
         static final int RIGHT = 2;

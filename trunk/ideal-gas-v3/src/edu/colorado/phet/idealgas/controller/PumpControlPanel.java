@@ -13,6 +13,9 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.idealgas.model.*;
 
 import javax.swing.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.*;
 
 /**
  * PumpControlPanel
@@ -78,6 +81,8 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         boolean isInBox = true;
         boolean init;
         JSpinner spinner;
+        Point2D p = new Point2D.Double();
+        Rectangle2D b = new Rectangle2D.Double();
 
         MoleculeRemover( GasMolecule molecule ) {
             this.molecule = molecule;
@@ -90,18 +95,26 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         }
 
         public void removedFromSystem() {
-            // noop
         }
 
+        /**
+         * Handles molecules leaving and re-entering the box
+         */
         public void update() {
             SwingUtilities.invokeLater(  new Runnable() {
                 public void run() {
-                    if( box.isOutsideBox( molecule ) && isInBox ) {
+                    int padding = 10;
+                    b.setRect( box.getBoundsInternal().getX() - padding,
+                               box.getBoundsInternal().getY() - padding,
+                               box.getBoundsInternal().getWidth() + padding * 2,
+                               box.getBoundsInternal().getHeight() + padding * 2 );
+
+                    if( !b.contains( molecule.getPosition() ) && isInBox ) {
                         isInBox = false;
                         int oldCnt = ( (Integer)spinner.getValue() ).intValue();
                         spinner.setValue( new Integer( --oldCnt ) );
                     }
-                    if( !box.isOutsideBox( molecule ) && !isInBox ) {
+                    if( b.contains( molecule.getPosition() ) && !isInBox ) {
                         isInBox = true;
                         int oldCnt = ( (Integer)spinner.getValue() ).intValue();
                         spinner.setValue( new Integer( ++oldCnt ) );

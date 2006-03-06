@@ -12,17 +12,11 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.model.clock.Clock;
-import edu.colorado.phet.common.model.clock.Clock;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -31,7 +25,6 @@ import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
@@ -112,11 +105,9 @@ public class IdealGasModule extends PhetGraphicsModule {
     private IdealGasControlPanel idealGasControlPanel;
     private Thermometer thermometer;
     private PhetImageGraphic pumpGraphic;
-    private BufferedImage currentPumpImg;
     private Box2DGraphic boxGraphic;
     private JPanel pressureSlideTimeAveCtrlPane;
     private StopwatchPanel stopwatchPanel;
-    private PressureSlice gaugeSlice;
     private Mannequin pusher;
     private BoxDoorGraphic boxDoorGraphic;
     private PumpHandleGraphic pumpHandleGraphic;
@@ -151,7 +142,6 @@ public class IdealGasModule extends PhetGraphicsModule {
      */
     public IdealGasModule( SimulationClock clock, String name ) {
         this( clock, name, new IdealGasModel( clock.getDt() ) );
-
     }
 
     /**
@@ -165,13 +155,6 @@ public class IdealGasModule extends PhetGraphicsModule {
         // Create the model
         idealGasModel = model;
         setModel( idealGasModel );
-
-        // Hook the model up to the clock
-//        clock.addClockListener( new ClockAdapter(){
-//            public void clockTicked( ClockEvent clockEvent ) {
-//                model.stepInTime( clock.getDt() );
-//            }
-//        });
 
         // Add collision experts
         idealGasModel.addCollisionExpert( new SphereSphereExpert( idealGasModel, clock.getDt() ) );
@@ -221,7 +204,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     /**
      * Utility method
      *
-     * @return
+     * @return the model
      */
     protected IdealGasModel getIdealGasModel() {
         return (IdealGasModel)getModel();
@@ -230,7 +213,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     /**
      * Specifies the names of the particles used in the simulation. Can be overridden by other modules.
      *
-     * @return
+     * @return names of species
      */
     protected String[] getSpeciesNames() {
         return new String[]{SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )};
@@ -243,8 +226,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      */
     private void createGauges( SimulationClock clock ) {
         // Add the pressure gauge
-        gaugeSlice = new PressureSlice( box, idealGasModel, clock );
-//        gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getSimulationTimeChange() / clock.getWallTimeChange() ) );
+        PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
         gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
         gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
@@ -283,7 +265,8 @@ public class IdealGasModule extends PhetGraphicsModule {
                                              IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 220,
                                              IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 220,
                                              box,
-                                             boxColor );
+                                             boxColor,
+                                             this );
         this.addGraphic( boxDoorGraphic, 11 );
     }
 
@@ -318,7 +301,7 @@ public class IdealGasModule extends PhetGraphicsModule {
                                                    IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
                                                    IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
 
-        currentPumpImg = bluePumpImg;
+        BufferedImage currentPumpImg = bluePumpImg;
 
         this.addGraphic( pumpHandleGraphic, -6 );
         pumpBaseAndHoseGraphic = new PhetImageGraphic( getApparatusPanel(), pumpBaseAndHoseImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
@@ -558,7 +541,7 @@ public class IdealGasModule extends PhetGraphicsModule {
      * Provided primarily so different modules can change the units on the
      * stopwatch
      *
-     * @return
+     * @return the stopwatch panel
      */
     protected StopwatchPanel getStopwatchPanel() {
         return stopwatchPanel;
@@ -686,20 +669,15 @@ public class IdealGasModule extends PhetGraphicsModule {
     }
 
     public void setStopwatchEnabled( boolean stopwatchEnabled ) {
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if( stopwatchEnabled ) {
             stopwatchPanel = new StopwatchPanel( getModel(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
             getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
-//            frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
             getClockControlPanel().revalidate();
-//            frame.getClockControlPanel().revalidate();
             visibleInstruments.add( stopwatchPanel );
         }
         else {
             getClockControlPanel().remove( stopwatchPanel );
             getClockControlPanel().revalidate();
-//            frame.getClockControlPanel().remove( stopwatchPanel );
-//            frame.getClockControlPanel().revalidate();
             visibleInstruments.remove( stopwatchPanel );
         }
     }
@@ -726,7 +704,9 @@ public class IdealGasModule extends PhetGraphicsModule {
         getIdealGasModel().removeAllMolecules();
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
         box.setBounds( xOrigin, yOrigin, xDiag, yDiag );
-
+        box.setOpening( new Point2D[] {new Point2D.Double( ), new Point2D.Double( ) } );
+        box.clearData();
+        
         if( stopwatchPanel != null ) {
             stopwatchPanel.reset();
         }

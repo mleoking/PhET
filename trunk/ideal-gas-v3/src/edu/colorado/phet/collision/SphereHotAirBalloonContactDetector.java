@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.controller.HotAirBalloon;
+import edu.colorado.phet.idealgas.model.HotAirBalloon;
 
 public class SphereHotAirBalloonContactDetector implements ContactDetector {
 
