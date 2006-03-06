@@ -25,16 +25,13 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 /**
- * StopwatchPanel
+ * StopwatchPanel is a panel that simulates a stopwatch on a specified IClock.
  * <p/>
- * A panel that simulates a stopwatch on a specified AbstractClock.
- * <p/>
- * Here is an example of adding it to the PhetFrame to the left of the the simulation's
- * play/pause/step controls:
+ * Here is an example of adding it to a ModulePanel, to the left of the the simulation's
+ * play/pause/step controls (do this inside your module's constructor):
  * <code>
- * PhetFrame frame = PhetApplication.instance().getPhetFrame();
- * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" );
- * frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
+ * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" ) );
+ * getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
  * </code>
  *
  * @author Ron LeMaster
