@@ -10,19 +10,25 @@
  */
 package edu.colorado.phet.common.view.clock;
 
-import edu.colorado.phet.common.model.clock.ClockEvent;
-import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.util.EventChannel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * StopwatchPanel is a panel that simulates a stopwatch on a specified IClock.
@@ -39,12 +45,15 @@ import java.util.EventObject;
  */
 public class StopwatchPanel extends JPanel implements ClockListener {
 
+    private static final Color DEFAULT_BACKGROUND = new Color( 237, 225, 113 ); // pale yellow
+    private static final int DEFAULT_FONT_SIZE = 16;
+    private static final int DEFAULT_FONT_STYLE = Font.BOLD;
+        
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat;
     private String[] startStopStr;
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
-    private JButton resetBtn;
     // Time scale factor
     private double scaleFactor = 1;
     private double runningTime = 0;
@@ -52,6 +61,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     private boolean isReset = true;
     private JLabel timeUnitsLabel;
     private JButton startStopBtn;
+    private JButton resetBtn;
     private StartStopActionListener startStopActionListener;
     private boolean savedResetState;
 
@@ -71,7 +81,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
     public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
 
         clock.addClockListener( this );
-        setBackground( new Color( 237, 225, 113 ) );
+        setBackground( DEFAULT_BACKGROUND );
 
         this.scaleFactor = scaleFactor;
         this.clockFormat = timeFormat;
@@ -80,7 +90,7 @@ public class StopwatchPanel extends JPanel implements ClockListener {
         setBorder( BorderFactory.createRaisedBevelBorder() );
         clockTF = new JTextField( 5 );
         Font clockFont = clockTF.getFont();
-        clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
+        clockTF.setFont( new Font( clockFont.getName(), DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE ) );
         clockTF.setEditable( false );
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
@@ -89,19 +99,22 @@ public class StopwatchPanel extends JPanel implements ClockListener {
 
         // Start/stop button
         startStopStr = new String[2];
-        startStopStr[0] = "Start";
-        startStopStr[1] = "Stop";
+        startStopStr[0] = SimStrings.get( "Common.StopwatchPanel.start" );
+        startStopStr[1] = SimStrings.get( "Common.StopwatchPanel.stop" );
         startStopBtn = new JButton( startStopStr[0] );
         startStopActionListener = new StartStopActionListener();
         startStopBtn.addActionListener( startStopActionListener );
 
         // Reset button
-        resetBtn = new JButton( "Reset" );
+        resetBtn = new JButton( SimStrings.get( "Common.StopwatchPanel.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetClock();
             }
         } );
+        
+        SwingUtils.fixButtonOpacity( startStopBtn );
+        SwingUtils.fixButtonOpacity( resetBtn );
 
         // Lay out the panel
         this.setLayout( new FlowLayout() );
@@ -147,6 +160,14 @@ public class StopwatchPanel extends JPanel implements ClockListener {
         }
     }
 
+    public void setTimeDisplayFont( Font font ) {
+        clockTF.setFont( font );
+    }
+    
+    public Font getTimeDisplayFont() {
+        return clockTF.getFont();
+    }
+    
     /**
      * Private inner class that manages the state of the stopwatch
      * when buttons are clicked
