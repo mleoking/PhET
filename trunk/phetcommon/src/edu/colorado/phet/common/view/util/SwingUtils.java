@@ -12,6 +12,8 @@
 package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -150,4 +152,18 @@ public class SwingUtils {
         return null;
     }
 
+    /**
+     * Fixes button opacity issues. 
+     * This is particularly a problem with JButton on Macintosh;
+     * when the background color of its container is changed,
+     * a button will appear to be sitting on a gray rectangle.
+     * 
+     * @param button
+     */
+    public static void fixButtonOpacity( JButton button ) {
+        // If the LAF isn't Metal or a derivative, setOpaque( false ) for the button
+        if( !( UIManager.getLookAndFeel() instanceof MetalLookAndFeel ) ) {
+            button.setOpaque( false );
+        }
+    }
 }
