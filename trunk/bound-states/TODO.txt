@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- move all common control stuff into BSAbstractControlPanel
-- move all common module stuff into BSAbstractModule
 - replace BSClockControls with standard controls and stopwatch
 - Superposition dialog
 - Configure Energy dialog
@@ -44,6 +42,8 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - add eignestate selection control to control panel
+(3/6/06) - have one control panel used by all modules (BSSharedControlPanel)
 (3/3/06) - add all control panel accessor methods
 (3/3/06) - create icons for well combo box
 (3/3/06) - redo control panel with final set of controls

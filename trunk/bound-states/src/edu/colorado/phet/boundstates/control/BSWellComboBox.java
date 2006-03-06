@@ -55,50 +55,60 @@ public class BSWellComboBox extends JComboBox {
      * Constructor.
      */
     public BSWellComboBox() {
-        
-        if ( _choices == null ) {
-            initChoices();
-        }
-        
-        Iterator i = _choices.iterator();
-        while( i.hasNext() ) {
-            addItem( i.next() );
-        }
-        setMaximumRowCount( _choices.size() );
-        
+        _choices = new ArrayList();
         WellComboBoxRenderer renderer = new WellComboBoxRenderer();
         setRenderer( renderer );
     }
     
-    /*
-     * Initialzes the combo box.
-     */
-    private static synchronized void initChoices() {
-        
-        if ( _choices != null ) {
-            return;
-        }
-        
-        ImageIcon coulombIcon = createCoulombIcon();
-        ImageIcon harmonicOscillatorIcon = createHarmonicOscillatorIcon();
-        ImageIcon squareIcon = createSquareIcon();
-        ImageIcon asymmetricIcon = createAsymmetricIcon();
-
-        WellChoice constantItem = new WellChoice( WellType.COULOMB, SimStrings.get( "choice.well.coulomb" ), coulombIcon );
-        WellChoice stepItem = new WellChoice( WellType.HARMONIC_OSCILLATOR, SimStrings.get( "choice.well.harmonicOscillator" ), harmonicOscillatorIcon );
-        WellChoice singleBarrierItem = new WellChoice( WellType.SQUARE, SimStrings.get( "choice.well.square" ), squareIcon );
-        WellChoice doubleBarrierItem = new WellChoice( WellType.ASYMMETRIC, SimStrings.get( "choice.well.asymmetric" ), asymmetricIcon );
-
-        _choices = new ArrayList();
-        _choices.add( constantItem );
-        _choices.add( stepItem );
-        _choices.add( singleBarrierItem );
-        _choices.add( doubleBarrierItem );
-    }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Clears the set of choices.
+     */
+    public void clearChoices() {
+        _choices.clear();
+        removeAllItems();
+    }
+    
+    /**
+     * Adds a well type choice.
+     * 
+     * @param wellType
+     */
+    public void addChoice( WellType wellType ) {
+        if ( wellType == WellType.COULOMB ) {
+            ImageIcon icon = createCoulombIcon();
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb" ), icon );
+            _choices.add( item );
+            addItem( item );
+        }
+        else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
+            ImageIcon icon = createHarmonicOscillatorIcon();
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.harmonicOscillator" ), icon );
+            _choices.add( item );
+            addItem( item );
+        }
+        else if ( wellType == WellType.SQUARE ) {
+            ImageIcon icon = createSquareIcon();
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.square" ), icon );
+            _choices.add( item );
+            addItem( item );
+        }
+        else if ( wellType == WellType.ASYMMETRIC ) {
+            ImageIcon icon = createAsymmetricIcon();
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.asymmetric" ), icon );
+            _choices.add( item );
+            addItem( item );
+            
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported well type: " + wellType );
+        }
+        setMaximumRowCount( _choices.size() );
+    }
     
     /**
      * Gets the current selection.
@@ -212,11 +222,11 @@ public class BSWellComboBox extends JComboBox {
     // Inner classes
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * WellChoice is the object that is added to the combo box.
      * Each of these objects represents a choice.
      */
-    private static class WellChoice {
+    public static class WellChoice {
 
         private WellType _wellType;
         private String _label;
