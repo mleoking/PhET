@@ -37,7 +37,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
  * play/pause/step controls (do this inside your module's constructor):
  * <code>
  * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" ) );
- * getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
+ * getClockControlPanel().addToLeft( stopwatchPanel );
  * </code>
  *
  * @author Ron LeMaster
