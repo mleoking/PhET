@@ -80,15 +80,15 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g2 ) {
         if( isVisible() && image != null ) {
-//            super.saveGraphicsState( g2 );
-//            super.updateGraphicsState( g2 );
-//            try {
+            super.saveGraphicsState( g2 );
+            super.updateGraphicsState( g2 );
+            try {
                 g2.drawRenderedImage( image, getNetTransform() );
-//            }
-//            catch( RuntimeException paintException ) {
-//                paintException.printStackTrace();
-//            }
-//            super.restoreGraphicsState();
+            }
+            catch( RuntimeException paintException ) {
+                paintException.printStackTrace();
+            }
+            super.restoreGraphicsState();
         }
     }
 
