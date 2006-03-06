@@ -5,14 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- override reset, save, load methods for each module
-- add stopwatch
 - Superposition dialog
 - Configure Energy dialog
-- interaction with eignestate lines
+- update persistence code to include new modules
+- override reset, save, load methods for each module
+- add stopwatch
+- interaction with eignestate lines (ala Falstad)
 - well curves and drag handles
 - commandline options for choosing which modules to display
-- update persistence code to include new modules
 
 MEDIUM PRIORITY:
 
@@ -43,6 +43,8 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - add phetcommon's StopwatchPanel
+(3/6/06) - phetcommon: fix bugs in ClockControlPanel and StopwatchPanel
 (3/6/06) - replace custom clock controls with standard clock controls
 (3/6/06) - add eignestate selection control to control panel
 (3/6/06) - have one control panel used by all modules (BSSharedControlPanel)
