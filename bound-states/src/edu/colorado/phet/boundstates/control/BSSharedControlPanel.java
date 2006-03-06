@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -33,12 +34,14 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSManyControlPanel
+ * BSSharedControlPanel is the control panel that is shared by the 
+ * "Single", "Double" and "Many" modules.  Controls can be hidden and/or
+ * configured to suit the needs of the module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSManyControlPanel extends BSAbstractControlPanel {
+public class BSSharedControlPanel extends BSAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data (public)
@@ -53,7 +56,7 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
 
     private static final int INDENTATION = 0; // pixels
-    private static final int SUBPANEL_SPACING = 10; // pixels
+    private static final int SUBPANEL_SPACING = 5; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
     // Color key
@@ -72,6 +75,7 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
     // Energy controls
     private BSWellComboBox _wellTypeComboBox;
     private SliderControl _numberOfWellsSlider;
+    private BSEigenstateComboBox _eigenstateComboBox;
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
 
@@ -95,7 +99,7 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
      * 
      * @param module
      */
-    public BSManyControlPanel( BSManyModule module ) {
+    public BSSharedControlPanel( BSManyModule module ) {
         super( module );
 
         _module = module;
@@ -114,16 +118,18 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
             String title = SimStrings.get( "title.energyChartControls" );
             energyControlsPanel.setBorder( new TitledBorder( title ) );
 
-            // Potential Well label
-            JLabel label = new JLabel( SimStrings.get( "label.well" ) );
-
-            // Potential combo box 
+            // Well type 
+            JLabel wellTypeLabel = new JLabel( SimStrings.get( "label.wellType" ) );
             _wellTypeComboBox = new BSWellComboBox();
 
             // Number of wells
             String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
             _numberOfWellsSlider = new SliderControl( 1, 1, 10, 1, 0, 0, numberFormat, SLIDER_INSETS );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
+            
+            // Eigenstate 
+            JLabel eigenstateLabel = new JLabel( SimStrings.get( "label.eigenstate" ) );
+            _eigenstateComboBox = new BSEigenstateComboBox( 6, 0 );
             
             // Configure button
             _configureEnergyButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
@@ -138,15 +144,19 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( label, row, col, 2, 1 );
+            layout.addComponent( wellTypeLabel, row, col, 2, 1 );
             row++;
             layout.addComponent( _wellTypeComboBox, row, col );
+            row++;
+            layout.addComponent( _numberOfWellsSlider, row, col );
+            row++;
+            layout.addComponent( eigenstateLabel, row, col );
+            row++;
+            layout.addComponent( _eigenstateComboBox, row, col );
             row++;
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
             layout.addComponent( _superpositionButton, row, col );
-            row++;
-            layout.addComponent( _numberOfWellsSlider, row, col );
             row++;
             energyControlsPanel.setLayout( new BorderLayout() );
             energyControlsPanel.add( innerPanel, BorderLayout.WEST );
@@ -267,12 +277,10 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
         // Particle controls
         JPanel particleControlsPanel = new JPanel();
         {
-            // Title
-            String title = SimStrings.get( "title.particleControls" );
-            particleControlsPanel.setBorder( new TitledBorder( title ) );
+            // Border
+            particleControlsPanel.setBorder( new TitledBorder( "" ) );
             
             // Mass slider
-
             String massFormat = "<html>" + SimStrings.get( "label.particleMass" ) + " {0}m<sub>e</sub>" + "</html>";
             _massSlider = new SliderControl( 1.0, 1.0, 10.0, 5.0, 1, 1, massFormat, SLIDER_INSETS );
             _massSlider.setInverted( true );
@@ -296,7 +304,6 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
 
         // Layout
         {
-            addVerticalSpace( SUBPANEL_SPACING );
             addControlFullWidth( energyControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addControlFullWidth( waveFunctionControlsPanel );
@@ -469,6 +476,21 @@ public class BSManyControlPanel extends BSAbstractControlPanel {
         return _massSlider;
     }
 
+    //----------------------------------------------------------------------------
+    // Feature enablers
+    //----------------------------------------------------------------------------
+    
+    public void setNumberOfWellsControlVisible( boolean visible ) {
+        _numberOfWellsSlider.setVisible( visible );
+    }
+    
+    public void setWellTypeChoices( WellType[] wellTypes ) {
+        _wellTypeComboBox.clearChoices();
+        for ( int i = 0; i < wellTypes.length; i++ ) {
+            _wellTypeComboBox.addChoice( wellTypes[i] );   
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------

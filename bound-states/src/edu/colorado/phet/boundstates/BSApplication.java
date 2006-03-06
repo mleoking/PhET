@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.boundstates.module.BSDoubleModule;
 import edu.colorado.phet.boundstates.module.BSManyModule;
+import edu.colorado.phet.boundstates.module.BSManyModule;
 import edu.colorado.phet.boundstates.module.BSSingleModule;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
