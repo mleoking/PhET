@@ -55,6 +55,11 @@ public class RichardsonControls extends JDialog {
     private static final double HBAR_DELTA = 0.001;
     private static final String HBAR_FORMAT = "0.000";
     
+    private static final double DX_MIN = 0.0001;
+    private static final double DX_MAX = 1;
+    private static final double DX_DELTA = 0.0001;
+    private static final String DX_FORMAT = "0.0000";
+    
     private static final double DT_MIN = 0.0001;
     private static final double DT_MAX = 10.00;
     private static final double DT_DELTA = 0.0001;
@@ -64,9 +69,6 @@ public class RichardsonControls extends JDialog {
     private static final int STEPS_MAX = 100;
     private static final int STEPS_DELTA = 1;
     private static final String STEPS_FORMAT = "0";
-    
-    private static final String DX_FORMAT = "0.0000";
-    private static final DecimalFormat DX_FORMATTER = new DecimalFormat( DX_FORMAT );
     
     private static final Dimension SPINNER_SIZE = new Dimension( 125, 25 );
     
@@ -80,7 +82,7 @@ public class RichardsonControls extends JDialog {
     private DoubleSpinner _hbarSpinner;
     private DoubleSpinner _dtSpinner;
     private DoubleSpinner _stepsSpinner;
-    private JLabel _dxDisplay;
+    private DoubleSpinner _dxSpinner;
 
     //----------------------------------------------------------------------
     // Constructors
@@ -97,16 +99,25 @@ public class RichardsonControls extends JDialog {
         {
             JLabel massLabel = new JLabel( "mass:" );
             _massSpinner = new DoubleSpinner( _solver.getMass(), MASS_MIN, MASS_MAX, MASS_DELTA, MASS_FORMAT, SPINNER_SIZE );
+            JLabel massUnits = new JLabel( "<html>eV/c<sup>2</sup></html>" );
             DecimalFormat massFormat = new DecimalFormat( MASS_FORMAT );
             JLabel massRange = new JLabel( "(" + massFormat.format( MASS_MIN ) + "-" + massFormat.format( MASS_MAX ) + ")" );
             
             JLabel hbarLabel = new JLabel( "hbar:" );
             _hbarSpinner = new DoubleSpinner( _solver.getHbar(), HBAR_MIN, HBAR_MAX, HBAR_DELTA, HBAR_FORMAT, SPINNER_SIZE );
+            JLabel hbarUnits = new JLabel( "eV fs" );
             DecimalFormat hbarFormat = new DecimalFormat( HBAR_FORMAT );
             JLabel hbarRange = new JLabel( "(" + hbarFormat.format( HBAR_MIN ) + "-" + hbarFormat.format( HBAR_MAX ) + ")" );
             
+            JLabel dxLabel = new JLabel( "dx:" );
+            _dxSpinner = new DoubleSpinner( _solver.getDx(), DX_MIN, DX_MAX, DX_DELTA, DX_FORMAT, SPINNER_SIZE );
+            JLabel dxUnits = new JLabel( "nm" );
+            DecimalFormat dxFormat = new DecimalFormat( DX_FORMAT );
+            JLabel dxRange = new JLabel( "(" + dxFormat.format( DX_MIN ) + "-" + dxFormat.format( DX_MAX ) + ")" );
+            
             JLabel dtLabel = new JLabel( "dt:" );
             _dtSpinner = new DoubleSpinner( _solver.getDt(), DT_MIN, DT_MAX, DT_DELTA, DT_FORMAT, SPINNER_SIZE );
+            JLabel dtUnits = new JLabel( "fs" );
             DecimalFormat dtFormat = new DecimalFormat( DT_FORMAT );
             JLabel dtRange = new JLabel( "(" + dtFormat.format( DT_MIN ) + "-" + dtFormat.format( DT_MAX ) + ")" );
             
@@ -115,32 +126,32 @@ public class RichardsonControls extends JDialog {
             DecimalFormat stepsFormat = new DecimalFormat( STEPS_FORMAT );
             JLabel stepsRange = new JLabel( "(" + stepsFormat.format( STEPS_MIN ) + "-" + stepsFormat.format( STEPS_MAX ) + ")" );
             
-            JLabel dxLabel = new JLabel( "dx:" );
-            _dxDisplay = new JLabel( DX_FORMATTER.format( _solver.getDx() ) );
-            JLabel dxUnits = new JLabel( "nm" );
-            
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             panel.setLayout( layout );
             int row = 0;
             layout.addAnchoredComponent( massLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _massSpinner, row, 1, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( massRange, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( massUnits, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( massRange, row, 3, GridBagConstraints.WEST );
             row++;
             layout.addAnchoredComponent( hbarLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _hbarSpinner, row, 1, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( hbarRange, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( hbarUnits, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( hbarRange, row, 3, GridBagConstraints.WEST );
+            row++;
+            layout.addAnchoredComponent( dxLabel, row, 0, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _dxSpinner, row, 1, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( dxUnits, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( dxRange, row, 3, GridBagConstraints.WEST );
             row++;
             layout.addAnchoredComponent( dtLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _dtSpinner, row, 1, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( dtRange, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( dtUnits, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( dtRange, row, 3, GridBagConstraints.WEST );
             row++;
             layout.addAnchoredComponent( stepsLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _stepsSpinner, row, 1, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( stepsRange, row, 2, GridBagConstraints.WEST );
-            row++;
-            layout.addAnchoredComponent( dxLabel, row, 0, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( _dxDisplay, row, 1, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( dxUnits, row, 2, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( stepsRange, row, 3, GridBagConstraints.WEST );
             row++;
         }
         
@@ -151,6 +162,7 @@ public class RichardsonControls extends JDialog {
         EventListener _eventListener = new EventListener();
         _massSpinner.addChangeListener( _eventListener );
         _hbarSpinner.addChangeListener( _eventListener );
+        _dxSpinner.addChangeListener( _eventListener );
         _dtSpinner.addChangeListener( _eventListener );
         _stepsSpinner.addChangeListener( _eventListener );
     }
@@ -158,9 +170,9 @@ public class RichardsonControls extends JDialog {
     public void refresh() {
         _massSpinner.setDoubleValue( _solver.getMass() );
         _hbarSpinner.setDoubleValue( _solver.getHbar() );
+        _dxSpinner.setDoubleValue( _solver.getDx() );
         _dtSpinner.setDoubleValue( _solver.getDt() );
         _stepsSpinner.setDoubleValue( _solver.getSteps() );
-        _dxDisplay.setText( DX_FORMATTER.format( _solver.getDx() ) );
     }
     
     //----------------------------------------------------------------------
@@ -181,13 +193,16 @@ public class RichardsonControls extends JDialog {
             if ( event.getSource() == _massSpinner ) {
                 handleMassChange();
             }
-            if ( event.getSource() == _hbarSpinner ) {
+            else if ( event.getSource() == _hbarSpinner ) {
                 handleHbarChange();
             }
-            if ( event.getSource() == _dtSpinner ) {
+            else if ( event.getSource() == _dxSpinner ) {
+                handleDxChange();
+            }
+            else if ( event.getSource() == _dtSpinner ) {
                 handleDtChange();
             }
-            if ( event.getSource() == _stepsSpinner ) {
+            else if ( event.getSource() == _stepsSpinner ) {
                 handleStepsChange();
             }
         }
@@ -215,6 +230,17 @@ public class RichardsonControls extends JDialog {
         else {
             warnInvalidInput();
             _hbarSpinner.setDoubleValue( _solver.getHbar() );
+        }
+    }
+    
+    private void handleDxChange() {
+        double dx = _dxSpinner.getDoubleValue();
+        if ( dx >= DX_MIN && dx <= DX_MAX ) {
+            _solver.setDx( dx );
+        }
+        else {
+            warnInvalidInput();
+            _dxSpinner.setDoubleValue( _solver.getDx() );
         }
     }
     

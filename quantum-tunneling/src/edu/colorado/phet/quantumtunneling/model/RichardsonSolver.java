@@ -47,7 +47,7 @@ public class RichardsonSolver implements IWavePacketSolver {
     //----------------------------------------------------------------------
 
     // displayes a dialog with UI controls for debugging
-    private static final boolean DEBUG_CONTROLS_VISIBLE = false;
+    private static final boolean DEBUG_CONTROLS_VISIBLE = true;
     
     // number of propagator steps per tick of the simulation clock
     private static final int STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
@@ -95,8 +95,8 @@ public class RichardsonSolver implements IWavePacketSolver {
         _mass = QTConstants.MASS;
         _hbar = QTConstants.HBAR;
         _steps = STEPS_PER_CLOCK_TICK;
-        _dt = QTConstants.CLOCK_STEP;
         _dx = 1;
+        _dt = 0.0025; //XXX value requested by Sam McKagan, version 0.00.18
         
         _controlsUI = null;
         
@@ -132,7 +132,6 @@ public class RichardsonSolver implements IWavePacketSolver {
      */
     public void setDx( double dx ) {
         _dx = dx;
-        overrideDt(); // repair dt whenever the sim's window is resized
         update();
     }
     
@@ -176,18 +175,11 @@ public class RichardsonSolver implements IWavePacketSolver {
         return _steps;
     }
 
-    /**
-     * Updates the internal state of the solver.
-     */
-    public void update() {
-        if ( _wavePacket.isInitialized() ) {
-            reset();
-        }
-    }
-
     /*
      * Overrides the value of dt, setting it to something that 
-     * doesn't cause this algorithm to fail.
+     * doesn't cause this algorithm to fail. In this case, we're
+     * setting it to the function of mass, dx and hbar used by 
+     * the original Richardson code.
      * 
      * Analyis by Sam Reid:
      * Most ODE (ordinary differential equation) solvers fail to work
@@ -195,13 +187,16 @@ public class RichardsonSolver implements IWavePacketSolver {
      * of parameters that pushes dt past the failure point.  In the code
      * below, if s > PI/2 or epsilon > PI, then the propagator terms
      * (alpha, beta, EtoV) have the wrong form, and the solver fails.
-     *
-     * So for now, we're forced to override dt with something
-     * more reasonable (ie, the formula from Richardson's original code).
      */
     private void overrideDt() {
-//        _dt = 0.8 * _mass * _dx * _dx / _hbar;
-        _dt = 0.0025; //XXX requested by Sam McKagan for version 0.00.18
+        _dt = 0.8 * _mass * _dx * _dx / _hbar;
+    }
+    
+    /**
+     * Resets the solver.
+     */
+    public void update() {
+        reset();
     }
     
     //----------------------------------------------------------------------
@@ -209,10 +204,14 @@ public class RichardsonSolver implements IWavePacketSolver {
     //----------------------------------------------------------------------
     
     /*
-     * Sets the initial conditions.
+     * Resets the solver.
      */
     private void reset() {
 
+        if ( !_wavePacket.isInitialized() ) {
+            return;
+        }
+        
         // Developer controls...
         if ( DEBUG_CONTROLS_VISIBLE ) {
             JFrame frame = PhetApplication.instance().getPhetFrame();
