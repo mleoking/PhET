@@ -10,14 +10,20 @@
  */
 package edu.colorado.phet.common.view;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * HelpPanel
@@ -41,8 +47,8 @@ public class HelpPanel extends JPanel {
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
         
-        miniHelpBtn.setOpaque( false );
-        megaHelpBtn.setOpaque( false );
+        SwingUtils.fixButtonOpacity( miniHelpBtn );
+        SwingUtils.fixButtonOpacity( megaHelpBtn );
 
         // Hook up listeners to the buttons that will tell the
         // module what help to show, if any
