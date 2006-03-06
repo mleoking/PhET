@@ -38,6 +38,8 @@ public class Shaker extends Particle {
     private Salt currentSalt = SolubleSaltsConfig.DEFAULT_SALT;
     // Max y position that the shaker can be. This prevents it from getting in the water
     private double maxY;
+    private double minY;
+    private double maxShakeDistance = 100;
 
     boolean done;   // debug tool
 
@@ -50,6 +52,7 @@ public class Shaker extends Particle {
         this.model = model;
         openingLength = 80;
         maxY = model.getVessel().getLocation().getY();
+        minY = maxY - maxShakeDistance;
     }
 
     public void setCurrentSalt(Salt currentSalt) {
@@ -62,6 +65,10 @@ public class Shaker extends Particle {
 
     public double getMaxY() {
         return maxY;
+    }
+
+    public double getMinY() {
+        return minY;
     }
 
     public void reset() {
@@ -99,7 +106,7 @@ public class Shaker extends Particle {
             int minUnits = 3;
             int maxUnits = 10;
             int numLaticeUnits = random.nextInt(maxUnits - minUnits) + minUnits;
-//            numLaticeUnits = 2;
+//            numLaticeUnits = 15;
 //            numLaticeUnits = 8;
 //            numLaticeUnits = (int)dy;
 
@@ -132,7 +139,7 @@ public class Shaker extends Particle {
             }
 
             // Create the crystal
-            crystal = new Crystal(model, (Lattice_new_new) currentSalt.getLattice(), ions, null);
+            crystal = new Crystal(model, currentSalt.getLattice(), ions, null);
             crystal.setVelocity(v);
         }
     }
