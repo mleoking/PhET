@@ -45,7 +45,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     public BaseIdealGasApparatusPanel( IdealGasModule module, Clock clock, Box2D box ) {
         super( clock );
         init( module, box );
-//        setUseOffscreenBuffer( true );
+        setUseOffscreenBuffer( true );
+//        setUseOffscreenBuffer( false);
 
         // This listener is added so that any entries on the control panel will be finalized
         // if the user clicks on the apparatus panel. For example, typing into a spinner that

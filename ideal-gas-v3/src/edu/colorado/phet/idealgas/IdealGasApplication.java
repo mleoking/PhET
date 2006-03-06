@@ -38,7 +38,7 @@ public class IdealGasApplication extends PhetApplication {
 //        SimulationClock clock = new SimulationClock( 20, IdealGasConfig.TIME_STEP);
         SimulationClock clock = new SimulationClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP);
 
-        FrameRateReporter frameRateReporter = new FrameRateReporter( clock );
+//        FrameRateReporter frameRateReporter = new FrameRateReporter( clock );
 
         final IdealGasModule idealGasModule = new IdealGasModule( clock );
         Module[] modules = new Module[]{

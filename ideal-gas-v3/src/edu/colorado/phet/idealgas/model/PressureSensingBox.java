@@ -7,10 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.model.clock.Clock;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.idealgas.PressureSlice;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -29,6 +26,7 @@ public class PressureSensingBox extends Box2D {
     private List averagingSlices = new ArrayList();
     private PressureSlice gaugeSlice;
     private boolean multipleSlicesEnabled;
+    private double lastPressure = 0;
 
     /**
      * Constructor
@@ -76,7 +74,7 @@ public class PressureSensingBox extends Box2D {
     }
 
     /**
-     * @return
+     * @return true if multiple pressure slices are enabled, false if not
      */
     public boolean getMultipleSlicesEnabled() {
         return multipleSlicesEnabled;
@@ -92,8 +90,7 @@ public class PressureSensingBox extends Box2D {
                 PressureSlice slice = (PressureSlice)averagingSlices.get( i );
                 sum += slice.getPressure();
             }
-            double avePressure = sum / averagingSlices.size();
-            return avePressure;
+            return sum / averagingSlices.size();
         }
         else {
             return gaugeSlice.getPressure();
@@ -108,6 +105,29 @@ public class PressureSensingBox extends Box2D {
      */
     public void setGaugeSlice( PressureSlice gaugeSlice ) {
         this.gaugeSlice = gaugeSlice;
+    }
+
+    /**
+     * Time dependent behavior. Notifies change listeners if the pressure changes
+     *
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        if( lastPressure != getPressure() ) {
+            lastPressure = getPressure();
+            changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+        }
+    }
+
+    /**
+     * Clears all the data that the box has recorded. Used for reseting.
+     */
+    public void clearData() {
+        gaugeSlice.clear();
+        for( int i = 0; i < averagingSlices.size(); i++ ) {
+            ((PressureSlice)averagingSlices.get( i )).clear();
+        }
     }
 
     //----------------------------------------------------------------

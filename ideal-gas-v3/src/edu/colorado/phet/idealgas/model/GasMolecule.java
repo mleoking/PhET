@@ -105,8 +105,11 @@ public class GasMolecule extends SolidSphere {
     }
 
     public void removeYourselfFromSystem() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        // Work with a copy of the list of observers, in case any of them remove
+        // themselves as observers in their implementations of removeFromSystem()
+        List observerCopies = new ArrayList( observers );
+        for( int i = 0; i < observerCopies.size(); i++ ) {
+            Observer observer = (Observer)observerCopies.get( i );
             observer.removedFromSystem();
         }
     }

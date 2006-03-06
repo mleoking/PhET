@@ -15,31 +15,52 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserver, Box2D.ChangeListener {
+public class BoxDoorGraphic extends CompositePhetGraphic
+        implements SimpleObserver,
+                   Box2D.ChangeListener,
+                   PressureSensingBox.ChangeListener,
+                   IdealGasModule.ResetListener {
     private int x;
     private int y;
     private int minX;
     private int minY;
     private int maxX;
     private int maxY;
-    private Box2D box;
+    private PressureSensingBox box;
     private PhetImageGraphic imageGraphic;
     private PhetShapeGraphic highlightGraphic;
     private double openingMaxX;
     private Point2D[] opening = new Point2D[2];
     private PhetShapeGraphic doorShapeGraphic;
+    // Used to control the rotation of the door when it blows off the box
+    private double blowOffRotation = 0;
 
+    /**
+     *
+     * @param component
+     * @param x
+     * @param y
+     * @param minX
+     * @param minY
+     * @param maxX
+     * @param maxY
+     * @param box
+     * @param color
+     */
     public BoxDoorGraphic( Component component,
                            int x, int y, int minX, int minY, int maxX, int maxY,
-                           Box2D box, Color color ) {
+                           PressureSensingBox box, Color color, IdealGasModule module ) {
         super( component );
         BufferedImage doorImg = null;
         try {
@@ -53,12 +74,12 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
 
         Rectangle door = new Rectangle( imageGraphic.getWidth(), 12 );
         doorShapeGraphic = new PhetShapeGraphic( component, door, color );
-        this.addGraphic( doorShapeGraphic);
+        this.addGraphic( doorShapeGraphic );
 
         highlightGraphic = new PhetShapeGraphic( component, new Rectangle( imageGraphic.getBounds() ),
                                                  new BasicStroke( 1 ), Color.red );
         highlightGraphic.setVisible( false );
-        this.addGraphic( highlightGraphic);
+        this.addGraphic( highlightGraphic );
 
         this.x = x;
         this.y = y;
@@ -70,10 +91,14 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
         this.openingMaxX = x + imageGraphic.getBounds().getWidth();
 
         box.addObserver( this );
-        box.addChangeListener( this );
+        box.addChangeListener( (Box2D.ChangeListener)this );
+        box.addChangeListener( (PressureSensingBox.ChangeListener)this );
 
         setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         addTranslationListener( new DoorTranslator() );
+
+        // Listen for resets
+        module.addResetListener( this );
     }
 
     public void fireMouseEntered( MouseEvent e ) {
@@ -117,7 +142,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
                                       minY - (int)imageGraphic.getBounds().getHeight() - 1 );
 
             doorShapeGraphic.setLocation( (int)imageGraphic.getLocation().getX(),
-                                          (int)imageGraphic.getLocation().getY()+ 13 );
+                                          (int)imageGraphic.getLocation().getY() + 13 );
             highlightGraphic.setLocation( imageGraphic.getLocation() );
             setBoundsDirty();
             repaint();
@@ -141,15 +166,53 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
     // Listener implementations
     //----------------------------------------------------------------
 
+    /**
+     * Box2D.ChangeListener implementation
+     *
+     * @param event
+     */
     public void boundsChanged( Box2D.ChangeEvent event ) {
         double newMinX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() );
         if( newMinX > minX ) {
-            translateDoor( newMinX - minX, 0);
+            translateDoor( newMinX - minX, 0 );
         }
     }
 
     public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
         //noop
+    }
+
+    /**
+     * IdealGasModule.ResetListener implementation
+     *
+     * @param event
+     */
+    public void resetOccurred( IdealGasModule.ResetEvent event ) {
+        blowOffRotation = 0;
+        this.setTransform( new AffineTransform());
+        this.setLocation( 0,0 );
+        // Close the door
+        translateDoor( Double.MAX_VALUE, 0 );
+    }
+
+    /**
+     * PressureSensingBox.ChangeListener implementation
+     *
+     * @param event
+     */
+    public void stateChanged( PressureSensingBox.ChangeEvent event ) {
+        double pressure = event.getPressureSensingBox().getPressure();
+        if( pressure > .5 ) {
+            blowOffRotation -= 10;
+            this.setTransform( AffineTransform.getRotateInstance( Math.toRadians( blowOffRotation ),
+                                                                  doorShapeGraphic.getLocation().getX(),
+                                                                  doorShapeGraphic.getLocation().getY() ) );
+            this.setLocation( (int)getLocation().getX() - 1, (int)getLocation().getY() - 8 );
+
+            opening[0] = new Point2D.Double( x, box.getMinY() );
+            opening[1] = new Point2D.Double( openingMaxX, box.getMinY() );
+            box.setOpening( opening );
+        }
     }
 
     //----------------------------------------------------------------
@@ -166,4 +229,5 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
             translate( 0, 0 );
         }
     }
+
 }

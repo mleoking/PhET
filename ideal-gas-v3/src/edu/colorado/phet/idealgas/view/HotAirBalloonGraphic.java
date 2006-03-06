@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.controller.HotAirBalloon;
+import edu.colorado.phet.idealgas.model.HotAirBalloon;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
