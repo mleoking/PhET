@@ -35,6 +35,8 @@ CLEANUP:
 
 
 DONE:
+0.00.18...
+(3/6/06) - change RichardsonSolver: dt=0.0025, steps=40, hide controls (Sam M request)
 0.00.17...
 (3/3/06) - fix PotentialEnergyDragHandle and RegionBoundaryDragHandle that I screwed up on 2/20, need to recompute drag bounds more frequently (roll into 0.00.17)
 (3/3/06) - change x-axis tick spacing to 1, add vertical grid lines (roll into 0.00.17)

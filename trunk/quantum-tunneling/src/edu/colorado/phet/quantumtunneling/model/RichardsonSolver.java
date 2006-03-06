@@ -46,15 +46,18 @@ public class RichardsonSolver implements IWavePacketSolver {
     // Class data
     //----------------------------------------------------------------------
 
+    // displayes a dialog with UI controls for debugging
+    private static final boolean DEBUG_CONTROLS_VISIBLE = false;
+    
+    // number of propagator steps per tick of the simulation clock
+    private static final int STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
+    
     /* Each damping coefficient is applied to this many adjacent samples */
     private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
 
     /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
     private static double[] DAMPING_COEFFICIENTS = new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
-
-    /* Damping coefficients from QWI simulation */
-//XXX    private static double[] DAMPING_COEFFICIENTS = new double[] { 0.3, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
-
+    
     //----------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------
@@ -91,7 +94,7 @@ public class RichardsonSolver implements IWavePacketSolver {
         
         _mass = QTConstants.MASS;
         _hbar = QTConstants.HBAR;
-        _steps = QTConstants.RICHARDSON_STEPS_PER_CLOCK_TICK;
+        _steps = STEPS_PER_CLOCK_TICK;
         _dt = QTConstants.CLOCK_STEP;
         _dx = 1;
         
@@ -197,7 +200,8 @@ public class RichardsonSolver implements IWavePacketSolver {
      * more reasonable (ie, the formula from Richardson's original code).
      */
     private void overrideDt() {
-        _dt = 0.8 * _mass * _dx * _dx / _hbar;
+//        _dt = 0.8 * _mass * _dx * _dx / _hbar;
+        _dt = 0.0025; //XXX requested by Sam McKagan for version 0.00.18
     }
     
     //----------------------------------------------------------------------
@@ -210,7 +214,7 @@ public class RichardsonSolver implements IWavePacketSolver {
     private void reset() {
 
         // Developer controls...
-        if ( QTConstants.RICHARDSON_CONTROLS_ENABLED ) {
+        if ( DEBUG_CONTROLS_VISIBLE ) {
             JFrame frame = PhetApplication.instance().getPhetFrame();
             if ( _controlsUI == null ) {
                 _controlsUI = new RichardsonControls( frame, this );
