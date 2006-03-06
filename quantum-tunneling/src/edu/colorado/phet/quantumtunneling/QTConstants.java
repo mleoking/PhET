@@ -35,12 +35,6 @@ public class QTConstants {
     private QTConstants() {}
     
     //----------------------------------------------------------------------------
-    // Debug
-    //----------------------------------------------------------------------------
-    
-    public static final boolean RICHARDSON_CONTROLS_ENABLED = true;
-    
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     
@@ -241,7 +235,4 @@ public class QTConstants {
     public static final double MIN_PACKET_CENTER = POSITION_RANGE.getLowerBound(); // nm
     public static final double MAX_PACKET_CENTER = POSITION_RANGE.getUpperBound(); // nm
     public static final double DEFAULT_PACKET_CENTER = -2; // nm
-    
-    // Richardson algorithm parameters
-    public static final int RICHARDSON_STEPS_PER_CLOCK_TICK = 25; //XXX this is wasteful!
 }
