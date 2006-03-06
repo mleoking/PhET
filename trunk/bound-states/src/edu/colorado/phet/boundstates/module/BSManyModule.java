@@ -21,9 +21,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.control.BSClockControls;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
-import edu.colorado.phet.boundstates.control.BSWellComboBox;
 import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -31,8 +29,6 @@ import edu.colorado.phet.boundstates.model.BSTotalEnergy;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
-import edu.colorado.phet.common.model.clock.ClockAdapter;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -87,7 +83,6 @@ public class BSManyModule extends BSAbstractModule {
 
     // Controls
     private BSSharedControlPanel _controlPanel;
-    private BSClockControls _clockControls;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -205,24 +200,6 @@ public class BSManyModule extends BSAbstractModule {
         WellType[] wellTypeChoices = { WellType.COULOMB, WellType.SQUARE };
         setWellTypeChoices( wellTypeChoices );
         
-        // Clock Controls
-        {
-            _clockControls = new BSClockControls( getClock() );
-            _clockControls.setTimeFormat( BSConstants.TIME_FORMAT );
-            _clockControls.setRestartVisible( false );
-            setClockControlPanel( _clockControls );
-            addClockListener( new ClockAdapter() {
-                public void simulationTimeReset( ClockEvent clockEvent ) {
-                    handleClockReset();
-                }
-            } );
-        }
-
-        // Add control nodes to the scene graph
-        {
-//XXX
-        }
-        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -240,7 +217,6 @@ public class BSManyModule extends BSAbstractModule {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
-//        getClock().start();
     }
     
     public boolean hasHelp() {

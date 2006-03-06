@@ -5,7 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- replace BSClockControls with standard controls and stopwatch
+- override reset, save, load methods for each module
+- add stopwatch
 - Superposition dialog
 - Configure Energy dialog
 - interaction with eignestate lines
@@ -42,6 +43,7 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - replace custom clock controls with standard clock controls
 (3/6/06) - add eignestate selection control to control panel
 (3/6/06) - have one control panel used by all modules (BSSharedControlPanel)
 (3/3/06) - add all control panel accessor methods
