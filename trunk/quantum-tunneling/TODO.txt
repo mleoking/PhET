@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(3/6/06) - RichardsonSolver: add a developer control for dx, show developer controls
 0.00.18...
 (3/6/06) - change RichardsonSolver: dt=0.0025, steps=40, hide controls (Sam M request)
 0.00.17...
