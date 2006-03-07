@@ -228,19 +228,28 @@ public abstract class Lattice {
      * characteristic value, one of them is chosen at random.
      *
      * @param ionsInLattice
-     * @return
+     * @return the best ion in the lattice to release
      */
-    public Ion getLeastBoundIon( List ionsInLattice ) {
+    public Ion getBestIonToRelease( List ionsInLattice, Class preferredIonType ) {
 
         // Get a list of all nodes that have no children (i.e., are the origins of no bonds with destinations)
+        boolean candidateOfPrefferedTypeExists = false;
         Ion leastBoundIon = null;
-        List candidates = new ArrayList();
+        List preferredCandidates = new ArrayList();
+        List otherCandidates = new ArrayList();
         for( int i = 0; i < nodes.size(); i++ ) {
             Node node = (Node)nodes.get( i );
             if( node.hasNoChildren() ) {
-                candidates.add( node );
+                if( preferredIonType.isAssignableFrom( node.getIon().getClass() )) {
+                    preferredCandidates.add( node );
+                }
+                else {
+                    otherCandidates.add( node );
+                }
             }
         }
+
+        List candidates = preferredCandidates.size() > 0 ? preferredCandidates : otherCandidates;
 
         // Sanity check
         if( candidates.size() == 0 ) {

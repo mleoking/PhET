@@ -177,7 +177,7 @@ public class Crystal extends Body {
         int numRetries = 0;
         for( int i = 0; i <= maxRetries && !retryList.isEmpty(); i++ ) {
             numRetries = i;
-            for( int j= 0; j < retryList.size(); j++ ) {
+            for( int j = 0; j < retryList.size(); j++ ) {
                 Ion ion = (Ion)retryList.get( j );
                 if( addIon( ion ) ) {
                     retryList.remove( ion );
@@ -186,7 +186,7 @@ public class Crystal extends Body {
             }
         }
         if( numRetries >= maxRetries ) {
-            throw new RuntimeException( "maxRetries exceeded");
+            throw new RuntimeException( "maxRetries exceeded" );
         }
 
         // todo: Is this doing anything? It isn't done in the other constructors
@@ -283,7 +283,7 @@ public class Crystal extends Body {
      *
      * @param ionA The ion to be added
      * @param ionB The ion next to which the other ion should be placed
-     * @return
+     * @return true if the ion was added, false if not
      */
     public boolean addIonNextToIon( Ion ionA, Ion ionB ) {
         boolean added = false;
@@ -352,13 +352,7 @@ public class Crystal extends Body {
             System.out.println( "Crystal.addIon: on nobind list" );
             return false;
         }
-        else if( true ) {
-
-            // Sanity check
-//            if( ions.size() > 0 ) {
-//                throw new RuntimeException( "ions.size() > 0" );
-//            }
-
+        else {
             added = lattice.add( ion );
             if( added ) {
                 ions.add( ion );
@@ -401,7 +395,11 @@ public class Crystal extends Body {
      * @param dt
      */
     public void releaseIon( double dt ) {
-        Ion ionToRelease = lattice.getLeastBoundIon( getIons() );
+
+        Class preferredIonType = model.getPreferredTypeOfIonToRelease();
+
+        // Get the best ion to release
+        Ion ionToRelease = lattice.getBestIonToRelease( getIons(), preferredIonType );
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
@@ -431,17 +429,14 @@ public class Crystal extends Body {
     }
 
 
-    public void releaseIonDebug( double dt ) {
-        releaseIon( dt );
-    }
-
     /**
      * Determine the velocity an ion that is about to be release should have
      *
      * @param ionToRelease
-     * @return
+     * @return the release velocity vector
      */
     private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
+        Vector2D releaseVelocity = null;
 
         // If this is the seed ion, then just send it off with the velocity it had before it seeded the
         // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
@@ -449,27 +444,17 @@ public class Crystal extends Body {
             return ionToRelease.getVelocity();
         }
 
-        if( true ) {
-            double angle = random.nextDouble() * Math.PI * 2;
-            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
-//            System.out.println( "releaseVelocity.getMagnitude() = " + releaseVelocity.getMagnitude() );
-//            return releaseVelocity;
-        }
-
         // Get the unoccupied sites around the ion being release
         List openSites = lattice.getOpenNeighboringSites( ionToRelease );
 
         if( openSites.size() == 0 ) {
             double angle = random.nextDouble() * Math.PI * 2;
-            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
-//            System.out.println( "openSites.size() = " + openSites.size() );
-//            return new Vector2D.Double();
         }
 
         double maxAngle = Double.MIN_VALUE;
         double minAngle = Double.MAX_VALUE;
-
         if( openSites.size() > 1 ) {
             for( int i = 0; i < openSites.size() - 1; i++ ) {
                 Point2D p1 = (Point2D)openSites.get( i );
@@ -485,7 +470,7 @@ public class Crystal extends Body {
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                     if( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-                        Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+                        releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
                         return releaseVelocity;
                     }
                 }
@@ -500,7 +485,7 @@ public class Crystal extends Body {
                                                       p2.getY() - ionToRelease.getPosition().getY() );
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-            Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
@@ -513,7 +498,7 @@ public class Crystal extends Body {
         minAngle = angle < minAngle ? angle : minAngle;
 
         angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
-        Vector2D releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+        releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
 
         // Sanity check
         if( releaseVelocity.getMagnitude() < 0.0001 ) {

@@ -153,7 +153,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                 List crystals = model.crystalTracker.getCrystals();
                 for( int i = 0; i < crystals.size(); i++ ) {
                     Crystal crystal = (Crystal)crystals.get( i );
-                    crystal.releaseIonDebug( module.getClock().getSimulationTimeChange() );
+                    crystal.releaseIon( module.getClock().getSimulationTimeChange() );
                 }
             }
         } );
