@@ -87,10 +87,6 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
 
         public void removedFromSystem() {
             update();
-//            if( !box.getBoundsInternal().contains( molecule.getPosition() ) ) {
-//            if( molecule.isInBox() ) {
-//                spinner.decrementValue();
-//            }
         }
 
         /**
@@ -99,11 +95,11 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         public void update() {
             SwingUtilities.invokeLater(  new Runnable() {
                 public void run() {
-                    int padding = 5;
-                    b.setRect( box.getBoundsInternal().getX() - padding,
-                               box.getBoundsInternal().getY() - padding,
-                               box.getBoundsInternal().getWidth() + padding * 2,
-                               box.getBoundsInternal().getHeight() + padding * 2 );
+//                    int padding = 5;
+//                    b.setRect( box.getBoundsInternal().getX() - padding,
+//                               box.getBoundsInternal().getY() - padding,
+//                               box.getBoundsInternal().getWidth() + padding * 2,
+//                               box.getBoundsInternal().getHeight() + padding * 2 );
 
                     b = box.getBoundsInternal();
                     if( !b.contains( molecule.getPosition() ) && isInBox ) {
