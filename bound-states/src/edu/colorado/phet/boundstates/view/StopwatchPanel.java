@@ -55,7 +55,6 @@ public class StopwatchPanel extends JPanel {
 
     // Time display properties...
     private static final int DEFAULT_COLUMNS = 5;
-    private static final int DEFAULT_ALIGNMENT = JTextField.RIGHT;
     private static final int DEFAULT_FONT_SIZE = 16;
     private static final int DEFAULT_FONT_STYLE = Font.BOLD;
 
@@ -131,7 +130,7 @@ public class StopwatchPanel extends JPanel {
         Font timeDisplayFont = timeDisplay.getFont();
         timeDisplay.setFont( new Font( timeDisplayFont.getName(), DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE ) );
         timeDisplay.setEditable( false );
-        timeDisplay.setHorizontalAlignment( DEFAULT_ALIGNMENT );
+        timeDisplay.setHorizontalAlignment( JTextField.RIGHT );
 
         // Time units
         timeUnitsLabel = new JLabel( timeUnits );
@@ -365,32 +364,54 @@ public class StopwatchPanel extends JPanel {
     //-----------------------------------------------------------------
     // Notification
     //-----------------------------------------------------------------
+    
+    /**
+     * Adds a listener who will be notified when the stopwatch's state changes.
+     * 
+     * @param listener
+     */
+    public void addListener( StopwatchListener listener ) {
+        stopwatchEventChannel.addListener( listener );
+    }
 
+    /**
+     * Removes a listener.
+     * 
+     * @param listener
+     */
+    public void removeListener( StopwatchListener listener ) {
+        stopwatchEventChannel.removeListener( listener );
+    }
+    
+    /**
+     * StopwatchListener is the interface implemented by anyone
+     * who wants to be notified about stopwatch state changes.
+     */
     public interface StopwatchListener extends EventListener {
 
+        /** Indicates that the stopwatch has been started. */
         void start( StopwatchEvent event );
 
+        /** Indicates that the stopwatch has been stopped. */
         void stop( StopwatchEvent event );
 
+        /** Indicates that the stopwatch has been reset. */
         void reset( StopwatchEvent event );
     }
 
+    /**
+     * StopwatchEvent is the event that indicates a change in the stopwatch's state.
+     */
     public class StopwatchEvent extends EventObject {
 
         public StopwatchEvent( Object source ) {
             super( source );
         }
 
+        /** Convenience function */
         public StopwatchPanel getStopwatch() {
             return (StopwatchPanel) getSource();
         }
     }
 
-    public void addListener( StopwatchListener listener ) {
-        stopwatchEventChannel.addListener( listener );
-    }
-
-    public void removeListener( StopwatchListener listener ) {
-        stopwatchEventChannel.removeListener( listener );
-    }
 }
