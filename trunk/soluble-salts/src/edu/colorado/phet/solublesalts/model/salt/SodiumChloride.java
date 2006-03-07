@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class SodiumChloride extends Salt {
 
     static private Lattice lattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
-//    static private Lattice lattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
@@ -35,6 +34,6 @@ public class SodiumChloride extends Salt {
     }
 
     public SodiumChloride() {
-        super( components, lattice, Sodium.class, Chlorine.class, 1E-5 );
+        super( components, lattice, Sodium.class, Chlorine.class, 1.61E-5 );
     }
 }

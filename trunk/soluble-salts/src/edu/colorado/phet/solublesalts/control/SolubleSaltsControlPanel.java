@@ -49,7 +49,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
 
     static {
         saltMap = new HashMap();
-//        saltMap.put( "Sodium Chloride", new SodiumChloride() );
+        saltMap.put( "Sodium Chloride", new SodiumChloride() );
 //        saltMap.put( "Lead Chloride", new LeadChloride() );
         saltMap.put( "Silver Iodide", new SilverIodide() );
         saltMap.put( "Copper Hydroxide", new CopperHydroxide() );

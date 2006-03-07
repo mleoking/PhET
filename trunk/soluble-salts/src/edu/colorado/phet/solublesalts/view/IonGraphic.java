@@ -57,7 +57,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     private void init( Ion ion ) {
         this.ion = ion;
         ion.addObserver( this );
-//        ion.addChangeListener( this );
         this.addChild( pImage );
 
         String text = ion.getCharge() < 0 ? "-" : ( ion.getCharge() > 0 ? "+" : "0" );
