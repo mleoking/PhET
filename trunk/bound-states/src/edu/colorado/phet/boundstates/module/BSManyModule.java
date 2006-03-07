@@ -25,6 +25,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.BSConfigureEnergyDialog;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
+import edu.colorado.phet.boundstates.control.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.BSClock;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -90,6 +91,7 @@ public class BSManyModule extends BSAbstractModule {
 
     // Dialogs
     private BSConfigureEnergyDialog _configureEnergyDialog;
+    private BSSuperpositionStateDialog _superpositionStateDialog;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -417,13 +419,27 @@ public class BSManyModule extends BSAbstractModule {
                 public void windowClosing( WindowEvent event ) {
                     _configureEnergyDialog = null;
                 }
+                public void windowClosed( WindowEvent event ) {
+                    _configureEnergyDialog = null;
+                }
             } );
             _configureEnergyDialog.show();
         }
     }
     
     public void showSuperpositionStateDialog() {
-        //XXX
+        if ( _superpositionStateDialog == null ) {
+            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame() );
+            _superpositionStateDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent event ) {
+                    _superpositionStateDialog = null;
+                }
+                public void windowClosed( WindowEvent event ) {
+                    _superpositionStateDialog = null;
+                }
+            } );
+            _superpositionStateDialog.show();
+        }
     }
     
     public void setDisplayType( int displayType ) {
