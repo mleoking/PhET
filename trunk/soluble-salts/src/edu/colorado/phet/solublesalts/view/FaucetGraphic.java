@@ -59,9 +59,8 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Rectangle waterShape;
-    private PImage faucetImage;
     private Spigot spigot;
     private double streamMaxY;
     private PPath waterGraphic;
@@ -70,93 +69,92 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      */
-    public FaucetGraphic(PSwingCanvas pSwingCanvas, int orientation, int registration, Spigot spigot, double streamMaxY) {
-        spigot.addChangeListener(this);
+    public FaucetGraphic( PSwingCanvas pSwingCanvas, int orientation, int registration, Spigot spigot, double streamMaxY ) {
+        spigot.addChangeListener( this );
         this.spigot = spigot;
         this.streamMaxY = streamMaxY;
 
         // Faucet
         BufferedImage bImg = null;
         try {
-            bImg = ImageLoader.loadBufferedImage(SolubleSaltsConfig.FAUCET_IMAGE);
-        } catch (IOException e) {
+            bImg = ImageLoader.loadBufferedImage( SolubleSaltsConfig.FAUCET_IMAGE );
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
         Point2D waterGraphicLocation = null;
-        switch (registration) {
+        switch( registration ) {
             case SPOUT:
-                this.setRegistrationPoint(13, 77);
+                this.setRegistrationPoint( 13, 77 );
                 break;
             case WALL_ATTACHMENT:
-                this.setRegistrationPoint(bImg.getWidth(), 40);
-//                this.setRegistrationPoint( bImg.getWidth(), 20 );
-                waterGraphicLocation = new Point2D.Double(12,
-                        77);
+                this.setRegistrationPoint( bImg.getWidth(), 40 );
+                waterGraphicLocation = new Point2D.Double( 12, 77 );
                 break;
             default:
-                throw new RuntimeException("Invalid registration");
+                throw new RuntimeException( "Invalid registration" );
         }
 
         // If the faucet is facing right, flip the image and adjust the location of the water and the
         // registration pt.
-        if (orientation == RIGHT_FACING) {
-            AffineTransform atx = AffineTransform.getScaleInstance(-1, 1);
-            atx.translate(-bImg.getWidth(null), 0);
-            AffineTransformOp atxOp = new AffineTransformOp(atx, AffineTransformOp.TYPE_BILINEAR);
-            waterGraphicLocation = new Point2D.Double(getRegistrationPoint().getX(),
-                    getRegistrationPoint().getY());
-            waterGraphicLocation = atx.transform(waterGraphicLocation, null);
-            bImg = atxOp.filter(bImg, null);
-            setRegistrationPoint(bImg.getWidth() - getRegistrationPoint().getX(),
-                    getRegistrationPoint().getY());
+        if( orientation == RIGHT_FACING ) {
+            AffineTransform atx = AffineTransform.getScaleInstance( -1, 1 );
+            atx.translate( -bImg.getWidth( null ), 0 );
+            AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+            waterGraphicLocation = new Point2D.Double( getRegistrationPoint().getX(),
+                                                       getRegistrationPoint().getY() );
+            waterGraphicLocation = atx.transform( waterGraphicLocation, null );
+            bImg = atxOp.filter( bImg, null );
+            setRegistrationPoint( bImg.getWidth() - getRegistrationPoint().getX(),
+                                  getRegistrationPoint().getY() );
         }
-        faucetImage = new PImage(bImg);
-        addChild(faucetImage);
+        PImage faucetImage = new PImage( bImg );
+        addChild( faucetImage );
 
         // Water
-        waterShape = new Rectangle(0, 0, 0, 0);
-        waterGraphic = new PPath(waterShape);
-        waterGraphic.setOffset(waterGraphicLocation);
-        waterGraphic.setPaint(WATER_COLOR);
-        waterGraphic.setStrokePaint(null);
-        addChild(waterGraphic);
+        waterShape = new Rectangle( 0, 0, 0, 0 );
+        waterGraphic = new PPath( waterShape );
+        waterGraphic.setOffset( waterGraphicLocation );
+        waterGraphic.setPaint( WATER_COLOR );
+        waterGraphic.setStrokePaint( null );
+        addChild( waterGraphic );
 
         // Water Flow slider
-        flowSlider = new JSlider(0, (int) spigot.getMaxFlow(), 0);
-        flowSlider.setBackground(Color.black);
-        flowSlider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                FaucetGraphic.this.spigot.setFlow(flowSlider.getValue());
+        flowSlider = new JSlider( 0, (int)spigot.getMaxFlow(), 0 );
+        flowSlider.setBackground( Color.black );
+        flowSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() );
             }
-        });
+        } );
         // Add a listener that will shut off the faucet when the mouse is released
-        flowSlider.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
-                flowSlider.setValue(0);
+        flowSlider.addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                flowSlider.setValue( 0 );
             }
-        });
+        } );
 
-        flowSlider.setPreferredSize(new Dimension((int) faucetImage.getWidth() / 2, 15));
-        PSwing pSwing = new PSwing(pSwingCanvas, flowSlider);
-        pSwing.setOffset(22, 35);
-        pSwing.addInputEventListener(new PBasicInputEventHandler() {
-            public void mouseEntered(PInputEvent event) {
-                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-                ppc.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-            }
-
-            public void mouseExited(PInputEvent event) {
-                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-                ppc.setCursor(Cursor.getDefaultCursor());
+        flowSlider.setPreferredSize( new Dimension( (int)faucetImage.getWidth() / 2, 15 ) );
+        PSwing pSwing = new PSwing( pSwingCanvas, flowSlider );
+        pSwing.setOffset( 22, 35 );
+        pSwing.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseEntered( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( new Cursor( Cursor.W_RESIZE_CURSOR ) );
             }
 
-        });
-        addChild(pSwing);
+            public void mouseExited( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( Cursor.getDefaultCursor() );
+            }
+
+        } );
+        addChild( pSwing );
 
         update();
     }
@@ -165,9 +163,9 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     // Faucet.ChangeListener implementation
     //----------------------------------------------------------------------------
 
-    public void stateChanged(WaterSource.ChangeEvent event) {
-        if (flowSlider.getValue() != (int) event.getFaucet().getFlow()) {
-            flowSlider.setValue((int) event.getFaucet().getFlow());
+    public void stateChanged( WaterSource.ChangeEvent event ) {
+        if( flowSlider.getValue() != (int)event.getFaucet().getFlow() ) {
+            flowSlider.setValue( (int)event.getFaucet().getFlow() );
         }
         update();
     }
@@ -176,10 +174,10 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        int waterWidth = (int) Math.abs(spigot.getFlow() * MAX_WATER_WIDTH / spigot.getMaxFlow());
-        waterShape.setBounds(-(waterWidth / 2), 0, waterWidth,
-                (int) ((streamMaxY - getYOffset()) / getScale()));
-        waterGraphic.setPathTo(waterShape);
+        int waterWidth = (int)Math.abs( spigot.getFlow() * MAX_WATER_WIDTH / spigot.getMaxFlow() );
+        waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth,
+                              (int)( ( streamMaxY - getYOffset() ) / getScale() ) );
+        waterGraphic.setPathTo( waterShape );
         repaint();
     }
 }
