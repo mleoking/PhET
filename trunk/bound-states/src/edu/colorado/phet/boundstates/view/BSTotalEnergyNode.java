@@ -234,7 +234,7 @@ public class BSTotalEnergyNode extends PNode implements Observer {
             index = eigenstates.length - 1;
         }
         else {
-            for ( int i = 1; i < eigenstates.length - 1; i++ ) {
+            for ( int i = 1; i < eigenstates.length; i++ ) {
                 if ( energy <= eigenstates[i].getEnergy() ) {
                     double upperEnergyDifference = eigenstates[i].getEnergy() - energy;
                     double lowerEnergyDifference = energy - eigenstates[i-1].getEnergy();
