@@ -105,6 +105,7 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
                                box.getBoundsInternal().getWidth() + padding * 2,
                                box.getBoundsInternal().getHeight() + padding * 2 );
 
+                    b = box.getBoundsInternal();
                     if( !b.contains( molecule.getPosition() ) && isInBox ) {
                         isInBox = false;
                         spinner.decrementValue();
