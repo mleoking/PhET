@@ -163,13 +163,13 @@ public class BSWellComboBox extends JComboBox {
      * Creates the "Harmonic Oscillator" well icon.
      */
     private static ImageIcon createHarmonicOscillatorIcon() {
-        final int w = 25;
+        final int w = 17;
         final int h = 20;
         BufferedImage bi = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = bi.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         QuadCurve2D curve = new QuadCurve2D.Double();
-        curve.setCurve( 0, 10, w/2, 17, w, 10 );
+        curve.setCurve( 0, 3, w/2, 30, w, 3 );
         g2.setStroke( ICON_STROKE );
         g2.setPaint( ICON_COLOR );
         g2.draw( curve );
