@@ -135,7 +135,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         for ( int i = 0; i < NUMBER_OF_COEFFICIENTS; i++ ) {
             String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + i + "</sub>:</html>";
             labels.add( new JLabel( label ) );
-            DoubleSpinnerControl spinner = new DoubleSpinnerControl( COEFFICIENT_MIN, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
+            DoubleSpinner spinner = new DoubleSpinner( COEFFICIENT_MIN, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
             spinner.addChangeListener( _eventListener );
             _spinners.add( spinner );
         }
@@ -163,7 +163,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             for ( int i = 0; i < _spinners.size(); i++ ) {
                 EasyGridBagLayout layout = layouts[(int) i / numberOfSpinnersPerColumn];
                 JLabel label = (JLabel) labels.get( i );
-                DoubleSpinnerControl spinner = (DoubleSpinnerControl) _spinners.get( i );
+                DoubleSpinner spinner = (DoubleSpinner) _spinners.get( i );
                 layout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
                 layout.addAnchoredComponent( spinner, row, 1, GridBagConstraints.WEST );
                 row++;
@@ -269,7 +269,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
 
         public void stateChanged( ChangeEvent event ) {
             if ( _spinners.contains( event.getSource() ) ) {
-                handleCoefficientChange( (DoubleSpinnerControl) event.getSource() );
+                handleCoefficientChange( (DoubleSpinner) event.getSource() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -312,7 +312,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
     }
     
-    private void handleCoefficientChange( DoubleSpinnerControl spinner ) {
+    private void handleCoefficientChange( DoubleSpinner spinner ) {
         double value = spinner.getDoubleValue();
         if ( value < COEFFICIENT_MIN || value > COEFFICIENT_MAX ) {
             warnInvalidInput();
