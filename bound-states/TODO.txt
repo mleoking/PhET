@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- Superposition dialog
+- normalize in Superposition dialog
 - update persistence code to include new modules
 - override reset, save, load methods for each module
 - interaction with eignestate lines (ala Falstad)
@@ -41,6 +41,7 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - add Superposition dialog, not connected to any model, no normalization
 (3/6/06) - add Configure Energy dialog, not connected to any model
 (3/6/06) - add phetcommon's StopwatchPanel
 (3/6/06) - phetcommon: fix bugs in ClockControlPanel and StopwatchPanel

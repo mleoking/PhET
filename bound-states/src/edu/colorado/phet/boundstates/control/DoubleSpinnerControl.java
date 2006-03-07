@@ -24,61 +24,40 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 
 /**
- * SpinnerControl
+ * DoubleSpinnerControl
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DoubleSpinnerControl extends JPanel implements FocusListener {
+public class DoubleSpinnerControl extends JSpinner implements FocusListener {
     
-    private JSpinner _spinner;
     private JFormattedTextField _textField;
     
-    public DoubleSpinnerControl( String label, double value, double min, double max, double step, String format, Dimension size ) {
+    public DoubleSpinnerControl( double value, double min, double max, double step, String format, Dimension size ) {
         super( );
-        
-        // Label
-        JLabel spinnerLabel = new JLabel( label );
-        
+
         // Spinner 
         {
-            _spinner = new JSpinner();
             // model
             SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            _spinner.setModel( model );
+            setModel( model );
             // editor
-            NumberEditor numberEditor = new NumberEditor( _spinner, format );
-            _spinner.setEditor( numberEditor );
+            NumberEditor numberEditor = new NumberEditor( this, format );
+            setEditor( numberEditor );
             _textField = numberEditor.getTextField();
             _textField.addFocusListener( this );
             // size
-            _spinner.setPreferredSize( size );
-            _spinner.setMinimumSize( size );
-        }
-
-        // Layout
-        {
-            EasyGridBagLayout layout = new EasyGridBagLayout( this );
-            setLayout( layout );
-            layout.addAnchoredComponent( spinnerLabel, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _spinner, 0, 1, GridBagConstraints.WEST );
+            setPreferredSize( size );
+            setMinimumSize( size );
         }
     }
 
-    public double getValue() {
-        return ((Double) _spinner.getValue()).doubleValue();
+    public double getDoubleValue() {
+        return ((Double) getValue()).doubleValue();
     }
     
-    public void setValue( double value ) {
-        _spinner.setValue( new Double( value ) );
-    }
-    
-    public void addChangeListener( ChangeListener l ) {
-        _spinner.addChangeListener( l );
-    }
-    
-    public void removeChangeListener( ChangeListener l ) {
-        _spinner.removeChangeListener( l );
+    public void setDoubleValue( double value ) {
+        setValue( new Double( value ) );
     }
     
     /*
