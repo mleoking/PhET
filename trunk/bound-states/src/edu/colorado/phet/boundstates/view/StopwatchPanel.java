@@ -84,6 +84,7 @@ public class StopwatchPanel extends JPanel {
     private double scaleFactor;
     private double runningTime;
     private boolean isRunning;
+    private boolean resetEnabledWhileRunning;
 
     // Event handling...
     ClockListener clockListener;
@@ -164,6 +165,7 @@ public class StopwatchPanel extends JPanel {
         // Initialize...
         runningTime = 0;
         isRunning = false;
+        resetEnabledWhileRunning = true;
         updateButtons();
         updateTimeDisplay();
     }
@@ -294,6 +296,28 @@ public class StopwatchPanel extends JPanel {
         return ( runningTime == 0 );
     }
 
+    /**
+     * Determines whether the reset button is enabled while the
+     * stopwatch is running. True means that the reset button
+     * will always be enabled; false means that the reset button
+     * will be disabled while the stopwatch is running.
+     * 
+     * @param enabled true or false
+     */
+    public void setResetEnabledWhileRunning( boolean enabled ) {
+        resetEnabledWhileRunning = enabled;
+        updateButtons();
+    }
+    
+    /**
+     * Is the reset button enabled while the stopwatch is running?
+     * 
+     * @return true or false
+     */
+    public boolean isResetEnabledWhileRunning() {
+        return resetEnabledWhileRunning;
+    }
+    
     /*
      * Resizes buttons to their largest size, so they don't jump around.
      */
@@ -307,7 +331,6 @@ public class StopwatchPanel extends JPanel {
         Dimension preferredSize = new Dimension( Math.max( stopSize.width, startSize.width ), Math.max( stopSize.height, startSize.height ) );
         startStopButton.setPreferredSize( preferredSize );
         startStopButton.setText( saveString );
-        // Nothing to do for Reset button...
     }
 
     //----------------------------------------------------------------------------
@@ -333,7 +356,9 @@ public class StopwatchPanel extends JPanel {
         else {
             startStopButton.setText( startString );
         }
-        // Nothing to do for the Reset button, it's always enabled.
+            
+        // Reset button can optionally be disabled while stopwatch is running...
+        resetButton.setEnabled( resetEnabledWhileRunning || !isRunning );
     }
 
     //----------------------------------------------------------------------------
@@ -436,4 +461,29 @@ public class StopwatchPanel extends JPanel {
         }
     }
 
+    //-----------------------------------------------------------------
+    // Deprecated
+    //-----------------------------------------------------------------
+    
+    /**
+     * Sets visibility of the StopWatchPanel.
+     * This method is deprecated because its name is misleading
+     * and it adds no new functionality.
+     * 
+     * @deprecated use setVisible
+     */
+    public void setClockPanelVisible( boolean isVisible ) {
+        setVisible( isVisible );
+    }
+
+    /**
+     * Determines if the StopWatchPanel is visible.
+     * This method is deprecated because its name is misleading
+     * and it adds no new functionality.
+     * 
+     * @deprecated use isVisible
+     */
+    public boolean isClockPanelVisible() {
+        return isVisible();
+    }
 }
