@@ -51,15 +51,16 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
     private boolean _checkBoxesVisible;
     
     private int _selectionIndex;
-    private PBasicInputEventHandler _inputHandler;
+    private int _highlightIndex;
+    private PBasicInputEventHandler _selectionHandler;
     
     private Stroke _unselectedStroke;
     private Stroke _selectedStroke;
+    private Stroke _highlightStroke;
     private double _checkBoxesScale;
     
     public BSTotalEnergyNode( BSTotalEnergy totalEnergy, BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
-        setPickable( false ); // children are still pickable
         
         _totalEnergy = totalEnergy;
         _totalEnergy.addObserver( this );
@@ -68,20 +69,29 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         
         _lines = new ArrayList();
         _selectionIndex = 0;
+        _highlightIndex = -1;
         _checkBoxes = new ArrayList();
         _checkBoxesVisible = false;
         _checkBoxesScale = 1.0;
         
-        _unselectedStroke = BSConstants.TOTAL_ENERGY_UNSELECTED_STROKE;
-        _selectedStroke = BSConstants.TOTAL_ENERGY_SELECTED_STROKE;
+        _unselectedStroke = BSConstants.EIGENSTATE_UNSELECTED_STROKE;
+        _selectedStroke = BSConstants.EIGENSTATE_SELECTED_STROKE;
+        _highlightStroke = BSConstants.EIGENSTATE_HIGHLIGHT_STROKE;
         
-        _inputHandler = new PBasicInputEventHandler() {
+        _selectionHandler = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 PNode pickedNode = event.getPickedNode();
                 int index = getLineIndex( pickedNode );
                 handleSelection( index );
             }
         };
+        
+        PBasicInputEventHandler hightlightHandler = new PBasicInputEventHandler() {
+            public void mouseMoved( PInputEvent event ) {
+                handleHighlight( event );
+            }
+        };
+        addInputEventListener( hightlightHandler );
 
         updateDisplay();
     }
@@ -118,6 +128,8 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
 
     public void updateDisplay() {
 
+        setBounds( _chartNode.getEnergyPlotBounds() );
+        
         removeAllChildren();
         _lines.clear();
         _checkBoxes.clear();
@@ -135,8 +147,8 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
             PPath line = new PPath();
             line.setPathToPolyline( points );
             line.setStroke( _unselectedStroke );
-            line.setStrokePaint( BSConstants.TOTAL_ENERGY_UNSELECTED_COLOR );
-            line.addInputEventListener( _inputHandler );
+            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+            line.addInputEventListener( _selectionHandler );
             addChild( line );
             _lines.add( line );
             
@@ -180,9 +192,12 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         if ( index >= 0 ) {
             PPath line = (PPath) _lines.get( index );
             line.setStroke( _selectedStroke );
-            line.setStrokePaint( BSConstants.TOTAL_ENERGY_SELECTED_COLOR );
+            line.setStrokePaint( BSConstants.EIGENSTATE_SELECTED_COLOR );
             JCheckBox checkBox = (JCheckBox) _checkBoxes.get( index );
             checkBox.setSelected( true );
+            if ( index == _highlightIndex ) {
+                _highlightIndex = -1;
+            }
         }
     }
     
@@ -190,7 +205,7 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         if ( index >= 0 ) {
             PPath line = (PPath) _lines.get( index );
             line.setStroke( _unselectedStroke );
-            line.setStrokePaint( BSConstants.TOTAL_ENERGY_UNSELECTED_COLOR );
+            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
             JCheckBox checkBox = (JCheckBox) _checkBoxes.get( index );
             checkBox.setSelected( false );
         }
@@ -213,6 +228,63 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
             if ( line == _lines.get( i ) ) {
                 index = i;
                 break;
+            }
+        }
+        return index;
+    }
+    
+    private void handleHighlight( PInputEvent event ) {
+        
+        // Map the mouse position to an energy value...
+        Point2D localPosition = event.getPositionRelativeTo( this );
+        Point2D globalPosition = localToGlobal( localPosition );
+        Point2D chartPosition = _chartNode.globalToLocal( globalPosition );
+        Point2D energyPosition = _chartNode.nodeToEnergy( chartPosition );
+        final double energy = energyPosition.getY();
+
+        // Find the closest eigenstate...
+        int highlightIndex = getClosestEigenstateIndex( energy );
+
+        // Clear the previous highlight...
+        if ( _highlightIndex != -1 ) {
+            PPath line = (PPath) _lines.get( _highlightIndex );
+            line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
+            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+            _highlightIndex = -1;
+        }
+
+        // Set the new highlight...
+        if ( highlightIndex != _selectionIndex ) {
+            _highlightIndex = highlightIndex;
+            PPath line = (PPath) _lines.get( _highlightIndex );
+            line.setStroke( BSConstants.EIGENSTATE_HIGHLIGHT_STROKE );
+            line.setStrokePaint( BSConstants.EIGENSTATE_HIGHLIGHT_COLOR );
+
+        }
+    }
+    
+    private int getClosestEigenstateIndex( double energy ) {
+        BSEigenstate[] eigenstates = _totalEnergy.getEigenstates();
+        int index = 0;
+        if ( energy < eigenstates[0].getEnergy() ) {
+            index = 0;
+        }
+        else if ( energy > eigenstates[ eigenstates.length - 1 ].getEnergy() ) {
+            index = eigenstates.length - 1;
+        }
+        else {
+            for ( int i = 1; i < eigenstates.length - 1; i++ ) {
+                if ( energy <= eigenstates[i].getEnergy() ) {
+                    double upperEnergyDifference = eigenstates[i].getEnergy() - energy;
+                    double lowerEnergyDifference = energy - eigenstates[i-1].getEnergy();
+                    if ( upperEnergyDifference < lowerEnergyDifference ) {
+                        index = i;
+                    }
+                    else {
+                        index = i - 1;
+                    }
+                    break;
+                }
             }
         }
         return index;

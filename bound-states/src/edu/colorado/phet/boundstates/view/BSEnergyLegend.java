@@ -42,7 +42,7 @@ public class BSEnergyLegend extends PNode {
         
         // Total Energy
         BSLegendItem totalEnergyItem = 
-            new BSLegendItem( SimStrings.get( "legend.totalEnergy" ), BSConstants.TOTAL_ENERGY_UNSELECTED_COLOR );
+            new BSLegendItem( SimStrings.get( "legend.totalEnergy" ), BSConstants.TOTAL_ENERGY_COLOR );
         totalEnergyItem.translate( 0, 0 );
         addChild( totalEnergyItem );
         
