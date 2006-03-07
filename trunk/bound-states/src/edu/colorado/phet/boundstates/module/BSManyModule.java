@@ -232,10 +232,6 @@ public class BSManyModule extends BSAbstractModule {
         _canvas.addComponentListener( listener );
     }
     
-    public boolean hasHelp() {
-        return true;
-    }
-    
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
@@ -299,6 +295,34 @@ public class BSManyModule extends BSAbstractModule {
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+       
+    public boolean hasHelp() {
+        return true;
+    }
+    
+    public void deactivate() {
+        if ( _configureEnergyDialog != null ) {
+            _configureEnergyDialog.hide();
+        }
+        if ( _superpositionStateDialog != null ) {
+            _superpositionStateDialog.hide();
+        }
+        super.deactivate();
+    }
+    
+    public void activate() {
+        if ( _configureEnergyDialog != null ) {
+            _configureEnergyDialog.show();
+        }
+        if ( _superpositionStateDialog != null ) {
+            _superpositionStateDialog.show();
+        }
+        super.activate();
     }
     
     //----------------------------------------------------------------------------
