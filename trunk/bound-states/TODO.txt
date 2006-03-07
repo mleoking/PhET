@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - normalization of Superposition coefficients has round-off and double precision error
 - update persistence code to include new modules
 - override reset, save, load methods for each module
-- interaction with eignestate lines (ala Falstad)
 - well curves and drag handles
 - commandline options for choosing which modules to display
 
@@ -41,6 +40,7 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - highlighting and selection of eignestate lines (ala Falstad)
 (3/6/06) - hilight closest eigenstate as mouse moves in Energy chart
 (3/6/06) - show/hide dialogs when switching modules
 (3/6/06) - normalize superposition coefficients
