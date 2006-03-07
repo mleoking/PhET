@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Copper;
 import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class CopperHydroxide extends Salt {
 
-    static private Lattice_new_new lattice = new TwoToOneLattice( Copper.class,
+    static private Lattice lattice = new TwoToOneLattice( Copper.class,
 //    static private Lattice lattice = new TwoToOneLattice( Copper.class,
                                                                   Hydroxide.class,
                                                                   Copper.RADIUS + Hydroxide.RADIUS );

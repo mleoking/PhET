@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TwoToOneLattice extends Lattice_new_new {
+public class TwoToOneLattice extends Lattice {
 //public class TwoToOneLattice extends Lattice {
 
     private Class oneIonClass;

@@ -92,7 +92,7 @@ public class Crystal extends Body {
     private Point2D cm = new Point2D.Double();
     private ArrayList ions = new ArrayList();
 
-    private Lattice_new_new lattice;
+    private Lattice lattice;
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
     // Keeps track of the bounds of the water in the vessel
@@ -107,7 +107,7 @@ public class Crystal extends Body {
      * @param model
      * @param lattice Prototype lattice. A clone is created for this crystal
      */
-    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice ) {
+    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
         this( model, lattice, new ArrayList() );
     }
 
@@ -119,8 +119,8 @@ public class Crystal extends Body {
      * @param lattice Prototype lattice. A clone is created for this crystal
      * @param ions
      */
-    private Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions ) {
-        this.lattice = (Lattice_new_new)lattice.clone();
+    private Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
+        this.lattice = (Lattice)lattice.clone();
         this.model = model;
 
         // Open up the bounds to include the whole model so we can make the lattice
@@ -207,7 +207,7 @@ public class Crystal extends Body {
      * @param ions
      * @param seed
      */
-    public Crystal( SolubleSaltsModel model, Lattice_new_new lattice, List ions, Ion seed ) {
+    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
         this( model, lattice, ions );
         seed = null;
         double maxY = Double.MIN_VALUE;
