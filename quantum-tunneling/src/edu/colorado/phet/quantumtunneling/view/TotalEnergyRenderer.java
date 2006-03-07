@@ -204,7 +204,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             
             // Draw a band...
             {
-                Shape topShape = new Rectangle2D.Double( minX, minY, width, topHeight );
+                Shape topShape = new Rectangle2D.Double( minX, minY, width, topHeight + 1 );
                 Shape bottomShape = new Rectangle2D.Double( minX, averageY, width, bottomHeight );
 
                 // Take care that the gradients aren't zero pixels high! That will crash the JVM.
