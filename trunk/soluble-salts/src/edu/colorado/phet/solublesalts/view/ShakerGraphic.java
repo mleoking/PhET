@@ -30,13 +30,12 @@ import java.awt.geom.Point2D;
  */
 public class ShakerGraphic extends RegisterablePNode {
 
-    private PImage shakerImage;
     private Shaker shaker;
 
     public ShakerGraphic(Shaker shaker) {
         this.shaker = shaker;
-        shakerImage = PImageFactory.create(SolubleSaltsConfig.SHAKER_IMAGE_NAME);
-        this.addChild(shakerImage);
+        PImage shakerImage = PImageFactory.create( SolubleSaltsConfig.SHAKER_IMAGE_NAME );
+        this.addChild(shakerImage );
 
         this.addInputEventListener(new PBasicInputEventHandler() {
 
