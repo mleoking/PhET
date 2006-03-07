@@ -11,16 +11,11 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.BasicStroke;
 import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JCheckBox;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -29,36 +24,43 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 /**
  * BSTotalEnergyNode displays the total energy eigenstates as a set of horizontal lines.
- * The lines are pickable, and the selected eigenstate is highlighted.
+ * Clicking on a line selects it.  Moving the cursor over the Energy chart highlights
+ * the line that is closest to the mouse cursor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSTotalEnergyNode extends PNode implements Observer, ActionListener {
+public class BSTotalEnergyNode extends PNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private BSTotalEnergy _totalEnergy;
     private BSCombinedChartNode _chartNode;
     private PSwingCanvas _canvas;
     
     private ArrayList _lines; // array of PPath
-    private ArrayList _checkBoxes; // array of PSwing
-    private boolean _checkBoxesVisible;
     
     private int _selectionIndex;
     private int _highlightIndex;
-    private PBasicInputEventHandler _selectionHandler;
     
-    private Stroke _unselectedStroke;
-    private Stroke _selectedStroke;
-    private Stroke _highlightStroke;
-    private double _checkBoxesScale;
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param totalEnergy
+     * @param chartNode
+     * @param canvas
+     */
     public BSTotalEnergyNode( BSTotalEnergy totalEnergy, BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
         
@@ -70,32 +72,26 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         _lines = new ArrayList();
         _selectionIndex = 0;
         _highlightIndex = -1;
-        _checkBoxes = new ArrayList();
-        _checkBoxesVisible = false;
-        _checkBoxesScale = 1.0;
         
-        _unselectedStroke = BSConstants.EIGENSTATE_UNSELECTED_STROKE;
-        _selectedStroke = BSConstants.EIGENSTATE_SELECTED_STROKE;
-        _highlightStroke = BSConstants.EIGENSTATE_HIGHLIGHT_STROKE;
-        
-        _selectionHandler = new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                PNode pickedNode = event.getPickedNode();
-                int index = getLineIndex( pickedNode );
-                handleSelection( index );
-            }
-        };
-        
-        PBasicInputEventHandler hightlightHandler = new PBasicInputEventHandler() {
+        PBasicInputEventHandler mouseHandler = new PBasicInputEventHandler() {
             public void mouseMoved( PInputEvent event ) {
                 handleHighlight( event );
             }
+            public void mouseExited( PInputEvent event ) {
+                clearHightlight();
+            }
+            public void mousePressed( PInputEvent event ) {
+                handleSelection();
+            }
         };
-        addInputEventListener( hightlightHandler );
+        addInputEventListener( mouseHandler );
 
         updateDisplay();
     }
 
+    /**
+     * Call this method before releasing all references to an object of this type.
+     */
     public void cleanup() {
         if ( _totalEnergy != null ) {
             _totalEnergy.deleteObserver( this );
@@ -103,22 +99,16 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         }
     }
     
-    public void showEigenstateCheckBoxes( boolean visible ) {
-        _checkBoxesVisible = visible;
-        updateDisplay();
-    }
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
-    public void scaleEigenstateCheckBoxes( double scale ) {
-        _checkBoxesScale = scale;
-        updateDisplay();
-    }
-    
-    public void setStrokeWidth( double width ) {
-        _unselectedStroke = new BasicStroke( (float) width );
-        _selectedStroke = new BasicStroke( (float) width + 1 );
-        updateDisplay();
-    }
-    
+    /**
+     * Synchronizes the display with the model.
+     * 
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _totalEnergy ) {
             _selectionIndex = 0;
@@ -126,17 +116,22 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         }
     }
 
+    //----------------------------------------------------------------------------
+    // Updater
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display to account for changes in the model or the canvas size.
+     */
     public void updateDisplay() {
 
         setBounds( _chartNode.getEnergyPlotBounds() );
         
         removeAllChildren();
         _lines.clear();
-        _checkBoxes.clear();
 
         BSEigenstate[] eigenstates = _totalEnergy.getEigenstates();
         for ( int i = 0; i < eigenstates.length; i++ ) {
-
             // Node the draws the eigenstate line...
             double minPosition = BSConstants.POSITION_RANGE.getLowerBound();
             double maxPosition = BSConstants.POSITION_RANGE.getUpperBound();
@@ -146,93 +141,59 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
             Point2D[] points = new Point2D[] { pLeft, pRight };
             PPath line = new PPath();
             line.setPathToPolyline( points );
-            line.setStroke( _unselectedStroke );
+            line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
             line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
-            line.addInputEventListener( _selectionHandler );
             addChild( line );
             _lines.add( line );
-            
-            // Node that draws a checkbox on the eigenstate line...
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setOpaque( false );
-            checkBox.addActionListener( this );
-            PSwing pswing = new PSwing( _canvas, checkBox );
-            pswing.scale( _checkBoxesScale );
-            pswing.setVisible( _checkBoxesVisible );
-            
-            double x = pRight.getX() - ( (i+1) * pswing.getFullBounds().getWidth() );
-            double y = pRight.getY() - ( pswing.getFullBounds().getHeight() / 2 );
-            pswing.setOffset( x, y );
-            addChild( pswing );
-            _checkBoxes.add( checkBox );
         }
         
-        // Select the lowest eigenstate by default...
-        ((JCheckBox)_checkBoxes.get( _selectionIndex )).setSelected( true );
-        handleSelection( _selectionIndex );
+        selectEigenstate( _selectionIndex );
     }
     
-    public void actionPerformed( ActionEvent event ) {
-        if ( event.getSource() instanceof JCheckBox ) {
-            JCheckBox checkBox = (JCheckBox) event.getSource();
-            int index = getCheckBoxIndex( checkBox );
-            if ( checkBox.isSelected() || index == _selectionIndex ) {
-                handleSelection( index );
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Selects the eigenstate that the mouse cursor is closest to,
+     * which also happens to be the eigenstate that is currently highlighted.
+     * 
+     * @param event
+     */
+    private void handleSelection() {
+        selectEigenstate( _highlightIndex );
+    }
+    
+    /*
+     * Selects an eigenstate by index.
+     * Any previous selection is deselected.
+     * 
+     * @param index
+     */
+    private void selectEigenstate( final int index ) {
+        if ( index != -1 ) {
+            if ( _selectionIndex != -1 ) {
+                PPath line = (PPath) _lines.get( _selectionIndex );
+                line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
+                line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
             }
-        }
-    }
-    
-    private void handleSelection( int index ) {
-        deselectEigenstate( _selectionIndex );
-        selectEigenstate( index );
-        _selectionIndex = index;
-    }
-    
-    private void selectEigenstate( int index ) {
-        if ( index >= 0 ) {
-            PPath line = (PPath) _lines.get( index );
-            line.setStroke( _selectedStroke );
-            line.setStrokePaint( BSConstants.EIGENSTATE_SELECTED_COLOR );
-            JCheckBox checkBox = (JCheckBox) _checkBoxes.get( index );
-            checkBox.setSelected( true );
+
             if ( index == _highlightIndex ) {
                 _highlightIndex = -1;
             }
+
+            _selectionIndex = index;
+            PPath line = (PPath) _lines.get( _selectionIndex );
+            line.setStroke( BSConstants.EIGENSTATE_SELECTED_STROKE );
+            line.setStrokePaint( BSConstants.EIGENSTATE_SELECTED_COLOR );
         }
     }
     
-    private void deselectEigenstate( int index ) {
-        if ( index >= 0 ) {
-            PPath line = (PPath) _lines.get( index );
-            line.setStroke( _unselectedStroke );
-            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
-            JCheckBox checkBox = (JCheckBox) _checkBoxes.get( index );
-            checkBox.setSelected( false );
-        }
-    }
-    
-    private int getCheckBoxIndex( JCheckBox checkBox ) {
-        int index = -1;
-        for ( int i = 0; i < _checkBoxes.size(); i++ ) {
-            if ( checkBox == _checkBoxes.get( i ) ) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-    
-    private int getLineIndex( PNode line ) {
-        int index = -1;
-        for ( int i = 0; i < _lines.size(); i++ ) {
-            if ( line == _lines.get( i ) ) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-    
+    /*
+     * Highlights the eigenstate that the mouse cursor is closest to.
+     * Any previous highlight is unhighlighted.
+     * The selected eigenstate is not highlightable.
+     */
     private void handleHighlight( PInputEvent event ) {
         
         // Map the mouse position to an energy value...
@@ -246,12 +207,7 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         int highlightIndex = getClosestEigenstateIndex( energy );
 
         // Clear the previous highlight...
-        if ( _highlightIndex != -1 ) {
-            PPath line = (PPath) _lines.get( _highlightIndex );
-            line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
-            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
-            _highlightIndex = -1;
-        }
+        clearHightlight();
 
         // Set the new highlight...
         if ( highlightIndex != _selectionIndex ) {
@@ -263,6 +219,11 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
         }
     }
     
+    /*
+     * Gets the index of the eigenstate that is closest to a specified energy value.
+     * 
+     * @param energy
+     */
     private int getClosestEigenstateIndex( double energy ) {
         BSEigenstate[] eigenstates = _totalEnergy.getEigenstates();
         int index = 0;
@@ -288,5 +249,17 @@ public class BSTotalEnergyNode extends PNode implements Observer, ActionListener
             }
         }
         return index;
+    }
+    
+    /*
+     * Clears the current highlight.
+     */
+    private void clearHightlight() {
+        if ( _highlightIndex != -1 ) {
+            PPath line = (PPath) _lines.get( _highlightIndex );
+            line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
+            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+            _highlightIndex = -1;
+        }
     }
 }
