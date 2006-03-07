@@ -12,7 +12,6 @@ import edu.colorado.phet.idealgas.model.IdealGasModel;
 public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
 //    private SphereBoxCollisionExpert detector = new SphereBoxCollisionExpert();
-    private Collision collision;
     private IdealGasModel model;
 
     public SphereBoxExpert( IdealGasModel model ) {
@@ -30,25 +29,27 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                         (Box2D)bodyA : (Box2D)bodyB;
             if( !box.isInOpening( sphere ) ) {
 
-                boolean result = false;
                 double sx = sphere.getPosition().getX();
                 double sy = sphere.getPosition().getY();
+                double spx = sphere.getPositionPrev().getX();
+                double spy = sphere.getPositionPrev().getY();
                 double r = sphere.getRadius();
 
-//                if( box.isInOpening( sphere ) ) {
-//                    return result;
-//                }
-
                 // Check for contact with each of the walls
-                boolean leftWall = ( sx - r ) <= box.getMinX();
-                boolean rightWall = ( sx + r ) >= box.getMaxX();
-                boolean topWall = ( sy - r ) <= box.getMinY();
-                boolean bottomWall = ( sy + r ) >= box.getMaxY();
+                boolean leftWall = ( sx - r ) <= box.getMinX() && ( spx - r ) > box.getMinX();
+                boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
+                boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
+                boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
+//                boolean leftWall = ( sx - r ) <= box.getMinX();
+//                boolean rightWall = ( sx + r ) >= box.getMaxX();
+//                boolean topWall = ( sy - r ) <= box.getMinY();
+//                boolean bottomWall = ( sy + r ) >= box.getMaxY();
 
-                //If the sphere is in contact with two opposing walls, don't do anything
+                //If the sphere is in contact with two opposing walls, don't do anything. Need this for spheres
+                // that fill the box
                 if( !( leftWall && rightWall || topWall && bottomWall ) ) {
 
-                    collision = new SphereBoxCollision( sphere, box, model );
+                    Collision collision = new SphereBoxCollision( sphere, box, model );
                     collision.collide();
                     // If the following line is enabled, the helium balloon will freeze the simulation
                     // if it expands to fill the box, and so will the hot air balloon if you just edge

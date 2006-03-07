@@ -202,7 +202,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic
      */
     public void stateChanged( PressureSensingBox.ChangeEvent event ) {
         double pressure = event.getPressureSensingBox().getPressure();
-        if( pressure > .5 ) {
+        if( pressure > IdealGasConfig.MAX_SAFE_PRESSURE ) {
             blowOffRotation -= 10;
             this.setTransform( AffineTransform.getRotateInstance( Math.toRadians( blowOffRotation ),
                                                                   doorShapeGraphic.getLocation().getX(),

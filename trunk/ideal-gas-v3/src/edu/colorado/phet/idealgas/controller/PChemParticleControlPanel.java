@@ -26,7 +26,7 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
 
     public PChemParticleControlPanel( IdealGasModule module, GasSource gasSource,
                                       String labelA, String labelB ) {
-        super( module, gasSource );
+        super( module );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
         ((IdealGasModel)getModule().getModel()).addObserver( new SimpleObserver() {

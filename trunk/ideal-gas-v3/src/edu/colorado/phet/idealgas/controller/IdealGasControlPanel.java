@@ -11,9 +11,11 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -35,9 +38,7 @@ import java.util.Hashtable;
 public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListener {
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
-    private JTextField gravityTF;
     private JSlider gravitySlider;
-    private JPanel gravityControlPanel;
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
     private GridBagConstraints gbc;
@@ -95,6 +96,20 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         GridBagConstraints resetGbc = (GridBagConstraints)gbc.clone();
         resetGbc.fill = GridBagConstraints.NONE;
         this.add( resetBtn, resetGbc );
+
+
+        JButton testBtn = new JButton( "Test");
+        testBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 100,
+                                                                       module.getBox().getPosition().getY() + 30),
+                                                   new Vector2D.Double( -0, -20),
+                                                   new Vector2D.Double(  ));
+                new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
+            }
+        } );
+//        resetGbc.gridy++;
+        this.add( testBtn, resetGbc );
 
 
         Border border = BorderFactory.createEtchedBorder();
@@ -199,7 +214,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      */
     private JPanel gravityControls() {
 
-        gravityControlPanel = new JPanel( new GridBagLayout() );
+        JPanel gravityControlPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -223,7 +238,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         } );
 
         // Add a readout for the value of gravity
-        gravityTF = new JTextField( 2 );
+        JTextField gravityTF = new JTextField( 2 );
         gravityTF.setEditable( false );
         gravityTF.setHorizontalAlignment( JTextField.RIGHT );
         gravityFormat.setMaximumFractionDigits( 2 );

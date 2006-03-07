@@ -36,6 +36,7 @@ public class IdealGasConfig {
     public static final int WAIT_TIME = 40;
     public static final double TEMPERATURE_SCALE_FACTOR = 20;
     public static final double MAX_GAUGE_PRESSURE = 6.0;
+    public static final double MAX_SAFE_PRESSURE = MAX_GAUGE_PRESSURE;
     public static final int MAX_GRAVITY = 40;
     // Calibration factor for stopwatch. Determined from data given me by Linda Koch and Jack Barbera
     public static final double TIME_SCALE_FACTOR = 1.71;
@@ -72,9 +73,7 @@ public class IdealGasConfig {
     public static final String STOVE_ICON_FILE = IMAGE_DIRECTORY + "stove-small.gif";
     public static final String STOVE_AND_ICE_ICON_FILE = IMAGE_DIRECTORY + "stove-and-ice-small.gif";
     public static final String HOT_AIR_BALLOON_FLAMES_IMAGE_FILE = IMAGE_DIRECTORY + "hot-air-balloon-flames.gif";
-
     public static final String THERMOMETER_IMAGE_FILE = IMAGE_DIRECTORY + "thermometer.gif";
-
     public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "10-nanometer-stick.png";
 
     // Animation images

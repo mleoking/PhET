@@ -54,7 +54,16 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
         }
     }
 
+    static int cnt = 0;
+    /**
+     * Constructor
+     * 
+     * @param apparatusPanel
+     * @param molecule
+     */
     public HeavySpeciesGraphic( ApparatusPanel apparatusPanel, GasMolecule molecule ) {
         super( apparatusPanel, s_particleImage, molecule );
+        cnt++;
+        System.out.println( "cnt = " + cnt );
     }
 }

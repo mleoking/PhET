@@ -15,7 +15,6 @@ import edu.colorado.phet.idealgas.model.*;
 import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 
 /**
  * PumpControlPanel
@@ -29,7 +28,7 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
     private PressureSensingBox box;
 
     public PumpControlPanel( IdealGasModule module, GasSource gasSource, String[] speciesNames ) {
-        super( module, gasSource, speciesNames );
+        super( module, speciesNames );
         module.getPump().addListener( this );
         this.box = module.getBox();
     }
@@ -68,19 +67,11 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         molecule.addObserver( new MoleculeRemover( molecule ) );
     }
 
-    public void removedFromSystem() {
-
-    }
-
-    public void update() {
-        // noop
-    }
-
     private class MoleculeRemover implements GasMolecule.Observer {
         GasMolecule molecule;
         boolean isInBox = true;
         boolean init;
-        JSpinner spinner;
+        MoleculeCountSpinner spinner;
         Point2D p = new Point2D.Double();
         Rectangle2D b = new Rectangle2D.Double();
 
@@ -95,6 +86,11 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         }
 
         public void removedFromSystem() {
+            update();
+//            if( !box.getBoundsInternal().contains( molecule.getPosition() ) ) {
+//            if( molecule.isInBox() ) {
+//                spinner.decrementValue();
+//            }
         }
 
         /**
@@ -103,7 +99,7 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
         public void update() {
             SwingUtilities.invokeLater(  new Runnable() {
                 public void run() {
-                    int padding = 10;
+                    int padding = 5;
                     b.setRect( box.getBoundsInternal().getX() - padding,
                                box.getBoundsInternal().getY() - padding,
                                box.getBoundsInternal().getWidth() + padding * 2,
@@ -111,13 +107,11 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
 
                     if( !b.contains( molecule.getPosition() ) && isInBox ) {
                         isInBox = false;
-                        int oldCnt = ( (Integer)spinner.getValue() ).intValue();
-                        spinner.setValue( new Integer( --oldCnt ) );
+                        spinner.decrementValue();
                     }
                     if( b.contains( molecule.getPosition() ) && !isInBox ) {
                         isInBox = true;
-                        int oldCnt = ( (Integer)spinner.getValue() ).intValue();
-                        spinner.setValue( new Integer( ++oldCnt ) );
+                        spinner.incrementValue();
                     }
                 }
             } );

@@ -26,7 +26,7 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
     private HollowSphere sphere;
 
     public HollowSphereControlPanel( IdealGasModule module, GasSource gasSource, HollowSphere sphere ) {
-        super( module, gasSource );
+        super( module );
 //        sphere.addHollowSphereListener( this );
         this.sphere = sphere;
     }
@@ -55,24 +55,31 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
     public void moleculeAdded( HollowSphere.MoleculeEvent event ) {
         GasMolecule molecule = event.getMolecule();
         if( molecule instanceof HeavySpecies ) {
-            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
-            getHeavySpinner().setValue( new Integer( oldCnt + 1 ) );
+            getHeavySpinner().incrementValue();
+//            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
+//            boolean isEnabled = getHeavySpinner().isEnabled();
+//            getHeavySpinner().setEnabled( false );
+//            getHeavySpinner().setValue( new Integer( oldCnt + 1 ) );
+//            getHeavySpinner().setEnabled( isEnabled );
         }
         else if( molecule instanceof LightSpecies ) {
-            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
-            getLightSpinner().setValue( new Integer( oldCnt + 1 ) );
+            getLightSpinner().incrementValue();
+//            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
+//            getLightSpinner().setValue( new Integer( oldCnt + 1 ) );
         }
     }
 
     public void moleculeRemoved( HollowSphere.MoleculeEvent event ) {
         GasMolecule molecule = event.getMolecule();
         if( molecule instanceof HeavySpecies ) {
-            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
-            getHeavySpinner().setValue( new Integer( oldCnt - 1 ) );
+            getHeavySpinner().decrementValue();
+//            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
+//            getHeavySpinner().setValue( new Integer( oldCnt - 1 ) );
         }
         else if( molecule instanceof LightSpecies ) {
-            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
-            getLightSpinner().setValue( new Integer( oldCnt - 1 ) );
+            getLightSpinner().decrementValue();
+//            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
+//            getLightSpinner().setValue( new Integer( oldCnt - 1 ) );
         }
     }
 }

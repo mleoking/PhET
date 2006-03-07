@@ -41,6 +41,8 @@ public class SphereBoxCollision implements Collision {
     public void collide() {
         double sx = sphere.getPosition().getX();
         double sy = sphere.getPosition().getY();
+        double spx = sphere.getPositionPrev().getX();
+        double spy = sphere.getPositionPrev().getY();
         double r = sphere.getRadius();
 
         if( box.isInOpening( sphere ) ) {
@@ -48,10 +50,15 @@ public class SphereBoxCollision implements Collision {
         }
 
         // Check for contact with each of the walls
-        boolean leftWall = ( sx - r ) <= box.getMinX();
-        boolean rightWall = ( sx + r ) >= box.getMaxX();
-        boolean topWall = ( sy - r ) <= box.getMinY();
-        boolean bottomWall = ( sy + r ) >= box.getMaxY();
+//        boolean leftWall = ( sx - r ) <= box.getMinX();
+//        boolean rightWall = ( sx + r ) >= box.getMaxX();
+//        boolean topWall = ( sy - r ) <= box.getMinY();
+//        boolean bottomWall = ( sy + r ) >= box.getMaxY();
+        boolean leftWall = ( sx - r ) <= box.getMinX() && ( spx - r ) > box.getMinX();
+        boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
+        boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
+        boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
+
 
         // Collision with left wall?
         if( leftWall && !rightWall ) {

@@ -269,14 +269,13 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         }
 
         if( modelElement instanceof GasMolecule ) {
+            GasMolecule gm = (GasMolecule)modelElement;
             ( (GasMolecule)modelElement ).removeYourselfFromSystem();
         }
         if( modelElement instanceof HeavySpecies ) {
-            HeavySpecies.removeParticle( (HeavySpecies)modelElement );
             heavySpeciesCnt--;
         }
         if( modelElement instanceof LightSpecies ) {
-            LightSpecies.removeParticle( (LightSpecies)modelElement );
             lightSpeciesCnt--;
         }
 
@@ -489,9 +488,9 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ModelElement body = this.modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
+                gasMolecule.setInBox( box.getBoundsInternal().contains( gasMolecule.getPosition() ) );
+//                if( box.getBoundsInternal().contains( gasMolecule.getPosition() ) ) {
                 if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
-                    System.out.println( "modelBounds = " + modelBounds );
-                    System.out.println( "gasMolecule = " + gasMolecule.getPosition() );
                     removeList.add( gasMolecule );
                 }
             }
@@ -666,8 +665,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         }
         // Remove them from the system
         for( int i = 0; i < removalList.size(); i++ ) {
-            ModelElement modelElement = (ModelElement)removalList.get( i );
-            GasMolecule gm = (GasMolecule)modelElement;
+            GasMolecule gm = (GasMolecule)removalList.get( i );
             this.removeModelElement( gm );
         }
     }
@@ -677,18 +675,18 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         this.modelBounds = modelBounds;
 
         Shape s = box.getBoundsInternal();
-        int padding = 50;
+        int padding = 5;
         this.modelBounds = new Rectangle2D.Double( s.getBounds().getX() - padding,
                                                    s.getBounds().getY() - padding,
                                                    s.getBounds().getWidth() + 2 * padding,
-                                                   s.getBounds().getHeight() + 2 * padding);
+                                                   s.getBounds().getHeight() + 2 * padding );
         Point2D p1 = box.getOpening()[0];
         Point2D p2 = box.getOpening()[1];
-        Rectangle2D r = new Rectangle2D.Double( p1.getX(), 0, p2.getX() - p1.getX(), p1.getY() );
+        Rectangle2D r = new Rectangle2D.Double( p1.getX(), 40, p2.getX() - p1.getX(), p1.getY() );
 //        System.out.println( "r = " + r );
         Area a = new Area( s );
         a.add( new Area( r ) );
-//        this.modelBounds = a;
+        this.modelBounds = a;
     }
 
     //----------------------------------------------------------------
@@ -719,7 +717,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     //----------------------------------------------------------------
     // Event and Listener definitions
     //----------------------------------------------------------------
-    
+
     private EventChannel heatSourceChangeChannel = new EventChannel( HeatSourceChangeListener.class );
     private HeatSourceChangeListener heatSourceChangeListenerProxy = (HeatSourceChangeListener)heatSourceChangeChannel.getListenerProxy();
 

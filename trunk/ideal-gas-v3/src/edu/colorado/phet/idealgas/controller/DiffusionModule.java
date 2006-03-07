@@ -36,8 +36,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class DiffusionModule extends AdvancedModule {
     private Wall upperWall;
-    private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
-    private double minimumWallSeparation = GasMolecule.s_defaultRadius * 2;
+    private int wallThickness = (int)GasMolecule.s_radius * 8;
+    private double minimumWallSeparation = GasMolecule.s_radius * 2;
 
     /**
      *
@@ -108,9 +108,9 @@ public class DiffusionModule extends AdvancedModule {
                               box.getBoundsInternal() );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         verticalWall.setMinimumWidth( wallThickness );
-        verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
-                                                             box.getCorner1Y() + GasMolecule.s_defaultRadius * 8,
-                                                             box.getWidth() - GasMolecule.s_defaultRadius * 16,
+        verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_radius * 8,
+                                                             box.getCorner1Y() + GasMolecule.s_radius * 8,
+                                                             box.getWidth() - GasMolecule.s_radius * 16,
                                                              box.getHeight() ) );
         WallGraphic verticalWallGraphic = new WallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
@@ -128,10 +128,10 @@ public class DiffusionModule extends AdvancedModule {
                               box.getBoundsInternal() );
         upperWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         upperWall.setMinimumWidth( wallThickness );
-        upperWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
+        upperWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_radius * 8,
                                                              box.getCorner1Y(),
-                                                             box.getWidth() - GasMolecule.s_defaultRadius * 16,
-                                                             box.getHeight() - GasMolecule.s_defaultRadius * 8 ) );
+                                                             box.getWidth() - GasMolecule.s_radius * 16,
+                                                             box.getHeight() - GasMolecule.s_radius * 8 ) );
         WallGraphic upperWallGraphic = new WallGraphic( upperWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
