@@ -94,23 +94,23 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
-    public static final Color CHART_BACKGROUND = Color.WHITE;
-    public static final Color PLOT_BACKGROUND = Color.WHITE;
+    public static final Color CHART_BACKGROUND = Color.BLACK;
+    public static final Color PLOT_BACKGROUND = Color.BLACK;
     public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color INCIDENT_REAL_WAVE_COLOR = Color.RED;
-    public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = Color.BLUE;
-    public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.BLACK;
+    public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = new Color( 26, 135, 255 ); // bright blue
+    public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.WHITE;
     public static final Color REFLECTED_REAL_WAVE_COLOR = INCIDENT_REAL_WAVE_COLOR;
     public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
     public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
-    public static final Color REGION_MARKER_COLOR = Color.BLACK;
+    public static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
+    public static final Color REGION_MARKER_COLOR = Color.WHITE;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
     public static final Color TICK_MARK_COLOR = Color.BLACK;
-    public static final Color DRAG_HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    public static final Color DRAG_HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 140 );
-    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.BLACK;
+    public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
+    public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
+    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Images

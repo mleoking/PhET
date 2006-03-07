@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(3/7/06) - change color scheme to black plot background
 (3/7/06) - bugfix: total energy band needs to have a 1-pixel overlap at center
 (3/6/06) - RichardsonSolver: add a developer control for dx, show developer controls
 0.00.18...
