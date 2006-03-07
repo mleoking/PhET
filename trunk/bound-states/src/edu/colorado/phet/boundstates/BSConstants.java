@@ -89,12 +89,12 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
-    public static final Color CHART_BACKGROUND = Color.WHITE;
-    public static final Color PLOT_BACKGROUND = Color.WHITE;
+    public static final Color CHART_BACKGROUND = Color.BLACK;
+    public static final Color PLOT_BACKGROUND = Color.BLACK;
     public static final Color TOTAL_ENERGY_COLOR = new Color( 23, 172, 18 ); // dark green
     public static final Color EIGENSTATE_UNSELECTED_COLOR = TOTAL_ENERGY_COLOR;
     public static final Color EIGENSTATE_SELECTED_COLOR = Color.RED;
-    public static final Color EIGENSTATE_HIGHLIGHT_COLOR = Color.GREEN;
+    public static final Color EIGENSTATE_HIGHLIGHT_COLOR = Color.YELLOW;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color REAL_WAVE_COLOR = Color.RED;
     public static final Color IMAGINARY_WAVE_COLOR = Color.BLUE;
