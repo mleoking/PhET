@@ -24,16 +24,16 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 
 /**
- * DoubleSpinnerControl
+ * DoubleSpinner
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DoubleSpinnerControl extends JSpinner implements FocusListener {
+public class DoubleSpinner extends JSpinner implements FocusListener {
     
     private JFormattedTextField _textField;
     
-    public DoubleSpinnerControl( double value, double min, double max, double step, String format, Dimension size ) {
+    public DoubleSpinner( double value, double min, double max, double step, String format, Dimension size ) {
         super( );
 
         // Spinner 
