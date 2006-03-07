@@ -66,12 +66,6 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     
     private static final int DEFAULT_LOOK = LOOK_ARROW;
     
-    private static final Color HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    private static final Stroke HANDLE_STROKE = new BasicStroke( 1f );
-    private static final Color HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 140 );
-    
-    private static final Font TEXT_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    private static final Color TEXT_COLOR = Color.BLACK;
     private static final NumberFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.0" );
     
     private static final float HANDLE_ARROW_SCALE = 24f;
@@ -129,9 +123,9 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
             shape = getArrowShape( orientation );
         }
         setPathTo( shape );
-        setPaint( HANDLE_FILL_COLOR );
-        setStroke( HANDLE_STROKE );
-        setStrokePaint( HANDLE_STROKE_COLOR );
+        setPaint( QTConstants.DRAG_HANDLE_FILL_COLOR );
+        setStroke( QTConstants.DRAG_HANDLE_STROKE );
+        setStrokePaint( QTConstants.DRAG_HANDLE_STROKE_COLOR );
         
         // registration point @ center
         _registrationPoint = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
@@ -180,8 +174,8 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
             _textNode = new PText();
             addChild( _textNode );
             _textNode.setPickable( false );
-            _textNode.setFont( TEXT_FONT );
-            _textNode.setTextPaint( TEXT_COLOR );
+            _textNode.setFont( QTConstants.DRAG_HANDLE_FONT );
+            _textNode.setTextPaint( QTConstants.DRAG_HANDLE_TEXT_COLOR );
             _textNode.setText( "0.0" );
             Rectangle2D dragHandleBounds = getBounds();
             double x = 0;

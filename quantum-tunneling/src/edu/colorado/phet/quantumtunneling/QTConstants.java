@@ -66,6 +66,7 @@ public class QTConstants {
 
     public static final String FONT_NAME = "Lucida Sans";
     public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
+    public static final Font DRAG_HANDLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -86,6 +87,7 @@ public class QTConstants {
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 1f );
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
+    public static final Stroke DRAG_HANDLE_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Paints
@@ -106,6 +108,9 @@ public class QTConstants {
     public static final Color REGION_MARKER_COLOR = Color.BLACK;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
     public static final Color TICK_MARK_COLOR = Color.BLACK;
+    public static final Color DRAG_HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+    public static final Color DRAG_HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 140 );
+    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Images
