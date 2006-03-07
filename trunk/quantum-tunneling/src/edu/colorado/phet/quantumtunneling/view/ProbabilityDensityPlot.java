@@ -64,6 +64,8 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
+        setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
+        setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
         setDataset( data );
         setRenderer( renderer );
         setDomainAxis( xAxis );

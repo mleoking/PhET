@@ -191,6 +191,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             PositionAxis xAxis = new PositionAxis();
             setDomainAxis( xAxis );
             setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
+            setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
         }
         
         // Y (range) axis
@@ -199,6 +200,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             setRangeAxis( yAxis );
             setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
             setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
+            setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
             yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
             yAxis.setRange( QTConstants.DEFAULT_WAVE_FUNCTION_RANGE );
             yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
