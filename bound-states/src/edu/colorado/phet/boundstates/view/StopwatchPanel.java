@@ -76,7 +76,7 @@ public class StopwatchPanel extends JPanel {
     private String stopString;
     private JButton startStopButton;
     private JButton resetButton;
-    private JTextField timeDisplay = new JTextField();
+    private JTextField timeDisplay;
     private NumberFormat timeFormat;
     private JLabel timeUnitsLabel;
 
@@ -89,8 +89,8 @@ public class StopwatchPanel extends JPanel {
     ClockListener clockListener;
     
     // Notification...
-    private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
-    private StopwatchListener stopwatchListenerProxy = (StopwatchListener) stopwatchEventChannel.getListenerProxy();
+    private EventChannel stopwatchEventChannel;
+    private StopwatchListener stopwatchListenerProxy;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -156,6 +156,10 @@ public class StopwatchPanel extends JPanel {
         resetButton.addActionListener( buttonListener );
         clockListener = new StopwatchClockListener();
         clock.addClockListener( clockListener );
+
+        // State change notification
+        stopwatchEventChannel = new EventChannel( StopwatchListener.class );
+        stopwatchListenerProxy = (StopwatchListener) stopwatchEventChannel.getListenerProxy();
 
         // Initialize...
         runningTime = 0;
