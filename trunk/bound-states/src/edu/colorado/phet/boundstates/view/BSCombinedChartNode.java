@@ -58,6 +58,15 @@ public class BSCombinedChartNode extends JFreeChartNode {
     //----------------------------------------------------------------------------
     
     /**
+     * Gets the combined chart that this node manages.
+     * 
+     * @return
+     */
+    public BSCombinedChart getCombinedChart() {
+        return (BSCombinedChart) getChart();
+    }
+    
+    /**
      * Gets the bounds of the "Energy" plot's drawing area.
      * The bounds are in the node's local coordinates.
      * 
