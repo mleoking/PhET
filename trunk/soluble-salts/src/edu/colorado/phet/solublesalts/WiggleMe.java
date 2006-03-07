@@ -52,7 +52,7 @@ public class WiggleMe extends PNode implements ModelElement {
     public void stepInTime( double dt ) {
         double dy = 0;
         if( direction == DOWN ) {
-            dy = 10;
+            dy = 15;
         }
         else if( direction == UP ) {
             dy = -5;
