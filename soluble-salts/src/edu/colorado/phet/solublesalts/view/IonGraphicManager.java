@@ -68,7 +68,8 @@ public class IonGraphicManager implements IonListener {
             ionClassRecognized = true;
         }
         if( ion instanceof Sodium ) {
-            ig.setColor( Color.orange );
+            ig.setColor( new Color( 200, 0, 60) );
+//            ig.setColor( Color.orange );
             ig.setPolarityMarkerColor( Color.black );
             ionClassRecognized = true;
         }
