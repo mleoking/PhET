@@ -16,12 +16,14 @@ import java.awt.Font;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.control.BSConfigureEnergyDialog;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
 import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.BSClock;
@@ -85,6 +87,9 @@ public class BSManyModule extends BSAbstractModule {
 
     // Controls
     private BSSharedControlPanel _controlPanel;
+
+    // Dialogs
+    private BSConfigureEnergyDialog _configureEnergyDialog;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -406,7 +411,15 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void showConfigureEnergyDialog() {
-        //XXX
+        if ( _configureEnergyDialog == null ) {
+            _configureEnergyDialog = new BSConfigureEnergyDialog( getFrame() );
+            _configureEnergyDialog.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent event ) {
+                    _configureEnergyDialog = null;
+                }
+            } );
+            _configureEnergyDialog.show();
+        }
     }
     
     public void showSuperpositionStateDialog() {

@@ -6,10 +6,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - Superposition dialog
-- Configure Energy dialog
 - update persistence code to include new modules
 - override reset, save, load methods for each module
-- add stopwatch
 - interaction with eignestate lines (ala Falstad)
 - well curves and drag handles
 - commandline options for choosing which modules to display
@@ -43,6 +41,7 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - add Configure Energy dialog, not connected to any model
 (3/6/06) - add phetcommon's StopwatchPanel
 (3/6/06) - phetcommon: fix bugs in ClockControlPanel and StopwatchPanel
 (3/6/06) - replace custom clock controls with standard clock controls
