@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.ThreeToTwoLattice;
 import edu.colorado.phet.solublesalts.model.ion.Phosphate;
 import edu.colorado.phet.solublesalts.model.ion.Strontium;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class StrontiumPhosphate extends Salt {
 
-    static private Lattice_new_new lattice = new ThreeToTwoLattice( Phosphate.class,
+    static private Lattice lattice = new ThreeToTwoLattice( Phosphate.class,
 //    static private Lattice lattice = new ThreeToTwoLattice( Phosphate.class,
                                                                     Strontium.class,
                                                                     Strontium.RADIUS + Phosphate.RADIUS );

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
 import edu.colorado.phet.solublesalts.model.ion.Bromine;
 import edu.colorado.phet.solublesalts.model.ion.Mercury;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class MercuryBromide extends Salt {
 
-    static private Lattice_new_new lattice = new PlainCubicLattice( Mercury.RADIUS + Bromine.RADIUS );
+    static private Lattice lattice = new PlainCubicLattice( Mercury.RADIUS + Bromine.RADIUS );
 //    static private Lattice lattice = new PlainCubicLattice( Mercury.RADIUS + Bromine.RADIUS );
     static private ArrayList components = new ArrayList();
 

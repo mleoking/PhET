@@ -15,7 +15,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-import edu.colorado.phet.solublesalts.model.crystal.Lattice_new_new;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;

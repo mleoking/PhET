@@ -28,7 +28,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class Lattice_new_new {
+public abstract class Lattice {
 
     private static final double SAME_POSITION_TOLERANCE = 5;
     private static Random random = new Random();
@@ -41,7 +41,7 @@ public abstract class Lattice_new_new {
     /**
      * @param spacing
      */
-    protected Lattice_new_new( double spacing ) {
+    protected Lattice( double spacing ) {
         this.spacing = spacing;
     }
 
@@ -458,7 +458,7 @@ public abstract class Lattice_new_new {
      * @param args
      */
     public static void main( String[] args ) {
-        Lattice_new_new testLattice = new TwoToOneLattice( Copper.class,
+        Lattice testLattice = new TwoToOneLattice( Copper.class,
                                                            Hydroxide.class,
                                                            Copper.RADIUS + Hydroxide.RADIUS );
         testLattice.setBounds( new Rectangle2D.Double( 0, 0, 1000, 1000 ) );
