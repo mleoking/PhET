@@ -119,7 +119,7 @@ public class BSManyModule extends BSAbstractModule {
         // Model
         //----------------------------------------------------------------------------
         
-        double[] energies = { 1, 2, 2.5, 3, 3.25, 3.5, 3.75, 4, 4.1, 4.2, 4.3, 4.4, 4.5, 4.55, 4.6, 4.65, 4.7, 4.75 };
+        double[] energies = { -16, -5, -2.5, 0, 1, 2, 2.5, 3, 3.5, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5 };
         BSEigenstate[] eigenstates = BSEigenstate.createEigenstates( energies );
         _totalEnergy = new BSTotalEnergy( eigenstates );
         

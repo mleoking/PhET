@@ -43,6 +43,7 @@ MACINTOSH:
 
 
 DONE:
+(3/7/06) - fix TotalEnergyNode to handle eigenstates outside of the chart's range
 (3/7/06) - change shape of harmonic oscillator icon
 (3/7/06) - black chart backgrounds, yellow eigenstate hilites
 (3/7/06) - phetcommon: finish overhaul StopwatchPanel, integrate into phetcommon
