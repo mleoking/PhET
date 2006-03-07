@@ -97,11 +97,12 @@ public class BSConstants {
     public static final Color EIGENSTATE_HIGHLIGHT_COLOR = Color.YELLOW;
     public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     public static final Color REAL_WAVE_COLOR = Color.RED;
-    public static final Color IMAGINARY_WAVE_COLOR = Color.BLUE;
-    public static final Color MAGNITUDE_WAVE_COLOR = Color.BLACK;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
+    public static final Color IMAGINARY_WAVE_COLOR = new Color( 26, 135, 255 ); // bright blue
+    public static final Color MAGNITUDE_WAVE_COLOR = Color.WHITE;
+    public static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
     public static final Color TICK_MARK_COLOR = Color.BLACK;
+    public static final Color GRIDLINES_COLOR = Color.DARK_GRAY;
     
     //----------------------------------------------------------------------------
     // Images
@@ -150,8 +151,8 @@ public class BSConstants {
      */
     public static final boolean JFREECHART_DYNAMIC = false;
     
-    public static final boolean SHOW_VERTICAL_GRIDLINES = false;
-    public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
+    public static final boolean SHOW_VERTICAL_GRIDLINES = true;
+    public static final boolean SHOW_HORIZONTAL_GRIDLINES = false;
     
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
 }

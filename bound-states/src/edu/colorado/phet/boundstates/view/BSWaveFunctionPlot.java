@@ -147,25 +147,24 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         }
         
         // X (domain) axis 
-        {
-            BSPositionAxis xAxis = new BSPositionAxis();
-            setDomainAxis( xAxis );
-            setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
-        }
+        BSPositionAxis xAxis = new BSPositionAxis();
+
         
         // Y (range) axis
-        {
-            NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
-            setRangeAxis( yAxis );
-            setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-            setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
-            yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
-            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
-            yAxis.setTickLabelPaint( BSConstants.TICK_LABEL_COLOR );
-            yAxis.setTickMarkPaint( BSConstants.TICK_MARK_COLOR );
-        }
-        
+        NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
+        yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
+        yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
+        yAxis.setTickLabelPaint( BSConstants.TICK_LABEL_COLOR );
+        yAxis.setTickMarkPaint( BSConstants.TICK_MARK_COLOR );
+
+        setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( BSConstants.PLOT_BACKGROUND );
+        setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
+        setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
+        setDomainGridlinePaint( BSConstants.GRIDLINES_COLOR );
+        setRangeGridlinePaint( BSConstants.GRIDLINES_COLOR );
+        setDomainAxis( xAxis );
+        setRangeAxis( yAxis );
     }
     
     //----------------------------------------------------------------------------

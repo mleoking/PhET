@@ -105,6 +105,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         setBackgroundPaint( BSConstants.PLOT_BACKGROUND );
         setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
+        setDomainGridlinePaint( BSConstants.GRIDLINES_COLOR );
+        setRangeGridlinePaint( BSConstants.GRIDLINES_COLOR );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis ); 
     }
