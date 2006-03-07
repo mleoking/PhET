@@ -233,6 +233,10 @@ public class SolubleSaltsModel extends BaseModel {
         return drain;
     }
 
+    public int getNumIons() {
+        return ionTracker.getIons().size();
+    }
+
     public int getNumIonsOfType( Class ionClass ) {
         return ionTracker.getNumIonsOfType( ionClass );
     }
