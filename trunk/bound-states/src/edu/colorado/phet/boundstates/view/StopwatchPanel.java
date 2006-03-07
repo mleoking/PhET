@@ -26,6 +26,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -62,6 +63,8 @@ public class StopwatchPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
+    private IClock clock;
+    
     // User interface components...
     private String startString;
     private String stopString;
@@ -76,6 +79,9 @@ public class StopwatchPanel extends JPanel {
     private double runningTime;
     private boolean isRunning;
 
+    // Event handling...
+    ClockListener clockListener;
+    
     // Notification...
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener) stopwatchEventChannel.getListenerProxy();
@@ -106,6 +112,7 @@ public class StopwatchPanel extends JPanel {
         setBackground( DEFAULT_BACKGROUND );
         setBorder( BorderFactory.createRaisedBevelBorder() );
 
+        this.clock = clock;
         this.scaleFactor = scaleFactor;
         this.timeFormat = timeFormat;
 
@@ -138,10 +145,10 @@ public class StopwatchPanel extends JPanel {
         resizeButtons();
 
         // Event handling
-        StopwatchButtonListener buttonListener = new StopwatchButtonListener();
+        ActionListener buttonListener = new StopwatchButtonListener();
         startStopButton.addActionListener( buttonListener );
         resetButton.addActionListener( buttonListener );
-        StopwatchClockListener clockListener = new StopwatchClockListener();
+        clockListener = new StopwatchClockListener();
         clock.addClockListener( clockListener );
 
         // Initialize...
@@ -151,6 +158,13 @@ public class StopwatchPanel extends JPanel {
         updateTimeDisplay();
     }
 
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void cleanup() {
+        clock.removeClockListener( clockListener );
+    }
+    
     //----------------------------------------------------------------------------
     // State changes
     //----------------------------------------------------------------------------
@@ -276,7 +290,7 @@ public class StopwatchPanel extends JPanel {
     }
 
     //----------------------------------------------------------------------------
-    // Accessors
+    // Updates
     //----------------------------------------------------------------------------
 
     /*
@@ -298,6 +312,7 @@ public class StopwatchPanel extends JPanel {
         else {
             startStopButton.setText( startString );
         }
+        // Nothing to do for the Reset button, it's always enabled.
     }
 
     //----------------------------------------------------------------------------
@@ -335,7 +350,10 @@ public class StopwatchPanel extends JPanel {
             super();
         }
 
-        /* Updates the time display when the clock ticks */
+        /* 
+         * Updates the time display when the clock ticks.
+         * The scaleFactor is applied when runningTime is displayed.
+         */
         public void clockTicked( ClockEvent event ) {
             if ( isRunning ) {
                 runningTime += event.getSimulationTimeChange();
