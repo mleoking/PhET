@@ -97,10 +97,10 @@ public class ConfigureEnergyDialog extends JDialog {
     private JPanel _inputPanel;
     private PotentialComboBox _potentialComboBox;
     private DoubleSpinner _teSpinner;
-    private ArrayList _peSpinners; // array of NumberSpinner
+    private ArrayList _peSpinners; // array of DoubleSpinner
     private DoubleSpinner _stepSpinner;
-    private ArrayList _widthSpinners; // array of NumberSpinner
-    private ArrayList _positionSpinners; // array of NumberSpinner
+    private ArrayList _widthSpinners; // array of DoubleSpinner
+    private ArrayList _positionSpinners; // array of DoubleSpinner
     
     // Dialog's "action area"
     private JButton _applyButton, _closeButton;
