@@ -63,7 +63,7 @@ public class HeavySpecies extends GasMolecule {
     public void removeYourselfFromSystem() {
         super.removeYourselfFromSystem();
         HeavySpecies.removeParticle( this );
-        notifyObservers();
+//        notifyObservers();
     }
 
 }

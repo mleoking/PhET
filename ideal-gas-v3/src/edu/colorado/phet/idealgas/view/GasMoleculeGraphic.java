@@ -44,6 +44,7 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
 
     public void removedFromSystem() {
         apparatusPanel.removeGraphic( this );
+        update();
     }
 
     public static Color getColor() {

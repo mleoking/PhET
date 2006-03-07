@@ -58,7 +58,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
     private Wall leftFloor;
     private Wall rightFloor;
-    private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
+    private int wallThickness = (int)GasMolecule.s_radius * 8;
     private PhetShapeGraphic energyCurveGraphic;
     private Pump reactantsPump;
     private Pump productsPump;

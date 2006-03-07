@@ -59,7 +59,7 @@ public class CollisionGod {
         regions = new Region[numRegionsX][numRegionsY];
         regionWidth = bounds.getWidth() / numRegionsX;
         regionHeight = bounds.getHeight() / numRegionsY;
-        regionOverlap = 2 * GasMolecule.s_defaultRadius;
+        regionOverlap = 2 * GasMolecule.s_radius;
 
         for( int i = 0; i < numRegionsX; i++ ) {
             for( int j = 0; j < numRegionsY; j++ ) {

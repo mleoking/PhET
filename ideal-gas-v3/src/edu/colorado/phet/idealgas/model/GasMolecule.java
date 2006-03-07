@@ -23,9 +23,7 @@ public class GasMolecule extends SolidSphere {
     //
     // Static fields and methods
     //
-    private static float s_radius = 5.0f;
-//     The default radius for a particle
-    public final static float s_defaultRadius = 5.0f;
+    public static float s_radius = 5.0f;
 
     public static void enableParticleParticleInteractions( boolean interactionsEnabled ) {
         if( interactionsEnabled ) {
@@ -53,6 +51,7 @@ public class GasMolecule extends SolidSphere {
 
     // List of GasMolecule.Observers
     private ArrayList observers = new ArrayList();
+    private boolean isInBox = false;
 
     public interface Observer extends SimpleObserver {
         void removedFromSystem();
@@ -95,13 +94,20 @@ public class GasMolecule extends SolidSphere {
         return s_radius;
     }
 
-
     public void setPosition( double x, double y ) {
         super.setPosition( x, y );
     }
 
     public void setPosition( Point2D position ) {
         super.setPosition( position );
+    }
+
+    public boolean isInBox() {
+        return isInBox;
+    }
+
+    public void setInBox( boolean inBox ) {
+        isInBox = inBox;
     }
 
     public void removeYourselfFromSystem() {
@@ -112,5 +118,6 @@ public class GasMolecule extends SolidSphere {
             Observer observer = (Observer)observerCopies.get( i );
             observer.removedFromSystem();
         }
+//        notifyObservers();
     }
 }

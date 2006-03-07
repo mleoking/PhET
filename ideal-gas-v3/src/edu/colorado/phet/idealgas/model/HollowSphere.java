@@ -119,7 +119,7 @@ public class HollowSphere extends SphericalBody {
     private Random random = new Random();
 
     public Point2D getNewMoleculeLocation() {
-        double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+        double r = random.nextDouble() - GasMolecule.s_radius;
         double theta = random.nextDouble() * Math.PI * 2;
         Point2D.Double p = new Point2D.Double( this.getPosition().getX() + r * Math.cos( theta ),
                                                this.getPosition().getY() + r * Math.sin( theta ) );

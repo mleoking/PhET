@@ -70,4 +70,9 @@ public class LightSpecies extends GasMolecule {
         s_instances.add( this );
     }
 
+    public void removeYourselfFromSystem() {
+        super.removeYourselfFromSystem();
+        LightSpecies.removeParticle( this );
+//        notifyObservers();
+    }
 }
