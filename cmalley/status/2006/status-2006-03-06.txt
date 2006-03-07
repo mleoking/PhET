@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 02/28/06-03/06/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - tested Sam R's implementation of Runge-Kutta
+  - added developer controls to Richardson algorithm for Sam M.
+  - published 0.00.17, 0.00.18
+  
+  Bound States:
+  - mockup of eigenstate selection interface
+  - design meeting with Sam M, Kathy, Carl
+  - implement eigenstate selection and highlighting ala Falstad simulation
+  - flesh out control panel (shared by all modules)
+  - Configure Energy dialog
+  - Superposition State dialog
+  - add stopwatch
+  
+  Common Code:
+  - fixes to ClockControlPanel and Stopwatch
+  
+WHAT'S NEXT:
+ 
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+
+  o none
+
+-- 
