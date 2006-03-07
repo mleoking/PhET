@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - well curves and drag handles
 - commandline options for choosing which modules to display
 - model
+- time-independent solution to Schrodinger equation
 
 MEDIUM PRIORITY:
 - subscripts should start at 1, except Harmonic Oscillator well starts at 0
