@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- normalize in Superposition dialog
+- normalization of Superposition coefficients has round-off and double precision error
 - update persistence code to include new modules
 - override reset, save, load methods for each module
 - interaction with eignestate lines (ala Falstad)
@@ -41,6 +41,8 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - show/hide dialogs when switching modules
+(3/6/06) - normalize superposition coefficients
 (3/6/06) - add Superposition dialog, not connected to any model, no normalization
 (3/6/06) - add Configure Energy dialog, not connected to any model
 (3/6/06) - add phetcommon's StopwatchPanel
