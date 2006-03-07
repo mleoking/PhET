@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -126,6 +127,8 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
+        setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
+        setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis ); 
     }

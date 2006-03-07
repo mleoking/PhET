@@ -105,9 +105,10 @@ public class QTConstants {
     public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
     public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
     public static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
-    public static final Color REGION_MARKER_COLOR = Color.WHITE;
+    public static final Color REGION_MARKER_COLOR = Color.LIGHT_GRAY;
     public static final Color TICK_LABEL_COLOR = Color.BLACK;
     public static final Color TICK_MARK_COLOR = Color.BLACK;
+    public static final Color GRIDLINES_COLOR = Color.DARK_GRAY;
     public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
     public static final Color DRAG_HANDLE_TEXT_COLOR = Color.WHITE;
