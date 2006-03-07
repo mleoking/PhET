@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- support for programmatic multiple selection of eigenstate lines
 - normalization of Superposition coefficients has round-off and double precision error
 - update persistence code to include new modules
 - override reset, save, load methods for each module
