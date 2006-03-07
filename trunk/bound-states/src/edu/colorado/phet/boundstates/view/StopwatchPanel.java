@@ -35,10 +35,15 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 /**
  * StopwatchPanel simulates a stopwatch on a specified IClock.
  * <p/>
- * Here is an example of adding it to a ModulePanel, to the left of the the simulation's
- * play/pause/step controls (do this inside your module's constructor):
+ * Here is an example of adding it to a ModulePanel, to the 
+ * left of the the simulation's play/pause/step controls 
+ * (do this inside your module's constructor):
  * <code>
- * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, "psec", 1E3, new DecimalFormat( "#0.00" ) );
+ * IClock clock = getClock();
+ * String timeUnits = "psec";
+ * double scaleFactor = 1E3;
+ * DecimalFormat timeFormat = new DecimalFormat( "#0.00" );
+ * StopwatchPanel stopwatchPanel = new StopwatchPanel( clock, timeUnits, scaleFactor, timeFormat );
  * getClockControlPanel().addToLeft( stopwatchPanel );
  * </code>
  *
@@ -51,12 +56,14 @@ public class StopwatchPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
 
+    // Default property values...
     private static final Color DEFAULT_BACKGROUND = new Color( 237, 225, 113 ); // pale yellow
-
-    // Time display properties...
-    private static final int DEFAULT_COLUMNS = 5;
-    private static final int DEFAULT_FONT_SIZE = 16;
-    private static final int DEFAULT_FONT_STYLE = Font.BOLD;
+    private static final int DEFAULT_COLUMNS = 5; // columns in the time display
+    private static final int DEFAULT_FONT_SIZE = 16; // font size of the time display
+    private static final int DEFAULT_FONT_STYLE = Font.BOLD; // font style of the time display
+    private static final NumberFormat DEFAULT_FORMAT = new DecimalFormat( "0.00" ); // format of the time display
+    private static final String DEFAULT_UNITS = "";
+    private static final double DEFAULT_SCALE_FACTOR = 1.0;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -95,7 +102,7 @@ public class StopwatchPanel extends JPanel {
      * @param clock
      */
     public StopwatchPanel( IClock clock ) {
-        this( clock, "", 1, new DecimalFormat( "0.00" ) );
+        this( clock, DEFAULT_UNITS, DEFAULT_SCALE_FACTOR, DEFAULT_FORMAT );
     }
 
     /**
@@ -106,7 +113,7 @@ public class StopwatchPanel extends JPanel {
      * @param scaleFactor Time scale factor
      * @param timeFormat  The format that the panel is to show
      */
-    public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, DecimalFormat timeFormat ) {
+    public StopwatchPanel( IClock clock, String timeUnits, double scaleFactor, NumberFormat timeFormat ) {
 
         setBackground( DEFAULT_BACKGROUND );
         setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -219,7 +226,7 @@ public class StopwatchPanel extends JPanel {
     }
 
     /**
-     * Gets the font used in the time display
+     * Gets the font used in the time display.
      * 
      * @return
      */
@@ -256,6 +263,16 @@ public class StopwatchPanel extends JPanel {
     }
 
     /**
+     * Sets the time display format.
+     * 
+     * @param format
+     */
+    public void setTimeFormat( NumberFormat timeFormat ) {
+        this.timeFormat = timeFormat;
+        updateTimeDisplay();
+    }
+    
+    /**
      * Is the stopwatch running?
      * 
      * @return true or false
@@ -277,7 +294,7 @@ public class StopwatchPanel extends JPanel {
      * Resizes buttons to their largest size, so they don't jump around.
      */
     private void resizeButtons() {
-        // Size the start/stop button to its largest preferred dimensions...
+        // Size the Start/Stop button to its largest preferred dimensions...
         String saveString = startStopButton.getText();
         startStopButton.setText( stopString );
         Dimension stopSize = startStopButton.getPreferredSize();
@@ -286,6 +303,7 @@ public class StopwatchPanel extends JPanel {
         Dimension preferredSize = new Dimension( Math.max( stopSize.width, startSize.width ), Math.max( stopSize.height, startSize.height ) );
         startStopButton.setPreferredSize( preferredSize );
         startStopButton.setText( saveString );
+        // Nothing to do for Reset button...
     }
 
     //----------------------------------------------------------------------------
