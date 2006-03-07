@@ -128,15 +128,15 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     // Energy
-    public static final Range ENERGY_RANGE = new Range( 0, 5 ); // eV
-    public static final double ENERGY_TICK_SPACING = 0.5;
+    public static final Range ENERGY_RANGE = new Range( -15, 5 ); // eV
+    public static final double ENERGY_TICK_SPACING = 2.5;
     public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Wave Function
-    public static final Range WAVE_FUNCTION_RANGE = new Range( 0, 1.2 );
+    public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     
     // Position
-    public static final Range POSITION_RANGE = new Range( -5, 5 ); // nm
+    public static final Range POSITION_RANGE = new Range( -4, 4 ); // nm
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
