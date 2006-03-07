@@ -43,6 +43,9 @@ MACINTOSH:
 
 
 DONE:
+(3/7/06) - black chart backgrounds, yellow eigenstate hilites
+(3/7/06) - phetcommon: finish overhaul StopwatchPanel, integrate into phetcommon
+(3/6/06) - phetcommon: overhaul StopwatchPanel
 (3/6/06) - highlighting and selection of eignestate lines (ala Falstad)
 (3/6/06) - hilight closest eigenstate as mouse moves in Energy chart
 (3/6/06) - show/hide dialogs when switching modules
