@@ -86,8 +86,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             // Plane Wave renderer
             //XXX - total energy will need a custom renderer, point in series per eigenstate
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( BSConstants.TOTAL_ENERGY_UNSELECTED_COLOR );
-            renderer.setStroke( BSConstants.TOTAL_ENERGY_UNSELECTED_STROKE );
+            renderer.setPaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+            renderer.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
             setRenderer( _totalEnergyIndex, renderer );
         }
         

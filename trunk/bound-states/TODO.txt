@@ -13,7 +13,7 @@ HIGH PRIORITY:
 - commandline options for choosing which modules to display
 
 MEDIUM PRIORITY:
-
+- subscripts should start at 1, except Harmonic Oscillator well starts at 0
 
 LOW PRIORITY:
 
@@ -41,6 +41,7 @@ MACINTOSH:
 
 
 DONE:
+(3/6/06) - hilight closest eigenstate as mouse moves in Energy chart
 (3/6/06) - show/hide dialogs when switching modules
 (3/6/06) - normalize superposition coefficients
 (3/6/06) - add Superposition dialog, not connected to any model, no normalization
