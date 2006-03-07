@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -196,6 +197,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
 
         _normalizeButton = new JButton( SimStrings.get( "button.normalize" ) );
         _normalizeButton.addActionListener( _eventListener );
+        _normalizeButton.setEnabled( false );
       
         _applyButton = new JButton( SimStrings.get( "button.apply" ) );
         _applyButton.addActionListener( _eventListener );
@@ -255,6 +257,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _normalizeButton ) {
                 handleNormalize();
+                handleNormalize();
             }
             else if ( event.getSource() == _applyButton ) {
                 handleApply();
@@ -278,12 +281,40 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     }
     
 
+    private boolean isNormalized() {
+        return ( getCoefficientsTotal() == 1 );
+    }
+    
+    private boolean isZero() {
+        return ( getCoefficientsTotal() == 0 );
+    }
+    
+    private double getCoefficientsTotal() {
+        double total = 0;
+        Iterator i = _spinners.iterator();
+        while ( i.hasNext() ) {
+            DoubleSpinner spinner = (DoubleSpinner) i.next();
+            total += spinner.getDoubleValue();
+        }
+        return total;
+    }
+    
     private void handleNormalize() {
-        //XXX
+        if ( !isZero() ) {
+            final double total = getCoefficientsTotal();
+            Iterator i = _spinners.iterator();
+            while ( i.hasNext() ) {
+                DoubleSpinner spinner = (DoubleSpinner) i.next();
+                double normalizedValue = spinner.getDoubleValue() / total;
+                //XXX handle roundoff error
+                spinner.setDoubleValue( normalizedValue );
+            }
+        }
+        _applyButton.setEnabled( true );
+        _normalizeButton.setEnabled( false );
     }
     
     private void handleApply() {
-        //XXX check for normalization
         //XXX apply to model
         _changed = false;
         _applyButton.setEnabled( false );
@@ -320,7 +351,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
         else {
             _changed = true;
-            _applyButton.setEnabled( true );
+            _applyButton.setEnabled( isNormalized() || isZero() );
+            _normalizeButton.setEnabled( !_applyButton.isEnabled() );
         }
     }
     
