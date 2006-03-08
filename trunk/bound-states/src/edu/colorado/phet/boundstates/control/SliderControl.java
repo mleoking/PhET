@@ -278,6 +278,48 @@ public class SliderControl extends JPanel implements ChangeListener {
         return _slider.getValueIsAdjusting();
     }
     
+    /**
+     * Sets the slider's maximum, in model coordinates.
+     * 
+     * @param max
+     */
+    public void setMaximum( double max ) {
+        _max = max;
+        _slider.setMaximum( (int) ( _max * _multiplier ) );
+        _slider.setMajorTickSpacing( (int) ( ( _max - _min ) * _multiplier ) );
+        updateTickLabels();
+    }
+    
+    /**
+     * Gets the slider's maximumum, in model coordinates.
+     * 
+     * @return max
+     */
+    public double getMaximum() {
+        return _max;
+    }
+    
+    /**
+     * Sets the slider's minimum, in model coordinates.
+     * 
+     * @param min
+     */
+    public void setMinimum( double min ) {
+        _min = min;
+        _slider.setMinimum( (int) ( _min * _multiplier ) );
+        _slider.setMajorTickSpacing( (int) ( ( _max - _min ) * _multiplier ) );
+        updateTickLabels();
+    }
+    
+    /**
+     * Gets the slider's minimum, in model coordinates.
+     * 
+     * @return min
+     */
+    public double getMinimum() {
+        return _min;
+    }
+    
     /*
      * Updates the label when the slider is changed.
      */
