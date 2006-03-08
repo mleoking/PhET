@@ -27,9 +27,7 @@ import edu.colorado.phet.boundstates.control.BSConfigureEnergyDialog;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
 import edu.colorado.phet.boundstates.control.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enum.WellType;
-import edu.colorado.phet.boundstates.model.BSClock;
-import edu.colorado.phet.boundstates.model.BSEigenstate;
-import edu.colorado.phet.boundstates.model.BSTotalEnergy;
+import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
@@ -69,6 +67,8 @@ public class BSManyModule extends BSAbstractModule {
 
     // Model
     private BSTotalEnergy _totalEnergy;
+    private BSAbstractWell _currentWell;
+    private BSSquareWell _squareWell;
     
     // View
     private PhetPCanvas _canvas;
@@ -151,6 +151,10 @@ public class BSManyModule extends BSAbstractModule {
             _parentNode.addChild( _chartNode );
         }
         
+        // Eigenstate interface
+        _totalEnergyNode = new BSTotalEnergyNode( _totalEnergy, _chartNode, _canvas );
+        _parentNode.addChild( _totalEnergyNode );
+        
         // Energy graph legend
         { 
             _legend = new BSEnergyLegend();
@@ -194,10 +198,7 @@ public class BSManyModule extends BSAbstractModule {
             _waveFunctionPlotNode.setRenderingHints( renderingHints );
             _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
             _parentNode.addChild( _waveFunctionPlotNode );
-        } 
-        
-        _totalEnergyNode = new BSTotalEnergyNode( _totalEnergy, _chartNode, _canvas );
-        _parentNode.addChild( _totalEnergyNode );
+        }
         
         //----------------------------------------------------------------------------
         // Control
@@ -335,7 +336,11 @@ public class BSManyModule extends BSAbstractModule {
     public void reset() {
         
         // Model
-        //XXX
+        _squareWell = new BSSquareWell( 2 );
+        _currentWell = _squareWell;
+        
+        // View 
+        _chart.getEnergyPlot().setWell( _currentWell );
         
         // Controls
         _controlPanel.setDisplayType( BSSharedControlPanel.DISPLAY_WAVE_FUNCTION );
@@ -438,7 +443,7 @@ public class BSManyModule extends BSAbstractModule {
     
     public void showConfigureEnergyDialog() {
         if ( _configureEnergyDialog == null ) {
-            _configureEnergyDialog = new BSConfigureEnergyDialog( getFrame() );
+            _configureEnergyDialog = new BSConfigureEnergyDialog( getFrame(), _currentWell );
             _configureEnergyDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _configureEnergyDialog = null;
