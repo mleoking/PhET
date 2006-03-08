@@ -21,7 +21,7 @@ public class TestPhetTabbedPane {
         JFrame frame = new JFrame( "Tab Test" );
         final PhetTabbedPane phetTabbedPane = new PhetTabbedPane();
         phetTabbedPane.addTab( "Hello!", new JLabel( "Hello" ) );
-        phetTabbedPane.addTab( "Slider", new JSlider() );
+        phetTabbedPane.addTab( "<html>Slider<sub><small>2</small></sub>!<br>Tab</html>", new JSlider() );
         final JColorChooser colorChooser = new JColorChooser();
         colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent evt ) {
