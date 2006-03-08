@@ -8,6 +8,7 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.GasMolecule;
 
 public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
@@ -27,7 +28,13 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                                    (SphericalBody)bodyA : (SphericalBody)bodyB;
             Box2D box = bodyA instanceof Box2D ?
                         (Box2D)bodyA : (Box2D)bodyB;
-            if( !box.isInOpening( sphere ) ) {
+
+            // todo: This should not happen in this class!!!!!
+            if( sphere instanceof GasMolecule && !((GasMolecule)sphere).isInBox() ) {
+                return haveCollided;
+            }
+
+            if( !box.isInOpening( sphere )) {
 
                 double sx = sphere.getPosition().getX();
                 double sy = sphere.getPosition().getY();
@@ -36,14 +43,14 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                 double r = sphere.getRadius();
 
                 // Check for contact with each of the walls
-                boolean leftWall = ( sx - r ) <= box.getMinX() && ( spx - r ) > box.getMinX();
-                boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
-                boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
-                boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
-//                boolean leftWall = ( sx - r ) <= box.getMinX();
-//                boolean rightWall = ( sx + r ) >= box.getMaxX();
-//                boolean topWall = ( sy - r ) <= box.getMinY();
-//                boolean bottomWall = ( sy + r ) >= box.getMaxY();
+//                boolean leftWall = ( sx - r ) <= box.getMinX() && ( spx - r ) > box.getMinX();
+//                boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
+//                boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
+//                boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
+                boolean leftWall = ( sx - r ) <= box.getMinX();
+                boolean rightWall = ( sx + r ) >= box.getMaxX();
+                boolean topWall = ( sy - r ) <= box.getMinY();
+                boolean bottomWall = ( sy + r ) >= box.getMaxY();
 
                 //If the sphere is in contact with two opposing walls, don't do anything. Need this for spheres
                 // that fill the box

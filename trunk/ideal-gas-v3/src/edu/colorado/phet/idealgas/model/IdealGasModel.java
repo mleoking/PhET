@@ -429,7 +429,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // before anything happens
         currentlyInStepInTimeMethod = true;
         double totalEnergyPre = this.getTotalEnergy();
-        double totalKEPre = this.getTotalKineticEnergy();
 
         // Clear the accelerations on the bodies in the model
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -488,7 +487,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ModelElement body = this.modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
-                gasMolecule.setInBox( box.getBoundsInternal().contains( gasMolecule.getPosition() ) );
+
+
+                if( box.passedThroughOpening( gasMolecule ) ) {
+                    gasMolecule.setInBox( !gasMolecule.isInBox() );                    
+                }
+
 //                if( box.getBoundsInternal().contains( gasMolecule.getPosition() ) ) {
                 if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
                     removeList.add( gasMolecule );
@@ -687,6 +691,9 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         Area a = new Area( s );
         a.add( new Area( r ) );
         this.modelBounds = a;
+
+//        System.out.println( "IdealGasModel.setModelBounds" );
+//        this.modelBounds = new Rectangle2D.Double( 0, 0, 1000, 800 );
     }
 
     //----------------------------------------------------------------

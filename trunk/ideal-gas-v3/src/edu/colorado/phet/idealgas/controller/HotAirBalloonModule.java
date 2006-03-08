@@ -40,7 +40,7 @@ public class HotAirBalloonModule extends IdealGasModule {
         // Add the hot air balloon to the model
         initRadius = 50;
         initX = box.getMinX() + box.getWidth() / 2;
-        initY = box.getMaxY() - initRadius;
+        initY = box.getMaxY() - initRadius - 100;
         balloon = new HotAirBalloon( new Point2D.Double( initX, initY ),
                                      new Vector2D.Double( 0, 0 ),
                                      new Vector2D.Double( 0, 0 ),
