@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.GasMolecule;
 
 public class SphereBoxCollision implements Collision {
 
@@ -50,14 +51,40 @@ public class SphereBoxCollision implements Collision {
         }
 
         // Check for contact with each of the walls
-        boolean leftWall = ( sx - r ) <= box.getMinX();
-        boolean rightWall = ( sx + r ) >= box.getMaxX();
-        boolean topWall = ( sy - r ) <= box.getMinY();
-        boolean bottomWall = ( sy + r ) >= box.getMaxY();
+//        boolean leftWall = ( sx - r ) <= box.getMinX();
+//        boolean rightWall = ( sx + r ) >= box.getMaxX();
+//        boolean topWall = ( sy - r ) <= box.getMinY();
+//        boolean bottomWall = ( sy + r ) >= box.getMaxY();
+
 //        boolean leftWall = ( sx - r ) <= box.getMinX() && ( spx - r ) > box.getMinX();
 //        boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
 //        boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
 //        boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
+
+        boolean leftWall = false;
+        boolean rightWall = false;
+        boolean topWall = false;
+        boolean bottomWall = false;
+        if( !( sphere instanceof GasMolecule ) || box.containsBody(sphere) /* (GasMolecule)sphere ).isInBox()*/ ) {
+//        if( !( sphere instanceof GasMolecule ) || ( (GasMolecule)sphere ).isInBox() ) {
+            leftWall = ( sx - r ) <= box.getMinX();
+            rightWall = ( sx + r ) >= box.getMaxX();
+            topWall = ( sy - r ) <= box.getMinY();
+            bottomWall = ( sy + r ) >= box.getMaxY();
+        }
+        // Is the sphere hitting the box from outside
+//        else if( sphere instanceof GasMolecule && !( (GasMolecule)sphere ).isInBox() ) {
+//            leftWall = ( sx + r ) >= box.getMinX() && (sy - r ) >= box.getMinY() && (sy + r) <= box.getMaxY();
+//            rightWall = ( sx - r ) <= box.getMaxX() && (sy - r ) >= box.getMinY() && (sy + r) <= box.getMaxY();
+//            topWall = ( sy + r ) >= box.getMinY() && (sx-r) >= box.getMinX() && (sx+r) <= box.getMaxX();
+//            bottomWall = ( sy - r ) <= box.getMaxY()&& (sx-r) >= box.getMinX() && (sx+r) <= box.getMaxX();
+//
+//            System.out.println( "(bottomWall|| topWall||rightWall||leftWall = " + ( bottomWall || topWall || rightWall || leftWall ));
+//            if( bottomWall || topWall || rightWall || leftWall ) {
+//                System.out.println( "SphereBoxCollision.collide" );
+//            }
+//        }
+
 
 
         // Collision with left wall?

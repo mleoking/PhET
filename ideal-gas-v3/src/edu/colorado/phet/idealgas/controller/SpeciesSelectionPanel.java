@@ -37,7 +37,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
 
     public SpeciesSelectionPanel( final IdealGasModule module ) {
-        this( module, new String[] { SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )});
+        this( module, new String[]{SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )} );
     }
 
     public SpeciesSelectionPanel( final IdealGasModule module, final String[] speciesNames ) {
@@ -68,20 +68,26 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         gbc.anchor = GridBagConstraints.WEST;
         add( lightSpinner, gbc );
 
-        JButton testBtn = new JButton( "Test");
-        testBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 300,
-                                                                       module.getBox().getPosition().getY() + 30),
-                                                   new Vector2D.Double( -53, -20),
-                                                   new Vector2D.Double(  ));
-                new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
-                heavySpinner.setValue( new Integer( 1 ));
-                ((PumpControlPanel)SpeciesSelectionPanel.this).moleculeAdded( m );
+        // For debug: button fires a molecule when pressed
+        {
+            boolean debug = false;
+            if( debug ) {
+                JButton testBtn = new JButton( "Test" );
+                testBtn.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 300,
+                                                                               module.getBox().getPosition().getY() + 30 ),
+                                                           new Vector2D.Double( -53, -20 ),
+                                                           new Vector2D.Double() );
+                        new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
+                        heavySpinner.setValue( new Integer( 1 ) );
+                        ( (PumpControlPanel)SpeciesSelectionPanel.this ).moleculeAdded( m );
+                    }
+                } );
+                gbc.gridy++;
+                this.add( testBtn, gbc );
             }
-        } );
-        gbc.gridy++;
-        this.add( testBtn, gbc );
+        }
 
     }
 
@@ -216,11 +222,11 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         }
 
         public void incrementValue() {
-            changeValue(( (Integer)getHeavySpinner().getValue() ).intValue() + 1);
+            changeValue( ( (Integer)getHeavySpinner().getValue() ).intValue() + 1 );
         }
 
         public void decrementValue() {
-            changeValue(( (Integer)getHeavySpinner().getValue() ).intValue() - 1);
+            changeValue( ( (Integer)getHeavySpinner().getValue() ).intValue() - 1 );
         }
 
         private void changeValue( int value ) {

@@ -166,7 +166,7 @@ public class IdealGasModule extends PhetGraphicsModule {
         // Create a listener that will keep the model bounds set correctly
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                idealGasModel.setModelBounds( getApparatusPanel().getBounds() );
+                idealGasModel.setModelBounds();
             }
         } );
 

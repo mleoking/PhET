@@ -249,7 +249,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 Box2D box = (Box2D)modelElement;
                 box.addChangeListener( new Box2D.ChangeListenerAdapter() {
                     public void boundsChanged( Box2D.ChangeEvent event ) {
-                        setModelBounds( null );
+                        setModelBounds();
                     }
                 } );
             }
@@ -480,20 +480,40 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         }
 
         // Remove any molecules from the system that have escaped the box
-        // The s_escapeOffset in the if statement is to let the molecules float outside
-        // the box before they go away completely
+        removeEscapedMolecules();
+
+        // Compute some useful statistics
+        computeStatistics();
+
+        // Clear flag
+        currentlyInStepInTimeMethod = false;
+
+        // Update either pressure or volume
+        updateFreeParameter();
+
+        notifyObservers();
+    }
+
+    /**
+     * Identifies molecules that have escaped from the box and removes them from the model
+     */
+    private void removeEscapedMolecules() {
         removeList.clear();
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement body = this.modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
 
-
+                // If the molecule has just passed through the opening of the box, let it know
                 if( box.passedThroughOpening( gasMolecule ) ) {
-                    gasMolecule.setInBox( !gasMolecule.isInBox() );                    
+                    if( box.containsBody( gasMolecule )) {
+                        box.removeContainedBody( gasMolecule );
+                    }
+                    else {
+                        box.addContainedBody( gasMolecule );
+                    }
                 }
 
-//                if( box.getBoundsInternal().contains( gasMolecule.getPosition() ) ) {
                 if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
                     removeList.add( gasMolecule );
                 }
@@ -504,8 +524,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             this.bodies.remove( gasMolecule );
             removeModelElement( gasMolecule );
         }
+    }
 
-        // Compute some useful statistics
+    /**
+     * Computes statistics on the model
+     */
+    private void computeStatistics() {
         int numGasMolecules = 0;
         int totalEnergy = 0;
         double totalLightSpeed = 0;
@@ -527,16 +551,10 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         averageMoleculeEnergy = numGasMolecules != 0 ? totalEnergy / numGasMolecules : 0;
         averageHeavySpeciesSpeed = getHeavySpeciesCnt() > 0 ? totalHeavySpeed / getHeavySpeciesCnt() : 0;
         averageLightSpeciesSpeed = getLightSpeciesCnt() > 0 ? totalLightSpeed / getLightSpeciesCnt() : 0;
-        currentlyInStepInTimeMethod = false;
-
-        // Update either pressure or volume
-        updateFreeParameter();
-
-        notifyObservers();
     }
 
     /**
-     *
+     * Adds or removes heat from the model if the heat or cooling source is on
      */
     private void addHeatFromStove() {
         if( heatSource != 0 ) {
@@ -675,25 +693,35 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
 
-    public void setModelBounds( Rectangle2D modelBounds ) {
-        this.modelBounds = modelBounds;
+    /**
+     * The model bounds are used to determine when a molecule should be removed from the model. The bounds
+     * extend from the left edge of the screen to the right, so that molecules aren't removed when the
+     * left wall gets moved. The upper and lower bounds are the top and bottom of the box, plus the
+     * column that extends above the opening in the box when the door is open.
+     * <p>
+     * The whole screen can't be used for the bounds because we need to remove molecules when they get out
+     * of the box and out of the column above the opening. Otherwise, we would have to handle collisions between
+     * molecules and the outside of the box when gravity is turned on.
+     */
+    public void setModelBounds() {
 
         Shape s = box.getBoundsInternal();
-        int padding = 5;
-        this.modelBounds = new Rectangle2D.Double( s.getBounds().getX() - padding,
-                                                   s.getBounds().getY() - padding,
-                                                   s.getBounds().getWidth() + 2 * padding,
-                                                   s.getBounds().getHeight() + 2 * padding );
+        int padding = 10;
+//        this.modelBounds = new Rectangle2D.Double( s.getBounds().getX() - padding,
+//                                                   s.getBounds().getY() - padding,
+//                                                   s.getBounds().getWidth() + 2 * padding,
+//                                                   s.getBounds().getHeight() + 2 * padding );
+        s = new Rectangle2D.Double( 0,
+                                    s.getBounds().getY() - padding,
+                                    1000,
+                                    s.getBounds().getHeight() + 2 * padding );
         Point2D p1 = box.getOpening()[0];
         Point2D p2 = box.getOpening()[1];
         Rectangle2D r = new Rectangle2D.Double( p1.getX(), 40, p2.getX() - p1.getX(), p1.getY() );
-//        System.out.println( "r = " + r );
+//        Area a = new Area( this.modelBounds );
         Area a = new Area( s );
         a.add( new Area( r ) );
         this.modelBounds = a;
-
-//        System.out.println( "IdealGasModel.setModelBounds" );
-//        this.modelBounds = new Rectangle2D.Double( 0, 0, 1000, 800 );
     }
 
     //----------------------------------------------------------------
