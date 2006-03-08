@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.tests.phetcommon;
 
+import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 import edu.colorado.phet.qm.phetcommon.PhetTabbedPane;
 
 import javax.swing.*;
@@ -21,7 +22,14 @@ public class TestPhetTabbedPane {
         JFrame frame = new JFrame( "Tab Test" );
         final PhetTabbedPane phetTabbedPane = new PhetTabbedPane();
         phetTabbedPane.addTab( "Hello!", new JLabel( "Hello" ) );
-        phetTabbedPane.addTab( "<html>Slider<sub><small>2</small></sub>!<br>Tab</html>", new JSlider() );
+        final JSlider slider = new JSlider( 6, 60, 10 );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                phetTabbedPane.setTabFont( new LucidaSansFont( slider.getValue(), true ) );
+            }
+        } );
+        phetTabbedPane.addTab( "<html>Font<br>Size</html>", slider );
+
         final JColorChooser colorChooser = new JColorChooser();
         colorChooser.getSelectionModel().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent evt ) {
