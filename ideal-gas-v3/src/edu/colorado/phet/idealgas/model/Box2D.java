@@ -12,6 +12,7 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -41,6 +42,7 @@ public class Box2D extends CollidableBody {
     IdealGasModel model;
     private double oldMinX;
     private double minimumWidth = 100;
+    private Line2D openingLine;
 
     public Box2D( IdealGasModel model ) {
         super();
@@ -119,6 +121,7 @@ public class Box2D extends CollidableBody {
     public void setOpening( Point2D[] opening ) {
         this.opening[0] = opening[0];
         this.opening[1] = opening[1];
+        openingLine = new Line2D.Double( opening[0], opening[1] );
         notifyObservers();
 
         changeListenerProxy.boundsChanged( new ChangeEvent( this ) );
@@ -142,6 +145,12 @@ public class Box2D extends CollidableBody {
             }
         }
         return result;
+    }
+
+    public boolean passedThroughOpening( GasMolecule gasMolecule ) {
+        Point2D p1 = gasMolecule.getPosition();
+        Point2D p2 = gasMolecule.getPositionPrev();
+        return openingLine.intersectsLine( p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
     public void stepInTime( double dt ) {

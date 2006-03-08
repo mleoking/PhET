@@ -71,9 +71,9 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         JButton testBtn = new JButton( "Test");
         testBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 100,
+                HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 300,
                                                                        module.getBox().getPosition().getY() + 30),
-                                                   new Vector2D.Double( 53, -10),
+                                                   new Vector2D.Double( -53, -20),
                                                    new Vector2D.Double(  ));
                 new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
                 heavySpinner.setValue( new Integer( 1 ));

@@ -66,6 +66,10 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
             graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
         }
         idealGasModel.getBox().addContainedBody( molecule );
+
+        // todo: !!!!!!! this should be done in a different way!!!!
+        molecule.setInBox( true);
+
         // Randomize the placement of the graphic above and below the MOLECULE_LAYER. This
         // gives the scene depth when objects like the thermometer are placed at the MOLECULE_LAYER
         double dLayer = 1 * ( random.nextBoolean() ? 1 : 0 );
