@@ -72,7 +72,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-
         // Add control for selecting the constant parameter
         add( constantParamControls(), gbc );
 
@@ -96,21 +95,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         GridBagConstraints resetGbc = (GridBagConstraints)gbc.clone();
         resetGbc.fill = GridBagConstraints.NONE;
         this.add( resetBtn, resetGbc );
-
-
-        JButton testBtn = new JButton( "Test");
-        testBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 100,
-                                                                       module.getBox().getPosition().getY() + 30),
-                                                   new Vector2D.Double( -0, -20),
-                                                   new Vector2D.Double(  ));
-                new PumpMoleculeCmd( (IdealGasModel)module.getModel(), m, module ).doIt();
-            }
-        } );
-//        resetGbc.gridy++;
-        this.add( testBtn, resetGbc );
-
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );

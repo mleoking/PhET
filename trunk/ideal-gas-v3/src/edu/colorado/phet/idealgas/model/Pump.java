@@ -149,11 +149,6 @@ public class Pump extends SimpleObservable implements GasSource {
         GasMolecule newMolecule = createMolecule( species, moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
-        // Constrain the molecule to be inside the box
-        Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule, model );
-        newMolecule.addConstraint( constraintSpec );
-        box.addContainedBody( newMolecule );
-
         notifyObservers();
         return newMolecule;
     }

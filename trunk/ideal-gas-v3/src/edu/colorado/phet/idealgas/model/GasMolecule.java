@@ -102,14 +102,6 @@ public class GasMolecule extends SolidSphere {
         super.setPosition( position );
     }
 
-    public boolean isInBox() {
-        return isInBox;
-    }
-
-    public void setInBox( boolean inBox ) {
-        isInBox = inBox;
-    }
-
     public void removeYourselfFromSystem() {
         // Work with a copy of the list of observers, in case any of them remove
         // themselves as observers in their implementations of removeFromSystem()
@@ -118,6 +110,5 @@ public class GasMolecule extends SolidSphere {
             Observer observer = (Observer)observerCopies.get( i );
             observer.removedFromSystem();
         }
-//        notifyObservers();
     }
 }

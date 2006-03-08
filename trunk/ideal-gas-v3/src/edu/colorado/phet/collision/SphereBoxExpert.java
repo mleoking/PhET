@@ -30,11 +30,12 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                         (Box2D)bodyA : (Box2D)bodyB;
 
             // todo: This should not happen in this class!!!!!
-            if( sphere instanceof GasMolecule && !((GasMolecule)sphere).isInBox() ) {
-                return haveCollided;
+            if( sphere instanceof GasMolecule && !box.containsBody( sphere )) {
+//            if( sphere instanceof GasMolecule && !( (GasMolecule)sphere ).isInBox() ) {
+//                return haveCollided;
             }
 
-            if( !box.isInOpening( sphere )) {
+            if( !box.isInOpening( sphere ) ) {
 
                 double sx = sphere.getPosition().getX();
                 double sy = sphere.getPosition().getY();
@@ -47,10 +48,24 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 //                boolean rightWall = ( sx + r ) >= box.getMaxX() && ( spx + r ) < box.getMaxX();
 //                boolean topWall = ( sy - r ) <= box.getMinY() && ( spy - r ) > box.getMinY();
 //                boolean bottomWall = ( sy + r ) >= box.getMaxY() && ( spy + r ) < box.getMaxY();
-                boolean leftWall = ( sx - r ) <= box.getMinX();
-                boolean rightWall = ( sx + r ) >= box.getMaxX();
-                boolean topWall = ( sy - r ) <= box.getMinY();
-                boolean bottomWall = ( sy + r ) >= box.getMaxY();
+                boolean leftWall = false;
+                boolean rightWall = false;
+                boolean topWall = false;
+                boolean bottomWall = false;
+                if( !( sphere instanceof GasMolecule ) || box.containsBody( sphere ) ) {
+//                if( !( sphere instanceof GasMolecule ) || ( (GasMolecule)sphere ).isInBox() ) {
+                    leftWall = ( sx - r ) <= box.getMinX();
+                    rightWall = ( sx + r ) >= box.getMaxX();
+                    topWall = ( sy - r ) <= box.getMinY();
+                    bottomWall = ( sy + r ) >= box.getMaxY();
+                }
+                // Is the sphere hitting the box from outside
+//                else if( sphere instanceof GasMolecule && !( (GasMolecule)sphere ).isInBox() ) {
+//                    leftWall = ( sx + r ) >= box.getMinX();
+//                    rightWall = ( sx - r ) <= box.getMaxX();
+//                    topWall = ( sy + r ) >= box.getMinY();
+//                    bottomWall = ( sy - r ) <= box.getMaxY();
+//                }
 
                 //If the sphere is in contact with two opposing walls, don't do anything. Need this for spheres
                 // that fill the box
