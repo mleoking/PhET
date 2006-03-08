@@ -29,25 +29,41 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.io.FileNotFoundException;
-
 public class PangShooting {
-    static final int nx = 500, m = 10, ni = 10;
-    static final double x1 = -10, x2 = 10, h = ( x2 - x1 ) / nx;
-    static int nr, nl;
-    static double ul[] = new double[nx + 1];
-    static double ur[] = new double[nx + 1];
-    static double ql[] = new double[nx + 1];
-    static double qr[] = new double[nx + 1];
-    static double s[] = new double[nx + 1];
-    static double u[] = new double[nx + 1];
+    final int nx = 500, m = 10;
+    final double x1 = -10;
+    double x2 = 10;
+    double h = ( x2 - x1 ) / nx;
+    int nr, nl;
+    double ul[] = new double[nx + 1];
+    double ur[] = new double[nx + 1];
+    double ql[] = new double[nx + 1];
+    double qr[] = new double[nx + 1];
+    double s[] = new double[nx + 1];
+    double u[] = new double[nx + 1];
 
-    public static void main( String argv[] ) throws
-                                             FileNotFoundException {
-        double del = 1e-6, e = 2.4, de = 0.1;
+    public PangShooting() {
+
+
+    }
+
+    public static void main( String argv[] ) {
+        new PangShooting().start();
+    }
+
+    private void start() {
+        plot();
+    }
+
+    private void plot() {
+        double epsilon = 1e-6;
+        double e = 2.4;
+//        double e = 1.0;
+        double de = 0.1;
 
         // Find the eigenvalue via the secant search
-        e = secant( ni, del, e, de );
+        int ni = 10;
+        e = secant( ni, epsilon, e, de );
 
         // Output the wavefunction to a file
 
@@ -56,10 +72,9 @@ public class PangShooting {
         double x = x1;
         double mh = m * h;
         for( int i = 0; i <= nx; i += m ) {
-            System.out.println( x + " " + u[i] );
+//            System.out.println( x + " " + u[i] );
             x += mh;
         }
-
         // Output the eigenvalue obtained
         System.out.println( "The eigenvalue: " + e );
         XYSeries series = new XYSeries( "psi", false, true );
@@ -70,7 +85,7 @@ public class PangShooting {
         chartFrame.setSize( 800, 600 );
         chartFrame.setVisible( true );
         for( int i = 0; i <= nx; i += 1 ) {
-            System.out.println( x + " " + u[i] );
+//            System.out.println( x + " " + u[i] );
             series.add( x, u[i] );
             x += mh;
         }
@@ -78,8 +93,8 @@ public class PangShooting {
 
 // Method to carry out the secant search.
 
-    public static double secant( int n, double epsilon,
-                                 double x, double dx ) {
+    public double secant( int n, double epsilon,
+                          double x, double dx ) {
         int k = 0;
         double x1 = x + dx;
         while( ( Math.abs( dx ) > epsilon ) && ( k < n ) ) {
@@ -99,7 +114,7 @@ public class PangShooting {
 
 // Method to provide the function for the root search.
 
-    public static double f( double x ) {
+    public double f( double x ) {
         wave( x );
         double f0 = ur[nr - 1] + ul[nl - 1] - ur[nr - 3] - ul[nl - 3];
         return f0 / ( 2 * h * ur[nr - 2] );
@@ -107,7 +122,7 @@ public class PangShooting {
 
 // Method to calculate the wavefunction.
 
-    public static void wave( double energy ) {
+    public void wave( double energy ) {
         double y[] = new double [nx + 1];
         double u0 = 0, u1 = 0.01;
 
