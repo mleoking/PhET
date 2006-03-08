@@ -47,7 +47,7 @@ MACINTOSH:
 
 
 DONE:
-(3/8/06) - first pass at AbstractWell and SquareWell
+(3/8/06) - first pass at well model -- AbstractWell and SquareWell
 (3/8/06) - remove well center control from Configure Energy dialog
 (3/7/06) - fix TotalEnergyNode to handle eigenstates outside of the chart's range
 (3/7/06) - change shape of harmonic oscillator icon
