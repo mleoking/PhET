@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.boundstates.view;
 
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +24,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.model.BSAbstractWell;
+import edu.colorado.phet.boundstates.model.BSSquareWell;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
@@ -39,12 +42,13 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     // Model references
+    private BSAbstractWell _well;
     
     // View
     private XYSeries _totalEnergySeries;
-    private XYSeries _potentialEnergySeries;
+    private XYSeries _wellSeries;
     private int _totalEnergyIndex; // total energy dataset index
-    private int _potentialEnergyIndex; // potential energy dataset index
+    private int _wellIndex; // well dataset index
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,22 +64,22 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         
         int dataSetIndex = 0;
         
-        // Potential Energy series
-        _potentialEnergySeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
+        // Well series
+        _wellSeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
         {
-            _potentialEnergyIndex = dataSetIndex++;
+            _wellIndex = dataSetIndex++;
             // Dataset
             XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _potentialEnergySeries );
-            setDataset( _potentialEnergyIndex, dataset );
+            dataset.addSeries( _wellSeries );
+            setDataset( _wellIndex, dataset );
             // Renderer
             XYItemRenderer renderer = new StandardXYItemRenderer();
             renderer.setPaint( BSConstants.POTENTIAL_ENERGY_COLOR );
             renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
-            setRenderer( _potentialEnergyIndex, renderer );
+            setRenderer( _wellIndex, renderer );
         }
         
-        // Total Energy series -- switch renderers based on wave type
+        // Total Energy series
         _totalEnergySeries = new XYSeries( totalEnergyLabel, false /* autoSort */);
         {
             _totalEnergyIndex = dataSetIndex++;
@@ -111,9 +115,22 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         setRangeAxis( yAxis ); 
     }
     
+    public void cleanup() {
+        if ( _well != null ) {
+            _well.deleteObserver( this );
+            _well = null;
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setWell( BSAbstractWell well ) {
+        _well = well;
+        _well.addObserver( this );
+        update();
+    }
     
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -126,7 +143,9 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        //XXX
+        if ( observable == _well ) {
+            updateWell();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -138,7 +157,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      */
     public void update() {
         updateTotalEnergy();
-        updatePotentialEnergy();
+        updateWell();
     }
     
     /*
@@ -151,7 +170,14 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     /*
      * Updates the potential energy series to match the model.
      */
-    private void updatePotentialEnergy() {
-        //XXX
+    private void updateWell() {
+        final double minX = getDomainAxis().getLowerBound();
+        final double maxX = getDomainAxis().getUpperBound();
+        final double dx = 0.1; //XXX calculate based on plot bounds and pixels per sample
+        Point2D[] points = _well.getPoints( minX, maxX, dx );
+        _wellSeries.clear();
+        for ( int i = 0; i < points.length; i++ ) {
+            _wellSeries.add( points[i].getX(), points[i].getY() );
+        }
     }
 }

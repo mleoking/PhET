@@ -155,4 +155,26 @@ public class BSConstants {
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = false;
     
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
+    
+    //----------------------------------------------------------------------------
+    // Wells
+    //----------------------------------------------------------------------------
+    
+    public static final double DEFAULT_WELL_CENTER = 0;
+    public static final double DEFAULT_WELL_OFFSET = 0;
+    
+    public static final double DEFAULT_COULOMB_WELL_SPACING = 2;
+    public static final double DEFAULT_COULOMB_WELL_WIDTH = 1;
+    public static final double DEFAULT_COULOMB_WELL_DEPTH = -8; //XXX ???
+    
+    public static final double DEFAULT_HARMONIC_OSCILLATOR_WELL_WIDTH = 4;
+    public static final double DEFAULT_HARMONIC_OSCILLATOR_WELL_DEPTH = 1; //XXX ???
+    
+    public static final double DEFAULT_SQUARE_WELL_SPACING = 2;
+    public static final double DEFAULT_SQUARE_WELL_WIDTH = 1;
+    public static final double DEFAULT_SQUARE_WELL_DEPTH = -8;
+    
+    public static final double DEFAULT_ASYMMETRIC_WELL_WIDTH = 1;
+    public static final double DEFAULT_ASYMMETRIC_WELL_DEPTH = -8;
+    
 }

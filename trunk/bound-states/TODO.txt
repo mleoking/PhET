@@ -5,6 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- relationship in UI between well depth & spacing, how do they affect each others controls?
+- eigenstates (including selected ones) may be off the top or bottom of the graph, need to handle this!
+- don't allow depth of wells to be raised above offset (don't allow barrier creation)
+- very small possibility that double well might have independent depth controls
 - support for programmatic multiple selection of eigenstate lines
 - normalization of Superposition coefficients has round-off and double precision error
 - update persistence code to include new modules
@@ -43,6 +47,8 @@ MACINTOSH:
 
 
 DONE:
+(3/8/06) - first pass at AbstractWell and SquareWell
+(3/8/06) - remove well center control from Configure Energy dialog
 (3/7/06) - fix TotalEnergyNode to handle eigenstates outside of the chart's range
 (3/7/06) - change shape of harmonic oscillator icon
 (3/7/06) - black chart backgrounds, yellow eigenstate hilites

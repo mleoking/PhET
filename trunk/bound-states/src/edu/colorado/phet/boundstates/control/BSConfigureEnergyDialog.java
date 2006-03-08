@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.model.BSAbstractWell;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -49,10 +50,11 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private BSAbstractWell _well;
+    
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
     private SliderControl _offsetSlider;
-    private SliderControl _centerSlider;
     private SliderControl _spacingSlider;
     private JButton _closeButton;
     private EventListener _eventListener;
@@ -64,23 +66,30 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSConfigureEnergyDialog( Frame parent ) {
+    public BSConfigureEnergyDialog( Frame parent, BSAbstractWell well ) {
         super( parent );
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSConfigureEnergyDialog.title" ) );
         
+        _well = well;
+        _well.addObserver( this );
+        
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
         
         createUI( parent );
+        updateControls();
     }
     
     /**
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        //XXX
+        if ( _well != null ) {
+            _well.deleteObserver( this );
+            _well = null;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -121,19 +130,16 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         String energyUnits = SimStrings.get( "units.energy" );
         
         String widthFormat = SimStrings.get( "label.wellWidth" ) + " {0} " + positionUnits;
-        _widthSlider = new SliderControl( 1, 0.1, 10, 10-0.1, 1, 1, widthFormat, SLIDER_INSETS );
+        _widthSlider = new SliderControl( 1, 0.1, 3, 3-0.1, 1, 1, widthFormat, SLIDER_INSETS );
         
         String depthFormat = SimStrings.get( "label.wellDepth" ) + " {0} " + energyUnits;
-        _depthSlider = new SliderControl( 1, 0.1, 10, 10-0.1, 1, 1, depthFormat, SLIDER_INSETS );
+        _depthSlider = new SliderControl( 1, -10, 0, 10, 1, 1, depthFormat, SLIDER_INSETS );
         
         String offsetFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
-        _offsetSlider = new SliderControl( 1, 0.1, 10, 10-0.1, 1, 1, offsetFormat, SLIDER_INSETS );
-        
-        String centerFormat = SimStrings.get( "label.wellCenter" ) + " {0} " + positionUnits;
-        _centerSlider = new SliderControl( 1, 0.1, 10, 10-0.1, 1, 1, centerFormat, SLIDER_INSETS );
+        _offsetSlider = new SliderControl( 1, -15, 5, 20, 1, 1, offsetFormat, SLIDER_INSETS );
         
         String spacingFormat = SimStrings.get( "label.wellSpacing" ) + " {0} " + positionUnits;
-        _spacingSlider = new SliderControl( 1, 0.1, 10, 10-0.1, 1, 1, spacingFormat, SLIDER_INSETS );
+        _spacingSlider = new SliderControl( 1, 0.1, 3, 3-0.1, 1, 1, spacingFormat, SLIDER_INSETS );
         
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -147,11 +153,15 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         row++;
         layout.addComponent( _offsetSlider, row, col );
         row++;
-        layout.addComponent( _centerSlider, row, col );
-        row++;
         layout.addComponent( _spacingSlider, row, col );
         row++;
 
+        // Interction
+        _widthSlider.addChangeListener( _eventListener );
+        _depthSlider.addChangeListener( _eventListener );
+        _offsetSlider.addChangeListener( _eventListener );
+        _spacingSlider.addChangeListener( _eventListener );
+        
         return inputPanel;
     }
 
@@ -182,7 +192,24 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
      * Synchronizes the view with the model.
      */
     public void update( Observable o, Object arg ) {
-        //XXX
+        updateControls();
+    }
+    
+    private void updateControls() {
+        
+        // Sync values
+        _widthSlider.setValue( _well.getWidth() );
+        _depthSlider.setValue( _well.getDepth() );
+        _offsetSlider.setValue( _well.getOffset() );
+        _spacingSlider.setValue( _well.getSpacing() );
+        
+        // Sync ranges
+        _widthSlider.setMaximum( _spacingSlider.getValue() - 0.1 );//XXX
+        _spacingSlider.setMinimum( _widthSlider.getValue() + 0.1 );//XXX
+        
+        // Visibility
+        //XXX hide the width slider if well is Coulomb
+        _spacingSlider.setVisible( _well.getNumberOfWells() > 1 );
     }
     
     //----------------------------------------------------------------------------
@@ -195,12 +222,12 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     private class EventListener extends WindowAdapter implements ActionListener, ChangeListener {
 
         public void windowClosing( WindowEvent event ) {
-            handleClose();
+            handleCloseAction();
         }
         
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _closeButton ) {
-                handleClose();
+                handleCloseAction();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -217,9 +244,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
             else if ( event.getSource() == _offsetSlider ) {
                 handleOffsetChange();
             }
-            else if ( event.getSource() == _centerSlider ) {
-                handleCenterChange();
-            }
             else if ( event.getSource() == _spacingSlider ) {
                 handleSpacingChange();
             }
@@ -229,32 +253,29 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         }
     }
     
-    /*
-     * Handles the "Close" button.
-     */
-    private void handleClose() {
+    private void handleCloseAction() {
         cleanup();
         dispose();
     }
     
     private void handleWidthChange() {
-        //XXX
+        final double width = _widthSlider.getValue();
+        _well.setWidth( width );
     }
     
     private void handleDepthChange() {
-        //XXX
+        final double depth = _depthSlider.getValue();
+        _well.setDepth( depth );
     }
     
     private void handleOffsetChange() {
-        //XXX
-    }
-    
-    private void handleCenterChange() {
-        //XXX
+        final double offset = _offsetSlider.getValue();
+        _well.setOffset( offset );
     }
     
     private void handleSpacingChange() {
-        //XXX
+        final double spacing = _spacingSlider.getValue();
+        _well.setSpacing( spacing );
     }
 
 }
