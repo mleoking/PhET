@@ -4,7 +4,20 @@ package edu.colorado.phet.boundstates.benfold2;
 /**
  * Thread to search an interval for a solution to a Schrodinger equation.
  */
-class SolnSearcher extends Thread {
+class ShootingMethod {
+    /**
+     * If neither half of the interval is guaranteed to contain a solution,
+     * the search will move towards this value, which is initialised from the
+     * original energy parameter of the equation.
+     */
+    protected double hint;
+    protected double min, max, minValue, maxValue, intRange;
+    protected int steps;
+    protected boolean finished;
+    protected boolean killed;
+    protected Schrodinger eqn;
+    protected EnergyListener owner;
+
     /**
      * Creates a new solution searcher
      *
@@ -18,7 +31,7 @@ class SolnSearcher extends Thread {
      * @param steps    The number of steps to be used when evaluating the
      *                 solution
      */
-    public SolnSearcher( EnergyListener owner, Schrodinger eqn, double min, double max, double intRange, int steps ) {
+    public ShootingMethod( EnergyListener owner, Schrodinger eqn, double min, double max, double intRange, int steps ) {
         this.owner = owner;
         this.eqn = eqn;
         this.min = min;
@@ -101,7 +114,6 @@ class SolnSearcher extends Thread {
         return soln[steps] - soln[1];
     }
 
-
     /**
      * Returns the current &quot;best estimate&quot; of the solution;
      * that is, the midpoint of the bisection interval.
@@ -111,34 +123,4 @@ class SolnSearcher extends Thread {
     }
 
 
-    /**
-     * Returns <code>true</code> if the search is still in process, else
-     * <code>false</code>
-     */
-    public boolean isFinished() {
-        return finished && !isAlive();
-    }
-
-
-    /**
-     * Requests that the search terminate at the next convenient opportunity.
-     */
-    public void kill() {
-        killed = true;
-        interrupt();
-    }
-
-
-    /**
-     * If neither half of the interval is guaranteed to contain a solution,
-     * the search will move towards this value, which is initialised from the
-     * original energy parameter of the equation.
-     */
-    protected double hint;
-    protected double min, max, minValue, maxValue, intRange;
-    protected int steps;
-    protected boolean finished;
-    protected boolean killed;
-    protected Schrodinger eqn;
-    protected EnergyListener owner;
 }
