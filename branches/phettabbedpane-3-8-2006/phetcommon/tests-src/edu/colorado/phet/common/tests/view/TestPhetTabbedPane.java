@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.tests.phetcommon;
+package edu.colorado.phet.common.tests.view;
 
-import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
-import edu.colorado.phet.qm.phetcommon.PhetTabbedPane;
+import edu.colorado.phet.common.view.PhetTabbedPane;
 
 import javax.swing.*;
 import javax.swing.colorchooser.ColorSelectionModel;
@@ -25,7 +24,7 @@ public class TestPhetTabbedPane {
         final JSlider slider = new JSlider( 6, 60, 10 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                phetTabbedPane.setTabFont( new LucidaSansFont( slider.getValue(), true ) );
+                phetTabbedPane.setTabFont( new Font( "Lucida Sans", Font.BOLD, slider.getValue() ) );
             }
         } );
         phetTabbedPane.addTab( "<html>Font<br>Size</html>", slider );

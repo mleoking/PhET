@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.phetcommon;
+package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
@@ -283,6 +283,7 @@ public class PhetTabbedPane extends JPanel {
         private Color selectedTabColor;
         private PPath outlineNode;
         private Font tabFont;
+        private boolean textIsCentered = true;
 
         public AbstractTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             this.tabFont = tabFont;
@@ -311,6 +312,9 @@ public class PhetTabbedPane extends JPanel {
         public void setTabTextHeight( double tabHeight ) {
             background.setPathTo( createTabShape( textNode.getFullBounds().getWidth(), tabHeight ) );
             outlineNode.setPathTo( createTabTopBorder( textNode.getFullBounds().getWidth(), tabHeight ) );
+            if( textIsCentered ) {
+                textNode.setOffset( 0, tabHeight / 2 - textNode.getHeight() / 2 );
+            }
         }
 
         private GeneralPath createTabTopBorder( double textWidth, double textHeight ) {
