@@ -32,13 +32,10 @@ public class PhetTabbedPane extends JPanel {
     private JComponent body;
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
+    private static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
 
     public PhetTabbedPane() {
-        this( new Color( 150, 150, 255 ) );
-    }
-
-    public int getTabCount() {
-        return tabPane.getTabCount();
+        this( DEFAULT_SELECTED_TAB_COLOR );
     }
 
     public PhetTabbedPane( Color selectedTabColor ) {
@@ -56,19 +53,23 @@ public class PhetTabbedPane extends JPanel {
             }
 
             public void componentResized( ComponentEvent e ) {
-                relayout();
+                relayoutComponents();
             }
 
             public void componentShown( ComponentEvent e ) {
-                relayout();
+                relayoutComponents();
             }
         } );
     }
 
-    private void relayout() {
+    public int getTabCount() {
+        return tabPane.getTabCount();
+    }
+
+    private void relayoutComponents() {
         Rectangle bounds = body.getBounds();
         for( int i = 0; i < getTabCount(); i++ ) {
-            tabPane.getTabs()[i].getContentPanel().setBounds( bounds );//to mimic behavior in JTabbedPane
+            tabPane.getTabs()[i].getComponent().setBounds( bounds );//to mimic behavior in JTabbedPane
         }
     }
 
@@ -78,7 +79,9 @@ public class PhetTabbedPane extends JPanel {
 
     public void removeTabAt( int i ) {
         tabPane.removeTabAt( i );
-        setSelectedIndex( i - 1 );
+        if( getTabCount() > 0 ) {
+            setSelectedIndex( i - 1 );
+        }
     }
 
     public void addChangeListener( ChangeListener changeListener ) {
@@ -93,7 +96,9 @@ public class PhetTabbedPane extends JPanel {
         final TabNode tab = new TabNode( title, content, selectedTabColor );
         tab.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent e ) {
-                setSelectedTab( tab );
+                if( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
+                    setSelectedTab( tab );
+                }
             }
 
             public void mouseEntered( PInputEvent event ) {
@@ -115,11 +120,14 @@ public class PhetTabbedPane extends JPanel {
     }
 
     public void setSelectedIndex( int index ) {
+        if( index < 0 || index >= getTabCount() ) {
+            throw new RuntimeException( "Illegal tab index: " + index + ", tab count=" + getTabCount() );
+        }
         setSelectedTab( tabPane.getTabs()[index] );
     }
 
     private void setSelectedTab( TabNode tab ) {
-        setBody( tab.getContentPanel() );
+        setBody( tab.getComponent() );
         tab.setSelected( true );
         for( int i = 0; i < tabPane.getTabs().length; i++ ) {
             TabNode t = tabPane.getTabs()[i];
@@ -153,7 +161,7 @@ public class PhetTabbedPane extends JPanel {
 
     public static class TabNode extends PNode {
         private String text;
-        private JComponent content;
+        private JComponent component;
         private final PText ptext;
         private final PPath background;
         private boolean selected;
@@ -162,10 +170,10 @@ public class PhetTabbedPane extends JPanel {
         private Color selectedTabColor;
         private PPath outlineNode;
 
-        public TabNode( String text, JComponent content, Color selectedTabColor ) {
+        public TabNode( String text, JComponent component, Color selectedTabColor ) {
             this.selectedTabColor = selectedTabColor;
             this.text = text;
-            this.content = content;
+            this.component = component;
 
             ptext = new PText( text );
             ptext.setFont( getTabFont() );
@@ -192,8 +200,8 @@ public class PhetTabbedPane extends JPanel {
             addChild( outlineNode );
         }
 
-        public JComponent getContentPanel() {
-            return content;
+        public JComponent getComponent() {
+            return component;
         }
 
         public void setSelected( boolean selected ) {
