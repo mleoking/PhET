@@ -1,7 +1,8 @@
 package edu.colorado.phet.boundstates;
+
 ///////////////////////////////////////////////////////////////////////////
 //                                                                       //
-// Program file name: Shooting.java                                      //
+// Program file name: Schroedinger.java                                  //
 //                                                                       //
 // © Tao Pang 2006                                                       //
 //                                                                       //
@@ -15,13 +16,46 @@ package edu.colorado.phet.boundstates;
 //                                                                       //
 ///////////////////////////////////////////////////////////////////////////
 
-// An example of solving a boundary-value problem via
-// the shooting method.  The Runge-Kutta and secant
-// methods are used for integration and root search.
+// An example of solving the eigenvalue problem of the
+// one-dimensional Schroedinger equation via the secant
+// and Numerov methods.
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 public class PangShooting {
-    static final int n = 100, ni = 10, m = 5;
-    static final double h = 1.0 / n;
+    static final int nx = 500, m = 10, ni = 10;
+    static final double x1 = -10, x2 = 10, h = ( x2 - x1 ) / nx;
+    static int nr, nl;
+    static double ul[] = new double[nx + 1];
+    static double ur[] = new double[nx + 1];
+    static double ql[] = new double[nx + 1];
+    static double qr[] = new double[nx + 1];
+    static double s[] = new double[nx + 1];
+    static double u[] = new double[nx + 1];
+
+    public static void main( String argv[] ) throws
+                                             FileNotFoundException {
+        double del = 1e-6, e = 2.4, de = 0.1;
+
+        // Find the eigenvalue via the secant search
+        e = secant( ni, del, e, de );
+
+        // Output the wavefunction to a file
+        PrintWriter w = new PrintWriter
+                ( new FileOutputStream( "wave.data" ), true );
+        double x = x1;
+        double mh = m * h;
+        for( int i = 0; i <= nx; i += m ) {
+            w.println( x + " " + u[i] );
+            x += mh;
+        }
+
+        // Output the eigenvalue obtained
+        System.out.println( "The eigenvalue: " + e );
+
+    }
 
 // Method to carry out the secant search.
 
@@ -47,73 +81,109 @@ public class PangShooting {
 // Method to provide the function for the root search.
 
     public static double f( double x ) {
-        double y[] = new double[2];
-        y[0] = 0;
-        y[1] = x;
-        for( int i = 0; i < n - 1; ++i ) {
-            double xi = h * i;
-            y = rungeKutta( y, xi, h );
-        }
-        return y[0] - 1;
+        wave( x );
+        double f0 = ur[nr - 1] + ul[nl - 1] - ur[nr - 3] - ul[nl - 3];
+        return f0 / ( 2 * h * ur[nr - 2] );
     }
 
-// Method to complete one Runge-Kutta step.
+// Method to calculate the wavefunction.
 
-    public static double[] rungeKutta( double y[],
-                                       double t, double dt ) {
-        int k = y.length;
-        double k1[] = new double[k];
-        double k2[] = new double[k];
-        double k3[] = new double[k];
-        double k4[] = new double[k];
-        k1 = g( y, t );
-        for( int i = 0; i < k; ++i ) {
-            k2[i] = y[i] + k1[i] / 2;
+    public static void wave( double energy ) {
+        double y[] = new double [nx + 1];
+        double u0 = 0, u1 = 0.01;
+
+        // Set up function q(x) in the equation
+        for( int i = 0; i <= nx; ++i ) {
+            double x = x1 + i * h;
+            ql[i] = 2 * ( energy - v( x ) );
+            qr[nx - i] = ql[i];
         }
-        k2 = g( k2, t + dt / 2 );
-        for( int i = 0; i < k; ++i ) {
-            k3[i] = y[i] + k2[i] / 2;
+
+        // Find the matching point at the right turning point
+        int im = 0;
+        for( int i = 0; i < nx; ++i ) {
+            if( ( ( ql[i] * ql[i + 1] ) < 0 ) && ( ql[i] > 0 ) ) {
+                im = i;
+            }
         }
-        k3 = g( k3, t + dt / 2 );
-        for( int i = 0; i < k; ++i ) {
-            k4[i] = y[i] + k3[i];
+
+        // Carry out the Numerov integrations
+        nl = im + 2;
+        nr = nx - im + 2;
+        ul = numerov( nl, h, u0, u1, ql, s );
+        ur = numerov( nr, h, u0, u1, qr, s );
+
+        // Find the wavefunction on the left
+        double ratio = ur[nr - 2] / ul[im];
+        for( int i = 0; i <= im; ++i ) {
+            u[i] = ratio * ul[i];
+            y[i] = u[i] * u[i];
         }
-        k4 = g( k4, t + dt );
-        for( int i = 0; i < k; ++i ) {
-            k1[i] = y[i] + dt * ( k1[i] + 2 * ( k2[i] + k3[i] ) + k4[i] ) / 6;
+
+        // Find the wavefunction on the right
+        for( int i = 0; i < nr - 1; ++i ) {
+            u[i + im] = ur[nr - i - 2];
+            y[i + im] = u[i + im] * u[i + im];
         }
-        return k1;
+
+        // Normalize the wavefunction
+        double sum = simpson( y, h );
+        sum = Math.sqrt( sum );
+        for( int i = 0; i <= nx; ++i ) {
+            u[i] /= sum;
+        }
     }
 
-// Method to provide the generalized velocity vector.
+// Method to perform the Numerov integration.
 
-    public static double[] g( double y[], double t ) {
-        int k = y.length;
-        double v[] = new double[k];
-        v[0] = y[1];
-        v[1] = -Math.PI * Math.PI * ( y[0] + 1 ) / 4;
-        return v;
+    public static double[] numerov( int m, double h,
+                                    double u0, double u1, double q[], double s[] ) {
+        double u[] = new double[m];
+        u[0] = u0;
+        u[1] = u1;
+        double g = h * h / 12;
+        for( int i = 1; i < m - 1; ++i ) {
+            double c0 = 1 + g * q[i - 1];
+            double c1 = 2 - 10 * g * q[i];
+            double c2 = 1 + g * q[i + 1];
+            double d = g * ( s[i + 1] + s[i - 1] + 10 * s[i] );
+            u[i + 1] = ( c1 * u[i] - c0 * u[i - 1] + d ) / c2;
+        }
+        return u;
     }
 
-    public static void main( String argv[] ) {
-        double del = 1e-6, alpha0 = 1, dalpha = 0.01;
-        double y1[] = new double [n + 1];
-        double y2[] = new double [n + 1];
-        double y[] = new double [2];
+// Method to achieve the evenly spaced Simpson rule.
 
-        // Search the proper solution of the equation
-        y1[0] = y[0] = 0;
-        y2[0] = y[1] = secant( ni, del, alpha0, dalpha );
-        for( int i = 0; i < n; ++i ) {
-            double x = h * i;
-            y = rungeKutta( y, x, h );
-            y1[i + 1] = y[0];
-            y2[i + 1] = y[1];
+    public static double simpson( double y[], double h ) {
+        int n = y.length - 1;
+        double s0 = 0, s1 = 0, s2 = 0;
+        for( int i = 1; i < n; i += 2 ) {
+            s0 += y[i];
+            s1 += y[i - 1];
+            s2 += y[i + 1];
         }
+        double s = ( s1 + 4 * s0 + s2 ) / 3;
 
-        // Output the result in every m points
-        for( int i = 0; i <= n; i += m ) {
-            System.out.println( y1[i] );
+        // Add the last slice separately for an even n+1
+        if( ( n + 1 ) % 2 == 0 ) {
+            return h * ( s + ( 5 * y[n] + 8 * y[n - 1] - y[n - 2] ) / 12 );
         }
+        else {
+            return h * s;
+        }
+    }
+
+// Method to provide the given potential in the problem.
+
+    public static double v( double x ) {
+        double alpha = 1, lambda = 4;
+        return alpha * alpha * lambda * ( lambda - 1 )
+               * ( 0.5 - 1 / Math.pow( cosh( alpha * x ), 2 ) ) / 2;
+    }
+
+// Method to provide the hyperbolic cosine needed.
+
+    public static double cosh( double x ) {
+        return ( Math.exp( x ) + Math.exp( -x ) ) / 2;
     }
 }
