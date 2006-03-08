@@ -160,6 +160,7 @@ public class PhetTabbedPane extends JPanel {
         private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );
         private float tiltWidth = 11;
         private Color selectedTabColor;
+        private PPath outlineNode;
 
         public TabNode( String text, JComponent content, Color selectedTabColor ) {
             this.selectedTabColor = selectedTabColor;
@@ -175,11 +176,20 @@ public class PhetTabbedPane extends JPanel {
             path.lineTo( (float)ptext.getFullBounds().getWidth() + tabInsets.right + tiltWidth, (float)( ptext.getFullBounds().getHeight() + tabInsets.bottom ) );
             path.lineTo( -tabInsets.left, (float)( ptext.getFullBounds().getHeight() + tabInsets.bottom ) );
             path.closePath();
+
+            GeneralPath outline = new GeneralPath();
+            outline.moveTo( -tabInsets.left, (float)( ptext.getFullBounds().getHeight() + tabInsets.bottom ) );
+            outline.lineTo( -tabInsets.left, -tabInsets.top );
+            outline.lineTo( (float)( ptext.getFullBounds().getWidth() + tabInsets.right ), -tabInsets.top );
+            outline.lineTo( (float)ptext.getFullBounds().getWidth() + tabInsets.right + tiltWidth, (float)( ptext.getFullBounds().getHeight() + tabInsets.bottom ) );
+            outlineNode = new PPath( outline );
+
             background = new PPath( path );
             background.setPaint( selectedTabColor );
             background.setStroke( null );
             addChild( background );
             addChild( ptext );
+            addChild( outlineNode );
         }
 
         public JComponent getContentPanel() {
@@ -191,6 +201,7 @@ public class PhetTabbedPane extends JPanel {
             ptext.setFont( getTabFont() );
             ptext.setTextPaint( getTextPaint() );
             background.setStroke( getBorderStroke() );
+            outlineNode.setVisible( selected );
             updatePaint();
         }
 
