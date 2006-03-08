@@ -6,6 +6,9 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - relationship in UI between well depth & spacing, how do they affect each others controls?
+- each well type is diffent in how drag handles are placed on it
+- what is k value for Coulomb well?
+- where is width measured for Harmonic Oscillator well, how does it related to omega (frequency)?
 - eigenstates (including selected ones) may be off the top or bottom of the graph, need to handle this!
 - don't allow depth of wells to be raised above offset (don't allow barrier creation)
 - very small possibility that double well might have independent depth controls
