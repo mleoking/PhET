@@ -209,10 +209,13 @@ public class PhetTabbedPane extends JPanel {
             if( isSelected() ) {
                 htmlGraphic.setColor( Color.white );
                 htmlGraphic.setShadowColor( Color.darkGray );
+                htmlGraphic.setShadowOffset( 1, 1 );
             }
             else {
                 this.htmlGraphic.setShadowColor( ( (Color)getTextPaint() ).darker() );
                 this.htmlGraphic.setColor( (Color)getTextPaint() );
+                htmlGraphic.setShadowColor( new Color( 0, 0, 0, 255 ) );
+                htmlGraphic.setShadowOffset( 0, 0 );
             }
         }
 
