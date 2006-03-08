@@ -105,7 +105,7 @@ public class EigenvalueFinder {
         double intRange = 10;
         double[] soln = new double[steps + 1];
         double stepSize = intRange / steps;
-        eqn.solve( -intRange / 2, stepSize, soln );
+//        eqn.solve( -intRange / 2, stepSize, soln );
         return soln[steps] - soln[1];
     }
 }
