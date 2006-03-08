@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -181,8 +182,43 @@ public class PhetTabbedPane extends JPanel {
 
     public static class TabNodeFactory {
         public AbstractTabNode createTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
-//            return new TextTabNode( text, component, selectedTabColor );
             return new HTMLTabNode( text, component, selectedTabColor, tabFont );
+//            return new ShadowHTMLTabNode( text, component, selectedTabColor, tabFont );
+//            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
+        }
+    }
+
+    public static class ShadowHTMLTabNode extends AbstractTabNode {
+        private ShadowHTMLGraphic htmlGraphic;
+
+        public ShadowHTMLTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
+            super( text, component, selectedTabColor, tabFont );
+        }
+
+        protected PNode createTextNode( String text, Color selectedTabColor ) {
+            this.htmlGraphic = new ShadowHTMLGraphic( text );
+            htmlGraphic.setFont( getTabFont() );
+            htmlGraphic.setColor( Color.white );
+            htmlGraphic.setShadowColor( Color.black );
+            htmlGraphic.setShadowOffset( 1, 1 );
+            return this.htmlGraphic;
+        }
+
+        protected void updateTextNode() {
+            this.htmlGraphic.setFont( getTabFont() );
+            if( isSelected() ) {
+                htmlGraphic.setColor( Color.white );
+                htmlGraphic.setShadowColor( Color.darkGray );
+            }
+            else {
+                this.htmlGraphic.setShadowColor( ( (Color)getTextPaint() ).darker() );
+                this.htmlGraphic.setColor( (Color)getTextPaint() );
+            }
+        }
+
+        public void updateFont( Font font ) {
+            htmlGraphic.setFont( font );
+            updateShape();
         }
     }
 
@@ -303,6 +339,10 @@ public class PhetTabbedPane extends JPanel {
             background.setStroke( getBorderStroke() );
             outlineNode.setVisible( selected );
             updatePaint();
+        }
+
+        public boolean isSelected() {
+            return selected;
         }
 
         protected abstract void updateTextNode();
