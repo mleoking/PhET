@@ -20,9 +20,16 @@ package edu.colorado.phet.boundstates;
 // one-dimensional Schroedinger equation via the secant
 // and Numerov methods.
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 
 public class PangShooting {
     static final int nx = 500, m = 10, ni = 10;
@@ -43,27 +50,39 @@ public class PangShooting {
         e = secant( ni, del, e, de );
 
         // Output the wavefunction to a file
-        PrintWriter w = new PrintWriter
-                ( new FileOutputStream( "wave.data" ), true );
+
+//        PrintWriter w = new PrintWriter
+//                ( new FileOutputStream( "wave.data" ), true );
         double x = x1;
         double mh = m * h;
         for( int i = 0; i <= nx; i += m ) {
-            w.println( x + " " + u[i] );
+            System.out.println( x + " " + u[i] );
             x += mh;
         }
 
         // Output the eigenvalue obtained
         System.out.println( "The eigenvalue: " + e );
-
+        XYSeries series = new XYSeries( "psi", false, true );
+        XYDataset dataset = new XYSeriesCollection( series );
+        JFreeChart plot = ChartFactory.createScatterPlot( "wavefunction", "x", "psi", dataset, PlotOrientation.VERTICAL, false, false, false );
+        plot.getXYPlot().setRenderer( new XYLineAndShapeRenderer( true, false ) );
+        ChartFrame chartFrame = new ChartFrame( "Shooting Method", plot );
+        chartFrame.setSize( 800, 600 );
+        chartFrame.setVisible( true );
+        for( int i = 0; i <= nx; i += 1 ) {
+            System.out.println( x + " " + u[i] );
+            series.add( x, u[i] );
+            x += mh;
+        }
     }
 
 // Method to carry out the secant search.
 
-    public static double secant( int n, double del,
+    public static double secant( int n, double epsilon,
                                  double x, double dx ) {
         int k = 0;
         double x1 = x + dx;
-        while( ( Math.abs( dx ) > del ) && ( k < n ) ) {
+        while( ( Math.abs( dx ) > epsilon ) && ( k < n ) ) {
             double d = f( x1 ) - f( x );
             double x2 = x1 - f( x1 ) * ( x1 - x ) / d;
             x = x1;
