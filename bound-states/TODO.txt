@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- replae width control with an "angular frequency" control for harmonic oscillator to Configure dialog
+- change to defaults and ranges in draft #4
 - redo BSSquareWell.getPoints, needs to return a lattice that can be used to solve wave function
 - problem with width & spacing sliders interaction as their ranges change while dragging in Configure Energy
 - relationship in UI between well depth & spacing, how do they affect each others controls?
