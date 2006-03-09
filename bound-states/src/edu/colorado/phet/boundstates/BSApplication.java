@@ -137,6 +137,17 @@ public class BSApplication extends PhetApplication {
     }
     
     //----------------------------------------------------------------------------
+    // PhetApplication overrides
+    //----------------------------------------------------------------------------
+    
+    public void startApplication() {
+        super.startApplication();
+        
+        // Do things that need to be done after starting the application...
+        setActiveModule( _manyModule ); //XXX
+    }
+    
+    //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
 
