@@ -30,19 +30,19 @@ public class ToolPanel extends JPanel {
 
     JPanel toolsPanel = new JPanel( new GridBagLayout() );
     private JComponent button;
-    private Insets optionInsets = new Insets( 0, 10, 0, 10 );
+    private Insets panelInsets = new Insets( 0, 0, 0, 0 );
     private Insets buttonInsets = new Insets( 10, 0, 0, 0 );
 
     private GridBagConstraints topLevelGbc = new GridBagConstraints( 0, 0,
                                                                      1, 1, 1, 1,
                                                                      GridBagConstraints.CENTER,
                                                                      GridBagConstraints.NONE,
-                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                     panelInsets, 0, 0 );
     private GridBagConstraints toolsPanelInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                                                1, 1, 1, 1,
                                                                                GridBagConstraints.NORTHWEST,
                                                                                GridBagConstraints.NONE,
-                                                                               optionInsets, 0, 0 );
+                                                                               panelInsets, 0, 0 );
     private GridBagConstraints advToolsPanelInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                                                   1, 1, 1, 1,
                                                                                   GridBagConstraints.NORTHWEST,
@@ -75,15 +75,16 @@ public class ToolPanel extends JPanel {
         topLevelGbc.insets = buttonInsets;
         add( button, topLevelGbc );
 
+        toolsPanelInternalGbc.insets = panelInsets;
         toolsPanel.add( new MeasurementToolsControls.PressureSliceControl( module ), toolsPanelInternalGbc );
         toolsPanel.add( new MeasurementToolsControls.RulerControl( module ), toolsPanelInternalGbc );
         toolsPanel.add( new MeasurementToolsControls.SpeciesMonitorControl( module ), toolsPanelInternalGbc );
         toolsPanel.add( new MeasurementToolsControls.StopwatchControl( module ), toolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementToolsControls.HistogramControlPanel( module ), advToolsPanelInternalGbc );
-        toolsPanel.add( new MeasurementToolsControls.CmLinesControl( module ), advToolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.HistogramControlPanel( module ), toolsPanelInternalGbc );
+        toolsPanel.add( new MeasurementToolsControls.CmLinesControl( module ), toolsPanelInternalGbc );
         toolsPanel.setBorder( BorderFactory.createEtchedBorder() );
         toolsPanel.setVisible( false );
-        topLevelGbc.insets = optionInsets;
+        topLevelGbc.insets = panelInsets;
         topLevelGbc.gridy++;
         topLevelGbc.fill = GridBagConstraints.HORIZONTAL;
         add( toolsPanel, topLevelGbc );
@@ -114,7 +115,8 @@ public class ToolPanel extends JPanel {
         advToolPanel.setBorder( BorderFactory.createEtchedBorder() );
 
         advToolPanel.setVisible( false );
-        topLevelGbc.insets = optionInsets;
+        topLevelGbc.insets = panelInsets;
+//        topLevelGbc.insets = optionInsets;
         topLevelGbc.anchor = GridBagConstraints.NORTHWEST;
         topLevelGbc.fill = GridBagConstraints.HORIZONTAL;
         topLevelGbc.gridy++;

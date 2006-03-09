@@ -16,16 +16,6 @@ import edu.colorado.phet.idealgas.model.GasMolecule;
 public class SphereBoxCollision implements Collision {
 
     //----------------------------------------------------------------
-    // Class fields and methods
-    //----------------------------------------------------------------
-
-    private static boolean isWorkDoneByMovingWall = true;
-
-    public static void setWorkDoneByMovingWall( boolean workDoneByMovingWall ) {
-        isWorkDoneByMovingWall = workDoneByMovingWall;
-    }
-
-    //----------------------------------------------------------------
     // Instance fields and methods
     //----------------------------------------------------------------
 
@@ -97,7 +87,7 @@ public class SphereBoxCollision implements Collision {
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
             // Handle giving particle kinetic energy if the wall is moving
-            if( isWorkDoneByMovingWall ) {
+            if( model.isWorkDoneByMovingWall() ) {
                 double vx0 = sphere.getVelocity().getX();
                 double vx1 = vx0 + box.getLeftWallVx();
                 double energyPre = sphere.getKineticEnergy();

@@ -10,21 +10,23 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.*;
+import edu.colorado.phet.collision.CollidableBody;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.CollisionGod;
+import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.mechanics.Body;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Area;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
@@ -35,9 +37,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     // The default energy given to a molecule
     public static final float DEFAULT_ENERGY = 15000;
-    // The distance that a molecule travels out from the box before it
-    // is removed from the system.
-    private static double s_escapeOffset = -30;
     private static final float s_pressureAdjustmentFactor = 0.05f;
 
     public static final int CONSTANT_NONE = 0, CONSTANT_VOLUME = 1, CONSTANT_PRESSURE = 2, CONSTANT_TEMPERATURE = 3;
@@ -50,8 +49,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private double averageMoleculeEnergy;
     // Accumulates kinetic energy deliberately added to the system in a single time step.
     private double deltaKE = 0;
-    // Accumulates potential energy deliberately added to the system in a single time step.
-    private double deltaPE = 0;
     private ArrayList externalForces = new ArrayList();
     private List prepCommands = Collections.synchronizedList( new ArrayList() );
     // A utility list used in stepInTime
@@ -69,9 +66,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private int heavySpeciesCnt;
     private int lightSpeciesCnt;
     private Shape modelBounds;
-//    private Rectangle2D modelBounds;
     private double targetTemperature;
     private SimpleObservable simpleObservable = new SimpleObservable();
+
+    private boolean isWorkDoneByMovingWall = true;
+
+
 
     /**
      * @param dt
@@ -120,19 +120,19 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         this.constantProperty = constantProperty;
         switch( constantProperty ) {
             case CONSTANT_NONE:
-                SphereBoxCollision.setWorkDoneByMovingWall( true );
+                setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_VOLUME:
-                SphereBoxCollision.setWorkDoneByMovingWall( true );
+                setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_PRESSURE:
+                setWorkDoneByMovingWall( false );
                 this.targetPressure = box.getPressure();
-                SphereBoxCollision.setWorkDoneByMovingWall( false );
                 break;
             case CONSTANT_TEMPERATURE:
+                setWorkDoneByMovingWall( true );
                 double t = getTemperature();
                 this.targetTemperature = !Double.isNaN( t ) ? t : IdealGasModel.DEFAULT_ENERGY;
-                SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             default:
                 throw new RuntimeException( "Invalid constantProperty" );
@@ -270,7 +270,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         }
 
         if( modelElement instanceof GasMolecule ) {
-            GasMolecule gm = (GasMolecule)modelElement;
             ( (GasMolecule)modelElement ).removeYourselfFromSystem();
         }
         if( modelElement instanceof HeavySpecies ) {
@@ -675,6 +674,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public double getLightSpeciesAveSpeed() {
         return averageLightSpeciesSpeed;
+    }
+
+    public void setWorkDoneByMovingWall( boolean workDoneByMovingWall ) {
+        isWorkDoneByMovingWall = workDoneByMovingWall;
+    }
+
+    public boolean isWorkDoneByMovingWall() {
+        return isWorkDoneByMovingWall;
     }
 
     public void removeAllMolecules() {
