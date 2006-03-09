@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class TestBenFold {
     Schrodinger schrodinger = new Schrodinger( new Quadratic( 0.25 ) );
     double intRange = 20;
-    int steps = 5000;
+    int steps = 1000;
 
     public TestBenFold() {
     }
@@ -80,7 +80,7 @@ public class TestBenFold {
     private void normalize( double[] soln ) {
         double sum = 0;
         for( int i = 0; i < soln.length; i++ ) {
-            sum += soln[i];
+            sum += Math.abs( soln[i] );
         }
         for( int i = 0; i < soln.length; i++ ) {
             soln[i] /= sum;
@@ -90,39 +90,20 @@ public class TestBenFold {
     public static void main( String[] args ) {
         new TestBenFold().start();
     }
-//    static class Range{
-//        double min;
-//        double max;
-//    }
-
-//    private void start() {
-//        Solution val = solve( 0, 1 );
-//        System.out.println( "val = " + val );
-//        plot( val.getValue() );
-//    }
 
     private double[]getEnergies( double min, double windowSize, int numToGet, int maxIterations ) {
         ArrayList energies = new ArrayList();
         double epsilon = 0.0001;
-//        double windowSize = 0.2;
         double max = min + windowSize;
-        double goodnessThreshold = 10E6;
-//        int numPlotted = 0;
-//        int numToGet = 5;
+        double goodnessThreshold = 6E4;
         int iteration = 0;
-//        int maxIterations = 10000;
         while( energies.size() < numToGet && iteration < maxIterations ) {
-//        for( int i = 0; i < 10; i++ ) {
-            System.out.println( "i=" + iteration + ", range=[" + min + ", " + max + "]" );
             Solution e1 = solve( min, max );
-            System.out.println( "e1 = " + e1 );
 
             if( e1.getGoodness() < goodnessThreshold ) {
-                System.out.println( "$$$Plotting: e1 = " + e1 );
+                System.out.println( "e1 = " + e1 );
                 energies.add( new Double( e1.getValue() ) );
-//                plot( e1.getValue() );
                 min = e1.getValue() + epsilon;
-//                numPlotted++;
                 windowSize /= 2;
             }
             else {
@@ -140,32 +121,14 @@ public class TestBenFold {
     }
 
     private void start() {
-        double min = 0;
-        double epsilon = 0.0001;
-        double windowSize = 0.2;
-        double max = min + windowSize;
-        double goodnessThreshold = 10E6;
-        int numPlotted = 0;
-        int numToPlot = 5;
-        int iteration = 0;
-        int maxIterations = 10000;
-        while( numPlotted < numToPlot && iteration < maxIterations ) {
-//        for( int i = 0; i < 10; i++ ) {
-            System.out.println( "i=" + iteration + ", range=[" + min + ", " + max + "]" );
-            Solution e1 = solve( min, max );
-            System.out.println( "e1 = " + e1 );
-
-            if( e1.getGoodness() < goodnessThreshold ) {
-                System.out.println( "$$$Plotting: e1 = " + e1 );
-                plot( e1.getValue() );
-                min = e1.getValue() + epsilon;
-                numPlotted++;
-            }
-            else {
-                min = max;
-            }
-            max = min + windowSize;
-            iteration++;
+        double[] energies = getEnergies( 0, 0.2, 10, 1000 );
+        for( int i = 0; i < energies.length; i++ ) {
+            double energy = energies[i];
+            System.out.println( "energy = " + energy );
+        }
+        for( int i = 0; i < energies.length; i++ ) {
+            double energy = energies[i];
+            plot( energy );
         }
     }
 
