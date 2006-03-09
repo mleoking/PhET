@@ -208,6 +208,14 @@ public class SliderControl extends JPanel implements ChangeListener {
         }
         return value;
     }
+    
+    public void setEnabled( boolean enabled ) {
+        _slider.setEnabled( enabled );
+    }
+    
+    public boolean isEnabled() {
+        return _slider.isEnabled();
+    }
    
     /**
      * Inverts the slider.
@@ -387,6 +395,8 @@ public class SliderControl extends JPanel implements ChangeListener {
     
     /**
      * ChangeListener implementation.
+     * Changes the source of the event to make it look like it came 
+     * from this object instead of the object's slider.
      * 
      * @param e the event
      */

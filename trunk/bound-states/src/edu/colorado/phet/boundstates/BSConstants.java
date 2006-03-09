@@ -157,8 +157,27 @@ public class BSConstants {
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
     
     //----------------------------------------------------------------------------
-    // Wells
+    // Wells -- all values in model coordinates
     //----------------------------------------------------------------------------
+
+    // Ranges...
+    
+    public static final double MIN_WELL_SEPARATION = 0.05; // nm
+    public static final double MAX_WELL_SEPARATION = POSITION_RANGE.getLength();
+    
+    public static final double MIN_WELL_WIDTH = 0.1;
+    public static final double MAX_WELL_WIDTH = POSITION_RANGE.getLength();
+    
+    public static final double MIN_WELL_SPACING = MIN_WELL_WIDTH + MIN_WELL_SEPARATION;
+    public static final double MAX_WELL_SPACING = POSITION_RANGE.getLength();
+    
+    public static final double MIN_WELL_DEPTH = -ENERGY_RANGE.getLength();
+    public static final double MAX_WELL_DEPTH = 0;
+
+    public static final double MIN_WELL_OFFSET = ENERGY_RANGE.getLowerBound();
+    public static final double MAX_WELL_OFFSET = ENERGY_RANGE.getUpperBound();
+    
+    // Defaults...
     
     public static final double DEFAULT_WELL_CENTER = 0;
     public static final double DEFAULT_WELL_OFFSET = 0;

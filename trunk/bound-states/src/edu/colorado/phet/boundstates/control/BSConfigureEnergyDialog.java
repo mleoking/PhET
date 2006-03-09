@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSAbstractWell;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -79,7 +80,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         addWindowListener( _eventListener );
         
         createUI( parent );
-        updateControls();
     }
     
     /**
@@ -129,17 +129,55 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
         
-        String widthFormat = SimStrings.get( "label.wellWidth" ) + " {0} " + positionUnits;
-        _widthSlider = new SliderControl( 1, 0.1, 3, 3-0.1, 1, 1, widthFormat, SLIDER_INSETS );
+        // Width
+        {
+            double value = _well.getWidth();
+            double min = BSConstants.MIN_WELL_WIDTH;
+            double max = BSConstants.MAX_WELL_WIDTH;
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String labelFormat = SimStrings.get( "label.wellWidth" ) + " {0} " + positionUnits;
+            _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+        }
         
-        String depthFormat = SimStrings.get( "label.wellDepth" ) + " {0} " + energyUnits;
-        _depthSlider = new SliderControl( 1, -10, 0, 10, 1, 1, depthFormat, SLIDER_INSETS );
+        // Depth
+        {
+            double value = _well.getDepth();
+            double min = BSConstants.MIN_WELL_DEPTH;
+            double max = BSConstants.MAX_WELL_DEPTH;
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String labelFormat = SimStrings.get( "label.wellDepth" ) + " {0} " + energyUnits;
+            _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+        }
+
+        // Offset
+        {
+            double value = _well.getOffset();
+            double min = BSConstants.MIN_WELL_OFFSET;
+            double max = BSConstants.MAX_WELL_OFFSET;
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String labelFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
+            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+        }
+
+        // Spacing
+        {
+            double value = _well.getSpacing();
+            double min = BSConstants.MIN_WELL_SPACING;
+            double max = BSConstants.MAX_WELL_SPACING;
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String labelFormat = SimStrings.get( "label.wellSpacing" ) + " {0} " + positionUnits;
+            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+        }
         
-        String offsetFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
-        _offsetSlider = new SliderControl( 1, -15, 5, 20, 1, 1, offsetFormat, SLIDER_INSETS );
-        
-        String spacingFormat = SimStrings.get( "label.wellSpacing" ) + " {0} " + positionUnits;
-        _spacingSlider = new SliderControl( 1, 0.1, 3, 3-0.1, 1, 1, spacingFormat, SLIDER_INSETS );
+        updateControls();
         
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -157,10 +195,7 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         row++;
 
         // Interction
-        _widthSlider.addChangeListener( _eventListener );
-        _depthSlider.addChangeListener( _eventListener );
-        _offsetSlider.addChangeListener( _eventListener );
-        _spacingSlider.addChangeListener( _eventListener );
+        setEventHandlingEnabled( true );
         
         return inputPanel;
     }
@@ -196,7 +231,7 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     }
     
     private void updateControls() {
-        
+
         // Sync values
         _widthSlider.setValue( _well.getWidth() );
         _depthSlider.setValue( _well.getDepth() );
@@ -204,12 +239,29 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         _spacingSlider.setValue( _well.getSpacing() );
         
         // Sync ranges
-        _widthSlider.setMaximum( _spacingSlider.getValue() - 0.1 );//XXX
-        _spacingSlider.setMinimum( _widthSlider.getValue() + 0.1 );//XXX
+        _widthSlider.setMaximum( _well.getSpacing() - BSConstants.MIN_WELL_SEPARATION );
+        _spacingSlider.setMinimum( _well.getWidth() + BSConstants.MIN_WELL_SEPARATION );
         
         // Visibility
         //XXX hide the width slider if well is Coulomb
         _spacingSlider.setVisible( _well.getNumberOfWells() > 1 );
+        _widthSlider.setEnabled( _widthSlider.getMaximum() != _widthSlider.getMinimum() );
+        _spacingSlider.setEnabled( _spacingSlider.getMaximum() != _spacingSlider.getMinimum() );
+    }
+    
+    private void setEventHandlingEnabled( boolean enabled ) {
+        if ( enabled ) {
+            _widthSlider.addChangeListener( _eventListener );
+            _depthSlider.addChangeListener( _eventListener );
+            _offsetSlider.addChangeListener( _eventListener );
+            _spacingSlider.addChangeListener( _eventListener );
+        }
+        else {
+            _widthSlider.removeChangeListener( _eventListener );
+            _depthSlider.removeChangeListener( _eventListener );
+            _offsetSlider.removeChangeListener( _eventListener );
+            _spacingSlider.removeChangeListener( _eventListener );
+        }
     }
     
     //----------------------------------------------------------------------------
