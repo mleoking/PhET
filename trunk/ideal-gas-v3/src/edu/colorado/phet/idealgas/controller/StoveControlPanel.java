@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -76,6 +77,19 @@ public class StoveControlPanel extends GraphicLayerSet {
         sliderPJC.setCursorHand();
         this.addGraphic( sliderPJC );
         sliderPJC.setLocation( 10, 20 );
+
+        // Add a listener to the model that will disable the slider when the model is in contant temperature mode
+        final IdealGasModel model = module.getIdealGasModel();
+        model.addChangeListener( new IdealGasModel.ChangeListener() {
+            public void stateChanged( IdealGasModel.ChangeEvent event ) {
+                if( model.getConstantProperty() == IdealGasModel.CONSTANT_TEMPERATURE ) {
+                    stoveSlider.setEnabled( false );
+                }
+                else {
+                    stoveSlider.setEnabled( true );
+                }
+            }
+        } );
     }
 
     public void setBounds( int x, int y, int width, int height ) {

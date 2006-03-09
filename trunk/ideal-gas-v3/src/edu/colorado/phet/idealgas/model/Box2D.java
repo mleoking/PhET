@@ -7,6 +7,7 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision.SphereBoxCollision;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 
@@ -48,6 +49,7 @@ public class Box2D extends CollidableBody {
         super();
         this.model = model;
         setMass( Double.POSITIVE_INFINITY );
+        attachModelListener();
     }
 
     public Box2D( Point2D corner1, Point2D corner2, IdealGasModel model ) {
@@ -56,7 +58,32 @@ public class Box2D extends CollidableBody {
         this.setState( corner1, corner2 );
         oldMinX = Math.min( corner1.getX(), corner2.getX() );
         setMass( Double.POSITIVE_INFINITY );
+        attachModelListener();
     }
+
+    /**
+     * Attach a listener to the model that will decide if the box's volume should be fixed based
+     * on the model's constant property 
+     */
+    private void attachModelListener() {
+        model.addChangeListener( new IdealGasModel.ChangeListener() {
+            public void stateChanged( IdealGasModel.ChangeEvent event ) {
+                switch( event.getModel().getConstantProperty() ) {
+                    case IdealGasModel.CONSTANT_NONE:
+                    case IdealGasModel.CONSTANT_PRESSURE:
+                    case IdealGasModel.CONSTANT_TEMPERATURE:
+                        setVolumeFixed( false );
+                        break;
+                    case IdealGasModel.CONSTANT_VOLUME:
+                        setVolumeFixed( true );
+                        break;
+                    default:
+                        throw new RuntimeException( "Invalid constantProperty" );
+                }
+            }
+        } );
+    }
+
 
     /**
      * Since the box is infinitely massive, it can't move, and so
