@@ -315,7 +315,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private class EventListener extends WindowAdapter implements ActionListener, ChangeListener {
 
         public void windowClosing( WindowEvent event ) {
-            handleClose();
+            handleCloseAction();
         }
         
         public void actionPerformed( ActionEvent event ) {
@@ -324,10 +324,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
                 handleNormalizeAction();
             }
             else if ( event.getSource() == _applyButton ) {
-                handleApply();
+                handleApplyAction();
             }
             else if ( event.getSource() == _closeButton ) {
-                handleClose();
+                handleCloseAction();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -349,7 +349,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         updateButtons();
     }
     
-    private void handleApply() {
+    private void handleApplyAction() {
 
         if ( isNormalized() ) {
             apply();
@@ -370,7 +370,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         updateButtons();
     }
     
-    private void handleClose() {
+    private void handleCloseAction() {
         
         if ( !isChanged() ) {
             dispose();
