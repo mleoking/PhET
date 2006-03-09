@@ -18,6 +18,7 @@ import java.util.Random;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.model.splitoperator.SplitOperatorSolver;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.Distribution;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
@@ -31,11 +32,11 @@ import edu.colorado.phet.quantumtunneling.util.Distribution.DistributionAccessor
  * @version $Revision$
  */
 public class WavePacket extends AbstractWave implements Observer, ClockListener {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private TotalEnergy _te;
     private AbstractPotential _pe;
     private Direction _direction;
@@ -50,7 +51,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
      */
@@ -63,11 +64,12 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = QTConstants.DEFAULT_PACKET_WIDTH;
         _center = QTConstants.DEFAULT_PACKET_CENTER;
         _solver = new RichardsonSolver( this );
+//        _solver = new SplitOperatorSolver( this );
         _measureEnabled = false;
         _saveCenter = _center;
         _saveWidth = _width;
     }
-    
+
     /**
      * Call this method before releasing all references to objects of this type.
      */
@@ -81,54 +83,54 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             _pe = null;
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // AbstractWave implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Is the wave packet initialized?
-     * 
+     *
      * @return true or false
      */
     public boolean isInitialized() {
         return ( _te != null && _pe != null );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the dx used by the solver.
-     * 
+     *
      * @param dx
      */
     public void setDx( double dx ) {
         _solver.setDx( dx );
     }
-    
+
     /**
      * Gets the position values (x axis) used in calculation the wave function solution.
-     * 
+     *
      * @return
      */
     public double[] getPositionValues() {
         return _solver.getPositionValues();
     }
-    
+
     /**
      * Gets the wave function values (y axis).
-     * 
+     *
      * @return
      */
     public LightweightComplex[] getWaveFunctionValues() {
         return _solver.getWaveFunctionValues();
     }
-    
+
     /**
      * Enables or disables this model object.
-     * 
+     *
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
@@ -139,16 +141,16 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Is this object enabled?
-     * 
+     *
      * @return
      */
     public boolean isEnabled() {
         return _enabled;
     }
-    
+
     /**
      * Sets the wave packet's initial width.
-     * 
+     *
      * @param width
      */
     public void setWidth( double width ) {
@@ -158,38 +160,38 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _width = width;
         update();
     }
-    
+
     /**
      * Gets the wave packet's initial width.
-     * 
+     *
      * @return
      */
     public double getWidth() {
         return _width;
     }
-    
+
     /**
      * Sets the wave packet's initial center.
-     * 
+     *
      * @param center
      */
     public void setCenter( double center ) {
         _center = center;
         update();
     }
-    
+
     /**
      * Gets the wave packet's initial center.
-     * 
+     *
      * @return
      */
     public double getCenter() {
         return _center;
     }
-    
+
     /**
      * Sets the total energy.
-     * 
+     *
      * @param te
      */
     public void setTotalEnergy( TotalEnergy te ) {
@@ -203,7 +205,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Gets the total energy.
-     * 
+     *
      * @return
      */
     public TotalEnergy getTotalEnergy() {
@@ -212,7 +214,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Sets the potential energy.
-     * 
+     *
      * @param pe
      */
     public void setPotentialEnergy( AbstractPotential pe ) {
@@ -226,7 +228,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Gets the potential energy.
-     * 
+     *
      * @return
      */
     public AbstractPotential getPotentialEnergy() {
@@ -235,7 +237,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Sets the direction of the wave packet.
-     * 
+     *
      * @param direction
      */
     public void setDirection( Direction direction ) {
@@ -245,7 +247,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Gets the direction of the wave packet.
-     * 
+     *
      * @return
      */
     public Direction getDirection() {
@@ -255,7 +257,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     /**
      * Enables measuring.
      * Note that each time this is called with true, the wave packet should be measured again.
-     * 
+     *
      * @param enabled true or false
      */
     public void setMeasureEnabled( boolean enabled ) {
@@ -275,13 +277,13 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         }
         update();
     }
-    
+
     /*
      * Select a random position, weighted by the probability density.
      * The probability that a particle is at a particular sample position
      * is given by abs( Psi[x,t] )^2 * dx, where dx is the space between
      * sample positions.
-     * 
+     *
      * @return a position
      */
     private double chooseRandomPosition() {
@@ -302,24 +304,24 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
                 center = ((Double)o).doubleValue();
             }
             else {
-                /* 
-                 * If the distribution returned null, then it's likely because the 
-                 * wave function solution is zero.  In this case, we want to 
+                /*
+                 * If the distribution returned null, then it's likely because the
+                 * wave function solution is zero.  In this case, we want to
                  * simply leave the wave function center where it is.
                  */
-                center = getCenter(); 
+                center = getCenter();
             }
         }
         return center;
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets the solver whenever the total energy or potential energy changes.
-     * 
+     *
      * @param o
      * @param arg
      */
@@ -328,7 +330,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             update();
         }
     }
-    
+
     /*
      * Resets the solver.
      */
@@ -343,14 +345,18 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Propagates the solver each time clock ticks.
-     * 
+     *
      * @param clockEvent
      */
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _enabled && isInitialized() ) {
-            _solver.propagate();
-            notifyObservers();
+            propagate();
         }
+    }
+
+    public void propagate() {
+        _solver.propagate();
+        notifyObservers();
     }
 
     public void clockStarted( ClockEvent clockEvent ) {}
@@ -361,7 +367,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
 
     /**
      * Resets the solver when the clock is reset.
-     * 
+     *
      * @param clockEvent
      */
     public void simulationTimeReset( ClockEvent clockEvent ) {
