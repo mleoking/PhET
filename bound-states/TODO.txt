@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- redo BSSquareWell.getPoints, needs to return a lattice that can be used to solve wave function
 - problem with width & spacing sliders interaction as their ranges change while dragging in Configure Energy
 - relationship in UI between well depth & spacing, how do they affect each others controls?
 - each well type is diffent in how drag handles are placed on it
