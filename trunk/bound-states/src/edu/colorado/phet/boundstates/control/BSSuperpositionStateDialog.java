@@ -197,11 +197,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
 
         _normalizeButton = new JButton( SimStrings.get( "button.normalize" ) );
         _normalizeButton.addActionListener( _eventListener );
-        _normalizeButton.setEnabled( false );
       
         _applyButton = new JButton( SimStrings.get( "button.apply" ) );
         _applyButton.addActionListener( _eventListener );
-        _applyButton.setEnabled( false );
         
         _closeButton = new JButton( SimStrings.get( "button.close" ) );
         _closeButton.addActionListener( _eventListener );
@@ -214,6 +212,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         JPanel actionPanel = new JPanel( new FlowLayout() );
         actionPanel.add( buttonPanel );
 
+        updateButtons();
+        
         return actionPanel;
     }
 
@@ -242,6 +242,70 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // JDialog overrides
+    //----------------------------------------------------------------------------
+    
+    public void dispose() {
+        cleanup();
+        super.dispose();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Apply, Normalize
+    //----------------------------------------------------------------------------
+    
+    private void apply() {
+        if ( isNormalized() ) {
+            //XXX apply changes to model
+            _changed = false;
+        }
+        else {
+            throw new IllegalStateException( "attempt to apply unnormalized" );
+        }
+    }
+    
+    private void normalize() {
+        if ( !isZero() && !isNormalized() ) {
+            final double total = getCoefficientsTotal();
+            Iterator i = _spinners.iterator();
+            while ( i.hasNext() ) {
+                DoubleSpinner spinner = (DoubleSpinner) i.next();
+                double normalizedValue = spinner.getDoubleValue() / total;
+                //XXX handle roundoff error
+                spinner.setDoubleValue( normalizedValue );
+            }
+        }
+    }
+    
+    private void updateButtons() { 
+        _applyButton.setEnabled( isChanged() );
+        // Normalize button is always enabled.
+        // Close button is always enabled.
+    }
+
+    private boolean isChanged() {
+        return _changed;
+    }
+    
+    private boolean isNormalized() {
+        return ( getCoefficientsTotal() == 1 );
+    }
+    
+    private boolean isZero() {
+        return ( getCoefficientsTotal() == 0 );
+    }
+    
+    private double getCoefficientsTotal() {
+        double total = 0;
+        Iterator i = _spinners.iterator();
+        while ( i.hasNext() ) {
+            DoubleSpinner spinner = (DoubleSpinner) i.next();
+            total += spinner.getDoubleValue();
+        }
+        return total;
+    }
+    
+    //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
 
@@ -256,8 +320,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _normalizeButton ) {
-                handleNormalize();
-                handleNormalize();
+                handleNormalizeAction();
+                handleNormalizeAction();
             }
             else if ( event.getSource() == _applyButton ) {
                 handleApply();
@@ -280,67 +344,59 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
     }
     
-
-    private boolean isNormalized() {
-        return ( getCoefficientsTotal() == 1 );
-    }
-    
-    private boolean isZero() {
-        return ( getCoefficientsTotal() == 0 );
-    }
-    
-    private double getCoefficientsTotal() {
-        double total = 0;
-        Iterator i = _spinners.iterator();
-        while ( i.hasNext() ) {
-            DoubleSpinner spinner = (DoubleSpinner) i.next();
-            total += spinner.getDoubleValue();
-        }
-        return total;
-    }
-    
-    private void handleNormalize() {
-        if ( !isZero() ) {
-            final double total = getCoefficientsTotal();
-            Iterator i = _spinners.iterator();
-            while ( i.hasNext() ) {
-                DoubleSpinner spinner = (DoubleSpinner) i.next();
-                double normalizedValue = spinner.getDoubleValue() / total;
-                //XXX handle roundoff error
-                spinner.setDoubleValue( normalizedValue );
-            }
-        }
-        _applyButton.setEnabled( true );
-        _normalizeButton.setEnabled( false );
+    private void handleNormalizeAction() {
+        normalize();
+        updateButtons();
     }
     
     private void handleApply() {
-        //XXX apply to model
-        _changed = false;
-        _applyButton.setEnabled( false );
+
+        if ( isNormalized() ) {
+            apply();
+        }
+        else {
+            String message = SimStrings.get( "message.confirmNormalizeApply" );
+            int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_OPTION );
+            if ( reply == JOptionPane.YES_OPTION) {
+                // Yes -> normalize, apply
+                normalize();
+                apply();
+            }
+            else if ( reply == JOptionPane.NO_OPTION) {
+                // No -> don't normalize, don't apply
+            }
+        }
+        
+        updateButtons();
     }
     
     private void handleClose() {
-        if ( _changed ) {
-            String message = SimStrings.get( "message.unsavedChanges" );
+        
+        if ( !isChanged() ) {
+            dispose();
+        }
+        else {
+            String message = SimStrings.get( "message.confirmApplyClose" );
+            if ( !isNormalized() ) {
+                message = SimStrings.get( "message.confirmNormalizeApplyClose" );
+            }
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
-            if ( reply == JOptionPane.YES_OPTION) {
-                handleApply();
-                cleanup();
+            if ( reply == JOptionPane.YES_OPTION ) {
+                // Yes -> normalize, apply, close
+                normalize();
+                apply();
                 dispose();
             }
-            else if ( reply == JOptionPane.NO_OPTION) {
-                cleanup();
+            else if ( reply == JOptionPane.NO_OPTION ) {
+                // No -> don't apply, close
                 dispose();
             }
             else {
-                // Do nothing if canceled.
+                // Cancel -> do nothing
             }
         }
-        else {
-            cleanup();
-            dispose();
-        }
+        
+        updateButtons();
     }
     
     private void handleCoefficientChange( DoubleSpinner spinner ) {
@@ -351,9 +407,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
         else {
             _changed = true;
-            _applyButton.setEnabled( isNormalized() || isZero() );
-            _normalizeButton.setEnabled( !_applyButton.isEnabled() );
         }
+        updateButtons();
     }
     
     /*
