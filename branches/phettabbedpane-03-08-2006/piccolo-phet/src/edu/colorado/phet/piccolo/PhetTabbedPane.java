@@ -509,8 +509,9 @@ public class PhetTabbedPane extends JPanel {
                 tabNode.setTabTextHeight( maxTabTextHeight );
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
-            tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() );
-            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), 0 );
+            double tabBaseY = getHeight() - tabBase.getFullBounds().getHeight();
+            tabBase.setOffset( 0, tabBaseY );
+            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), tabBaseY / 2 - logo.getFullBounds().getHeight() / 2 );
             if( tabs.size() > 0 ) {
                 AbstractTabNode lastTab = (AbstractTabNode)tabs.get( tabs.size() - 1 );
                 if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
