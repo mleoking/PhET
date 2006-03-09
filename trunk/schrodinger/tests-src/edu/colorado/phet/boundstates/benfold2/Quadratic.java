@@ -41,6 +41,7 @@ class Quadratic implements Function {
      * @return coeff*(x-shift)*(x-shift)
      */
     public double evaluate( double x ) {
+//        System.out.println( "x = " + x );
         x -= shift;
         return coeff * x * x;
     }

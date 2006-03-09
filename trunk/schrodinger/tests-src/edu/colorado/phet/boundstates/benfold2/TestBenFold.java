@@ -20,11 +20,12 @@ import java.util.ArrayList;
  */
 
 public class TestBenFold {
-    Schrodinger schrodinger = new Schrodinger( new Quadratic( 0.25 ) );
-    double intRange = 20;
+    Schrodinger schrodinger;
+    double functionWidth = 20;//it's centered
     int steps = 1000;
 
-    public TestBenFold() {
+    public TestBenFold( Function function ) {
+        schrodinger = new Schrodinger( function );
     }
 
     static class Solution {
@@ -50,7 +51,7 @@ public class TestBenFold {
     }
 
     public Solution solve( double min, double max ) {
-        ShootingMethod solver = new ShootingMethod( schrodinger, min, max, intRange, steps, min );
+        ShootingMethod solver = new ShootingMethod( schrodinger, min, max, functionWidth, steps, min );
         solver.run();
 
         double value = solver.getEstimate();
@@ -61,8 +62,8 @@ public class TestBenFold {
     public void plot( double energy ) {
         schrodinger.setEnergy( energy );
         double []soln = new double[steps];
-        double step = intRange / steps;
-        schrodinger.solve( -intRange / 2, step, soln );
+        double step = functionWidth / steps;
+        schrodinger.solve( -functionWidth / 2, step, soln );
 
         XYSeries series = new XYSeries( "psi", false, true );
         XYDataset dataset = new XYSeriesCollection( series );
@@ -88,29 +89,34 @@ public class TestBenFold {
     }
 
     public static void main( String[] args ) {
-        new TestBenFold().start();
+//        new TestBenFold( new Quadratic( 0.25 ) ).start();
+        new TestBenFold( new SamWell() ).start();
     }
 
-    private double[]getEnergies( double min, double windowSize, int numToGet, int maxIterations ) {
+    private static class SamWell implements Function {
+
+        public double evaluate( double x ) {
+            return Math.abs( x ) > 2 ? 0 : -5;
+        }
+    }
+
+    private double[]getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
         ArrayList energies = new ArrayList();
         double epsilon = 0.0001;
-        double max = min + windowSize;
-        double goodnessThreshold = 6E4;
+        double max = min + initWindowSize;
+
         int iteration = 0;
         while( energies.size() < numToGet && iteration < maxIterations ) {
             Solution e1 = solve( min, max );
-
             if( e1.getGoodness() < goodnessThreshold ) {
                 System.out.println( "e1 = " + e1 );
                 energies.add( new Double( e1.getValue() ) );
                 min = e1.getValue() + epsilon;
-                windowSize /= 2;
             }
             else {
                 min = max;
-                windowSize *= 2;
             }
-            max = min + windowSize;
+            max = min + initWindowSize;
             iteration++;
         }
         double[]values = new double[energies.size()];
@@ -121,7 +127,8 @@ public class TestBenFold {
     }
 
     private void start() {
-        double[] energies = getEnergies( 0, 0.2, 10, 1000 );
+        double goodnessThreshold = 6E4;//52532 error for 1st state in SHO
+        double[] energies = getEnergies( -10, 0.02, 10, 1000, goodnessThreshold );
         for( int i = 0; i < energies.length; i++ ) {
             double energy = energies[i];
             System.out.println( "energy = " + energy );
@@ -132,9 +139,4 @@ public class TestBenFold {
         }
     }
 
-    public void energyChanged( double d ) {
-    }
-
-    public void searchFinished() {
-    }
 }
