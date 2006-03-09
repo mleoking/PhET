@@ -63,7 +63,6 @@ public abstract class BSAbstractWell extends BSObservable {
     }
 
     public void setWidth( double width ) {
-        System.out.println( "BSAbstractWell.setWidth " + width );//XXX
         if ( ! isValidWidth( width ) ) {
             throw new IllegalArgumentException( "invalid width: " + width );
         }
