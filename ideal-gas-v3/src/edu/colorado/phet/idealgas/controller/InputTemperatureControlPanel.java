@@ -47,7 +47,7 @@ public class InputTemperatureControlPanel extends JPanel {
         gbc = new GridBagConstraints( 0, 0,
                                       1, 1, 1, 1,
                                       GridBagConstraints.CENTER,
-                                      GridBagConstraints.HORIZONTAL,
+                                      GridBagConstraints.NONE,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add control for temperature at which particles are introduced
@@ -77,12 +77,13 @@ public class InputTemperatureControlPanel extends JPanel {
             }
         } );
 
-        gbc.insets = new Insets( 0, 10, 0, 0 );
+        gbc.insets = new Insets( 0, 0, 0, 0 );
+//        gbc.insets = new Insets( 0, 10, 0, 0 );
         gbc.anchor = GridBagConstraints.NORTHWEST;
         this.add( tempLbl, gbc );
 
         gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.CENTER;
         this.add( tempSpinner, gbc );
         // Changes the temperature at which particles are pumped into the box
         tempSpinner.addChangeListener( new ChangeListener() {

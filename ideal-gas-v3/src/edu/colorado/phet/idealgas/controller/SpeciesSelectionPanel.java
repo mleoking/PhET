@@ -213,20 +213,17 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     //----------------------------------------------------------------
 
     public class MoleculeCountSpinner extends JSpinner {
-        public MoleculeCountSpinner() {
-            super();
-        }
 
         public MoleculeCountSpinner( SpinnerModel model ) {
             super( model );
         }
 
         public void incrementValue() {
-            changeValue( ( (Integer)getHeavySpinner().getValue() ).intValue() + 1 );
+            changeValue( ( (Integer)getValue() ).intValue() + 1 );
         }
 
         public void decrementValue() {
-            changeValue( ( (Integer)getHeavySpinner().getValue() ).intValue() - 1 );
+            changeValue( ( (Integer)getValue() ).intValue() - 1 );
         }
 
         private void changeValue( int value ) {
