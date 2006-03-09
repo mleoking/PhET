@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
@@ -26,25 +27,17 @@ import edu.colorado.phet.boundstates.BSConstants;
  */
 public class BSSquareWell extends BSAbstractWell {
 
-    public BSSquareWell() {
-        this( 1 );
-    }
-    
     public BSSquareWell( int numberOfWells ) {
         super( numberOfWells,
-                BSConstants.DEFAULT_SQUARE_WELL_SPACING, 
-                BSConstants.DEFAULT_SQUARE_WELL_WIDTH, 
-                BSConstants.DEFAULT_SQUARE_WELL_DEPTH, 
-                BSConstants.DEFAULT_WELL_OFFSET,
+                BSConstants.DEFAULT_SQUARE_SPACING, 
+                BSConstants.DEFAULT_SQUARE_WIDTH, 
+                BSConstants.DEFAULT_SQUARE_DEPTH, 
+                BSConstants.DEFAULT_SQUARE_OFFSET,
                 BSConstants.DEFAULT_WELL_CENTER);
     }
     
-    public BSSquareWell( double width, double depth, double offset, double center ) {
-        super( width, depth, offset, center );
-    }
-    
-    public BSSquareWell( int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
-        super( numberOfWells, spacing, width, depth, offset, center );
+    public WellType getWellType() {
+        return WellType.SQUARE;
     }
     
     //XXX Hack -- creates 10 eigenstates between offset and depth

@@ -343,6 +343,8 @@ public class BSManyModule extends BSAbstractModule {
         _chart.getEnergyPlot().setWell( _currentWell );
         
         // Controls
+        _controlPanel.setWellType( _currentWell.getWellType() );
+        _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
         _controlPanel.setDisplayType( BSSharedControlPanel.DISPLAY_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
@@ -437,7 +439,7 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void setNumberOfWells( int numberOfWells ) {
-        //XXX
+        _currentWell.setNumberOfWells( numberOfWells );
         resetClock();
     }
     

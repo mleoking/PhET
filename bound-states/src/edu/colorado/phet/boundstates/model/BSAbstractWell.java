@@ -13,6 +13,8 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.boundstates.enum.WellType;
+
 
 /**
  * BSAbstractWell
@@ -45,6 +47,8 @@ public abstract class BSAbstractWell extends BSObservable {
     public abstract BSEigenstate[] getEigenstates();
     
     public abstract Point2D[] getPoints( double minX, double maxX, double dx );
+    
+    public abstract WellType getWellType();
     
     public int getNumberOfWells() {
         return _numberOfWells;

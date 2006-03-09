@@ -163,37 +163,44 @@ public class BSConstants {
     // Ranges...
     
     public static final double MIN_WELL_SEPARATION = 0.05; // nm
-    public static final double MAX_WELL_SEPARATION = POSITION_RANGE.getLength();
     
     public static final double MIN_WELL_WIDTH = 0.1;
-    public static final double MAX_WELL_WIDTH = POSITION_RANGE.getLength();
+    public static final double MAX_WELL_WIDTH = 8;
     
     public static final double MIN_WELL_SPACING = MIN_WELL_WIDTH + MIN_WELL_SEPARATION;
-    public static final double MAX_WELL_SPACING = POSITION_RANGE.getLength();
+    public static final double MAX_WELL_SPACING = MAX_WELL_WIDTH + MIN_WELL_SEPARATION;
     
-    public static final double MIN_WELL_DEPTH = -ENERGY_RANGE.getLength();
+    public static final double MIN_WELL_DEPTH = -20;
     public static final double MAX_WELL_DEPTH = 0;
 
-    public static final double MIN_WELL_OFFSET = ENERGY_RANGE.getLowerBound();
-    public static final double MAX_WELL_OFFSET = ENERGY_RANGE.getUpperBound();
+    public static final double MIN_WELL_OFFSET = -15;
+    public static final double MAX_WELL_OFFSET = 5;
+    
+    public static final double MIN_WELL_ANGULAR_FREQUENCY = ( 1 * Math.pow( 10, 15 ) );
+    public static final double MAX_WELL_ANGULAR_FREQUENCY = ( 15 * Math.pow( 10, 15 ) );
     
     // Defaults...
     
+    // Common to all well types...
     public static final double DEFAULT_WELL_CENTER = 0;
-    public static final double DEFAULT_WELL_OFFSET = 0;
     
-    public static final double DEFAULT_COULOMB_WELL_SPACING = 2;
-    public static final double DEFAULT_COULOMB_WELL_WIDTH = 1;
-    public static final double DEFAULT_COULOMB_WELL_DEPTH = -8; //XXX ???
+    // Coulomb well...
+    public static final double DEFAULT_COULOMB_OFFSET = 0;
+    public static final double DEFAULT_COULOMB_DEPTH = -10;
+    public static final double DEFAULT_COULOMB_SPACING = 2;
     
-    public static final double DEFAULT_HARMONIC_OSCILLATOR_WELL_WIDTH = 4;
-    public static final double DEFAULT_HARMONIC_OSCILLATOR_WELL_DEPTH = 1; //XXX ???
+    // Harmonic Oscillator...
+    public static final double DEFAULT_OSCILLATOR_OFFSET = 0;
+    public static final double DEFAULT_OSCILLATOR_FREQUENCY = ( 2 * Math.pow( 10, 15 ) );
     
-    public static final double DEFAULT_SQUARE_WELL_SPACING = 2;
-    public static final double DEFAULT_SQUARE_WELL_WIDTH = 1;
-    public static final double DEFAULT_SQUARE_WELL_DEPTH = -8;
+    // Square well...
+    public static final double DEFAULT_SQUARE_OFFSET = 0;
+    public static final double DEFAULT_SQUARE_WIDTH = 0.5;
+    public static final double DEFAULT_SQUARE_DEPTH = -10;
+    public static final double DEFAULT_SQUARE_SPACING = 2;
     
-    public static final double DEFAULT_ASYMMETRIC_WELL_WIDTH = 1;
-    public static final double DEFAULT_ASYMMETRIC_WELL_DEPTH = -8;
-    
+    // Asymmetric well...
+    public static final double DEFAULT_ASYMMETRIC_OFFSET = 0;
+    public static final double DEFAULT_ASYMMETRIC_WELL_WIDTH = 0.5;
+    public static final double DEFAULT_ASYMMETRIC_WELL_DEPTH = -10;
 }
