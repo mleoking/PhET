@@ -52,10 +52,11 @@ MACINTOSH:
 
 
 DONE:
-(3/8/06) - work on Configure Energy dialog, width & spacing interaction still hosed
-(3/8/06) - set ranges for well parameter controls
-(3/8/06) - set min well separation and width
-(3/8/06) - change behavior of Superposition dialog action buttons -- when enabled, what is confirmed
+(3/9/06) - work on Configure Energy dialog, width & spacing interaction still hosed
+(3/9/06) - set ranges for well parameter controls
+(3/9/06) - set min well separation and width
+(3/9/06) - change behavior of Superposition dialog action buttons -- when enabled, what is confirmed
+(3/9/06) - review design draft #3
 (3/8/06) - first pass at well model -- AbstractWell and SquareWell
 (3/8/06) - remove well center control from Configure Energy dialog
 (3/7/06) - fix TotalEnergyNode to handle eigenstates outside of the chart's range
