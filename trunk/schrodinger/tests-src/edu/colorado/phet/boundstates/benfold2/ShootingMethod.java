@@ -13,16 +13,12 @@ class ShootingMethod {
     protected double hint;
     protected double min, max, minValue, maxValue, intRange;
     protected int steps;
-    protected boolean finished;
-    protected boolean killed;
+    protected boolean done;
     protected Schrodinger eqn;
-    protected EnergyListener owner;
 
     /**
      * Creates a new solution searcher
      *
-     * @param owner    The <code>EnergyListener</code> to be notified when
-     *                 the best estimate changes
      * @param eqn      The equation to solve
      * @param min      A lower bound for the solution
      * @param max      An upper bound for the solution
@@ -31,8 +27,7 @@ class ShootingMethod {
      * @param steps    The number of steps to be used when evaluating the
      *                 solution
      */
-    public ShootingMethod( EnergyListener owner, Schrodinger eqn, double min, double max, double intRange, int steps ) {
-        this.owner = owner;
+    public ShootingMethod( Schrodinger eqn, double min, double max, double intRange, int steps ) {
         this.eqn = eqn;
         this.min = min;
         this.max = max;
@@ -43,26 +38,13 @@ class ShootingMethod {
 
 
     public void run() {
-        //System.err.println("Started solving...");
         minValue = tryEnergy( min );
         maxValue = tryEnergy( max );
 
-        while( !killed ) {
-            owner.energyChanged( getEstimate() );
+        while( !done ) {
             improveEstimate();
-            try {
-                Thread.sleep( 5 );
-            }
-            catch( InterruptedException e ) {
-                break;
-            }
         }
-
-        //System.err.println("...finished");
-        finished = true;
-        owner.searchFinished();
     }
-
 
     /**
      * Performs one step of the search.
@@ -72,32 +54,25 @@ class ShootingMethod {
 
         //	Check for fp underflow
         if( energy == min || energy == max ) {
-            killed = true;
+            done = true;
         }
 
         double newValue = tryEnergy( energy );
-        boolean low, high;
 
-
-        high = ( maxValue > 0 && newValue < 0 ) || ( maxValue < 0 && newValue > 0 );
-        low = ( minValue > 0 && newValue < 0 ) || ( minValue < 0 && newValue > 0 );
-
+        boolean high = ( maxValue > 0 && newValue < 0 ) || ( maxValue < 0 && newValue > 0 );
+        boolean low = ( minValue > 0 && newValue < 0 ) || ( minValue < 0 && newValue > 0 );
 
         if( high == low ) {
             high = hint > energy;
         }
-
         if( high ) {
             min = energy;
             minValue = newValue;
-            return;
         }
         else {
             max = energy;
             maxValue = newValue;
-            return;
         }
-
     }
 
 
@@ -109,8 +84,7 @@ class ShootingMethod {
     public double tryEnergy( double energy ) {
         eqn.setEnergy( energy );
         double[] soln = new double[steps + 1];
-        double stepSize = intRange / steps;
-        eqn.solve( -intRange / 2, stepSize, soln );
+        eqn.solve( -intRange / 2, intRange / steps, soln );
         return soln[steps] - soln[1];
     }
 
@@ -121,6 +95,5 @@ class ShootingMethod {
     public double getEstimate() {
         return ( min + max ) / 2;
     }
-
 
 }
