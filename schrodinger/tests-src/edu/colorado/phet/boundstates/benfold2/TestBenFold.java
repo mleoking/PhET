@@ -10,6 +10,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 8, 2006
@@ -20,24 +22,43 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class TestBenFold {
     Schrodinger schrodinger = new Schrodinger( new Quadratic( 0.25 ) );
     double intRange = 20;
-    int steps = 2000;
+    int steps = 5000;
 
     public TestBenFold() {
     }
 
-    public double solve( double min, double max ) {
-        ShootingMethod solver = new ShootingMethod( schrodinger, min, max, intRange, steps );
+    static class Solution {
+        double value;
+        double goodness;
+
+        public Solution( double value, double goodness ) {
+            this.value = value;
+            this.goodness = goodness;
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+        public double getGoodness() {
+            return goodness;
+        }
+
+        public String toString() {
+            return "value=" + value + ", goodness=" + goodness;
+        }
+    }
+
+    public Solution solve( double min, double max ) {
+        ShootingMethod solver = new ShootingMethod( schrodinger, min, max, intRange, steps, min );
         solver.run();
 
-//        System.out.println( "solveThread.getEstimate() = " + solver.getEstimate() );
-        double goodness = solver.tryEnergy( solver.getEstimate() );
-//        System.out.println( "goodness = " + goodness );
-
-        return solver.getEstimate();
+        double value = solver.getEstimate();
+        double goodness = Math.abs( solver.tryEnergy( value ) );
+        return new Solution( value, goodness );
     }
 
     public void plot( double energy ) {
-        //        eqn.firstValue = 5.0;
         schrodinger.setEnergy( energy );
         double []soln = new double[steps];
         double step = intRange / steps;
@@ -69,13 +90,83 @@ public class TestBenFold {
     public static void main( String[] args ) {
         new TestBenFold().start();
     }
+//    static class Range{
+//        double min;
+//        double max;
+//    }
+
+//    private void start() {
+//        Solution val = solve( 0, 1 );
+//        System.out.println( "val = " + val );
+//        plot( val.getValue() );
+//    }
+
+    private double[]getEnergies( double min, double windowSize, int numToGet, int maxIterations ) {
+        ArrayList energies = new ArrayList();
+        double epsilon = 0.0001;
+//        double windowSize = 0.2;
+        double max = min + windowSize;
+        double goodnessThreshold = 10E6;
+//        int numPlotted = 0;
+//        int numToGet = 5;
+        int iteration = 0;
+//        int maxIterations = 10000;
+        while( energies.size() < numToGet && iteration < maxIterations ) {
+//        for( int i = 0; i < 10; i++ ) {
+            System.out.println( "i=" + iteration + ", range=[" + min + ", " + max + "]" );
+            Solution e1 = solve( min, max );
+            System.out.println( "e1 = " + e1 );
+
+            if( e1.getGoodness() < goodnessThreshold ) {
+                System.out.println( "$$$Plotting: e1 = " + e1 );
+                energies.add( new Double( e1.getValue() ) );
+//                plot( e1.getValue() );
+                min = e1.getValue() + epsilon;
+//                numPlotted++;
+                windowSize /= 2;
+            }
+            else {
+                min = max;
+                windowSize *= 2;
+            }
+            max = min + windowSize;
+            iteration++;
+        }
+        double[]values = new double[energies.size()];
+        for( int i = 0; i < energies.size(); i++ ) {
+            values[i] = ( (Number)energies.get( i ) ).doubleValue();
+        }
+        return values;
+    }
 
     private void start() {
-//        solve( -1, 0 );
-        double e1 = solve( 0, 5 );
-        plot( e1 );
-        double e2 = solve( 0, 1 );
-        plot( e2 );
+        double min = 0;
+        double epsilon = 0.0001;
+        double windowSize = 0.2;
+        double max = min + windowSize;
+        double goodnessThreshold = 10E6;
+        int numPlotted = 0;
+        int numToPlot = 5;
+        int iteration = 0;
+        int maxIterations = 10000;
+        while( numPlotted < numToPlot && iteration < maxIterations ) {
+//        for( int i = 0; i < 10; i++ ) {
+            System.out.println( "i=" + iteration + ", range=[" + min + ", " + max + "]" );
+            Solution e1 = solve( min, max );
+            System.out.println( "e1 = " + e1 );
+
+            if( e1.getGoodness() < goodnessThreshold ) {
+                System.out.println( "$$$Plotting: e1 = " + e1 );
+                plot( e1.getValue() );
+                min = e1.getValue() + epsilon;
+                numPlotted++;
+            }
+            else {
+                min = max;
+            }
+            max = min + windowSize;
+            iteration++;
+        }
     }
 
     public void energyChanged( double d ) {
