@@ -27,15 +27,14 @@ class ShootingMethod {
      * @param steps    The number of steps to be used when evaluating the
      *                 solution
      */
-    public ShootingMethod( Schrodinger eqn, double min, double max, double intRange, int steps ) {
+    public ShootingMethod( Schrodinger eqn, double min, double max, double intRange, int steps, double hint ) {
         this.eqn = eqn;
         this.min = min;
         this.max = max;
         this.intRange = intRange;
         this.steps = steps;
-        this.hint = eqn.getEnergy();
+        this.hint = hint;
     }
-
 
     public void run() {
         minValue = tryEnergy( min );
