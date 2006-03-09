@@ -23,21 +23,24 @@ public class TestBenFold implements EnergyListener {
     }
 
     public synchronized void solve( double min, double max ) {
-        Schrodinger eqn = new ImprovedSchrodinger();
+//        Schrodinger eqn = new ImprovedSchrodinger( new SquareWell( -1, 1, 0 ) );
+//        Schrodinger eqn = new Schrodinger( new SquareWell( -1, 1, 0 ) );
+        Schrodinger eqn = new Schrodinger( new Quadratic( 0.25 ) );
         double intRange = 20;
 
-        int steps = 2000;
-        ShootingMethod solveThread = new ShootingMethod( this, eqn, min, max, intRange, steps );
-        solveThread.run();
+        int steps = 4000;
+        ShootingMethod solver = new ShootingMethod( this, eqn, min, max, intRange, steps );
+        solver.run();
 
         double []soln = new double[steps];
         double step = intRange / steps;
-        double minX = 0;
-        //	Get function
-        System.out.println( "solveThread.getEstimate() = " + solveThread.getEstimate() );
-        eqn.setEnergy( solveThread.getEstimate() );
-        eqn.firstValue = 1.0;
-        eqn.solve( minX, step, soln );
+
+        System.out.println( "solveThread.getEstimate() = " + solver.getEstimate() );
+        double goodness = solver.tryEnergy( solver.getEstimate() );
+        System.out.println( "goodness = " + goodness );
+        eqn.setEnergy( solver.getEstimate() );
+        eqn.firstValue = 5.0;
+        eqn.solve( -intRange / 2, step, soln );
 
         XYSeries series = new XYSeries( "psi", false, true );
         XYDataset dataset = new XYSeriesCollection( series );
@@ -45,13 +48,20 @@ public class TestBenFold implements EnergyListener {
         plot.getXYPlot().setRenderer( new XYLineAndShapeRenderer( true, false ) );
         ChartFrame chartFrame = new ChartFrame( "Shooting Method", plot );
         chartFrame.setSize( 800, 600 );
+        normalize( soln );
         for( int i = 0; i < soln.length; i ++ ) {
             series.add( i, soln[i] );
         }
         chartFrame.setVisible( true );
-        for( int i = 0; i < soln.length; i++ ) {
-            System.out.println( "soln[i] = " + soln[i] );
+    }
 
+    private void normalize( double[] soln ) {
+        double sum = 0;
+        for( int i = 0; i < soln.length; i++ ) {
+            sum += soln[i];
+        }
+        for( int i = 0; i < soln.length; i++ ) {
+            soln[i] /= sum;
         }
     }
 
@@ -60,11 +70,12 @@ public class TestBenFold implements EnergyListener {
     }
 
     private void start() {
-        solve( -10, 10 );
+//        solve( -1, 0 );
+        solve( 0, 5 );
+        solve( 0, 1 );
     }
 
     public void energyChanged( double d ) {
-//        System.out.println( "d = " + d );
     }
 
     public void searchFinished() {
