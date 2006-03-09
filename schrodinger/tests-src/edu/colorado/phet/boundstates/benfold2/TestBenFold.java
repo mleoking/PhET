@@ -17,30 +17,31 @@ import org.jfree.data.xy.XYSeriesCollection;
  * Copyright (c) Mar 8, 2006 by Sam Reid
  */
 
-public class TestBenFold implements EnergyListener {
+public class TestBenFold {
+    Schrodinger schrodinger = new Schrodinger( new Quadratic( 0.25 ) );
+    double intRange = 20;
+    int steps = 2000;
 
     public TestBenFold() {
     }
 
-    public synchronized void solve( double min, double max ) {
-//        Schrodinger eqn = new ImprovedSchrodinger( new SquareWell( -1, 1, 0 ) );
-//        Schrodinger eqn = new Schrodinger( new SquareWell( -1, 1, 0 ) );
-        Schrodinger eqn = new Schrodinger( new Quadratic( 0.25 ) );
-        double intRange = 20;
-
-        int steps = 4000;
-        ShootingMethod solver = new ShootingMethod( this, eqn, min, max, intRange, steps );
+    public double solve( double min, double max ) {
+        ShootingMethod solver = new ShootingMethod( schrodinger, min, max, intRange, steps );
         solver.run();
 
+//        System.out.println( "solveThread.getEstimate() = " + solver.getEstimate() );
+        double goodness = solver.tryEnergy( solver.getEstimate() );
+//        System.out.println( "goodness = " + goodness );
+
+        return solver.getEstimate();
+    }
+
+    public void plot( double energy ) {
+        //        eqn.firstValue = 5.0;
+        schrodinger.setEnergy( energy );
         double []soln = new double[steps];
         double step = intRange / steps;
-
-        System.out.println( "solveThread.getEstimate() = " + solver.getEstimate() );
-        double goodness = solver.tryEnergy( solver.getEstimate() );
-        System.out.println( "goodness = " + goodness );
-        eqn.setEnergy( solver.getEstimate() );
-        eqn.firstValue = 5.0;
-        eqn.solve( -intRange / 2, step, soln );
+        schrodinger.solve( -intRange / 2, step, soln );
 
         XYSeries series = new XYSeries( "psi", false, true );
         XYDataset dataset = new XYSeriesCollection( series );
@@ -71,8 +72,10 @@ public class TestBenFold implements EnergyListener {
 
     private void start() {
 //        solve( -1, 0 );
-        solve( 0, 5 );
-        solve( 0, 1 );
+        double e1 = solve( 0, 5 );
+        plot( e1 );
+        double e2 = solve( 0, 1 );
+        plot( e2 );
     }
 
     public void energyChanged( double d ) {
