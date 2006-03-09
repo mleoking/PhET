@@ -117,22 +117,19 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     public void setConstantProperty( int constantProperty ) {
+        this.constantProperty = constantProperty;
         switch( constantProperty ) {
             case CONSTANT_NONE:
-                box.setVolumeFixed( false );
                 SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_VOLUME:
-                box.setVolumeFixed( true );
                 SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_PRESSURE:
-                box.setVolumeFixed( false );
                 this.targetPressure = box.getPressure();
                 SphereBoxCollision.setWorkDoneByMovingWall( false );
                 break;
             case CONSTANT_TEMPERATURE:
-                box.setVolumeFixed( false );
                 double t = getTemperature();
                 this.targetTemperature = !Double.isNaN( t ) ? t : IdealGasModel.DEFAULT_ENERGY;
                 SphereBoxCollision.setWorkDoneByMovingWall( true );
@@ -140,7 +137,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             default:
                 throw new RuntimeException( "Invalid constantProperty" );
         }
-        this.constantProperty = constantProperty;
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+    }
+
+    public int getConstantProperty() {
+        return constantProperty;
     }
 
     /**
@@ -752,6 +753,33 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     //----------------------------------------------------------------
     // Event and Listener definitions
     //----------------------------------------------------------------
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public IdealGasModel getModel() {
+            return (IdealGasModel)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged( ChangeEvent event );
+    }
+
+
 
     private EventChannel heatSourceChangeChannel = new EventChannel( HeatSourceChangeListener.class );
     private HeatSourceChangeListener heatSourceChangeListenerProxy = (HeatSourceChangeListener)heatSourceChangeChannel.getListenerProxy();
