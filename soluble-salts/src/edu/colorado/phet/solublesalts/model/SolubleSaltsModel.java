@@ -197,6 +197,28 @@ public class SolubleSaltsModel extends BaseModel {
         changeListenerProxy.stateChanged( event );
     }
     
+
+    /**
+     * Determines which type of ion should be preferred for release. This is based on the ratio of the number
+     * of free ions of each type in the salt, and the the ratio of their occurances in the salt lattice.
+     *
+     * @return The class of the preferred type of ion
+     */
+    public Class getPreferredTypeOfIonToRelease() {
+        // Determine the preffered class of ion to release
+        int numFreeAnions = getNumFreeIonsOfType( getCurrentSalt().getAnionClass() );
+        int numFreeCations = getNumFreeIonsOfType( getCurrentSalt().getCationClass() );
+        Class preferredIonType = null;
+        if( (double)numFreeAnions / numFreeCations <
+            (double)getCurrentSalt().getNumAnionsInUnit() / getCurrentSalt().getNumCationsInUnit() ) {
+            preferredIonType = getCurrentSalt().getAnionClass();
+        }
+        else {
+            preferredIonType = getCurrentSalt().getCationClass();
+        }
+        return preferredIonType;
+    }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
@@ -367,6 +389,7 @@ public class SolubleSaltsModel extends BaseModel {
 
     public void setCurrentSalt( Salt salt ) {
         shaker.setCurrentSalt( salt );
+        ksp = salt.getKsp();
         ChangeEvent event = new ChangeEvent( this );
         event.saltChanged = true;
         changeListenerProxy.stateChanged( event );
