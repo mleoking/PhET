@@ -103,8 +103,12 @@ public class QTClockControls extends JPanel implements ClockListener {
             _timeTextField.setText( "0" );
             _timeTextField.setEditable( false );
             _timeTextField.setHorizontalAlignment( JTextField.RIGHT );
+            
             _timeUnitsLabel = new JLabel( timeUnitsLabel );
+            _timeUnitsLabel.setFont( QTConstants.TIME_UNITS_FONT );
+            
             _timeFormat = new DecimalFormat( "0" );
+            
             timePanel.add( clockLabel );
             timePanel.add( _timeTextField );
             timePanel.add( _timeUnitsLabel );

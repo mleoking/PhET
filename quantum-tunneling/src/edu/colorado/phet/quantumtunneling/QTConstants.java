@@ -75,6 +75,7 @@ public class QTConstants {
     public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font DRAG_HANDLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     public static final Font TIME_DISPLAY_FONT = new Font( QTConstants.FONT_NAME, Font.BOLD, 22 );
+    public static final Font TIME_UNITS_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 22 );
     
     //----------------------------------------------------------------------------
     // Strokes
