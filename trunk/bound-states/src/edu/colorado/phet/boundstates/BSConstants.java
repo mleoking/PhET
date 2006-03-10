@@ -116,13 +116,7 @@ public class BSConstants {
     public static final String IMAGE_RESTART = IMAGES_DIRECTORY + "restartButton.gif";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
-  
-    //----------------------------------------------------------------------------
-    // Electron
-    //----------------------------------------------------------------------------
-    
-    public static final double ELECTRON_MASS = 5.68;
-    
+
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------
@@ -157,7 +151,17 @@ public class BSConstants {
     public static final double PIXELS_PER_SAMPLE_POINT = 1;
     
     //----------------------------------------------------------------------------
-    // Wells -- all values in model coordinates
+    // Particle
+    //----------------------------------------------------------------------------
+    
+    // Mass
+    public static final double ELECTRON_MASS = 5.68;
+    public static final double MIN_MASS = 1; // x ELECTRON_MASS
+    public static final double MAX_MASS = 10; // x ELECTRON_MASS
+    public static final double DEFAULT_MASS = 1; // x ELECTRON_MASS
+    
+    //----------------------------------------------------------------------------
+    // Potentials
     //----------------------------------------------------------------------------
 
     // Ranges...

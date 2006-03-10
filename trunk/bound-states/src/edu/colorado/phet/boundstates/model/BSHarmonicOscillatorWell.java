@@ -13,6 +13,8 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enum.WellType;
@@ -30,16 +32,18 @@ import edu.colorado.phet.boundstates.enum.WellType;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorWell extends BSAbstractPotential {
+public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Observer {
 
     private double _angularFrequency;
+    private BSParticle _particle;
     
-    public BSHarmonicOscillatorWell() {
-        this( BSConstants.DEFAULT_OSCILLATOR_OFFSET, BSConstants.DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY );
+    public BSHarmonicOscillatorWell( BSParticle particle ) {
+        this( particle, BSConstants.DEFAULT_OSCILLATOR_OFFSET, BSConstants.DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY );
     }
     
-    public BSHarmonicOscillatorWell( double offset, double angularFrequency ) {
+    public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
         super( 1, 0, offset, BSConstants.DEFAULT_WELL_CENTER );
+        setParticle( particle );
     }
 
     public double getAngularFrequency() {
@@ -48,14 +52,20 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential {
 
     public void setAngularFrequency( double angularFrequency ) {
         _angularFrequency = angularFrequency;
+        notifyObservers();
     }
 
-    public WellType getWellType() {
-        return WellType.HARMONIC_OSCILLATOR;
+    public BSParticle getParticle() {
+        return _particle;
     }
-
-    public int getStartingIndex() {
-        return 0;
+    
+    public void setParticle( BSParticle particle ) {
+        if ( _particle != null ) {
+            _particle.deleteObserver( this );
+        }
+        _particle = particle;
+        _particle.addObserver( this );
+        notifyObservers();
     }
     
     public void setNumberOfWells( int numberOfWells ) {
@@ -65,6 +75,14 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential {
         else {
             super.setNumberOfWells( numberOfWells );
         }
+    }
+    
+    public WellType getWellType() {
+        return WellType.HARMONIC_OSCILLATOR;
+    }
+
+    public int getStartingIndex() {
+        return 0;
     }
     
     //HACK 15 dummy eigenstates
@@ -88,5 +106,11 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential {
         }
         // Convert to an array...
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
+    }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _particle ) {
+            notifyObservers();
+        }   
     }
 }
