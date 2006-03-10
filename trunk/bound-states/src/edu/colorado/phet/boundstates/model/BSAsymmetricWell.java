@@ -103,16 +103,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         return eigenstates;
     }
     
-    public Point2D[] getPoints( double minX, double maxX, double dx ) {
-        ArrayList points = new ArrayList();
-        for ( double x = minX; x <= maxX; x += dx ) {
-            points.add( new Point2D.Double( x, U(x) ) );
-        }
-        // Convert to an array...
-        return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
-    }
-    
-    private double U( final double x ) {
+    public double solve( double x ) {
         assert( getNumberOfWells() == 1 );
         
         final double offset = getOffset();
