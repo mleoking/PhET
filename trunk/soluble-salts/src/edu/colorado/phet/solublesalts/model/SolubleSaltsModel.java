@@ -13,7 +13,9 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -51,7 +53,7 @@ public class SolubleSaltsModel extends BaseModel {
     // The world bounds of the model
     private double scale = 1;
     // Bounds for the entire model
-    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1024, 768 );
+    Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1024, 850 );
     // Ksp for the model
     double ksp;
 
@@ -82,7 +84,9 @@ public class SolubleSaltsModel extends BaseModel {
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
     
-    public SolubleSaltsModel() {
+    public SolubleSaltsModel( IClock clock ) {
+
+        clock.addClockListener( new ModelStepper() );
 
         // Add an agent that will track the ions of various classes
         ionTracker = new IonTracker();
@@ -403,6 +407,23 @@ public class SolubleSaltsModel extends BaseModel {
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
+
+    /**
+     * Steps the model in time
+     */
+    private class ModelStepper extends ClockAdapter {
+        public void clockTicked( ClockEvent clockEvent ) {
+
+            // REmove ions that have gotten outside the bounds of the model
+            List ions = ionTracker.getIons();
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion)ions.get( i );
+                if( !getBounds().contains( ion.getPosition() )) {
+                    removeModelElement( ion );
+                }
+            }
+        }
+    }
 
     /**
      * Detects and handles collisions between ions and the vessel

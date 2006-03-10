@@ -14,6 +14,8 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.common.model.clock.SwingClock;
 
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -47,7 +49,7 @@ public class PlainCubicLattice extends Lattice {
     public static void main(String[] args) {
         Ion a = new Sodium();
         a.setPosition(300, 500);
-        Crystal l = new Crystal(new SolubleSaltsModel(), new PlainCubicLattice(10));
+        Crystal l = new Crystal(new SolubleSaltsModel( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT )), new PlainCubicLattice(10));
 //        Crystal l = new Crystal( new SolubleSaltsModel(), new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS ) );
         l.addIon(a);
 
