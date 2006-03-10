@@ -20,12 +20,23 @@ import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
- * BSSquareWell
+ * BSSquareWell is the model of a potential composed of one or more Square wells.
+ * <p>
+ * Our model supports these parameters:
+ * <ul>
+ * <li>number of wells
+ * <li>spacing
+ * <li>offset
+ * <li>width
+ * <li>depth
+ * </ul>
+ * Offset, width, depth and spacing are identical for each well.
+ * Spacing is irrelevant if the number of wells is 1.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareWell extends BSAbstractWell {
+public class BSSquareWell extends BSAbstractPotential {
    
     private double _width;
     private double _depth;

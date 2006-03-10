@@ -19,12 +19,18 @@ import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
- * BSHarmonicOscillatorWell
+ * BSHarmonicOscillatorWell is the model of a potential composed of one Harmonic Oscillator well.
+ * <p>
+ * Our model supports these parameters:
+ * <ul>
+ * <li>offset
+ * <li>angular frequency
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorWell extends BSAbstractWell {
+public class BSHarmonicOscillatorWell extends BSAbstractPotential {
 
     private double _angularFrequency;
     

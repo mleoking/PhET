@@ -17,12 +17,13 @@ import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
- * BSAbstractWell
+ * BSAbstractPotential is the base class for all potentials that are composed of wells.
+ * A potential is composed of wells of a uniform type.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BSAbstractWell extends BSObservable {
+public abstract class BSAbstractPotential extends BSObservable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +38,7 @@ public abstract class BSAbstractWell extends BSObservable {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAbstractWell( int numberOfWells, double spacing, double offset, double center ) {
+    public BSAbstractPotential( int numberOfWells, double spacing, double offset, double center ) {
         setNumberOfWells( numberOfWells );
         setSpacing( spacing );
         setOffset( offset );
