@@ -70,7 +70,7 @@ public class BSManyModule extends BSAbstractModule {
 
     // Model
     private BSTotalEnergy _totalEnergy;
-    private BSAbstractWell _currentWell;
+    private BSAbstractPotential _currentWell;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSCoulombWell _coulombWell;
     private BSSquareWell _squareWell;

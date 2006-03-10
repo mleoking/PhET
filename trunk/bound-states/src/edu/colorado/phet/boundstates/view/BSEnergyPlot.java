@@ -24,7 +24,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.model.BSAbstractWell;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSSquareWell;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -42,7 +42,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     // Model references
-    private BSAbstractWell _well;
+    private BSAbstractPotential _well;
     
     // View
     private XYSeries _totalEnergySeries;
@@ -126,7 +126,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setWell( BSAbstractWell well ) {
+    public void setWell( BSAbstractPotential well ) {
         _well = well;
         _well.addObserver( this );
         update();

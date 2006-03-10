@@ -19,12 +19,21 @@ import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
- * BSCoulombWell
+ * BSCoulombWell is the model of a potential composed of one or more Coulomb wells.
+ * <p>
+ * Our model supports these parameters:
+ * <ul>
+ * <li>number of wells
+ * <li>spacing
+ * <li>offset
+ * </ul>
+ * Offset and spacing are identical for each well.
+ * Spacing is irrelevant if the number of wells is 1.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulombWell extends BSAbstractWell {
+public class BSCoulombWell extends BSAbstractPotential {
     
     public BSCoulombWell( int numberOfWells ) {
         this( numberOfWells, 

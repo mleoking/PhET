@@ -28,7 +28,7 @@ public class BSConfigureDialogFactory {
 
     private BSConfigureDialogFactory() {}
 
-    public static JDialog createDialog( Frame owner, BSAbstractWell well ) {
+    public static JDialog createDialog( Frame owner, BSAbstractPotential well ) {
         JDialog dialog = null;
         if ( well instanceof BSCoulombWell ) {
             dialog = new BSCoulombDialog( owner, (BSCoulombWell) well );

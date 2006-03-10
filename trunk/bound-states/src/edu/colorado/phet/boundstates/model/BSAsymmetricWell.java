@@ -19,12 +19,19 @@ import edu.colorado.phet.boundstates.enum.WellType;
 
 
 /**
- * BSAsymmetricWell
+ * BSAsymmetricWell is the model of a potential composed on one Asymmetric well.
+ * <p>
+ * Our model supports these parameters:
+ * <ul>
+ * <li>offset
+ * <li>width
+ * <li>depth
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAsymmetricWell extends BSAbstractWell {
+public class BSAsymmetricWell extends BSAbstractPotential {
 
     private double _width;
     private double _depth;
