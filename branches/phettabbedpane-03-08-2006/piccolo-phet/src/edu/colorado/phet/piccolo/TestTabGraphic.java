@@ -18,7 +18,6 @@ public class TestTabGraphic {
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         PCanvas pCanvas = new PCanvas();
-//        BrokenTab tabNode = new BrokenTab( );
         PPath tabNode=new PPath( new Rectangle( 20,20));
         pCanvas.getLayer().addChild( tabNode );
         frame.setContentPane( pCanvas );
@@ -26,18 +25,15 @@ public class TestTabGraphic {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         Color selectedTabColor = Color.blue;
-        GradientPaint paint = new GradientPaint( 0, (float)tabNode.getFullBounds().getY() - 2, selectedTabColor.brighter(), 0, (float)( tabNode.getFullBounds().getY() + 6 ), selectedTabColor );
+
+//        float y1 = (float)tabNode.getFullBounds().getY() - 2;
+//        float y2 = (float)( tabNode.getFullBounds().getY() + 6 );
+        float y1=-2;
+        float y2= 6;
+        GradientPaint paint = new GradientPaint( 0, y1, selectedTabColor.brighter(), 0, y2, selectedTabColor );
         tabNode.setPaint( paint );
 
         frame.setVisible( true );
     }
 
-    static class BrokenTab extends PNode {
-        PPath background;
-
-        public BrokenTab() {
-            background = new PPath( new Rectangle( 0, 0, 20, 20 ) );
-            addChild( background );
-        }
-    }
 }
