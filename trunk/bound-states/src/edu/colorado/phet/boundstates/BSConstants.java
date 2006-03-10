@@ -134,6 +134,11 @@ public class BSConstants {
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
+    // Number of wells
+    public static final int MIN_NUMBER_OF_WELLS = 1;
+    public static final int MAX_NUMBER_OF_WELLS = 10;
+    public static final int DEFAULT_NUMBER_OF_WELLS = 2;
+    
     //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------

@@ -123,7 +123,11 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
 
             // Number of wells
             String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
-            _numberOfWellsSlider = new SliderControl( 1, 1, 10, 1, 0, 0, numberFormat, SLIDER_INSETS );//XXX
+            _numberOfWellsSlider = new SliderControl( 
+                    BSConstants.DEFAULT_NUMBER_OF_WELLS, 
+                    BSConstants.MIN_NUMBER_OF_WELLS, 
+                    BSConstants.MAX_NUMBER_OF_WELLS,
+                    1, 0, 0, numberFormat, SLIDER_INSETS );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Eigenstate 
