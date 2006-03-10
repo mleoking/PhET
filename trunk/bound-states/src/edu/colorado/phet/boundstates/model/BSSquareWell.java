@@ -26,14 +26,47 @@ import edu.colorado.phet.boundstates.enum.WellType;
  * @version $Revision$
  */
 public class BSSquareWell extends BSAbstractWell {
+   
+    private double _width;
+    private double _depth;
 
     public BSSquareWell( int numberOfWells ) {
-        super( numberOfWells,
+        this( numberOfWells, 
                 BSConstants.DEFAULT_SQUARE_SPACING, 
                 BSConstants.DEFAULT_SQUARE_WIDTH, 
                 BSConstants.DEFAULT_SQUARE_DEPTH, 
-                BSConstants.DEFAULT_SQUARE_OFFSET,
-                BSConstants.DEFAULT_WELL_CENTER);
+                BSConstants.DEFAULT_SQUARE_OFFSET, 
+                BSConstants.DEFAULT_WELL_CENTER );
+    }
+    
+    public BSSquareWell( int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
+        super( numberOfWells, spacing, offset, center );
+        setWidth( width );
+        setDepth( depth );
+    }
+    
+    public double getWidth() {
+        return _width;
+    }
+
+    public void setWidth( double width ) {
+        if ( width <= 0 ) {
+            throw new IllegalArgumentException( "invalid width: " + width );
+        }
+        _width = width;
+        notifyObservers();
+    }
+
+    public double getDepth() {
+        return _depth;
+    }
+
+    public void setDepth( double depth ) {
+        if ( depth > 0 ) {
+            throw new IllegalArgumentException( "invalid depth: " + depth );
+        }
+        _depth = depth;
+        notifyObservers();
     }
     
     public WellType getWellType() {

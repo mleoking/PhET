@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.boundstates.control;
+package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,18 +28,19 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.model.BSAbstractWell;
+import edu.colorado.phet.boundstates.control.SliderControl;
+import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSConfigureEnergyDialog
+ * BSAsymmetricDialog
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSConfigureEnergyDialog extends JDialog implements Observer {
+public class BSAsymmetricDialog extends JDialog implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -51,12 +52,11 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSAbstractWell _well;
+    private BSAsymmetricWell _well;
     
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
     private SliderControl _offsetSlider;
-    private SliderControl _spacingSlider;
     private JButton _closeButton;
     private EventListener _eventListener;
     
@@ -67,11 +67,11 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSConfigureEnergyDialog( Frame parent, BSAbstractWell well ) {
+    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell well ) {
         super( parent );
         setModal( false );
         setResizable( false );
-        setTitle( SimStrings.get( "BSConfigureEnergyDialog.title" ) );
+        setTitle( SimStrings.get( "BSAsymmetricDialog.title" ) );
         
         _well = well;
         _well.addObserver( this );
@@ -164,18 +164,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
             String labelFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
         }
-
-        // Spacing
-        {
-            double value = _well.getSpacing();
-            double min = BSConstants.MIN_WELL_SPACING;
-            double max = BSConstants.MAX_WELL_SPACING;
-            double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
-            String labelFormat = SimStrings.get( "label.wellSpacing" ) + " {0} " + positionUnits;
-            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
-        }
         
         updateControls();
         
@@ -190,8 +178,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         layout.addComponent( _depthSlider, row, col );
         row++;
         layout.addComponent( _offsetSlider, row, col );
-        row++;
-        layout.addComponent( _spacingSlider, row, col );
         row++;
 
         // Interction
@@ -236,17 +222,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         _widthSlider.setValue( _well.getWidth() );
         _depthSlider.setValue( _well.getDepth() );
         _offsetSlider.setValue( _well.getOffset() );
-        _spacingSlider.setValue( _well.getSpacing() );
-        
-        // Sync ranges
-        _widthSlider.setMaximum( _well.getSpacing() - BSConstants.MIN_WELL_SEPARATION );
-        _spacingSlider.setMinimum( _well.getWidth() + BSConstants.MIN_WELL_SEPARATION );
-        
-        // Visibility
-        //XXX hide the width slider if well is Coulomb
-        _spacingSlider.setVisible( _well.getNumberOfWells() > 1 );
-        _widthSlider.setEnabled( _widthSlider.getMaximum() != _widthSlider.getMinimum() );
-        _spacingSlider.setEnabled( _spacingSlider.getMaximum() != _spacingSlider.getMinimum() );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {
@@ -254,13 +229,11 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
             _widthSlider.addChangeListener( _eventListener );
             _depthSlider.addChangeListener( _eventListener );
             _offsetSlider.addChangeListener( _eventListener );
-            _spacingSlider.addChangeListener( _eventListener );
         }
         else {
             _widthSlider.removeChangeListener( _eventListener );
             _depthSlider.removeChangeListener( _eventListener );
             _offsetSlider.removeChangeListener( _eventListener );
-            _spacingSlider.removeChangeListener( _eventListener );
         }
     }
     
@@ -296,9 +269,6 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
             else if ( event.getSource() == _offsetSlider ) {
                 handleOffsetChange();
             }
-            else if ( event.getSource() == _spacingSlider ) {
-                handleSpacingChange();
-            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
@@ -324,10 +294,4 @@ public class BSConfigureEnergyDialog extends JDialog implements Observer {
         final double offset = _offsetSlider.getValue();
         _well.setOffset( offset );
     }
-    
-    private void handleSpacingChange() {
-        final double spacing = _spacingSlider.getValue();
-        _well.setSpacing( spacing );
-    }
-
 }

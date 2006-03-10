@@ -485,10 +485,12 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     }
     
     public void setWellTypeChoices( WellType[] wellTypes ) {
+        _wellTypeComboBox.removeItemListener( _listener );
         _wellTypeComboBox.clearChoices();
         for ( int i = 0; i < wellTypes.length; i++ ) {
             _wellTypeComboBox.addChoice( wellTypes[i] );   
         }
+        _wellTypeComboBox.addItemListener( _listener );
     }
     
     //----------------------------------------------------------------------------

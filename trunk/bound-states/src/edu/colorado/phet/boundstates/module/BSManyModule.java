@@ -22,10 +22,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JDialog;
+
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.control.BSConfigureEnergyDialog;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
-import edu.colorado.phet.boundstates.control.BSSuperpositionStateDialog;
+import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
+import edu.colorado.phet.boundstates.dialog.BSSquareDialog;
+import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enum.WellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
@@ -68,7 +71,10 @@ public class BSManyModule extends BSAbstractModule {
     // Model
     private BSTotalEnergy _totalEnergy;
     private BSAbstractWell _currentWell;
+    private BSHarmonicOscillatorWell _harmonicOscillatorWell;
+    private BSCoulombWell _coulombWell;
     private BSSquareWell _squareWell;
+    private BSAsymmetricWell _asymmetricWell;
     
     // View
     private PhetPCanvas _canvas;
@@ -90,7 +96,7 @@ public class BSManyModule extends BSAbstractModule {
     private BSSharedControlPanel _controlPanel;
 
     // Dialogs
-    private BSConfigureEnergyDialog _configureEnergyDialog;
+    private JDialog _configureWellDialog;
     private BSSuperpositionStateDialog _superpositionStateDialog;
     
     //----------------------------------------------------------------------------
@@ -207,7 +213,8 @@ public class BSManyModule extends BSAbstractModule {
         // Control Panel
         _controlPanel = new BSSharedControlPanel( this );
         setControlPanel( _controlPanel );
-        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.SQUARE };
+//XXX        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.SQUARE };
+        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.HARMONIC_OSCILLATOR, WellType.SQUARE, WellType.ASYMMETRIC };
         setWellTypeChoices( wellTypeChoices );
         
         String timeUnits = SimStrings.get( "units.time" );
@@ -307,8 +314,8 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void deactivate() {
-        if ( _configureEnergyDialog != null ) {
-            _configureEnergyDialog.hide();
+        if ( _configureWellDialog != null ) {
+            _configureWellDialog.hide();
         }
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.hide();
@@ -317,8 +324,8 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void activate() {
-        if ( _configureEnergyDialog != null ) {
-            _configureEnergyDialog.show();
+        if ( _configureWellDialog != null ) {
+            _configureWellDialog.show();
         }
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.show();
@@ -336,7 +343,10 @@ public class BSManyModule extends BSAbstractModule {
     public void reset() {
         
         // Model
+        _coulombWell = new BSCoulombWell( 2 );
+        _harmonicOscillatorWell = new BSHarmonicOscillatorWell();
         _squareWell = new BSSquareWell( 2 );
+        _asymmetricWell = new BSAsymmetricWell();
         _currentWell = _squareWell;
         
         // View 
@@ -434,7 +444,32 @@ public class BSManyModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
     
     public void setWellType( WellType wellType ) {
-        //XXX
+        
+        if ( _configureWellDialog != null ) { 
+            _configureWellDialog.dispose();
+        }
+        
+        if ( wellType == WellType.COULOMB ) {
+            _currentWell = _coulombWell;
+            _controlPanel.setNumberOfWellsControlVisible( true );
+            _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
+        }
+        else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
+            _currentWell = _harmonicOscillatorWell;
+            _controlPanel.setNumberOfWellsControlVisible( false );
+        }
+        else if ( wellType == WellType.SQUARE ) {
+            _currentWell = _squareWell;
+            _controlPanel.setNumberOfWellsControlVisible( true );
+        }
+        else if ( wellType == WellType.ASYMMETRIC ) {
+            _currentWell = _asymmetricWell;
+            _controlPanel.setNumberOfWellsControlVisible( false );
+        }
+        
+        _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
+        _chart.getEnergyPlot().setWell( _currentWell );
+        
         resetClock();
     }
     
@@ -444,17 +479,17 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void showConfigureEnergyDialog() {
-        if ( _configureEnergyDialog == null ) {
-            _configureEnergyDialog = new BSConfigureEnergyDialog( getFrame(), _currentWell );
-            _configureEnergyDialog.addWindowListener( new WindowAdapter() {
+        if ( _configureWellDialog == null ) {
+            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _currentWell );
+            _configureWellDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
-                    _configureEnergyDialog = null;
+                    _configureWellDialog = null;
                 }
                 public void windowClosed( WindowEvent event ) {
-                    _configureEnergyDialog = null;
+                    _configureWellDialog = null;
                 }
             } );
-            _configureEnergyDialog.show();
+            _configureWellDialog.show();
         }
     }
     

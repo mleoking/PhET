@@ -176,8 +176,8 @@ public class BSConstants {
     public static final double MIN_WELL_OFFSET = -15;
     public static final double MAX_WELL_OFFSET = 5;
     
-    public static final double MIN_WELL_ANGULAR_FREQUENCY = ( 1 * Math.pow( 10, 15 ) );
-    public static final double MAX_WELL_ANGULAR_FREQUENCY = ( 15 * Math.pow( 10, 15 ) );
+    public static final double MIN_WELL_ANGULAR_FREQUENCY = 1; // x 10^15
+    public static final double MAX_WELL_ANGULAR_FREQUENCY = 15; // x 10^15
     
     // Defaults...
     
@@ -186,12 +186,11 @@ public class BSConstants {
     
     // Coulomb well...
     public static final double DEFAULT_COULOMB_OFFSET = 0;
-    public static final double DEFAULT_COULOMB_DEPTH = -10;
     public static final double DEFAULT_COULOMB_SPACING = 2;
     
     // Harmonic Oscillator...
     public static final double DEFAULT_OSCILLATOR_OFFSET = 0;
-    public static final double DEFAULT_OSCILLATOR_FREQUENCY = ( 2 * Math.pow( 10, 15 ) );
+    public static final double DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY = 2; // x 10^15;
     
     // Square well...
     public static final double DEFAULT_SQUARE_OFFSET = 0;
@@ -201,6 +200,6 @@ public class BSConstants {
     
     // Asymmetric well...
     public static final double DEFAULT_ASYMMETRIC_OFFSET = 0;
-    public static final double DEFAULT_ASYMMETRIC_WELL_WIDTH = 0.5;
-    public static final double DEFAULT_ASYMMETRIC_WELL_DEPTH = -10;
+    public static final double DEFAULT_ASYMMETRIC_WIDTH = 0.5;
+    public static final double DEFAULT_ASYMMETRIC_DEPTH = -10;
 }
