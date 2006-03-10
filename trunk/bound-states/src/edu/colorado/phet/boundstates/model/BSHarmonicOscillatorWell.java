@@ -43,6 +43,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     
     public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
         super( 1, 0, offset, BSConstants.DEFAULT_WELL_CENTER );
+        setAngularFrequency( angularFrequency );
         setParticle( particle );
     }
 
@@ -100,12 +101,17 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
 
     public Point2D[] getPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
-        //HACK straight line at offset
         for ( double x = minX; x <= maxX; x += dx ) {
-            points.add( new Point2D.Double( x, getOffset() + 1 ) );
+            points.add( new Point2D.Double( x, U(x) ) );
         }
         // Convert to an array...
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
+    }
+    
+    private double U( final double x ) {
+        assert( getNumberOfWells() == 1 );
+        final double cx = x - getCenter();
+        return getOffset() + ( 0.5 * _particle.getMass() * _angularFrequency * _angularFrequency * cx * cx );
     }
 
     public void update( Observable o, Object arg ) {

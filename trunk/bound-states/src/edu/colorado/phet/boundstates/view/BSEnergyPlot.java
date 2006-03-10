@@ -147,7 +147,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     private void updatePotential() {
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
-        final double dx = 0.1; //XXX calculate based on plot bounds and pixels per sample
+        final double dx = 0.01; //XXX calculate based on plot bounds and pixels per sample
         Point2D[] points = _potential.getPoints( minX, maxX, dx );
         _potentialSeries.clear();
         for ( int i = 0; i < points.length; i++ ) {

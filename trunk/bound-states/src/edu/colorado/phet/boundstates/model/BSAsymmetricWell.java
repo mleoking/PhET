@@ -105,11 +105,27 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     
     public Point2D[] getPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
-        //HACK straight line at offset
         for ( double x = minX; x <= maxX; x += dx ) {
-            points.add( new Point2D.Double( x, getOffset() + 2 ) );
+            points.add( new Point2D.Double( x, U(x) ) );
         }
         // Convert to an array...
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
+    }
+    
+    private double U( final double x ) {
+        assert( getNumberOfWells() == 1 );
+        
+        final double center = getCenter();
+        final double offset = getOffset();
+        final double width = getWidth();
+        
+        double value = getOffset();
+        if ( Math.abs( x - center ) <= getWidth() / 2 ) {
+            final double depth = Math.abs( getDepth() );
+            final double angle = Math.atan( depth / width );
+            final double d2 = depth - ( Math.tan( angle ) * Math.abs( center + width/2 - x ) );
+            value = offset - depth +  d2;
+        }
+        return value;
     }
 }
