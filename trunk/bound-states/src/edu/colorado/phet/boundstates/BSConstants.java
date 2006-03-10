@@ -121,7 +121,7 @@ public class BSConstants {
     // Electron
     //----------------------------------------------------------------------------
     
-    public static final double ELECTRON_MASS = 5.7;
+    public static final double ELECTRON_MASS = 5.68;
     
     //----------------------------------------------------------------------------
     // Ranges
@@ -202,4 +202,10 @@ public class BSConstants {
     public static final double DEFAULT_ASYMMETRIC_OFFSET = 0;
     public static final double DEFAULT_ASYMMETRIC_WIDTH = 0.5;
     public static final double DEFAULT_ASYMMETRIC_DEPTH = -10;
+    
+    //----------------------------------------------------------------------------
+    // Miscellaneous
+    //----------------------------------------------------------------------------
+    
+    public static final double KEE = 1.44; // ke^2, eV nm
 }
