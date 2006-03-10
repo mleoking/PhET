@@ -33,9 +33,17 @@ import edu.colorado.phet.boundstates.enum.WellType;
  */
 public class BSAsymmetricWell extends BSAbstractPotential {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _width;
     private double _depth;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public BSAsymmetricWell() {
         this( BSConstants.DEFAULT_ASYMMETRIC_WIDTH, 
               BSConstants.DEFAULT_ASYMMETRIC_DEPTH, 
@@ -48,6 +56,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         setWidth( width );
         setDepth( depth );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public double getWidth() {
         return _width;
@@ -73,13 +85,9 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         notifyObservers();
     }
     
-    public WellType getWellType() {
-        return WellType.ASYMMETRIC;
-    }
-    
-    public int getStartingIndex() {
-        return 1;
-    }
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
     
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != 1 ) {
@@ -89,32 +97,41 @@ public class BSAsymmetricWell extends BSAbstractPotential {
             super.setNumberOfWells( numberOfWells );
         }
     }
-
-    //XXX Hack -- creates 20 eigenstates between offset and depth
-    public BSEigenstate[] getEigenstates() {
-        final int numberOfEigenstates = 20;
-        BSEigenstate[] eigenstates = new BSEigenstate[ numberOfEigenstates ];
-        final double maxEnergy = getOffset();
-        final double minEnergy = getOffset() + getDepth();
-        final double deltaEnergy = ( maxEnergy - minEnergy ) / numberOfEigenstates;
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( minEnergy + ( i * deltaEnergy ) );
-        }
-        return eigenstates;
+    
+    //----------------------------------------------------------------------------
+    // AbstractPotential implementation
+    //----------------------------------------------------------------------------
+    
+    public WellType getWellType() {
+        return WellType.ASYMMETRIC;
     }
     
-    public double solve( double x ) {
+    public int getStartingIndex() {
+        return 1;
+    }
+
+    public double getEnergyAt( double position ) {
         assert( getNumberOfWells() == 1 );
         
         final double offset = getOffset();
         final double c = getCenter();
         final double w = getWidth();
         
-        double value = offset;
-        if ( Math.abs( x - c ) <= w / 2 ) {
+        double energy = offset;
+        if ( Math.abs( position - c ) <= w / 2 ) {
             final double d = Math.abs( getDepth() );
-            value = offset - Math.abs( c + w/2 - x ) * d / w;
+            energy = offset - Math.abs( c + w/2 - position ) * d / w;
         }
-        return value;
+        return energy;
+    }
+
+    //HACK dummy eigenstates, evenly spaced between offset and depth
+    public BSEigenstate[] getEigenstates() {
+        final int n = (int) ( Math.abs( getDepth() ) / 0.5 ) + 1;
+        BSEigenstate[] eigenstates = new BSEigenstate[ n ];
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            eigenstates[i] = new BSEigenstate( getOffset() - ( i * 0.5 ) );
+        }
+        return eigenstates;
     }
 }

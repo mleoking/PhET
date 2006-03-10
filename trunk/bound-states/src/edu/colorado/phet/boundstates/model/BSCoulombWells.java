@@ -31,6 +31,10 @@ import edu.colorado.phet.boundstates.enum.WellType;
  * @version $Revision$
  */
 public class BSCoulombWells extends BSAbstractPotential {
+   
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BSCoulombWells( int numberOfWells ) {
         this( numberOfWells, 
@@ -43,31 +47,21 @@ public class BSCoulombWells extends BSAbstractPotential {
         super( numberOfWells, spacing, offset, center );
     }
 
+    //----------------------------------------------------------------------------
+    // AbstractPotential implementation
+    //----------------------------------------------------------------------------
+    
     public WellType getWellType() {
         return WellType.COULOMB;
     }
-
+    
     public int getStartingIndex() {
         return 1;
     }
-    
-    //HACK 20 dummy eigenstates
-    public BSEigenstate[] getEigenstates() {
-        final int numberOfEigenstates = 20;
-        BSEigenstate[] eigenstates = new BSEigenstate[ numberOfEigenstates ];
-        final double maxEnergy = getOffset();
-        final double minEnergy = getOffset() - 5;
-        final double deltaEnergy = ( maxEnergy - minEnergy ) / numberOfEigenstates;
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( minEnergy + ( i * deltaEnergy ) );
-        }
-        return eigenstates;
-    }
 
+    public double getEnergyAt( double position ) {
 
-    public double solve( double x ) {
-
-        double value = 0;
+        double energy = 0;
         
         final int n = getNumberOfWells();
         final double kee = BSConstants.KEE;
@@ -77,9 +71,19 @@ public class BSCoulombWells extends BSAbstractPotential {
         
         for ( int i = 1; i <= n; i++ ) {
             final double xi = s * ( i - ( ( n + 1  ) / 2.0 ) );
-            value += -kee / Math.abs( (x-c) - xi );
+            energy += -kee / Math.abs( (position-c) - xi );
         }
         
-        return offset + value;
+        return offset + energy;
     }
+      
+    //HACK dummy eigenstates, evenly spaced below the offset
+    public BSEigenstate[] getEigenstates() {
+        BSEigenstate[] eigenstates = new BSEigenstate[ 10 ];
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            eigenstates[i] = new BSEigenstate( getOffset() - ( i * 0.5 ) );
+        }
+        return eigenstates;
+    }
+
 }
