@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - implement getPoints for each potential type
 - harmonic osciallator well needs to be affected by mass
 - need model for superposition coefficients
-- total energy model (eigenstates) isn't updated when switching potential type
 - ranges are likely wrong in configure dialogs
 - change to defaults and ranges in draft #4
 - redo BSSquareWell.getPoints, needs to return a lattice that can be used to solve wave function
@@ -59,6 +58,7 @@ MACINTOSH:
 
 
 DONE:
+(3/10/06) - update eigenstates in Energy chart when switching potential type
 (3/10/06) - delete total energy model, get eigenstates from selected potential
 (3/10/06) - rename BSTotalEnergyNode -> BSEigenstatesNode, make it observer BSAbstractPotential
 (3/9/06) - use correct starting index for each potential type
