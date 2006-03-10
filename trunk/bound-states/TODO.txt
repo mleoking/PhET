@@ -5,6 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- implement getPoints for each potential type
+- no need for total energy model, get eigenstates directly from selected potential
+- harmonic osciallator well needs to be affected by mass
+- need model for superposition coefficients
+- total energy model (eigenstates) isn't updated when switching potential type
+- ranges are likely wrong in configure dialogs
 - change to defaults and ranges in draft #4
 - redo BSSquareWell.getPoints, needs to return a lattice that can be used to solve wave function
 - problem with width & spacing sliders interaction as their ranges change while dragging in Configure Energy
@@ -21,6 +27,9 @@ HIGH PRIORITY:
 - commandline options for choosing which modules to display
 - model
 - time-independent solution to Schrodinger equation
+- different ranges and default for Single and Double modules
+- disable HO and Asymmetric potential choices in Multiple module
+- Single and Double modules need to permanently hide the "number of wells" control
 
 MEDIUM PRIORITY:
 - subscripts should start at 1, except Harmonic Oscillator well starts at 0
