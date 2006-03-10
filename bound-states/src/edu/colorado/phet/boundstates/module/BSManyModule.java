@@ -69,6 +69,7 @@ public class BSManyModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
+    private BSParticle _particle;
     private BSAbstractPotential _selectedPotential;
     private BSCoulombWells _coulombWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
@@ -340,8 +341,9 @@ public class BSManyModule extends BSAbstractModule {
     public void reset() {
         
         // Model
+        _particle = new BSParticle( BSConstants.DEFAULT_MASS );
         _coulombWells = new BSCoulombWells( 2 );
-        _harmonicOscillatorWell = new BSHarmonicOscillatorWell();
+        _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle );
         _squareWells = new BSSquareWells( 2 );
         _asymmetricWell = new BSAsymmetricWell();
         _selectedPotential = _squareWells;
@@ -534,7 +536,7 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void setParticleMass( double mass ) {
-        //XXX
+        _particle.setMass( mass );
         resetClock();
     }
 

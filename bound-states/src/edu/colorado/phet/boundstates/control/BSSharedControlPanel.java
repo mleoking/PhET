@@ -21,7 +21,6 @@ import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -124,7 +123,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
 
             // Number of wells
             String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
-            _numberOfWellsSlider = new SliderControl( 1, 1, 10, 1, 0, 0, numberFormat, SLIDER_INSETS );
+            _numberOfWellsSlider = new SliderControl( 1, 1, 10, 1, 0, 0, numberFormat, SLIDER_INSETS );//XXX
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Eigenstate 
@@ -282,7 +281,8 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
             
             // Mass slider
             String massFormat = "<html>" + SimStrings.get( "label.particleMass" ) + " {0}m<sub>e</sub>" + "</html>";
-            _massSlider = new SliderControl( 1.0, 1.0, 10.0, 5.0, 1, 1, massFormat, SLIDER_INSETS );
+            _massSlider = new SliderControl( BSConstants.DEFAULT_MASS, BSConstants.MIN_MASS, BSConstants.MAX_MASS, 5,
+                    1, 1, massFormat, SLIDER_INSETS );
             _massSlider.setInverted( true );
             // Put a label at each tick mark.
             Hashtable labelTable = new Hashtable();
