@@ -36,6 +36,7 @@ CLEANUP:
 
 DONE:
 0.00.20...
+(3/10/06) - hide Richardson controls
 (3/10/06) - make time display font "significantly larger"
 (3/10/06) - remove help item for measure button
 (3/10/06) - change measure button label to "Make Quantum Measurement"
