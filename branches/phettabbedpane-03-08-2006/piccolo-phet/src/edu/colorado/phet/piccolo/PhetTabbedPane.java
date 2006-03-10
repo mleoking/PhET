@@ -496,7 +496,7 @@ public class PhetTabbedPane extends JPanel {
             tabs.add( tab );
             getLayer().addChild( 0, tab );
             relayout();
-            setActiveTab( getActiveTab() );//updates
+            setActiveTab( getActiveTab()==null?tab:getActiveTab() );//updates
         }
 
         private void relayout() {
