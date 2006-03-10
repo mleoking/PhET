@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - implement getPoints for each potential type
-- no need for total energy model, get eigenstates directly from selected potential
 - harmonic osciallator well needs to be affected by mass
 - need model for superposition coefficients
 - total energy model (eigenstates) isn't updated when switching potential type
@@ -60,6 +59,8 @@ MACINTOSH:
 
 
 DONE:
+(3/10/06) - delete total energy model, get eigenstates from selected potential
+(3/10/06) - rename BSTotalEnergyNode -> BSEigenstatesNode, make it observer BSAbstractPotential
 (3/9/06) - use correct starting index for each potential type
 (3/9/06) - move all dialogs to a new "dialog" package
 (3/9/06) - create well type hierarchy and corresponding configure dialogs, wire up in module & control panel

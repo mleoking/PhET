@@ -69,7 +69,6 @@ public class BSManyModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
-    private BSTotalEnergy _totalEnergy;
     private BSAbstractPotential _selectedPotential;
     private BSCoulombWells _coulombWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
@@ -82,7 +81,7 @@ public class BSManyModule extends BSAbstractModule {
     private BSEnergyLegend _legend;
     private BSCombinedChart _chart;
     private BSCombinedChartNode _chartNode;
-    private BSTotalEnergyNode _totalEnergyNode;
+    private BSEigenstatesNode _eigenstatesNode;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -125,9 +124,7 @@ public class BSManyModule extends BSAbstractModule {
         // Model
         //----------------------------------------------------------------------------
         
-        double[] energies = { -16, -5, -2.5, 0, 1, 2, 2.5, 3, 3.5, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5 };
-        BSEigenstate[] eigenstates = BSEigenstate.createEigenstates( energies );
-        _totalEnergy = new BSTotalEnergy( eigenstates );
+        // created in reset method
         
         //----------------------------------------------------------------------------
         // View
@@ -158,8 +155,8 @@ public class BSManyModule extends BSAbstractModule {
         }
         
         // Eigenstate interface
-        _totalEnergyNode = new BSTotalEnergyNode( _totalEnergy, _chartNode, _canvas );
-        _parentNode.addChild( _totalEnergyNode );
+        _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
+        _parentNode.addChild( _eigenstatesNode );
         
         // Energy graph legend
         { 
@@ -266,8 +263,8 @@ public class BSManyModule extends BSAbstractModule {
             _chartNode.setTransform( chartTransform );
             _chartNode.updateChartRenderingInfo();
             
-            _totalEnergyNode.setTransform( chartTransform );
-            _totalEnergyNode.updateDisplay();
+            _eigenstatesNode.setTransform( chartTransform );
+            _eigenstatesNode.updateDisplay();
         }
         
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
@@ -350,7 +347,8 @@ public class BSManyModule extends BSAbstractModule {
         _selectedPotential = _squareWells;
         
         // View 
-        _chart.getEnergyPlot().setWell( _selectedPotential );
+        _eigenstatesNode.setPotential( _selectedPotential );
+        _chart.getEnergyPlot().setPotential( _selectedPotential );
         
         // Controls
         _controlPanel.setWellType( _selectedPotential.getWellType() );
@@ -472,7 +470,8 @@ public class BSManyModule extends BSAbstractModule {
         }
         
         _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
-        _chart.getEnergyPlot().setWell( _selectedPotential );
+        _eigenstatesNode.setPotential( _selectedPotential );
+        _chart.getEnergyPlot().setPotential( _selectedPotential );
         
         resetClock();
     }
