@@ -15,19 +15,16 @@ import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
@@ -38,97 +35,107 @@ import java.util.ArrayList;
  * Copyright (c) Mar 1, 2006 by Sam Reid
  */
 
-public class PhetTabbedPane extends JPanel {
-    private TabPane tabPane;
-    private JComponent component;
+public class PhetTabbedPaneBAK extends JPanel {
+    public TabPane tabPane;
+//    private JComponent component;
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
-    public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
-//    private Font tabFont = new Font( "Sans", Font.PLAIN, 12);
-    private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 12);
+    private static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
+//    private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 22 );
+//    private Font tabFont = new Font( "Sans", Font.PLAIN, 22 );
+    private Font tabFont = new Font("Sans",Font.PLAIN, 12);
 
-    public PhetTabbedPane() {
+    public PhetTabbedPaneBAK() {
         this( DEFAULT_SELECTED_TAB_COLOR );
     }
 
-    public PhetTabbedPane( Color selectedTabColor ) {
+    public PhetTabbedPaneBAK( Color selectedTabColor ) {
         super( new BorderLayout() );
         this.selectedTabColor = selectedTabColor;
-        component = new JPanel();//empty component to start
+//        component = new JPanel();//empty component to start
         tabPane = new TabPane( selectedTabColor );
+//        tabPane.addTab( new TextTabNode( "ASDF", new JButton( "TTT"), Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
+//        tabPane.addTab( new TextTabNode( "AOEU", new JButton( "TTT"), Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
         add( tabPane, BorderLayout.NORTH );
-        setComponent( component );
-        addComponentListener( new ComponentListener() {
-            public void componentHidden( ComponentEvent e ) {
-            }
-
-            public void componentMoved( ComponentEvent e ) {
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                relayoutComponents();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                relayoutComponents();
-            }
-        } );
+////        setComponent( component );
+//        addComponentListener( new ComponentListener() {
+//            public void componentHidden( ComponentEvent e ) {
+//            }
+//
+//            public void componentMoved( ComponentEvent e ) {
+//            }
+//
+//            public void componentResized( ComponentEvent e ) {
+//                relayoutComponents();
+//            }
+//
+//            public void componentShown( ComponentEvent e ) {
+//                relayoutComponents();
+//            }
+//        } );
     }
-
-    public int getTabCount() {
-        return tabPane.getTabCount();
-    }
-
-    private void relayoutComponents() {
-        Rectangle bounds = component.getBounds();
-        for( int i = 0; i < getTabCount(); i++ ) {
-            tabPane.getTabs()[i].getComponent().setBounds( bounds );//to mimic behavior in JTabbedPane
-        }
-    }
-
-    public String getTitleAt( int i ) {
-        return tabPane.getTitleAt( i );
-    }
-
-    public void removeTabAt( int i ) {
-        tabPane.removeTabAt( i );
-        if( getTabCount() > 0 ) {
-            setSelectedIndex( i - 1 );
-        }
-    }
-
-    public void addChangeListener( ChangeListener changeListener ) {
-        changeListeners.add( changeListener );
-    }
-
-    public int getSelectedIndex() {
-        return tabPane.getSelectedIndex();
-    }
-
-    public void setSelectedTabColor( Color color ) {
-        this.selectedTabColor = color;
-        tabPane.setSelectedTabColor( color );
-    }
-
+//
+//    public int getTabCount() {
+//        return tabPane.getTabCount();
+//    }
+//
+//    private void relayoutComponents() {
+////        Rectangle bounds = component.getBounds();
+////        for( int i = 0; i < getTabCount(); i++ ) {
+////            tabPane.getTabs()[i].getComponent().setBounds( bounds );//to mimic behavior in JTabbedPane
+////        }
+//    }
+//
+//    public String getTitleAt( int i ) {
+//        return tabPane.getTitleAt( i );
+//    }
+//
+//    public void removeTabAt( int i ) {
+////        tabPane.removeTabAt( i );
+////        if( getTabCount() > 0 ) {
+////            setSelectedIndex( i - 1 );
+////        }
+//    }
+//
+//    public void addChangeListener( ChangeListener changeListener ) {
+//        changeListeners.add( changeListener );
+//    }
+//
+//    public int getSelectedIndex() {
+//        return tabPane.getSelectedIndex();
+//    }
+//
+//    public void setSelectedTabColor( Color color ) {
+//        this.selectedTabColor = color;
+//        tabPane.setSelectedTabColor( color );
+//    }
+//
     public void addTab( String title, JComponent content ) {
         final AbstractTabNode tab = new TabNodeFactory().createTabNode( title, content, selectedTabColor, tabFont );
-        tab.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseReleased( PInputEvent e ) {
-                if( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
-                    setSelectedTab( tab );
-                }
-            }
 
-            public void mouseEntered( PInputEvent event ) {
-                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-            }
+//        final AbstractTabNode tab = new TextTabNode( title, content, selectedTabColor, tabFont );
+//                AbstractTabNode tab=( new TextTabNode( "ASDF", new JButton( "TTT"), Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
+//                AbstractTabNode tab=( new TextTabNode( "ASDF", content, Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
 
-            public void mouseExited( PInputEvent event ) {
-                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            }
-        } );
+//               AbstractTabNode tab=( new TextTabNode( "ASDF", content, Color.cyan,  tabFont) );
+
+//        tab.addInputEventListener( new PBasicInputEventHandler() {
+//            public void mouseReleased( PInputEvent e ) {
+//                if( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
+//                    setSelectedTab( tab );
+//                }
+//            }
+//
+//            public void mouseEntered( PInputEvent event ) {
+//                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+//            }
+//
+//            public void mouseExited( PInputEvent event ) {
+//                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+//            }
+//        } );
         if( tabPane.getTabs().length == 0 ) {
-            setSelectedTab( tab );
+            setSelectedTab( tab );                        // This is the culprit
             tabPane.setActiveTab( tab );
         }
         else {
@@ -136,64 +143,65 @@ public class PhetTabbedPane extends JPanel {
         }
         tabPane.addTab( tab );
     }
-
-    public void setSelectedIndex( int index ) {
-        if( index < 0 || index >= getTabCount() ) {
-            throw new RuntimeException( "Illegal tab index: " + index + ", tab count=" + getTabCount() );
-        }
-        setSelectedTab( tabPane.getTabs()[index] );
-    }
-
+//
+//    public void setSelectedIndex( int index ) {
+//        if( index < 0 || index >= getTabCount() ) {
+//            throw new RuntimeException( "Illegal tab index: " + index + ", tab count=" + getTabCount() );
+//        }
+//        setSelectedTab( tabPane.getTabs()[index] );
+//    }
+//
     private void setSelectedTab( AbstractTabNode tab ) {
-        setComponent( tab.getComponent() );
+//        setComponent( tab.getComponent() );
         tab.setSelected( true );
-        for( int i = 0; i < tabPane.getTabs().length; i++ ) {
-            AbstractTabNode t = tabPane.getTabs()[i];
-            if( t != tab ) {
-                t.setSelected( false );
-            }
-        }
-        tabPane.setActiveTab( tab );
-        notifySelectionChanged();
+//        for( int i = 0; i < tabPane.getTabs().length; i++ ) {
+//            AbstractTabNode t = tabPane.getTabs()[i];
+//            if( t != tab ) {
+//                t.setSelected( false );
+//            }
+//        }
+//        tabPane.setActiveTab( tab );
+//        notifySelectionChanged();
     }
-
-    private void notifySelectionChanged() {
-        ChangeEvent changeEvent = new ChangeEvent( this );
-        for( int i = 0; i < changeListeners.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)changeListeners.get( i );
-            changeListener.stateChanged( changeEvent );
-        }
-    }
-
-    private void setComponent( JComponent component ) {
-        if( this.component != null ) {
-            remove( this.component );
-        }
-        this.component = component;
-        add( component, BorderLayout.CENTER );
-        invalidate();
-        doLayout();
-        validateTree();
-        repaint();
-//        revalidate();//this didn't do the work of invalidate, doLayout, validateTree, repaint
-    }
-
-    public AbstractTabNode getTab( int i ) {
-        return tabPane.getTab( i );
-    }
-
-    public void setTabFont( Font font ) {
-        this.tabFont = font;
-        for( int i = 0; i < getTabCount(); i++ ) {
-            getTab( i ).setFont( font );
-        }
-        tabPane.relayout();
-        revalidate();
-    }
+//
+//    private void notifySelectionChanged() {
+//        ChangeEvent changeEvent = new ChangeEvent( this );
+//        for( int i = 0; i < changeListeners.size(); i++ ) {
+//            ChangeListener changeListener = (ChangeListener)changeListeners.get( i );
+//            changeListener.stateChanged( changeEvent );
+//        }
+//    }
+//
+//    private void setComponent( JComponent component ) {
+////        if( this.component != null ) {
+////            remove( this.component );
+////        }
+////        this.component = component;
+////        add( component, BorderLayout.CENTER );
+////        invalidate();
+////        doLayout();
+////        validateTree();
+////        repaint();
+////        revalidate();//this didn't do the work of invalidate, doLayout, validateTree, repaint
+//    }
+//
+//    public AbstractTabNode getTab( int i ) {
+//        return tabPane.getTab( i );
+//    }
+//
+//    public void setTabFont( Font font ) {
+//        this.tabFont = font;
+//        for( int i = 0; i < getTabCount(); i++ ) {
+//            getTab( i ).setFont( font );
+//        }
+//        tabPane.relayout();
+//        revalidate();
+//    }
 
     public static class TabNodeFactory {
         public AbstractTabNode createTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
-            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
+//            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
+            return new TextTabNode( text, component, selectedTabColor, tabFont );
 //            return new ShadowHTMLTabNode( text, component, selectedTabColor, tabFont );
 //            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
         }
@@ -273,8 +281,8 @@ public class PhetTabbedPane extends JPanel {
         }
 
         protected void updateTextNode() {
-            pText.setFont( getTabFont() );
-            pText.setTextPaint( getTextPaint() );
+//            pText.setFont( new Font( "Sans",Font.PLAIN, 12)  );
+//            pText.setTextPaint( Color.blue );
         }
 
         public void updateFont( Font font ) {
@@ -353,10 +361,10 @@ public class PhetTabbedPane extends JPanel {
 
         public void setSelected( boolean selected ) {
             this.selected = selected;
-            updateTextNode();
-            background.setStroke( getBorderStroke() );
-            outlineNode.setVisible( selected );
-            updatePaint();
+//            updateTextNode();
+//            background.setStroke( getBorderStroke() );
+//            outlineNode.setVisible( selected );
+//            updatePaint();
         }
 
         public boolean isSelected() {
@@ -380,11 +388,20 @@ public class PhetTabbedPane extends JPanel {
 
         private Paint getBackgroundPaint() {
             if( selected ) {
-                return new GradientPaint( 0, (float)background.getFullBounds().getY() - 2, selectedTabColor.brighter(), 0, (float)( background.getFullBounds().getY() + 6 ), selectedTabColor );
+//                return Color.red;
+                float y1 = (float)background.getFullBounds().getY() - 2;
+                float y2 = (float)( background.getFullBounds().getY() + 6 );
+                System.out.println( "y1 = " + y1 +", y2="+y2);
+//                return new GradientPaint( 0, y1, selectedTabColor.brighter(), 0, y2, selectedTabColor );
+//                return new GradientPaint( 0, Math.max((float)background.getFullBounds().getY() - 2,0), selectedTabColor.brighter(), 0, Math.max(0,(float)( background.getFullBounds().getY() + 6 )), selectedTabColor );
+//                return new GradientPaint( 0, Math.max((float)background.getFullBounds().getY() - 2,0), selectedTabColor.brighter(), 0, Math.max(0,(float)( background.getFullBounds().getY() + 6 )), selectedTabColor );
+//                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 15, new Color( 200, 200, 200 ) );//grayed out
+                return new GradientPaint( 0, 0, selectedTabColor.brighter(), 0, 10, selectedTabColor );//grayed out
             }
             else {
-                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 30, new Color( 200, 200, 200 ) );//grayed out
+                return new GradientPaint( 0, 0, new Color( 240, 240, 240 ), 0, 15, new Color( 200, 200, 200 ) );//grayed out
             }
+//            return Color.white;
         }
 
         protected Paint getTextPaint() {
@@ -464,7 +481,6 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
 
         public TabPane( Color selectedTabColor ) {
-            setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING  );
             logo = PImageFactory.create( "images/phetlogo3.png" );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
@@ -499,7 +515,7 @@ public class PhetTabbedPane extends JPanel {
             tabs.add( tab );
             getLayer().addChild( 0, tab );
             relayout();
-            setActiveTab( getActiveTab()==null?tab:getActiveTab() );//updates
+            setActiveTab( tab);//updates
         }
 
         private void relayout() {
@@ -512,9 +528,8 @@ public class PhetTabbedPane extends JPanel {
                 tabNode.setTabTextHeight( maxTabTextHeight );
                 x += tabNode.getFullBounds().getWidth() + distBetweenTabs;
             }
-            double tabBaseY = getHeight() - tabBase.getFullBounds().getHeight();
-            tabBase.setOffset( 0, tabBaseY );
-            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), tabBaseY / 2 - logo.getFullBounds().getHeight() / 2 );
+            tabBase.setOffset( 0, getHeight() - tabBase.getFullBounds().getHeight() );
+            logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), 0 );
             if( tabs.size() > 0 ) {
                 AbstractTabNode lastTab = (AbstractTabNode)tabs.get( tabs.size() - 1 );
                 if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
@@ -599,4 +614,48 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
+    public static void main( String[] args ) {
+//        SwingUtilities.invokeLater( new Runnable() {
+//            public void run() {
+                //To change body of implemented methods use File | Settings | File Templates.
+                runTest();
+//            }
+//        } );
+
+//           Timer timer=new Timer( 1000,new ActionListener() {
+//               public void actionPerformed( ActionEvent actionEvent ) {
+//                   //To change body of implemented methods use File | Settings | File Templates.
+//
+//               }
+//           } );
+    }
+
+    private static void runTest() {
+        JFrame frame = new JFrame( );
+        final TabPane tabPane = new TabPane( Color.blue );
+            Font font= new Font( "Lucida Sans", Font.PLAIN, 12 );
+        tabPane.addTab( new TextTabNode( "ASDF", new JButton( "TTT"), Color.cyan,  font) );
+        tabPane.addTab( new TextTabNode( "AOEU", new JButton( "TTT"), Color.cyan,  font) );
+//        tabPane.addTab( new TextTabNode( "ASDF", new JButton( "TTT"), Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
+//        tabPane.addTab( new TextTabNode( "AOEU", new JButton( "TTT"), Color.cyan,  new Font("Sans",Font.PLAIN, 12)) );
+//        JPanel
+//        frame.setContentPane( tabPane );
+       final  JPanel jPanel = new JPanel();
+                jPanel.setPreferredSize( new Dimension( 100, 100 ) );
+        frame.setContentPane( jPanel );
+        jPanel.setLayout( new BorderLayout( ) );
+        jPanel.add(tabPane,BorderLayout.NORTH);
+        frame.pack();
+        frame.setVisible( true );
+        Timer timer=new Timer( 1000,new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+//                jPanel.setPreferredSize( new Dimension( 1000,100) );
+//                jPanel.revalidate();
+                tabPane.setPreferredSize( new Dimension( 100,100) );
+                tabPane.revalidate();
+                System.out.println( "!!!!!!!" );
+            }
+        } );
+        timer.start();
+    }
 }

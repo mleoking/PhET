@@ -33,6 +33,7 @@ public class TestPhetTabbedPane {
         final JSlider slider = new JSlider( 6, 60, 10 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+                System.out.println( "slider.getValue() = " + slider.getValue() );
                 phetTabbedPane.setTabFont( new Font( "Lucida Sans", Font.BOLD, slider.getValue() ) );
             }
         } );
