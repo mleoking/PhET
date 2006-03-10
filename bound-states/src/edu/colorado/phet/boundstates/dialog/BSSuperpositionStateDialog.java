@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.boundstates.control;
+package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;

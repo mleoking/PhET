@@ -54,6 +54,8 @@ MACINTOSH:
 
 
 DONE:
+(3/9/06) - move all dialogs to a new "dialog" package
+(3/9/06) - create well type hierarchy and corresponding configure dialogs, wire up in module & control panel
 (3/9/06) - work on Configure Energy dialog, width & spacing interaction still hosed
 (3/9/06) - set ranges for well parameter controls
 (3/9/06) - set min well separation and width
