@@ -25,7 +25,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.boundstates.model.BSSquareWell;
+import edu.colorado.phet.boundstates.model.BSSquareWells;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 

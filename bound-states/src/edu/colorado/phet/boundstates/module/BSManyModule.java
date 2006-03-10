@@ -71,9 +71,9 @@ public class BSManyModule extends BSAbstractModule {
     // Model
     private BSTotalEnergy _totalEnergy;
     private BSAbstractPotential _selectedPotential;
+    private BSCoulombWells _coulombWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
-    private BSCoulombWell _coulombWell;
-    private BSSquareWell _squareWell;
+    private BSSquareWells _squareWells;
     private BSAsymmetricWell _asymmetricWell;
     
     // View
@@ -343,11 +343,11 @@ public class BSManyModule extends BSAbstractModule {
     public void reset() {
         
         // Model
-        _coulombWell = new BSCoulombWell( 2 );
+        _coulombWells = new BSCoulombWells( 2 );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell();
-        _squareWell = new BSSquareWell( 2 );
+        _squareWells = new BSSquareWells( 2 );
         _asymmetricWell = new BSAsymmetricWell();
-        _selectedPotential = _squareWell;
+        _selectedPotential = _squareWells;
         
         // View 
         _chart.getEnergyPlot().setWell( _selectedPotential );
@@ -454,7 +454,7 @@ public class BSManyModule extends BSAbstractModule {
         }
         
         if ( wellType == WellType.COULOMB ) {
-            _selectedPotential = _coulombWell;
+            _selectedPotential = _coulombWells;
             _controlPanel.setNumberOfWellsControlVisible( true );
             _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         }
@@ -463,7 +463,7 @@ public class BSManyModule extends BSAbstractModule {
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         else if ( wellType == WellType.SQUARE ) {
-            _selectedPotential = _squareWell;
+            _selectedPotential = _squareWells;
             _controlPanel.setNumberOfWellsControlVisible( true );
         }
         else if ( wellType == WellType.ASYMMETRIC ) {

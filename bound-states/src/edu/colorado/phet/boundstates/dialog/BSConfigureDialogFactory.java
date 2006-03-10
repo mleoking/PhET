@@ -30,14 +30,14 @@ public class BSConfigureDialogFactory {
 
     public static JDialog createDialog( Frame owner, BSAbstractPotential well ) {
         JDialog dialog = null;
-        if ( well instanceof BSCoulombWell ) {
-            dialog = new BSCoulombDialog( owner, (BSCoulombWell) well );
+        if ( well instanceof BSCoulombWells ) {
+            dialog = new BSCoulombDialog( owner, (BSCoulombWells) well );
         }
         else if ( well instanceof BSHarmonicOscillatorWell ) {
             dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well );
         }
-        else if ( well instanceof BSSquareWell ) {
-            dialog = new BSSquareDialog( owner, (BSSquareWell) well );
+        else if ( well instanceof BSSquareWells ) {
+            dialog = new BSSquareDialog( owner, (BSSquareWells) well );
         }
         else if ( well instanceof BSAsymmetricWell ) {
             dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well );

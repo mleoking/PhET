@@ -29,7 +29,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSCoulombWell;
+import edu.colorado.phet.boundstates.model.BSCoulombWells;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -52,7 +52,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSCoulombWell _well;
+    private BSCoulombWells _well;
     
     private SliderControl _offsetSlider;
     private SliderControl _spacingSlider;
@@ -66,7 +66,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSCoulombDialog( Frame parent, BSCoulombWell well ) {
+    public BSCoulombDialog( Frame parent, BSCoulombWells well ) {
         super( parent );
         setModal( false );
         setResizable( false );
