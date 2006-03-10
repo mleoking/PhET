@@ -38,6 +38,15 @@ public class SolubleSaltsConfig {
     public static final Salt DEFAULT_SALT = new SilverIodide();
     public static String DEFAULT_SALT_NAME = "Silver Iodide";
 
+    // An ion will bind to another if it is within a distance of the open binding site that is less than or
+    // equal to this many times the free ion's radius
+    public static double BINDING_DISTANCE_FACTOR = 2;
+    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
+    public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
+    public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
+    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
+//    public static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
+
     // Physical things
     public static final double AVAGADROS_NUMBER = 6.022E23;
 //    public static final double SCALE = 500 / 580E-16;
@@ -45,7 +54,7 @@ public class SolubleSaltsConfig {
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
     public static final double VESSEL_WALL_THICKNESS = 20 / SCALE;
-    public static double DEFAULT_WATER_LEVEL = VESSEL_SIZE.getHeight() * 0.7;
+    public static double DEFAULT_WATER_LEVEL = 5E-16 / VOLUME_CALIBRATION_FACTOR;
     public static final double DEFAULT_LATTICE_SPEED = 3;
     // Acceleration of lattices when they come out of the shaker
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
@@ -67,14 +76,6 @@ public class SolubleSaltsConfig {
     // The time (real time in ms) after an ion is released from a lattice before it can
     // be bound to that lattice again
     public static final long RELEASE_ESCAPE_TIME = 2000;
-
-    // An ion will bind to another if it is within a distance of the open binding site that is less than or
-    // equal to this many times the free ion's radius
-    public static double BINDING_DISTANCE_FACTOR = 2;
-    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
-    public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
-    public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
-    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
 
     // Debug flags
     public static boolean RANDOM_WALK = false;
