@@ -54,6 +54,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential {
         return WellType.HARMONIC_OSCILLATOR;
     }
 
+    public int getStartingIndex() {
+        return 0;
+    }
+    
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != 1 ) {
             throw new UnsupportedOperationException( "mutiple wells not supported for harmonic oscillator well" );

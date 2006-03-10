@@ -97,6 +97,8 @@ public abstract class BSAbstractPotential extends BSObservable {
     
     public abstract WellType getWellType();
     
+    public abstract int getStartingIndex();
+    
     public abstract BSEigenstate[] getEigenstates();
     
     public abstract Point2D[] getPoints( double minX, double maxX, double dx );

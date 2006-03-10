@@ -77,6 +77,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         return WellType.ASYMMETRIC;
     }
     
+    public int getStartingIndex() {
+        return 1;
+    }
+    
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != 1 ) {
             throw new UnsupportedOperationException( "mutiple wells not supported for asymmetric well" );
