@@ -5,10 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- exception thrown when selected eigenstate falls off the bottom/top of chart
 - need model for superposition coefficients
 - ranges are likely wrong in configure dialogs
 - change to defaults and ranges in draft #4
-- redo BSSquareWell.getPoints, needs to return a lattice that can be used to solve wave function
 - problem with width & spacing sliders interaction as their ranges change while dragging in Configure Energy
 - relationship in UI between well depth & spacing, how do they affect each others controls?
 - each well type is diffent in how drag handles are placed on it
