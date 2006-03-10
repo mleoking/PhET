@@ -36,12 +36,12 @@ import edu.colorado.phet.boundstates.enum.WellType;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareWell extends BSAbstractPotential {
+public class BSSquareWells extends BSAbstractPotential {
    
     private double _width;
     private double _depth;
 
-    public BSSquareWell( int numberOfWells ) {
+    public BSSquareWells( int numberOfWells ) {
         this( numberOfWells, 
                 BSConstants.DEFAULT_SQUARE_SPACING, 
                 BSConstants.DEFAULT_SQUARE_WIDTH, 
@@ -50,7 +50,7 @@ public class BSSquareWell extends BSAbstractPotential {
                 BSConstants.DEFAULT_WELL_CENTER );
     }
     
-    public BSSquareWell( int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
+    public BSSquareWells( int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
         super( numberOfWells, spacing, offset, center );
         setWidth( width );
         setDepth( depth );

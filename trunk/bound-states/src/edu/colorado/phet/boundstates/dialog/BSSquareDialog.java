@@ -29,7 +29,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSSquareWell;
+import edu.colorado.phet.boundstates.model.BSSquareWells;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -52,7 +52,7 @@ public class BSSquareDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSSquareWell _well;
+    private BSSquareWells _well;
     
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
@@ -68,7 +68,7 @@ public class BSSquareDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWell well ) {
+    public BSSquareDialog( Frame parent, BSSquareWells well ) {
         super( parent );
         setModal( false );
         setResizable( false );
