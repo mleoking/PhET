@@ -115,16 +115,14 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     private double U( final double x ) {
         assert( getNumberOfWells() == 1 );
         
-        final double center = getCenter();
         final double offset = getOffset();
-        final double width = getWidth();
+        final double c = getCenter();
+        final double w = getWidth();
         
-        double value = getOffset();
-        if ( Math.abs( x - center ) <= getWidth() / 2 ) {
-            final double depth = Math.abs( getDepth() );
-            final double angle = Math.atan( depth / width );
-            final double d2 = depth - ( Math.tan( angle ) * Math.abs( center + width/2 - x ) );
-            value = offset - depth +  d2;
+        double value = offset;
+        if ( Math.abs( x - c ) <= w / 2 ) {
+            final double d = Math.abs( getDepth() );
+            value = offset - Math.abs( c + w/2 - x ) * d / w;
         }
         return value;
     }
