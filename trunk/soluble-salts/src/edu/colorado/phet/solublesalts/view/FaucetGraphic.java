@@ -17,6 +17,7 @@ import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Spigot;
 import edu.colorado.phet.solublesalts.model.WaterSource;
+import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -43,7 +44,7 @@ import java.io.IOException;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FaucetGraphic extends RegisterablePNode implements WaterSource.ChangeListener {
+public class FaucetGraphic extends RegisterablePNode implements WaterSource.ChangeListener{
 
     //----------------------------------------------------------------------------
     // Class data
@@ -73,7 +74,11 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     /**
      * Sole constructor.
      */
-    public FaucetGraphic( PSwingCanvas pSwingCanvas, int orientation, int registration, Spigot spigot, double streamMaxY ) {
+    public FaucetGraphic( PSwingCanvas pSwingCanvas,
+                          int orientation,
+                          int registration,
+                          Spigot spigot,
+                          double streamMaxY) {
         spigot.addChangeListener( this );
         this.spigot = spigot;
         this.streamMaxY = streamMaxY;
@@ -164,9 +169,6 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     //----------------------------------------------------------------------------
 
     public void stateChanged( WaterSource.ChangeEvent event ) {
-        if( flowSlider.getValue() != (int)event.getFaucet().getFlow() ) {
-            flowSlider.setValue( (int)event.getFaucet().getFlow() );
-        }
         update();
     }
 
