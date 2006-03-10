@@ -114,7 +114,7 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
-        this.waterLevel = Math.min( waterLevel, getDepth() );
+        this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ));
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 

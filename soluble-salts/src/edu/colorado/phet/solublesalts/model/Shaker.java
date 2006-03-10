@@ -18,6 +18,7 @@ import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
+import edu.colorado.phet.solublesalts.model.salt.StrontiumPhosphate;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.Random;
  * @version $Revision$
  */
 public class Shaker extends Particle {
-    private Random random = new Random(System.currentTimeMillis());
+    private Random random = new Random( System.currentTimeMillis() );
     private SolubleSaltsModel model;
     private double orientation = Math.PI / 4;
     private double openingLength;
@@ -47,14 +48,14 @@ public class Shaker extends Particle {
      *
      * @param model
      */
-    public Shaker(SolubleSaltsModel model) {
+    public Shaker( SolubleSaltsModel model ) {
         this.model = model;
         openingLength = 80;
         maxY = model.getVessel().getLocation().getY();
         minY = maxY - maxShakeDistance;
     }
 
-    public void setCurrentSalt(Salt currentSalt) {
+    public void setCurrentSalt( Salt currentSalt ) {
         this.currentSalt = currentSalt;
     }
 
@@ -74,48 +75,57 @@ public class Shaker extends Particle {
         done = false;
     }
 
+    int cnt = 0;
+
     /**
      * Creates crystals and drops them into the water
      *
      * @param dy
      */
-    public void shake(double dy) {
+    public void shake( double dy ) {
 
         // Set the shaker's position
-        setPosition(getPosition().getX(), getPosition().getY() + dy);
+        setPosition( getPosition().getX(), getPosition().getY() + dy );
 
         Ion ion = null;
         Crystal crystal = null;
 
         // If the shaker moved downward, shake out a crystal
-        if (!done && dy > 0) {
+        while( !done && dy > 0 ) {
+//        if( !done && dy > 0 ) {
             // Debug: to shake only one crystal, uncomment the next line
-            done = true;
+            if( cnt % 2 != 0 && getCurrentSalt() instanceof StrontiumPhosphate ) {
+                done = true;
+            }
+            else if (!(getCurrentSalt() instanceof StrontiumPhosphate )) {
+                done = true;
+            }
+            cnt++;
 
             IonFactory ionFactory = new IonFactory();
             ArrayList ions = new ArrayList();
-            double theta = Math.PI / 2 + (random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign());
-            Vector2D v = new Vector2D.Double(SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0);
-            v.rotate(theta);
+            double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
+            Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+            v.rotate( theta );
             double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
-            double x = getPosition().getX() + l * Math.cos(orientation);
-            double y = getPosition().getY() + l * Math.sin(orientation);
-            Point2D p = new Point2D.Double(x, y);
+            double x = getPosition().getX() + l * Math.cos( orientation );
+            double y = getPosition().getY() + l * Math.sin( orientation );
+            Point2D p = new Point2D.Double( x, y );
 
             int minUnits = 3;
             int maxUnits = 10;
-            int numLaticeUnits = random.nextInt(maxUnits - minUnits) + minUnits;
+            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
 //            numLaticeUnits = 15;
 //            numLaticeUnits = 8;
 //            numLaticeUnits = (int)dy;
 
-            for (int j = 0; j < numLaticeUnits; j++) {
+            for( int j = 0; j < numLaticeUnits; j++ ) {
                 Salt.Component[] components = currentSalt.getComponents();
-                for (int k = 0; k < components.length; k++) {
+                for( int k = 0; k < components.length; k++ ) {
                     Salt.Component component = components[k];
-                    for (int i = 0; i < component.getLatticeUnitFraction().intValue(); i++) {
-                        ion = ionFactory.create(component.getIonClass(), p, v, new Vector2D.Double());
-                        ions.add(ion);
+                    for( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
+                        ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D.Double() );
+                        ions.add( ion );
                     }
                 }
             }
@@ -130,16 +140,16 @@ public class Shaker extends Particle {
 //            ions.add( ion );
 
             // Position the ions
-            for (int i = 0; i < ions.size(); i++) {
-                Ion ion1 = (Ion) ions.get(i);
-                ion1.setPosition(this.getPosition().getX() + ion.getRadius() * random.nextDouble() * (random.nextBoolean() ? 1 : -1),
-                        this.getPosition().getY() - ion.getRadius() * (random.nextDouble() + 0.1));
-                model.addModelElement(ion1);
+            for( int i = 0; i < ions.size(); i++ ) {
+                Ion ion1 = (Ion)ions.get( i );
+                ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
+                                  this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.1 ) );
+                model.addModelElement( ion1 );
             }
 
             // Create the crystal
-            crystal = new Crystal(model, currentSalt.getLattice(), ions, null);
-            crystal.setVelocity(v);
+            crystal = new Crystal( model, currentSalt.getLattice(), ions, null );
+            crystal.setVelocity( v );
         }
     }
 }
