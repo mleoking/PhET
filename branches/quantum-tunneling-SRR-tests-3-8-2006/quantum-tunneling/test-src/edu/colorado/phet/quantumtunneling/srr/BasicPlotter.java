@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 
 public class BasicPlotter {
-    private JFreeChart chart;
+    private JFreeChart chart;                        
     private ChartFrame chartFrame;
     private XYSeries xySeries;
 
