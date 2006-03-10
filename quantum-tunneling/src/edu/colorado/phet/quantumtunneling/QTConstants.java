@@ -35,6 +35,13 @@ public class QTConstants {
     private QTConstants() {}
     
     //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    // displayes a dialog with UI controls the Richardson algorithm
+    public static final boolean RICHARDSON_CONTROLS_VISIBLE = false;
+    
+    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     
@@ -67,6 +74,7 @@ public class QTConstants {
     public static final String FONT_NAME = "Lucida Sans";
     public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font DRAG_HANDLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
+    public static final Font TIME_DISPLAY_FONT = new Font( QTConstants.FONT_NAME, Font.BOLD, 22 );
     
     //----------------------------------------------------------------------------
     // Strokes

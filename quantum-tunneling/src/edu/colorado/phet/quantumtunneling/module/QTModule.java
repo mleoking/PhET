@@ -361,12 +361,8 @@ public class QTModule extends AbstractModule implements Observer {
         HelpBalloon zoomHelp = new HelpBalloon( helpPane, SimStrings.get( "help.zoom" ), HelpBalloon.LEFT_CENTER, 30 );
         helpPane.add( zoomHelp );
         zoomHelp.pointAt( _waveFunctionZoomControl, _canvas );
-
-        HelpBalloon measureHelp = new HelpBalloon( helpPane, SimStrings.get( "help.measure" ), HelpBalloon.BOTTOM_CENTER, 40 );
-        helpPane.add( measureHelp );
-        measureHelp.pointAt( _measureButton, _canvas );
         
-        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
+        HelpBalloon restartHelp = new HelpBalloon( helpPane, SimStrings.get( "help.restart" ), HelpBalloon.BOTTOM_CENTER, 80 );
         helpPane.add(  restartHelp );
         restartHelp.pointAt( _clockControls.getRestartComponent() );
         
