@@ -110,8 +110,13 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     
     private double U( final double x ) {
         assert( getNumberOfWells() == 1 );
-        final double cx = x - getCenter();
-        return getOffset() + ( 0.5 * _particle.getMass() * _angularFrequency * _angularFrequency * cx * cx );
+        
+        final double offset = getOffset();
+        final double c = getCenter();
+        final double m = _particle.getMass();
+        final double w = getAngularFrequency();
+        
+        return offset + ( 0.5 * m * w * w * (x-c) * (x-c) );
     }
 
     public void update( Observable o, Object arg ) {
