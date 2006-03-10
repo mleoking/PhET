@@ -14,6 +14,8 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.common.model.clock.SwingClock;
 
 import java.awt.geom.Rectangle2D;
 
@@ -89,7 +91,7 @@ public class ThreeToTwoLattice extends Lattice {
         s1.setPosition( 0, 0 );
         ThreeToTwoLattice l = new ThreeToTwoLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
         Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
-        Crystal c = new Crystal( new SolubleSaltsModel(), l );
+        Crystal c = new Crystal( new SolubleSaltsModel(new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT )), l );
 //        Crystal c = new Crystal( r, l );
         c.addIon( s1 );
         {

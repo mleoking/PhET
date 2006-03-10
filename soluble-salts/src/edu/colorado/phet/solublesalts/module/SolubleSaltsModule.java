@@ -61,7 +61,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         super( SimStrings.get( "Module.title" ), clock );
 
         // Set up the basics
-        final SolubleSaltsModel model = new SolubleSaltsModel();
+        final SolubleSaltsModel model = new SolubleSaltsModel( clock );
         setModel( model );
         simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ) );
         setPhetPCanvas( simPanel );
