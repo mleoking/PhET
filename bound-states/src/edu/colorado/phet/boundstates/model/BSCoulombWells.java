@@ -11,9 +11,6 @@
 
 package edu.colorado.phet.boundstates.model;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enum.WellType;
 
@@ -67,13 +64,22 @@ public class BSCoulombWells extends BSAbstractPotential {
         return eigenstates;
     }
 
-    public Point2D[] getPoints( double minX, double maxX, double dx ) {
-        ArrayList points = new ArrayList();
-        //HACK straight line at offset
-        for ( double x = minX; x <= maxX; x += dx ) {
-            points.add( new Point2D.Double( x, getOffset() ) );
+
+    public double solve( double x ) {
+
+        double value = 0;
+        
+        final int n = getNumberOfWells();
+        final double kee = BSConstants.KEE;
+        final double s = getSpacing();
+        final double offset = getOffset();
+        final double c = getCenter();
+        
+        for ( int i = 1; i <= n; i++ ) {
+            final double xi = s * ( i - ( ( n + 1  ) / 2.0 ) );
+            value += -kee / Math.abs( (x-c) - xi );
         }
-        // Convert to an array...
-        return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
+        
+        return offset + value;
     }
 }

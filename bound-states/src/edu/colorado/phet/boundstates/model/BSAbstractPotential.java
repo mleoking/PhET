@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.enum.WellType;
 
@@ -90,6 +91,15 @@ public abstract class BSAbstractPotential extends BSObservable {
         _offset = offset;
         notifyObservers();
     }
+    
+    public Point2D[] getPoints( double minX, double maxX, double dx ) {
+        ArrayList points = new ArrayList();
+        for ( double x = minX; x <= maxX; x += dx ) {
+            points.add( new Point2D.Double( x, solve(x) ) );
+        }
+        // Convert to an array...
+        return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
+    }
       
     //----------------------------------------------------------------------------
     // Abstract methods
@@ -101,5 +111,5 @@ public abstract class BSAbstractPotential extends BSObservable {
     
     public abstract BSEigenstate[] getEigenstates();
     
-    public abstract Point2D[] getPoints( double minX, double maxX, double dx );
+    public abstract double solve( double x );
 }

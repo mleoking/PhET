@@ -56,7 +56,7 @@ MACINTOSH:
 
 
 DONE:
-(3/10/06) - implement potential curves for Harmonic Osciallator and Asymmetric
+(3/10/06) - implement potential curves for all potential types
 (3/10/06) - constants for # wells range
 (3/10/06) - make harmonic oscillator an observer of particle
 (3/10/06) - add model of particle
