@@ -35,6 +35,10 @@ CLEANUP:
 
 
 DONE:
+0.00.20...
+(3/10/06) - make time display font "significantly larger"
+(3/10/06) - remove help item for measure button
+(3/10/06) - change measure button label to "Make Quantum Measurement"
 0.00.19...
 (3/7/06) - change color scheme to black plot background
 (3/7/06) - bugfix: total energy band needs to have a 1-pixel overlap at center

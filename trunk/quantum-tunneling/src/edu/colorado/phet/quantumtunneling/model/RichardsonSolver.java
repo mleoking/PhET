@@ -45,9 +45,6 @@ public class RichardsonSolver implements IWavePacketSolver {
     //----------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------
-
-    // displayes a dialog with UI controls for debugging
-    private static final boolean DEBUG_CONTROLS_VISIBLE = true;
     
     // number of propagator steps per tick of the simulation clock
     private static final int STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
@@ -213,7 +210,7 @@ public class RichardsonSolver implements IWavePacketSolver {
         }
         
         // Developer controls...
-        if ( DEBUG_CONTROLS_VISIBLE ) {
+        if ( QTConstants.RICHARDSON_CONTROLS_VISIBLE ) {
             JFrame frame = PhetApplication.instance().getPhetFrame();
             if ( _controlsUI == null ) {
                 _controlsUI = new RichardsonControls( frame, this );

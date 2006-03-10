@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -98,6 +98,7 @@ public class QTClockControls extends JPanel implements ClockListener {
         {
             JLabel clockLabel = new JLabel( clockIcon );
             _timeTextField = new JTextField( "0000000000" );
+            _timeTextField.setFont( QTConstants.TIME_DISPLAY_FONT );
             _timeTextField.setPreferredSize( _timeTextField.getPreferredSize() );
             _timeTextField.setText( "0" );
             _timeTextField.setEditable( false );
