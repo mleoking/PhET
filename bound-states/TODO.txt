@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- implement getPoints for each potential type
 - need model for superposition coefficients
 - ranges are likely wrong in configure dialogs
 - change to defaults and ranges in draft #4
