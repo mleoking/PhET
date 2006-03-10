@@ -11,15 +11,14 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
-import edu.colorado.phet.boundstates.model.BSTotalEnergy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -28,22 +27,22 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 /**
- * BSTotalEnergyNode displays the total energy eigenstates as a set of horizontal lines.
+ * BSEigenstatesNode displays a potential's eigenstates as a set of horizontal lines.
  * Clicking on a line selects it.  Moving the cursor over the Energy chart highlights
  * the line that is closest to the mouse cursor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSTotalEnergyNode extends PNode implements Observer {
+public class BSEigenstatesNode extends PNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSTotalEnergy _totalEnergy;
     private BSCombinedChartNode _chartNode;
     private PSwingCanvas _canvas;
+    private BSAbstractPotential _potential;
     
     private ArrayList _eigenstates; // array of BSEigenstate, one for each displayed eigenstate
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
@@ -58,15 +57,12 @@ public class BSTotalEnergyNode extends PNode implements Observer {
     /**
      * Constructor.
      * 
-     * @param totalEnergy
      * @param chartNode
      * @param canvas
      */
-    public BSTotalEnergyNode( BSTotalEnergy totalEnergy, BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
+    public BSEigenstatesNode( BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
         
-        _totalEnergy = totalEnergy;
-        _totalEnergy.addObserver( this );
         _chartNode = chartNode;
         _canvas = canvas;
         
@@ -87,18 +83,29 @@ public class BSTotalEnergyNode extends PNode implements Observer {
             }
         };
         addInputEventListener( mouseHandler );
-
-        updateDisplay();
     }
 
     /**
      * Call this method before releasing all references to an object of this type.
      */
     public void cleanup() {
-        if ( _totalEnergy != null ) {
-            _totalEnergy.deleteObserver( this );
-            _totalEnergy = null;
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+            _potential = null;
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setPotential( BSAbstractPotential potential ) {
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+        }
+        _potential = potential;
+        _potential.addObserver( this );
+        updateDisplay();
     }
     
     //----------------------------------------------------------------------------
@@ -112,7 +119,7 @@ public class BSTotalEnergyNode extends PNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _totalEnergy ) {
+        if ( o == _potential ) {
             _selectionIndex = 0;
             updateDisplay();
         }
@@ -141,7 +148,7 @@ public class BSTotalEnergyNode extends PNode implements Observer {
         final double maxPosition = chart.getEnergyPlot().getDomainAxis().getUpperBound();
         
         // Create a line for each eigenstate that is within the Energy chart's range...
-        BSEigenstate[] eigenstates = _totalEnergy.getEigenstates();
+        BSEigenstate[] eigenstates = _potential.getEigenstates();
         for ( int i = 0; i < eigenstates.length; i++ ) {
             final double energy = eigenstates[i].getEnergy();
             if ( energy >= minEnergy && energy <= maxEnergy ) {
