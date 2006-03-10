@@ -18,7 +18,8 @@ public class SplitOperatorSolver extends RichardsonSolver {
     private LightweightComplex[] temp;
 //    private double scale = 0.0001;
 //    private double scale = 0.000075;
-    private double scale = 0.00000075;
+//    private double scale = 0.00000075;
+    private double scale = 0.0025;
     private WaveDebugFrame frame;
 //    private double scale = 0.0005;
     private boolean DEBUG_WAVE_DISPLAY = false;

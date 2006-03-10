@@ -1,0 +1,57 @@
+/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.quantumtunneling.srr;
+
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
+
+import javax.swing.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.GeneralPath;
+
+/**
+ * User: Sam Reid
+ * Date: Mar 10, 2006
+ * Time: 2:53:35 PM
+ * Copyright (c) Mar 10, 2006 by Sam Reid
+ */
+
+public class FastPlotter {
+//    private JFreeChart chart;
+    private JFrame frame;
+    private PPath path;
+    private PCanvas pCanvas;
+//    private XYSeries xySeries;
+
+    public FastPlotter() {
+//        xySeries = new XYSeries( "0", false, true );
+//        chart = ChartFactory.createScatterPlot( "Title", "x", "y", new XYSeriesCollection( xySeries ), PlotOrientation.VERTICAL, false, false, false );
+
+        frame = new JFrame( "Chart" );
+        frame.setSize( 800, 600 );
+//        chart.getXYPlot().getRangeAxis().setRange( -1, 1 );
+//        chart.getXYPlot().setRenderer( new XYLineAndShapeRenderer( true, false ) );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        pCanvas = new PCanvas();
+        frame.setContentPane( pCanvas );
+        path = new PPath();
+        pCanvas.getLayer().addChild(path);
+    }
+
+    public void setVisible( boolean visible ) {
+        frame.setVisible( visible );
+    }
+
+    public void setData( Point2D.Double []objects ) {
+        GeneralPath path=new GeneralPath( );
+        path.reset();
+        path.moveTo( (float)objects[0].x, (float)objects[0].y );
+        float sy=100;
+        float dy=pCanvas.getHeight()/2;
+        for( int i = 1; i < objects.length; i++ ) {
+            Point2D.Double object = objects[i];
+            path.lineTo( (float)object.x/2, ((float)object.y*sy)+dy );
+        }
+        this.path.setPathTo( path);
+    }
+
+}
