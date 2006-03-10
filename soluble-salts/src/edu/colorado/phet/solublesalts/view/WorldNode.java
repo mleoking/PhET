@@ -94,17 +94,17 @@ public class WorldNode extends PNode {
         double x = model.getShaker().getPosition().getX() - 200;
         double y = model.getShaker().getPosition().getY() - 100;
         final WiggleMe wiggleMe = new WiggleMe( "Shake me!",
-                                          new Point2D.Double( x, y ),
-                                          50,
-                                          new Color( 30, 100, 60 ) );
+                                                new Point2D.Double( x, y ),
+                                                50,
+                                                new Color( 30, 100, 60 ) );
         model.addModelElement( wiggleMe );
         addChild( wiggleMe );
         wiggleMe.setVisible( true );
         // A listener that will remove the wiggle-me when an ion is added to the model 
         model.addIonListener( new IonListener() {
             public void ionAdded( IonEvent event ) {
-                model.removeModelElement( wiggleMe);
-                wiggleMe.setVisible( false);
+                model.removeModelElement( wiggleMe );
+                wiggleMe.setVisible( false );
             }
 
             public void ionRemoved( IonEvent event ) {

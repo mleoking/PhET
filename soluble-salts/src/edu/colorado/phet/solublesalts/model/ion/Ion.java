@@ -67,6 +67,11 @@ public class Ion extends Atom {
                 setVelocity( getVelocity().rotate( theta ) );
             }
             super.stepInTime( dt );
+
+            if( this instanceof Copper && getPosition().getX() < 100 ) {
+                System.out.println( "getVelocity() = " + getVelocity() );
+                System.out.println( "getPosition() = " + getPosition() );
+            }
         }
         else {
             vSaveUtil.setComponents( getVelocity().getX(), getVelocity().getY() );
