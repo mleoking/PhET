@@ -95,7 +95,7 @@ public abstract class BSAbstractPotential extends BSObservable {
     public Point2D[] getPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
         for ( double x = minX; x <= maxX; x += dx ) {
-            points.add( new Point2D.Double( x, solve(x) ) );
+            points.add( new Point2D.Double( x, getEnergyAt(x) ) );
         }
         // Convert to an array...
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
@@ -105,11 +105,31 @@ public abstract class BSAbstractPotential extends BSObservable {
     // Abstract methods
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the type of well.
+     * 
+     * @return a WellType
+     */
     public abstract WellType getWellType();
     
+    /**
+     * Gets the starting index, used as the label on eigenvalues and superposition coefficients.
+     * 
+     * @return the starting index
+     */
     public abstract int getStartingIndex();
     
+    /**
+     * Gets the eignestates for the potential.
+     * 
+     * @return
+     */
     public abstract BSEigenstate[] getEigenstates();
     
-    public abstract double solve( double x );
+    /**
+     * Gets the energy value for a specified position.
+     * 
+     * @param position position, in nm
+     */
+    public abstract double getEnergyAt( double position );
 }

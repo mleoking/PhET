@@ -34,8 +34,16 @@ import edu.colorado.phet.boundstates.enum.WellType;
  */
 public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _angularFrequency;
     private BSParticle _particle;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BSHarmonicOscillatorWell( BSParticle particle ) {
         this( particle, BSConstants.DEFAULT_OSCILLATOR_OFFSET, BSConstants.DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY );
@@ -46,6 +54,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         setAngularFrequency( angularFrequency );
         setParticle( particle );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
 
     public double getAngularFrequency() {
         return _angularFrequency;
@@ -69,6 +81,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         notifyObservers();
     }
     
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+    
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != 1 ) {
             throw new UnsupportedOperationException( "mutiple wells not supported for harmonic oscillator well" );
@@ -78,6 +94,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractPotential implementation
+    //----------------------------------------------------------------------------
+    
     public WellType getWellType() {
         return WellType.HARMONIC_OSCILLATOR;
     }
@@ -85,21 +105,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     public int getStartingIndex() {
         return 0;
     }
-    
-    //HACK 15 dummy eigenstates
-    public BSEigenstate[] getEigenstates() {
-        final int numberOfEigenstates = 15;
-        BSEigenstate[] eigenstates = new BSEigenstate[ numberOfEigenstates ];
-        final double maxEnergy = getOffset();
-        final double minEnergy = getOffset() - 5;
-        final double deltaEnergy = ( maxEnergy - minEnergy ) / numberOfEigenstates;
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( minEnergy + ( i * deltaEnergy ) );
-        }
-        return eigenstates;
-    }
 
-    public double solve( double x ) {
+    public double getEnergyAt( double position ) {
         assert( getNumberOfWells() == 1 );
         
         final double offset = getOffset();
@@ -107,9 +114,22 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         final double m = _particle.getMass();
         final double w = getAngularFrequency();
         
-        return offset + ( 0.5 * m * w * w * (x-c) * (x-c) );
+        return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) );
     }
 
+    //HACK dummy eigenstates, evenly spaced above the offset
+    public BSEigenstate[] getEigenstates() {
+        BSEigenstate[] eigenstates = new BSEigenstate[5];
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            eigenstates[i] = new BSEigenstate( getOffset() + ( i * 0.5 ) );
+        }
+        return eigenstates;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     public void update( Observable o, Object arg ) {
         if ( o == _particle ) {
             notifyObservers();

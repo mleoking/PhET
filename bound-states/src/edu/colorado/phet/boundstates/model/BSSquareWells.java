@@ -38,9 +38,17 @@ import edu.colorado.phet.boundstates.enum.WellType;
  */
 public class BSSquareWells extends BSAbstractPotential {
    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _width;
     private double _depth;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public BSSquareWells( int numberOfWells ) {
         this( numberOfWells, 
                 BSConstants.DEFAULT_SQUARE_SPACING, 
@@ -56,6 +64,10 @@ public class BSSquareWells extends BSAbstractPotential {
         setDepth( depth );
         setCenter( 1 );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public double getWidth() {
         return _width;
@@ -81,6 +93,10 @@ public class BSSquareWells extends BSAbstractPotential {
         notifyObservers();
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractPotential implementation
+    //----------------------------------------------------------------------------
+    
     public WellType getWellType() {
         return WellType.SQUARE;
     }
@@ -89,20 +105,7 @@ public class BSSquareWells extends BSAbstractPotential {
         return 1;
     }
     
-    //XXX Hack -- creates 10 eigenstates between offset and depth
-    public BSEigenstate[] getEigenstates() {
-        final int numberOfEigenstates = 10;
-        BSEigenstate[] eigenstates = new BSEigenstate[ numberOfEigenstates ];
-        final double maxEnergy = getOffset();
-        final double minEnergy = getOffset() + getDepth();
-        final double deltaEnergy = ( maxEnergy - minEnergy ) / numberOfEigenstates;
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( minEnergy + ( i * deltaEnergy ) );
-        }
-        return eigenstates;
-    }
-    
-    public double solve( double x ) {
+    public double getEnergyAt( double position ) {
         double value = 0;
         
         final int n = getNumberOfWells();
@@ -113,13 +116,23 @@ public class BSSquareWells extends BSAbstractPotential {
         final double d = getDepth();
         
         for ( int i = 1; i <= n; i++ ) {
-            final double xi = s * ( i - ( ( n + 1  ) / 2.0 ) );
-            if ( ( (x-c) >= xi - ( w / 2) ) && ( (x-c) <= xi + ( w / 2 ) ) ) {
+            final double xi = s * ( i - ( ( n + 1 ) / 2.0 ) );
+            if ( ( ( position - c ) >= xi - ( w / 2 ) ) && ( ( position - c ) <= xi + ( w / 2 ) ) ) {
                 value = offset + d;
                 break;
             }
         }
-        
+
         return offset + value;
+    }
+    
+    //HACK dummy eigenstates, evenly spaced between offset and depth
+    public BSEigenstate[] getEigenstates() {
+        final int n = (int) ( Math.abs( getDepth() ) / 0.5 ) + 1;
+        BSEigenstate[] eigenstates = new BSEigenstate[ n ];
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            eigenstates[i] = new BSEigenstate( getOffset() - ( i * 0.5 ) );
+        }
+        return eigenstates;
     }
 }
