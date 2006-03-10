@@ -84,6 +84,10 @@ public class BSSquareWell extends BSAbstractPotential {
         return WellType.SQUARE;
     }
     
+    public int getStartingIndex() {
+        return 1;
+    }
+    
     //XXX Hack -- creates 10 eigenstates between offset and depth
     public BSEigenstate[] getEigenstates() {
         final int numberOfEigenstates = 10;

@@ -70,7 +70,7 @@ public class BSManyModule extends BSAbstractModule {
 
     // Model
     private BSTotalEnergy _totalEnergy;
-    private BSAbstractPotential _currentWell;
+    private BSAbstractPotential _selectedPotential;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSCoulombWell _coulombWell;
     private BSSquareWell _squareWell;
@@ -347,14 +347,14 @@ public class BSManyModule extends BSAbstractModule {
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell();
         _squareWell = new BSSquareWell( 2 );
         _asymmetricWell = new BSAsymmetricWell();
-        _currentWell = _squareWell;
+        _selectedPotential = _squareWell;
         
         // View 
-        _chart.getEnergyPlot().setWell( _currentWell );
+        _chart.getEnergyPlot().setWell( _selectedPotential );
         
         // Controls
-        _controlPanel.setWellType( _currentWell.getWellType() );
-        _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
+        _controlPanel.setWellType( _selectedPotential.getWellType() );
+        _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         _controlPanel.setDisplayType( BSSharedControlPanel.DISPLAY_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
@@ -449,38 +449,42 @@ public class BSManyModule extends BSAbstractModule {
             _configureWellDialog.dispose();
         }
         
+        if ( _superpositionStateDialog != null ) {
+            _superpositionStateDialog.dispose();
+        }
+        
         if ( wellType == WellType.COULOMB ) {
-            _currentWell = _coulombWell;
+            _selectedPotential = _coulombWell;
             _controlPanel.setNumberOfWellsControlVisible( true );
-            _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
+            _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         }
         else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
-            _currentWell = _harmonicOscillatorWell;
+            _selectedPotential = _harmonicOscillatorWell;
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         else if ( wellType == WellType.SQUARE ) {
-            _currentWell = _squareWell;
+            _selectedPotential = _squareWell;
             _controlPanel.setNumberOfWellsControlVisible( true );
         }
         else if ( wellType == WellType.ASYMMETRIC ) {
-            _currentWell = _asymmetricWell;
+            _selectedPotential = _asymmetricWell;
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         
-        _controlPanel.setNumberOfWells( _currentWell.getNumberOfWells() );
-        _chart.getEnergyPlot().setWell( _currentWell );
+        _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
+        _chart.getEnergyPlot().setWell( _selectedPotential );
         
         resetClock();
     }
     
     public void setNumberOfWells( int numberOfWells ) {
-        _currentWell.setNumberOfWells( numberOfWells );
+        _selectedPotential.setNumberOfWells( numberOfWells );
         resetClock();
     }
     
     public void showConfigureEnergyDialog() {
         if ( _configureWellDialog == null ) {
-            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _currentWell );
+            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _selectedPotential );
             _configureWellDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _configureWellDialog = null;
@@ -495,7 +499,8 @@ public class BSManyModule extends BSAbstractModule {
     
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
-            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame() );
+            int startingIndex = _selectedPotential.getStartingIndex();
+            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), startingIndex );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _superpositionStateDialog = null;

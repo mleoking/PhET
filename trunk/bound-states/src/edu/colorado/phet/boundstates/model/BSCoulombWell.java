@@ -50,6 +50,10 @@ public class BSCoulombWell extends BSAbstractPotential {
         return WellType.COULOMB;
     }
 
+    public int getStartingIndex() {
+        return 1;
+    }
+    
     //HACK 20 dummy eigenstates
     public BSEigenstate[] getEigenstates() {
         final int numberOfEigenstates = 20;

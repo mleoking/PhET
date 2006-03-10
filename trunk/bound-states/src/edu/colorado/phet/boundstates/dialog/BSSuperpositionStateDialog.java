@@ -64,6 +64,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private JButton _closeButton;
     private EventListener _eventListener;
     private boolean _changed;
+    private int _startingIndex;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,7 +73,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSuperpositionStateDialog( Frame parent ) {
+    public BSSuperpositionStateDialog( Frame parent, int startingIndex ) {
         super( parent );
         setModal( false );
         setResizable( false );
@@ -82,6 +83,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         addWindowListener( _eventListener );
         
         _changed = false;
+        _startingIndex = startingIndex;
         
         createUI( parent );
     }
@@ -129,13 +131,15 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         JLabel instructions = new JLabel( SimStrings.get( "label.superposition.instructions" ) );
         
-        JLabel equation = new JLabel( createEquationString( NUMBER_OF_COEFFICIENTS ) );
+        String es = createEquationString( NUMBER_OF_COEFFICIENTS, _startingIndex );
+        JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
         ArrayList labels = new ArrayList();
         _spinners = new ArrayList();
         for ( int i = 0; i < NUMBER_OF_COEFFICIENTS; i++ ) {
-            String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + i + "</sub>:</html>";
+            int coefficientIndex = i + _startingIndex;
+            String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + coefficientIndex + "</sub>:</html>";
             labels.add( new JLabel( label ) );
             DoubleSpinner spinner = new DoubleSpinner( COEFFICIENT_MIN, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
             spinner.addChangeListener( _eventListener );
@@ -218,12 +222,13 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         return actionPanel;
     }
 
-    private static String createEquationString( final int numberOfCoefficients ) {
+    private static String createEquationString( final int numberOfCoefficients, final int startingIndex ) {
         String s;
         char psi = '\u03c8';
         s = "<html>" + psi + "(x) = ";
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            s = s + "c<sub>" + i + "</sub>" + psi + "<sub>" + i + "</sub>(x)";
+            int n = i + startingIndex;
+            s = s + "c<sub>" + n + "</sub>" + psi + "<sub>" + n + "</sub>(x)";
             if ( i < numberOfCoefficients - 1 ) {
                 s = s + " + ";
             }
