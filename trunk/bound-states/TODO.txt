@@ -26,6 +26,7 @@ HIGH PRIORITY:
 - Single and Double modules need to permanently hide the "number of wells" control
 
 MEDIUM PRIORITY:
+- add a small bit of space about y-axis range on the Energy chart
 - subscripts should start at 1, except Harmonic Oscillator well starts at 0
 
 LOW PRIORITY:
