@@ -179,8 +179,8 @@ public class BSConstants {
     public static final double MIN_WELL_SPACING = 0.3;
     public static final double MAX_WELL_SPACING = 4;
     
-    public static final double MIN_WELL_DEPTH = -20;
-    public static final double MAX_WELL_DEPTH = 0;
+    public static final double MIN_WELL_DEPTH = 0;
+    public static final double MAX_WELL_DEPTH = 20;
 
     public static final double MIN_WELL_OFFSET = -15;
     public static final double MAX_WELL_OFFSET = 5;
@@ -204,13 +204,13 @@ public class BSConstants {
     // Square well...
     public static final double DEFAULT_SQUARE_OFFSET = 0;
     public static final double DEFAULT_SQUARE_WIDTH = 0.5;
-    public static final double DEFAULT_SQUARE_DEPTH = -10;
+    public static final double DEFAULT_SQUARE_DEPTH = 10;
     public static final double DEFAULT_SQUARE_SPACING = 1.2;
     
     // Asymmetric well...
     public static final double DEFAULT_ASYMMETRIC_OFFSET = 0;
     public static final double DEFAULT_ASYMMETRIC_WIDTH = 0.5;
-    public static final double DEFAULT_ASYMMETRIC_DEPTH = -10;
+    public static final double DEFAULT_ASYMMETRIC_DEPTH = 10;
     
     //----------------------------------------------------------------------------
     // Miscellaneous
