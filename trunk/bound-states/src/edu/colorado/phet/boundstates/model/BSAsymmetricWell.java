@@ -78,7 +78,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     }
 
     public void setDepth( double depth ) {
-        if ( depth > 0 ) {
+        if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
         }
         _depth = depth;
@@ -119,15 +119,14 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         
         double energy = offset;
         if ( Math.abs( position - c ) <= w / 2 ) {
-            final double d = Math.abs( getDepth() );
-            energy = offset - Math.abs( c + w/2 - position ) * d / w;
+            energy = offset - Math.abs( c + w/2 - position ) * getDepth() / w;
         }
         return energy;
     }
 
     //HACK dummy eigenstates, evenly spaced between offset and depth
     public BSEigenstate[] getEigenstates() {
-        final int n = (int) ( Math.abs( getDepth() ) / 0.5 ) + 1;
+        final int n = (int) ( getDepth() / 0.5 ) + 1;
         BSEigenstate[] eigenstates = new BSEigenstate[ n ];
         for ( int i = 0; i < eigenstates.length; i++ ) {
             eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
