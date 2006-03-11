@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
@@ -137,7 +138,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.reset();
+                ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).reset();
             }
         } );
         JPanel resetPanel = new JPanel();
@@ -174,6 +175,23 @@ public class SolubleSaltsControlPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
+
+                if( saltClass instanceof SodiumChloride ) {
+                    new SolubleSaltsConfig.Calibration( 1.7342E-25,
+                                                        5E-23,
+                                                        1E-23,
+                                                        0.5E-23 ).calibrate();
+                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+                }
+                else {
+                    new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+                                                        5E-16,
+                                                        1E-16,
+                                                        0.5E-16 ).calibrate();
+                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+                }
+
+
                 model.reset();
                 revalidate();
             }
@@ -285,7 +303,6 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         releaseButton.setVisible( areVisible );
         revalidate();
     }
-
 
     //----------------------------------------------------------------
     // Inner classes

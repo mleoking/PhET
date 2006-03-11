@@ -239,6 +239,12 @@ public abstract class Lattice {
         List otherCandidates = new ArrayList();
         for( int i = 0; i < nodes.size(); i++ ) {
             Node node = (Node)nodes.get( i );
+
+            // Don't consider the seed unless it's the only ion in the lattice
+            if( node.getIon() == seed && nodes.size() > 1 ) {
+                continue;
+            }
+
             if( node.hasNoChildren() ) {
                 if( preferredIonType.isAssignableFrom( node.getIon().getClass() )) {
                     preferredCandidates.add( node );

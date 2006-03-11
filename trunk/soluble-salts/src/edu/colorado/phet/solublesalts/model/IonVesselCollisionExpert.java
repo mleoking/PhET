@@ -61,7 +61,8 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
             ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
             vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
 
-            if( vessel.getShape().getBounds2D().contains( ion.getPosition() )
+            if( !vessel.isOutside( ion.getPosition() )
+//            if( vessel.getShape().getBounds2D().contains( ion.getPosition() )
                 && ( areInContact( ion, vessel.getWater() )
                      || areInContact( ion, vessel ) ) ) {
 

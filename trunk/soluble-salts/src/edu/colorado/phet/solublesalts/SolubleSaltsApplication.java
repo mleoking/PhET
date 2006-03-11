@@ -16,10 +16,13 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
+
+import java.util.EventListener;
 
 /**
  * SolubleSaltsApplication
@@ -29,8 +32,10 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
  */
 public class SolubleSaltsApplication extends PhetApplication {
 
-
     private static IClock CLOCK = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
+    private EventChannel resetEventChannel = new EventChannel( ResetListener.class );
+    private ResetListener resetListenerProxy = (ResetListener)resetEventChannel.getListenerProxy();
+
 
     public SolubleSaltsApplication( String[] args ) {
         super( args,
@@ -49,6 +54,32 @@ public class SolubleSaltsApplication extends PhetApplication {
         this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
     }
 
+    public void reset() {
+        resetListenerProxy.reset();
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+
+    public interface ResetListener extends EventListener {
+        void reset();
+    }
+
+    public void addResetListener( ResetListener listener ) {
+        resetEventChannel.addListener( listener );
+    }
+
+    public void removeResetListener( ResetListener listener ) {
+        resetEventChannel.removeListener( listener );
+    }
+
+
+    /**
+     * Main
+     *
+     * @param args
+     */
     public static void main( String[] args ) {
 
         for( int i = 0; i < args.length; i++ ) {
@@ -58,7 +89,7 @@ public class SolubleSaltsApplication extends PhetApplication {
             }
             if( arg.startsWith( "-w" ) ) {
                 int d = Integer.parseInt( arg.substring( 3 ) );
-                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d;
+                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d ;
             }
             if( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;

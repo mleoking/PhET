@@ -16,6 +16,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -68,6 +69,15 @@ public class Vessel implements ModelElement, Collidable {
                 updateCollisionBox();
             }
         } );
+
+        // Add a listener that will reset when the configuration is recalibrated
+        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( new SolubleSaltsApplication.ResetListener() {
+            public void reset() {
+                setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
+//                setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+                updateCollisionBox();
+            }
+        } );
     }
 
     /**
@@ -103,7 +113,7 @@ public class Vessel implements ModelElement, Collidable {
      * Returns the water in the vessel as a Box2D, so it can be used for
      * collision detection.
      *
-     * @return
+     * @return A Box2D (a collidable object) whose bounds are that of the water in the vessel
      */
     public Box2D getWater() {
         return collisionBox;
@@ -114,12 +124,22 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
+        waterLevel /= SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
+        System.out.println( "waterLevel = " + waterLevel );
         this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ));
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
     public Rectangle2D getShape() {
         return shape;
+    }
+
+    public boolean isOutside( Point2D p ) {
+        return !( getShape().getMinX() - wallThickness < p.getX() 
+                && getShape().getMinY() < p.getY()
+                && getShape().getMaxX() + wallThickness > p.getX()
+                && getShape().getMaxY() + wallThickness > p.getY()
+            );
     }
 
     public Point2D getLocation() {

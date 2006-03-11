@@ -44,13 +44,7 @@ public class WorldNode extends PNode {
 
         // Create a graphic for the vessel
         VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
-//        vesselGraphic.setMinorTickSpacing( 20E-16 );
-//        vesselGraphic.setMajorTickSpacing( 100E-16 );
-//        vesselGraphic.setMinorTickSpacing( 20 );
-//        vesselGraphic.setMajorTickSpacing( 100 );
-
         this.addChild( vesselGraphic );
-        model.getVessel().setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
 
         // Add the stove
         PNode stove = new StoveGraphic();
