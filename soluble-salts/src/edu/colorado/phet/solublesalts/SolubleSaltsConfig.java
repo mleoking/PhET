@@ -12,9 +12,12 @@ package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SilverIodide;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.EventObject;
+import java.util.EventListener;
 
 
 /**
@@ -44,8 +47,6 @@ public class SolubleSaltsConfig {
     public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
     public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
     public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
-    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
-//    public static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
 
     // Physical things
     public static final double AVAGADROS_NUMBER = 6.022E23;
@@ -54,7 +55,6 @@ public class SolubleSaltsConfig {
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
     public static final double VESSEL_WALL_THICKNESS = 20 / SCALE;
-    public static double DEFAULT_WATER_LEVEL = 5E-16 / VOLUME_CALIBRATION_FACTOR;
     public static final double DEFAULT_LATTICE_SPEED = 3;
     // Acceleration of lattices when they come out of the shaker
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
@@ -82,4 +82,55 @@ public class SolubleSaltsConfig {
     public static boolean ONE_CRYSTAL_ONLY = false;
     public static boolean DEBUG = false;
     public static boolean SHOW_BONDS = false;
+
+
+    //----------------------------------------------------------------
+    // Configuration parameters that can be changed programatically at runtime
+    //----------------------------------------------------------------
+
+    // Volume calibration factor: pixels to liters
+    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
+//    private static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
+    // Initial water level
+//    public static double DEFAULT_WATER_LEVEL = 5E-23 / VOLUME_CALIBRATION_FACTOR;
+//    public static double DEFAULT_WATER_LEVEL = 5E-16 / VOLUME_CALIBRATION_FACTOR;
+    public static double DEFAULT_WATER_LEVEL = 5E-16;
+//    private static double VESSEL_MINOR_TICK_SPACING = 0.5E-23;
+//    private static double VESSEL_MAJOR_TICK_SPACING = 1E-23;
+    public static double VESSEL_MINOR_TICK_SPACING = 0.5E-16;
+    public static double VESSEL_MAJOR_TICK_SPACING = 1E-16;
+
+    public static void setCalibration( double volumeCalibrationFactor, double defaultWaterLevel, double majorTickSpacing, double minorTickSpacing ) {
+        VOLUME_CALIBRATION_FACTOR = volumeCalibrationFactor;
+        DEFAULT_WATER_LEVEL = defaultWaterLevel;
+        VESSEL_MAJOR_TICK_SPACING = majorTickSpacing;
+        VESSEL_MINOR_TICK_SPACING = minorTickSpacing;
+    }
+
+    //----------------------------------------------------------------
+    // Calibration objects
+    //----------------------------------------------------------------
+    public static class Calibration {
+        private double volumeCalibrationFactor;
+        private double defaultWaterLevel;
+        private double majorTickSpacing;
+        private double minorTickSpacing;
+
+        public Calibration( double volumeCalibrationFactor,
+                            double defaultWaterLevel,
+                            double majorTickSpacing,
+                            double minorTickSpacing ) {
+            this.volumeCalibrationFactor = volumeCalibrationFactor;
+            this.defaultWaterLevel = defaultWaterLevel;
+            this.majorTickSpacing = majorTickSpacing;
+            this.minorTickSpacing = minorTickSpacing;
+        }
+
+        public void calibrate() {
+            SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR = volumeCalibrationFactor;
+            SolubleSaltsConfig.DEFAULT_WATER_LEVEL = defaultWaterLevel;
+            SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING = majorTickSpacing;
+            SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING = minorTickSpacing;
+        }
+    }
 }

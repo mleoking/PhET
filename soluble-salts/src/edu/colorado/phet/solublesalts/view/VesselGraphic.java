@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * VesselGraphic
@@ -28,7 +30,7 @@ import java.text.DecimalFormat;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class VesselGraphic extends PNode {
+public class VesselGraphic extends PNode implements SolubleSaltsApplication.ResetListener {
 
     //----------------------------------------------------------------
     // Instance data and methods
@@ -39,9 +41,11 @@ public class VesselGraphic extends PNode {
     private Color waterColor = SolubleSaltsConfig.WATER_COLOR;
     private Vessel vessel;
     private Color tickColor = new Color( 255, 180, 180 );
+    private ArrayList minorTicks = new ArrayList();
+    private ArrayList majorTicks = new ArrayList();
 
-    public VesselGraphic( Vessel vessel ) {
-
+    public VesselGraphic( final Vessel vessel ) {
+        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( this );
         this.vessel = vessel;
 
         // Listen for state changes in the vessel
@@ -58,10 +62,20 @@ public class VesselGraphic extends PNode {
         water.setStrokePaint( null );
         this.addChild( water );
 
-        setMinorTickSpacing( 0.5E-16 );
-        setMajorTickSpacing( 1E-16 );
-//        setMinorTickSpacing( 20E-16 );
-//        setMajorTickSpacing( 100E-16 );
+        setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
+        setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
+//        setMinorTickSpacing( 0.5E-23 );
+//        setMajorTickSpacing( 1E-23 );
+//        setMinorTickSpacing( 0.5E-16 );
+//        setMajorTickSpacing( 1E-16 );
+
+//        SolubleSaltsConfig.addChangeListener( new SolubleSaltsConfig.ChangeListener() {
+//            public void stateChanged() {
+//                setMinorTickSpacing( SolubleSaltsConfig.getVESSEL_MINOR_TICK_SPACING() );
+//                setMajorTickSpacing( SolubleSaltsConfig.getVESSEL_MAJOR_TICK_SPACING());
+//                update( vessel );
+//            }
+//        } );
 
         update( vessel );
     }
@@ -81,11 +95,16 @@ public class VesselGraphic extends PNode {
         walls.lineToRelative( 0, -( rect.getHeight() + thickness / 2 ) );
         shape.setPathTo( walls.getGeneralPath() );
         shape.setStroke( new BasicStroke( thickness ) );
-
         water.setPathTo( new Rectangle2D.Double( 0,
                                                  shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel(),
                                                  vessel.getShape().getWidth(),
                                                  vessel.getWaterLevel() ) );
+
+//        System.out.println( "(shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel()) = " + (shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel()) );
+//        System.out.println( "vessel.getWaterLevel() = " + vessel.getWaterLevel() );
+//        if( vessel.getWaterLevel() < 1 ) {
+//            System.out.println( "VesselGraphic.update" );
+//        }
         setOffset( vessel.getLocation() );
     }
 
@@ -95,6 +114,15 @@ public class VesselGraphic extends PNode {
      * @param spacing
      */
     public void setMajorTickSpacing( double spacing ) {
+
+        // Clear any existing ticks
+        for( int i = 0; i < majorTicks.size(); i++ ) {
+            PNode tick = (PNode)majorTicks.get( i );
+            removeChild( tick );
+        }
+        majorTicks.clear();
+
+        // Create the ticks
         int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
             double y = ( vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
@@ -117,6 +145,9 @@ public class VesselGraphic extends PNode {
             text.setFont( newFont );
             text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 14 );
             addChild( text );
+
+            minorTicks.add( tick );
+            minorTicks.add( text );
         }
     }
 
@@ -126,6 +157,14 @@ public class VesselGraphic extends PNode {
      * @param spacing
      */
     public void setMinorTickSpacing( double spacing ) {
+        // Clear any existing ticks
+        for( int i = 0; i < minorTicks.size(); i++ ) {
+            PNode tick = (PNode)minorTicks.get( i );
+            removeChild( tick );
+        }
+        minorTicks.clear();
+
+        // Create the ticks
         int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
         for( int i = 1; i <= numTicks; i++ ) {
             double y = vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
@@ -137,6 +176,14 @@ public class VesselGraphic extends PNode {
             tick.setStrokePaint( tickColor );
             tick.setPaint( tickColor );
             addChild( tick );
+
+            minorTicks.add( tick );
         }
+    }
+
+    public void reset() {
+        setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
+        setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
+        update( vessel );
     }
 }

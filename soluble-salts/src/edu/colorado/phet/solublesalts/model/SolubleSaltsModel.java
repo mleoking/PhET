@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
@@ -38,7 +39,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsModel extends BaseModel {
+public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplication.ResetListener {
 
     //----------------------------------------------------------------
     // Class data
@@ -86,6 +87,7 @@ public class SolubleSaltsModel extends BaseModel {
     
     public SolubleSaltsModel( IClock clock ) {
 
+        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( this );
         clock.addClockListener( new ModelStepper() );
 
         // Add an agent that will track the ions of various classes
@@ -130,6 +132,13 @@ public class SolubleSaltsModel extends BaseModel {
         shaker = new Shaker( this );
         shaker.setPosition( vessel.getLocation().getX() + vessel.getWidth() / 2,
                             vessel.getLocation().getY() - 10 );
+
+        // Listen for runtime changes in the configuration
+        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( new SolubleSaltsApplication.ResetListener() {
+            public void reset() {
+                vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
+            }
+        } );
     }
 
     /**

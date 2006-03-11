@@ -403,7 +403,8 @@ public class Crystal extends Body {
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
-            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
+//            ionToRelease = lattice.getBestIonToRelease( getIons(), preferredIonType );
+//            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
         // Sanity check
