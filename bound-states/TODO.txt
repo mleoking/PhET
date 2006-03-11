@@ -5,11 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change depth to be a position number
+- EigenstatesNode expects getEigenstates to return them sorted lowest to highest, how to enforce?
+- drawing problem with BSHarmonicOscillatorDialog when ang freq is dragged toward max
+- drawing problem with BSCoulombDialog & BSSquareDialog when #wells is set from 0->1 in control panel 
 - exception thrown when selected eigenstate falls off the bottom/top of chart
 - need model for superposition coefficients
 - ranges are likely wrong in configure dialogs
 - change to defaults and ranges in draft #4
-- problem with width & spacing sliders interaction as their ranges change while dragging in Configure Energy
+- width and spacing sliders in BSSquareDialog don't interact like they should
 - relationship in UI between well depth & spacing, how do they affect each others controls?
 - each well type is diffent in how drag handles are placed on it
 - eigenstates (including selected ones) may be off the top or bottom of the graph, need to handle this!
