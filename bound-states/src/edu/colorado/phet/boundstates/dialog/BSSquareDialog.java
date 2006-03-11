@@ -238,16 +238,9 @@ public class BSSquareDialog extends JDialog implements Observer {
         _depthSlider.setValue( _potential.getDepth() );
         _offsetSlider.setValue( _potential.getOffset() );
         _spacingSlider.setValue( _potential.getSpacing() );
-        
-        // Sync ranges
-        _widthSlider.setMaximum( _potential.getSpacing() - BSConstants.MIN_WELL_SEPARATION );
-        _spacingSlider.setMinimum( _potential.getWidth() + BSConstants.MIN_WELL_SEPARATION );
-        
+    
         // Visibility
-        //XXX hide the width slider if well is Coulomb
         _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
-        _widthSlider.setEnabled( _widthSlider.getMaximum() != _widthSlider.getMinimum() );
-        _spacingSlider.setEnabled( _spacingSlider.getMaximum() != _spacingSlider.getMinimum() );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {
