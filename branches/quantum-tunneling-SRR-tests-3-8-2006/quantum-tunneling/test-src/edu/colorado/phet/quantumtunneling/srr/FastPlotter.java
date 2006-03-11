@@ -2,11 +2,13 @@
 package edu.colorado.phet.quantumtunneling.srr;
 
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.GeneralPath;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -33,7 +35,13 @@ public class FastPlotter {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         pCanvas = new PCanvas();
         frame.setContentPane( pCanvas );
-        path = new PPath();
+        path = new PPath(){
+//            protected void paint( PPaintContext paintContext ) {
+//                paintContext.getGraphics().setRenderingHint( );
+//                super.paint( paintContext );
+//            }
+        };
+        path.setStroke( new BasicStroke( 1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER) );
         pCanvas.getLayer().addChild(path);
     }
 
@@ -45,7 +53,7 @@ public class FastPlotter {
         GeneralPath path=new GeneralPath( );
         path.reset();
         path.moveTo( (float)objects[0].x, (float)objects[0].y );
-        float sy=100;
+        float sy=250;
         float dy=pCanvas.getHeight()/2;
         for( int i = 1; i < objects.length; i++ ) {
             Point2D.Double object = objects[i];

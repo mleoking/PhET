@@ -57,4 +57,9 @@ public class LightweightComplex {
     public double getPhase() {
         return Math.atan2( _imaginary, _real );
     }
+
+    public void setValue( double real, double imag ) {
+        this._real=real;
+        this._imaginary=imag;
+    }
 }

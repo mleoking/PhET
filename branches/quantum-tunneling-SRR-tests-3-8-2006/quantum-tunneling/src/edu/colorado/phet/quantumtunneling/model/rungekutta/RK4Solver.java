@@ -11,8 +11,11 @@ public class RK4Solver extends RichardsonSolver {
 
     protected double energy, x0, width;
     protected double t;
-    protected double dt = 0.005;
-    protected double h=0.1;
+//    protected double dt = 0.005;
+    protected double dt = 0.5;
+//    protected double dt = 0.05;
+//    protected double h=0.1;
+    protected double h = Math.sqrt( 2 );
 
     public RK4Solver( WavePacket wavePacket ) {
         super( wavePacket );
@@ -35,7 +38,9 @@ public class RK4Solver extends RichardsonSolver {
     }
 
     public void propagate() {
-        advanceOnce(dt);
+        for( int i = 0; i < 100; i++ ) {
+            advanceOnce( dt );
+        }
     }
 
     /**

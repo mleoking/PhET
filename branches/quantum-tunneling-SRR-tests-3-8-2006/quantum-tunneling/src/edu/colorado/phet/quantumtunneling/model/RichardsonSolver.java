@@ -11,19 +11,20 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import javax.swing.JFrame;
-
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.srr.Damping;
 import edu.colorado.phet.quantumtunneling.control.RichardsonControls;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
+
+import javax.swing.*;
 
 
 /**
  * RichardsonSolver solves the wave function for a wave packet,
  * by solving Schrodinger's equation for 1 dimension.
- * <p>
+ * <p/>
  * The propagation algorithm used herein was adapted from the implementation
  * by John Richardson, found at http://www.neti.no/java/sgi_java/WaveSim.html,
  * and described in:<br>
@@ -32,7 +33,7 @@ import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
  * Visualizing quantum scattering on the CM-2 supercomputer,
  * Computer Physics Communications 63 (1991) pp 84-94
  * </code>
- * <p>
+ * <p/>
  * Richardson's algorithm has period boundary conditions, which was not
  * desired for this simulation. The dampling algoritm used herein was adapted
  * from the PhET "Quantum Wave Interference" simulation, by Sam Reid.
@@ -51,12 +52,6 @@ public class RichardsonSolver implements IWavePacketSolver {
 
     // number of propagator steps per tick of the simulation clock
     private static final int STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
-
-    /* Each damping coefficient is applied to this many adjacent samples */
-    private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
-
-    /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
-    private static double[] DAMPING_COEFFICIENTS = new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
 
     //----------------------------------------------------------------------
     // Instance data
@@ -96,8 +91,9 @@ public class RichardsonSolver implements IWavePacketSolver {
         _hbar = QTConstants.HBAR;
         _steps = STEPS_PER_CLOCK_TICK;
         _dx = 1;
-//        _dt = 0.0025; //XXX value requested by Sam McKagan, version 0.00.18
-        _dt = 0.005; //XXX value requested by Sam McKagan, version 0.00.18
+        _dt = 0.0025; //XXX value requested by Sam McKagan, version 0.00.18
+//        _dt = 0.5; //XXX value requested by Sam McKagan, version 0.00.18
+//        _dt = 5; //XXX value requested by Sam McKagan, version 0.00.18
 
         _controlsUI = null;
 
@@ -209,14 +205,14 @@ public class RichardsonSolver implements IWavePacketSolver {
      */
     private void reset() {
 
-        if ( !_wavePacket.isInitialized() ) {
+        if( !_wavePacket.isInitialized() ) {
             return;
         }
 
         // Developer controls...
-        if ( DEBUG_CONTROLS_VISIBLE ) {
+        if( DEBUG_CONTROLS_VISIBLE ) {
             JFrame frame = PhetApplication.instance().getPhetFrame();
-            if ( _controlsUI == null ) {
+            if( _controlsUI == null ) {
                 _controlsUI = new RichardsonControls( frame, this );
             }
             else {
@@ -228,20 +224,20 @@ public class RichardsonSolver implements IWavePacketSolver {
         boolean zero = isSolutionZero();
 
         // Get the wave packet and energy settings.
-        final double width = _wavePacket.getWidth()*30;
+        final double width = _wavePacket.getWidth();
         final double center = _wavePacket.getCenter();
         final double E = _wavePacket.getTotalEnergy().getEnergy();
         final double V = _wavePacket.getPotentialEnergy().getEnergyAt( center );
         double vx = Math.sqrt( 2 * ( E - V ) / _mass );
 //        double vx=5000000;
-        if ( _wavePacket.getDirection() == Direction.RIGHT_TO_LEFT ) {
+        if( _wavePacket.getDirection() == Direction.RIGHT_TO_LEFT ) {
             vx *= -1;
         }
 
         // Determine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
-        final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
+        final int numberOfDampedSamples = Damping.SAMPLES_PER_DAMPING_COEFFICIENT * Damping.DAMPING_COEFFICIENTS.length;
         final double minX = pe.getStart( 0 ) - ( _dx * numberOfDampedSamples );
         final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * numberOfDampedSamples );
 
@@ -249,8 +245,8 @@ public class RichardsonSolver implements IWavePacketSolver {
         final int numberOfSamples = (int)( ( maxX - minX ) / _dx ) + 1;
 
         // Initialize constants used by the propagator.
-//        final double epsilon = _hbar * _dt / ( _mass * _dx * _dx );
-        final double epsilon = 0.0014;
+        final double epsilon = _hbar * _dt / ( _mass * _dx * _dx );
+//        final double epsilon = 0.0014;
         _alpha = new LightweightComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
         _beta = new LightweightComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
@@ -259,10 +255,10 @@ public class RichardsonSolver implements IWavePacketSolver {
         _Psi = new LightweightComplex[numberOfSamples];
         _EtoV = new LightweightComplex[numberOfSamples];
         LightweightComplex A = new LightweightComplex( 1 / ( Math.pow( Math.PI, 0.25 ) * Math.sqrt( width ) ), 0 ); // normalization constant
-        for ( int i = 0; i < numberOfSamples; i++ ) {
+        for( int i = 0; i < numberOfSamples; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
-            if ( zero ) {
+            if( zero ) {
                 _Psi[i] = new LightweightComplex( 0, 0 );
                 _EtoV[i] = new LightweightComplex( 0, 0 );
             }
@@ -318,10 +314,10 @@ public class RichardsonSolver implements IWavePacketSolver {
 
         final int n = _Psi.length; // number of samples
 
-        for ( int step = 0; step < steps; step++ ) {
+        for( int step = 0; step < steps; step++ ) {
 
             // Starting at 0...
-            for ( int i = 0; i < n - 1; i += 2 ) {
+            for( int i = 0; i < n - 1; i += 2 ) {
                 // A = Psi[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
@@ -348,7 +344,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
 
             // Starting at 1...
-            for ( int i = 1; i < n - 1; i += 2 ) {
+            for( int i = 1; i < n - 1; i += 2 ) {
                 // A = Psi[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
@@ -402,7 +398,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
 
             // Apply propagator values...
-            for ( int i = 0; i < n; i++ ) {
+            for( int i = 0; i < n; i++ ) {
                 // Psi[i] = Psi[i] * EtoV[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
@@ -442,7 +438,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
 
             // Starting at 1...
-            for ( int i = 1; i < n - 1; i += 2 ) {
+            for( int i = 1; i < n - 1; i += 2 ) {
                 // A = Psi[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
@@ -469,7 +465,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             }
 
             // Starting at 0...
-            for ( int i = 0; i < n - 1; i += 2 ) {
+            for( int i = 0; i < n - 1; i += 2 ) {
                 // A = Psi[i]
                 r1 = _Psi[i]._real;
                 i1 = _Psi[i]._imaginary;
@@ -495,24 +491,6 @@ public class RichardsonSolver implements IWavePacketSolver {
                 _Psi[i + 1]._imaginary = i3 + i4;
             }
 
-            /*
-             * Damps the values near the min and max positions
-             * to prevent periodic boundary conditions.
-             * Otherwise, the wave will appear to exit from one
-             * edge of the display and enter on the other edge.
-             */
-            final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
-            if ( _Psi.length > numberOfDampedSamples ) {
-                for ( int i = 0; i < numberOfDampedSamples; i++ ) {
-                    final double scale = DAMPING_COEFFICIENTS[i/SAMPLES_PER_DAMPING_COEFFICIENT ];
-                    // left edge...
-                    _Psi[i]._real *= scale;
-                    _Psi[i]._imaginary *= scale;
-                    // right edge...
-                    _Psi[_Psi.length - i - 1]._real *= scale;
-                    _Psi[_Psi.length - i - 1]._imaginary *= scale;
-                }
-            }
         }
     }
 
