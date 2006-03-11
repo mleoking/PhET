@@ -14,30 +14,30 @@ import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 public class WaveFilter {
     private LightweightComplex[] array;
 
-    public void filter( WavePacket wavePacket ) {
-        if( array == null || array.length != wavePacket.getWaveFunctionValues().length ) {
-            array = new LightweightComplex[wavePacket.getWaveFunctionValues().length];
+    public void filter( LightweightComplex[] wavePacket ) {
+        if( array == null || array.length != wavePacket.length ) {
+            array = new LightweightComplex[wavePacket.length];
         }
         int windowSize = 10;
-        for( int i = windowSize; i < wavePacket.getWaveFunctionValues().length - windowSize; i++ ) {
+        for( int i = windowSize; i < wavePacket.length - windowSize; i++ ) {
             double sum = 0;
             for( int j = -windowSize / 2; j < windowSize / 2; j++ ) {
-                LightweightComplex lightweightComplex = wavePacket.getWaveFunctionValues()[i];
+                LightweightComplex lightweightComplex = wavePacket[i];
                 sum += lightweightComplex.getAbs();
             }
             if( sum < 0.01 ) {
                 array[i] = new LightweightComplex();
             }
             else {
-                LightweightComplex lightweightComplex = wavePacket.getWaveFunctionValues()[i];
+                LightweightComplex lightweightComplex = wavePacket[i];
                 array[i] = new LightweightComplex( lightweightComplex._real, lightweightComplex._imaginary );
             }
         }
         for( int j = 0; j < array.length; j++ ) {
             LightweightComplex lightweightComplex = array[j];
             if( lightweightComplex != null ) {
-                wavePacket.getWaveFunctionValues()[j]._real = lightweightComplex.getReal();
-                wavePacket.getWaveFunctionValues()[j]._imaginary = lightweightComplex.getImaginary();
+                wavePacket[j]._real = lightweightComplex.getReal();
+                wavePacket[j]._imaginary = lightweightComplex.getImaginary();
             }
         }
     }

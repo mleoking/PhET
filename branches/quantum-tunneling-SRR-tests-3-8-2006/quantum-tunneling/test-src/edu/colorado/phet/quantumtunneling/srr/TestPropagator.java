@@ -32,11 +32,11 @@ public class TestPropagator {
     public TestPropagator() {
         final FastPlotter basicPlotter = new FastPlotter();
         basicPlotter.setVisible( true );
-
+        phiPlotter.setVisible( true );
         final WavePacket wavePacket = new WavePacket();
-//        wavePacket.setSolver( new RichardsonSolver( wavePacket ) );
+        wavePacket.setSolver( new RichardsonSolver( wavePacket ) );
 //        wavePacket.setSolver( new SplitOperatorSolver( wavePacket ) );
-        wavePacket.setSolver( new RK4Solver( wavePacket ) );
+//        wavePacket.setSolver( new RK4Solver( wavePacket ) );
         wavePacket.setTotalEnergy( new TotalEnergy( 0.8 ) );
         wavePacket.setPotentialEnergy( new ConstantPotential( 0 ) );
         wavePacket.setEnabled( true );
@@ -53,7 +53,9 @@ public class TestPropagator {
                 basicPlotter.setData( (Point2D.Double[])data.toArray( new Point2D.Double[0] ) );
                 wavePacket.propagate();
                 postProcess( wavePacket );
+//                fourierChop( wavePacket );
             }
+
 
         } );
         wavePacket.update( null, null );
@@ -70,20 +72,41 @@ public class TestPropagator {
         timer.start();
     }
 
-    private void postProcess( WavePacket wavePacket ) {
+    FastPlotter phiPlotter = new FastPlotter();
 
+    private void fourierChop( WavePacket wavePacket ) {
         damping.damp( wavePacket.getWaveFunctionValues() );
-//        meanFilter.filter( wavePacket, 6 );
-//        meanFilter.filter( wavePacket, 50);
-        waveFilter.filter( wavePacket );
-//        for( int i = 0; i < 10; i++ ) {
-//
-////            medianFilter.filter( wavePacket, 8 );
-////            medianFilter.filter( wavePacket, 10 );
-////            medianFilter.filter( wavePacket, 10 );
-////            medianFilter.filter( wavePacket, 10 );
+        LightweightComplex[] phi = SplitOperatorSolver.forwardFFT( wavePacket.getWaveFunctionValues() );
+        for( int i = 0; i < phi.length; i++ ) {
+            LightweightComplex lightweightComplex = phi[i];
+
+//            if (i<50||i>phi.length-50){
+//            }else{
+//                lightweightComplex.setValue( 0,0);
+//            }
+            if (i>phi.length/8){
+                lightweightComplex.setValue( 0,0);
+            }
+        }
+        ArrayList data = new ArrayList();
+        for( int j = 0; j < phi.length; j++ ) {
+//                    data.add( new Point2D.Double( j, lightweightComplex.getReal() ) );
+            data.add( new Point2D.Double( j, phi[j].getAbs() ) );
+        }
+        phiPlotter.setData( (Point2D.Double[])data.toArray( new Point2D.Double[0] ) );
+//        waveFilter.filter( phi);
+        LightweightComplex[]psi2=SplitOperatorSolver.inverseFFT( phi );
+        for( int i = 0; i < psi2.length; i++ ) {
+            wavePacket.getWaveFunctionValues()[i].setValue( psi2[i].getReal(), psi2[i].getImaginary() );
+        }
+//        for( int i = psi2.length-100; i < psi2.length; i++ ) {
+//            wavePacket.getWaveFunctionValues()[i].setValue( psi2[i].getReal(), psi2[i].getImaginary() );
 //        }
-//        medianFilter.filter(wavePacket,5);
-//        medianFilter.filter(wavePacket,3);
+    }
+
+    private void postProcess( WavePacket wavePacket ) {
+        damping.damp( wavePacket.getWaveFunctionValues() );
+        meanFilter.filter( wavePacket.getWaveFunctionValues(), 10 );
+        waveFilter.filter( wavePacket.getWaveFunctionValues() );
     }
 }

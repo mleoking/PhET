@@ -76,13 +76,13 @@ public class SplitOperatorSolver extends RichardsonSolver {
         }
     }
 
-    private static LightweightComplex[] inverseFFT( LightweightComplex[] temp ) {
+    public static LightweightComplex[] inverseFFT( LightweightComplex[] temp ) {
         double[] data = toDoubleArray( temp );
         new FFT().inverse( data );
         return parseDoubleArray( data );
     }
 
-    private static LightweightComplex[] forwardFFT( LightweightComplex[] temp ) {
+    public static LightweightComplex[] forwardFFT( LightweightComplex[] temp ) {
         double[] data = toDoubleArray( temp );
         new FFT().transform( data );
         return parseDoubleArray( data );
