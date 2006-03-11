@@ -62,7 +62,6 @@ public class BSSquareWells extends BSAbstractPotential {
         super( numberOfWells, spacing, offset, center );
         setWidth( width );
         setDepth( depth );
-        setCenter( 1 );
     }
     
     //----------------------------------------------------------------------------

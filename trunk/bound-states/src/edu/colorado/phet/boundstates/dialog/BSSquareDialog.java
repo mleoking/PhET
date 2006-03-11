@@ -52,7 +52,7 @@ public class BSSquareDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSSquareWells _well;
+    private BSSquareWells _potential;
     
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
@@ -68,14 +68,14 @@ public class BSSquareDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells well ) {
+    public BSSquareDialog( Frame parent, BSSquareWells potential ) {
         super( parent );
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSSquareDialog.title" ) );
         
-        _well = well;
-        _well.addObserver( this );
+        _potential = potential;
+        _potential.addObserver( this );
         
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
@@ -87,9 +87,9 @@ public class BSSquareDialog extends JDialog implements Observer {
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        if ( _well != null ) {
-            _well.deleteObserver( this );
-            _well = null;
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+            _potential = null;
         }
     }
     
@@ -132,7 +132,7 @@ public class BSSquareDialog extends JDialog implements Observer {
         
         // Width
         {
-            double value = _well.getWidth();
+            double value = _potential.getWidth();
             double min = BSConstants.MIN_WELL_WIDTH;
             double max = BSConstants.MAX_WELL_WIDTH;
             double tickSpacing = Math.abs( max - min );
@@ -144,7 +144,7 @@ public class BSSquareDialog extends JDialog implements Observer {
         
         // Depth
         {
-            double value = _well.getDepth();
+            double value = _potential.getDepth();
             double min = BSConstants.MIN_WELL_DEPTH;
             double max = BSConstants.MAX_WELL_DEPTH;
             double tickSpacing = Math.abs( max - min );
@@ -156,7 +156,7 @@ public class BSSquareDialog extends JDialog implements Observer {
 
         // Offset
         {
-            double value = _well.getOffset();
+            double value = _potential.getOffset();
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -168,7 +168,7 @@ public class BSSquareDialog extends JDialog implements Observer {
 
         // Spacing
         {
-            double value = _well.getSpacing();
+            double value = _potential.getSpacing();
             double min = BSConstants.MIN_WELL_SPACING;
             double max = BSConstants.MAX_WELL_SPACING;
             double tickSpacing = Math.abs( max - min );
@@ -234,18 +234,18 @@ public class BSSquareDialog extends JDialog implements Observer {
     private void updateControls() {
 
         // Sync values
-        _widthSlider.setValue( _well.getWidth() );
-        _depthSlider.setValue( _well.getDepth() );
-        _offsetSlider.setValue( _well.getOffset() );
-        _spacingSlider.setValue( _well.getSpacing() );
+        _widthSlider.setValue( _potential.getWidth() );
+        _depthSlider.setValue( _potential.getDepth() );
+        _offsetSlider.setValue( _potential.getOffset() );
+        _spacingSlider.setValue( _potential.getSpacing() );
         
         // Sync ranges
-        _widthSlider.setMaximum( _well.getSpacing() - BSConstants.MIN_WELL_SEPARATION );
-        _spacingSlider.setMinimum( _well.getWidth() + BSConstants.MIN_WELL_SEPARATION );
+        _widthSlider.setMaximum( _potential.getSpacing() - BSConstants.MIN_WELL_SEPARATION );
+        _spacingSlider.setMinimum( _potential.getWidth() + BSConstants.MIN_WELL_SEPARATION );
         
         // Visibility
         //XXX hide the width slider if well is Coulomb
-        _spacingSlider.setVisible( _well.getNumberOfWells() > 1 );
+        _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
         _widthSlider.setEnabled( _widthSlider.getMaximum() != _widthSlider.getMinimum() );
         _spacingSlider.setEnabled( _spacingSlider.getMaximum() != _spacingSlider.getMinimum() );
     }
@@ -313,22 +313,22 @@ public class BSSquareDialog extends JDialog implements Observer {
     
     private void handleWidthChange() {
         final double width = _widthSlider.getValue();
-        _well.setWidth( width );
+        _potential.setWidth( width );
     }
     
     private void handleDepthChange() {
         final double depth = _depthSlider.getValue();
-        _well.setDepth( depth );
+        _potential.setDepth( depth );
     }
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _well.setOffset( offset );
+        _potential.setOffset( offset );
     }
     
     private void handleSpacingChange() {
         final double spacing = _spacingSlider.getValue();
-        _well.setSpacing( spacing );
+        _potential.setSpacing( spacing );
     }
 
 }

@@ -52,7 +52,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSCoulombWells _well;
+    private BSCoulombWells _potential;
     
     private SliderControl _offsetSlider;
     private SliderControl _spacingSlider;
@@ -66,14 +66,14 @@ public class BSCoulombDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSCoulombDialog( Frame parent, BSCoulombWells well ) {
+    public BSCoulombDialog( Frame parent, BSCoulombWells potential ) {
         super( parent );
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSCoulombDialog.title" ) );
         
-        _well = well;
-        _well.addObserver( this );
+        _potential = potential;
+        _potential.addObserver( this );
         
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
@@ -85,9 +85,9 @@ public class BSCoulombDialog extends JDialog implements Observer {
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        if ( _well != null ) {
-            _well.deleteObserver( this );
-            _well = null;
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+            _potential = null;
         }
     }
     
@@ -130,7 +130,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
 
         // Offset
         {
-            double value = _well.getOffset();
+            double value = _potential.getOffset();
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -142,7 +142,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
 
         // Spacing
         {
-            double value = _well.getSpacing();
+            double value = _potential.getSpacing();
             double min = BSConstants.MIN_WELL_SPACING;
             double max = BSConstants.MAX_WELL_SPACING;
             double tickSpacing = Math.abs( max - min );
@@ -203,8 +203,11 @@ public class BSCoulombDialog extends JDialog implements Observer {
     
     private void updateControls() {
         // Sync values
-        _offsetSlider.setValue( _well.getOffset() );
-        _spacingSlider.setValue( _well.getSpacing() );
+        _offsetSlider.setValue( _potential.getOffset() );
+        _spacingSlider.setValue( _potential.getSpacing() );
+        
+        // Visiblility
+        _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {
@@ -260,12 +263,12 @@ public class BSCoulombDialog extends JDialog implements Observer {
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _well.setOffset( offset );
+        _potential.setOffset( offset );
     }
     
     private void handleSpacingChange() {
         final double spacing = _spacingSlider.getValue();
-        _well.setSpacing( spacing );
+        _potential.setSpacing( spacing );
     }
 
 }
