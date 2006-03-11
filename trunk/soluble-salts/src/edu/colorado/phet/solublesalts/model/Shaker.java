@@ -75,7 +75,6 @@ public class Shaker extends Particle {
         done = false;
     }
 
-    int cnt = 0;
 
     /**
      * Creates crystals and drops them into the water
@@ -83,12 +82,18 @@ public class Shaker extends Particle {
      * @param dy
      */
     public void shake( double dy ) {
+        int cnt = 0;
 
         // Set the shaker's position
         setPosition( getPosition().getX(), getPosition().getY() + dy );
 
         Ion ion = null;
         Crystal crystal = null;
+
+        double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
+        Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+        v.rotate( theta );
+        double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
 
         // If the shaker moved downward, shake out a crystal
         while( !done && dy > 0 ) {
@@ -100,14 +105,17 @@ public class Shaker extends Particle {
             else if (!(getCurrentSalt() instanceof StrontiumPhosphate )) {
                 done = true;
             }
+
+            // Attempt to get Sr3(PO)2 to look less dense
+            l += cnt * 35;
             cnt++;
 
             IonFactory ionFactory = new IonFactory();
             ArrayList ions = new ArrayList();
-            double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
-            Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
-            v.rotate( theta );
-            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
+//            double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
+//            Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+//            v.rotate( theta );
+//            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
             double x = getPosition().getX() + l * Math.cos( orientation );
             double y = getPosition().getY() + l * Math.sin( orientation );
             Point2D p = new Point2D.Double( x, y );

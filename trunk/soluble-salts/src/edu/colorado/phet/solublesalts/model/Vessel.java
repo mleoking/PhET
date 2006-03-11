@@ -32,6 +32,9 @@ import java.util.EventObject;
  * Vessel
  * <p/>
  * A rectangular vessel. It's location is specified by its upper left corner.
+ * <p/>
+ * Currently, the water level is screwy in this class. Its internal representation is in pixels. That
+ * should be changed.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -125,7 +128,6 @@ public class Vessel implements ModelElement, Collidable {
 
     public void setWaterLevel( double waterLevel ) {
         waterLevel /= SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
-        System.out.println( "waterLevel = " + waterLevel );
         this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ));
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
@@ -135,7 +137,7 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public boolean isOutside( Point2D p ) {
-        return !( getShape().getMinX() - wallThickness < p.getX() 
+        return !( getShape().getMinX() - wallThickness < p.getX()
                 && getShape().getMinY() < p.getY()
                 && getShape().getMaxX() + wallThickness > p.getX()
                 && getShape().getMaxY() + wallThickness > p.getY()
