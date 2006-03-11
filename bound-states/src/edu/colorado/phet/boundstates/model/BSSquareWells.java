@@ -85,7 +85,7 @@ public class BSSquareWells extends BSAbstractPotential {
     }
 
     public void setDepth( double depth ) {
-        if ( depth > 0 ) {
+        if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
         }
         _depth = depth;
@@ -105,7 +105,6 @@ public class BSSquareWells extends BSAbstractPotential {
     }
     
     public double getEnergyAt( double position ) {
-        double value = 0;
         
         final int n = getNumberOfWells();
         final double offset = getOffset();
@@ -114,20 +113,22 @@ public class BSSquareWells extends BSAbstractPotential {
         final double w = getWidth();
         final double d = getDepth();
         
+        double energy = offset;
+        
         for ( int i = 1; i <= n; i++ ) {
             final double xi = s * ( i - ( ( n + 1 ) / 2.0 ) );
             if ( ( ( position - c ) >= xi - ( w / 2 ) ) && ( ( position - c ) <= xi + ( w / 2 ) ) ) {
-                value = offset + d;
+                energy = offset - d;
                 break;
             }
         }
 
-        return offset + value;
+        return energy;
     }
     
     //HACK dummy eigenstates, evenly spaced between offset and depth
     public BSEigenstate[] getEigenstates() {
-        final int n = (int) ( Math.abs( getDepth() ) / 0.5 ) + 1;
+        final int n = (int) ( getDepth() / 0.5 ) + 1;
         BSEigenstate[] eigenstates = new BSEigenstate[ n ];
         for ( int i = 0; i < eigenstates.length; i++ ) {
             eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
