@@ -81,7 +81,7 @@ public class BSCoulombWells extends BSAbstractPotential {
     public BSEigenstate[] getEigenstates() {
         BSEigenstate[] eigenstates = new BSEigenstate[ 10 ];
         for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( getOffset() - ( i * 0.5 ) );
+            eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
         }
         return eigenstates;
     }
