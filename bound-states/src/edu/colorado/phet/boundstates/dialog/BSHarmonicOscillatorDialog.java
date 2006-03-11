@@ -52,7 +52,7 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSHarmonicOscillatorWell _well;
+    private BSHarmonicOscillatorWell _potential;
     
     private SliderControl _offsetSlider;
     private SliderControl _angularFrequencySlider;
@@ -66,14 +66,14 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell well ) {
+    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential ) {
         super( parent );
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSHarmonicOscillatorDialog.title" ) );
         
-        _well = well;
-        _well.addObserver( this );
+        _potential = potential;
+        _potential.addObserver( this );
         
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
@@ -85,9 +85,9 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        if ( _well != null ) {
-            _well.deleteObserver( this );
-            _well = null;
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+            _potential = null;
         }
     }
     
@@ -131,7 +131,7 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
 
         // Offset
         {
-            double value = _well.getOffset();
+            double value = _potential.getOffset();
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -144,7 +144,7 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
 
         // Angular Frequency
         {
-            double value = _well.getSpacing();
+            double value = _potential.getSpacing();
             double min = BSConstants.MIN_WELL_ANGULAR_FREQUENCY;
             double max = BSConstants.MAX_WELL_ANGULAR_FREQUENCY;
             double tickSpacing = Math.abs( max - min );
@@ -207,8 +207,8 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
     
     private void updateControls() {
         // Sync values
-        _offsetSlider.setValue( _well.getOffset() );
-        _angularFrequencySlider.setValue( _well.getAngularFrequency() );
+        _offsetSlider.setValue( _potential.getOffset() );
+        _angularFrequencySlider.setValue( _potential.getAngularFrequency() );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {
@@ -264,12 +264,12 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _well.setOffset( offset );
+        _potential.setOffset( offset );
     }
     
     private void handleAngularFrequencyChange() {
         final double angularFrequency = _angularFrequencySlider.getValue();
-        _well.setAngularFrequency( angularFrequency );
+        _potential.setAngularFrequency( angularFrequency );
     }
 
 }

@@ -176,8 +176,8 @@ public class BSConstants {
     public static final double MIN_WELL_WIDTH = 0.1;
     public static final double MAX_WELL_WIDTH = 8;
     
-    public static final double MIN_WELL_SPACING = MIN_WELL_WIDTH + MIN_WELL_SEPARATION;
-    public static final double MAX_WELL_SPACING = MAX_WELL_WIDTH + MIN_WELL_SEPARATION;
+    public static final double MIN_WELL_SPACING = 0.3;
+    public static final double MAX_WELL_SPACING = 4;
     
     public static final double MIN_WELL_DEPTH = -20;
     public static final double MAX_WELL_DEPTH = 0;
@@ -195,7 +195,7 @@ public class BSConstants {
     
     // Coulomb well...
     public static final double DEFAULT_COULOMB_OFFSET = 0;
-    public static final double DEFAULT_COULOMB_SPACING = 2;
+    public static final double DEFAULT_COULOMB_SPACING = 1.2;
     
     // Harmonic Oscillator...
     public static final double DEFAULT_OSCILLATOR_OFFSET = 0;
@@ -205,7 +205,7 @@ public class BSConstants {
     public static final double DEFAULT_SQUARE_OFFSET = 0;
     public static final double DEFAULT_SQUARE_WIDTH = 0.5;
     public static final double DEFAULT_SQUARE_DEPTH = -10;
-    public static final double DEFAULT_SQUARE_SPACING = 2;
+    public static final double DEFAULT_SQUARE_SPACING = 1.2;
     
     // Asymmetric well...
     public static final double DEFAULT_ASYMMETRIC_OFFSET = 0;

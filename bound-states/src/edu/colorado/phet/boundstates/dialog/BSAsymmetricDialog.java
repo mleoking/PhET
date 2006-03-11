@@ -52,7 +52,7 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSAsymmetricWell _well;
+    private BSAsymmetricWell _potential;
     
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
@@ -67,14 +67,14 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell well ) {
+    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential ) {
         super( parent );
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSAsymmetricDialog.title" ) );
         
-        _well = well;
-        _well.addObserver( this );
+        _potential = potential;
+        _potential.addObserver( this );
         
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
@@ -86,9 +86,9 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        if ( _well != null ) {
-            _well.deleteObserver( this );
-            _well = null;
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+            _potential = null;
         }
     }
     
@@ -131,7 +131,7 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
         
         // Width
         {
-            double value = _well.getWidth();
+            double value = _potential.getWidth();
             double min = BSConstants.MIN_WELL_WIDTH;
             double max = BSConstants.MAX_WELL_WIDTH;
             double tickSpacing = Math.abs( max - min );
@@ -143,7 +143,7 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
         
         // Depth
         {
-            double value = _well.getDepth();
+            double value = _potential.getDepth();
             double min = BSConstants.MIN_WELL_DEPTH;
             double max = BSConstants.MAX_WELL_DEPTH;
             double tickSpacing = Math.abs( max - min );
@@ -155,7 +155,7 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
 
         // Offset
         {
-            double value = _well.getOffset();
+            double value = _potential.getOffset();
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -219,9 +219,9 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
     private void updateControls() {
 
         // Sync values
-        _widthSlider.setValue( _well.getWidth() );
-        _depthSlider.setValue( _well.getDepth() );
-        _offsetSlider.setValue( _well.getOffset() );
+        _widthSlider.setValue( _potential.getWidth() );
+        _depthSlider.setValue( _potential.getDepth() );
+        _offsetSlider.setValue( _potential.getOffset() );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {
@@ -282,16 +282,16 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
     
     private void handleWidthChange() {
         final double width = _widthSlider.getValue();
-        _well.setWidth( width );
+        _potential.setWidth( width );
     }
     
     private void handleDepthChange() {
         final double depth = _depthSlider.getValue();
-        _well.setDepth( depth );
+        _potential.setDepth( depth );
     }
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _well.setOffset( offset );
+        _potential.setOffset( offset );
     }
 }
