@@ -58,7 +58,7 @@ public class SolubleSaltsConfig {
     public static final double DEFAULT_LATTICE_SPEED = 3;
     // Acceleration of lattices when they come out of the shaker
     public static final double DEFAULT_LATTICE_ACCELERATION = .2;
-    public static final double MAX_SPIGOT_FLOW = 1000;
+    public static double MAX_SPIGOT_FLOW = 1000;
 
     // Images
     public static final String IMAGE_PATH = "images/";
@@ -92,8 +92,6 @@ public class SolubleSaltsConfig {
     public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
 //    private static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
     // Initial water level
-//    public static double DEFAULT_WATER_LEVEL = 5E-23 / VOLUME_CALIBRATION_FACTOR;
-//    public static double DEFAULT_WATER_LEVEL = 5E-16 / VOLUME_CALIBRATION_FACTOR;
     public static double DEFAULT_WATER_LEVEL = 5E-16;
 //    private static double VESSEL_MINOR_TICK_SPACING = 0.5E-23;
 //    private static double VESSEL_MAJOR_TICK_SPACING = 1E-23;
@@ -105,6 +103,7 @@ public class SolubleSaltsConfig {
         DEFAULT_WATER_LEVEL = defaultWaterLevel;
         VESSEL_MAJOR_TICK_SPACING = majorTickSpacing;
         VESSEL_MINOR_TICK_SPACING = minorTickSpacing;
+        MAX_SPIGOT_FLOW = 1000 * VOLUME_CALIBRATION_FACTOR;
     }
 
     //----------------------------------------------------------------
