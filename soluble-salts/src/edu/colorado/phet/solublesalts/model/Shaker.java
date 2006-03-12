@@ -97,7 +97,6 @@ public class Shaker extends Particle {
 
         // If the shaker moved downward, shake out a crystal
         while( !done && dy > 0 ) {
-//        if( !done && dy > 0 ) {
             // Debug: to shake only one crystal, uncomment the next line
             if( cnt % 2 != 0 && getCurrentSalt() instanceof StrontiumPhosphate ) {
                 done = true;

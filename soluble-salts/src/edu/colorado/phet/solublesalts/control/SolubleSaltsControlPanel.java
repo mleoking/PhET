@@ -287,7 +287,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         slider.setNumMajorTicks( 6 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.getVessel().setWaterLevel( slider.getValue() );
+                model.getVessel().setWaterLevel( slider.getValue() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             }
         } );
         panel.add( slider );
@@ -336,7 +336,7 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         }
 
         private void setReadoutValue( Vessel vessel ) {
-            readout.setText( format.format( vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+            readout.setText( format.format( vessel.getWaterLevel() ) );
         }
     }
 }

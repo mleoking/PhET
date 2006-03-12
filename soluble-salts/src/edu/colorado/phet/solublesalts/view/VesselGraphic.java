@@ -64,29 +64,12 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
 
         setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
         setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
-//        setMinorTickSpacing( 0.5E-23 );
-//        setMajorTickSpacing( 1E-23 );
-//        setMinorTickSpacing( 0.5E-16 );
-//        setMajorTickSpacing( 1E-16 );
-
-//        SolubleSaltsConfig.addChangeListener( new SolubleSaltsConfig.ChangeListener() {
-//            public void stateChanged() {
-//                setMinorTickSpacing( SolubleSaltsConfig.getVESSEL_MINOR_TICK_SPACING() );
-//                setMajorTickSpacing( SolubleSaltsConfig.getVESSEL_MAJOR_TICK_SPACING());
-//                update( vessel );
-//            }
-//        } );
-
         update( vessel );
     }
 
     private void update( Vessel vessel ) {
         this.vessel = vessel;
         float thickness = (float)( vessel.getWallThickness() * SolubleSaltsConfig.SCALE );
-//        Rectangle2D rect = new Rectangle2D.Double( vessel.getLocation().getX() * SolubleSaltsConfig.SCALE,
-//                                                   vessel.getLocation().getY() * SolubleSaltsConfig.SCALE,
-//                                                   vessel.getWidth() * SolubleSaltsConfig.SCALE,
-//                                                   vessel.getDepth() * SolubleSaltsConfig.SCALE );
         Rectangle2D rect = vessel.getShape();
         DoubleGeneralPath walls = new DoubleGeneralPath();
         walls.moveTo( -thickness / 2, 0 );
@@ -95,16 +78,12 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         walls.lineToRelative( 0, -( rect.getHeight() + thickness / 2 ) );
         shape.setPathTo( walls.getGeneralPath() );
         shape.setStroke( new BasicStroke( thickness ) );
-        water.setPathTo( new Rectangle2D.Double( 0,
-                                                 shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel(),
-                                                 vessel.getShape().getWidth(),
-                                                 vessel.getWaterLevel() ) );
 
-//        System.out.println( "(shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel()) = " + (shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel()) );
-//        System.out.println( "vessel.getWaterLevel() = " + vessel.getWaterLevel() );
-//        if( vessel.getWaterLevel() < 1 ) {
-//            System.out.println( "VesselGraphic.update" );
-//        }
+        double viewWaterLevel = vessel.getWaterLevel() / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
+        water.setPathTo( new Rectangle2D.Double( 0,
+                                                 shape.getHeight() - thickness * 3 / 2 - viewWaterLevel,
+                                                 vessel.getShape().getWidth(),
+                                                 viewWaterLevel ) );
         setOffset( vessel.getLocation() );
     }
 

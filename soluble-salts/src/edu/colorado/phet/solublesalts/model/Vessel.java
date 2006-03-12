@@ -127,7 +127,9 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
-        waterLevel /= SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
+
+        System.out.println( "waterLevel = " + waterLevel );
+        System.out.println( "waterLevel = " + waterLevel );
         this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ));
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
