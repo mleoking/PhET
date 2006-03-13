@@ -30,12 +30,12 @@ public class TestPropagator {
 //        this.waveProcessor = new DefaultWaveProcessor();
         this.waveProcessor = new FourierChop();
 
-        IWavePacketSolver solver = new RichardsonSolver( wavePacket );
-//        IWavePacketSolver solver = new SplitOperatorSolver( wavePacket );
+//        IWavePacketSolver solver = new RichardsonSolver( wavePacket );
+        IWavePacketSolver solver = new SplitOperatorSolver( wavePacket );
 //        IWavePacketSolver solver = new RK4Solver( wavePacket );
 
         wavePacket.setSolver( solver );
-        wavePacket.setTotalEnergy( new TotalEnergy( 0.8 ) );
+        wavePacket.setTotalEnergy( new TotalEnergy( 0.8*10 ) );
         wavePacket.setPotentialEnergy( new ConstantPotential( 0 ) );
         wavePacket.setEnabled( true );
 
@@ -77,39 +77,53 @@ public class TestPropagator {
 
     public static class FourierChop implements WaveProcessor {
         private Damping damping = new Damping();
-        FastPlotter newPhiPlot = new FastPlotter( "Modified Phi" );
-        FastPlotter origPhiPlot = new FastPlotter( "Original Phi" );
+        FastPlotter origPhiPlot = new FastPlotter( "Phi" );
+        FastPlotter phiLeftPlot = new FastPlotter( "PhiLeft" );
+        FastPlotter phiRightPlot = new FastPlotter( "PhiRight" );
+        FastPlotter psiLeftPlot = new FastPlotter( "Psi * Left" );
+        FastPlotter psiRightPlot = new FastPlotter( "Psi * Right" );
 
         public FourierChop() {
-            newPhiPlot.setVisible( true );
             origPhiPlot.setVisible( true );
+            phiLeftPlot.setVisible( true );
+            phiRightPlot.setVisible( true );
+            psiLeftPlot.setVisible( true );
+            psiRightPlot.setVisible( true );
         }
 
         //could do this during split operator solver to save time.
         public void process( WavePacket wavePacket ) {
-            damping.damp( wavePacket.getWaveFunctionValues() );
-            LightweightComplex[] phi = SplitOperatorSolver.forwardFFT( wavePacket.getWaveFunctionValues() );
+            LightweightComplex[] psi = wavePacket.getWaveFunctionValues();
+//            damping.damp( psi );
+            LightweightComplex[] phi = SplitOperatorSolver.forwardFFT( psi );
+            LightweightComplex[]phiLeft = copy( phi );
+            LightweightComplex[]phiRight = copy( phi );
             origPhiPlot.setData( toData( phi ) );
-            for( int i = 0; i < phi.length; i++ ) {
-                LightweightComplex lightweightComplex = phi[i];
+            for( int i = phiRight.length / 2; i < phiRight.length; i++ ) {
+                phiRight[i].setValue( 0, 0 );
+            }
+            for( int i = 0; i < phiLeft.length / 2; i++ ) {
+                phiLeft[i].setValue( 0, 0 );
+            }
+            phiLeftPlot.setData( toData( phiLeft ) );
+            phiRightPlot.setData( toData( phiRight ) );
+            LightweightComplex[] psiLeft = SplitOperatorSolver.inverseFFT( phiLeft );
+            psiLeftPlot.setData( toData( psiLeft ) );
+            LightweightComplex[] psiRight = SplitOperatorSolver.inverseFFT( phiRight );
+            psiRightPlot.setData( toData( psiRight ) );
+            int windowSize = 50;
+            for( int i = 0; i < windowSize; i++ ) {
+                psi[i].setValue( psiLeft[i].getReal(), psiLeft[i].getImaginary() );
+                psi[psi.length - 1 - i].setValue( psiRight[psiRight.length - 1 - i].getReal(), psiRight[psiRight.length - 1 - i].getImaginary() );
+            }
+        }
 
-//            if (i<50||i>phi.length-50){
-//            }else{
-//                lightweightComplex.setValue( 0,0);
-//            }
-                if( i > phi.length / 8 ) {
-                    lightweightComplex.setValue( 0, 0 );
-                }
+        private LightweightComplex[] copy( LightweightComplex[] phi ) {
+            LightweightComplex[]lwc = new LightweightComplex[phi.length];
+            for( int i = 0; i < lwc.length; i++ ) {
+                lwc[i] = new LightweightComplex( phi[i].getReal(), phi[i].getImaginary() );
             }
-            newPhiPlot.setData( toData( phi ) );
-//        waveFilter.filter( phi);
-            LightweightComplex[]psi2 = SplitOperatorSolver.inverseFFT( phi );
-            for( int i = 0; i < psi2.length; i++ ) {
-                wavePacket.getWaveFunctionValues()[i].setValue( psi2[i].getReal(), psi2[i].getImaginary() );
-            }
-//        for( int i = psi2.length-100; i < psi2.length; i++ ) {
-//            wavePacket.getWaveFunctionValues()[i].setValue( psi2[i].getReal(), psi2[i].getImaginary() );
-//        }
+            return lwc;
         }
 
         private Point2D.Double[] toData( LightweightComplex[] phi ) {
