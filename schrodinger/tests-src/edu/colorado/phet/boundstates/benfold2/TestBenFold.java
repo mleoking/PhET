@@ -88,18 +88,6 @@ public class TestBenFold {
         }
     }
 
-    public static void main( String[] args ) {
-//        new TestBenFold( new Quadratic( 0.25 ) ).start();
-        new TestBenFold( new SamWell() ).start();
-    }
-
-    private static class SamWell implements Function {
-
-        public double evaluate( double x ) {
-            return Math.abs( x ) > 2 ? 0 : -5;
-        }
-    }
-
     private double[]getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
         ArrayList energies = new ArrayList();
         double epsilon = 0.0001;
@@ -139,4 +127,14 @@ public class TestBenFold {
         }
     }
 
+    public static void main( String[] args ) {
+        new TestBenFold( new Quadratic( 0.25 ) ).start();
+//        new TestBenFold( new SamWell() ).start();
+    }
+
+    private static class SamWell implements Function {
+        public double evaluate( double x ) {
+            return Math.abs( x ) > 2 ? 0 : -5;
+        }
+    }
 }
