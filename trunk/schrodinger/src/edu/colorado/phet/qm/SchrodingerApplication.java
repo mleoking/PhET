@@ -35,7 +35,7 @@ import java.io.IOException;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.43";
+    public static String VERSION = "0.44";
     private String[] args;
     private IntensityModule intensityModule;
 
