@@ -11,7 +11,6 @@
 package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
-import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -32,10 +31,13 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Mar 1, 2006
- * Time: 3:13:05 PM
- * Copyright (c) Mar 1, 2006 by Sam Reid
+ * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
+ * This class is meant to be visually appealing, and to provide fine-grained control over the look and feel of the tabs,
+ * including gradients, overlapping, hand cursors, etc.
+ * <p/>
+ * At most one tab can be 'selected' at a time.
+ *
+ * @author Sam Reid
  */
 
 public class PhetTabbedPane extends JPanel {
@@ -43,14 +45,26 @@ public class PhetTabbedPane extends JPanel {
     private JComponent component;
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
-    public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
-//    private Font tabFont = new Font( "Sans", Font.PLAIN, 12);
-    private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
+    /**
+     * The default foreground color for the selected tab.
+     */
+    public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
+    private TabNodeFactory tabNodeFactory = new TabNodeFactory();
+
+    /**
+     * Constructs a PhetTabbedPane using the default color scheme.
+     */
     public PhetTabbedPane() {
         this( DEFAULT_SELECTED_TAB_COLOR );
     }
 
+    /**
+     * Constructs a PhetTabbedPane with the specified color for the selected tab.
+     *
+     * @param selectedTabColor
+     */
     public PhetTabbedPane( Color selectedTabColor ) {
         super( new BorderLayout() );
         this.selectedTabColor = selectedTabColor;
@@ -58,7 +72,7 @@ public class PhetTabbedPane extends JPanel {
         tabPane = new TabPane( selectedTabColor );
         add( tabPane, BorderLayout.NORTH );
         setComponent( component );
-        addComponentListener( new ComponentListener() {
+        ComponentListener relayoutHandler = new ComponentListener() {
             public void componentHidden( ComponentEvent e ) {
             }
 
@@ -72,7 +86,8 @@ public class PhetTabbedPane extends JPanel {
             public void componentShown( ComponentEvent e ) {
                 relayoutComponents();
             }
-        } );
+        };
+        addComponentListener( relayoutHandler );
     }
 
     public int getTabCount() {
@@ -86,50 +101,67 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
-    public String getTitleAt( int i ) {
-        return tabPane.getTitleAt( i );
-    }
-
+    /**
+     * Removes the tab at the specified index.  If the removed tab was selected and there are still remaining tabs,
+     * a new tab becomes selected.  If one exists, the next tab will become selected, otherwise the previous tab becomes selected.
+     *
+     * @param i
+     */
     public void removeTabAt( int i ) {
+        AbstractTabNode tabToRemove = getTab( i );
+        AbstractTabNode selectedTab = getSelectedTab();
+
         tabPane.removeTabAt( i );
-        if( getTabCount() > 0 ) {
-            setSelectedIndex( i - 1 );
+        if( selectedTab == tabToRemove && getTabCount() > 0 ) {//need to set a new selected tab.
+            if( i < getTabCount() ) {
+                setSelectedIndex( i );
+            }
+            else {
+                setSelectedIndex( i - 1 );
+            }
         }
     }
 
+    /**
+     * Adds a ChangeListener to observe changes in tab selection.
+     *
+     * @param changeListener
+     */
     public void addChangeListener( ChangeListener changeListener ) {
         changeListeners.add( changeListener );
     }
 
+    /**
+     * Returns the index of the selected tab.
+     *
+     * @return the index of the selected tab.
+     */
     public int getSelectedIndex() {
         return tabPane.getSelectedIndex();
     }
 
+    /**
+     * Sets the base foreground color for selected tabs.
+     *
+     * @param color
+     */
     public void setSelectedTabColor( Color color ) {
         this.selectedTabColor = color;
         tabPane.setSelectedTabColor( color );
     }
 
+    /**
+     * Adds the text or HTML label as a tab for the specified component.  If this is the first tab, it becomes selected.
+     *
+     * @param title   text or HTML
+     * @param content
+     */
     public void addTab( String title, JComponent content ) {
-        final AbstractTabNode tab = new TabNodeFactory().createTabNode( title, content, selectedTabColor, tabFont );
-        tab.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseReleased( PInputEvent e ) {
-                if( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
-                    setSelectedTab( tab );
-                }
-            }
-
-            public void mouseEntered( PInputEvent event ) {
-                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-            }
-
-            public void mouseExited( PInputEvent event ) {
-                PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-            }
-        } );
+        final AbstractTabNode tab = createTab( title, content );
+        tab.addInputEventListener( new TabInputListener( tab ) );
         if( tabPane.getTabs().length == 0 ) {
             setSelectedTab( tab );
-            tabPane.setActiveTab( tab );
+            tabPane.setSelectedTab( tab );
         }
         else {
             tab.setSelected( false );
@@ -137,6 +169,23 @@ public class PhetTabbedPane extends JPanel {
         tabPane.addTab( tab );
     }
 
+    /**
+     * Creates an AbstractTabNode from the specified title and component.  This implementation uses the
+     * TabNodeFactory.  This implementation can be overriden.
+     *
+     * @param title
+     * @param content
+     * @return the AbstractTabNode
+     */
+    protected AbstractTabNode createTab( String title, JComponent content ) {
+        return tabNodeFactory.createTabNode( title, content, selectedTabColor, tabFont );
+    }
+
+    /**
+     * Sets the selected tab to be the one with the specified index.
+     *
+     * @param index
+     */
     public void setSelectedIndex( int index ) {
         if( index < 0 || index >= getTabCount() ) {
             throw new RuntimeException( "Illegal tab index: " + index + ", tab count=" + getTabCount() );
@@ -144,7 +193,12 @@ public class PhetTabbedPane extends JPanel {
         setSelectedTab( tabPane.getTabs()[index] );
     }
 
-    private void setSelectedTab( AbstractTabNode tab ) {
+    /**
+     * Sets the selected tab.  Should not be used by normal clients.
+     *
+     * @param tab
+     */
+    protected void setSelectedTab( AbstractTabNode tab ) {
         setComponent( tab.getComponent() );
         tab.setSelected( true );
         for( int i = 0; i < tabPane.getTabs().length; i++ ) {
@@ -153,10 +207,14 @@ public class PhetTabbedPane extends JPanel {
                 t.setSelected( false );
             }
         }
-        tabPane.setActiveTab( tab );
+        tabPane.setSelectedTab( tab );
         notifySelectionChanged();
     }
 
+    /**
+     * Sends a message to change listeners that the selected tab changed.  This method is called internally, and should
+     * not normally be called directly.
+     */
     private void notifySelectionChanged() {
         ChangeEvent changeEvent = new ChangeEvent( this );
         for( int i = 0; i < changeListeners.size(); i++ ) {
@@ -165,6 +223,20 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
+    /**
+     * Returns the selected tab object, may be null.
+     *
+     * @return selected tab object, may be null.
+     */
+    private AbstractTabNode getSelectedTab() {
+        return tabPane.getSelectedTab();
+    }
+
+    /**
+     * Sets the main body component of the PhetTabbedPane.
+     *
+     * @param component
+     */
     private void setComponent( JComponent component ) {
         if( this.component != null ) {
             remove( this.component );
@@ -175,13 +247,24 @@ public class PhetTabbedPane extends JPanel {
         doLayout();
         validateTree();
         repaint();
-//        revalidate();//this didn't do the work of invalidate, doLayout, validateTree, repaint
+//        revalidate();//this was supposed to do the work of invalidate, doLayout, validateTree, repaint, but didn't work.
     }
 
+    /**
+     * Returns the tab at the specified index.
+     *
+     * @param i
+     * @return the tab at the specified index.
+     */
     public AbstractTabNode getTab( int i ) {
         return tabPane.getTab( i );
     }
 
+    /**
+     * Sets the font for all tabs.
+     *
+     * @param font
+     */
     public void setTabFont( Font font ) {
         this.tabFont = font;
         for( int i = 0; i < getTabCount(); i++ ) {
@@ -191,49 +274,23 @@ public class PhetTabbedPane extends JPanel {
         revalidate();
     }
 
+    /**
+     * Determines what concrete subtype of AbstractTabNodes are used.
+     */
     public static class TabNodeFactory {
         public AbstractTabNode createTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             return new HTMLTabNode( text, component, selectedTabColor, tabFont );
-//            return new ShadowHTMLTabNode( text, component, selectedTabColor, tabFont );
 //            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
         }
     }
 
-    public static class ShadowHTMLTabNode extends AbstractTabNode {
-        private ShadowHTMLGraphic htmlGraphic;
-
-        public ShadowHTMLTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
-            super( text, component, selectedTabColor, tabFont );
-        }
-
-        protected PNode createTextNode( String text, Color selectedTabColor ) {
-            this.htmlGraphic = new ShadowHTMLGraphic( text );
-            htmlGraphic.setFont( getTabFont() );
-            htmlGraphic.setColor( Color.white );
-            htmlGraphic.setShadowColor( Color.black );
-            htmlGraphic.setShadowOffset( 1, 1 );
-            return this.htmlGraphic;
-        }
-
-        protected void updateTextNode() {
-            this.htmlGraphic.setFont( getTabFont() );
-            if( isSelected() ) {
-                htmlGraphic.setColor( Color.white );
-                htmlGraphic.setShadowColor( Color.darkGray );
-                htmlGraphic.setShadowOffset( 1, 1 );
-            }
-            else {
-                this.htmlGraphic.setShadowColor( ( (Color)getTextPaint() ).darker() );
-                this.htmlGraphic.setColor( (Color)getTextPaint() );
-                htmlGraphic.setShadowColor( new Color( 0, 0, 0, 255 ) );
-                htmlGraphic.setShadowOffset( 0, 0 );
-            }
-        }
-
-        public void updateFont( Font font ) {
-            htmlGraphic.setFont( font );
-            updateShape();
-        }
+    /**
+     * Sets the TabNodeFactory used to create subsequent tab nodes.
+     *
+     * @param tabNodeFactory
+     */
+    public void setTabNodeFactory( TabNodeFactory tabNodeFactory ) {
+        this.tabNodeFactory = tabNodeFactory;
     }
 
     public static class HTMLTabNode extends AbstractTabNode {
@@ -282,6 +339,7 @@ public class PhetTabbedPane extends JPanel {
             super.updateShape();
         }
     }
+
 
     public static abstract class AbstractTabNode extends PNode {
         private String text;
@@ -460,7 +518,7 @@ public class PhetTabbedPane extends JPanel {
         private TabBase tabBase;
         private int tabTopInset = 3;
         private PImage logo;
-        private AbstractTabNode activeTab;
+        private AbstractTabNode selectedTab;
         private static final int LEFT_TAB_INSET = 10;
 
         public TabPane( Color selectedTabColor ) {
@@ -491,15 +549,15 @@ public class PhetTabbedPane extends JPanel {
             relayout();
         }
 
-        public AbstractTabNode getActiveTab() {
-            return activeTab;
+        public AbstractTabNode getSelectedTab() {
+            return selectedTab;
         }
 
         public void addTab( AbstractTabNode tab ) {
             tabs.add( tab );
             getLayer().addChild( 0, tab );
             relayout();
-            setActiveTab( getActiveTab() == null ? tab : getActiveTab() );//updates
+            setSelectedTab( getSelectedTab() == null ? tab : getSelectedTab() );//updates
         }
 
         private void relayout() {
@@ -560,8 +618,8 @@ public class PhetTabbedPane extends JPanel {
             return (AbstractTabNode[])tabs.toArray( new AbstractTabNode[0] );
         }
 
-        public void setActiveTab( AbstractTabNode tab ) {
-            this.activeTab = tab;
+        public void setSelectedTab( AbstractTabNode tab ) {
+            this.selectedTab = tab;
             getLayer().removeChild( tabBase );
             getLayer().addChild( tabBase );
             if( getLayer().getChildrenReference().contains( tab ) ) {
@@ -571,7 +629,7 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public int getSelectedIndex() {
-            return tabs.indexOf( activeTab );
+            return tabs.indexOf( selectedTab );
         }
 
         public int getTabCount() {
@@ -596,6 +654,31 @@ public class PhetTabbedPane extends JPanel {
                 tabNode.setSelectedTabColor( color );
             }
             tabBase.setSelectedTabColor( color );
+        }
+    }
+
+    /**
+     * Handles input events to the tab, including selection events and cursor changes.
+     */
+    protected class TabInputListener extends PBasicInputEventHandler {
+        private AbstractTabNode tab;
+
+        public TabInputListener( AbstractTabNode tab ) {
+            this.tab = tab;
+        }
+
+        public void mouseReleased( PInputEvent e ) {
+            if( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
+                setSelectedTab( tab );
+            }
+        }
+
+        public void mouseEntered( PInputEvent event ) {
+            PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+
+        public void mouseExited( PInputEvent event ) {
+            PhetTabbedPane.this.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         }
     }
 
