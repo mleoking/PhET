@@ -1,8 +1,6 @@
 Center the Reset All and Clear Wave buttons.
     This is difficult, given the "all control panels should have the same width" constraint.
 
-Add separate control for box physical size (independent of lattice size).
-
 Add units to split operator method.
 
 Mac osx10.3 still exhibits out of memory errors.
@@ -15,33 +13,9 @@ modelslider labels have a bug on mac
 
 Rescale both space and time for photons.
 
-Gun should shrink for small screen size (gun size dependent on screen size).
+Gun should shrink for small screen size (gun size is now incorrectly dependent on screen size).
 
-> 5.    I really like McKagan’s idea of putting the gun type control in
-> the box with the other gun controls.  It’s lost over on the left right
-> now. If I understood correctly it’s hard to put a drop down menu in this
-> box.  So I say fake it.  Put the menu above and make the borders and
-> colors match so you can’t tell that they are separate.
->
-> 6.    I really like McKagan’s mock ups of the gun controls.  One of the
-> things that I think is appealing is that it doesn’t have any numbers on
-> it.  It just looks like a physical control box.    The screen brightness
-> especially.  Is there a reason you need numbers associated with this?  I
-> can see the need for numbers on intensity. Maybe we should only have the
-> readout but not the show the scale on the slider itself.  The readout
-> would have the particles/second label after the value rather than above
-> the slider.  I think that might clean it up a lot.
-
-Regardless of whether gun type control is moved, the intensity and
-wavelength sliders should be made like the sliders in lasers (and in my
-mock up).  We don't need numbers or a label associated with intensity,
-and I think it is actually better not to have this.  Some students in
-our class were confused because of the "intensity (particles/second)"
-label, because in fact intensity is proportional to the energy of the
-beam, and since different colored photons contain different amounts of
-energy, the particles/second at a given intensity is not the same for
-different colors.  This can of worms can be eliminated entirely by
-getting rid of the label and the numbers.
+Add separate control for box physical size (independent of lattice size)?
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
