@@ -268,8 +268,10 @@ public class SchrodingerScreenNode extends PNode {
                     detectorSheetPNode.getDetectorSheetControlPanelPNode().localToGlobal( pt );
                     globalToLocal( pt );
 
-                    gunControlPanelPSwing.setOffset( pt.getX(),
-                                                     screenHeight - gunControlPanelPSwing.getFullBounds().getHeight() - insetY );
+                    double gunControlRequestedY = abstractGunGraphic.getFullBounds().getCenterY() - gunControlPanelPSwing.getFullBounds().getHeight() / 2.0;
+                    double gunControlMaxY = screenHeight - gunControlPanelPSwing.getFullBounds().getHeight() - insetY;
+                    double gunControlY = Math.min( gunControlRequestedY, gunControlMaxY );
+                    gunControlPanelPSwing.setOffset( pt.getX(), gunControlY );
                 }
                 if( rescaleWaveGraphic ) {
                     wavefunctionGraphic.setScale( 1.0 );

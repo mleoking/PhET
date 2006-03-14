@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -17,7 +17,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -28,7 +27,8 @@ import java.text.DecimalFormat;
 
 public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOffItem {
     protected OnOffCheckBox alwaysOnCheckBox;
-    protected ModelSlider intensitySlider;
+//    protected ModelSlider intensitySlider;
+    protected IntensitySlider intensitySlider;
     private boolean on = false;
     private HighIntensityBeam[] beams;
     private HighIntensityBeam currentBeam;
@@ -37,7 +37,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
     private GunControlPanel gunControlPanel;
     private PSwing onPswing;
 
-    protected ModelSlider getIntensitySlider() {
+    protected IntensitySlider getIntensitySlider() {
         return intensitySlider;
     }
 
@@ -48,13 +48,19 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         alwaysOnCheckBox = new OnOffCheckBox( this );
-        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
-        intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
+//        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
+//        intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
+
+        intensitySlider = new IntensitySlider( Color.white, IntensitySlider.HORIZONTAL, new Dimension( 140, 30 ) );
+        intensitySlider.setValue( 100 );
+
         intensitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateIntensity();
             }
         } );
+
+
         updateIntensity();
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -90,6 +96,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 //                alwaysOnCheckBox.removeActionListener( this );
 //            }
 //        } );
+        updateSliderColor();
     }
 
     protected GunControlPanel createGunControlPanel() {
@@ -136,6 +143,12 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
                 setupObject( beams[index] );
             }
         } );
+        photon.addMomentumChangeListerner( new MomentumChangeListener() {
+            public void momentumChanged( double val ) {
+                updateSliderColor();
+            }
+        } );
+//        updateSliderColor();
         return imageComboBox;
     }
 
@@ -167,10 +180,11 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
             System.out.println( "alwaysOnCheckBox.isSelected() = " + alwaysOnCheckBox.isSelected() );
         }
         updateGunLocation();
+        updateSliderColor();
     }
 
     private void updateIntensity() {
-        double intensity = new Function.LinearFunction( 0, MAX_INTENSITY_READOUT, 0, 1 ).evaluate( intensitySlider.getValue() );
+        double intensity = new Function.LinearFunction( 0, MAX_INTENSITY_READOUT, 0, 0.5 ).evaluate( intensitySlider.getValue() );
 
         System.out.println( "slidervalue=" + intensitySlider.getValue() + ", intensity = " + intensity );
         for( int i = 0; i < beams.length; i++ ) {
@@ -191,5 +205,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
     public ColorData getRootColor() {
         return photon == null ? null : photon.getRootColor();
+    }
+
+    private void updateSliderColor() {
+        intensitySlider.setColor( currentBeam instanceof PhotonBeam && getRootColor() != null ? getRootColor().toColor( 1.0 ) : Color.white );
     }
 }
