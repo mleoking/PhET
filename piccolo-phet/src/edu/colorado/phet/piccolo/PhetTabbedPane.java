@@ -350,6 +350,21 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
+    static class LowQualityPPath extends PPath {
+        public LowQualityPPath( Shape shape ) {
+            super( shape );
+        }
+
+        protected void paint( PPaintContext paintContext ) {
+            Object orig = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_RENDERING );
+            paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
+            super.paint( paintContext );
+            if( orig != null ) {
+                paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, orig );
+            }
+        }
+    }
+
     /**
      * The AbstractTabNode is the graphic PNode for one tab.
      */
@@ -357,7 +372,7 @@ public class PhetTabbedPane extends JPanel {
         private String text;
         private JComponent component;
         private PNode textNode;
-        private PPath background;
+        private LowQualityPPath background;
         private boolean selected;
         private float tiltWidth = 11;
         private Color selectedTabColor;
@@ -374,7 +389,7 @@ public class PhetTabbedPane extends JPanel {
             this.component = component;
             textNode = createTextNode( text, selectedTabColor );
             outlineNode = new PPath( createTabTopBorder( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
-            background = new PPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
+            background = new LowQualityPPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background.setPaint( selectedTabColor );
             background.setStroke( null );
             addChild( background );
@@ -496,7 +511,7 @@ public class PhetTabbedPane extends JPanel {
 
         public TabBase( Color selectedTabColor ) {
             this.selectedTabColor = selectedTabColor;
-            path = new PPath( new Rectangle( 0, 0, 200, tabBaseHeight ) );
+            path = new LowQualityPPath( new Rectangle( 0, 0, 200, tabBaseHeight ) );
             path.setPaint( selectedTabColor );
             path.setPaint( new GradientPaint( 0, 0, selectedTabColor, 0, tabBaseHeight + 4, selectedTabColor.darker() ) );
             path.setStroke( null );
@@ -539,8 +554,8 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
 
         public TabPane( Color selectedTabColor ) {
-            setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
-            logo = PImageFactory.create( "images/phetlogo3.png" );
+//            setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
+            logo = PImageFactory.create( "images/phetlogo2.png" );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
@@ -589,7 +604,12 @@ public class PhetTabbedPane extends JPanel {
             }
             double tabBaseY = getHeight() - tabBase.getFullBounds().getHeight();
             tabBase.setOffset( 0, tabBaseY );
+            if( logo.getImage().getHeight( null ) > getHeight() ) {
+                double scale = getHeight() / ( (double)logo.getImage().getHeight( null ) );
+                logo.setScale( Math.max( scale, 0.5 ) );
+            }
             logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), tabBaseY / 2 - logo.getFullBounds().getHeight() / 2 );
+
             if( tabs.size() > 0 ) {
                 AbstractTabNode lastTab = (AbstractTabNode)tabs.get( tabs.size() - 1 );
                 if( logo.getXOffset() < lastTab.getFullBounds().getMaxX() ) {
