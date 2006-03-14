@@ -1,4 +1,4 @@
-package edu.colorado.phet.piccolo;
+package edu.colorado.phet.tests.piccolo.testmacbug;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
