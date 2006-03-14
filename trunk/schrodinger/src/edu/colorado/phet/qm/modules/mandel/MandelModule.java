@@ -46,6 +46,7 @@ public class MandelModule extends SchrodingerModule {
                 mandelSchrodingerPanel.updateDetectorColors();
             }
         };
+        mandelSchrodingerPanel.updateDetectorColors();
         getLeftGun().addListener( listener );
         getRightGun().addListener( listener );
         synchronizeModel();
