@@ -1,4 +1,4 @@
-New in 0.44
+New in 0.44 (3-14-2006)
 Resized the window (to get the gun graphic to fit).
 Screen on two laser panel is be black and white.
 Reworded "Speeding Time Up" and "Slowing Time Down" to "Speeding Up Time" and "Slowing Down Time"
