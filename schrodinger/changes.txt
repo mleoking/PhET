@@ -1,3 +1,9 @@
+New in 0.44
+Resized the window (to get the gun graphic to fit).
+Screen on two laser panel is be black and white.
+Reworded "Speeding Time Up" and "Slowing Time Down" to "Speeding Up Time" and "Slowing Down Time"
+Bugfix: "Hits" in mandel has wrong color.
+
 New in 0.43 (3-3-2006)
 Added Separate gun controls for 2-Laser panel.
 2-Laser panel has guns interfere when wavelength is close, otherwise addition is normal.
