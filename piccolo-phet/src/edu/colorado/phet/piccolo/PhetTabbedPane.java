@@ -274,6 +274,10 @@ public class PhetTabbedPane extends JPanel {
         revalidate();
     }
 
+    public String getTitleAt( int i ) {
+        return getTab( i ).getText();
+    }
+
     /**
      * Determines what concrete subtype of AbstractTabNodes are used.
      */
