@@ -293,6 +293,9 @@ public class PhetTabbedPane extends JPanel {
         this.tabNodeFactory = tabNodeFactory;
     }
 
+    /**
+     * This AbstractTabNode renders HTML.
+     */
     public static class HTMLTabNode extends AbstractTabNode {
         private HTMLGraphic htmlGraphic;
 
@@ -316,6 +319,9 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
+    /**
+     * This AbstractTabNode renders text (non-html).
+     */
     public static class TextTabNode extends AbstractTabNode {
         private PText pText;
 
@@ -340,28 +346,29 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
-
+    /**
+     * The AbstractTabNode is the graphic PNode for one tab.
+     */
     public static abstract class AbstractTabNode extends PNode {
         private String text;
         private JComponent component;
         private PNode textNode;
         private PPath background;
         private boolean selected;
-        private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );
         private float tiltWidth = 11;
         private Color selectedTabColor;
         private PPath outlineNode;
         private Font tabFont;
         private boolean textIsCentered = true;
 
+        private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );
+
         public AbstractTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             this.tabFont = tabFont;
             this.selectedTabColor = selectedTabColor;
             this.text = text;
             this.component = component;
-
             textNode = createTextNode( text, selectedTabColor );
-
             outlineNode = new PPath( createTabTopBorder( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background = new PPath( createTabShape( textNode.getFullBounds().getWidth(), textNode.getFullBounds().getHeight() ) );
             background.setPaint( selectedTabColor );
@@ -377,6 +384,8 @@ public class PhetTabbedPane extends JPanel {
         }
 
         protected abstract PNode createTextNode( String text, Color selectedTabColor );
+
+        protected abstract void updateTextNode();
 
         public void setTabTextHeight( double tabHeight ) {
             background.setPathTo( createTabShape( textNode.getFullBounds().getWidth(), tabHeight ) );
@@ -420,8 +429,6 @@ public class PhetTabbedPane extends JPanel {
         public boolean isSelected() {
             return selected;
         }
-
-        protected abstract void updateTextNode();
 
         private void updatePaint() {
             background.setPaint( getBackgroundPaint() );
@@ -475,6 +482,9 @@ public class PhetTabbedPane extends JPanel {
 
     }
 
+    /**
+     * The TabBase is a PNode graphic for the horizontal bar under the tabs.
+     */
     public static class TabBase extends PNode {
         private final PPath path;
         private int tabBaseHeight = 6;
@@ -504,14 +514,17 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
-    public static int darker( int value, int d ) {
+    private static int darker( int value, int d ) {
         return Math.max( 0, value - d );
     }
 
-    public static Color darker( Color a, int d ) {
+    private static Color darker( Color a, int d ) {
         return new Color( darker( a.getRed(), d ), darker( a.getGreen(), d ), darker( a.getBlue(), d ) );
     }
 
+    /**
+     * The TabPane is the Piccolo PCanvas container for AbstractTabNode PNodes.
+     */
     public static class TabPane extends PCanvas {
         private ArrayList tabs = new ArrayList();
         private double distBetweenTabs = -6;
