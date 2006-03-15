@@ -25,6 +25,7 @@ public class PhotonBeam extends HighIntensityBeam {
         photon.addMomentumChangeListerner( new AbstractGunGraphic.MomentumChangeListener() {
             public void momentumChanged( double val ) {
                 photonWave.setMomentum( val );
+//                System.out.println( "Momentum: val = " + val );
             }
         } );
 

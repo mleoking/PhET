@@ -28,6 +28,7 @@ public abstract class GrayscaleColorMap implements ComplexColorMap {
         re = Math.abs( re );
         if( re > 1 ) {
             System.out.println( "re = " + re );
+            re = 1.0;
         }
         Color color = new Color( (float)re, (float)re, (float)re );
         color = scaleUp( color );

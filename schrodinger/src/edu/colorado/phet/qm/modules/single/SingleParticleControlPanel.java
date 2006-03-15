@@ -10,6 +10,7 @@ import edu.colorado.phet.qm.model.Detector;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +28,6 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         VerticalLayoutPanel detectorPanel = new DetectorPanel( singleParticleModule );
         advancedPanel.addControlFullWidth( new PotentialPanel( singleParticleModule ) );
         advancedPanel.addControlFullWidth( detectorPanel );
-//        advancedPanel.addControlFullWidth( new InverseSlitsCheckbox( getSchrodingerPanel() ) );
 
         JButton createDetectorArray = new JButton( "Create Detector Array" );
         createDetectorArray.addActionListener( new ActionListener() {
@@ -47,12 +47,18 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
         VerticalLayoutPanel colorPanel = new VisualizationPanel( getSchrodingerPanel() );
-        addControl( colorPanel );
+        ExpandableDoubleSlitPanel doubleSlitPanel = new ExpandableDoubleSlitPanel( singleParticleModule );
 
-//        super.addSlitCheckbox();
+        addSeparator();
+        addSpacer();
+        getContentPanel().setAnchor( GridBagConstraints.CENTER );
         addControl( new ResetButton( singleParticleModule ) );
         addControl( new ClearButton( singleParticleModule.getSchrodingerPanel() ) );
-        ExpandableDoubleSlitPanel doubleSlitPanel = new ExpandableDoubleSlitPanel( singleParticleModule );
+        getContentPanel().setAnchor( GridBagConstraints.WEST );
+        addSpacer();
+        addSeparator();
+        addSpacer();
+        addControl( colorPanel );
         addControl( doubleSlitPanel );
         addControl( advancedPanel );
 
