@@ -1,5 +1,14 @@
 New in 0.45
 Bugfix: At default resolution barrier doesn’t reach wall.
+Switched to dark gray font for unselected tabs.
+Made the electron icon a little smaller than the neutron icon
+Added Switch/button for gun (instead of checkbox)
+Increased size of ruler icon graphic.
+Added a timer icon graphic.
+Increased the font size in the control panel (and elsewhere).
+Got rid of Wavelength label in gun control panel.
+Added "Gun Controls" to gun control panel.
+Set gun controls color scheme to match Lasers for gun control panel.
 
 New in 0.44 (3-14-2006)
 Resized the window (to get the gun graphic to fit).

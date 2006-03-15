@@ -17,7 +17,7 @@ public class DGParticle extends DefaultGunParticle {
     private double startYFraction = 0.75;
 
     public DGParticle( AbstractGunGraphic gunGraphic ) {
-        super( gunGraphic, "Electrons", "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
+        super( gunGraphic, "Electrons", "images/electron-thumb.png", new ParticleUnits.ElectronUnits() );
     }
 
     protected double getStartDxLattice() {

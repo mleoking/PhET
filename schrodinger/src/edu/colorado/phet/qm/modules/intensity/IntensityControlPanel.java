@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.controls.*;
+import edu.colorado.phet.qm.util.ComponentCenterer;
 
 /**
  * User: Sam Reid
@@ -14,8 +15,11 @@ import edu.colorado.phet.qm.controls.*;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
-        addControl( new ResetButton( intensityModule ) );
+
+        ResetButton resetButton = new ResetButton( intensityModule );
+        addControl( resetButton );
         addControl( new ClearButton( intensityModule.getSchrodingerPanel() ) );
+        new ComponentCenterer( resetButton, super.getContentPanel() ).start();
         ExpandableDoubleSlitPanel expandableDoubleSlitPanel = new ExpandableDoubleSlitPanel( intensityModule );
         addControl( expandableDoubleSlitPanel );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
