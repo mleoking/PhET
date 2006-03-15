@@ -42,10 +42,17 @@ public class FractionalDoubleSlit {
     private void update() {
         discreteModel.getDoubleSlitPotential().setGridWidth( discreteModel.getGridWidth() );
         discreteModel.getDoubleSlitPotential().setGridHeight( discreteModel.getGridHeight() );
-        discreteModel.getDoubleSlitPotential().setHeight( (int)( height * discreteModel.getGridHeight() ) );
-        discreteModel.getDoubleSlitPotential().setSlitSeparation( (int)( slitSeparation * discreteModel.getGridWidth() ) );
-        discreteModel.getDoubleSlitPotential().setSlitSize( (int)( slitSize * discreteModel.getGridWidth() ) );
-        discreteModel.getDoubleSlitPotential().setY( (int)( y * discreteModel.getGridHeight() ) );
+        discreteModel.getDoubleSlitPotential().setHeight( round( height * discreteModel.getGridHeight() ) );
+        discreteModel.getDoubleSlitPotential().setSlitSeparation( round( slitSeparation * discreteModel.getGridWidth() ) );
+        int gridWidth = discreteModel.getGridWidth();
+        int slitSize = round( this.slitSize * gridWidth );
+        discreteModel.getDoubleSlitPotential().setSlitSize( slitSize );
+        discreteModel.getDoubleSlitPotential().setY( round( y * discreteModel.getGridHeight() ) );
+    }
+
+    private int round( double v ) {
+//        return (int)Math.round( v );
+        return (int)v;
     }
 
     public void setY( double y ) {

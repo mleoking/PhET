@@ -200,6 +200,7 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void setWaveSize( final int size ) {
+        System.out.println( "Set wave size= " + size );
         Command cmd = new Command() {
             public void doIt() {
                 getDiscreteModel().setWaveSize( size, size );

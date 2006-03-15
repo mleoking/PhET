@@ -40,9 +40,11 @@ public class ResolutionControl extends AdvancedPanel {
         } );
 //        addControl( screenSize );
 
-        int[]configFor1280x760 = new int[]{3, 4, 5, 6, 8, 10, 12, 16, 32};
+//        int[]configFor1280x760 = new int[]{3, 4, 5, 6, 8, 10, 12, 16, 32};
 //        int[]values = new int[]{3, 4, 5, 6, 8, 10, 12, 16,32};
-        int[]configFor1024x768 = new int[]{2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18};
+//        int[]configFor1024x768 = new int[]{2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18};
+
+        int[]configFor1024x768 = new int[]{2, 4, 8};
         Integer[]v = new Integer[configFor1024x768.length];
         for( int i = 0; i < v.length; i++ ) {
             v[i] = new Integer( configFor1024x768[i] );
