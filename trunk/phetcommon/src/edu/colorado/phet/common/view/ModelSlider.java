@@ -54,6 +54,7 @@ public class ModelSlider extends JPanel {
     private JLabel titleLabel;
     private JTextField unitsReadout;
     private String title;
+    private JPanel textPanel;
 
     //-----------------------------------------------------------------
     // Constructors and initialization
@@ -138,7 +139,7 @@ public class ModelSlider extends JPanel {
         unitsReadout.setEditable( false );
         unitsReadout.setBorder( null );
 
-        JPanel textPanel = new JPanel();
+        textPanel = new JPanel();
         textPanel.setLayout( new BorderLayout() );
         textPanel.add( textField, BorderLayout.WEST );
         textPanel.add( unitsReadout, BorderLayout.EAST );
@@ -367,6 +368,10 @@ public class ModelSlider extends JPanel {
             textField.setText( textFieldFormat.format( value ) );
             return false;
         }
+    }
+
+    public void setTextFieldVisible( boolean visible ) {
+        textPanel.setVisible( visible );
     }
 
     public static class IllegalValueException extends Exception {
