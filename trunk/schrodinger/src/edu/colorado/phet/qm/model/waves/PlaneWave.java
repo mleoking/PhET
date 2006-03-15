@@ -33,8 +33,14 @@ public class PlaneWave implements Wave {
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * simulationTime + phase ), Math.sin( k * j / gridHeight - k * k * simulationTime + phase ) );
+//        System.out.println( "simulationTime = " + simulationTime );
+//        Complex complex = new Complex( Math.cos( phase ),Math.sin( phase ) );
+        Complex complex = new Complex( Math.cos( phase ), Math.sin( phase ) );
+//        Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * simulationTime + phase ),
+//                                       Math.sin( k * j / gridHeight - k * k * simulationTime + phase ) );
+
         complex.scale( scale );
+//        System.out.println( "phase=" + phase + ", re=" + complex.getReal() );
         return complex;
     }
 

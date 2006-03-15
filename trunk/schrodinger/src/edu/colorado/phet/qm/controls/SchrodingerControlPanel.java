@@ -88,8 +88,25 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        setPreferredWidth();
     }
 
+    protected void addSpacer() {
+        addBox( 10, 10 );
+    }
+
+    protected void addBox( int width, int height ) {
+        Box box = new Box( BoxLayout.X_AXIS );
+        box.setPreferredSize( new Dimension( width, height ) );
+        box.setSize( width, height );
+        addControl( box );
+    }
+
+    //Todo this is not idempotent
     protected void setPreferredWidth( int width ) {
         setPreferredSize( new Dimension( width, getPreferredSize().height ) );
+        setSize( getPreferredSize() );
+        Box box = new Box( BoxLayout.X_AXIS );
+        box.setPreferredSize( new Dimension( width - 2, 2 ) );
+        box.setSize( width - 2, 2 );
+        addControlFullWidth( box );
     }
 
     protected void addMeasuringTools() throws IOException {
