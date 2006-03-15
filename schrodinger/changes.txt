@@ -9,6 +9,8 @@ Increased the font size in the control panel (and elsewhere).
 Got rid of Wavelength label in gun control panel.
 Added "Gun Controls" to gun control panel.
 Set gun controls color scheme to match Lasers for gun control panel.
+Moved gun type control to above the gun control panel.
+Removed "Gun Type" label from gun type control (it is next to the "Gun Control" text now)
 
 New in 0.44 (3-14-2006)
 Resized the window (to get the gun graphic to fit).

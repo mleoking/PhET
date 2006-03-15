@@ -143,7 +143,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         };
         setBeams( mybeams );
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
-        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
+//        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();
