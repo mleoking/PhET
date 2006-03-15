@@ -1,11 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
+import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -14,17 +16,19 @@ import java.awt.event.ActionListener;
  * Copyright (c) Mar 1, 2006 by Sam Reid
  */
 
-public class StopwatchCheckBox extends JCheckBox {
+//public class StopwatchCheckBox extends JCheckBox {
+public class StopwatchCheckBox extends HorizontalLayoutPanel {
     private SchrodingerPanel schrodingerPanel;
 
     public StopwatchCheckBox( SchrodingerPanel schrodingerPanel ) {
-        super( "Stopwatch" );
+        super();
+        final JCheckBox checkBox = new JCheckBox( "Stopwatch" );
         this.schrodingerPanel = schrodingerPanel;
 
 //        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
-        addActionListener( new ActionListener() {
+        checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setStopwatchVisible( isSelected() );
+                getSchrodingerPanel().setStopwatchVisible( checkBox.isSelected() );
             }
 
         } );
@@ -34,6 +38,13 @@ public class StopwatchCheckBox extends JCheckBox {
                 setEnabled( !getSchrodingerPanel().isPhotonMode() );
             }
         } ).start();
+        add( checkBox );
+        try {
+            add( new JLabel( new ImageIcon( edu.colorado.phet.common.view.util.ImageLoader.loadBufferedImage( "images/stopwatch.png" ) ) ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private SchrodingerPanel getSchrodingerPanel() {

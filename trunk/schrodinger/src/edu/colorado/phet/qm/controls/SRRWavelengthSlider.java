@@ -38,7 +38,7 @@ public class SRRWavelengthSlider extends PNode {
         double minWavelength = VisibleColor.MIN_WAVELENGTH;
         double maxWavelength = VisibleColor.MAX_WAVELENGTH;
 
-        final BufferedImage image = new BufferedImage( 175, 10, BufferedImage.TYPE_INT_RGB );
+        final BufferedImage image = new BufferedImage( 175, 30, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
         linearFunction = new Function.LinearFunction( 0, image.getWidth(), minWavelength, maxWavelength );
         for( int i = 0; i < image.getWidth(); i++ ) {
@@ -65,7 +65,7 @@ public class SRRWavelengthSlider extends PNode {
                 dragPointChanged();
             }
         } );
-        phetTextGraphic = new PText( "Wavelength" );
+        phetTextGraphic = new PText( "" );
 
         colorBackgroundNode.setOffset( 0, getTextOffsetY() );
         spectrumSliderKnob.setOffset( image.getWidth() / 2, image.getHeight() + getTextOffsetY() );

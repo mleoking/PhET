@@ -24,8 +24,26 @@ public class GunControlPanel extends VerticalLayoutPanel {
 
     public GunControlPanel( SchrodingerPanel schrodingerPanel ) {
         setOpaque( false );
-        shinyPanel = new ShinyPanel( this );
+        shinyPanel = new ShinyGunControlPanel( this );
         gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
+        JLabel label = new JLabel( "Gun Controls" ) {
+            protected void paintComponent( Graphics g ) {
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintComponent( g );
+            }
+        };
+        label.setForeground( Color.white );
+        label.setOpaque( false );
+        label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        add( label );
+    }
+
+    static class ShinyGunControlPanel extends ShinyPanel {
+
+        public ShinyGunControlPanel( JComponent component ) {
+            super( component, new Color( 91, 91, 91 ), new Color( 80, 80, 80 ) );
+        }
     }
 
     public void setGunControls( JComponent gunControl ) {

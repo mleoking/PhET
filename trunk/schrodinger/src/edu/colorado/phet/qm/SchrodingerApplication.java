@@ -15,6 +15,7 @@ import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
 import edu.colorado.phet.qm.persistence.PersistenceManager;
 import edu.colorado.phet.qm.persistence.QWIState;
+import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.*;
@@ -130,8 +131,11 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+
         PhetLookAndFeel.setLookAndFeel();
-        new PhetLookAndFeel().apply();
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
+        phetLookAndFeel.apply();
         final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
         schrodingerApplication.startApplication();
         if( schrodingerApplication.intensityModule != null ) {

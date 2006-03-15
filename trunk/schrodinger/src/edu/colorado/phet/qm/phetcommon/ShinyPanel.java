@@ -13,7 +13,16 @@ import java.awt.*;
  */
 
 public class ShinyPanel extends JPanel {
+    private Color lightGray;
+    private Color shadedGray;
+
     public ShinyPanel( JComponent component ) {
+        this( component, new Color( 192, 192, 192 ), new Color( 228, 228, 228 ) );
+    }
+
+    public ShinyPanel( JComponent component, Color lightGray, Color shadedGray ) {
+        this.lightGray = lightGray;
+        this.shadedGray = shadedGray;
         setLayout( new BorderLayout() );
         add( component, BorderLayout.CENTER );
         setOpaque( this, false );
@@ -31,8 +40,8 @@ public class ShinyPanel extends JPanel {
     }
 
     protected void paintComponent( Graphics g ) {
-        Color lightGray = new Color( 192, 192, 192 );
-        Color shadedGray = new Color( 228, 228, 228 );
+//        Color lightGray = new Color( 192, 192, 192 );
+//        Color shadedGray = new Color( 228, 228, 228 );
 
 //        Color lightGray = Color.gray;
 //        Color shadedGray = Color.lightGray;

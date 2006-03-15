@@ -6,9 +6,11 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
+import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
@@ -27,7 +29,6 @@ import java.awt.event.ItemListener;
 
 public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOffItem {
     protected OnOffCheckBox alwaysOnCheckBox;
-//    protected ModelSlider intensitySlider;
     protected IntensitySlider intensitySlider;
     private boolean on = false;
     private HighIntensityBeam[] beams;
@@ -36,6 +37,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
     private PSwing onPswing;
+    private PText onOffTextNode = new PText( "Off" );
 
     protected IntensitySlider getIntensitySlider() {
         return intensitySlider;
@@ -47,10 +49,11 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
     public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
+        onOffTextNode.setFont( new LucidaSansFont( 12, true ) );
         alwaysOnCheckBox = new OnOffCheckBox( this );
 //        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
 //        intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );
-
+        addChild( onOffTextNode );
         intensitySlider = new IntensitySlider( Color.white, IntensitySlider.HORIZONTAL, new Dimension( 140, 30 ) );
         intensitySlider.setValue( 100 );
 
@@ -79,6 +82,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 //        schrodingerPanel.getSchrodingerModule().getDefaultHelpPane().add( helpBalloon );
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
+//        alwaysOnCheckBox.setBackground( new Color(0,0,0,0) );
         onPswing = new PSwing( schrodingerPanel, alwaysOnCheckBox );
         onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
@@ -107,6 +111,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
     protected void layoutChildren() {
         super.layoutChildren();
+        if( onOffTextNode != null ) {
+            onOffTextNode.setOffset( getOnGunGraphic().getFullBounds().getCenterX() - onOffTextNode.getFullBounds().getWidth() / 2, getOnGunGraphic().getFullBounds().getMaxY() );
+        }
     }
 
     protected double getControlOffsetX() {
@@ -197,6 +204,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         if( currentBeam != null ) {
             currentBeam.setHighIntensityModeOn( on );
         }
+        onOffTextNode.setText( on ? "On" : "Off" );
+        onOffTextNode.setTextPaint( on ? Color.red : Color.black );
     }
 
     public boolean isOn() {
