@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.colorado.phet.qm.view.piccolo.PinkGunDetails;
 
-import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Point2D;
@@ -85,7 +84,7 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         setBeams( beams );
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );
-        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
+//        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 int index = imageComboBox.getSelectedIndex();
