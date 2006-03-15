@@ -472,7 +472,7 @@ public class PhetTabbedPane extends JPanel {
         }
 
         protected Paint getTextPaint() {
-            return selected ? Color.black : Color.gray;
+            return selected ? Color.black : Color.darkGray;
         }
 
         public Font getTabFont() {

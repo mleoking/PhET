@@ -56,24 +56,16 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void update() {
-        if( slitSize % 2 == 1 ) {//to ensure same size
-            slitSize--;
-        }
-        if( slitSeparation % 2 == 1 ) {
-            slitSeparation--;
-        }
+        int leftSlitCenter = round( gridWidth / 2.0 - slitSeparation / 2.0 );
+        int rightSlitCenter = round( gridWidth / 2.0 + slitSeparation / 2.0 );
+        int midWidth = round( gridWidth / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
 
-        int leftSlitCenter = gridWidth / 2 - slitSeparation / 2;
-        int rightSlitCenter = gridWidth / 2 + slitSeparation / 2;
-        int barWidth = gridWidth / 2 - slitSeparation / 2 - slitSize / 2;
+        Rectangle leftBar = new Rectangle( 0, y, round( leftSlitCenter - slitSize / 2.0 ), height );
+        Rectangle midBar = new Rectangle( round( leftSlitCenter + slitSize / 2.0 ), y, slitSeparation - slitSize, height );
+        Rectangle rightBar = new Rectangle( round( rightSlitCenter + slitSize / 2.0 ), y, midWidth + 1, height );
 
-        Rectangle leftBar = new Rectangle( 0, y, leftSlitCenter - slitSize / 2, height );
-        Rectangle midBar = new Rectangle( leftSlitCenter + slitSize / 2, y, slitSeparation - slitSize, height );
-        Rectangle rightBar = new Rectangle( rightSlitCenter + slitSize / 2, y, barWidth, height );
-
-        this.leftSlit = new Rectangle( (int)leftBar.getMaxX(), y, slitSize, height );
-        this.rightSlit = new Rectangle( (int)midBar.getMaxX(), y, slitSize, height );
-        System.out.println( "leftSlit = " + leftSlit );
+        this.leftSlit = new Rectangle( leftBar.x + leftBar.width, y, slitSize, height );
+        this.rightSlit = new Rectangle( midBar.x + midBar.width, y, slitSize, height );
         CompositePotential compositePotential = new CompositePotential();
         if( inverse ) {
             compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
@@ -85,8 +77,11 @@ public class HorizontalDoubleSlit implements Potential {
             compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
         }
         this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
-
         notifyListeners();
+    }
+
+    private int round( double v ) {
+        return (int)v;
     }
 
     private void notifyListeners() {
