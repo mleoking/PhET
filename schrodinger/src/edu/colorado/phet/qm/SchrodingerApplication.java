@@ -36,7 +36,7 @@ import java.io.IOException;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.46";
+    public static String VERSION = "0.47";
     private String[] args;
     private IntensityModule intensityModule;
 
@@ -117,7 +117,8 @@ public class SchrodingerApplication extends PhetApplication {
 //        return new FrameSetup.CenteredWithSize( 900, 680 );
         return new FrameSetup() {
             public void initialize( JFrame frame ) {
-                int width = 900;
+//                int width = 900;
+                int width = 912;
 //                int height = 704;
                 int height = 732;
                 Toolkit tk = Toolkit.getDefaultToolkit();

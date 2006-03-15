@@ -79,6 +79,7 @@ public class DetectorSheetPNode extends PhetPNode {
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
         detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) );
+//        FontSetter.setFont( new Font( "Lucida Sans",Font.PLAIN, 8 ),detectorSheetControlPanel );
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {
