@@ -1,3 +1,12 @@
+New in 0.47 (3-15-2006)
+Removed text box from "screen brightness" control.
+Increased window width by 12 pixels to ensure 2-lasers controls fits onscreen.
+Made the gun controls "velocity" label color white, a bit larger and easier to see.
+
+New in 0.46
+Centered Reset button & clear wave button
+Added separators & spacing to the control panel
+
 New in 0.45
 Bugfix: At default resolution barrier doesn’t reach wall.
 Switched to dark gray font for unselected tabs.
