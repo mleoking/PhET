@@ -21,20 +21,19 @@ import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
+import edu.colorado.phet.semiconductor.Photon;
+import edu.colorado.phet.semiconductor.PhotonArrowGraphic;
 import edu.colorado.phet.semiconductor.macro.bands.DefaultBandSet;
 import edu.colorado.phet.semiconductor.macro.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuit;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.particles.WireParticle;
 import edu.colorado.phet.semiconductor.macro.particles.WireParticleGraphic;
-import edu.colorado.phet.semiconductor.PhotonArrowGraphic;
-import edu.colorado.phet.semiconductor.Photon;
-import edu.colorado.phet.semiconductor.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,14 +44,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Locale;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroControlPanel, MacroSystem, EnergyTextGraphic, BandSetGraphic
 
 public class MacroModule extends Module {
     // Localization
+
     public static final String localizedStringsPath = "localization/ConductivityStrings";
+    private static String version = "0.02";
 
     public MacroModule( AbstractClock abstractclock )
             throws IOException {
@@ -243,14 +243,14 @@ public class MacroModule extends Module {
 
     public static void main( String args[] ) throws IOException {
         SimStrings.init( args, localizedStringsPath );
-                
+
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final MacroModule module = new MacroModule( swingtimerclock );
         ApplicationDescriptor ad = new ApplicationDescriptor(
-                                        SimStrings.get( "ConductivityApplication.title" ),
-                                        SimStrings.get( "ConductivityApplication.description" ),
-                                        SimStrings.get( "ConductivityApplication.version" ),
-                                        new FrameCenterer( 100, 100 ) );
+                SimStrings.get( "ConductivityApplication.title" ) + " " + version,
+                SimStrings.get( "ConductivityApplication.description" ),
+                SimStrings.get( "ConductivityApplication.version" ),
+                new FrameCenterer( 100, 100 ) );
         ad.setName( "conductivity" );
         PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
         phetapplication.startApplication( module );
