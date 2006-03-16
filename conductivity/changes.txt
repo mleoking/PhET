@@ -1,0 +1,4 @@
+New in 0.02
+Added an error message when typing an invalid voltage.
+Added version info in the title bar of the window.
+In Photoconductor mode with light on, the top electrons in the lower band also move.

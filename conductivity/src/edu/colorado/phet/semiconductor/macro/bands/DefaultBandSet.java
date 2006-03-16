@@ -14,8 +14,20 @@ import java.util.Random;
 //            Band, BandParticle, BandParticleObserver, EnergyLevel, 
 //            EnergyCell
 
-public class DefaultBandSet
-        implements ModelElement {
+public class DefaultBandSet implements ModelElement {
+    protected Band upper;
+    protected Band lowband;
+    ArrayList bandParticles;
+    ArrayList bandParticleObservers;
+    protected double inset;
+    protected Random random;
+    MacroSystem system;
+    private double y;
+    private double boundsHeight;
+    double lowBandY1;
+    double lowBandY2;
+    int lowNumLevels;
+    int highBandNumLevels;
 
     public DefaultBandSet( MacroSystem macrosystem, double d ) {
         bandParticles = new ArrayList();
@@ -134,28 +146,37 @@ public class DefaultBandSet
 
     }
 
-    protected boolean moveParticle( EnergyLevel energylevel, EnergyLevel energylevel1 ) {
-        if( !energylevel1.hasAnEmptyCell() ) {
+    protected boolean moveParticle( EnergyLevel src, EnergyLevel dst, boolean reverse ) {
+        if( reverse ) {
+            return moveParticle( dst, src );
+        }
+        else {
+            return moveParticle( src, dst );
+        }
+    }
+
+    protected boolean moveParticle( EnergyLevel src, EnergyLevel dst ) {
+        if( !dst.hasAnEmptyCell() ) {
             System.out.println( "No empty cell in destination level." );
             return false;
         }
         boolean flag = false;
-        int i = random.nextInt( energylevel.numCells() );
-        for( int j = i; j < energylevel.numCells(); j++ ) {
-            flag = tryToMove( energylevel.cellAt( j ), energylevel1.cellAt( j ) );
+        int i = random.nextInt( src.numCells() );
+        for( int j = i; j < src.numCells(); j++ ) {
+            flag = tryToMove( src.cellAt( j ), dst.cellAt( j ) );
             if( flag ) {
                 return true;
             }
         }
 
         for( int k = i; k >= 0; k-- ) {
-            flag = tryToMove( energylevel.cellAt( k ), energylevel1.cellAt( k ) );
+            flag = tryToMove( src.cellAt( k ), dst.cellAt( k ) );
             if( flag ) {
                 return true;
             }
         }
 
-        flag = tryToMoveAny( energylevel, energylevel1 );
+        flag = tryToMoveAny( src, dst );
         if( flag ) {
             return true;
         }
@@ -211,17 +232,5 @@ public class DefaultBandSet
         system.photonGotAbsorbed();
     }
 
-    protected Band upper;
-    protected Band lowband;
-    ArrayList bandParticles;
-    ArrayList bandParticleObservers;
-    protected double inset;
-    protected Random random;
-    MacroSystem system;
-    private double y;
-    private double boundsHeight;
-    double lowBandY1;
-    double lowBandY2;
-    int lowNumLevels;
-    int highBandNumLevels;
+
 }
