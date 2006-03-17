@@ -1,8 +1,8 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -128,7 +128,7 @@ public class BasicPhetPanel extends JPanel {
             } );
             logoButton.setToolTipText( SimStrings.get( "BasicPhetPanel.LogoButtonToolTipText" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
-            buttonDlg.getContentPane().add( logoButton );
+//            buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
             buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),

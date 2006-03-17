@@ -73,6 +73,7 @@ public class SemiconductorModule extends Module implements Graphic {
     private ArrayList cableGraphics = new ArrayList();
     private Magnet magnet;
     private MagnetGraphic magnetGraphic;
+    private static final String VERSION = "0.02";
 
     public SemiconductorModule( SwingTimerClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.SemiconductorModule" ) );
@@ -279,7 +280,7 @@ public class SemiconductorModule extends Module implements Graphic {
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
         FrameSetup fs = new TopOfScreen();
-        ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ),
+        ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ) + " " + VERSION,
                                                               SimStrings.get( "SemiconductorApplication.description" ),
                                                               SimStrings.get( "SemiconductorApplication.version" ), fs );
         ad.setName( "semiconductor" );
