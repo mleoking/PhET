@@ -6,9 +6,7 @@ import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
-import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 
-import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -72,5 +70,9 @@ public class ApplicationView {
             bpp.setControlPanel( m.getControlPanel() );
 //            bpp.setMonitorPanel( m.getMonitorPanel() );
         }
+    }
+
+    public PhetFrame getPhetFrame() {
+        return phetFrame;
     }
 }
