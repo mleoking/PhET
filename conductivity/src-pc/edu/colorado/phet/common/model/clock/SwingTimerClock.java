@@ -45,4 +45,9 @@ public class SwingTimerClock extends AbstractClock {
         }
 
     }
+
+    public void stop() {
+        timer.stop();
+        super.stopped();
+    }
 }

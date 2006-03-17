@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import java.util.ArrayList;
-
 public abstract class AbstractClock {
     CompositeClockTickListener timeListeners = new CompositeClockTickListener();
     double runningTime;
@@ -78,6 +76,12 @@ public abstract class AbstractClock {
 
     protected double getSimulationTime( long actualDelay ) {
         return tickConverter.getSimulationTime( actualDelay );
+    }
+
+    public abstract void stop();
+
+    public void stopped() {
+        executionState = NOT_STARTED;
     }
 
     private interface TickConverter {
