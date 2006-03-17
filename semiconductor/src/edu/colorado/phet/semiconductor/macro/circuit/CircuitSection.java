@@ -74,7 +74,13 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
                 relayoutClearButton();
             }
         } );
-        jb = new JButton( SimStrings.get( "CircuitSection.ClearButton" ) );
+        jb = new JButton( SimStrings.get( "CircuitSection.ClearButton" ) ) {
+            protected void paintComponent( Graphics g ) {
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setStroke( new BasicStroke( 1 ) );
+                super.paintComponent( g );
+            }
+        };
         jb.setEnabled( false );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

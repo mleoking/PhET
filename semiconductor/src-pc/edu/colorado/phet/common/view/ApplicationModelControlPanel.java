@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class ApplicationModelControlPanel extends JPanel {
     static {
         SimStrings.setStrings( "localization/SemiConductorPCStrings" );
     }
-    
+
     public ApplicationModelControlPanel( AbstractClock runner ) throws IOException {
         this( runner, null );
     }
@@ -87,7 +87,7 @@ public class ApplicationModelControlPanel extends JPanel {
         logoButton = new JButton( logo );
         logoButton.setToolTipText( SimStrings.get( "ApplicationModelControlPanel.LogoButtonToolTipText" ) );
         logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
-        this.add( logoButton, BorderLayout.EAST );
+//        this.add( logoButton, BorderLayout.EAST );
         logoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 // Get the frame
