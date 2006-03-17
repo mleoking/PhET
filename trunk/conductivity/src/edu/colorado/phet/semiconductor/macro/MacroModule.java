@@ -54,9 +54,14 @@ public class MacroModule extends Module {
     public static final String localizedStringsPath = "localization/ConductivityStrings";
     private static String version = "0.02";
 
+    public AbstractClock getClock() {
+        return clock;
+    }
+
     public MacroModule( AbstractClock abstractclock )
             throws IOException {
         super( SimStrings.get( "ModuleTitle.SemiconductorsModule" ) );
+        this.clock = abstractclock;
         minVolts = 0.0D;
         maxVolts = 2D;
 //        initstroke = new BasicStroke( 1.0F, 2, 0 );
@@ -112,7 +117,7 @@ public class MacroModule extends Module {
         } );
         getApparatusPanel().addGraphic( backgroundWhite, -1D );
         getApparatusPanel().addGraphic( backgroundBorder, 4D );
-        batterySpinner = new BatterySpinner( circuit.getBattery() );
+        batterySpinner = new BatterySpinner( circuit.getBattery(), this );
         getApparatusPanel().setLayout( null );
         transform.addTransformListener( new TransformListener() {
 

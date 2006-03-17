@@ -157,7 +157,7 @@ public class DefaultBandSet implements ModelElement {
 
     protected boolean moveParticle( EnergyLevel src, EnergyLevel dst ) {
         if( !dst.hasAnEmptyCell() ) {
-            System.out.println( "No empty cell in destination level." );
+//            System.out.println( "No empty cell in destination level." );
             return false;
         }
         boolean flag = false;

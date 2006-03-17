@@ -5,6 +5,7 @@
 package edu.colorado.phet.semiconductor.macro.battery;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.macro.MacroModule;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -22,8 +23,12 @@ public class BatterySpinner {
     JSpinner spinner;
     double min;
     double max;
+    private Battery battery;
+    private MacroModule macroModule;
 
-    public BatterySpinner( final Battery battery ) {
+    public BatterySpinner( final Battery battery, MacroModule macroModule ) {
+        this.battery = battery;
+        this.macroModule = macroModule;
         min = 0.0D;
         max = 2D;
         spinner = new JSpinner( new SpinnerNumberModel( battery.getVoltage(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.10000000000000001D ) );
@@ -68,7 +73,14 @@ public class BatterySpinner {
     }
 
     private void showErrorMessage() {
-        JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                macroModule.getClock().stop();
+                JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
+                macroModule.getClock().start();
+            }
+        } );
+
     }
 
     private double getSpinnerValue() {
