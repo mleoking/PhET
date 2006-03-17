@@ -10,7 +10,10 @@ import edu.colorado.phet.semiconductor.macro.SemiconductorModule;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticle;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticleGraphic;
-import edu.colorado.phet.semiconductor.macro.doping.*;
+import edu.colorado.phet.semiconductor.macro.doping.DopantChangeListener;
+import edu.colorado.phet.semiconductor.macro.doping.DopantDropListener;
+import edu.colorado.phet.semiconductor.macro.doping.DopantGraphic;
+import edu.colorado.phet.semiconductor.macro.doping.DopantSlot;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
@@ -179,7 +182,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     private void relayoutBatterySpinner() {
         Point viewPtBatt = transform.modelToView( circuit.getBattery().getEndPosition() );
         JSpinner batterySp = this.batterySpinner.getSpinner();
-        batterySp.setBounds( viewPtBatt.x, viewPtBatt.y + batterySp.getPreferredSize().height, batterySp.getPreferredSize().width, batterySp.getPreferredSize().height );
+        batterySp.setBounds( viewPtBatt.x, viewPtBatt.y + batterySp.getPreferredSize().height - 75, batterySp.getPreferredSize().width, batterySp.getPreferredSize().height );
         batterySp.repaint();
     }
 

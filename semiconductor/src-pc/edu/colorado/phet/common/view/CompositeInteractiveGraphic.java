@@ -109,6 +109,6 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
     }
 
     public void removeGraphic( Graphic g ) {
-        graphicMap.remove( g);
+        graphicMap.removeValue( g );
     }
 }
