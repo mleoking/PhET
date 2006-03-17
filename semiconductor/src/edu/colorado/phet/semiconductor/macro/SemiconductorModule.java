@@ -63,6 +63,7 @@ import java.util.ArrayList;
 public class SemiconductorModule extends Module implements Graphic {
     // Localization
     public static final String localizedStringsPath = "localization/SemiconductorsStrings";
+    private static final String VERSION = "0.03";
 
     CircuitSection circuitSection;
     EnergySection energySection;
@@ -73,7 +74,7 @@ public class SemiconductorModule extends Module implements Graphic {
     private ArrayList cableGraphics = new ArrayList();
     private Magnet magnet;
     private MagnetGraphic magnetGraphic;
-    private static final String VERSION = "0.02";
+
 
     public SemiconductorModule( SwingTimerClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.SemiconductorModule" ) );

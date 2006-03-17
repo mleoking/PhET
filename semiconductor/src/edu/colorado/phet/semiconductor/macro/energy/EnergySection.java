@@ -20,8 +20,6 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.*;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.DefaultCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduction;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
-import edu.colorado.phet.semiconductor.macro.energy.states.ExitLeftState;
-import edu.colorado.phet.semiconductor.macro.energy.states.ExitRightState;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
@@ -277,6 +275,13 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 //        addPNP();
         PNPHandler pnpHandler = new PNPHandler( this );
         stateModel.addModel( pnpHandler, pnpHandler );
+//        DiodeIn3Handler criteria = new DiodeIn3Handler(this );
+//        stateModel.addModel( criteria,criteria );
+//        stateModel.addModel( new DefaultCriteria( DopantType.N, DopantType.N, DopantType.P, minVolts, maxVolts ), new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                System.out.println( "EnergySection.stepInTime" );
+//            }
+//        } );
     }
 
     private void add3StateBothDir( DopantType type, double maxVolts ) {
@@ -824,7 +829,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
             if( bandParticle.getBandSet() == bandSet && b != null
                 && region.contains( bandParticle.getPosition() )
 //            && !bandParticle.isMoving()
-            ) {
+                    ) {
                 sum++;
             }
         }

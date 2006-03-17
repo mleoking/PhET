@@ -189,6 +189,10 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         Point viewPtBatt = transform.modelToView( circuit.getBattery().getEndPosition() );
         JSpinner batterySp = this.batterySpinner.getSpinner();
         batterySp.setBounds( viewPtBatt.x, viewPtBatt.y + batterySp.getPreferredSize().height - 75, batterySp.getPreferredSize().width, batterySp.getPreferredSize().height );
+        batterySp.invalidate();
+        batterySp.validate();
+        batterySp.doLayout();
+        batterySp.revalidate();
         batterySp.repaint();
     }
 
