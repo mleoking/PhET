@@ -55,10 +55,11 @@ public class MultiMap extends TreeMap {
 
     public Object remove( Object key ) {
         lastModified++;
-        try{
-        return super.remove( key );
-        }catch(ClassCastException cce){
-            cce.printStackTrace( );
+        try {
+            return super.remove( key );
+        }
+        catch( ClassCastException cce ) {
+            cce.printStackTrace();
             return null;
         }
     }
@@ -71,6 +72,16 @@ public class MultiMap extends TreeMap {
         return new ReverseIterator();
     }
 
+    public void removeValue( Object value ) {
+        Iterator forwardIterator = iterator();
+        while( forwardIterator.hasNext() ) {
+            Object key = (Object)forwardIterator.next();
+            if( key == value ) {
+                forwardIterator.remove();
+                break;
+            }
+        }
+    }
 
     //
     // Inner classes
