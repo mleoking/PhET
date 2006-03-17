@@ -141,7 +141,7 @@ public class MacroModule extends Module {
         timeBetweenFires = clock.getDt() * 3D;
         light = new Flashlight( 0.80000000000000004D, 0.10000000000000001D, 0.0D );
         ImageLoader imageloader = new ImageLoader();
-        BufferedImage bufferedimage = imageloader.loadImage( "images/light.png" );
+        BufferedImage bufferedimage = imageloader.loadImage( "images/light.gif" );
         flashlightGraphic = new FlashlightGraphic( light, bufferedimage, transform );
         getApparatusPanel().addGraphic( flashlightGraphic, 100D );
         PhetVector phetvector = getResistorCenter();

@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.common.view.util.graphics;
 
-import edu.colorado.phet.semiconductor.common.ImageDebugger;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -82,9 +80,9 @@ public class ImageLoader {
             throw new IOException( "Null image URL." );
         }
         Image image = loadStrategy.loadImage( imageURL );
-        ImageDebugger.show( "imload", image );
+//        ImageDebugger.show( "imload", image );
         BufferedImage buffy = conversionStrategy.toBufferedImage( image );
-        ImageDebugger.show( "buf", buffy );
+//        ImageDebugger.show( "buf", buffy );
         return buffy;
     }
 
