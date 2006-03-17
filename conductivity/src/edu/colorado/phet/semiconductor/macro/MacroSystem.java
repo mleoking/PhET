@@ -23,10 +23,10 @@ public class MacroSystem
         return bandSet;
     }
 
-    public MacroSystem( double d, double d1, double d2 ) {
+    public MacroSystem( double minVolts, double maxVolts, double particleWidth ) {
         particles = new ArrayList();
-        minVolts = d;
-        maxVolts = d1;
+        this.minVolts = minVolts;
+        this.maxVolts = maxVolts;
         circuit = new MacroCircuit();
         Battery battery = circuit.getBattery();
         battery.addBatteryListener( new BatteryListener() {
@@ -36,9 +36,9 @@ public class MacroSystem
             }
 
         } );
-        conductor = new ConductorBandSet( this, d2 );
-        insulator = new InsulatorBandSet( this, d2 );
-        photoconductor = new PhotoconductorBandSet( this, d2 );
+        conductor = new ConductorBandSet( this, particleWidth );
+        insulator = new InsulatorBandSet( this, particleWidth );
+        photoconductor = new PhotoconductorBandSet( this, particleWidth );
         setBandSet( conductor );
     }
 

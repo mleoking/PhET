@@ -78,8 +78,8 @@ public class MacroModule extends Module {
         setControlPanel( macroControlPanel );
         setModel( new BaseModel( abstractclock ) );
         addViewBoundsListener();
-        double d = transform.viewToModelDifferentialX( MacroCircuitGraphic.getParticleImage().getWidth() );
-        model = new MacroSystem( minVolts, maxVolts, d );
+        double particleWidth = transform.viewToModelDifferentialX( MacroCircuitGraphic.getParticleImage().getWidth() );
+        model = new MacroSystem( minVolts, maxVolts, particleWidth );
         circuit = model.getCircuit();
         circuitGraphic = new MacroCircuitGraphic( circuit, transform );
         for( int i = 0; i < circuitGraphic.numWireGraphics(); i++ ) {

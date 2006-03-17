@@ -6,18 +6,20 @@ package edu.colorado.phet.semiconductor.macro.bands;
 
 import edu.colorado.phet.semiconductor.macro.MacroSystem;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            DefaultBandSet, Band, EnergyLevel
 
 public class PhotoconductorBandSet extends DefaultBandSet {
-
+//    ConductorBandSet conductorBandSet;
     boolean lightOn;
     int excitedCount;
 
     public PhotoconductorBandSet( MacroSystem macrosystem, double d ) {
         super( macrosystem, d );
+//        this.conductorBandSet=new ConductorBandSet( macrosystem, d);
         lightOn = false;
         random = new Random( 0L );
         excitedCount = 0;
@@ -32,14 +34,9 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 
     public void initParticles() {
         super.initParticles();
-        for( int i = 0; i <= getFermiLevel(); i++ ) {
+        for( int i = 0; i < getLowerBand().numEnergyLevels(); i++ ) {
             super.fillLevel( getLowerBand().energyLevelAt( i ) );
         }
-
-    }
-
-    public int getFermiLevel() {
-        return getLowerBand().numEnergyLevels() - 1;
     }
 
     public double desiredSpeedToActualSpeed( double d ) {
@@ -52,31 +49,10 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         }
     }
 
-    public double voltageChanged( double d, double d1 ) {
-        return super.voltageChanged( d, d1 );
-    }
-
     public void photonHit() {
         if( !lightOn ) {
             return;
         }
-//        excitedCount++;
-//        if( excitedCount == 0 ) {
-//            setConductionCount( 0, 0 );
-//        }
-//        else if( excitedCount == 1 ) {
-//            setConductionCount( 1, 0 );
-//        }
-//        else if( excitedCount == 2 ) {
-//            setConductionCount( 1, 1 );
-//        }
-//        else if( excitedCount == 3 ) {
-//            setConductionCount( 2, 1 );
-//        }
-//        else if( excitedCount == 4 ) {
-//            setConductionCount( 2, 2 );
-//        }
-
         moveUp();
 
         super.photonGotAbsorbed();
@@ -94,8 +70,6 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         moveParticle( getLowBandFromTop( 0 ), getUpperBand( 1 ), true );
         moveParticle( getLowBandFromTop( 1 ), getUpperBand( 0 ), true );
 
-        moveParticle( getLowBandFromTop( 2 ), getLowBandFromTop( 0 ), true );
-        moveParticle( getLowBandFromTop( 3 ), getLowBandFromTop( 1 ), true );
         setConducting( false );
     }
 
@@ -103,8 +77,6 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         moveParticle( getLowBandFromTop( 0 ), getUpperBand( 1 ) );
         moveParticle( getLowBandFromTop( 1 ), getUpperBand( 0 ) );
 
-        moveParticle( getLowBandFromTop( 2 ), getLowBandFromTop( 0 ) );
-        moveParticle( getLowBandFromTop( 3 ), getLowBandFromTop( 1 ) );
         setConducting( true );
     }
 
@@ -115,109 +87,8 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         getUpperBand( 1 ).setCanConduct( flag );
     }
 
-//    private void setConductionCount( int i, int j ) {
-//        System.out.println( "PhotoconductorBandSet.setConductionCount" );
-////        int k = getFermiLevel();
-////        Band band = getLowerBand();
-//
-//        EnergyLevel a = lowband.energyLevelAt( lowband.numEnergyLevels() - 1 );
-//        EnergyLevel b = lowband.energyLevelAt( lowband.numEnergyLevels() - 1 - 1 );
-//        EnergyLevel c = lowband.energyLevelAt( lowband.numEnergyLevels() - 1 - 2 );
-//        EnergyLevel d = lowband.energyLevelAt( lowband.numEnergyLevels() - 1 - 3 );
-//        if( i == 0 && j == 0 ) {
-//            moveParticle( a, c );
-//            moveParticle( a, d );
-//            moveParticle( b, c );
-//            moveParticle( b, d );
-//        }
-//
-//        EnergyLevel level0 = upper.energyLevelAt( 0 );
-//        level0.setCanConduct( true );
-//        EnergyLevel level1 = upper.energyLevelAt( 1 );
-//        level1.setCanConduct( true );
-//        moveParticles( level0, i );
-//        moveParticles( level1, j );
-//
-//        try {
-//            int ijSum = i + j;
-//            if( ijSum >= 1 ) {
-//                moveParticle( c, a );
-//            }
-//            if( ijSum >= 2 ) {
-//                moveParticle( d, a );
-//            }
-//            if( ijSum >= 3 ) {
-//                moveParticle( c, b );
-//            }
-//            if( ijSum >= 4 ) {
-//                moveParticle( d, b );
-//            }
-//
-//        }
-//        catch( RuntimeException ru ) {
-//            ru.printStackTrace();
-//        }
-//
-//        if( i == 0 && j == 0 ) {
-//            a.setCanConduct( false );
-//            b.setCanConduct( false );
-//            c.setCanConduct( false );
-//            d.setCanConduct( false );
-//        }
-//        else {
-//            a.setCanConduct( true );
-//            b.setCanConduct( true );
-//        }
-//    }
-
     public int topFreeLevel() {
         return lowband.numEnergyLevels() - 1 - 3;
-    }
-
-    EnergyLevel getDonorLevel() {
-        int fermiLevel = getFermiLevel();
-        for( int i = fermiLevel; i >= topFreeLevel(); i-- ) {
-            if( lowband.energyLevelAt( i ).numParticles() == 2 ) {
-                return lowband.energyLevelAt( i );
-            }
-        }
-
-        for( int i = fermiLevel; i >= topFreeLevel(); i-- ) {
-            if( lowband.energyLevelAt( i ).numParticles() == 1 ) {
-                return lowband.energyLevelAt( i );
-            }
-        }
-
-        throw new RuntimeException( "No Donor level." );
-    }
-
-    EnergyLevel getAcceptor() {
-        int fermiLevel = getFermiLevel();
-        for( int i = fermiLevel; i >= fermiLevel; i-- ) {
-            if( lowband.energyLevelAt( i ).numParticles() < 2 ) {
-                return lowband.energyLevelAt( i );
-            }
-        }
-
-        throw new RuntimeException( "No Donor level." );
-    }
-
-    protected void moveParticles( EnergyLevel level, int desiredNumberElectrons ) {
-        int j = 0;
-        while( level.numParticles() > desiredNumberElectrons ) {
-            EnergyLevel dst = getAcceptor();
-            moveParticle( level, dst );
-            if( ++j > 100 ) {
-                throw new RuntimeException( "Loop broke." );
-            }
-        }
-        while( level.numParticles() < desiredNumberElectrons ) {
-            EnergyLevel src = getDonorLevel();
-            moveParticle( src, level );
-            if( ++j > 100 ) {
-                throw new RuntimeException( "Loop broke." );
-            }
-        }
     }
 
     public boolean isLightOn() {
@@ -228,11 +99,108 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         lightOn = flag;
         if( !lightOn ) {
             excitedCount = 0;
-//            setConductionCount( 0, 0 );
             moveDown();
         }
         super.photonGotAbsorbed();
     }
 
+    /**
+     * ************
+     */
+    public int getFermiLevel() {
+        return super.getLowerBand().numEnergyLevels() / 2;
+    }
+//
+
+    public double voltageChanged( double d, double d1 ) {
+//        super.voltageChanged( d, d1 );
+        if( lightOn ) {
+            int i = getFermiLevel();
+            Band band = getLowerBand();
+            EnergyLevel energylevel = band.energyLevelAt( i + 1 );
+            EnergyLevel energylevel1 = band.energyLevelAt( i + 2 );
+            energylevel.setCanConduct( true );
+            energylevel1.setCanConduct( true );
+            if( d == 0.0D ) {
+                setConductionCount( 0, 0 );
+            }
+            else if( d > 0.0D && d <= 0.5D ) {
+                setConductionCount( 1, 0 );
+            }
+            else if( ( d > 0.5D ) & ( d <= 1.0D ) ) {
+                setConductionCount( 1, 1 );
+            }
+            else if( d > 1.0D && d <= 1.5D ) {
+                setConductionCount( 2, 1 );
+            }
+            else if( d > 1.5D && d <= 2D ) {
+                setConductionCount( 2, 2 );
+            }
+        }
+        else {
+            setConductionCount( 0, 0 );
+        }
+        return super.voltageChanged( d, d1 );
+    }
+//
+
+    private void setConductionCount( int i, int j ) {
+        int k = getFermiLevel();
+        Band band = getLowerBand();
+        ArrayList arraylist = new ArrayList();
+        arraylist.add( band.energyLevelAt( k ) );
+        EnergyLevel energylevel = band.energyLevelAt( k + 1 );
+        EnergyLevel energylevel1 = band.energyLevelAt( k + 2 );
+        moveParticles( energylevel, i );
+        moveParticles( energylevel1, j );
+    }
+//
+
+    EnergyLevel getDonorLevel() {
+        int i = getFermiLevel();
+        for( int j = i; j >= 0; j-- ) {
+            if( lowband.energyLevelAt( j ).numParticles() > 0 ) {
+                return lowband.energyLevelAt( j );
+            }
+        }
+        return null;
+//        throw new RuntimeException( "No Donor level." );
+    }
+
+    EnergyLevel getAcceptor() {
+        int i = getFermiLevel();
+        for( int j = i; j >= 0; j-- ) {
+            if( lowband.energyLevelAt( j ).numParticles() < 2 ) {
+                return lowband.energyLevelAt( j );
+            }
+        }
+        return null;
+//        throw new RuntimeException( "No Acceptor level." );
+    }
+//
+
+    protected void moveParticles( EnergyLevel energylevel, int i ) {
+        int j = 0;
+        while( energylevel.numParticles() > i ) {
+            EnergyLevel dst = getAcceptor();
+            if( dst == null ) {
+                break;
+            }
+            moveParticle( energylevel, dst );
+            if( ++j > 100 ) {
+                throw new RuntimeException( "Loop broke." );
+            }
+        }
+        while( energylevel.numParticles() < i ) {
+            EnergyLevel src = getDonorLevel();
+            if( src == null ) {
+                break;
+            }
+            moveParticle( src, energylevel );
+            if( ++j > 100 ) {
+                throw new RuntimeException( "Loop broke." );
+            }
+        }
+    }
 
 }
