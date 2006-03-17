@@ -1,0 +1,2 @@
+New in 0.02
+Fixed the frame to come up at large size at 1024x768.

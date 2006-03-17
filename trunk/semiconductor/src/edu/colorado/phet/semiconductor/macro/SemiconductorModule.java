@@ -21,10 +21,10 @@ import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
@@ -44,16 +44,15 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSpinnerUI;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -269,25 +268,40 @@ public class SemiconductorModule extends Module implements Graphic {
     static class TopOfScreen implements FrameSetup {
         public void initialize( JFrame frame ) {
             frame.setLocation( 0, 0 );
-            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - 300, Toolkit.getDefaultToolkit().getScreenSize().height - 300 );
+//            frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - 300, Toolkit.getDefaultToolkit().getScreenSize().height - 300 );
+            frame.setSize( 944, 706 );
         }
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
         SimStrings.init( args, localizedStringsPath );
-        
+
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
         FrameSetup fs = new TopOfScreen();
         ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ),
-                                SimStrings.get( "SemiconductorApplication.description" ),
-                                SimStrings.get( "SemiconductorApplication.version" ), fs );
+                                                              SimStrings.get( "SemiconductorApplication.description" ),
+                                                              SimStrings.get( "SemiconductorApplication.version" ), fs );
         ad.setName( "semiconductor" );
         SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
         SemiconductorModule module = new SemiconductorModule( clock );
-        PhetApplication pa = new PhetApplication( ad, module, clock );
+        final PhetApplication pa = new PhetApplication( ad, module, clock );
         pa.startApplication( module );
         enableAspectRatio( pa, module );
+        pa.getApplicationView().getPhetFrame().addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                System.out.println( "pa.getApplicationView().getPhetFrame().getSize( ) = " + pa.getApplicationView().getPhetFrame().getSize() );
+            }
+
+            public void componentShown( ComponentEvent e ) {
+            }
+        } );
     }
 
     private static void enableAspectRatio( PhetApplication app, Module module ) {
