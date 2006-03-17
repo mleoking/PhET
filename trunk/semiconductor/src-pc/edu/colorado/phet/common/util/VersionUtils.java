@@ -3,7 +3,6 @@ package edu.colorado.phet.common.util;
 
 import edu.colorado.phet.common.application.PhetApplication;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 
@@ -35,8 +34,11 @@ public class VersionUtils {
     public static VersionInfo readVersionInfo( PhetApplication app ) {
         String name = app.getApplicationDescriptor().getName();
         ClassLoader cl = app.getClass().getClassLoader();
-        URL buildNumberURL = cl.getResource( (name != null ? name + "." : "" ) + "build.number" );
+        URL buildNumberURL = cl.getResource( ( name != null ? name + "." : "" ) + "build.number" );
         System.out.println( "buildNumberURL = " + buildNumberURL );
+        if( buildNumberURL == null ) {
+            return new VersionInfo( -1, "Not Recorded" );
+        }
         int buildNum = -1;
         try {
             BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
@@ -56,7 +58,7 @@ public class VersionUtils {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
 
-        InputStream buildTimeURL = cl.getResourceAsStream( (name != null ? name + "." : "" ) + "build.time.stamp" );
+        InputStream buildTimeURL = cl.getResourceAsStream( ( name != null ? name + "." : "" ) + "build.time.stamp" );
         String buildTimeStr = "-1";
         try {
             buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
