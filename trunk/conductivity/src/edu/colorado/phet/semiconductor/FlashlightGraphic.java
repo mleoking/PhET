@@ -4,13 +4,11 @@
 
 package edu.colorado.phet.semiconductor;
 
-import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
-import edu.colorado.phet.semiconductor.Flashlight;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,8 +17,13 @@ import java.awt.image.BufferedImage;
 // Referenced classes of package edu.colorado.phet.semiconductor.flashlight:
 //            Flashlight
 
-public class FlashlightGraphic
-        implements Graphic {
+public class FlashlightGraphic implements Graphic {
+
+    private Flashlight light;
+    private BufferedImage lightImage;
+    private ModelViewTransform2D transform;
+    private SimpleBufferedImageGraphic imageGraphic;
+    private boolean visible;
 
     public FlashlightGraphic( Flashlight flashlight, BufferedImage bufferedimage, ModelViewTransform2D modelviewtransform2d ) {
         light = flashlight;
@@ -35,11 +38,9 @@ public class FlashlightGraphic
 
         } );
         flashlight.addObserver( new SimpleObserver() {
-
             public void update() {
                 doUpdate();
             }
-
         } );
     }
 
@@ -61,11 +62,5 @@ public class FlashlightGraphic
     public void setVisible( boolean flag ) {
         visible = flag;
     }
-
-    private Flashlight light;
-    private BufferedImage lightImage;
-    private ModelViewTransform2D transform;
-    SimpleBufferedImageGraphic imageGraphic;
-    private boolean visible;
 
 }
