@@ -22,6 +22,7 @@ public class ResolutionControl extends AdvancedPanel {
     public static final int DEFAULT_WAVE_SIZE = 60;
     private SchrodingerModule schrodingerModule;
     private final int WAVE_GRAPHIC_SIZE_1024x768 = 360;
+    public static int INIT_WAVE_SIZE = 0;
 
     public ResolutionControl( final SchrodingerModule schrodingerModule ) {
         super( "Resolution>>", "Resolution<<" );
@@ -61,7 +62,9 @@ public class ResolutionControl extends AdvancedPanel {
                 getSchrodingerModule().setWaveSize( waveSize );
             }
         } );
-        getSchrodingerModule().setWaveSize( WAVE_GRAPHIC_SIZE_1024x768 / schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() );
+        ResolutionControl.INIT_WAVE_SIZE = WAVE_GRAPHIC_SIZE_1024x768 /
+                                           schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize();
+        getSchrodingerModule().setWaveSize( INIT_WAVE_SIZE );
 
         JLabel numSkip = new JLabel( "Time Step" );
         addControl( numSkip );

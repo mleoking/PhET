@@ -162,9 +162,11 @@ public class SchrodingerModule extends PiccoloModule {
     static final Random random = new Random( 0 );
 
     public void addPotential() {
-        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - 10 );
-        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - 10 );
-        RectangularPotential rectangularPotential = new RectangularPotential( getDiscreteModel(), x, y, 10, 10 );
+        int w = (int)( getDiscreteModel().getGridWidth() / 4.5 );
+        int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - w );
+        int y = random.nextInt( getDiscreteModel().getWavefunction().getHeight() - w );
+
+        RectangularPotential rectangularPotential = new RectangularPotential( getDiscreteModel(), x, y, w, w );
         rectangularPotential.setPotential( Double.MAX_VALUE / 100.0 );
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
