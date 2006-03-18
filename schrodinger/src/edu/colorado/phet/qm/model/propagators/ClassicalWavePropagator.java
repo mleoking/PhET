@@ -43,6 +43,14 @@ public class ClassicalWavePropagator extends Propagator {
             last2 = w.copy();
             return;
         }
+
+//        double c=0.5;
+//        double c=1;
+//        double c=0.25;
+//        double c=0.6;
+//        double c=0.6;
+        double c = 0.5;
+        double cSquared = c * c;
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
 
@@ -59,7 +67,7 @@ public class ClassicalWavePropagator extends Propagator {
                     Complex lastVal = last( i, j );
                     neigh.add( lastVal.getReal() * -4, lastVal.getImaginary() * -4 );
 
-                    neigh.scale( 0.25 );
+                    neigh.scale( cSquared );
                     w.setValue( i, j,
                                 last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
                                 last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );

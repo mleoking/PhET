@@ -3,7 +3,9 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -27,6 +29,11 @@ public class Photon extends GunParticle {
     public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
         super( abstractGunGraphic, label, imageLocation );
         wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunGraphic.getSchrodingerPanel() );
+        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                notifyMomentumChanged();//since wavelength depends on grid area size, now.  See McKagan 3-17-2006
+            }
+        } );
     }
 
     public void activate( AbstractGunGraphic abstractGunGraphic ) {
@@ -61,8 +68,12 @@ public class Photon extends GunParticle {
     }
 
     public double getStartPy() {
-        double wavelengthValue = getWavelength();
-        return -hbar * 2 * Math.PI / wavelengthValue;
+//        System.out.println( "getWavelength() = " + getWavelength() );
+//        System.out.println( "getDiscreteModel().getGridHeight() = " + getDiscreteModel().getGridHeight() );
+        double wavelengthValue = getWavelength() * getDiscreteModel().getGridHeight() / ( (double)ResolutionControl.INIT_WAVE_SIZE );
+//        double wavelengthValue = getWavelength();// * getDiscreteModel().getGridHeight() / ( (double)ResolutionControl.INIT_WAVE_SIZE );
+//        System.out.println( "wavelengthValue = " + wavelengthValue );
+        return 2 * Math.PI / wavelengthValue;
     }
 
     protected double getHBar() {
