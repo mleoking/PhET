@@ -1,5 +1,6 @@
-New in 0.48
+New in 0.48 (3-17-2006)
 Barriers come up at the same size for the different resolutions.
+Photons come up at the same size for different resolutions.
 
 New in 0.47 (3-17-2006)
 Barriers come up at the same size for the different resolutions.

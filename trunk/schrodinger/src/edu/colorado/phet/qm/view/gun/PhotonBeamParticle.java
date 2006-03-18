@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.qm.controls.ResolutionControl;
 
 /**
  * User: Sam Reid
@@ -25,6 +26,30 @@ public class PhotonBeamParticle extends GunParticle {
         photonBeam.getPhoton().removeMomentumChangeListener( photonBeam.getColorChangeHandler() );
     }
 
+    private double getFinalNormValue() {
+        return 0.995 * getWaveValueScale();
+    }
+
+    private double getWaveValueScale() {
+        return getWaveArea() / getDefaultArea();
+    }
+
+    double getDefaultArea() {
+        return ResolutionControl.INIT_WAVE_SIZE * ResolutionControl.INIT_WAVE_SIZE;
+    }
+
+    double getWaveArea() {
+        return getDiscreteModel().getGridHeight() * getDiscreteModel().getGridWidth();
+    }
+
+    private double getRampDownPeak() {
+        return 0.98 * getWaveValueScale();
+    }
+
+    private double getRampUpPeak() {
+        return 0.40 * getWaveValueScale();
+    }
+
     public void reset() {
         photonBeam.setIntensity( 0.0 );
         photonBeam.setHighIntensityModeOn( false );
@@ -38,7 +63,7 @@ public class PhotonBeamParticle extends GunParticle {
 
         public void stepInTime( double dt ) {
             count++;
-            getDiscreteModel().setWavefunctionNorm( 0.995 );
+            getDiscreteModel().setWavefunctionNorm( getFinalNormValue() );
             if( count >= maxCount ) {
                 while( getSchrodingerModule().getModel().containsModelElement( this ) ) {
                     removeModelElement( this );
@@ -60,7 +85,7 @@ public class PhotonBeamParticle extends GunParticle {
             double mag = getDiscreteModel().getWavefunction().getMagnitude();
 
             double intensity = photonBeam.getIntensity();
-            if( mag > 0.40 && this instanceof RampUp ) {
+            if( mag > getRampUpPeak() && this instanceof RampUp ) {
                 removeModelElement( this );
                 addModelElement( rampDown );
             }
@@ -69,8 +94,8 @@ public class PhotonBeamParticle extends GunParticle {
             intensity = Math.max( intensity, 0 );
             photonBeam.setIntensity( intensity );
 
-            if( mag > 0.98 || ( ( this instanceof RampDown ) && intensity == 0 ) ) {
-                getDiscreteModel().setWavefunctionNorm( 0.995 );
+            if( mag > getRampDownPeak() || ( ( this instanceof RampDown ) && intensity == 0 ) ) {
+                getDiscreteModel().setWavefunctionNorm( getFinalNormValue() );
                 removeModelElement( this );
                 addModelElement( pauser );
                 photonBeam.setIntensity( 0.0 );
