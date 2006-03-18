@@ -139,7 +139,7 @@ public class SchrodingerModule extends PiccoloModule {
     boolean firstDetector = true;
 
     public void addDetector() {
-        int detectorWidth = 10;
+        int detectorWidth = (int)( getDiscreteModel().getGridWidth() / 4.5 );
         int detectorHeight = detectorWidth;
 
         int x = random.nextInt( getDiscreteModel().getWavefunction().getWidth() - detectorWidth );
