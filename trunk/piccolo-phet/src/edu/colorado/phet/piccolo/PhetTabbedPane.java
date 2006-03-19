@@ -42,16 +42,22 @@ import java.util.ArrayList;
 
 public class PhetTabbedPane extends JPanel {
     private TabPane tabPane;
+    /**
+     * A piccolo canvas that displays the tabs
+     */
     private JComponent component;
+    /**
+     * The Swing component that corresponds to the selected tab.
+     */
     private Color selectedTabColor;
     private ArrayList changeListeners = new ArrayList();
     private Font tabFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private TabNodeFactory tabNodeFactory = new TabNodeFactory();
 
     /**
      * The default foreground color for the selected tab.
      */
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 150, 150, 255 );
-    private TabNodeFactory tabNodeFactory = new TabNodeFactory();
 
     /**
      * Constructs a PhetTabbedPane using the default color scheme.
@@ -90,10 +96,18 @@ public class PhetTabbedPane extends JPanel {
         addComponentListener( relayoutHandler );
     }
 
+    /**
+     * Returns the number of tabs.
+     *
+     * @return the number of tabs.
+     */
     public int getTabCount() {
         return tabPane.getTabCount();
     }
 
+    /**
+     * Sets the bounds of each tab JComponent to mimic behavior in JTabbedPane
+     */
     private void relayoutComponents() {
         Rectangle bounds = component.getBounds();
         for( int i = 0; i < getTabCount(); i++ ) {
@@ -274,6 +288,12 @@ public class PhetTabbedPane extends JPanel {
         revalidate();
     }
 
+    /**
+     * Returns the text of the specified tab.
+     *
+     * @param i the tab index
+     * @return the text of the specified tab.
+     */
     public String getTitleAt( int i ) {
         return getTab( i ).getText();
     }
@@ -284,7 +304,6 @@ public class PhetTabbedPane extends JPanel {
     public static class TabNodeFactory {
         public AbstractTabNode createTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             return new HTMLTabNode( text, component, selectedTabColor, tabFont );
-//            return new HTMLTabNode( text, component, selectedTabColor, tabFont );
         }
     }
 
@@ -350,6 +369,10 @@ public class PhetTabbedPane extends JPanel {
         }
     }
 
+    /**
+     * This is a workaround for a bug in rendering gradients on Mac.
+     * Chris Malley has posted a bug report with Apple.
+     */
     static class LowQualityPPath extends PPath {
         public LowQualityPPath( Shape shape ) {
             super( shape );
@@ -369,18 +392,18 @@ public class PhetTabbedPane extends JPanel {
      * The AbstractTabNode is the graphic PNode for one tab.
      */
     public static abstract class AbstractTabNode extends PNode {
-        private String text;
-        private JComponent component;
-        private PNode textNode;
-        private LowQualityPPath background;
-        private boolean selected;
-        private float tiltWidth = 11;
-        private Color selectedTabColor;
-        private PPath outlineNode;
+        private String text;/*The text for the tab*/
+        private JComponent component;/*The swing component associated with this tab.*/
+        private PNode textNode;/*The PNode that draws the text*/
+        private LowQualityPPath background; /*Draws the gradient background*/
+        private boolean selected;/*True if this tab is selected.*/
+        private float tiltWidth = 11; /*Amount the tab sticks out over adjacent tabs*/
+        private Color selectedTabColor; /*Color when selected*/
+        private PPath outlineNode; /*Draws the tab outline.*/
         private Font tabFont;
         private boolean textIsCentered = true;
 
-        private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );
+        private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );/* Insets for the text in the tab.*/
 
         public AbstractTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             this.tabFont = tabFont;
@@ -414,6 +437,13 @@ public class PhetTabbedPane extends JPanel {
             }
         }
 
+        /**
+         * Creates an outline over just the sides and top of the tab.
+         *
+         * @param textWidth
+         * @param textHeight
+         * @return the path.
+         */
         private GeneralPath createTabTopBorder( double textWidth, double textHeight ) {
             GeneralPath outline = new GeneralPath();
             outline.moveTo( -tabInsets.left, (float)( textHeight + tabInsets.bottom ) );
@@ -423,6 +453,13 @@ public class PhetTabbedPane extends JPanel {
             return outline;
         }
 
+        /**
+         * Creates a path that goes entirely around the tab graphic.
+         *
+         * @param textWidth
+         * @param textHeight
+         * @return the path.
+         */
         private GeneralPath createTabShape( double textWidth, double textHeight ) {
             GeneralPath path = new GeneralPath();
             path.moveTo( -tabInsets.left, -tabInsets.top );
@@ -433,10 +470,20 @@ public class PhetTabbedPane extends JPanel {
             return path;
         }
 
+        /**
+         * Returns the swing component associated with this tab.
+         *
+         * @return the swing component associated with this tab.
+         */
         public JComponent getComponent() {
             return component;
         }
 
+        /**
+         * Sets whether this tab and its associated component are selected.
+         *
+         * @param selected
+         */
         public void setSelected( boolean selected ) {
             this.selected = selected;
             updateTextNode();
@@ -445,6 +492,11 @@ public class PhetTabbedPane extends JPanel {
             updatePaint();
         }
 
+        /**
+         * Returns whether this tab is selected.
+         *
+         * @return true if this tab is selected.
+         */
         public boolean isSelected() {
             return selected;
         }
@@ -537,6 +589,13 @@ public class PhetTabbedPane extends JPanel {
         return Math.max( 0, value - d );
     }
 
+    /**
+     * Returns a new Color that is darker by the specified amount in each R G and B.
+     *
+     * @param a
+     * @param d
+     * @return the new Color.
+     */
     private static Color darker( Color a, int d ) {
         return new Color( darker( a.getRed(), d ), darker( a.getGreen(), d ), darker( a.getBlue(), d ) );
     }
@@ -554,7 +613,6 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
 
         public TabPane( Color selectedTabColor ) {
-//            setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
             logo = PImageFactory.create( "images/phetlogo4.png" );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
@@ -585,6 +643,11 @@ public class PhetTabbedPane extends JPanel {
             return selectedTab;
         }
 
+        /**
+         * Adds the specified tab- if this is the first tab, it becomes selected.
+         *
+         * @param tab
+         */
         public void addTab( AbstractTabNode tab ) {
             tabs.add( tab );
             getLayer().addChild( 0, tab );
@@ -604,9 +667,20 @@ public class PhetTabbedPane extends JPanel {
             }
             double tabBaseY = getHeight() - tabBase.getFullBounds().getHeight();
             tabBase.setOffset( 0, tabBaseY );
+            relayoutLogo( tabBaseY );
+            for( int i = 0; i < tabs.size(); i++ ) {
+                getTab( i ).updatePaint();
+            }
+            tabBase.updatePaint();
+        }
+
+        private void relayoutLogo( double tabBaseY ) {
             if( logo.getImage().getHeight( null ) > getHeight() ) {
-                double scale = getHeight() / ( (double)logo.getImage().getHeight( null ) );
+                double scale = ( getHeight() - 5.0 ) / ( (double)logo.getImage().getHeight( null ) );
                 logo.setScale( Math.max( scale, 0.5 ) );
+            }
+            else {
+                logo.setScale( 1 );
             }
             logo.setOffset( getWidth() - logo.getFullBounds().getWidth(), tabBaseY / 2 - logo.getFullBounds().getHeight() / 2 );
 
@@ -619,10 +693,6 @@ public class PhetTabbedPane extends JPanel {
                     logo.setVisible( true );
                 }
             }
-            for( int i = 0; i < tabs.size(); i++ ) {
-                getTab( i ).updatePaint();
-            }
-            tabBase.updatePaint();
         }
 
         public Dimension getPreferredSize() {
@@ -633,7 +703,7 @@ public class PhetTabbedPane extends JPanel {
             return new Dimension( width, (int)( h + tabBase.getFullBounds().getHeight() ) );
         }
 
-        public double getMaxTabTextHeight() {
+        private double getMaxTabTextHeight() {
             double h = 0;
             for( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode)tabs.get( i );
@@ -642,7 +712,7 @@ public class PhetTabbedPane extends JPanel {
             return h;
         }
 
-        public int getMaxTabHeight() {
+        private int getMaxTabHeight() {
             int h = 0;
             for( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode)tabs.get( i );
@@ -651,10 +721,20 @@ public class PhetTabbedPane extends JPanel {
             return h;
         }
 
+        /**
+         * Returns the tabs in this TabPane.
+         *
+         * @return the tabs in this TabPane.
+         */
         public AbstractTabNode[] getTabs() {
             return (AbstractTabNode[])tabs.toArray( new AbstractTabNode[0] );
         }
 
+        /**
+         * Sets the selected tab.
+         *
+         * @param tab
+         */
         public void setSelectedTab( AbstractTabNode tab ) {
             this.selectedTab = tab;
             getLayer().removeChild( tabBase );
@@ -677,7 +757,7 @@ public class PhetTabbedPane extends JPanel {
             return getTab( i ).getText();
         }
 
-        private AbstractTabNode getTab( int i ) {
+        protected AbstractTabNode getTab( int i ) {
             return (AbstractTabNode)tabs.get( i );
         }
 
@@ -685,6 +765,11 @@ public class PhetTabbedPane extends JPanel {
             tabs.remove( i );
         }
 
+        /**
+         * Sets what the color should be when this tab is selected.
+         *
+         * @param color
+         */
         public void setSelectedTabColor( Color color ) {
             for( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode)tabs.get( i );
