@@ -555,7 +555,7 @@ public class PhetTabbedPane extends JPanel {
 
         public TabPane( Color selectedTabColor ) {
 //            setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
-            logo = PImageFactory.create( "images/phetlogo2.png" );
+            logo = PImageFactory.create( "images/phetlogo4.png" );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
