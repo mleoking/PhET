@@ -737,11 +737,21 @@ public class PhetTabbedPane extends JPanel {
          */
         public void setSelectedTab( AbstractTabNode tab ) {
             this.selectedTab = tab;
+            /*Ensure the tabs appear in the z-order in which they are listed.*/
+            for( int i = 0; i < getTabs().length; i++ ) {
+                if( getLayer().getChildrenReference().contains( getTabs()[i] ) ) {
+                    getLayer().removeChild( getTabs()[i] );
+                }
+            }
+            for( int i = getTabs().length - 1; i >= 0; i-- ) {
+                if( getTabs()[i] != tab ) {
+                    getLayer().addChild( getTabs()[i] );
+                }
+            }
+            /*Then show the TabBase*/
             getLayer().removeChild( tabBase );
             getLayer().addChild( tabBase );
-            if( getLayer().getChildrenReference().contains( tab ) ) {
-                getLayer().removeChild( tab );
-            }
+            /**Last, show the selected tab on top.*/
             getLayer().addChild( tab );
         }
 
