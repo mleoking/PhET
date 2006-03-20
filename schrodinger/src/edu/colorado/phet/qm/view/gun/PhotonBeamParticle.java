@@ -31,7 +31,8 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     private double getWaveValueScale() {
-        return getWaveArea() / getDefaultArea();
+        double ratio = getWaveArea() / getDefaultArea();
+        return ratio * ratio;
     }
 
     double getDefaultArea() {
