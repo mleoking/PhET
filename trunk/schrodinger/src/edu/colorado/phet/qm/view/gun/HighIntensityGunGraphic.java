@@ -184,7 +184,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
             beam.activate( this );
             currentBeam = beam;
             currentBeam.setHighIntensityModeOn( on );
-            System.out.println( "alwaysOnCheckBox.isSelected() = " + alwaysOnCheckBox.isSelected() );
+//            System.out.println( "alwaysOnCheckBox.isSelected() = " + alwaysOnCheckBox.isSelected() );
         }
         updateGunLocation();
         updateSliderColor();
@@ -193,7 +193,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
     private void updateIntensity() {
         double intensity = new Function.LinearFunction( 0, MAX_INTENSITY_READOUT, 0, 0.5 ).evaluate( intensitySlider.getValue() );
 
-        System.out.println( "slidervalue=" + intensitySlider.getValue() + ", intensity = " + intensity );
+//        System.out.println( "slidervalue=" + intensitySlider.getValue() + ", intensity = " + intensity );
         for( int i = 0; i < beams.length; i++ ) {
             beams[i].setIntensity( intensity );
         }

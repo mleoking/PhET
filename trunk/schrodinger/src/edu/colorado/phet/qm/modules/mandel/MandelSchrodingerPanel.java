@@ -115,11 +115,11 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
             return new PhotonColorMap( this, 0, new WaveValueAccessor.Magnitude() );
         }
         if( getMandelModule().getMandelModel().isSplit() ) {
-            System.out.println( "MandelSchrodingerPanel.createColorMap: using mandelSplitColorMap" );
+//            System.out.println( "MandelSchrodingerPanel.createColorMap: using mandelSplitColorMap" );
             return new MandelSplitColorMap( mandelModule );
         }
         else {
-            System.out.println( "MandelSchrodingerPanel.createColorMap: using photonColormap (average)." );
+//            System.out.println( "MandelSchrodingerPanel.createColorMap: using photonColormap (average)." );
             return new PhotonColorMap( this, ( getLeftGun().getWavelength() + getRightGun().getWavelength() ) / 2, new WaveValueAccessor.Magnitude() );
         }
     }

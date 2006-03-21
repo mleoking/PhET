@@ -255,18 +255,18 @@ public class SchrodingerScreenNode extends PNode {
             super.layoutChildren();
             if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
                 wavefunctionGraphic.setCellDimensions( getCellDimensions() );
-                System.out.println( "getCellDimensions() = " + getCellDimensions() );
+//                System.out.println( "getCellDimensions() = " + getCellDimensions() );
                 int colorGridWidth = wavefunctionGraphic.getColorGrid().getBufferedImage().getWidth();
                 int latticeWidth = getWavefunctionGraphic().getWavefunction().getWidth();
-                System.out.println( "latticeWidth = " + latticeWidth );
-                System.out.println( "colorGridImageWidth = " + colorGridWidth );
+//                System.out.println( "latticeWidth = " + latticeWidth );
+//                System.out.println( "colorGridImageWidth = " + colorGridWidth );
                 double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
                 double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
                 minX = Math.max( minX, 0 );
                 double mainWidth = maxX - minX;
                 double availableWidth = schrodingerPanel.getWidth() - mainWidth;
                 double wavefunctionGraphicX = getWavefunctionGraphicX( availableWidth );
-                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
+//                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
                 wavefunctionGraphic.setOffset( wavefunctionGraphicX, detectorSheetPNode.getDetectorHeight() );
 //                wavefunctionGraphic.setOffset( 5, detectorSheetPNode.getDetectorHeight() );
 
@@ -345,7 +345,7 @@ public class SchrodingerScreenNode extends PNode {
         if( particleUnits == null ) {
             return;
         }
-        System.out.println( "particleUnits = " + particleUnits );
+//        System.out.println( "particleUnits = " + particleUnits );
         String origTimeUnits = this.particleUnits.getDt().getUnits();
         this.particleUnits = particleUnits;
 //        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
@@ -358,7 +358,7 @@ public class SchrodingerScreenNode extends PNode {
         ArrayList list = new ArrayList( Arrays.asList( times ) );
 
         int change = list.indexOf( newTimeUnits ) - list.indexOf( origTimeUnits );
-        System.out.println( "change = " + change );
+//        System.out.println( "change = " + change );
         if( change == 0 ) {
             //do nothing
         }
