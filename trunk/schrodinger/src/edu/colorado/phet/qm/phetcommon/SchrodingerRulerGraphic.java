@@ -6,8 +6,6 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -25,13 +23,17 @@ import java.io.IOException;
  */
 
 public class SchrodingerRulerGraphic extends PhetPNode {
+//public class SchrodingerRulerGraphic extends PComposite {
     private DiscreteModel discreteModel;
     public RulerGraphic rulerGraphic;
     boolean horizontal = true;
+//    private PPath dragBounds;
+    private PSwingCanvas component;
 //    public BufferedImage horiz;
 //    public BufferedImage vert;
 
-    public SchrodingerRulerGraphic( DiscreteModel discreteModel, PSwingCanvas component, final RulerGraphic rulerGraphic ) {
+    public SchrodingerRulerGraphic( DiscreteModel discreteModel, final PSwingCanvas component, final RulerGraphic rulerGraphic ) {
+        this.component = component;
         this.discreteModel = discreteModel;
         this.rulerGraphic = rulerGraphic;
 //        horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
@@ -51,16 +53,7 @@ public class SchrodingerRulerGraphic extends PhetPNode {
         closeGraphic.setOffset( rotateButton.getX(), rotateButton.getY() - rotateButton.getHeight() - 2 );
 
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        addInputEventListener( new PDragEventHandler() {
-            protected void drag( PInputEvent event ) {
-                super.setDraggedNode( SchrodingerRulerGraphic.this );
-                super.drag( event );    //Slight hack to make controls drag with the ruler
-            }
-        } );
-    }
-
-    protected void layoutChildren() {
-        super.layoutChildren();    //To change body of overridden methods use File | Settings | File Templates.
+        addInputEventListener( new HalfOnscreenDragHandler( component, this ) );
     }
 
     private JButton createCloseButton() {
@@ -107,7 +100,7 @@ public class SchrodingerRulerGraphic extends PhetPNode {
     }
 
     public void setUnits( String units ) {
-        rulerGraphic.setUnits( units );
+        rulerGraphic.setUnitsText( units );
     }
 
     public RulerGraphic getRulerGraphic() {

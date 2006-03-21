@@ -73,6 +73,9 @@ public abstract class AbstractGunGraphic extends PNode {
         }
         onGunGraphic = pswing;
         addChild( onGunGraphic );
+        schrodingerPanel.invalidate();
+        schrodingerPanel.doLayout();
+        schrodingerPanel.repaint();
         invalidateLayout();
         repaint();
     }

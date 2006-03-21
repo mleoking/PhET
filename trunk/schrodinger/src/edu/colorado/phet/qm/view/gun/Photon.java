@@ -5,10 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
-import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.WaveSetup;
-import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
@@ -22,9 +19,12 @@ import javax.swing.*;
  */
 public class Photon extends GunParticle {
     private SRRWavelengthSlider wavelengthSliderGraphic;
-    private double hbar = 1.0;
-    protected static final double minWavelength = 8;
-    protected static final double maxWavelength = 30;
+//    protected static final double minWavelength = 8;
+//    protected static final double maxWavelength = 30;
+
+    protected static final double minWavelength = 12;
+    protected static final double maxWavelength = 21;
+    private ParticleUnits.PhotonUnits photonUnits;
 
     public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
         super( abstractGunGraphic, label, imageLocation );
@@ -34,9 +34,12 @@ public class Photon extends GunParticle {
                 notifyMomentumChanged();//since wavelength depends on grid area size, now.  See McKagan 3-17-2006
             }
         } );
+        photonUnits = new ParticleUnits.PhotonUnits();
     }
 
     public void activate( AbstractGunGraphic abstractGunGraphic ) {
+
+        getSchrodingerModule().setUnits( photonUnits );
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
         JComponent sliderAsComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );

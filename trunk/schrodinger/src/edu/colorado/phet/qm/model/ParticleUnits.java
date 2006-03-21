@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import java.text.DecimalFormat;
+
 /**
  * User: Sam Reid
  * Date: Jan 5, 2006
@@ -15,11 +17,17 @@ public class ParticleUnits {
     private Value dt;
     private Value minVelocity;
     private Value maxVelocity;
+    private int numRulerReadings;
+    private double rulerScale;
+    private DecimalFormat rulerFormat;
+    private double rulerWidth;
+    private double latticeWidth;
 
     protected ParticleUnits() {
     }
 
-    public ParticleUnits( Value hbar, Value mass, Value dx, Value dt, Value minVelocity, Value maxVelocity ) {
+    public ParticleUnits( Value hbar, Value mass, Value dx, Value dt, Value minVelocity, Value maxVelocity,
+                          int numRulerReadings, double rulerScale, DecimalFormat rulerFormat ) {
         this.hbar = hbar;
         this.mass = mass;
         this.dx = dx;
@@ -86,6 +94,34 @@ public class ParticleUnits {
 
     private static double scaleDownMaxVel = 0.5;
 
+    public int getNumRulerReadings() {
+        return numRulerReadings;
+    }
+
+    public double getRulerScale() {
+        return rulerScale;
+    }
+
+    public DecimalFormat getRulerFormat() {
+        return rulerFormat;
+    }
+
+    public void setNumRulerReadings( int numRulerReadings ) {
+        this.numRulerReadings = numRulerReadings;
+    }
+
+    public void setRulerFormat( DecimalFormat rulerFormat ) {
+        this.rulerFormat = rulerFormat;
+    }
+
+    public double getRulerWidth() {
+        return rulerWidth;
+    }
+
+    public double getLatticeWidth() {
+        return latticeWidth;
+    }
+
     public static class ElectronUnits extends ParticleUnits {
         public ElectronUnits() {
             setHbar( new Value( 0.658, 1, "eV fs" ) );
@@ -94,7 +130,21 @@ public class ParticleUnits {
             setDt( new Value( 1, 1, "fs" ) );
             setMinVelocity( new Value( 9.2, 100, "km/s" ) );
             setMaxVelocity( new Value( 36.8 * scaleDownMaxVel, 100, "km/s" ) );
+
+            setLatticeWidth( 0.45 );
+            setRulerWidth( 0.50 );
+            setRulerFormat( new DecimalFormat( "0.0" ) );
+            setNumRulerReadings( 6 );
+//            int numRulerReadings, double rulerScale, DecimalFormat rulerFormat ) {
         }
+    }
+
+    protected void setRulerWidth( double v ) {
+        this.rulerWidth = v;
+    }
+
+    protected void setLatticeWidth( double v ) {
+        this.latticeWidth = v;
     }
 
     public static class NeutronUnits extends ParticleUnits {
@@ -105,6 +155,26 @@ public class ParticleUnits {
             setMass( new Value( 0.000104539, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 5, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 20 * scaleDownMaxVel, 0.1, "km/s" ) );
+            setLatticeWidth( 0.45 );
+            setRulerWidth( 0.50 );
+            setRulerFormat( new DecimalFormat( "0.0" ) );
+            setNumRulerReadings( 6 );
+        }
+    }
+
+    public static class PhotonUnits extends ParticleUnits {
+        public PhotonUnits() {
+//            setHbar( new Value( 1, 1, "eV ps" ) );
+//            setDx( new Value( 1.0, 0.1*5/3000, "nm" ) );
+            setDx( new Value( 1.0, 0.06 * 20000, "nm" ) );
+            setDt( new Value( 1, 1, "fs" ) );
+//            setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
+//            setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
+//            setMaxVelocity( new Value( 5 * scaleDownMaxVel, 0.1, "km/s" ) );
+            setLatticeWidth( 3000 );
+            setRulerWidth( 3000 );
+            setRulerFormat( new DecimalFormat( "0" ) );
+            setNumRulerReadings( 4 );
         }
     }
 
@@ -116,6 +186,10 @@ public class ParticleUnits {
             setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 5 * scaleDownMaxVel, 0.1, "km/s" ) );
+            setLatticeWidth( 0.45 );
+            setRulerWidth( 0.50 );
+            setRulerFormat( new DecimalFormat( "0.0" ) );
+            setNumRulerReadings( 6 );
         }
     }
 

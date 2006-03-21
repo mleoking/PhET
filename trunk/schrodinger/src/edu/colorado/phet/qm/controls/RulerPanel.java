@@ -26,7 +26,6 @@ public class RulerPanel extends HorizontalLayoutPanel {
         final HorizontalLayoutPanel rulerPanel = this;
 
         final JCheckBox ruler = new JCheckBox( "Ruler" );
-//        ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
         ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler3.png" ) );
         rulerPanel.add( ruler );
         rulerPanel.add( new JLabel( icon ) );
@@ -35,12 +34,11 @@ public class RulerPanel extends HorizontalLayoutPanel {
                 getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
             }
         } );
-//        addControl( rulerPanel );
         new Timer( 500, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ruler.setSelected( getSchrodingerPanel().isRulerVisible() );
-                rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
-                ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+//                rulerPanel.setEnabled( !getSchrodingerPanel().isPhotonMode() );
+//                ruler.setEnabled( !getSchrodingerPanel().isPhotonMode() );
             }
         } ).start();
     }

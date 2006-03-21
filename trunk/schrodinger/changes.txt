@@ -1,3 +1,6 @@
+New in 0.49
+Changed light wavelength to support measurement.
+
 New in 0.48 (3-17-2006)
 Barriers come up at the same size for the different resolutions.
 Photons come up at the same size for different resolutions.

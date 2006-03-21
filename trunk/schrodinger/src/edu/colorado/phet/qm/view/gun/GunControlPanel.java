@@ -59,6 +59,10 @@ public class GunControlPanel extends VerticalLayoutPanel {
         invalidate();
         doLayout();
         gunControlPSwing.computeBounds();
+        gunControlPSwing.getComponent().invalidate();//TODO: some children were coming up empty!  This fixes it.
+        gunControlPSwing.getComponent().revalidate();
+        gunControlPSwing.getComponent().repaint();
+        gunControlPSwing.getComponent().doLayout();
     }
 
     public PNode getPSwing() {
