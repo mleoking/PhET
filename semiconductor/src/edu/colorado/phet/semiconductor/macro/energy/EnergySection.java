@@ -275,8 +275,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 //        addPNP();
         PNPHandler pnpHandler = new PNPHandler( this );
         stateModel.addModel( pnpHandler, pnpHandler );
-        NNPHandler nnpHandler = new NNPHandler( this );
-        stateModel.addModel( nnpHandler, nnpHandler );
+//        NNPHandler nnpHandler = new NNPHandler( this );
+//        stateModel.addModel( nnpHandler, nnpHandler );
 //        DiodeIn3Handler criteria = new DiodeIn3Handler(this );
 //        stateModel.addModel( criteria,criteria );
 //        stateModel.addModel( new DefaultCriteria( DopantType.N, DopantType.N, DopantType.P, minVolts, maxVolts ), new ModelElement() {

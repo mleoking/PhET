@@ -63,7 +63,7 @@ import java.util.ArrayList;
 public class SemiconductorModule extends Module implements Graphic {
     // Localization
     public static final String localizedStringsPath = "localization/SemiconductorsStrings";
-    private static final String VERSION = "0.03";
+    private static final String VERSION = "0.04";
 
     CircuitSection circuitSection;
     EnergySection energySection;
