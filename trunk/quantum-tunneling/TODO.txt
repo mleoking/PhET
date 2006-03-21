@@ -35,6 +35,9 @@ CLEANUP:
 
 
 DONE:
+(3/21/06) - increase pixels-per-sample to 3 for wave packet
+(3/21/06) - add separate resolution controls (pixels-per-sample) for wave packet and plane wave
+(3/21/06) - change position range to -4...8
 (3/21/06) - increase precision of PhaseRenderer (use GeneralPath instead of Polygon)
 0.00.20...
 (3/10/06) - hide Richardson controls
