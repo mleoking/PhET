@@ -30,7 +30,7 @@ public class Detector extends RectangularObject {
 
     public static void setProbabilityScaleFudgeFactor( double scale ) {
         probabilityScaleFudgeFactor = scale;
-        System.out.println( "probabilityScaleFudgeFactor = " + probabilityScaleFudgeFactor );
+//        System.out.println( "probabilityScaleFudgeFactor = " + probabilityScaleFudgeFactor );
     }
 
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {

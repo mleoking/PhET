@@ -194,13 +194,13 @@ public class DetectorSheetPNode extends PhetPNode {
 
         if( bufferedImage != null && bufferedImage.getWidth() == w && bufferedImage.getHeight() == h ) {
             //noop
-            System.out.println( "Avoiding recreate: same size." );
+//            System.out.println( "Avoiding recreate: same size." );
             Graphics2D g2 = bufferedImage.createGraphics();
             g2.setPaint( Color.black );
             g2.fillRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
         }
         else {
-            System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
+//            System.out.println( "DetectorSheetPNode.recreateImage, w=" + w + ", h=" + h );
             bufferedImage = new BufferedImage( w, h, BufferedImage.TYPE_INT_RGB );
         }
     }
@@ -223,7 +223,7 @@ public class DetectorSheetPNode extends PhetPNode {
 
     public void setDisplayPhotonColor( ColorData colorData ) {
         this.rootColor = colorData;
-        System.out.println( "rootColor = " + rootColor );
+//        System.out.println( "rootColor = " + rootColor );
     }
 
     public SchrodingerPanel getSchrodingerPanel() {

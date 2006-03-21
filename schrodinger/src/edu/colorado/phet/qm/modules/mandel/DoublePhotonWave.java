@@ -87,7 +87,7 @@ public class DoublePhotonWave extends PhotonWave {
         setIntensity( 1.0 );
         this.leftParam = leftParam;
         this.rightParam = rightParam;
-        System.out.println( "leftParam = " + leftParam );
-        System.out.println( "rightParam = " + rightParam );
+//        System.out.println( "leftParam = " + leftParam );
+//        System.out.println( "rightParam = " + rightParam );
     }
 }

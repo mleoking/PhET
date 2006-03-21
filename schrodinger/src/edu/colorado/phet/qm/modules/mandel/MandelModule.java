@@ -132,8 +132,7 @@ public class MandelModule extends SchrodingerModule {
     }
 
     private void synchronizeModel() {
-
-        System.out.println( "getWavefunctionDifference() = " + getWavefunctionDifference() );
+//        System.out.println( "getWavefunctionDifference() = " + getWavefunctionDifference() );
         if( getWavefunctionDifference() < 10 ) {
             setSplitModel( false );
             BeamParam leftParam = new BeamParam( getLeftGun().getWavelength(), getLeftGun().getIntensity(), splitModel.getWaveModel() );

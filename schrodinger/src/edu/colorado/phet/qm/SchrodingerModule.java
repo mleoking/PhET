@@ -202,7 +202,7 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void setWaveSize( final int size ) {
-        System.out.println( "Set wave size= " + size );
+//        System.out.println( "Set wave size= " + size );
         Command cmd = new Command() {
             public void doIt() {
                 getDiscreteModel().setWaveSize( size, size );
@@ -241,7 +241,7 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void setUnits( ParticleUnits particleUnits ) {
-        System.out.println( "particleUnits = " + particleUnits );
+//        System.out.println( "particleUnits = " + particleUnits );
         this.particleUnits = particleUnits;
         if( schrodingerPanel != null ) {
             schrodingerPanel.setUnits( particleUnits );

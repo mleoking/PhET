@@ -131,7 +131,7 @@ public class DoubleSlitControlPanel extends VerticalLayoutPanel {
         final Function.LinearFunction modelToView = new Function.LinearFunction( setter.getMin(), setter.getMax(), 0, 100 );
         final Function.LinearFunction viewToModel = new Function.LinearFunction( 0, 100, setter.getMin(), setter.getMax() );
         int value = (int)modelToView.evaluate( setter.getValue() );
-        System.out.println( "title: " + title + "+value = " + value );
+//        System.out.println( "title: " + title + "+value = " + value );
         final JSlider comp = new JSlider( 0, 100, value );
         comp.setBorder( BorderFactory.createTitledBorder( title ) );
         comp.addChangeListener( new ChangeListener() {
