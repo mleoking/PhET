@@ -52,9 +52,9 @@ public class BatterySpinner {
         } );
 
         TitledBorder titledborder = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
-        titledborder.setTitleFont( new Font( "Lucida Sans", 0, 18 ) );
+        titledborder.setTitleFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         spinner.setBorder( titledborder );
-        spinner.setPreferredSize( new Dimension( 120, 50 ) );
+        spinner.setPreferredSize( new Dimension( 150, spinner.getPreferredSize().height ) );
         spinner.addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent changeevent ) {
