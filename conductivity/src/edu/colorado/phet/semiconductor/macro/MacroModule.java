@@ -163,12 +163,13 @@ public class MacroModule extends Module {
         getModel().addModelElement( new ModelElement() {
 
             public void stepInTime( double d ) {
-                PhetVector phetvector1 = getResistorCenter();
+                PhetVector resistorCenter = getResistorCenter();
                 for( int i = 0; i < photons.size(); i++ ) {
                     Photon photon = (Photon)photons.get( i );
                     photon.stepInTime( d );
-                    double d1 = photon.getPosition().getSubtractedInstance( phetvector1 ).getMagnitude();
-                    if( d1 <= photon.getSpeed() * d ) {
+                    double distToCenter = photon.getPosition().getSubtractedInstance( resistorCenter ).getMagnitude();
+                    int DIST_FUDGE_FACTOR = 5;//introduced when switched from arrow to image.
+                    if( distToCenter <= photon.getSpeed() * d * DIST_FUDGE_FACTOR ) {
                         photons.remove( i );
                         Graphic graphic = (Graphic)photonGraphicTable.get( photon );
                         getApparatusPanel().removeGraphic( graphic );
