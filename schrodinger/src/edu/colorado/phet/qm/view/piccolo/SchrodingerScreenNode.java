@@ -19,6 +19,7 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -128,11 +129,26 @@ public class SchrodingerScreenNode extends PNode {
 
         layoutChildren();
         stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
+        stopwatchPanel.getTimeDisplay().setEditable( false );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
-        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
+//        stopwatchPanelPSwing = new PSwing( schrodingerPanel, new JButton( "Test Button" ));
+//        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
+//        stopwatchPanelPSwing.addInputEventListener( new HalfOnscreenDragHandler( schrodingerPanel, stopwatchPanelPSwing ) );
         stopwatchPanelPSwing.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
+        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() {
+            protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                if( !schrodingerPanel.getBounds().contains( stopwatchPanelPSwing.getFullBounds() ) ) {
+                    stopwatchPanelPSwing.setOffset( 300, 300 );
+                }
+            }
+        } );
+//        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
+//        PNode root = new PhetPNode();
+//        root.addChild( stopwatchPanelPSwing );
         addChild( stopwatchPanelPSwing );
+//        root.addInputEventListener( new PDragEventHandler() );
         stopwatchPanelPSwing.setOffset( 300, 300 );
         setStopwatchVisible( false );
     }
@@ -329,6 +345,7 @@ public class SchrodingerScreenNode extends PNode {
         if( particleUnits == null ) {
             return;
         }
+        System.out.println( "particleUnits = " + particleUnits );
         String origTimeUnits = this.particleUnits.getDt().getUnits();
         this.particleUnits = particleUnits;
 //        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
@@ -337,10 +354,11 @@ public class SchrodingerScreenNode extends PNode {
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
 
         String newTimeUnits = particleUnits.getDt().getUnits();
-        String[]times = new String[]{"ns", "ps"};
+        String[]times = new String[]{"ns", "ps", "fs"};
         ArrayList list = new ArrayList( Arrays.asList( times ) );
 
         int change = list.indexOf( newTimeUnits ) - list.indexOf( origTimeUnits );
+        System.out.println( "change = " + change );
         if( change == 0 ) {
             //do nothing
         }
@@ -352,24 +370,36 @@ public class SchrodingerScreenNode extends PNode {
             //slow down time
             showTimeSlowDown();
         }
+        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
     }
 
+//    private void updateRulerUnits() {
+//        String[]readings = new String[6];
+//        for( int i = 0; i < readings.length; i++ ) {
+//            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
+//            readings[i] = new String( "" + new DecimalFormat( "0.0" ).format( v ) + "" );
+//        }
+//        rulerGraphic.getRulerGraphic().setReadings( readings );
+//
+//        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
+//        double waveAreaViewWidth = 45 * particleUnits.getDx().getDisplayValue();
+//
+//        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * ( readings.length - 1 );
+//        rulerGraphic.getRulerGraphic().setMeasurementPixelWidth( rulerPixelWidth );
+//        rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
+//    }
+
     private void updateRulerUnits() {
-        String[]readings = new String[7];
+        String[]readings = new String[particleUnits.getNumRulerReadings()];
+        double dx = particleUnits.getRulerWidth() / ( readings.length - 1 );
         for( int i = 0; i < readings.length; i++ ) {
-            double v = particleUnits.getDx().getDisplayScaleFactor() * i;
-            DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-            readings[i] = new String( "" + decimalFormat.format( v ) + "" );
+            double v = i * dx;
+            readings[i] = new String( "" + particleUnits.getRulerFormat().format( v ) + "" );
         }
         rulerGraphic.getRulerGraphic().setReadings( readings );
 
-        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth();
-        double waveAreaViewWidth = 480 / 8 * particleUnits.getDx().getDisplayValue();
-
-        double rulerViewWidth = readings.length - 1;//units
-        double rulerPixelWidth = waveAreaPixelWidth / waveAreaViewWidth * rulerViewWidth;
-        System.out.println( "rulerPixelWidth = " + rulerPixelWidth );
-        rulerGraphic.getRulerGraphic().setMeasurementWidth( rulerPixelWidth );
+        double waveAreaPixelWidth = wavefunctionGraphic.getWavefunctionGraphicWidth() * particleUnits.getRulerWidth() / particleUnits.getLatticeWidth();
+        rulerGraphic.getRulerGraphic().setMeasurementPixelWidth( waveAreaPixelWidth );
         rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
     }
 

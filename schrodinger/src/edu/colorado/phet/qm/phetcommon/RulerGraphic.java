@@ -32,7 +32,7 @@ public class RulerGraphic extends PhetPNode {
         base.setStrokePaint( Color.black );
         base.setStroke( new BasicStroke() );
         this.readings = readings;
-        horizontalInset = 10;
+        horizontalInset = 14;
 
         setBounds( 0, 0, width, height );
         update();
@@ -102,12 +102,12 @@ public class RulerGraphic extends PhetPNode {
         return tickPath;
     }
 
-    public void setUnits( String units ) {
+    public void setUnitsText( String units ) {
         this.units = units;
         update();
     }
 
-    public void setMeasurementWidth( double width ) {
+    public void setMeasurementPixelWidth( double width ) {
         setWidth( width + horizontalInset * 2 );
         update();
     }
