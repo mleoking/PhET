@@ -60,7 +60,6 @@ public class DefaultGunParticle extends GunParticle {
         getSchrodingerModule().setUnits( particleUnits );
         getDiscreteModel().setPropagator( createPropagator() );
         gunGraphic.setGunControls( controlPanel );
-
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
@@ -80,7 +79,7 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public double getStartPy() {
-        return -getVelocity() * getParticleMass();
+        return -getVelocity() * getParticleMass() * 45.0 / getDiscreteModel().getGridHeight();
     }
 
     private double getVelocity() {
