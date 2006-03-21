@@ -240,6 +240,14 @@ public class StopwatchPanel extends JPanel {
     }
 
     /**
+     * Gets the JComponent that displays the time readout.
+     * @return the JComponent that displays the time readout.
+     */
+    public JTextField getTimeDisplay(){
+        return timeDisplay;
+    }
+
+    /**
      * Sets the number of columns in the time display.
      * 
      * @param columns
