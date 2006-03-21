@@ -19,6 +19,8 @@ import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
+import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
 
 
@@ -85,14 +87,9 @@ public class QTConstants {
     public static final Stroke TOTAL_ENERGY_DASHED_STROKE = 
         new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
-    public static final Stroke INCIDENT_REAL_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_IMAGINARY_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_MAGNITUDE_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_PHASE_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke REFLECTED_REAL_WAVE_STROKE = INCIDENT_REAL_WAVE_STROKE;
-    public static final Stroke REFLECTED_IMAGINARY_WAVE_STROKE = INCIDENT_IMAGINARY_WAVE_STROKE;
-    public static final Stroke REFLECTED_MAGNITUDE_WAVE_STROKE = INCIDENT_MAGNITUDE_WAVE_STROKE;
-    public static final Stroke REFLECTED_PHASE_WAVE_STROKE = INCIDENT_PHASE_WAVE_STROKE;
+    public static final Stroke REAL_STROKE = new BasicStroke( 1f );
+    public static final Stroke IMAGINARY_STROKE = new BasicStroke( 1f );
+    public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 1f );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 1f );
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
@@ -101,26 +98,25 @@ public class QTConstants {
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
-    
+   
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
-    public static final Color CHART_BACKGROUND = Color.BLACK;
-    public static final Color PLOT_BACKGROUND = Color.BLACK;
-    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
-    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
-    public static final Color INCIDENT_REAL_WAVE_COLOR = Color.RED;
-    public static final Color INCIDENT_IMAGINARY_WAVE_COLOR = new Color( 26, 135, 255 ); // bright blue
-    public static final Color INCIDENT_MAGNITUDE_WAVE_COLOR = Color.WHITE;
-    public static final Color REFLECTED_REAL_WAVE_COLOR = INCIDENT_REAL_WAVE_COLOR;
-    public static final Color REFLECTED_IMAGINARY_WAVE_COLOR = INCIDENT_IMAGINARY_WAVE_COLOR;
-    public static final Color REFLECTED_MAGNITUDE_WAVE_COLOR = INCIDENT_MAGNITUDE_WAVE_COLOR;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
-    public static final Color REGION_MARKER_COLOR = Color.LIGHT_GRAY;
-    public static final Color TICK_LABEL_COLOR = Color.BLACK;
-    public static final Color TICK_MARK_COLOR = Color.BLACK;
-    public static final Color GRIDLINES_COLOR = Color.DARK_GRAY;
-    public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
-    public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
-    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.WHITE;
+    
+    private static final IColorScheme COLOR_SCHEME = new BlackColorScheme();
+    
+    // Get all of the color constants from COLOR_SCHEME...
+    public static final Color CHART_COLOR = COLOR_SCHEME.getChartColor();
+    public static final Color TICKS_COLOR = COLOR_SCHEME.getTicksColor();
+    public static final Color GRIDLINES_COLOR = COLOR_SCHEME.getGridlinesColor();
+    public static final Color REGION_MARKER_COLOR = COLOR_SCHEME.getRegionMarkerColor();
+    public static final Color TOTAL_ENERGY_COLOR = COLOR_SCHEME.getTotalEnergyColor();
+    public static final Color POTENTIAL_ENERGY_COLOR = COLOR_SCHEME.getPotentialEnergyColor();
+    public static final Color REAL_COLOR = COLOR_SCHEME.getRealColor();
+    public static final Color IMAGINARY_COLOR = COLOR_SCHEME.getImaginaryColor();
+    public static final Color MAGNITUDE_COLOR = COLOR_SCHEME.getMagnitudeColor();
+    public static final Color PROBABILITY_DENSITY_COLOR = COLOR_SCHEME.getProbabilityDensityColor();
+    public static final Color DRAG_HANDLE_FILL_COLOR = COLOR_SCHEME.getDragHandleFillColor();
+    public static final Color DRAG_HANDLE_STROKE_COLOR = COLOR_SCHEME.getDragHandleStrokeColor();
+    public static final Color DRAG_HANDLE_TEXT_COLOR = COLOR_SCHEME.getDragHandleTextColor();
     
     //----------------------------------------------------------------------------
     // Images
