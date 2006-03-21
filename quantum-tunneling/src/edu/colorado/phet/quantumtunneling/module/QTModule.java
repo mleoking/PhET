@@ -455,14 +455,20 @@ public class QTModule extends AbstractModule implements Observer {
             _potentialEnergyControls.updateDragBounds();
         }
         
-        // dx (sample point spacing)
+        // dx (sample point spacing) for Plane Wave
         {
-            // All charts have the same x axis, so just use the Energy chart.
             Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
-            Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( QTConstants.PIXELS_PER_SAMPLE_POINT, 0 ) );
+            Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( QTConstants.PIXELS_PER_SAMPLE_POINT_PLANE_WAVE, 0 ) );
+            double dx = p2.getX() - p1.getX();
+            _waveFunctionPlot.setDx( dx );
+        }
+        
+        // dx (sample point spacing) for Wave Packet
+        {
+            Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
+            Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( QTConstants.PIXELS_PER_SAMPLE_POINT_WAVE_PACKET, 0 ) );
             double dx = p2.getX() - p1.getX();
             _wavePacket.setDx( dx );
-            _waveFunctionPlot.setDx( dx );
         }
        
         // Legend
