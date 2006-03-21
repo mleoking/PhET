@@ -1,11 +1,11 @@
-New in 0.04
+New in 0.04 (3-21-2006)
 Battery is copper-headed.
 Photons look like comets, from other simulations.
 Moved voltage control closer to battery
 Relabeled battery control.
 Added flashlight for all 3 materials.
 
-New in 0.03 (3-17-2006)
+New in 0.03 <overwritten with 0.04> (3-17-2006)
 Fixed a bug in image loading (on some machines)
 
 New in 0.02 (3-16-2006)
