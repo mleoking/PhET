@@ -1,3 +1,6 @@
+New in 0.04 (3-21-2006)
+Removed 3 dopant case.
+
 New in 0.02
 Fixed the frame to come up at large size at 1024x768.
 Bugfix: dopant graphics remain draggable after doping a region.

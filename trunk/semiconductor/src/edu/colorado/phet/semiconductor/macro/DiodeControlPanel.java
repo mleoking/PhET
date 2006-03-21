@@ -31,11 +31,11 @@ public class DiodeControlPanel extends JPanel {
                 module.setDoubleSection();
             }
         }, true );
-        addJButton( SimStrings.get( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setTripleSection();
-            }
-        }, false );
+//        addJButton( SimStrings.get( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setTripleSection();
+//            }
+//        }, false );
         Border b = BorderFactory.createTitledBorder( SimStrings.get( "DiodeControlPanel.SegmentBorder" ) );
         pan.setBorder( b );
 
