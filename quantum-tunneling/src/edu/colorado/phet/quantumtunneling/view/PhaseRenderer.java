@@ -119,6 +119,13 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         g2.setPaint( color );
         
         // fill the area under the curve between the two data points...
+        //
+        //     (tx1,ty1) +--------+ (tx2,ty2)
+        //               |        |
+        //               |        |
+        //               |        |
+        //     (tx1,ty0) +--------+ (tx2, ty0)
+        //
         _polygonPath.reset();
         _polygonPath.moveTo( (float) tx1, (float) ty0 );
         _polygonPath.lineTo( (float) tx1, (float) ty1 );
