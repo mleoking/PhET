@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(3/21/06) - increase precision of PhaseRenderer (use GeneralPath instead of Polygon)
 0.00.20...
 (3/10/06) - hide Richardson controls
 (3/10/06) - make time display and units fonts "significantly larger" (12->22 pt)
