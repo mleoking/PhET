@@ -72,11 +72,11 @@ public class MacroCircuitGraphic {
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
                         PhetVector phetvector = b.getEndPosition();
                         PhetVector phetvector1 = b.getStartPosition();
-                        int j = batteryImage.getHeight();
-                        int k = transform.modelToViewX( phetvector.getX() );
-                        int l = transform.modelToViewX( phetvector1.getX() ) - k;
-                        int i1 = transform.modelToViewY( phetvector.getY() );
-                        Rectangle rectangle = new Rectangle( k, i1 - j / 2, l, j );
+                        int height = (int)( batteryImage.getHeight() * 0.8 );
+                        int x = transform.modelToViewX( phetvector.getX() );
+                        int w = transform.modelToViewX( phetvector1.getX() ) - x;
+                        int y0 = transform.modelToViewY( phetvector.getY() );
+                        Rectangle rectangle = new Rectangle( x, y0 - height / 2, w, height );
                         sbi.setOutputRect( rectangle );
                     }
 
@@ -93,7 +93,8 @@ public class MacroCircuitGraphic {
         }
         else {
             loader.setPhetLoader();
-            batteryImage = loader.loadBufferedImage( "images/AA-battery.gif" );
+//            batteryImage = loader.loadBufferedImage( "images/AA-battery.gif" );
+            batteryImage = loader.loadBufferedImage( "images/battery.png" );
             return batteryImage;
         }
     }
