@@ -57,11 +57,11 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.DEFAULT_PROBABILITY_DENSITY_RANGE );
-        yAxis.setTickLabelPaint( QTConstants.TICK_LABEL_COLOR );
-        yAxis.setTickMarkPaint( QTConstants.TICK_MARK_COLOR );
+        yAxis.setTickLabelPaint( QTConstants.TICKS_COLOR );
+        yAxis.setTickMarkPaint( QTConstants.TICKS_COLOR );
         
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        setBackgroundPaint( QTConstants.PLOT_BACKGROUND );
+        setBackgroundPaint( QTConstants.CHART_COLOR );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
         setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );

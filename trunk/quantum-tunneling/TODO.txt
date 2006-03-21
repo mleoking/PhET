@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+(3/21/06) - encapsulate white & black color schemes and make it easier to switch between them in QTConstants
 (3/21/06) - increase pixels-per-sample to 3 for wave packet
 (3/21/06) - add separate resolution controls (pixels-per-sample) for wave packet and plane wave
 (3/21/06) - change position range to -4...8

@@ -72,8 +72,6 @@ public class QTCombinedChart extends JFreeChart {
     public QTCombinedChart() {
         super( null, null, new CombinedDomainXYPlot(), CREATE_LEGEND );
         
-        setBackgroundPaint( QTConstants.CHART_BACKGROUND );
-        
         // Energy plot...
         { 
             _energyPlot = new EnergyPlot();

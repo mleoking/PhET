@@ -145,19 +145,19 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             realPanel.add( _realCheckBox);
             realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            realPanel.add( createColorKey( QTConstants.INCIDENT_REAL_WAVE_COLOR ) );
+            realPanel.add( createColorKey( QTConstants.REAL_COLOR ) );
             
             // Imaginary
             JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             imaginaryPanel.add( _imaginaryCheckBox );
             imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            imaginaryPanel.add( createColorKey( QTConstants.INCIDENT_IMAGINARY_WAVE_COLOR ) );
+            imaginaryPanel.add( createColorKey( QTConstants.IMAGINARY_COLOR ) );
             
             // Magnitude
             JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             magnitudePanel.add( _magnitudeCheckBox );
             magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            magnitudePanel.add( createColorKey( QTConstants.INCIDENT_MAGNITUDE_WAVE_COLOR ) );   
+            magnitudePanel.add( createColorKey( QTConstants.MAGNITUDE_COLOR ) );   
             
             // Phase 
             JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
