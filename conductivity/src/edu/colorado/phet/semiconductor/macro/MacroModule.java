@@ -223,7 +223,9 @@ public class MacroModule extends Module {
     private void relayoutBatterySpinner() {
         Point point = transform.modelToView( circuit.getBattery().getEndPosition() );
         JSpinner jspinner = batterySpinner.getSpinner();
-        jspinner.setBounds( point.x, point.y + jspinner.getPreferredSize().height, jspinner.getPreferredSize().width, jspinner.getPreferredSize().height );
+//        jspinner.setBounds( point.x, point.y + jspinner.getPreferredSize().height, jspinner.getPreferredSize().width, jspinner.getPreferredSize().height );
+        int fudgeY = -5;
+        jspinner.setBounds( point.x, point.y + jspinner.getPreferredSize().height + fudgeY, jspinner.getPreferredSize().width, jspinner.getPreferredSize().height );
         jspinner.repaint();
     }
 
@@ -320,9 +322,11 @@ public class MacroModule extends Module {
 
     public void setConductor() {
         setBandSet( model.getConductor() );
-        disableFlashlight();
+
         circuitGraphic.getResistorGraphic().setFillPaint( new Color( 210, 210, 210 ) );
         circuitGraphic.getResistorGraphic().setOutlinePaint( new Color( 210, 210, 210 ) );
+//        disableFlashlight();
+        enableFlashlight();
     }
 
     public void setInsulator() {
@@ -330,7 +334,8 @@ public class MacroModule extends Module {
         macroControlPanel.disableFlashlight();
         circuitGraphic.getResistorGraphic().setFillPaint( Color.orange );
         circuitGraphic.getResistorGraphic().setOutlinePaint( Color.orange );
-        disableFlashlight();
+//        disableFlashlight();
+        enableFlashlight();
     }
 
     private void disableFlashlight() {

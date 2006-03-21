@@ -181,7 +181,7 @@ public class DefaultBandSet implements ModelElement {
             return true;
         }
         else {
-            System.out.println( "Couldn't move the desired particle." );
+//            System.out.println( "Couldn't move the desired particle." );
             return false;
         }
     }

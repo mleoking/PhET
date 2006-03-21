@@ -17,6 +17,9 @@ import java.awt.event.ActionListener;
 
 public class MacroControlPanel extends JPanel {
 
+    private JCheckBox lightOn;
+    private JButton onePhoton;
+
     public MacroControlPanel( final MacroModule macroModule ) {
         JRadioButton jradiobutton = new JRadioButton( SimStrings.get( "MacroControlPanel.MetalRadioButton" ) );
         JRadioButton jradiobutton1 = new JRadioButton( SimStrings.get( "MacroControlPanel.PlasticRadioButton" ) );
@@ -87,8 +90,5 @@ public class MacroControlPanel extends JPanel {
         onePhoton.setEnabled( true );
         repaint();
     }
-
-    private JCheckBox lightOn;
-    private JButton onePhoton;
 
 }
