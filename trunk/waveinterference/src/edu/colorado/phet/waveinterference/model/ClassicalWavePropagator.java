@@ -41,22 +41,13 @@ public class ClassicalWavePropagator {
         double cSquared = c * c;
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
-
-                if( getPotential().getPotential( i, j, 0 ) != 0 ) {
+                //todo, use knowledge of the potential barrier geometry for iteration here
+                if( potential.getPotential( i, j, 0 ) != 0 ) {
                     w.setValue( i, j, 0 );
                 }
                 else {
-                    neigh = 0;//.setValue( 0, 0 );
-                    neigh += ( last( i + 1, j ) );
-                    neigh += ( last( i - 1, j ) );
-                    neigh += ( last( i, j + 1 ) );
-                    neigh += ( last( i, j - 1 ) );
-
-                    double lastVal = last( i, j );
-                    neigh += ( lastVal * -4 );
-
-                    neigh *= ( cSquared );
-                    w.setValue( i, j, last.valueAt( i, j ) * 2 - last2.valueAt( i, j ) + neigh );
+                    neigh = cSquared * ( last.wavefunction[i + 1][j] + last.wavefunction[i - 1][j] + last.wavefunction[i][j + 1] + last.wavefunction[i][j - 1] + last.wavefunction[i][j] * -4 );
+                    w.setValue( i, j, last.wavefunction[i][j] * 2 - last2.wavefunction[i][j] + neigh );
                 }
             }
         }
@@ -67,10 +58,16 @@ public class ClassicalWavePropagator {
         dampVertical( w, w.getWidth() - 1, -1 );
 
         last.copyTo( last2 );
+        clearPotential( last2 );
         w.copyTo( last );
-        w.setMagnitudeDirty();
-        last.setMagnitudeDirty();
-        last2.setMagnitudeDirty();
+        clearPotential( last );
+//        w.setMagnitudeDirty();
+//        last.setMagnitudeDirty();
+//        last2.setMagnitudeDirty();
+    }
+
+    private void clearPotential( Lattice2D last ) {
+        //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0.
     }
 
     private Potential getPotential() {
@@ -89,16 +86,17 @@ public class ClassicalWavePropagator {
         }
     }
 
-    private double ZERO = 0;
+//    private double ZERO = 0;
 
-    private double last( int i, int j ) {
-        if( getPotential().getPotential( i, j, 0 ) == 0 ) {
-            return last.valueAt( i, j );
-        }
-        else {
-            return ZERO;
-        }
-    }
+//    private double last( int i, int j ) {
+//        return last.wavefunction[i][j];
+//        if( potential.getPotential( i, j, 0 ) == 0 ) {
+//            return last.wavefunction[i][j];
+//        }
+//        else {
+//            return 0;
+//        }
+//    }
 
     public void setDeltaTime( double deltaTime ) {
     }
