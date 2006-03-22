@@ -21,6 +21,7 @@ LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
 
 OPTIMIZATIONS:
+- remove unused images from the JAR file that ProGuard produces
 - flatten static elements
 - setPickable(false) on non-interactive graphics
 
