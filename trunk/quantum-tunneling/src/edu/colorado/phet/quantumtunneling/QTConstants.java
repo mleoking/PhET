@@ -191,7 +191,7 @@ public class QTConstants {
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = true;
     
     public static final double PIXELS_PER_SAMPLE_POINT_PLANE_WAVE = 1; 
-    public static final double PIXELS_PER_SAMPLE_POINT_WAVE_PACKET = 3;
+    public static final double PIXELS_PER_SAMPLE_POINT_WAVE_PACKET = 2;
     
     //----------------------------------------------------------------------------
     // Wave Function constants
