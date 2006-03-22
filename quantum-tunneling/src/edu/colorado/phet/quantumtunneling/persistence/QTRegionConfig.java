@@ -22,10 +22,21 @@ import edu.colorado.phet.quantumtunneling.model.PotentialRegion;
  */
 public class QTRegionConfig implements QTSerializable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private double _start;
     private double _end;
     private double _energy;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Zero arg constructor for Java Bean compliance.
+     */
     public QTRegionConfig() {
         this( 0, 0, 0 );
     }
@@ -40,6 +51,10 @@ public class QTRegionConfig implements QTSerializable {
         this( region.getStart(), region.getEnd(), region.getEnergy() );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public double getStart() {
         return _start;
     }
@@ -64,6 +79,14 @@ public class QTRegionConfig implements QTSerializable {
         _energy = energy;
     }
 
+    //----------------------------------------------------------------------------
+    // Conversion utilities
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Converts to a PotentialRegion.
+     * @return
+     */
     public PotentialRegion toPotentialRegion() {
         return new PotentialRegion( _start, _end, _energy );
     }
