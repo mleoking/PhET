@@ -21,7 +21,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 
 
@@ -143,7 +143,7 @@ public class QTCombinedChart extends JFreeChart {
      * 
      * @param scheme
      */
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         _energyPlot.setColorScheme( scheme );
         _waveFunctionPlot.setColorScheme( scheme );
         _probabilityDensityPlot.setColorScheme( scheme );

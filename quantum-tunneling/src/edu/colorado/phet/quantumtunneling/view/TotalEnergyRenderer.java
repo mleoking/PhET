@@ -88,7 +88,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     public TotalEnergyRenderer() {
         super();
         _line = new Line2D.Double();
-        setColor( QTConstants.TOTAL_ENERGY_COLOR );
+        setColor( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
     }
 
     //----------------------------------------------------------------------------

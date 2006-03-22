@@ -59,7 +59,7 @@ public class QTRegionMarkerManager implements Observer {
     public QTRegionMarkerManager() {
         _plots = new ArrayList();
         _potentialEnergy = null;
-        _markerColor = QTConstants.REGION_MARKER_COLOR;
+        _markerColor = QTConstants.COLOR_SCHEME.getRegionMarkerColor();
     }
 
     /**

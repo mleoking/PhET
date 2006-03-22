@@ -5,8 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- redo color scheme class hierarchy
-- initialize color scheme and menu state on startup (get rid of QTConstants)
 - save/load color scheme
 - decide on correct behavior when we measure in a region where E<V
 - calibrate or replace Richardson algorithm
@@ -38,6 +36,8 @@ CLEANUP:
 
 
 DONE:
+(3/22/06) - redo color scheme class hierarchy
+(3/22/06) - initialize color scheme and menu state on startup (get rid of QTConstants)
 (3/22/06) - Spanish translations for color scheme stuff
 (3/22/06) - rebuild Potential menus when color scheme changes, so that icon color is correct
 (3/22/06) - add "annotation" property to color scheme, use to set color of annotations and energy values

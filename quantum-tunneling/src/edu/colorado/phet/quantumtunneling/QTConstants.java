@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
 
 
@@ -104,20 +104,8 @@ public class QTConstants {
     public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
     
-    private static final IColorScheme COLOR_SCHEME = new BlackColorScheme();
-    
-    // Get all of the color constants from COLOR_SCHEME...
-    public static final Color CHART_COLOR = COLOR_SCHEME.getChartColor();
-    public static final Color TICKS_COLOR = COLOR_SCHEME.getTickColor();
-    public static final Color GRIDLINES_COLOR = COLOR_SCHEME.getGridlineColor();
-    public static final Color ANNOTATION_COLOR = COLOR_SCHEME.getAnnotationColor();
-    public static final Color REGION_MARKER_COLOR = COLOR_SCHEME.getRegionMarkerColor();
-    public static final Color TOTAL_ENERGY_COLOR = COLOR_SCHEME.getTotalEnergyColor();
-    public static final Color POTENTIAL_ENERGY_COLOR = COLOR_SCHEME.getPotentialEnergyColor();
-    public static final Color REAL_COLOR = COLOR_SCHEME.getRealColor();
-    public static final Color IMAGINARY_COLOR = COLOR_SCHEME.getImaginaryColor();
-    public static final Color MAGNITUDE_COLOR = COLOR_SCHEME.getMagnitudeColor();
-    public static final Color PROBABILITY_DENSITY_COLOR = COLOR_SCHEME.getProbabilityDensityColor();
+    // The default color scheme
+    public static final QTColorScheme COLOR_SCHEME = new BlackColorScheme();
     
     //----------------------------------------------------------------------------
     // Images

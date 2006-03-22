@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,7 +23,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.util.Complex;
@@ -104,7 +103,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             setDataset( _incidentRealIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
             _incidentRealRenderer = renderer;
-            renderer.setPaint( QTConstants.REAL_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
             setRenderer( _incidentRealIndex, renderer );
         }
@@ -117,7 +116,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _incidentImaginarySeries );
             setDataset( _incidentImaginaryIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.IMAGINARY_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _incidentImaginaryIndex, renderer );
         }
@@ -130,7 +129,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _incidentMagnitudeSeries );
             setDataset( _incidentMagnitudeIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.MAGNITUDE_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _incidentMagnitudeIndex, renderer );
         }
@@ -143,7 +142,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _reflectedRealSeries );
             setDataset( _reflectedRealIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.REAL_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
             setRenderer( _reflectedRealIndex, renderer );
         }
@@ -156,7 +155,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _reflectedImaginarySeries );
             setDataset( _reflectedImaginaryIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.IMAGINARY_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _reflectedImaginaryIndex, renderer );
         }
@@ -169,7 +168,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _reflectedMagnitudeSeries );
             setDataset( _reflectedMagnitudeIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.MAGNITUDE_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _reflectedMagnitudeIndex, renderer );
         }
@@ -196,7 +195,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             PositionAxis xAxis = new PositionAxis();
             setDomainAxis( xAxis );
             setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
-            setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
+            setDomainGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
         }
         
         // Y (range) axis
@@ -205,14 +204,14 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             setRangeAxis( yAxis );
             setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
             setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
-            setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
+            setRangeGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
             yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
             yAxis.setRange( QTConstants.DEFAULT_WAVE_FUNCTION_RANGE );
-            yAxis.setTickLabelPaint( QTConstants.TICKS_COLOR );
-            yAxis.setTickMarkPaint( QTConstants.TICKS_COLOR );
+            yAxis.setTickLabelPaint( QTConstants.COLOR_SCHEME.getTickColor() );
+            yAxis.setTickMarkPaint( QTConstants.COLOR_SCHEME.getTickColor() );
         }
         
-        setBackgroundPaint( QTConstants.CHART_COLOR );
+        setBackgroundPaint( QTConstants.COLOR_SCHEME.getChartColor() );
         
         _wave = null;
         _irView = IRView.SUM;
@@ -228,7 +227,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
      * 
      * @param scheme
      */ 
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         // Background
         setBackgroundPaint( scheme.getChartColor() );
         // Ticks

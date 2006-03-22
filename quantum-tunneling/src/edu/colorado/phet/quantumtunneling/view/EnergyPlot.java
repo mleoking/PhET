@@ -24,7 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
@@ -88,7 +88,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             setDataset( _potentialEnergyIndex, dataset );
             // Renderer
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
+            renderer.setPaint( QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialEnergyIndex, renderer );
         }
@@ -103,11 +103,11 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             setDataset( _totalEnergyIndex, dataset );
             // Plane Wave renderer
             _planeWaveRenderer = new StandardXYItemRenderer();
-            _planeWaveRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            _planeWaveRenderer.setPaint( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
             _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_SOLID_STROKE );
             // Wave Packet renderer
             _wavePacketRenderer = new TotalEnergyRenderer();
-            _wavePacketRenderer.setPaint( QTConstants.TOTAL_ENERGY_COLOR );
+            _wavePacketRenderer.setPaint( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
             _wavePacketRenderer.setStroke( QTConstants.TOTAL_ENERGY_DASHED_STROKE );
             // Default renderer
             setRenderer( _totalEnergyIndex, _wavePacketRenderer );
@@ -120,15 +120,15 @@ public class EnergyPlot extends QTXYPlot implements Observer {
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.ENERGY_RANGE.getLowerBound() * 1.05, QTConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
-        yAxis.setTickLabelPaint( QTConstants.TICKS_COLOR );
-        yAxis.setTickMarkPaint( QTConstants.TICKS_COLOR );
+        yAxis.setTickLabelPaint( QTConstants.COLOR_SCHEME.getTickColor() );
+        yAxis.setTickMarkPaint( QTConstants.COLOR_SCHEME.getTickColor() );
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        setBackgroundPaint( QTConstants.CHART_COLOR );
+        setBackgroundPaint( QTConstants.COLOR_SCHEME.getChartColor() );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
-        setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
+        setDomainGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
+        setRangeGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis ); 
     }
@@ -142,7 +142,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
      * 
      * @param scheme
      */
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         // Background
         setBackgroundPaint( scheme.getChartColor() );
         // Ticks

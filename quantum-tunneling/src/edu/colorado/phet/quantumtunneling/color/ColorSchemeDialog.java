@@ -59,8 +59,8 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     
     private Frame _parent;
     private QTModule _module;
-    private CustomColorScheme _scheme;
-    private CustomColorScheme _restoreScheme;
+    private QTColorScheme _scheme;
+    private QTColorScheme _restoreScheme;
     private JLabel _currentChip;
     private JLabel _chartChip, _ticksChip, _gridlinesChip, _annotationChip, _regionMarkersChip;
     private JLabel _totalEnergyChip, _potentialEnergyChip;
@@ -74,7 +74,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      * 
      * @param app the application
      */
-    public ColorSchemeDialog( QTModule module, CustomColorScheme scheme ) {
+    public ColorSchemeDialog( QTModule module, QTColorScheme scheme ) {
         super( PhetApplication.instance().getPhetFrame() );
         super.setTitle( SimStrings.get( "title.colorScheme" ) );
         super.setModal( false );
@@ -82,7 +82,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         _parent = PhetApplication.instance().getPhetFrame();
         _module = module;
         _scheme = scheme;
-        _restoreScheme = new CustomColorScheme( scheme );
+        _restoreScheme = new QTColorScheme( scheme );
         createUI();
         setLocationRelativeTo( _parent );
     }
@@ -374,7 +374,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      */
     private void restoreColors() {
         _module.setColorScheme( _restoreScheme );
-        _scheme = new CustomColorScheme( _restoreScheme );
+        _scheme = new QTColorScheme( _restoreScheme );
     }
     
     /*

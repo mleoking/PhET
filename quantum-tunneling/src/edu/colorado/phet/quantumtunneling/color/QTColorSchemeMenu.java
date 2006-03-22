@@ -32,8 +32,8 @@ import edu.colorado.phet.quantumtunneling.module.QTModule;
 public class QTColorSchemeMenu extends JMenu {
 
     private QTModule _module;
-    private IColorScheme _presetColorScheme;
-    private CustomColorScheme _customColorScheme;
+    private QTColorScheme _presetColorScheme;
+    private QTColorScheme _customColorScheme;
     private JDialog _customDialog;
     private JRadioButtonMenuItem _blackItem, _whiteItem, _customItem;
 
@@ -94,10 +94,10 @@ public class QTColorSchemeMenu extends JMenu {
         handleWhiteSelection();
     }
 
-    public void setCustomColorScheme( CustomColorScheme colorScheme ) {
+    public void setCustomColorScheme( QTColorScheme colorScheme ) {
         closeDialog();
         _customItem.setSelected( true );
-        _customColorScheme = new CustomColorScheme( colorScheme );
+        _customColorScheme = new QTColorScheme( colorScheme );
         _module.setColorScheme( _customColorScheme );
     }
 
@@ -117,7 +117,7 @@ public class QTColorSchemeMenu extends JMenu {
         closeDialog();
         if ( _customColorScheme == null ) {
             // Use the most-recently selected preset to initialize the custom color scheme.
-            _customColorScheme = new CustomColorScheme( _presetColorScheme );
+            _customColorScheme = new QTColorScheme( _presetColorScheme );
         }
         _module.setColorScheme( _customColorScheme );
         // open a non-modal dialog for editing colors...
