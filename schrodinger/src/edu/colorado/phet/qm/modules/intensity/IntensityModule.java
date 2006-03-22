@@ -50,9 +50,6 @@ public class IntensityModule extends SchrodingerModule {
                     setRightDetectorEnabled( false );
                     setLeftDetectorEnabled( false );
                 }
-//                else {
-//                    getIntensityPanel().getSlitDetectorPanel().synchronizeModelState();
-//                }
             }
         } );
         finishInit();
@@ -60,12 +57,7 @@ public class IntensityModule extends SchrodingerModule {
             public void inverseSlitsChanged() {
                 updateDetectors();
             }
-
         } );
-//        HelpBalloon helpItem = new HelpBalloon( super.getDefaultHelpPane(), "The Ruler" ,HelpBalloon.BOTTOM_CENTER, 100);
-//        helpItem.pointAt( getSchrodingerPanel().getSchrodingerScreenNode().getRulerGraphic(), getPhetPCanvas() );
-//        super.getDefaultHelpPane().add( helpItem );
-//        getDiscreteModel().addListener( new DebugIntensityReader() );
     }
 
     public boolean hasHelp() {
@@ -143,20 +135,14 @@ public class IntensityModule extends SchrodingerModule {
         return highIntensitySchrodingerPanel.getRootColor();
     }
 
-//    public SlitDetectorPanel getSlitDetectorPanel() {
-//        return intensityControlPanel.getSlitDetectorPanel();
-//    }
-
     public static interface Listener {
         void detectorsChanged();
     }
 
     public static class Adapter implements Listener {
-
         public void detectorsChanged() {
         }
     }
-
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
