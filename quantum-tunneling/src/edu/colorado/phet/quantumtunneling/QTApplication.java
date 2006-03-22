@@ -125,11 +125,13 @@ public class QTApplication extends PhetApplication {
         {
             JMenu optionsMenu = new JMenu( SimStrings.get( "menu.options" ) );
             optionsMenu.setMnemonic( SimStrings.get( "menu.options.mnemonic" ).charAt( 0 ) );
+            getPhetFrame().addMenu( optionsMenu );
+            
+            // Color Scheme submenu
             QTColorSchemeMenu colorSchemeMenu = new QTColorSchemeMenu( _module );
             optionsMenu.add( colorSchemeMenu );
-            getPhetFrame().addMenu( optionsMenu );
         }
-        
+   
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
         if ( helpMenu != null ) {
