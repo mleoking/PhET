@@ -31,7 +31,7 @@ public class SimpleWavefunctionGraphic extends PNode {
     }
 
     public SimpleWavefunctionGraphic( Lattice2D lattice2D, int dx, int dy ) {
-        this( lattice2D, dx, dy, new TestColorMap( lattice2D ) );
+        this( lattice2D, dx, dy, new IndexColorMap( lattice2D ) );
     }
 
     public SimpleWavefunctionGraphic( Lattice2D lattice2D, int dx, int dy, ColorMap colorMap ) {

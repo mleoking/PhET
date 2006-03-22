@@ -39,8 +39,10 @@ public class ClassicalWavePropagator {
         }
         float c = 0.5f;
         float cSquared = c * c;
-        for( int i = 1; i < w.getWidth() - 1; i++ ) {
-            for( int j = 1; j < w.getHeight() - 1; j++ ) {
+        int width = w.getWidth() - 1;
+        int height = w.getHeight() - 1;
+        for( int i = 1; i < width; i++ ) {
+            for( int j = 1; j < height; j++ ) {
                 //todo, use knowledge of the potential barrier geometry for iteration here
                 if( potential.getPotential( i, j, 0 ) != 0 ) {
                     w.setValue( i, j, 0 );
