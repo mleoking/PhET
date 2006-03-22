@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - Spanish translations for color scheme stuff
 - redo color scheme class hierarchy
-- potential type icons need to use color scheme
 - initialize color scheme and menu state on startup (get rid of QTConstants)
 - save/load color scheme
 - decide on correct behavior when we measure in a region where E<V
@@ -40,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+(3/22/06) - rebuild Potential menus when color scheme changes, so that icon color is correct
 (3/22/06) - add "annotation" property to color scheme, use to set color of annotations and energy values
 (3/22/06) - get rid of JLabel coloring in Configure dialog
 (3/22/06) - set color scheme in Configure dialog

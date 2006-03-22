@@ -426,6 +426,13 @@ public class QTControlPanel extends AbstractControlPanel {
      * @param scheme
      */
     public void setColorScheme( IColorScheme scheme ) {
+        
+        // Rebuild the "Potential" combo box...
+        _potentialComboBox.removeItemListener( _listener );
+        _potentialComboBox.setPotentialColor( scheme.getPotentialEnergyColor() );
+        _potentialComboBox.addItemListener( _listener );
+        
+        // Change the legends for the wave function views...
         _realLegend.setIcon( createColorKey( scheme.getRealColor() ) );
         _imaginaryLegend.setIcon( createColorKey( scheme.getImaginaryColor() ) );
         _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
