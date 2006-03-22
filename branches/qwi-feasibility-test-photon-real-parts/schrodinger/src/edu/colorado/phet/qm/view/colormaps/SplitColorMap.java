@@ -60,7 +60,7 @@ public class SplitColorMap implements ColorMap {
 
     private double getValue( Wavefunction wavefunction, int i, int k ) {
         if( wavefunction.containsLocation( i, k ) ) {
-            return wavefunction.valueAt( i, k ).abs() * intensityScale;
+            return Math.abs( wavefunction.valueAt( i, k ).getReal() ) * intensityScale;
         }
         else {
             return 0;
