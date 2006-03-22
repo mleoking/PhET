@@ -79,8 +79,9 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     private int _look;
     private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
-    private PText _textNode;
-    private Color _textColor;
+    
+    private PText _valueNode;
+    private Color _valueColor;
     private NumberFormat _valueFormat;
     
     //----------------------------------------------------------------------------
@@ -156,8 +157,8 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         }
         
         // Value display
-        _textNode = null;
-        _textColor = Color.BLACK;
+        _valueNode = null;
+        _valueColor = Color.BLACK;
         _valueFormat = DEFAULT_VALUE_FORMAT;
     }
     
@@ -171,9 +172,9 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * @param
      */
     public void setValueColor( Color color ) {
-        _textColor = color;
-        if ( _textNode != null ) {
-            _textNode.setTextPaint( color );
+        _valueColor = color;
+        if ( _valueNode != null ) {
+            _valueNode.setTextPaint( color );
         }
     }
     
@@ -184,30 +185,30 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * @param visible true or false 
      */
     public void setValueVisible( boolean visible ) {
-        if ( visible && _textNode == null ) {
-            _textNode = new PText();
-            addChild( _textNode );
-            _textNode.setPickable( false );
-            _textNode.setFont( QTConstants.DRAG_HANDLE_FONT );
-            _textNode.setTextPaint( _textColor );
-            _textNode.setText( "0.0" );
+        if ( visible && _valueNode == null ) {
+            _valueNode = new PText();
+            addChild( _valueNode );
+            _valueNode.setPickable( false );
+            _valueNode.setFont( QTConstants.DRAG_HANDLE_FONT );
+            _valueNode.setTextPaint( _valueColor );
+            _valueNode.setText( "0.0" );
             Rectangle2D dragHandleBounds = getBounds();
             double x = 0;
             double y = 0;
             if ( _look == LOOK_CONTROL_POINT ) {
                 x = dragHandleBounds.getX() + dragHandleBounds.getWidth() + 3;
-                y = dragHandleBounds.getY() - _textNode.getHeight();
+                y = dragHandleBounds.getY() - _valueNode.getHeight();
             }
             else {
                 x = dragHandleBounds.getX() + dragHandleBounds.getWidth();
-                y = dragHandleBounds.getY() - _textNode.getHeight() + 3;
+                y = dragHandleBounds.getY() - _valueNode.getHeight() + 3;
             }
-            _textNode.translate( x, y );
+            _valueNode.translate( x, y );
             updateText();
         }
-        else if ( !visible && _textNode != null ) {
-            removeChild( _textNode );
-            _textNode = null;
+        else if ( !visible && _valueNode != null ) {
+            removeChild( _valueNode );
+            _valueNode = null;
         }
     }
     
@@ -217,7 +218,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * @return true or false
      */
     public boolean isValueVisible() {
-        return ( _textNode != null );
+        return ( _valueNode != null );
     }
     
     /**
@@ -292,10 +293,10 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
      * Updates the value display.
      */
     protected void updateText() {
-        if ( _textNode != null ) {
+        if ( _valueNode != null ) {
             double value = getModelValue();
             String text = _valueFormat.format( value );
-            _textNode.setText( text );
+            _valueNode.setText( text );
         }
     }
     
