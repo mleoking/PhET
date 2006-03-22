@@ -32,7 +32,7 @@ public class TestWave {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
 //        lattice2D = new Lattice2D( 100, 80 );
-        lattice2D = new Lattice2D( 60, 60 );
+        lattice2D = new Lattice2D( 80, 80 );
 
         simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( lattice2D, 10, 10, new IndexColorMap( lattice2D ) );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
