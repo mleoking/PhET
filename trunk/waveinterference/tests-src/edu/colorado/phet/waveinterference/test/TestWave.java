@@ -5,8 +5,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.ClassicalWavePropagator;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.Potential;
+import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.SimpleWavefunctionGraphic;
-import edu.colorado.phet.waveinterference.view.TestColorMap;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,9 +31,10 @@ public class TestWave {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
-        lattice2D = new Lattice2D( 100, 80 );
+//        lattice2D = new Lattice2D( 100, 80 );
+        lattice2D = new Lattice2D( 60, 60 );
 
-        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( lattice2D, 10, 10, new TestColorMap( lattice2D ) );
+        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( lattice2D, 10, 10, new IndexColorMap( lattice2D ) );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
         frame.setSize( 600, 600 );
         timer = new Timer( 30, new ActionListener() {
@@ -48,12 +49,14 @@ public class TestWave {
         double t = System.currentTimeMillis() / 1000.0;
         double period = 2;
         double frequency = 1 / period;
-        for( int i = 20; i < 30; i++ ) {
-            for( int j = 20; j < 30; j++ ) {
-                double value = Math.cos( 2 * Math.PI * frequency * t );
+        for( int i = 20; i <= 30; i++ ) {
+            for( int j = 20; j <= 30; j++ ) {
+                if( Math.sqrt( ( i - 25 ) * ( i - 25 ) + ( j - 25 ) * ( j - 25 ) ) < 5 ) {
+                    double value = Math.cos( 2 * Math.PI * frequency * t );
 //                System.out.println( "value = " + value );
-                lattice2D.setValue( i, j, (float)value );
-                classicalWavePropagator.setBoundaryCondition( i, j, (float)value );
+                    lattice2D.setValue( i, j, (float)value );
+                    classicalWavePropagator.setBoundaryCondition( i, j, (float)value );
+                }
             }
         }
         classicalWavePropagator.propagate( lattice2D );
