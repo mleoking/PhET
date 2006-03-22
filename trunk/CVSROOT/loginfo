@@ -61,6 +61,8 @@
 ^greenhouse\(/\|$\) mail -s "CVS commit: greenhouse" ronlemaster
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
+^photoelectric\(/\|$\) mail -s "CVS commit: photoelectric" ronlemaster
+^dischargelamps\(/\|$\) mail -s "CVS commit: dischargelamps" ronlemaster
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
 ^quantum-tunneling\(/\|$\) mail -s "CVS commit: quantum-tunneling" cmalley
 ^shaper\(/\|$\) mail -s "CVS commit: shaper" cmalley
