@@ -81,9 +81,12 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             }
             double farthestDistToDrain = Math.sqrt( maxDistSq );
 
-            // Determine the number of clock ticks before the vessel is nearly empty
+            // Determine the number of clock ticks before the vessel is nearly empty.
             double timeToEmpty = ( vessel.getWaterLevel() - 0 ) / ( -change );
-            double ds = farthestDistToDrain / timeToEmpty * 1;
+
+            // Compute the speed that the ion farthest from the drain must have in order to make
+            // it out of the tank by the time the water is gone.
+            double ds = farthestDistToDrain / timeToEmpty;
 
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );

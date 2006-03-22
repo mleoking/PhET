@@ -49,7 +49,6 @@ public class SolubleSaltsModule extends PiccoloModule {
 //    static public final double viewScale = 1;
     static public final double viewScale = 0.1;
 
-    private Random random = new Random( System.currentTimeMillis() );
     private SSCanvas simPanel;
 
     /**

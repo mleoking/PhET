@@ -13,8 +13,10 @@ package edu.colorado.phet.solublesalts.control;
 
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 
@@ -62,14 +64,15 @@ public class OptionsMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Random Walk Adjusment", false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final JSlider sldr = new JSlider( 0, 360, (int)Ion.randomWalkTheta );
+                final SolubleSaltsModel model = (SolubleSaltsModel)PhetApplication.instance().getActiveModule().getModel();
+                final JSlider sldr = new JSlider( 0, 360, (int)model.getRandomWalkAgent().getTheta() );
                 sldr.setMajorTickSpacing( 45 );
                 sldr.setMinorTickSpacing( 15 );
                 sldr.setPaintTicks( true );
                 sldr.setPaintLabels( true );
                 sldr.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        Ion.randomWalkTheta = sldr.getValue();
+                        model.getRandomWalkAgent().setTheta( sldr.getValue() );
                     }
                 } );
                 dlg.getContentPane().add( sldr );
