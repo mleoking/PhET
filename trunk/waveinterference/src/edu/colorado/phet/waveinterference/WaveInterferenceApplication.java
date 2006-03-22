@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.common.application.PhetApplication;
+
 /**
  * User: Sam Reid
  * Date: Mar 21, 2006
@@ -8,5 +10,18 @@ package edu.colorado.phet.waveinterference;
  * Copyright (c) Mar 21, 2006 by Sam Reid
  */
 
-public class WaveInterferenceApplication {
+public class WaveInterferenceApplication extends PhetApplication {
+    private static String VERSION = "0.01";
+
+    public WaveInterferenceApplication( String[] args ) {
+        super( args, "Wave Interference " + VERSION, "Wave Interference simulation", VERSION );
+
+        addModule( new WaterModule() );
+        addModule( new SoundModule() );
+        addModule( new LightModule() );
+    }
+
+    public static void main( String[] args ) {
+        new WaveInterferenceApplication( args ).startApplication();
+    }
 }
