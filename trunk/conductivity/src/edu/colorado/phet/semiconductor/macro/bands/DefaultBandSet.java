@@ -108,9 +108,9 @@ public class DefaultBandSet implements ModelElement {
         return double1;
     }
 
-    public double voltageChanged( double d, double d1 ) {
-        upper.voltageChanged( d, d1 );
-        lowband.voltageChanged( d, d1 );
+    public double voltageChanged( double voltage, double d1 ) {
+        upper.voltageChanged( voltage, d1 );
+        lowband.voltageChanged( voltage, d1 );
         return desiredSpeedToActualSpeed( d1 );
     }
 
@@ -196,16 +196,14 @@ public class DefaultBandSet implements ModelElement {
                     return true;
                 }
             }
-
         }
-
         return false;
     }
 
     private boolean tryToMove( EnergyCell energycell, EnergyCell energycell1 ) {
         BandParticle bandparticle = energycell.getOwner();
         if( bandparticle != null && !energycell1.isOccupied() ) {
-            bandparticle.moveTo( energycell1, 0.0060000000000000001D );
+            bandparticle.moveTo( energycell1, 0.006 );
             return true;
         }
         else {

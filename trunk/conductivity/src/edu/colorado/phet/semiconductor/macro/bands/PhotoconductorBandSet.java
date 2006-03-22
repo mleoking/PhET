@@ -6,7 +6,6 @@ package edu.colorado.phet.semiconductor.macro.bands;
 
 import edu.colorado.phet.semiconductor.macro.MacroSystem;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
@@ -16,9 +15,12 @@ public class PhotoconductorBandSet extends DefaultBandSet {
 //    ConductorBandSet conductorBandSet;
     boolean lightOn;
     int excitedCount;
+    private MacroSystem macrosystem;
+//    private boolean conducting=false;
 
     public PhotoconductorBandSet( MacroSystem macrosystem, double d ) {
         super( macrosystem, d );
+        this.macrosystem = macrosystem;
 //        this.conductorBandSet=new ConductorBandSet( macrosystem, d);
         lightOn = false;
         random = new Random( 0L );
@@ -30,6 +32,28 @@ public class PhotoconductorBandSet extends DefaultBandSet {
         double d4 = d1 * 0.51000000000000001D;
         upper.addLevels( 0.5D, 0.69999999999999996D, highBandNumLevels, 0.10000000000000001D - inset, d3, i, d4, 0.033333333333333333D );
         lowband.addLevels( lowBandY1, lowBandY2, lowNumLevels, 0.10000000000000001D - inset, d3, i, d4, 0.033333333333333333D );
+        setConducting( false );
+    }
+
+    public void stepInTime( double d ) {
+        super.stepInTime( d );
+        //make sure everything is working.
+        macrosystem.doVoltageChanged();
+        if( !lightOn ) {
+            excitedCount = 0;
+            moveDown();//src,dst,false
+            //make sure everything falls down
+            moveParticle( getUpperBand( 2 ), getUpperBand( 1 ), false );
+            moveParticle( getUpperBand( 1 ), getUpperBand( 0 ), false );
+            moveParticle( getUpperBand( 0 ), getLowBandFromTop( 0 ), false );
+            moveParticle( getLowBandFromTop( 0 ), getLowBandFromTop( 1 ), false );
+            moveParticle( getLowBandFromTop( 1 ), getLowBandFromTop( 2 ), false );
+            moveParticle( getLowBandFromTop( 2 ), getLowBandFromTop( 3 ), false );
+        }
+        else {
+//            setConducting( conducting );
+        }
+//        super.stepInTime( d );
     }
 
     public void initParticles() {
@@ -54,7 +78,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
             return;
         }
         moveUp();
-
+        setConducting( true );
         super.photonGotAbsorbed();
     }
 
@@ -67,22 +91,25 @@ public class PhotoconductorBandSet extends DefaultBandSet {
     }
 
     private void moveDown() {
+        setConducting( false );
         moveParticle( getLowBandFromTop( 0 ), getUpperBand( 1 ), true );
         moveParticle( getLowBandFromTop( 1 ), getUpperBand( 0 ), true );
+//        macrosystem.doVoltageChanged();
 
-        setConducting( false );
     }
 
     private void moveUp() {
         moveParticle( getLowBandFromTop( 0 ), getUpperBand( 1 ) );
         moveParticle( getLowBandFromTop( 1 ), getUpperBand( 0 ) );
-
-        setConducting( true );
+//        macrosystem.doVoltageChanged();
+//        setConducting( true );
     }
 
     private void setConducting( boolean flag ) {
+//        this.conducting=flag;
         getLowBandFromTop( 0 ).setCanConduct( flag );
         getLowBandFromTop( 1 ).setCanConduct( flag );
+//        getLowBandFromTop( 2 ).setCanConduct( flag );
         getUpperBand( 0 ).setCanConduct( flag );
         getUpperBand( 1 ).setCanConduct( flag );
     }
@@ -101,7 +128,7 @@ public class PhotoconductorBandSet extends DefaultBandSet {
             excitedCount = 0;
             moveDown();
         }
-        super.photonGotAbsorbed();
+//        super.photonGotAbsorbed();
     }
 
     /**
@@ -112,49 +139,49 @@ public class PhotoconductorBandSet extends DefaultBandSet {
     }
 //
 
-    public double voltageChanged( double d, double d1 ) {
+    public double voltageChanged( double voltage, double desiredSpeed ) {
 //        super.voltageChanged( d, d1 );
-        if( lightOn ) {
-            int i = getFermiLevel();
-            Band band = getLowerBand();
-            EnergyLevel energylevel = band.energyLevelAt( i + 1 );
-            EnergyLevel energylevel1 = band.energyLevelAt( i + 2 );
-            energylevel.setCanConduct( true );
-            energylevel1.setCanConduct( true );
-            if( d == 0.0D ) {
+        if( lightOn && particlesElevated() ) {
+//            int i = getFermiLevel();
+//            Band band = getLowerBand();
+//            EnergyLevel energylevel = band.energyLevelAt( i + 1 );
+//            EnergyLevel energylevel1 = band.energyLevelAt( i + 2 );
+//            energylevel.setCanConduct( true );
+//            energylevel1.setCanConduct( true );
+            if( voltage == 0.0D ) {
                 setConductionCount( 0, 0 );
             }
-            else if( d > 0.0D && d <= 0.5D ) {
+            else if( voltage > 0.0D && voltage <= 0.5D ) {
                 setConductionCount( 1, 0 );
             }
-            else if( ( d > 0.5D ) & ( d <= 1.0D ) ) {
+            else if( ( voltage > 0.5D ) & ( voltage <= 1.0D ) ) {
                 setConductionCount( 1, 1 );
             }
-            else if( d > 1.0D && d <= 1.5D ) {
+            else if( voltage > 1.0D && voltage <= 1.5D ) {
                 setConductionCount( 2, 1 );
             }
-            else if( d > 1.5D && d <= 2D ) {
+            else if( voltage > 1.5D && voltage <= 2D ) {
                 setConductionCount( 2, 2 );
             }
         }
         else {
             setConductionCount( 0, 0 );
         }
-        return super.voltageChanged( d, d1 );
+        return super.voltageChanged( voltage, desiredSpeed );
     }
-//
+
+    private boolean particlesElevated() {
+        return getUpperBand( 0 ).isFull() && getUpperBand( 1 ).isFull();
+    }
 
     private void setConductionCount( int i, int j ) {
         int k = getFermiLevel();
         Band band = getLowerBand();
-        ArrayList arraylist = new ArrayList();
-        arraylist.add( band.energyLevelAt( k ) );
         EnergyLevel energylevel = band.energyLevelAt( k + 1 );
         EnergyLevel energylevel1 = band.energyLevelAt( k + 2 );
         moveParticles( energylevel, i );
         moveParticles( energylevel1, j );
     }
-//
 
     EnergyLevel getDonorLevel() {
         int i = getFermiLevel();
