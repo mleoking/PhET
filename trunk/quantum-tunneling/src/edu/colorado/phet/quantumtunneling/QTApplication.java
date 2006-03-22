@@ -24,10 +24,11 @@ import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
-import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
+import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
 
 
@@ -51,6 +52,8 @@ public class QTApplication extends PhetApplication {
     
     // PersistanceManager handles loading/saving application configurations.
     private QTPersistenceManager _persistenceManager;
+    
+    private QTColorSchemeMenu _colorSchemeMenu;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -130,13 +133,13 @@ public class QTApplication extends PhetApplication {
             getPhetFrame().addMenu( optionsMenu );
             
             // Color Scheme submenu
-            QTColorSchemeMenu colorSchemeMenu = new QTColorSchemeMenu( _module );
-            optionsMenu.add( colorSchemeMenu );
+            _colorSchemeMenu = new QTColorSchemeMenu( _module );
+            optionsMenu.add( _colorSchemeMenu );
             if ( QTConstants.COLOR_SCHEME instanceof BlackColorScheme ) {
-                colorSchemeMenu.selectBlack();
+                _colorSchemeMenu.selectBlack();
             }
             else {
-                colorSchemeMenu.selectWhite();
+                _colorSchemeMenu.selectWhite();
             }
         }
    
@@ -157,9 +160,15 @@ public class QTApplication extends PhetApplication {
      * @param appConfig
      */
     public void save( QTConfig appConfig ) {
+        
         QTGlobalConfig config = appConfig.getGlobalConfig();
+        
         config.setCvsTag( QTVersion.CVS_TAG );
         config.setVersionNumber( QTVersion.NUMBER );
+        
+        // Color scheme
+        config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
+        config.setColorScheme( _colorSchemeMenu.getColorScheme() );
     }
 
     /**
@@ -168,8 +177,13 @@ public class QTApplication extends PhetApplication {
      * @param appConfig
      */
     public void load( QTConfig appConfig ) {
+        
         QTGlobalConfig config = appConfig.getGlobalConfig();
-        // nothing to do...
+        
+        // Color scheme
+        String colorSchemeName = config.getColorSchemeName();
+        QTColorScheme colorScheme = config.getColorScheme().toQTColorScheme();
+        _colorSchemeMenu.setColorScheme( colorSchemeName, colorScheme );
     }
 
     //----------------------------------------------------------------------------

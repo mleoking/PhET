@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.persistence;
 
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
+
 
 /**
  * QTGlobalConfig is a JavaBean-compliant data structure that stores
@@ -20,13 +22,15 @@ package edu.colorado.phet.quantumtunneling.persistence;
  * @version $Revision$
  */
 public class QTGlobalConfig implements QTSerializable {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private String _versionNumber;
     private String _cvsTag;
+    private String _colorSchemeName;
+    private QTColorSchemeConfig _colorScheme;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -55,5 +59,25 @@ public class QTGlobalConfig implements QTSerializable {
     
     public void setCvsTag( String buildNumber ) {
         _cvsTag = buildNumber;
+    }
+
+    public String getColorSchemeName() {
+        return _colorSchemeName;
+    }
+
+    public void setColorSchemeName( String colorSchemeSelection ) {
+        _colorSchemeName = colorSchemeSelection;
+    }
+
+    public QTColorSchemeConfig getColorScheme() {
+        return _colorScheme;
+    }
+
+    public void setColorScheme( QTColorSchemeConfig colorScheme ) {
+        _colorScheme = colorScheme;
+    }
+    
+    public void setColorScheme( QTColorScheme colorScheme ) {
+        setColorScheme( new QTColorSchemeConfig( colorScheme ) );
     }
 }

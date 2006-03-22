@@ -30,13 +30,29 @@ import edu.colorado.phet.quantumtunneling.module.QTModule;
  * @version $Revision$
  */
 public class QTColorSchemeMenu extends JMenu {
-
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final String BLACK = "black";
+    public static final String WHITE = "white";
+    public static final String CUSTOM = "custom";
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private QTModule _module;
     private QTColorScheme _presetColorScheme;
     private QTColorScheme _customColorScheme;
     private JDialog _customDialog;
     private JRadioButtonMenuItem _blackItem, _whiteItem, _customItem;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public QTColorSchemeMenu( QTModule module ) {
         super( SimStrings.get( "menu.options.colorScheme" ) );
         setMnemonic( SimStrings.get( "menu.options.colorScheme.mnemonic" ).charAt( 0 ) );
@@ -84,6 +100,10 @@ public class QTColorSchemeMenu extends JMenu {
         selectBlack();
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public void selectBlack() {
         _blackItem.setSelected( true );
         handleBlackSelection();
@@ -94,13 +114,48 @@ public class QTColorSchemeMenu extends JMenu {
         handleWhiteSelection();
     }
 
-    public void setCustomColorScheme( QTColorScheme colorScheme ) {
+    public void setColorScheme( String name, QTColorScheme colorScheme ) {
         closeDialog();
-        _customItem.setSelected( true );
-        _customColorScheme = new QTColorScheme( colorScheme );
-        _module.setColorScheme( _customColorScheme );
+        if ( name.equals( BLACK ) ) {
+            selectBlack();
+        }
+        else if ( name.equals( WHITE ) ) {
+            selectWhite();
+        }
+        else {
+            _customItem.setSelected( true );
+            _customColorScheme = new QTColorScheme( colorScheme );
+            _module.setColorScheme( _customColorScheme );
+        }
+    }
+    
+    public QTColorScheme getColorScheme() {
+        if ( _customItem.isSelected() ) {
+            return _customColorScheme;
+        }
+        else {
+            return _presetColorScheme;
+        }
+    }
+    
+    public String getColorSchemeName() {
+        String name = null;
+        if ( _blackItem.isSelected() ) {
+            name = BLACK;
+        }
+        else if ( _whiteItem.isSelected() ) {
+            name = WHITE;
+        }
+        else if ( _customItem.isSelected() ) {
+            name = CUSTOM;
+        }
+        return name;
     }
 
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
     private void handleBlackSelection() {
         closeDialog();
         _presetColorScheme = new BlackColorScheme();
