@@ -4,8 +4,8 @@
 
 package edu.colorado.phet.semiconductor.macro.bands;
 
-import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
 
 import java.util.ArrayList;
 
@@ -103,6 +103,7 @@ public class Band {
         for( int i = 0; i < numEnergyLevels(); i++ ) {
             EnergyLevel energylevel = energyLevelAt( i );
             if( energylevel.canConduct() && energylevel.isFull() ) {
+//            if( energylevel.canConduct()  ) {
                 energylevel.propagateBoth( new Speed() {
 
                     public double getSpeed() {
