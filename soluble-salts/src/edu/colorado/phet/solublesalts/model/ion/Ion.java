@@ -35,9 +35,6 @@ import java.util.Random;
  */
 public class Ion extends Atom {
 
-    private static Random random = new Random();
-    public static double randomWalkTheta = 45;
-
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
     private Vector2D vSaveUtil = new Vector2D.Double();
@@ -62,10 +59,10 @@ public class Ion extends Atom {
         if( !isBound() ) {
 
             // Random walk
-            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
-                double theta = random.nextDouble() * Math.toRadians( randomWalkTheta ) * MathUtil.nextRandomSign();
-                setVelocity( getVelocity().rotate( theta ) );
-            }
+//            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
+//                double theta = random.nextDouble() * Math.toRadians( randomWalkTheta ) * MathUtil.nextRandomSign();
+//                setVelocity( getVelocity().rotate( theta ) );
+//            }
             super.stepInTime( dt );
         }
         else {

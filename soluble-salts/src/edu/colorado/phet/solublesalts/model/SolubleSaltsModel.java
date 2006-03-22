@@ -35,6 +35,9 @@ import java.util.*;
  * <ul>
  * <li>Ksp, and how to compute the concentrations of ions
  * </ul>
+ * <p/>
+ * The model does everything in pixel dimensions, because it was too hard to keep things straight and debug working
+ * with the very small numbers that are in the domain.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -81,13 +84,15 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
     private Vector2D accelerationOutOfWater = new Vector2D.Double( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
     private Vector2D accelerationInWater = new Vector2D.Double();
 
+    private RandomWalk randomWalkAgent;
+
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
-    
+
     public SolubleSaltsModel( IClock clock ) {
 
-        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( this );
+        ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).addResetListener( this );
         clock.addClockListener( new ModelStepper() );
 
         // Add an agent that will track the ions of various classes
@@ -99,8 +104,11 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
-        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
+        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
         addModelElement( vessel );
+
+        // Create the random walk agent
+        randomWalkAgent = new RandomWalk( vessel );
 
         // Create the faucet and drain
         waterSource = new WaterSource( this );
@@ -134,9 +142,9 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
                             vessel.getLocation().getY() - 10 );
 
         // Listen for runtime changes in the configuration
-        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( new SolubleSaltsApplication.ResetListener() {
+        ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).addResetListener( new SolubleSaltsApplication.ResetListener() {
             public void reset() {
-                vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
+                vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             }
         } );
     }
@@ -200,7 +208,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
             Ion ion = (Ion)ions.get( i );
             removeModelElement( ion );
         }
-        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL * scale );
+        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
         waterSource.setFlow( 0 );
         drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
@@ -209,7 +217,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
         event.modelReset = true;
         changeListenerProxy.stateChanged( event );
     }
-    
+
 
     /**
      * Determines which type of ion should be preferred for release. This is based on the ratio of the number
@@ -412,6 +420,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
         return shaker.getCurrentSalt();
     }
 
+    public RandomWalk getRandomWalkAgent() {
+        return randomWalkAgent;
+    }
+
 
     //----------------------------------------------------------------
     // Inner classes
@@ -423,11 +435,17 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
     private class ModelStepper extends ClockAdapter {
         public void clockTicked( ClockEvent clockEvent ) {
 
-            // REmove ions that have gotten outside the bounds of the model
             List ions = ionTracker.getIons();
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
-                if( !getBounds().contains( ion.getPosition() )) {
+
+                // Apply random walk to all the ions, but only if the drain is closed
+                if( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0  ) {
+                    randomWalkAgent.appy( ion );
+                }
+
+                // Remove ions that have gotten outside the bounds of the model
+                if( !getBounds().contains( ion.getPosition() ) ) {
                     removeModelElement( ion );
                 }
             }

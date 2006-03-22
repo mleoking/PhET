@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SilverIodide;
+import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.*;
@@ -38,8 +39,10 @@ public class SolubleSaltsConfig {
     public static final int FPS = 25;
 
     // Defaults
-    public static final Salt DEFAULT_SALT = new SilverIodide();
-    public static String DEFAULT_SALT_NAME = "Silver Iodide";
+    public static final Salt DEFAULT_SALT = new SodiumChloride();
+    public static String DEFAULT_SALT_NAME = "Sodium Chloride";
+//    public static final Salt DEFAULT_SALT = new SilverIodide();
+//    public static String DEFAULT_SALT_NAME = "Silver Iodide";
 
     // An ion will bind to another if it is within a distance of the open binding site that is less than or
     // equal to this many times the free ion's radius
@@ -68,7 +71,7 @@ public class SolubleSaltsConfig {
     public static final String FLAMES_IMAGE_FILE = IMAGE_PATH + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
-    public static final Color WATER_COLOR = new Color( 200, 230, 255 );
+    public static final Color WATER_COLOR = new Color( 150, 200, 255 );
 
     // Misc
     public static final String STRINGS_BUNDLE_NAME = "localization/SolubleSaltsStrings";
@@ -78,7 +81,7 @@ public class SolubleSaltsConfig {
     public static final long RELEASE_ESCAPE_TIME = 2000;
 
     // Debug flags
-    public static boolean RANDOM_WALK = false;
+    public static boolean RANDOM_WALK = true;
     public static boolean ONE_CRYSTAL_ONLY = false;
     public static boolean DEBUG = false;
     public static boolean SHOW_BONDS = false;
