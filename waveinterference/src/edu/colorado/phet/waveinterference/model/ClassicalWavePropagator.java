@@ -234,4 +234,9 @@ public class ClassicalWavePropagator {
             last2.setValue( i, j, real );
         }
     }
+
+    public void setSize( int width, int height ) {
+        last.setSize( width, height );
+        last2.setSize( width, height );
+    }
 }
