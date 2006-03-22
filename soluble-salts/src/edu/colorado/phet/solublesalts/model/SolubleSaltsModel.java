@@ -314,7 +314,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
         int numAnionsInUnit = salt.getNumAnionsInUnit();
         int numCations = ionTracker.getNumFreeIonsOfType( salt.getCationClass() );
         int numCationsInUnit = salt.getNumCationsInUnit();
-        double volume = vessel.getWaterLevel();
+        double volume = vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
         double denominator = volume * SolubleSaltsConfig.AVAGADROS_NUMBER;
         double concentrationFactor = Math.pow( ( numAnions / denominator ), numAnionsInUnit )
                                      * Math.pow( ( numCations / denominator ), numCationsInUnit );
@@ -439,7 +439,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
 
-                // Apply random walk to all the ions, but only if the drain is closed
+                // Apply random walk to all the ions, but only if the drain is closed                
                 if( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0  ) {
                     randomWalkAgent.appy( ion );
                 }
