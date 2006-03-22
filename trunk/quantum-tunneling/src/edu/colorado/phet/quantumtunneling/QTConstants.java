@@ -103,7 +103,6 @@ public class QTConstants {
     
     public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
-    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.WHITE;
     
     private static final IColorScheme COLOR_SCHEME = new BlackColorScheme();
     
