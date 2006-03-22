@@ -42,6 +42,7 @@ import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.persistence.QTModuleConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -565,7 +566,7 @@ public class QTModule extends AbstractModule implements Observer {
      * @param appConfig
      */
     public void save( QTConfig appConfig ) {
-        QTConfig.ModuleConfig config = appConfig.getModuleConfig();
+        QTModuleConfig config = appConfig.getModuleConfig();
         
         // Clock
         config.setClockRunning( getClock().isRunning() );
@@ -603,7 +604,7 @@ public class QTModule extends AbstractModule implements Observer {
      * @param appConfig
      */
     public void load( QTConfig appConfig ) {
-        QTConfig.ModuleConfig config = appConfig.getModuleConfig();
+        QTModuleConfig config = appConfig.getModuleConfig();
         
         // Clock
         if ( config.isClockRunning() ) {

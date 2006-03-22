@@ -36,6 +36,7 @@ CLEANUP:
 
 
 DONE:
+(3/22/06) - refactor inner classes of QTConfig into their own class files
 (3/22/06) - redo color scheme class hierarchy
 (3/22/06) - initialize color scheme and menu state on startup (get rid of QTConstants)
 (3/22/06) - Spanish translations for color scheme stuff
