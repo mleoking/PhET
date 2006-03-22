@@ -31,9 +31,9 @@ public class TestWave {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
-        lattice2D = new Lattice2D( 200, 200 );
+        lattice2D = new Lattice2D( 100, 80 );
 
-        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( lattice2D, 3, 3, new TestColorMap( lattice2D ) );
+        simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( lattice2D, 10, 10, new TestColorMap( lattice2D ) );
         phetPCanvas.addScreenChild( simpleWavefunctionGraphic );
         frame.setSize( 600, 600 );
         timer = new Timer( 30, new ActionListener() {
@@ -52,8 +52,8 @@ public class TestWave {
             for( int j = 20; j < 30; j++ ) {
                 double value = Math.cos( 2 * Math.PI * frequency * t );
 //                System.out.println( "value = " + value );
-                lattice2D.setValue( i, j, value );
-                classicalWavePropagator.setBoundaryCondition( i, j, value );
+                lattice2D.setValue( i, j, (float)value );
+                classicalWavePropagator.setBoundaryCondition( i, j, (float)value );
             }
         }
         classicalWavePropagator.propagate( lattice2D );

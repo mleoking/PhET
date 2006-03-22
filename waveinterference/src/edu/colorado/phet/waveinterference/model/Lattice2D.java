@@ -13,8 +13,8 @@ import java.text.DecimalFormat;
  */
 
 public class Lattice2D {
-    public double[][] wavefunction;
-    private double magnitude = 0.0;
+    public float[][] wavefunction;
+    private float magnitude = 0.0f;
     private boolean magnitudeDirty = true;
 
     public Lattice2D( Lattice2D lattice2D ) {
@@ -35,7 +35,7 @@ public class Lattice2D {
 //    public void splitWave( Rectangle region, Lattice2D a, Lattice2D b ) {
 //        for( int i = region.x; i < region.x + region.width; i++ ) {
 //            for( int j = region.y; j < region.y + region.height; j++ ) {
-//                double v = valueAt( i, j );
+//                float v = valueAt( i, j );
 //                a.setValue( i, j, v*( 0.5 ) );
 //                b.setValue( i, j, v*( 0.5 ) );
 //            }
@@ -45,20 +45,20 @@ public class Lattice2D {
 //    public void combineWaves( Rectangle region, Lattice2D a, Lattice2D b ) {
 //        for( int i = region.x; i < region.x + region.width; i++ ) {
 //            for( int j = region.y; j < region.y + region.height; j++ ) {
-//                double sum = SplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
-//                setValue( i, j, new double( sum, 0 ) );
+//                float sum = SplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
+//                setValue( i, j, new float( sum, 0 ) );
 //            }
 //        }
 //    }
 
     public void maximize() {
-        double max = 0;
+        float max = 0;
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
                 max = Math.max( Math.abs( valueAt( i, j ) ), max );
             }
         }
-        scale( 1.0 / max );
+        scale( 1.0f / max );
         setMagnitudeDirty();
     }
 
@@ -75,30 +75,30 @@ public class Lattice2D {
     public static interface Listener {
         void cleared();
 
-        void scaled( double scale );
+        void scaled( float scale );
     }
 
     public Lattice2D( int width, int height ) {
-        wavefunction = new double[width][height];
+        wavefunction = new float[width][height];
         clear();
     }
 
-    public Lattice2D( double[][] values ) {
+    public Lattice2D( float[][] values ) {
         this.wavefunction = values;
         setMagnitudeDirty();
     }
 
-    public void setMagnitude( double newMagnitude ) {
+    public void setMagnitude( float newMagnitude ) {
         setMagnitudeDirty();
-        double origMagnitude = getMagnitude();
-        scale( Math.sqrt( newMagnitude ) / Math.sqrt( origMagnitude ) );
-        double m = getMagnitude();//todo remove this after we're sure its working
+        float origMagnitude = getMagnitude();
+        scale( (float)( Math.sqrt( newMagnitude ) / Math.sqrt( origMagnitude ) ) );
+        float m = getMagnitude();//todo remove this after we're sure its working
         if( Math.abs( m - newMagnitude ) > 10E-6 ) {
             throw new RuntimeException( "Normalization failed: requested new magnitude=" + newMagnitude + ", received=" + m );
         }
     }
 
-    public void scale( double scale ) {
+    public void scale( float scale ) {
         if( scale != 1.0 ) {
             for( int i = 0; i < getWidth(); i++ ) {
                 for( int j = 0; j < getHeight(); j++ ) {
@@ -113,12 +113,12 @@ public class Lattice2D {
         return getBounds().contains( i, k );
     }
 
-//    public static String toString( double[] complexes ) {
+//    public static String toString( float[] complexes ) {
 //        return Arrays.asList( complexes ).toString();
 //    }
 
-    public static double[][] newInstance( int w, int h ) {
-        double[][] copy = new double[w][h];
+    public static float[][] newInstance( int w, int h ) {
+        float[][] copy = new float[w][h];
         for( int i = 0; i < copy.length; i++ ) {
             for( int j = 0; j < copy[i].length; j++ ) {
                 copy[i][j] = 0;
@@ -127,8 +127,8 @@ public class Lattice2D {
         return copy;
     }
 
-    public static double[][] copy( double[][] w ) {
-        double[][] copy = new double[w.length][w[0].length];
+    public static float[][] copy( float[][] w ) {
+        float[][] copy = new float[w.length][w[0].length];
         for( int i = 0; i < copy.length; i++ ) {
             for( int j = 0; j < copy[i].length; j++ ) {
                 copy[i][j] = w[i][j];
@@ -139,8 +139,10 @@ public class Lattice2D {
 
     public void copyTo( Lattice2D dest ) {
         dest.setSize( getWidth(), getHeight() );
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
+        int width = getWidth();
+        int height = getHeight();//for speed
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
                 dest.wavefunction[i][j] = wavefunction[i][j];
             }
         }
@@ -155,24 +157,24 @@ public class Lattice2D {
         return wavefunction[0].length;
     }
 
-    public void setValue( int i, int j, double value ) {
+    public void setValue( int i, int j, float value ) {
         wavefunction[i][j] = value;
     }
 
-    public double valueAt( int i, int j ) {
+    public float valueAt( int i, int j ) {
         return wavefunction[i][j];
     }
 
     public void normalize() {
-        double totalProbability = getMagnitude();
+        float totalProbability = getMagnitude();
 //        System.out.println( "totalProbability = " + totalProbability );
-        double scale = 1.0 / Math.sqrt( totalProbability );
+        float scale = (float)( 1.0 / Math.sqrt( totalProbability ) );
         scale( scale );
-        double postProb = getMagnitude();
+        float postProb = getMagnitude();
 //        System.out.println( "postProb = " + postProb );
 
-        double diff = 1.0 - postProb;
-        double err = Math.abs( diff );
+        float diff = (float)( 1.0 - postProb );
+        float err = Math.abs( diff );
         if( err > 0.0001 ) {
             System.out.println( "Error in probability normalization, norm=" + postProb + ", err=" + err );
 //            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
@@ -181,7 +183,7 @@ public class Lattice2D {
         setMagnitudeDirty();
     }
 
-    public double getMagnitude() {
+    public float getMagnitude() {
         if( magnitudeDirty ) {
 //            System.out.println( "Wavefunction.getMagnitude" );
             this.magnitude = recomputeMagnitude();
@@ -190,13 +192,13 @@ public class Lattice2D {
         return magnitude;
     }
 
-    private double recomputeMagnitude() {//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
-        double runningSum = 0.0;
+    private float recomputeMagnitude() {//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
+        float runningSum = 0.0f;
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                double psiStar = wavefunction[i][j];
-                double psi = wavefunction[i][j];
-                double term = psiStar * psi;
+                float psiStar = wavefunction[i][j];
+                float psi = wavefunction[i][j];
+                float term = psiStar * psi;
                 runningSum = runningSum + term;
             }
         }
@@ -207,7 +209,7 @@ public class Lattice2D {
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
 //                if( valueAt( i, j ) == null ) {
-//                    wavefunction[i][j] = new double();
+//                    wavefunction[i][j] = new float();
 //                }
 //                else {
 //                    valueAt( i, j ).zero();
@@ -225,14 +227,14 @@ public class Lattice2D {
 
     public void setSize( int width, int height ) {
         if( getWidth() != width || getHeight() != height ) {
-            wavefunction = new double[width][height];
+            wavefunction = new float[width][height];
             clear();
         }
 
     }
 
     public Lattice2D copy() {
-        double[][] copy = new double[getWidth()][getHeight()];
+        float[][] copy = new float[getWidth()][getHeight()];
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
                 copy[i][j] = valueAt( i, j );
@@ -285,7 +287,7 @@ public class Lattice2D {
     public void printWaveToScreen( DecimalFormat formatter ) {
         for( int k = 0; k < getHeight(); k++ ) {
             for( int i = 0; i < getWidth(); i++ ) {
-                double val = valueAt( i, k );
+                float val = valueAt( i, k );
                 String s = formatter.format( val );
                 if( s.equals( formatter.format( -0.000000001 ) ) ) {
                     s = formatter.format( 0 );

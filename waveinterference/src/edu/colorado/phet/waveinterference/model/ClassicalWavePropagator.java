@@ -31,14 +31,14 @@ public class ClassicalWavePropagator {
     }
 
     public void propagate( Lattice2D w ) {
-        double neigh = 0.0;
+        float neigh = 0.0f;
         if( last == null ) {
             last = w.copy();
             last2 = w.copy();
             return;
         }
-        double c = 0.5;
-        double cSquared = c * c;
+        float c = 0.5f;
+        float cSquared = c * c;
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 //todo, use knowledge of the potential barrier geometry for iteration here
@@ -57,6 +57,7 @@ public class ClassicalWavePropagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
+        //todo avoid copying by cycling references.?
         last.copyTo( last2 );
         clearPotential( last2 );
         w.copyTo( last );
@@ -86,9 +87,9 @@ public class ClassicalWavePropagator {
         }
     }
 
-//    private double ZERO = 0;
+//    private float ZERO = 0;
 
-//    private double last( int i, int j ) {
+//    private float last( int i, int j ) {
 //        return last.wavefunction[i][j];
 //        if( potential.getPotential( i, j, 0 ) == 0 ) {
 //            return last.wavefunction[i][j];
@@ -98,10 +99,10 @@ public class ClassicalWavePropagator {
 //        }
 //    }
 
-    public void setDeltaTime( double deltaTime ) {
+    public void setDeltaTime( float deltaTime ) {
     }
 
-    public double getSimulationTime() {
+    public float getSimulationTime() {
         return 0;
     }
 
@@ -110,7 +111,7 @@ public class ClassicalWavePropagator {
         last = null;
     }
 
-    public void setBoundaryCondition( int i, int k, double value ) {
+    public void setBoundaryCondition( int i, int k, float value ) {
         if( last != null ) {
             last.setValue( i, k, value );
         }
@@ -132,7 +133,7 @@ public class ClassicalWavePropagator {
         }
     }
 
-    public void setWavefunctionNorm( double norm ) {
+    public void setWavefunctionNorm( float norm ) {
         if( last2 != null ) {
             last2.setMagnitude( norm );
         }
@@ -141,7 +142,7 @@ public class ClassicalWavePropagator {
         }
     }
 
-    public void scale( double scale ) {
+    public void scale( float scale ) {
         if( last2 != null ) {
             last2.scale( scale );
         }
@@ -164,11 +165,11 @@ public class ClassicalWavePropagator {
 //        if( dst instanceof ClassicalWavePropagator ) {
 //            ClassicalWavePropagator classicalDst = (ClassicalWavePropagator)dst;
 //            if( last2 != null && classicalDst.last2 != null ) {
-//                double val2 = last2.valueAt( i, j );
+//                float val2 = last2.valueAt( i, j );
 //                classicalDst.last2.setValue( i, j, val2 );
 //            }
 //            if( last != null && classicalDst.last != null ) {
-//                double val = last.valueAt( i, j );
+//                float val = last.valueAt( i, j );
 //                classicalDst.last.setValue( i, j, val );
 //            }
 //        }
@@ -223,7 +224,7 @@ public class ClassicalWavePropagator {
 //        }
 //    }
 
-    public void setValue( int i, int j, double real, double imag ) {
+    public void setValue( int i, int j, float real, float imag ) {
         if( last != null ) {
             last.setValue( i, j, real );
         }
