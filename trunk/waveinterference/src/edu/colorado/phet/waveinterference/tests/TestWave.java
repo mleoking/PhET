@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.test;
+package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
@@ -73,7 +73,7 @@ public class TestWave extends PhetApplication {
                 } );
                 addControl( cellDim );
 
-                final ModelSlider latticeWidth = new ModelSlider( "Lattice Width", "cells", 10, 500, testWaveModule.lattice2D.getWidth() );
+                final ModelSlider latticeWidth = new ModelSlider( "Lattice Width", "cells", 10, 300, testWaveModule.lattice2D.getWidth() );
                 latticeWidth.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         int width = (int)latticeWidth.getValue();
@@ -82,7 +82,7 @@ public class TestWave extends PhetApplication {
                 } );
                 addControl( latticeWidth );
 
-                final ModelSlider latticeHeight = new ModelSlider( "Lattice Height", "cells", 10, 500, testWaveModule.lattice2D.getWidth() );
+                final ModelSlider latticeHeight = new ModelSlider( "Lattice Height", "cells", 10, 300, testWaveModule.lattice2D.getWidth() );
                 latticeHeight.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         int height = (int)latticeHeight.getValue();
