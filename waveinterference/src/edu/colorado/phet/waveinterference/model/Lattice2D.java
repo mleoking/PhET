@@ -141,8 +141,7 @@ public class Lattice2D {
         dest.setSize( getWidth(), getHeight() );
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                dest.setValue( i, j, valueAt( i, j ) );
-//                dest.setValue( i, j, new double( valueAt( i, j ) ) );
+                dest.wavefunction[i][j] = wavefunction[i][j];
             }
         }
         dest.setMagnitudeDirty();
