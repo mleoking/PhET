@@ -182,7 +182,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         }
         
         // Vertical space
-        inputPanelLayout.addComponent( createVericalStrut( 6 ), row, 0 );
+        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
         row++;
         
         // Total Energy
@@ -208,7 +208,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         }
         
         // Vertical space
-        inputPanelLayout.addComponent( createVericalStrut( 6 ), row, 0 );
+        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
         row++;
         
         // Real
@@ -296,7 +296,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      * @param height
      * @return
      */
-    private JComponent createVericalStrut( int height ) {
+    private JComponent createVerticalStrut( int height ) {
         JPanel panel = new JPanel();
         panel.add( Box.createVerticalStrut( height ) );
         return panel;
