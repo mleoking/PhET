@@ -196,3 +196,6 @@ semiconductor semiconductor
 
 # Soluble Salts
 soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-module
+
+#Wave Interference
+waveinterference waveinterference &piccolo-dir &piccolo-phet-dir &phetcommon-dir &jfreechart-dir &jfreechart-phet-dir &antutil-dir
