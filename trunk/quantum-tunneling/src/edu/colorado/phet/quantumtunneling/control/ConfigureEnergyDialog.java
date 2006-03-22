@@ -287,6 +287,7 @@ public class ConfigureEnergyDialog extends JDialog {
             // Potential
             JLabel potentialLabel = new JLabel( SimStrings.get( "label.potential" ) );
             _potentialComboBox = new PotentialComboBox();
+            _potentialComboBox.setPotentialColor( _colorScheme.getPotentialEnergyColor() );
             _potentialComboBox.addItemListener( _listener );
 
             // Layout
