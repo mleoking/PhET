@@ -35,6 +35,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.control.*;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
@@ -122,6 +123,9 @@ public class QTModule extends AbstractModule implements Observer {
     private PSwing _waveFunctionZoomControl;
     private PSwing _probabilityDensityZoomControl;
     private QTClockControls _clockControls;
+    
+    // Colors 
+    private IColorScheme _colorScheme;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -672,7 +676,7 @@ public class QTModule extends AbstractModule implements Observer {
             boolean clockRunning = getClock().isRunning();
             getClock().pause();
             WaveType waveType = _controlPanel.getWaveType();
-            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, _planeWave );
+            _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, _planeWave, _colorScheme );
             _configureEnergyDialog.show();
             // Dialog is model, so we stop here until the dialog is closed.
             _configureEnergyDialog.cleanup();
@@ -974,6 +978,32 @@ public class QTModule extends AbstractModule implements Observer {
      */
     private void handleClockReset() {
         setMeasureEnabled( false );
+    }
+    
+    /**
+     * Sets the color scheme used for this module.
+     * 
+     * @param colorScheme
+     */
+    public void setColorScheme( IColorScheme colorScheme ) {
+        _colorScheme = colorScheme;
+        // Chart
+        _chart.setColorScheme( colorScheme );
+        _chart.getWaveFunctionPlot().setColorScheme( colorScheme );
+        _chart.getProbabilityDensityPlot().setColorScheme( colorScheme );
+        // Plots, in case we're drawing them separately from the chart...
+        _energyPlot.setColorScheme( colorScheme );
+        _waveFunctionPlot.setColorScheme( colorScheme );
+        _probabilityDensityPlot.setColorScheme( colorScheme );
+        // Control panel legend...
+        _controlPanel.setColorScheme( colorScheme );
+        // Drag handles...
+        _totalEnergyControl.setValueColor( colorScheme.getAnnotationColor() );
+        _potentialEnergyControls.setValueColor( colorScheme.getAnnotationColor() );
+        // Legend above the charts...
+        _legend.setColorScheme( colorScheme );
+        // Region markers...
+        _regionMarkerManager.setMarkerColor( colorScheme.getRegionMarkerColor() );
     }
     
     //----------------------------------------------------------------------------

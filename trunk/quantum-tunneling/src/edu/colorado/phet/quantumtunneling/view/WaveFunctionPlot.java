@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.util.Complex;
@@ -83,6 +85,8 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
+    XYItemRenderer _incidentRealRenderer;
+    
     public WaveFunctionPlot() {
         super();
         
@@ -99,6 +103,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _incidentRealSeries );
             setDataset( _incidentRealIndex, dataset );
             XYItemRenderer renderer = new StandardXYItemRenderer();
+            _incidentRealRenderer = renderer;
             renderer.setPaint( QTConstants.REAL_COLOR );
             renderer.setStroke( QTConstants.REAL_STROKE );
             setRenderer( _incidentRealIndex, renderer );
@@ -217,6 +222,31 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+   
+    /**
+     * Sets the color scheme for this plot.
+     * 
+     * @param scheme
+     */ 
+    public void setColorScheme( IColorScheme scheme ) {
+        // Background
+        setBackgroundPaint( scheme.getChartColor() );
+        // Ticks
+        getDomainAxis().setTickLabelPaint( scheme.getTickColor() );
+        getDomainAxis().setTickMarkPaint( scheme.getTickColor() );
+        getRangeAxis().setTickLabelPaint( scheme.getTickColor() );
+        getRangeAxis().setTickMarkPaint( scheme.getTickColor() );
+        // Gridlines
+        setDomainGridlinePaint( scheme.getGridlineColor() );
+        setRangeGridlinePaint( scheme.getGridlineColor() );
+        // Series
+        getRenderer( _incidentRealIndex ).setPaint( scheme.getRealColor() );
+        getRenderer( _incidentImaginaryIndex ).setPaint( scheme.getImaginaryColor() );
+        getRenderer( _incidentMagnitudeIndex ).setPaint( scheme.getMagnitudeColor() );
+        getRenderer( _reflectedRealIndex ).setPaint( scheme.getRealColor() );
+        getRenderer( _reflectedImaginaryIndex ).setPaint( scheme.getImaginaryColor() );
+        getRenderer( _reflectedMagnitudeIndex ).setPaint( scheme.getMagnitudeColor() );
+    }
     
     /**
      * Sets dx, the position delta between sample points in model coordinates.

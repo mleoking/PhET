@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
+import java.awt.Color;
+
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -20,6 +22,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 
 
 /**
@@ -70,5 +73,25 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         setRenderer( renderer );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis );
+    }
+    
+    /**
+     * Sets the color scheme for this plot.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( IColorScheme scheme ) {
+        // Background
+        setBackgroundPaint( scheme.getChartColor() );
+        // Ticks
+        getDomainAxis().setTickLabelPaint( scheme.getTickColor() );
+        getDomainAxis().setTickMarkPaint( scheme.getTickColor() );
+        getRangeAxis().setTickLabelPaint( scheme.getTickColor() );
+        getRangeAxis().setTickMarkPaint( scheme.getTickColor() );
+        // Gridlines
+        setDomainGridlinePaint( scheme.getGridlineColor() );
+        setRangeGridlinePaint( scheme.getGridlineColor() );
+        // Series
+        getRenderer().setSeriesPaint( 0, scheme.getProbabilityDensityColor() );
     }
 }

@@ -11,7 +11,11 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.util.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.ValueMarker;
@@ -43,6 +47,7 @@ public class QTRegionMarkerManager implements Observer {
     
     private ArrayList _plots;  // array of XYPlot
     private AbstractPotential _potentialEnergy;
+    private Color _markerColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,6 +59,7 @@ public class QTRegionMarkerManager implements Observer {
     public QTRegionMarkerManager() {
         _plots = new ArrayList();
         _potentialEnergy = null;
+        _markerColor = QTConstants.REGION_MARKER_COLOR;
     }
 
     /**
@@ -70,6 +76,16 @@ public class QTRegionMarkerManager implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Sets the color used for region markers.
+     * 
+     * @param color
+     */
+    public void setMarkerColor( Color color ) {
+        _markerColor = color;
+        updateRegionMarkers();
+    }
+    
     /**
      * Sets the potential energy model that is used to set region markers.
      * 
@@ -146,7 +162,7 @@ public class QTRegionMarkerManager implements Observer {
     private void addRegionMarker( double x ) {
 
         Marker marker = new ValueMarker( x );
-        marker.setPaint( QTConstants.REGION_MARKER_COLOR );
+        marker.setPaint( _markerColor );
         marker.setStroke( QTConstants.REGION_MARKER_STROKE );
         
         Iterator i = _plots.iterator();

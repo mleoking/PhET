@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -40,6 +41,13 @@ public class EnergyLegend extends PNode {
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private LegendItem _totalEnergyItem;
+    private LegendItem _potentialEnergyItem;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -49,16 +57,14 @@ public class EnergyLegend extends PNode {
         setChildrenPickable( false );
         
         // Total Energy
-        LegendItem totalEnergyItem = 
-            new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
-        totalEnergyItem.translate( 0, 0 );
-        addChild( totalEnergyItem );
+        _totalEnergyItem = new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
+        _totalEnergyItem.translate( 0, 0 );
+        addChild( _totalEnergyItem );
         
         // Potential Energy
-        LegendItem potentialEnergyItem = 
-            new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
-        potentialEnergyItem.translate( totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
-        addChild( potentialEnergyItem );
+        _potentialEnergyItem = new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
+        _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
+        addChild( _potentialEnergyItem );
         
         // Border
         Rectangle2D bounds = getFullBounds();
@@ -72,8 +78,22 @@ public class EnergyLegend extends PNode {
         borderNode.setStroke( BORDER_STROKE );
         borderNode.setStrokePaint( BORDER_COLOR );
         borderNode.setPaint( BACKGROUND_COLOR );
-        totalEnergyItem.translate( MARGIN, MARGIN );
-        potentialEnergyItem.translate( MARGIN, MARGIN );
+        _totalEnergyItem.translate( MARGIN, MARGIN );
+        _potentialEnergyItem.translate( MARGIN, MARGIN );
         addChild( 0, borderNode );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color scheme for the legend.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( IColorScheme scheme ) {
+        _totalEnergyItem.setLinePaint( scheme.getTotalEnergyColor() );
+        _potentialEnergyItem.setLinePaint( scheme.getPotentialEnergyColor() );
     }
 }

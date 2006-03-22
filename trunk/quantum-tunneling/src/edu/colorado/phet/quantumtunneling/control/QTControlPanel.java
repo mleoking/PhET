@@ -28,11 +28,13 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
-import edu.colorado.phet.quantumtunneling.model.*;
+import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
+import edu.colorado.phet.quantumtunneling.model.PotentialFactory;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 
 
@@ -77,6 +79,7 @@ public class QTControlPanel extends AbstractControlPanel {
     private PotentialComboBox _potentialComboBox;
     private JCheckBox _showValuesCheckBox;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
+    private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
     private JRadioButton _separateRadioButton, _sumRadioButton;
     private JRadioButton _leftToRightRadioButton, _rightToLeftRadioButton;
     private JRadioButton _planeWaveRadioButton, _packetWaveRadioButton;
@@ -145,25 +148,33 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             realPanel.add( _realCheckBox);
             realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            realPanel.add( createColorKey( QTConstants.REAL_COLOR ) );
+            Icon realIcon = createColorKey( QTConstants.REAL_COLOR );
+            _realLegend = new JLabel( realIcon );
+            realPanel.add( _realLegend );
             
             // Imaginary
             JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             imaginaryPanel.add( _imaginaryCheckBox );
             imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            imaginaryPanel.add( createColorKey( QTConstants.IMAGINARY_COLOR ) );
+            Icon imaginaryIcon = createColorKey( QTConstants.IMAGINARY_COLOR );
+            _imaginaryLegend = new JLabel( imaginaryIcon );
+            imaginaryPanel.add( _imaginaryLegend );
             
             // Magnitude
             JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             magnitudePanel.add( _magnitudeCheckBox );
             magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            magnitudePanel.add( createColorKey( QTConstants.MAGNITUDE_COLOR ) );   
+            Icon magnitudeIcon = createColorKey( QTConstants.MAGNITUDE_COLOR );
+            _magnitudeLegend = new JLabel( magnitudeIcon );
+            magnitudePanel.add( _magnitudeLegend );   
             
             // Phase 
             JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             phasePanel.add( _phaseCheckBox );
             phasePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            phasePanel.add( createPhaseKey() ); 
+            Icon phaseIcon = createPhaseKey();
+            _phaseLegend = new JLabel( phaseIcon );
+            phasePanel.add( _phaseLegend );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -371,28 +382,27 @@ public class QTControlPanel extends AbstractControlPanel {
     }
 
     /*
-     * Creates a color key by drawing a solid horizontal line and putting it in a JLabel.
+     * Creates a color key icon by drawing a solid horizontal line.
      * 
      * @param color
-     * @return JLabel
+     * @return Icon
      */
-    private JLabel createColorKey( Color color ) {
+    private Icon createColorKey( Color color ) {
         BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
         Rectangle2D r = new Rectangle2D.Double( 0, 0, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT );
         g2.setPaint( color );
         g2.fill( r );
         Icon icon = new ImageIcon( image );
-        JLabel label = new JLabel( icon );
-        return label;
+        return icon;
     }
     
     /*
-     * Creates a color key for phase by drawing the phase color series in a JLabel.
+     * Creates a color key icon for phase by drawing the phase color series.
      * 
-     * @return JLabel
+     * @return Icon
      */
-    private JLabel createPhaseKey() {
+    private Icon createPhaseKey() {
         BufferedImage image = new BufferedImage( PHASE_KEY_WIDTH, PHASE_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
         Rectangle2D r = new Rectangle2D.Double();
@@ -403,13 +413,23 @@ public class QTControlPanel extends AbstractControlPanel {
             g2.fill( r );
         }
         Icon icon = new ImageIcon( image );
-        JLabel label = new JLabel( icon );
-        return label;
+        return icon;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color scheme.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( IColorScheme scheme ) {
+        _realLegend.setIcon( createColorKey( scheme.getRealColor() ) );
+        _imaginaryLegend.setIcon( createColorKey( scheme.getImaginaryColor() ) );
+        _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
+    }
     
     /**
      * Sets the potential energy type by looking at a potential energy object.

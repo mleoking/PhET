@@ -32,13 +32,19 @@ public interface IColorScheme {
      * Gets the color used for tick marks and labels.
      * @return
      */
-    public Color getTicksColor();
+    public Color getTickColor();
     
     /**
      * Gets the color used for horizontal and vertical gridlines.
      * @return
      */
-    public Color getGridlinesColor();
+    public Color getGridlineColor();
+    
+    /**
+     * Gets the color used for chart annotations.
+     * @return
+     */
+    public Color getAnnotationColor();
     
     /**
      * Gets the color used for region boundary markers.
@@ -81,22 +87,4 @@ public interface IColorScheme {
      * @return
      */
     public Color getProbabilityDensityColor();
-    
-    /**
-     * Gets the color used to fill the energy drag handles.
-     * @return
-     */
-    public Color getDragHandleFillColor();
-
-    /**
-     * Gets the color used to stroke the energy drag handles.
-     * @return
-     */
-    public Color getDragHandleStrokeColor();
-    
-    /**
-     * Gets the color used for the values that appear on the energy drag handles.
-     * @return
-     */
-    public Color getDragHandleTextColor();
 }

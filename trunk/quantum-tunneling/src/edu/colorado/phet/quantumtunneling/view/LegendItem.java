@@ -101,6 +101,15 @@ public class LegendItem extends PNode {
     }
     
     /**
+     * Sets the line paint.
+     * 
+     * @param paint
+     */
+    public void setLinePaint( Paint paint ) {
+        _line.setStrokePaint( paint );
+    }
+    
+    /**
      * Sets the length of the colored line.
      * 
      * @param lineLength

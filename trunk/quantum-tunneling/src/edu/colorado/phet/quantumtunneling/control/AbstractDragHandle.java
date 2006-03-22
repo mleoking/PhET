@@ -80,6 +80,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
     private Point2D _registrationPoint;
     private ConstrainedDragHandler _dragHandler;
     private PText _textNode;
+    private Color _textColor;
     private NumberFormat _valueFormat;
     
     //----------------------------------------------------------------------------
@@ -156,12 +157,25 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
         
         // Value display
         _textNode = null;
+        _textColor = Color.BLACK;
         _valueFormat = DEFAULT_VALUE_FORMAT;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color used to display values.
+     * 
+     * @param
+     */
+    public void setValueColor( Color color ) {
+        _textColor = color;
+        if ( _textNode != null ) {
+            _textNode.setTextPaint( color );
+        }
+    }
     
     /**
      * Toggles the display of the value that corresponds to the
@@ -175,7 +189,7 @@ public abstract class AbstractDragHandle extends PPath implements PropertyChange
             addChild( _textNode );
             _textNode.setPickable( false );
             _textNode.setFont( QTConstants.DRAG_HANDLE_FONT );
-            _textNode.setTextPaint( QTConstants.DRAG_HANDLE_TEXT_COLOR );
+            _textNode.setTextPaint( _textColor );
             _textNode.setText( "0.0" );
             Rectangle2D dragHandleBounds = getBounds();
             double x = 0;

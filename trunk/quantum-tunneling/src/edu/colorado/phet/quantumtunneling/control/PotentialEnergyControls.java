@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,6 +39,7 @@ public class PotentialEnergyControls extends PNode {
     private ArrayList _energyDragHandles; // array of PotentialEnergyDragHandle
     private ArrayList _boundaryDragHandles; // array of RegionBoundaryDragHandle
     private boolean _valueVisible;
+    private Color _valueColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,11 +55,29 @@ public class PotentialEnergyControls extends PNode {
         _energyDragHandles = new ArrayList();
         _boundaryDragHandles = new ArrayList();
         _valueVisible = false;
+        _valueColor = Color.BLACK;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color used to display values.
+     * 
+     * @param color
+     */
+    public void setValueColor( Color color ) {
+        _valueColor = color;
+        for ( int i = 0; i < _energyDragHandles.size(); i++ ) {
+            PotentialEnergyDragHandle energyDragHandle = (PotentialEnergyDragHandle) _energyDragHandles.get( i );
+            energyDragHandle.setValueColor( _valueColor );
+        }
+        for ( int i = 0; i < _boundaryDragHandles.size(); i++ ) {
+            RegionBoundaryDragHandle boundaryDragHandle = (RegionBoundaryDragHandle) _boundaryDragHandles.get( i );
+            boundaryDragHandle.setValueColor( _valueColor );
+        }
+    }
     
     /**
      * Sets the potential energy associated with this set of drag handles.
@@ -86,6 +106,7 @@ public class PotentialEnergyControls extends PNode {
             PotentialEnergyDragHandle energyDragHandle = new PotentialEnergyDragHandle( _chartNode );
             energyDragHandle.setPotentialEnergy( potentialEnergy, i );
             energyDragHandle.setValueVisible( _valueVisible );
+            energyDragHandle.setValueColor( _valueColor );
             _energyDragHandles.add( energyDragHandle );
             addChild( energyDragHandle );
             
@@ -94,6 +115,7 @@ public class PotentialEnergyControls extends PNode {
                 RegionBoundaryDragHandle boundaryDragHandle = new RegionBoundaryDragHandle( _chartNode );
                 boundaryDragHandle.setPotentialEnergy( potentialEnergy, i );
                 boundaryDragHandle.setValueVisible( _valueVisible );
+                boundaryDragHandle.setValueColor( _valueColor );
                 _boundaryDragHandles.add( boundaryDragHandle );
                 addChild( boundaryDragHandle );
             }
