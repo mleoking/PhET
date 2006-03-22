@@ -28,7 +28,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
@@ -148,7 +148,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             realPanel.add( _realCheckBox);
             realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon realIcon = createColorKey( QTConstants.REAL_COLOR );
+            Icon realIcon = createColorKey( QTConstants.COLOR_SCHEME.getRealColor() );
             _realLegend = new JLabel( realIcon );
             realPanel.add( _realLegend );
             
@@ -156,7 +156,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             imaginaryPanel.add( _imaginaryCheckBox );
             imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon imaginaryIcon = createColorKey( QTConstants.IMAGINARY_COLOR );
+            Icon imaginaryIcon = createColorKey( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             _imaginaryLegend = new JLabel( imaginaryIcon );
             imaginaryPanel.add( _imaginaryLegend );
             
@@ -164,7 +164,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             magnitudePanel.add( _magnitudeCheckBox );
             magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon magnitudeIcon = createColorKey( QTConstants.MAGNITUDE_COLOR );
+            Icon magnitudeIcon = createColorKey( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             _magnitudeLegend = new JLabel( magnitudeIcon );
             magnitudePanel.add( _magnitudeLegend );   
             
@@ -425,7 +425,7 @@ public class QTControlPanel extends AbstractControlPanel {
      * 
      * @param scheme
      */
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         
         // Rebuild the "Potential" combo box...
         _potentialComboBox.removeItemListener( _listener );

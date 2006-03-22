@@ -15,12 +15,12 @@ import java.awt.Color;
 
 
 /**
- * CustomColorScheme is a custom color scheme.
+ * QTColorScheme is a custom color scheme.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CustomColorScheme implements IColorScheme {
+public class QTColorScheme {
 
     private Color _chartColor;
     private Color _tickColor;
@@ -34,7 +34,7 @@ public class CustomColorScheme implements IColorScheme {
     private Color _magnitudeColor;
     private Color _probabilityDensityColor;
     
-    public CustomColorScheme( IColorScheme colorScheme ) {
+    public QTColorScheme( QTColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
         _gridlineColor = colorScheme.getGridlineColor();
@@ -46,6 +46,9 @@ public class CustomColorScheme implements IColorScheme {
         _imaginaryColor = colorScheme.getImaginaryColor();
         _magnitudeColor = colorScheme.getMagnitudeColor();
         _probabilityDensityColor = colorScheme.getProbabilityDensityColor();
+    }
+    
+    protected QTColorScheme() {
     }
     
     public Color getChartColor() {

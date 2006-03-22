@@ -35,7 +35,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.control.*;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.enum.IRView;
@@ -125,7 +125,7 @@ public class QTModule extends AbstractModule implements Observer {
     private QTClockControls _clockControls;
     
     // Colors 
-    private IColorScheme _colorScheme;
+    private QTColorScheme _colorScheme;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -985,7 +985,7 @@ public class QTModule extends AbstractModule implements Observer {
      * 
      * @param colorScheme
      */
-    public void setColorScheme( IColorScheme colorScheme ) {
+    public void setColorScheme( QTColorScheme colorScheme ) {
         _colorScheme = colorScheme;
         // Chart
         _chart.setColorScheme( colorScheme );

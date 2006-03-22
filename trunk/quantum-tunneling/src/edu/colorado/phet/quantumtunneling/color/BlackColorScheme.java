@@ -20,66 +20,20 @@ import java.awt.Color;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BlackColorScheme implements IColorScheme {
+public class BlackColorScheme extends QTColorScheme {
 
-    private static final Color CHART_COLOR = Color.BLACK;
-    private static final Color TICK_COLOR = Color.BLACK;
-    private static final Color GRIDLINE_COLOR = Color.DARK_GRAY;
-    private static final Color ANNOTATION_COLOR = Color.WHITE;
-    
-    private static final Color REGION_MARKER_COLOR = Color.LIGHT_GRAY;
-    
-    private static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
-    private static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
-    
-    private static final Color REAL_COLOR = Color.RED;
-    private static final Color IMAGINARY_COLOR = new Color( 26, 135, 255 ); // bright blue
-    private static final Color MAGNITUDE_COLOR = Color.WHITE;
-    private static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
-    
-    public BlackColorScheme() {}
-    
-    public Color getChartColor() {
-        return CHART_COLOR;
-    }
-    
-    public Color getTickColor() {
-        return TICK_COLOR;
-    }
-    
-    public Color getGridlineColor() {
-        return GRIDLINE_COLOR;
-    }
-    
-    public Color getAnnotationColor() {
-        return ANNOTATION_COLOR;
-    }
-    
-    public Color getRegionMarkerColor() { 
-        return REGION_MARKER_COLOR;
-    }
-    
-    public Color getTotalEnergyColor() {
-        return TOTAL_ENERGY_COLOR;
-    }
-    
-    public Color getPotentialEnergyColor() {
-        return POTENTIAL_ENERGY_COLOR;
-    }
-    
-    public Color getRealColor() {
-        return REAL_COLOR;
-    }
-    
-    public Color getImaginaryColor() {
-        return IMAGINARY_COLOR;
-    }
-    
-    public Color getMagnitudeColor() {
-        return MAGNITUDE_COLOR;
-    }
-    
-    public Color getProbabilityDensityColor() {
-        return PROBABILITY_DENSITY_COLOR;
+    public BlackColorScheme() {
+        super();
+        setChartColor( Color.BLACK );
+        setTickColor( Color.BLACK );
+        setGridlineColor( Color.DARK_GRAY );
+        setAnnotationColor( Color.WHITE );
+        setRegionMarkerColor( Color.LIGHT_GRAY );
+        setTotalEnergyColor( Color.GREEN );
+        setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
+        setRealColor( Color.RED );
+        setImaginaryColor( new Color( 26, 135, 255 ) ); // bright blue
+        setMagnitudeColor( Color.WHITE );
+        setProbabilityDensityColor( Color.WHITE );
     }
 }

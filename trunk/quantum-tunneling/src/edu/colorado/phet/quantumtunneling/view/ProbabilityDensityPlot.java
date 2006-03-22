@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Color;
-
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -22,7 +20,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 
 
 /**
@@ -50,7 +48,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         
         // Renderer
         XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setSeriesPaint( 0, QTConstants.PROBABILITY_DENSITY_COLOR );
+        renderer.setSeriesPaint( 0, QTConstants.COLOR_SCHEME.getProbabilityDensityColor() );
         renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
         
         // X axis 
@@ -60,15 +58,15 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         NumberAxis yAxis = new NumberAxis( probabilityDensityLabel );
         yAxis.setLabelFont( QTConstants.AXIS_LABEL_FONT );
         yAxis.setRange( QTConstants.DEFAULT_PROBABILITY_DENSITY_RANGE );
-        yAxis.setTickLabelPaint( QTConstants.TICKS_COLOR );
-        yAxis.setTickMarkPaint( QTConstants.TICKS_COLOR );
+        yAxis.setTickLabelPaint( QTConstants.COLOR_SCHEME.getTickColor() );
+        yAxis.setTickMarkPaint( QTConstants.COLOR_SCHEME.getTickColor() );
         
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        setBackgroundPaint( QTConstants.CHART_COLOR );
+        setBackgroundPaint( QTConstants.COLOR_SCHEME.getChartColor() );
         setDomainGridlinesVisible( QTConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( QTConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setDomainGridlinePaint( QTConstants.GRIDLINES_COLOR );
-        setRangeGridlinePaint( QTConstants.GRIDLINES_COLOR );
+        setDomainGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
+        setRangeGridlinePaint( QTConstants.COLOR_SCHEME.getGridlineColor() );
         setDataset( data );
         setRenderer( renderer );
         setDomainAxis( xAxis );
@@ -80,7 +78,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
      * 
      * @param scheme
      */
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         // Background
         setBackgroundPaint( scheme.getChartColor() );
         // Ticks

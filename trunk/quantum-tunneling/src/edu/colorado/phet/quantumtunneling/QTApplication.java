@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
@@ -130,6 +131,12 @@ public class QTApplication extends PhetApplication {
             // Color Scheme submenu
             QTColorSchemeMenu colorSchemeMenu = new QTColorSchemeMenu( _module );
             optionsMenu.add( colorSchemeMenu );
+            if ( QTConstants.COLOR_SCHEME instanceof BlackColorScheme ) {
+                colorSchemeMenu.selectBlack();
+            }
+            else {
+                colorSchemeMenu.selectWhite();
+            }
         }
    
         // Help menu extensions

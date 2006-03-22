@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -57,12 +57,12 @@ public class EnergyLegend extends PNode {
         setChildrenPickable( false );
         
         // Total Energy
-        _totalEnergyItem = new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.TOTAL_ENERGY_COLOR );
+        _totalEnergyItem = new LegendItem( SimStrings.get( "legend.totalEnergy" ), QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
         _totalEnergyItem.translate( 0, 0 );
         addChild( _totalEnergyItem );
         
         // Potential Energy
-        _potentialEnergyItem = new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.POTENTIAL_ENERGY_COLOR );
+        _potentialEnergyItem = new LegendItem( SimStrings.get( "legend.potentialEnergy" ), QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
         _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
         addChild( _potentialEnergyItem );
         
@@ -92,7 +92,7 @@ public class EnergyLegend extends PNode {
      * 
      * @param scheme
      */
-    public void setColorScheme( IColorScheme scheme ) {
+    public void setColorScheme( QTColorScheme scheme ) {
         _totalEnergyItem.setLinePaint( scheme.getTotalEnergyColor() );
         _potentialEnergyItem.setLinePaint( scheme.getPotentialEnergyColor() );
     }

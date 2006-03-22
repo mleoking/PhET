@@ -37,7 +37,7 @@ import org.jfree.ui.TextAnchor;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.color.IColorScheme;
+import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
@@ -113,7 +113,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private QTModule _module;
     private EventListener _listener;
     private boolean _peChanged, _teChanged;
-    private IColorScheme _colorScheme;
+    private QTColorScheme _colorScheme;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -133,7 +133,7 @@ public class ConfigureEnergyDialog extends JDialog {
             Frame parent, QTModule module, 
             TotalEnergy totalEnergy, AbstractPotential potentialEnergy, 
             WavePacket wavePacket, PlaneWave planeWave,
-            IColorScheme colorScheme ) {
+            QTColorScheme colorScheme ) {
         super( parent );
 
         // Make copies of the energy models
