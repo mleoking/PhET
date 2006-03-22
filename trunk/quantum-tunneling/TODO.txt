@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+0.0.21...
 (3/22/06) - save/load color scheme
 (3/22/06) - refactor inner classes of QTConfig into their own class files
 (3/22/06) - redo color scheme class hierarchy
