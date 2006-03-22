@@ -65,6 +65,7 @@
 ^quantum-tunneling\(/\|$\) mail -s "CVS commit: quantum-tunneling" cmalley
 ^shaper\(/\|$\) mail -s "CVS commit: shaper" cmalley
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
+^soluble-salts\(/\|$\) mail -s "CVS commit: soluble-salts" ronlemaster
 
 # Other
 ^CVSROOT\(/\|$\) mail -s "CVS commit: CVSROOT" ronlemaster cmalley samreid
