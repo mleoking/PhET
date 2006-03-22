@@ -22,23 +22,20 @@ import java.awt.Color;
  */
 public class WhiteColorScheme implements IColorScheme {
     
-    public static final Color CHART_COLOR = Color.WHITE;
-    public static final Color TICKS_COLOR = Color.BLACK;
-    public static final Color GRIDLINES_COLOR = Color.DARK_GRAY;
+    private static final Color CHART_COLOR = Color.WHITE;
+    private static final Color TICK_COLOR = Color.BLACK;
+    private static final Color GRIDLINE_COLOR = Color.DARK_GRAY;
+    private static final Color ANNOTATION_COLOR = Color.BLACK;
     
-    public static final Color REGION_MARKER_COLOR = Color.DARK_GRAY;
+    private static final Color REGION_MARKER_COLOR = Color.BLACK;
     
-    public static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
-    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
+    private static final Color TOTAL_ENERGY_COLOR = Color.GREEN;
+    private static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
     
-    public static final Color REAL_COLOR = Color.RED;
-    public static final Color IMAGINARY_COLOR = Color.BLUE;
-    public static final Color MAGNITUDE_COLOR = Color.BLACK;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
-
-    public static final Color DRAG_HANDLE_FILL_COLOR = new Color( 0, 0, 0, 0 ); // transparent
-    public static final Color DRAG_HANDLE_STROKE_COLOR = new Color( 0, 0, 0, 140 );
-    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.BLACK;
+    private static final Color REAL_COLOR = Color.RED;
+    private static final Color IMAGINARY_COLOR = Color.BLUE;
+    private static final Color MAGNITUDE_COLOR = Color.BLACK;
+    private static final Color PROBABILITY_DENSITY_COLOR = Color.BLACK;
       
     public WhiteColorScheme() {}
     
@@ -46,12 +43,16 @@ public class WhiteColorScheme implements IColorScheme {
         return CHART_COLOR;
     }
     
-    public Color getTicksColor() {
-        return TICKS_COLOR;
+    public Color getTickColor() {
+        return TICK_COLOR;
     }
     
-    public Color getGridlinesColor() {
-        return GRIDLINES_COLOR;
+    public Color getGridlineColor() {
+        return GRIDLINE_COLOR;
+    }
+    
+    public Color getAnnotationColor() {
+        return ANNOTATION_COLOR;
     }
     
     public Color getRegionMarkerColor() { 
@@ -80,17 +81,5 @@ public class WhiteColorScheme implements IColorScheme {
     
     public Color getProbabilityDensityColor() {
         return PROBABILITY_DENSITY_COLOR;
-    }
-    
-    public Color getDragHandleFillColor() {
-        return DRAG_HANDLE_FILL_COLOR;
-    }
-
-    public Color getDragHandleStrokeColor() {
-        return DRAG_HANDLE_STROKE_COLOR;
-    }
-    
-    public Color getDragHandleTextColor() {
-        return DRAG_HANDLE_TEXT_COLOR;
     }
 }

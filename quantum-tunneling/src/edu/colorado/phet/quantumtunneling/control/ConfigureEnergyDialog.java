@@ -12,7 +12,10 @@
 package edu.colorado.phet.quantumtunneling.control;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -34,6 +37,7 @@ import org.jfree.ui.TextAnchor;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
@@ -74,7 +78,6 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     private static final Font AXIS_TICK_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 14 );
-    private static final Color BARRIER_PROPERTIES_COLOR = Color.RED;
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
     /* How close the annotations are to the top and bottom of the chart */
@@ -110,6 +113,7 @@ public class ConfigureEnergyDialog extends JDialog {
     private QTModule _module;
     private EventListener _listener;
     private boolean _peChanged, _teChanged;
+    private IColorScheme _colorScheme;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -123,11 +127,13 @@ public class ConfigureEnergyDialog extends JDialog {
      * @param potentialEnergy
      * @param wavePacket
      * @param planeWave
+     * @param colorScheme
      */
     public ConfigureEnergyDialog( 
             Frame parent, QTModule module, 
             TotalEnergy totalEnergy, AbstractPotential potentialEnergy, 
-            WavePacket wavePacket, PlaneWave planeWave ) {
+            WavePacket wavePacket, PlaneWave planeWave,
+            IColorScheme colorScheme ) {
         super( parent );
 
         // Make copies of the energy models
@@ -136,6 +142,8 @@ public class ConfigureEnergyDialog extends JDialog {
         // Keep references to the wave models
         _wavePacket = wavePacket;
         _planeWave = planeWave;
+        
+        _colorScheme = colorScheme;
         
         setTitle( SimStrings.get( "title.configureEnergy" ) );
         setModal( true );
@@ -213,6 +221,7 @@ public class ConfigureEnergyDialog extends JDialog {
 
         // Plot
         _energyPlot = new EnergyPlot();
+        _energyPlot.setColorScheme( _colorScheme );
         {
             // Labels & tick marks
             _energyPlot.getDomainAxis().setLabelFont( AXIS_LABEL_FONT );
@@ -314,7 +323,6 @@ public class ConfigureEnergyDialog extends JDialog {
             // Total Energy
             {
                 JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
-                teLabel.setForeground( new Color( 16, 159, 33 ) ); // dark green
                 _teSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                 _teSpinner.addChangeListener( _listener );
                 JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
@@ -327,14 +335,12 @@ public class ConfigureEnergyDialog extends JDialog {
             // Potential Energy for each region...
             {
                 JLabel peTitle = new JLabel( SimStrings.get( "label.potentialEnergy" ) );
-                peTitle.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
                 leftLayout.addAnchoredComponent( peTitle, leftRow, 0, 4, 1, GridBagConstraints.WEST );
                 leftRow++;
                 int numberOfRegions = _potentialEnergy.getNumberOfRegions();
                 _peSpinners = new ArrayList();
                 for ( int i = 0; i < numberOfRegions; i++ ) {
                     JLabel peLabel = new JLabel( "R" + ( i + 1 ) + ":" );
-                    peLabel.setForeground( QTConstants.POTENTIAL_ENERGY_COLOR );
                     DoubleSpinner peSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                     peSpinner.addChangeListener( _listener );
                     _peSpinners.add( peSpinner );
@@ -350,7 +356,6 @@ public class ConfigureEnergyDialog extends JDialog {
             _stepSpinner = null;
             if ( _potentialEnergy instanceof StepPotential ) {
                 JLabel stepLabel = new JLabel( SimStrings.get( "label.stepPosition" ) );
-                stepLabel.setForeground( Color.BLACK );
                 _stepSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                 _stepSpinner.addChangeListener( _listener );
                 JLabel stepUnits = new JLabel( SimStrings.get( "units.position" ) );
@@ -370,12 +375,10 @@ public class ConfigureEnergyDialog extends JDialog {
                 // Barrier Positions...
                 _positionSpinners = new ArrayList();
                 JLabel positionTitle = new JLabel( SimStrings.get( "label.barrierPosition" ) );
-                positionTitle.setForeground( BARRIER_PROPERTIES_COLOR );
                 rightLayout.addAnchoredComponent( positionTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel positionLabel = new JLabel( "B" + ( i + 1 ) + ":" );
-                    positionLabel.setForeground( BARRIER_PROPERTIES_COLOR );
                     DoubleSpinner positionSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     positionSpinner.addChangeListener( _listener );
                     _positionSpinners.add( positionSpinner );
@@ -389,12 +392,10 @@ public class ConfigureEnergyDialog extends JDialog {
                 // Barrier Widths...
                 _widthSpinners = new ArrayList();
                 JLabel widthTitle = new JLabel( SimStrings.get( "label.barrierWidth" ) );
-                widthTitle.setForeground( BARRIER_PROPERTIES_COLOR );
                 rightLayout.addAnchoredComponent( widthTitle, rightRow, 0, 4, 1, GridBagConstraints.WEST );
                 rightRow++;
                 for ( int i = 0; i < numberOfBarriers; i++ ) {
                     JLabel widthLabel = new JLabel( "B" + ( i + 1 ) + ":" );
-                    widthLabel.setForeground( BARRIER_PROPERTIES_COLOR );
                     DoubleSpinner widthSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, POSITION_STEP, POSITION_FORMAT, SPINNER_SIZE );
                     widthSpinner.addChangeListener( _listener );
                     _widthSpinners.add( widthSpinner );
@@ -529,7 +530,7 @@ public class ConfigureEnergyDialog extends JDialog {
             if ( i != 0 ) {
                 double x = _potentialEnergy.getStart( i );
                 Marker marker = new ValueMarker( x );
-                marker.setPaint( QTConstants.REGION_MARKER_COLOR );
+                marker.setPaint( _colorScheme.getRegionMarkerColor() );
                 marker.setStroke( QTConstants.REGION_MARKER_STROKE );
                 _energyPlot.addDomainMarker( marker );
             }
@@ -542,7 +543,7 @@ public class ConfigureEnergyDialog extends JDialog {
                 double y = maxY - ANNOTATION_MARGIN;
                 XYTextAnnotation annotation = new XYTextAnnotation( text, x, y );
                 annotation.setFont( ANNOTATION_FONT );
-                annotation.setPaint( QTConstants.POTENTIAL_ENERGY_COLOR );
+                annotation.setPaint( _colorScheme.getAnnotationColor() );
                 annotation.setTextAnchor( TextAnchor.TOP_CENTER );
                 renderer.addAnnotation( annotation );
                 
@@ -553,7 +554,7 @@ public class ConfigureEnergyDialog extends JDialog {
                     y = minY + ANNOTATION_MARGIN;
                     annotation = new XYTextAnnotation( text, x, y );
                     annotation.setFont( ANNOTATION_FONT );
-                    annotation.setPaint( BARRIER_PROPERTIES_COLOR );
+                    annotation.setPaint( _colorScheme.getAnnotationColor() );
                     annotation.setTextAnchor( TextAnchor.BOTTOM_CENTER );
                     renderer.addAnnotation( annotation );
                 }

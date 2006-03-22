@@ -101,12 +101,17 @@ public class QTConstants {
    
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
     
+    public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
+    public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
+    public static final Color DRAG_HANDLE_TEXT_COLOR = Color.WHITE;
+    
     private static final IColorScheme COLOR_SCHEME = new BlackColorScheme();
     
     // Get all of the color constants from COLOR_SCHEME...
     public static final Color CHART_COLOR = COLOR_SCHEME.getChartColor();
-    public static final Color TICKS_COLOR = COLOR_SCHEME.getTicksColor();
-    public static final Color GRIDLINES_COLOR = COLOR_SCHEME.getGridlinesColor();
+    public static final Color TICKS_COLOR = COLOR_SCHEME.getTickColor();
+    public static final Color GRIDLINES_COLOR = COLOR_SCHEME.getGridlineColor();
+    public static final Color ANNOTATION_COLOR = COLOR_SCHEME.getAnnotationColor();
     public static final Color REGION_MARKER_COLOR = COLOR_SCHEME.getRegionMarkerColor();
     public static final Color TOTAL_ENERGY_COLOR = COLOR_SCHEME.getTotalEnergyColor();
     public static final Color POTENTIAL_ENERGY_COLOR = COLOR_SCHEME.getPotentialEnergyColor();
@@ -114,9 +119,6 @@ public class QTConstants {
     public static final Color IMAGINARY_COLOR = COLOR_SCHEME.getImaginaryColor();
     public static final Color MAGNITUDE_COLOR = COLOR_SCHEME.getMagnitudeColor();
     public static final Color PROBABILITY_DENSITY_COLOR = COLOR_SCHEME.getProbabilityDensityColor();
-    public static final Color DRAG_HANDLE_FILL_COLOR = COLOR_SCHEME.getDragHandleFillColor();
-    public static final Color DRAG_HANDLE_STROKE_COLOR = COLOR_SCHEME.getDragHandleStrokeColor();
-    public static final Color DRAG_HANDLE_TEXT_COLOR = COLOR_SCHEME.getDragHandleTextColor();
     
     //----------------------------------------------------------------------------
     // Images

@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
@@ -22,9 +23,10 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
-import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
+import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
 
 
 /**
@@ -117,6 +119,15 @@ public class QTApplication extends PhetApplication {
             frame.addFileMenuItem( saveItem );
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
+        }
+        
+        // Options menu
+        {
+            JMenu optionsMenu = new JMenu( SimStrings.get( "menu.options" ) );
+            optionsMenu.setMnemonic( SimStrings.get( "menu.options.mnemonic" ).charAt( 0 ) );
+            QTColorSchemeMenu colorSchemeMenu = new QTColorSchemeMenu( _module );
+            optionsMenu.add( colorSchemeMenu );
+            getPhetFrame().addMenu( optionsMenu );
         }
         
         // Help menu extensions

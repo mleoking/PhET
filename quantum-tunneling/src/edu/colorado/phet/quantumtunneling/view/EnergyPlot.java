@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.view;
 
-import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.quantumtunneling.color.IColorScheme;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.PlaneWave;
@@ -67,7 +67,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+        
     public EnergyPlot() {
         super();
         
@@ -136,6 +136,30 @@ public class EnergyPlot extends QTXYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color scheme for the plot.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( IColorScheme scheme ) {
+        // Background
+        setBackgroundPaint( scheme.getChartColor() );
+        // Ticks
+        getDomainAxis().setTickLabelPaint( scheme.getTickColor() );
+        getDomainAxis().setTickMarkPaint( scheme.getTickColor() );
+        getRangeAxis().setTickLabelPaint( scheme.getTickColor() );
+        getRangeAxis().setTickMarkPaint( scheme.getTickColor() );
+        // Gridlines
+        setDomainGridlinePaint( scheme.getGridlineColor() );
+        setRangeGridlinePaint( scheme.getGridlineColor() );
+        // Series
+        getRenderer( _potentialEnergyIndex ).setPaint( scheme.getPotentialEnergyColor() );
+        getRenderer( _totalEnergyIndex ).setPaint( scheme.getTotalEnergyColor() );
+        // Renderers
+        _planeWaveRenderer.setPaint( scheme.getTotalEnergyColor() );
+        _wavePacketRenderer.setColor( scheme.getTotalEnergyColor() );
+    }
     
     /**
      * Sets the total energy model that is displayed.

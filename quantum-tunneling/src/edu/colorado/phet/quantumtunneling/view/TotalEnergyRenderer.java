@@ -65,9 +65,6 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
-    private static final Color CENTER_COLOR = QTConstants.TOTAL_ENERGY_COLOR;
-    private static final Color EDGE_COLOR = 
-        new Color( CENTER_COLOR.getRed(), CENTER_COLOR.getGreen(), CENTER_COLOR.getBlue(), 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -75,6 +72,9 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     
     private WavePacket _wavePacket;
     private AbstractPotential _potentialEnergy;
+    
+    private Color _centerColor;
+    private Color _edgeColor;
     
     private Line2D _line; // reusable line
 
@@ -88,11 +88,22 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     public TotalEnergyRenderer() {
         super();
         _line = new Line2D.Double();
+        setColor( QTConstants.TOTAL_ENERGY_COLOR );
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the color used for total energy.
+     * 
+     * @param color
+     */
+    public void setColor( Color color ) {
+        _centerColor = color;
+        _edgeColor = new Color( _centerColor.getRed(), _centerColor.getGreen(), _centerColor.getBlue(), 5 );
+    }
     
     /**
      * Sets the wave packet.
@@ -208,8 +219,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
                 Shape bottomShape = new Rectangle2D.Double( minX, averageY, width, bottomHeight );
 
                 // Take care that the gradients aren't zero pixels high! That will crash the JVM.
-                Paint topPaint = new GradientPaint( (float) minX, (float) minY, EDGE_COLOR, (float) minX, (float) ( minY + topHeight ), CENTER_COLOR );
-                Paint bottomPaint = new GradientPaint( (float) minX, (float) averageY, CENTER_COLOR, (float) minX, (float) ( averageY + bottomHeight ), EDGE_COLOR );
+                Paint topPaint = new GradientPaint( (float) minX, (float) minY, _edgeColor, (float) minX, (float) ( minY + topHeight ), _centerColor );
+                Paint bottomPaint = new GradientPaint( (float) minX, (float) averageY, _centerColor, (float) minX, (float) ( averageY + bottomHeight ), _edgeColor );
 
                 g2.setPaint( topPaint );
                 g2.fill( topShape );
