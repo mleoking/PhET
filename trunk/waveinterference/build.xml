@@ -79,7 +79,7 @@
         <proguard configuration="${proguard-file}"/>
     </target>
 
-    <target name="Update JNLP">
+    <target name="Update-JNLP">
         <copy todir="ant_output/jnlp" overwrite="yes">
             <fileset file="${jnlp-filename}"/>
             <filterset>
@@ -89,7 +89,7 @@
         </copy>
     </target>
 
-    <target name="Post Dev">
+    <target name="Post">
         <maverick-ssh host="${ssh-host}"
                       username="${username}"
                       password="${password}"
@@ -121,6 +121,6 @@
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev"/>
+    <target name="Build and Deploy" depends="ProGuard,Update-JNLP,Post"/>
 
 </project>
