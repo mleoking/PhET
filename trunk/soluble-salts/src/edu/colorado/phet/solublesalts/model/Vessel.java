@@ -16,7 +16,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -56,7 +55,7 @@ public class Vessel implements ModelElement, Collidable {
         this( width, depth, wallThickness, new Point2D.Double(), model );
     }
 
-    public Vessel( double width, double depth, double wallThickness, Point2D location, SolubleSaltsModel model ) {
+    public Vessel( double width, double depth, double wallThickness, Point2D location, final SolubleSaltsModel model ) {
         this.wallThickness = wallThickness;
         this.model = model;
         shape = new Rectangle2D.Double( location.getX(), location.getY(), width, depth );
@@ -74,10 +73,13 @@ public class Vessel implements ModelElement, Collidable {
         } );
 
         // Add a listener that will reset when the configuration is recalibrated
-        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( new SolubleSaltsApplication.ResetListener() {
-            public void reset() {
-                setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL );
-//                setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+        model.addChangeListener( new SolubleSaltsModel.ChangeAdapter() {
+            public void reset( SolubleSaltsModel.ChangeEvent event ) {
+                super.reset( event );
+            }
+
+            public void reset( SolubleSaltsConfig.Calibration calibration ) {
+                setWaterLevel( calibration.defaultWaterLevel );
                 updateCollisionBox();
             }
         } );
@@ -104,7 +106,6 @@ public class Vessel implements ModelElement, Collidable {
             // todo: combine these lines into a single constructor
             Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice() );
             crystal.addIon( ion );
-//            ion.bindTo( crystal );
         }
     }
 

@@ -10,14 +10,7 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.common.model.clock.SwingClock;
-
-import java.awt.geom.Rectangle2D;
 
 /**
  * TwoToOneLattice
@@ -26,7 +19,6 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class TwoToOneLattice extends Lattice {
-//public class TwoToOneLattice extends Lattice {
 
     private Class oneIonClass;
     private Class twoIonClass;
@@ -42,11 +34,6 @@ public class TwoToOneLattice extends Lattice {
     }
 
     protected int getNumNeighboringSites( Ion ion ) {
-//        int cnt = oneIonClass.isInstance( ion ) ? 4 : 2;
-//        if( cnt == 2 ) {
-//            System.out.println( "TwoToOneLattice.getNumNeighboringSites" );
-//        }
-//        return cnt;
         return oneIonClass.isInstance( ion ) ? 4 : 2;
     }
 
@@ -92,53 +79,53 @@ public class TwoToOneLattice extends Lattice {
 
 
     public static void main( String[] args ) {
-        Ion s1 = new Sodium();
-        s1.setPosition( 0, 0 );
-        TwoToOneLattice l = new TwoToOneLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
-        Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
-        Crystal c = new Crystal( new SolubleSaltsModel( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT )), l );
-        c.addIon( s1 );
-        {
-            Chlorine ion = new Chlorine();
-            ion.setPosition( 1, 0 );
-            c.addIon( ion );
-        }
-        {
-            Sodium ion = new Sodium();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Sodium ion = new Sodium();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Chlorine ion = new Chlorine();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Chlorine ion = new Chlorine();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Chlorine ion = new Chlorine();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Chlorine ion = new Chlorine();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-        {
-            Sodium ion = new Sodium();
-            ion.setPosition( 15, 0 );
-            c.addIon( ion );
-        }
-
-        System.out.println( c );
+//        Ion s1 = new Sodium();
+//        s1.setPosition( 0, 0 );
+//        TwoToOneLattice l = new TwoToOneLattice( Chlorine.class, Sodium.class, Sodium.RADIUS + Chlorine.RADIUS );
+//        Rectangle2D r = new Rectangle2D.Double( -1000, -1000, 2000, 2000 );
+//        Crystal c = new Crystal( new SolubleSaltsModel( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT )), l );
+//        c.addIon( s1 );
+//        {
+//            Chlorine ion = new Chlorine();
+//            ion.setPosition( 1, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Sodium ion = new Sodium();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Sodium ion = new Sodium();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Chlorine ion = new Chlorine();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Chlorine ion = new Chlorine();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Chlorine ion = new Chlorine();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Chlorine ion = new Chlorine();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//        {
+//            Sodium ion = new Sodium();
+//            ion.setPosition( 15, 0 );
+//            c.addIon( ion );
+//        }
+//
+//        System.out.println( c );
     }
 }

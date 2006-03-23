@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
@@ -72,6 +71,8 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
     private JPanel waterLevelControlPanel;
     private JButton releaseButton;
 
+    private SolubleSaltsModule module;
+
     //----------------------------------------------------------------
     // Abstract methods
     //----------------------------------------------------------------
@@ -86,6 +87,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
      */
     public SolubleSaltsControlPanel( final Module module ) {
         super( module );
+        this.module = (SolubleSaltsModule)module;
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
@@ -97,18 +99,16 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         saltPanel.add( makeSaltSelectionPanel( model ), gbc );
-//        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
-//        saltPanel.add( saltSPinnerPanel, gbc );
         addControlFullWidth( saltPanel );
 
-        //
+        // Set up the debugging controls
         makeDebugControls( model );
 
         // Reset button
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).reset();
+                getModule().reset();
             }
         } );
         JPanel resetPanel = new JPanel();
@@ -135,6 +135,10 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         setDebugControlsVisible( SolubleSaltsConfig.DEBUG );
     }
 
+    /**
+     *
+     * @param model
+     */
     private void makeDebugControls( final SolubleSaltsModel model ) {
         // Concentration controls and readouts
         concentrationPanel = makeConcentrationPanel( model );
@@ -179,48 +183,6 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
     }
 
     /**
-     *
-     */
-//    private JPanel makeSaltSelectionPanel( final SolubleSaltsModel model ) {
-//
-//        final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
-//        comboBox.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
-//                model.setCurrentSalt( saltClass );
-//
-//                if( saltClass instanceof SodiumChloride ) {
-//                    new SolubleSaltsConfig.Calibration( 1.7342E-25,
-//                                                        5E-23,
-//                                                        1E-23,
-//                                                        0.5E-23 ).calibrate();
-//                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
-//                }
-//                else {
-//                    new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-//                                                        5E-16,
-//                                                        1E-16,
-//                                                        0.5E-16 ).calibrate();
-//                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
-//                }
-//
-//
-//                model.reset();
-//                revalidate();
-//            }
-//        } );
-//        comboBox.setSelectedItem( SolubleSaltsConfig.DEFAULT_SALT_NAME );
-//
-//        JPanel panel = new JPanel( new GridBagLayout() );
-//        GridBagConstraints gbc = new DefaultGridBagConstraints();
-//        gbc.anchor = GridBagConstraints.WEST;
-//        gbc.gridx = 1;
-//        gbc.anchor = GridBagConstraints.WEST;
-//        panel.add( comboBox, gbc );
-//        return panel;
-//    }
-
-    /**
      * @param model
      * @return
      */
@@ -238,7 +200,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         model.setKsp( kspSlider.getValue() );
 
         // Add a listener that will change the Ksp when the current salt changes
-        model.addChangeListener( new SolubleSaltsModel.ChangeListener() {
+        model.addChangeListener( new SolubleSaltsModel.ChangeAdapter() {
             public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
                 double ksp = model.getCurrentSalt().getKsp();
                 kspSlider.setValue( ksp );
@@ -300,7 +262,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         slider.setNumMajorTicks( 6 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.getVessel().setWaterLevel( slider.getValue() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+                model.getVessel().setWaterLevel( slider.getValue() * module.getCalibration().volumeCalibrationFactor );
             }
         } );
         panel.add( slider );
@@ -315,6 +277,10 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         waterLevelControlPanel.setVisible( areVisible );
         releaseButton.setVisible( areVisible );
         revalidate();
+    }
+
+    protected SolubleSaltsModule getModule() {
+        return module;
     }
 
     //----------------------------------------------------------------

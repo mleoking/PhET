@@ -13,21 +13,18 @@ package edu.colorado.phet.solublesalts.view;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe;
 import edu.colorado.phet.solublesalts.model.Shaker;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.WaterSource;
-import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.model.ion.IonEvent;
+import edu.colorado.phet.solublesalts.model.ion.IonListener;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * WorldNode
@@ -37,13 +34,15 @@ import java.awt.*;
  */
 public class WorldNode extends PNode {
 
-    public WorldNode( final SolubleSaltsModel model, PhetPCanvas phetPCanvas ) {
+    public WorldNode( final SolubleSaltsModule module, PhetPCanvas phetPCanvas ) {
+
+        final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
         double graphicsScale = 1;
 //        double graphicsScale = model.getBounds().getWidth() / phetPCanvas.getRenderingSize().getWidth();
 
         // Create a graphic for the vessel
-        VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel() );
+        VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel(), module );
         this.addChild( vesselGraphic );
 
         // Add the stove

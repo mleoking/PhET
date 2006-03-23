@@ -11,14 +11,10 @@
 package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.solublesalts.model.salt.Salt;
-import edu.colorado.phet.solublesalts.model.salt.SilverIodide;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
-import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.EventObject;
-import java.util.EventListener;
 
 
 /**
@@ -52,7 +48,6 @@ public class SolubleSaltsConfig {
     public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
 
     // Physical things
-    public static final double AVAGADROS_NUMBER = 6.022E23;
 //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
@@ -91,7 +86,6 @@ public class SolubleSaltsConfig {
     // Configuration parameters that can be changed programatically at runtime
     //----------------------------------------------------------------
 
-/*
     // Volume calibration factor: pixels to liters
     public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
 //    private static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
@@ -99,7 +93,6 @@ public class SolubleSaltsConfig {
     public static double DEFAULT_WATER_LEVEL = 5E-16;
     public static double VESSEL_MINOR_TICK_SPACING = 0.5E-16;
     public static double VESSEL_MAJOR_TICK_SPACING = 1E-16;
-*/
 
     //----------------------------------------------------------------
     // Calibration objects

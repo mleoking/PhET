@@ -17,12 +17,13 @@ import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -42,7 +43,7 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplication.ResetListener {
+public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.ResetListener {
 
     //----------------------------------------------------------------
     // Class data
@@ -86,13 +87,18 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
     private RandomWalk randomWalkAgent;
 
+    private SolubleSaltsConfig.Calibration calibration;
+
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
 
-    public SolubleSaltsModel( IClock clock ) {
+    public SolubleSaltsModel( IClock clock, SolubleSaltsModule module ) {
+//    public SolubleSaltsModel( IClock clock, SolubleSaltsConfig.Calibration calibration ) {
 
-        ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).addResetListener( this );
+        this.calibration = module.getCalibration();
+
+        module.addResetListener( this );
         clock.addClockListener( new ModelStepper() );
 
         // Add an agent that will track the ions of various classes
@@ -104,7 +110,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
         // Create a vessel
         vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
-        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+        vessel.setWaterLevel( calibration.defaultWaterLevel / calibration.volumeCalibrationFactor );
         addModelElement( vessel );
 
         // Create the random walk agent
@@ -123,7 +129,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
         // Create an agent that will manage the flow of ions toward the drain when water is
         // flowing out of the vessel
-        IonFlowManager ionFlowManager = new IonFlowManager( this );
+        new IonFlowManager( this );
 
         // Add a model element that will handle collisions between ions and the vessel
         addModelElement( new CollisionAgent() );
@@ -142,9 +148,9 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
                             vessel.getLocation().getY() - 10 );
 
         // Listen for runtime changes in the configuration
-        ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).addResetListener( new SolubleSaltsApplication.ResetListener() {
-            public void reset() {
-                vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+        module.addResetListener( new SolubleSaltsModule.ResetListener() {
+            public void reset( SolubleSaltsConfig.Calibration calibration ) {
+                vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel / SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
             }
         } );
     }
@@ -202,13 +208,16 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
     /**
      *
      */
-    public void reset() {
+    public void reset( SolubleSaltsConfig.Calibration calibration ) {
+
+        this.calibration = calibration;
+
         List ions = ionTracker.getIons();
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             removeModelElement( ion );
         }
-        vessel.setWaterLevel( SolubleSaltsConfig.DEFAULT_WATER_LEVEL / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+        vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel/ SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
         waterSource.setFlow( 0 );
         drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
@@ -243,6 +252,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
+
+    public SolubleSaltsConfig.Calibration getCalibration() {
+        return calibration;
+    }
 
     public boolean isNucleationEnabled() {
         return nucleationEnabled;
@@ -314,8 +327,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
         int numAnionsInUnit = salt.getNumAnionsInUnit();
         int numCations = ionTracker.getNumFreeIonsOfType( salt.getCationClass() );
         int numCationsInUnit = salt.getNumCationsInUnit();
-        double volume = vessel.getWaterLevel() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
-        double denominator = volume * SolubleSaltsConfig.AVAGADROS_NUMBER;
+        double volume = vessel.getWaterLevel() * SolubleSaltsModel.this.calibration.volumeCalibrationFactor;
+        double denominator = volume * PhysicsUtil.AVOGADRO;
         double concentrationFactor = Math.pow( ( numAnions / denominator ), numAnionsInUnit )
                                      * Math.pow( ( numCations / denominator ), numCationsInUnit );
         return concentrationFactor;
@@ -394,6 +407,16 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
     public interface ChangeListener extends EventListener {
         void stateChanged( ChangeEvent event );
+
+        void reset( ChangeEvent event );
+    }
+
+    public static class ChangeAdapter implements ChangeListener {
+        public void stateChanged( ChangeEvent event ) {
+        }
+
+        public void reset( ChangeEvent event ) {
+        }
     }
 
     //----------------------------------------------------------------
@@ -521,8 +544,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
         }
 
         private boolean isNucleationAllowed() {
-            System.out.println( "getConcentrationFactor()  = " + getConcentrationFactor() );
-            System.out.println( "ksp = " + ksp );
+//            System.out.println( "getConcentrationFactor()  = " + getConcentrationFactor() );
+//            System.out.println( "ksp = " + ksp );
             return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
         }
 
