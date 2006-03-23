@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.control.RichardsonControls;
+import edu.colorado.phet.quantumtunneling.control.RichardsonControlsDialog;
 import edu.colorado.phet.quantumtunneling.enum.Direction;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
@@ -73,8 +73,6 @@ public class RichardsonSolver implements IWavePacketSolver {
 
     private LightweightComplex _alpha; // special parameter for Richardson algorithm
     private LightweightComplex _beta; // special parameter for Richardson algorithm
-
-    private RichardsonControls _controlsUI; // developer controls
     
     //----------------------------------------------------------------------
     // Constructors
@@ -94,8 +92,6 @@ public class RichardsonSolver implements IWavePacketSolver {
         _steps = STEPS_PER_CLOCK_TICK;
         _dx = 1;
         _dt = 0.0025; //XXX value requested by Sam McKagan, version 0.00.18
-        
-        _controlsUI = null;
         
         update();
     }
@@ -207,18 +203,6 @@ public class RichardsonSolver implements IWavePacketSolver {
 
         if ( !_wavePacket.isInitialized() ) {
             return;
-        }
-        
-        // Developer controls...
-        if ( QTConstants.RICHARDSON_CONTROLS_VISIBLE ) {
-            JFrame frame = PhetApplication.instance().getPhetFrame();
-            if ( _controlsUI == null ) {
-                _controlsUI = new RichardsonControls( frame, this );
-            }
-            else {
-                _controlsUI.refresh();
-            }
-            _controlsUI.show();
         }
         
         boolean zero = isSolutionZero();

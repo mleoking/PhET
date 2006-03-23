@@ -37,13 +37,6 @@ public class QTConstants {
     private QTConstants() {}
     
     //----------------------------------------------------------------------------
-    // Debug
-    //----------------------------------------------------------------------------
-    
-    // displayes a dialog with UI controls the Richardson algorithm
-    public static final boolean RICHARDSON_CONTROLS_VISIBLE = false;
-    
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     

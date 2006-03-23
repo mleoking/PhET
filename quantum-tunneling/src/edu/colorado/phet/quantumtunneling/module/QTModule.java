@@ -14,10 +14,7 @@ package edu.colorado.phet.quantumtunneling.module;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -25,6 +22,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.model.clock.ClockEvent;
@@ -42,8 +40,8 @@ import edu.colorado.phet.quantumtunneling.enum.IRView;
 import edu.colorado.phet.quantumtunneling.enum.PotentialType;
 import edu.colorado.phet.quantumtunneling.enum.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.persistence.QTModuleConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
+import edu.colorado.phet.quantumtunneling.persistence.QTModuleConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -124,6 +122,7 @@ public class QTModule extends AbstractModule implements Observer {
     private PSwing _waveFunctionZoomControl;
     private PSwing _probabilityDensityZoomControl;
     private QTClockControls _clockControls;
+    private JDialog _richardsonDialog;
     
     // Colors 
     private QTColorScheme _colorScheme;
@@ -1005,6 +1004,47 @@ public class QTModule extends AbstractModule implements Observer {
         _legend.setColorScheme( colorScheme );
         // Region markers...
         _regionMarkerManager.setMarkerColor( colorScheme.getRegionMarkerColor() );
+    }
+    
+    /**
+     * Makes Richardson algorithm controls visible.
+     * The controls appear in a dialog.
+     * 
+     * @param visible
+     */
+    public void setRichardsonControlsVisible( boolean visible ) {
+        if ( visible ) {
+            if ( _richardsonDialog == null ) {
+                IWavePacketSolver solver = _wavePacket.getSolver();
+                if ( solver instanceof RichardsonSolver ) {
+                    _richardsonDialog = new RichardsonControlsDialog( getFrame(), (RichardsonSolver) solver );
+                    _richardsonDialog.show();
+                    _richardsonDialog.addWindowListener( new WindowAdapter() {
+                        public void windowClosing( WindowEvent event ) {
+                            _richardsonDialog = null;
+                        }
+                        public void windowClosed( WindowEvent event ) {
+                            _richardsonDialog = null;
+                        }
+                    } );
+                }
+            }
+        }
+        else {
+            if ( _richardsonDialog != null ) {
+                _richardsonDialog.dispose();
+                _richardsonDialog = null;
+            }
+        }
+    }
+    
+    public RichardsonSolver getRichardsonSolver() {
+        RichardsonSolver richardsonSolver = null;
+        IWavePacketSolver solver = _wavePacket.getSolver();
+        if ( solver instanceof RichardsonSolver ) {
+            richardsonSolver = (RichardsonSolver) solver;
+        }
+        return richardsonSolver;
     }
     
     //----------------------------------------------------------------------------

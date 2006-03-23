@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -33,13 +30,13 @@ import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 
 
 /**
- * RichardsonControls is a set of developer controls for the Richardson algorithm.
- * The controls are displayed in a window, and nothing is localized.
+ * RichardsonControlsDialog is a dialog that contains developer controls 
+ * for the Richardson algorithm.  This dialog is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RichardsonControls extends JDialog {
+public class RichardsonControlsDialog extends JDialog {
 
     //----------------------------------------------------------------------
     // Class data
@@ -88,7 +85,7 @@ public class RichardsonControls extends JDialog {
     // Constructors
     //----------------------------------------------------------------------
     
-    public RichardsonControls( Frame owner, RichardsonSolver solver ) {
+    public RichardsonControlsDialog( Frame owner, RichardsonSolver solver ) {
         super( owner, "Richardson Controls" );
         
         _solver = solver;
@@ -97,6 +94,9 @@ public class RichardsonControls extends JDialog {
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         {
+            JLabel instructionsLabel = new JLabel( "Changes are only visible while the clock is running!" );
+            instructionsLabel.setForeground( Color.RED );
+            
             JLabel massLabel = new JLabel( "mass:" );
             _massSpinner = new DoubleSpinner( _solver.getMass(), MASS_MIN, MASS_MAX, MASS_DELTA, MASS_FORMAT, SPINNER_SIZE );
             JLabel massUnits = new JLabel( "<html>eV/c<sup>2</sup></html>" );
@@ -129,6 +129,8 @@ public class RichardsonControls extends JDialog {
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             panel.setLayout( layout );
             int row = 0;
+            layout.addAnchoredComponent( instructionsLabel, row, 0, 4, 1, GridBagConstraints.WEST );
+            row++;
             layout.addAnchoredComponent( massLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _massSpinner, row, 1, GridBagConstraints.WEST );
             layout.addAnchoredComponent( massUnits, row, 2, GridBagConstraints.WEST );

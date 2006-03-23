@@ -13,8 +13,11 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -26,6 +29,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
+import edu.colorado.phet.quantumtunneling.control.RichardsonControlsDialog;
+import edu.colorado.phet.quantumtunneling.debug.QTDeveloperMenu;
+import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
@@ -143,6 +149,10 @@ public class QTApplication extends PhetApplication {
             }
         }
    
+        // Developer menu
+        QTDeveloperMenu developerMenu = new QTDeveloperMenu( _module );
+        getPhetFrame().addMenu( developerMenu );
+        
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
         if ( helpMenu != null ) {
