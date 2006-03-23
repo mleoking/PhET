@@ -27,15 +27,15 @@ public class TestPropagator {
 
     public TestPropagator() {
 //        this.waveProcessor = new DampingOnly();
-//        this.waveProcessor = new DefaultWaveProcessor();
-        this.waveProcessor = new FourierChop();
+        this.waveProcessor = new DefaultWaveProcessor();
+//        this.waveProcessor = new FourierChop();
 
-//        IWavePacketSolver solver = new RichardsonSolver( wavePacket );
-        IWavePacketSolver solver = new SplitOperatorSolver( wavePacket );
+        IWavePacketSolver solver = new RichardsonSolver( wavePacket );
+//        IWavePacketSolver solver = new SplitOperatorSolver( wavePacket );
 //        IWavePacketSolver solver = new RK4Solver( wavePacket );
 
         wavePacket.setSolver( solver );
-        wavePacket.setTotalEnergy( new TotalEnergy( 0.8*10 ) );
+        wavePacket.setTotalEnergy( new TotalEnergy( 0.8 * 10 ) );
         wavePacket.setPotentialEnergy( new ConstantPotential( 0 ) );
         wavePacket.setEnabled( true );
 
@@ -143,7 +143,10 @@ public class TestPropagator {
 
         public void process( WavePacket wavePacket ) {
             damping.damp( wavePacket.getWaveFunctionValues() );
-            meanFilter.filter( wavePacket.getWaveFunctionValues(), 10 );
+            meanFilter.filter( wavePacket.getWaveFunctionValues(), 1 );
+//            meanFilter.filter( wavePacket.getWaveFunctionValues(), 2 );
+//            meanFilter.filter( wavePacket.getWaveFunctionValues(), 3 );
+//            meanFilter.filter( wavePacket.getWaveFunctionValues(), 1 );
             waveFilter.filter( wavePacket.getWaveFunctionValues() );
         }
     }

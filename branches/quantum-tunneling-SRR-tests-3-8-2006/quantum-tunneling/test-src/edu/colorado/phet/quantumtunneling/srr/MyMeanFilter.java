@@ -15,14 +15,12 @@ public class MyMeanFilter {
     private LightweightComplex[] array;
 
     public void filter( LightweightComplex[]psi, int windowHalfWidth ) {
-//        LightweightComplex[]out = new LightweightComplex[psi.length];
         if( array == null || array.length != psi.length ) {
             array = new LightweightComplex[psi.length];
             for( int i = 0; i < array.length; i++ ) {
                 array[i] = new LightweightComplex();
             }
         }
-//        int windowSize = 10;
         for( int i = windowHalfWidth; i < psi.length - windowHalfWidth; i++ ) {
             double realSum = 0;
             double imSum = 0;
@@ -32,17 +30,12 @@ public class MyMeanFilter {
                 imSum += lightweightComplex.getImaginary();
             }
             array[i].setValue( realSum / ( windowHalfWidth * 2 + 1 ), imSum / ( windowHalfWidth * 2 + 1 ) );
-//            if( sum < 0.01 ) {
-//                array[i] = new LightweightComplex();
-//            }
-//            else {
-//                LightweightComplex lightweightComplex = psi[i];
-//                array[i] = new LightweightComplex( lightweightComplex._real, lightweightComplex._imaginary );
-//            }
         }
         for( int i = windowHalfWidth; i < psi.length - windowHalfWidth; i++ ) {
-            psi[i]._real = array[i].getReal();
-            psi[i]._imaginary = array[i].getImaginary();
+//            if( i < 200 || i > array.length - 200) {
+                psi[i]._real = array[i].getReal();
+                psi[i]._imaginary = array[i].getImaginary();
+//            }
         }
     }
 
