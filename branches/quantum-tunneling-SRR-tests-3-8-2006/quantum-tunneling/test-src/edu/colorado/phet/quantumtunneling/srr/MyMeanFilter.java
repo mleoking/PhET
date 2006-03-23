@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.quantumtunneling.srr;
 
-import edu.colorado.phet.quantumtunneling.model.WavePacket;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 /**
@@ -15,7 +14,8 @@ public class MyMeanFilter {
 
     private LightweightComplex[] array;
 
-    public void filter( LightweightComplex[]psi,int windowSize ) {
+    public void filter( LightweightComplex[]psi, int windowHalfWidth ) {
+//        LightweightComplex[]out = new LightweightComplex[psi.length];
         if( array == null || array.length != psi.length ) {
             array = new LightweightComplex[psi.length];
             for( int i = 0; i < array.length; i++ ) {
@@ -23,15 +23,15 @@ public class MyMeanFilter {
             }
         }
 //        int windowSize = 10;
-        for( int i = windowSize; i < psi.length - windowSize; i++ ) {
+        for( int i = windowHalfWidth; i < psi.length - windowHalfWidth; i++ ) {
             double realSum = 0;
             double imSum = 0;
-            for( int j = -windowSize / 2; j < windowSize / 2; j++ ) {
-                LightweightComplex lightweightComplex = psi[i];
+            for( int j = -windowHalfWidth; j <= windowHalfWidth; j++ ) {
+                LightweightComplex lightweightComplex = psi[i + j];
                 realSum += lightweightComplex.getReal();
                 imSum += lightweightComplex.getImaginary();
             }
-            array[i].setValue( realSum/windowSize, imSum/windowSize );
+            array[i].setValue( realSum / ( windowHalfWidth * 2 + 1 ), imSum / ( windowHalfWidth * 2 + 1 ) );
 //            if( sum < 0.01 ) {
 //                array[i] = new LightweightComplex();
 //            }
@@ -40,9 +40,32 @@ public class MyMeanFilter {
 //                array[i] = new LightweightComplex( lightweightComplex._real, lightweightComplex._imaginary );
 //            }
         }
-        for( int j = 0; j < array.length; j++ ) {
-            psi[j]._real = array[j].getReal();
-            psi[j]._imaginary = array[j].getImaginary();
+        for( int i = windowHalfWidth; i < psi.length - windowHalfWidth; i++ ) {
+            psi[i]._real = array[i].getReal();
+            psi[i]._imaginary = array[i].getImaginary();
+        }
+    }
+
+    public static void main( String[] args ) {
+        LightweightComplex[]test = new LightweightComplex[]{
+                new LightweightComplex( 0, 0 ),
+                new LightweightComplex( 5, 0 ),
+                new LightweightComplex( 9, 0 ),
+                new LightweightComplex( 5, 0 ),
+                new LightweightComplex( 0, 0 ),
+                new LightweightComplex( 0, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 ),
+                new LightweightComplex( 3, 0 )
+        };
+        new MyMeanFilter().filter( test, 1 );
+        for( int i = 0; i < test.length; i++ ) {
+//            LightweightComplex lightweightComplex = test[i];
+            System.out.println( "lightweightComplex[i] = " + test[i] );
         }
     }
 }

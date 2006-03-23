@@ -62,4 +62,8 @@ public class LightweightComplex {
         this._real=real;
         this._imaginary=imag;
     }
+
+    public String toString() {
+        return "re="+_real+", im="+_imaginary;
+    }
 }
