@@ -100,6 +100,15 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     //----------------------------------------------------------------------------
     
     /**
+     * Gets a reference to the solver.
+     * 
+     * @return
+     */
+    public IWavePacketSolver getSolver() {
+        return _solver;
+    }
+    
+    /**
      * Sets the dx used by the solver.
      * 
      * @param dx

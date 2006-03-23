@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add a command line arg to enabled Developer menu
 - fix Richardson dt for new position range and dx
 - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem
 - decide on correct behavior when we measure in a region where E<V
@@ -39,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+(3/23/06) - move Richardson controls into a Developer menu
 0.0.21...
 (3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave (fold into 0.00.21)
 (3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button (fold into 0.00.21)
