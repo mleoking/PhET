@@ -30,8 +30,9 @@ public class RotationGlyph extends PNode {
         surface.setStroke( new BasicStroke( 3 ) );
 
         depth = new PPath();
-        depth.setPaint( new Color( 100, 100, 255 ) );
-        depth.setStroke( new BasicStroke( 3 ) );
+//        depth.setPaint( new Color( 100, 100, 255 ) );
+        depth.setPaint( Color.blue );
+        depth.setStroke( new BasicStroke( 4 ) );
         addChild( depth );
         addChild( surface );
 

@@ -5,6 +5,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 /**
@@ -27,12 +28,33 @@ public class WaveSideView extends PNode {
         update();
     }
 
+    protected PPath getPath() {
+        return path;
+    }
+
+    public Lattice2D getLattice2D() {
+        return lattice2D;
+    }
+
+    public void setStroke( Stroke stroke ) {
+        path.setStroke( stroke );
+    }
+
+    public void setStrokePaint( Paint paint ) {
+        path.setStrokePaint( paint );
+    }
+
     public void update() {
+        GeneralPath generalpath = getWavePath();
+        path.setPathTo( generalpath );
+    }
+
+    protected GeneralPath getWavePath() {
         GeneralPath generalpath = new GeneralPath();
-        int yValue = lattice2D.getHeight() / 2;
+        int yValue = getYValue();
         for( int i = 0; i < lattice2D.getWidth(); i++ ) {
             float y = getY( i, yValue );
-            int x = i * distBetweenPoints;
+            int x = getX( i );
             if( i == 0 ) {
                 generalpath.moveTo( x, y );
             }
@@ -40,10 +62,19 @@ public class WaveSideView extends PNode {
                 generalpath.lineTo( x, y );
             }
         }
-        path.setPathTo( generalpath );
+        return generalpath;
     }
 
-    private float getY( int index, int yValue ) {
+    protected int getYValue() {
+        int yValue = lattice2D.getHeight() / 2;
+        return yValue;
+    }
+
+    protected int getX( int i ) {
+        return i * distBetweenPoints;
+    }
+
+    float getY( int index, int yValue ) {
         if( index >= 1 && index < lattice2D.getWidth() - 1 ) {
             double sum = getVerticalSlice( index, yValue ) + getVerticalSlice( index - 1, yValue ) + getVerticalSlice( index + 1, yValue );
             return (float)( sum / 3 );
@@ -51,8 +82,6 @@ public class WaveSideView extends PNode {
         else {
             return (float)getVerticalSlice( index, yValue );
         }
-//        float y = (float)( lattice2D.getValue( index, yValue )*amplitudeScale );
-//        return y;
     }
 
     private double getVerticalSlice( int index, int yValue ) {
