@@ -11,7 +11,7 @@
 package edu.colorado.phet.solublesalts.model.salt;
 
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class SodiumChloride extends Salt {
 
-    static private Lattice lattice = new PlainCubicLattice( Sodium.RADIUS + Chlorine.RADIUS );
+    static private Lattice lattice = new OneToOneLattice( Sodium.RADIUS + Chlorine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {

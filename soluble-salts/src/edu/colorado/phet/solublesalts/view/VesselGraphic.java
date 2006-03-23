@@ -64,6 +64,7 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
 
         setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
         setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
+
         update( vessel );
     }
 
@@ -78,12 +79,10 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         walls.lineToRelative( 0, -( rect.getHeight() + thickness / 2 ) );
         shape.setPathTo( walls.getGeneralPath() );
         shape.setStroke( new BasicStroke( thickness ) );
-
-        double viewWaterLevel = vessel.getWaterLevel() / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
         water.setPathTo( new Rectangle2D.Double( 0,
-                                                 shape.getHeight() - thickness * 3 / 2 - viewWaterLevel,
+                                                 shape.getHeight() - thickness * 3 / 2 - vessel.getWaterLevel(),
                                                  vessel.getShape().getWidth(),
-                                                 viewWaterLevel ) );
+                                                 vessel.getWaterLevel() ) );
         setOffset( vessel.getLocation() );
     }
 

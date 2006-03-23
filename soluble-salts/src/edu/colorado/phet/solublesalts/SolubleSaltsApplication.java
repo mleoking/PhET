@@ -20,6 +20,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
+import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 import java.util.EventListener;
@@ -44,8 +45,13 @@ public class SolubleSaltsApplication extends PhetApplication {
                SolubleSaltsConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
-        Module module = new SolubleSaltsModule( CLOCK );
-        setModules( new Module[]{module} );
+        IClock moduleAClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
+        Module moduleA = new SolubleSaltsModule( moduleAClock );
+
+        IClock moduleBClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
+        Module moduleB = new ConfigurableSaltModule( moduleBClock );
+
+        setModules( new Module[]{moduleB, moduleA } );
 
         setUpOptionsMenu();
     }

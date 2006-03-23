@@ -34,6 +34,12 @@ public class IonFactory {
      */
     public Ion create( Class ionClass ) {
         Ion ion = null;
+        if( ionClass == ConfigurableAnion.class ) {
+            ion = new ConfigurableAnion();
+        }
+        if( ionClass == ConfigurableCation.class ) {
+            ion = new ConfigurableCation();
+        }
         if( ionClass == Sodium.class ) {
             ion = new Sodium();
         }

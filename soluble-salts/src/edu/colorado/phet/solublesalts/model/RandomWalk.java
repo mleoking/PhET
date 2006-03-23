@@ -27,7 +27,7 @@ import java.util.Random;
 public class RandomWalk {
 
     private Random random = new Random();
-    private double theta = 45;
+    private double theta = 15;
     private Vessel vessel;
 
     public RandomWalk( Vessel vessel ) {

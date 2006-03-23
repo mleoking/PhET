@@ -11,7 +11,7 @@
 package edu.colorado.phet.solublesalts.model.salt;
 
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-import edu.colorado.phet.solublesalts.model.crystal.PlainCubicLattice;
+import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Iodine;
 import edu.colorado.phet.solublesalts.model.ion.Silver;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class SilverIodide extends Salt {
 
-    static private Lattice lattice = new PlainCubicLattice( Silver.RADIUS + Iodine.RADIUS );
+    static private Lattice lattice = new OneToOneLattice( Silver.RADIUS + Iodine.RADIUS );
 //    static private Lattice lattice = new PlainCubicLattice( Silver.RADIUS + Iodine.RADIUS );
     static private ArrayList components = new ArrayList();
 
