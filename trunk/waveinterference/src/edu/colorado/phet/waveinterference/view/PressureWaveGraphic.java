@@ -111,9 +111,11 @@ public class PressureWaveGraphic extends PNode {
         private double b;
         private double speed = 4.0;//pixels per time step
         private Vector2D velocity = new Vector2D.Double();
+        private BufferedImage newImage;
 
-        public Particle( Image newImage, int i, int j ) {
+        public Particle( BufferedImage newImage, int i, int j ) {
             super( newImage );
+            this.newImage = newImage;
             this.homeX = i;
             this.homeY = j;
 
@@ -139,14 +141,17 @@ public class PressureWaveGraphic extends PNode {
                     }
                 }
             }
-            //step towards the peak
-            double prefX = bestPoint.x * spacingBetweenCells;
-            double prefY = bestPoint.y * spacingBetweenCells;
-            Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
+            if( bestPoint != null ) {
+                //step towards the peak
+                double prefX = bestPoint.x * spacingBetweenCells;
+                double prefY = bestPoint.y * spacingBetweenCells;
+                Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
 
 //            stepToTarget( vec );
-            accelerateToTarget( vec );
+                accelerateToTarget( vec );
 //            accelerateFromNeighbors();//very expensive
+            }
+
         }
 
 //        private void accelerateFromNeighbors() {
