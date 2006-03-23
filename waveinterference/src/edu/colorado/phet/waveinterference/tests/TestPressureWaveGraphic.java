@@ -5,7 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
-import edu.colorado.phet.waveinterference.view.SimpleWavefunctionGraphic;
+import edu.colorado.phet.waveinterference.view.SimpleLatticeGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,13 +22,13 @@ public class TestPressureWaveGraphic extends PhetApplication {
 
     public static class TestPressureWaveModule extends BasicWaveTestModule {
         private PressureWaveGraphic pressureWaveGraphic;
-        private SimpleWavefunctionGraphic simpleWavefunctionGraphic;
+        private SimpleLatticeGraphic simpleLatticeGraphic;
 
         public TestPressureWaveModule() {
             super( "Test Pressure View" );
-            simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-            simpleWavefunctionGraphic.setVisible( false );
-            super.getPhetPCanvas().addScreenChild( simpleWavefunctionGraphic );
+            simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
+            simpleLatticeGraphic.setVisible( false );
+            super.getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
 
             pressureWaveGraphic = new PressureWaveGraphic( getLattice() );
             pressureWaveGraphic.setOffset( 0, 0 );
@@ -40,13 +40,13 @@ public class TestPressureWaveGraphic extends PhetApplication {
                 public void stateChanged( ChangeEvent e ) {
                     int dim = (int)cellDim.getValue();
                     pressureWaveGraphic.setSpaceBetweenCells( dim );
-                    simpleWavefunctionGraphic.setCellDimensions( dim, dim );
+                    simpleLatticeGraphic.setCellDimensions( dim, dim );
                 }
             } );
-            final JCheckBox showWave = new JCheckBox( "Show Lattice", simpleWavefunctionGraphic.getVisible() );
+            final JCheckBox showWave = new JCheckBox( "Show Lattice", simpleLatticeGraphic.getVisible() );
             showWave.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    simpleWavefunctionGraphic.setVisible( showWave.isSelected() );
+                    simpleLatticeGraphic.setVisible( showWave.isSelected() );
                 }
             } );
             final ModelSlider imageSize = new ModelSlider( "Particle Size", "pixels", 1, 36, pressureWaveGraphic.getImageSize() );
@@ -85,7 +85,7 @@ public class TestPressureWaveGraphic extends PhetApplication {
 
         protected void step() {
             super.step();
-            simpleWavefunctionGraphic.update();
+            simpleLatticeGraphic.update();
             pressureWaveGraphic.update();
         }
     }

@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
+import edu.colorado.phet.waveinterference.view.IntensityReader;
 import edu.colorado.phet.waveinterference.view.SimpleLatticeGraphic;
 
 import javax.swing.event.ChangeEvent;
@@ -11,21 +12,23 @@ import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
- * Date: Mar 21, 2006
- * Time: 11:57:27 PM
- * Copyright (c) Mar 21, 2006 by Sam Reid
+ * Date: Mar 23, 2006
+ * Time: 1:32:18 PM
+ * Copyright (c) Mar 23, 2006 by Sam Reid
  */
 
-public class TestWave extends PhetApplication {
-
-    public static class TestWaveModule extends BasicWaveTestModule {
+public class TestStripChart extends PhetApplication {
+    public static class TestStripChartModule extends BasicWaveTestModule {
         private SimpleLatticeGraphic simpleLatticeGraphic;
+        private IntensityReader intensityReader;
 
-        public TestWaveModule() {
-            super( "Test Waves" );
+        public TestStripChartModule() {
+            super( "Test Strip Chart" );
 
             simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
             super.getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
+            intensityReader = new IntensityReader( simpleLatticeGraphic );
+            super.getPhetPCanvas().addScreenChild( intensityReader );
 
             BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
             final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, simpleLatticeGraphic.getCellDimensions().width );
@@ -46,14 +49,13 @@ public class TestWave extends PhetApplication {
 
     }
 
-    public TestWave( String[]args ) {
+    public TestStripChart( String[]args ) {
         super( args, "Feasibility Test", "Test", "0.01" );
-        addModule( new TestWaveModule() );
+        addModule( new TestStripChartModule() );
     }
 
 
     public static void main( String[] args ) {
-        new TestWave( args ).startApplication();
+        new TestStripChart( args ).startApplication();
     }
-
 }

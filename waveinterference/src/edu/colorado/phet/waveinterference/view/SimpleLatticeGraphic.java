@@ -20,21 +20,21 @@ import java.beans.PropertyChangeListener;
  * Copyright (c) Jun 30, 2005 by Sam Reid
  */
 
-public class SimpleWavefunctionGraphic extends PNode {
+public class SimpleLatticeGraphic extends PNode {
     private ColorGridNode colorGridNode;
     private PPath borderGraphic;
     private Lattice2D lattice2D;
     private ColorMap colorMap;
 
-    public SimpleWavefunctionGraphic( Lattice2D lattice2D ) {
+    public SimpleLatticeGraphic( Lattice2D lattice2D ) {
         this( lattice2D, 1, 1 );
     }
 
-    public SimpleWavefunctionGraphic( Lattice2D lattice2D, int dx, int dy ) {
+    public SimpleLatticeGraphic( Lattice2D lattice2D, int dx, int dy ) {
         this( lattice2D, dx, dy, new IndexColorMap( lattice2D ) );
     }
 
-    public SimpleWavefunctionGraphic( Lattice2D lattice2D, int dx, int dy, ColorMap colorMap ) {
+    public SimpleLatticeGraphic( Lattice2D lattice2D, int dx, int dy, ColorMap colorMap ) {
         this.lattice2D = lattice2D;
         colorGridNode = new ColorGridNode( new ColorGrid( dx, dy, lattice2D.getWidth(), lattice2D.getHeight() ) );
         addChild( colorGridNode );
