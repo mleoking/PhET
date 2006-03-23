@@ -5,7 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- wave packet properties always visible
+- IR controls only visible for plane wave
 - decide on correct behavior when we measure in a region where E<V
+- when initial center is inside a well the total energy is represented incorrectly, should be discrete energy levels not a distribution
 - calibrate or replace Richardson algorithm
 - eliminate reflection and circularity at boundaries
 - possibly add sum/separate feature for wave packet
@@ -36,6 +39,9 @@ CLEANUP:
 
 
 DONE:
+(3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave
+(3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button
+(3/23/06) - demonstrate that Swing redraw problem occurs even when Richardson propagator is not called at all
 0.0.21...
 (3/22/06) - save/load color scheme
 (3/22/06) - refactor inner classes of QTConfig into their own class files

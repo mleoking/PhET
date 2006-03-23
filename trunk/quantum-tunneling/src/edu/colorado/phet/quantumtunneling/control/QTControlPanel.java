@@ -50,9 +50,6 @@ public class QTControlPanel extends AbstractControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String EXPAND_SYMBOL = ">>";
-    private static final String COLLAPSE_SYMBOL = "<<";
-    
     private static final int INDENTATION = 0; // pixels
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
@@ -80,11 +77,10 @@ public class QTControlPanel extends AbstractControlPanel {
     private JCheckBox _showValuesCheckBox;
     private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
     private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
+    private JPanel _irPanel;
     private JRadioButton _separateRadioButton, _sumRadioButton;
     private JRadioButton _leftToRightRadioButton, _rightToLeftRadioButton;
-    private JRadioButton _planeWaveRadioButton, _packetWaveRadioButton;
-    private JButton _propertiesButton;
-    private String _sPropertiesExpand, _sPropertiesCollapse;
+    private JRadioButton _planeWaveRadioButton, _wavePacketRadioButton;
     private JPanel _propertiesPanel;
     private SliderControl _widthSlider, _centerSlider;
     private EventListener _listener;
@@ -191,37 +187,6 @@ public class QTControlPanel extends AbstractControlPanel {
             viewPanel.add( innerPanel, BorderLayout.WEST );
         }
         
-        // Incident/Reflected view
-        JPanel irPanel = new JPanel();
-        {
-            JLabel label = new JLabel( SimStrings.get( "label.ir" ) );
-            _sumRadioButton = new JRadioButton( SimStrings.get( "choice.ir.sum" ) );
-            _separateRadioButton = new JRadioButton( SimStrings.get( "choice.ir.separate" ) );
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( _sumRadioButton );
-            buttonGroup.add( _separateRadioButton );
-
-            int horizontalSpaceBetweenButtons = 10;
-            JPanel buttonPanel = new JPanel();
-            EasyGridBagLayout buttonLayout = new EasyGridBagLayout( buttonPanel );
-            buttonPanel.setLayout( buttonLayout );
-            buttonLayout.setAnchor( GridBagConstraints.WEST );
-            buttonLayout.setMinimumWidth( 1, horizontalSpaceBetweenButtons );
-            buttonLayout.addComponent( _sumRadioButton, 0, 0 );
-            buttonLayout.addComponent( _separateRadioButton, 0, 2 );
-
-            // Layout
-            JPanel innerPanel = new JPanel();
-            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setAnchor( GridBagConstraints.WEST );
-            layout.setMinimumWidth( 0, INDENTATION );
-            layout.addComponent( label, 0, 1 );
-            layout.addComponent( buttonPanel, 1, 1 );
-            irPanel.setLayout( new BorderLayout() );
-            irPanel.add( innerPanel, BorderLayout.WEST );
-        }
-        
         // Direction
         JPanel directionPanel = new JPanel();
         {
@@ -272,11 +237,11 @@ public class QTControlPanel extends AbstractControlPanel {
         JPanel formPanel = new JPanel();
         {
             JLabel label = new JLabel( SimStrings.get( "label.wave" ) );
+            _wavePacketRadioButton = new JRadioButton( SimStrings.get( "choice.wave.packet" ) );
             _planeWaveRadioButton = new JRadioButton( SimStrings.get( "choice.wave.plane" ) );
-            _packetWaveRadioButton = new JRadioButton( SimStrings.get( "choice.wave.packet" ) );
             ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _wavePacketRadioButton );
             buttonGroup.add( _planeWaveRadioButton );
-            buttonGroup.add( _packetWaveRadioButton );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -285,45 +250,33 @@ public class QTControlPanel extends AbstractControlPanel {
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setMinimumWidth( 0, INDENTATION );
             layout.addComponent( label, 0, 1 );
-            layout.addComponent( _planeWaveRadioButton, 1, 1 );
-            layout.addComponent( _packetWaveRadioButton, 2, 1 );
+            layout.addComponent( _wavePacketRadioButton, 1, 1 );
+            layout.addComponent( _planeWaveRadioButton, 2, 1 );
             formPanel.setLayout( new BorderLayout() );
             formPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Wave packet properties
-        JPanel propertiesPanel = new JPanel();
+        _propertiesPanel = new JPanel();
         {
-            _sPropertiesExpand = SimStrings.get( "button.packetProperties" ) + " " + EXPAND_SYMBOL;
-            _sPropertiesCollapse = SimStrings.get( "button.packetProperties" ) + " " + COLLAPSE_SYMBOL;
-            _propertiesButton = new JButton( _sPropertiesExpand  );
+            JLabel label = new JLabel( SimStrings.get( "label.packetProperties" ) );
+        
+            _widthSlider = new SliderControl( 
+                    QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
+                    WIDTH_TICK_SPACING,
+                    WIDTH_TICK_PRECISION,
+                    WIDTH_LABEL_PRECISION,
+                    SimStrings.get( "label.packetWidth" ) + " {0} " + SimStrings.get( "units.position" ), 
+                    new Insets( 5, 0, 0, 0 ) );
+            _widthSlider.setInverted( true );
             
-            // Subpanel
-            _propertiesPanel = new JPanel();
-            {
-                _widthSlider = new SliderControl( 
-                        QTConstants.MIN_PACKET_WIDTH, QTConstants.MAX_PACKET_WIDTH,
-                        WIDTH_TICK_SPACING,
-                        WIDTH_TICK_PRECISION,
-                        WIDTH_LABEL_PRECISION,
-                        SimStrings.get( "label.packetWidth" ) + " {0} " + SimStrings.get( "units.position" ), 
-                        new Insets( 0, 0, 0, 0 ) );
-                _widthSlider.setInverted( true );
-                
-                _centerSlider = new SliderControl( 
-                        QTConstants.MIN_PACKET_CENTER, QTConstants.MAX_PACKET_CENTER,
-                        CENTER_TICK_SPACING,
-                        CENTER_TICK_PRECISION,
-                        CENTER_LABEL_PRECISION,
-                        SimStrings.get( "label.packetCenter" ) + " {0} " + SimStrings.get( "units.position" ),
-                        new Insets( 0, 0, 0, 0 ) );
-                
-                EasyGridBagLayout layout = new EasyGridBagLayout( _propertiesPanel );
-                _propertiesPanel.setLayout( layout );
-                layout.setAnchor( GridBagConstraints.WEST );
-                layout.addComponent( _widthSlider, 0, 0 );
-                layout.addComponent( _centerSlider, 1, 0 );
-            }
+            _centerSlider = new SliderControl( 
+                    QTConstants.MIN_PACKET_CENTER, QTConstants.MAX_PACKET_CENTER,
+                    CENTER_TICK_SPACING,
+                    CENTER_TICK_PRECISION,
+                    CENTER_LABEL_PRECISION,
+                    SimStrings.get( "label.packetCenter" ) + " {0} " + SimStrings.get( "units.position" ),
+                    new Insets( 0, 0, 0, 0 ) );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -331,10 +284,43 @@ public class QTControlPanel extends AbstractControlPanel {
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setMinimumWidth( 0, INDENTATION );
-            layout.addComponent( _propertiesButton, 0, 1 );
-            layout.addComponent( _propertiesPanel, 1, 1 );
-            propertiesPanel.setLayout( new BorderLayout() );
-            propertiesPanel.add( innerPanel, BorderLayout.WEST );
+            layout.addComponent( label, 0, 1 );
+            layout.addComponent( _widthSlider, 1, 1 );
+            layout.addComponent( _centerSlider, 2, 1 );
+            _propertiesPanel.setLayout( new BorderLayout() );
+            _propertiesPanel.add( innerPanel, BorderLayout.WEST );
+        }
+             
+        // Incident/Reflected view
+        _irPanel = new JPanel();
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.ir" ) );
+            
+            _sumRadioButton = new JRadioButton( SimStrings.get( "choice.ir.sum" ) );
+            _separateRadioButton = new JRadioButton( SimStrings.get( "choice.ir.separate" ) );
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _sumRadioButton );
+            buttonGroup.add( _separateRadioButton );
+
+            int horizontalSpaceBetweenButtons = 10;
+            JPanel buttonPanel = new JPanel();
+            EasyGridBagLayout buttonLayout = new EasyGridBagLayout( buttonPanel );
+            buttonPanel.setLayout( buttonLayout );
+            buttonLayout.setAnchor( GridBagConstraints.WEST );
+            buttonLayout.setMinimumWidth( 1, horizontalSpaceBetweenButtons );
+            buttonLayout.addComponent( _sumRadioButton, 0, 0 );
+            buttonLayout.addComponent( _separateRadioButton, 0, 2 );
+
+            // Layout
+            JPanel innerPanel = new JPanel();
+            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
+            innerPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.setMinimumWidth( 0, INDENTATION );
+            layout.addComponent( label, 0, 1 );
+            layout.addComponent( buttonPanel, 1, 1 );
+            _irPanel.setLayout( new BorderLayout() );
+            _irPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Layout
@@ -345,16 +331,15 @@ public class QTControlPanel extends AbstractControlPanel {
             addControlFullWidth( viewPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addControlFullWidth( irPanel );
-            addVerticalSpace( SUBPANEL_SPACING );
-            addSeparator();
             addControlFullWidth( directionPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addControlFullWidth( formPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addControlFullWidth( propertiesPanel );
+            addControlFullWidth( _propertiesPanel );
+            // no spacing or separator, since only one of _propertiesPanel and _irPanel will be visible at a time.
+            addControlFullWidth( _irPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
             addResetButton();
@@ -374,8 +359,7 @@ public class QTControlPanel extends AbstractControlPanel {
             _leftToRightRadioButton.addActionListener( _listener );
             _rightToLeftRadioButton.addActionListener( _listener );
             _planeWaveRadioButton.addActionListener( _listener );
-            _packetWaveRadioButton.addActionListener( _listener );
-            _propertiesButton.addActionListener( _listener );
+            _wavePacketRadioButton.addActionListener( _listener );
             _widthSlider.addChangeListener( _listener );
             _centerSlider.addChangeListener( _listener );
         }
@@ -607,7 +591,7 @@ public class QTControlPanel extends AbstractControlPanel {
      */
     public void setWaveType( WaveType waveType ) {
         _planeWaveRadioButton.setSelected( waveType == WaveType.PLANE );
-        _packetWaveRadioButton.setSelected( waveType == WaveType.PACKET );
+        _wavePacketRadioButton.setSelected( waveType == WaveType.PACKET );
         handleWaveTypeSelection();
     }
     
@@ -623,23 +607,6 @@ public class QTControlPanel extends AbstractControlPanel {
         else {
             return WaveType.PACKET;
         }
-    }
-    
-    /**
-     * Sets the visibility of the wave packet properties panel.
-     * @param visible
-     */
-    public void setPropertiesVisible( boolean visible ) {
-        _propertiesPanel.setVisible( !visible );
-        handlePropertiesButton();
-    }
-    
-    /**
-     * Is the wave packet properties panel visible?
-     * @return true or false
-     */
-    public boolean isPropertiesVisible() {
-        return _propertiesPanel.isVisible();
     }
     
     /**
@@ -719,11 +686,8 @@ public class QTControlPanel extends AbstractControlPanel {
             else if ( event.getSource() == _leftToRightRadioButton || event.getSource() == _rightToLeftRadioButton ) {
                 handleDirectionSelection();
             }
-            else if ( event.getSource() == _planeWaveRadioButton || event.getSource() == _packetWaveRadioButton ) {
+            else if ( event.getSource() == _planeWaveRadioButton || event.getSource() == _wavePacketRadioButton ) {
                 handleWaveTypeSelection();
-            }
-            else if ( event.getSource() == _propertiesButton ) {
-                handlePropertiesButton();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -799,33 +763,16 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private void handleWaveTypeSelection() {
         if ( getWaveType() == WaveType.PLANE ) {
-            _sumRadioButton.setEnabled( true );
-            _separateRadioButton.setEnabled( true );
+            _phaseCheckBox.setEnabled( false );
             _propertiesPanel.setVisible( false );
-            _propertiesButton.setEnabled( false );
-            _propertiesButton.setText( _sPropertiesExpand );
+            _irPanel.setVisible( true );
             _module.setWaveType( WaveType.PLANE );
         }
         else { /* wave packet */
-            _sumRadioButton.setEnabled( false );
-            _separateRadioButton.setEnabled( false );
-            _sumRadioButton.setSelected( true );
-            handleIRViewSelection();
             _phaseCheckBox.setEnabled( true );
-            _propertiesButton.setEnabled( true );
-            _propertiesPanel.setVisible( false );
-            _module.setWaveType( WaveType.PACKET );
-        }
-    }
-    
-    private void handlePropertiesButton() {
-        if ( _propertiesPanel.isVisible() ) {
-            _propertiesPanel.setVisible( false );
-            _propertiesButton.setText( _sPropertiesExpand );
-        }
-        else {
             _propertiesPanel.setVisible( true );
-            _propertiesButton.setText( _sPropertiesCollapse );
+            _irPanel.setVisible( false );
+            _module.setWaveType( WaveType.PACKET );
         }
     }
     
