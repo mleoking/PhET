@@ -429,7 +429,6 @@ public class Crystal extends Body {
         }
     }
 
-
     /**
      * Determine the velocity an ion that is about to be release should have
      *
@@ -516,6 +515,11 @@ public class Crystal extends Body {
      * @param dy
      */
     public void translate( double dx, double dy ) {
+
+        if( dx == 0 && dy == 0 ) {
+            System.out.println( "Crystal.translate" );
+        }
+        
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             ion.translate( dx, dy );

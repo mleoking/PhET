@@ -84,7 +84,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
             List ions = getModel().getIons();
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
-                if( opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * ionCaptureDistance ) {
+                if( !ion.isBound() && opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * ionCaptureDistance ) {
                     capturedIons.add( ion );
                 }
             }

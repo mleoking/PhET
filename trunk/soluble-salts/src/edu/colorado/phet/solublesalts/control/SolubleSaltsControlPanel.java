@@ -184,7 +184,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
 
     /**
      * @param model
-     * @return
+     * @return A JPanel
      */
     private JPanel makeConcentrationPanel( final SolubleSaltsModel model ) {
         final DecimalFormat concentrationFormat = new DecimalFormat( "0.00E00" );
@@ -315,7 +315,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         }
 
         private void setReadoutValue( Vessel vessel ) {
-            readout.setText( format.format( vessel.getWaterLevel() ) );
+            readout.setText( format.format( vessel.getWaterLevel() * module.getCalibration().volumeCalibrationFactor ) );
         }
     }
 }

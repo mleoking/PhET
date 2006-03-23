@@ -47,7 +47,7 @@ public class SolubleSaltsApplication extends PhetApplication {
         IClock moduleBClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         Module moduleB = new ConfigurableSaltModule( moduleBClock );
 
-        setModules( new Module[]{moduleB, moduleA } );
+        setModules( new Module[]{moduleA, moduleB } );
 
         setUpOptionsMenu();
     }
