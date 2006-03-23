@@ -3,7 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.ClassicalWavePropagator;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
@@ -22,8 +22,8 @@ public class BasicWaveTestModule extends Module {
     private double period = 2;
     private PhetPCanvas panel = new PhetPCanvas();
 
-    public BasicWaveTestModule( String name, IClock clock ) {
-        super( name, clock );
+    public BasicWaveTestModule( String name ) {
+        super( name, new SwingClock( 30, 1 ) );
         setSimulationPanel( panel );
         lattice2D = new Lattice2D( 80, 80 );
         classicalWavePropagator = new ClassicalWavePropagator( new Potential() );
@@ -43,9 +43,13 @@ public class BasicWaveTestModule extends Module {
     protected void step() {
         double t = System.currentTimeMillis() / 1000.0;
         double frequency = 1 / period;
-        for( int i = 20; i <= 30; i++ ) {
-            for( int j = 20; j <= 30; j++ ) {
-                if( Math.sqrt( ( i - 25 ) * ( i - 25 ) + ( j - 25 ) * ( j - 25 ) ) < 5 ) {
+        int oscillatorRadius = 5;
+        int oscillatorX = oscillatorRadius + 3;
+        int oscillatorY = lattice2D.getHeight() / 2;
+        for( int i = oscillatorX - oscillatorRadius; i <= oscillatorX + oscillatorRadius; i++ ) {
+            for( int j = oscillatorY - oscillatorRadius; j <= oscillatorY + oscillatorRadius; j++ ) {
+                if( Math.sqrt( ( i - oscillatorX ) * ( i - oscillatorX ) + ( j - oscillatorY ) * ( j - oscillatorY ) ) < oscillatorRadius )
+                {
                     double value = Math.cos( 2 * Math.PI * frequency * t );
                     lattice2D.setValue( i, j, (float)value );
                     classicalWavePropagator.setBoundaryCondition( i, j, (float)value );

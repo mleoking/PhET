@@ -2,7 +2,6 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
@@ -22,7 +21,7 @@ public class TestSideView extends PhetApplication {
         private WaveSideView waveSideView;
 
         public TestWaveModule() {
-            super( "Test Side View", new SwingClock( 30, 0.1 ) );
+            super( "Test Side View" );
 
             waveSideView = new WaveSideView( getLattice() );
             waveSideView.setOffset( 0, 300 );
