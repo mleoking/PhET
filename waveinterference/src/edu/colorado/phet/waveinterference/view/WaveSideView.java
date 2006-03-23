@@ -18,7 +18,7 @@ public class WaveSideView extends PNode {
     private PPath path;
     private Lattice2D lattice2D;
     private int distBetweenPoints = 5;
-    private double amplitudeScale = 150;
+    private double amplitudeScale = -150;
 
     public WaveSideView( Lattice2D lattice2D ) {
         this.lattice2D = lattice2D;
