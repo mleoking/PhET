@@ -10,18 +10,17 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * RealSaltsControlPanel
@@ -47,21 +46,21 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
                 model.setCurrentSalt( saltClass );
 
                 if( saltClass instanceof SodiumChloride ) {
-                    new SolubleSaltsConfig.Calibration( 1.7342E-25,
+                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.7342E-25,
                                                         5E-23,
                                                         1E-23,
-                                                        0.5E-23 ).calibrate();
-                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+                                                        0.5E-23 );
+                    getModule().setCalibration( calibration );
                 }
                 else {
-                    new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
                                                         5E-16,
                                                         1E-16,
-                                                        0.5E-16 ).calibrate();
-                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+                                                        0.5E-16 );
+                    getModule().setCalibration( calibration );
                 }
 
-                model.reset();
+                getModule().reset();
                 revalidate();
             }
         } );

@@ -11,13 +11,12 @@
 
 package edu.colorado.phet.solublesalts.control;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 import javax.swing.*;

@@ -12,8 +12,8 @@ package edu.colorado.phet.solublesalts.view;
 
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class VesselGraphic extends PNode implements SolubleSaltsApplication.ResetListener {
+public class VesselGraphic extends PNode implements SolubleSaltsModule.ResetListener {
 
     //----------------------------------------------------------------
     // Instance data and methods
@@ -44,8 +44,8 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
     private ArrayList minorTicks = new ArrayList();
     private ArrayList majorTicks = new ArrayList();
 
-    public VesselGraphic( final Vessel vessel ) {
-        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).addResetListener( this );
+    public VesselGraphic( final Vessel vessel, SolubleSaltsModule module ) {
+        module.addResetListener( this );
         this.vessel = vessel;
 
         // Listen for state changes in the vessel
@@ -62,8 +62,8 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         water.setStrokePaint( null );
         this.addChild( water );
 
-        setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
-        setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
+        setMinorTickSpacing( module.getCalibration() );
+        setMajorTickSpacing( module.getCalibration() );
 
         update( vessel );
     }
@@ -89,9 +89,9 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
     /**
      * Sets the spacing of the major tick marks on the wall of the vessel
      *
-     * @param spacing
+     * @param calibration
      */
-    public void setMajorTickSpacing( double spacing ) {
+    public void setMajorTickSpacing( SolubleSaltsConfig.Calibration calibration ) {
 
         // Clear any existing ticks
         for( int i = 0; i < majorTicks.size(); i++ ) {
@@ -101,9 +101,9 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         majorTicks.clear();
 
         // Create the ticks
-        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+        int numTicks = (int)( vessel.getDepth() / ( calibration.majorTickSpacing / calibration.volumeCalibrationFactor ) );
         for( int i = 1; i <= numTicks; i++ ) {
-            double y = ( vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+            double y = ( vessel.getDepth() - i * ( calibration.majorTickSpacing / calibration.volumeCalibrationFactor ) );
             PPath tick = new PPath( new Line2D.Double( vessel.getWidth() + 2,
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 2,
@@ -115,7 +115,7 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
 
             DecimalFormat format = new DecimalFormat( "0.0E0" );
 
-            String str = format.format( ( vessel.getDepth() - y ) * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+            String str = format.format( ( vessel.getDepth() - y ) * calibration.volumeCalibrationFactor );
             str = str.concat( " L" );
             PText text = new PText( str );
             Font orgFont = text.getFont();
@@ -132,9 +132,9 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
     /**
      * Sets the spacing of the minor tick marks on the wall of the vessel
      *
-     * @param spacing
+     * @param calibration
      */
-    public void setMinorTickSpacing( double spacing ) {
+    public void setMinorTickSpacing( SolubleSaltsConfig.Calibration calibration ) {
         // Clear any existing ticks
         for( int i = 0; i < minorTicks.size(); i++ ) {
             PNode tick = (PNode)minorTicks.get( i );
@@ -143,9 +143,9 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         minorTicks.clear();
 
         // Create the ticks
-        int numTicks = (int)( vessel.getDepth() / ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR ) );
+        int numTicks = (int)( vessel.getDepth() / ( calibration.minorTickSpacing / calibration.volumeCalibrationFactor ) );
         for( int i = 1; i <= numTicks; i++ ) {
-            double y = vessel.getDepth() - i * ( spacing / SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+            double y = vessel.getDepth() - i * ( calibration.minorTickSpacing / calibration.volumeCalibrationFactor );
             PPath tick = new PPath( new Line2D.Double( vessel.getWidth() + 2,
                                                        y,
                                                        vessel.getWidth() + vessel.getWallThickness() / 4,
@@ -159,9 +159,9 @@ public class VesselGraphic extends PNode implements SolubleSaltsApplication.Rese
         }
     }
 
-    public void reset() {
-        setMinorTickSpacing( SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
-        setMajorTickSpacing( SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING );
+    public void reset( SolubleSaltsConfig.Calibration calibration ) {
+        setMinorTickSpacing( calibration );
+        setMajorTickSpacing( calibration );
         update( vessel );
     }
 }

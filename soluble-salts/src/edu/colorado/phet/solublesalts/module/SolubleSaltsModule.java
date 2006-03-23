@@ -11,14 +11,11 @@
 package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.WiggleMe;
-import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
-import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
@@ -35,9 +32,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
+import java.util.EventListener;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * SolubleSaltsModule
@@ -58,29 +54,26 @@ public class SolubleSaltsModule extends PiccoloModule {
      *
      * @param clock
      */
-    public SolubleSaltsModule( IClock clock ) {
-        super( SimStrings.get( "Module.title" ), clock );
+    public SolubleSaltsModule( String title, IClock clock, SolubleSaltsConfig.Calibration calibration ) {
+        super( title, clock );
+
+        // Set the calibration parameters
+        setCalibration( calibration );
 
         // Set up the basics
-        final SolubleSaltsModel model = new SolubleSaltsModel( clock );
+        final SolubleSaltsModel model = new SolubleSaltsModel( clock, this );
         setModel( model );
         simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ) );
         setPhetPCanvas( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
-        final PNode fullScaleCanvas = new WorldNode( model, simPanel );
+        final PNode fullScaleCanvas = new WorldNode( this, simPanel );
         fullScaleCanvas.setScale( viewScale );
         simPanel.addWorldChild( fullScaleCanvas );
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
         model.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
-
-        // Set up the control panel
-        setControlPanel( new RealSaltsControlPanel( this ) );
-
-        // Set the default salt
-        model.setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );
 
         // DEBUG!!! Adds a listener that draws bonds on the screen
         Bond.addConstructionListener( new Bond.ConstructionListener() {
@@ -105,25 +98,6 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Add some ions for testing
 //        createTestIons( model );
     }
-
-
-    public void activate() {
-        super.activate();
-//        if( savedCalibration != null ) {
-//            savedCalibration.calibrate();
-//        }
-//        ((SolubleSaltsModel)getModel()).reset();
-    }
-
-    public void deactivate() {
-        super.deactivate();
-//        savedCalibration = new SolubleSaltsConfig.Calibration(
-//                                   SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR,
-//                                   SolubleSaltsConfig.DEFAULT_WATER_LEVEL,
-//                                   SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING,
-//                                   SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
-    }
-
 
     private void createTestIons( final SolubleSaltsModel model ) {
         Ion ion = null;
@@ -164,17 +138,45 @@ public class SolubleSaltsModule extends PiccoloModule {
         pp.addInputEventListener( new PDragEventHandler() );
     }
 
+    public void setCalibration( SolubleSaltsConfig.Calibration calibration ) {
+        this.calibration = calibration;
+    }
+
+    public SolubleSaltsConfig.Calibration getCalibration() {
+        return calibration;
+    }
+
+    public void reset() {
+        resetListenerProxy.reset( calibration );
+    }
 
     class TestGraphic extends RegisterablePNode {
 
         public TestGraphic() {
-
             PPath pPath = new PPath( new Rectangle2D.Double( 0, 0, 60, 30 ) );
             pPath.setPaint( Color.cyan );
             setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3 );
             addChild( pPath );
 
         }
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+    private EventChannel resetEventChannel = new EventChannel( ResetListener.class );
+    private ResetListener resetListenerProxy = (ResetListener)resetEventChannel.getListenerProxy();
+
+    public interface ResetListener extends EventListener {
+        void reset( SolubleSaltsConfig.Calibration calibration );
+    }
+
+    public void addResetListener( ResetListener listener ) {
+        resetEventChannel.addListener( listener );
+    }
+
+    public void removeResetListener( ResetListener listener ) {
+        resetEventChannel.removeListener( listener );
     }
 
 }

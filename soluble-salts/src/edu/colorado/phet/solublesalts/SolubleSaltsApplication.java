@@ -16,14 +16,11 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
-import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
+import edu.colorado.phet.solublesalts.module.RealSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
-
-import java.util.EventListener;
 
 /**
  * SolubleSaltsApplication
@@ -33,11 +30,10 @@ import java.util.EventListener;
  */
 public class SolubleSaltsApplication extends PhetApplication {
 
-    private static IClock CLOCK = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
-    private EventChannel resetEventChannel = new EventChannel( ResetListener.class );
-    private ResetListener resetListenerProxy = (ResetListener)resetEventChannel.getListenerProxy();
-
-
+    /**
+     *
+     * @param args
+     */
     public SolubleSaltsApplication( String[] args ) {
         super( args,
                SolubleSaltsConfig.TITLE,
@@ -46,7 +42,7 @@ public class SolubleSaltsApplication extends PhetApplication {
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
         IClock moduleAClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
-        Module moduleA = new SolubleSaltsModule( moduleAClock );
+        Module moduleA = new RealSaltsModule( moduleAClock );
 
         IClock moduleBClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         Module moduleB = new ConfigurableSaltModule( moduleBClock );
@@ -58,26 +54,6 @@ public class SolubleSaltsApplication extends PhetApplication {
 
     private void setUpOptionsMenu() {
         this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
-    }
-
-    public void reset() {
-        resetListenerProxy.reset();
-    }
-
-    //----------------------------------------------------------------
-    // Events and listeners
-    //----------------------------------------------------------------
-
-    public interface ResetListener extends EventListener {
-        void reset();
-    }
-
-    public void addResetListener( ResetListener listener ) {
-        resetEventChannel.addListener( listener );
-    }
-
-    public void removeResetListener( ResetListener listener ) {
-        resetEventChannel.removeListener( listener );
     }
 
 

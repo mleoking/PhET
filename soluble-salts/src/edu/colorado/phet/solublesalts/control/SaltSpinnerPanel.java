@@ -80,6 +80,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     public SaltSpinnerPanel( final SolubleSaltsModel model ) {
         super( new GridBagLayout() );
         this.model = model;
+
         model.addChangeListener( this );
 
         // Make labels with the names of the ions and icons that corresponds to the ions graphics
@@ -232,9 +233,17 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         cationSpinner.addChangeListener( cationSpinnerListener );
     }
 
+    //----------------------------------------------------------------
+    // Ion.ChangeListener implementation 
+    //----------------------------------------------------------------
+
     public void stateChanged( Ion.ChangeEvent event ) {
         syncSpinnersWithModel();
     }
+
+    //----------------------------------------------------------------
+    // SolubleSaltsModel.ChangeListener implementation
+    //----------------------------------------------------------------
 
     public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
         if( event.saltChanged ) {
@@ -243,6 +252,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         if( event.modelReset ) {
             syncSpinnersWithModel();
         }
+    }
+
+    public void reset( SolubleSaltsModel.ChangeEvent event ) {
+        // noop
     }
 
     private String getIonName( Class ionClass ) {
