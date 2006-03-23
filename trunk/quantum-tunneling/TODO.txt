@@ -5,20 +5,18 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wave packet properties always visible
-- IR controls only visible for plane wave
 - decide on correct behavior when we measure in a region where E<V
-- when initial center is inside a well the total energy is represented incorrectly, should be discrete energy levels not a distribution
+- when wave packet's initial center is inside a well, total energy should be discrete energy levels, not a distribution
 - calibrate or replace Richardson algorithm
 - eliminate reflection and circularity at boundaries
-- possibly add sum/separate feature for wave packet
+
 
 MEDIUM PRIORITY:
-- set RICHARDSON_STEPS_PER_CLOCK_TICK to something reasonable
 - fix dt in Richardson algorithm so that it is related to clock dt
 - parts of help items in "static" areas of the screen don't draw/erase when clock is running
 - zoom buttons sometimes aren't drawn or look transparent
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
+- possibly add sum/separate feature for wave packet if we replace Richardson
 
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
