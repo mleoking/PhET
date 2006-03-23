@@ -318,7 +318,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
      * a unit lattice, times the concentration of cations raised to the power of the number of cations in
      * a unit lattice.
      *
-     * @return
+     * @return the concentration factor
      */
     public double getConcentrationFactor() {
 
@@ -519,7 +519,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
             // Release ions until we're back above Ksp
             boolean ionReleased = true;
-            while( crystals.size() > 0 && !nucleationEnabled && ionReleased ) {
+            while( crystals.size() > 0 && !nucleationEnabled && ionReleased && drain.getFlow() == 0 ) {
                 ionReleased = false;
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
@@ -546,7 +546,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         private boolean isNucleationAllowed() {
 //            System.out.println( "getConcentrationFactor()  = " + getConcentrationFactor() );
 //            System.out.println( "ksp = " + ksp );
-            return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
+            return ( getConcentrationFactor() > ksp ) ;
+//            return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
         }
 
         public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {

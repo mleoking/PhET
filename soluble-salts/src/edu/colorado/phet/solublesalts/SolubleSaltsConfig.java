@@ -87,12 +87,13 @@ public class SolubleSaltsConfig {
     //----------------------------------------------------------------
 
     // Volume calibration factor: pixels to liters
-    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
+    private static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
+//    public static double VOLUME_CALIBRATION_FACTOR = 7.83E-16 / 500;    // 2/27/06
 //    private static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
     // Initial water level
     public static double DEFAULT_WATER_LEVEL = 5E-16;
-    public static double VESSEL_MINOR_TICK_SPACING = 0.5E-16;
-    public static double VESSEL_MAJOR_TICK_SPACING = 1E-16;
+    private static double VESSEL_MINOR_TICK_SPACING = 0.5E-16;
+    private static double VESSEL_MAJOR_TICK_SPACING = 1E-16;
 
     //----------------------------------------------------------------
     // Calibration objects

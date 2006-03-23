@@ -40,6 +40,8 @@ public class IonGraphicManager implements IonListener {
     }
 
     static {
+        putImage( new ConfigurableAnion() );
+        putImage( new ConfigurableCation() );
         putImage( new Sodium() );
         putImage( new Chlorine() );
         putImage( new Lead() );

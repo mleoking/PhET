@@ -89,6 +89,12 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         gbc.gridwidth = 2;
         panel.add( kspSlider, gbc );
 
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridy++;
+        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
+        panel.add( saltSPinnerPanel, gbc );
+
+        
         return panel;
     }
 }

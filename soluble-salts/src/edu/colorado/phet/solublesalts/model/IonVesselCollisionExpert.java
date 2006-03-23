@@ -36,6 +36,10 @@ import java.util.List;
  */
 public class IonVesselCollisionExpert implements CollisionExpert, ContactDetector {
 
+    //----------------------------------------------------------------
+    // Class fields
+    //----------------------------------------------------------------
+
     private static double DEFAULT_MIN_DIST_TO_LIKE_ION;
 
     static {
@@ -43,6 +47,10 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                                                      new Vector2D.Double(),
                                                      new Vector2D.Double() ).getRadius() * 4;
     }
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
 
     private SphereBoxExpert sphereBoxExpert = new SphereBoxExpert();
     private SolubleSaltsModel model;

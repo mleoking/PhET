@@ -68,7 +68,8 @@ public class WorldNode extends PNode {
                                                          FaucetGraphic.RIGHT_FACING,
                                                          FaucetGraphic.SPOUT,
                                                          waterSource,
-                                                         vessel.getLocation().getY() + vessel.getDepth() );
+                                                         vessel.getLocation().getY() + vessel.getDepth() /*,
+                                                         module*/ );
         faucetGraphic.setScale( scale );
         faucetGraphic.setOffset( model.getFaucet().getPosition() );
         this.addChild( faucetGraphic );
@@ -78,7 +79,8 @@ public class WorldNode extends PNode {
                                                         FaucetGraphic.LEFT_FACING,
                                                         FaucetGraphic.WALL_ATTACHMENT,
                                                         model.getDrain(),
-                                                        800 );
+                                                        800 /*,
+                                                        module*/ );
         drainGraphic.setScale( scale );
         drainGraphic.setOffset( model.getDrain().getPosition() );
         this.addChild( drainGraphic );
