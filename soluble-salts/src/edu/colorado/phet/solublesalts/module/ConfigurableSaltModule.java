@@ -17,14 +17,14 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
-import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
+import edu.colorado.phet.solublesalts.control.ConfigurableSaltControlPanel;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.salt.ConfigurableSalt;
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.view.BondGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.SSCanvas;
@@ -45,21 +45,19 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsModule extends PiccoloModule {
+public class ConfigurableSaltModule extends PiccoloModule {
 
-//    static public final double viewScale = 1;
     static public final double viewScale = 0.1;
     
     private SSCanvas simPanel;
-    private SolubleSaltsConfig.Calibration calibration;
 
     /**
      * Only constructor
      *
      * @param clock
      */
-    public SolubleSaltsModule( IClock clock ) {
-        super( SimStrings.get( "Module.title" ), clock );
+    public ConfigurableSaltModule( IClock clock ) {
+        super( SimStrings.get( "Module.configurableSalt" ), clock );
 
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel( clock );
@@ -77,10 +75,13 @@ public class SolubleSaltsModule extends PiccoloModule {
         model.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
 
         // Set up the control panel
-        setControlPanel( new RealSaltsControlPanel( this ) );
+        setControlPanel( new ConfigurableSaltControlPanel( this ) );
 
         // Set the default salt
-        model.setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );
+        ConfigurableAnion.setClassCharge( 1 );
+        ConfigurableCation.setClassCharge( -1 );
+        ConfigurableSalt.configure();
+        model.setCurrentSalt( new ConfigurableSalt() );
 
         // DEBUG!!! Adds a listener that draws bonds on the screen
         Bond.addConstructionListener( new Bond.ConstructionListener() {
@@ -102,79 +103,16 @@ public class SolubleSaltsModule extends PiccoloModule {
             }
         } );
 
-        // Add some ions for testing
-//        createTestIons( model );
     }
-
 
     public void activate() {
         super.activate();
-//        if( savedCalibration != null ) {
-//            savedCalibration.calibrate();
-//        }
-//        ((SolubleSaltsModel)getModel()).reset();
+
+        // Calibrate
+        new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+                                            5E-16,
+                                            1E-16,
+                                            0.5E-16 ).calibrate();
+        ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
     }
-
-    public void deactivate() {
-        super.deactivate();
-//        savedCalibration = new SolubleSaltsConfig.Calibration(
-//                                   SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR,
-//                                   SolubleSaltsConfig.DEFAULT_WATER_LEVEL,
-//                                   SolubleSaltsConfig.VESSEL_MAJOR_TICK_SPACING,
-//                                   SolubleSaltsConfig.VESSEL_MINOR_TICK_SPACING );
-    }
-
-
-    private void createTestIons( final SolubleSaltsModel model ) {
-        Ion ion = null;
-
-        ion = new Chlorine();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 130, 200 );
-        ion.setVelocity( 0, 5 );
-//        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 70, 230 );
-        ion.setVelocity( 5, 0 );
-//        model.addModelElement( ion );
-
-        ion = new Sodium();
-        IonInitializer.initialize( ion, model );
-        ion.setPosition( 600, 435 );
-        ion.setVelocity( 5, 0 );
-//        model.addModelElement( ion );
-
-//        ion = new Chloride();
-//        IonInitializer.initialize( ion, model );
-//        ion.setPosition( 280, 200 );
-//        ion.setVelocity( 0, 5 );
-//        model.addModelElement( ion );
-    }
-
-
-    private void test() {
-        // A test graphic
-        Rectangle r = new Rectangle( 100, 150, 20, 70 );
-        PPath pp = new PPath( r );
-        pp.setPaint( Color.red );
-        simPanel.addWorldChild( pp );
-        pp.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        pp.addInputEventListener( new PDragEventHandler() );
-    }
-
-
-    class TestGraphic extends RegisterablePNode {
-
-        public TestGraphic() {
-
-            PPath pPath = new PPath( new Rectangle2D.Double( 0, 0, 60, 30 ) );
-            pPath.setPaint( Color.cyan );
-            setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3 );
-            addChild( pPath );
-
-        }
-    }
-
 }
