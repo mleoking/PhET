@@ -45,6 +45,7 @@ public class TestStripChart extends PhetApplication {
         protected void step() {
             super.step();
             simpleLatticeGraphic.update();
+//            intensityReader.
         }
 
     }

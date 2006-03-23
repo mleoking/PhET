@@ -96,10 +96,12 @@ public class IntensityReader extends PComposite {
         if( simpleLatticeGraphic.getWavefunction().containsLocation( cellLocation.x, cellLocation.y ) ) {
             double value = simpleLatticeGraphic.getWavefunction().getValue( cellLocation.x, cellLocation.y );
             readout.setText( "Magnitude=" + new DecimalFormat( "0.00" ).format( value ) );
+            stripChartJFCNode.addValue( time, value );
         }
         else {
             readout.setText( "Location=" + cellLocation );
         }
+
         updateTextBackground();
     }
 

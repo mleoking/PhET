@@ -57,8 +57,9 @@ public class StripChartJFCNode extends PNode {
         axis.setDateFormatOverride( new SimpleDateFormat( "ssss" ) );
         plot.getDomainAxis().setTickLabelsVisible( false );
         plot.getDomainAxis().setAutoRange( true );
-        plot.getRangeAxis().setAutoRange( false );
-        plot.getRangeAxis().setRange( -0.2, 0.2 );
+        plot.getRangeAxis().setAutoRange( true );
+//        plot.getRangeAxis().setAutoRange( false );
+//        plot.getRangeAxis().setRange( -0.2, 0.2 );
         return chart;
     }
 
