@@ -26,15 +26,16 @@ public class WaveRotateTest extends PhetApplication {
         private WaveSideView waveSideView;
         private SimpleWavefunctionGraphic simpleWavefunctionGraphic;
         private RotationGlyph rotationGlyph;
+        private final int WAVE_GRAPHIC_OFFSET = 75;
 
         public WaveRotateTestModule() {
             super( "Wave Rotate Test" );
 
             waveSideView = new WaveSideViewFull( getLattice() );
-            waveSideView.setOffset( 75, 300 );
+            waveSideView.setOffset( WAVE_GRAPHIC_OFFSET, 300 );
 
             simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-            simpleWavefunctionGraphic.setOffset( 75, 0 );
+            simpleWavefunctionGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
             rotationGlyph = new RotationGlyph();
             getPhetPCanvas().addScreenChild( rotationGlyph );
             getPhetPCanvas().addScreenChild( simpleWavefunctionGraphic );
@@ -64,11 +65,7 @@ public class WaveRotateTest extends PhetApplication {
         }
 
         private void setRotation( double value ) {
-            rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
-            rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
-            rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getFullBounds().getHeight() );
-            rotationGlyph.setAngle( value );
-            rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
+            updateRotationGlyph( value );
             if( value == 0 ) {
                 rotationGlyph.setVisible( false );
                 waveSideView.setVisible( false );
@@ -84,6 +81,13 @@ public class WaveRotateTest extends PhetApplication {
                 waveSideView.setVisible( false );
                 simpleWavefunctionGraphic.setVisible( false );
             }
+        }
+
+        private void updateRotationGlyph( double value ) {
+            rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
+            rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
+            rotationGlyph.setAngle( value );
+            rotationGlyph.setOffset( WAVE_GRAPHIC_OFFSET, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
         }
 
         private void updateLocations() {
