@@ -40,8 +40,8 @@ CLEANUP:
 
 
 DONE:
-(3/23/06) - move Richardson controls into a Developer menu
 0.0.21...
+(3/23/06) - move Richardson controls into a Developer menu (fold into 0.00.21)
 (3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave (fold into 0.00.21)
 (3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button (fold into 0.00.21)
 (3/23/06) - demonstrate that Swing redraw problem occurs even when Richardson propagator is not called at all
