@@ -94,7 +94,7 @@ public class RichardsonControlsDialog extends JDialog {
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         {
-            JLabel instructionsLabel = new JLabel( "Changes are only visible while the clock is running!" );
+            JLabel instructionsLabel = new JLabel( "<html>Changes are only visible while the clock is running.<br>Reset All does not apply to these parameters.</html>" );
             instructionsLabel.setForeground( Color.RED );
             
             JLabel massLabel = new JLabel( "mass:" );
@@ -129,8 +129,8 @@ public class RichardsonControlsDialog extends JDialog {
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             panel.setLayout( layout );
             int row = 0;
-            layout.addAnchoredComponent( instructionsLabel, row, 0, 4, 1, GridBagConstraints.WEST );
-            row++;
+            layout.addAnchoredComponent( instructionsLabel, row, 0, 4, 2, GridBagConstraints.WEST );
+            row++; row++;
             layout.addAnchoredComponent( massLabel, row, 0, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _massSpinner, row, 1, GridBagConstraints.WEST );
             layout.addAnchoredComponent( massUnits, row, 2, GridBagConstraints.WEST );
