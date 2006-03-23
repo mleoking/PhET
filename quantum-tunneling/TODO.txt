@@ -39,10 +39,10 @@ CLEANUP:
 
 
 DONE:
-(3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave
-(3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button
-(3/23/06) - demonstrate that Swing redraw problem occurs even when Richardson propagator is not called at all
 0.0.21...
+(3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave (fold into 0.00.21)
+(3/23/06) - make wave packet properties visible when wave type = wave packet, delete associated expand/collapse button (fold into 0.00.21)
+(3/23/06) - demonstrate that Swing redraw problem occurs even when Richardson propagator is not called at all
 (3/22/06) - save/load color scheme
 (3/22/06) - refactor inner classes of QTConfig into their own class files
 (3/22/06) - redo color scheme class hierarchy
