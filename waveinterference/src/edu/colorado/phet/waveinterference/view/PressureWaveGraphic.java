@@ -41,7 +41,7 @@ public class PressureWaveGraphic extends PNode {
             e.printStackTrace();
         }
         Random random = new Random();
-        int MOD = 2;
+        int MOD = 3;
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
                 if( i % MOD == 0 && j % MOD == 0 ) {
@@ -74,6 +74,7 @@ public class PressureWaveGraphic extends PNode {
         private double a;
         private double b;
         private double speed = 4.0;//pixels per time step
+        private Vector2D velocity = new Vector2D.Double();
 
         public Particle( Image newImage, int i, int j ) {
             super( newImage );
@@ -102,13 +103,46 @@ public class PressureWaveGraphic extends PNode {
                     }
                 }
             }
-//            this.x = bestPoint.x;
-//            this.y = bestPoint.y;
             //step towards the peak
             double prefX = bestPoint.x * spacingBetweenCells;
             double prefY = bestPoint.y * spacingBetweenCells;
             Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
 
+//            stepToTarget( vec );
+            accelerateToTarget( vec );
+        }
+
+        private void accelerateToTarget( Vector2D.Double vec ) {
+            double acceleration = 0.4;
+            if( vec.getMagnitude() >= 1.2 ) {
+                vec.normalize();
+                vec.scale( acceleration );
+//                System.out.println( "vec = " + vec );
+
+                velocity = velocity.add( vec );
+                double MAX_V = 15;
+                if( velocity.getX() > MAX_V ) {
+                    velocity.setX( MAX_V );
+                }
+                if( velocity.getY() > MAX_V ) {
+                    velocity.setY( MAX_V );
+                }
+                if( velocity.getX() < -MAX_V ) {
+                    velocity.setX( -MAX_V );
+                }
+                if( velocity.getY() < -MAX_V ) {
+                    velocity.setY( -MAX_V );
+                }
+                velocity.scale( 0.96 );//friction
+                Point2D dest = velocity.getDestination( new Point2D.Double( a, b ) );
+                a = dest.getX();
+                b = dest.getY();
+                setOffset( a, b );
+
+            }
+        }
+
+        private void stepToTarget( Vector2D.Double vec ) {
             if( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( speed );
@@ -119,8 +153,6 @@ public class PressureWaveGraphic extends PNode {
                 setOffset( a, b );
 
             }
-//            setOffset( 300,200);
-//            offset();
         }
 
         private boolean inBounds( int i, int j ) {
