@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.SolubleSaltsApplication;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -40,13 +41,13 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsControlPanel extends ControlPanel {
+abstract public class SolubleSaltsControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
 
-    static private HashMap saltMap;
+    static protected HashMap saltMap;
 
     static {
         saltMap = new HashMap();
@@ -71,12 +72,19 @@ public class SolubleSaltsControlPanel extends ControlPanel {
     private JPanel waterLevelControlPanel;
     private JButton releaseButton;
 
+    //----------------------------------------------------------------
+    // Abstract methods
+    //----------------------------------------------------------------
+
+    abstract protected  JPanel makeSaltSelectionPanel( final SolubleSaltsModel model );
+
+
     /**
      * Constructor
      *
      * @param module
      */
-    public SolubleSaltsControlPanel( final SolubleSaltsModule module ) {
+    public SolubleSaltsControlPanel( final Module module ) {
         super( module );
 
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
@@ -89,10 +97,45 @@ public class SolubleSaltsControlPanel extends ControlPanel {
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         saltPanel.add( makeSaltSelectionPanel( model ), gbc );
-        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
-        saltPanel.add( saltSPinnerPanel, gbc );
+//        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
+//        saltPanel.add( saltSPinnerPanel, gbc );
         addControlFullWidth( saltPanel );
 
+        //
+        makeDebugControls( model );
+
+        // Reset button
+        JButton resetBtn = new JButton( "Reset" );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).reset();
+            }
+        } );
+        JPanel resetPanel = new JPanel();
+        resetPanel.add( resetBtn );
+        addControl( resetPanel );
+
+        //-----------------------------------------------------------------
+        // DEBUG
+        //-----------------------------------------------------------------
+        releaseButton = new JButton( "Release ion" );
+        releaseButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                List crystals = model.crystalTracker.getCrystals();
+                for( int i = 0; i < crystals.size(); i++ ) {
+                    Crystal crystal = (Crystal)crystals.get( i );
+                    crystal.releaseIon( module.getClock().getSimulationTimeChange() );
+                }
+            }
+        } );
+        releaseButton.setVisible( false );
+        addControl( releaseButton );
+
+        // Make debug controls visible or invisible, depending on how the config paramter is set
+        setDebugControlsVisible( SolubleSaltsConfig.DEBUG );
+    }
+
+    private void makeDebugControls( final SolubleSaltsModel model ) {
         // Concentration controls and readouts
         concentrationPanel = makeConcentrationPanel( model );
         addControl( concentrationPanel );
@@ -132,80 +175,50 @@ public class SolubleSaltsControlPanel extends ControlPanel {
         addControl( dissociationSlider );
         waterLevelControlPanel = makeWaterLevelPanel( model );
         addControl( waterLevelControlPanel );
-        addControlFullWidth( new WaterLevelReadout( ( (SolubleSaltsModel)module.getModel() ).getVessel() ) );
-
-        // Reset button
-        JButton resetBtn = new JButton( "Reset" );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                ( (SolubleSaltsApplication)SolubleSaltsApplication.instance() ).reset();
-            }
-        } );
-        JPanel resetPanel = new JPanel();
-        resetPanel.add( resetBtn );
-        addControl( resetPanel );
-
-        //-----------------------------------------------------------------
-        // DEBUG
-        //-----------------------------------------------------------------
-        releaseButton = new JButton( "Release ion" );
-        releaseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                List crystals = model.crystalTracker.getCrystals();
-                for( int i = 0; i < crystals.size(); i++ ) {
-                    Crystal crystal = (Crystal)crystals.get( i );
-                    crystal.releaseIon( module.getClock().getSimulationTimeChange() );
-                }
-            }
-        } );
-        releaseButton.setVisible( false );
-        addControl( releaseButton );
-
-        // Make debug controls visible or invisible, depending on how the config paramter is set
-        setDebugControlsVisible( SolubleSaltsConfig.DEBUG );
+        addControlFullWidth( new WaterLevelReadout( model.getVessel() ) );
     }
 
     /**
      *
      */
-    private JPanel makeSaltSelectionPanel( final SolubleSaltsModel model ) {
-
-        final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
-        comboBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
-                model.setCurrentSalt( saltClass );
-
-                if( saltClass instanceof SodiumChloride ) {
-                    new SolubleSaltsConfig.Calibration( 1.7342E-25,
-                                                        5E-23,
-                                                        1E-23,
-                                                        0.5E-23 ).calibrate();
-                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
-                }
-                else {
-                    new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-                                                        5E-16,
-                                                        1E-16,
-                                                        0.5E-16 ).calibrate();
-                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
-                }
-
-
-                model.reset();
-                revalidate();
-            }
-        } );
-        comboBox.setSelectedItem( SolubleSaltsConfig.DEFAULT_SALT_NAME );
-
-        JPanel panel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new DefaultGridBagConstraints();
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add( comboBox, gbc );
-        return panel;
-    }
+//    private JPanel makeSaltSelectionPanel( final SolubleSaltsModel model ) {
+//
+//        final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
+//        comboBox.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
+//                model.setCurrentSalt( saltClass );
+//
+//                if( saltClass instanceof SodiumChloride ) {
+//                    new SolubleSaltsConfig.Calibration( 1.7342E-25,
+//                                                        5E-23,
+//                                                        1E-23,
+//                                                        0.5E-23 ).calibrate();
+//                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+//                }
+//                else {
+//                    new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+//                                                        5E-16,
+//                                                        1E-16,
+//                                                        0.5E-16 ).calibrate();
+//                    ((SolubleSaltsApplication)SolubleSaltsApplication.instance()).reset();
+//                }
+//
+//
+//                model.reset();
+//                revalidate();
+//            }
+//        } );
+//        comboBox.setSelectedItem( SolubleSaltsConfig.DEFAULT_SALT_NAME );
+//
+//        JPanel panel = new JPanel( new GridBagLayout() );
+//        GridBagConstraints gbc = new DefaultGridBagConstraints();
+//        gbc.anchor = GridBagConstraints.WEST;
+//        gbc.gridx = 1;
+//        gbc.anchor = GridBagConstraints.WEST;
+//        panel.add( comboBox, gbc );
+//        return panel;
+//    }
 
     /**
      * @param model
