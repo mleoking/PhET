@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -23,24 +24,30 @@ import java.util.ArrayList;
 
 public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
-    private BufferedImage image;
+    private BufferedImage blueImage;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
+    private BufferedImage pinkImage;
 
     public PressureWaveGraphic( Lattice2D lattice ) {
         this.lattice = lattice;
         try {
-            image = ImageLoader.loadBufferedImage( "images/particle.gif" );
-            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 20 );
+            blueImage = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
+            pinkImage = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
+            blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImage, 20 );
+            pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImage, 20 );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-
+        Random random = new Random();
+        int MOD = 2;
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
-                if( i % 3 == 0 && j % 3 == 0 ) {
-                    Particle particle = new Particle( image, i, j );
+                if( i % MOD == 0 && j % MOD == 0 ) {
+
+//                    Particle particle = new Particle( blueImage, i, j );
+                    Particle particle = new Particle( random.nextBoolean() ? pinkImage : blueImage, i, j );
                     addParticle( particle );
                 }
             }
@@ -66,7 +73,7 @@ public class PressureWaveGraphic extends PNode {
         private int homeY;
         private double a;
         private double b;
-        private double speed = 3.0;//pixels per time step
+        private double speed = 4.0;//pixels per time step
 
         public Particle( Image newImage, int i, int j ) {
             super( newImage );
@@ -81,7 +88,7 @@ public class PressureWaveGraphic extends PNode {
         public void update() {
             //look near to x,y (but don't stray from homeX and homeY)
             double bestValue = Double.NEGATIVE_INFINITY;
-            int windowSize = 6;
+            int windowSize = 8;
             Point bestPoint = null;
             for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
                 for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
@@ -102,7 +109,7 @@ public class PressureWaveGraphic extends PNode {
             double prefY = bestPoint.y * spacingBetweenCells;
             Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
 
-            if( vec.getMagnitude() >= 1 ) {
+            if( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( speed );
 //                System.out.println( "vec = " + vec );
@@ -138,7 +145,7 @@ public class PressureWaveGraphic extends PNode {
         removeAllChildren();
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
-                Particle particle = new Particle( image, i, j );
+                Particle particle = new Particle( blueImage, i, j );
                 if( lattice.getValue( i, j ) > 0.25 ) {
                     addParticle( particle );
                 }
