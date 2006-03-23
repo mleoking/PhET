@@ -748,11 +748,11 @@ public class QTControlPanel extends AbstractControlPanel {
             if ( getIRView() == IRView.SEPARATE ) {
                 // phase view is not supported in separate mode for plane waves
                 _phaseCheckBox.setEnabled( false );
-                _phaseCheckBox.setSelected( false );
                 handlePhaseSelection();
             }
             else {
                 _phaseCheckBox.setEnabled( true );
+                handlePhaseSelection();
             }
         }
     }
@@ -763,7 +763,7 @@ public class QTControlPanel extends AbstractControlPanel {
     
     private void handleWaveTypeSelection() {
         if ( getWaveType() == WaveType.PLANE ) {
-            _phaseCheckBox.setEnabled( false );
+            _phaseCheckBox.setEnabled( getIRView() == IRView.SUM );
             _propertiesPanel.setVisible( false );
             _irPanel.setVisible( true );
             _module.setWaveType( WaveType.PLANE );
