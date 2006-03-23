@@ -24,7 +24,7 @@ public class WaveRotateTest extends PhetApplication {
 
     class WaveRotateTestModule extends BasicWaveTestModule {
         private WaveSideView waveSideView;
-        private SimpleWavefunctionGraphic simpleWavefunctionGraphic;
+        private SimpleLatticeGraphic simpleLatticeGraphic;
         private RotationGlyph rotationGlyph;
         private final int WAVE_GRAPHIC_OFFSET = 75;
 
@@ -34,21 +34,21 @@ public class WaveRotateTest extends PhetApplication {
             waveSideView = new WaveSideViewFull( getLattice() );
             waveSideView.setOffset( WAVE_GRAPHIC_OFFSET, 300 );
 
-            simpleWavefunctionGraphic = new SimpleWavefunctionGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-            simpleWavefunctionGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
+            simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
+            simpleLatticeGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
             rotationGlyph = new RotationGlyph();
             getPhetPCanvas().addScreenChild( rotationGlyph );
-            getPhetPCanvas().addScreenChild( simpleWavefunctionGraphic );
+            getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
             getPhetPCanvas().addScreenChild( waveSideView );
 
-            waveSideView.setSpaceBetweenCells( simpleWavefunctionGraphic.getCellDimensions().width );
+            waveSideView.setSpaceBetweenCells( simpleLatticeGraphic.getCellDimensions().width );
             BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
             final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
             cellDim.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     int dim = (int)cellDim.getValue();
                     waveSideView.setSpaceBetweenCells( dim );
-                    simpleWavefunctionGraphic.setCellDimensions( dim, dim );
+                    simpleLatticeGraphic.setCellDimensions( dim, dim );
                 }
             } );
             final ModelSlider rotate = new ModelSlider( "View Angle", "radians", 0, Math.PI / 2, 0 );
@@ -69,35 +69,35 @@ public class WaveRotateTest extends PhetApplication {
             if( value == 0 ) {
                 rotationGlyph.setVisible( false );
                 waveSideView.setVisible( false );
-                simpleWavefunctionGraphic.setVisible( true );
+                simpleLatticeGraphic.setVisible( true );
             }
             else if( value >= Math.PI / 2 - 0.02 ) {
                 rotationGlyph.setVisible( false );
                 waveSideView.setVisible( true );
-                simpleWavefunctionGraphic.setVisible( false );
+                simpleLatticeGraphic.setVisible( false );
             }
             else {
                 rotationGlyph.setVisible( true );
                 waveSideView.setVisible( false );
-                simpleWavefunctionGraphic.setVisible( false );
+                simpleLatticeGraphic.setVisible( false );
             }
         }
 
         private void updateRotationGlyph( double value ) {
-            rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
-            rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
+            rotationGlyph.setPrimaryHeight( simpleLatticeGraphic.getFullBounds().getHeight() );
+            rotationGlyph.setPrimaryWidth( simpleLatticeGraphic.getFullBounds().getWidth() );
             rotationGlyph.setAngle( value );
-            rotationGlyph.setOffset( WAVE_GRAPHIC_OFFSET, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
+            rotationGlyph.setOffset( WAVE_GRAPHIC_OFFSET, simpleLatticeGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
         }
 
         private void updateLocations() {
-            waveSideView.setOffset( simpleWavefunctionGraphic.getFullBounds().getX(), simpleWavefunctionGraphic.getFullBounds().getCenterY() );
+            waveSideView.setOffset( simpleLatticeGraphic.getFullBounds().getX(), simpleLatticeGraphic.getFullBounds().getCenterY() );
         }
 
         protected void step() {
             super.step();
             waveSideView.update();
-            simpleWavefunctionGraphic.update();
+            simpleLatticeGraphic.update();
             updateLocations();
         }
     }
