@@ -32,6 +32,9 @@ public class PressureWaveGraphic extends PNode {
     private BufferedImage pinkImageORIG;
     private BufferedImage blueImage;
     private BufferedImage pinkImage;
+    private double acceleration = 0.4;
+    private double maxVelocity = 15;
+    private double friction = 0.96;
 
     public PressureWaveGraphic( Lattice2D lattice ) {
         this.lattice = lattice;
@@ -103,6 +106,29 @@ public class PressureWaveGraphic extends PNode {
         return spacingBetweenCells;
     }
 
+    public void setParticleAcceleration( double acceleration ) {
+        this.acceleration = acceleration;
+    }
+
+    public double getParticleAcceleration() {
+        return acceleration;
+    }
+
+    public double getMaxVelocity() {
+        return maxVelocity;
+    }
+
+    public void setMaxVelocity( double value ) {
+        this.maxVelocity = value;
+    }
+
+    public double getFriction() {
+        return friction;
+    }
+
+    public void setFriction( double friction ) {
+        this.friction = friction;
+    }
 
     class Particle extends PImage {
         private int homeX;
@@ -172,27 +198,27 @@ public class PressureWaveGraphic extends PNode {
         }
 
         private void accelerateToTarget( Vector2D.Double vec ) {
-            double acceleration = 0.4;
+//            double acceleration = 0.4;
             if( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( acceleration );
 //                System.out.println( "vec = " + vec );
 
                 velocity = velocity.add( vec );
-                double MAX_V = 15;
-                if( velocity.getX() > MAX_V ) {
-                    velocity.setX( MAX_V );
+//                double maxVelocity = 15;
+                if( velocity.getX() > maxVelocity ) {
+                    velocity.setX( maxVelocity );
                 }
-                if( velocity.getY() > MAX_V ) {
-                    velocity.setY( MAX_V );
+                if( velocity.getY() > maxVelocity ) {
+                    velocity.setY( maxVelocity );
                 }
-                if( velocity.getX() < -MAX_V ) {
-                    velocity.setX( -MAX_V );
+                if( velocity.getX() < -maxVelocity ) {
+                    velocity.setX( -maxVelocity );
                 }
-                if( velocity.getY() < -MAX_V ) {
-                    velocity.setY( -MAX_V );
+                if( velocity.getY() < -maxVelocity ) {
+                    velocity.setY( -maxVelocity );
                 }
-                velocity.scale( 0.96 );//friction
+                velocity.scale( friction );//friction
                 Point2D dest = velocity.getDestination( new Point2D.Double( a, b ) );
                 a = dest.getX();
                 b = dest.getY();

@@ -55,9 +55,31 @@ public class TestPressureWaveGraphic extends PhetApplication {
                     pressureWaveGraphic.setImageSize( (int)imageSize.getValue() );
                 }
             } );
+            final ModelSlider acceleration = new ModelSlider( "Particle Acceleration", "", 0, 10, pressureWaveGraphic.getParticleAcceleration() );
+            acceleration.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    pressureWaveGraphic.setParticleAcceleration( acceleration.getValue() );
+                }
+            } );
+            final ModelSlider maxVelocity = new ModelSlider( "Particle Max Velocity", "pixels/sec", 0, 30, pressureWaveGraphic.getMaxVelocity() );
+            maxVelocity.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    pressureWaveGraphic.setMaxVelocity( maxVelocity.getValue() );
+                }
+            } );
+            final ModelSlider friction = new ModelSlider( "Friction", "scale", 0, 1, pressureWaveGraphic.getFriction() );
+            friction.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    pressureWaveGraphic.setFriction( friction.getValue() );
+                }
+            } );
+
             controlPanel.addControl( cellDim );
             controlPanel.addControl( showWave );
             controlPanel.addControl( imageSize );
+            controlPanel.addControl( acceleration );
+            controlPanel.addControl( maxVelocity );
+            controlPanel.addControl( friction );
             setControlPanel( controlPanel );
         }
 
