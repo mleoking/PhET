@@ -63,31 +63,6 @@ public class RotationGlyph extends PNode {
         update();
     }
 
-    public void updateORIG() {
-        Function.LinearFunction heightFunction = new Function.LinearFunction( 0, Math.PI / 2, 1, 0 );
-        Function.LinearFunction widthFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, expansionWidth );
-        double dx = widthFunction.evaluate( angle );//distance from normal edge to tilted edge
-        double h = primaryHeight * heightFunction.evaluate( angle ) / 2;//distance from center to top
-
-        DoubleGeneralPath generalPath = new DoubleGeneralPath();
-        generalPath.moveTo( dx, h );
-        generalPath.lineToRelative( primaryWidth - dx, 0 );
-        generalPath.lineToRelative( 2 * dx, h * 2 );
-        Point2D pin1 = generalPath.getCurrentPoint();
-        generalPath.lineToRelative( -primaryWidth - 4 * dx, 0 );
-        Point2D pin2 = generalPath.getCurrentPoint();
-        generalPath.lineTo( dx, h );
-        generalPath.closePath();
-        surface.setPathTo( generalPath.getGeneralPath() );
-
-        DoubleGeneralPath depthPath = new DoubleGeneralPath( pin1 );
-        depthPath.lineToRelative( 0, 200 );
-        depthPath.lineToRelative( pin2.getX() - pin1.getX(), 0 );
-        depthPath.lineTo( pin2 );
-        depthPath.closePath();
-        depth.setPathTo( depthPath.getGeneralPath() );
-    }
-
     public void update() {
         Function.LinearFunction heightFunction = new Function.LinearFunction( 0, Math.PI / 2, 1, 0 );
         Function.LinearFunction widthFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, expansionWidth );
@@ -115,5 +90,21 @@ public class RotationGlyph extends PNode {
 
     public double getSurfaceHeight() {
         return surface.getFullBounds().getHeight();
+    }
+
+    public PPath getSurface() {
+        return surface;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getExpansionWidth() {
+        return expansionWidth;
+    }
+
+    public PPath getDepth() {
+        return depth;
     }
 }

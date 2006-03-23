@@ -41,7 +41,6 @@ public class WaveRotateTest extends PhetApplication {
             getPhetPCanvas().addScreenChild( waveSideView );
 
             waveSideView.setSpaceBetweenCells( simpleWavefunctionGraphic.getCellDimensions().width );
-
             BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
             final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
             cellDim.addChangeListener( new ChangeListener() {
@@ -57,42 +56,12 @@ public class WaveRotateTest extends PhetApplication {
                     setRotation( rotate.getValue() );
                 }
             } );
-//            rotate.getSlider().addMouseListener( new MouseListener() {
-//                public void mouseClicked( MouseEvent e ) {
-//                }
-//
-//                public void mouseEntered( MouseEvent e ) {
-//                }
-//
-//                public void mouseExited( MouseEvent e ) {
-//                }
-//
-//                public void mousePressed( MouseEvent e ) {
-//                    setGlyphVisible( true );
-//                }
-//
-//                public void mouseReleased( MouseEvent e ) {
-//                    setGlyphVisible( false );
-//                }
-//            } );
-
             controlPanel.addControl( cellDim );
             controlPanel.addControl( rotate );
             setControlPanel( controlPanel );
             updateLocations();
             setRotation( 0 );
         }
-
-//        void setGlyphVisible( boolean vis ) {
-////            if( vis ) {
-////                rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
-////                rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
-////                rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getFullBounds().getHeight() );
-////            }
-//            rotationGlyph.setVisible( vis );
-////            waveSideView.setVisible( !vis );
-////            simpleWavefunctionGraphic.setVisible( !vis );
-//        }
 
         private void setRotation( double value ) {
             rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
