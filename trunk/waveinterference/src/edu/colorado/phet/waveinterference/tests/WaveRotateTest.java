@@ -7,8 +7,6 @@ import edu.colorado.phet.waveinterference.view.*;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * User: Sam Reid
@@ -59,24 +57,24 @@ public class WaveRotateTest extends PhetApplication {
                     setRotation( rotate.getValue() );
                 }
             } );
-            rotate.getSlider().addMouseListener( new MouseListener() {
-                public void mouseClicked( MouseEvent e ) {
-                }
-
-                public void mouseEntered( MouseEvent e ) {
-                }
-
-                public void mouseExited( MouseEvent e ) {
-                }
-
-                public void mousePressed( MouseEvent e ) {
-                    setGlyphVisible( true );
-                }
-
-                public void mouseReleased( MouseEvent e ) {
-                    setGlyphVisible( false );
-                }
-            } );
+//            rotate.getSlider().addMouseListener( new MouseListener() {
+//                public void mouseClicked( MouseEvent e ) {
+//                }
+//
+//                public void mouseEntered( MouseEvent e ) {
+//                }
+//
+//                public void mouseExited( MouseEvent e ) {
+//                }
+//
+//                public void mousePressed( MouseEvent e ) {
+//                    setGlyphVisible( true );
+//                }
+//
+//                public void mouseReleased( MouseEvent e ) {
+//                    setGlyphVisible( false );
+//                }
+//            } );
 
             controlPanel.addControl( cellDim );
             controlPanel.addControl( rotate );
@@ -85,31 +83,35 @@ public class WaveRotateTest extends PhetApplication {
             setRotation( 0 );
         }
 
-        void setGlyphVisible( boolean vis ) {
-            if( vis ) {
-                rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
-                rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
-                rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getFullBounds().getHeight() );
-            }
-            rotationGlyph.setVisible( vis );
-//            waveSideView.setVisible( !vis );
-//            simpleWavefunctionGraphic.setVisible( !vis );
-        }
+//        void setGlyphVisible( boolean vis ) {
+////            if( vis ) {
+////                rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
+////                rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
+////                rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getFullBounds().getHeight() );
+////            }
+//            rotationGlyph.setVisible( vis );
+////            waveSideView.setVisible( !vis );
+////            simpleWavefunctionGraphic.setVisible( !vis );
+//        }
 
         private void setRotation( double value ) {
-            setGlyphVisible( true );
+            rotationGlyph.setPrimaryHeight( simpleWavefunctionGraphic.getFullBounds().getHeight() );
+            rotationGlyph.setPrimaryWidth( simpleWavefunctionGraphic.getFullBounds().getWidth() );
+            rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getFullBounds().getHeight() );
             rotationGlyph.setAngle( value );
             rotationGlyph.setOffset( 75, simpleWavefunctionGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
             if( value == 0 ) {
+                rotationGlyph.setVisible( false );
                 waveSideView.setVisible( false );
                 simpleWavefunctionGraphic.setVisible( true );
             }
             else if( value >= Math.PI / 2 - 0.02 ) {
-                setGlyphVisible( false );
+                rotationGlyph.setVisible( false );
                 waveSideView.setVisible( true );
                 simpleWavefunctionGraphic.setVisible( false );
             }
             else {
+                rotationGlyph.setVisible( true );
                 waveSideView.setVisible( false );
                 simpleWavefunctionGraphic.setVisible( false );
             }
