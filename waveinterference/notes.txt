@@ -1,0 +1,6 @@
+What is better for rotation graphic: isometric or extended?
+When zooming in on particles, we want to keep the wavelength constant, so maybe should call this "magnify particles"
+
+see:
+http://www.kettering.edu/~drussell/Demos/waves/wavemotion.html
+http://www.math.tu-berlin.de/geometrie/lab/ds.shtml
