@@ -55,7 +55,7 @@ public class Lattice2D {
         float max = 0;
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                max = Math.max( Math.abs( valueAt( i, j ) ), max );
+                max = Math.max( Math.abs( getValue( i, j ) ), max );
             }
         }
         scale( 1.0f / max );
@@ -161,7 +161,7 @@ public class Lattice2D {
         wavefunction[i][j] = value;
     }
 
-    public float valueAt( int i, int j ) {
+    public float getValue( int i, int j ) {
         return wavefunction[i][j];
     }
 
@@ -237,7 +237,7 @@ public class Lattice2D {
         float[][] copy = new float[getWidth()][getHeight()];
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                copy[i][j] = valueAt( i, j );
+                copy[i][j] = getValue( i, j );
             }
         }
         return new Lattice2D( copy );
@@ -251,7 +251,7 @@ public class Lattice2D {
         Lattice2D sub = new Lattice2D( width, height );
         for( int i = x; i < x + width; i++ ) {
             for( int j = y; j < y + height; j++ ) {
-                sub.wavefunction[i - x][j - y] = ( valueAt( i, j ) );
+                sub.wavefunction[i - x][j - y] = ( getValue( i, j ) );
             }
         }
         return sub;
@@ -261,7 +261,7 @@ public class Lattice2D {
         if( w.getWidth() == getWidth() && w.getHeight() == getHeight() ) {
             for( int i = 0; i < getWidth(); i++ ) {
                 for( int k = 0; k < getHeight(); k++ ) {
-                    wavefunction[i][k] += w.valueAt( i, k );
+                    wavefunction[i][k] += w.getValue( i, k );
                 }
             }
         }
@@ -287,7 +287,7 @@ public class Lattice2D {
     public void printWaveToScreen( DecimalFormat formatter ) {
         for( int k = 0; k < getHeight(); k++ ) {
             for( int i = 0; i < getWidth(); i++ ) {
-                float val = valueAt( i, k );
+                float val = getValue( i, k );
                 String s = formatter.format( val );
                 if( s.equals( formatter.format( -0.000000001 ) ) ) {
                     s = formatter.format( 0 );
