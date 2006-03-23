@@ -23,14 +23,12 @@ import java.util.List;
  */
 public class Salt {
     private Lattice lattice;
-//    private Lattice lattice;
     private Class anionClass;
     private Class cationClass;
     private Component[] components;
     private double ksp;
 
     protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
-//    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
         this.ksp = ksp;
         this.components = new Component[components.size()];
         for( int i = 0; i < components.size(); i++ ) {
@@ -71,7 +69,6 @@ public class Salt {
     }
 
     public Lattice getLattice() {
-//    public Lattice getLattice() {
         return lattice;
     }
 

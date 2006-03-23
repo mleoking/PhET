@@ -96,18 +96,8 @@ public class SolubleSaltsConfig {
 //    private static double VOLUME_CALIBRATION_FACTOR = 1.7342E-25;    // 2/27/06
     // Initial water level
     public static double DEFAULT_WATER_LEVEL = 5E-16;
-//    private static double VESSEL_MINOR_TICK_SPACING = 0.5E-23;
-//    private static double VESSEL_MAJOR_TICK_SPACING = 1E-23;
     public static double VESSEL_MINOR_TICK_SPACING = 0.5E-16;
     public static double VESSEL_MAJOR_TICK_SPACING = 1E-16;
-
-    public static void setCalibration( double volumeCalibrationFactor, double defaultWaterLevel, double majorTickSpacing, double minorTickSpacing ) {
-        VOLUME_CALIBRATION_FACTOR = volumeCalibrationFactor;
-        DEFAULT_WATER_LEVEL = defaultWaterLevel;
-        VESSEL_MAJOR_TICK_SPACING = majorTickSpacing;
-        VESSEL_MINOR_TICK_SPACING = minorTickSpacing;
-        MAX_SPIGOT_FLOW = 1000 * VOLUME_CALIBRATION_FACTOR;
-    }
 
     //----------------------------------------------------------------
     // Calibration objects

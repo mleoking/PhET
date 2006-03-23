@@ -440,7 +440,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
                 Ion ion = (Ion)ions.get( i );
 
                 // Apply random walk to all the ions, but only if the drain is closed                
-                if( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0  ) {
+                if( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0 ) {
                     randomWalkAgent.appy( ion );
                 }
 
@@ -492,7 +492,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
 
         public void stepInTime( double dt ) {
 
-            nucleationEnabled = getConcentrationFactor() > ksp;
+            nucleationEnabled = isNucleationAllowed();
 
             // Release ions until we're back above Ksp
             boolean ionReleased = true;
@@ -516,8 +516,14 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsApplicat
                     crystal.releaseIon( dt );
                     ionReleased = true;
                 }
-                nucleationEnabled = getConcentrationFactor() > ksp;
+                nucleationEnabled = isNucleationAllowed();
             }
+        }
+
+        private boolean isNucleationAllowed() {
+            System.out.println( "getConcentrationFactor()  = " + getConcentrationFactor() );
+            System.out.println( "ksp = " + ksp );
+            return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
         }
 
         public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {

@@ -18,6 +18,7 @@ import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe;
 import edu.colorado.phet.solublesalts.control.SolubleSaltsControlPanel;
+import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
@@ -75,7 +76,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         model.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
 
         // Set up the control panel
-        setControlPanel( new SolubleSaltsControlPanel( this ) );
+        setControlPanel( new RealSaltsControlPanel( this ) );
 
         // Set the default salt
         model.setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );

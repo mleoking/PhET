@@ -63,13 +63,24 @@ public class IonGraphicManager implements IonListener {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
         boolean ionClassRecognized = false;
 
+        if( ion instanceof ConfigurableAnion ) {
+            ig.setColor( new Color( 0, 0, 0 ) );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof ConfigurableCation ) {
+            ig.setColor( new Color( 200, 200, 200 ) );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Chlorine ) {
+            ig.setColor( new Color( 0, 100, 0 ) );
+            ionClassRecognized = true;
+        }
         if( ion instanceof Chlorine ) {
             ig.setColor( new Color( 0, 100, 0 ) );
             ionClassRecognized = true;
         }
         if( ion instanceof Sodium ) {
             ig.setColor( new Color( 200, 0, 60) );
-//            ig.setColor( Color.orange );
             ig.setPolarityMarkerColor( Color.black );
             ionClassRecognized = true;
         }
