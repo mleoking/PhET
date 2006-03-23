@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -13,6 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -24,18 +26,20 @@ import java.util.Random;
 
 public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
-    private BufferedImage blueImage;
+    private BufferedImage blueImageORIG;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
+    private BufferedImage pinkImageORIG;
+    private BufferedImage blueImage;
     private BufferedImage pinkImage;
 
     public PressureWaveGraphic( Lattice2D lattice ) {
         this.lattice = lattice;
         try {
-            blueImage = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
-            pinkImage = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
-            blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImage, 20 );
-            pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImage, 20 );
+            blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
+            pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
+            blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, 20 );
+            pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, 20 );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -52,6 +56,37 @@ public class PressureWaveGraphic extends PNode {
                 }
             }
         }
+        reorderChildren();
+    }
+
+    private void reorderChildren() {
+        ArrayList all = new ArrayList( particles );
+        super.removeAllChildren();
+        Collections.shuffle( all );
+        for( int i = 0; i < all.size(); i++ ) {
+            Particle particle = (Particle)all.get( i );
+            addChild( particle );
+        }
+    }
+
+    public void setImageSize( int height ) {
+        BufferedImage newBlue = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, height );
+        BufferedImage newPink = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, height );
+        for( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle)particles.get( i );
+            if( particle.getImage() == blueImage ) {
+                particle.setImage( newBlue );
+            }
+            else {
+                particle.setImage( newPink );
+            }
+        }
+        pinkImage = newPink;
+        blueImage = newBlue;
+    }
+
+    public double getImageSize() {
+        return pinkImage.getHeight();
     }
 
     private void addParticle( Particle particle ) {
@@ -67,6 +102,7 @@ public class PressureWaveGraphic extends PNode {
     public double getDistBetweenCells() {
         return spacingBetweenCells;
     }
+
 
     class Particle extends PImage {
         private int homeX;
@@ -110,6 +146,24 @@ public class PressureWaveGraphic extends PNode {
 
 //            stepToTarget( vec );
             accelerateToTarget( vec );
+//            accelerateFromNeighbors();//very expensive
+        }
+
+//        private void accelerateFromNeighbors() {
+//            double netForceX=0;
+//            double netForceY=0;
+////            Vector2D netForce=new Vector2D.Double( );
+//            for( int i = 0; i < particles.size(); i++ ) {
+//                Particle particle = (Particle)particles.get( i );
+////                netForce.add( getForce(particle));
+//                netForceX+=particle.getX();
+//                netForceX-=particle.getX();
+//            }
+//            velocity=velocity.add(new Vector2D.Double( netForceX,netForceY ));
+//        }
+
+        private AbstractVector2D getForce( Particle particle ) {
+            return new Vector2D.Double();
         }
 
         private void accelerateToTarget( Vector2D.Double vec ) {
@@ -177,7 +231,7 @@ public class PressureWaveGraphic extends PNode {
         removeAllChildren();
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
-                Particle particle = new Particle( blueImage, i, j );
+                Particle particle = new Particle( blueImageORIG, i, j );
                 if( lattice.getValue( i, j ) > 0.25 ) {
                     addParticle( particle );
                 }
