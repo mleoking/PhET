@@ -79,13 +79,13 @@ public class ClassicalWavePropagator {
 
     private void dampHorizontal( Lattice2D lattice2D, int j, int dj ) {
         for( int i = 0; i < lattice2D.getWidth(); i++ ) {
-            lattice2D.setValue( i, j, last2.valueAt( i, j + dj ) );
+            lattice2D.setValue( i, j, last2.getValue( i, j + dj ) );
         }
     }
 
     private void dampVertical( Lattice2D lattice2D, int i, int di ) {
         for( int j = 0; j < lattice2D.getHeight(); j++ ) {
-            lattice2D.setValue( i, j, last2.valueAt( i + di, j ) );
+            lattice2D.setValue( i, j, last2.getValue( i + di, j ) );
         }
     }
 
