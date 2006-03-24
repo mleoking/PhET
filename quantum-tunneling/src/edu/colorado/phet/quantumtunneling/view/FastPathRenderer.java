@@ -81,7 +81,7 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
             return;
         }
 
-        // D nothing if item is not visible.
+        // Do nothing if item is not visible.
         if ( !getItemVisible( series, item ) ) {
             return;
         }
@@ -93,7 +93,7 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
         _path.reset();
         final int numberOfItems = dataset.getItemCount( series );
         for ( int i = 0; i < numberOfItems; i++ ) {
-            // Get the data point's x & y values...
+            // Get the data item's x & y values...
             final double x = dataset.getXValue( series, i );
             final double y = dataset.getYValue( series, i );
             // Convert to screen coordinates...
