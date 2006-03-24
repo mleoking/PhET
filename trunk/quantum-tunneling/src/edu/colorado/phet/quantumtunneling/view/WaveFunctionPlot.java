@@ -459,6 +459,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = positions[i];
+            // Add only points that are in the visible position range...
             if ( QTConstants.POSITION_RANGE.contains( position ) ) {
                 LightweightComplex energy = psi[i];
                 _incidentRealSeries.add( position, energy.getReal() );
