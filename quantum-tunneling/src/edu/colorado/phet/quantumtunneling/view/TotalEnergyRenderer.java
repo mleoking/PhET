@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
@@ -76,7 +77,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     private Color _centerColor;
     private Color _edgeColor;
     
-    private Line2D _line; // reusable line
+    private GeneralPath _path; // reusable path
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,7 +88,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      */
     public TotalEnergyRenderer() {
         super();
-        _line = new Line2D.Double();
+        _path = new GeneralPath();
         setColor( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
     }
 
@@ -188,11 +189,13 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         
         if ( E0 <= V0 ) {
             // Draw a line.
-            // Use a Line2D so that this renderer matches the StandardXYItemRenderer used for plane waves.
+            // Use a GeneralPath so that we are pixel-accurate with the QTPathRenderer used for plane waves.
             g2.setPaint( getSeriesPaint( series ) );
             g2.setStroke( getSeriesStroke( series ) );
-            _line.setLine( minX, averageY, maxX, averageY );
-            g2.draw( _line );
+            _path.reset();
+            _path.moveTo( (float)minX, (float)averageY );
+            _path.lineTo( (float)maxX, (float)averageY );
+            g2.draw( _path );
         }
         else {
             // Axis (model) coordinates
