@@ -86,7 +86,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _potentialEnergySeries );
             setDataset( _potentialEnergyIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialEnergyIndex, renderer );
@@ -101,7 +101,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _totalEnergySeries );
             setDataset( _totalEnergyIndex, dataset );
             // Plane Wave renderer
-            _planeWaveRenderer = new QTPathRenderer();
+            _planeWaveRenderer = new FastPathRenderer();
             _planeWaveRenderer.setPaint( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
             _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_SOLID_STROKE );
             // Wave Packet renderer

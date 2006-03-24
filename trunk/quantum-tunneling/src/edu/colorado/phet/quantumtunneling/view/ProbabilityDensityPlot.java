@@ -46,7 +46,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         data.addSeries( probabilityDensitySeries );
         
         // Renderer
-        XYItemRenderer renderer = new QTPathRenderer();
+        XYItemRenderer renderer = new FastPathRenderer();
         renderer.setSeriesPaint( 0, QTConstants.COLOR_SCHEME.getProbabilityDensityColor() );
         renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
         
