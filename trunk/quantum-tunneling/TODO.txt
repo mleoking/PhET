@@ -40,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+(3/24/06) - replace all StandardXYItemRenderers with my own QTPathRenderer, big optimization!
 0.0.21...
 (3/23/06) - move Richardson controls into a Developer menu (fold into 0.00.21)
 (3/23/06) - make sum/separate radio buttons visible only when wave type = plane wave (fold into 0.00.21)

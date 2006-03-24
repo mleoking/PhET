@@ -16,8 +16,8 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -101,7 +101,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentRealSeries );
             setDataset( _incidentRealIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             _incidentRealRenderer = renderer;
             renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
@@ -115,7 +115,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentImaginarySeries );
             setDataset( _incidentImaginaryIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _incidentImaginaryIndex, renderer );
@@ -128,7 +128,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentMagnitudeSeries );
             setDataset( _incidentMagnitudeIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _incidentMagnitudeIndex, renderer );
@@ -141,7 +141,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedRealSeries );
             setDataset( _reflectedRealIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
             setRenderer( _reflectedRealIndex, renderer );
@@ -154,7 +154,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedImaginarySeries );
             setDataset( _reflectedImaginaryIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _reflectedImaginaryIndex, renderer );
@@ -167,7 +167,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedMagnitudeSeries );
             setDataset( _reflectedMagnitudeIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _reflectedMagnitudeIndex, renderer );
@@ -459,13 +459,15 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
         final int numberOfPoints = positions.length;
         for ( int i = 0; i < numberOfPoints; i++ ) {
             final double position = positions[i];
-            LightweightComplex energy = psi[i];
-            _incidentRealSeries.add( position, energy.getReal() );
-            _incidentImaginarySeries.add( position, energy.getImaginary() );
-            _incidentMagnitudeSeries.add( position, energy.getAbs() );
-            _phaseSeries.add( position, energy.getAbs() );
-            _phaseSeries.add( position, energy.getPhase() );
-            _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
+            if ( QTConstants.POSITION_RANGE.contains( position ) ) {
+                LightweightComplex energy = psi[i];
+                _incidentRealSeries.add( position, energy.getReal() );
+                _incidentImaginarySeries.add( position, energy.getImaginary() );
+                _incidentMagnitudeSeries.add( position, energy.getAbs() );
+                _phaseSeries.add( position, energy.getAbs() );
+                _phaseSeries.add( position, energy.getPhase() );
+                _probabilityDensitySeries.add( position, energy.getAbs() * energy.getAbs() );
+            }
         }
     }
     

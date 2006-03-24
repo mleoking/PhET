@@ -16,7 +16,6 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
@@ -59,7 +58,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
     // View
     private XYSeries _totalEnergySeries;
     private XYSeries _potentialEnergySeries;
-    private StandardXYItemRenderer _planeWaveRenderer; // total energy renderer for plane wave
+    private XYItemRenderer _planeWaveRenderer; // total energy renderer for plane wave
     private TotalEnergyRenderer _wavePacketRenderer; // total energy renderer for wave packet
     private int _totalEnergyIndex; // total energy dataset index
     private int _potentialEnergyIndex; // potential energy dataset index
@@ -87,7 +86,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _potentialEnergySeries );
             setDataset( _potentialEnergyIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new QTPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( QTConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialEnergyIndex, renderer );
@@ -102,7 +101,7 @@ public class EnergyPlot extends QTXYPlot implements Observer {
             dataset.addSeries( _totalEnergySeries );
             setDataset( _totalEnergyIndex, dataset );
             // Plane Wave renderer
-            _planeWaveRenderer = new StandardXYItemRenderer();
+            _planeWaveRenderer = new QTPathRenderer();
             _planeWaveRenderer.setPaint( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
             _planeWaveRenderer.setStroke( QTConstants.TOTAL_ENERGY_SOLID_STROKE );
             // Wave Packet renderer

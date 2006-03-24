@@ -13,7 +13,6 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -47,7 +46,7 @@ public class ProbabilityDensityPlot extends QTXYPlot {
         data.addSeries( probabilityDensitySeries );
         
         // Renderer
-        XYItemRenderer renderer = new StandardXYItemRenderer();
+        XYItemRenderer renderer = new QTPathRenderer();
         renderer.setSeriesPaint( 0, QTConstants.COLOR_SCHEME.getProbabilityDensityColor() );
         renderer.setSeriesStroke( 0, QTConstants.PROBABILITY_DENSITY_STROKE );
         
