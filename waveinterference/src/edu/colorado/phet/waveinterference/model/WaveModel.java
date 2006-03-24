@@ -54,4 +54,9 @@ public class WaveModel {
     public void setPotential( Potential potential ) {
         classicalWavePropagator.setPotential( potential );
     }
+
+    public void clear() {
+        lattice.clear();
+        classicalWavePropagator.clear();
+    }
 }

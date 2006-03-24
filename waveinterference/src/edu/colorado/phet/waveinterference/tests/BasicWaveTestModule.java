@@ -9,6 +9,8 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Mar 22, 2006
@@ -19,7 +21,13 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 public class BasicWaveTestModule extends Module {
     private WaveModel waveModel;
     private Oscillator oscillator;
-    private PhetPCanvas panel = new PhetPCanvas();
+    private PhetPCanvas panel = new PhetPCanvas() {
+        public void paintComponent( Graphics g ) {
+            Graphics2D g2 = (Graphics2D)g;
+            g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+            super.paintComponent( g );
+        }
+    };
 
     public BasicWaveTestModule( String name ) {
         super( name, new SwingClock( 30, 1 ) );

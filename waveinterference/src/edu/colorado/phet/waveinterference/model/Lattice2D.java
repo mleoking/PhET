@@ -228,7 +228,7 @@ public class Lattice2D {
 //                else {
 //                    valueAt( i, j ).zero();
 //                }
-                setValue( 0, 0, 0 );
+                setValue( i, j, 0 );
             }
         }
         setMagnitudeDirty();
