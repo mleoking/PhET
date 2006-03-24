@@ -55,6 +55,9 @@ public class RichardsonSolver implements IWavePacketSolver {
     /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
     private static double[] DAMPING_COEFFICIENTS = new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
+    /* Number of points between the position bondaries and the damping points */
+    private static int PADDING_SAMPLES = 1000;
+    
     //----------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------
@@ -221,11 +224,12 @@ public class RichardsonSolver implements IWavePacketSolver {
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
         final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
-        final double minX = pe.getStart( 0 ) - ( _dx * numberOfDampedSamples );
-        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * numberOfDampedSamples );
-
+        final double minX = pe.getStart( 0 ) - ( _dx * PADDING_SAMPLES ) - ( _dx * numberOfDampedSamples );
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * PADDING_SAMPLES ) + ( _dx * numberOfDampedSamples );
+        
         // Calculate the number of samples.
         final int numberOfSamples = (int)( ( maxX - minX ) / _dx ) + 1;
+//        System.out.println( "RichardsonSolver.reset: numberOfSamples=" + numberOfSamples + " minX=" + minX + " maxX=" + maxX + " dx=" + _dx );//XXX
 
         // Initialize constants used by the propagator.
         final double epsilon = _hbar * _dt / ( _mass * _dx * _dx );
