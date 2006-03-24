@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -75,6 +76,17 @@ public class Shaker extends Particle {
         done = false;
     }
 
+    protected SolubleSaltsModel getModel() {
+        return model;
+    }
+
+    protected double getOrientation() {
+        return orientation;
+    }
+
+    protected double getOpeningLength() {
+        return openingLength;
+    }
 
     /**
      * Creates crystals and drops them into the water
@@ -95,19 +107,30 @@ public class Shaker extends Particle {
         v.rotate( theta );
         double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
 
+
+        int minUnits = 3;
+        int maxUnits = 10;
+        int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
+//            numLaticeUnits = 15;
+//            numLaticeUnits = 8;
+//            numLaticeUnits = (int)dy;
+
+
         // If the shaker moved downward, shake out a crystal
         while( !done && dy > 0 ) {
             // Debug: to shake only one crystal, uncomment the next line
             if( cnt % 2 != 0 && getCurrentSalt() instanceof StrontiumPhosphate ) {
                 done = true;
             }
-            else if (!(getCurrentSalt() instanceof StrontiumPhosphate )) {
+            else if( !( getCurrentSalt() instanceof StrontiumPhosphate ) ) {
                 done = true;
             }
 
+            done = true;
+
             // Attempt to get Sr3(PO)2 to look less dense
-            l += cnt * 35;
-            cnt++;
+//            l += cnt * 35;
+//            cnt++;
 
             IonFactory ionFactory = new IonFactory();
             ArrayList ions = new ArrayList();
@@ -115,17 +138,20 @@ public class Shaker extends Particle {
 //            Vector2D v = new Vector2D.Double( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
 //            v.rotate( theta );
 //            double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
-            double x = getPosition().getX() + l * Math.cos( orientation );
             double y = getPosition().getY() + l * Math.sin( orientation );
+            // Attempt to get Sr3(PO)2 to look less dense
+            l += cnt * 35;
+            cnt++;
+            double x = getPosition().getX() + l * Math.cos( orientation );
             Point2D p = new Point2D.Double( x, y );
 
-            int minUnits = 3;
-            int maxUnits = 10;
-            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
-//            numLaticeUnits = 15;
-//            numLaticeUnits = 8;
-//            numLaticeUnits = (int)dy;
-
+//            int minUnits = 3;
+//            int maxUnits = 10;
+//            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
+////            numLaticeUnits = 15;
+////            numLaticeUnits = 8;
+////            numLaticeUnits = (int)dy;
+//
             for( int j = 0; j < numLaticeUnits; j++ ) {
                 Salt.Component[] components = currentSalt.getComponents();
                 for( int k = 0; k < components.length; k++ ) {
@@ -157,6 +183,18 @@ public class Shaker extends Particle {
             // Create the crystal
             crystal = new Crystal( model, currentSalt.getLattice(), ions, null );
             crystal.setVelocity( v );
+
+            if( getCurrentSalt() instanceof StrontiumPhosphate ) {
+                try {
+                    Crystal secondCrystal = (Crystal)crystal.clone();
+                    secondCrystal.translate( 30, 0 );
+                    Crystal thirdCrystal = (Crystal)crystal.clone();
+                    thirdCrystal.translate( -30, 0 );
+                }
+                catch( CloneNotSupportedException e ) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

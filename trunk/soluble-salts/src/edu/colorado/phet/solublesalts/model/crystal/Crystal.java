@@ -18,6 +18,7 @@ import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -225,6 +226,37 @@ public class Crystal extends Body {
         }
         setSeed( seed );
     }
+
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    public Object clone() throws CloneNotSupportedException {
+        ArrayList newIons = new ArrayList( );
+        IonFactory ionFactory = new IonFactory();
+        Ion newSeed = null;
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            Ion newIon = ionFactory.create( ion.getClass(),
+                                            new Point2D.Double( ion.getPosition().getX(), ion.getPosition().getY()),
+                                            new Vector2D.Double( ion.getVelocity()),
+                                            new Vector2D.Double( ion.getAcceleration() ));
+            if( this.getSeed() == ion ) {
+                newSeed = newIon;
+            }
+            newIons.add( newIon );
+            model.addModelElement( newIon );
+        }
+        // Note that using this constructor is a real hack. We use it to set the seed
+        Crystal crystal = new Crystal( model, lattice, newIons, null );
+//        crystal.setSeed( newSeed );
+        crystal.setVelocity( new Vector2D.Double( this.getVelocity()));
+        crystal.setAcceleration( new Vector2D.Double( this.getAcceleration()));
+
+        return crystal;
+    }
+
 
     /**
      * Sets the bounds in which the crystal can grow
@@ -564,6 +596,7 @@ public class Crystal extends Body {
     public void setBounds( Rectangle2D bounds ) {
         lattice.setBounds( bounds );
     }
+
 
     //----------------------------------------------------------------
     // Time-dependent behavior
