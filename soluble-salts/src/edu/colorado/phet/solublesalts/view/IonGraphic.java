@@ -31,24 +31,41 @@ import java.awt.image.BufferedImage;
  */
 public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeListener */ {
 
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
     private static boolean showBondIndicators = false;
 
     public static void showBondIndicators( boolean selected ) {
         showBondIndicators = selected;
     }
 
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
 
     private Ion ion;
     private PImage pImage;
     private PText pText;
     private PPath pDebugPath;
 
+    /**
+     *
+     * @param ion
+     * @param imageName
+     */
     public IonGraphic( Ion ion, String imageName ) {
         pImage = PImageFactory.create( imageName, new Dimension( (int)ion.getRadius() * 2,
                                                                  (int)ion.getRadius() * 2 ) );
         init( ion );
     }
 
+    /**
+     *
+     * @param ion
+     * @param image
+     */
     public IonGraphic( Ion ion, BufferedImage image ) {
         pImage = new PImage( image );
         init( ion );
@@ -76,18 +93,20 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
                         ion.getPosition().getY() - pImage.getHeight() / 2 );
 
         // Draws a mark on the ion if it's bound
-        if( showBondIndicators && ion.isBound() && pDebugPath == null ) {
+        if( showBondIndicators && ion.isBound() /* && pDebugPath == null */ ) {
+            if( pDebugPath == null ) {
             pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
                                                           ( pImage.getHeight() / 2 ) - 2,
                                                           4,
                                                           4 ) );
+                addChild( pDebugPath );
+            }
             Color color = Color.red;
             if( ion.getBindingCrystal().getSeed() == ion ) {
                 color = Color.green;
             }
             pDebugPath.setPaint( color );
             pDebugPath.setStrokePaint( color );
-            addChild( pDebugPath );
         }
         else if( !ion.isBound() && pDebugPath != null ) {
             removeChild( pDebugPath );
@@ -107,13 +126,4 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     public Image getImage() {
         return pImage.getImage();
     }
-
-    //----------------------------------------------------------------
-    // Implementation of Ion.ChangeListener
-    //----------------------------------------------------------------
-
-//    public void stateChanged( Ion.ChangeEvent event ) {
-//        System.out.println( "IonGraphic.stateChanged" );
-//        update();
-//    }
 }

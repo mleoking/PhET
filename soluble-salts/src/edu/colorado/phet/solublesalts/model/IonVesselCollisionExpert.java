@@ -77,27 +77,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                 // If the ion isn't bound to a crystal, then create a new crystal, if all other
                 // conditions are met
                 if( !ion.isBound() ) {
-                    // Check that nucleation is enabled in the model
-                    boolean canBind = model.isNucleationEnabled();
-
-                    // Make sure the ion isn't too close to another ion of the same polarity
-                    double minDist = minDistToLikeIon;
-                    List otherIons = model.getIons();
-                    for( int i = 0; i < otherIons.size() && canBind; i++ ) {
-                        Ion testIon = (Ion)otherIons.get( i );
-                        if( testIon.isBound()
-                            && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
-                            canBind = false;
-                        }
-                    }
-
-                    if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
-                        vessel.bind( ion );
-                    }
-
-                    // Perform the collision, even if we bind, so when the ion is
-                    // released it moves properly
-                    collisionOccurred = sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
+                    collisionOccurred = handleIonVesselCollision( ion, vessel );
                 }
 
                 // If the ion is bound, then its crystal has hit the vessel. Set its velocity
@@ -105,13 +85,58 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                 // vessel during the last time step, we must reposition it so it is just contacting
                 // the vessel
                 else {
-                    // todo: need something here for setting the seed on a crystal that comes out of the shaker. Mayeb
-                    // have it set the one with maxY as the seed.
-                    ion.getBindingCrystal().setVelocity( 0, 0 );
-                    ion.getBindingCrystal().setAcceleration( 0, 0 );
+                    handleCrystalVesselCollision( ion );
                 }
             }
         }
+        return collisionOccurred;
+    }
+
+    /**
+     * Stops the crystal and resets its seed to be the ion that's in contact with the
+     * vessel.
+     *
+     * @param ion
+     */
+    private void handleCrystalVesselCollision( Ion ion ) {
+        // todo: need something here for setting the seed on a crystal that comes out of the shaker. Mayeb
+        // have it set the one with maxY as the seed.
+        ion.getBindingCrystal().setVelocity( 0, 0 );
+        ion.getBindingCrystal().setAcceleration( 0, 0 );
+        ion.getBindingCrystal().setSeed( ion );
+    }
+
+    /**
+     * Performs a collision between an ion and a vessel, giving the ion the proper velocity. If
+     * certain conditions are met, the ion sticks to the vessel as the seed of a new crystal.
+     *
+     * @param ion
+     * @param vessel
+     * @return If a collision occured between the ion and the vessel
+     */
+    private boolean handleIonVesselCollision( Ion ion, Vessel vessel ) {
+        boolean collisionOccurred;
+        // Check that nucleation is enabled in the model
+        boolean canBind = model.isNucleationEnabled();
+
+        // Make sure the ion isn't too close to another ion of the same polarity
+        double minDist = minDistToLikeIon;
+        List otherIons = model.getIons();
+        for( int i = 0; i < otherIons.size() && canBind; i++ ) {
+            Ion testIon = (Ion)otherIons.get( i );
+            if( testIon.isBound()
+                && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
+                canBind = false;
+            }
+        }
+
+        if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
+            vessel.bind( ion );
+        }
+
+        // Perform the collision, even if we bind, so when the ion is
+        // released it moves properly
+        collisionOccurred = sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
         return collisionOccurred;
     }
 
