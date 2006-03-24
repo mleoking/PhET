@@ -77,7 +77,7 @@ public class Node {
     /**
      * Tells if this node is the origin of any bonds that have nodes at their destinations
      *
-     * @return
+     * @return true if the node has no children
      */
     public boolean hasNoChildren() {
         boolean result = true;
@@ -86,6 +86,19 @@ public class Node {
             if( bond.getOrigin() == this && bond.getDestination() != null ) {
                 result = false;
             }
+        }
+        return result;
+    }
+
+    public int getNumFilledBonds() {
+        return bonds.size() - getNumOpenBonds();
+    }
+
+    public int getNumOpenBonds() {
+        int result = 0;
+        for( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond)bonds.get(i);
+            result += bond.isOpen() ? 1 : 0;
         }
         return result;
     }

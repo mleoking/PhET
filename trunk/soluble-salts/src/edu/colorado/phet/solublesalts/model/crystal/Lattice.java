@@ -222,18 +222,31 @@ public abstract class Lattice {
     }
 
     /**
-     * Returns an ion with the greatest "least bound" characteristic. This characteristic is
-     * defined as the ratio of unoccupied neighboring lattice sites divided by the total
-     * number of neighboring sites. If more than one ion in the lattice has this same
-     * characteristic value, one of them is chosen at random.
+     * Returns the best ion to release. If possible, an ion of a specified type is selected, but only
+     * if it ranks as well as any other type of ion with regard to the other criteria used for selection.
+     * The criteria are:
+     * <ul>
+     * <li>the ion should have no bonds with children at the other end
+     * <li>the ion be the child on a minimum number of bonds
+     *
      *
      * @param ionsInLattice
+     * @param preferredIonType
      * @return the best ion in the lattice to release
      */
     public Ion getBestIonToRelease( List ionsInLattice, Class preferredIonType ) {
 
+        int numLists = 6;
+        ArrayList[] preferredIons = new ArrayList[numLists];
+        for( int i = 0; i < preferredIons.length; i++ ) {
+            preferredIons[i] = new ArrayList( );
+        }
+        ArrayList[] otherIons = new ArrayList[numLists];
+        for( int i = 0; i < otherIons.length; i++ ) {
+            otherIons[i] = new ArrayList();
+        }
+
         // Get a list of all nodes that have no children (i.e., are the origins of no bonds with destinations)
-        boolean candidateOfPrefferedTypeExists = false;
         Ion leastBoundIon = null;
         List preferredCandidates = new ArrayList();
         List otherCandidates = new ArrayList();
@@ -247,15 +260,29 @@ public abstract class Lattice {
 
             if( node.hasNoChildren() ) {
                 if( preferredIonType.isAssignableFrom( node.getIon().getClass() )) {
-                    preferredCandidates.add( node );
+                    preferredIons[node.getNumFilledBonds()].add( node );
+//                    preferredCandidates.add( node );
                 }
                 else {
-                    otherCandidates.add( node );
+                    otherIons[node.getNumFilledBonds()].add( node );
+//                    otherCandidates.add( node );
                 }
             }
         }
 
-        List candidates = preferredCandidates.size() > 0 ? preferredCandidates : otherCandidates;
+        List candidates = null;
+        for( int i = 0; i < numLists && candidates == null; i++ ) {
+            if( preferredIons[i].size() > 0 ) {
+                candidates = preferredIons[i];
+            }
+            else if( otherIons[i].size() > 0 ) {
+                candidates = otherIons[i];
+            }
+        }
+
+        // If we have candidates of the prefered type, select from them, otherwise, select
+        // from the other candidates
+//        List candidates = preferredCandidates.size() > 0 ? preferredCandidates : otherCandidates;
 
         // Sanity check
         if( candidates.size() == 0 ) {

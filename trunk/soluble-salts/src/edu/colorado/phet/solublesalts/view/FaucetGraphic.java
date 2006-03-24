@@ -15,9 +15,9 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.model.Spigot;
 import edu.colorado.phet.solublesalts.model.WaterSource;
-import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -66,6 +66,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
     private double streamMaxY;
     private PPath waterGraphic;
     private JSlider flowSlider;
+//    private SolubleSaltsModule module;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -78,10 +79,12 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
                           int orientation,
                           int registration,
                           Spigot spigot,
-                          double streamMaxY) {
+                          double streamMaxY /*,
+                          final SolubleSaltsModule module*/ ) {
         spigot.addChangeListener( this );
         this.spigot = spigot;
         this.streamMaxY = streamMaxY;
+//        this.module = module;
 
         // Faucet
         BufferedImage bImg = null;
@@ -134,7 +137,9 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
         flowSlider.setBackground( Color.black );
         flowSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
+                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() );
+//                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() * module.getCalibration().volumeCalibrationFactor );
+//                FaucetGraphic.this.spigot.setFlow( flowSlider.getValue() * SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR );
             }
         } );
         // Add a listener that will shut off the faucet when the mouse is released
@@ -177,7 +182,8 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
      */
     public void update() {
         double waterWidth = Math.abs( spigot.getFlow() * ( MAX_WATER_WIDTH ) / spigot.getMaxFlow() );
-        waterWidth /= SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
+//        waterWidth /= module.getCalibration().volumeCalibrationFactor;   rjl
+//        waterWidth /= SolubleSaltsConfig.VOLUME_CALIBRATION_FACTOR;
         waterShape.setBounds( -( (int)waterWidth / 2 ), 0, (int)waterWidth,
                               (int)( ( streamMaxY - getYOffset() ) / getScale() ) );
         waterGraphic.setPathTo( waterShape );

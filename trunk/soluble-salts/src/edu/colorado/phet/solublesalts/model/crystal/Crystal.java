@@ -404,7 +404,7 @@ public class Crystal extends Body {
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
 //            ionToRelease = lattice.getBestIonToRelease( getIons(), preferredIonType );
-//            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
+            throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
         // Sanity check
@@ -519,7 +519,7 @@ public class Crystal extends Body {
         if( dx == 0 && dy == 0 ) {
             System.out.println( "Crystal.translate" );
         }
-        
+
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             ion.translate( dx, dy );

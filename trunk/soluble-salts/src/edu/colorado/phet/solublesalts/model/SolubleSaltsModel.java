@@ -93,8 +93,12 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
 
+    /**
+     *
+     * @param clock
+     * @param module
+     */
     public SolubleSaltsModel( IClock clock, SolubleSaltsModule module ) {
-//    public SolubleSaltsModel( IClock clock, SolubleSaltsConfig.Calibration calibration ) {
 
         this.calibration = module.getCalibration();
 
@@ -355,24 +359,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
     }
 
-    public double getIonConcentration( Class ionClass ) {
-        List ions = ionTracker.getIonsOfType( ionClass );
-        double result = 0;
-        if( ions != null ) {
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion ion = (Ion)ions.get( i );
-                if( !ion.isBound() ) {
-                    result++;
-                }
-            }
-        }
-        return result;
-    }
-
     /**
      * Returns the bounds of the water in the vessel
      *
-     * @return
+     * @return A Rectangle2D with the bounds of the water
      */
     public Rectangle2D getWaterBounds() {
         return vessel.getWater().getBounds();
