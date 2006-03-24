@@ -101,7 +101,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentRealSeries );
             setDataset( _incidentRealIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             _incidentRealRenderer = renderer;
             renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
@@ -115,7 +115,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentImaginarySeries );
             setDataset( _incidentImaginaryIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _incidentImaginaryIndex, renderer );
@@ -128,7 +128,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _incidentMagnitudeSeries );
             setDataset( _incidentMagnitudeIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _incidentMagnitudeIndex, renderer );
@@ -141,7 +141,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedRealSeries );
             setDataset( _reflectedRealIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( QTConstants.REAL_STROKE );
             setRenderer( _reflectedRealIndex, renderer );
@@ -154,7 +154,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedImaginarySeries );
             setDataset( _reflectedImaginaryIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( QTConstants.IMAGINARY_STROKE );
             setRenderer( _reflectedImaginaryIndex, renderer );
@@ -167,7 +167,7 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _reflectedMagnitudeSeries );
             setDataset( _reflectedMagnitudeIndex, dataset );
-            XYItemRenderer renderer = new QTPathRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( QTConstants.MAGNITUDE_STROKE );
             setRenderer( _reflectedMagnitudeIndex, renderer );

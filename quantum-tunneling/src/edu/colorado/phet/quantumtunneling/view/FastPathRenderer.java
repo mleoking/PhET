@@ -18,6 +18,7 @@ import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CrosshairState;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
@@ -27,14 +28,13 @@ import org.jfree.ui.RectangleEdge;
 
 
 /**
- * QTPathRenderer draws a series as a GeneralPath.
- * We assume that the domain axis is horizontal, and the range axis is vertical.
+ * FastPathRenderer draws a series as a GeneralPath.
  * For performance optimization, the entire path is constructed and drawn in one shot.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTPathRenderer extends AbstractXYItemRenderer {
+public class FastPathRenderer extends AbstractXYItemRenderer {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -49,7 +49,7 @@ public class QTPathRenderer extends AbstractXYItemRenderer {
     /**
      * Constructor.
      */
-    public QTPathRenderer() {
+    public FastPathRenderer() {
         super();
         _path = new GeneralPath();
     }
@@ -99,12 +99,20 @@ public class QTPathRenderer extends AbstractXYItemRenderer {
             // Convert to screen coordinates...
             final double tx = domainAxis.valueToJava2D( x, dataArea, xAxisLocation );
             final double ty = rangeAxis.valueToJava2D( y, dataArea, yAxisLocation );
+            // Adjust for plot orientation...
+            float fx = (float) tx;
+            float fy = (float) ty;
+            if ( plot.getOrientation() == PlotOrientation.HORIZONTAL ) {
+                // The range axis is horizontal...
+                fx = (float) ty;
+                fy = (float) tx;
+            }
             // Add to the path...
             if ( i == 0 ) {
-                _path.moveTo( (float) tx, (float) ty );
+                _path.moveTo( fx, fy );
             }
             else {
-                _path.lineTo( (float) tx, (float) ty );
+                _path.lineTo( fx, fy );
             }
         }
 

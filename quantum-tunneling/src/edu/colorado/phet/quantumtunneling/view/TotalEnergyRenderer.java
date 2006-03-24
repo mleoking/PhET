@@ -190,7 +190,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         if ( E0 <= V0 ) {
             // Draw a line.
-            // Use a GeneralPath so that we are pixel-accurate with the QTPathRenderer used for plane waves.
+            // Use a GeneralPath so that we are pixel-accurate with the FastPathRenderer used for plane waves.
             g2.setPaint( getSeriesPaint( series ) );
             g2.setStroke( getSeriesStroke( series ) );
             _path.reset();
