@@ -5,9 +5,9 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.waveinterference.model.ClassicalWavePropagator;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
-import edu.colorado.phet.waveinterference.model.Potential;
+import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 /**
  * User: Sam Reid
@@ -17,16 +17,15 @@ import edu.colorado.phet.waveinterference.model.Potential;
  */
 
 public class BasicWaveTestModule extends Module {
-    private Lattice2D lattice2D;
-    private ClassicalWavePropagator classicalWavePropagator;
-    private double period = 2;
+    private WaveModel waveModel;
+    private Oscillator oscillator;
     private PhetPCanvas panel = new PhetPCanvas();
 
     public BasicWaveTestModule( String name ) {
         super( name, new SwingClock( 30, 1 ) );
         setSimulationPanel( panel );
-        lattice2D = new Lattice2D( 80, 80 );
-        classicalWavePropagator = new ClassicalWavePropagator( new Potential() );
+        waveModel = new WaveModel( 80, 80 );
+        oscillator = new Oscillator( waveModel );
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 step();
@@ -35,33 +34,39 @@ public class BasicWaveTestModule extends Module {
 
     }
 
+    public Oscillator getOscillator() {
+        return oscillator;
+    }
+
+    public WaveModel getWaveModel() {
+        return waveModel;
+    }
+
+    public int getOscillatorRadius() {
+        return oscillator.getRadius();
+    }
+
+    public void setOscillatorRadius( int oscillatorRadius ) {
+        oscillator.setRadius( oscillatorRadius );
+    }
+
     public void setLatticeSize( int width, int height ) {
-        lattice2D.setSize( width, height );
-        classicalWavePropagator.setSize( width, height );
+        waveModel.setSize( width, height );
     }
 
     protected void step() {
-        double t = System.currentTimeMillis() / 1000.0;
-        double frequency = 1 / period;
-        int oscillatorRadius = 5;
-        int oscillatorX = oscillatorRadius + 3;
-        int oscillatorY = lattice2D.getHeight() / 2;
-        for( int i = oscillatorX - oscillatorRadius; i <= oscillatorX + oscillatorRadius; i++ ) {
-            for( int j = oscillatorY - oscillatorRadius; j <= oscillatorY + oscillatorRadius; j++ ) {
-                if( Math.sqrt( ( i - oscillatorX ) * ( i - oscillatorX ) + ( j - oscillatorY ) * ( j - oscillatorY ) ) < oscillatorRadius )
-                {
-                    double value = Math.cos( 2 * Math.PI * frequency * t );
-                    lattice2D.setValue( i, j, (float)value );
-                    classicalWavePropagator.setBoundaryCondition( i, j, (float)value );
-                }
-            }
-        }
-        classicalWavePropagator.propagate( lattice2D );
+        double t = getTime();
+        oscillator.setTime( t );
+        waveModel.propagate();
+    }
 
+    protected double getTime() {
+        double t = System.currentTimeMillis() / 1000.0;
+        return t;
     }
 
     public Lattice2D getLattice() {
-        return lattice2D;
+        return waveModel.getLattice();
     }
 
     public PhetPCanvas getPhetPCanvas() {
@@ -69,10 +74,10 @@ public class BasicWaveTestModule extends Module {
     }
 
     public double getPeriod() {
-        return period;
+        return oscillator.getPeriod();
     }
 
     public void setPeriod( double value ) {
-        this.period = value;
+        oscillator.setPeriod( value );
     }
 }

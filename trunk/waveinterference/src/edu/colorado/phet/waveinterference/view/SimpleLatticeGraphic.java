@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -56,21 +57,15 @@ public class SimpleLatticeGraphic extends PNode {
         update();
     }
 
+    public LatticeScreenCoordinates getLatticeScreenCoordinates( WaveModel waveModel ) {
+        return new DefaultLatticeScreenCoordinates( waveModel, this );
+    }
+
     public void setWavefunction( Lattice2D lattice2D ) {
         this.lattice2D = lattice2D;
         colorGridNode.setGridDimensions( lattice2D.getWidth(), lattice2D.getHeight() );
         update();
     }
-
-//    public void setWavefunction( Lattice2D lattice2D, ComplexColorMap complexColorMap ) {
-//        this.lattice2D = lattice2D;
-//        this.colorMap = new ComplexColorMapAdapter( lattice2D, complexColorMap );
-//        update();
-//    }
-//
-//    public void setComplexColorMap( ComplexColorMap complexColorMap ) {
-//        setColorMap( new ComplexColorMapAdapter( getWavefunction(), complexColorMap ) );
-//    }
 
     public void setColorMap( ColorMap colorMap ) {
         this.colorMap = colorMap;
@@ -138,4 +133,7 @@ public class SimpleLatticeGraphic extends PNode {
         return new Dimension( colorGridNode.getCellWidth(), colorGridNode.getCellHeight() );
     }
 
+    public void setColor( Color color ) {
+        setColorMap( new IndexColorMap( lattice2D, color ) );
+    }
 }

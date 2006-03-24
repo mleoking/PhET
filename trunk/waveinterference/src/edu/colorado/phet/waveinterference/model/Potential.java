@@ -8,8 +8,6 @@ package edu.colorado.phet.waveinterference.model;
  * Copyright (c) Mar 21, 2006 by Sam Reid
  */
 
-public class Potential {
-    public int getPotential( int i, int j, int time ) {
-        return 0;
-    }
+public interface Potential {
+    public double getPotential( int i, int j, int time );
 }
