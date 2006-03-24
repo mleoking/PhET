@@ -40,6 +40,8 @@ CLEANUP:
 
 
 DONE:
+(3/24/06) - in Richardson, add samples between visible samples and damped samples
+(3/24/06) - set interpolation to "nearest neighbor" in JFreeChartNode to improve JDK 1.5 performance
 (3/24/06) - add support for plot orientation to FastPathRenderer
 (3/24/06) - rename QTPathRenderer -> FastPathRenderer
 (3/24/06) - enabled antialiasing in all custom jfreechart renderers
