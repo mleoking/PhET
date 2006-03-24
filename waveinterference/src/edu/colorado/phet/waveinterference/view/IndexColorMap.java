@@ -14,13 +14,20 @@ import java.awt.*;
 
 public class IndexColorMap implements ColorMap {
     private Lattice2D lattice;
-    float r = 0;
-    float g = 0;
-    float b = 1.0f;
+    float r;
+    float g;
+    float b;
     private Color[] colors;
     private int NUM_COLORS = 201;
 
     public IndexColorMap( Lattice2D lattice ) {
+        this( lattice, Color.blue );
+    }
+
+    public IndexColorMap( Lattice2D lattice, Color color ) {
+        r = color.getRed() / 255.0f;
+        g = color.getGreen() / 255.0f;
+        b = color.getBlue() / 255.0f;
         this.lattice = lattice;
         colors = new Color[NUM_COLORS];
         for( int i = 0; i < colors.length - 1; i++ ) {

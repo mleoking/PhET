@@ -61,7 +61,7 @@ public class ClassicalWavePropagator {
 
         //todo avoid copying by cycling references.?
         last.copyTo( last2 );
-        clearPotential( last2 );
+        clearPotential( last2 );   //todo maybe only need to do one here.
         w.copyTo( last );
         clearPotential( last );
 //        w.setMagnitudeDirty();
@@ -71,6 +71,13 @@ public class ClassicalWavePropagator {
 
     private void clearPotential( Lattice2D last ) {
         //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0.
+        for( int i = 0; i < last.getWidth(); i++ ) {
+            for( int j = 0; j < last.getHeight(); j++ ) {
+                if( potential.getPotential( i, j, 0 ) != 0.0 ) {
+                    last.setValue( i, j, 0.0f );
+                }
+            }
+        }
     }
 
     private Potential getPotential() {
@@ -238,5 +245,9 @@ public class ClassicalWavePropagator {
     public void setSize( int width, int height ) {
         last.setSize( width, height );
         last2.setSize( width, height );
+    }
+
+    public void setPotential( Potential potential ) {
+        this.potential = potential;
     }
 }

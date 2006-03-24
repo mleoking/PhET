@@ -1,5 +1,7 @@
 What is better for rotation graphic: isometric or extended?
 When zooming in on particles, we want to keep the wavelength constant, so maybe should call this "magnify particles"
+We want to show the initial transient in the wave starting up (say, for photons), but don't want all of space to already be the photon color.  How to handle this?  Black screen as default?  Then what are minima for the waves?
+What is fringe view vs wave view for the screen?
 
 see:
 http://www.kettering.edu/~drussell/Demos/waves/wavemotion.html

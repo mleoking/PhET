@@ -72,6 +72,20 @@ public class Lattice2D {
         return new Dimension( getWidth(), getHeight() );
     }
 
+    public double getAverageValue( int x, int y, int windowWidth ) {
+        double sum = 0;
+        int count = 0;
+        for( int i = x - windowWidth; i <= x + windowWidth; i++ ) {
+            for( int j = y - windowWidth; j <= y + windowWidth; j++ ) {
+                if( containsLocation( i, j ) ) {
+                    sum += getValue( i, j );
+                    count++;
+                }
+            }
+        }
+        return sum / count;
+    }
+
     public static interface Listener {
         void cleared();
 
