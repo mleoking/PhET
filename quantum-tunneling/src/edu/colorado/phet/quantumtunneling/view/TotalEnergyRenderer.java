@@ -187,6 +187,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         if ( E0 <= V0 ) {
             // Draw a line.
             // Use a GeneralPath so that we are pixel-accurate with the QTPathRenderer used for plane waves.

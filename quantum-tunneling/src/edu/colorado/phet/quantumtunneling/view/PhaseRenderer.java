@@ -13,6 +13,7 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
@@ -114,6 +115,9 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         double ty1 = rangeAxis.valueToJava2D( y1, dataArea, yAxisLocation );
         double ty2 = rangeAxis.valueToJava2D( y2, dataArea, yAxisLocation );
 
+        // Enable antialiasing...
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        
         // determine the color that corresponds to the phase...
         Color color = phaseToRGB( phase );
         g2.setPaint( color );

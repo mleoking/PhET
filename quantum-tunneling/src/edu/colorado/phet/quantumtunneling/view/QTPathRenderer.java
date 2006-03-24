@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
@@ -108,6 +109,7 @@ public class QTPathRenderer extends AbstractXYItemRenderer {
         }
 
         // Draw the path...
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setStroke( getSeriesStroke( series ) );
         g2.setPaint( getSeriesPaint( series ) );
         g2.draw( _path );
