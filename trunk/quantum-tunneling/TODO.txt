@@ -40,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+(3/24/06) - use a GeneralPath in TotalEnergyRenderer so that it is pixel-accurate with QTPathRender
 (3/24/06) - do least expensive checks first in TotalEnergyRenderer.drawItem
 (3/24/06) - replace all StandardXYItemRenderers with my own QTPathRenderer, big optimization!
 0.0.21...
