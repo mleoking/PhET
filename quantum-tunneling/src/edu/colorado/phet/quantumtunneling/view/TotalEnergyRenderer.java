@@ -156,19 +156,19 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             int item, 
             CrosshairState crosshairState, 
             int pass ) {
+    
+        // Do all rendering based on the first data point.
+        if ( item != 0 ) {
+            return;
+        }
         
         // Initialized?
         if ( _wavePacket == null || _potentialEnergy == null ) {
             return;
         }
-        
+       
         // Visible?
         if ( !getItemVisible( series, item ) ) {
-            return;
-        }
-        
-        // Do all rendering based on the first data point.
-        if ( item != 0 ) {
             return;
         }
         
