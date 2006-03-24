@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- set Richardson psi[] to all zero when all values are below some threshold
 - add a command line arg to enabled Developer menu
 - fix Richardson dt for new position range and dx
 - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem
