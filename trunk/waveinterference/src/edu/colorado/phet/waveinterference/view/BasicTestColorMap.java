@@ -19,7 +19,14 @@ public class BasicTestColorMap implements ColorMap {
     float b = 1.0f;
 
     public BasicTestColorMap( Lattice2D lattice ) {
+        this( lattice, Color.blue );
+    }
+
+    public BasicTestColorMap( Lattice2D lattice, Color color ) {
         this.lattice = lattice;
+        r = color.getRed() / 255f;
+        g = color.getGreen() / 255f;
+        b = color.getBlue() / 255f;
     }
 
     public Paint getColor( int i, int k ) {

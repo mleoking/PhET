@@ -250,4 +250,13 @@ public class ClassicalWavePropagator {
     public void setPotential( Potential potential ) {
         this.potential = potential;
     }
+
+    public void clear() {
+        if( last != null ) {
+            last.clear();
+        }
+        if( last2 != null ) {
+            last2.clear();
+        }
+    }
 }
