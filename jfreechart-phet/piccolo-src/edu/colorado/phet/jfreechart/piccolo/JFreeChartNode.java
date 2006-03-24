@@ -12,6 +12,7 @@
 package edu.colorado.phet.jfreechart.piccolo;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -381,11 +382,17 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      */
     private void paintBuffered( PPaintContext paintContext ) {
         Rectangle2D bounds = getBoundsReference();
+        
         if ( _chartImage == null ) {
             _chartImage = _chart.createBufferedImage( (int) bounds.getWidth(), (int) bounds.getHeight(), 
                     BufferedImage.TYPE_INT_ARGB, _info );
         }
+        
         Graphics2D g2 = paintContext.getGraphics();
+        
+        // Set interpolation to "nearest neighbor" to avoid JDK 1.5 performance problems.
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+        
         _imageTransform.setToTranslation( bounds.getX(), bounds.getY() );
         g2.drawRenderedImage( _chartImage, _imageTransform );
     }
