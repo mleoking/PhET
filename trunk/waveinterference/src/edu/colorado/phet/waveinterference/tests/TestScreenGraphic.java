@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.AbstractScreenGraphic;
 import edu.colorado.phet.waveinterference.view.ColorMap;
-import edu.colorado.phet.waveinterference.view.CurveScreenGraphic;
+import edu.colorado.phet.waveinterference.view.ScreenControlPanel;
+import edu.colorado.phet.waveinterference.view.ScreenNode;
 
 /**
  * User: Sam Reid
@@ -13,18 +13,20 @@ import edu.colorado.phet.waveinterference.view.CurveScreenGraphic;
  */
 
 public class TestScreenGraphic extends TestWaveColor {
-    private AbstractScreenGraphic screenGraphic;
+    private ScreenNode screenGraphic;
 
     public TestScreenGraphic() {
         super( "Test Screen Graphic" );
         getWaveModel().setSize( 50, 50 );
-        screenGraphic = new CurveScreenGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
 
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( getWaveModelGraphic() );
         getWaveModelGraphic().setOffset( 100, 100 );
         screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
+
+        getControlPanel().addControl( new ScreenControlPanel( screenGraphic ) );
     }
 
     protected void setColorMap( ColorMap colorMap ) {
@@ -36,7 +38,7 @@ public class TestScreenGraphic extends TestWaveColor {
 
     protected void step() {
         super.step();
-        screenGraphic.update();
+        screenGraphic.updateScreen();
     }
 
     public static void main( String[] args ) {

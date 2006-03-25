@@ -22,6 +22,7 @@ public class RunAllTests extends PhetApplication {
         addModule( new TestTwoSourcesWaveRotate() );
         addModule( new TestSlits() );
         addModule( new TestWaveColor() );
+        addModule( new TestScreenGraphic() );
     }
 
     public static void main( String[] args ) {
