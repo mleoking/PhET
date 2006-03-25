@@ -19,8 +19,17 @@ import java.awt.geom.Point2D;
 public class CurveScreenGraphic extends AbstractScreenGraphic {
     private PPath path;
     private PPath axis;
+    private int intensityScale = 100;
 
-    public CurveScreenGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, ColorMap colorMap ) {
+    public int getIntensityScale() {
+        return intensityScale;
+    }
+
+    public void setIntensityScale( int intensityScale ) {
+        this.intensityScale = intensityScale;
+    }
+
+    public CurveScreenGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
         super( waveModel, latticeScreenCoordinates );
         path = new PPath();
         path.setStroke( new BasicStroke( 1 ) );
@@ -29,6 +38,7 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
         axis.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{40, 20}, 0 ) );
         axis.setStrokePaint( Color.black );
         addChild( axis );
+        axis.setVisible( false );
         addChild( path );
         update();
     }
@@ -43,7 +53,8 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
             Vector2D.Double vec = new Vector2D.Double( getDx(), -getDy() );
             double mag = vec.getMagnitude();
             vec.normalize();
-            vec.scale( waveValue * 100 );
+
+            vec.scale( waveValue * intensityScale );
             if( vec.getMagnitude() > mag ) {
                 vec = new Vector2D.Double( getDx(), -getDy() );
                 if( waveValue < 0 ) {

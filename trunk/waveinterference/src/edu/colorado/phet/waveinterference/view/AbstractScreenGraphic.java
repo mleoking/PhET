@@ -39,7 +39,6 @@ public class AbstractScreenGraphic extends PNode {
     }
 
     public void update() {
-
     }
 
     private void updateBounds() {
@@ -53,7 +52,6 @@ public class AbstractScreenGraphic extends PNode {
         path.lineTo( -dx, latticeGraphicHeight + dy );
         path.lineTo( -dx, dy );
         path.closePath();
-//        path.setStroke( new BasicStroke( 2 ) );
         path.setStroke( new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         path.setPaint( Color.white );
         path.setStrokePaint( Color.black );
