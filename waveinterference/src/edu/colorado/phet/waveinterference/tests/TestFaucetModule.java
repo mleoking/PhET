@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
@@ -42,10 +41,9 @@ public class TestFaucetModule extends BasicWaveTestModule {
         waveSideView.setOffset( 100, waveModelGraphic.getFullBounds().getCenterY() );
         waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
         getPhetPCanvas().addScreenChild( waveSideView );
-        waveModelGraphic.setOffset( 100, 0 );
-        faucetGraphic = new FaucetGraphic( getPeriod() );
-        double faucetHeight = 50;
-        faucetGraphic.setOffset( 0, waveModelGraphic.getFullBounds().getCenterY() - faucetGraphic.getFullBounds().getHeight() / 2 - faucetHeight );
+        waveModelGraphic.setOffset( 300, 100 );
+        faucetGraphic = new FaucetGraphic( getWaveModel(), getOscillator(), waveModelGraphic.getLatticeScreenCoordinates() );
+
         getPhetPCanvas().addScreenChild( faucetGraphic );
         setOscillatorRadius( 2 );
     }
@@ -58,8 +56,6 @@ public class TestFaucetModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( args, "Test Faucet", "", "" );
-        phetApplication.addModule( new TestFaucetModule() );
-        phetApplication.startApplication();
+        ModuleApplication.startApplication( args, new TestFaucetModule() );
     }
 }

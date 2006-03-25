@@ -52,7 +52,7 @@ public class TestTopView extends BasicWaveTestModule {
     }
 
     protected LatticeScreenCoordinates getLatticeScreenCoordinates() {
-        return getWaveModelGraphic().getLatticeScreenCoordinates( getWaveModel() );
+        return getWaveModelGraphic().getLatticeScreenCoordinates();
     }
 
     public static void main( String[] args ) {

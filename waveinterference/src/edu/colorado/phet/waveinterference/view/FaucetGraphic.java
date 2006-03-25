@@ -2,9 +2,12 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -17,39 +20,71 @@ import java.util.ArrayList;
 public class FaucetGraphic extends PNode {
     private PImage image;
     private ArrayList drops = new ArrayList();
-    private double period;
-    private double lastTime;
     private FaucetData faucetData;
     private PNode waterChild;
+    private WaveModel waveModel;
+    private Oscillator oscillator;
+    private LatticeScreenCoordinates latticeScreenCoordinates;
+    private double lastVelocity;
+    private double fallingDistance;
+    private double dropSpeed;
 
-    public FaucetGraphic( double period ) {
-        faucetData = new MSFaucetData2();
-        this.period = period;
+    public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
+    }
+
+    public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
+        this.waveModel = waveModel;
+        this.oscillator = oscillator;
+        this.latticeScreenCoordinates = latticeScreenCoordinates;
+        this.faucetData = faucetData;
         image = PImageFactory.create( faucetData.getFaucetImageName() );
 
         waterChild = new PNode();
         addChild( waterChild );//so they appear behind
         addChild( image );
-        this.lastTime = System.currentTimeMillis() / 1000.0;
+
+        fallingDistance = 100;
+        dropSpeed = 2;
+        double dx = faucetData.getDistToOpeningX( image.getImage() );
+        double dy = faucetData.getDistToOpeningY( image.getImage() );
+        Point2D screenLocationForOscillator = latticeScreenCoordinates.toScreenCoordinates( oscillator.getCenterX(), oscillator.getCenterY() );
+
+        setOffset( screenLocationForOscillator.getX() - dx, screenLocationForOscillator.getY() - dy - fallingDistance );
     }
 
     public void step() {
-        double currentTime = System.currentTimeMillis() / 1000.0;
-        double timeSinceLast = currentTime - lastTime;
-        System.out.println( "timeSinceLast = " + timeSinceLast + ", period=" + period );
-        if( timeSinceLast > period ) {
-            WaterDropGraphic waterDropGraphic = new WaterDropGraphic();
-            waterDropGraphic.setOffset( faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0,
-                                        faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0 );
+        //todo release a drop when the oscillator is at its peak
+        //todo set speed so drop is at the right Y value when the oscillator is back to 0.0.
+        if( oscillator.getVelocity() * lastVelocity < 0 && oscillator.getVelocity() > 0 ) {//wave is at it's peak
             removeAllDrops();
-            addDrop( waterDropGraphic );
-            //time it so the drop hits y=0 when the wave is at y=0
-            lastTime = currentTime;
+            addDrop();
         }
+        updateDrops();
+        lastVelocity = oscillator.getVelocity();
+    }
+
+    private void updateDrops() {
         for( int i = 0; i < drops.size(); i++ ) {
             WaterDropGraphic waterDropGraphic = (WaterDropGraphic)drops.get( i );
             waterDropGraphic.update();
         }
+    }
+
+    private void addDrop() {
+        double speed = fallingDistance / getTimeToHitTarget() / 30.0;//todo factor out this frame rate
+        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( speed );
+        waterDropGraphic.setOffset( faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0,
+                                    faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0 );
+        addDrop( waterDropGraphic );
+    }
+
+    private double getTimeToHitTarget() {
+        return oscillator.getPeriod() / 4.0;
+    }
+
+    private double getTimeToHitTarget() {
+        return oscillator.getPeriod() / 4.0;
     }
 
     private void removeAllDrops() {
@@ -64,14 +99,16 @@ public class FaucetGraphic extends PNode {
 
     static class WaterDropGraphic extends PNode {
         private PImage image;
+        private double speed;
 
-        public WaterDropGraphic() {
+        public WaterDropGraphic( double speed ) {
+            this.speed = speed;
             image = PImageFactory.create( "images/raindrop1.png" );
             addChild( image );
         }
 
         public void update() {
-            offset( 0, 2 );
+            offset( 0, speed );
         }
     }
 }

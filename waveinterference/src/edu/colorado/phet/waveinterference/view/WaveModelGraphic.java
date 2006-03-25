@@ -63,7 +63,7 @@ public class WaveModelGraphic extends PNode {
         update();
     }
 
-    public LatticeScreenCoordinates getLatticeScreenCoordinates( WaveModel waveModel ) {
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return latticeScreenCoordinates;
     }
 
