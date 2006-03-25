@@ -39,7 +39,6 @@ public class BasicWaveTestModule extends Module {
                 step();
             }
         } );
-
     }
 
     public Oscillator getOscillator() {
@@ -68,9 +67,10 @@ public class BasicWaveTestModule extends Module {
         waveModel.propagate();
     }
 
+    private static double initialTime = System.currentTimeMillis() / 1000.0;
+
     protected double getTime() {
-        double t = System.currentTimeMillis() / 1000.0;
-        return t;
+        return System.currentTimeMillis() / 1000.0 - initialTime;
     }
 
     public Lattice2D getLattice() {

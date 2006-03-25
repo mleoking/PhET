@@ -25,9 +25,12 @@ public class FaucetGraphic extends PNode {
     private WaveModel waveModel;
     private Oscillator oscillator;
     private LatticeScreenCoordinates latticeScreenCoordinates;
-    private double lastVelocity;
+    private double lastDropTime;
     private double fallingDistance;
     private double dropSpeed;
+    private double lastValue;
+    private double lastTime;
+//    private double lastVelocity;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
@@ -45,46 +48,56 @@ public class FaucetGraphic extends PNode {
         addChild( image );
 
         fallingDistance = 100;
-        dropSpeed = 2;
+        dropSpeed = 100;
+
+        latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+                updateLocation();
+            }
+        } );
+        updateLocation();
+    }
+
+    private void updateLocation() {
         double dx = faucetData.getDistToOpeningX( image.getImage() );
         double dy = faucetData.getDistToOpeningY( image.getImage() );
         Point2D screenLocationForOscillator = latticeScreenCoordinates.toScreenCoordinates( oscillator.getCenterX(), oscillator.getCenterY() );
-
         setOffset( screenLocationForOscillator.getX() - dx, screenLocationForOscillator.getY() - dy - fallingDistance );
     }
 
     public void step() {
-        //todo release a drop when the oscillator is at its peak
-        //todo set speed so drop is at the right Y value when the oscillator is back to 0.0.
-        if( oscillator.getVelocity() * lastVelocity < 0 && oscillator.getVelocity() > 0 ) {//wave is at it's peak
-            removeAllDrops();
+        double tEval = oscillator.getPeriod() / 4 - getTimeToHitTarget();
+        double valueForRelease = oscillator.evaluate( tEval );
+        double velForRelease = oscillator.evaluateVelocity( tEval );
+        double dtLast = valueForRelease - lastValue;
+        double dtNow = valueForRelease - oscillator.getValue();
+        double velNow = oscillator.getVelocity();
+        boolean timeJustPassed = dtLast * dtNow <= 0;
+        boolean velocityCorrect = velForRelease * velNow >= 0;
+        if( timeJustPassed && velocityCorrect ) {//just passed the release time
             addDrop();
         }
         updateDrops();
-        lastVelocity = oscillator.getVelocity();
+        lastValue = oscillator.getValue();
+        lastTime = oscillator.getTime();
     }
 
     private void updateDrops() {
         for( int i = 0; i < drops.size(); i++ ) {
             WaterDropGraphic waterDropGraphic = (WaterDropGraphic)drops.get( i );
-            waterDropGraphic.update();
+            waterDropGraphic.update( oscillator.getTime() - lastTime );
         }
     }
 
     private void addDrop() {
-        double speed = fallingDistance / getTimeToHitTarget() / 30.0;//todo factor out this frame rate
-        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( speed );
+        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed );
         waterDropGraphic.setOffset( faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0,
                                     faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0 );
         addDrop( waterDropGraphic );
     }
 
     private double getTimeToHitTarget() {
-        return oscillator.getPeriod() / 4.0;
-    }
-
-    private double getTimeToHitTarget() {
-        return oscillator.getPeriod() / 4.0;
+        return fallingDistance / dropSpeed;
     }
 
     private void removeAllDrops() {
@@ -97,7 +110,7 @@ public class FaucetGraphic extends PNode {
         waterChild.addChild( waterDropGraphic );
     }
 
-    static class WaterDropGraphic extends PNode {
+    class WaterDropGraphic extends PNode {
         private PImage image;
         private double speed;
 
@@ -107,8 +120,8 @@ public class FaucetGraphic extends PNode {
             addChild( image );
         }
 
-        public void update() {
-            offset( 0, speed );
+        public void update( double dt ) {
+            offset( 0, speed * dt );
         }
     }
 }
