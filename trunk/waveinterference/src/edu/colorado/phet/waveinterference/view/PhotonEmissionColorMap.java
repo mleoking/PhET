@@ -28,6 +28,7 @@ public class PhotonEmissionColorMap implements ColorMap {
     }
 
     public Paint getColor( int i, int k ) {
+        //todo ensure wavefunction is the correct size (could have been resized). 
         float value = lattice.wavefunction[i][k];
         float epsilon = 0.025f;
         if( Math.abs( value ) < epsilon && !inited[i][k] ) {

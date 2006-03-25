@@ -2,7 +2,6 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -21,30 +20,30 @@ import java.beans.PropertyChangeListener;
  * Copyright (c) Jun 30, 2005 by Sam Reid
  */
 
-public class SimpleLatticeGraphic extends PNode {
+public class WaveModelGraphic extends PNode {
     private ColorGridNode colorGridNode;
     private PPath borderGraphic;
-    private Lattice2D lattice2D;
     private ColorMap colorMap;
+    private WaveModel waveModel;
 
-    public SimpleLatticeGraphic( Lattice2D lattice2D ) {
-        this( lattice2D, 1, 1 );
+    public WaveModelGraphic( WaveModel waveModel ) {
+        this( waveModel, 1, 1 );
     }
 
-    public SimpleLatticeGraphic( Lattice2D lattice2D, int dx, int dy ) {
-        this( lattice2D, dx, dy, new IndexColorMap( lattice2D ) );
+    public WaveModelGraphic( WaveModel waveModel, int dx, int dy ) {
+        this( waveModel, dx, dy, new IndexColorMap( waveModel.getLattice() ) );
     }
 
-    public SimpleLatticeGraphic( Lattice2D lattice2D, int dx, int dy, ColorMap colorMap ) {
-        this.lattice2D = lattice2D;
-        colorGridNode = new ColorGridNode( new ColorGrid( dx, dy, lattice2D.getWidth(), lattice2D.getHeight() ) );
+    public WaveModelGraphic( WaveModel waveModel, int dx, int dy, ColorMap colorMap ) {
+        this.waveModel = waveModel;
+        colorGridNode = new ColorGridNode( new ColorGrid( dx, dy, waveModel.getWidth(), waveModel.getHeight() ) );
         addChild( colorGridNode );
 
         this.colorMap = colorMap;
 
         borderGraphic = new PPath( colorGridNode.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
-        borderGraphic.setStrokePaint( Color.white );
+        borderGraphic.setStrokePaint( Color.black );
         addChild( borderGraphic );
 
         PropertyChangeListener pcl = new PropertyChangeListener() {
@@ -54,6 +53,11 @@ public class SimpleLatticeGraphic extends PNode {
         };
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, pcl );
+        waveModel.addListener( new WaveModel.Listener() {
+            public void sizeChanged() {
+                update();
+            }
+        } );
         update();
     }
 
@@ -61,11 +65,11 @@ public class SimpleLatticeGraphic extends PNode {
         return new DefaultLatticeScreenCoordinates( waveModel, this );
     }
 
-    public void setWavefunction( Lattice2D lattice2D ) {
-        this.lattice2D = lattice2D;
-        colorGridNode.setGridDimensions( lattice2D.getWidth(), lattice2D.getHeight() );
-        update();
-    }
+//    public void setWavefunction( Lattice2D lattice2D ) {
+//        this.lattice2D = lattice2D;
+//        colorGridNode.setGridDimensions( lattice2D.getWidth(), lattice2D.getHeight() );
+//        update();
+//    }
 
     public void setColorMap( ColorMap colorMap ) {
         this.colorMap = colorMap;
@@ -91,7 +95,7 @@ public class SimpleLatticeGraphic extends PNode {
     }
 
     public void update() {
-        colorGridNode.setGridDimensions( lattice2D.getWidth(), lattice2D.getHeight() );
+        colorGridNode.setGridDimensions( waveModel.getWidth(), waveModel.getHeight() );
         colorGridNode.paint( colorMap );
         decorateBuffer();
         repaint();
@@ -104,9 +108,9 @@ public class SimpleLatticeGraphic extends PNode {
     protected void decorateBuffer() {
     }
 
-    public Lattice2D getWavefunction() {
-        return lattice2D;
-    }
+//    public Lattice2D getWavefunction() {
+//        return lattice2D;
+//    }
 
     public ColorGrid getColorGrid() {
         return getColorGridNode().getColorGrid();
@@ -123,7 +127,7 @@ public class SimpleLatticeGraphic extends PNode {
     }
 
     public Point getGridCoordinates( Point2D localLocation ) {
-        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, lattice2D.getWidth(), lattice2D.getHeight() ),
+        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, waveModel.getWidth(), waveModel.getHeight() ),
                                                                               new Rectangle2D.Double( 0, 0, getFullBounds().getWidth(), getFullBounds().getHeight() ) );
         Point2D val = modelViewTransform2D.viewToModel( localLocation );
         return new Point( (int)val.getX(), (int)val.getY() );
@@ -134,6 +138,10 @@ public class SimpleLatticeGraphic extends PNode {
     }
 
     public void setColor( Color color ) {
-        setColorMap( new IndexColorMap( lattice2D, color ) );
+        setColorMap( new IndexColorMap( waveModel.getLattice(), color ) );
+    }
+
+    public void setBorderPaint( Color color ) {
+        borderGraphic.setStrokePaint( color );
     }
 }

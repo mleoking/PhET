@@ -18,7 +18,7 @@ public class TestSlits extends TestTopView {
         SlitPotential slitPotential = new SlitPotential( getWaveModel() );
 //        VerticalDoubleSlit potential = new VerticalDoubleSlit( getWaveModel().getWidth(), getWaveModel().getHeight(), 40, 5, 10, 15, 100 );
         getWaveModel().setPotential( slitPotential );
-        SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( slitPotential, getSimpleLatticeGraphic().getLatticeScreenCoordinates( getWaveModel() ) );
+        SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( slitPotential, getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( slitPotentialGraphic );
         getOscillator().setAmplitude( 2 );
         getControlPanel().addControlFullWidth( new SlitControlPanel( slitPotential ) );

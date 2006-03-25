@@ -18,7 +18,11 @@ public class TestWaveColor extends TestTopView {
     private SRRWavelengthSliderComponent slider;
 
     public TestWaveColor() {
-        super( "Test Wave Color" );
+        this( "Test Wave Color" );
+    }
+
+    public TestWaveColor( String name ) {
+        super( name );
         slider = new SRRWavelengthSliderComponent();
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -32,7 +36,7 @@ public class TestWaveColor extends TestTopView {
 
     private void updateColor() {
         getWaveModel().clear();
-        getSimpleLatticeGraphic().setColorMap( new PhotonEmissionColorMap( getLattice(), slider.getColor() ) );
+        getWaveModelGraphic().setColorMap( new PhotonEmissionColorMap( getLattice(), slider.getColor() ) );
     }
 
     public static void main( String[] args ) {

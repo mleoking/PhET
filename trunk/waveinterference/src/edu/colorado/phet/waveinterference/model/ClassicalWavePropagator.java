@@ -243,8 +243,12 @@ public class ClassicalWavePropagator {
     }
 
     public void setSize( int width, int height ) {
-        last.setSize( width, height );
-        last2.setSize( width, height );
+        if( last != null ) {
+            last.setSize( width, height );
+        }
+        if( last2 != null ) {
+            last2.setSize( width, height );
+        }
     }
 
     public void setPotential( Potential potential ) {
