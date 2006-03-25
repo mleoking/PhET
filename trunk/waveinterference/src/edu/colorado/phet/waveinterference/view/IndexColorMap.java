@@ -38,7 +38,7 @@ public class IndexColorMap implements ColorMap {
         colors[colors.length - 1] = new Color( r * value, g * value, b * value );
     }
 
-    public Paint getColor( int i, int k ) {
+    public Color getColor( int i, int k ) {
         float value = ( lattice.wavefunction[i][k] + 1.0f ) / 2.0f;
         if( value > 1 ) {
             value = 1;

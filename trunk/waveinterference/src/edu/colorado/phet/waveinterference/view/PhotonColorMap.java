@@ -29,7 +29,7 @@ public class PhotonColorMap implements ColorMap {
         this.lattice = lattice;
     }
 
-    public Paint getColor( int i, int k ) {
+    public Color getColor( int i, int k ) {
 
         float value = lattice.wavefunction[i][k];
         if( value > 0 ) {
@@ -68,7 +68,7 @@ public class PhotonColorMap implements ColorMap {
             return new Vector3f( r + c.r, g + c.g, b + c.b );
         }
 
-        public Paint toColor() {
+        public Color toColor() {
             return new Color( r, g, b );
         }
 

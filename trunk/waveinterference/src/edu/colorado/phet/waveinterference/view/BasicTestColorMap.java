@@ -29,7 +29,7 @@ public class BasicTestColorMap implements ColorMap {
         b = color.getBlue() / 255f;
     }
 
-    public Paint getColor( int i, int k ) {
+    public Color getColor( int i, int k ) {
         float value = ( lattice.wavefunction[i][k] + 1.0f ) / 2.0f;
         if( value > 1 ) {
             value = 1;
@@ -37,8 +37,7 @@ public class BasicTestColorMap implements ColorMap {
         else if( value < 0 ) {
             value = 0;
         }
-        Color color = new Color( r * value, g * value, b * value );
-        return color;
+        return new Color( r * value, g * value, b * value );
     }
 
 }

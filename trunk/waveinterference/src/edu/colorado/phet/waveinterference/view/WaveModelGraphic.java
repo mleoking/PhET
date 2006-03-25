@@ -43,7 +43,7 @@ public class WaveModelGraphic extends PNode {
 
         borderGraphic = new PPath( colorGridNode.getFullBounds() );
         borderGraphic.setStroke( new BasicStroke( 2 ) );
-        borderGraphic.setStrokePaint( Color.black );
+        borderGraphic.setStrokePaint( Color.darkGray );
         addChild( borderGraphic );
 
         PropertyChangeListener pcl = new PropertyChangeListener() {
@@ -143,5 +143,9 @@ public class WaveModelGraphic extends PNode {
 
     public void setBorderPaint( Color color ) {
         borderGraphic.setStrokePaint( color );
+    }
+
+    public ColorMap getColorMap() {
+        return colorMap;
     }
 }

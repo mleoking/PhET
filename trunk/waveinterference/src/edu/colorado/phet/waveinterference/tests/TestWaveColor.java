@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.view.ColorMap;
 import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
 import edu.colorado.phet.waveinterference.view.SRRWavelengthSliderComponent;
 
@@ -34,9 +35,14 @@ public class TestWaveColor extends TestTopView {
         getOscillator().setAmplitude( 2.5 );
     }
 
-    private void updateColor() {
+    protected void updateColor() {
         getWaveModel().clear();
-        getWaveModelGraphic().setColorMap( new PhotonEmissionColorMap( getLattice(), slider.getColor() ) );
+        PhotonEmissionColorMap colorMap = new PhotonEmissionColorMap( getWaveModel(), slider.getColor() );
+        setColorMap( colorMap );
+    }
+
+    protected void setColorMap( ColorMap colorMap ) {
+        getWaveModelGraphic().setColorMap( colorMap );
     }
 
     public static void main( String[] args ) {

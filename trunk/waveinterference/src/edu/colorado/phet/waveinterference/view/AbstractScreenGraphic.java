@@ -43,7 +43,6 @@ public class AbstractScreenGraphic extends PNode {
     }
 
     private void updateBounds() {
-
         Point2D topRight = latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, 0 );
         Point2D bottomRight = latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, waveModel.getHeight() );
         float latticeGraphicHeight = (float)( bottomRight.getY() - topRight.getY() );
@@ -55,7 +54,7 @@ public class AbstractScreenGraphic extends PNode {
         path.lineTo( -dx, dy );
         path.closePath();
 //        path.setStroke( new BasicStroke( 2 ) );
-        path.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+        path.setStroke( new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         path.setPaint( Color.white );
         path.setStrokePaint( Color.black );
     }
@@ -69,6 +68,17 @@ public class AbstractScreenGraphic extends PNode {
     }
 
     public float getYValue( int latticeY ) {
-        return (float)latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, latticeY ).getY();
+        return (float)latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, latticeY ).getY() - getOffsetY();
+    }
+
+    private float getOffsetY() {
+        return (float)latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY();
+    }
+
+    public void setColorMap( ColorMap colorMap ) {
+    }
+
+    public float getCellHeight() {
+        return (float)( latticeScreenCoordinates.toScreenCoordinates( 0, 1 ).getY() - latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY() );
     }
 }
