@@ -25,11 +25,19 @@ public class PhotonEmissionColorMap implements ColorMap {
         this.color = color;
         this.lattice = lattice;
         inited = new boolean[lattice.getWidth()][lattice.getHeight()];
-        lattice.addListener( new WaveModel.Listener() {
+        lattice.addListener( 0, new WaveModel.Listener() {//todo fix this workaround: has to get in front of WaveModelGraphic for notifications.
+
             public void sizeChanged() {
+                System.out.println( "PhotonEmissionColorMap.sizeChanged" );
                 inited = new boolean[lattice.getWidth()][lattice.getHeight()];
+                debug();
             }
         } );
+    }
+
+    private void debug() {
+        System.out.println( "lattice.getWidth() = " + lattice.getWidth() + ", h=" + lattice.getHeight() );
+        System.out.println( "inited.length = " + inited.length + ", inited[0].length=" + inited[0].length );
     }
 
     public Color getColor( int i, int k ) {
