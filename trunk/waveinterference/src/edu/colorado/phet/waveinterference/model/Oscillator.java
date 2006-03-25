@@ -42,11 +42,11 @@ public class Oscillator {
     }
 
     public double getValue() {
-        return amplitude * Math.cos( 2 * Math.PI * getFrequency() * time );
+        return evaluate( time );
     }
 
     public double getVelocity() {
-        return amplitude * Math.sin( 2 * Math.PI * getFrequency() * time ) * 2 * Math.PI * getFrequency();
+        return evaluateVelocity( time );
     }
 
     public int getRadius() {
@@ -92,5 +92,36 @@ public class Oscillator {
 
     public int getCenterY() {
         return y;
+    }
+
+    public double getNextTargetTime() {
+        long numElapsedPeriods = (int)( time / getPeriod() );
+        double timeThisPeriodStarted = numElapsedPeriods * getPeriod();//todo this may not support phase shifts
+        double timeNextPeriodStarts = ( numElapsedPeriods + 1 ) * getPeriod();//todo this may not support phase shifts
+        double timeIntoThisPeriod = time - timeThisPeriodStarted;
+        if( timeIntoThisPeriod < getPeriod() / 4 ) {
+            return timeThisPeriodStarted + getPeriod() / 4;
+        }
+        else {
+            return timeNextPeriodStarts + getPeriod() / 4;
+        }
+//        double t = time;
+//        while( t > 0 ) {
+//            t -= getPeriod();
+//        }
+//        t += getPeriod();
+//        return 0;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public double evaluate( double tEval ) {
+        return amplitude * Math.cos( 2 * Math.PI * getFrequency() * tEval );
+    }
+
+    public double evaluateVelocity( double tEval ) {
+        return amplitude * Math.sin( 2 * Math.PI * getFrequency() * tEval ) * 2 * Math.PI * getFrequency();
     }
 }
