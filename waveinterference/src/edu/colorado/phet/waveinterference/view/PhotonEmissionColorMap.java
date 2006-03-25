@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 import java.awt.*;
 
@@ -13,30 +13,35 @@ import java.awt.*;
  */
 
 public class PhotonEmissionColorMap implements ColorMap {
-    private Lattice2D lattice;
+    private WaveModel lattice;
     private boolean[][] inited;
     private Color color;
 
-    public PhotonEmissionColorMap( Lattice2D lattice ) {
+    public PhotonEmissionColorMap( WaveModel lattice ) {
         this( lattice, Color.blue );
     }
 
-    public PhotonEmissionColorMap( Lattice2D lattice, Color color ) {
+    public PhotonEmissionColorMap( final WaveModel lattice, Color color ) {
         this.color = color;
         this.lattice = lattice;
         inited = new boolean[lattice.getWidth()][lattice.getHeight()];
+        lattice.addListener( new WaveModel.Listener() {
+            public void sizeChanged() {
+                inited = new boolean[lattice.getWidth()][lattice.getHeight()];
+            }
+        } );
     }
 
-    public Paint getColor( int i, int k ) {
-        //todo ensure wavefunction is the correct size (could have been resized). 
-        float value = lattice.wavefunction[i][k];
+    public Color getColor( int i, int k ) {
+        //todo ensure wavefunction is the correct size (could have been resized).
+        float value = lattice.getLattice().getValue( i, k );
         float epsilon = 0.025f;
         if( Math.abs( value ) < epsilon && !inited[i][k] ) {
             return Color.black;
         }
         else {
             inited[i][k] = true;
-            return new BasicTestColorMap( lattice, color ).getColor( i, k );
+            return new BasicTestColorMap( lattice.getLattice(), color ).getColor( i, k );
         }
     }
 
