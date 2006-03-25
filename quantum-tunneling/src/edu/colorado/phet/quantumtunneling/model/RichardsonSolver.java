@@ -46,17 +46,35 @@ public class RichardsonSolver implements IWavePacketSolver {
     // Class data
     //----------------------------------------------------------------------
     
-    // number of propagator steps per tick of the simulation clock
-    private static final int STEPS_PER_CLOCK_TICK = 40; //XXX this is wasteful!
+    /* Enables debugging output */
+    private static boolean PRINT_DEBUG = false;
+    
+    /* Number of propagator steps per tick of the simulation clock */
+    private static final int STEPS_PER_CLOCK_TICK = 40;
     
     /* Each damping coefficient is applied to this many adjacent samples */
-    private static int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
+    private static final int SAMPLES_PER_DAMPING_COEFFICIENT = 10;
 
-    /* Damping coefficients, in order of application, starting from the boundaries of the sample space and working inward */
-    private static double[] DAMPING_COEFFICIENTS = new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
+    /* Damping coefficients, in order of application, 
+     * starting from the boundaries of the sample space and working inward */
+    private static final double[] DAMPING_COEFFICIENTS = 
+        new double[] { 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.15, 0.3, 0.5, 0.7, 0.85, 0.9, 0.925, 0.95, 0.975, 0.99, 0.995, 0.999 };
     
-    /* Number of points between the position bondaries and the damping points */
-    private static int PADDING_SAMPLES = 1000;
+    /* If all visible Psi[] values are below this threshold, then all values of Psi[] are set to zero. */
+    private static final double ZERO_THRESHOLD = 0.02;
+    
+    /* Multiply the number of visible samples by this number, 
+     * and add that many undamped samples to each end of the range. */
+    private static final double EXTRA_SAMPLES_MULTIPLIER = 2.5;
+    
+    /*
+     * dt for this algorithm must be calibrated based on dx, which is
+     * in turn dependent on the width (in pixels) of the Wave Function chart
+     * and the number of pixels-per-sample desired.  Too large a value of dt
+     * will cause the algorithm to fail, and an incorrect dt will cause the
+     * algorithm to be out of sync with the time display.
+     */
+    private static final double DEFAULT_DT = 0.0025; // value chosen by Sam McKagan, version 0.00.18
     
     //----------------------------------------------------------------------
     // Instance data
@@ -77,6 +95,11 @@ public class RichardsonSolver implements IWavePacketSolver {
     private LightweightComplex _alpha; // special parameter for Richardson algorithm
     private LightweightComplex _beta; // special parameter for Richardson algorithm
     
+    // Indicies into Psi[] where "zero thresholding" is applied.
+    private int _thresholdStart, _thresholding;
+    
+    private boolean _isZero; // true if all values of Psi[] are zero
+    
     //----------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------
@@ -94,7 +117,7 @@ public class RichardsonSolver implements IWavePacketSolver {
         _hbar = QTConstants.HBAR;
         _steps = STEPS_PER_CLOCK_TICK;
         _dx = 1;
-        _dt = 0.0025; //XXX value requested by Sam McKagan, version 0.00.18
+        _dt = DEFAULT_DT;
         
         update();
     }
@@ -177,7 +200,7 @@ public class RichardsonSolver implements IWavePacketSolver {
      * setting it to the function of mass, dx and hbar used by 
      * the original Richardson code.
      * 
-     * Analyis by Sam Reid:
+     * Analysis by Sam Reid:
      * Most ODE (ordinary differential equation) solvers fail to work
      * when you increase dt too high.  In this simulation, we have a set
      * of parameters that pushes dt past the failure point.  In the code
@@ -208,7 +231,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             return;
         }
         
-        boolean zero = isSolutionZero();
+        _isZero = isSolutionZero();
 
         // Get the wave packet and energy settings.
         final double width = _wavePacket.getWidth();
@@ -223,14 +246,29 @@ public class RichardsonSolver implements IWavePacketSolver {
         // Determine the position range, including extra "damping" points that won't be visible.
         AbstractPotential pe = _wavePacket.getPotentialEnergy();
         final int numberOfRegions = pe.getNumberOfRegions();
+        final int numberOfVisibleSamples = (int)( ( pe.getEnd( numberOfRegions - 1 ) - pe.getStart( 0 ) ) / _dx ) + 1;
+        final int numberOfExtraSamples = (int)( numberOfVisibleSamples * EXTRA_SAMPLES_MULTIPLIER );
         final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
-        final double minX = pe.getStart( 0 ) - ( _dx * PADDING_SAMPLES ) - ( _dx * numberOfDampedSamples );
-        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * PADDING_SAMPLES ) + ( _dx * numberOfDampedSamples );
+        final double minX = pe.getStart( 0 ) - ( _dx * numberOfExtraSamples ) - ( _dx * numberOfDampedSamples );
+        final double maxX = pe.getEnd( numberOfRegions - 1 ) + ( _dx * numberOfExtraSamples ) + ( _dx * numberOfDampedSamples );
         
         // Calculate the number of samples.
         final int numberOfSamples = (int)( ( maxX - minX ) / _dx ) + 1;
-//        System.out.println( "RichardsonSolver.reset: numberOfSamples=" + numberOfSamples + " minX=" + minX + " maxX=" + maxX + " dx=" + _dx );//XXX
+        
+        if ( PRINT_DEBUG ) {
+            System.out.print( "DEBUG: RichardsonSolver.reset " );//XXX
+            System.out.print( " samples=" + numberOfSamples );//XXX
+            System.out.print( " visible=" + numberOfVisibleSamples );//XXX
+            System.out.print( " extra=" + ( 2 * numberOfExtraSamples ) );//XXX
+            System.out.print( " damped=" + ( 2 * numberOfDampedSamples ) );//XXX
+            System.out.print( " minX=" + minX + " maxX=" + maxX + " dx=" + _dx );//XXX
+            System.out.println();
+        }
 
+        // Set indicies for applying zero threshold...
+        _thresholdStart = numberOfExtraSamples + numberOfDampedSamples - 1;
+        _thresholding = numberOfSamples - numberOfExtraSamples - numberOfDampedSamples - 1;
+        
         // Initialize constants used by the propagator.
         final double epsilon = _hbar * _dt / ( _mass * _dx * _dx );
         _alpha = new LightweightComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) ), -0.5 * Math.sin( epsilon / 2 ) );
@@ -244,7 +282,7 @@ public class RichardsonSolver implements IWavePacketSolver {
         for ( int i = 0; i < numberOfSamples; i++ ) {
             final double position = minX + ( i * _dx );
             _positions[i] = position;
-            if ( zero ) {
+            if ( _isZero ) {
                 _Psi[i] = new LightweightComplex( 0, 0 );
                 _EtoV[i] = new LightweightComplex( 0, 0 );
             }
@@ -269,6 +307,9 @@ public class RichardsonSolver implements IWavePacketSolver {
         return _wavePacket.getPotentialEnergy().getEnergyAt( position );
     }
 
+    /**
+     * Propagates the wave function.
+     */
     public void propagate() {
         propagate( _steps );
     }
@@ -477,22 +518,63 @@ public class RichardsonSolver implements IWavePacketSolver {
                 _Psi[i + 1]._imaginary = i3 + i4;
             }
 
-            /*
-             * Damps the values near the min and max positions
-             * to prevent periodic boundary conditions.
-             * Otherwise, the wave will appear to exit from one
-             * edge of the display and enter on the other edge.
-             */
-            final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
-            if ( _Psi.length > numberOfDampedSamples ) {
-                for ( int i = 0; i < numberOfDampedSamples; i++ ) {
-                    final double scale = DAMPING_COEFFICIENTS[i/SAMPLES_PER_DAMPING_COEFFICIENT ];
-                    // left edge...
-                    _Psi[i]._real *= scale;
-                    _Psi[i]._imaginary *= scale;
-                    // right edge...
-                    _Psi[_Psi.length - i - 1]._real *= scale;
-                    _Psi[_Psi.length - i - 1]._imaginary *= scale;
+            // Apply damping
+            applyDamping();
+        }
+        
+        // Apply "zero thresholding".
+        applyZeroThresholding();
+    }
+ 
+    /*
+     * Applies damping to the wave function.
+     * Damps the values near the min and max positions to prevent periodic boundary conditions.
+     * Otherwise, the wave will appear to exit from one edge of the display and enter on the other edge.
+     */
+    private void applyDamping() {
+        final int numberOfDampedSamples = SAMPLES_PER_DAMPING_COEFFICIENT * DAMPING_COEFFICIENTS.length;
+        if ( _Psi.length > numberOfDampedSamples ) {
+            for ( int i = 0; i < numberOfDampedSamples; i++ ) {
+                final double scale = DAMPING_COEFFICIENTS[i/SAMPLES_PER_DAMPING_COEFFICIENT ];
+                // left edge...
+                _Psi[i]._real *= scale;
+                _Psi[i]._imaginary *= scale;
+                // right edge...
+                _Psi[_Psi.length - i - 1]._real *= scale;
+                _Psi[_Psi.length - i - 1]._imaginary *= scale;
+            }
+        }
+    }
+    
+    /*
+     * Applies "zero thresholding" to the wave function.
+     * If all of the Psi[] values in the visible range have real and imaginary
+     * parts below the threshold, then set all Psi[] values to zero.
+     * If we have enough points outside the visible range, then this will
+     * prevent us from ever seeing reflection or circularity at the boundaries. 
+     */
+    private void applyZeroThresholding() {
+        
+        // If Psi[] is not already zero...
+        if ( !_isZero ) {
+
+            boolean thresholdExceeded = false;
+            for ( int i = _thresholdStart; i < _thresholding; i++ ) {
+                // Stop as soon as one value exceeds the threshold.
+                if ( _Psi[i]._real > ZERO_THRESHOLD || _Psi[i]._imaginary > ZERO_THRESHOLD ) {
+                    thresholdExceeded = true;
+                    break;
+                }
+            }
+
+            if ( ! thresholdExceeded ) {
+                for ( int i = 0; i < _Psi.length; i++ ) {
+                    _Psi[i]._real = 0;
+                    _Psi[i]._imaginary = 0;
+                }
+                _isZero = true;
+                if ( PRINT_DEBUG ) {
+                    System.out.println( "DEBUG: zero thresholding has been applied to wave function" );
                 }
             }
         }
