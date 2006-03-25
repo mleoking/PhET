@@ -18,7 +18,7 @@ public class TestSideViewModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;
 
     public TestSideViewModule() {
-        super( "Test Side View" );
+        super( "Side View" );
 
         waveSideView = new WaveSideView( getLattice() );
         waveSideView.setOffset( 0, 300 );

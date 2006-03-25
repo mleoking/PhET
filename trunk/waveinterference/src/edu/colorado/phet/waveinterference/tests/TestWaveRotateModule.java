@@ -21,7 +21,7 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
     private final int WAVE_GRAPHIC_OFFSET = 75;
 
     public TestWaveRotateModule() {
-        this( "Wave Rotate Test" );
+        this( "Wave Rotate" );
     }
 
     protected TestWaveRotateModule( String name ) {
