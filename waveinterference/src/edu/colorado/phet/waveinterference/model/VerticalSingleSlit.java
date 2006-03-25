@@ -22,13 +22,13 @@ public class VerticalSingleSlit extends VerticalBarrier {
     }
 
     protected void update() {
-        int gridWidth = getGridWidth();
+        int gridHeight = getGridHeight();
         int slitSize = getSlitSize();
         int thickness = getThickness();
         int x = getX();
         double potential = getPotential();
 
-        int slitCenter = round( gridWidth / 2.0 );
+        int slitCenter = round( gridHeight / 2.0 );
         topBar = new Rectangle( x, 0, thickness, round( slitCenter - slitSize / 2.0 ) );
         int y = round( slitCenter + slitSize / 2.0 );
         bottomBar = new Rectangle( x, y, thickness, getGridHeight() - y );
@@ -42,7 +42,7 @@ public class VerticalSingleSlit extends VerticalBarrier {
             compositePotential.addPotential( new BarrierPotential( topBar, potential ) );
             compositePotential.addPotential( new BarrierPotential( bottomBar, potential ) );
         }
-        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridWidth, getGridHeight() ) );
+        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridHeight, getGridHeight() ) );
         notifyListeners();
     }
 
