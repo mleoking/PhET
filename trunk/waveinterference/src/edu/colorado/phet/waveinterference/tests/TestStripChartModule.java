@@ -53,7 +53,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
     }
 
     private void addIntensityReader() {
-        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates( getWaveModel() ) );
+        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
         intensityReader.addListener( new IntensityReaderDecorator.Listener() {
             public void deleted() {
                 intensityReaders.remove( intensityReader );
