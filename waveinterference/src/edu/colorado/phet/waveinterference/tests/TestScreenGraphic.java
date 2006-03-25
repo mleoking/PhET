@@ -18,15 +18,13 @@ public class TestScreenGraphic extends TestWaveColor {
     public TestScreenGraphic() {
         super( "Test Screen Graphic" );
         getWaveModel().setSize( 50, 50 );
-        screenGraphic = new CurveScreenGraphic( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
+        screenGraphic = new CurveScreenGraphic( getWaveModel(), getLatticeScreenCoordinates() );
 
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( getWaveModelGraphic() );
         getWaveModelGraphic().setOffset( 100, 100 );
-//        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
-        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX() + 100, getWaveModelGraphic().getFullBounds().getY() );
-//        getWaveModelGraphic().setBorderPaint( Color.black );
+        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
     }
 
     protected void setColorMap( ColorMap colorMap ) {
