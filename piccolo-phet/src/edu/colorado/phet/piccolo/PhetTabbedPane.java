@@ -109,10 +109,14 @@ public class PhetTabbedPane extends JPanel {
      * Sets the bounds of each tab JComponent to mimic behavior in JTabbedPane
      */
     private void relayoutComponents() {
-        Rectangle bounds = component.getBounds();
-        for( int i = 0; i < getTabCount(); i++ ) {
-            tabPane.getTabs()[i].getComponent().setBounds( bounds );//to mimic behavior in JTabbedPane
-        }
+//todo Deleted body of relayoutComponents()
+//todo I originally believed this to be necessary in QWI to get tabs content JComponent to appear at the right size the first time they appear, but this code causes an error in 1.5: no content JComponent shows initially.
+//todo This fixed version works correctly for the TestPhetTabbedPane test under 1.4 and 1.5, so maybe the fault was originally with QWI.  This warrants further investigation.
+
+//        Rectangle bounds = component.getBounds();
+//        for( int i = 0; i < getTabCount(); i++ ) {
+//            tabPane.getTabs()[i].getComponent().setBounds( 0,tabPane.getHeight(),100,100);//to mimic behavior in JTabbedPane
+//        }
     }
 
     /**
