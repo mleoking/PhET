@@ -1,8 +1,11 @@
-What is better for rotation graphic: isometric or extended?
+Do we want the screen to show exact lattice values, or some kind of time-average or intensity value?
+What to do about negative curve values on the screen being hidden behind the wave area?
+
 When zooming in on particles, we want to keep the wavelength constant, so maybe should call this "magnify particles"
     Alternatively, when zooming in, we could increase the wavelength, but this leads to problems with resizing the lattice.  Maybe better to keep the wavelength the same on zoom in and call the operation "magnify particles"?
 We want to show the initial transient in the wave starting up (say, for photons), but don't want all of space to already be the photon color.  How to handle this?  Black or White screen as default?  Then what are minima for the waves (could artificially increase the wavelength by a factor of 2 to make it look the same).
 What is fringe view vs wave view for the screen?  Is this showing the outline of the waveform (ie lineplot whose height is a function of intensity at that location) vs showing vertical stripes, the brightness being a function of intensity?
+What is better for rotation graphic: isometric or extended?
 
 Also:
 
