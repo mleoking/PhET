@@ -1,0 +1,2 @@
+WaveModel is kind of a Decorator of Lattice (adds Propagator)
+Graphic elements attach to the lattice via LatticeCoordinateMapping (not directly to a specific graphic)

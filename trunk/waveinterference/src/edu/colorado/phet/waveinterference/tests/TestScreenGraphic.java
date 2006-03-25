@@ -2,8 +2,8 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.AbstractScreenGraphic;
-import edu.colorado.phet.waveinterference.view.BrightnessScreenGraphic;
 import edu.colorado.phet.waveinterference.view.ColorMap;
+import edu.colorado.phet.waveinterference.view.CurveScreenGraphic;
 
 /**
  * User: Sam Reid
@@ -18,13 +18,14 @@ public class TestScreenGraphic extends TestWaveColor {
     public TestScreenGraphic() {
         super( "Test Screen Graphic" );
         getWaveModel().setSize( 50, 50 );
-        screenGraphic = new BrightnessScreenGraphic( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
+        screenGraphic = new CurveScreenGraphic( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
 
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( getWaveModelGraphic() );
         getWaveModelGraphic().setOffset( 100, 100 );
-        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
+//        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
+        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX() + 100, getWaveModelGraphic().getFullBounds().getY() );
 //        getWaveModelGraphic().setBorderPaint( Color.black );
     }
 

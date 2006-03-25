@@ -30,6 +30,10 @@ public class WaveModel {
         listeners.add( listener );
     }
 
+    public double getValue( int i, int j ) {
+        return lattice.getValue( i, j );
+    }
+
     public static interface Listener {
 
         void sizeChanged();
