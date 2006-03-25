@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- set Richardson psi[] to all zero when all values are below some threshold
 - add a command line arg to enabled Developer menu
 - fix Richardson dt for new position range and dx
 - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem
@@ -41,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+(3/24/06) - set Richardson psi[] to all zero when all values are below some threshold
 (3/24/06) - in Richardson, add samples between visible samples and damped samples
 (3/24/06) - set interpolation to "nearest neighbor" in JFreeChartNode to improve JDK 1.5 performance
 (3/24/06) - add support for plot orientation to FastPathRenderer
