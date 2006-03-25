@@ -5,7 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
-import edu.colorado.phet.waveinterference.view.SimpleLatticeGraphic;
+import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
 import javax.swing.event.ChangeEvent;
@@ -20,32 +20,32 @@ import javax.swing.event.ChangeListener;
 
 public class TestFaucetModule extends BasicWaveTestModule {
     private FaucetGraphic faucetGraphic;
-    private SimpleLatticeGraphic simpleLatticeGraphic;
+    private WaveModelGraphic waveModelGraphic;
     private WaveSideView waveSideView;
 
     public TestFaucetModule() {
         super( "Test Faucet" );
-        simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-        super.getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
+        super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
         BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
-        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, simpleLatticeGraphic.getCellDimensions().width );
+        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int dim = (int)cellDim.getValue();
-                simpleLatticeGraphic.setCellDimensions( dim, dim );
+                waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );
         controlPanel.addControl( cellDim );
         setControlPanel( controlPanel );
         waveSideView = new WaveSideView( getLattice() );
-        waveSideView.setOffset( 100, simpleLatticeGraphic.getFullBounds().getCenterY() );
-        waveSideView.setSpaceBetweenCells( simpleLatticeGraphic.getCellDimensions().width );
+        waveSideView.setOffset( 100, waveModelGraphic.getFullBounds().getCenterY() );
+        waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
         getPhetPCanvas().addScreenChild( waveSideView );
-        simpleLatticeGraphic.setOffset( 100, 0 );
+        waveModelGraphic.setOffset( 100, 0 );
         faucetGraphic = new FaucetGraphic( getPeriod() );
         double faucetHeight = 50;
-        faucetGraphic.setOffset( 0, simpleLatticeGraphic.getFullBounds().getCenterY() - faucetGraphic.getFullBounds().getHeight() / 2 - faucetHeight );
+        faucetGraphic.setOffset( 0, waveModelGraphic.getFullBounds().getCenterY() - faucetGraphic.getFullBounds().getHeight() / 2 - faucetHeight );
         getPhetPCanvas().addScreenChild( faucetGraphic );
         setOscillatorRadius( 2 );
     }
@@ -53,7 +53,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
     protected void step() {
         super.step();
         faucetGraphic.step();
-        simpleLatticeGraphic.update();
+        waveModelGraphic.update();
         waveSideView.update();
     }
 

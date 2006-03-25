@@ -5,7 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderDecorator;
-import edu.colorado.phet.waveinterference.view.SimpleLatticeGraphic;
+import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,21 +21,21 @@ import java.util.ArrayList;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 public class TestStripChartModule extends BasicWaveTestModule {
-    private SimpleLatticeGraphic simpleLatticeGraphic;
+    private WaveModelGraphic waveModelGraphic;
     private ArrayList intensityReaders = new ArrayList();
 
     public TestStripChartModule() {
         super( "Test Strip Chart" );
 
-        simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-        super.getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
+        super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
         BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
-        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, simpleLatticeGraphic.getCellDimensions().width );
+        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int dim = (int)cellDim.getValue();
-                simpleLatticeGraphic.setCellDimensions( dim, dim );
+                waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );
 
@@ -53,7 +53,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
     }
 
     private void addIntensityReader() {
-        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( getPhetPCanvas(), getWaveModel(), simpleLatticeGraphic.getLatticeScreenCoordinates( getWaveModel() ) );
+        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates( getWaveModel() ) );
         intensityReader.addListener( new IntensityReaderDecorator.Listener() {
             public void deleted() {
                 intensityReaders.remove( intensityReader );
@@ -67,7 +67,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
 
     protected void step() {
         super.step();
-        simpleLatticeGraphic.update();
+        waveModelGraphic.update();
         for( int i = 0; i < intensityReaders.size(); i++ ) {
             IntensityReaderDecorator reader = (IntensityReaderDecorator)intensityReaders.get( i );
             reader.update();

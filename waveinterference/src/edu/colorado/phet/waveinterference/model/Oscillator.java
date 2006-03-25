@@ -32,7 +32,9 @@ public class Oscillator {
             for( int j = y - oscillatorRadius; j <= y + oscillatorRadius; j++ ) {
                 if( Math.sqrt( ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) ) < oscillatorRadius ) {
                     double value = amplitude * Math.cos( 2 * Math.PI * frequency * t );
-                    waveModel.setSourceValue( i, j, (float)value );
+                    if( waveModel.containsLocation( i, j ) ) {
+                        waveModel.setSourceValue( i, j, (float)value );
+                    }
                 }
             }
         }

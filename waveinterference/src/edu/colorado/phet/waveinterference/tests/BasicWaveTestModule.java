@@ -88,4 +88,5 @@ public class BasicWaveTestModule extends Module {
     public void setPeriod( double value ) {
         oscillator.setPeriod( value );
     }
+
 }

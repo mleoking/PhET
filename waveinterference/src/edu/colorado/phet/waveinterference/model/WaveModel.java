@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.model;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 24, 2006
@@ -11,6 +13,7 @@ package edu.colorado.phet.waveinterference.model;
 public class WaveModel {
     private Lattice2D lattice;
     private ClassicalWavePropagator classicalWavePropagator;
+    private ArrayList listeners = new ArrayList();
 
     public WaveModel( int width, int height ) {
         lattice = new Lattice2D( width, height );
@@ -20,6 +23,23 @@ public class WaveModel {
     public void setSize( int width, int height ) {
         lattice.setSize( width, height );
         classicalWavePropagator.setSize( width, height );
+        notifySizeChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+
+        void sizeChanged();
+    }
+
+    private void notifySizeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.sizeChanged();
+        }
     }
 
     public Lattice2D getLattice() {

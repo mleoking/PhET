@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
  */
 public class TestWaveRotateModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;
-    private SimpleLatticeGraphic simpleLatticeGraphic;
+    private WaveModelGraphic waveModelGraphic;
     private RotationGlyph rotationGlyph;
     private final int WAVE_GRAPHIC_OFFSET = 75;
 
@@ -30,21 +30,21 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
         waveSideView = new WaveSideViewFull( getLattice() );
         waveSideView.setOffset( WAVE_GRAPHIC_OFFSET, 300 );
 
-        simpleLatticeGraphic = new SimpleLatticeGraphic( super.getLattice(), 10, 10, new IndexColorMap( super.getLattice() ) );
-        simpleLatticeGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
+        waveModelGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
         rotationGlyph = new RotationGlyph();
         getPhetPCanvas().addScreenChild( rotationGlyph );
-        getPhetPCanvas().addScreenChild( simpleLatticeGraphic );
+        getPhetPCanvas().addScreenChild( waveModelGraphic );
         getPhetPCanvas().addScreenChild( waveSideView );
 
-        waveSideView.setSpaceBetweenCells( simpleLatticeGraphic.getCellDimensions().width );
+        waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
         BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int dim = (int)cellDim.getValue();
                 waveSideView.setSpaceBetweenCells( dim );
-                simpleLatticeGraphic.setCellDimensions( dim, dim );
+                waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );
         final ModelSlider rotate = new ModelSlider( "View Angle", "radians", 0, Math.PI / 2, 0 );
@@ -65,35 +65,35 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
         if( value == 0 ) {
             rotationGlyph.setVisible( false );
             waveSideView.setVisible( false );
-            simpleLatticeGraphic.setVisible( true );
+            waveModelGraphic.setVisible( true );
         }
         else if( value >= Math.PI / 2 - 0.02 ) {
             rotationGlyph.setVisible( false );
             waveSideView.setVisible( true );
-            simpleLatticeGraphic.setVisible( false );
+            waveModelGraphic.setVisible( false );
         }
         else {
             rotationGlyph.setVisible( true );
             waveSideView.setVisible( false );
-            simpleLatticeGraphic.setVisible( false );
+            waveModelGraphic.setVisible( false );
         }
     }
 
     private void updateRotationGlyph( double value ) {
-        rotationGlyph.setPrimaryHeight( simpleLatticeGraphic.getFullBounds().getHeight() );
-        rotationGlyph.setPrimaryWidth( simpleLatticeGraphic.getFullBounds().getWidth() );
+        rotationGlyph.setPrimaryHeight( waveModelGraphic.getFullBounds().getHeight() );
+        rotationGlyph.setPrimaryWidth( waveModelGraphic.getFullBounds().getWidth() );
         rotationGlyph.setAngle( value );
-        rotationGlyph.setOffset( WAVE_GRAPHIC_OFFSET, simpleLatticeGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
+        rotationGlyph.setOffset( WAVE_GRAPHIC_OFFSET, waveModelGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
     }
 
     private void updateLocations() {
-        waveSideView.setOffset( simpleLatticeGraphic.getFullBounds().getX(), simpleLatticeGraphic.getFullBounds().getCenterY() );
+        waveSideView.setOffset( waveModelGraphic.getFullBounds().getX(), waveModelGraphic.getFullBounds().getCenterY() );
     }
 
     protected void step() {
         super.step();
         waveSideView.update();
-        simpleLatticeGraphic.update();
+        waveModelGraphic.update();
         updateLocations();
     }
 
