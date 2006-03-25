@@ -19,7 +19,7 @@ public class TestWaveColor extends TestTopView {
     private SRRWavelengthSliderComponent slider;
 
     public TestWaveColor() {
-        this( "Test Wave Color" );
+        this( "Wave Color" );
     }
 
     public TestWaveColor( String name ) {

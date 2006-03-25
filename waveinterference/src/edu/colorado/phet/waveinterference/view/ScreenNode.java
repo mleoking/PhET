@@ -45,6 +45,7 @@ public class ScreenNode extends PNode {
     public void update() {
         curveScreenGraphic.setVisible( isCurveMode() && isScreenEnabled() );
         brightnessScreenGraphic.setVisible( isIntensityMode() && isScreenEnabled() );
+        updateScreen();
     }
 
     public void setIntensityMode() {
@@ -63,7 +64,11 @@ public class ScreenNode extends PNode {
     }
 
     public void updateScreen() {
-        curveScreenGraphic.update();
-        brightnessScreenGraphic.update();
+        if( curveScreenGraphic.getVisible() ) {
+            curveScreenGraphic.update();
+        }
+        else if( brightnessScreenGraphic.getVisible() ) {
+            brightnessScreenGraphic.update();
+        }
     }
 }

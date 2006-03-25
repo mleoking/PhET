@@ -24,7 +24,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;
 
     public TestFaucetModule() {
-        super( "Test Faucet" );
+        super( "Faucet" );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 

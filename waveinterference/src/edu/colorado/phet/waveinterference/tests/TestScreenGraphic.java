@@ -16,7 +16,7 @@ public class TestScreenGraphic extends TestWaveColor {
     private ScreenNode screenGraphic;
 
     public TestScreenGraphic() {
-        super( "Test Screen Graphic" );
+        super( "Screen Graphic" );
         getWaveModel().setSize( 50, 50 );
         screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
 

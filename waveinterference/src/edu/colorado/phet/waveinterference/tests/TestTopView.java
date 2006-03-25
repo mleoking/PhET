@@ -21,7 +21,7 @@ public class TestTopView extends BasicWaveTestModule {
     private BasicWaveTestControlPanel controlPanel;
 
     protected TestTopView() {
-        this( "Test Top View" );
+        this( "Top View" );
     }
 
     protected TestTopView( String name ) {

@@ -25,7 +25,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
     private ArrayList intensityReaders = new ArrayList();
 
     public TestStripChartModule() {
-        super( "Test Strip Chart" );
+        super( "Strip Chart" );
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );

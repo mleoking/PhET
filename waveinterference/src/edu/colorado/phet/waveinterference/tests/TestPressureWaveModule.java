@@ -22,7 +22,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;
 
     public TestPressureWaveModule() {
-        super( "Test Pressure View" );
+        super( "Pressure View" );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         waveModelGraphic.setVisible( false );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
