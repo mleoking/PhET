@@ -36,7 +36,6 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
                 }
             };
             fillPathFull( j, path );
-
             addBrightnessStripe( path );
             Color paint = colorMap.getColor( getWaveModel().getWidth() - 1, j );
             path.setStroke( null );
@@ -50,20 +49,8 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
         path.lineTo( 0 + getDx(), y - getDy() + getCellHeight() + 1 );
         path.lineTo( -getDx(), y + getCellHeight() + 1 + getDy() );
         path.lineTo( -getDx(), y + getDy() );
-//        path.lineTo( 0+getDx(),y-getDy());
         path.closePath();
     }
-
-//    private void fillPathStepwise( PPath path, float y ) {
-//        path.moveTo( 0, y );
-//        path.lineTo( 0 + getDx(), y - getDy() );
-//        path.lineTo( 0 + getDx(), y - getDy() + getCellHeight() + 1 );
-//        path.lineTo( 0, y + getCellHeight() + 1 );
-//        path.lineTo( -getDx(), y + getCellHeight() + 1 + getDy() );
-//        path.lineTo( -getDx(), y + getDy() );
-//        path.lineTo( 0,0);
-//        path.closePath();
-//    }
 
     private void removeAllStripes() {
         while( stripes.size() > 0 ) {
