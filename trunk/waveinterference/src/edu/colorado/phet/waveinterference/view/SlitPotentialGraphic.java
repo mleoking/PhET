@@ -29,6 +29,11 @@ public class SlitPotentialGraphic extends PNode {
             }
         } );
         update();
+        latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+                update();
+            }
+        } );
     }
 
     private void update() {

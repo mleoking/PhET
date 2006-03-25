@@ -25,6 +25,11 @@ public class SlitPotential implements Potential {
 
     public SlitPotential( WaveModel waveModel ) {
         this.waveModel = waveModel;
+        waveModel.addListener( new WaveModel.Listener() {
+            public void sizeChanged() {
+                update();
+            }
+        } );
         update();
     }
 

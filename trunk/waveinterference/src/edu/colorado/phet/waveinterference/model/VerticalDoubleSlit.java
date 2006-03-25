@@ -19,7 +19,6 @@ public class VerticalDoubleSlit extends VerticalBarrier {
     private Rectangle midBar;
     private Rectangle bottomBar;
 
-
     public VerticalDoubleSlit( int gridWidth, int gridHeight, int x, int thickness, int slitSize, int slitSeparation, double potential ) {
         super( gridWidth, gridHeight, x, thickness, slitSize, slitSeparation, potential );
     }

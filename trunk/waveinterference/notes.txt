@@ -1,4 +1,5 @@
 Do we want the screen to show exact lattice values, or some kind of time-average or intensity value?
+    If they show exact lattice values (both + and -), then the screen is always changing (may be confusing, hard to read, hard to interpret).
 What to do about negative curve values on the screen being hidden behind the wave area?
 
 When zooming in on particles, we want to keep the wavelength constant, so maybe should call this "magnify particles"

@@ -30,7 +30,6 @@ public class TestSlitsAndScreen extends TestTopView {
         screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
 
         SlitPotential slitPotential = new SlitPotential( getWaveModel() );
-//        VerticalDoubleSlit potential = new VerticalDoubleSlit( getWaveModel().getWidth(), getWaveModel().getHeight(), 40, 5, 10, 15, 100 );
         getWaveModel().setPotential( slitPotential );
         SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( slitPotential, getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( slitPotentialGraphic );
