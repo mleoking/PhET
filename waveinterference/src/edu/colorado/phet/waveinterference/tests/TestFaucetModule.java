@@ -7,6 +7,7 @@ import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -38,8 +39,6 @@ public class TestFaucetModule extends BasicWaveTestModule {
         controlPanel.addControl( cellDim );
         setControlPanel( controlPanel );
         waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
-//        waveSideView.setOffset( 100, waveModelGraphic.getFullBounds().getCenterY() );
-//        waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
         getPhetPCanvas().addScreenChild( waveSideView );
         waveModelGraphic.setOffset( 300, 100 );
         faucetGraphic = new FaucetGraphic( getWaveModel(), getOscillator(), waveModelGraphic.getLatticeScreenCoordinates() );
@@ -62,6 +61,24 @@ public class TestFaucetModule extends BasicWaveTestModule {
             }
         } );
         getControlPanel().addControl( dropSpeed );
+
+        final JCheckBox showSideView = new JCheckBox( "Side view", waveSideView.getVisible() );
+        showSideView.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                waveSideView.setVisible( showSideView.isSelected() );
+            }
+        } );
+        getControlPanel().addControl( showSideView );
+
+        final JCheckBox showTopView = new JCheckBox( "Top View", waveModelGraphic.getVisible() );
+        showTopView.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                waveModelGraphic.setVisible( showTopView.isSelected() );
+            }
+        } );
+        getControlPanel().addControl( showTopView );
+
+
     }
 
     protected void step() {
