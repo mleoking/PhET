@@ -30,7 +30,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         pressureWaveGraphic = new PressureWaveGraphic( getLattice() );
         pressureWaveGraphic.setOffset( 0, 0 );
         getPhetPCanvas().addScreenChild( pressureWaveGraphic );
-        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
@@ -71,13 +71,13 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
             }
         } );
 
-        controlPanel.addControl( cellDim );
-        controlPanel.addControl( showWave );
-        controlPanel.addControl( imageSize );
-        controlPanel.addControl( acceleration );
-        controlPanel.addControl( maxVelocity );
-        controlPanel.addControl( friction );
-        setControlPanel( controlPanel );
+        getControlPanel().addControl( cellDim );
+        getControlPanel().addControl( showWave );
+        getControlPanel().addControl( imageSize );
+        getControlPanel().addControl( acceleration );
+        getControlPanel().addControl( maxVelocity );
+        getControlPanel().addControl( friction );
+//        setControlPanel( controlPanel );
     }
 
     protected void step() {

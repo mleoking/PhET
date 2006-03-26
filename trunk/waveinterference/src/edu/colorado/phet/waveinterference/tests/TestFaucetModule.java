@@ -28,7 +28,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
-        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -36,8 +36,8 @@ public class TestFaucetModule extends BasicWaveTestModule {
                 waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );
-        controlPanel.addControl( cellDim );
-        setControlPanel( controlPanel );
+        getControlPanel().addControl( cellDim );
+//        setControlPanel( controlPanel );
         waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( waveSideView );
         waveModelGraphic.setOffset( 300, 100 );

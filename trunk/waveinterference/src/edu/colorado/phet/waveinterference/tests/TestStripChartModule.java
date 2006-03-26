@@ -30,7 +30,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
-        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -46,9 +46,8 @@ public class TestStripChartModule extends BasicWaveTestModule {
             }
         } );
 
-        controlPanel.addControl( cellDim );
-        controlPanel.addControl( addDetector );
-        setControlPanel( controlPanel );
+        getControlPanel().addControl( cellDim );
+        getControlPanel().addControl( addDetector );
         addIntensityReader();
     }
 

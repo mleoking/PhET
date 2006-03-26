@@ -22,7 +22,7 @@ public class TestSideViewModule extends BasicWaveTestModule {
         waveSideView = new WaveSideView( getLattice(), new ExplicitCoordinates() );
         waveSideView.setOffset( 0, 300 );
         getPhetPCanvas().addScreenChild( waveSideView );
-        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
         double distBetweenCells = waveSideView.getDistBetweenCells();
         System.out.println( "distBetweenCells = " + distBetweenCells );
@@ -33,8 +33,8 @@ public class TestSideViewModule extends BasicWaveTestModule {
                 waveSideView.setSpaceBetweenCells( dim );
             }
         } );
-        controlPanel.addControl( cellDim );
-        setControlPanel( controlPanel );
+        getControlPanel().addControl( cellDim );
+//        setControlPanel( controlPanel );
     }
 
     protected void step() {
