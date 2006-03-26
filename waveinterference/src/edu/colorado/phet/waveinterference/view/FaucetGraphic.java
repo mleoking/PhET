@@ -6,7 +6,10 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -25,12 +28,9 @@ public class FaucetGraphic extends PNode {
     private WaveModel waveModel;
     private Oscillator oscillator;
     private LatticeScreenCoordinates latticeScreenCoordinates;
-    private double lastDropTime;
-    private double fallingDistance;
+    private double dropHeight;
     private double dropSpeed;
-    private double lastValue;
     private double lastTime;
-//    private double lastVelocity;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
@@ -47,7 +47,7 @@ public class FaucetGraphic extends PNode {
         addChild( waterChild );//so they appear behind
         addChild( image );
 
-        fallingDistance = 100;
+        dropHeight = 200;
         dropSpeed = 100;
 
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
@@ -61,43 +61,71 @@ public class FaucetGraphic extends PNode {
     private void updateLocation() {
         double dx = faucetData.getDistToOpeningX( image.getImage() );
         double dy = faucetData.getDistToOpeningY( image.getImage() );
-        Point2D screenLocationForOscillator = latticeScreenCoordinates.toScreenCoordinates( oscillator.getCenterX(), oscillator.getCenterY() );
-        setOffset( screenLocationForOscillator.getX() - dx, screenLocationForOscillator.getY() - dy - fallingDistance );
+        Point2D screenLocationForOscillator = getOscillatorScreenCoordinates();
+        setOffset( screenLocationForOscillator.getX() - dx, screenLocationForOscillator.getY() - dy - dropHeight );
+    }
+
+    private Point2D getOscillatorScreenCoordinates() {
+        return latticeScreenCoordinates.toScreenCoordinates( oscillator.getCenterX(), oscillator.getCenterY() );
     }
 
     public void step() {
-        double tEval = oscillator.getPeriod() / 4 - getTimeToHitTarget();
-        double valueForRelease = oscillator.evaluate( tEval );
-        double velForRelease = oscillator.evaluateVelocity( tEval );
-        double dtLast = valueForRelease - lastValue;
-        double dtNow = valueForRelease - oscillator.getValue();
-        double velNow = oscillator.getVelocity();
-        boolean timeJustPassed = dtLast * dtNow <= 0;
-        boolean velocityCorrect = velForRelease * velNow >= 0;
-        if( timeJustPassed && velocityCorrect ) {//just passed the release time
+        if( isRightBeforeReleaseTime( lastTime ) && isRightAfterReleaseTime( oscillator.getTime() ) ) {
             addDrop();
         }
         updateDrops();
-        lastValue = oscillator.getValue();
         lastTime = oscillator.getTime();
+    }
+
+    private boolean isRightAfterReleaseTime( double time ) {
+        double releaseTime = getNearestReleaseTime( time );
+        if( time >= releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isRightBeforeReleaseTime( double time ) {
+        double releaseTime = getNearestReleaseTime( time );
+        if( time < releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
+            return true;
+        }
+        return false;
+    }
+
+    private double getNearestReleaseTime( double time ) {
+        double nReal = time / oscillator.getPeriod() - 0.25 + getTimeToHitTarget() / oscillator.getPeriod();
+        int n = (int)Math.round( nReal );
+        return oscillator.getPeriod() / 4 - getTimeToHitTarget() + n * oscillator.getPeriod();
     }
 
     private void updateDrops() {
         for( int i = 0; i < drops.size(); i++ ) {
             WaterDropGraphic waterDropGraphic = (WaterDropGraphic)drops.get( i );
             waterDropGraphic.update( oscillator.getTime() - lastTime );
+            if( waterDropGraphic.readyToRemove() ) {
+                System.out.println( "FaucetGraphic.updateDrops" );
+                removeDrop( (WaterDropGraphic)drops.get( i ) );
+                i--;
+            }
         }
+    }
+
+    private void removeDrop( WaterDropGraphic waterDropGraphic ) {
+        drops.remove( waterDropGraphic );
+        waterChild.removeChild( waterDropGraphic );
     }
 
     private void addDrop() {
         WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed );
-        waterDropGraphic.setOffset( faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0,
-                                    faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0 );
+        double x = faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0;
+        double y = faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0;
+        waterDropGraphic.setOffset( x, y );
         addDrop( waterDropGraphic );
     }
 
     private double getTimeToHitTarget() {
-        return fallingDistance / dropSpeed;
+        return dropHeight / dropSpeed;
     }
 
     private void removeAllDrops() {
@@ -108,6 +136,18 @@ public class FaucetGraphic extends PNode {
     private void addDrop( WaterDropGraphic waterDropGraphic ) {
         drops.add( waterDropGraphic );
         waterChild.addChild( waterDropGraphic );
+    }
+
+    private double getDistanceFromParentOriginToOscillatorY() {
+        return -( getOffset().getY() - getOscillatorScreenCoordinates().getY() );
+    }
+
+    public double getDropHeight() {
+        return dropHeight;
+    }
+
+    public void setDropHeight( double value ) {
+        this.dropHeight = value;
     }
 
     class WaterDropGraphic extends PNode {
@@ -123,5 +163,37 @@ public class FaucetGraphic extends PNode {
         public void update( double dt ) {
             offset( 0, speed * dt );
         }
+
+        public void fullPaint( PPaintContext paintContext ) {
+            Shape origClip = paintContext.getLocalClip();
+            //todo: works under a variety of conditions, not fully tested
+            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
+            localToParent( rect );
+            paintContext.pushClip( rect );
+            super.fullPaint( paintContext );
+            paintContext.popClip( origClip );
+        }
+
+        //todo works under a variety of conditions, not fully tested.
+        public boolean readyToRemove() {
+            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
+            localToParent( rect );
+            PBounds bounds = getFullBounds();
+            return !bounds.intersects( rect );
+        }
+    }
+
+    public static void main( String[] args ) {
+        WaveModel waveModel = new WaveModel( 50, 50 );
+        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( waveModel );
+        Oscillator oscillator = new Oscillator( waveModel );
+        oscillator.setPeriod( 2 );
+        FaucetGraphic faucetGraphic = new FaucetGraphic( waveModel, oscillator, waveModelGraphic.getLatticeScreenCoordinates() );
+        debugNearestTime( faucetGraphic, 31.2 );
+    }
+
+    private static void debugNearestTime( FaucetGraphic faucetGraphic, double t ) {
+        double nearest = faucetGraphic.getNearestReleaseTime( t );
+        System.out.println( "t = " + t + ", nearest release = " + nearest );
     }
 }

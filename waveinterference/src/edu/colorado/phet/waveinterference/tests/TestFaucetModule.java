@@ -46,6 +46,15 @@ public class TestFaucetModule extends BasicWaveTestModule {
 
         getPhetPCanvas().addScreenChild( faucetGraphic );
         setOscillatorRadius( 2 );
+
+        final ModelSlider dropHeight = new ModelSlider( "Drop Height", "pixels", 0, 500, faucetGraphic.getDropHeight() );
+        dropHeight.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                faucetGraphic.setDropHeight( dropHeight.getValue() );
+            }
+        } );
+        getControlPanel().addControl( dropHeight );
+
     }
 
     protected void step() {
