@@ -69,7 +69,7 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
                 path.lineTo( (float)result.getX(), (float)result.getY() );
             }
         }
-        path.setOffset( 0, getCellHeight() / 2.0 );
+        path.setOffset( 0, super.getCellHeight() / 2.0 );
     }
 
 }

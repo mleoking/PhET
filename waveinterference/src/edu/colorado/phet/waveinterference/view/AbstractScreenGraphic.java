@@ -21,6 +21,7 @@ public class AbstractScreenGraphic extends PNode {
     private PPath path;
     private float dx = 50;
     private float dy = 30;
+    private float cellHeight = 0;
 
     public AbstractScreenGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.waveModel = waveModel;
@@ -63,6 +64,7 @@ public class AbstractScreenGraphic extends PNode {
 
 //        setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
         setOffset( latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth(), 0 ) );
+        this.cellHeight = computeCellHeight();
     }
 
     public WaveModel getWaveModel() {
@@ -84,7 +86,11 @@ public class AbstractScreenGraphic extends PNode {
     public void setColorMap( ColorMap colorMap ) {
     }
 
-    public float getCellHeight() {
+    private float computeCellHeight() {
         return (float)( latticeScreenCoordinates.toScreenCoordinates( 0, 1 ).getY() - latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY() );
+    }
+
+    public float getCellHeight() {
+        return cellHeight;
     }
 }
