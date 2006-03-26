@@ -16,6 +16,7 @@ public class Oscillator {
     private int y;
     private double amplitude = 1.0;
     private double time;
+    private boolean enabled = true;
 
     public Oscillator( WaveModel waveModel ) {
         this( waveModel, 8, waveModel.getHeight() / 2 );
@@ -29,12 +30,14 @@ public class Oscillator {
 
     public void setTime( double t ) {
         this.time = t;
-        double value = getValue();
-        for( int i = x - oscillatorRadius; i <= x + oscillatorRadius; i++ ) {
-            for( int j = y - oscillatorRadius; j <= y + oscillatorRadius; j++ ) {
-                if( Math.sqrt( ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) ) < oscillatorRadius ) {
-                    if( waveModel.containsLocation( i, j ) ) {
-                        waveModel.setSourceValue( i, j, (float)value );
+        if( isEnabled() ) {
+            double value = getValue();
+            for( int i = x - oscillatorRadius; i <= x + oscillatorRadius; i++ ) {
+                for( int j = y - oscillatorRadius; j <= y + oscillatorRadius; j++ ) {
+                    if( Math.sqrt( ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) ) < oscillatorRadius ) {
+                        if( waveModel.containsLocation( i, j ) ) {
+                            waveModel.setSourceValue( i, j, (float)value );
+                        }
                     }
                 }
             }
@@ -93,25 +96,25 @@ public class Oscillator {
     public int getCenterY() {
         return y;
     }
-
-    public double getNextTargetTime() {
-        long numElapsedPeriods = (int)( time / getPeriod() );
-        double timeThisPeriodStarted = numElapsedPeriods * getPeriod();//todo this may not support phase shifts
-        double timeNextPeriodStarts = ( numElapsedPeriods + 1 ) * getPeriod();//todo this may not support phase shifts
-        double timeIntoThisPeriod = time - timeThisPeriodStarted;
-        if( timeIntoThisPeriod < getPeriod() / 4 ) {
-            return timeThisPeriodStarted + getPeriod() / 4;
-        }
-        else {
-            return timeNextPeriodStarts + getPeriod() / 4;
-        }
-//        double t = time;
-//        while( t > 0 ) {
-//            t -= getPeriod();
+//
+//    public double getNextTargetTime() {
+//        long numElapsedPeriods = (int)( time / getPeriod() );
+//        double timeThisPeriodStarted = numElapsedPeriods * getPeriod();//todo this may not support phase shifts
+//        double timeNextPeriodStarts = ( numElapsedPeriods + 1 ) * getPeriod();//todo this may not support phase shifts
+//        double timeIntoThisPeriod = time - timeThisPeriodStarted;
+//        if( timeIntoThisPeriod < getPeriod() / 4 ) {
+//            return timeThisPeriodStarted + getPeriod() / 4;
 //        }
-//        t += getPeriod();
-//        return 0;
-    }
+//        else {
+//            return timeNextPeriodStarts + getPeriod() / 4;
+//        }
+////        double t = time;
+////        while( t > 0 ) {
+////            t -= getPeriod();
+////        }
+////        t += getPeriod();
+////        return 0;
+//    }
 
     public double getTime() {
         return time;
@@ -123,5 +126,13 @@ public class Oscillator {
 
     public double evaluateVelocity( double tEval ) {
         return amplitude * Math.sin( 2 * Math.PI * getFrequency() * tEval ) * 2 * Math.PI * getFrequency();
+    }
+
+    public void setEnabled( boolean selected ) {
+        this.enabled = selected;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }
