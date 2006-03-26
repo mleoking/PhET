@@ -52,7 +52,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
             compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
             compositePotential.addPotential( new BarrierPotential( bottomBar, potential ) );
         }
-        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridHeight, getGridHeight() ) );
+        setPotentialDelegate( new PrecomputedPotential( compositePotential, getGridWidth(), getGridHeight() ) );
         notifyListeners();
 
     }
