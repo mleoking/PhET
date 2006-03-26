@@ -77,6 +77,9 @@ public class TestFaucetModule extends BasicWaveTestModule {
             }
         } );
         getControlPanel().addControl( showTopView );
+
+        FaucetOnOffControlPanel faucetOnOffControlPanel = new FaucetOnOffControlPanel( getOscillator() );
+        getControlPanel().addControl( faucetOnOffControlPanel );
     }
 
     protected void step() {
