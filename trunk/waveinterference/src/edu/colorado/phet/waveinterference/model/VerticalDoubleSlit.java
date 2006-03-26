@@ -24,16 +24,16 @@ public class VerticalDoubleSlit extends VerticalBarrier {
     }
 
     protected void update() {
-        int gridWidth = getGridWidth();
+        int gridHeight = getGridHeight();
         int slitSeparation = getSlitSeparation();
         int slitSize = getSlitSize();
         int thickness = getThickness();
         int x = getX();
         double potential = getPotential();
 
-        int topSlitCenter = round( gridWidth / 2.0 - slitSeparation / 2.0 );
-        int bottomSlitCenter = round( gridWidth / 2.0 + slitSeparation / 2.0 );
-        int midBarSize = round( gridWidth / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
+        int topSlitCenter = round( gridHeight / 2.0 - slitSeparation / 2.0 );
+        int bottomSlitCenter = round( gridHeight / 2.0 + slitSeparation / 2.0 );
+        int midBarSize = round( gridHeight / 2.0 - slitSeparation / 2.0 - slitSize / 2.0 );
 
         topBar = new Rectangle( x, 0, thickness, round( topSlitCenter - slitSize / 2.0 ) );
         midBar = new Rectangle( x, round( topSlitCenter + slitSize / 2.0 ), thickness, slitSeparation - slitSize );
@@ -52,7 +52,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
             compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
             compositePotential.addPotential( new BarrierPotential( bottomBar, potential ) );
         }
-        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridWidth, getGridHeight() ) );
+        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridHeight, getGridHeight() ) );
         notifyListeners();
 
     }

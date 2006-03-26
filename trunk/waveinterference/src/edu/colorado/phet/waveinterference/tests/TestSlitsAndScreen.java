@@ -22,12 +22,10 @@ public class TestSlitsAndScreen extends TestTopView {
         super( "Slits & Screen" );
 
         screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
-
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
-        getPhetPCanvas().addScreenChild( getWaveModelGraphic() );
+        getPhetPCanvas().addScreenChild( getWaveModelGraphic() );//put it on top
         getWaveModelGraphic().setOffset( 100, 100 );
-        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
 
         SlitPotential slitPotential = new SlitPotential( getWaveModel() );
         getWaveModel().setPotential( slitPotential );

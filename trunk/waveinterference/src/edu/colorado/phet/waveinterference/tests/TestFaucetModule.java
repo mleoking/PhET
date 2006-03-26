@@ -77,8 +77,6 @@ public class TestFaucetModule extends BasicWaveTestModule {
             }
         } );
         getControlPanel().addControl( showTopView );
-
-
     }
 
     protected void step() {
