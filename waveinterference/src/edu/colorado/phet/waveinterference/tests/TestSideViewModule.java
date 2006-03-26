@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
@@ -20,12 +19,14 @@ public class TestSideViewModule extends BasicWaveTestModule {
     public TestSideViewModule() {
         super( "Side View" );
 
-        waveSideView = new WaveSideView( getLattice() );
+        waveSideView = new WaveSideView( getLattice(), new ExplicitCoordinates() );
         waveSideView.setOffset( 0, 300 );
         getPhetPCanvas().addScreenChild( waveSideView );
         BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
-        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
+        double distBetweenCells = waveSideView.getDistBetweenCells();
+        System.out.println( "distBetweenCells = " + distBetweenCells );
+        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, distBetweenCells );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int dim = (int)cellDim.getValue();
@@ -42,8 +43,6 @@ public class TestSideViewModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( args, "Test Side View Module", "", "" );
-        phetApplication.addModule( new TestSideViewModule() );
-        phetApplication.startApplication();
+        ModuleApplication.startApplication( args, new TestSideViewModule() );
     }
 }

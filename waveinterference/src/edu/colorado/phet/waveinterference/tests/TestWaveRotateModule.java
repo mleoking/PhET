@@ -27,11 +27,13 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
     protected TestWaveRotateModule( String name ) {
         super( name );
 
-        waveSideView = new WaveSideViewFull( getLattice() );
-        waveSideView.setOffset( WAVE_GRAPHIC_OFFSET, 300 );
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         waveModelGraphic.setOffset( WAVE_GRAPHIC_OFFSET, 0 );
+
+        waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        waveSideView.setOffset( WAVE_GRAPHIC_OFFSET, 300 );
+
         rotationGlyph = new RotationGlyph();
         getPhetPCanvas().addScreenChild( rotationGlyph );
         getPhetPCanvas().addScreenChild( waveModelGraphic );

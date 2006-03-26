@@ -15,11 +15,11 @@ import java.awt.geom.Point2D;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 
-public class DefaultLatticeScreenCoordinates extends LatticeScreenCoordinates {
+public class WaveGraphicCoordinates extends LatticeScreenCoordinates {
     private PNode simpleLatticeGraphic;
     private WaveModel waveModel;
 
-    public DefaultLatticeScreenCoordinates( WaveModel waveModel, PNode simpleLatticeGraphic ) {
+    public WaveGraphicCoordinates( WaveModel waveModel, PNode simpleLatticeGraphic ) {
         this.waveModel = waveModel;
         this.simpleLatticeGraphic = simpleLatticeGraphic;
     }
@@ -51,13 +51,5 @@ public class DefaultLatticeScreenCoordinates extends LatticeScreenCoordinates {
     public Point toLatticeCoordinates( double x, double y ) {
         Point2D fp = toLatticeCoordinatesFP( x, y );
         return new Point( (int)fp.getX(), (int)fp.getY() );
-//        Point2D location = new Point2D.Double( x, y );
-//        simpleLatticeGraphic.globalToLocal( location );
-//        double fracDistX = location.getX() / simpleLatticeGraphic.getFullBounds().getWidth();
-//        double fracDistY = location.getY() / simpleLatticeGraphic.getFullBounds().getHeight();
-//
-//        Point2D fracLoc = new Point2D.Double( fracDistX, fracDistY );
-//        return new Point( (int)( fracLoc.getX() * waveModel.getWidth() ),
-//                          (int)( fracLoc.getY() * waveModel.getHeight() ) );
     }
 }
