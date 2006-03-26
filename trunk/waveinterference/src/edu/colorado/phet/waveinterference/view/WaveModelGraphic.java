@@ -38,7 +38,7 @@ public class WaveModelGraphic extends PNode {
     public WaveModelGraphic( WaveModel waveModel, int dx, int dy, ColorMap colorMap ) {
         this.waveModel = waveModel;
         colorGridNode = new ColorGridNode( new ColorGrid( dx, dy, waveModel.getWidth(), waveModel.getHeight() ) );
-        latticeScreenCoordinates = new DefaultLatticeScreenCoordinates( waveModel, this );
+        latticeScreenCoordinates = new WaveGraphicCoordinates( waveModel, this );
         addChild( colorGridNode );
 
         this.colorMap = colorMap;
@@ -51,6 +51,7 @@ public class WaveModelGraphic extends PNode {
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 borderGraphic.setPathTo( colorGridNode.getFullBounds() );
+                notifyMappingChanged();
             }
         };
         colorGridNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, pcl );
@@ -95,6 +96,10 @@ public class WaveModelGraphic extends PNode {
         colorGridNode.paint( colorMap );
         decorateBuffer();
         repaint();
+        notifyMappingChanged();
+    }
+
+    private void notifyMappingChanged() {
         latticeScreenCoordinates.notifyMappingChanged();
     }
 

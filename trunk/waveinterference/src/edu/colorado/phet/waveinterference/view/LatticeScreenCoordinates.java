@@ -35,6 +35,11 @@ public abstract class LatticeScreenCoordinates {
         }
     }
 
+    public double getCellWidth() {
+//        return toLatticeCoordinates( 1,0).getX()-toLatticeCoordinates( 0,0).getX();
+        return toScreenCoordinates( 1, 0 ).getX() - toScreenCoordinates( 0, 0 ).getX();
+    }
+
     public static interface Listener {
         void mappingChanged();
     }

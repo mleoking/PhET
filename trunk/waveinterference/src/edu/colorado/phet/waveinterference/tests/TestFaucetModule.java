@@ -37,9 +37,9 @@ public class TestFaucetModule extends BasicWaveTestModule {
         } );
         controlPanel.addControl( cellDim );
         setControlPanel( controlPanel );
-        waveSideView = new WaveSideView( getLattice() );
-        waveSideView.setOffset( 100, waveModelGraphic.getFullBounds().getCenterY() );
-        waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
+        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+//        waveSideView.setOffset( 100, waveModelGraphic.getFullBounds().getCenterY() );
+//        waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
         getPhetPCanvas().addScreenChild( waveSideView );
         waveModelGraphic.setOffset( 300, 100 );
         faucetGraphic = new FaucetGraphic( getWaveModel(), getOscillator(), waveModelGraphic.getLatticeScreenCoordinates() );
@@ -55,6 +55,13 @@ public class TestFaucetModule extends BasicWaveTestModule {
         } );
         getControlPanel().addControl( dropHeight );
 
+        final ModelSlider dropSpeed = new ModelSlider( "Drop Speed", "pixels/sec", 0, 500, faucetGraphic.getDropSpeed() );
+        dropSpeed.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                faucetGraphic.setDropSpeed( dropSpeed.getValue() );
+            }
+        } );
+        getControlPanel().addControl( dropSpeed );
     }
 
     protected void step() {

@@ -18,11 +18,13 @@ import java.awt.geom.GeneralPath;
 public class WaveSideView extends PNode {
     private PPath path;
     private Lattice2D lattice2D;
-    private int distBetweenPoints = 5;
+    private LatticeScreenCoordinates latticeScreenCoordinates;
+    private double distBetweenPoints = 5;
     private double amplitudeScale = -150;
 
-    public WaveSideView( Lattice2D lattice2D ) {
+    public WaveSideView( Lattice2D lattice2D, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.lattice2D = lattice2D;
+        this.latticeScreenCoordinates = latticeScreenCoordinates;
         path = new PPath();
         addChild( path );
         update();
@@ -45,6 +47,8 @@ public class WaveSideView extends PNode {
     }
 
     public void update() {
+        setSpaceBetweenCells( latticeScreenCoordinates.getCellWidth() );
+        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, lattice2D.getHeight() / 2 ) );
         GeneralPath generalpath = getWavePath();
         path.setPathTo( generalpath );
     }
@@ -54,7 +58,7 @@ public class WaveSideView extends PNode {
         int yValue = getYValue();
         for( int i = 0; i < lattice2D.getWidth(); i++ ) {
             float y = getY( i, yValue );
-            int x = getX( i );
+            float x = getX( i );
             if( i == 0 ) {
                 generalpath.moveTo( x, y );
             }
@@ -66,12 +70,11 @@ public class WaveSideView extends PNode {
     }
 
     protected int getYValue() {
-        int yValue = lattice2D.getHeight() / 2;
-        return yValue;
+        return lattice2D.getHeight() / 2;
     }
 
-    protected int getX( int i ) {
-        return i * distBetweenPoints;
+    protected float getX( int i ) {
+        return (float)( i * distBetweenPoints );
     }
 
     float getY( int index, int yValue ) {
@@ -98,7 +101,7 @@ public class WaveSideView extends PNode {
         return distBetweenPoints;
     }
 
-    public void setSpaceBetweenCells( int dim ) {
+    public void setSpaceBetweenCells( double dim ) {
         this.distBetweenPoints = dim;
     }
 }

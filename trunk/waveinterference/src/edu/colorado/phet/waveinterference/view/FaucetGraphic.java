@@ -28,8 +28,8 @@ public class FaucetGraphic extends PNode {
     private WaveModel waveModel;
     private Oscillator oscillator;
     private LatticeScreenCoordinates latticeScreenCoordinates;
-    private double dropHeight;
-    private double dropSpeed;
+    private double dropHeight = 100;
+    private double dropSpeed = 100;
     private double lastTime;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
@@ -46,9 +46,6 @@ public class FaucetGraphic extends PNode {
         waterChild = new PNode();
         addChild( waterChild );//so they appear behind
         addChild( image );
-
-        dropHeight = 200;
-        dropSpeed = 100;
 
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
@@ -195,5 +192,13 @@ public class FaucetGraphic extends PNode {
     private static void debugNearestTime( FaucetGraphic faucetGraphic, double t ) {
         double nearest = faucetGraphic.getNearestReleaseTime( t );
         System.out.println( "t = " + t + ", nearest release = " + nearest );
+    }
+
+    public double getDropSpeed() {
+        return dropSpeed;
+    }
+
+    public void setDropSpeed( double dropSpeed ) {
+        this.dropSpeed = dropSpeed;
     }
 }

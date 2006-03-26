@@ -14,8 +14,8 @@ import java.awt.geom.GeneralPath;
  */
 
 public class WaveSideViewFull extends WaveSideView {
-    public WaveSideViewFull( Lattice2D lattice2D ) {
-        super( lattice2D );
+    public WaveSideViewFull( Lattice2D lattice2D, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        super( lattice2D, latticeScreenCoordinates );
         setStroke( new BasicStroke( 3 ) );
     }
 
