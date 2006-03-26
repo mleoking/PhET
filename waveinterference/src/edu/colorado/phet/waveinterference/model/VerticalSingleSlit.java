@@ -42,7 +42,7 @@ public class VerticalSingleSlit extends VerticalBarrier {
             compositePotential.addPotential( new BarrierPotential( topBar, potential ) );
             compositePotential.addPotential( new BarrierPotential( bottomBar, potential ) );
         }
-        setPotentialDelegate( new PrecomputedPotential( compositePotential, gridHeight, getGridHeight() ) );
+        setPotentialDelegate( new PrecomputedPotential( compositePotential, getGridWidth(), getGridHeight() ) );
         notifyListeners();
     }
 
