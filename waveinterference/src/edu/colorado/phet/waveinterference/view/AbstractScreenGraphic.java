@@ -27,6 +27,11 @@ public class AbstractScreenGraphic extends PNode {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         path = new PPath();
         addChild( path );
+        latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+                updateBounds();
+            }
+        } );
         updateBounds();
     }
 
@@ -55,6 +60,9 @@ public class AbstractScreenGraphic extends PNode {
         path.setStroke( new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         path.setPaint( Color.white );
         path.setStrokePaint( Color.black );
+
+//        setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
+        setOffset( latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth(), 0 ) );
     }
 
     public WaveModel getWaveModel() {
