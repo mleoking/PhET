@@ -12,17 +12,17 @@ import java.awt.*;
  * Copyright (c) Mar 21, 2006 by Sam Reid
  */
 
-public class BasicTestColorMap implements ColorMap {
+public class BasicColorMap implements ColorMap {
     private Lattice2D lattice;
     float r = 0;
     float g = 0;
     float b = 1.0f;
 
-    public BasicTestColorMap( Lattice2D lattice ) {
+    public BasicColorMap( Lattice2D lattice ) {
         this( lattice, Color.blue );
     }
 
-    public BasicTestColorMap( Lattice2D lattice, Color color ) {
+    public BasicColorMap( Lattice2D lattice, Color color ) {
         this.lattice = lattice;
         r = color.getRed() / 255f;
         g = color.getGreen() / 255f;

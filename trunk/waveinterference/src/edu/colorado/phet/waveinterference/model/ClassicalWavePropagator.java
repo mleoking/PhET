@@ -70,7 +70,7 @@ public class ClassicalWavePropagator {
     }
 
     private void clearPotential( Lattice2D last ) {
-        //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0.
+        //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0. (18% application in one run)
         for( int i = 0; i < last.getWidth(); i++ ) {
             for( int j = 0; j < last.getHeight(); j++ ) {
                 if( potential.getPotential( i, j, 0 ) != 0.0 ) {

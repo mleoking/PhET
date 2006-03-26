@@ -16,6 +16,7 @@ public class PhotonEmissionColorMap implements ColorMap {
     private WaveModel lattice;
     private boolean[][] inited;
     private Color color;
+    private BasicColorMap basicColorMap;
 
     public PhotonEmissionColorMap( WaveModel lattice ) {
         this( lattice, Color.blue );
@@ -33,6 +34,7 @@ public class PhotonEmissionColorMap implements ColorMap {
                 debug();
             }
         } );
+        this.basicColorMap = new BasicColorMap( lattice.getLattice(), color );
     }
 
     private void debug() {
@@ -49,7 +51,7 @@ public class PhotonEmissionColorMap implements ColorMap {
         }
         else {
             inited[i][k] = true;
-            return new BasicTestColorMap( lattice.getLattice(), color ).getColor( i, k );
+            return basicColorMap.getColor( i, k );
         }
     }
 
