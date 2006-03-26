@@ -40,7 +40,7 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
         getPhetPCanvas().addScreenChild( waveSideView );
 
         waveSideView.setSpaceBetweenCells( waveModelGraphic.getCellDimensions().width );
-        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -55,9 +55,9 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
                 setRotation( rotate.getValue() );
             }
         } );
-        controlPanel.addControl( cellDim );
-        controlPanel.addControl( rotate );
-        setControlPanel( controlPanel );
+        getControlPanel().addControl( cellDim );
+        getControlPanel().addControl( rotate );
+//        setControlPanel( controlPanel );
         updateLocations();
         setRotation( 0 );
     }

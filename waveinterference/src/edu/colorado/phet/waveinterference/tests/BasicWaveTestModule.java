@@ -39,6 +39,8 @@ public class BasicWaveTestModule extends Module {
                 step();
             }
         } );
+        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
+        setControlPanel( controlPanel );
     }
 
     public Oscillator getOscillator() {
