@@ -5,6 +5,7 @@ import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
+import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 
 /**
@@ -51,5 +52,9 @@ public class WaterModule extends WaveInterferenceModule {
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return waterSimulationPanel.getLatticeScreenCoordinates();
+    }
+
+    public IntensityReaderSet getIntensityReaderSet() {
+        return waterSimulationPanel.getIntensityReaderSet();
     }
 }

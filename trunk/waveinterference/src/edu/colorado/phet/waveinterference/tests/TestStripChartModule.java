@@ -6,11 +6,8 @@ import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -37,22 +34,13 @@ public class TestStripChartModule extends BasicWaveTestModule {
         } );
         intensityReaderSet = new IntensityReaderSet();
         getPhetPCanvas().addScreenChild( intensityReaderSet );
-
-        JButton addDetector = new JButton( "Add Detector" );
-        addDetector.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                addIntensityReader();
-            }
-        } );
+        DetectorSetControlPanel detectorSetControlPanel = new DetectorSetControlPanel( intensityReaderSet, getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
 
         getControlPanel().addControl( cellDim );
-        getControlPanel().addControl( addDetector );
-        addIntensityReader();
+        getControlPanel().addControl( detectorSetControlPanel );
+        detectorSetControlPanel.addIntensityReader();
     }
 
-    private void addIntensityReader() {
-        intensityReaderSet.addIntensityReader( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
-    }
 
     protected void step() {
         super.step();
