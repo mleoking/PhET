@@ -16,15 +16,16 @@ public class SlitPotential implements Potential {
     private boolean enabled = true;
     private int slitWidth = 10;
     private int slitSeparation = 12;
-    private int location = 50;
     private int thickness = 5;
     private double potentialValue = 100;
+    private int location;
     private boolean oneSlit = true;
     private Potential potential;
     private ArrayList listeners = new ArrayList();
 
     public SlitPotential( WaveModel waveModel ) {
         this.waveModel = waveModel;
+        location = (int)( waveModel.getWidth() * 0.75 );
         waveModel.addListener( new WaveModel.Listener() {
             public void sizeChanged() {
                 update();

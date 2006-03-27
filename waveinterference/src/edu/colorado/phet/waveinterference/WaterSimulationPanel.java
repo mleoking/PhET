@@ -14,12 +14,13 @@ import edu.colorado.phet.waveinterference.view.*;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class WaterSimulationPanel extends WaveInterferenceCanvas {
+public class WaterSimulationPanel extends WaveInterferenceCanvas implements ModelElement {
     private WaterModule waterModule;
     private RotationWaveGraphic rotationWaveGraphic;
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
     private MeasurementToolSet measurementToolSet;
+    private FaucetGraphic primaryFaucetGraphic;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -29,9 +30,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
         RotationGlyph rotationGlyph = new RotationGlyph();
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
         rotationWaveGraphic.setOffset( 50, 20 );
-        waterModule.getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                rotationWaveGraphic.update();
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                angleChanged();
             }
         } );
         addScreenChild( rotationWaveGraphic );
@@ -44,6 +45,18 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
 
         measurementToolSet = new MeasurementToolSet();
         addScreenChild( measurementToolSet );
+
+        primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        addScreenChild( primaryFaucetGraphic );
+    }
+
+    private void angleChanged() {
+        if( rotationWaveGraphic.isTopView() ) {
+            slitPotentialGraphic.setVisible( true );
+        }
+        else {
+            slitPotentialGraphic.setVisible( false );
+        }
     }
 
     private Lattice2D getLattice() {
@@ -68,5 +81,14 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
 
     public MeasurementToolSet getMeasurementToolSet() {
         return measurementToolSet;
+    }
+
+    public FaucetGraphic getPrimaryFaucetGraphic() {
+        return primaryFaucetGraphic;
+    }
+
+    public void stepInTime( double dt ) {
+        rotationWaveGraphic.update();
+        primaryFaucetGraphic.step();
     }
 }

@@ -15,8 +15,8 @@ import javax.swing.event.ChangeListener;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 
-public class FrequencyAmplitudeControlPanel extends VerticalLayoutPanel {
-    public FrequencyAmplitudeControlPanel( final Oscillator oscillator ) {
+public class OscillatorControlPanel extends VerticalLayoutPanel {
+    public OscillatorControlPanel( final Oscillator oscillator ) {
         final ModelSlider frequencySlider = new ModelSlider( "Frequency", "Hz", 0, 10, oscillator.getFrequency() );
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
