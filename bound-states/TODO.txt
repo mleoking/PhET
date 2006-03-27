@@ -9,27 +9,24 @@ HIGH PRIORITY:
 - EigenstatesNode expects getEigenstates to return them sorted lowest to highest, how to enforce?
 - drawing problem with BSHarmonicOscillatorDialog when ang freq is dragged toward max
 - drawing problem with BSCoulombDialog & BSSquareDialog when #wells is set from 0->1 in control panel 
-- exception thrown when selected eigenstate falls off the bottom/top of chart
 - need model for superposition coefficients
-- different width ranges for single, double, many well modules
 - width and spacing sliders in BSSquareDialog don't interact like they should
 - relationship in UI between well depth & spacing, how do they affect each others controls?
-- eigenstates (including selected ones) may be off the top or bottom of the graph, need to handle this!
 - support for programmatic multiple selection of eigenstate lines
 - normalization of Superposition coefficients has round-off and double precision error
-- update persistence code to include new modules
 - override reset, save, load methods for each module
 - drag handles for each potential type (all slightly different)
-- commandline options for choosing which modules to display
-- model
 - time-independent solution to Schrodinger equation
-- Single and Double modules need to permanently hide the "number of wells" control
 
 MEDIUM PRIORITY:
+- Single and Double modules need to permanently hide the "number of wells" control
+- different width ranges for single, double, many well modules
+- update persistence code to include new modules
 - add a small bit of space about y-axis range on the Energy chart
 - subscripts should start at 1, except Harmonic Oscillator well starts at 0
 
 LOW PRIORITY:
+- commandline options for choosing which modules to display
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
 
 OPTIMIZATIONS:
