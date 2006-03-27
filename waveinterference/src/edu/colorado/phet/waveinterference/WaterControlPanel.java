@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.tests.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 
 /**
@@ -17,7 +18,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
         this.waterModule = waterModule;
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
         addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
-//        addControl( new DetectorControlPanel() );
+        addControl( new DetectorSetControlPanel( waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates() ) );
 //        addControl( new MeasurementControlPanel() );
 //        addControl( new MultiDripControlPanel() );
     }

@@ -17,9 +17,12 @@ import edu.colorado.phet.waveinterference.view.*;
 public class WaterSimulationPanel extends WaveInterferenceCanvas {
     private WaterModule waterModule;
     private RotationWaveGraphic rotationWaveGraphic;
+    private IntensityReaderSet intensityReaderSet;
+    private SlitPotentialGraphic slitPotentialGraphic;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
+
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( getLattice() ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         RotationGlyph rotationGlyph = new RotationGlyph();
@@ -32,8 +35,11 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
         } );
         addScreenChild( rotationWaveGraphic );
 
-        SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
+        slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
+
+        intensityReaderSet = new IntensityReaderSet();
+        addScreenChild( intensityReaderSet );
     }
 
     private Lattice2D getLattice() {
@@ -50,5 +56,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return rotationWaveGraphic.getLatticeScreenCoordinates();
+    }
+
+    public IntensityReaderSet getIntensityReaderSet() {
+        return intensityReaderSet;
     }
 }
