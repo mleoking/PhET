@@ -1,9 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
+import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 
 /**
  * User: Sam Reid
@@ -41,5 +43,13 @@ public class WaterModule extends WaveInterferenceModule {
 
     public WaveModel getWaveModel() {
         return waterModel.getWaveModel();
+    }
+
+    public SlitPotential getSlitPotential() {
+        return waterModel.getSlitPotential();
+    }
+
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return waterSimulationPanel.getLatticeScreenCoordinates();
     }
 }

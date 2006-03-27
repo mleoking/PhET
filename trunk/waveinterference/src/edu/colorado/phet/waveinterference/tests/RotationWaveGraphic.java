@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.RotationGlyph;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
@@ -75,5 +76,9 @@ public class RotationWaveGraphic extends PNode {
         waveSideView.update();
         waveModelGraphic.update();
         updateLocations();
+    }
+
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return waveModelGraphic.getLatticeScreenCoordinates();
     }
 }
