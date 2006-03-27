@@ -188,6 +188,11 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         init( component );
         this.pSwingCanvas.getSwingWrapper().add( component );
         component.revalidate();
+        component.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                reshape();
+            }
+        } );
         reshape();
     }
 
@@ -328,13 +333,14 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * updates the visual components copy of these bounds
      */
     public void computeBounds() {
-        if( !component.getBounds().isEmpty() ) {
-            Dimension d = component.getPreferredSize();
-            getBoundsReference().setRect( 0, 0, d.getWidth(), d.getHeight() );
-            if( !component.getSize().equals( d ) ) {
-                component.setBounds( 0, 0, (int)d.getWidth(), (int)d.getHeight() );
-            }
-        }
+        reshape();
+//        if( !component.getBounds().isEmpty() ) {
+//            Dimension d = component.getPreferredSize();
+//            getBoundsReference().setRect( 0, 0, d.getWidth(), d.getHeight() );
+//            if( !component.getSize().equals( d ) ) {
+//                component.setBounds( 0, 0, (int)d.getWidth(), (int)d.getHeight() );
+//            }
+//        }
     }
 
     /**

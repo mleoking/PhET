@@ -5,6 +5,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
+import javax.swing.*;
+
 /**
  * User: Sam Reid
  * Date: Mar 24, 2006
@@ -20,6 +22,7 @@ public class ModuleApplication {
     public void startApplication( String[]args, Module module ) {
         PhetApplication phetApplication = new PhetApplication( args, module.getName(), "", "" );
         phetApplication.addModule( module );
+        SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
         phetApplication.startApplication();
     }
 }
