@@ -55,6 +55,7 @@ MACINTOSH:
 
 
 DONE:
+(3/27/06) - added color scheme support
 (3/10/06) - change depth to be a positive quantity, always >= 0
 (3/10/06) - better dummy methods for creating eigenstates
 (3/10/06) - javadoc potential model classes

@@ -24,8 +24,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.boundstates.model.BSSquareWells;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
@@ -71,7 +71,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             setDataset( _potentialIndex, dataset );
             // Renderer
             XYItemRenderer renderer = new StandardXYItemRenderer();
-            renderer.setPaint( BSConstants.POTENTIAL_ENERGY_COLOR );
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialIndex, renderer );
         }
@@ -83,15 +83,15 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
         yAxis.setRange( BSConstants.ENERGY_RANGE );
-        yAxis.setTickLabelPaint( BSConstants.TICK_LABEL_COLOR );
-        yAxis.setTickMarkPaint( BSConstants.TICK_MARK_COLOR );
+        yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+        yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
-        setBackgroundPaint( BSConstants.PLOT_BACKGROUND );
+        setBackgroundPaint( BSConstants.COLOR_SCHEME.getChartColor() );
         setDomainGridlinesVisible( BSConstants.SHOW_VERTICAL_GRIDLINES );
         setRangeGridlinesVisible( BSConstants.SHOW_HORIZONTAL_GRIDLINES );
-        setDomainGridlinePaint( BSConstants.GRIDLINES_COLOR );
-        setRangeGridlinePaint( BSConstants.GRIDLINES_COLOR );
+        setDomainGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
+        setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis ); 
     }
@@ -111,6 +111,26 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         _potential = well;
         _potential.addObserver( this );
         update();
+    }
+    
+    /**
+     * Sets the color scheme for the plot.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( BSColorScheme scheme ) {
+        // Background
+        setBackgroundPaint( scheme.getChartColor() );
+        // Ticks
+        getDomainAxis().setTickLabelPaint( scheme.getTickColor() );
+        getDomainAxis().setTickMarkPaint( scheme.getTickColor() );
+        getRangeAxis().setTickLabelPaint( scheme.getTickColor() );
+        getRangeAxis().setTickMarkPaint( scheme.getTickColor() );
+        // Gridlines
+        setDomainGridlinePaint( scheme.getGridlineColor() );
+        setRangeGridlinePaint( scheme.getGridlineColor() );
+        // Series
+        getRenderer( _potentialIndex ).setPaint( scheme.getPotentialEnergyColor() );
     }
     
     //----------------------------------------------------------------------------

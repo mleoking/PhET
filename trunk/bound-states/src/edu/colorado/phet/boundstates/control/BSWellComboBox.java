@@ -38,7 +38,6 @@ public class BSWellComboBox extends JComboBox {
     //----------------------------------------------------------------------------
     
     private static final Stroke ICON_STROKE = new BasicStroke( 2f );
-    private static final Color ICON_COLOR = BSConstants.POTENTIAL_ENERGY_COLOR;
     private static final int ICON_MARGIN = 4;
     
     //----------------------------------------------------------------------------
@@ -46,6 +45,7 @@ public class BSWellComboBox extends JComboBox {
     //----------------------------------------------------------------------------
     
     private static ArrayList _choices;
+    private Color _potentialColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,6 +56,7 @@ public class BSWellComboBox extends JComboBox {
      */
     public BSWellComboBox() {
         _choices = new ArrayList();
+        _potentialColor = BSConstants.COLOR_SCHEME.getPotentialEnergyColor();
         WellComboBoxRenderer renderer = new WellComboBoxRenderer();
         setRenderer( renderer );
     }
@@ -80,25 +81,25 @@ public class BSWellComboBox extends JComboBox {
      */
     public void addChoice( WellType wellType ) {
         if ( wellType == WellType.COULOMB ) {
-            ImageIcon icon = createCoulombIcon();
+            ImageIcon icon = createCoulombIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
-            ImageIcon icon = createHarmonicOscillatorIcon();
+            ImageIcon icon = createHarmonicOscillatorIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.harmonicOscillator" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == WellType.SQUARE ) {
-            ImageIcon icon = createSquareIcon();
+            ImageIcon icon = createSquareIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.square" ), icon );
             _choices.add( item );
             addItem( item );
         }
         else if ( wellType == WellType.ASYMMETRIC ) {
-            ImageIcon icon = createAsymmetricIcon();
+            ImageIcon icon = createAsymmetricIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.asymmetric" ), icon );
             _choices.add( item );
             addItem( item );
@@ -135,6 +136,27 @@ public class BSWellComboBox extends JComboBox {
         }
     }
     
+    /**
+     * Sets the color used to draw well icons.
+     * This causes the choices in the combo box to be rebuilt,
+     * and will cause ItemEvents to be fired.  You may want to 
+     * temporarily remove ItemListeners before calling this method.
+     * 
+     * @param color
+     */
+    public void setWellColor( Color color ) {
+        _potentialColor = color;
+        WellType selectedType = getSelectedWellType();
+        ArrayList oldChoices = new ArrayList( _choices );
+        clearChoices();
+        Iterator i = oldChoices.iterator();
+        while ( i.hasNext() ) {
+            WellChoice choice = (WellChoice) i.next();
+            addChoice( choice.getWellType() );
+        }
+        setSelectedWellType( selectedType );
+    }
+    
     //----------------------------------------------------------------------------
     // Icon creators
     //----------------------------------------------------------------------------
@@ -142,7 +164,7 @@ public class BSWellComboBox extends JComboBox {
     /*
      * Creates the "Coulomb" well icon.
      */
-    private static ImageIcon createCoulombIcon() {
+    private static ImageIcon createCoulombIcon( Color color ) {
         final int w = 20;
         final int h = 20;
         BufferedImage bi = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
@@ -153,7 +175,7 @@ public class BSWellComboBox extends JComboBox {
         curve1.setCurve( 0, 4, 8, 5, 7, 16 );
         curve2.setCurve( 10, 16, 11, 5, 17, 4 );
         g2.setStroke( ICON_STROKE );
-        g2.setPaint( ICON_COLOR );
+        g2.setPaint( color );
         g2.draw( curve1 );
         g2.draw( curve2 );
         return new ImageIcon( bi );
@@ -162,7 +184,7 @@ public class BSWellComboBox extends JComboBox {
     /*
      * Creates the "Harmonic Oscillator" well icon.
      */
-    private static ImageIcon createHarmonicOscillatorIcon() {
+    private static ImageIcon createHarmonicOscillatorIcon( Color color ) {
         final int w = 17;
         final int h = 20;
         BufferedImage bi = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
@@ -171,7 +193,7 @@ public class BSWellComboBox extends JComboBox {
         QuadCurve2D curve = new QuadCurve2D.Double();
         curve.setCurve( 0, 3, w/2, 30, w, 3 );
         g2.setStroke( ICON_STROKE );
-        g2.setPaint( ICON_COLOR );
+        g2.setPaint( color );
         g2.draw( curve );
         return new ImageIcon( bi );
     }
@@ -179,7 +201,7 @@ public class BSWellComboBox extends JComboBox {
     /*
      * Creates the "Square" well icon.
      */
-    private static ImageIcon createSquareIcon() {
+    private static ImageIcon createSquareIcon( Color color ) {
         final int w = 50;
         final int h = 20;
         BufferedImage bi = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
@@ -192,7 +214,7 @@ public class BSWellComboBox extends JComboBox {
         path.lineTo( 2*w/5, ICON_MARGIN );
         path.lineTo( 3*w/5, ICON_MARGIN );
         g2.setStroke( ICON_STROKE );
-        g2.setPaint( ICON_COLOR );
+        g2.setPaint( color );
         g2.draw( path );
         return new ImageIcon( bi );
     }
@@ -200,7 +222,7 @@ public class BSWellComboBox extends JComboBox {
     /*
      * Creates the "Asymmetric" well icon.
      */
-    private static ImageIcon createAsymmetricIcon() {
+    private static ImageIcon createAsymmetricIcon( Color color ) {
         final int w = 50;
         final int h = 20;
         BufferedImage bi = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
@@ -213,7 +235,7 @@ public class BSWellComboBox extends JComboBox {
         path.lineTo( 2*w/5, ICON_MARGIN );
         path.lineTo( 3*w/5, ICON_MARGIN );
         g2.setStroke( ICON_STROKE );
-        g2.setPaint( ICON_COLOR );
+        g2.setPaint( color );
         g2.draw( path );
         return new ImageIcon( bi );
     }

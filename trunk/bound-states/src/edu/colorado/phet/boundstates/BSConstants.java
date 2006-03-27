@@ -19,6 +19,9 @@ import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
+import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.color.BlackColorScheme;
+
 
 /**
  * BSConstants is a collection of constants.
@@ -69,19 +72,13 @@ public class BSConstants {
     // Strokes
     //----------------------------------------------------------------------------
     
-    public static final Stroke TOTAL_ENERGY_STROKE = new BasicStroke( 2f );
-    public static final Stroke EIGENSTATE_UNSELECTED_STROKE = new BasicStroke( 1f );
-    public static final Stroke EIGENSTATE_SELECTED_STROKE = new BasicStroke( 2f );
-    public static final Stroke EIGENSTATE_HIGHLIGHT_STROKE = new BasicStroke( 2f );
+    public static final Stroke EIGENSTATE_NORMAL_STROKE = new BasicStroke( 1f );
+    public static final Stroke EIGENSTATE_HILITE_STROKE = new BasicStroke( 2f );
+    public static final Stroke EIGENSTATE_SELECTION_STROKE = new BasicStroke( 2f );
     public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 2f );
-    public static final Stroke INCIDENT_REAL_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_IMAGINARY_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_MAGNITUDE_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke INCIDENT_PHASE_WAVE_STROKE = new BasicStroke( 1f );
-    public static final Stroke REFLECTED_REAL_WAVE_STROKE = INCIDENT_REAL_WAVE_STROKE;
-    public static final Stroke REFLECTED_IMAGINARY_WAVE_STROKE = INCIDENT_IMAGINARY_WAVE_STROKE;
-    public static final Stroke REFLECTED_MAGNITUDE_WAVE_STROKE = INCIDENT_MAGNITUDE_WAVE_STROKE;
-    public static final Stroke REFLECTED_PHASE_WAVE_STROKE = INCIDENT_PHASE_WAVE_STROKE;
+    public static final Stroke REAL_STROKE = new BasicStroke( 1f );
+    public static final Stroke IMAGINARY_STROKE = new BasicStroke( 1f );
+    public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 1f );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
@@ -89,20 +86,9 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
-    public static final Color CHART_BACKGROUND = Color.BLACK;
-    public static final Color PLOT_BACKGROUND = Color.BLACK;
-    public static final Color TOTAL_ENERGY_COLOR = new Color( 23, 172, 18 ); // dark green
-    public static final Color EIGENSTATE_UNSELECTED_COLOR = TOTAL_ENERGY_COLOR;
-    public static final Color EIGENSTATE_SELECTED_COLOR = Color.RED;
-    public static final Color EIGENSTATE_HIGHLIGHT_COLOR = Color.YELLOW;
-    public static final Color POTENTIAL_ENERGY_COLOR = new Color( 178, 25, 205 ); // purple
-    public static final Color REAL_WAVE_COLOR = Color.RED;
-    public static final Color IMAGINARY_WAVE_COLOR = new Color( 26, 135, 255 ); // bright blue
-    public static final Color MAGNITUDE_WAVE_COLOR = Color.WHITE;
-    public static final Color PROBABILITY_DENSITY_COLOR = Color.WHITE;
-    public static final Color TICK_LABEL_COLOR = Color.BLACK;
-    public static final Color TICK_MARK_COLOR = Color.BLACK;
-    public static final Color GRIDLINES_COLOR = Color.DARK_GRAY;
+    
+    // The default color scheme
+    public static final BSColorScheme COLOR_SCHEME = new BlackColorScheme();
     
     //----------------------------------------------------------------------------
     // Images

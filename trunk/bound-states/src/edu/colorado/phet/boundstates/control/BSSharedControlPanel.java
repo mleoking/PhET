@@ -26,6 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.WellType;
 import edu.colorado.phet.boundstates.module.BSManyModule;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -49,6 +50,8 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     // Display types
     public static final int DISPLAY_WAVE_FUNCTION = 0;
     public static final int DISPLAY_PROBABIITY_DENSITY = 1;
+    
+    private static final int INDENTATION = 10; // pixels
     
     //----------------------------------------------------------------------------
     // Class data (private)
@@ -78,10 +81,9 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     private JButton _superpositionButton;
 
     // Wave Function controls
-    private JRadioButton _waveFunctionRadioButton,
-            _probabilityDensityRadioButton;
-    private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox,
-            _phaseCheckBox;
+    private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton;
+    private JCheckBox _realCheckBox, _imaginaryCheckBox, _magnitudeCheckBox, _phaseCheckBox;
+    private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
 
     // Particle controls
     private SliderControl _massSlider;
@@ -166,9 +168,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
 
         // Wave Function controls
         JPanel waveFunctionControlsPanel = new JPanel();
-        {
-            final int indentation = 15;
-            
+        {          
             // Title
             String title = SimStrings.get( "title.waveFunctionChartControls" );
             waveFunctionControlsPanel.setBorder( new TitledBorder( title ) );
@@ -194,7 +194,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
                 innerPanel.setLayout( layout );
                 layout.setAnchor( GridBagConstraints.WEST );
                 layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-                layout.setMinimumWidth( 0, indentation );
+                layout.setMinimumWidth( 0, INDENTATION );
                 int row = 0;
                 int col = 0;
                 layout.addComponent( label, row, col, 2, 1 );
@@ -219,48 +219,48 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
 
                 // Real
                 JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
-                realPanel.add( _realCheckBox );
+                realPanel.add( _realCheckBox);
                 realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                realPanel.add( createColorKey( BSConstants.REAL_WAVE_COLOR ) );
+                Icon realIcon = createColorKey( BSConstants.COLOR_SCHEME.getRealColor() );
+                _realLegend = new JLabel( realIcon );
+                realPanel.add( _realLegend );
 
                 // Imaginary
                 JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 imaginaryPanel.add( _imaginaryCheckBox );
                 imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                imaginaryPanel.add( createColorKey( BSConstants.IMAGINARY_WAVE_COLOR ) );
-
+                Icon imaginaryIcon = createColorKey( BSConstants.COLOR_SCHEME.getImaginaryColor() );
+                _imaginaryLegend = new JLabel( imaginaryIcon );
+                imaginaryPanel.add( _imaginaryLegend );
+                
                 // Magnitude
                 JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 magnitudePanel.add( _magnitudeCheckBox );
                 magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                magnitudePanel.add( createColorKey( BSConstants.MAGNITUDE_WAVE_COLOR ) );
-
+                Icon magnitudeIcon = createColorKey( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
+                _magnitudeLegend = new JLabel( magnitudeIcon );
+                magnitudePanel.add( _magnitudeLegend );   
+                
                 // Phase 
                 JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 phasePanel.add( _phaseCheckBox );
                 phasePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                phasePanel.add( createPhaseKey() );
-
+                Icon phaseIcon = createPhaseKey();
+                _phaseLegend = new JLabel( phaseIcon );
+                phasePanel.add( _phaseLegend );
+                
                 // Layout
                 JPanel innerPanel = new JPanel();
                 EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
                 innerPanel.setLayout( layout );
                 layout.setAnchor( GridBagConstraints.WEST );
                 layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-                layout.setMinimumWidth( 0, indentation );
-                int row = 0;
-                int col = 0;
-                layout.addComponent( label, row, col, 2, 1 );
-                row++;
-                col++;
-                layout.addComponent( realPanel, row, col );
-                row++;
-                layout.addComponent( imaginaryPanel, row, col );
-                row++;
-                layout.addComponent( magnitudePanel, row, col );
-                row++;
-                layout.addComponent( phasePanel, row, col );
-                row++;
+                layout.setMinimumWidth( 0, INDENTATION );
+                layout.addComponent( label, 0, 0, 2, 1 );
+                layout.addComponent( realPanel, 1, 1 );
+                layout.addComponent( imaginaryPanel, 2, 1 );
+                layout.addComponent( magnitudePanel, 3, 1 );
+                layout.addComponent( phasePanel, 4, 1 );
                 viewPanel.setLayout( new BorderLayout() );
                 viewPanel.add( innerPanel, BorderLayout.WEST );
             }
@@ -338,28 +338,27 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
 
     /*
-     * Creates a color key by drawing a solid horizontal line and putting it in a JLabel.
+     * Creates a color key icon by drawing a solid horizontal line.
      * 
      * @param color
-     * @return JLabel
+     * @return Icon
      */
-    private JLabel createColorKey( Color color ) {
+    private Icon createColorKey( Color color ) {
         BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
         Rectangle2D r = new Rectangle2D.Double( 0, 0, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT );
         g2.setPaint( color );
         g2.fill( r );
         Icon icon = new ImageIcon( image );
-        JLabel label = new JLabel( icon );
-        return label;
+        return icon;
     }
-
+    
     /*
-     * Creates a color key for phase by drawing the phase color series in a JLabel.
+     * Creates a color key icon for phase by drawing the phase color series.
      * 
-     * @return JLabel
+     * @return Icon
      */
-    private JLabel createPhaseKey() {
+    private Icon createPhaseKey() {
         BufferedImage image = new BufferedImage( PHASE_KEY_WIDTH, PHASE_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = image.createGraphics();
         Rectangle2D r = new Rectangle2D.Double();
@@ -370,14 +369,31 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
             g2.fill( r );
         }
         Icon icon = new ImageIcon( image );
-        JLabel label = new JLabel( icon );
-        return label;
+        return icon;
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Sets the color scheme.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( BSColorScheme scheme ) {
+        
+        // Rebuild the "Well Type" combo box...
+        _wellTypeComboBox.removeItemListener( _listener );
+        _wellTypeComboBox.setWellColor( scheme.getPotentialEnergyColor() );
+        _wellTypeComboBox.addItemListener( _listener );
+        
+        // Change the legends for the wave function views...
+        _realLegend.setIcon( createColorKey( scheme.getRealColor() ) );
+        _imaginaryLegend.setIcon( createColorKey( scheme.getImaginaryColor() ) );
+        _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
+    }
+    
     public void setWellType( WellType wellType ) {
         _wellTypeComboBox.setSelectedWellType( wellType );
         handleWellTypeSelection();
