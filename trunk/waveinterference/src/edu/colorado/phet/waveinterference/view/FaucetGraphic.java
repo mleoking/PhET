@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 
-public class FaucetGraphic extends PNode {
+public class FaucetGraphic extends PhetPNode {
+//public class FaucetGraphic extends PNode {
     private PImage image;
     private ArrayList drops = new ArrayList();
     private FaucetData faucetData;

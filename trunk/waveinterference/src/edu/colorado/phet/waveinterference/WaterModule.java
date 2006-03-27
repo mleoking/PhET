@@ -6,10 +6,7 @@ import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
-import edu.colorado.phet.waveinterference.view.FaucetGraphic;
-import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
-import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
-import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid
@@ -73,5 +70,13 @@ public class WaterModule extends WaveInterferenceModule {
 
     public FaucetGraphic getPrimaryFaucetGraphic() {
         return waterSimulationPanel.getPrimaryFaucetGraphic();
+    }
+
+    public Oscillator getSecondaryOscillator() {
+        return waterModel.getSecondaryOscillator();
+    }
+
+    public MultiDrip getMultiDrip() {
+        return waterSimulationPanel.getMultiDrip();
     }
 }

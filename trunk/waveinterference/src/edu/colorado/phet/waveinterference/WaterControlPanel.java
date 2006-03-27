@@ -22,7 +22,6 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
         addControl( new MeasurementControlPanel( waterModule.getMeasurementToolSet() ) );
         addControl( new OscillatorControlPanel( waterModule.getPrimaryOscillator() ) );
         addControl( new FaucetOnOffControlPanel( waterModule.getPrimaryFaucetGraphic() ) );
-//        addControl( new MeasurementControlPanel() );
-//        addControl( new MultiDripControlPanel() );
+        addControl( new MultiDripControlPanel( waterModule.getMultiDrip() ) );
     }
 }
