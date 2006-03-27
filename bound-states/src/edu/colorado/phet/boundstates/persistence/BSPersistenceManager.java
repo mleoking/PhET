@@ -232,8 +232,6 @@ public class BSPersistenceManager {
      */
     private void saveJNLP( Object object ) throws Exception {
         
-        final JFrame frame = PhetApplication.instance().getPhetFrame();
-        
         // XML encode into a byte output stream.
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         XMLEncoder encoder = new XMLEncoder( baos );
@@ -273,8 +271,6 @@ public class BSPersistenceManager {
      * Implementation of "Load" for Web Start clients, uses JNLP services.
      */
     private Object loadJNLP() throws Exception {
-        
-        JFrame frame = _app.getPhetFrame();
         
         // Get the JNLP service for opening files.
         FileOpenService fos = (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );

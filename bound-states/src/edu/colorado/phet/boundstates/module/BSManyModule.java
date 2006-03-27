@@ -55,12 +55,9 @@ public class BSManyModule extends BSAbstractModule {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font LEGEND_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 12 );
-    
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
-    private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     

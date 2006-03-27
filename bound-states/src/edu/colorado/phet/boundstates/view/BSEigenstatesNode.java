@@ -41,7 +41,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     private BSCombinedChartNode _chartNode;
-    private PSwingCanvas _canvas;
     private BSAbstractPotential _potential;
     
     private ArrayList _eigenstates; // array of BSEigenstate, one for each displayed eigenstate
@@ -64,8 +63,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         super();
         
         _chartNode = chartNode;
-        _canvas = canvas;
-        
         _lines = new ArrayList();
         _eigenstates = new ArrayList();
         _selectionIndex = 0;

@@ -58,7 +58,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         // Labels (localized)
         String energyLabel = SimStrings.get( "axis.energy" ) + " (" + SimStrings.get( "units.energy" ) + ")";
         String potentialEnergyLabel = SimStrings.get( "legend.potentialEnergy" );
-        String totalEnergyLabel = SimStrings.get( "legend.totalEnergy" );
         
         int dataSetIndex = 0;
         
