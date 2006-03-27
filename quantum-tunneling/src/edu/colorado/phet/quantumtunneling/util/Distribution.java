@@ -168,18 +168,6 @@ public class Distribution implements Serializable, Cloneable {
     }
 
     /**
-     * DistributionComparator compares two objects in a distribution.
-     */
-    private class DistributionComparator implements Comparator {
-        // Compare two entries based on their weights.
-        public int compare( Object o1, Object o2 ) {
-            double a = Distribution.this.getWeight( o1 );
-            double b = Distribution.this.getWeight( o2 );
-            return Double.compare( a, b );
-        }
-    }
-
-    /**
      * DistributionAccessor randomly accesses objects in a distribution.
      */
     public static class DistributionAccessor {

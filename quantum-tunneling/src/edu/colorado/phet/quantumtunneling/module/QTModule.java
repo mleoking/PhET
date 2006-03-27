@@ -61,8 +61,6 @@ public class QTModule extends AbstractModule implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font LEGEND_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
@@ -675,7 +673,6 @@ public class QTModule extends AbstractModule implements Observer {
         if ( _configureEnergyDialog == null ) {
             boolean clockRunning = getClock().isRunning();
             getClock().pause();
-            WaveType waveType = _controlPanel.getWaveType();
             _configureEnergyDialog = new ConfigureEnergyDialog( getFrame(), this, _totalEnergy, _potentialEnergy, _wavePacket, _planeWave, _colorScheme );
             _configureEnergyDialog.show();
             // Dialog is model, so we stop here until the dialog is closed.

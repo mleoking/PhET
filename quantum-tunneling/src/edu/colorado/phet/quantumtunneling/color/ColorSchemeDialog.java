@@ -66,7 +66,6 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     private JLabel _totalEnergyChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip, _probabilityDensityChip;
     private JButton _okButton, _cancelButton;
-    private int _editIndex;
     private JDialog _colorChooserDialog;
     
     /**

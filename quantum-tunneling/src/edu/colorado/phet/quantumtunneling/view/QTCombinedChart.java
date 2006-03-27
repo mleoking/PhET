@@ -57,8 +57,6 @@ public class QTCombinedChart extends JFreeChart {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractPotential _potentialEnergy;
-    
     private EnergyPlot _energyPlot;
     private WaveFunctionPlot _waveFunctionPlot;
     private ProbabilityDensityPlot _probabilityDensityPlot;
