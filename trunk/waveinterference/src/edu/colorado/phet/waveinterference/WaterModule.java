@@ -57,4 +57,8 @@ public class WaterModule extends WaveInterferenceModule {
     public IntensityReaderSet getIntensityReaderSet() {
         return waterSimulationPanel.getIntensityReaderSet();
     }
+
+    public MeasurementToolSet getMeasurementToolSet() {
+        return waterSimulationPanel.getMeasurementToolSet();
+    }
 }
