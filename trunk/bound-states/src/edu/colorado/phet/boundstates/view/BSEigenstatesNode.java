@@ -39,6 +39,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class BSEigenstatesNode extends PNode implements Observer {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int INDEX_UNDEFINED = -1;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -69,8 +75,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _chartNode = chartNode;
         _lines = new ArrayList();
         _eigenstates = new ArrayList();
-        _selectionIndex = 0;
-        _hiliteIndex = -1;
+        _selectionIndex = INDEX_UNDEFINED;
+        _hiliteIndex = INDEX_UNDEFINED;
         
         _normalColor = BSConstants.COLOR_SCHEME.getEigenstateNormalColor();
         _hiliteColor = BSConstants.COLOR_SCHEME.getEigenstateHiliteColor();
@@ -81,7 +87,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 handleHighlight( event );
             }
             public void mouseExited( PInputEvent event ) {
-                clearHightlight();
+                clearHilite();
             }
             public void mousePressed( PInputEvent event ) {
                 handleSelection();
@@ -148,6 +154,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
 
         setBounds( _chartNode.getEnergyPlotBounds() );
         
+        clearHilite();
+        
         removeAllChildren();
         _eigenstates.clear();
         _lines.clear();
@@ -190,7 +198,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param event
      */
     private void handleSelection() {
-        selectEigenstate( _hiliteIndex );
+        if ( _hiliteIndex != INDEX_UNDEFINED ) {
+            selectEigenstate( _hiliteIndex );
+        }
     }
     
     /*
@@ -200,19 +210,24 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param index
      */
     private void selectEigenstate( final int index ) {
-        if ( index != -1 ) {
-            
-            clearSelection();
-            if ( index == _hiliteIndex ) {
-                clearHightlight();
-            }
-
-            if ( _lines.size() > index ) {
-                _selectionIndex = index;
-                PPath line = (PPath) _lines.get( _selectionIndex );
-                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
-                line.setStrokePaint( _selectionColor );
-            }
+        System.out.println( "selectEigenstate " + index );//XXX
+        
+        clearSelection();
+        if ( index == _hiliteIndex ) {
+            clearHilite();
+        }
+        
+        if ( index >= 0 && index < _lines.size() ) {
+            _selectionIndex = index;
+        }
+        else {
+            _selectionIndex = INDEX_UNDEFINED;
+        }
+        
+        if ( _selectionIndex != INDEX_UNDEFINED ) {
+            PPath line = (PPath) _lines.get( _selectionIndex );
+            line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
+            line.setStrokePaint( _selectionColor );
         }
     }
     
@@ -220,13 +235,13 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * Clears the current selection.
      */
     private void clearSelection() {
-        if ( _selectionIndex != -1 ) {
+        if ( _selectionIndex != INDEX_UNDEFINED ) {
             if ( _lines.size() > _selectionIndex ) {
                 PPath line = (PPath) _lines.get( _selectionIndex );
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
                 line.setStrokePaint( _normalColor );
             }
-            _selectionIndex = -1;
+            _selectionIndex = INDEX_UNDEFINED;
         }
     }
     
@@ -245,30 +260,39 @@ public class BSEigenstatesNode extends PNode implements Observer {
         final double energy = energyPosition.getY();
 
         // Find the closest eigenstate...
-        int highlightIndex = getClosestEigenstateIndex( energy );
+        int hiliteIndex = getClosestEigenstateIndex( energy );
+        hiliteEigenstate( hiliteIndex );
+    }
+    
+    /**
+     * Hilites a specified eigenstate.
+     * The eigenstate is hilited only if it's not selected.
+     * 
+     * @param hiliteIndex
+     */
+    private void hiliteEigenstate( int hiliteIndex ) {
 
         // Clear the previous highlight...
-        clearHightlight();
+        clearHilite();
 
         // Set the new highlight...
-        if ( highlightIndex != _selectionIndex ) {
-            _hiliteIndex = highlightIndex;
+        if ( hiliteIndex != _selectionIndex ) {
+            _hiliteIndex = hiliteIndex;
             PPath line = (PPath) _lines.get( _hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
             line.setStrokePaint( _hiliteColor );
-
         }
     }
     
     /*
      * Clears the current highlight.
      */
-    private void clearHightlight() {
-        if ( _hiliteIndex != -1 ) {
+    private void clearHilite() {
+        if ( _hiliteIndex != INDEX_UNDEFINED ) {
             PPath line = (PPath) _lines.get( _hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
             line.setStrokePaint( _normalColor );
-            _hiliteIndex = -1;
+            _hiliteIndex = INDEX_UNDEFINED;
         }
     }
     
