@@ -71,7 +71,13 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
             }
         } );
 
-        JComponent kspSlider = new KspSlider( model );
+        JComponent kspControl = new KspControl( model );
+//        OrderOfMagnitudeSpinner oomSpinner = new OrderOfMagnitudeSpinner( 1E-16, 1E-20, 1E-16, "0E00" );
+//        oomSpinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                System.out.println( "ConfigurableSaltControlPanel.stateChanged" );
+//            }
+//        } );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
@@ -87,7 +93,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
-        panel.add( kspSlider, gbc );
+        panel.add( kspControl, gbc );
 
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridy++;
