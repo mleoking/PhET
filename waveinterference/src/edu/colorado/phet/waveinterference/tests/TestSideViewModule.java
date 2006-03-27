@@ -44,6 +44,6 @@ public class TestSideViewModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestSideViewModule() );
+        new ModuleApplication().startApplication( args, new TestSideViewModule() );
     }
 }

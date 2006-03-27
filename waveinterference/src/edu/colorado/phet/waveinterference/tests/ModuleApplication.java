@@ -3,9 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
-
-import java.awt.*;
+import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -16,11 +14,7 @@ import java.awt.*;
 
 public class ModuleApplication {
     public ModuleApplication() {
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
-        phetLookAndFeel.apply();
-//                SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
+        WaveIntereferenceLookAndFeel.initLookAndFeel();
     }
 
     public void startApplication( String[]args, Module module ) {

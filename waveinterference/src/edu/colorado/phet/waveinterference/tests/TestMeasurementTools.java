@@ -21,6 +21,6 @@ public class TestMeasurementTools extends TestTopView {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestMeasurementTools() );
+        new ModuleApplication().startApplication( args, new TestMeasurementTools() );
     }
 }

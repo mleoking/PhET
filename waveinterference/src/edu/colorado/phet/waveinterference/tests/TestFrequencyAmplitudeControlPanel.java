@@ -18,6 +18,6 @@ public class TestFrequencyAmplitudeControlPanel extends TestTopView {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestFrequencyAmplitudeControlPanel() );
+        new ModuleApplication().startApplication( args, new TestFrequencyAmplitudeControlPanel() );
     }
 }

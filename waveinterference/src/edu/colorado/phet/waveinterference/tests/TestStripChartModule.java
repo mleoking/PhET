@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -49,6 +50,6 @@ public class TestStripChartModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestStripChartModule() );
+        new ModuleApplication().startApplication( args, new TestStripChartModule() );
     }
 }

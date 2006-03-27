@@ -65,6 +65,6 @@ public class TestSlitsAndScreen extends TestTopView {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestSlitsAndScreen() );
+        new ModuleApplication().startApplication( args, new TestSlitsAndScreen() );
     }
 }

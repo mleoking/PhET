@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 
 import javax.swing.*;
@@ -13,11 +13,11 @@ import javax.swing.*;
  * Copyright (c) Mar 27, 2006 by Sam Reid
  */
 
-public class FaucetControlPanel extends VerticalLayoutPanel {
+public class FaucetControlPanel extends HorizontalLayoutPanel {
     public FaucetControlPanel( Oscillator oscillator, FaucetGraphic faucetGraphic ) {
-        setFillHorizontal();
+//        setFillHorizontal();
         addControl( new OscillatorControlPanel( oscillator ) );
-//        addControl( new FaucetOnOffControlPanel( faucetGraphic ) );
+        addControl( new FaucetOnOffControlPanel( faucetGraphic ) );
     }
 
     private void addControl( JComponent component ) {
