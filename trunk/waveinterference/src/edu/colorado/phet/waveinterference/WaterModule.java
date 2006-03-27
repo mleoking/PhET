@@ -5,7 +5,6 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
-import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
 import edu.colorado.phet.waveinterference.view.*;
 
 /**
@@ -36,9 +35,6 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel;
     }
 
-    public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new WaterModule() );
-    }
 
     public RotationWaveGraphic getRotationWaveGraphic() {
         return waterSimulationPanel.getRotationWaveGraphic();
@@ -78,5 +74,9 @@ public class WaterModule extends WaveInterferenceModule {
 
     public MultiDrip getMultiDrip() {
         return waterSimulationPanel.getMultiDrip();
+    }
+
+    public static void main( String[] args ) {
+        new ModuleApplication().startApplication( args, new WaterModule() );
     }
 }

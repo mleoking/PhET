@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.tests.DetectorSetControlPanel;
+import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
 import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 import edu.colorado.phet.waveinterference.view.WaveRotateControl;

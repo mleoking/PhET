@@ -5,7 +5,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -16,18 +15,17 @@ import java.awt.*;
  */
 
 public class ModuleApplication {
-
-    public static void startApplication( String[]args, Module module ) {
+    public ModuleApplication() {
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
         phetLookAndFeel.apply();
+//                SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
+    }
 
+    public void startApplication( String[]args, Module module ) {
         PhetApplication phetApplication = new PhetApplication( args, module.getName(), "", "" );
         phetApplication.addModule( module );
-
-        SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
-
         phetApplication.startApplication();
     }
 }
