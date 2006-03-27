@@ -17,7 +17,6 @@ import java.util.Observer;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -25,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.jfreechart.FastPathRenderer;
 
 
 /**
@@ -77,7 +77,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _realSeries );
             setDataset( _realIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getRealColor() );
             renderer.setStroke( BSConstants.REAL_STROKE );
             setRenderer( _realIndex, renderer );
@@ -90,7 +90,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _imaginarySeries );
             setDataset( _imaginaryIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getImaginaryColor() );
             renderer.setStroke( BSConstants.IMAGINARY_STROKE );
             setRenderer( _imaginaryIndex, renderer );
@@ -103,7 +103,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _magnitudeSeries );
             setDataset( _magnitudeIndex, dataset );
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
             renderer.setStroke( BSConstants.MAGNITUDE_STROKE );
             setRenderer( _magnitudeIndex, renderer );
@@ -127,8 +127,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _probabilityDensitySeries );
             setDataset( _probabilityDensityIndex, dataset );
-            XYItemRenderer renderer = new PhaseRenderer();
-            renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
+            XYItemRenderer renderer = new FastPathRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() ); // use magnitude color!
             renderer.setStroke( BSConstants.PROBABILITY_DENSITY_STROKE );
             setRenderer( _probabilityDensityIndex, renderer );
         }
@@ -198,7 +198,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         getRenderer( _realIndex ).setPaint( scheme.getRealColor() );
         getRenderer( _imaginaryIndex ).setPaint( scheme.getImaginaryColor() );
         getRenderer( _magnitudeIndex ).setPaint( scheme.getMagnitudeColor() );
-        getRenderer( _probabilityDensityIndex ).setPaint( scheme.getMagnitudeColor() );
+        getRenderer( _probabilityDensityIndex ).setPaint( scheme.getMagnitudeColor() ); // use magnitude color!
     }
     
     //----------------------------------------------------------------------------
