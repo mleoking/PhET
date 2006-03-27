@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -27,7 +26,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
 
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( getLattice() ) );
+        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         RotationGlyph rotationGlyph = new RotationGlyph();
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
@@ -57,11 +56,8 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         multiDrip = new MultiDrip( primaryFaucetGraphic, secondaryFaucetGraphic );
 
-        FaucetControlPanel faucetControlPanel = new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() );
-        addScreenChild( new PSwing( this, faucetControlPanel ) );
-//        PSwing node = new PSwing( this, new OscillatorControlPanel( waterModule.getPrimaryOscillator() ) );
-//        node.computeBounds();
-//        addScreenChild( node );
+        FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
+        addScreenChild( faucetControlPanelPNode );
     }
 
     private void angleChanged() {

@@ -14,13 +14,26 @@ import javax.swing.*;
  */
 
 public class FaucetControlPanel extends HorizontalLayoutPanel {
+    private Oscillator oscillator;
+    private FaucetGraphic faucetGraphic;
+
     public FaucetControlPanel( Oscillator oscillator, FaucetGraphic faucetGraphic ) {
-//        setFillHorizontal();
+        this.oscillator = oscillator;
+        this.faucetGraphic = faucetGraphic;
         addControl( new OscillatorControlPanel( oscillator ) );
         addControl( new FaucetOnOffControlPanel( faucetGraphic ) );
+        setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 
     private void addControl( JComponent component ) {
         add( component );
+    }
+
+    public Oscillator getOscillator() {
+        return oscillator;
+    }
+
+    public FaucetGraphic getFaucetGraphic() {
+        return faucetGraphic;
     }
 }
