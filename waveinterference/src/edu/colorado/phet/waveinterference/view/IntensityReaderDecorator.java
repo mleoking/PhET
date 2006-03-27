@@ -20,7 +20,11 @@ import java.util.ArrayList;
  * Copyright (c) Mar 23, 2006 by Sam Reid
  */
 
+/**
+ * Decorates with buttons and controls.
+ */
 public class IntensityReaderDecorator extends PNode {
+    private ArrayList listeners = new ArrayList();
     private IntensityReader intensityReader;
     private PSwing buttonPSwing;
     private Point lastMovePoint = null;
@@ -93,8 +97,6 @@ public class IntensityReaderDecorator extends PNode {
     public static interface Listener {
         void deleted();
     }
-
-    ArrayList listeners = new ArrayList();
 
     public void addListener( Listener listener ) {
         listeners.add( listener );

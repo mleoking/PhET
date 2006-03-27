@@ -1,9 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
-import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
+import edu.colorado.phet.waveinterference.view.IntensityReaderDecorator;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -18,11 +20,11 @@ import java.awt.event.ActionListener;
  * Time: 2:04:03 AM
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
-public class TestStripChartModule extends BasicWaveTestModule {
+public class TestStripChartModuleComponents extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;
-    private IntensityReaderSet intensityReaderSet;
+    private ArrayList intensityReaders = new ArrayList();
 
-    public TestStripChartModule() {
+    public TestStripChartModuleComponents() {
         super( "Strip Chart" );
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
@@ -35,8 +37,6 @@ public class TestStripChartModule extends BasicWaveTestModule {
                 waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );
-        intensityReaderSet = new IntensityReaderSet();
-        getPhetPCanvas().addScreenChild( intensityReaderSet );
 
         JButton addDetector = new JButton( "Add Detector" );
         addDetector.addActionListener( new ActionListener() {
@@ -51,16 +51,30 @@ public class TestStripChartModule extends BasicWaveTestModule {
     }
 
     private void addIntensityReader() {
-        intensityReaderSet.addIntensityReader( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
+        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
+        intensityReader.addListener( new IntensityReaderDecorator.Listener() {
+            public void deleted() {
+                intensityReaders.remove( intensityReader );
+                getPhetPCanvas().removeScreenChild( intensityReader );
+            }
+        } );
+        intensityReader.setOffset( 300, 300 );
+        getPhetPCanvas().addScreenChild( intensityReader );
+        intensityReaders.add( intensityReader );
     }
 
     protected void step() {
         super.step();
         waveModelGraphic.update();
-        intensityReaderSet.update();
+        for( int i = 0; i < intensityReaders.size(); i++ ) {
+            IntensityReaderDecorator reader = (IntensityReaderDecorator)intensityReaders.get( i );
+            reader.update();
+        }
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestStripChartModule() );
+        PhetApplication phetApplication = new PhetApplication( args, "Test Strip Chart", "", "" );
+        phetApplication.addModule( new TestStripChartModuleComponents() );
+        phetApplication.startApplication();
     }
 }
