@@ -117,6 +117,9 @@ public class TestBenFold {
     private void start() {
         double goodnessThreshold = 6E4;//52532 error for 1st state in SHO
         double[] energies = getEnergies( -10, 0.02, 10, 1000, goodnessThreshold );
+        if( energies.length == 0 ) {
+            System.out.println( "No energies found." );
+        }
         for( int i = 0; i < energies.length; i++ ) {
             double energy = energies[i];
             System.out.println( "energy = " + energy );

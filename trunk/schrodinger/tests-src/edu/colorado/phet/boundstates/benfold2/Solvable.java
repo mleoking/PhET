@@ -6,9 +6,9 @@ package edu.colorado.phet.boundstates.benfold2;
  * or sampled for a set of evenly spaced x-values.  This may involve
  * function evaluation, or approximate integration, or some other technique.
  *
- * @see SolvFunction
+ * @see edu.colorado.phet.boundstates.benfold2.ImprovedSchrodinger.SolvFunction
  */
-interface Solvable {
+public interface Solvable {
     /**
      * Requests that the supplied array be filled with solution data.  The
      * <i>n</i>th element of the array should be the solution at <i>x</i> =

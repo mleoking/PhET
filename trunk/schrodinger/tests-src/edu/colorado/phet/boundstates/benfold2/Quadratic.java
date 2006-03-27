@@ -5,7 +5,7 @@ package edu.colorado.phet.boundstates.benfold2;
  * Represents a simplified quadratic curve.  The function will have a
  * repeated root (on the origin by default).
  */
-class Quadratic implements Function {
+public class Quadratic implements Function {
     /**
      * Creates a new quadratic curve.
      *
