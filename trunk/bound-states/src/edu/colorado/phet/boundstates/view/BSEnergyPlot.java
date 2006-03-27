@@ -18,7 +18,6 @@ import java.util.Observer;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -27,6 +26,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.jfreechart.FastPathRenderer;
 
 
 /**
@@ -70,7 +70,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             dataset.addSeries( _potentialSeries );
             setDataset( _potentialIndex, dataset );
             // Renderer
-            XYItemRenderer renderer = new StandardXYItemRenderer();
+            XYItemRenderer renderer = new FastPathRenderer();
             renderer.setPaint( BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
             renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialIndex, renderer );
