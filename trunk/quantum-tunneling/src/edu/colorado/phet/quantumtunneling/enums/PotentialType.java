@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.quantumtunneling.enum;
+package edu.colorado.phet.quantumtunneling.enums;
 
 
 /**

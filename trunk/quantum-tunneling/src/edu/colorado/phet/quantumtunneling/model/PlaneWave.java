@@ -16,7 +16,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enums.Direction;
 
 
 /**

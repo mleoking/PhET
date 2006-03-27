@@ -23,7 +23,7 @@ import com.sun.rsasign.c;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
-import edu.colorado.phet.quantumtunneling.enum.PotentialType;
+import edu.colorado.phet.quantumtunneling.enums.PotentialType;
 
 
 /**
