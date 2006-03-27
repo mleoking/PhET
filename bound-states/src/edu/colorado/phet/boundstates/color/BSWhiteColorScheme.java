@@ -15,23 +15,23 @@ import java.awt.Color;
 
 
 /**
- * WhiteColorScheme is a color scheme that features a white chart background.
+ * BSWhiteColorScheme is a color scheme that features a white chart background.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WhiteColorScheme extends BSColorScheme {
+public class BSWhiteColorScheme extends BSColorScheme {
 
-    public WhiteColorScheme() {
+    public BSWhiteColorScheme() {
         super();
         setChartColor( Color.WHITE );
         setTickColor( Color.BLACK );
         setGridlineColor( Color.DARK_GRAY );
         setAnnotationColor( Color.BLACK );
         setRegionMarkerColor( Color.BLACK );
-        setEigenstateNormalColor( Color.GREEN );
-        setEigenstateHiliteColor( Color.ORANGE );
-        setEigenstateSelectionColor( Color.RED );
+        setEigenstateNormalColor( new Color( 0, 108, 0 ) ); // dark green
+        setEigenstateHiliteColor( Color.LIGHT_GRAY );
+        setEigenstateSelectionColor( Color.GREEN );
         setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
         setRealColor( Color.RED );
         setImaginaryColor( Color.BLUE );

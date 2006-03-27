@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * ColorSchemeDialog is the dialog used to edit the color scheme.
+ * BSColorSchemeDialog is the dialog used to edit the color scheme.
  * <p>
  * NOTE: If you add a new property to the color scheme, you'll need to 
  * add support for that property in these methods:
@@ -42,7 +42,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Listener {
+public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.Listener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -73,7 +73,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      * 
      * @param app the application
      */
-    public ColorSchemeDialog( BSApplication app, BSColorScheme scheme ) {
+    public BSColorSchemeDialog( BSApplication app, BSColorScheme scheme ) {
         super( PhetApplication.instance().getPhetFrame() );
         super.setTitle( SimStrings.get( "title.colorScheme" ) );
         super.setModal( false );

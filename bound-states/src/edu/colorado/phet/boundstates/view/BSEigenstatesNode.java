@@ -11,12 +11,14 @@
 
 package edu.colorado.phet.boundstates.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.umd.cs.piccolo.PNode;
@@ -47,7 +49,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
     
     private int _selectionIndex;
-    private int _highlightIndex;
+    private int _hiliteIndex;
+    
+    private Color _normalColor, _hiliteColor, _selectionColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,7 +70,11 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _lines = new ArrayList();
         _eigenstates = new ArrayList();
         _selectionIndex = 0;
-        _highlightIndex = -1;
+        _hiliteIndex = -1;
+        
+        _normalColor = BSConstants.COLOR_SCHEME.getEigenstateNormalColor();
+        _hiliteColor = BSConstants.COLOR_SCHEME.getEigenstateHiliteColor();
+        _selectionColor = BSConstants.COLOR_SCHEME.getEigenstateSelectionColor();
         
         PBasicInputEventHandler mouseHandler = new PBasicInputEventHandler() {
             public void mouseMoved( PInputEvent event ) {
@@ -102,6 +110,13 @@ public class BSEigenstatesNode extends PNode implements Observer {
         }
         _potential = potential;
         _potential.addObserver( this );
+        updateDisplay();
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        _normalColor = colorScheme.getEigenstateNormalColor();
+        _hiliteColor = colorScheme.getEigenstateHiliteColor();
+        _selectionColor = colorScheme.getEigenstateSelectionColor();
         updateDisplay();
     }
     
@@ -144,24 +159,23 @@ public class BSEigenstatesNode extends PNode implements Observer {
         final double minPosition = chart.getEnergyPlot().getDomainAxis().getLowerBound();
         final double maxPosition = chart.getEnergyPlot().getDomainAxis().getUpperBound();
         
-        // Create a line for each eigenstate that is within the Energy chart's range...
+        // Create a line for each eigenstate...
         BSEigenstate[] eigenstates = _potential.getEigenstates();
         for ( int i = 0; i < eigenstates.length; i++ ) {
             final double energy = eigenstates[i].getEnergy();
-            if ( energy >= minEnergy && energy <= maxEnergy ) {
-                Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
-                Point2D pRight = _chartNode.energyToNode( new Point2D.Double( maxPosition, energy ) );
-                Point2D[] points = new Point2D[] { pLeft, pRight };
-                PPath line = new PPath();
-                line.setPathToPolyline( points );
-                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
-                addChild( line );
-                _lines.add( line );
-                _eigenstates.add( eigenstates[i] );
-            }
+            Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
+            Point2D pRight = _chartNode.energyToNode( new Point2D.Double( maxPosition, energy ) );
+            Point2D[] points = new Point2D[] { pLeft, pRight };
+            PPath line = new PPath();
+            line.setPathToPolyline( points );
+            line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+            line.setStrokePaint( _normalColor );
+            line.setVisible( energy >= minEnergy && energy <= maxEnergy );
+            addChild( line );
+            _lines.add( line );
+            _eigenstates.add( eigenstates[i] );
         }
-        
+
         selectEigenstate( _selectionIndex );
     }
     
@@ -176,7 +190,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param event
      */
     private void handleSelection() {
-        selectEigenstate( _highlightIndex );
+        selectEigenstate( _hiliteIndex );
     }
     
     /*
@@ -189,7 +203,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         if ( index != -1 ) {
             
             clearSelection();
-            if ( index == _highlightIndex ) {
+            if ( index == _hiliteIndex ) {
                 clearHightlight();
             }
 
@@ -197,7 +211,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 _selectionIndex = index;
                 PPath line = (PPath) _lines.get( _selectionIndex );
                 line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
-                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateSelectionColor() );
+                line.setStrokePaint( _selectionColor );
             }
         }
     }
@@ -210,7 +224,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             if ( _lines.size() > _selectionIndex ) {
                 PPath line = (PPath) _lines.get( _selectionIndex );
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
+                line.setStrokePaint( _normalColor );
             }
             _selectionIndex = -1;
         }
@@ -238,10 +252,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
 
         // Set the new highlight...
         if ( highlightIndex != _selectionIndex ) {
-            _highlightIndex = highlightIndex;
-            PPath line = (PPath) _lines.get( _highlightIndex );
+            _hiliteIndex = highlightIndex;
+            PPath line = (PPath) _lines.get( _hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
-            line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
+            line.setStrokePaint( _hiliteColor );
 
         }
     }
@@ -250,11 +264,11 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * Clears the current highlight.
      */
     private void clearHightlight() {
-        if ( _highlightIndex != -1 ) {
-            PPath line = (PPath) _lines.get( _highlightIndex );
+        if ( _hiliteIndex != -1 ) {
+            PPath line = (PPath) _lines.get( _hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-            line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
-            _highlightIndex = -1;
+            line.setStrokePaint( _normalColor );
+            _hiliteIndex = -1;
         }
     }
     

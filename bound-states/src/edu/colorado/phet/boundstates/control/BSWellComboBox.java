@@ -21,7 +21,7 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
@@ -79,26 +79,26 @@ public class BSWellComboBox extends JComboBox {
      * 
      * @param wellType
      */
-    public void addChoice( WellType wellType ) {
-        if ( wellType == WellType.COULOMB ) {
+    public void addChoice( BSWellType wellType ) {
+        if ( wellType == BSWellType.COULOMB ) {
             ImageIcon icon = createCoulombIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb" ), icon );
             _choices.add( item );
             addItem( item );
         }
-        else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
+        else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
             ImageIcon icon = createHarmonicOscillatorIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.harmonicOscillator" ), icon );
             _choices.add( item );
             addItem( item );
         }
-        else if ( wellType == WellType.SQUARE ) {
+        else if ( wellType == BSWellType.SQUARE ) {
             ImageIcon icon = createSquareIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.square" ), icon );
             _choices.add( item );
             addItem( item );
         }
-        else if ( wellType == WellType.ASYMMETRIC ) {
+        else if ( wellType == BSWellType.ASYMMETRIC ) {
             ImageIcon icon = createAsymmetricIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.asymmetric" ), icon );
             _choices.add( item );
@@ -116,7 +116,7 @@ public class BSWellComboBox extends JComboBox {
      * 
      * @return a WellType
      */
-    public WellType getSelectedWellType() {
+    public BSWellType getSelectedWellType() {
         return ((WellChoice)getSelectedItem()).getWellType();
     }
     
@@ -125,7 +125,7 @@ public class BSWellComboBox extends JComboBox {
      * 
      * @param wellType
      */
-    public void setSelectedWellType( WellType potentialType ) {
+    public void setSelectedWellType( BSWellType potentialType ) {
         Iterator i = _choices.iterator();
         while ( i.hasNext() ) {
             WellChoice choice = (WellChoice) i.next();
@@ -146,7 +146,7 @@ public class BSWellComboBox extends JComboBox {
      */
     public void setWellColor( Color color ) {
         _potentialColor = color;
-        WellType selectedType = getSelectedWellType();
+        BSWellType selectedType = getSelectedWellType();
         ArrayList oldChoices = new ArrayList( _choices );
         clearChoices();
         Iterator i = oldChoices.iterator();
@@ -250,17 +250,17 @@ public class BSWellComboBox extends JComboBox {
      */
     public static class WellChoice {
 
-        private WellType _wellType;
+        private BSWellType _wellType;
         private String _label;
         private ImageIcon _imageIcon;
 
-        public WellChoice( WellType wellType, String label, ImageIcon imageIcon ) {
+        public WellChoice( BSWellType wellType, String label, ImageIcon imageIcon ) {
             _wellType = wellType;
             _label = label;
             _imageIcon = imageIcon;
         }
 
-        public WellType getWellType() {
+        public BSWellType getWellType() {
             return _wellType;
         }
 

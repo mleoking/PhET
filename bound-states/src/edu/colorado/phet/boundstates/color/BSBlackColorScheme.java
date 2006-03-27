@@ -15,14 +15,14 @@ import java.awt.Color;
 
 
 /**
- * BlackColorScheme is a color scheme that features a black chart background.
+ * BSBlackColorScheme is a color scheme that features a black chart background.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BlackColorScheme extends BSColorScheme {
+public class BSBlackColorScheme extends BSColorScheme {
 
-    public BlackColorScheme() {
+    public BSBlackColorScheme() {
         super();
         setChartColor( Color.BLACK );
         setTickColor( Color.BLACK );

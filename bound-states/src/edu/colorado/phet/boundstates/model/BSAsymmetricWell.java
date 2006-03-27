@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
@@ -102,8 +102,8 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
-    public WellType getWellType() {
-        return WellType.ASYMMETRIC;
+    public BSWellType getWellType() {
+        return BSWellType.ASYMMETRIC;
     }
     
     public int getStartingIndex() {

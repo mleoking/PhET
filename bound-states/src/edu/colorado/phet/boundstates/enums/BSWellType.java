@@ -13,23 +13,23 @@ package edu.colorado.phet.boundstates.enums;
 
 
 /**
- * WellType is an enumeration of potential well types.
+ * BSWellType is an enumeration of potential well types.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WellType extends AbstractEnum {
+public class BSWellType extends AbstractEnum {
 
     /* This class is not intended for instantiation. */
-    private WellType( String name ) {
+    private BSWellType( String name ) {
         super( name );
     }
     
     // Well type values
-    public static final WellType COULOMB = new WellType( "coulomb" );
-    public static final WellType HARMONIC_OSCILLATOR = new WellType( "harmonicOscillator" );
-    public static final WellType SQUARE = new WellType( "square" );
-    public static final WellType ASYMMETRIC = new WellType( "asymmetric" );
+    public static final BSWellType COULOMB = new BSWellType( "coulomb" );
+    public static final BSWellType HARMONIC_OSCILLATOR = new BSWellType( "harmonicOscillator" );
+    public static final BSWellType SQUARE = new BSWellType( "square" );
+    public static final BSWellType ASYMMETRIC = new BSWellType( "asymmetric" );
     
     /**
      * Retrieves a well type by name.
@@ -38,8 +38,8 @@ public class WellType extends AbstractEnum {
      * @param name
      * @return
      */
-    public static WellType getByName( String name ) {
-        WellType wellType = null;
+    public static BSWellType getByName( String name ) {
+        BSWellType wellType = null;
         if ( COULOMB.isNamed( name ) ) {
             wellType = COULOMB;
         }

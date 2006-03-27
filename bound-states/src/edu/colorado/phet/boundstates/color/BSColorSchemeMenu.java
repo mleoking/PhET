@@ -158,13 +158,13 @@ public class BSColorSchemeMenu extends JMenu {
     
     private void handleBlackSelection() {
         closeDialog();
-        _presetColorScheme = new BlackColorScheme();
+        _presetColorScheme = new BSBlackColorScheme();
         _app.setColorScheme( _presetColorScheme );
     }
 
     private void handleWhiteSelection() {
         closeDialog();
-        _presetColorScheme = new WhiteColorScheme();
+        _presetColorScheme = new BSWhiteColorScheme();
         _app.setColorScheme( _presetColorScheme );
     }
 
@@ -176,7 +176,7 @@ public class BSColorSchemeMenu extends JMenu {
         }
         _app.setColorScheme( _customColorScheme );
         // open a non-modal dialog for editing colors...
-        _customDialog = new ColorSchemeDialog( _app, _customColorScheme );
+        _customDialog = new BSColorSchemeDialog( _app, _customColorScheme );
         _customDialog.show();
     }
 

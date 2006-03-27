@@ -17,7 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
@@ -98,8 +98,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
-    public WellType getWellType() {
-        return WellType.HARMONIC_OSCILLATOR;
+    public BSWellType getWellType() {
+        return BSWellType.HARMONIC_OSCILLATOR;
     }
 
     public int getStartingIndex() {

@@ -14,7 +14,7 @@ package edu.colorado.phet.boundstates.persistence;
 import java.awt.Color;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.color.BlackColorScheme;
+import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 
 
 /**
@@ -200,7 +200,7 @@ public class BSColorSchemeConfig implements BSSerializable {
      */
     public BSColorScheme toBSColorScheme() {
         
-        BSColorScheme colorScheme = new BSColorScheme( new BlackColorScheme() );
+        BSColorScheme colorScheme = new BSColorScheme( new BSBlackColorScheme() );
         
         colorScheme.setChartColor( toColor( getChartColor() ) );
         colorScheme.setTickColor( toColor( getTickColor() ) );

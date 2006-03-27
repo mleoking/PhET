@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.module;
 
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 
@@ -27,7 +27,7 @@ public class BSSingleModule extends BSManyModule {
         super( SimStrings.get( "BSSingleModule.title" ) );
         setNumberOfWells( 1 );
         setNumberOfWellsControlVisible( false );
-        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.HARMONIC_OSCILLATOR, WellType.SQUARE, WellType.ASYMMETRIC };
+        BSWellType[] wellTypeChoices = { BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR, BSWellType.SQUARE, BSWellType.ASYMMETRIC };
         setWellTypeChoices( wellTypeChoices );
     }
 }

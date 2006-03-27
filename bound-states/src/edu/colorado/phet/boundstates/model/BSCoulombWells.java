@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.model;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
@@ -51,8 +51,8 @@ public class BSCoulombWells extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
-    public WellType getWellType() {
-        return WellType.COULOMB;
+    public BSWellType getWellType() {
+        return BSWellType.COULOMB;
     }
     
     public int getStartingIndex() {
