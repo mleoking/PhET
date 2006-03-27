@@ -7,19 +7,13 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add a command line arg to enabled Developer menu
 - fix Richardson dt for new position range and dx
-- try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem
 - decide on correct behavior when we measure in a region where E<V
 - when wave packet's initial center is inside a well, total energy should be discrete energy levels, not a distribution
-- calibrate or replace Richardson algorithm
-- eliminate reflection and circularity at boundaries
-
 
 MEDIUM PRIORITY:
-- fix dt in Richardson algorithm so that it is related to clock dt
 - parts of help items in "static" areas of the screen don't draw/erase when clock is running
 - zoom buttons sometimes aren't drawn or look transparent
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
-- possibly add sum/separate feature for wave packet if we replace Richardson
 
 LOW PRIORITY:
 - top edge of +1 tick label on Energy plot y axis is clipped
@@ -459,6 +453,8 @@ DONE:
 
 
 REJECTED:
+(3/24/06) - possibly add sum/separate feature for wave packet if we replace Richardson (we're using Richardson, other approaches are worse)
+(3/24/06) - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem (didn't do anything, not the problem)
 (2/22/06) - cache the total energy gradient as an image, update only when necessary (there would be negligible benfit; the times it needs to change are when we're things are sluggish)
 (2/22/06) - improve "About" dialog, add build number and logo (phetcommon, no one has asked for this)
 (2/22/06) - Y axis labels move when zooming causes range to change (JFreeChart behavior, no one has complained)
