@@ -4,7 +4,30 @@ package edu.colorado.phet.boundstates.benfold2;
 /**
  * Numerically integrates the Schrodinger equation.
  */
-class Schrodinger {
+public class Schrodinger {
+
+    /**
+     * The energy parameter
+     */
+    protected double energy = Schrodinger.DEFAULT_ENERGY;
+
+    /**
+     * The initial value of the function (arbitrary)
+     */
+    protected double firstValue = 1;
+
+    /**
+     * The potential function
+     */
+    protected Function pot;
+
+
+    public static final double DEFAULT_ENERGY = -0.1;
+    public static final double H = 6.63e-34;
+    public static final double E = 1.60e-19;
+    public static final double M = 9.11e-31;
+    public static final double _2m_over_h_bar_sq = 8 * Math.PI * Math.PI * Schrodinger.M / ( Schrodinger.H * Schrodinger.H );
+
     /**
      * Creates a new Schrodinger solver
      *
@@ -12,15 +35,6 @@ class Schrodinger {
      */
     public Schrodinger( Function fn ) {
         this.pot = fn;
-    }
-
-
-    /**
-     * Creates a new Schrodinger solver, with a square well potential
-     * function
-     */
-    public Schrodinger() {
-        this( new SquareWell() );
     }
 
     public void solve( double x, double h, double[] vals ) {
@@ -76,26 +90,4 @@ class Schrodinger {
     }
 
 
-    /**
-     * The energy parameter
-     */
-    protected double energy = Schrodinger.DEFAULT_ENERGY;
-
-    /**
-     * The initial value of the function (arbitrary)
-     */
-    protected double firstValue = 1;
-
-    /**
-     * The potential function
-     */
-    protected Function pot;
-
-
-    public static final double
-            DEFAULT_ENERGY = -0.1,
-            H = 6.63e-34,
-            E = 1.60e-19,
-            M = 9.11e-31,
-            _2m_over_h_bar_sq = 8 * Math.PI * Math.PI * Schrodinger.M / ( Schrodinger.H * Schrodinger.H );
 }

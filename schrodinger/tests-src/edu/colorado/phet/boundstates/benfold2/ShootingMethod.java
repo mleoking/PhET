@@ -4,7 +4,7 @@ package edu.colorado.phet.boundstates.benfold2;
 /**
  * Thread to search an interval for a solution to a Schrodinger equation.
  */
-class ShootingMethod {
+public class ShootingMethod {
     /**
      * If neither half of the interval is guaranteed to contain a solution,
      * the search will move towards this value, which is initialised from the

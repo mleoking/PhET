@@ -6,6 +6,6 @@ package edu.colorado.phet.boundstates.benfold2;
  * a function.  A function may be plotted directly using the {@link
  * SolvFunction SolvFunction} class.
  */
-interface Function {
+public interface Function {
     public double evaluate( double x );
 }
