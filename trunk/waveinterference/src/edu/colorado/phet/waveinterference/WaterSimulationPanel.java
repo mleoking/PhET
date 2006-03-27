@@ -29,7 +29,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         RotationGlyph rotationGlyph = new RotationGlyph();
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 50, 20 );
+        rotationWaveGraphic.setOffset( 100, 20 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -40,14 +40,14 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
 
+        primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        addScreenChild( primaryFaucetGraphic );
+
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
         measurementToolSet = new MeasurementToolSet();
         addScreenChild( measurementToolSet );
-
-        primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
-        addScreenChild( primaryFaucetGraphic );
     }
 
     private void angleChanged() {
@@ -90,5 +90,6 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     public void stepInTime( double dt ) {
         rotationWaveGraphic.update();
         primaryFaucetGraphic.step();
+        intensityReaderSet.update();
     }
 }

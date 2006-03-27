@@ -12,7 +12,12 @@ import edu.colorado.phet.common.application.PhetApplication;
  */
 
 public class ModuleApplication {
+
     public static void startApplication( String[]args, Module module ) {
+//        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+//        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.PLAIN, 13 ) );
+//        phetLookAndFeel.apply();
         PhetApplication phetApplication = new PhetApplication( args, module.getName(), "", "" );
         phetApplication.addModule( module );
         phetApplication.startApplication();
