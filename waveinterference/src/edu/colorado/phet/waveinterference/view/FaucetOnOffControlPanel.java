@@ -4,7 +4,6 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +20,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
     public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
         this.faucetGraphic = faucetGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        final JCheckBox on = new JCheckBox( "On", faucetGraphic.isEnabled() );
+        final JRadioButton on = new JRadioButton( "On", faucetGraphic.isEnabled() );
         on.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( on.isSelected() );
@@ -30,7 +29,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
         buttonGroup.add( on );
         add( on );
 
-        final JCheckBox off = new JCheckBox( "Off", !faucetGraphic.isEnabled() );
+        final JRadioButton off = new JRadioButton( "Off", !faucetGraphic.isEnabled() );
         off.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( !off.isSelected() );
@@ -39,6 +38,6 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
         buttonGroup.add( off );
         add( off );
 
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Faucet" ) );
+//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Faucet" ) );
     }
 }

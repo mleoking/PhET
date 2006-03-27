@@ -17,13 +17,20 @@ public class WaterModel implements ModelElement {
     private WaveModel waveModel;
     private SlitPotential slitPotential;
     private Oscillator primaryOscillator;
+    private Oscillator secondaryOscillator;
+
+
     private static final double startTime = System.currentTimeMillis() / 1000.0;
 
     public WaterModel() {
         waveModel = new WaveModel( 60, 60 );
         slitPotential = new SlitPotential( waveModel );
         primaryOscillator = new Oscillator( waveModel );
+        secondaryOscillator = new Oscillator( waveModel );
+        secondaryOscillator.setEnabled( false );
+        secondaryOscillator.setLocation( 10, 10 );
         waveModel.setPotential( slitPotential );
+
     }
 
     public WaveModel getWaveModel() {
@@ -38,12 +45,18 @@ public class WaterModel implements ModelElement {
         return primaryOscillator;
     }
 
+    public Oscillator getSecondaryOscillator() {
+        return secondaryOscillator;
+    }
+
     public void stepInTime( double dt ) {
         waveModel.propagate();
         primaryOscillator.setTime( getTime() );
+        secondaryOscillator.setTime( getTime() );
     }
 
     private double getTime() {
         return System.currentTimeMillis() / 1000.0 - startTime;
     }
+
 }
