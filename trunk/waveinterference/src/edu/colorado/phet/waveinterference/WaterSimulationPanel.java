@@ -6,6 +6,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
 import edu.colorado.phet.waveinterference.view.*;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -56,6 +57,12 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( measurementToolSet );
 
         multiDrip = new MultiDrip( primaryFaucetGraphic, secondaryFaucetGraphic );
+
+        FaucetControlPanel faucetControlPanel = new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() );
+//        addScreenChild( new PSwing( this, faucetControlPanel ) );
+        PSwing node = new PSwing( this, new OscillatorControlPanel( waterModule.getPrimaryOscillator() ) );
+        node.computeBounds();
+        addScreenChild( node );
     }
 
     private void angleChanged() {
