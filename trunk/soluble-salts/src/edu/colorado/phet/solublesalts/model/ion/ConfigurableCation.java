@@ -39,13 +39,13 @@ public class ConfigurableCation extends Ion {
 
 
     public ConfigurableCation() {
-        super( new IonProperties( MASS, CHARGE, RADIUS ) );
+        super( new IonProperties( MASS, CHARGE, Math.max( RADIUS * (-CHARGE / 2 ), 6 )) );
     }
 
     public ConfigurableCation( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position,
                velocity,
                acceleration,
-               new IonProperties( MASS, CHARGE, RADIUS ) );
+               new IonProperties( MASS, CHARGE, Math.max( RADIUS * (-CHARGE / 2 ), 6 )) );
     }
 }

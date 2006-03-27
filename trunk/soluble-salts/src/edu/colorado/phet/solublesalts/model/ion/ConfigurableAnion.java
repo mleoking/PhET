@@ -38,13 +38,13 @@ public class ConfigurableAnion extends Ion {
     }
 
     public ConfigurableAnion() {
-        super( new IonProperties( MASS, CHARGE, RADIUS ) );
+        super( new IonProperties( MASS, CHARGE, Math.max( RADIUS * (CHARGE / 2 ), 6 ) ));
     }
 
     public ConfigurableAnion( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position,
                velocity,
                acceleration,
-               new IonProperties( MASS, CHARGE, RADIUS ) );
+               new IonProperties( MASS, CHARGE, Math.max( RADIUS * (CHARGE / 2 ), 6 )) );
     }
 }
