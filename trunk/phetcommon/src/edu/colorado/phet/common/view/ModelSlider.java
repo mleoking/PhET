@@ -120,8 +120,8 @@ public class ModelSlider extends JPanel {
         this.units = units;
         this.modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         this.initialValue = initialValue;
-        numMajorTicks = 10;
-        int numMinorsPerMajor = 4;
+        numMajorTicks = 5;
+        int numMinorsPerMajor = 2;
         numMinorTicks = ( numMajorTicks - 1 ) * numMinorsPerMajor + 1;
 
         setLayout( new GridBagLayout() );
@@ -293,7 +293,7 @@ public class ModelSlider extends JPanel {
         Hashtable table = new Hashtable();
         for( int i = 0; i < ticks.length; i++ ) {
             double tick = ticks[i];
-            table.put( new Double( tick ), new JLabel( sliderLabelFormat.format( tick)) );
+            table.put( new Double( tick ), new JLabel( sliderLabelFormat.format( tick ) ) );
         }
         setModelLabels( table );
 //        relabelSlider();
