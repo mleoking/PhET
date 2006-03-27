@@ -24,7 +24,7 @@ public class SlitControlPanel extends VerticalLayoutPanel {
     private ModelSlider slitSeparation;
 
     public SlitControlPanel( final SlitPotential slitPotential ) {
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Slits" ) );
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Barrier" ) );
         this.slitPotential = slitPotential;
         HorizontalLayoutPanel topPanel = new HorizontalLayoutPanel();
         final JCheckBox enable = new JCheckBox( "Enabled", slitPotential.isEnabled() );
@@ -43,13 +43,13 @@ public class SlitControlPanel extends VerticalLayoutPanel {
         oneSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 slitPotential.setOneSlit();
-                slitSeparation.setEnabled( false );
+                updateSeparationCheckbox();
             }
         } );
         twoSlits.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 slitPotential.setTwoSlits();
-                slitSeparation.setEnabled( true );
+                updateSeparationCheckbox();
             }
         } );
         VerticalLayoutPanel eastPanel = new VerticalLayoutPanel();
@@ -88,5 +88,10 @@ public class SlitControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( slitSeparation );
+        updateSeparationCheckbox();
+    }
+
+    private void updateSeparationCheckbox() {
+        slitSeparation.setEnabled( !slitPotential.isOneSlit() );
     }
 }

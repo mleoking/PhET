@@ -2,9 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.tests.DetectorSetControlPanel;
-import edu.colorado.phet.waveinterference.view.FaucetOnOffControlPanel;
-import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
-import edu.colorado.phet.waveinterference.view.SlitControlPanel;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid

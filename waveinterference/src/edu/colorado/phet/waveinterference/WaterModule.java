@@ -9,6 +9,7 @@ import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
+import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
 
 /**
  * User: Sam Reid

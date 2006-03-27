@@ -46,7 +46,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet();
+        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock() );
         addScreenChild( measurementToolSet );
     }
 

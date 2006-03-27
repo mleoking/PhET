@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference;
+package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
