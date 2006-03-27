@@ -2,11 +2,16 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -42,7 +47,16 @@ public class TestPSwingBounds extends Module {
     public static void main( String[] args ) {
         TestPSwingBounds module = new TestPSwingBounds();
         System.out.println( "Made module..." );
-        new ModuleApplication().startApplication( args, module );
+        PhetLookAndFeel.setLookAndFeel();
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        phetLookAndFeel.apply();
+//        ModuleApplication moduleApplication = new ModuleApplication();
+        PhetApplication phetApplication = new PhetApplication( args, "", "", "" );
+        phetApplication.addModule( module );
+
+        SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
+        phetApplication.startApplication();
         module.fix();
     }
 
