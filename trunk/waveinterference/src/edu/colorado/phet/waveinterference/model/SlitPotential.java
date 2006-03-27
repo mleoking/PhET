@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class SlitPotential implements Potential {
     private WaveModel waveModel;
-    private boolean enabled = true;
+    private boolean enabled = false;
     private int slitWidth = 10;
     private int slitSeparation = 12;
     private int thickness = 5;
