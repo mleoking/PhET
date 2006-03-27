@@ -33,8 +33,9 @@ CLEANUP:
 
 
 DONE:
-(3/26/06) - add a command line arg (-dev) to enable Developer menu
-(3/26/06) - fix new warnings that eclipse 3.1.2 found
+(3/27/06) - move FastPathRenderer to jfreechart-phet
+(3/27/06) - add a command line arg (-dev) to enable Developer menu
+(3/27/06) - fix new warnings that eclipse 3.1.2 found
 (3/26/06) - upgrade to Eclipse 3.1.2, JProfiler 4.1.3
 0.00.22...
 (3/24/06) - set Richardson psi[] to all zero when all values are below some threshold
