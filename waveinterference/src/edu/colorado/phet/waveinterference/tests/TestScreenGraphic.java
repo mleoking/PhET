@@ -19,12 +19,10 @@ public class TestScreenGraphic extends TestWaveColor {
         super( "Screen Graphic" );
         getWaveModel().setSize( 50, 50 );
         screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
-
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( getWaveModelGraphic() );
         getWaveModelGraphic().setOffset( 100, 100 );
-        screenGraphic.setOffset( getWaveModelGraphic().getFullBounds().getMaxX(), getWaveModelGraphic().getFullBounds().getY() );
 
         getControlPanel().addControl( new ScreenControlPanel( screenGraphic ) );
     }
