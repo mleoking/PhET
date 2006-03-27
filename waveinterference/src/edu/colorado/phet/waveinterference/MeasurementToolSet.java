@@ -23,6 +23,7 @@ public class MeasurementToolSet extends PNode {
     public MeasurementToolSet() {
         measuringTape = new MeasuringTape( new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 100, 100 ), new Rectangle2D.Double( 0, 0, 100, 100 ) ), new Point2D.Double( 0, 0 ) );
         measuringTape.setVisible( false );
+        measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
 
         stopwatchGraphic = new PText( "Stopwatch goes here." );

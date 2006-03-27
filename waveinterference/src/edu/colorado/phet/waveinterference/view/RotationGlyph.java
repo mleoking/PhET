@@ -36,7 +36,7 @@ public class RotationGlyph extends PNode {
         addChild( surface );
 
         update();
-        setViewAngle( 0.0 );
+        setRotation( 0.0 );
     }
 
     public double getPrimaryHeight() {
