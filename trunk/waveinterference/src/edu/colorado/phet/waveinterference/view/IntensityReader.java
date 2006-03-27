@@ -24,7 +24,6 @@ import java.awt.geom.*;
 public class IntensityReader extends PComposite {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
-//    private SimpleLatticeGraphic simpleLatticeGraphic;
     private CrosshairGraphic crosshairs;
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
@@ -33,7 +32,6 @@ public class IntensityReader extends PComposite {
     public IntensityReader( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
-//        this.simpleLatticeGraphic = simpleLatticeGraphic;
         textReadout = new TextReadout();
         addChild( textReadout );
 
@@ -61,7 +59,7 @@ public class IntensityReader extends PComposite {
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
         if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
-            double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 2 );
+            double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
             textReadout.setText( "Magnitude=" + new DefaultDecimalFormat( "0.00" ).format( value ) );
             stripChartJFCNode.addValue( time, value );
             time++;
