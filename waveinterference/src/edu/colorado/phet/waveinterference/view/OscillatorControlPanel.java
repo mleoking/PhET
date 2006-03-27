@@ -18,7 +18,8 @@ import javax.swing.event.ChangeListener;
 public class OscillatorControlPanel extends JPanel {
     public OscillatorControlPanel( final Oscillator oscillator ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        final ModelSlider frequencySlider = new ModelSlider( "Frequency", "Hz", 0, 10, oscillator.getFrequency() );
+        final ModelSlider frequencySlider = new ModelSlider( "Frequency", "Hz", 0, 3, oscillator.getFrequency() );
+        frequencySlider.setBorder( null );
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 oscillator.setFrequency( frequencySlider.getValue() );
@@ -28,6 +29,7 @@ public class OscillatorControlPanel extends JPanel {
         frequencySlider.setTextFieldVisible( false );
 
         final ModelSlider amplitudeSlider = new ModelSlider( "Amplitude", "cm", 0, 2, oscillator.getAmplitude() );
+        amplitudeSlider.setBorder( null );
         amplitudeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 oscillator.setAmplitude( amplitudeSlider.getValue() );

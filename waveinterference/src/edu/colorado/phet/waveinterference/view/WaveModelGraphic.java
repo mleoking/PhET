@@ -146,4 +146,8 @@ public class WaveModelGraphic extends PNode {
     public ColorMap getColorMap() {
         return colorMap;
     }
+
+    public WaveModel getWaveModel() {
+        return waveModel;
+    }
 }
