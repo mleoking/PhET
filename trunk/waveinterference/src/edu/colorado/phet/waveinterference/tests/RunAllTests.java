@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -27,6 +28,7 @@ public class RunAllTests extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        WaveIntereferenceLookAndFeel.initLookAndFeel();
         new RunAllTests( args ).startApplication();
     }
 }

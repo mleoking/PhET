@@ -1,10 +1,6 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
-import edu.colorado.phet.waveinterference.view.RotationGlyph;
-import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-import edu.colorado.phet.waveinterference.view.WaveSideView;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;

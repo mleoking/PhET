@@ -56,6 +56,6 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestWaveRotateModule() );
+        new ModuleApplication().startApplication( args, new TestWaveRotateModule() );
     }
 }

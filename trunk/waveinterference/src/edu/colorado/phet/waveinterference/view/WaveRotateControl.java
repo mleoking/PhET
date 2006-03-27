@@ -3,7 +3,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

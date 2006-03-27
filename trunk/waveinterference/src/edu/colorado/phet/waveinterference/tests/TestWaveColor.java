@@ -46,6 +46,6 @@ public class TestWaveColor extends TestTopView {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestWaveColor() );
+        new ModuleApplication().startApplication( args, new TestWaveColor() );
     }
 }

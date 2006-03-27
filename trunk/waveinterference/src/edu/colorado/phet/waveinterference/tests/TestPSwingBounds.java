@@ -4,10 +4,9 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -28,9 +27,9 @@ public class TestPSwingBounds extends Module {
         panel.getLayer().addChild( pswing );
     }
 
-    class TestJComponent extends JPanel {
+    class TestJComponent extends VerticalLayoutPanel {
         public TestJComponent() {
-            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+//            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             final ModelSlider frequencySlider = new ModelSlider( "Frequency", "Hz", 0, 10, 5 );
             add( frequencySlider );
             frequencySlider.setTextFieldVisible( false );
@@ -42,12 +41,13 @@ public class TestPSwingBounds extends Module {
 
     public static void main( String[] args ) {
         TestPSwingBounds module = new TestPSwingBounds();
-        ModuleApplication.startApplication( args, module );
+        System.out.println( "Made module..." );
+        new ModuleApplication().startApplication( args, module );
         module.fix();
     }
 
     private void fix() {
-//        pswing.reshape();
+//        pswing.computeBounds();
     }
 
 }

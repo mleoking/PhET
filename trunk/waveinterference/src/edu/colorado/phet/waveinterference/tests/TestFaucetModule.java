@@ -87,6 +87,6 @@ public class TestFaucetModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestFaucetModule() );
+        new ModuleApplication().startApplication( args, new TestFaucetModule() );
     }
 }

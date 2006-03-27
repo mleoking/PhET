@@ -40,6 +40,6 @@ public class TestScreenGraphic extends TestWaveColor {
     }
 
     public static void main( String[] args ) {
-        ModuleApplication.startApplication( args, new TestScreenGraphic() );
+        new ModuleApplication().startApplication( args, new TestScreenGraphic() );
     }
 }
