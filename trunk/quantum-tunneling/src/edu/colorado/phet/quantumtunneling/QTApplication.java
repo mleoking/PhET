@@ -13,11 +13,8 @@ package edu.colorado.phet.quantumtunneling;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -29,13 +26,12 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorSchemeMenu;
-import edu.colorado.phet.quantumtunneling.control.RichardsonControlsDialog;
 import edu.colorado.phet.quantumtunneling.debug.QTDeveloperMenu;
-import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
+import edu.colorado.phet.quantumtunneling.util.ArgUtils;
 
 
 /**
@@ -50,6 +46,9 @@ public class QTApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------------------
        
+    // Provide this program argument to enable developer-only features.
+    private static final String DEVELOPER_ARG = "-dev";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -81,7 +80,7 @@ public class QTApplication extends PhetApplication {
     {
         super( args, title, description, version, frameSetup );
         initModules();
-        initMenubar();
+        initMenubar( args );
     }
     
     //----------------------------------------------------------------------------
@@ -101,7 +100,7 @@ public class QTApplication extends PhetApplication {
     /*
      * Initializes the menubar.
      */
-    private void initMenubar() {
+    private void initMenubar( String[] args ) {
      
         PhetFrame frame = getPhetFrame();
         
@@ -150,8 +149,10 @@ public class QTApplication extends PhetApplication {
         }
    
         // Developer menu
-        QTDeveloperMenu developerMenu = new QTDeveloperMenu( _module );
-        getPhetFrame().addMenu( developerMenu );
+        if ( ArgUtils.contains( args, DEVELOPER_ARG ) ) {
+            QTDeveloperMenu developerMenu = new QTDeveloperMenu( _module );
+            getPhetFrame().addMenu( developerMenu );
+        }
         
         // Help menu extensions
         HelpMenu helpMenu = getPhetFrame().getHelpMenu();
@@ -202,6 +203,12 @@ public class QTApplication extends PhetApplication {
 
     /**
      * Main entry point.
+     * <p>
+     * Supported command line arguments:
+     * <ul>
+     * <li>-dev : enabled developer controls
+     * <li>user.language=value : sets the locale used by SimStrings
+     * </ul>
      * 
      * @param args command line arguments
      */
