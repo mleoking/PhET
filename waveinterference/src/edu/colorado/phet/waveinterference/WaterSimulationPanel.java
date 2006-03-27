@@ -19,6 +19,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
     private RotationWaveGraphic rotationWaveGraphic;
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
+    private MeasurementToolSet measurementToolSet;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -40,6 +41,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
 
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
+
+        measurementToolSet = new MeasurementToolSet();
+        addScreenChild( measurementToolSet );
     }
 
     private Lattice2D getLattice() {
@@ -60,5 +64,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas {
 
     public IntensityReaderSet getIntensityReaderSet() {
         return intensityReaderSet;
+    }
+
+    public MeasurementToolSet getMeasurementToolSet() {
+        return measurementToolSet;
     }
 }
