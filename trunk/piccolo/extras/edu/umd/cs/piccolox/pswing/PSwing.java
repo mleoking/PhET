@@ -4,16 +4,14 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -22,13 +20,6 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
-
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -386,6 +377,15 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         if( c instanceof JComponent ) {
             ( (JComponent)c ).setDoubleBuffered( false );
             c.addPropertyChangeListener( "font", this );
+            c.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    computeBounds();
+                }
+
+                public void componentShown( ComponentEvent e ) {
+                    computeBounds();
+                }
+            } );
         }
     }
 
