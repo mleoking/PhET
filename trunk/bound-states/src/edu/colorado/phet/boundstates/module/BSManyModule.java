@@ -29,7 +29,7 @@ import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSquareDialog;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;

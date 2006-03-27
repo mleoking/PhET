@@ -17,7 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 
 
 /**

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 
 
 /**

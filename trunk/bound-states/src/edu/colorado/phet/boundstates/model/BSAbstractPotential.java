@@ -14,7 +14,7 @@ package edu.colorado.phet.boundstates.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 
 
 /**
