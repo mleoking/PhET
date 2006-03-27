@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.module;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -25,9 +24,9 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
-import edu.colorado.phet.boundstates.dialog.BSSquareDialog;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.WellType;
 import edu.colorado.phet.boundstates.model.*;
@@ -95,6 +94,9 @@ public class BSManyModule extends BSAbstractModule {
     // Dialogs
     private JDialog _configureWellDialog;
     private BSSuperpositionStateDialog _superpositionStateDialog;
+    
+    // Colors 
+    private BSColorScheme _colorScheme;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -408,7 +410,24 @@ public class BSManyModule extends BSAbstractModule {
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
-        //XXXX
+        //XXX
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        _colorScheme = colorScheme;
+        // Chart
+        _chart.setColorScheme( colorScheme );
+        // Plots, in case we're drawing them separately from the chart...
+        _energyPlot.setColorScheme( colorScheme );
+        _waveFunctionPlot.setColorScheme( colorScheme );
+        // Control panel legend...
+        _controlPanel.setColorScheme( colorScheme );
+        // Drag handles...
+        //XXX
+        // Legend above the charts...
+        _legend.setColorScheme( colorScheme );
+        // Region markers...
+        //XXX
     }
     
     //----------------------------------------------------------------------------

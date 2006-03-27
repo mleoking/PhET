@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
+import edu.colorado.phet.boundstates.color.BSColorScheme;
+
+
 
 /**
  * BSGlobalConfig is a JavaBean-compliant data structure that stores
@@ -27,7 +30,9 @@ public class BSGlobalConfig implements BSSerializable {
     
     private String _versionNumber;
     private String _cvsTag;
-
+    private String _colorSchemeName;
+    private BSColorSchemeConfig _colorScheme;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -55,5 +60,25 @@ public class BSGlobalConfig implements BSSerializable {
     
     public void setCvsTag( String buildNumber ) {
         _cvsTag = buildNumber;
+    }
+
+    public BSColorSchemeConfig getColorScheme() {
+        return _colorScheme;
+    }
+
+    public void setColorScheme( BSColorSchemeConfig colorScheme ) {
+        _colorScheme = colorScheme;
+    }
+    
+    public String getColorSchemeName() {
+        return _colorSchemeName;
+    }
+ 
+    public void setColorSchemeName( String colorSchemeName ) {
+        _colorSchemeName = colorSchemeName;
+    }
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        setColorScheme( new BSColorSchemeConfig( colorScheme ) );
     }
 }

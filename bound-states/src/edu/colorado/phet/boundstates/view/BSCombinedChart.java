@@ -20,6 +20,7 @@ import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 
 
 
@@ -65,8 +66,6 @@ public class BSCombinedChart extends JFreeChart {
      */
     public BSCombinedChart() {
         super( null, null, new CombinedDomainXYPlot(), CREATE_LEGEND );
-        
-        setBackgroundPaint( BSConstants.CHART_BACKGROUND );
         
         // Energy plot...
         { 
@@ -136,5 +135,15 @@ public class BSCombinedChart extends JFreeChart {
      */
     public BSWaveFunctionPlot getWaveFunctionPlot() {
         return _waveFunctionPlot;
+    }
+    
+    /**
+     * Sets the color scheme.
+     * 
+     * @param scheme
+     */
+    public void setColorScheme( BSColorScheme scheme ) {
+        _energyPlot.setColorScheme( scheme );
+        _waveFunctionPlot.setColorScheme( scheme );
     }
 }

@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.module;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
@@ -65,6 +66,13 @@ public abstract class BSAbstractModule extends PiccoloModule {
      * @param appConfig
      */
     public abstract void load( BSConfig appConfig );
+    
+    /**
+     * Sets the module's color scheme.
+     * 
+     * @param colorScheme
+     */
+    public abstract void setColorScheme( BSColorScheme colorScheme );
     
     //----------------------------------------------------------------------------
     // Accessors

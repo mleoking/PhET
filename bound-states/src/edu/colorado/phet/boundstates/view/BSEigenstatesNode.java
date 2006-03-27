@@ -154,8 +154,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 Point2D[] points = new Point2D[] { pLeft, pRight };
                 PPath line = new PPath();
                 line.setPathToPolyline( points );
-                line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
-                line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
                 addChild( line );
                 _lines.add( line );
                 _eigenstates.add( eigenstates[i] );
@@ -196,8 +196,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
             if ( _lines.size() > index ) {
                 _selectionIndex = index;
                 PPath line = (PPath) _lines.get( _selectionIndex );
-                line.setStroke( BSConstants.EIGENSTATE_SELECTED_STROKE );
-                line.setStrokePaint( BSConstants.EIGENSTATE_SELECTED_COLOR );
+                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
+                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateSelectionColor() );
             }
         }
     }
@@ -209,8 +209,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
         if ( _selectionIndex != -1 ) {
             if ( _lines.size() > _selectionIndex ) {
                 PPath line = (PPath) _lines.get( _selectionIndex );
-                line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
-                line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+                line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
             }
             _selectionIndex = -1;
         }
@@ -240,8 +240,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
         if ( highlightIndex != _selectionIndex ) {
             _highlightIndex = highlightIndex;
             PPath line = (PPath) _lines.get( _highlightIndex );
-            line.setStroke( BSConstants.EIGENSTATE_HIGHLIGHT_STROKE );
-            line.setStrokePaint( BSConstants.EIGENSTATE_HIGHLIGHT_COLOR );
+            line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
+            line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
 
         }
     }
@@ -252,8 +252,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
     private void clearHightlight() {
         if ( _highlightIndex != -1 ) {
             PPath line = (PPath) _lines.get( _highlightIndex );
-            line.setStroke( BSConstants.EIGENSTATE_UNSELECTED_STROKE );
-            line.setStrokePaint( BSConstants.EIGENSTATE_UNSELECTED_COLOR );
+            line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+            line.setStrokePaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
             _highlightIndex = -1;
         }
     }
