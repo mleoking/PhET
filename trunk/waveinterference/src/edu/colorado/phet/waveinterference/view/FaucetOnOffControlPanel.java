@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
-import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 
 import javax.swing.*;
 import java.awt.*;

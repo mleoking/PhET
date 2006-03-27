@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
