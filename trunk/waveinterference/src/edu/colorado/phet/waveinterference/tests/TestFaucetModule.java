@@ -52,7 +52,6 @@ public class TestFaucetModule extends BasicWaveTestModule {
                 faucetGraphic.setDropHeight( dropHeight.getValue() );
             }
         } );
-        getControlPanel().addControl( dropHeight );
 
         final ModelSlider dropSpeed = new ModelSlider( "Drop Speed", "pixels/sec", 0, 500, faucetGraphic.getDropSpeed() );
         dropSpeed.addChangeListener( new ChangeListener() {
@@ -60,6 +59,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
                 faucetGraphic.setDropSpeed( dropSpeed.getValue() );
             }
         } );
+        getControlPanel().addControl( dropHeight );
         getControlPanel().addControl( dropSpeed );
 
         final JCheckBox showSideView = new JCheckBox( "Side view", waveSideView.getVisible() );
@@ -78,7 +78,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
         } );
         getControlPanel().addControl( showTopView );
 
-        FaucetOnOffControlPanel faucetOnOffControlPanel = new FaucetOnOffControlPanel( getOscillator() );
+        FaucetOnOffControlPanel faucetOnOffControlPanel = new FaucetOnOffControlPanel( faucetGraphic );
         getControlPanel().addControl( faucetOnOffControlPanel );
     }
 

@@ -31,12 +31,13 @@ public class FaucetGraphic extends PNode {
     private double dropHeight = 100;
     private double dropSpeed = 100;
     private double lastTime;
+    private boolean enabled = true;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
     }
 
-    public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
+    public FaucetGraphic( WaveModel waveModel, final Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
         this.waveModel = waveModel;
         this.oscillator = oscillator;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -53,6 +54,12 @@ public class FaucetGraphic extends PNode {
             }
         } );
         updateLocation();
+//        oscillator.addListener( new Oscillator.Listener() {
+//            public void enabledStateChanged() {
+//                setEnabled( oscillator.isEnabled() );
+//            }
+//
+//        } );
     }
 
     private void updateLocation() {
@@ -67,8 +74,10 @@ public class FaucetGraphic extends PNode {
     }
 
     public void step() {
-        if( isRightBeforeReleaseTime( lastTime ) && isRightAfterReleaseTime( oscillator.getTime() ) ) {
-            addDrop();
+        if( isEnabled() ) {
+            if( isRightBeforeReleaseTime( lastTime ) && isRightAfterReleaseTime( oscillator.getTime() ) ) {
+                addDrop();
+            }
         }
         updateDrops();
         lastTime = oscillator.getTime();
@@ -104,6 +113,9 @@ public class FaucetGraphic extends PNode {
                 System.out.println( "FaucetGraphic.updateDrops" );
                 removeDrop( (WaterDropGraphic)drops.get( i ) );
                 i--;
+
+                //consider this a collision for purposes of starting waves.
+                oscillator.setEnabled( this.isEnabled() );
             }
         }
     }
@@ -145,6 +157,17 @@ public class FaucetGraphic extends PNode {
 
     public void setDropHeight( double value ) {
         this.dropHeight = value;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled( boolean selected ) {
+        this.enabled = selected;
+        if( !enabled && drops.size() == 0 ) {
+            oscillator.setEnabled( false );
+        }
     }
 
     class WaterDropGraphic extends PNode {
