@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
-import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,24 +17,24 @@ import java.awt.event.ActionListener;
  */
 
 public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
-    private Oscillator oscillator;
+    private FaucetGraphic faucetGraphic;
 
-    public FaucetOnOffControlPanel( final Oscillator oscillator ) {
-        this.oscillator = oscillator;
+    public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
+        this.faucetGraphic = faucetGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        final JCheckBox on = new JCheckBox( "On", oscillator.isEnabled() );
+        final JCheckBox on = new JCheckBox( "On", faucetGraphic.isEnabled() );
         on.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                oscillator.setEnabled( on.isSelected() );
+                faucetGraphic.setEnabled( on.isSelected() );
             }
         } );
         buttonGroup.add( on );
         add( on );
 
-        final JCheckBox off = new JCheckBox( "Off", !oscillator.isEnabled() );
+        final JCheckBox off = new JCheckBox( "Off", !faucetGraphic.isEnabled() );
         off.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                oscillator.setEnabled( !off.isSelected() );
+                faucetGraphic.setEnabled( !off.isSelected() );
             }
         } );
         buttonGroup.add( off );

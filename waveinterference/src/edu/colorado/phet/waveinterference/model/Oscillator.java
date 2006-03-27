@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.model;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 24, 2006
@@ -17,6 +19,7 @@ public class Oscillator {
     private double amplitude = 1.0;
     private double time;
     private boolean enabled = true;
+    private ArrayList listeners = new ArrayList();
 
     public Oscillator( WaveModel waveModel ) {
         this( waveModel, 8, waveModel.getHeight() / 2 );
@@ -129,10 +132,24 @@ public class Oscillator {
     }
 
     public void setEnabled( boolean selected ) {
-        this.enabled = selected;
+        if( !this.enabled == selected ) {
+            this.enabled = selected;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.enabledStateChanged();
+            }
+        }
     }
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public static interface Listener {
+        void enabledStateChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }
