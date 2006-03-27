@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class DialogUtils {
     
     /* Not intended for instantiation */
-    private DialogUtils( String message ) {}
+    private DialogUtils() {}
     
     /**
      * Shows a localized confirmation dialog.  The dialog title is "Confirm".

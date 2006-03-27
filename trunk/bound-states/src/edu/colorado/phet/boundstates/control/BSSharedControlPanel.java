@@ -54,7 +54,6 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     // Class data (private)
     //----------------------------------------------------------------------------
 
-    private static final int INDENTATION = 0; // pixels
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 

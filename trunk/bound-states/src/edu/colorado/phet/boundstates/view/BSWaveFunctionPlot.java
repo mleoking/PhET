@@ -217,7 +217,10 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
-        //XXX
+        clearAllSeries();
+        setSeriesNotify( false );
+        //XXX update data items
+        setSeriesNotify( true );
     }
     
     /*
