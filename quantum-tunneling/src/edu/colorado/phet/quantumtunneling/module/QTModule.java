@@ -986,8 +986,6 @@ public class QTModule extends AbstractModule implements Observer {
         _colorScheme = colorScheme;
         // Chart
         _chart.setColorScheme( colorScheme );
-        _chart.getWaveFunctionPlot().setColorScheme( colorScheme );
-        _chart.getProbabilityDensityPlot().setColorScheme( colorScheme );
         // Plots, in case we're drawing them separately from the chart...
         _energyPlot.setColorScheme( colorScheme );
         _waveFunctionPlot.setColorScheme( colorScheme );
