@@ -28,11 +28,11 @@ import org.jfree.ui.RectangleEdge;
 
 
 /**
- * FastPathRenderer draws a JFreeChart data series as a GeneralPath.
+ * FastPathRenderer draws a JFreeChart data series as an antialiased GeneralPath.
  * For performance optimization, the entire path is constructed and drawn in one shot.
  * <p>
- * NOTE: Many of the JFreeChart features (eg, entities) are no supported by this
- * class.  If you need full features, use JFreeChart's XYLineAndShapeRenderer.
+ * NOTE: Many of JFreeChart's features (eg, entities) are not supported by this class.
+ * If you need full features, use JFreeChart's XYLineAndShapeRenderer.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -56,7 +56,7 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
         super();
         _path = new GeneralPath();
     }
-
+    
     //----------------------------------------------------------------------------
     // XYItemRenderer implementation
     //----------------------------------------------------------------------------
@@ -119,10 +119,20 @@ public class FastPathRenderer extends AbstractXYItemRenderer {
             }
         }
 
+        // Enable antialiasing...
+        Object hintValue = g2.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+        if ( hintValue != RenderingHints.VALUE_ANTIALIAS_ON ) {
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        }
+        
         // Draw the path...
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setStroke( getSeriesStroke( series ) );
         g2.setPaint( getSeriesPaint( series ) );
-        g2.draw( _path );
+        g2.draw( _path );   
+        
+        // Restore graphic state...
+        if ( hintValue != RenderingHints.VALUE_ANTIALIAS_ON ) {
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, hintValue );
+        }
     }
 }
