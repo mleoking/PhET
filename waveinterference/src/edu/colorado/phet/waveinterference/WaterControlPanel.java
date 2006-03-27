@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.view.SlitControlPanel;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -14,7 +16,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
     public WaterControlPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
-//        addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
+        addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
 //        addControl( new DetectorControlPanel() );
 //        addControl( new MeasurementControlPanel() );
 //        addControl( new MultiDripControlPanel() );
