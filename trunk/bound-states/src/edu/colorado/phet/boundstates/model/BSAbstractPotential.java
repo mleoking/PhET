@@ -14,7 +14,7 @@ package edu.colorado.phet.boundstates.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
@@ -110,7 +110,7 @@ public abstract class BSAbstractPotential extends BSObservable {
      * 
      * @return a WellType
      */
-    public abstract WellType getWellType();
+    public abstract BSWellType getWellType();
     
     /**
      * Gets the starting index, used as the label on eigenvalues and superposition coefficients.

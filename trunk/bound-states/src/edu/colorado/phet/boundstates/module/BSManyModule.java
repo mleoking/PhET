@@ -28,7 +28,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
@@ -211,7 +211,7 @@ public class BSManyModule extends BSAbstractModule {
         _controlPanel = new BSSharedControlPanel( this );
         setControlPanel( _controlPanel );
 //XXX        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.SQUARE };
-        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.HARMONIC_OSCILLATOR, WellType.SQUARE, WellType.ASYMMETRIC };
+        BSWellType[] wellTypeChoices = { BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR, BSWellType.SQUARE, BSWellType.ASYMMETRIC };
         setWellTypeChoices( wellTypeChoices );
         
         String timeUnits = SimStrings.get( "units.time" );
@@ -422,12 +422,10 @@ public class BSManyModule extends BSAbstractModule {
         _waveFunctionPlot.setColorScheme( colorScheme );
         // Control panel legend...
         _controlPanel.setColorScheme( colorScheme );
-        // Drag handles...
-        //XXX
         // Legend above the charts...
         _legend.setColorScheme( colorScheme );
-        // Region markers...
-        //XXX
+        // Eigenstates...
+        _eigenstatesNode.setColorScheme( colorScheme );
     }
     
     //----------------------------------------------------------------------------
@@ -451,7 +449,7 @@ public class BSManyModule extends BSAbstractModule {
         _controlPanel.setNumberOfWellsControlVisible( visible );
     }
     
-    public void setWellTypeChoices( WellType[] wellTypes ) {
+    public void setWellTypeChoices( BSWellType[] wellTypes ) {
         _controlPanel.setWellTypeChoices( wellTypes );
     }
     
@@ -459,7 +457,7 @@ public class BSManyModule extends BSAbstractModule {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setWellType( WellType wellType ) {
+    public void setWellType( BSWellType wellType ) {
         
         if ( _configureWellDialog != null ) { 
             _configureWellDialog.dispose();
@@ -469,20 +467,20 @@ public class BSManyModule extends BSAbstractModule {
             _superpositionStateDialog.dispose();
         }
         
-        if ( wellType == WellType.COULOMB ) {
+        if ( wellType == BSWellType.COULOMB ) {
             _selectedPotential = _coulombWells;
             _controlPanel.setNumberOfWellsControlVisible( true );
             _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         }
-        else if ( wellType == WellType.HARMONIC_OSCILLATOR ) {
+        else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
             _selectedPotential = _harmonicOscillatorWell;
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
-        else if ( wellType == WellType.SQUARE ) {
+        else if ( wellType == BSWellType.SQUARE ) {
             _selectedPotential = _squareWells;
             _controlPanel.setNumberOfWellsControlVisible( true );
         }
-        else if ( wellType == WellType.ASYMMETRIC ) {
+        else if ( wellType == BSWellType.ASYMMETRIC ) {
             _selectedPotential = _asymmetricWell;
             _controlPanel.setNumberOfWellsControlVisible( false );
         }

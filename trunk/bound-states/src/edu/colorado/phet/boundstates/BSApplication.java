@@ -20,7 +20,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorSchemeMenu;
-import edu.colorado.phet.boundstates.color.BlackColorScheme;
+import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.module.BSDoubleModule;
 import edu.colorado.phet.boundstates.module.BSManyModule;
 import edu.colorado.phet.boundstates.module.BSSingleModule;
@@ -143,7 +143,7 @@ public class BSApplication extends PhetApplication {
             // Color Scheme submenu
             _colorSchemeMenu = new BSColorSchemeMenu( this );
             optionsMenu.add( _colorSchemeMenu );
-            if ( BSConstants.COLOR_SCHEME instanceof BlackColorScheme ) {
+            if ( BSConstants.COLOR_SCHEME instanceof BSBlackColorScheme ) {
                 _colorSchemeMenu.selectBlack();
             }
             else {

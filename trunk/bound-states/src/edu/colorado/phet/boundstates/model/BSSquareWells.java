@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
 /**
@@ -96,8 +96,8 @@ public class BSSquareWells extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
-    public WellType getWellType() {
-        return WellType.SQUARE;
+    public BSWellType getWellType() {
+        return BSWellType.SQUARE;
     }
     
     public int getStartingIndex() {

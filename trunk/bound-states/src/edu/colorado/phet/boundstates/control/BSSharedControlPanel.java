@@ -27,7 +27,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.enums.WellType;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.module.BSManyModule;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -394,12 +394,12 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
         _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
     }
     
-    public void setWellType( WellType wellType ) {
+    public void setWellType( BSWellType wellType ) {
         _wellTypeComboBox.setSelectedWellType( wellType );
         handleWellTypeSelection();
     }
     
-    public WellType getWellType() {
+    public BSWellType getWellType() {
         return _wellTypeComboBox.getSelectedWellType();
     }
     
@@ -503,7 +503,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
         _numberOfWellsSlider.setVisible( visible );
     }
     
-    public void setWellTypeChoices( WellType[] wellTypes ) {
+    public void setWellTypeChoices( BSWellType[] wellTypes ) {
         _wellTypeComboBox.removeItemListener( _listener );
         _wellTypeComboBox.clearChoices();
         for ( int i = 0; i < wellTypes.length; i++ ) {
@@ -579,7 +579,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
     }
 
     private void handleWellTypeSelection() {
-        WellType wellType = _wellTypeComboBox.getSelectedWellType();
+        BSWellType wellType = _wellTypeComboBox.getSelectedWellType();
         _module.setWellType( wellType );
     }
 
