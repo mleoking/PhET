@@ -31,6 +31,9 @@ public class RotationWaveGraphic extends PNode {
         addChild( rotationGlyph );
         addChild( waveModelGraphic );
         addChild( waveSideView );
+        setRotation( 0.0 );
+        this.waveSideView.setSpaceBetweenCells( this.waveModelGraphic.getCellDimensions().width );
+        updateLocations();
     }
 
     public double getRotation() {
@@ -42,6 +45,10 @@ public class RotationWaveGraphic extends PNode {
         rotationGlyph.setPrimaryWidth( waveModelGraphic.getFullBounds().getWidth() );
         rotationGlyph.setAngle( value );
         rotationGlyph.setOffset( 0, waveModelGraphic.getFullBounds().getCenterY() - rotationGlyph.getSurfaceHeight() );
+    }
+
+    public void updateLocations() {
+        waveSideView.setOffset( waveModelGraphic.getFullBounds().getX(), waveModelGraphic.getFullBounds().getCenterY() );
     }
 
     public void setRotation( double value ) {
@@ -62,5 +69,11 @@ public class RotationWaveGraphic extends PNode {
             waveSideView.setVisible( false );
             waveModelGraphic.setVisible( false );
         }
+    }
+
+    public void update() {
+        waveSideView.update();
+        waveModelGraphic.update();
+        updateLocations();
     }
 }

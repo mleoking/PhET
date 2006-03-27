@@ -13,7 +13,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
 
     public WaterControlPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
-//        addControl( new WaveRotateControl() );
+        addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
 //        addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
 //        addControl( new DetectorControlPanel() );
 //        addControl( new MeasurementControlPanel() );
