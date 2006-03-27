@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.boundstates.module;
 
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 

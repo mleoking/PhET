@@ -12,7 +12,7 @@
 package edu.colorado.phet.boundstates.model;
 
 import edu.colorado.phet.boundstates.BSConstants;
-import edu.colorado.phet.boundstates.enum.WellType;
+import edu.colorado.phet.boundstates.enums.WellType;
 
 
 /**

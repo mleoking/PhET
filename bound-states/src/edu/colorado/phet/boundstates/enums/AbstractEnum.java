@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.boundstates.enum;
+package edu.colorado.phet.boundstates.enums;
 
 
 /**
