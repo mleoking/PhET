@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.control.RichardsonControlsDialog;
-import edu.colorado.phet.quantumtunneling.enum.Direction;
+import edu.colorado.phet.quantumtunneling.enums.Direction;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 

@@ -24,7 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
-import edu.colorado.phet.quantumtunneling.enum.IRView;
+import edu.colorado.phet.quantumtunneling.enums.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
 import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;

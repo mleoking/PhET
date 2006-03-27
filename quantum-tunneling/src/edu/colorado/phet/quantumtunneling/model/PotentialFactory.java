@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import edu.colorado.phet.quantumtunneling.enum.PotentialType;
+import edu.colorado.phet.quantumtunneling.enums.PotentialType;
 
 
 /**
