@@ -95,6 +95,7 @@ mechnics-dir mechanics
 
 # Bound States
 bound-states-module bound-states &phetcommon-dir &piccolo-dir &piccolo-phetdir &jfreechart-dir &jfreechart-phet-dir
+bound-states-module2 bound-states &phetcommon-dir &piccolo-dir &piccolo-phet-dir &jfreechart-dir &jfreechart-phet-dir
 
 # Color Vision
 color-vision-module colorvision3 &phetcommon-dir
