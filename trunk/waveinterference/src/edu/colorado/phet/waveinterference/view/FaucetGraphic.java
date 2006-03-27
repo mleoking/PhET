@@ -110,7 +110,7 @@ public class FaucetGraphic extends PNode {
             WaterDropGraphic waterDropGraphic = (WaterDropGraphic)drops.get( i );
             waterDropGraphic.update( oscillator.getTime() - lastTime );
             if( waterDropGraphic.readyToRemove() ) {
-                System.out.println( "FaucetGraphic.updateDrops" );
+//                System.out.println( "FaucetGraphic.updateDrops" );
                 removeDrop( (WaterDropGraphic)drops.get( i ) );
                 i--;
 

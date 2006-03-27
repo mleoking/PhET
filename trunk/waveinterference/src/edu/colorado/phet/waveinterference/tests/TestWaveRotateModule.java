@@ -47,7 +47,7 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
         getControlPanel().addControl( cellDim );
         getControlPanel().addControl( waveRotateControl );
         rotationWaveGraphic.updateLocations();
-        rotationWaveGraphic.setRotation( 0 );
+        rotationWaveGraphic.setViewAngle( 0 );
     }
 
 

@@ -20,7 +20,7 @@ public class WaveRotateControl extends VerticalLayoutPanel {
         final ModelSlider rotate = new ModelSlider( "View Angle", "radians", 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
         rotate.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                rotationWaveGraphic.setRotation( rotate.getValue() );
+                rotationWaveGraphic.setViewAngle( rotate.getValue() );
             }
         } );
         add( rotate );

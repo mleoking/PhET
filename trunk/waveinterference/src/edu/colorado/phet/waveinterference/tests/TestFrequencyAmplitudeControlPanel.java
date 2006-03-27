@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.FrequencyAmplitudeControlPanel;
+import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
 
 /**
  * User: Sam Reid
@@ -13,8 +13,8 @@ import edu.colorado.phet.waveinterference.view.FrequencyAmplitudeControlPanel;
 public class TestFrequencyAmplitudeControlPanel extends TestTopView {
     public TestFrequencyAmplitudeControlPanel() {
         super( "Freq & Amp" );
-        FrequencyAmplitudeControlPanel frequencyAmplitudeControlPanel = new FrequencyAmplitudeControlPanel( getOscillator() );
-        getControlPanel().addControl( frequencyAmplitudeControlPanel );
+        OscillatorControlPanel oscillatorControlPanel = new OscillatorControlPanel( getOscillator() );
+        getControlPanel().addControl( oscillatorControlPanel );
     }
 
     public static void main( String[] args ) {

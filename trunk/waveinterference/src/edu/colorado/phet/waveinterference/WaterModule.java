@@ -1,10 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.tests.RotationWaveGraphic;
+import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 
@@ -23,7 +25,9 @@ public class WaterModule extends WaveInterferenceModule {
     public WaterModule() {
         super( "Water" );
         waterModel = new WaterModel();
+        addModelElement( waterModel );
         waterSimulationPanel = new WaterSimulationPanel( this );
+        addModelElement( waterSimulationPanel );
         waterControlPanel = new WaterControlPanel( this );
 
         setSimulationPanel( waterSimulationPanel );
@@ -60,5 +64,13 @@ public class WaterModule extends WaveInterferenceModule {
 
     public MeasurementToolSet getMeasurementToolSet() {
         return waterSimulationPanel.getMeasurementToolSet();
+    }
+
+    public Oscillator getPrimaryOscillator() {
+        return waterModel.getPrimaryOscillator();
+    }
+
+    public FaucetGraphic getPrimaryFaucetGraphic() {
+        return waterSimulationPanel.getPrimaryFaucetGraphic();
     }
 }

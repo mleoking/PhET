@@ -7,6 +7,8 @@ import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 import edu.umd.cs.piccolo.PNode;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -19,6 +21,7 @@ public class RotationWaveGraphic extends PNode {
     private RotationGlyph rotationGlyph;
     private WaveModelGraphic waveModelGraphic;
     private WaveSideView waveSideView;
+    private ArrayList listeners = new ArrayList();
 
     public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, WaveSideView waveSideView, RotationGlyph rotationGlyph ) {
         this( waveModelGraphic, waveSideView, rotationGlyph, 0.0 );
@@ -32,9 +35,10 @@ public class RotationWaveGraphic extends PNode {
         addChild( rotationGlyph );
         addChild( waveModelGraphic );
         addChild( waveSideView );
-        setRotation( 0.0 );
+        setViewAngle( 0.0 );
         this.waveSideView.setSpaceBetweenCells( this.waveModelGraphic.getCellDimensions().width );
         updateLocations();
+        updateGraphics();
     }
 
     public double getRotation() {
@@ -52,15 +56,33 @@ public class RotationWaveGraphic extends PNode {
         waveSideView.setOffset( waveModelGraphic.getFullBounds().getX(), waveModelGraphic.getFullBounds().getCenterY() );
     }
 
-    public void setRotation( double value ) {
-        this.rotation = value;
-        updateRotationGlyph( value );
-        if( value == 0 ) {
+    public void setViewAngle( double value ) {
+        if( this.rotation != value ) {
+            this.rotation = value;
+            updateGraphics();
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.rotationChanged();
+            }
+        }
+    }
+
+    public boolean isTopView() {
+        return rotation == 0;
+    }
+
+    public boolean isSideView() {
+        return rotation >= Math.PI / 2 - 0.02;
+    }
+
+    private void updateGraphics() {
+        updateRotationGlyph( rotation );
+        if( isTopView() ) {
             rotationGlyph.setVisible( false );
             waveSideView.setVisible( false );
             waveModelGraphic.setVisible( true );
         }
-        else if( value >= Math.PI / 2 - 0.02 ) {
+        else if( isSideView() ) {
             rotationGlyph.setVisible( false );
             waveSideView.setVisible( true );
             waveModelGraphic.setVisible( false );
@@ -81,4 +103,13 @@ public class RotationWaveGraphic extends PNode {
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return waveModelGraphic.getLatticeScreenCoordinates();
     }
+
+    public static interface Listener {
+        void rotationChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
 }
