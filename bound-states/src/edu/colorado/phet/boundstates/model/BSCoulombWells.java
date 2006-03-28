@@ -87,14 +87,14 @@ public class BSCoulombWells extends BSAbstractPotential {
 
         ArrayList eigenstates = new ArrayList();
         
-        final double m = BSConstants.MAX_MASS;//XXX get mass from particle!
-        final double h = BSConstants.HBAR;
-        final double hb = 0.5; //( h * h ) / ( 2 * m );
-        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
-        final int numberOfPoints = 100;
-        final double dx = Math.abs( ( maxX - minX ) / numberOfPoints );
-
+//        final double m = BSConstants.MAX_MASS;//XXX get mass from particle!
+//        final double h = BSConstants.HBAR;
+//        final double hb = 0.5; //( h * h ) / ( 2 * m );
+//        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
+//        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+//        final int numberOfPoints = 100;
+//        final double dx = Math.abs( ( maxX - minX ) / numberOfPoints );
+//
 //        Schrodinger1D schrodinger = new Schrodinger1D( hb, minX, maxX, dx, this );
 //        for ( int nodes = 1; nodes <= NUMBER_OF_NODES; nodes++ ) {
 //            try {
@@ -109,7 +109,7 @@ public class BSCoulombWells extends BSAbstractPotential {
         for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
             try {
                 PotentialFunction function = new PotentialFunctionAdapter( this );
-                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
+                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
                 double E = wavefunction.getE();
                 eigenstates.add( new BSEigenstate( E ) );
             }
