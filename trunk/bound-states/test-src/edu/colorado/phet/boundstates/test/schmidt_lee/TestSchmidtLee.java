@@ -12,13 +12,16 @@ import java.text.ParseException;
 
 public class TestSchmidtLee {
     public static void main( String[] args ) throws BoundException, ParseException {
-        int numNodes = 1;
+        int numNodes = 0;
         double xmin = -10;
         double xmax = 10;
         int numGridPoints = 1000;
         Wavefunction wavefunction = new Wavefunction( 0.5, xmin, xmax, numGridPoints, numNodes, new PotentialFunction() {
             public double evaluate( double x ) {
-                return 0.5 * x * x;
+                if( Math.abs( x ) < 2 ) {
+                    return -2;
+                }
+                return 0;
             }
         } );
         System.out.println( "wavefunction.getE() = " + wavefunction.getE() );
