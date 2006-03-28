@@ -12,11 +12,25 @@ import java.text.ParseException;
 
 public class TestSchmidtLee {
     public static void main( String[] args ) throws BoundException, ParseException {
-        Wavefunction wavefunction = new Wavefunction( 0.5, -10, 10, 1000, 0, new PotentialFunction() {
+        int numNodes = 1;
+        double xmin = -10;
+        double xmax = 10;
+        int numGridPoints = 1000;
+        Wavefunction wavefunction = new Wavefunction( 0.5, xmin, xmax, numGridPoints, numNodes, new PotentialFunction() {
             public double evaluate( double x ) {
                 return 0.5 * x * x;
             }
         } );
         System.out.println( "wavefunction.getE() = " + wavefunction.getE() );
+
+        double[]psi = wavefunction.getPsi();
+        DefaultPlot defaultPlot = new DefaultPlot( "Psi", "x", "psi" );
+        double dx = ( xmax - xmin ) / ( numGridPoints - 1 );
+        for( int i = 0; i < psi.length; i++ ) {
+            double x = i * dx + xmin;
+            double y = psi[i];
+            defaultPlot.addData( x, y );
+        }
+        defaultPlot.setVisible( true );
     }
 }
