@@ -74,6 +74,10 @@ public class Oscillator {
     public void setLocation( int x, int y ) {
         this.x = x;
         this.y = y;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.locationChanged();
+        }
     }
 
     public double getFrequency() {
@@ -99,25 +103,6 @@ public class Oscillator {
     public int getCenterY() {
         return y;
     }
-//
-//    public double getNextTargetTime() {
-//        long numElapsedPeriods = (int)( time / getPeriod() );
-//        double timeThisPeriodStarted = numElapsedPeriods * getPeriod();//todo this may not support phase shifts
-//        double timeNextPeriodStarts = ( numElapsedPeriods + 1 ) * getPeriod();//todo this may not support phase shifts
-//        double timeIntoThisPeriod = time - timeThisPeriodStarted;
-//        if( timeIntoThisPeriod < getPeriod() / 4 ) {
-//            return timeThisPeriodStarted + getPeriod() / 4;
-//        }
-//        else {
-//            return timeNextPeriodStarts + getPeriod() / 4;
-//        }
-////        double t = time;
-////        while( t > 0 ) {
-////            t -= getPeriod();
-////        }
-////        t += getPeriod();
-////        return 0;
-//    }
 
     public double getTime() {
         return time;
@@ -147,6 +132,8 @@ public class Oscillator {
 
     public static interface Listener {
         void enabledStateChanged();
+
+        void locationChanged();
     }
 
     public void addListener( Listener listener ) {

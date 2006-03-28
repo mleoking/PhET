@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.waveinterference.model.WaveModel;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -11,10 +13,13 @@ package edu.colorado.phet.waveinterference.view;
 public class MultiDrip {
     boolean twoDrips;
     private double spacing = 10;
+    private WaveModel waveModel;
     private FaucetGraphic primary;
     private FaucetGraphic secondary;
+    private int oscillatorX = 5;
 
-    public MultiDrip( FaucetGraphic primary, FaucetGraphic secondary ) {
+    public MultiDrip( WaveModel waveModel, FaucetGraphic primary, FaucetGraphic secondary ) {
+        this.waveModel = waveModel;
         this.primary = primary;
         this.secondary = secondary;
         setOneDrip();
@@ -30,14 +35,24 @@ public class MultiDrip {
 
     public void setOneDrip() {
         this.twoDrips = false;
-        secondary.setEnabled( false );
-        secondary.setVisible( false );
+        update();
+    }
+
+    private void update() {
+        secondary.setEnabled( twoDrips );
+        secondary.setVisible( twoDrips );
+        if( twoDrips ) {
+            primary.getOscillator().setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 - spacing ) );
+            secondary.getOscillator().setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 + spacing ) );
+        }
+        else {
+            primary.getOscillator().setLocation( oscillatorX, waveModel.getHeight() / 2 );
+        }
     }
 
     public void setTwoDrips() {
         this.twoDrips = true;
-        secondary.setEnabled( true );
-        secondary.setVisible( true );
+        update();
     }
 
     public double getSpacing() {
@@ -46,5 +61,6 @@ public class MultiDrip {
 
     public void setSpacing( double value ) {
         this.spacing = value;
+        update();
     }
 }
