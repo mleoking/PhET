@@ -26,6 +26,7 @@ import java.util.Random;
 
 public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
+    private LatticeScreenCoordinates latticeScreenCoordinates;
     private BufferedImage blueImageORIG;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
@@ -36,8 +37,9 @@ public class PressureWaveGraphic extends PNode {
     private double maxVelocity = 15;
     private double friction = 0.96;
 
-    public PressureWaveGraphic( Lattice2D lattice ) {
+    public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.lattice = lattice;
+        this.latticeScreenCoordinates = latticeScreenCoordinates;
         try {
             blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
             pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
@@ -59,7 +61,17 @@ public class PressureWaveGraphic extends PNode {
                 }
             }
         }
+        latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+                updateLocation();
+            }
+        } );
+        updateLocation();
         reorderChildren();
+    }
+
+    private void updateLocation() {
+        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, 0 ) );
     }
 
     private void reorderChildren() {
@@ -72,7 +84,7 @@ public class PressureWaveGraphic extends PNode {
         }
     }
 
-    public void setImageSize( int height ) {
+    public void setParticleImageSize( int height ) {
         BufferedImage newBlue = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, height );
         BufferedImage newPink = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, height );
         for( int i = 0; i < particles.size(); i++ ) {

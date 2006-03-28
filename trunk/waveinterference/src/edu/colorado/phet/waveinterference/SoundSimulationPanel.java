@@ -15,28 +15,29 @@ import edu.colorado.phet.waveinterference.view.*;
 
 public class SoundSimulationPanel extends WaveInterferenceCanvas implements ModelElement {
     private SoundModule soundModule;
-    private RotationWaveGraphic rotationWaveGraphic;
+//    private RotationWaveGraphic rotationWaveGraphic;
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
     private MeasurementToolSet measurementToolSet;
     private FaucetGraphic primaryFaucetGraphic;
     private FaucetGraphic secondaryFaucetGraphic;
     private MultiDrip multiDrip;
+    private WaveModelGraphic waveModelGraphic;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
 
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
-        WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
-        RotationGlyph rotationGlyph = new RotationGlyph();
-        rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 300, 50 );
-        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
-            public void rotationChanged() {
-                angleChanged();
-            }
-        } );
-        addScreenChild( rotationWaveGraphic );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
+//        WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+//        RotationGlyph rotationGlyph = new RotationGlyph();
+//        rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
+//        rotationWaveGraphic.setOffset( 300, 50 );
+//        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+//            public void rotationChanged() {
+//                angleChanged();
+//            }
+//        } );
+//        addScreenChild( rotationWaveGraphic );
 
         primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryFaucetGraphic );
@@ -60,14 +61,14 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( faucetControlPanelPNode );
     }
 
-    private void angleChanged() {
-        if( rotationWaveGraphic.isTopView() ) {
-            slitPotentialGraphic.setVisible( true );
-        }
-        else {
-            slitPotentialGraphic.setVisible( false );
-        }
-    }
+//    private void angleChanged() {
+//        if( rotationWaveGraphic.isTopView() ) {
+//            slitPotentialGraphic.setVisible( true );
+//        }
+//        else {
+//            slitPotentialGraphic.setVisible( false );
+//        }
+//    }
 
     public MultiDrip getMultiDrip() {
         return multiDrip;
@@ -81,12 +82,12 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         return soundModule.getWaveModel();
     }
 
-    public RotationWaveGraphic getRotationWaveGraphic() {
-        return rotationWaveGraphic;
-    }
+//    public RotationWaveGraphic getRotationWaveGraphic() {
+//        return rotationWaveGraphic;
+//    }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
-        return rotationWaveGraphic.getLatticeScreenCoordinates();
+        return waveModelGraphic.getLatticeScreenCoordinates();
     }
 
     public IntensityReaderSet getIntensityReaderSet() {
@@ -102,7 +103,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     public void stepInTime( double dt ) {
-        rotationWaveGraphic.update();
+        waveModelGraphic.update();
         primaryFaucetGraphic.step();
         secondaryFaucetGraphic.step();
         intensityReaderSet.update();

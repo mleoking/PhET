@@ -25,12 +25,11 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         super( "Pressure View" );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         waveModelGraphic.setVisible( false );
+        waveModelGraphic.setOffset( 300, 300 );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
-        pressureWaveGraphic = new PressureWaveGraphic( getLattice() );
-        pressureWaveGraphic.setOffset( 0, 0 );
+        pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( pressureWaveGraphic );
-//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
@@ -49,7 +48,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         final ModelSlider imageSize = new ModelSlider( "Particle Size", "pixels", 1, 36, pressureWaveGraphic.getImageSize() );
         imageSize.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                pressureWaveGraphic.setImageSize( (int)imageSize.getValue() );
+                pressureWaveGraphic.setParticleImageSize( (int)imageSize.getValue() );
             }
         } );
         final ModelSlider acceleration = new ModelSlider( "Particle Acceleration", "", 0, 10, pressureWaveGraphic.getParticleAcceleration() );

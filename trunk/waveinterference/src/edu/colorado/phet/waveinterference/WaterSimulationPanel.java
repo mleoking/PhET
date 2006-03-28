@@ -38,15 +38,15 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         addScreenChild( rotationWaveGraphic );
 
-        slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
-        addScreenChild( slitPotentialGraphic );
-
         primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryFaucetGraphic );
 
         secondaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
         secondaryFaucetGraphic.setEnabled( false );
         addScreenChild( secondaryFaucetGraphic );
+
+        slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
+        addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
