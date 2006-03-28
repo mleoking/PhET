@@ -87,7 +87,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != 1 ) {
-            throw new UnsupportedOperationException( "mutiple wells not supported for harmonic oscillator well" );
+            throw new UnsupportedOperationException( "mutiple harmonic oscillator wells are not supported" );
         }
         else {
             super.setNumberOfWells( numberOfWells );
@@ -107,7 +107,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     }
 
     public double getEnergyAt( double position ) {
-        assert( getNumberOfWells() == 1 );
+        assert( getNumberOfWells() == 1 );  // this solution works only for single wells
         
         final double offset = getOffset();
         final double c = getCenter();
@@ -117,13 +117,32 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) );
     }
 
-    //HACK dummy eigenstates, evenly spaced above the offset
+
+    /**
+     * En = h * w * ( n + 0.5 )
+     * where:
+     * n = 0, 1, 2,....
+     * h = hbar
+     * w = angular frequency
+     */
     public BSEigenstate[] getEigenstates() {
-        BSEigenstate[] eigenstates = new BSEigenstate[5];
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( getOffset() + ( i * 0.5 ) );
+        assert( getNumberOfWells() == 1 ); // this solution works only for single wells
+        
+        ArrayList eigenstates = new ArrayList();
+        boolean done = false;
+        int n = 0;
+        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength(); //XXX
+        while ( !done ) {
+            double E = ( BSConstants.HBAR * _angularFrequency * ( n + 0.5 ) ) + getOffset();
+            if ( E <= maxE ) {
+                eigenstates.add( new BSEigenstate( E ) );
+            }
+            else {
+                done = true;
+            }
+            n++;
         }
-        return eigenstates;
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
     
     //----------------------------------------------------------------------------
