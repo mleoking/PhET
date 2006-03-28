@@ -18,6 +18,9 @@ import java.util.Random;
 
 /**
  * IonInitilizer
+ * <p>
+ * Assigns an ion a random position within the water in the vessel, and
+ * a random velocity within specified bounds.
  *
  * @author Ron LeMaster
  * @version $Revision$
