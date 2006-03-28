@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.view;
+package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.WaterModule;
-import edu.colorado.phet.waveinterference.WaveInterferenceControlPanel;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid
