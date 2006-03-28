@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.test.schmidt_lee.PotentialFunction;
+import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
 
 
 /**
@@ -104,9 +106,10 @@ public class BSCoulombWells extends BSAbstractPotential {
 //            }
 //        }
 
-        for ( int nodes = 1; nodes <= NUMBER_OF_NODES; nodes++ ) {
+        for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
             try {
-                Wavefunction2 wavefunction = new Wavefunction2( hb, minX, maxX, numberOfPoints, nodes, this );
+                PotentialFunction function = new PotentialFunctionAdapter( this );
+                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
                 double E = wavefunction.getE();
                 eigenstates.add( new BSEigenstate( E ) );
             }
