@@ -13,6 +13,7 @@ package edu.colorado.phet.piccolo.nodes;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,7 +34,7 @@ import java.text.DecimalFormat;
  * Copyright (c) May 20, 2005 by Sam Reid
  */
 
-public class MeasuringTape extends PNode {
+public class MeasuringTape extends PhetPNode {
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
     private Point2D.Double modelDst;
@@ -43,7 +44,6 @@ public class MeasuringTape extends PNode {
     private ReadoutGraphic readoutGraphic;
 
     public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc ) {
-        super();
         this.modelViewTransform2D = modelViewTransform2D;
         this.modelSrc = modelSrc;
         this.modelDst = new Point2D.Double( modelSrc.x + modelViewTransform2D.viewToModelDifferentialX( 100 ), modelSrc.y );
