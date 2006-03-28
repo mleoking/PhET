@@ -54,7 +54,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock() );
         addScreenChild( measurementToolSet );
 
-        multiDrip = new MultiDrip( primaryFaucetGraphic, secondaryFaucetGraphic );
+        multiDrip = new MultiDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
         FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );

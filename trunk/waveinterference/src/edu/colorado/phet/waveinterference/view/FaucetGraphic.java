@@ -56,6 +56,14 @@ public class FaucetGraphic extends PhetPNode {
             }
         } );
         updateLocation();
+        oscillator.addListener( new Oscillator.Listener() {
+            public void enabledStateChanged() {
+            }
+
+            public void locationChanged() {
+                updateLocation();
+            }
+        } );
 //        oscillator.addListener( new Oscillator.Listener() {
 //            public void enabledStateChanged() {
 //                setEnabled( oscillator.isEnabled() );
@@ -170,6 +178,10 @@ public class FaucetGraphic extends PhetPNode {
         if( !enabled && drops.size() == 0 ) {
             oscillator.setEnabled( false );
         }
+    }
+
+    public Oscillator getOscillator() {
+        return oscillator;
     }
 
     class WaterDropGraphic extends PNode {
