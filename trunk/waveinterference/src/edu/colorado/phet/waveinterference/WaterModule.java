@@ -22,21 +22,14 @@ public class WaterModule extends WaveInterferenceModule {
     public WaterModule() {
         super( "Water" );
         waveInterferenceModel = new WaveInterferenceModel();
-        addModelElement( waveInterferenceModel );
         waterSimulationPanel = new WaterSimulationPanel( this );
-        addModelElement( waterSimulationPanel );
         waterControlPanel = new WaterControlPanel( this );
+
+        addModelElement( waveInterferenceModel );
+        addModelElement( waterSimulationPanel );
 
         setSimulationPanel( waterSimulationPanel );
         setControlPanel( waterControlPanel );
-    }
-
-    public WaterSimulationPanel getWaterSimulationPanel() {
-        return waterSimulationPanel;
-    }
-
-    public RotationWaveGraphic getRotationWaveGraphic() {
-        return waterSimulationPanel.getRotationWaveGraphic();
     }
 
     public WaveModel getWaveModel() {
@@ -47,8 +40,12 @@ public class WaterModule extends WaveInterferenceModule {
         return waveInterferenceModel.getSlitPotential();
     }
 
-    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
-        return waterSimulationPanel.getLatticeScreenCoordinates();
+    public Oscillator getSecondaryOscillator() {
+        return waveInterferenceModel.getSecondaryOscillator();
+    }
+
+    public Oscillator getPrimaryOscillator() {
+        return waveInterferenceModel.getPrimaryOscillator();
     }
 
     public IntensityReaderSet getIntensityReaderSet() {
@@ -59,20 +56,24 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel.getMeasurementToolSet();
     }
 
-    public Oscillator getPrimaryOscillator() {
-        return waveInterferenceModel.getPrimaryOscillator();
-    }
-
     public FaucetGraphic getPrimaryFaucetGraphic() {
         return waterSimulationPanel.getPrimaryFaucetGraphic();
     }
 
-    public Oscillator getSecondaryOscillator() {
-        return waveInterferenceModel.getSecondaryOscillator();
+    public WaterSimulationPanel getWaterSimulationPanel() {
+        return waterSimulationPanel;
+    }
+
+    public RotationWaveGraphic getRotationWaveGraphic() {
+        return waterSimulationPanel.getRotationWaveGraphic();
     }
 
     public MultiDrip getMultiDrip() {
         return waterSimulationPanel.getMultiDrip();
+    }
+
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return waterSimulationPanel.getLatticeScreenCoordinates();
     }
 
     public static void main( String[] args ) {
