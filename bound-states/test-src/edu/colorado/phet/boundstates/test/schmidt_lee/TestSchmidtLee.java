@@ -12,7 +12,7 @@ import java.text.ParseException;
 
 public class TestSchmidtLee {
     public static void main( String[] args ) throws BoundException, ParseException {
-        int numNodes = 0;
+        int numNodes = 2;
         double xmin = -10;
         double xmax = 10;
         int numGridPoints = 1000;
