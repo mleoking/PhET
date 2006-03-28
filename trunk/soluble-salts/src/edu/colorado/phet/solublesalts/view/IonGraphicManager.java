@@ -54,6 +54,8 @@ public class IonGraphicManager implements IonListener {
         putImage( new Phosphate() );
         putImage( new Bromine() );
         putImage( new Mercury() );
+        putImage( new Thallium() );
+        putImage( new Sulfur() );
     }
 
     static private void putImage( Ion ion ) {
@@ -108,7 +110,15 @@ public class IonGraphicManager implements IonListener {
             ig.setColor( new Color( 255, 90, 13 ) );
             ionClassRecognized = true;
         }
+        if( ion instanceof Sulfur ) {
+            ig.setColor( new Color( 255, 90, 13 ) );
+            ionClassRecognized = true;
+        }
         if( ion instanceof Chromium ) {
+            ig.setColor( Color.black );
+            ionClassRecognized = true;
+        }
+        if( ion instanceof Thallium ) {
             ig.setColor( Color.black );
             ionClassRecognized = true;
         }
