@@ -37,6 +37,15 @@ public class Schrodinger {
         this.pot = fn;
     }
 
+    /**
+     * Gives us the "prototype" used to create the real & imaginary parts.
+     * We do this by multiplying by a constant that oscillates between 
+     * -1 and +1 over time.
+     * 
+     * @param x starting position
+     * @param h the step
+     * @param vals array to deposit solutions in
+     */
     public void solve( double x, double h, double[] vals ) {
         double y, w;
         w = firstValue;

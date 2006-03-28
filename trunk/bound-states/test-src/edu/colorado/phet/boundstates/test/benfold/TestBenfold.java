@@ -19,12 +19,12 @@ import java.util.ArrayList;
  * Copyright (c) Mar 8, 2006 by Sam Reid
  */
 
-public class TestBenFold {
+public class TestBenfold {
     Schrodinger schrodinger;
     double functionWidth = 20;//it's centered
     int steps = 1000;
 
-    public TestBenFold( Function function ) {
+    public TestBenfold( Function function ) {
         schrodinger = new Schrodinger( function );
     }
 
@@ -131,7 +131,7 @@ public class TestBenFold {
     }
 
     public static void main( String[] args ) {
-        new TestBenFold( new Quadratic( 0.25 ) ).start();
+        new TestBenfold( new Quadratic( 0.25 ) ).start();
 //        new TestBenFold( new SamWell() ).start();
     }
 
