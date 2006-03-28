@@ -18,17 +18,17 @@ public class TestSchmidtLee {
         double xmin = -10;
         double xmax = 10;
         int numGridPoints = 1000;
-        final DefaultPlot wellplot=new DefaultPlot( "Well plot","x","pot");
-        wellplot.setVisible( true );
-        final BSSquareWells squareWells=new BSSquareWells( 1);
+//        final DefaultPlot wellplot=new DefaultPlot( "Well plot","x","pot");
+//        wellplot.setVisible( true );
+//        final BSSquareWells squareWells=new BSSquareWells( 2);
         Wavefunction wavefunction = new Wavefunction( 0.5, xmin, xmax, numGridPoints, numNodes, new PotentialFunction() {
             public double evaluate( double x ) {
-                wellplot.addData( x,squareWells.getEnergyAt( x));
-                return squareWells.getEnergyAt( x);
-//                if( Math.abs( x ) < 0.05 ) {
-//                    return -10;
-//                }
-//                return 0;
+//                wellplot.addData( x,squareWells.getEnergyAt( x));
+//                return squareWells.getEnergyAt( x);
+                if( Math.abs( x ) < 1 ) {
+                    return -10;
+                }
+                return 0;
             }
         } );
         System.out.println( "wavefunction.getE() = " + wavefunction.getE() );
