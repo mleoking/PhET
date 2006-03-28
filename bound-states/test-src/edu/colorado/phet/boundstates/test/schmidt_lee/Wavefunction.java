@@ -137,8 +137,7 @@ public class Wavefunction {
         }
         if( k == MAXTRY ) {
 //         System.out.println("No convergence in Binary chop ");
-//            return en; // Fix by throwing exception
-            throw new BoundException();
+            return en; // Fix by throwing exception
         }
 //
 // Linearly interpolate for better convergence
@@ -160,8 +159,7 @@ public class Wavefunction {
         }
         if( k == MAXTRY ) {
 //         System.out.println("No convergence in Interpolation ");
-//            return en; // Fix by throwing exception
-            throw new BoundException();
+            return en; // Fix by throwing exception
         }
         return en;
     }
