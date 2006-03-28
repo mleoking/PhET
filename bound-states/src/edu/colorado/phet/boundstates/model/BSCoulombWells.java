@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 
@@ -32,6 +34,8 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
  */
 public class BSCoulombWells extends BSAbstractPotential {
    
+    private static final int NUMBER_OF_NODES = 10;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -77,13 +81,41 @@ public class BSCoulombWells extends BSAbstractPotential {
         return offset + energy;
     }
       
-    //HACK dummy eigenstates, evenly spaced below the offset
     public BSEigenstate[] getEigenstates() {
-        BSEigenstate[] eigenstates = new BSEigenstate[ 10 ];
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
+
+        ArrayList eigenstates = new ArrayList();
+        
+        final double m = BSConstants.MAX_MASS;//XXX get mass from particle!
+        final double h = BSConstants.HBAR;
+        final double hb = 0.5; //( h * h ) / ( 2 * m );
+        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final int numberOfPoints = 100;
+        final double dx = Math.abs( ( maxX - minX ) / numberOfPoints );
+
+//        Schrodinger1D schrodinger = new Schrodinger1D( hb, minX, maxX, dx, this );
+//        for ( int nodes = 1; nodes <= NUMBER_OF_NODES; nodes++ ) {
+//            try {
+//                double E = schrodinger.getEnergy( nodes );
+//                eigenstates.add( new BSEigenstate( E ) );
+//            }
+//            catch ( Exception e ) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        for ( int nodes = 1; nodes <= NUMBER_OF_NODES; nodes++ ) {
+            try {
+                Wavefunction2 wavefunction = new Wavefunction2( hb, minX, maxX, numberOfPoints, nodes, this );
+                double E = wavefunction.getE();
+                eigenstates.add( new BSEigenstate( E ) );
+            }
+            catch ( Exception e ) {
+                e.printStackTrace();
+            }
         }
-        return eigenstates;
+        
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
 
 }

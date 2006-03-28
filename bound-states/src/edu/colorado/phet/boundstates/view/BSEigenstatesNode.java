@@ -210,7 +210,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param index
      */
     private void selectEigenstate( final int index ) {
-        System.out.println( "selectEigenstate " + index );//XXX
+//        System.out.println( "selectEigenstate " + index );//XXX
         
         clearSelection();
         if ( index == _hiliteIndex ) {
