@@ -58,6 +58,9 @@ public class IonFactory {
         if( ionClass == Copper.class ) {
             ion = new Copper();
         }
+        if( ionClass == Sulfur.class ) {
+            ion = new Sulfur();
+        }
         if( ionClass == Hydroxide.class ) {
             ion = new Hydroxide();
         }
@@ -75,6 +78,9 @@ public class IonFactory {
         }
         if( ionClass == Mercury.class ) {
             ion = new Mercury();
+        }
+        if( ionClass == Thallium.class ) {
+            ion = new Thallium();
         }
 
         if( ion == null ) {
