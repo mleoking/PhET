@@ -16,13 +16,13 @@ import edu.colorado.phet.waveinterference.view.*;
 
 public class WaterModule extends WaveInterferenceModule {
     private WaterSimulationPanel waterSimulationPanel;
-    private WaterModel waterModel;
+    private WaveInterferenceModel waveInterferenceModel;
     private WaterControlPanel waterControlPanel;
 
     public WaterModule() {
         super( "Water" );
-        waterModel = new WaterModel();
-        addModelElement( waterModel );
+        waveInterferenceModel = new WaveInterferenceModel();
+        addModelElement( waveInterferenceModel );
         waterSimulationPanel = new WaterSimulationPanel( this );
         addModelElement( waterSimulationPanel );
         waterControlPanel = new WaterControlPanel( this );
@@ -41,11 +41,11 @@ public class WaterModule extends WaveInterferenceModule {
     }
 
     public WaveModel getWaveModel() {
-        return waterModel.getWaveModel();
+        return waveInterferenceModel.getWaveModel();
     }
 
     public SlitPotential getSlitPotential() {
-        return waterModel.getSlitPotential();
+        return waveInterferenceModel.getSlitPotential();
     }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
@@ -61,7 +61,7 @@ public class WaterModule extends WaveInterferenceModule {
     }
 
     public Oscillator getPrimaryOscillator() {
-        return waterModel.getPrimaryOscillator();
+        return waveInterferenceModel.getPrimaryOscillator();
     }
 
     public FaucetGraphic getPrimaryFaucetGraphic() {
@@ -69,7 +69,7 @@ public class WaterModule extends WaveInterferenceModule {
     }
 
     public Oscillator getSecondaryOscillator() {
-        return waterModel.getSecondaryOscillator();
+        return waveInterferenceModel.getSecondaryOscillator();
     }
 
     public MultiDrip getMultiDrip() {
