@@ -17,6 +17,8 @@ import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.test.schmidt_lee.PotentialFunction;
+import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
 
 
 /**
@@ -126,13 +128,21 @@ public class BSSquareWells extends BSAbstractPotential {
         return energy;
     }
     
-    //HACK dummy eigenstates, evenly spaced between offset and depth
     public BSEigenstate[] getEigenstates() {
-        final int n = (int) ( getDepth() / 0.5 ) + 1;
-        BSEigenstate[] eigenstates = new BSEigenstate[ n ];
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
+        ArrayList eigenstates = new ArrayList();
+
+        for ( int nodes = 0; nodes < 10; nodes++ ) {
+            try {
+                PotentialFunction function = new PotentialFunctionAdapter( this );
+                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                double E = wavefunction.getE();
+                eigenstates.add( new BSEigenstate( E ) );
+            }
+            catch ( Exception e ) {
+                e.printStackTrace();
+            }
         }
-        return eigenstates;
+        
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
 }
