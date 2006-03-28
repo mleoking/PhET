@@ -35,7 +35,6 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel;
     }
 
-
     public RotationWaveGraphic getRotationWaveGraphic() {
         return waterSimulationPanel.getRotationWaveGraphic();
     }
