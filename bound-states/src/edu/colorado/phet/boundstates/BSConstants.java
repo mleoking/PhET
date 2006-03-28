@@ -202,5 +202,6 @@ public class BSConstants {
     // Miscellaneous
     //----------------------------------------------------------------------------
     
+    public static final double HBAR = 0.658;
     public static final double KEE = 1.44; // ke^2, eV nm
 }
