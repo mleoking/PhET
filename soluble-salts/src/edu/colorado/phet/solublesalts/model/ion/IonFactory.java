@@ -30,61 +30,18 @@ public class IonFactory {
      * set to defaults.
      *
      * @param ionClass
-     * @return
+     * @return an Ion
      */
     public Ion create( Class ionClass ) {
         Ion ion = null;
-        if( ionClass == ConfigurableAnion.class ) {
-            ion = new ConfigurableAnion();
+        try {
+            ion = (Ion)ionClass.newInstance();
         }
-        if( ionClass == ConfigurableCation.class ) {
-            ion = new ConfigurableCation();
+        catch( InstantiationException e ) {
+            e.printStackTrace();
         }
-        if( ionClass == Sodium.class ) {
-            ion = new Sodium();
-        }
-        if( ionClass == Chloride.class ) {
-            ion = new Chloride();
-        }
-        if( ionClass == Lead.class ) {
-            ion = new Lead();
-        }
-        if( ionClass == Silver.class ) {
-            ion = new Silver();
-        }
-        if( ionClass == Iodide.class ) {
-            ion = new Iodide();
-        }
-        if( ionClass == Copper.class ) {
-            ion = new Copper();
-        }
-        if( ionClass == Sulfur.class ) {
-            ion = new Sulfur();
-        }
-        if( ionClass == Hydroxide.class ) {
-            ion = new Hydroxide();
-        }
-        if( ionClass == Chromium.class ) {
-            ion = new Chromium();
-        }
-        if( ionClass == Strontium.class ) {
-            ion = new Strontium();
-        }
-        if( ionClass == Phosphate.class ) {
-            ion = new Phosphate();
-        }
-        if( ionClass == Bromine.class ) {
-            ion = new Bromine();
-        }
-        if( ionClass == Mercury.class ) {
-            ion = new Mercury();
-        }
-        if( ionClass == Thallium.class ) {
-            ion = new Thallium();
-        }
-
-        if( ion == null ) {
-            throw new RuntimeException( "Ion class not recognized " );
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
         }
         return ion;
     }
@@ -97,7 +54,7 @@ public class IonFactory {
      * @param position
      * @param velocity
      * @param acceleration
-     * @return
+     * @return an Ion
      */
     public Ion create( Class ionClass, Point2D position, Vector2D velocity, Vector2D acceleration ) {
         Ion ion = create( ionClass );

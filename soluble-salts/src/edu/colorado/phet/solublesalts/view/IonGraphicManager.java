@@ -52,7 +52,7 @@ public class IonGraphicManager implements IonListener {
         putImage( new ConfigurableAnion(), new Color( 0, 0, 0 ) );
         putImage( new ConfigurableCation(), new Color( 200, 200, 200 ) );
         putImage( new Sodium(), new Color( 200, 0, 60 ) );
-        putImage( new Chloride(), new Color( 0, 100, 0 ) );
+        putImage( new Chlorine(), new Color( 0, 100, 0 ) );
         putImage( new Lead(), Color.red );
         putImage( new Silver(), Color.black );
         putImage( new Iodide(), new Color( 140, 10, 10 ) );
