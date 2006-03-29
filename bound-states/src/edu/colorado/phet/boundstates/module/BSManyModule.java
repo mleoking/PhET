@@ -25,7 +25,7 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.control.BSSharedControlPanel;
+import edu.colorado.phet.boundstates.control.BSControlPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -89,7 +89,7 @@ public class BSManyModule extends BSAbstractModule {
     private XYPlotNode _waveFunctionPlotNode;
 
     // Controls
-    private BSSharedControlPanel _controlPanel;
+    private BSControlPanel _controlPanel;
 
     // Dialogs
     private JDialog _configureWellDialog;
@@ -208,7 +208,7 @@ public class BSManyModule extends BSAbstractModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new BSSharedControlPanel( this );
+        _controlPanel = new BSControlPanel( this );
         setControlPanel( _controlPanel );
 //XXX        WellType[] wellTypeChoices = { WellType.COULOMB, WellType.SQUARE };
         BSWellType[] wellTypeChoices = { BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR, BSWellType.SQUARE, BSWellType.ASYMMETRIC };
@@ -354,7 +354,7 @@ public class BSManyModule extends BSAbstractModule {
         // Controls
         _controlPanel.setWellType( _selectedPotential.getWellType() );
         _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
-        _controlPanel.setDisplayType( BSSharedControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
