@@ -1,2 +1,5 @@
+New in 0.03
+Added water, sound and light tabs.
+
 New in 0.01
 Initialized wave interference project.
