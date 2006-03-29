@@ -184,8 +184,8 @@ public class BSConstants {
     public static final double DEFAULT_COULOMB_SPACING = 1.2;
     
     // Harmonic Oscillator...
-    public static final double DEFAULT_OSCILLATOR_OFFSET = 0;
-    public static final double DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY = 2; // femtoseconds
+    public static final double DEFAULT_HARMONIC_OSCILLATOR_OFFSET = 0;
+    public static final double DEFAULT_HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY = 2; // femtoseconds
     
     // Square well...
     public static final double DEFAULT_SQUARE_OFFSET = 0;
