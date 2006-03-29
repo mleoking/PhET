@@ -45,12 +45,12 @@ public class TestSchmidtLeeHarmonicOscillator {
     public static void main( String[] args ) {
         
         DecimalFormat format = new DecimalFormat( "0.000" );
-        double[] analyticSolution = new double[NUMBER_OF_EIGENSTATES];
+        double[] mckaganSolution = new double[NUMBER_OF_EIGENSTATES];
         double[] schmidtLeeSolution = new double[NUMBER_OF_EIGENSTATES];
         
         // McKagan solution...
         for ( int n = 0; n < NUMBER_OF_EIGENSTATES; n++ ) {
-            analyticSolution[n] = HBAR * OMEGA * ( n + 0.5 );
+            mckaganSolution[n] = HBAR * OMEGA * ( n + 0.5 );
         }
         
         // Schmidt-Lee solution...
@@ -70,9 +70,9 @@ public class TestSchmidtLeeHarmonicOscillator {
         System.out.println( "En      McKagan    Schmidt-Lee" );
         for ( int i = 0; i < NUMBER_OF_EIGENSTATES; i++ ) {
             System.out.print( "E" + i );
-            System.out.print( "      " + format.format( analyticSolution[i] ) );
+            System.out.print( "      " + format.format( mckaganSolution[i] ) );
             System.out.print( "      " + format.format( schmidtLeeSolution[i] ) );
-            if ( Math.abs( analyticSolution[i] - schmidtLeeSolution[i] ) > ACCEPTABLE_ERROR ) {
+            if ( Math.abs( mckaganSolution[i] - schmidtLeeSolution[i] ) > ACCEPTABLE_ERROR ) {
                 System.out.print( "      *" );
             }
             System.out.println();
