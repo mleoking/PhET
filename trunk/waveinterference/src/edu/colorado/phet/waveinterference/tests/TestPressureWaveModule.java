@@ -23,9 +23,9 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
 
     public TestPressureWaveModule() {
         super( "Pressure View" );
-        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 6, 6, new IndexColorMap( super.getLattice() ) );
         waveModelGraphic.setVisible( false );
-        waveModelGraphic.setOffset( 300, 300 );
+        waveModelGraphic.setOffset( 50, 50 );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
         pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );

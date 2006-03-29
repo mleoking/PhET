@@ -5,7 +5,9 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
-import edu.colorado.phet.waveinterference.view.*;
+import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
+import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
+import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
 
 /**
  * User: Sam Reid
@@ -56,21 +58,21 @@ public class SoundModule extends WaveInterferenceModule {
         return soundSimulationPanel.getMeasurementToolSet();
     }
 
-    public FaucetGraphic getPrimaryFaucetGraphic() {
-        return soundSimulationPanel.getPrimaryFaucetGraphic();
-    }
-
     public SoundSimulationPanel getSoundSimulationPanel() {
         return soundSimulationPanel;
     }
 
-    public RotationWaveGraphic getRotationWaveGraphic() {
-        return soundSimulationPanel.getRotationWaveGraphic();
-    }
-
-    public MultiDrip getMultiDrip() {
-        return soundSimulationPanel.getMultiDrip();
-    }
+//    public FaucetGraphic getPrimaryFaucetGraphic() {
+//        return soundSimulationPanel.getPrimaryFaucetGraphic();
+//    }
+//
+//    public RotationWaveGraphic getRotationWaveGraphic() {
+//        return soundSimulationPanel.getRotationWaveGraphic();
+//    }
+//
+//    public MultiFaucetDrip getMultiDrip() {
+//        return soundSimulationPanel.getMultiDrip();
+//    }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return soundSimulationPanel.getLatticeScreenCoordinates();
@@ -78,5 +80,13 @@ public class SoundModule extends WaveInterferenceModule {
 
     public static void main( String[] args ) {
         new ModuleApplication().startApplication( args, new SoundModule() );
+    }
+
+//    public SoundWaveGraphic getSoundWaveGraphic() {
+//        return soundSimulationPanel.getSoundWaveGraphic();
+//    }
+
+    public SoundWaveGraphic getSoundWaveGraphic() {
+        return soundSimulationPanel.getSoundWaveGraphic();
     }
 }

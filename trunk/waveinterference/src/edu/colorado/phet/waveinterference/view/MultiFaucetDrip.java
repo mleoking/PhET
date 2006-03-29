@@ -10,7 +10,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class MultiDrip {
+public class MultiFaucetDrip {
     boolean twoDrips;
     private double spacing = 10;
     private WaveModel waveModel;
@@ -18,7 +18,7 @@ public class MultiDrip {
     private FaucetGraphic secondary;
     private int oscillatorX = 5;
 
-    public MultiDrip( WaveModel waveModel, FaucetGraphic primary, FaucetGraphic secondary ) {
+    public MultiFaucetDrip( WaveModel waveModel, FaucetGraphic primary, FaucetGraphic secondary ) {
         this.waveModel = waveModel;
         this.primary = primary;
         this.secondary = secondary;

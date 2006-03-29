@@ -21,21 +21,21 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
     private ModelSlider spacingSlider;
     private JRadioButton twoDrips;
     private JRadioButton oneDrip;
-    private MultiDrip multiDrip;
+    private MultiFaucetDrip multiFaucetDrip;
 
-    public MultiDripControlPanel( final MultiDrip multiDrip ) {
-        this.multiDrip = multiDrip;
-        oneDrip = new JRadioButton( "One Drip", multiDrip.isOneDrip() );
+    public MultiDripControlPanel( final MultiFaucetDrip multiFaucetDrip ) {
+        this.multiFaucetDrip = multiFaucetDrip;
+        oneDrip = new JRadioButton( "One Drip", multiFaucetDrip.isOneDrip() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                multiDrip.setOneDrip();
+                multiFaucetDrip.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( "Two Drips", multiDrip.isTwoDrip() );
+        twoDrips = new JRadioButton( "Two Drips", multiFaucetDrip.isTwoDrip() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                multiDrip.setTwoDrips();
+                multiFaucetDrip.setTwoDrips();
                 updateSpacingSlider();
             }
         } );
@@ -44,10 +44,10 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiDrip.getSpacing() );
+        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiFaucetDrip.getSpacing() );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                multiDrip.setSpacing( spacingSlider.getValue() );
+                multiFaucetDrip.setSpacing( spacingSlider.getValue() );
             }
         } );
         add( spacingSlider );
@@ -55,6 +55,6 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
     }
 
     private void updateSpacingSlider() {
-        spacingSlider.setEnabled( multiDrip.isTwoDrip() );
+        spacingSlider.setEnabled( multiFaucetDrip.isTwoDrip() );
     }
 }

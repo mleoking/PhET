@@ -68,7 +68,7 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel.getRotationWaveGraphic();
     }
 
-    public MultiDrip getMultiDrip() {
+    public MultiFaucetDrip getMultiDrip() {
         return waterSimulationPanel.getMultiDrip();
     }
 
