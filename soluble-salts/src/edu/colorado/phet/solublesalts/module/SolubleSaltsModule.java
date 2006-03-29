@@ -19,7 +19,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.view.BondGraphic;
@@ -102,7 +102,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     private void createTestIons( final SolubleSaltsModel model ) {
         Ion ion = null;
 
-        ion = new Chlorine();
+        ion = new Chloride();
         IonInitializer.initialize( ion, model );
         ion.setPosition( 130, 200 );
         ion.setVelocity( 0, 5 );

@@ -44,8 +44,8 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         ionClassToName.put( Chromium.class, "Chromium" );
         ionClassToName.put( Copper.class, "Copper" );
         ionClassToName.put( Silver.class, "Silver" );
-        ionClassToName.put( Chlorine.class, "Chlorine" );
-        ionClassToName.put( Iodine.class, "Iodine" );
+        ionClassToName.put( Chloride.class, "Chlorine" );
+        ionClassToName.put( Iodide.class, "Iodine" );
         ionClassToName.put( Hydroxide.class, "Hydroxide" );
         ionClassToName.put( Strontium.class, "Strontium" );
         ionClassToName.put( Phosphate.class, "Phosphate" );
