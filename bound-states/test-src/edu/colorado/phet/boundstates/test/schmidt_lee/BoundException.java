@@ -26,4 +26,11 @@ find an upper or a lower bound
 */
 public class BoundException extends Exception {
 
+    public BoundException() {
+        super();
+    }
+    
+    public BoundException( String message ) {
+        super( message );
+    }
 }
