@@ -34,14 +34,14 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSSharedControlPanel is the control panel that is shared by the 
+ * BSControlPanel is the control panel that is used by the 
  * "Single", "Double" and "Many" modules.  Controls can be hidden and/or
  * configured to suit the needs of the module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSharedControlPanel extends BSAbstractControlPanel {
+public class BSControlPanel extends BSAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data (public)
@@ -99,7 +99,7 @@ public class BSSharedControlPanel extends BSAbstractControlPanel {
      * 
      * @param module
      */
-    public BSSharedControlPanel( BSManyModule module ) {
+    public BSControlPanel( BSManyModule module ) {
         super( module );
 
         _module = module;
