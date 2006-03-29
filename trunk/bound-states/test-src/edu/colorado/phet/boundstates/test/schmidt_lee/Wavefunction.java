@@ -103,7 +103,7 @@ public class Wavefunction {
         }
         if( k == MAXTRY ) {
 //         System.out.println("Upper bound not found");
-            throw new BoundException();
+            throw new BoundException( "Upper bound not found, node=" + node );
         }
 //
 // Find lower bound
@@ -118,7 +118,7 @@ public class Wavefunction {
         }
         if( k == MAXTRY ) {
 //         System.out.println("Lower bound not found");
-            throw new BoundException();
+            throw new BoundException( "Lower bound not found, node=" + node );
         }
 //
 // Binary chop to get close
@@ -136,7 +136,7 @@ public class Wavefunction {
             }
         }
         if( k == MAXTRY ) {
-//         System.out.println("No convergence in Binary chop ");
+         System.out.println("No convergence in binary chop, node=" + node);
             return en; // Fix by throwing exception
         }
 //
@@ -158,7 +158,7 @@ public class Wavefunction {
             }
         }
         if( k == MAXTRY ) {
-//         System.out.println("No convergence in Interpolation ");
+         System.out.println("No convergence in interpolation, node=" + node );
             return en; // Fix by throwing exception
         }
         return en;
