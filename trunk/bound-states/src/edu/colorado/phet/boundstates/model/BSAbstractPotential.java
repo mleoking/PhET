@@ -13,6 +13,8 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
 
@@ -24,7 +26,7 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BSAbstractPotential extends BSObservable {
+public abstract class BSAbstractPotential extends BSObservable implements Observer {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,21 +36,38 @@ public abstract class BSAbstractPotential extends BSObservable {
     private double _spacing;
     private double _center;
     private double _offset;
+    private BSParticle _particle;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAbstractPotential( int numberOfWells, double spacing, double offset, double center ) {
+    public BSAbstractPotential( BSParticle particle, int numberOfWells, double spacing, double offset, double center ) {
         setNumberOfWells( numberOfWells );
         setSpacing( spacing );
         setOffset( offset );
         setCenter( center );
+        setParticle( particle );
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public BSParticle getParticle() {
+        return _particle;
+    }
+    
+    public void setParticle( BSParticle particle ) {
+        if ( particle != _particle ) {
+            if ( _particle != null ) {
+                _particle.deleteObserver( this );
+            }
+            _particle = particle;
+            _particle.addObserver( this );
+            notifyObservers();
+        }
+    }
     
     public int getNumberOfWells() {
         return _numberOfWells;
@@ -58,8 +77,11 @@ public abstract class BSAbstractPotential extends BSObservable {
         if ( numberOfWells < 1 ) {
             throw new IllegalArgumentException( "invalid numberOfWells:" + numberOfWells );
         }
-        _numberOfWells = numberOfWells;
-        notifyObservers();
+        if ( numberOfWells != _numberOfWells ) {
+            System.out.println( "BSAbstractPotential.setNumberOfWells " + numberOfWells );//XXX
+            _numberOfWells = numberOfWells;
+            notifyObservers();
+        }
     }
     
     public double getSpacing() {
@@ -70,8 +92,10 @@ public abstract class BSAbstractPotential extends BSObservable {
         if ( spacing < 0 ) {
             throw new IllegalArgumentException( "invalid spacing: " + spacing );
         }
-        _spacing = spacing;
-        notifyObservers();
+        if ( spacing != _spacing ) {
+            _spacing = spacing;
+            notifyObservers();
+        }
     }
 
     public double getCenter() {
@@ -79,8 +103,10 @@ public abstract class BSAbstractPotential extends BSObservable {
     }
     
     public void setCenter( double center ) {
-        _center = center;
-        notifyObservers();
+        if ( center != _center ) {
+            _center = center;
+            notifyObservers();
+        }
     }  
     
     public double getOffset() {
@@ -88,8 +114,10 @@ public abstract class BSAbstractPotential extends BSObservable {
     }
 
     public void setOffset( double offset ) {
-        _offset = offset;
-        notifyObservers();
+        if ( offset != _offset ) {
+            _offset = offset;
+            notifyObservers();
+        }
     }
     
     public Point2D[] getPoints( double minX, double maxX, double dx ) {
@@ -101,6 +129,16 @@ public abstract class BSAbstractPotential extends BSObservable {
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
     }
       
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    public void update( Observable o, Object arg ) {
+        if ( o == _particle ) {
+            notifyObservers();
+        }   
+    }
+    
     //----------------------------------------------------------------------------
     // Abstract methods
     //----------------------------------------------------------------------------

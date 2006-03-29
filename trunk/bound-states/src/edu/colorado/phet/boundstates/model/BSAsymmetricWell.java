@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.test.schmidt_lee.PotentialFunction;
+import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
 
 
 /**
@@ -44,15 +46,16 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAsymmetricWell() {
-        this( BSConstants.DEFAULT_ASYMMETRIC_WIDTH, 
+    public BSAsymmetricWell( BSParticle particle ) {
+        this( particle,
+              BSConstants.DEFAULT_ASYMMETRIC_WIDTH, 
               BSConstants.DEFAULT_ASYMMETRIC_DEPTH, 
               BSConstants.DEFAULT_ASYMMETRIC_OFFSET, 
               BSConstants.DEFAULT_WELL_CENTER );
     }
     
-    public BSAsymmetricWell( double width, double depth, double offset, double center ) {
-        super( 1, 0, offset, center );
+    public BSAsymmetricWell( BSParticle particle, double width, double depth, double offset, double center ) {
+        super( particle, 1, 0, offset, center );
         setWidth( width );
         setDepth( depth );
     }
@@ -69,8 +72,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "invalid width: " + width );
         }
-        _width = width;
-        notifyObservers();
+        if ( width != _width ) {
+            _width = width;
+            notifyObservers();
+        }
     }
 
     public double getDepth() {
@@ -81,8 +86,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
         }
-        _depth = depth;
-        notifyObservers();
+        if ( depth != _depth ) {
+            _depth = depth;
+            notifyObservers();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -126,11 +133,22 @@ public class BSAsymmetricWell extends BSAbstractPotential {
 
     //HACK dummy eigenstates, evenly spaced between offset and depth
     public BSEigenstate[] getEigenstates() {
-        final int n = (int) ( getDepth() / 0.5 ) + 1;
-        BSEigenstate[] eigenstates = new BSEigenstate[ n ];
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( getOffset() - ( ( eigenstates.length - i - 1 ) * 0.5 ) );
+        System.out.println( "BSAsymmetricWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
+        
+        ArrayList eigenstates = new ArrayList();
+
+        for ( int nodes = 0; nodes < 10; nodes++ ) {
+            try {
+                PotentialFunction function = new PotentialFunctionAdapter( this );
+                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                double E = wavefunction.getE();
+                eigenstates.add( new BSEigenstate( E ) );
+            }
+            catch ( Exception e ) {
+                e.printStackTrace();
+            }
         }
-        return eigenstates;
+        
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
 }

@@ -42,15 +42,16 @@ public class BSCoulombWells extends BSAbstractPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSCoulombWells( int numberOfWells ) {
-        this( numberOfWells, 
+    public BSCoulombWells( BSParticle particle, int numberOfWells ) {
+        this( particle, 
+                numberOfWells, 
                 BSConstants.DEFAULT_COULOMB_SPACING,
                 BSConstants.DEFAULT_COULOMB_OFFSET, 
                 BSConstants.DEFAULT_WELL_CENTER );
     }
     
-    public BSCoulombWells( int numberOfWells, double spacing, double offset, double center ) {
-        super( numberOfWells, spacing, offset, center );
+    public BSCoulombWells( BSParticle particle, int numberOfWells, double spacing, double offset, double center ) {
+        super( particle, numberOfWells, spacing, offset, center );
     }
 
     //----------------------------------------------------------------------------
@@ -85,6 +86,7 @@ public class BSCoulombWells extends BSAbstractPotential {
       
     public BSEigenstate[] getEigenstates() {
 
+        System.out.println( "BSCoulombWells.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         ArrayList eigenstates = new ArrayList();
 
         for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
@@ -100,13 +102,5 @@ public class BSCoulombWells extends BSAbstractPotential {
         }
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
-    }
-
-    public static void main( String[] args ) {
-        BSCoulombWells cw = new BSCoulombWells( 2 );
-        BSEigenstate[] e = cw.getEigenstates();
-        for ( int i = 0; i < e.length; i++ ) {
-            System.out.println( e[i].getEnergy() );
-        }
     }
 }
