@@ -49,6 +49,10 @@ public class PhotonColorMap implements ColorMap {
         }
     }
 
+    public Color getRootColor() {
+        return rootColor.toColor();
+    }
+
     private static class Vector3f {
         float r;
         float g;

@@ -104,4 +104,8 @@ public class WaveSideView extends PNode {
     public void setSpaceBetweenCells( double dim ) {
         this.distBetweenPoints = dim;
     }
+
+    public void setColor( Color color ) {
+        path.setStrokePaint( color );
+    }
 }

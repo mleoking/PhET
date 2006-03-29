@@ -55,4 +55,8 @@ public class PhotonEmissionColorMap implements ColorMap {
         }
     }
 
+    public Color getRootColor() {
+        return color;
+    }
+
 }

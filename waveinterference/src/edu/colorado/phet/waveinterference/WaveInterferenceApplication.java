@@ -14,7 +14,7 @@ public class WaveInterferenceApplication extends PhetApplication {
     private static String VERSION = "0.02";
 
     public WaveInterferenceApplication( String[] args ) {
-        super( args, "Wave Interference " + VERSION, "Wave Interference simulation", VERSION );
+        super( args, "Wave Interference", "Wave Interference simulation", VERSION );
 
         addModule( new WaterModule() );
         addModule( new SoundModule() );
@@ -22,6 +22,7 @@ public class WaveInterferenceApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        WaveIntereferenceLookAndFeel.initLookAndFeel();
         new WaveInterferenceApplication( args ).startApplication();
     }
 }

@@ -111,7 +111,7 @@ public class MeasuringTape extends PhetPNode {
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
         Vector2D.Double viewVector = new Vector2D.Double( viewSrc, viewDst );
 
-        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
+//        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
         Line2D.Double line = new Line2D.Double( viewSrc, viewDst );
         tapeGraphic.setLine( line );
 
@@ -177,7 +177,7 @@ public class MeasuringTape extends PhetPNode {
         Point2D modelDX = modelViewTransform2D.viewToModelDifferential( new Point2D.Double( dx, dy ) );
         modelDst.x += modelDX.getX();
         modelDst.y += modelDX.getY();
-        System.out.println( "modelDst = " + modelDst );
+//        System.out.println( "modelDst = " + modelDst );
         update();
     }
 

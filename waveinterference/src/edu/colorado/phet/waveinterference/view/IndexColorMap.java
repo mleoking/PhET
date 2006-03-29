@@ -50,4 +50,8 @@ public class IndexColorMap implements ColorMap {
         return colors[key];
     }
 
+    public Color getRootColor() {
+        return new Color( r, g, b );
+    }
+
 }

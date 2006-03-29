@@ -39,6 +39,10 @@ public class RotationGlyph extends PNode {
         setRotation( 0.0 );
     }
 
+    public void setDepthVisible( boolean visible ) {
+        depth.setVisible( visible );
+    }
+
     public double getPrimaryHeight() {
         return primaryHeight;
     }
@@ -106,5 +110,9 @@ public class RotationGlyph extends PNode {
 
     public PPath getDepth() {
         return depth;
+    }
+
+    public void setColor( Color color ) {
+        surface.setPaint( color );
     }
 }

@@ -1,3 +1,6 @@
 We could get rid of edge effects by maintining a higher lattice than is shown on the screen.
 Intensity readers should be constrained on the x-axis when in side-view.
 Real-time model won't work when paused (wavelength comes out wrong).
+
+Add screen display to photon view.
+Add vector view to photon view.
