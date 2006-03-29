@@ -171,8 +171,8 @@ public class BSConstants {
     public static final double MIN_WELL_OFFSET = -15;
     public static final double MAX_WELL_OFFSET = 5;
     
-    public static final double MIN_WELL_ANGULAR_FREQUENCY = 1; // x 10^15
-    public static final double MAX_WELL_ANGULAR_FREQUENCY = 15; // x 10^15
+    public static final double MIN_WELL_ANGULAR_FREQUENCY = 1; // femtoseconds
+    public static final double MAX_WELL_ANGULAR_FREQUENCY = 15; // femtoseconds
     
     // Defaults...
     
@@ -185,7 +185,7 @@ public class BSConstants {
     
     // Harmonic Oscillator...
     public static final double DEFAULT_OSCILLATOR_OFFSET = 0;
-    public static final double DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY = 2; // x 10^15;
+    public static final double DEFAULT_OSCILLATOR_ANGULAR_FREQUENCY = 2; // femtoseconds
     
     // Square well...
     public static final double DEFAULT_SQUARE_OFFSET = 0;
