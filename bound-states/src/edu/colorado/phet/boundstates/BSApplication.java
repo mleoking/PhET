@@ -18,15 +18,17 @@ import java.io.IOException;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorSchemeMenu;
-import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
+import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSDoubleModule;
 import edu.colorado.phet.boundstates.module.BSManyModule;
 import edu.colorado.phet.boundstates.module.BSSingleModule;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.menu.HelpMenu;
@@ -92,10 +94,10 @@ public class BSApplication extends PhetApplication {
      * @param clock
      */
     private void initModules() {
-        _singleModule = new BSSingleModule();
-        addModule( _singleModule );
-        _doubleModule = new BSDoubleModule();
-        addModule( _doubleModule );
+//        _singleModule = new BSSingleModule();
+//        addModule( _singleModule );
+//        _doubleModule = new BSDoubleModule();
+//        addModule( _doubleModule );
         _manyModule = new BSManyModule();
         addModule( _manyModule );
     }
@@ -162,10 +164,18 @@ public class BSApplication extends PhetApplication {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the color scheme for all modules that support color schemes.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
-        _singleModule.setColorScheme( colorScheme );
-        _doubleModule.setColorScheme( colorScheme );
-        _manyModule.setColorScheme( colorScheme );
+        Module[] modules = getModules();
+        for ( int i = 0; i < modules.length; i++ ) {
+            if ( modules[i] instanceof BSAbstractModule ) {
+                ((BSAbstractModule)modules[i]).setColorScheme( colorScheme );
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
