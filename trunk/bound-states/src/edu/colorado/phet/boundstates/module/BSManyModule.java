@@ -345,7 +345,7 @@ public class BSManyModule extends BSAbstractModule {
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle );
         _squareWells = new BSSquareWells( 2 );
         _asymmetricWell = new BSAsymmetricWell();
-        _selectedPotential = _squareWells;
+        _selectedPotential = _harmonicOscillatorWell;
         
         // View 
         _eigenstatesNode.setPotential( _selectedPotential );
