@@ -11,7 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.02";
+    private static String VERSION = "0.03";
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION );

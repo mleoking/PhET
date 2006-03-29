@@ -1,4 +1,4 @@
-New in 0.03
+New in 0.03 (3-29-2006)
 Added water, sound and light tabs.
 
 New in 0.01
