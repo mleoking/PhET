@@ -18,3 +18,5 @@ o Add correct units to measuring tape.
 o Add correct units to stopwatch.
 
 o Make it so "pause" then "step" uses a sensible dt (not the actual system delay)
+
+o Wave area size should depend on window size.
