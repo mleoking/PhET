@@ -35,113 +35,52 @@ public class IonGraphicManager implements IonListener {
 
     static private HashMap imageMap = new HashMap();
 
+    /**
+     * Returns the buffered image for a specified ion class
+     * @param ionClass
+     * @return a BufferedImage
+     */
     static public BufferedImage getIonImage( Class ionClass ) {
+        BufferedImage bi = (BufferedImage)imageMap.get( ionClass );
+        if( bi == null ) {
+            throw new RuntimeException( "Ion class not recognized" );
+        }
         return (BufferedImage)imageMap.get( ionClass );
     }
 
     static {
-        putImage( new ConfigurableAnion() );
-        putImage( new ConfigurableCation() );
-        putImage( new Sodium() );
-        putImage( new Chlorine() );
-        putImage( new Lead() );
-        putImage( new Silver() );
-        putImage( new Iodine() );
-        putImage( new Copper() );
-        putImage( new Hydroxide() );
-        putImage( new Chromium() );
-        putImage( new Strontium() );
-        putImage( new Phosphate() );
-        putImage( new Bromine() );
-        putImage( new Mercury() );
-        putImage( new Thallium() );
-        putImage( new Sulfur() );
+        putImage( new ConfigurableAnion(), new Color( 0, 0, 0 ) );
+        putImage( new ConfigurableCation(), new Color( 200, 200, 200 ) );
+        putImage( new Sodium(), new Color( 200, 0, 60 ) );
+        putImage( new Chlorine(), new Color( 0, 100, 0 ) );
+        putImage( new Lead(), Color.red );
+        putImage( new Silver(), Color.black );
+        putImage( new Iodine(), new Color( 140, 10, 10 ) );
+        putImage( new Copper(), new Color( 4, 110, 40 ) );
+        putImage( new Hydroxide(), new Color( 255, 90, 13 ) );
+        putImage( new Chromium(), Color.black );
+        putImage( new Strontium(), new Color( 160, 0, 200 ) );
+        putImage( new Phosphate(), new Color( 20, 140, 30 ) );
+        putImage( new Bromine(), new Color( 120, 100, 60 ) );
+        putImage( new Mercury(), new Color( 100, 100, 180 ) );
+        putImage( new Thallium(), Color.black );
+        putImage( new Sulfur(), new Color( 255, 90, 13 ) );
     }
 
-    static private void putImage( Ion ion ) {
-        IonGraphic ig = createPImage( ion );
+    static private void putImage( Ion ion, Color color ) {
+        IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
+        if( color != null ) {
+            ig.setColor( color );
+        }
+        else {
+            throw new RuntimeException( "Ion class not recognized" );
+        }
         imageMap.put( ion.getClass(), ig.getImage() );
     }
 
     static private IonGraphic createPImage( Ion ion ) {
-        IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
-        boolean ionClassRecognized = false;
-
-        if( ion instanceof ConfigurableAnion ) {
-            ig.setColor( new Color( 0, 0, 0 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof ConfigurableCation ) {
-            ig.setColor( new Color( 200, 200, 200 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Chlorine ) {
-            ig.setColor( new Color( 0, 100, 0 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Chlorine ) {
-            ig.setColor( new Color( 0, 100, 0 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Sodium ) {
-            ig.setColor( new Color( 200, 0, 60) );
-            ig.setPolarityMarkerColor( Color.black );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Lead ) {
-            ig.setColor( Color.red );
-            ig.setPolarityMarkerColor( Color.black );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Silver ) {
-            ig.setColor( Color.black );
-            ig.setPolarityMarkerColor( Color.black );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Iodine ) {
-            ig.setColor( new Color( 140, 10, 10 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Copper ) {
-            ig.setColor( new Color( 4, 110, 40 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Hydroxide ) {
-            ig.setColor( new Color( 255, 90, 13 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Sulfur ) {
-            ig.setColor( new Color( 255, 90, 13 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Chromium ) {
-            ig.setColor( Color.black );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Thallium ) {
-            ig.setColor( Color.black );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Strontium ) {
-            ig.setColor( new Color( 160, 0, 200 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Phosphate ) {
-            ig.setColor( new Color( 20, 140, 30 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Mercury ) {
-            ig.setColor( new Color( 100, 100, 180 ) );
-            ionClassRecognized = true;
-        }
-        if( ion instanceof Bromine ) {
-            ig.setColor( new Color( 120, 100, 60 ) );
-            ionClassRecognized = true;
-        }
-
-        if( !ionClassRecognized ) {
-            throw new RuntimeException( "Ion class not recognized" );
-        }
+        BufferedImage bi = (BufferedImage)imageMap.get( ion.getClass() );
+        IonGraphic ig = new IonGraphic( ion, bi );
         return ig;
     }
 
