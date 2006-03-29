@@ -63,4 +63,8 @@ public class SRRWavelengthSliderComponent extends PCanvas {
     public Color getColor() {
         return wavelengthSliderGraphic.getVisibleColor();
     }
+
+    public double getWavelength() {
+        return wavelengthSliderGraphic.getWavelength();
+    }
 }

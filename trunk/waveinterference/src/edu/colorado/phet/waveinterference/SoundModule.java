@@ -8,6 +8,7 @@ import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
+import edu.colorado.phet.waveinterference.view.MultiOscillator;
 
 /**
  * User: Sam Reid
@@ -88,5 +89,9 @@ public class SoundModule extends WaveInterferenceModule {
 
     public SoundWaveGraphic getSoundWaveGraphic() {
         return soundSimulationPanel.getSoundWaveGraphic();
+    }
+
+    public MultiOscillator getMultiOscillator() {
+        return soundSimulationPanel.getMultiOscillator();
     }
 }

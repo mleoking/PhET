@@ -20,6 +20,7 @@ public class ParticleSizeControl extends VerticalLayoutPanel {
     public ParticleSizeControl( final SoundWaveGraphic soundWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
         final ModelSlider modelSlider = new ModelSlider( "Magnify Particles", "", 0, 1, soundWaveGraphic.getParticleSize() );
+        modelSlider.setTextFieldVisible( false );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 soundWaveGraphic.setParticleSize( modelSlider.getValue() );

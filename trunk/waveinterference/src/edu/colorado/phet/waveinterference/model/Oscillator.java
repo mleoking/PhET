@@ -86,6 +86,10 @@ public class Oscillator {
 
     public void setFrequency( double value ) {
         this.period = 1.0 / value;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.frequencyChanged();
+        }
     }
 
     public double getAmplitude() {
@@ -134,6 +138,8 @@ public class Oscillator {
         void enabledStateChanged();
 
         void locationChanged();
+
+        void frequencyChanged();
     }
 
     public void addListener( Listener listener ) {
