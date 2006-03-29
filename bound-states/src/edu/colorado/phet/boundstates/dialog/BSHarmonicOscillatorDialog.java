@@ -150,7 +150,7 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
-            String labelFormat = "<html>" + SimStrings.get( "label.wellAngularFrequency" ) + " {0} x 10<sup>15</sup>" + angularFrequencyUnits + "</html>";
+            String labelFormat = "<html>" + SimStrings.get( "label.wellAngularFrequency" ) + " {0} " + angularFrequencyUnits + "</html>";
             _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
         }
         System.out.println( "BSHarmonicOscillator.createInputPanel angFreq done" );//XXX
