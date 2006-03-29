@@ -4,3 +4,5 @@ Real-time model won't work when paused (wavelength comes out wrong).
 
 Add screen display to photon view.
 Add vector view to photon view.
+
+Should we show intensity readouts anywhere, or just wave values?
