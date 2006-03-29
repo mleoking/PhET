@@ -21,7 +21,7 @@ public class TestSlitsAndScreen extends TestTopView {
     public TestSlitsAndScreen() {
         super( "Slits & Screen" );
 
-        screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic().getColorMap() );
+        screenGraphic = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( screenGraphic );
         getPhetPCanvas().removeScreenChild( getWaveModelGraphic() );
         getPhetPCanvas().addScreenChild( getWaveModelGraphic() );//put it on top

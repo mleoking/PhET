@@ -83,4 +83,8 @@ public class LightModule extends WaveInterferenceModule {
     public MultiOscillator getMultiOscillator() {
         return waterSimulationPanel.getMultiOscillator();
     }
+
+    public ScreenNode getScreenNode() {
+        return waterSimulationPanel.getScreenNode();
+    }
 }

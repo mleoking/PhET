@@ -17,11 +17,16 @@ public class ScreenNode extends PNode {
     private CurveScreenGraphic curveScreenGraphic;
     private BrightnessScreenGraphic brightnessScreenGraphic;
 
-    public ScreenNode( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, ColorMap colorMap ) {
+    public ScreenNode( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, final WaveModelGraphic waveModelGraphic ) {
         curveScreenGraphic = new CurveScreenGraphic( waveModel, latticeScreenCoordinates );
-        brightnessScreenGraphic = new BrightnessScreenGraphic( waveModel, latticeScreenCoordinates, colorMap );
+        brightnessScreenGraphic = new BrightnessScreenGraphic( waveModel, latticeScreenCoordinates, waveModelGraphic.getColorMap() );
         addChild( curveScreenGraphic );
         addChild( brightnessScreenGraphic );
+        waveModelGraphic.addListener( new WaveModelGraphic.Listener() {
+            public void colorMapChanged() {
+                setColorMap( waveModelGraphic.getColorMap() );
+            }
+        } );
         update();
     }
 

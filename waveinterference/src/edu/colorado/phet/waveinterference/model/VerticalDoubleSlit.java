@@ -37,6 +37,9 @@ public class VerticalDoubleSlit extends VerticalBarrier {
 
         topBar = new Rectangle( x, 0, thickness, round( topSlitCenter - slitSize / 2.0 ) );
         midBar = new Rectangle( x, round( topSlitCenter + slitSize / 2.0 ), thickness, slitSeparation - slitSize );
+        if( midBar.getHeight() < 0 ) {
+            midBar.setSize( midBar.width, 0 );
+        }
         bottomBar = new Rectangle( x, round( bottomSlitCenter + slitSize / 2.0 ), thickness, midBarSize + 1 );
 
         this.topSlit = new Rectangle( x, topBar.x + topBar.width, thickness, slitSize );

@@ -21,12 +21,13 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
     private MeasurementToolSet measurementToolSet;
-    private LaserGraphic primaryFaucetGraphic;
-    private LaserGraphic secondaryFaucetGraphic;
+    private LaserGraphic primaryLaserGraphic;
+    private LaserGraphic secondaryLaserGraphic;
     private MultiOscillator multiOscillator;
     private WaveSideView waveSideView;
     private WaveModelGraphic waveModelGraphic;
     private RotationGlyph rotationGlyph;
+    private ScreenNode screenNode;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
@@ -39,7 +40,6 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             public void colorMapChanged() {
                 colorChanged();
             }
-
         } );
         rotationGlyph = new RotationGlyph();
         rotationGlyph.setDepthVisible( false );
@@ -50,13 +50,17 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
                 angleChanged();
             }
         } );
+
+        screenNode = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), waveModelGraphic );
+        addScreenChild( screenNode );
+
         addScreenChild( rotationWaveGraphic );
 
-        primaryFaucetGraphic = new LaserGraphic( waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
-        addScreenChild( primaryFaucetGraphic );
+        primaryLaserGraphic = new LaserGraphic( waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        addScreenChild( primaryLaserGraphic );
 
-        secondaryFaucetGraphic = new LaserGraphic( waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
-        addScreenChild( secondaryFaucetGraphic );
+        secondaryLaserGraphic = new LaserGraphic( waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        addScreenChild( secondaryLaserGraphic );
 
         slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
@@ -67,7 +71,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock() );
         addScreenChild( measurementToolSet );
 
-        multiOscillator = new MultiOscillator( getWaveModel(), primaryFaucetGraphic, waterModule.getPrimaryOscillator(), secondaryFaucetGraphic, waterModule.getSecondaryOscillator() );
+        multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, waterModule.getPrimaryOscillator(), secondaryLaserGraphic, waterModule.getSecondaryOscillator() );
         LaserControlPanelPNode laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
         colorChanged();
@@ -114,9 +118,14 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     public void stepInTime( double dt ) {
         rotationWaveGraphic.update();
         intensityReaderSet.update();
+        screenNode.updateScreen();
     }
 
     public MultiOscillator getMultiOscillator() {
         return multiOscillator;
+    }
+
+    public ScreenNode getScreenNode() {
+        return screenNode;
     }
 }
