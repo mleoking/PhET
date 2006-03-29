@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -63,15 +62,17 @@ public class PressureWaveGraphic extends PNode {
         }
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
-                updateLocation();
+                updateBounds();
             }
         } );
-        updateLocation();
+        updateBounds();
         reorderChildren();
     }
 
-    private void updateLocation() {
+    private void updateBounds() {
         setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, 0 ) );
+        int spacingBetweenCells = (int)latticeScreenCoordinates.getCellWidth();
+        setSpaceBetweenCells( spacingBetweenCells );
     }
 
     private void reorderChildren() {
@@ -142,6 +143,8 @@ public class PressureWaveGraphic extends PNode {
         this.friction = friction;
     }
 
+    private Random random = new Random();
+
     class Particle extends PImage {
         private int homeX;
         private int homeY;
@@ -150,6 +153,7 @@ public class PressureWaveGraphic extends PNode {
         private double speed = 4.0;//pixels per time step
         private Vector2D velocity = new Vector2D.Double();
         private BufferedImage newImage;
+
 
         public Particle( BufferedImage newImage, int i, int j ) {
             super( newImage );
@@ -184,9 +188,18 @@ public class PressureWaveGraphic extends PNode {
                 double prefX = bestPoint.x * spacingBetweenCells;
                 double prefY = bestPoint.y * spacingBetweenCells;
                 Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
-
+                double accelScale = 1.0;
+                double frictionScale = 1.0;
+                if( Math.abs( bestValue ) < 0.01 ) {
+                    prefX = homeX * spacingBetweenCells;
+                    prefY = homeY * spacingBetweenCells;
+                    vec.rotate( random.nextDouble() * Math.PI * 2 );
+                    accelScale = 0.5;
+                    frictionScale = 1.0 / friction * 0.99;
+                    vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
+                }
 //            stepToTarget( vec );
-                accelerateToTarget( vec );
+                accelerateToTarget( vec, accelScale, frictionScale );
 //            accelerateFromNeighbors();//very expensive
             }
 
@@ -205,15 +218,21 @@ public class PressureWaveGraphic extends PNode {
 //            velocity=velocity.add(new Vector2D.Double( netForceX,netForceY ));
 //        }
 
-        private AbstractVector2D getForce( Particle particle ) {
-            return new Vector2D.Double();
-        }
+//        private AbstractVector2D getForce( Particle particle ) {
+//            return new Vector2D.Double();
+//        }
 
-        private void accelerateToTarget( Vector2D.Double vec ) {
+        private void accelerateToTarget( Vector2D.Double vec, double accelScale, double frictionScale ) {
 //            double acceleration = 0.4;
             if( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
-                vec.scale( acceleration );
+//                double finalAcceleration = acceleration * ( bestValue / 2.0 + 0.5 );
+//                double finalAcceleration = acceleration;
+                double finalAcceleration = acceleration * accelScale;
+//                if( Math.abs( bestValue ) < 0.1 ) {
+//                    finalAcceleration = 0;
+//                }
+                vec.scale( finalAcceleration );
 //                System.out.println( "vec = " + vec );
 
                 velocity = velocity.add( vec );
@@ -230,7 +249,7 @@ public class PressureWaveGraphic extends PNode {
                 if( velocity.getY() < -maxVelocity ) {
                     velocity.setY( -maxVelocity );
                 }
-                velocity.scale( friction );//friction
+                velocity.scale( friction * frictionScale );//friction
                 Point2D dest = velocity.getDestination( new Point2D.Double( a, b ) );
                 a = dest.getX();
                 b = dest.getY();

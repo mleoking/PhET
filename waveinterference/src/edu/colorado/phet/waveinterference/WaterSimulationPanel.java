@@ -21,7 +21,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private MeasurementToolSet measurementToolSet;
     private FaucetGraphic primaryFaucetGraphic;
     private FaucetGraphic secondaryFaucetGraphic;
-    private MultiDrip multiDrip;
+    private MultiFaucetDrip multiFaucetDrip;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -54,7 +54,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock() );
         addScreenChild( measurementToolSet );
 
-        multiDrip = new MultiDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
+        multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
         FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
@@ -69,8 +69,8 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         }
     }
 
-    public MultiDrip getMultiDrip() {
-        return multiDrip;
+    public MultiFaucetDrip getMultiDrip() {
+        return multiFaucetDrip;
     }
 
     private Lattice2D getLattice() {

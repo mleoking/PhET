@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.view.*;
+import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
+import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
+import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 
 /**
  * User: Sam Reid
@@ -15,10 +17,10 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 
     public SoundControlPanel( SoundModule soundModule ) {
         this.waterModule = soundModule;
-        addControl( new WaveRotateControl( soundModule.getRotationWaveGraphic() ) );
+        addControl( new ParticleSizeControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
         addControl( new DetectorSetControlPanel( soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
-        addControl( new MultiDripControlPanel( soundModule.getMultiDrip() ) );
+//        addControl( new MultiDripControlPanel( soundModule.getMultiDrip() ) );
     }
 }
