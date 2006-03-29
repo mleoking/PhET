@@ -36,10 +36,14 @@ public class SRRWavelengthSlider extends PNode {
     private PPath boundGraphic;
 
     public SRRWavelengthSlider() {
+        this( 175, 30 );
+    }
+
+    public SRRWavelengthSlider( int width, int height ) {
         double minWavelength = VisibleColor.MIN_WAVELENGTH;
         double maxWavelength = VisibleColor.MAX_WAVELENGTH;
 
-        final BufferedImage image = new BufferedImage( 175, 30, BufferedImage.TYPE_INT_RGB );
+        final BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
         linearFunction = new Function.LinearFunction( 0, image.getWidth(), minWavelength, maxWavelength );
         for( int i = 0; i < image.getWidth(); i++ ) {
@@ -55,7 +59,7 @@ public class SRRWavelengthSlider extends PNode {
         spectrumSliderKnob.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         spectrumSliderKnob.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseEntered( PInputEvent event ) {
-                System.out.println( "SRRWavelengthSlider.mouseEntered" );
+//                System.out.println( "SRRWavelengthSlider.mouseEntered" );
             }
 
             public void mouseDragged( PInputEvent event ) {

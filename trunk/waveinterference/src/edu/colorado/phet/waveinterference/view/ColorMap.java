@@ -10,4 +10,6 @@ import java.awt.*;
  */
 public interface ColorMap {
     Color getColor( int i, int k );
+
+    Color getRootColor();
 }

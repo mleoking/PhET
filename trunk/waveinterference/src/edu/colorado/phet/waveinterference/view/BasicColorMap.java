@@ -40,4 +40,8 @@ public class BasicColorMap implements ColorMap {
         return new Color( r * value, g * value, b * value );
     }
 
+    public Color getRootColor() {
+        return new Color( r, g, b );
+    }
+
 }

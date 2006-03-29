@@ -6,6 +6,8 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -22,13 +24,25 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private LaserGraphic primaryFaucetGraphic;
     private LaserGraphic secondaryFaucetGraphic;
     private MultiOscillator multiOscillator;
+    private WaveSideView waveSideView;
+    private WaveModelGraphic waveModelGraphic;
+    private RotationGlyph rotationGlyph;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
 
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
-        WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
-        RotationGlyph rotationGlyph = new RotationGlyph();
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
+        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+
+        waveSideView.setStroke( new BasicStroke( 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
+        waveModelGraphic.addListener( new WaveModelGraphic.Listener() {
+            public void colorMapChanged() {
+                colorChanged();
+            }
+
+        } );
+        rotationGlyph = new RotationGlyph();
+        rotationGlyph.setDepthVisible( false );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
         rotationWaveGraphic.setOffset( 300, 50 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
@@ -56,6 +70,12 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         multiOscillator = new MultiOscillator( getWaveModel(), primaryFaucetGraphic, waterModule.getPrimaryOscillator(), secondaryFaucetGraphic, waterModule.getSecondaryOscillator() );
         LaserControlPanelPNode laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
+        colorChanged();
+    }
+
+    private void colorChanged() {
+        waveSideView.setColor( waveModelGraphic.getColorMap().getRootColor() );
+        rotationGlyph.setColor( waveModelGraphic.getColorMap().getRootColor() );
     }
 
     private void angleChanged() {
