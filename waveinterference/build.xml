@@ -44,6 +44,7 @@
         <javac srcdir="${build-src}"
                excludes="${build-excludes}"
                classpath="${build-classpath}"
+               source="1.4"
                destdir="${ant.classes}"/>
     </target>
 
