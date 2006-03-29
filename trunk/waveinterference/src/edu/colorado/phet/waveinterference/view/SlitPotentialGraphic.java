@@ -41,13 +41,15 @@ public class SlitPotentialGraphic extends PNode {
         Rectangle[]r = slitPotential.getBarrierRectangles();
         for( int i = 0; i < r.length; i++ ) {
             Rectangle rectangle = r[i];
-            Rectangle2D screenRect = latticeScreenCoordinates.toScreenRect( rectangle );
+            if( !rectangle.isEmpty() ) {
+                Rectangle2D screenRect = latticeScreenCoordinates.toScreenRect( rectangle );
 
-            PPath path = new PPath( screenRect );
-            path.setPaint( new Color( 241, 216, 148 ) );
-            path.setStroke( new BasicStroke( 2 ) );
-            path.setStrokePaint( Color.black );
-            addChild( path );
+                PPath path = new PPath( screenRect );
+                path.setPaint( new Color( 241, 216, 148 ) );
+                path.setStroke( new BasicStroke( 2 ) );
+                path.setStrokePaint( Color.black );
+                addChild( path );
+            }
         }
     }
 }
