@@ -48,6 +48,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     
     private SSCanvas simPanel;
     private SolubleSaltsConfig.Calibration calibration;
+    private PNode fullScaleCanvas;
 
     /**
      * Only constructor
@@ -67,7 +68,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         setPhetPCanvas( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
-        final PNode fullScaleCanvas = new WorldNode( this, simPanel );
+        fullScaleCanvas = new WorldNode( this, simPanel );
         fullScaleCanvas.setScale( viewScale );
         simPanel.addWorldChild( fullScaleCanvas );
 
@@ -127,15 +128,8 @@ public class SolubleSaltsModule extends PiccoloModule {
 //        model.addModelElement( ion );
     }
 
-
-    private void test() {
-        // A test graphic
-        Rectangle r = new Rectangle( 100, 150, 20, 70 );
-        PPath pp = new PPath( r );
-        pp.setPaint( Color.red );
-        simPanel.addWorldChild( pp );
-        pp.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-        pp.addInputEventListener( new PDragEventHandler() );
+    protected PNode getFullScaleCanvas() {
+        return fullScaleCanvas;
     }
 
     public void setCalibration( SolubleSaltsConfig.Calibration calibration ) {

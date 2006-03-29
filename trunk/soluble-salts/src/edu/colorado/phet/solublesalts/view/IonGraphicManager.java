@@ -65,6 +65,7 @@ public class IonGraphicManager implements IonListener {
         putImage( new Mercury(), new Color( 100, 100, 180 ) );
         putImage( new Thallium(), Color.black );
         putImage( new Sulfur(), new Color( 255, 90, 13 ) );
+        putImage( new Arsenate(), new Color( 255, 90, 13 )); 
     }
 
     static private void putImage( Ion ion, Color color ) {

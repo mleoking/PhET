@@ -55,7 +55,8 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         saltMap.put( "Silver Iodide", new SilverIodide() );
         saltMap.put( "Thallous Sulfide", new ThallousSulfide() );
 //        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
-        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
+        saltMap.put( "Silver Arsenate", new SilverArsenate() );
+//        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
         saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
 //        saltMap.put( "Mercury Bromide", new MercuryBromide() );
     }
