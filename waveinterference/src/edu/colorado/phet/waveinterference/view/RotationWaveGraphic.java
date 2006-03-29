@@ -100,6 +100,10 @@ public class RotationWaveGraphic extends PNode {
         return waveModelGraphic.getLatticeScreenCoordinates();
     }
 
+    public void setCellSize( int pixelsPerCell ) {
+        waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
+    }
+
     public static interface Listener {
         void rotationChanged();
     }

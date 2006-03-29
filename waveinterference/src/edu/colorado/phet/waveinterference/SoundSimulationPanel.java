@@ -7,6 +7,8 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * User: Sam Reid
@@ -22,12 +24,14 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private MeasurementToolSet measurementToolSet;
     private SoundWaveGraphic soundWaveGraphic;
     private MultiOscillator multiOscillator;
+    private SpeakerControlPanelPNode speakerControlPanelPNode;
+    private WaveModelGraphic waveModelGraphic;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
 
         IndexColorMap colorMap = new IndexColorMap( getLattice(), Color.white );
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
+        waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
         waveModelGraphic.setOffset( 100, 10 );
 //        SoundWaveGraphic soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic );
 //        addScreenChild( soundWaveGraphic );
@@ -75,8 +79,30 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 
 //        FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( soundModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
 //        addScreenChild( faucetControlPanelPNode );
-        SpeakerControlPanelPNode speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
+        speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
         addScreenChild( speakerControlPanelPNode );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateWaveSize();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                updateWaveSize();
+            }
+        } );
+        updateWaveSize();
+    }
+
+    private void updateWaveSize() {
+        int insetTop = 2;
+        int insetBottom = 2;
+        double availableHeight = getHeight() - speakerControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
+        double latticeModelHeight = getWaveModel().getHeight();
+        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
+        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
+        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     public MultiOscillator getMultiOscillator() {

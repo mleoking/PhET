@@ -6,6 +6,9 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -22,6 +25,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private FaucetGraphic primaryFaucetGraphic;
     private FaucetGraphic secondaryFaucetGraphic;
     private MultiFaucetDrip multiFaucetDrip;
+    private FaucetControlPanelPNode faucetControlPanelPNode;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -30,7 +34,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         RotationGlyph rotationGlyph = new RotationGlyph();
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 300, 50 );
+        rotationWaveGraphic.setOffset( 150, 50 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -56,8 +60,30 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
-        FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
+        faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateWaveSize();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                updateWaveSize();
+            }
+        } );
+        updateWaveSize();
+    }
+
+    private void updateWaveSize() {
+        int insetTop = 2;
+        int insetBottom = 2;
+        double availableHeight = getHeight() - faucetControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
+        double latticeModelHeight = getWaveModel().getHeight();
+        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
+        rotationWaveGraphic.setCellSize( pixelsPerCell - 1 );
+        double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     private void angleChanged() {

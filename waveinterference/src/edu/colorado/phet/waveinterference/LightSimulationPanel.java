@@ -7,6 +7,8 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * User: Sam Reid
@@ -28,6 +30,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveModelGraphic waveModelGraphic;
     private RotationGlyph rotationGlyph;
     private ScreenNode screenNode;
+    private LaserControlPanelPNode laserControlPanelPNode;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
@@ -44,7 +47,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         rotationGlyph = new RotationGlyph();
         rotationGlyph.setDepthVisible( false );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 300, 50 );
+        rotationWaveGraphic.setOffset( 150, 2 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -72,9 +75,30 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( measurementToolSet );
 
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, waterModule.getPrimaryOscillator(), secondaryLaserGraphic, waterModule.getSecondaryOscillator() );
-        LaserControlPanelPNode laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
+        laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
         colorChanged();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateWaveSize();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                updateWaveSize();
+            }
+        } );
+        updateWaveSize();
+    }
+
+    private void updateWaveSize() {
+        int insetTop = 2;
+        int insetBottom = 2;
+        double availableHeight = getHeight() - laserControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
+        double latticeModelHeight = getWaveModel().getHeight();
+        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
+        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
+        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + laserControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     private void colorChanged() {
