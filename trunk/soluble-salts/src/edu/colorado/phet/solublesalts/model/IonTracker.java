@@ -112,7 +112,5 @@ public class IonTracker {
 
         public void ionRemoved( IonEvent event ) {
         }
-
     }
-
 }

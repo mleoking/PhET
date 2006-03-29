@@ -43,8 +43,8 @@ public class IonFactory {
         if( ionClass == Sodium.class ) {
             ion = new Sodium();
         }
-        if( ionClass == Chlorine.class ) {
-            ion = new Chlorine();
+        if( ionClass == Chloride.class ) {
+            ion = new Chloride();
         }
         if( ionClass == Lead.class ) {
             ion = new Lead();
@@ -52,8 +52,8 @@ public class IonFactory {
         if( ionClass == Silver.class ) {
             ion = new Silver();
         }
-        if( ionClass == Iodine.class ) {
-            ion = new Iodine();
+        if( ionClass == Iodide.class ) {
+            ion = new Iodide();
         }
         if( ionClass == Copper.class ) {
             ion = new Copper();

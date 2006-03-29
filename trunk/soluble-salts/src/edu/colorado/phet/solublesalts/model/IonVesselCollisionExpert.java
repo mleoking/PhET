@@ -15,7 +15,7 @@ import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
+import edu.colorado.phet.solublesalts.model.ion.Chloride;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 import java.awt.geom.Point2D;
@@ -43,7 +43,7 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
     private static double DEFAULT_MIN_DIST_TO_LIKE_ION;
 
     static {
-        DEFAULT_MIN_DIST_TO_LIKE_ION = new Chlorine( new Point2D.Double(),
+        DEFAULT_MIN_DIST_TO_LIKE_ION = new Chloride( new Point2D.Double(),
                                                      new Vector2D.Double(),
                                                      new Vector2D.Double() ).getRadius() * 4;
     }
