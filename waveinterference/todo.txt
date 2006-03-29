@@ -6,3 +6,5 @@ Add screen display to photon view.
 Add vector view to photon view.
 
 Should we show intensity readouts anywhere, or just wave values?
+
+How to control frequency/amplitude when there are two wave sources?
