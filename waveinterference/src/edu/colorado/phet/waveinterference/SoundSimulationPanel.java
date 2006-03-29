@@ -40,6 +40,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 //        addScreenChild( soundWaveGraphic );
 
         PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        pressureWaveGraphic.setMaxVelocity( 3 );
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
         addScreenChild( soundWaveGraphic );
 //        addScreenChild( pressureWaveGraphic );
@@ -59,6 +60,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 //
 //        secondaryFaucetGraphic = new FaucetGraphic( getWaveModel(), soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
 //        secondaryFaucetGraphic.setEnabled( false );
+        SpeakerGraphic speakerGraphic = new SpeakerGraphic( soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        addScreenChild( speakerGraphic );
 //        addScreenChild( secondaryFaucetGraphic );
 
         slitPotentialGraphic = new SlitPotentialGraphic( soundModule.getSlitPotential(), waveModelGraphic.getLatticeScreenCoordinates() );

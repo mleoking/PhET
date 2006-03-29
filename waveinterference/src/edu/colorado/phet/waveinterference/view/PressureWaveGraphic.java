@@ -32,9 +32,9 @@ public class PressureWaveGraphic extends PNode {
     private BufferedImage pinkImageORIG;
     private BufferedImage blueImage;
     private BufferedImage pinkImage;
-    private double acceleration = 0.4;
-    private double maxVelocity = 15;
-    private double friction = 0.96;
+    private double acceleration = 0.3;
+    private double maxVelocity = 3;
+    private double friction = 0.97;
 
     public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.lattice = lattice;
