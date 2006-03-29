@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
 /**
  * TestSchmidtLeeHarmonicOscillator demonstrates that the Schmidt-Lee algorithm
  * has problems with finding the eigenstates for a Harmonic Oscillator potential.
+ * With a position range of [-4,+4], the higher energy values are incorrect.
+ * As the position range is increased (eg, [-7,+7]), the error is reduced.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -26,8 +28,8 @@ public class TestSchmidtLeeHarmonicOscillator {
     private static final double MASS = 1;
     private static final double OMEGA = 1; // angular frequency
     private static final double HBAR = 0.658;
-    private static final double MIN_X = -4;
-    private static final double MAX_X = +4;
+    private static final double MIN_X = -6;
+    private static final double MAX_X = +6;
     
     private static final double ACCEPTABLE_ERROR = 0.1;
     
