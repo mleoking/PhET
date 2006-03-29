@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
+import edu.colorado.phet.waveinterference.view.MultiOscillatorControlPanel;
 import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 
 /**
@@ -21,6 +22,6 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
         addControl( new DetectorSetControlPanel( soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
-//        addControl( new MultiDripControlPanel( soundModule.getMultiDrip() ) );
+        addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator() ) );
     }
 }

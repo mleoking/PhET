@@ -10,7 +10,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class MultiFaucetDrip {
+public class MultiFaucetDrip {//todo should this extend pnode, with primary & secondary as children?
     boolean twoDrips;
     private double spacing = 10;
     private WaveModel waveModel;

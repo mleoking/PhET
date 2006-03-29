@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -26,6 +27,7 @@ public class WaveModelGraphic extends PNode {
     private ColorMap colorMap;
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private ArrayList listeners = new ArrayList();
 
     public WaveModelGraphic( WaveModel waveModel ) {
         this( waveModel, 1, 1 );
@@ -97,6 +99,14 @@ public class WaveModelGraphic extends PNode {
         decorateBuffer();
         repaint();
         notifyMappingChanged();
+        notifyColorChanged();
+    }
+
+    private void notifyColorChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.colorMapChanged();
+        }
     }
 
     private void notifyMappingChanged() {
@@ -149,5 +159,13 @@ public class WaveModelGraphic extends PNode {
 
     public WaveModel getWaveModel() {
         return waveModel;
+    }
+
+    public static interface Listener {
+        void colorMapChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }

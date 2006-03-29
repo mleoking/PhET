@@ -2,11 +2,6 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.ColorMap;
-import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
-import edu.colorado.phet.waveinterference.view.SRRWavelengthSliderComponent;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -16,7 +11,7 @@ import javax.swing.event.ChangeListener;
  */
 
 public class TestWaveColor extends TestTopView {
-    private SRRWavelengthSliderComponent slider;
+    private WavelengthControlPanel wavelengthControlPanel;
 
     public TestWaveColor() {
         this( "Wave Color" );
@@ -24,21 +19,10 @@ public class TestWaveColor extends TestTopView {
 
     public TestWaveColor( String name ) {
         super( name );
-        slider = new SRRWavelengthSliderComponent();
-        slider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateColor();
-            }
-        } );
-        getControlPanel().addControl( slider );
-        updateColor();
-        getOscillator().setAmplitude( 2.5 );
-    }
+        wavelengthControlPanel = new WavelengthControlPanel( getWaveModelGraphic(), getOscillator() );
+        getControlPanel().addControl( wavelengthControlPanel );
 
-    protected void updateColor() {
-        getWaveModel().clear();
-        PhotonEmissionColorMap colorMap = new PhotonEmissionColorMap( getWaveModel(), slider.getColor() );
-        setColorMap( colorMap );
+        getOscillator().setAmplitude( 2.5 );
     }
 
     protected void setColorMap( ColorMap colorMap ) {

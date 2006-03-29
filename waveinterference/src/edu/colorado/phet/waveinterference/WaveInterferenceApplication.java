@@ -2,7 +2,6 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.waveinterference.tests.TestTopView;
 
 /**
  * User: Sam Reid
@@ -23,6 +22,6 @@ public class WaveInterferenceApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        TestTopView.main( args );
+        new WaveInterferenceApplication( args ).startApplication();
     }
 }

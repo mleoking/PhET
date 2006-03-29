@@ -63,13 +63,10 @@ public class FaucetGraphic extends PhetPNode {
             public void locationChanged() {
                 updateLocation();
             }
+
+            public void frequencyChanged() {
+            }
         } );
-//        oscillator.addListener( new Oscillator.Listener() {
-//            public void enabledStateChanged() {
-//                setEnabled( oscillator.isEnabled() );
-//            }
-//
-//        } );
     }
 
     private void updateLocation() {

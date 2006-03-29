@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.ColorMap;
 import edu.colorado.phet.waveinterference.view.ScreenControlPanel;
 import edu.colorado.phet.waveinterference.view.ScreenNode;
+import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
 /**
  * User: Sam Reid
@@ -25,14 +25,19 @@ public class TestScreenGraphic extends TestWaveColor {
         getWaveModelGraphic().setOffset( 100, 100 );
 
         getControlPanel().addControl( new ScreenControlPanel( screenGraphic ) );
+        getWaveModelGraphic().addListener( new WaveModelGraphic.Listener() {
+            public void colorMapChanged() {
+                screenGraphic.setColorMap( getWaveModelGraphic().getColorMap() );
+            }
+        } );
     }
 
-    protected void setColorMap( ColorMap colorMap ) {
-        super.setColorMap( colorMap );
-        if( screenGraphic != null ) {
-            screenGraphic.setColorMap( colorMap );
-        }
-    }
+//    protected void setColorMap( ColorMap colorMap ) {
+//        super.setColorMap( colorMap );
+//        if( screenGraphic != null ) {
+//            screenGraphic.setColorMap( colorMap );
+//        }
+//    }
 
     protected void step() {
         super.step();
