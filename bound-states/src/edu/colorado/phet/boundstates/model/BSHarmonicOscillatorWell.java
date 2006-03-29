@@ -16,8 +16,12 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import sun.security.krb5.internal.ccache.an;
+
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.test.schmidt_lee.PotentialFunction;
+import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
 
 
 /**
@@ -32,14 +36,13 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Observer {
+public class BSHarmonicOscillatorWell extends BSAbstractPotential{
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private double _angularFrequency;
-    private BSParticle _particle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,9 +53,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     }
     
     public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
-        super( 1, 0, offset, BSConstants.DEFAULT_WELL_CENTER );
+        super( particle, 1, 0, offset, BSConstants.DEFAULT_WELL_CENTER );
         setAngularFrequency( angularFrequency );
-        setParticle( particle );
     }
     
     //----------------------------------------------------------------------------
@@ -64,21 +66,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
     }
 
     public void setAngularFrequency( double angularFrequency ) {
-        _angularFrequency = angularFrequency;
-        notifyObservers();
-    }
-
-    public BSParticle getParticle() {
-        return _particle;
-    }
-    
-    public void setParticle( BSParticle particle ) {
-        if ( _particle != null ) {
-            _particle.deleteObserver( this );
+        if ( angularFrequency != _angularFrequency ) {
+            _angularFrequency = angularFrequency;
+            notifyObservers();
         }
-        _particle = particle;
-        _particle.addObserver( this );
-        notifyObservers();
     }
     
     //----------------------------------------------------------------------------
@@ -111,7 +102,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
         
         final double offset = getOffset();
         final double c = getCenter();
-        final double m = _particle.getMass();
+        final double m = getParticle().getMass();
         final double w = getAngularFrequency();
         
         return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) );
@@ -127,8 +118,55 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
      */
     public BSEigenstate[] getEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
+        System.out.println( "BSHarmonicOscillatorWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
+        return getEigenstatesSimple();
+//        return getEigenstatesSchmidtLee();
+    }
+    
+    /*
+     * Gets the eigenstates using the Schmidt-Lee algorithm.
+     */
+    private BSEigenstate[] getEigenstatesSchmidtLee() {
         
         ArrayList eigenstates = new ArrayList();
+        
+        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength(); //XXX
+        int nodes = 0;
+        boolean done = false;
+        while ( !done ) {
+            try {
+                PotentialFunction function = new PotentialFunctionAdapter( this );
+                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                double E = wavefunction.getE();
+                if ( E <= maxE ) {
+                    eigenstates.add( new BSEigenstate( E ) );
+                }
+                else {
+                    done = true;
+                }
+            }
+            catch ( Exception e ) {
+                e.printStackTrace();
+            }
+            nodes++;
+        }
+        
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
+    }
+    
+    /*
+     * Gets the eigenstates by calculating En directly, as follows:
+     * 
+     * En = h * w * ( n + 0.5 )
+     * 
+     * where:
+     *     n = 0, 1, 2,....
+     *     h = hbar
+     *     w = angular frequency
+     */
+    private BSEigenstate[] getEigenstatesSimple() {
+        ArrayList eigenstates = new ArrayList();
+        
         boolean done = false;
         int n = 0;
         final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength(); //XXX
@@ -142,16 +180,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential implements Obs
             }
             n++;
         }
+
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    public void update( Observable o, Object arg ) {
-        if ( o == _particle ) {
-            notifyObservers();
-        }   
     }
 }

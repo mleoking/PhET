@@ -341,10 +341,10 @@ public class BSManyModule extends BSAbstractModule {
         
         // Model
         _particle = new BSParticle( BSConstants.DEFAULT_MASS );
-        _coulombWells = new BSCoulombWells( 2 );
+        _coulombWells = new BSCoulombWells( _particle, 2 );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle );
-        _squareWells = new BSSquareWells( 2 );
-        _asymmetricWell = new BSAsymmetricWell();
+        _squareWells = new BSSquareWells( _particle, 2 );
+        _asymmetricWell = new BSAsymmetricWell( _particle );
         _selectedPotential = _harmonicOscillatorWell;
         
         // View 

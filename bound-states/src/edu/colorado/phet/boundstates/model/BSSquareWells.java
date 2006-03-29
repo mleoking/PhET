@@ -51,8 +51,9 @@ public class BSSquareWells extends BSAbstractPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareWells( int numberOfWells ) {
-        this( numberOfWells, 
+    public BSSquareWells( BSParticle particle, int numberOfWells ) {
+        this( particle, 
+                numberOfWells, 
                 BSConstants.DEFAULT_SQUARE_SPACING, 
                 BSConstants.DEFAULT_SQUARE_WIDTH, 
                 BSConstants.DEFAULT_SQUARE_DEPTH, 
@@ -60,8 +61,8 @@ public class BSSquareWells extends BSAbstractPotential {
                 BSConstants.DEFAULT_WELL_CENTER );
     }
     
-    public BSSquareWells( int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
-        super( numberOfWells, spacing, offset, center );
+    public BSSquareWells( BSParticle particle, int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
+        super( particle, numberOfWells, spacing, offset, center );
         setWidth( width );
         setDepth( depth );
     }
@@ -78,8 +79,10 @@ public class BSSquareWells extends BSAbstractPotential {
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "invalid width: " + width );
         }
-        _width = width;
-        notifyObservers();
+        if ( width != _width ) {
+            _width = width;
+            notifyObservers();
+        }
     }
 
     public double getDepth() {
@@ -90,8 +93,10 @@ public class BSSquareWells extends BSAbstractPotential {
         if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
         }
-        _depth = depth;
-        notifyObservers();
+        if ( depth != _depth ) {
+            _depth = depth;
+            notifyObservers();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -129,6 +134,7 @@ public class BSSquareWells extends BSAbstractPotential {
     }
     
     public BSEigenstate[] getEigenstates() {
+        System.out.println( "BSSquareWells.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         ArrayList eigenstates = new ArrayList();
 
         for ( int nodes = 0; nodes < 10; nodes++ ) {
