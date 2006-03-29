@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
 
     public RealSaltsControlPanel( final SolubleSaltsModule module ) {
-        super( module );
+        super( module );                
     }
 
     /**
