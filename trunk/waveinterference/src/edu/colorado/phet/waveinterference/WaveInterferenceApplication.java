@@ -19,6 +19,7 @@ public class WaveInterferenceApplication extends PhetApplication {
         addModule( new WaterModule() );
         addModule( new SoundModule() );
         addModule( new LightModule() );
+        getPhetFrame().addMenu( new WaveInterferenceMenu() );
     }
 
     public static void main( String[] args ) {
