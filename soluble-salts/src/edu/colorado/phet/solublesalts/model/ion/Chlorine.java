@@ -22,13 +22,13 @@ import java.awt.geom.Point2D;
  */
 public class Chlorine extends Ion {
     public static final double RADIUS = 8;
-    private static IonProperties ionProperties = new IonProperties( 17, -1, RADIUS );
+    private static IonProperties ionProperties = new IonProperties( 17, -1, Chlorine.RADIUS );
 
     public Chlorine() {
-        super( ionProperties );
+        super( Chlorine.ionProperties );
     }
 
     public Chlorine( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position, velocity, acceleration, ionProperties );
+        super( position, velocity, acceleration, Chlorine.ionProperties );
     }
 }
