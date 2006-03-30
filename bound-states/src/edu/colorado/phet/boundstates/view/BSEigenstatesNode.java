@@ -52,7 +52,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     private BSCombinedChartNode _chartNode;
     private BSAbstractPotential _potential;
     
-    private ArrayList _eigenstates; // array of BSEigenstate, one for each displayed eigenstate
+    private BSEigenstate[] _eigenstates;
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
     
     private int _selectionIndex;
@@ -75,7 +75,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         
         _chartNode = chartNode;
         _lines = new ArrayList();
-        _eigenstates = new ArrayList();
+        _eigenstates = null;
         _selectionIndex = INDEX_UNDEFINED;
         _hiliteIndex = INDEX_UNDEFINED;
         
@@ -158,7 +158,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
         
         removeAllChildren();
-        _eigenstates.clear();
+        _eigenstates = null;
         _lines.clear();
         
         // Determine the Energy chart's bounds...
@@ -169,10 +169,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
         final double maxPosition = chart.getEnergyPlot().getDomainAxis().getUpperBound();
         
         // Create a line for each eigenstate...
-        BSEigenstate[] eigenstates = _potential.getEigenstates();
-//        DebugOutput.printEigenstates( eigenstates );//XXX
-        for ( int i = 0; i < eigenstates.length; i++ ) {
-            final double energy = eigenstates[i].getEnergy();
+        _eigenstates = _potential.getEigenstates();
+//        DebugOutput.printEigenstates( _eigenstates );//XXX
+        for ( int i = 0; i < _eigenstates.length; i++ ) {
+            final double energy = _eigenstates[i].getEnergy();
             Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
             Point2D pRight = _chartNode.energyToNode( new Point2D.Double( maxPosition, energy ) );
             Point2D[] points = new Point2D[] { pLeft, pRight };
@@ -183,7 +183,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
             line.setVisible( energy >= minEnergy && energy <= maxEnergy );
             addChild( line );
             _lines.add( line );
-            _eigenstates.add( eigenstates[i] );
         }
 
         selectEigenstate( _selectionIndex );
@@ -278,7 +277,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
 
         // Set the new highlight...
-        if ( hiliteIndex != _selectionIndex ) {
+        if ( hiliteIndex != _selectionIndex && hiliteIndex != INDEX_UNDEFINED ) {
             _hiliteIndex = hiliteIndex;
             PPath line = (PPath) _lines.get( _hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
@@ -302,20 +301,24 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * Gets the index of the eigenstate that is closest to a specified energy value.
      * 
      * @param energy
+     * @return index, possibly INDEX_UNDEFINED
      */
     private int getClosestEigenstateIndex( final double energy ) {
         int index = 0;
-        if ( energy < getDisplayedEnergy( 0 ) ) {
+        if ( _eigenstates == null || _eigenstates.length == 0 ) {
+            index = INDEX_UNDEFINED;
+        }
+        else if ( energy < _eigenstates[0].getEnergy() ) {
             index = 0;
         }
-        else if ( energy > getDisplayedEnergy(  _eigenstates.size() - 1 ) ) {
-            index = _eigenstates.size() - 1;
+        else if ( energy > _eigenstates[_eigenstates.length - 1 ].getEnergy() ) {
+            index = _eigenstates.length - 1;
         }
         else {
-            for ( int i = 1; i < _eigenstates.size(); i++ ) {
-                final double currentEnergy = getDisplayedEnergy( i );
+            for ( int i = 1; i < _eigenstates.length; i++ ) {
+                final double currentEnergy = _eigenstates[ i ].getEnergy();
                 if ( energy <= currentEnergy ) {
-                    final double lowerEnergy = getDisplayedEnergy( i - 1 );
+                    final double lowerEnergy = _eigenstates[ i - 1 ].getEnergy();
                     final double upperEnergyDifference = currentEnergy - energy;
                     final double lowerEnergyDifference = energy - lowerEnergy;
                     if ( upperEnergyDifference < lowerEnergyDifference ) {
@@ -329,14 +332,5 @@ public class BSEigenstatesNode extends PNode implements Observer {
             }
         }
         return index;
-    }
-    
-    /*
-     * Gets the energy of one of the displayed eigenstate lines.
-     * 
-     * @param index
-     */
-    private double getDisplayedEnergy( int index ) {
-        return ( (BSEigenstate) _eigenstates.get( index ) ).getEnergy();
     }
 }
