@@ -125,7 +125,6 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
      */
     private JPanel createInputPanel() {
         
-        System.out.println( "BSHarmonicOscillator.createInputPanel" );//XXX
         String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
         String energyUnits = SimStrings.get( "units.energy" );
 
@@ -140,7 +139,6 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
             String labelFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
         }
-        System.out.println( "BSHarmonicOscillator.createInputPanel offset done" );//XXX
 
         // Angular Frequency
         {
@@ -153,10 +151,8 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
             String labelFormat = "<html>" + SimStrings.get( "label.wellAngularFrequency" ) + " {0} " + angularFrequencyUnits + "</html>";
             _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
         }
-        System.out.println( "BSHarmonicOscillator.createInputPanel angFreq done" );//XXX
         
         updateControls();
-        System.out.println( "BSHarmonicOscillator.createInputPanel control updated" );//XXX
         
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -181,7 +177,7 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
      * @return the actions panel
      */
     private JPanel createActionsPanel() {
-        System.out.println( "BSHarmonicOscillator.createActionsPanel" );//XXX
+
         _closeButton = new JButton( SimStrings.get( "button.close" ) );
         _closeButton.addActionListener( _eventListener );
 
