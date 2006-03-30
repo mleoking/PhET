@@ -16,19 +16,21 @@
 
 package netx.jnlp.event;
 
-import java.util.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
+import netx.jnlp.runtime.ApplicationInstance;
+
+import java.util.EventObject;
 
 /**
  * This event is sent when an application is terminated.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class ApplicationEvent extends EventObject {
 
-    /** the application instance */
+    /**
+     * the application instance
+     */
     private ApplicationInstance application;
 
 
@@ -38,13 +40,13 @@ public class ApplicationEvent extends EventObject {
      *
      * @param source the application instance
      */
-    public ApplicationEvent(ApplicationInstance source) {
-        super(source);
+    public ApplicationEvent( ApplicationInstance source ) {
+        super( source );
 
         this.application = source;
     }
 
-    /** 
+    /**
      * Returns the application instance.
      */
     public ApplicationInstance getApplication() {

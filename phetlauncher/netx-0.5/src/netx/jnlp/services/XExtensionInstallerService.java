@@ -17,18 +17,14 @@
 
 package netx.jnlp.services;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.ref.*;
-import javax.jnlp.*;
-import netx.jnlp.*;
+import javax.jnlp.ExtensionInstallerService;
+import java.net.URL;
 
 /**
  * The BasicService JNLP service.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 class XExtensionInstallerService implements ExtensionInstallerService {
 
@@ -52,7 +48,7 @@ class XExtensionInstallerService implements ExtensionInstallerService {
     /**
      *
      */
-    public String getInstalledJRE(java.net.URL url, java.lang.String version) {
+    public String getInstalledJRE( java.net.URL url, java.lang.String version ) {
         return null;
     }
 
@@ -84,37 +80,37 @@ class XExtensionInstallerService implements ExtensionInstallerService {
     /**
      *
      */
-    public void installSucceeded(boolean needsReboot) {
+    public void installSucceeded( boolean needsReboot ) {
     }
 
     /**
      *
      */
-    public void setHeading(java.lang.String heading) {
+    public void setHeading( java.lang.String heading ) {
     }
 
     /**
      *
      */
-    public void setJREInfo(java.lang.String platformVersion, java.lang.String jrePath) {
+    public void setJREInfo( java.lang.String platformVersion, java.lang.String jrePath ) {
     }
 
     /**
      *
      */
-    public void setNativeLibraryInfo(java.lang.String path) {
+    public void setNativeLibraryInfo( java.lang.String path ) {
     }
 
     /**
      *
      */
-    public void setStatus(java.lang.String status) {
+    public void setStatus( java.lang.String status ) {
     }
 
     /**
      *
      */
-    public void updateProgress(int value) {
+    public void updateProgress( int value ) {
     }
 
 }

@@ -17,20 +17,13 @@
 
 package netx.jnlp.services;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.ref.*;
-import java.lang.reflect.*;
-import java.security.*;
 import javax.jnlp.*;
-import netx.jnlp.*;
 
 /**
  * Lookup table for services.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class XServiceManagerStub implements ServiceManagerStub {
 
@@ -42,17 +35,17 @@ public class XServiceManagerStub implements ServiceManagerStub {
     // actions by giving permission to the code source).
 
     private static String serviceNames[] = {
-        "javax.jnlp.BasicService", // required
-        "javax.jnlp.DownloadService", // required
-        "javax.jnlp.ExtensionInstallerService", // required
-        "javax.jnlp.PersistenceService",
+            "javax.jnlp.BasicService", // required
+            "javax.jnlp.DownloadService", // required
+            "javax.jnlp.ExtensionInstallerService", // required
+            "javax.jnlp.PersistenceService",
     };
 
     private static Object services[] = {
-        ServiceUtil.createPrivilegedProxy(BasicService.class, new XBasicService()),
-        ServiceUtil.createPrivilegedProxy(DownloadService.class, new XDownloadService()),
-        ServiceUtil.createPrivilegedProxy(ExtensionInstallerService.class, new XExtensionInstallerService()),
-        ServiceUtil.createPrivilegedProxy(PersistenceService.class, new XPersistenceService()),
+            ServiceUtil.createPrivilegedProxy( BasicService.class, new XBasicService() ),
+            ServiceUtil.createPrivilegedProxy( DownloadService.class, new XDownloadService() ),
+            ServiceUtil.createPrivilegedProxy( ExtensionInstallerService.class, new XExtensionInstallerService() ),
+            ServiceUtil.createPrivilegedProxy( PersistenceService.class, new XPersistenceService() ),
     };
 
 
@@ -66,7 +59,7 @@ public class XServiceManagerStub implements ServiceManagerStub {
         // make sure it is a copy because we might be returning to
         // code we don't own.
         String result[] = new String[serviceNames.length];
-        System.arraycopy(serviceNames, 0, result, 0, serviceNames.length);
+        System.arraycopy( serviceNames, 0, result, 0, serviceNames.length );
 
         return result;
     }
@@ -76,18 +69,22 @@ public class XServiceManagerStub implements ServiceManagerStub {
      *
      * @throws UnavailableServiceException if service is not available
      */
-    public Object lookup(String name) throws UnavailableServiceException {
+    public Object lookup( String name ) throws UnavailableServiceException {
         // exact match
-        for (int i=0; i < serviceNames.length; i++)
-            if (serviceNames[i].equals(name))
+        for( int i = 0; i < serviceNames.length; i++ ) {
+            if( serviceNames[i].equals( name ) ) {
                 return services[i];
+            }
+        }
 
         // substring match
-        for (int i=0; i < serviceNames.length; i++)
-            if (-1 != serviceNames[i].indexOf(name))
+        for( int i = 0; i < serviceNames.length; i++ ) {
+            if( -1 != serviceNames[i].indexOf( name ) ) {
                 return services[i];
+            }
+        }
 
-        throw new UnavailableServiceException(""+name);
+        throw new UnavailableServiceException( "" + name );
     }
 
 }

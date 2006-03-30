@@ -17,23 +17,17 @@
 
 package netx.jnlp.cache;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.Timer;
-import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
+import netx.jnlp.runtime.ApplicationInstance;
+
+import javax.jnlp.DownloadServiceListener;
+import java.net.URL;
 
 /**
  * A DownloadIndicator creates DownloadServiceListeners that are
  * notified of resources being transferred and their progress.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public interface DownloadIndicator {
 
@@ -41,19 +35,19 @@ public interface DownloadIndicator {
      * Return a download service listener that displays the progress
      * of downloading resources.  Update messages may be reported
      * for URLs that are not included initially.<p>
-     *
+     * <p/>
      * Progress messages are sent as if the DownloadServiceListener
      * were listening to a DownloadService request.  The listener
      * will receive progress messages from time to time during the
      * download. <p>
      *
-     * @param app JNLP application downloading the files, or null if not applicable
+     * @param app          JNLP application downloading the files, or null if not applicable
      * @param downloadName name identifying the download to the user
-     * @param resources initial urls to display, empty if none known at start
+     * @param resources    initial urls to display, empty if none known at start
      */
-    public DownloadServiceListener getListener(ApplicationInstance app,
-                                               String downloadName, 
-                                               URL resources[]);
+    public DownloadServiceListener getListener( ApplicationInstance app,
+                                                String downloadName,
+                                                URL resources[] );
 
     /**
      * Indicates that a download service listener that was obtained
@@ -63,7 +57,7 @@ public interface DownloadIndicator {
      *
      * @param listener the listener that is no longer in use
      */
-    public void disposeListener(DownloadServiceListener listener);
+    public void disposeListener( DownloadServiceListener listener );
 
     /**
      * Return the desired time in milliseconds between updates.

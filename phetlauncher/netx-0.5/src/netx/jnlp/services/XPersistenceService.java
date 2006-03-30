@@ -17,20 +17,25 @@
 
 package netx.jnlp.services;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.ref.*;
-import javax.jnlp.*;
-import netx.jnlp.runtime.*;
-import netx.jnlp.cache.*;
-import netx.jnlp.*;
+import netx.jnlp.cache.CacheUtil;
+import netx.jnlp.runtime.ApplicationInstance;
+import netx.jnlp.runtime.JNLPRuntime;
+
+import javax.jnlp.FileContents;
+import javax.jnlp.PersistenceService;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The BasicService JNLP service.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 class XPersistenceService implements PersistenceService {
 
@@ -46,31 +51,36 @@ class XPersistenceService implements PersistenceService {
      *
      * @throws MalformedURLException if the application cannot access the location
      */
-    protected void checkLocation(URL location) throws MalformedURLException {
+    protected void checkLocation( URL location ) throws MalformedURLException {
         ApplicationInstance app = JNLPRuntime.getApplication();
-        if (app == null)
-            throw new MalformedURLException("Cannot determine the current application.");
+        if( app == null ) {
+            throw new MalformedURLException( "Cannot determine the current application." );
+        }
 
         URL source = app.getJNLPFile().getCodeBase();
 
-        if (!source.getHost().equalsIgnoreCase(location.getHost()))
-            throw new MalformedURLException("Cannot access data from a different host.");
+        if( !source.getHost().equalsIgnoreCase( location.getHost() ) ) {
+            throw new MalformedURLException( "Cannot access data from a different host." );
+        }
 
         // test for above codebase, not perfect but works for now
 
         String requestPath = location.getFile();
-        if (-1 != requestPath.lastIndexOf("/"))
-            requestPath = requestPath.substring(0, requestPath.lastIndexOf("/"));
-        else
+        if( -1 != requestPath.lastIndexOf( "/" ) ) {
+            requestPath = requestPath.substring( 0, requestPath.lastIndexOf( "/" ) );
+        }
+        else {
             requestPath = "";
-
-        if (JNLPRuntime.isDebug()) {
-            System.out.println("codebase path: "+source.getFile());
-            System.out.println("request path: "+requestPath);
         }
 
-        if (!source.getFile().startsWith(requestPath))
-            throw new MalformedURLException("Cannot access data below source URL path.");
+        if( JNLPRuntime.isDebug() ) {
+            System.out.println( "codebase path: " + source.getFile() );
+            System.out.println( "request path: " + requestPath );
+        }
+
+        if( !source.getFile().startsWith( requestPath ) ) {
+            throw new MalformedURLException( "Cannot access data below source URL path." );
+        }
     }
 
     /**
@@ -78,94 +88,93 @@ class XPersistenceService implements PersistenceService {
      *
      * @return the file
      */
-    protected File toCacheFile(URL location) throws MalformedURLException {
-        return CacheUtil.urlToPath(location, "pcache");
+    protected File toCacheFile( URL location ) throws MalformedURLException {
+        return CacheUtil.urlToPath( location, "pcache" );
     }
 
     /**
-     *
      * @return the maximum size of storage that got granted, in bytes
      * @throws MalformedURLException if the application cannot access the location
      */
-    public long create(URL location, long maxsize) throws MalformedURLException, IOException {
-        checkLocation(location);
+    public long create( URL location, long maxsize ) throws MalformedURLException, IOException {
+        checkLocation( location );
 
-        File file = toCacheFile(location);
+        File file = toCacheFile( location );
         file.getParentFile().mkdirs();
 
-        if (!file.createNewFile())
-            throw new IOException("File already exists.");
+        if( !file.createNewFile() ) {
+            throw new IOException( "File already exists." );
+        }
 
         return maxsize;
     }
 
     /**
-     *
      * @throws MalformedURLException if the application cannot access the location
      */
-    public void delete(URL location) throws MalformedURLException, IOException {
-        checkLocation(location);
+    public void delete( URL location ) throws MalformedURLException, IOException {
+        checkLocation( location );
 
-        toCacheFile(location).delete();
+        toCacheFile( location ).delete();
     }
 
     /**
-     *
      * @throws MalformedURLException if the application cannot access the location
      */
-    public FileContents get(URL location) throws MalformedURLException, IOException, FileNotFoundException {
-        checkLocation(location);
+    public FileContents get( URL location ) throws MalformedURLException, IOException, FileNotFoundException {
+        checkLocation( location );
 
-        File file = toCacheFile(location);
+        File file = toCacheFile( location );
         file.getParentFile().mkdirs();
 
-        return (FileContents) ServiceUtil.createPrivilegedProxy(FileContents.class, new XFileContents(file));
+        return (FileContents)ServiceUtil.createPrivilegedProxy( FileContents.class, new XFileContents( file ) );
     }
 
     /**
-     *
      * @throws MalformedURLException if the application cannot access the location
      */
-    public String[] getNames(URL location) throws MalformedURLException, IOException {
-        checkLocation(location);
+    public String[] getNames( URL location ) throws MalformedURLException, IOException {
+        checkLocation( location );
 
 
-        File file = toCacheFile(location);
-        if (!file.isDirectory())
+        File file = toCacheFile( location );
+        if( !file.isDirectory() ) {
             return new String[0];
+        }
 
         List result = new ArrayList();
 
         // check whether this is right: only add files and not directories.
         File entries[] = file.listFiles();
-        for (int i=0; i < entries.length; i++)
-            if (entries[i].isFile())
-                result.add(entries[i].getName());
+        for( int i = 0; i < entries.length; i++ ) {
+            if( entries[i].isFile() ) {
+                result.add( entries[i].getName() );
+            }
+        }
 
-        return (String[]) result.toArray(new String[result.size()]);
+        return (String[])result.toArray( new String[result.size()] );
     }
 
     /**
-     *
      * @throws MalformedURLException if the application cannot access the location
      */
-    public int getTag(URL location) throws MalformedURLException, IOException {
-        checkLocation(location);
+    public int getTag( URL location ) throws MalformedURLException, IOException {
+        checkLocation( location );
 
         // todo: actually implement tags
 
-        if (toCacheFile(location).exists())
+        if( toCacheFile( location ).exists() ) {
             return PersistenceService.CACHED;
+        }
 
         return PersistenceService.CACHED;
     }
 
     /**
-     *
      * @throws MalformedURLException if the application cannot access the location
      */
-    public void setTag(URL location, int tag) throws MalformedURLException, IOException {
-        checkLocation(location);
+    public void setTag( URL location, int tag ) throws MalformedURLException, IOException {
+        checkLocation( location );
 
         // todo: actually implement tags
     }

@@ -17,10 +17,12 @@
 
 package netx.jnlp.runtime;
 
-import java.net.*;
-import java.io.*;
-import java.applet.*;
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
+import java.applet.AudioClip;
+import java.net.URL;
 
 // based on Deane Richan's AppletAudioClip
 
@@ -28,30 +30,32 @@ import javax.sound.sampled.*;
  * An applet audio clip using the javax.sound API.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class AppletAudioClip implements AudioClip {
 
-    /** the clip */
+    /**
+     * the clip
+     */
     private Clip clip;
 
 
-    /** 
+    /**
      * Creates new AudioClip.  If the clip cannot be opened no
      * exception is thrown, instead the methods of the AudioClip
      * return without performing any operations.
      *
      * @param location the clip location
      */
-    public AppletAudioClip(URL location) {
+    public AppletAudioClip( URL location ) {
         try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(location);
+            AudioInputStream stream = AudioSystem.getAudioInputStream( location );
 
-            clip = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
-            clip.open(stream);
+            clip = (Clip)AudioSystem.getLine( new Line.Info( Clip.class ) );
+            clip.open( stream );
         }
-        catch (Exception ex) {
-            System.err.println("Error loading sound:"+location.toString());
+        catch( Exception ex ) {
+            System.err.println( "Error loading sound:" + location.toString() );
             clip = null;
         }
     }
@@ -61,22 +65,24 @@ public class AppletAudioClip implements AudioClip {
      * called.
      */
     public void loop() {
-        if (clip == null)
+        if( clip == null ) {
             return;
+        }
 
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.loop( Clip.LOOP_CONTINUOUSLY );
     }
 
     /**
      * Plays the clip from the beginning.
      */
     public void play() {
-        if (clip == null)
+        if( clip == null ) {
             return;
+        }
 
         // applet audio clip resets to beginning when played again
         clip.stop();
-        clip.setFramePosition(0);
+        clip.setFramePosition( 0 );
         clip.start();
     }
 
@@ -84,8 +90,9 @@ public class AppletAudioClip implements AudioClip {
      * Stops playing the clip.
      */
     public void stop() {
-        if (clip == null)
+        if( clip == null ) {
             return;
+        }
 
         clip.stop();
     }
@@ -95,7 +102,7 @@ public class AppletAudioClip implements AudioClip {
      * played after being disposed.
      */
     void dispose() {
-        if (clip != null) {
+        if( clip != null ) {
             clip.stop();
             clip.flush();
             clip.close();

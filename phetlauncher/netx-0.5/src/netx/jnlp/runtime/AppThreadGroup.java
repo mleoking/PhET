@@ -17,17 +17,17 @@
 
 package netx.jnlp.runtime;
 
-import java.awt.*;
-
 /**
  * Thread group for a JNLP application.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class AppThreadGroup extends ThreadGroup {
 
-    /** the app */
+    /**
+     * the app
+     */
     private ApplicationInstance app = null;
 
 
@@ -36,16 +36,17 @@ public class AppThreadGroup extends ThreadGroup {
      *
      * @param name of the App
      */
-    public AppThreadGroup(ThreadGroup parent, String name) {
-        super(parent, name);
+    public AppThreadGroup( ThreadGroup parent, String name ) {
+        super( parent, name );
     }
 
     /**
      * Sets the JNLP app this group is for; can only be called once.
      */
-    public void setApplication(ApplicationInstance app) {
-        if (this.app != null)
-            throw new IllegalStateException("Application can only be set once");
+    public void setApplication( ApplicationInstance app ) {
+        if( this.app != null ) {
+            throw new IllegalStateException( "Application can only be set once" );
+        }
 
         this.app = app;
     }
@@ -60,8 +61,8 @@ public class AppThreadGroup extends ThreadGroup {
     /**
      * Handle uncaught exceptions for the app.
      */
-    public void uncaughtException(Thread t, Throwable e) {
-        super.uncaughtException(t, e);
+    public void uncaughtException( Thread t, Throwable e ) {
+        super.uncaughtException( t, e );
     }
 
 

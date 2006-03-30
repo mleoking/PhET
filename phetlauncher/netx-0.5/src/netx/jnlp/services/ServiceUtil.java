@@ -17,21 +17,21 @@
 
 package netx.jnlp.services;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.security.*;
+import netx.jnlp.runtime.JNLPRuntime;
+
 import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * Provides static methods to interact useful for using the JNLP
  * services.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class ServiceUtil {
 
@@ -40,7 +40,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static BasicService getBasicService() {
-        return (BasicService) getService("javax.jnlp.BasicService");
+        return (BasicService)getService( "javax.jnlp.BasicService" );
     }
 
     /**
@@ -48,7 +48,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static ClipboardService getClipboardService() {
-        return (ClipboardService) getService("javax.jnlp.ClipboardService");
+        return (ClipboardService)getService( "javax.jnlp.ClipboardService" );
     }
 
     /**
@@ -56,7 +56,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static DownloadService getDownloadService() {
-        return (DownloadService) getService("javax.jnlp.DownloadService");
+        return (DownloadService)getService( "javax.jnlp.DownloadService" );
     }
 
     /**
@@ -64,7 +64,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static ExtensionInstallerService getExtensionInstallerService() {
-        return (ExtensionInstallerService) getService("javax.jnlp.ExtensionInstallerService");
+        return (ExtensionInstallerService)getService( "javax.jnlp.ExtensionInstallerService" );
     }
 
     /**
@@ -72,7 +72,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static FileOpenService getFileOpenService() {
-        return (FileOpenService) getService("javax.jnlp.FileOpenService");
+        return (FileOpenService)getService( "javax.jnlp.FileOpenService" );
     }
 
     /**
@@ -80,7 +80,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static FileSaveService getFileSaveService() {
-        return (FileSaveService) getService("javax.jnlp.FileSaveService");
+        return (FileSaveService)getService( "javax.jnlp.FileSaveService" );
     }
 
     /**
@@ -88,7 +88,7 @@ public class ServiceUtil {
      * unavailable.
      */
     public static PersistenceService getPersistenceService() {
-        return (PersistenceService) getService("javax.jnlp.PersistenceService");
+        return (PersistenceService)getService( "javax.jnlp.PersistenceService" );
     }
 
     /**
@@ -96,17 +96,17 @@ public class ServiceUtil {
      * unavailable.
      */
     public static PrintService getPrintService() {
-        return (PrintService) getService("javax.jnlp.PrintService");
+        return (PrintService)getService( "javax.jnlp.PrintService" );
     }
 
     /**
      * Returns the service, or null instead of an UnavailableServiceException
      */
-    private static Object getService(String name) {
+    private static Object getService( String name ) {
         try {
-            return ServiceManager.lookup(name);
+            return ServiceManager.lookup( name );
         }
-        catch (UnavailableServiceException ex) {
+        catch( UnavailableServiceException ex ) {
             return null;
         }
     }
@@ -118,44 +118,49 @@ public class ServiceUtil {
      * must be more than extremely careful in the operations they
      * perform.
      */
-    static Object createPrivilegedProxy(Class iface, final Object receiver) {
-        return Proxy.newProxyInstance(XServiceManagerStub.class.getClassLoader(),
-                                      new Class[] { iface },
-                                      new PrivilegedHandler(receiver));
+    static Object createPrivilegedProxy( Class iface, final Object receiver ) {
+        return Proxy.newProxyInstance( XServiceManagerStub.class.getClassLoader(),
+                                       new Class[]{iface},
+                                       new PrivilegedHandler( receiver ) );
     }
 
-    /** 
-     * calls the object's method using privileged access 
+    /**
+     * calls the object's method using privileged access
      */
     private static class PrivilegedHandler implements InvocationHandler {
         private final Object receiver;
 
-        PrivilegedHandler(Object receiver) {
+        PrivilegedHandler( Object receiver ) {
             this.receiver = receiver;
         }
 
-        public Object invoke(Object proxy, final Method method, final Object[] args) throws Throwable {
-            if (JNLPRuntime.isDebug()) {
-                System.err.println("call privileged method: "+method.getName());
-                if (args != null)
-                    for (int i=0; i < args.length; i++)
-                        System.err.println("           arg: "+args[i]);
+        public Object invoke( Object proxy, final Method method, final Object[] args ) throws Throwable {
+            if( JNLPRuntime.isDebug() ) {
+                System.err.println( "call privileged method: " + method.getName() );
+                if( args != null ) {
+                    for( int i = 0; i < args.length; i++ ) {
+                        System.err.println( "           arg: " + args[i] );
+                    }
+                }
             }
 
             PrivilegedExceptionAction invoker = new PrivilegedExceptionAction() {
                 public Object run() throws Exception {
-                    return method.invoke(receiver, args);
+                    return method.invoke( receiver, args );
                 }
             };
 
-            Object result = AccessController.doPrivileged(invoker);
+            Object result = AccessController.doPrivileged( invoker );
 
-            if (JNLPRuntime.isDebug())
-                System.err.println("        result: "+result);
+            if( JNLPRuntime.isDebug() ) {
+                System.err.println( "        result: " + result );
+            }
 
             return result;
         }
-    };
+    }
+
+    ;
 
 }
 

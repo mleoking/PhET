@@ -17,16 +17,23 @@
 
 package netx.jnlp.runtime;
 
-import java.applet.*;
+import netx.jnlp.AppletDesc;
+import netx.jnlp.JNLPFile;
+import netx.jnlp.util.WeakList;
+
+import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AppletContext;
+import java.applet.AppletStub;
+import java.applet.AudioClip;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
-import java.net.*;
-import java.io.*;
-import javax.swing.*;
-import netx.jnlp.*;
-import netx.jnlp.util.*;
 
 /**
  * The applet environment including stub, context, and frame.  The
@@ -35,32 +42,48 @@ import netx.jnlp.util.*;
  * resizable.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class AppletEnvironment implements AppletContext, AppletStub {
 
-    /** the JNLP file */
+    /**
+     * the JNLP file
+     */
     private JNLPFile file;
 
-    /** the applet instance */
+    /**
+     * the applet instance
+     */
     private AppletInstance appletInstance;
 
-    /** the applet */
+    /**
+     * the applet
+     */
     private Applet applet;
 
-    /** the parameters */
+    /**
+     * the parameters
+     */
     private Map parameters;
 
-    /** the applet frame */
+    /**
+     * the applet frame
+     */
     private Frame frame;
 
-    /** weak references to the audio clips */
+    /**
+     * weak references to the audio clips
+     */
     private WeakList weakClips = new WeakList();
 
-    /** whether the applet has been started / displayed */
+    /**
+     * whether the applet has been started / displayed
+     */
     private boolean appletStarted = false;
 
-    /** whether the applet has been destroyed */
+    /**
+     * whether the applet has been destroyed
+     */
     private boolean destroyed = false;
 
 
@@ -68,26 +91,26 @@ public class AppletEnvironment implements AppletContext, AppletStub {
      * Create a new applet environment for the applet specified by
      * the JNLP file.
      */
-    public AppletEnvironment(JNLPFile file, final AppletInstance appletInstance) {
+    public AppletEnvironment( JNLPFile file, final AppletInstance appletInstance ) {
         this.file = file;
         this.appletInstance = appletInstance;
         this.applet = appletInstance.getApplet();
 
         parameters = file.getApplet().getParameters();
-        frame = new Frame(file.getApplet().getName() + " - Applet");
-        frame.setResizable(false);
+        frame = new Frame( file.getApplet().getName() + " - Applet" );
+        frame.setResizable( false );
 
-        appletInstance.addWindow(frame);
+        appletInstance.addWindow( frame );
 
         // may not need this once security manager can close windows
         // that do not have app code on the stack
         WindowListener closer = new WindowAdapter() {
-            public void windowClosing(WindowEvent event) {
+            public void windowClosing( WindowEvent event ) {
                 appletInstance.destroy();
-                System.exit(0);
+                System.exit( 0 );
             }
         };
-        frame.addWindowListener(closer);
+        frame.addWindowListener( closer );
     }
 
     /**
@@ -97,8 +120,9 @@ public class AppletEnvironment implements AppletContext, AppletStub {
      * @throws IllegalStateException
      */
     private void checkDestroyed() {
-        if (destroyed)
-            throw new IllegalStateException("Illegal applet stub/context access: applet destroyed.");
+        if( destroyed ) {
+            throw new IllegalStateException( "Illegal applet stub/context access: applet destroyed." );
+        }
     }
 
     /**
@@ -110,8 +134,8 @@ public class AppletEnvironment implements AppletContext, AppletStub {
         destroyed = true;
 
         List clips = weakClips.hardList();
-        for (int i = 0; i < clips.size(); i++) {
-            ((AppletAudioClip)clips.get(i)).dispose();
+        for( int i = 0; i < clips.size(); i++ ) {
+            ( (AppletAudioClip)clips.get( i ) ).dispose();
         }
     }
 
@@ -129,24 +153,25 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     public void startApplet() {
         checkDestroyed();
 
-        if (appletStarted)
+        if( appletStarted ) {
             return;
+        }
 
         appletStarted = true;
 
         try {
             AppletDesc appletDesc = file.getApplet();
 
-            applet.setStub(this);
+            applet.setStub( this );
 
-            frame.setLayout(new BorderLayout());
-            frame.add(applet);
+            frame.setLayout( new BorderLayout() );
+            frame.add( applet );
             frame.validate();
             frame.pack(); // cause insets to be calculated
 
             Insets insets = frame.getInsets();
-            frame.setSize(appletDesc.getWidth() + insets.left + insets.right,
-                          appletDesc.getHeight() + insets.top + insets.bottom);
+            frame.setSize( appletDesc.getWidth() + insets.left + insets.right,
+                           appletDesc.getHeight() + insets.top + insets.bottom );
 
             // do first because some applets need to be displayed before
             // starting (they use Component.getImage or something)
@@ -159,9 +184,10 @@ public class AppletEnvironment implements AppletContext, AppletStub {
             frame.validate();   // the correct size and to repaint
             frame.repaint();
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
 
             // should also kill the applet?
         }
@@ -173,13 +199,15 @@ public class AppletEnvironment implements AppletContext, AppletStub {
      * Returns the applet if the applet's name is specified,
      * otherwise return null.
      */
-    public Applet getApplet(String name) {
+    public Applet getApplet( String name ) {
         checkDestroyed();
 
-        if (name != null && name.equals(file.getApplet().getName()))
+        if( name != null && name.equals( file.getApplet().getName() ) ) {
             return applet;
-        else
+        }
+        else {
             return null;
+        }
     }
 
     /**
@@ -189,18 +217,18 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     public Enumeration getApplets() {
         checkDestroyed();
 
-        return Collections.enumeration( Arrays.asList(new Applet[] { applet }) );
+        return Collections.enumeration( Arrays.asList( new Applet[]{applet} ) );
     }
 
     /**
      * Returns an audio clip.
      */
-    public AudioClip getAudioClip(URL location) {
+    public AudioClip getAudioClip( URL location ) {
         checkDestroyed();
 
-        AppletAudioClip clip = new AppletAudioClip(location);
+        AppletAudioClip clip = new AppletAudioClip( location );
 
-        weakClips.add(clip);
+        weakClips.add( clip );
         weakClips.trimToSize();
 
         return clip;
@@ -209,11 +237,11 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Return an image loaded from the specified location.
      */
-    public Image getImage(URL location) {
+    public Image getImage( URL location ) {
         checkDestroyed();
 
         //return Toolkit.getDefaultToolkit().createImage(location);
-        Image image = (new ImageIcon(location)).getImage();
+        Image image = ( new ImageIcon( location ) ).getImage();
 
         return image;
     }
@@ -221,7 +249,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Not implemented yet.
      */
-    public void showDocument(java.net.URL uRL) {
+    public void showDocument( java.net.URL uRL ) {
         checkDestroyed();
 
     }
@@ -229,7 +257,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Not implemented yet.
      */
-    public void showDocument(java.net.URL uRL, java.lang.String str) {
+    public void showDocument( java.net.URL uRL, java.lang.String str ) {
         checkDestroyed();
 
     }
@@ -237,7 +265,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Not implemented yet.
      */
-    public void showStatus(java.lang.String str) {
+    public void showStatus( java.lang.String str ) {
         checkDestroyed();
 
     }
@@ -245,7 +273,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Required for JRE1.4, but not implemented yet.
      */
-    public void setStream(String key, InputStream stream) {
+    public void setStream( String key, InputStream stream ) {
         checkDestroyed();
 
     }
@@ -253,7 +281,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Required for JRE1.4, but not implemented yet.
      */
-    public InputStream getStream(String key) {
+    public InputStream getStream( String key ) {
         checkDestroyed();
 
         return null;
@@ -262,7 +290,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     /**
      * Required for JRE1.4, but not implemented yet.
      */
-    public Iterator getStreamKeys()  {
+    public Iterator getStreamKeys() {
         checkDestroyed();
 
         return null;
@@ -270,13 +298,13 @@ public class AppletEnvironment implements AppletContext, AppletStub {
 
     // stub methods
 
-    public void appletResize(int width, int height) {
+    public void appletResize( int width, int height ) {
         checkDestroyed();
 
         Insets insets = frame.getInsets();
 
-        frame.setSize(width + insets.left + insets.right,
-                      height + insets.top + insets.bottom);
+        frame.setSize( width + insets.left + insets.right,
+                       height + insets.top + insets.bottom );
     }
 
     public AppletContext getAppletContext() {
@@ -297,10 +325,10 @@ public class AppletEnvironment implements AppletContext, AppletStub {
         return file.getApplet().getDocumentBase();
     }
 
-    public String getParameter(String name) {
+    public String getParameter( String name ) {
         checkDestroyed();
 
-        return (String) parameters.get(name);
+        return (String)parameters.get( name );
     }
 
     public boolean isActive() {

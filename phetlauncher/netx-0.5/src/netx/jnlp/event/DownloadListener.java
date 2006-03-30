@@ -17,7 +17,7 @@
 
 package netx.jnlp.event;
 
-import java.util.*;
+import java.util.EventListener;
 
 
 /**
@@ -28,24 +28,24 @@ import java.util.*;
  * progress by tying up a thread.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public interface DownloadListener extends EventListener {
 
     /**
      * Called when a resource is checked for being up-to-date.
      */
-    public void updateStarted(DownloadEvent downloadEvent);
+    public void updateStarted( DownloadEvent downloadEvent );
 
     /**
      * Called when a download starts.
      */
-    public void downloadStarted(DownloadEvent downloadEvent);
+    public void downloadStarted( DownloadEvent downloadEvent );
 
     /**
      * Called when a download completed or there was an error.
      */
-    public void downloadCompleted(DownloadEvent downloadEvent);
+    public void downloadCompleted( DownloadEvent downloadEvent );
 
 }
 

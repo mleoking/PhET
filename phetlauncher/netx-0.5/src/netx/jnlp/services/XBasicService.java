@@ -17,26 +17,34 @@
 
 package netx.jnlp.services;
 
-import java.io.*;
-import java.net.*;
-import javax.jnlp.*;
+import netx.jnlp.JARDesc;
+import netx.jnlp.JNLPFile;
+import netx.jnlp.Launcher;
+import netx.jnlp.runtime.ApplicationInstance;
+import netx.jnlp.runtime.JNLPRuntime;
+import netx.jnlp.util.PropertiesFile;
+
+import javax.jnlp.BasicService;
 import javax.swing.*;
-import netx.jnlp.*;
-import netx.jnlp.util.*;
-import netx.jnlp.runtime.*;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * The BasicService JNLP service.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 class XBasicService implements BasicService {
 
-    /** command used to exec the native browser */
+    /**
+     * command used to exec the native browser
+     */
     private String command = null;
 
-    /** whether the command was loaded / prompted for */
+    /**
+     * whether the command was loaded / prompted for
+     */
     private boolean initialized = false;
 
 
@@ -53,17 +61,19 @@ class XBasicService implements BasicService {
     public URL getCodeBase() {
         ApplicationInstance app = JNLPRuntime.getApplication();
 
-        if (app != null) {
+        if( app != null ) {
             JNLPFile file = app.getJNLPFile();
 
             // return the codebase.
-            if (file.getCodeBase() != null)
+            if( file.getCodeBase() != null ) {
                 return file.getCodeBase();
+            }
 
             // else return the main JAR's URL.
             JARDesc mainJar = file.getResources().getMainJAR();
-            if (mainJar != null)
+            if( mainJar != null ) {
                 return mainJar.getLocation();
+            }
 
             // else find JAR where main class was defined.
             //
@@ -95,34 +105,35 @@ class XBasicService implements BasicService {
     /**
      * Show a document.
      *
-     * @return whether the document was opened 
+     * @return whether the document was opened
      */
-    public boolean showDocument(URL url)  {
+    public boolean showDocument( URL url ) {
         initialize();
 
-        if (url.toString().endsWith(".jnlp")) {
+        if( url.toString().endsWith( ".jnlp" ) ) {
             try {
-                new Launcher().launchExternal(url);
+                new Launcher().launchExternal( url );
                 return true;
             }
-            catch (Exception ex) {
+            catch( Exception ex ) {
                 return false;
             }
         }
 
-        if (command != null) {
+        if( command != null ) {
             try {
                 // this is bogus because the command may require options;
                 // should use a StreamTokenizer or similar to get tokens
                 // outside of quotes.
-                Runtime.getRuntime().exec(command + url.toString());
+                Runtime.getRuntime().exec( command + url.toString() );
                 //Runtime.getRuntime().exec(new String[]{command,url.toString()});
 
                 return true;
             }
-            catch(IOException ex){
-                if (JNLPRuntime.isDebug())
+            catch( IOException ex ) {
+                if( JNLPRuntime.isDebug() ) {
                     ex.printStackTrace();
+                }
             }
         }
 
@@ -130,22 +141,23 @@ class XBasicService implements BasicService {
     }
 
     private void initialize() {
-        if (initialized)
+        if( initialized ) {
             return;
+        }
         initialized = true;
 
-        if(isWindows()) {
+        if( isWindows() ) {
             command = "rundll32 url.dll,FileProtocolHandler ";
         }
         else {
             PropertiesFile props = JNLPRuntime.getProperties();
-            command = props.getProperty("browser.command");
+            command = props.getProperty( "browser.command" );
 
-            if(command == null) { // prompt & store
-                command = promptForCommand(null);
+            if( command == null ) { // prompt & store
+                command = promptForCommand( null );
 
-                if(command != null) {
-                    props.setProperty("browser.command", command);
+                if( command != null ) {
+                    props.setProperty( "browser.command", command );
                     props.store();
                 }
             }
@@ -153,19 +165,21 @@ class XBasicService implements BasicService {
     }
 
     private boolean isWindows() {
-        String os = System.getProperty("os.name");
-        if(os != null && os.startsWith("Windows"))
+        String os = System.getProperty( "os.name" );
+        if( os != null && os.startsWith( "Windows" ) ) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
-    private String promptForCommand(String cmd) {
-        return JOptionPane.showInputDialog(new JPanel(),
-                                           "Browser Location:",
-                                           "Specify Browser Location",
-                                           JOptionPane.PLAIN_MESSAGE 
-                                          );
+    private String promptForCommand( String cmd ) {
+        return JOptionPane.showInputDialog( new JPanel(),
+                                            "Browser Location:",
+                                            "Specify Browser Location",
+                                            JOptionPane.PLAIN_MESSAGE
+        );
     }
 
 }

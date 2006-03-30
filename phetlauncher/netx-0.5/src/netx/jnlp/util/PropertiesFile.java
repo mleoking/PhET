@@ -18,49 +18,53 @@
 package netx.jnlp.util;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
-import netx.jnlp.*;
+import java.util.Properties;
 
 /**
  * A properties object backed by a specified file without throwing
  * exceptions.  The properties are automatically loaded from the
  * file when the first property is requested, but the save method
  * must be called before changes are saved to the file.<p>
- *
+ * <p/>
  * This class does not report IO exceptions.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class PropertiesFile extends Properties {
 
-    /** the file to save to */
+    /**
+     * the file to save to
+     */
     File file;
 
-    /** the header string */
+    /**
+     * the header string
+     */
     String header = "netx file";
 
-    /** lazy loaded on getProperty */
+    /**
+     * lazy loaded on getProperty
+     */
     boolean loaded = false;
 
 
-    /** 
-     * Create a properties object backed by the specified file. 
+    /**
+     * Create a properties object backed by the specified file.
      *
      * @param file the file to save and load to
      */
-    public PropertiesFile(File file) {
+    public PropertiesFile( File file ) {
         this.file = file;
     }
 
-    /** 
-     * Create a properties object backed by the specified file. 
+    /**
+     * Create a properties object backed by the specified file.
      *
-     * @param file the file to save and load to
+     * @param file   the file to save and load to
      * @param header the file header
      */
-    public PropertiesFile(File file, String header) {
+    public PropertiesFile( File file, String header ) {
         this.file = file;
         this.header = header;
     }
@@ -69,22 +73,24 @@ public class PropertiesFile extends Properties {
      * Returns the value of the specified key, or null if the key
      * does not exist.
      */
-    public String getProperty(String key) {
-        if (!loaded)
+    public String getProperty( String key ) {
+        if( !loaded ) {
             load();
+        }
 
-        return super.getProperty(key);
+        return super.getProperty( key );
     }
 
     /**
      * Returns the value of the specified key, or the default value
      * if the key does not exist.
      */
-    public String getProperty(String key, String defaultValue) {
-        if (!loaded)
+    public String getProperty( String key, String defaultValue ) {
+        if( !loaded ) {
             load();
+        }
 
-        return super.getProperty(key, defaultValue);
+        return super.getProperty( key, defaultValue );
     }
 
     /**
@@ -92,11 +98,12 @@ public class PropertiesFile extends Properties {
      *
      * @return the previous value
      */
-    public Object setProperty(String key, String value) {
-        if (!loaded)
+    public Object setProperty( String key, String value ) {
+        if( !loaded ) {
             load();
+        }
 
-        return super.setProperty(key, value);
+        return super.setProperty( key, value );
     }
 
     /**
@@ -115,13 +122,14 @@ public class PropertiesFile extends Properties {
         loaded = true;
 
         try {
-            if (!file.exists())
+            if( !file.exists() ) {
                 return;
+            }
 
-            InputStream s = new FileInputStream(file);
-            load(s);
+            InputStream s = new FileInputStream( file );
+            load( s );
         }
-        catch (IOException ex) {
+        catch( IOException ex ) {
             // eat
         }
     }
@@ -130,14 +138,15 @@ public class PropertiesFile extends Properties {
      * Saves the properties to the file.
      */
     public void store() {
-        if (!loaded)
+        if( !loaded ) {
             return; // nothing could have changed so save unnecessary load/save
+        }
 
         try {
-            OutputStream s = new FileOutputStream(file);
-            store(s, header);
+            OutputStream s = new FileOutputStream( file );
+            store( s, header );
         }
-        catch (IOException ex) {
+        catch( IOException ex ) {
             // eat
         }
     }

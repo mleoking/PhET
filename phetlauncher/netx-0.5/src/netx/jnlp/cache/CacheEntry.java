@@ -141,6 +141,10 @@ public class CacheEntry {
         }
     }
 
+    public File getCacheFile() {
+        return CacheUtil.getCacheFile( location, version );
+    }
+
     /**
      * Returns true if the cache has a local copy of the contents
      * of the URL matching the specified version string.

@@ -17,7 +17,7 @@
 
 package netx.jnlp.event;
 
-import java.util.*;
+import java.util.EventListener;
 
 
 /**
@@ -25,14 +25,14 @@ import java.util.*;
  * terminated.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public interface ApplicationListener extends EventListener {
 
     /**
      * Invoked when the application is destroyed.
      */
-    public void applicationDestroyed(ApplicationEvent applicationEvent);
+    public void applicationDestroyed( ApplicationEvent applicationEvent );
 
 }
 
