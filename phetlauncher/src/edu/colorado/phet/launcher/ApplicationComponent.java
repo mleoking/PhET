@@ -5,6 +5,7 @@ import netx.jnlp.*;
 import netx.jnlp.cache.CacheEntry;
 import netx.jnlp.cache.ResourceTracker;
 import netx.jnlp.cache.UpdatePolicy;
+import netx.jnlp.runtime.JNLPRuntime;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -89,6 +90,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
     }
 
     private void updateByDownload() throws IOException, ParseException {
+        JNLPRuntime.setDefaultUpdatePolicy( UpdatePolicy.NEVER );//todo: With never and no local copy, the latest is downloaded.
         JNLPFile jnlpFile = new JNLPFile( location );
         ResourcesDesc res = jnlpFile.getResources();
 
