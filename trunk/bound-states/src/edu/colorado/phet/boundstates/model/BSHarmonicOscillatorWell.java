@@ -118,9 +118,9 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
      */
     public BSEigenstate[] getEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-        System.out.println( "BSHarmonicOscillatorWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
-        return getEigenstatesSimple();
-//        return getEigenstatesSchmidtLee();
+//        System.out.println( "BSHarmonicOscillatorWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
+//        return getEigenstatesSimple();
+        return getEigenstatesSchmidtLee();
     }
     
     /*
