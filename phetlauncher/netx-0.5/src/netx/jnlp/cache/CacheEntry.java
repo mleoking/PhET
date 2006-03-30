@@ -31,7 +31,7 @@ import netx.jnlp.util.*;
  * Describes an entry in the cache.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class CacheEntry {
 
@@ -168,6 +168,9 @@ public class CacheEntry {
         properties.store();
     }
 
+    public long getLastModified() {
+        return Long.parseLong(properties.getProperty("last-modified"));
+    }
 }
 
 
