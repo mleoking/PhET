@@ -17,14 +17,17 @@
 
 package netx.jnlp.runtime;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.security.*;
+import netx.jnlp.JNLPFile;
+import netx.jnlp.PropertyDesc;
+import netx.jnlp.event.ApplicationEvent;
+import netx.jnlp.event.ApplicationListener;
+import netx.jnlp.util.WeakList;
+
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
-import netx.jnlp.*;
-import netx.jnlp.event.*;
-import netx.jnlp.util.*;
+import java.awt.*;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 
 /**
@@ -33,7 +36,7 @@ import netx.jnlp.util.*;
  * resources and destroy the application.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class ApplicationInstance {
 
@@ -41,29 +44,41 @@ public class ApplicationInstance {
     // installed by the application.
 
 
-    /** the file */
+    /**
+     * the file
+     */
     private JNLPFile file;
 
-    /** the thread group */
+    /**
+     * the thread group
+     */
     private ThreadGroup group;
 
-    /** the classloader */
+    /**
+     * the classloader
+     */
     private ClassLoader loader;
 
-    /** whether the application has stopped running */
+    /**
+     * whether the application has stopped running
+     */
     private boolean stopped = false;
 
-    /** weak list of windows opened by the application */
+    /**
+     * weak list of windows opened by the application
+     */
     private WeakList weakWindows = new WeakList();
 
-    /** list of application listeners  */
+    /**
+     * list of application listeners
+     */
     private EventListenerList listeners = new EventListenerList();
 
 
     /**
      * Create an application instance for the file.
      */
-    public ApplicationInstance(JNLPFile file, ThreadGroup group, ClassLoader loader) {
+    public ApplicationInstance( JNLPFile file, ThreadGroup group, ClassLoader loader ) {
         this.file = file;
         this.group = group;
         this.loader = loader;
@@ -72,15 +87,15 @@ public class ApplicationInstance {
     /**
      * Add an Application listener
      */
-    public void addApplicationListener(ApplicationListener listener) {
-        listeners.add(ApplicationListener.class, listener);
+    public void addApplicationListener( ApplicationListener listener ) {
+        listeners.add( ApplicationListener.class, listener );
     }
 
     /**
      * Remove an Application Listener
      */
-    public void removeApplicationListener(ApplicationListener listener) {
-        listeners.remove(ApplicationListener.class, listener);
+    public void removeApplicationListener( ApplicationListener listener ) {
+        listeners.remove( ApplicationListener.class, listener );
     }
 
     /**
@@ -90,11 +105,12 @@ public class ApplicationInstance {
         Object list[] = listeners.getListenerList();
         ApplicationEvent event = null;
 
-        for (int i=list.length-1; i>0; i-=2) { // last to first required
-            if (event == null)
-                event = new ApplicationEvent(this);
+        for( int i = list.length - 1; i > 0; i -= 2 ) { // last to first required
+            if( event == null ) {
+                event = new ApplicationEvent( this );
+            }
 
-            ((ApplicationListener)list[i]).applicationDestroyed(event);
+            ( (ApplicationListener)list[i] ).applicationDestroyed( event );
         }
     }
 
@@ -125,17 +141,17 @@ public class ApplicationInstance {
 
         PrivilegedAction installProps = new PrivilegedAction() {
             public Object run() {
-                for (int i=0; i < props.length; i++) {
-                    System.setProperty(props[i].getKey(), props[i].getValue());
+                for( int i = 0; i < props.length; i++ ) {
+                    System.setProperty( props[i].getKey(), props[i].getValue() );
                 }
 
                 return null;
             }
         };
-        AccessController.doPrivileged(installProps);
+        AccessController.doPrivileged( installProps );
     }
 
-    /** 
+    /**
      * Returns the JNLP file for this task.
      */
     public JNLPFile getJNLPFile() {
@@ -160,42 +176,52 @@ public class ApplicationInstance {
      * Stop the application and destroy its resources.
      */
     public void destroy() {
-        if (stopped)
+        if( stopped ) {
             return;
+        }
 
         try {
             // destroy resources
-            for (int i=0; i < weakWindows.size(); i++) {
-                Window w = (Window) weakWindows.get(i);
-                if (w != null)
+            for( int i = 0; i < weakWindows.size(); i++ ) {
+                System.out.println( "i = " + i );
+                Window w = (Window)weakWindows.get( i );
+                //Iconify windows so PhET applications stop using resources
+                if( w instanceof JFrame ) {
+                    JFrame f = (JFrame)w;
+                    f.setState( JFrame.ICONIFIED );
+                }
+                if( w != null ) {
                     w.dispose();
+                }
             }
 
             weakWindows.clear();
 
-             // interrupt threads
+            // interrupt threads
             Thread threads[] = new Thread[ group.activeCount() * 2 ];
-            int nthreads = group.enumerate(threads);
-            for (int i=0; i < nthreads; i++) {
-                if (JNLPRuntime.isDebug())
-                    System.out.println("Interrupt thread: "+threads[i]);
+            int nthreads = group.enumerate( threads );
+            for( int i = 0; i < nthreads; i++ ) {
+                if( JNLPRuntime.isDebug() ) {
+                    System.out.println( "Interrupt thread: " + threads[i] );
+                }
 
                 threads[i].interrupt();
             }
 
             // then stop
             Thread.currentThread().yield();
-            nthreads = group.enumerate(threads);
-            for (int i=0; i < nthreads; i++) {
-                if (JNLPRuntime.isDebug())
-                    System.out.println("Stop thread: "+threads[i]);
-
-                threads[i].stop();
+            nthreads = group.enumerate( threads );
+            for( int i = 0; i < nthreads; i++ ) {
+                if( JNLPRuntime.isDebug() ) {
+                    System.out.println( "Stop thread: " + threads[i] );
+                }
+                //Don't destroy all threads, one could be the swing thread.
+//                threads[i].stop();
             }
 
             // then destroy - except Thread.destroy() not implemented in jdk
 
-       }
+        }
         finally {
             stopped = true;
             fireDestroyed();
@@ -208,20 +234,22 @@ public class ApplicationInstance {
      * @throws IllegalStateException if the app is not running
      */
     public ThreadGroup getThreadGroup() throws IllegalStateException {
-        if (stopped)
+        if( stopped ) {
             throw new IllegalStateException();
+        }
 
         return group;
     }
 
-    /** 
+    /**
      * Returns the classloader.
      *
      * @throws IllegalStateException if the app is not running
      */
     public ClassLoader getClassLoader() throws IllegalStateException {
-        if (stopped)
+        if( stopped ) {
             throw new IllegalStateException();
+        }
 
         return loader;
     }
@@ -230,8 +258,8 @@ public class ApplicationInstance {
      * Adds a window that this application opened.  When the
      * application is disposed, these windows will also be disposed.
      */
-    protected void addWindow(Window window) {
-        weakWindows.add(window);
+    protected void addWindow( Window window ) {
+        weakWindows.add( window );
         weakWindows.trimToSize();
     }
 
