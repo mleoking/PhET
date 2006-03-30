@@ -118,7 +118,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
      */
     public BSEigenstate[] getEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-//        System.out.println( "BSHarmonicOscillatorWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
+        System.out.println( "BSHarmonicOscillatorWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
 //        return getEigenstatesSimple();
         return getEigenstatesSchmidtLee();
     }
@@ -130,13 +130,18 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         
         ArrayList eigenstates = new ArrayList();
         
-        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength(); //XXX
+        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
+        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
+        final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
+        
         int nodes = 0;
         boolean done = false;
         while ( !done ) {
             try {
                 PotentialFunction function = new PotentialFunctionAdapter( this );
-                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
                 double E = wavefunction.getE();
                 if ( E <= maxE ) {
                     eigenstates.add( new BSEigenstate( E ) );
@@ -147,6 +152,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
             }
             catch ( Exception e ) {
                 e.printStackTrace();
+                done = true;
             }
             nodes++;
         }
@@ -157,19 +163,19 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     /*
      * Gets the eigenstates by calculating En directly, as follows:
      * 
-     * En = h * w * ( n + 0.5 )
+     * En = ( h * w * ( n + 0.5 ) ) + offset
      * 
      * where:
      *     n = 0, 1, 2,....
      *     h = hbar
      *     w = angular frequency
      */
-    private BSEigenstate[] getEigenstatesSimple() {
+    private BSEigenstate[] getEigenstatesAnalytic() {
         ArrayList eigenstates = new ArrayList();
         
         boolean done = false;
         int n = 0;
-        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength(); //XXX
+        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
         while ( !done ) {
             double E = ( BSConstants.HBAR * _angularFrequency * ( n + 0.5 ) ) + getOffset();
             if ( E <= maxE ) {

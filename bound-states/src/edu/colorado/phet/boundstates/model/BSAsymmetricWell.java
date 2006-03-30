@@ -137,16 +137,31 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         
         ArrayList eigenstates = new ArrayList();
 
-        for ( int nodes = 0; nodes < 10; nodes++ ) {
+        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double maxE = getOffset();
+        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
+        final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
+        
+        int nodes = 0;
+        boolean done = false;
+        while ( !done ) {
             try {
                 PotentialFunction function = new PotentialFunctionAdapter( this );
-                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
                 double E = wavefunction.getE();
-                eigenstates.add( new BSEigenstate( E ) );
+                if ( E <= maxE ) {
+                    eigenstates.add( new BSEigenstate( E ) );
+                }
+                else {
+                    done = true;
+                }
             }
             catch ( Exception e ) {
                 e.printStackTrace();
+                done = true;
             }
+            nodes++;
         }
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );

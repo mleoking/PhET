@@ -89,15 +89,21 @@ public class BSCoulombWells extends BSAbstractPotential {
         System.out.println( "BSCoulombWells.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         ArrayList eigenstates = new ArrayList();
 
+        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
+        final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
+        
         for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
             try {
                 PotentialFunction function = new PotentialFunctionAdapter( this );
-                Wavefunction wavefunction = new Wavefunction( 0.5, -4, +4, 1000, nodes, function );
+                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
                 double E = wavefunction.getE();
                 eigenstates.add( new BSEigenstate( E ) );
             }
             catch ( Exception e ) {
                 e.printStackTrace();
+                break;
             }
         }
         
