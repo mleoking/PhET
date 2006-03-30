@@ -43,7 +43,8 @@ public class ApplicationComponent extends VerticalLayoutPanel {
                 Thread t = new Thread( new Runnable() {
                     public void run() {
                         try {
-                            launcher.setUpdatePolicy( UpdatePolicy.NEVER );
+                            launcher.setUpdatePolicy( UpdatePolicy.NEVER );//todo: With never and no local copy, the latest is downloaded.
+                            //todo test what happens when NEVER is set, and version 1 is local, 2 is remote.  1 should run.
                             launcher.setCreateAppContext( false );
                             launcher.launch( webstartURL );
                             refresh();
@@ -75,21 +76,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
         updateButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    JNLPFile jnlpFile = new JNLPFile( location );
-                    ResourcesDesc res = jnlpFile.getResources();
-
-//                    JARDesc jar = res.getMainJAR();
-//                    System.out.println( "jar.getLocation() = " + jar.getLocation() );
-                    for( int i = 0; i < res.getJARs().length; i++ ) {
-                        boolean ok = downloadJAR( res.getJARs()[i] );
-                        if( !ok ) {
-                            System.err.println( "Downloaded the jar, but not some resources.  This could deceive the user into " +
-                                                "Thinking they have downloaded a version when they haven't." );
-                            break;
-                        }
-                    }
-
-                    refresh();
+                    updateByDownload();
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -99,6 +86,22 @@ public class ApplicationComponent extends VerticalLayoutPanel {
                 }
             }
         } );
+    }
+
+    private void updateByDownload() throws IOException, ParseException {
+        JNLPFile jnlpFile = new JNLPFile( location );
+        ResourcesDesc res = jnlpFile.getResources();
+
+        for( int i = 0; i < res.getJARs().length; i++ ) {
+            boolean ok = downloadJAR( res.getJARs()[i] );
+            if( !ok ) {
+                System.err.println( "Downloaded the jar, but not some resources.  This could deceive the user into " +
+                                    "Thinking they have downloaded a version when they haven't." );
+                break;
+            }
+        }
+
+        refresh();
     }
 
     private boolean downloadJAR( JARDesc jar ) {
