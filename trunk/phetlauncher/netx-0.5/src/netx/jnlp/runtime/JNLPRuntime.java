@@ -17,16 +17,21 @@
 
 package netx.jnlp.runtime;
 
-import java.io.*;
+import netx.jnlp.DefaultLaunchHandler;
+import netx.jnlp.LaunchHandler;
+import netx.jnlp.cache.DefaultDownloadIndicator;
+import netx.jnlp.cache.DownloadIndicator;
+import netx.jnlp.cache.UpdatePolicy;
+import netx.jnlp.services.XServiceManagerStub;
+import netx.jnlp.util.PropertiesFile;
+
+import javax.jnlp.ServiceManager;
 import java.awt.*;
-import java.text.*;
-import java.util.*;
-import java.security.*;
-import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.cache.*;
-import netx.jnlp.util.*;
-import netx.jnlp.services.*;
+import java.io.File;
+import java.io.IOException;
+import java.security.Policy;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 /**
  * Configure and access the runtime environment.  This class
@@ -34,7 +39,7 @@ import netx.jnlp.services.*;
  * indicators, the install/base directory, the default resource
  * update policy, etc.  Some settings, such as the base directory,
  * cannot be changed once the runtime has been initialized.<p>
- *
+ * <p/>
  * The JNLP runtime can be locked to prevent further changes to
  * the runtime environment except by a specified class.  If set,
  * only instances of the <i>exit class</i> can exit the JVM or
@@ -50,47 +55,71 @@ public class JNLPRuntime {
         loadResources();
     }
 
-    /** the localized resource strings */
+    /**
+     * the localized resource strings
+     */
     private static ResourceBundle resources;
 
-    /** the security manager */
+    /**
+     * the security manager
+     */
     private static JNLPSecurityManager security;
 
-    /** the security policy */
+    /**
+     * the security policy
+     */
     private static JNLPPolicy policy;
 
-    /** the base dir for cache, etc */
+    /**
+     * the base dir for cache, etc
+     */
     private static File baseDir;
 
-    /** a default launch handler */
+    /**
+     * a default launch handler
+     */
     private static LaunchHandler handler = null;
 
-    /** default download indicator */
+    /**
+     * default download indicator
+     */
     private static DownloadIndicator indicator = null;
 
-    /** update policy that controls when to check for updates */
+    /**
+     * update policy that controls when to check for updates
+     */
     private static UpdatePolicy updatePolicy = UpdatePolicy.ALWAYS;
 
-    /** netx window icon */
+    /**
+     * netx window icon
+     */
     private static Image windowIcon = null;
 
-    /** whether initialized */
+    /**
+     * whether initialized
+     */
     private static boolean initialized = false;
 
-    /** whether netx is in command-line mode (headless) */
+    /**
+     * whether netx is in command-line mode (headless)
+     */
     private static boolean headless = false;
 
-    /** whether the runtime uses security */
+    /**
+     * whether the runtime uses security
+     */
     private static boolean securityEnabled = true;
 
-    /** whether debug mode is on */
+    /**
+     * whether debug mode is on
+     */
     private static boolean debug = false; // package access by Boot
 
 
     /**
      * Returns whether the JNLP runtime environment has been
      * initialized.  Once initialized, some properties such as the
-     * base directory cannot be changed.  Before 
+     * base directory cannot be changed.  Before
      */
     public static boolean isInitialized() {
         return initialized;
@@ -100,7 +129,7 @@ public class JNLPRuntime {
      * Initialize the JNLP runtime environment by installing the
      * security manager and security policy, initializing the JNLP
      * standard services, etc.<p>
-     *
+     * <p/>
      * This method cannot be called more than once.  Once
      * initialized, methods that alter the runtime can only be
      * called by the exit class.<p>
@@ -111,33 +140,39 @@ public class JNLPRuntime {
         checkInitialized();
         initialized = true;
 
-        if (headless == false)
+        if( headless == false ) {
             checkHeadless();
+        }
 
-        if (!headless && windowIcon == null)
+        if( !headless && windowIcon == null ) {
             loadWindowIcon();
+        }
 
-        if (!headless && indicator == null)
+        if( !headless && indicator == null ) {
             indicator = new DefaultDownloadIndicator();
+        }
 
-        if (handler == null)
+        if( handler == null ) {
             handler = new DefaultLaunchHandler();
+        }
 
-        if (baseDir == null)
+        if( baseDir == null ) {
             baseDir = getDefaultBaseDir();
+        }
 
-        if (baseDir == null)
-            throw new IllegalStateException(JNLPRuntime.getMessage("BNoBase"));
+        if( baseDir == null ) {
+            throw new IllegalStateException( JNLPRuntime.getMessage( "BNoBase" ) );
+        }
 
         policy = new JNLPPolicy();
         security = new JNLPSecurityManager(); // side effect: create JWindow
 
-        if (securityEnabled) {
-            Policy.setPolicy(policy); // do first b/c our SM blocks setPolicy
-            System.setSecurityManager(security);
+        if( securityEnabled ) {
+            Policy.setPolicy( policy ); // do first b/c our SM blocks setPolicy
+            System.setSecurityManager( security );
         }
 
-        ServiceManager.setServiceManagerStub(new XServiceManagerStub()); // ignored if we're running under Web Start
+        ServiceManager.setServiceManagerStub( new XServiceManagerStub() ); // ignored if we're running under Web Start
     }
 
     /**
@@ -153,7 +188,7 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setWindowIcon(Image image) {
+    public static void setWindowIcon( Image image ) {
         checkExitClass();
         windowIcon = image;
     }
@@ -174,7 +209,7 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if the runtime was previously initialized
      */
-    public static void setHeadless(boolean enabled) {
+    public static void setHeadless( boolean enabled ) {
         checkInitialized();
         headless = enabled;
     }
@@ -193,7 +228,7 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setBaseDir(File baseDirectory) {
+    public static void setBaseDir( File baseDirectory ) {
         checkInitialized();
         baseDir = baseDirectory;
     }
@@ -210,7 +245,7 @@ public class JNLPRuntime {
      * Disabling security can increase performance for some
      * applications, and can be used to use netx with other code
      * that uses its own security manager or policy.
-     *
+     * <p/>
      * Disabling security is not recommended and should only be
      * used if the JNLP files opened are trusted.  This method can
      * only be called before initalizing the runtime.<p>
@@ -218,7 +253,7 @@ public class JNLPRuntime {
      * @param enabled whether security should be enabled
      * @throws IllegalStateException if the runtime is already initialized
      */
-    public static void setSecurityEnabled(boolean enabled) {
+    public static void setSecurityEnabled( boolean enabled ) {
         checkInitialized();
         securityEnabled = enabled;
     }
@@ -235,18 +270,21 @@ public class JNLPRuntime {
 
         loadWindowIcon();
 
-        String baseStr = props.getProperty("basedir");
-        if (baseStr != null)
-            return new File(baseStr);
+        String baseStr = props.getProperty( "basedir" );
+        if( baseStr != null ) {
+            return new File( baseStr );
+        }
 
-        if (isHeadless())
+        if( isHeadless() ) {
             return null;
+        }
 
         File baseDir = InstallDialog.getInstallDir();
-        if (baseDir == null)
+        if( baseDir == null ) {
             return null;
+        }
 
-        props.setProperty("basedir", baseDir.toString());
+        props.setProperty( "basedir", baseDir.toString() );
         props.store();
 
         return baseDir;
@@ -258,9 +296,9 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setExitClass(Class exitClass) {
+    public static void setExitClass( Class exitClass ) {
         checkExitClass();
-        security.setExitClass(exitClass);
+        security.setExitClass( exitClass );
     }
 
     /**
@@ -276,9 +314,9 @@ public class JNLPRuntime {
      * properties file.
      */
     public static PropertiesFile getProperties() {
-        File netxrc = new File(System.getProperty("user.home"), ".netxrc");
+        File netxrc = new File( System.getProperty( "user.home" ), ".netxrc" );
 
-        return new PropertiesFile(netxrc);
+        return new PropertiesFile( netxrc );
     }
 
     /**
@@ -295,7 +333,7 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setDebug(boolean enabled) {
+    public static void setDebug( boolean enabled ) {
         checkExitClass();
         debug = enabled;
     }
@@ -305,8 +343,8 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setDefaultUpdatePolicy(UpdatePolicy policy) {
-        checkExitClass();
+    public static void setDefaultUpdatePolicy( UpdatePolicy policy ) {
+//        checkExitClass();
         updatePolicy = policy;
     }
 
@@ -320,7 +358,7 @@ public class JNLPRuntime {
     /**
      * Sets the default launch handler.
      */
-    public static void setDefaultLaunchHandler(LaunchHandler handler) {
+    public static void setDefaultLaunchHandler( LaunchHandler handler ) {
         checkExitClass();
         JNLPRuntime.handler = handler;
     }
@@ -337,7 +375,7 @@ public class JNLPRuntime {
      *
      * @throws IllegalStateException if caller is not the exit class
      */
-    public static void setDefaultDownloadIndicator(DownloadIndicator indicator) {
+    public static void setDefaultDownloadIndicator( DownloadIndicator indicator ) {
         checkExitClass();
         JNLPRuntime.indicator = indicator;
     }
@@ -354,19 +392,23 @@ public class JNLPRuntime {
      * specified key.  If the message is empty, a null is
      * returned.
      */
-    public static String getMessage(String key) {
+    public static String getMessage( String key ) {
         try {
-            String result = resources.getString(key);
-            if (result.length() == 0)
+            String result = resources.getString( key );
+            if( result.length() == 0 ) {
                 return null;
-            else
+            }
+            else {
                 return result;
+            }
         }
-        catch (Exception ex) {
-            if (!key.equals("RNoResource"))
-                return getMessage("RNoResource", new Object[] {key});
-            else
-                return "Missing resource: "+key;
+        catch( Exception ex ) {
+            if( !key.equals( "RNoResource" ) ) {
+                return getMessage( "RNoResource", new Object[]{key} );
+            }
+            else {
+                return "Missing resource: " + key;
+            }
         }
     }
 
@@ -376,8 +418,8 @@ public class JNLPRuntime {
      *
      * @param args the formatting arguments to the resource string
      */
-    public static String getMessage(String key, Object args[]) {
-        return MessageFormat.format(getMessage(key), args);
+    public static String getMessage( String key, Object args[] ) {
+        return MessageFormat.format( getMessage( key ), args );
     }
 
     /**
@@ -385,8 +427,9 @@ public class JNLPRuntime {
      * already initialized.
      */
     private static void checkInitialized() {
-        if (initialized)
-            throw new IllegalStateException("JNLPRuntime already initialized.");
+        if( initialized ) {
+            throw new IllegalStateException( "JNLPRuntime already initialized." );
+        }
     }
 
     /**
@@ -395,9 +438,11 @@ public class JNLPRuntime {
      * initialized.
      */
     private static void checkExitClass() {
-        if (securityEnabled && initialized)
-            if (!security.isExitClass())
-                throw new IllegalStateException("Caller is not the exit class");
+        if( securityEnabled && initialized ) {
+            if( !security.isExitClass() ) {
+                throw new IllegalStateException( "Caller is not the exit class" );
+            }
+        }
     }
 
     /**
@@ -407,10 +452,11 @@ public class JNLPRuntime {
         //if (GraphicsEnvironment.isHeadless()) // jdk1.4+ only
         //    headless = true;
         try {
-            if ("true".equalsIgnoreCase(System.getProperty("java.awt.headless")))
+            if( "true".equalsIgnoreCase( System.getProperty( "java.awt.headless" ) ) ) {
                 headless = true;
+            }
         }
-        catch (SecurityException ex) {
+        catch( SecurityException ex ) {
         }
     }
 
@@ -419,10 +465,10 @@ public class JNLPRuntime {
      */
     private static void loadResources() {
         try {
-            resources = ResourceBundle.getBundle("netx.jnlp.resources.Messages");
+            resources = ResourceBundle.getBundle( "netx.jnlp.resources.Messages" );
         }
-        catch (Exception ex) {
-            throw new IllegalStateException("Missing resource bundle in netx.jar:/netx/jnlp/resource/Messages.properties");
+        catch( Exception ex ) {
+            throw new IllegalStateException( "Missing resource bundle in netx.jar:/netx/jnlp/resource/Messages.properties" );
         }
     }
 
@@ -430,16 +476,18 @@ public class JNLPRuntime {
      * Load the window icon.
      */
     private static void loadWindowIcon() {
-        if (windowIcon != null)
+        if( windowIcon != null ) {
             return;
+        }
 
         try {
             ClassLoader cl = JNLPRuntime.class.getClassLoader();
-            windowIcon = new javax.swing.ImageIcon(cl.getResource("netx/jnlp/resources/netx-icon.png")).getImage();
+            windowIcon = new javax.swing.ImageIcon( cl.getResource( "netx/jnlp/resources/netx-icon.png" ) ).getImage();
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
         }
     }
 
