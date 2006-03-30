@@ -44,9 +44,14 @@ public class ApplicationComponent extends VerticalLayoutPanel {
                     public void run() {
                         try {
                             launcher.setUpdatePolicy( UpdatePolicy.NEVER );
+                            launcher.setCreateAppContext( false );
                             launcher.launch( webstartURL );
+                            refresh();
                         }
                         catch( LaunchException e1 ) {
+                            e1.printStackTrace();
+                        }
+                        catch( IOException e1 ) {
                             e1.printStackTrace();
                         }
                     }
@@ -110,7 +115,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
     }
 
     public void refresh() throws IOException {
-        long remoteTimeStamp = getRemoteTimeStamp( null, location, null );
+        long remoteTimeStamp = getRemoteTimeStamp( null, location );
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy.MM.dd 'at' hh:mm:ss a z" );
         String remoteString = simpleDateFormat.format( new Date( remoteTimeStamp ) );
         if( remoteTimeStamp == -1 ) {
@@ -120,7 +125,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
             remoteLabel.setText( "Remote: " + remoteString );
         }
 
-        long localTimeStamp = getLocalTimeStamp( null, location, null );
+        long localTimeStamp = getLocalTimeStamp( location, null );
         String localString = simpleDateFormat.format( new Date( localTimeStamp ) );
         if( localTimeStamp == -1 ) {
             localLabel.setText( "No Cached Version" );
@@ -141,7 +146,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
         System.out.println( "remoteString = " + remoteString );
     }
 
-    public static long getLocalTimeStamp( URLConnection connection, URL source, Version version ) {
+    public static long getLocalTimeStamp( URL source, Version version ) {
         CacheEntry entry = new CacheEntry( source, version ); // could pool this
         if( entry.isCached() ) {
             return entry.getLastModified();
@@ -151,7 +156,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
         }
     }
 
-    public static long getRemoteTimeStamp( URLConnection connection, URL source, Version version ) {
+    public static long getRemoteTimeStamp( URLConnection connection, URL source ) {
         try {
             if( connection == null ) {
                 connection = source.openConnection();
