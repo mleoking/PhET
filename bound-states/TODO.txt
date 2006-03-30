@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- solve wavefunction and display in chart for selected eigenstate(s)
+- solve wavefunction and display in chart for hilited eigenstate
 - sliders in configure dialogs should be spinners so that values can be entered
 - EigenstatesNode expects getEigenstates to return them sorted lowest to highest, how to enforce?
 - drawing problem with BSHarmonicOscillatorDialog when ang freq is dragged toward max
