@@ -52,6 +52,9 @@ MACINTOSH:
 
 
 DONE:
+(3/29/06) - add Schmidt-Lee to each potential type
+(3/29/06) - make BSEigenstatesNode handle case of 0 eigenstates
+(3/28/06) - experiment with Schmidt-Lee algorithm for eignestates and time-independent Schrodinger solution
 (3/27/06) - replace StandardXYItemRenderer with FastPathRenderer
 (3/27/06) - added color scheme support
 (3/10/06) - change depth to be a positive quantity, always >= 0
