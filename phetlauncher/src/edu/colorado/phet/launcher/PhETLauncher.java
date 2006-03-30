@@ -23,15 +23,14 @@ public class PhETLauncher {
     private JFrame frame;
     private ArrayList launchers = new ArrayList();
     private JLabel webAvailableLabel;
+    private JPanel contentPane;
 
     public PhETLauncher() throws IOException {
         frame = new JFrame( "PhET Launcher" );
         frame.setSize( 600, 600 );
-        URL location = new URL( "http://www.colorado.edu/physics/phet/dev/waveinterference/0.03/waveinterference.jnlp" );
-        ApplicationComponent applicationComponent = new ApplicationComponent( location );
-        launchers.add( applicationComponent );
 
-        JPanel contentPane = new JPanel();
+
+        contentPane = new JPanel();
         contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS ) );
         frame.setContentPane( contentPane );
         webAvailableLabel = new JLabel();
@@ -48,7 +47,7 @@ public class PhETLauncher {
             }
         } );
         contentPane.add( refresh );
-        contentPane.add( applicationComponent );
+
         refresh();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
@@ -81,6 +80,20 @@ public class PhETLauncher {
     }
 
     public static void main( String[] args ) throws IOException {
-        new PhETLauncher().start();
+        PhETLauncher phETLauncher = new PhETLauncher();
+        phETLauncher.addApplication( "Wave Interference 0.03", "http://www.colorado.edu/physics/phet/dev/waveinterference/0.03/waveinterference.jnlp" );
+        phETLauncher.addApplication( "Schrodinger 0.30", "http://www.colorado.edu/physics/phet/dev/schrodinger/0.30/schrodinger.jnlp" );
+        phETLauncher.addApplication( "Schrodinger 0.31", "http://www.colorado.edu/physics/phet/dev/schrodinger/0.31/schrodinger.jnlp" );
+        phETLauncher.addApplication( "Schrodinger 0.32", "http://www.colorado.edu/physics/phet/dev/schrodinger/0.32/schrodinger.jnlp" );
+        phETLauncher.addApplication( "Schrodinger 0.33", "http://www.colorado.edu/physics/phet/dev/schrodinger/0.33/schrodinger.jnlp" );
+        phETLauncher.start();
+    }
+
+    private void addApplication( String name, String url ) throws IOException {
+        URL theURL = new URL( url );
+        ApplicationComponent applicationComponent = new ApplicationComponent( name, theURL );
+        launchers.add( applicationComponent );
+        contentPane.add( applicationComponent );
+        refresh();
     }
 }
