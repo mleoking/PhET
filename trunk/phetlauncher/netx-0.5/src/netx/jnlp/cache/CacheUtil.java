@@ -17,14 +17,18 @@
 
 package netx.jnlp.cache;
 
+import netx.jnlp.Version;
+import netx.jnlp.runtime.ApplicationInstance;
+import netx.jnlp.runtime.JNLPRuntime;
+
+import javax.jnlp.DownloadServiceListener;
 import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.security.*;
-import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.Permission;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides static methods to interact with the cache, download
@@ -35,8 +39,8 @@ import netx.jnlp.runtime.*;
  */
 public class CacheUtil {
 
-    private static String R(String key, Object param) { 
-        return JNLPRuntime.getMessage(key, new Object[] {param}); 
+    private static String R( String key, Object param ) {
+        return JNLPRuntime.getMessage( key, new Object[]{param} );
     }
 
     /**
@@ -47,21 +51,25 @@ public class CacheUtil {
      * (different hostnames that resolve to the same IP address,
      * ie sourceforge.net and www.sourceforge.net).
      */
-    public static boolean urlEquals(URL u1, URL u2) {
-        if (u1==u2)
+    public static boolean urlEquals( URL u1, URL u2 ) {
+        if( u1 == u2 ) {
             return true;
-        if (u1==null || u2==null)
+        }
+        if( u1 == null || u2 == null ) {
             return false;
+        }
 
-        if (!compare(u1.getProtocol(), u2.getProtocol(), true) ||
-            !compare(u1.getHost(), u2.getHost(), true) ||
+        if( !compare( u1.getProtocol(), u2.getProtocol(), true ) ||
+            !compare( u1.getHost(), u2.getHost(), true ) ||
             //u1.getDefaultPort() != u2.getDefaultPort() || // only in 1.4
-            !compare(u1.getPath(), u2.getPath(), false) ||
-            !compare(u1.getQuery(), u2.getQuery(), false) ||
-            !compare(u1.getRef(), u2.getRef(), false))
+            !compare( u1.getPath(), u2.getPath(), false ) ||
+            !compare( u1.getQuery(), u2.getQuery(), false ) ||
+            !compare( u1.getRef(), u2.getRef(), false ) ) {
             return false;
-        else
+        }
+        else {
             return true;
+        }
     }
 
     /**
@@ -71,17 +79,17 @@ public class CacheUtil {
      * URL is returned.<p>
      *
      * @param location location of the resource
-     * @param version the version, or null
+     * @param version  the version, or null
      * @return either the location in the cache or the original location
      */
-    public static URL getCachedResource(URL location, Version version, UpdatePolicy policy) {
+    public static URL getCachedResource( URL location, Version version, UpdatePolicy policy ) {
         ResourceTracker rt = new ResourceTracker();
-        rt.addResource(location, version, policy);
+        rt.addResource( location, version, policy );
         try {
-            File f = rt.getCacheFile(location);
+            File f = rt.getCacheFile( location );
             return f.toURL();
         }
-        catch (MalformedURLException ex) {
+        catch( MalformedURLException ex ) {
             return location;
         }
     }
@@ -89,34 +97,38 @@ public class CacheUtil {
     /**
      * Compare strings that can be null.
      */
-    private static boolean compare(String s1, String s2, boolean ignore) {
-        if (s1==s2)
+    private static boolean compare( String s1, String s2, boolean ignore ) {
+        if( s1 == s2 ) {
             return true;
-        if (s1==null || s2==null)
+        }
+        if( s1 == null || s2 == null ) {
             return false;
+        }
 
-        if (ignore)
-            return s1.equalsIgnoreCase(s2);
-        else
-            return s1.equals(s2);
+        if( ignore ) {
+            return s1.equalsIgnoreCase( s2 );
+        }
+        else {
+            return s1.equals( s2 );
+        }
     }
 
     /**
      * Returns the Permission object necessary to access the
      * resource, or null if no permission is needed.
      */
-    public static Permission getReadPermission(URL location, Version version) {
-        if (CacheUtil.isCacheable(location, version)) {
-            File file = CacheUtil.getCacheFile(location, version);
+    public static Permission getReadPermission( URL location, Version version ) {
+        if( CacheUtil.isCacheable( location, version ) ) {
+            File file = CacheUtil.getCacheFile( location, version );
 
-            return new FilePermission(file.getPath(), "read");
+            return new FilePermission( file.getPath(), "read" );
         }
         else {
             try {
                 // this is what URLClassLoader does
                 location.openConnection().getPermission();
             }
-            catch (java.io.IOException ioe) {
+            catch( java.io.IOException ioe ) {
                 // should try to figure out the permission
             }
         }
@@ -129,35 +141,39 @@ public class CacheUtil {
      * cache and it is up to date.  This method may not return
      * immediately.
      *
-     * @param source the source URL
-     * @param version the versions to check for
+     * @param source     the source URL
+     * @param version    the versions to check for
      * @param connection a connection to the URL, or null
      * @return whether the cache contains the version
      * @throws IllegalArgumentException if the source is not cacheable
      */
-    public static boolean isCurrent(URL source, Version version, URLConnection connection) {
-        if (!isCacheable(source, version))
-            throw new IllegalArgumentException(R("CNotCacheable", source));
+    public static boolean isCurrent( URL source, Version version, URLConnection connection ) {
+        if( !isCacheable( source, version ) ) {
+            throw new IllegalArgumentException( R( "CNotCacheable", source ) );
+        }
 
         try {
-            if (connection == null)
+            if( connection == null ) {
                 connection = source.openConnection();
+            }
 
             connection.connect();
 
-            CacheEntry entry = new CacheEntry(source, version); // could pool this
-            boolean result = entry.isCurrent(connection);
+            CacheEntry entry = new CacheEntry( source, version ); // could pool this
+            boolean result = entry.isCurrent( connection );
 
-            if (JNLPRuntime.isDebug())
-                System.out.println("isCurrent: "+source+" = "+result);
+            if( JNLPRuntime.isDebug() ) {
+                System.out.println( "isCurrent: " + source + " = " + result );
+            }
 
             return result;
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
 
-            return isCached(source, version); // if can't connect return whether already in cache
+            return isCached( source, version ); // if can't connect return whether already in cache
         }
     }
 
@@ -165,20 +181,22 @@ public class CacheUtil {
      * Returns true if the cache has a local copy of the contents of
      * the URL matching the specified version string.
      *
-     * @param source the source URL
+     * @param source  the source URL
      * @param version the versions to check for
      * @return true if the source is in the cache
      * @throws IllegalArgumentException if the source is not cacheable
      */
-    public static boolean isCached(URL source, Version version) {
-        if (!isCacheable(source, version))
-            throw new IllegalArgumentException(R("CNotCacheable", source));
+    public static boolean isCached( URL source, Version version ) {
+        if( !isCacheable( source, version ) ) {
+            throw new IllegalArgumentException( R( "CNotCacheable", source ) );
+        }
 
-        CacheEntry entry = new CacheEntry(source, version); // could pool this
+        CacheEntry entry = new CacheEntry( source, version ); // could pool this
         boolean result = entry.isCached();
 
-        if (JNLPRuntime.isDebug())
-            System.out.println("isCached: "+source+" = "+result);
+        if( JNLPRuntime.isDebug() ) {
+            System.out.println( "isCached: " + source + " = " + result );
+        }
 
         return result;
     }
@@ -188,15 +206,18 @@ public class CacheUtil {
      * if not, then URLConnection.openStream can be used to obtain
      * the contents.
      */
-    public static boolean isCacheable(URL source, Version version) {
-        if (source == null)
+    public static boolean isCacheable( URL source, Version version ) {
+        if( source == null ) {
             return false;
+        }
 
-        if (source.getProtocol().equals("file"))
+        if( source.getProtocol().equals( "file" ) ) {
             return false;
+        }
 
-        if (source.getProtocol().equals("jar"))
+        if( source.getProtocol().equals( "jar" ) ) {
             return false;
+        }
 
         return true;
     }
@@ -207,26 +228,28 @@ public class CacheUtil {
      * not download the resource.  The latest version of the
      * resource that matches the specified version will be returned.
      *
-     * @param source the source URL
+     * @param source  the source URL
      * @param version the version id of the local file
      * @return the file location in the cache, or null if no versions cached
      * @throws IllegalArgumentException if the source is not cacheable
      */
-    public static File getCacheFile(URL source, Version version) {
+    public static File getCacheFile( URL source, Version version ) {
         // ensure that version is an version id not version string
 
-        if (!isCacheable(source, version))
-            throw new IllegalArgumentException(R("CNotCacheable", source));
+        if( !isCacheable( source, version ) ) {
+            throw new IllegalArgumentException( R( "CNotCacheable", source ) );
+        }
 
         try {
-            File localFile = urlToPath(source, "cache");
+            File localFile = urlToPath( source, "cache" );
             localFile.getParentFile().mkdirs();
 
             return localFile;
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
 
             return null;
         }
@@ -236,14 +259,14 @@ public class CacheUtil {
      * Returns a buffered output stream open for writing to the
      * cache file.
      *
-     * @param source the remote location
+     * @param source  the remote location
      * @param version the file version to write to
      */
-    public static OutputStream getOutputStream(URL source, Version version) throws IOException {
-        File localFile = getCacheFile(source, version);
-        OutputStream out = new FileOutputStream(localFile);
+    public static OutputStream getOutputStream( URL source, Version version ) throws IOException {
+        File localFile = getCacheFile( source, version );
+        OutputStream out = new FileOutputStream( localFile );
 
-        return new BufferedOutputStream(out);
+        return new BufferedOutputStream( out );
     }
 
     /**
@@ -251,21 +274,24 @@ public class CacheUtil {
      * completion, both streams will be closed.  Streams are
      * buffered automatically.
      */
-    public static void streamCopy(InputStream is, OutputStream os) throws IOException {
-        if (!(is instanceof BufferedInputStream))
-            is = new BufferedInputStream(is);
+    public static void streamCopy( InputStream is, OutputStream os ) throws IOException {
+        if( !( is instanceof BufferedInputStream ) ) {
+            is = new BufferedInputStream( is );
+        }
 
-        if (!(os instanceof BufferedOutputStream))
-            os = new BufferedOutputStream(os);
+        if( !( os instanceof BufferedOutputStream ) ) {
+            os = new BufferedOutputStream( os );
+        }
 
         try {
             byte b[] = new byte[4096];
-            while (true) {
-                int c = is.read(b, 0, b.length);
-                if (c == -1)
+            while( true ) {
+                int c = is.read( b, 0, b.length );
+                if( c == -1 ) {
                     break;
+                }
 
-                os.write(b, 0, c);
+                os.write( b, 0, c );
             }
         }
         finally {
@@ -279,37 +305,40 @@ public class CacheUtil {
      * base directory.
      *
      * @param location the url
-     * @param subdir subdirectory under the base directory
+     * @param subdir   subdirectory under the base directory
      * @return the file
      */
-    public static File urlToPath(URL location, String subdir) {
+    public static File urlToPath( URL location, String subdir ) {
         StringBuffer path = new StringBuffer();
 
-        if (subdir != null) {
-            path.append(subdir);
-            path.append(File.separatorChar);
+        if( subdir != null ) {
+            path.append( subdir );
+            path.append( File.separatorChar );
         }
 
-        path.append(location.getProtocol());
-        path.append(File.separatorChar);
-        path.append(location.getHost());
-        path.append(File.separatorChar);
-        path.append(location.getPath().replace('/', File.separatorChar));
+        path.append( location.getProtocol() );
+        path.append( File.separatorChar );
+        path.append( location.getHost() );
+        path.append( File.separatorChar );
+        path.append( location.getPath().replace( '/', File.separatorChar ) );
 
-        return new File(JNLPRuntime.getBaseDir(), fixPath(path.toString()));
+        return new File( JNLPRuntime.getBaseDir(), fixPath( path.toString() ) );
     }
 
     /**
      * Clean up a string by removing characters that can't appear in
      * a local file name.
      */
-    private static String fixPath(String path) {
-        char badChars[] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+    private static String fixPath( String path ) {
+        char badChars[] = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
 
-        for (int i=0; i < badChars.length; i++)
-            if (badChars[i] != File.separatorChar)
-                if (-1 != path.indexOf(badChars[i]))
-                    path = path.replace(badChars[i], 'X');
+        for( int i = 0; i < badChars.length; i++ ) {
+            if( badChars[i] != File.separatorChar ) {
+                if( -1 != path.indexOf( badChars[i] ) ) {
+                    path = path.replace( badChars[i], 'X' );
+                }
+            }
+        }
 
         return path;
     }
@@ -318,70 +347,76 @@ public class CacheUtil {
      * Waits until the resources are downloaded, while showing a
      * progress indicator.
      *
-     * @param tracker the resource tracker
+     * @param tracker   the resource tracker
      * @param resources the resources to wait for
-     * @param title name of the download
+     * @param title     name of the download
      */
-    public static void waitForResources(ApplicationInstance app, ResourceTracker tracker, URL resources[], String title) {
+    public static void waitForResources( ApplicationInstance app, ResourceTracker tracker, URL resources[], String title ) {
         DownloadIndicator indicator = JNLPRuntime.getDefaultDownloadIndicator();
         DownloadServiceListener listener = null;
 
         try {
-            if (indicator == null) {
-                tracker.waitForResources(resources, 0);
+            if( indicator == null ) {
+                tracker.waitForResources( resources, 0 );
                 return;
             }
 
             // see if resources can be downloaded very quickly; avoids
             // overhead of creating display components for the resources
-            if (tracker.waitForResources(resources, indicator.getInitialDelay())) 
+            if( tracker.waitForResources( resources, indicator.getInitialDelay() ) ) {
                 return;
+            }
 
             // only resources not starting out downloaded are displayed
             List urlList = new ArrayList();
-            for (int i=0; i < resources.length; i++) {
-                if (!tracker.checkResource(resources[i]))
-                    urlList.add(resources[i]);
+            for( int i = 0; i < resources.length; i++ ) {
+                if( !tracker.checkResource( resources[i] ) ) {
+                    urlList.add( resources[i] );
+                }
             }
-            URL undownloaded[] = (URL[]) urlList.toArray( new URL[urlList.size()] );
+            URL undownloaded[] = (URL[])urlList.toArray( new URL[urlList.size()] );
 
-            listener = indicator.getListener(app, title, undownloaded);
+            listener = indicator.getListener( app, title, undownloaded );
 
             do {
                 long read = 0;
                 long total = 0;
 
-                for (int i=0; i < undownloaded.length; i++) {
+                for( int i = 0; i < undownloaded.length; i++ ) {
                     // add in any -1's; they're insignificant
-                    total += tracker.getTotalSize(undownloaded[i]);
-                    read += tracker.getAmountRead(undownloaded[i]);
+                    total += tracker.getTotalSize( undownloaded[i] );
+                    read += tracker.getAmountRead( undownloaded[i] );
                 }
 
-                int percent = (int)( (100*read)/Math.max(1,total) );
+                int percent = (int)( ( 100 * read ) / Math.max( 1, total ) );
 
-                for (int i=0; i < undownloaded.length; i++)
-                    listener.progress(undownloaded[i], "version",
-                                      tracker.getAmountRead(undownloaded[i]),
-                                      tracker.getTotalSize(undownloaded[i]),
-                                      percent);
+                for( int i = 0; i < undownloaded.length; i++ ) {
+                    listener.progress( undownloaded[i], "version",
+                                       tracker.getAmountRead( undownloaded[i] ),
+                                       tracker.getTotalSize( undownloaded[i] ),
+                                       percent );
+                }
             }
-            while (!tracker.waitForResources(resources, indicator.getUpdateRate()));
+            while( !tracker.waitForResources( resources, indicator.getUpdateRate() ) );
 
             // make sure they read 100% until indicator closes
-            for (int i=0; i < undownloaded.length; i++)
-                listener.progress(undownloaded[i], "version",
-                                  tracker.getTotalSize(undownloaded[i]),
-                                  tracker.getTotalSize(undownloaded[i]),
-                                  100);
+            for( int i = 0; i < undownloaded.length; i++ ) {
+                listener.progress( undownloaded[i], "version",
+                                   tracker.getTotalSize( undownloaded[i] ),
+                                   tracker.getTotalSize( undownloaded[i] ),
+                                   100 );
+            }
 
         }
-        catch (InterruptedException ex) {
-            if (JNLPRuntime.isDebug())
+        catch( InterruptedException ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
         }
         finally {
-            if (listener != null)
-                indicator.disposeListener(listener);
+            if( listener != null ) {
+                indicator.disposeListener( listener );
+            }
         }
     }
 

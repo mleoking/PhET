@@ -17,16 +17,9 @@
 
 package netx.jnlp.runtime;
 
-import java.applet.*;
-import java.awt.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
-import java.security.*;
-import java.lang.reflect.*;
-import java.lang.ref.*;
-import netx.jnlp.*;
+import netx.jnlp.JNLPFile;
+
+import java.applet.Applet;
 
 /**
  * Represents a launched application instance created from a JNLP
@@ -34,37 +27,43 @@ import netx.jnlp.*;
  * use the AppletEnvironment class to start and stop the applet.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class AppletInstance extends ApplicationInstance {
 
-    /** whether the applet's stop and destroy methods have been called */
+    /**
+     * whether the applet's stop and destroy methods have been called
+     */
     private boolean appletStopped = false;
 
-    /** the applet */
+    /**
+     * the applet
+     */
     private Applet applet;
 
-    /** the applet environment */
+    /**
+     * the applet environment
+     */
     private AppletEnvironment environment;
 
 
     /**
      * Create a New Task based on the Specified URL
      */
-    public AppletInstance(JNLPFile file, ThreadGroup group, ClassLoader loader, Applet applet) {
-        super(file, group, loader);
+    public AppletInstance( JNLPFile file, ThreadGroup group, ClassLoader loader, Applet applet ) {
+        super( file, group, loader );
 
         this.applet = applet;
 
-        this.environment = new AppletEnvironment(file, this);
+        this.environment = new AppletEnvironment( file, this );
     }
 
     /**
      * Sets whether the applet is resizable or not.  Applets default
      * to being not resizable.
      */
-    public void setResizable(boolean resizable) {
-        environment.getAppletFrame().setResizable(resizable);
+    public void setResizable( boolean resizable ) {
+        environment.getAppletFrame().setResizable( resizable );
     }
 
     /**
@@ -99,8 +98,9 @@ public class AppletInstance extends ApplicationInstance {
      * Stop the application and destroy its resources.
      */
     public void destroy() {
-        if (appletStopped)
+        if( appletStopped ) {
             return;
+        }
 
         appletStopped = true;
 
@@ -108,9 +108,10 @@ public class AppletInstance extends ApplicationInstance {
             applet.stop();
             applet.destroy();
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
         }
 
         environment.destroy();

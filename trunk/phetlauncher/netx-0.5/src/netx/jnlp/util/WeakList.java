@@ -17,8 +17,10 @@
 
 package netx.jnlp.util;
 
-import java.lang.ref.*;
-import java.util.*;
+import java.lang.ref.WeakReference;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,7 +32,7 @@ import java.util.*;
  * constant otherwise.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class WeakList extends AbstractList {
 
@@ -38,7 +40,7 @@ public class WeakList extends AbstractList {
     private ArrayList refs = new ArrayList();
 
 
-    /** 
+    /**
      * Create a weak random-access list.
      */
     public WeakList() {
@@ -47,19 +49,21 @@ public class WeakList extends AbstractList {
     /**
      * Extract the hard reference out of a weak reference.
      */
-    private Object deref(Object o) {
-        if (o != null && o instanceof WeakReference)
-            return ((WeakReference)o).get();
-        else
+    private Object deref( Object o ) {
+        if( o != null && o instanceof WeakReference ) {
+            return ( (WeakReference)o ).get();
+        }
+        else {
             return null;
+        }
     }
 
     /**
      * Returns the object at the specified index, or null if the
      * object has been collected.
      */
-    public Object get(int index) {
-        return deref(refs.get(index));
+    public Object get( int index ) {
+        return deref( refs.get( index ) );
     }
 
     /**
@@ -75,24 +79,24 @@ public class WeakList extends AbstractList {
      * previous object at that position or null if it was already
      * collected.
      */
-    public Object set(int index, Object element) {
-        return deref(refs.set(index, new WeakReference(element)));
+    public Object set( int index, Object element ) {
+        return deref( refs.set( index, new WeakReference( element ) ) );
     }
 
     /**
      * Inserts the object at the specified position in the list.
      * Automatically creates a weak reference to the object.
      */
-    public void add(int index, Object element) {
-        refs.add(index, new WeakReference(element));
+    public void add( int index, Object element ) {
+        refs.add( index, new WeakReference( element ) );
     }
 
     /**
      * Removes the object at the specified position and returns it
      * or returns null if it was already collected.
      */
-    public Object remove(int index) {
-        return deref(refs.remove(index));
+    public Object remove( int index ) {
+        return deref( refs.remove( index ) );
     }
 
     /**
@@ -103,11 +107,12 @@ public class WeakList extends AbstractList {
     public List hardList() {
         List result = new ArrayList();
 
-        for (int i=0; i < size(); i++) {
-            Object tmp = get(i);
+        for( int i = 0; i < size(); i++ ) {
+            Object tmp = get( i );
 
-            if (tmp != null)
-                result.add(tmp);
+            if( tmp != null ) {
+                result.add( tmp );
+            }
         }
 
         return result;
@@ -118,9 +123,11 @@ public class WeakList extends AbstractList {
      * objects.
      */
     public void trimToSize() {
-        for (int i=size(); i-->0;)
-            if (get(i)==null)
-                remove(i);
+        for( int i = size(); i-- > 0; ) {
+            if( get( i ) == null ) {
+                remove( i );
+            }
+        }
     }
 
 }

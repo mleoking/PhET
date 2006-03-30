@@ -17,11 +17,13 @@
 
 package netx.jnlp.runtime;
 
-import java.lang.reflect.*;
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import javax.swing.*;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.AllPermission;
+import java.security.CodeSource;
+import java.security.PermissionCollection;
+import java.security.Permissions;
 
 /**
  * Allows a Policy and SecurityManager to be set in JRE1.3 without
@@ -44,36 +46,37 @@ public class Boot13 extends URLClassLoader {
     // correctly honors the Policy object making this unneccessary
     // post-1.3.
 
-    private Boot13(URL source[]) {
-        super(source);
+    private Boot13( URL source[] ) {
+        super( source );
     }
 
-    protected PermissionCollection getPermissions(CodeSource source) {
+    protected PermissionCollection getPermissions( CodeSource source ) {
         Permissions result = new Permissions();
         result.add( new AllPermission() );
 
         return result;
     }
 
-    public Class loadClass(String name) throws ClassNotFoundException {
-        Class c = findLoadedClass(name);
-        if (c != null)
+    public Class loadClass( String name ) throws ClassNotFoundException {
+        Class c = findLoadedClass( name );
+        if( c != null ) {
             return c;
+        }
 
         // reverse the search order so that classes from this
         // classloader, which sets the right permissions, are found
         // before the parent classloader which has the same classes
         // but the wrong permissions.
         try {
-            return findClass(name);
+            return findClass( name );
         }
-        catch (ClassNotFoundException ex) {
+        catch( ClassNotFoundException ex ) {
         }
 
-        return getParent().loadClass(name);
+        return getParent().loadClass( name );
     }
 
-    public static void main(final String args[]) throws Exception {
+    public static void main( final String args[] ) throws Exception {
         URL cs = Boot13.class.getProtectionDomain().getCodeSource().getLocation();
         //  instead of using a custom loadClass search order, we could
         //  put the classes in a boot/ subdir of the JAR and load
@@ -84,19 +87,19 @@ public class Boot13 extends URLClassLoader {
         //  called directly.
         //cs = new URL("jar:"+cs+"!/boot/");
 
-        if (cs == null) {
-            System.err.println("fatal: cannot determine code source.");
-            System.exit(1);
+        if( cs == null ) {
+            System.err.println( "fatal: cannot determine code source." );
+            System.exit( 1 );
         }
 
-        Boot13 b = new Boot13(new URL[] {cs});
+        Boot13 b = new Boot13( new URL[]{cs} );
 
-        Thread.currentThread().setContextClassLoader(b); // try to prevent getting the non-policy version of classes
+        Thread.currentThread().setContextClassLoader( b ); // try to prevent getting the non-policy version of classes
 
-        Class c = b.loadClass("netx.jnlp.runtime.Boot");
-        Method main = c.getDeclaredMethod("main", new Class[] {String[].class} );
+        Class c = b.loadClass( "netx.jnlp.runtime.Boot" );
+        Method main = c.getDeclaredMethod( "main", new Class[]{String[].class} );
 
-        main.invoke(null, new Object[] { args } );
+        main.invoke( null, new Object[]{args} );
     }
 
 }

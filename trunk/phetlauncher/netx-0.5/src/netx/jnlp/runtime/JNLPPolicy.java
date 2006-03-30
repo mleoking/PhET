@@ -17,8 +17,6 @@
 
 package netx.jnlp.runtime;
 
-import java.awt.*;
-import javax.swing.*;
 import java.security.*;
 
 
@@ -30,17 +28,23 @@ import java.security.*;
  * approved by the user.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class JNLPPolicy extends Policy {
 
-    /** classes from this source have all permissions */
+    /**
+     * classes from this source have all permissions
+     */
     private static CodeSource shellSource;
 
-    /** classes from this source have all permissions */
+    /**
+     * classes from this source have all permissions
+     */
     private static CodeSource systemSource;
 
-    /** the previous policy */
+    /**
+     * the previous policy
+     */
     private static Policy systemPolicy;
 
 
@@ -54,17 +58,18 @@ public class JNLPPolicy extends Policy {
      * Return a mutable, heterogeneous-capable permission collection
      * for the source.
      */
-    public PermissionCollection getPermissions(CodeSource source) {
-        if (source == null
-            || source.equals(systemSource) 
-            || source.equals(shellSource))
+    public PermissionCollection getPermissions( CodeSource source ) {
+        if( source == null
+            || source.equals( systemSource )
+            || source.equals( shellSource ) ) {
             return getAllPermissions();
+        }
 
         // if we check the SecurityDesc here then keep in mind that
         // code can add properties at runtime to the ResourcesDesc!
 
         // delegate to original Policy object; required to run under WebStart
-        return systemPolicy.getPermissions(source);
+        return systemPolicy.getPermissions( source );
     }
 
     /**

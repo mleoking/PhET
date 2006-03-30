@@ -157,6 +157,7 @@ public class ApplicationComponent extends VerticalLayoutPanel {
 
     public static long getLocalTimeStamp( URL source, Version version ) {
         CacheEntry entry = new CacheEntry( source, version ); // could pool this
+        System.out.println( "entry.getLocation() = " + entry.getCacheFile().getAbsolutePath() );
         if( entry.isCached() ) {
             return entry.getLastModified();
         }

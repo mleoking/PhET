@@ -16,25 +16,29 @@
 
 package netx.jnlp.event;
 
-import java.net.*;
-import java.util.*;
-import netx.jnlp.*;
-import netx.jnlp.cache.*;
-import netx.jnlp.runtime.*;
+import netx.jnlp.cache.Resource;
+import netx.jnlp.cache.ResourceTracker;
+
+import java.net.URL;
+import java.util.EventObject;
 
 /**
  * This event is sent during the launch of an
  * application.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class DownloadEvent extends EventObject {
 
-    /** the tracker */
+    /**
+     * the tracker
+     */
     private ResourceTracker tracker;
 
-    /** the resource */
+    /**
+     * the resource
+     */
     private Resource resource;
 
 
@@ -42,11 +46,11 @@ public class DownloadEvent extends EventObject {
      * Creates a launch event for the specified application
      * instance.
      *
-     * @param source the resource tracker
+     * @param source   the resource tracker
      * @param resource the resource
      */
-    public DownloadEvent(ResourceTracker source, Resource resource) {
-        super(source);
+    public DownloadEvent( ResourceTracker source, Resource resource ) {
+        super( source );
 
         this.tracker = source;
         this.resource = resource;
@@ -59,7 +63,7 @@ public class DownloadEvent extends EventObject {
         return tracker;
     }
 
-    /** 
+    /**
      * Returns the location of the resource being downloaded.
      */
     public URL getResourceLocation() {

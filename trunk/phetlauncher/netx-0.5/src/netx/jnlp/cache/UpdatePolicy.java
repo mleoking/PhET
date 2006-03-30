@@ -17,22 +17,12 @@
 
 package netx.jnlp.cache;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.security.*;
-import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
-import netx.jnlp.util.*;
-
 /**
  * A policy that determines when a resource should be checked for
  * an updated version.<p>
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class UpdatePolicy {
 
@@ -45,9 +35,9 @@ public class UpdatePolicy {
     // CONNECTED|DOWNLOADED.  Let the resource be collected or reset
     // to UNINITIALIZED.
 
-    public static UpdatePolicy ALWAYS = new UpdatePolicy(0);
-    public static UpdatePolicy SESSION = new UpdatePolicy(-1);
-    public static UpdatePolicy NEVER = new UpdatePolicy(Long.MAX_VALUE);
+    public static UpdatePolicy ALWAYS = new UpdatePolicy( 0 );
+    public static UpdatePolicy SESSION = new UpdatePolicy( -1 );
+    public static UpdatePolicy NEVER = new UpdatePolicy( Long.MAX_VALUE );
 
     private long timeDiff = -1;
 
@@ -66,7 +56,7 @@ public class UpdatePolicy {
      *
      * @param timeDiff how long in ms until update needed
      */
-    public UpdatePolicy(long timeDiff) {
+    public UpdatePolicy( long timeDiff ) {
         this.timeDiff = timeDiff;
     }
 
@@ -74,14 +64,16 @@ public class UpdatePolicy {
      * Returns whether the resource should be checked for being
      * up-to-date.
      */
-    public boolean shouldUpdate(CacheEntry entry) {
+    public boolean shouldUpdate( CacheEntry entry ) {
         long updated = entry.getLastUpdated();
         long current = System.currentTimeMillis();
 
-        if (current - updated >= timeDiff)
+        if( current - updated >= timeDiff ) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
 }
