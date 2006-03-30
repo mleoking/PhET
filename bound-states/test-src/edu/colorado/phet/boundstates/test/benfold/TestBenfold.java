@@ -59,7 +59,7 @@ public class TestBenfold {
         return new Solution( value, goodness );
     }
 
-    public void plot( double energy ) {
+    private void plot( double energy ) {
         schrodinger.setEnergy( energy );
         double []soln = new double[steps];
         double step = functionWidth / steps;
@@ -88,7 +88,7 @@ public class TestBenfold {
         }
     }
 
-    private double[]getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
+    public double[]getEnergies( double min, double initWindowSize, int numToGet, int maxIterations, double goodnessThreshold ) {
         ArrayList energies = new ArrayList();
         double epsilon = 0.0001;
         double max = min + initWindowSize;

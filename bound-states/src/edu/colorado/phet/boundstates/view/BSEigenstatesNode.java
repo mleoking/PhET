@@ -170,7 +170,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         
         // Create a line for each eigenstate...
         BSEigenstate[] eigenstates = _potential.getEigenstates();
-        DebugOutput.printEigenstates( eigenstates );//XXX
+//        DebugOutput.printEigenstates( eigenstates );//XXX
         for ( int i = 0; i < eigenstates.length; i++ ) {
             final double energy = eigenstates[i].getEnergy();
             Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
