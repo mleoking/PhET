@@ -37,6 +37,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     private double _center;
     private double _offset;
     private BSParticle _particle;
+    private double _dx;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -48,6 +49,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         setOffset( offset );
         setCenter( center );
         setParticle( particle );
+        setDx( 0.1 );
     }
 
     //----------------------------------------------------------------------------
@@ -116,6 +118,20 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public void setOffset( double offset ) {
         if ( offset != _offset ) {
             _offset = offset;
+            notifyObservers();
+        }
+    }
+    
+    public double getDx() {
+        return _dx;
+    }
+    
+    public void setDx( double dx ) {
+        if ( dx <= 0  ) {
+            throw new IllegalArgumentException( "invalid dx: " + dx );
+        }
+        if ( dx != _dx ) {
+            _dx = dx;
             notifyObservers();
         }
     }
