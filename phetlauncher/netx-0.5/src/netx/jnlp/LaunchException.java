@@ -16,10 +16,11 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.util.*;
-import netx.jnlp.util.*;
+import netx.jnlp.util.Reflect;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 
 /**
@@ -31,30 +32,42 @@ import netx.jnlp.util.*;
  */
 public class LaunchException extends Exception {
 
-    /** the original exception */
+    /**
+     * the original exception
+     */
     private Throwable cause = null;
 
-    /** the file being launched */
+    /**
+     * the file being launched
+     */
     private JNLPFile file;
 
-    /** the category of the exception */
+    /**
+     * the category of the exception
+     */
     private String category;
 
-    /** summary */
+    /**
+     * summary
+     */
     private String summary;
 
-    /** description of the action that was taking place */
+    /**
+     * description of the action that was taking place
+     */
     private String description;
 
-    /** severity of the warning/error */
+    /**
+     * severity of the warning/error
+     */
     private String severity;
 
 
     /**
      * Creates a LaunchException without detail message.
      */
-    public LaunchException(JNLPFile file, Exception cause, String severity, String category, String summary, String description) {
-        super(severity + ": " + category  + ": "+ summary);
+    public LaunchException( JNLPFile file, Exception cause, String severity, String category, String summary, String description ) {
+        super( severity + ": " + category + ": " + summary );
 
         this.file = file;
         this.category = category;
@@ -67,10 +80,10 @@ public class LaunchException extends Exception {
     }
 
     /**
-     * Creates a LaunchException with a cause. 
+     * Creates a LaunchException with a cause.
      */
-    public LaunchException(Throwable cause) {
-        this(cause.getMessage());
+    public LaunchException( Throwable cause ) {
+        this( cause.getMessage() );
 
         // replace with setCause when no longer 1.3 compatible
         this.cause = cause;
@@ -79,8 +92,8 @@ public class LaunchException extends Exception {
     /**
      * Creates a LaunchException with a cause and detail message
      */
-    public LaunchException(String message, Throwable cause) {
-        this(message+": "+cause.getMessage());
+    public LaunchException( String message, Throwable cause ) {
+        this( message + ": " + cause.getMessage() );
 
         // replace with setCause when no longer 1.3 compatible
         this.cause = cause;
@@ -89,11 +102,11 @@ public class LaunchException extends Exception {
     /**
      * Constructs a LaunchException with the specified detail
      * message.
-     * 
+     *
      * @param message the detail message
      */
-    public LaunchException(String message) {
-        super(message);
+    public LaunchException( String message ) {
+        super( message );
     }
 
     /**
@@ -152,24 +165,24 @@ public class LaunchException extends Exception {
         Reflect r = new Reflect();
         Throwable cause = this.cause;
 
-        while (cause != null) {
-            result.add(cause);
-            cause = (Throwable) r.invoke(cause, "getCause");
+        while( cause != null ) {
+            result.add( cause );
+            cause = (Throwable)r.invoke( cause, "getCause" );
         }
 
-        return (Throwable[]) result.toArray(new Throwable[0]);
+        return (Throwable[])result.toArray( new Throwable[0] );
     }
 
     /**
      * Print the stack trace and the cause exception (1.3
      * compatible)
      */
-    public void printStackTrace(PrintStream stream) {
-        super.printStackTrace(stream);
+    public void printStackTrace( PrintStream stream ) {
+        super.printStackTrace( stream );
 
-        if (cause != null) {
-            stream.println("Caused by: ");
-            cause.printStackTrace(stream);
+        if( cause != null ) {
+            stream.println( "Caused by: " );
+            cause.printStackTrace( stream );
         }
     }
 
@@ -177,12 +190,12 @@ public class LaunchException extends Exception {
      * Print the stack trace and the cause exception (1.3
      * compatible)
      */
-    public void printStackTrace(PrintWriter stream) {
-        super.printStackTrace(stream);
+    public void printStackTrace( PrintWriter stream ) {
+        super.printStackTrace( stream );
 
-        if (cause != null) {
-            stream.println("Caused by: ");
-            cause.printStackTrace(stream);
+        if( cause != null ) {
+            stream.println( "Caused by: " );
+            cause.printStackTrace( stream );
         }
     }
 

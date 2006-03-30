@@ -17,11 +17,7 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-/** 
+/**
  * The property element.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
@@ -29,33 +25,37 @@ import java.util.*;
  */
 public class PropertyDesc {
 
-    /** the key name */
+    /**
+     * the key name
+     */
     private String key;
 
-    /** the value */
+    /**
+     * the value
+     */
     private String value;
 
 
     /**
      * Creates a property descriptor.
      *
-     * @param key the key name
+     * @param key   the key name
      * @param value the value
      */
-    public PropertyDesc(String key, String value) {
+    public PropertyDesc( String key, String value ) {
         this.key = key;
         this.value = value;
     }
 
     /**
-     * Returns the property's key 
+     * Returns the property's key
      */
     public String getKey() {
         return key;
     }
 
     /**
-     * Returns the property's value 
+     * Returns the property's value
      */
     public String getValue() {
         return value;

@@ -17,15 +17,13 @@
 
 package netx.jnlp.cache;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.reflect.*;
-import java.security.*;
-import javax.jnlp.*;
-import netx.jnlp.*;
-import netx.jnlp.runtime.*;
-import netx.jnlp.util.*;
+import netx.jnlp.Version;
+import netx.jnlp.runtime.JNLPRuntime;
+import netx.jnlp.util.PropertiesFile;
+
+import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Describes an entry in the cache.<p>
@@ -35,13 +33,19 @@ import netx.jnlp.util.*;
  */
 public class CacheEntry {
 
-    /** the remote resource location */
+    /**
+     * the remote resource location
+     */
     private URL location;
 
-    /** the requested version */
+    /**
+     * the requested version
+     */
     private Version version;
 
-    /** info about the cached file */
+    /**
+     * info about the cached file
+     */
     private PropertiesFile properties;
 
 
@@ -50,28 +54,28 @@ public class CacheEntry {
      * URL.
      *
      * @param location the remote resource location
-     * @param version the version of the resource
+     * @param version  the version of the resource
      */
-    public CacheEntry(URL location, Version version) {
+    public CacheEntry( URL location, Version version ) {
         this.location = location;
         this.version = version;
 
-        File infoFile = CacheUtil.getCacheFile(location, version);
-        infoFile = new File(infoFile.getPath()+".info"); // replace with something that can't be clobbered
+        File infoFile = CacheUtil.getCacheFile( location, version );
+        infoFile = new File( infoFile.getPath() + ".info" ); // replace with something that can't be clobbered
 
-        properties = new PropertiesFile(infoFile, JNLPRuntime.getMessage("CAutoGen"));
+        properties = new PropertiesFile( infoFile, JNLPRuntime.getMessage( "CAutoGen" ) );
     }
 
     /**
      * Initialize the cache entry data from a connection to the
      * remote resource (does not store data).
      */
-    void initialize(URLConnection connection) {
+    void initialize( URLConnection connection ) {
         long modified = connection.getLastModified();
         long length = connection.getContentLength(); // an int
 
-        properties.setProperty("content-length", Long.toString(length));
-        properties.setProperty("last-modified", Long.toString(modified));
+        properties.setProperty( "content-length", Long.toString( length ) );
+        properties.setProperty( "last-modified", Long.toString( modified ) );
     }
 
     /**
@@ -87,9 +91,9 @@ public class CacheEntry {
      */
     public long getLastUpdated() {
         try {
-            return Long.parseLong(properties.getProperty("last-updated"));
+            return Long.parseLong( properties.getProperty( "last-updated" ) );
         }
-        catch (Exception ex) {
+        catch( Exception ex ) {
             return 0;
         }
     }
@@ -98,8 +102,8 @@ public class CacheEntry {
      * Sets the time in the local system clock that the file was
      * most recently checked for an update.
      */
-    public void setLastUpdated(long updatedTime) {
-        properties.setProperty("last-updated", Long.toString(updatedTime));
+    public void setLastUpdated( long updatedTime ) {
+        properties.setProperty( "last-updated", Long.toString( updatedTime ) );
     }
 
     /**
@@ -110,24 +114,28 @@ public class CacheEntry {
      * @param connection a connection to the remote URL
      * @return whether the cache contains the version
      */
-    public boolean isCurrent(URLConnection connection) {
+    public boolean isCurrent( URLConnection connection ) {
         boolean cached = isCached();
 
-        if (!cached)
+        if( !cached ) {
             return false;
+        }
 
         try {
             long remoteModified = connection.getLastModified();
-            long cachedModified = Long.parseLong(properties.getProperty("last-modified"));
+            long cachedModified = Long.parseLong( properties.getProperty( "last-modified" ) );
 
-            if (remoteModified > 0 && remoteModified <= cachedModified)
+            if( remoteModified > 0 && remoteModified <= cachedModified ) {
                 return true;
-            else
+            }
+            else {
                 return false;
+            }
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
 
             return cached; // if can't connect return whether already in cache
         }
@@ -140,22 +148,26 @@ public class CacheEntry {
      * @return true if the resource is in the cache
      */
     public boolean isCached() {
-        File localFile = CacheUtil.getCacheFile(location, version);
-        if (!localFile.exists())
+        File localFile = CacheUtil.getCacheFile( location, version );
+        if( !localFile.exists() ) {
             return false;
+        }
 
         try {
             long cachedLength = localFile.length();
-            long remoteLength = Long.parseLong(properties.getProperty("content-length", "-1"));
+            long remoteLength = Long.parseLong( properties.getProperty( "content-length", "-1" ) );
 
-            if (remoteLength >= 0 && cachedLength != remoteLength)
+            if( remoteLength >= 0 && cachedLength != remoteLength ) {
                 return false;
-            else
+            }
+            else {
                 return true;
+            }
         }
-        catch (Exception ex) {
-            if (JNLPRuntime.isDebug())
+        catch( Exception ex ) {
+            if( JNLPRuntime.isDebug() ) {
                 ex.printStackTrace();
+            }
 
             return false; // should throw?
         }
@@ -169,7 +181,7 @@ public class CacheEntry {
     }
 
     public long getLastModified() {
-        return Long.parseLong(properties.getProperty("last-modified"));
+        return Long.parseLong( properties.getProperty( "last-modified" ) );
     }
 }
 

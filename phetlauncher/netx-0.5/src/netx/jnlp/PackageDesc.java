@@ -17,10 +17,6 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
 /**
  * The package element.
  *
@@ -29,24 +25,30 @@ import java.util.*;
  */
 public class PackageDesc {
 
-    /** the package name */
+    /**
+     * the package name
+     */
     private String name;
 
-    /** the part required by the package */
+    /**
+     * the part required by the package
+     */
     private String part;
 
-    /** whether the package includes subpackages */
+    /**
+     * whether the package includes subpackages
+     */
     private boolean recursive;
 
 
     /**
      * Create a package descriptor.
      *
-     * @param name the package name
-     * @param part the part required by the package
+     * @param name      the package name
+     * @param part      the part required by the package
      * @param recursive whether the package includes subpackages
      */
-    public PackageDesc(String name, String part, boolean recursive) {
+    public PackageDesc( String name, String part, boolean recursive ) {
         this.name = name;
         this.part = part;
         this.recursive = recursive;
@@ -57,27 +59,29 @@ public class PackageDesc {
      *
      * @param className the fully qualified class name
      */
-    public boolean matches(String className) {
+    public boolean matches( String className ) {
         // form 1: exact class
-        if (name.equals(className))
+        if( name.equals( className ) ) {
             return true;
+        }
 
         // form 2: package.*
-        if (name.endsWith(".*")) {
-            String pkName = name.substring(0, name.length()-1);
+        if( name.endsWith( ".*" ) ) {
+            String pkName = name.substring( 0, name.length() - 1 );
 
-            if (className.startsWith(pkName)) {
-                String postfix = className.substring(pkName.length()+1);
+            if( className.startsWith( pkName ) ) {
+                String postfix = className.substring( pkName.length() + 1 );
 
-                if (recursive || -1 == postfix.indexOf("."))
+                if( recursive || -1 == postfix.indexOf( "." ) ) {
                     return true;
+                }
             }
         }
 
         return false;
     }
 
-    /** 
+    /**
      * Returns the package name.
      */
     public String getName() {

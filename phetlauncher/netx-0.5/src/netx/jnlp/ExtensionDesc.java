@@ -17,10 +17,14 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
 import netx.jnlp.runtime.JNLPRuntime;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,33 +35,45 @@ import netx.jnlp.runtime.JNLPRuntime;
  */
 public class ExtensionDesc {
 
-    /** the extension name */
+    /**
+     * the extension name
+     */
     private String name;
 
-    /** the required extension version */
+    /**
+     * the required extension version
+     */
     private Version version;
 
-    /** the location of the extension JNLP file */
+    /**
+     * the location of the extension JNLP file
+     */
     private URL location;
 
-    /** the JNLPFile the extension refers to */
+    /**
+     * the JNLPFile the extension refers to
+     */
     private JNLPFile file;
 
-    /** map from ext-part to local part */
+    /**
+     * map from ext-part to local part
+     */
     private Map extToPart = new HashMap();
 
-    /** eager ext parts */ 
+    /**
+     * eager ext parts
+     */
     private List eagerExtParts = new ArrayList();
 
 
     /**
      * Create an extention descriptor.
      *
-     * @param name the extension name
-     * @param version the required version of the extention JNLPFile
+     * @param name     the extension name
+     * @param version  the required version of the extention JNLPFile
      * @param location the location of the extention JNLP file
      */
-    public ExtensionDesc(String name, Version version, URL location) {
+    public ExtensionDesc( String name, Version version, URL location ) {
         this.name = name;
         this.version = version;
         this.location = location;
@@ -70,21 +86,22 @@ public class ExtensionDesc {
      * lazy value is false or the part is empty or null.
      *
      * @param extPart the part name in the extension file
-     * @param part the part name in the main file
-     * @param lazy whether to load the part before launching
+     * @param part    the part name in the main file
+     * @param lazy    whether to load the part before launching
      */
-    protected void addPart(String extPart, String part, boolean lazy) {
-        extToPart.put(extPart, part);
+    protected void addPart( String extPart, String part, boolean lazy ) {
+        extToPart.put( extPart, part );
 
-        if (!lazy || part == null || part.length() == 0)
-            eagerExtParts.add(extPart);
+        if( !lazy || part == null || part.length() == 0 ) {
+            eagerExtParts.add( extPart );
+        }
     }
 
     /**
      * Returns the parts in the extension JNLP file mapped to the
      * part of the main file.
      */
-    public String[] getExtensionParts(String thisPart) {
+    public String[] getExtensionParts( String thisPart ) {
 
         return null;
     }
@@ -114,20 +131,22 @@ public class ExtensionDesc {
      * Resolves the extension by creating a JNLPFile from the file
      * specified by the extension's location property.
      *
-     * @throws IOException if the extension JNLPFile could not be resolved.
+     * @throws IOException    if the extension JNLPFile could not be resolved.
      * @throws ParseException if the extension JNLPFile could not be
-     * parsed or was not a component or installer descriptor.
+     *                        parsed or was not a component or installer descriptor.
      */
     public void resolve() throws ParseException, IOException {
-        if (file == null) {
-            file = new JNLPFile(location);
+        if( file == null ) {
+            file = new JNLPFile( location );
 
-            if (JNLPRuntime.isDebug())
-                System.out.println("Resolve: "+file.getInformation().getTitle());
+            if( JNLPRuntime.isDebug() ) {
+                System.out.println( "Resolve: " + file.getInformation().getTitle() );
+            }
 
             // check for it being an extension descriptor
-            if (!file.isComponent() && !file.isInstaller())
-                throw new ParseException(JNLPRuntime.getMessage("JInvalidExtensionDescriptor", new Object[] {name, location} ));
+            if( !file.isComponent() && !file.isInstaller() ) {
+                throw new ParseException( JNLPRuntime.getMessage( "JInvalidExtensionDescriptor", new Object[]{name, location} ) );
+            }
         }
 
     }

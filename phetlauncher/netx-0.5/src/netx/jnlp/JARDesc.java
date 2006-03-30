@@ -17,9 +17,7 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.URL;
 
 /**
  * The JAR element.
@@ -29,35 +27,47 @@ import java.util.*;
  */
 public class JARDesc {
 
-    /** the location of the JAR file */
+    /**
+     * the location of the JAR file
+     */
     private URL location;
 
-    /** the required JAR versions, or null */
+    /**
+     * the required JAR versions, or null
+     */
     private Version version;
 
-    /** the part name */
+    /**
+     * the part name
+     */
     private String part;
 
-    /** whether to load the JAR on demand */
+    /**
+     * whether to load the JAR on demand
+     */
     private boolean lazy;
 
-    /** whether the JAR contains the main class */
+    /**
+     * whether the JAR contains the main class
+     */
     private boolean main;
 
-    /** whether the JAR contains native libraries */
+    /**
+     * whether the JAR contains native libraries
+     */
     private boolean nativeJar;
 
     /**
      * Create a JAR descriptor.
      *
-     * @param location the location of the JAR file
-     * @param version the required JAR versions, or null
-     * @param part the part name, or null
-     * @param lazy whether to load the JAR on demand
-     * @param main whether the JAR contains the main class
+     * @param location  the location of the JAR file
+     * @param version   the required JAR versions, or null
+     * @param part      the part name, or null
+     * @param lazy      whether to load the JAR on demand
+     * @param main      whether the JAR contains the main class
      * @param nativeJam whether the JAR contains native libraries
      */
-    public JARDesc(URL location, Version version, String part, boolean lazy, boolean main, boolean nativeJar) {
+    public JARDesc( URL location, Version version, String part, boolean lazy, boolean main, boolean nativeJar ) {
         this.location = location;
         this.version = version;
         this.part = part;

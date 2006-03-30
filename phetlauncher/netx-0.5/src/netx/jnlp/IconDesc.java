@@ -17,9 +17,7 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.URL;
 
 /**
  * The icon element.
@@ -29,52 +27,74 @@ import java.util.*;
  */
 public class IconDesc {
 
-    /** default icon */
+    /**
+     * default icon
+     */
     public static final Object DEFAULT = "default";
 
-    /** selected icon */
+    /**
+     * selected icon
+     */
     public static final Object SELECTED = "selected";
 
-    /** disabled icon */
+    /**
+     * disabled icon
+     */
     public static final Object DISABLED = "disabled";
 
-    /** rollover icon */
+    /**
+     * rollover icon
+     */
     public static final Object ROLLOVER = "rollover";
 
-    /** splash icon */
+    /**
+     * splash icon
+     */
     public static final Object SPLASH = "splash";
 
 
-    /** the location of the icon */
+    /**
+     * the location of the icon
+     */
     private URL location;
 
-    /** the type of icon*/
+    /**
+     * the type of icon
+     */
     private Object kind;
 
-    /** the width, or -1 if unknown*/
+    /**
+     * the width, or -1 if unknown
+     */
     private int width;
 
-    /** the height, or -1 if unknown*/
+    /**
+     * the height, or -1 if unknown
+     */
     private int height;
 
-    /** the depth, or -1 if unknown*/
+    /**
+     * the depth, or -1 if unknown
+     */
     private int depth;
 
-    /** the size, or -1 if unknown*/
+    /**
+     * the size, or -1 if unknown
+     */
     private int size;
 
 
     /**
      * Creates an icon descriptor with the specified information.
      *
-     * @param location the location of the icon 
-     * @param kind the type of icon
-     * @param width the width, or -1 if unknown
-     * @param height the height, or -1 if unknown
-     * @param depth the depth, or -1 if unknown
-     * @param size the size, or -1 if unknown
+     * @param location the location of the icon
+     * @param kind     the type of icon
+     * @param width    the width, or -1 if unknown
+     * @param height   the height, or -1 if unknown
+     * @param depth    the depth, or -1 if unknown
+     * @param size     the size, or -1 if unknown
      */
-    IconDesc(URL location, Object kind, int width, int height, int depth, int size) {
+    IconDesc( URL location, Object kind, int width, int height, int depth, int size ) {
         this.location = location;
         this.kind = kind;
         this.width = width;
@@ -86,46 +106,46 @@ public class IconDesc {
     /**
      * Returns the location of the icon.
      */
-    public URL getLocation() { 
-        return location; 
+    public URL getLocation() {
+        return location;
     }
 
     /**
      * Returns the icon type.
      */
-    public Object getKind() { 
-        return kind; 
+    public Object getKind() {
+        return kind;
     }
 
     /**
      * Returns the icon width or -1 if not specified in the
      * JNLPFile.
      */
-    public int getWidth() { 
-        return width; 
+    public int getWidth() {
+        return width;
     }
 
     /**
      * Returns the icon height or -1 if not specified in the
      * JNLPFile.
      */
-    public int getHeight() { 
-        return height; 
+    public int getHeight() {
+        return height;
     }
 
     /**
      * Returns the icon size or -1 if not specified in the JNLPFile.
      */
-    public int getSize() { 
-        return size; 
+    public int getSize() {
+        return size;
     }
 
     /**
      * Returns the icon depth or -1 if not specified in the
      * JNLPFile.
      */
-    public int getDepth() { 
-        return depth; 
+    public int getDepth() {
+        return depth;
     }
 
 

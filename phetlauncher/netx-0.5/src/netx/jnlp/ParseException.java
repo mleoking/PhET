@@ -17,9 +17,8 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 /**
  * Thrown to indicate that an error has occurred while parsing a
@@ -32,24 +31,26 @@ public class ParseException extends Exception {
 
     // todo: add meaningful information, such as the invalid
     // element, parse position, etc.
-    
-    /** the original exception */
+
+    /**
+     * the original exception
+     */
     private Throwable cause = null;
 
 
     /**
      * Create a parse exception with the specified message.
      */
-    public ParseException(String message) {
-        super(message);
+    public ParseException( String message ) {
+        super( message );
     }
 
     /**
      * Create a parse exception with the specified message and
      * cause.
      */
-    public ParseException(String message, Throwable cause) {
-        super(message);
+    public ParseException( String message, Throwable cause ) {
+        super( message );
 
         // replace with setCause when no longer 1.3 compatible
         this.cause = cause;
@@ -67,12 +68,12 @@ public class ParseException extends Exception {
      * Print the stack trace and the cause exception (1.3
      * compatible)
      */
-    public void printStackTrace(PrintStream stream) {
-        super.printStackTrace(stream);
+    public void printStackTrace( PrintStream stream ) {
+        super.printStackTrace( stream );
 
-        if (cause != null) {
-            stream.println("Caused by: ");
-            cause.printStackTrace(stream);
+        if( cause != null ) {
+            stream.println( "Caused by: " );
+            cause.printStackTrace( stream );
         }
     }
 
@@ -80,12 +81,12 @@ public class ParseException extends Exception {
      * Print the stack trace and the cause exception (1.3
      * compatible)
      */
-    public void printStackTrace(PrintWriter stream) {
-        super.printStackTrace(stream);
+    public void printStackTrace( PrintWriter stream ) {
+        super.printStackTrace( stream );
 
-        if (cause != null) {
-            stream.println("Caused by: ");
-            cause.printStackTrace(stream);
+        if( cause != null ) {
+            stream.println( "Caused by: " );
+            cause.printStackTrace( stream );
         }
     }
 

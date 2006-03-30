@@ -17,9 +17,9 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The applet-desc element.
@@ -29,84 +29,96 @@ import java.util.*;
  */
 public class AppletDesc {
 
-    /** the applet name */
+    /**
+     * the applet name
+     */
     private String name;
 
-    /** the main class name and package */
+    /**
+     * the main class name and package
+     */
     private String mainClass;
 
-    /** the document base */
+    /**
+     * the document base
+     */
     private URL documentBase;
 
-    /** the width */
+    /**
+     * the width
+     */
     private int width;
 
-    /** the height */
+    /**
+     * the height
+     */
     private int height;
 
-    /** the parameters */
+    /**
+     * the parameters
+     */
     private Map parameters;
 
 
     /**
      * Create an Applet descriptor.
-     * 
-     * @param name the applet name
-     * @param mainClass the main class name and package
+     *
+     * @param name         the applet name
+     * @param mainClass    the main class name and package
      * @param documentBase the document base
-     * @param width the width
-     * @param height the height
-     * @param parameters the parameters
+     * @param width        the width
+     * @param height       the height
+     * @param parameters   the parameters
      */
-    public AppletDesc(String name, String mainClass, URL documentBase, int width, int height, Map parameters) {
+    public AppletDesc( String name, String mainClass, URL documentBase, int width, int height, Map parameters ) {
         this.name = name;
         this.mainClass = mainClass;
         this.documentBase = documentBase;
         this.width = width;
         this.height = height;
-        this.parameters = new HashMap(parameters);
+        this.parameters = new HashMap( parameters );
     }
 
     /**
-     * Returns the applet name 
+     * Returns the applet name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Returns the main class name 
+     * Returns the main class name
      */
     public String getMainClass() {
         return mainClass;
     }
 
     /**
-     * Returns the document base 
+     * Returns the document base
      */
     public URL getDocumentBase() {
         return documentBase;
     }
 
     /**
-     * Returns the width 
+     * Returns the width
      */
     public int getWidth() {
         return width;
     }
 
-    /** 
-     * Returns the height 
+    /**
+     * Returns the height
      */
     public int getHeight() {
         return height;
     }
 
-    /** 
-     * Returns the applet parameters 
+    /**
+     * Returns the applet parameters
      */
     public Map getParameters() {
-        return new HashMap(parameters);
+        return new HashMap( parameters );
     }
 
     /**
@@ -115,8 +127,8 @@ public class AppletDesc {
      * parameter will have no effect on already-running applets
      * launched from this JNLP file.
      */
-    public void addParameter(String name, String value) {
-        parameters.put(name, value);
+    public void addParameter( String name, String value ) {
+        parameters.put( name, value );
     }
 
 }
