@@ -7,6 +7,7 @@ import netx.jnlp.cache.ResourceTracker;
 import netx.jnlp.cache.UpdatePolicy;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,14 +24,17 @@ import java.util.Date;
  * Copyright (c) Mar 29, 2006 by Sam Reid
  */
 
-public class ApplicationComponent extends JPanel {
+public class ApplicationComponent extends VerticalLayoutPanel {
     private URL location;
-    private JLabel label;
-    private JLabel currentLabel;
+    private JLabel localLabel;
     private JButton updateButton;
+    private JLabel remoteLabel;
+    private JLabel status;
 
-    public ApplicationComponent( final URL webstartURL ) throws IOException {
+    public ApplicationComponent( String title, final URL webstartURL ) throws IOException {
         this.location = webstartURL;
+        setFillNone();
+        setBorder( new TitledBorder( title ) );
         JButton button = new JButton( "Launch" );
 
         button.addActionListener( new ActionListener() {
@@ -52,10 +56,14 @@ public class ApplicationComponent extends JPanel {
         } );
         add( button );
 
-        label = new JLabel();
-        add( label );
-        currentLabel = new JLabel( "Current" );
-        add( currentLabel );
+        localLabel = new JLabel();
+        add( localLabel );
+        remoteLabel = new JLabel();
+        add( remoteLabel );
+        status = new JLabel();
+        add( status );
+//        currentLabel = new JLabel( "Current" );
+//        add( currentLabel );
         updateButton = new JButton( "Update" );
         add( updateButton );
         refresh();
@@ -64,20 +72,17 @@ public class ApplicationComponent extends JPanel {
                 try {
                     JNLPFile jnlpFile = new JNLPFile( location );
                     ResourcesDesc res = jnlpFile.getResources();
-                    JARDesc jar = res.getMainJAR();
-                    System.out.println( "jar.getLocation() = " + jar.getLocation() );
-                    try {
-                        ResourceTracker resourceTracker = new ResourceTracker();
-                        resourceTracker.addResource( jar.getLocation(), null, UpdatePolicy.ALWAYS );
-                        resourceTracker.startResource( jar.getLocation() );
-                        resourceTracker.waitForResource( jar.getLocation(), 1000 );
+
+//                    JARDesc jar = res.getMainJAR();
+//                    System.out.println( "jar.getLocation() = " + jar.getLocation() );
+                    for( int i = 0; i < res.getJARs().length; i++ ) {
+                        boolean ok = downloadJAR( res.getJARs()[i] );
+                        if( !ok ) {
+                            System.err.println( "Downloaded the jar, but not some resources.  This could deceive the user into " +
+                                                "Thinking they have downloaded a version when they haven't." );
+                            break;
+                        }
                     }
-                    catch( InterruptedException e1 ) {
-                        e1.printStackTrace();
-                    }
-                    CacheEntry cacheEntry = new CacheEntry( jar.getLocation(), null );
-                    System.out.println( "cacheEntry.isCached() = " + cacheEntry.isCached() );
-                    System.out.println( "cacheEntry.isCurrent( null) = " + cacheEntry.isCurrent( null ) );
 
                     refresh();
                 }
@@ -91,49 +96,59 @@ public class ApplicationComponent extends JPanel {
         } );
     }
 
+    private boolean downloadJAR( JARDesc jar ) {
+        try {
+            ResourceTracker resourceTracker = new ResourceTracker();
+            resourceTracker.addResource( jar.getLocation(), null, UpdatePolicy.ALWAYS );
+            resourceTracker.startResource( jar.getLocation() );
+            return resourceTracker.waitForResource( jar.getLocation(), 1000 );
+        }
+        catch( InterruptedException e1 ) {
+            e1.printStackTrace();
+        }
+        return false;
+    }
+
     public void refresh() throws IOException {
         long remoteTimeStamp = getRemoteTimeStamp( null, location, null );
-        boolean cached = new CacheEntry( location, null ).isCached();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy.MM.dd 'at' hh:mm:ss a z" );
         String remoteString = simpleDateFormat.format( new Date( remoteTimeStamp ) );
-        if( cached ) {
-            long localTimeStamp = getLocalTimeStamp( null, location, null );
-            String localString = simpleDateFormat.format( new Date( localTimeStamp ) );
-
-            label.setText( "<html>local=<br>" + localString + "<br>remote=<br>" + remoteString + "</html>" );
-            if( remoteTimeStamp == -1 ) {
-                label.setText( "Cannot connect to resource." );
-            }
-            if( !localString.equals( remoteString ) ) {
-                label.setForeground( Color.red );
-                currentLabel.setText( "Not current" );
-                updateButton.setVisible( true );
-            }
-            else {
-                currentLabel.setText( "Current" );
-                label.setForeground( Color.blue );
-                updateButton.setVisible( false );
-            }
+        if( remoteTimeStamp == -1 ) {
+            remoteLabel.setText( "Offline: remote version unavailable." );
         }
         else {
-            currentLabel.setText( "No Cached Version" );
-            label.setText( "Remote=" + remoteString );
-            updateButton.setVisible( true );
+            remoteLabel.setText( "Remote: " + remoteString );
         }
+
+        long localTimeStamp = getLocalTimeStamp( null, location, null );
+        String localString = simpleDateFormat.format( new Date( localTimeStamp ) );
+        if( localTimeStamp == -1 ) {
+            localLabel.setText( "No Cached Version" );
+        }
+        else {
+            localLabel.setText( "Cached: " + localString );
+        }
+        if( remoteTimeStamp != -1 && remoteTimeStamp == localTimeStamp ) {
+            status.setText( "You have the latest version" );
+            status.setForeground( Color.blue );
+        }
+        else if( remoteTimeStamp != -1 && remoteTimeStamp != localTimeStamp ) {
+            status.setText( "There is a newer version online." );
+            status.setForeground( Color.red );
+        }
+
+        System.out.println( "localString = " + localString );
+        System.out.println( "remoteString = " + remoteString );
     }
 
     public static long getLocalTimeStamp( URLConnection connection, URL source, Version version ) {
-        try {
-            if( connection == null ) {
-                connection = source.openConnection();
-            }
-            connection.connect();
+        CacheEntry entry = new CacheEntry( source, version ); // could pool this
+        if( entry.isCached() ) {
+            return entry.getLastModified();
         }
-        catch( IOException e ) {
+        else {
             return -1;
         }
-        CacheEntry entry = new CacheEntry( source, version ); // could pool this
-        return entry.getLastModified();
     }
 
     public static long getRemoteTimeStamp( URLConnection connection, URL source, Version version ) {
