@@ -16,12 +16,8 @@
 
 package netx.jnlp;
 
-import netx.jnlp.runtime.*;
-import netx.jnlp.util.*;
-
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
+import netx.jnlp.runtime.ApplicationInstance;
+import netx.jnlp.runtime.JNLPRuntime;
 
 
 /**
@@ -39,8 +35,8 @@ public class DefaultLaunchHandler implements LaunchHandler {
      * fatal error, such as the inability to find the main class
      * or non-parseable XML.
      */
-    public void launchError(LaunchException exception) {
-        printMessage(exception);
+    public void launchError( LaunchException exception ) {
+        printMessage( exception );
     }
 
     /**
@@ -52,8 +48,8 @@ public class DefaultLaunchHandler implements LaunchHandler {
      *
      * @return true if the launch should continue, false to abort
      */
-    public boolean launchWarning(LaunchException warning) {
-        printMessage(warning);
+    public boolean launchWarning( LaunchException warning ) {
+        printMessage( warning );
         return true;
     }
 
@@ -63,8 +59,8 @@ public class DefaultLaunchHandler implements LaunchHandler {
      *
      * @return true to allow the application to continue, false to stop it.
      */
-    public boolean validationError(LaunchException security) {
-        printMessage(security);
+    public boolean validationError( LaunchException security ) {
+        printMessage( security );
         return true;
     }
 
@@ -75,40 +71,42 @@ public class DefaultLaunchHandler implements LaunchHandler {
      *
      * @param application the launched application instance
      */
-    public void launchCompleted(ApplicationInstance application) {
+    public void launchCompleted( ApplicationInstance application ) {
         //
     }
 
     /**
      * Print a message to stdout.
      */
-    protected void printMessage(LaunchException ex) {
+    protected void printMessage( LaunchException ex ) {
         StringBuffer result = new StringBuffer();
-        result.append("netx: ");
-        result.append(ex.getCategory());
-        if (ex.getSummary() != null) {
-            result.append(": ");
-            result.append(ex.getSummary());
+        result.append( "netx: " );
+        result.append( ex.getCategory() );
+        if( ex.getSummary() != null ) {
+            result.append( ": " );
+            result.append( ex.getSummary() );
         }
 
-        if (JNLPRuntime.isDebug()) {
-            if (ex.getCause() != null)
+        if( JNLPRuntime.isDebug() ) {
+            if( ex.getCause() != null ) {
                 ex.getCause().printStackTrace();
-            else
+            }
+            else {
                 ex.printStackTrace();
+            }
         }
 
         Throwable causes[] = ex.getCauses();
 
-        for (int i=0; i < causes.length; i++) {
-            result.append(" (");
-            result.append(causes[i].getClass().getName());
-            result.append(" ");
-            result.append(causes[i].getMessage());
-            result.append(")");
+        for( int i = 0; i < causes.length; i++ ) {
+            result.append( " (" );
+            result.append( causes[i].getClass().getName() );
+            result.append( " " );
+            result.append( causes[i].getMessage() );
+            result.append( ")" );
         }
 
-        System.out.println(result);
+        System.out.println( result );
     }
 
 }

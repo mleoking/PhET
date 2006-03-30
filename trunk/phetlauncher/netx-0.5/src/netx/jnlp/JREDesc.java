@@ -17,9 +17,8 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.URL;
+import java.util.List;
 
 /**
  * The J2SE element.
@@ -29,37 +28,47 @@ import java.util.*;
  */
 public class JREDesc {
 
-    /** the platform version or the product version if location is not null */
+    /**
+     * the platform version or the product version if location is not null
+     */
     private Version version;
 
-    /** the location of a JRE product or null */
+    /**
+     * the location of a JRE product or null
+     */
     private URL location;
 
-    /** inital heap size */
+    /**
+     * inital heap size
+     */
     private long initialHeapSize;
 
-    /** maximum head size */
+    /**
+     * maximum head size
+     */
     private long maximumHeapSize;
 
-    /** list of ResourceDesc objects */
+    /**
+     * list of ResourceDesc objects
+     */
     private List resources;
 
 
     /**
      * Create a JRE descriptor.
      *
-     * @param version the platform version or the product version
-     * if location is not null
-     * @param location the location of a JRE product or null
+     * @param version         the platform version or the product version
+     *                        if location is not null
+     * @param location        the location of a JRE product or null
      * @param initialHeapSize inital heap size
      * @param maximumHeadSize maximum head size
-     * @param resources list of ResourceDesc objects
+     * @param resources       list of ResourceDesc objects
      */
-    public JREDesc(Version version, URL location, String initialHeapSize, String maximumHeapSize, List resources) {
+    public JREDesc( Version version, URL location, String initialHeapSize, String maximumHeapSize, List resources ) {
         this.version = version;
         this.location = location;
-        this.initialHeapSize = heapToLong(initialHeapSize);
-        this.maximumHeapSize = heapToLong(maximumHeapSize);
+        this.initialHeapSize = heapToLong( initialHeapSize );
+        this.maximumHeapSize = heapToLong( maximumHeapSize );
         this.resources = resources;
     }
 
@@ -113,7 +122,7 @@ public class JREDesc {
      * Convert a heap size description string to a long value
      * indicating the heap min/max size.
      */
-    static private long heapToLong(String heapSize) {
+    static private long heapToLong( String heapSize ) {
         // need to implement for completeness even though not used in netx
         return -1;
     }

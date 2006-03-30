@@ -17,10 +17,6 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
 /**
  * The installer-desc element.
  *
@@ -29,7 +25,9 @@ import java.util.*;
  */
 public class InstallerDesc {
 
-    /** the main class name and package. */
+    /**
+     * the main class name and package.
+     */
     private String mainClass;
 
 
@@ -38,7 +36,7 @@ public class InstallerDesc {
      *
      * @param mainClass main class name and package
      */
-    public InstallerDesc(String mainClass) {
+    public InstallerDesc( String mainClass ) {
         this.mainClass = mainClass;
     }
 

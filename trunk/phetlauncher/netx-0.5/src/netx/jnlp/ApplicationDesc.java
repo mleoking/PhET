@@ -17,9 +17,8 @@
 
 package netx.jnlp;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The application-desc element.
@@ -29,46 +28,50 @@ import java.util.*;
  */
 public class ApplicationDesc {
 
-    /** the main class name and package */
+    /**
+     * the main class name and package
+     */
     private String mainClass;
 
-    /** the arguments */
+    /**
+     * the arguments
+     */
     private String arguments[];
 
 
     /**
      * Create an Application descriptor.
-     * 
+     *
      * @param mainClass the main class name and package
      * @param arguments the arguments
      */
-    public ApplicationDesc(String mainClass, String arguments[]) {
+    public ApplicationDesc( String mainClass, String arguments[] ) {
         this.mainClass = mainClass;
         this.arguments = arguments;
     }
 
     /**
-     * Returns the main class name 
+     * Returns the main class name
      */
     public String getMainClass() {
         return mainClass;
     }
 
-    /** 
+    /**
      * Returns the arguments
      */
     public String[] getArguments() {
-        return (String[]) arguments.clone();
+        return (String[])arguments.clone();
     }
 
     /**
      * Add an argument to the end of the arguments.
      */
-    public void addArgument(String arg) {
-        ArrayList l = new ArrayList(Arrays.asList(arguments));
-        l.add(arg);
+    public void addArgument( String arg ) {
+        ArrayList l = new ArrayList( Arrays.asList( arguments ) );
+        l.add( arg );
 
-        arguments = (String[]) l.toArray(arguments);
+        arguments = (String[])l.toArray( arguments );
     }
 
 }

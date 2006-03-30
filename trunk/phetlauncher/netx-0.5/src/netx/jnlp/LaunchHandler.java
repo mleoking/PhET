@@ -16,7 +16,7 @@
 
 package netx.jnlp;
 
-import netx.jnlp.runtime.*;
+import netx.jnlp.runtime.ApplicationInstance;
 
 
 /**
@@ -33,7 +33,7 @@ public interface LaunchHandler {
      * fatal error, such as the inability to find the main class or
      * non-parseable XML.
      */
-    public void launchError(LaunchException exception);
+    public void launchError( LaunchException exception );
 
     /**
      * Called when launching the application can not be launched due
@@ -43,7 +43,7 @@ public interface LaunchHandler {
      *
      * @return true if the launch should continue, false to abort
      */
-    public boolean launchWarning(LaunchException warning);
+    public boolean launchWarning( LaunchException warning );
 
     /**
      * Called when a security validation error occurs while
@@ -51,7 +51,7 @@ public interface LaunchHandler {
      *
      * @return true to allow the application to continue, false to stop it.
      */
-    public boolean validationError(LaunchException security);
+    public boolean validationError( LaunchException security );
     // this method will probably be replaced when real security
     // controller is in place.
 
@@ -62,7 +62,7 @@ public interface LaunchHandler {
      *
      * @param application the launched application instance
      */
-    public void launchCompleted(ApplicationInstance application); 
+    public void launchCompleted( ApplicationInstance application );
 
 }
 
