@@ -101,10 +101,7 @@ public class CacheEntry {
     public void setLastUpdated(long updatedTime) {
         properties.setProperty("last-updated", Long.toString(updatedTime));
     }
-    public long getLastModified()
-    {
-        return Long.parseLong(properties.getProperty("last-modified"));
-    }
+
     /**
      * Returns whether there is a version of the URL contents in
      * the cache and it is up to date.  This method may not return
@@ -121,9 +118,7 @@ public class CacheEntry {
 
         try {
             long remoteModified = connection.getLastModified();
-            System.out.println( "remoteModified = " + remoteModified );
             long cachedModified = Long.parseLong(properties.getProperty("last-modified"));
-            System.out.println( "cachedModified = " + cachedModified );
 
             if (remoteModified > 0 && remoteModified <= cachedModified)
                 return true;
