@@ -40,22 +40,11 @@ public class ApplicationComponent extends VerticalLayoutPanel {
 
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final Launcher launcher = new Launcher();
+
+
                 Thread t = new Thread( new Runnable() {
                     public void run() {
-                        try {
-                            launcher.setUpdatePolicy( UpdatePolicy.NEVER );//todo: With never and no local copy, the latest is downloaded.
-                            //todo test what happens when NEVER is set, and version 1 is local, 2 is remote.  1 should run.
-                            launcher.setCreateAppContext( false );
-                            launcher.launch( webstartURL );
-                            refresh();
-                        }
-                        catch( LaunchException e1 ) {
-                            e1.printStackTrace();
-                        }
-                        catch( IOException e1 ) {
-                            e1.printStackTrace();
-                        }
+                        launchApplication();
                     }
                 } );
                 t.start();
@@ -69,8 +58,6 @@ public class ApplicationComponent extends VerticalLayoutPanel {
         add( remoteLabel );
         status = new JLabel();
         add( status );
-//        currentLabel = new JLabel( "Current" );
-//        add( currentLabel );
         updateButton = new JButton( "Update" );
         add( updateButton );
         refresh();
@@ -87,6 +74,23 @@ public class ApplicationComponent extends VerticalLayoutPanel {
                 }
             }
         } );
+    }
+
+    private void launchApplication() {
+        try {
+            Launcher launcher = new Launcher();
+
+            launcher.setUpdatePolicy( UpdatePolicy.NEVER );//todo: With never and no local copy, the latest is downloaded.
+            //todo test what happens when NEVER is set, and version 1 is local, 2 is remote.  1 should run.
+            launcher.setCreateAppContext( false );
+//            launcher.launch( location );
+            launcher.launchBackground( location );
+//            launcher.launchExternal( location );
+            refresh();
+        }
+        catch( IOException e1 ) {
+            e1.printStackTrace();
+        }
     }
 
     private void updateByDownload() throws IOException, ParseException {

@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.launcher;
 
+import netx.jnlp.runtime.JNLPRuntime;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,9 +28,12 @@ public class PhETLauncher {
     private JPanel contentPane;
 
     public PhETLauncher() throws IOException {
+//        SecurityManager securityManager = new JNLPSecurityManager();
+//        System.setSecurityManager( securityManager );
+        JNLPRuntime.initialize();
+        JNLPRuntime.setExitClass( PhETLauncher.class );
         frame = new JFrame( "PhET Launcher" );
         frame.setSize( 600, 600 );
-
 
         contentPane = new JPanel();
         contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS ) );

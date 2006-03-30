@@ -17,20 +17,23 @@
 
 package netx.jnlp.runtime;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.lang.ref.*;
+import netx.jnlp.util.WeakList;
+
 import javax.swing.*;
-import java.security.*;
-import netx.jnlp.util.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.ref.WeakReference;
+import java.security.AccessController;
+import java.security.Permission;
+import java.security.PrivilegedAction;
 
 
 /**
  * Security manager for JNLP environment.  This security manager
  * cannot be replaced as it always denies attempts to replace the
  * security manager or policy.<p>
- *
+ * <p/>
  * The JNLP security manager tracks windows created by an
  * application, allowing those windows to be disposed when the
  * application exits but the JVM does not.  If security is not
@@ -73,51 +76,68 @@ class JNLPSecurityManager extends SecurityManager {
     // another way for different apps to have different properties
     // in java.lang.Sytem with the same names.
 
-    private static String R(String key) { return JNLPRuntime.getMessage(key); }
+    private static String R( String key ) {
+        return JNLPRuntime.getMessage( key );
+    }
 
-    /** only class that can exit the JVM, if set */
+    /**
+     * only class that can exit the JVM, if set
+     */
     private Object exitClass = null;
 
-    /** this exception prevents exiting the JVM */
+    /**
+     * this exception prevents exiting the JVM
+     */
     private SecurityException closeAppEx = // making here prevents huge stack traces
-        new SecurityException(JNLPRuntime.getMessage("RShutdown"));
+            new SecurityException( JNLPRuntime.getMessage( "RShutdown" ) );
 
-    /** weak list of windows created */
+    /**
+     * weak list of windows created
+     */
     private WeakList weakWindows = new WeakList();
 
-    /** weak list of applications corresponding to window list */
+    /**
+     * weak list of applications corresponding to window list
+     */
     private WeakList weakApplications = new WeakList();
 
-    /** weak reference to most app who's windows was most recently activated */
+    /**
+     * weak reference to most app who's windows was most recently activated
+     */
     private WeakReference activeApplication = null;
 
-    /** listener installs the app's classloader on the event dispatch thread */
+    /**
+     * listener installs the app's classloader on the event dispatch thread
+     */
     private ContextUpdater contextListener = new ContextUpdater();
 
     private class ContextUpdater extends WindowAdapter implements PrivilegedAction {
         private ApplicationInstance app = null;
 
-        public void windowActivated(WindowEvent e) {
-            app = getApplication(e.getWindow());
-            AccessController.doPrivileged(this);
+        public void windowActivated( WindowEvent e ) {
+            app = getApplication( e.getWindow() );
+            AccessController.doPrivileged( this );
             app = null;
         }
 
         public Object run() {
-            if (app != null) {
-                Thread.currentThread().setContextClassLoader(app.getClassLoader());
-                activeApplication = new WeakReference(app);
+            if( app != null ) {
+                Thread.currentThread().setContextClassLoader( app.getClassLoader() );
+                activeApplication = new WeakReference( app );
             }
-            else
-                Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+            else {
+                Thread.currentThread().setContextClassLoader( this.getClass().getClassLoader() );
+            }
 
             return null;
         }
 
-        public void windowDeactivated(WindowEvent e) {
+        public void windowDeactivated( WindowEvent e ) {
             activeApplication = null;
         }
-    };
+    }
+
+    ;
 
 
     /**
@@ -129,8 +149,9 @@ class JNLPSecurityManager extends SecurityManager {
         // not added to any window list when checkTopLevelWindow is
         // called for it (and not disposed).
 
-        if (!JNLPRuntime.isHeadless())
+        if( !JNLPRuntime.isHeadless() ) {
             new JWindow().getOwner();
+        }
     }
 
     /**
@@ -138,20 +159,23 @@ class JNLPSecurityManager extends SecurityManager {
      * true if no exit class is set.
      */
     public boolean isExitClass() {
-        return isExitClass(getClassContext());
+        return isExitClass( getClassContext() );
     }
 
     /**
      * Returns whether the exit class is present on the stack, or
      * true if no exit class is set.
      */
-    private boolean isExitClass(Class stack[]) {
-        if (exitClass == null)
+    private boolean isExitClass( Class stack[] ) {
+        if( exitClass == null ) {
             return true;
+        }
 
-        for (int i=0; i < stack.length; i++)
-            if (stack[i] == exitClass)
+        for( int i = 0; i < stack.length; i++ ) {
+            if( stack[i] == exitClass ) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -163,9 +187,10 @@ class JNLPSecurityManager extends SecurityManager {
      * @param exitClass the exit class
      * @throws IllegalStateException if the exit class is already set
      */
-    public void setExitClass(Class exitClass) throws IllegalStateException {
-        if (this.exitClass != null)
-            throw new IllegalStateException(R("RExitTaken"));
+    public void setExitClass( Class exitClass ) throws IllegalStateException {
+        if( this.exitClass != null ) {
+            throw new IllegalStateException( R( "RExitTaken" ) );
+        }
 
         this.exitClass = exitClass;
     }
@@ -175,23 +200,24 @@ class JNLPSecurityManager extends SecurityManager {
      * determined.
      */
     protected ApplicationInstance getApplication() {
-        return getApplication(getClassContext(), 0);
+        return getApplication( getClassContext(), 0 );
     }
 
     /**
      * Return the application the opened the specified window (only
      * call from event dispatch thread).
      */
-    protected ApplicationInstance getApplication(Window window) {
-        for (int i = weakWindows.size(); i-->0;) {
-            Window w = (Window) weakWindows.get(i);
-            if (w == null) {
-                weakWindows.remove(i);
-                weakApplications.remove(i);
+    protected ApplicationInstance getApplication( Window window ) {
+        for( int i = weakWindows.size(); i-- > 0; ) {
+            Window w = (Window)weakWindows.get( i );
+            if( w == null ) {
+                weakWindows.remove( i );
+                weakApplications.remove( i );
             }
 
-            if (w == window)
-                return (ApplicationInstance) weakApplications.get(i);
+            if( w == window ) {
+                return (ApplicationInstance)weakApplications.get( i );
+            }
         }
 
         return null;
@@ -200,16 +226,17 @@ class JNLPSecurityManager extends SecurityManager {
     /**
      * Return the current Application, or null.
      */
-    protected ApplicationInstance getApplication(Class stack[], int maxDepth) {
-        if (maxDepth <= 0)
+    protected ApplicationInstance getApplication( Class stack[], int maxDepth ) {
+        if( maxDepth <= 0 ) {
             maxDepth = stack.length;
+        }
 
         // this needs to be tightened up
-        for (int i=0; i < stack.length && i < maxDepth; i++) {
-            if (stack[i].getClassLoader() instanceof JNLPClassLoader) {
-                JNLPClassLoader loader = (JNLPClassLoader) stack[i].getClassLoader();
+        for( int i = 0; i < stack.length && i < maxDepth; i++ ) {
+            if( stack[i].getClassLoader() instanceof JNLPClassLoader ) {
+                JNLPClassLoader loader = (JNLPClassLoader)stack[i].getClassLoader();
 
-                if (loader != null && loader.getApplication() != null) {
+                if( loader != null && loader.getApplication() != null ) {
                     return loader.getApplication();
                 }
             }
@@ -224,8 +251,9 @@ class JNLPSecurityManager extends SecurityManager {
      */
     public ThreadGroup getThreadGroup() {
         ApplicationInstance app = getApplication();
-        if (app == null)
+        if( app == null ) {
             return super.getThreadGroup();
+        }
 
         return app.getThreadGroup();
     }
@@ -235,28 +263,31 @@ class JNLPSecurityManager extends SecurityManager {
      * otherwise return normally.  This method always denies
      * permission to change the security manager or policy.
      */
-    public void checkPermission(Permission perm) {
+    public void checkPermission( Permission perm ) {
         String name = perm.getName();
 
-        if ("setPolicy".equals(name) ||
-            "setSecurityManager".equals(name))
-            throw new SecurityException(R("RCantReplaceSM"));
+        if( "setPolicy".equals( name ) ||
+            "setSecurityManager".equals( name ) ) {
+            throw new SecurityException( R( "RCantReplaceSM" ) );
+        }
 
         try {
             // deny all permissions to stopped applications
-            if (JNLPRuntime.isDebug()) {
-                if (!"getClassLoader".equals(name)) {
+            if( JNLPRuntime.isDebug() ) {
+                if( !"getClassLoader".equals( name ) ) {
                     ApplicationInstance app = getApplication();
-                    if (app != null && !app.isRunning())
-                        throw new SecurityException(R("RDenyStopped"));
+                    if( app != null && !app.isRunning() ) {
+                        throw new SecurityException( R( "RDenyStopped" ) );
+                    }
                 }
             }
 
-            super.checkPermission(perm);
+//            super.checkPermission(perm);
         }
-        catch (SecurityException ex) {
-            if (JNLPRuntime.isDebug())
-                System.out.println("denying permission: "+perm);
+        catch( SecurityException ex ) {
+            if( JNLPRuntime.isDebug() ) {
+                System.out.println( "denying permission: " + perm );
+            }
 
             throw ex;
         }
@@ -267,34 +298,38 @@ class JNLPSecurityManager extends SecurityManager {
      * warning banner, and adds the window to the list of windows to
      * be disposed when the calling application exits.
      */
-    public boolean checkTopLevelWindow(Object window) {
+    public boolean checkTopLevelWindow( Object window ) {
         ApplicationInstance app = getApplication();
 
-        // remember window -> application mapping for focus, close on exit 
-        if (app != null && window instanceof Window) {
-            Window w = (Window) window;
+        // remember window -> application mapping for focus, close on exit
+        if( app != null && window instanceof Window ) {
+            Window w = (Window)window;
 
-            if (JNLPRuntime.isDebug())
-                System.err.println("SM: app: "+app.getTitle()+" is adding a window: "+window);
+            if( JNLPRuntime.isDebug() ) {
+                System.err.println( "SM: app: " + app.getTitle() + " is adding a window: " + window );
+            }
 
-            weakWindows.add(window); // for mapping window -> app
-            weakApplications.add(app);
+            weakWindows.add( window ); // for mapping window -> app
+            weakApplications.add( app );
 
-            w.addWindowListener(contextListener); // for dynamic context classloader
+            w.addWindowListener( contextListener ); // for dynamic context classloader
 
-            app.addWindow(w);
+            app.addWindow( w );
         }
 
         // change coffee cup to netx for default icon
-        if (window instanceof Window)
-            for (Window w = (Window)window; w != null; w = w.getOwner())
-                if (window instanceof Frame)
-                    ((Frame)window).setIconImage(JNLPRuntime.getWindowIcon());
+        if( window instanceof Window ) {
+            for( Window w = (Window)window; w != null; w = w.getOwner() ) {
+                if( window instanceof Frame ) {
+                    ( (Frame)window ).setIconImage( JNLPRuntime.getWindowIcon() );
+                }
+            }
+        }
 
         // todo: set awt.appletWarning to custom message
         // todo: logo on with glass pane on JFrame/JWindow?
-        
-        return super.checkTopLevelWindow(window);
+
+        return super.checkTopLevelWindow( window );
     }
 
     /**
@@ -306,36 +341,41 @@ class JNLPSecurityManager extends SecurityManager {
      * stopped and its resources destroyed (when possible), and an
      * exception will be thrown to prevent the JVM from shutting
      * down.<p>
-     *
+     * <p/>
      * Calls not from Runtime.exit or with no exit class set will
      * behave normally, and the exit class can always exit the JVM.
      */
-    public void checkExit(int status) {
-        super.checkExit(status);
+    public void checkExit( int status ) {
+        super.checkExit( status );
 
         Class stack[] = getClassContext();
-        boolean realCall = (stack[1] == Runtime.class);
+        boolean realCall = ( stack[1] == Runtime.class );
 
-        if (isExitClass(stack)) // either exitClass called or no exitClass set
+        if( isExitClass( stack ) ) // either exitClass called or no exitClass set
+        {
             return; // to Runtime.exit or fake call to see if app has permission
+        }
 
         // not called from Runtime.exit()
-        if (!realCall) {
+        if( !realCall ) {
             // apps that can't exit should think they can exit normally
-            super.checkExit(status);
+            super.checkExit( status );
             return;
         }
 
         // but when they really call, stop only the app instead of the JVM
-        ApplicationInstance app = getApplication(stack, 0);
-        if (app == null) {
+        ApplicationInstance app = getApplication( stack, 0 );
+        if( app == null ) {
             // should check caller to make sure it is JFrame.close or
             // other known System.exit call
-            if (activeApplication != null)
-                app = (ApplicationInstance) activeApplication.get();
+            if( activeApplication != null ) {
+                app = (ApplicationInstance)activeApplication.get();
+            }
 
-            if (app == null)
-                throw new SecurityException(R("RExitNoApp"));
+            if( app == null ) {
+//                throw new SecurityException( R( "RExitNoApp" ) );
+                return;//okay to exit when it wasn't a launched app
+            }
         }
 
         app.destroy();
@@ -343,6 +383,13 @@ class JNLPSecurityManager extends SecurityManager {
         throw closeAppEx;
     }
 
+    public void checkPropertyAccess( String key ) {
+//        super.checkPropertyAccess( key );
+    }
+
+    public void checkPermission( Permission perm, Object context ) {
+//        super.checkPermission( perm, context );
+    }
 }
 
 
