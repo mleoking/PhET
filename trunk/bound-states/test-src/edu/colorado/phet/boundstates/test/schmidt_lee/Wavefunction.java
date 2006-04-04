@@ -136,7 +136,7 @@ public class Wavefunction {
             }
         }
         if( k == MAXTRY ) {
-         System.out.println("No convergence in binary chop, node=" + node);
+         System.err.println("No convergence in binary chop, node=" + node);
             return en; // Fix by throwing exception
         }
 //
@@ -158,7 +158,7 @@ public class Wavefunction {
             }
         }
         if( k == MAXTRY ) {
-         System.out.println("No convergence in interpolation, node=" + node );
+         System.err.println("No convergence in interpolation, node=" + node );
             return en; // Fix by throwing exception
         }
         return en;
