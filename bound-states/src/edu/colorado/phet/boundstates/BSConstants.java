@@ -116,7 +116,8 @@ public class BSConstants {
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     
     // Position
-    public static final Range POSITION_RANGE = new Range( -4, 4 ); // nm
+    public static final Range POSITION_MODEL_RANGE = new Range( -20, 20 ); // nm
+    public static final Range POSITION_VIEW_RANGE = new Range( -4, 4 ); // nm
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     

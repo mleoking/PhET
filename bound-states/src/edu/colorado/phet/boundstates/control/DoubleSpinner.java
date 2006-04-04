@@ -60,6 +60,10 @@ public class DoubleSpinner extends JSpinner implements FocusListener {
         setValue( new Double( value ) );
     }
     
+    public JFormattedTextField getFormattedTextField() {
+        return _textField;
+    }
+    
     /*
      * When the spinner gains focus, select its contents.
      * NOTE: This currently does not work; see Bug ID 4699955 at bugs.sun.com

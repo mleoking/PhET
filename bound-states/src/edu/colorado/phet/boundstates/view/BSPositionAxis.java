@@ -31,7 +31,7 @@ public class BSPositionAxis extends NumberAxis {
         String label = SimStrings.get( "axis.position" ) + " (" + SimStrings.get( "units.position" ) + ")";
         setLabel( label );
         setLabelFont( BSConstants.AXIS_LABEL_FONT );
-        setRange( BSConstants.POSITION_RANGE );
+        setRange( BSConstants.POSITION_VIEW_RANGE );
         TickUnits xUnits = (TickUnits) NumberAxis.createIntegerTickUnits();
         setStandardTickUnits( xUnits );
     }

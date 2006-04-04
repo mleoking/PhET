@@ -5,29 +5,30 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- show same number of superposition coefficients as there are eigenstates
+- model for superposition coefficients
+- model total energy as a set of eigenstates
+- disabled the superposition button if no eigenstates are found
+- keep 1 set of superposition coefficients, only set to ground state if some coefficient becomes irrelevant 
 - solve wavefunction and display in chart for selected eigenstate(s)
-- solve wavefunction and display in chart for hilited eigenstate
-- sliders in configure dialogs should be spinners so that values can be entered
-- EigenstatesNode expects getEigenstates to return them sorted lowest to highest, how to enforce?
-- drawing problem with BSHarmonicOscillatorDialog when ang freq is dragged toward max
-- drawing problem with BSCoulombDialog & BSSquareDialog when #wells is set from 0->1 in control panel 
-- need model for superposition coefficients
+- solve wavefunction and display in chart for hilited eigenstate 
 - width and spacing sliders in BSSquareDialog don't interact like they should
 - relationship in UI between well depth & spacing, how do they affect each others controls?
 - support for programmatic multiple selection of eigenstate lines
 - normalization of Superposition coefficients has round-off and double precision error
-- override reset, save, load methods for each module
 - drag handles for each potential type (all slightly different)
-- time-independent solution to Schrodinger equation
+- scale position axis to fit excited portion of wavefunction
 
 MEDIUM PRIORITY:
+- override reset, save, load methods in Single and Double modules
 - Single and Double modules need to permanently hide the "number of wells" control
+- Single module should hide spacing control in all Configure dialogs
 - different width ranges for single, double, many well modules
 - update persistence code to include new modules
-- add a small bit of space about y-axis range on the Energy chart
-- subscripts should start at 1, except Harmonic Oscillator well starts at 0
+- use specified defaults for all controls
 
 LOW PRIORITY:
+- add a small bit of space about y-axis range on the Energy chart
 - commandline options for choosing which modules to display
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
 
@@ -54,6 +55,14 @@ MACINTOSH:
 
 
 DONE:
+(4/3/06) - color non-zero superposition coefficients to match eigenstate selection color
+(4/3/06) - abbreviate superposition equation, show terms 1,2,n
+(4/3/06) - make superposition dialog show variable number of coefficients
+(4/3/06) - separate position ranges for model and view
+(3/30/06) - always show spacing control in Configure dialogs, disable it when numWells=1
+(3/30/06) - major changes to SliderControl to support editable text field, change all uses
+(3/30/06) - ensure that eigenstates are returned in ascending order
+(3/30/06) - **** SourceForge CVS server down ****
 (3/29/06) - add Schmidt-Lee to each potential type
 (3/29/06) - make BSEigenstatesNode handle case of 0 eigenstates
 (3/28/06) - experiment with Schmidt-Lee algorithm for eignestates and time-independent Schrodinger solution

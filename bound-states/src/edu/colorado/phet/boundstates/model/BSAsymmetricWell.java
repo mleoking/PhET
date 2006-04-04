@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -21,7 +22,7 @@ import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
 
 
 /**
- * BSAsymmetricWell is the model of a potential composed on one Asymmetric well.
+ * BSAsymmetricWell is the model of a potential composed of one Asymmetric well.
  * <p>
  * Our model supports these parameters:
  * <ul>
@@ -131,14 +132,13 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         return energy;
     }
 
-    //HACK dummy eigenstates, evenly spaced between offset and depth
     public BSEigenstate[] getEigenstates() {
         System.out.println( "BSAsymmetricWell.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         
         ArrayList eigenstates = new ArrayList();
 
-        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
         final double maxE = getOffset();
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
@@ -158,11 +158,14 @@ public class BSAsymmetricWell extends BSAbstractPotential {
                 }
             }
             catch ( Exception e ) {
-                e.printStackTrace();
+                System.err.println( e.getClass() + ": " + e.getMessage() );//XXX
                 done = true;
             }
             nodes++;
         }
+        
+        // Ensure that they appear in ascending order...
+        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }

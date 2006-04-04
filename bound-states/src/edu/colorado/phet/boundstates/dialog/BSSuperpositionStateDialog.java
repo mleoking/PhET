@@ -26,6 +26,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -44,13 +46,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final char PSI = '\u03c8';
+    
     private static final double COEFFICIENT_MIN = 0.00;
     private static final double COEFFICIENT_MAX = 1.00;
     private static final double COEFFICIENT_STEP = 0.01;
     private static final String COEFFICIENT_FORMAT = "0.00";
     
-    private static final int NUMBER_OF_COLUMNS = 3;
-    private static final int NUMBER_OF_COEFFICIENTS = 6; 
+    private static final int NUMBER_OF_COLUMNS = 3; 
     
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
@@ -65,6 +68,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private EventListener _eventListener;
     private boolean _changed;
     private int _startingIndex;
+    private int _numberOfCoefficients;
+    private Color _eigenstateSelectionColor;
+    private Color _normalColor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,7 +79,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSuperpositionStateDialog( Frame parent, int startingIndex ) {
+    public BSSuperpositionStateDialog( Frame parent, int numberOfCoefficients, int startingIndex, BSColorScheme colorScheme ) {
         super( parent );
         setModal( false );
         setResizable( false );
@@ -84,6 +90,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         _changed = false;
         _startingIndex = startingIndex;
+        _numberOfCoefficients = numberOfCoefficients;
+        _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
+        _normalColor = Color.WHITE;
         
         createUI( parent );
     }
@@ -131,13 +140,13 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         JLabel instructions = new JLabel( SimStrings.get( "label.superposition.instructions" ) );
         
-        String es = createEquationString( NUMBER_OF_COEFFICIENTS, _startingIndex );
+        String es = createEquationString( _numberOfCoefficients, _startingIndex );
         JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
         ArrayList labels = new ArrayList();
         _spinners = new ArrayList();
-        for ( int i = 0; i < NUMBER_OF_COEFFICIENTS; i++ ) {
+        for ( int i = 0; i < _numberOfCoefficients; i++ ) {
             int coefficientIndex = i + _startingIndex;
             String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + coefficientIndex + "</sub>:</html>";
             labels.add( new JLabel( label ) );
@@ -222,20 +231,39 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         return actionPanel;
     }
 
+    //----------------------------------------------------------------------------
+    // Equation creation
+    //----------------------------------------------------------------------------
+    
     private static String createEquationString( final int numberOfCoefficients, final int startingIndex ) {
-        String s;
-        char psi = '\u03c8';
-        s = "<html>" + psi + "(x) = ";
-        for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            int n = i + startingIndex;
-            s = s + "c<sub>" + n + "</sub>" + psi + "<sub>" + n + "</sub>(x)";
-            if ( i < numberOfCoefficients - 1 ) {
-                s = s + " + ";
-            }
-        }
+        String s = "<html>" + PSI + "(x) = " + 
+            createTermString( 0 ) + " + " + 
+            createTermString( 1 ) + " + ... + " + 
+            createTermString( "n" );
         return s;
     }
+    
+    private static String createTermString( int subscript ) {
+        return createTermString( Integer.toString( subscript ) );
+    }
+    
+    private static String createTermString( String subscript ) {
+        return "c<sub>" + subscript + "</sub>" + PSI + "<sub>" + subscript + "</sub>(x)";
+    }
  
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setColorScheme( BSColorScheme colorScheme ) {
+        _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
+        Iterator i = _spinners.iterator();
+        while ( i.hasNext() ) {
+            DoubleSpinner spinner = (DoubleSpinner) i.next();
+            updateSpinnerColor( spinner );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -414,7 +442,18 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         else {
             _changed = true;
         }
+        updateSpinnerColor( spinner );
         updateButtons();
+    }
+    
+    private void updateSpinnerColor( DoubleSpinner spinner ) {
+        double value = spinner.getDoubleValue();
+        if ( value != 0 ) {
+            spinner.getFormattedTextField().setBackground( _eigenstateSelectionColor );
+        }
+        else {
+            spinner.getFormattedTextField().setBackground( _normalColor );
+        }
     }
     
     /*

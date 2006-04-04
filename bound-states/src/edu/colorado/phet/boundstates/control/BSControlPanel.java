@@ -123,12 +123,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _wellTypeComboBox = new BSWellComboBox();
 
             // Number of wells
-            String numberFormat = SimStrings.get( "label.numberOfWells" ) + " {0}";
             _numberOfWellsSlider = new SliderControl( 
                     BSConstants.DEFAULT_NUMBER_OF_WELLS, 
                     BSConstants.MIN_NUMBER_OF_WELLS, 
                     BSConstants.MAX_NUMBER_OF_WELLS,
-                    1, 0, 0, numberFormat, SLIDER_INSETS );
+                    1, 0, 0, SimStrings.get( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
+            _numberOfWellsSlider.setTextEditable( true );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Eigenstate 
@@ -283,9 +283,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
             particleControlsPanel.setBorder( new TitledBorder( "" ) );
             
             // Mass slider
-            String massFormat = "<html>" + SimStrings.get( "label.particleMass" ) + " {0}m<sub>e</sub>" + "</html>";
-            _massSlider = new SliderControl( BSConstants.DEFAULT_MASS, BSConstants.MIN_MASS, BSConstants.MAX_MASS, 5,
-                    1, 1, massFormat, SLIDER_INSETS );
+            String massLabel = SimStrings.get( "label.particleMass" );
+            String massUnits = "<html>m<sub>e</sub></html>";
+            _massSlider = new SliderControl( 
+                    BSConstants.DEFAULT_MASS, BSConstants.MIN_MASS, BSConstants.MAX_MASS, 5,
+                    1, 1, massLabel, massUnits, 3, SLIDER_INSETS );
+            _massSlider.setTextEditable( true );
             _massSlider.setInverted( true );
             // Put a label at each tick mark.
             Hashtable labelTable = new Hashtable();
