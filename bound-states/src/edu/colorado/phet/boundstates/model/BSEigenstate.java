@@ -29,14 +29,6 @@ public class BSEigenstate implements Comparable {
     public double getEnergy() {
         return _energy;
     }
-    
-    public static BSEigenstate[] createEigenstates( double[] energies ) {
-        BSEigenstate[] eigenstates = new BSEigenstate[ energies.length ];
-        for ( int i = 0; i < energies.length; i++ ) {
-            eigenstates[i] = new BSEigenstate( energies[i] );
-        }
-        return eigenstates;
-    }
 
     public int compareTo( Object o ) {
         int rval = 0;
