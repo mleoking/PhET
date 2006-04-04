@@ -11,12 +11,8 @@
 
 package edu.colorado.phet.boundstates.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
-import sun.security.krb5.internal.ccache.an;
+import java.util.Collections;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -130,8 +126,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         
         ArrayList eigenstates = new ArrayList();
         
-        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
         final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
@@ -151,11 +147,14 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
                 }
             }
             catch ( Exception e ) {
-                e.printStackTrace();
+                System.err.println( e.getClass() + ": " + e.getMessage() );//XXX
                 done = true;
             }
             nodes++;
         }
+        
+        // Ensure that they appear in ascending order...
+        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }

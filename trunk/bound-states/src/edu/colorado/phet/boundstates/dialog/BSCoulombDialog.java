@@ -136,8 +136,9 @@ public class BSCoulombDialog extends JDialog implements Observer {
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
-            String labelFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider.setTextEditable( true );
         }
 
         // Spacing
@@ -148,8 +149,9 @@ public class BSCoulombDialog extends JDialog implements Observer {
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
-            String labelFormat = SimStrings.get( "label.wellSpacing" ) + " {0} " + positionUnits;
-            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+            String spacingLabel = SimStrings.get( "label.wellSpacing" );
+            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
+            _spacingSlider.setTextEditable( true );
         }
         
         updateControls();
@@ -161,6 +163,8 @@ public class BSCoulombDialog extends JDialog implements Observer {
         int row = 0;
         int col = 0;
         layout.addComponent( _offsetSlider, row, col );
+        row++;
+        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
         layout.addComponent( _spacingSlider, row, col );
         row++;
@@ -207,7 +211,7 @@ public class BSCoulombDialog extends JDialog implements Observer {
         _spacingSlider.setValue( _potential.getSpacing() );
         
         // Visiblility
-        _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
+        _spacingSlider.setEnabled( _potential.getNumberOfWells() > 1 );
     }
     
     private void setEventHandlingEnabled( boolean enabled ) {

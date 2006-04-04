@@ -434,6 +434,10 @@ public class BSManyModule extends BSAbstractModule {
         _legend.setColorScheme( colorScheme );
         // Eigenstates...
         _eigenstatesNode.setColorScheme( colorScheme );
+        // Superposition dialog...
+        if ( _superpositionStateDialog != null ) {
+            _superpositionStateDialog.setColorScheme( _colorScheme );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -523,7 +527,7 @@ public class BSManyModule extends BSAbstractModule {
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
             int startingIndex = _selectedPotential.getStartingIndex();
-            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), startingIndex );
+            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), 20 /*XXX*/, startingIndex, _colorScheme );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _superpositionStateDialog = null;

@@ -13,45 +13,58 @@ package edu.colorado.phet.boundstates.control;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.Hashtable;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 
 /**
- * SliderControl combines a JSlider and JLabel into one panel that 
- * can be treated like a JSlider.  As the slider value is changed, the label 
- * automatically updates to reflect the new value.
- * The slider also supports double precision numbers, whereas 
- * JSlider only support integers.
+ * SliderControl combines a JSlider and JFormattedTextField into one panel that 
+ * can be treated like a JSlider.  
+ * <p>
+ * The slider supports double precision numbers, whereas JSlider only support integers.
+ * As the slider value is changed, the text field automatically updates to reflect the 
+ * new value.  The text field is optionally editable, and user input is validated.
+ * <p>
  * The default "look" is to have labels at the min and max tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SliderControl extends JPanel implements ChangeListener {
+public class SliderControl extends JPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JSlider _slider;  // slider that the user moves
-    private JLabel _label; // value that updates as the slider is moved
+    // Model
+    private double _value;
     private double _min, _max;
     private double _tickSpacing;
+    
+    // View
+    private JSlider _slider;
+    private JFormattedTextField _valueTextField;
+    private JLabel _valueLabel, _unitsLabel;
+    
+    // misc.
     private double _multiplier;
     private DecimalFormat _tickNumberFormat;
-    private DecimalFormat _labelNumberFormat;
-    private String _labelFormat; // format that specifies how the value is displayed
+    private DecimalFormat _valueNumberFormat;
     private EventListenerList _listenerList; // notification of slider changes
     
     //----------------------------------------------------------------------------
@@ -65,9 +78,11 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param min minimum value (model coordinates)
      * @param max maximum value (model coordinates)
      * @param tickSpacing space between tick marks (model coordinates)
-     * @param tickPrecision number of decimal places in tick marks
-     * @param labelPrecision number of decimal places in selected value display
-     * @param labelFormat formatter used to format the label
+     * @param tickDecimalPlaces number of decimal places in tick marks
+     * @param valueDecimalPlaces number of decimal places in selected value display
+     * @param label label that appears to the left of the value
+     * @param units units that appear to the right of the value
+     * @param columns columns in the text field
      * @param insets insets
      * @throws IllegalArgumentException
      */
@@ -76,43 +91,63 @@ public class SliderControl extends JPanel implements ChangeListener {
             double min, 
             double max, 
             double tickSpacing,
-            int tickPrecision, 
-            int labelPrecision,
-            String labelFormat, 
+            int tickDecimalPlaces, 
+            int valueDecimalPlaces,
+            String label,
+            String units,
+            int columns,
             Insets insets ) {
         
         super();
         
-        // Process arguments
-        {
-            if ( min >= max ) {
-                throw new IllegalArgumentException( "min >= max" );
-            }
-            if ( tickSpacing > max - min ) {
-                throw new IllegalArgumentException( "tickSpacing > max - min" );
-            }
-            if ( tickPrecision < 0 ) {
-                throw new IllegalArgumentException( "tickPrecision must be >= 0" );
-            }
-            if ( labelPrecision < 0 ) {
-                throw new IllegalArgumentException( "labelPrecision must be >= 0" );
-            }
-
-            _min = min;
-            _max = max;
-            _tickSpacing = tickSpacing;
-            
-            _multiplier = Math.pow( 10, labelPrecision );
-            
-            _tickNumberFormat = createFormat( tickPrecision );
-            _labelNumberFormat = createFormat( labelPrecision );
-            _labelFormat = labelFormat;
+        // Validate arguments
+        if ( value < min || value > max ) {
+            throw new IllegalArgumentException( "value is out of range: " + value );
         }
-        
+        if ( min >= max ) {
+            throw new IllegalArgumentException( "min >= max" );
+        }
+        if ( tickSpacing > max - min ) {
+            throw new IllegalArgumentException( "tickSpacing > max - min" );
+        }
+        if ( tickDecimalPlaces < 0 ) {
+            throw new IllegalArgumentException( "tickPrecision must be >= 0" );
+        }
+        if ( valueDecimalPlaces < 0 ) {
+            throw new IllegalArgumentException( "valuePrecision must be >= 0" );
+        }
+
+        _value = value;
+        _min = min;
+        _max = max;
+        _tickSpacing = tickSpacing;
+
+        _multiplier = Math.pow( 10, valueDecimalPlaces );
+
+        _tickNumberFormat = createFormat( tickDecimalPlaces );
+        _valueNumberFormat = createFormat( valueDecimalPlaces );
+
         _listenerList = new EventListenerList();
         
         // Label
-        _label = new JLabel();
+        JPanel valuePanel = new JPanel();
+        {
+            _valueLabel = new JLabel( label );
+            _unitsLabel = new JLabel( units );
+            
+            _valueTextField = new JFormattedTextField( _valueNumberFormat );
+            _valueTextField.setValue( new Double(value) );
+            _valueTextField.setHorizontalAlignment( JTextField.RIGHT );
+            _valueTextField.setEditable( false );
+            _valueTextField.setColumns( columns );
+            
+            EasyGridBagLayout layout = new EasyGridBagLayout( valuePanel );
+            valuePanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            layout.addComponent( _valueLabel, 0, 0 );
+            layout.addComponent( _valueTextField, 0, 1 );
+            layout.addComponent( _unitsLabel, 0, 2 );
+        }
         
         // Slider
         {
@@ -136,14 +171,17 @@ public class SliderControl extends JPanel implements ChangeListener {
                 layout.setInsets( insets );
             }
             setLayout( layout );
-            layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( valuePanel, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _slider, 1, 0, GridBagConstraints.WEST );
         }
         
         // Interactivity
-        _slider.addChangeListener( this );
+        EventDispatcher listener = new EventDispatcher();
+        _valueTextField.addActionListener( listener );
+        _valueTextField.addFocusListener( listener );
+        _slider.addChangeListener( listener );
         
-        updateLabel();
+        setValue( value );
     }
     
     /**
@@ -153,19 +191,23 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param min
      * @param max
      * @param tickSpacing
-     * @param tickPrecision
-     * @param labelPrecision
-     * @param labelFormat
+     * @param tickDecimalPlaces
+     * @param valueDecimalPlaces
+     * @param label
+     * @param units
+     * @param columns
      */
     public SliderControl( 
             double value,
             double min, 
             double max, 
             double tickSpacing,
-            int tickPrecision,
-            int labelPrecision,
-            String labelFormat  ) {
-        this( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, null );
+            int tickDecimalPlaces,
+            int valueDecimalPlaces,
+            String label,
+            String units,
+            int columns ) {
+        this( value, min, max, tickSpacing, tickDecimalPlaces, valueDecimalPlaces, label, units, columns, null /* insets */ );
     }
     
     //----------------------------------------------------------------------------
@@ -178,15 +220,17 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @param value
      */
     public void setValue( double value ) {
-        int sliderValue = 0;
-        if ( isInverted() ) {
-            sliderValue = (int) ( ( ( _max + _min ) * _multiplier ) - ( value * _multiplier ) );
+        if ( value != _value ) {
+            if ( isValid( value ) ) {
+                _value = value;
+                updateView();
+                fireChangeEvent( new ChangeEvent( this ) );
+            }
+            else {
+                beep();
+                updateView(); // revert
+            }
         }
-        else {
-            sliderValue = (int) ( value * _multiplier );
-        }
-        _slider.setValue( sliderValue );
-        updateLabel();
     }
     
     /**
@@ -195,24 +239,26 @@ public class SliderControl extends JPanel implements ChangeListener {
      * @return the value
      */
     public double getValue() {
-        int sliderValue = getSlider().getValue();
-        double value = 0;
-        if ( isInverted() ) {
-            value = ( ( (_max + _min) * _multiplier ) - sliderValue ) / _multiplier;
-            if ( value > _max ) {
-                value = _max; // adjust for rounding error
-            }
-        }
-        else {
-            value = sliderValue / _multiplier;
-        }
-        return value;
+        return _value;
     }
     
+    /**
+     * Enables or disables all of this controls subcomponents.
+     * 
+     * @param enabled
+     */
     public void setEnabled( boolean enabled ) {
+        _valueLabel.setEnabled( enabled );
+        _valueTextField.setEnabled( enabled );
+        _unitsLabel.setEnabled( enabled );
         _slider.setEnabled( enabled );
     }
     
+    /**
+     * Is this control enabled?
+     * 
+     * @return true or false
+     */
     public boolean isEnabled() {
         return _slider.isEnabled();
     }
@@ -246,7 +292,7 @@ public class SliderControl extends JPanel implements ChangeListener {
     }
     
     /**
-     * Provides access to the JSlider.
+     * Gets a reference to the JSlider.
      * 
      * @return the JSlider
      */
@@ -255,28 +301,25 @@ public class SliderControl extends JPanel implements ChangeListener {
     }
     
     /**
-     * Gets the JLabel that displays the value.
+     * Gets a reference to the JFormattedTextField.
      * 
-     * @return the JLabel
+     * @return the JFormattedTextField
      */
-    protected JLabel getLabel() {
-        return _label;
-    }
-    
-    /**
-     * Sets the format used to format the label.
-     * See MessageFormat.
-     * 
-     * @param format
-     */
-    public void setLabelFormat( String format ) {
-        assert( format != null );
-        _labelFormat = format;
-        updateLabel();
+    public JFormattedTextField getFormattedTextField() {
+        return _valueTextField;
     }
 
     /**
-     * Determine whether the slider value is being adjusted.
+     * Makes the text editable.
+     * 
+     * @param editable
+     */
+    public void setTextEditable( boolean editable ) {
+        _valueTextField.setEditable( editable );
+    }
+    
+    /**
+     * Determines whether the slider value is being adjusted.
      * The result is true if the user is dragging the slider
      * but has not yet released it.
      * 
@@ -328,15 +371,73 @@ public class SliderControl extends JPanel implements ChangeListener {
         return _min;
     }
     
+    //----------------------------------------------------------------------------
+    // Private methods
+    //----------------------------------------------------------------------------
+    
     /*
-     * Updates the label when the slider is changed.
+     * Gets the value from the slider.
      */
-    protected void updateLabel() {
-        double value = getValue();
-        String valueString = _labelNumberFormat.format( value );
-        Object[] args = { valueString };
-        String text = MessageFormat.format( _labelFormat, args );
-        getLabel().setText( text );
+    private double getSliderValue() {
+        int sliderValue = getSlider().getValue();
+        double value = 0;
+        if ( isInverted() ) {
+            value = ( ( (_max + _min) * _multiplier ) - sliderValue ) / _multiplier;
+            if ( value > _max ) {
+                value = _max; // adjust for rounding error
+            }
+        }
+        else {
+            value = sliderValue / _multiplier;
+        }
+        return value;
+    }
+    
+    /*
+     * Gets the value from the text field.
+     */
+    private double getTextFieldValue() {
+        return ( (Number) _valueTextField.getValue() ).doubleValue();
+    }
+    
+    /*
+     * Updates the view to match the model.
+     */
+    private void updateView() {
+        updateTextField();
+        updateSlider();
+    }
+    
+    /*
+     * Updates the text field to match the model.
+     */
+    private void updateTextField() {
+        String text = _valueNumberFormat.format( _value );
+        _valueTextField.setText( text );
+    }
+     
+    /*
+     * Updates the slider to match the model.
+     */
+    private void updateSlider() {
+        int sliderValue = 0;
+        if ( isInverted() ) {
+            sliderValue = (int) ( ( ( _max + _min ) * _multiplier ) - ( _value * _multiplier ) );
+        }
+        else {
+            sliderValue = (int) ( _value * _multiplier );
+        }
+        _slider.setValue( sliderValue );
+    }
+    
+    /*
+     * Is a specified value valid?
+     * 
+     * @param value
+     * @return true or false
+     */
+    private boolean isValid( double value ) {
+        return ( value >= _min && value <= _max  );
     }
     
     /*
@@ -374,13 +475,13 @@ public class SliderControl extends JPanel implements ChangeListener {
     }
     
     /*
-     * Creates a DecimalFormat for the requested precision.
+     * Creates a DecimalFormat with a specified number of decimal places.
      * 
      * @param precision number of decimal places
      */
-    private DecimalFormat createFormat( int precision ) {
+    private DecimalFormat createFormat( int decimalPlaces ) {
         String format = "0";
-        for ( int i = 0; i < precision; i++ ) {
+        for ( int i = 0; i < decimalPlaces; i++ ) {
             if ( i == 0 ) {
                 format += ".";
             }
@@ -389,20 +490,67 @@ public class SliderControl extends JPanel implements ChangeListener {
         return new DecimalFormat( format );
     }
     
+    /*
+     * Produces an audible beep, used to indicate invalid text entry.
+     */
+    private void beep() {
+        Toolkit.getDefaultToolkit().beep();
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
     
-    /**
-     * ChangeListener implementation.
-     * Changes the source of the event to make it look like it came 
-     * from this object instead of the object's slider.
-     * 
-     * @param e the event
+    /*
+     * Dispatches events to the proper handler.
      */
-    public void stateChanged( ChangeEvent e ) {
-        updateLabel();
-        fireChangeEvent( new ChangeEvent( this ) );
+    private class EventDispatcher implements ActionListener, ChangeListener, FocusListener {
+
+        /**
+         * User pressed enter in text field.
+         */
+        public void actionPerformed( ActionEvent e ) {
+            if ( e.getSource() == _valueTextField ) {
+                setValue( getTextFieldValue() );
+            }
+        }
+        
+        /**
+         * Slider was changed.
+         * 
+         * @param e the event
+         */
+        public void stateChanged( ChangeEvent e ) {
+            if ( e.getSource() == _slider ) {
+                setValue( getSliderValue() );
+            }
+        }
+        
+        /**
+         * Selects the entire value text field when it gains focus.
+         */
+        public void focusGained( FocusEvent e ) {
+            if ( e.getSource() == _valueTextField ) {
+                System.out.println( "focusGained" );
+                _valueTextField.selectAll();
+            }
+        }
+        
+        /**
+         * Processes the contents of the value text field when it loses focus.
+         */
+        public void focusLost( FocusEvent e ) {
+            if ( e.getSource() == _valueTextField ) {
+                try {
+                    _valueTextField.commitEdit();
+                    setValue( getTextFieldValue() );
+                }
+                catch ( ParseException pe ) {
+                    beep();
+                    updateView(); // revert
+                }
+            }
+        }
     }
  
     /**

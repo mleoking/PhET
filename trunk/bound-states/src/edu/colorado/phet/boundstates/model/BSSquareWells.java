@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
@@ -138,8 +139,8 @@ public class BSSquareWells extends BSAbstractPotential {
         
         ArrayList eigenstates = new ArrayList();
 
-        final double minX = BSConstants.POSITION_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_RANGE.getUpperBound();
+        final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
         final double maxE = getOffset();
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
@@ -159,11 +160,14 @@ public class BSSquareWells extends BSAbstractPotential {
                 }
             }
             catch ( Exception e ) {
-                e.printStackTrace();
+                System.err.println( e.getClass() + ": " + e.getMessage() );//XXX
                 done = true;
             }
             nodes++;
         }
+        
+        // Ensure that they appear in ascending order...
+        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }

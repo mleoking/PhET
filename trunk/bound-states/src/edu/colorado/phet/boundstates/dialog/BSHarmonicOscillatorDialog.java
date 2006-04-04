@@ -136,20 +136,23 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
-            String labelFormat = SimStrings.get( "label.wellOffset" ) + " {0} " + energyUnits;
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider.setTextEditable( true );
         }
 
         // Angular Frequency
         {
-            double value = _potential.getSpacing();
+            double value = _potential.getAngularFrequency();
             double min = BSConstants.MIN_WELL_ANGULAR_FREQUENCY;
             double max = BSConstants.MAX_WELL_ANGULAR_FREQUENCY;
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
-            String labelFormat = "<html>" + SimStrings.get( "label.wellAngularFrequency" ) + " {0} " + angularFrequencyUnits + "</html>";
-            _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, labelFormat, SLIDER_INSETS );
+            String angularFrequencyLabel = SimStrings.get( "label.wellAngularFrequency" );
+            _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, 
+                    angularFrequencyLabel, angularFrequencyUnits, 4, SLIDER_INSETS );
+            _angularFrequencySlider.setTextEditable( true );
         }
         
         updateControls();
@@ -161,6 +164,8 @@ public class BSHarmonicOscillatorDialog extends JDialog implements Observer {
         int row = 0;
         int col = 0;
         layout.addComponent( _offsetSlider, row, col );
+        row++;
+        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
         layout.addComponent( _angularFrequencySlider, row, col );
         row++;
