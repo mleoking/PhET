@@ -30,6 +30,7 @@ CLEANUP:
 
 
 DONE:
+(4/4/06) - make canvas background slightly darker to improve contrast with white charts
 (4/4/06) - when changing help item visibility, temporarily pause the clock so that things draw properly
 (4/4/06) - put Color Scheme menu in menubar, remove Options menu
 (4/4/06) - change "Wave Function view" -> "Electron Wave Function view"
