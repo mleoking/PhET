@@ -1,0 +1,31 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 3/28/06-04/03/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - made all sliders have an associated editable text field
+  - investigated various quirks of Schmit-Lee algorithm
+  - proceeding as if Schmidt-Lee algorithm will work
+  - use separate position (x-axis) ranges for model and view
+  - changed Superposition dialog to show coefficients for all eigenstates
+  
+  Common Code:
+  - development meeting with Ron & Sam, various topics
+  
+WHAT'S NEXT:
+ 
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+  o continue work on Quantum Tunneling, see: 
+    http://www.colorado.edu/physics/phet/dev/quantum-tunneling/TODO.txt
+    
+ISSUES:
+ 
+  o what needs to be completed before we publish Quantum Tunneling 1.0 ?
+  o SourceForge CVS server has been down since 3/30
+
+-- 
