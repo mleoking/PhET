@@ -55,6 +55,7 @@ MACINTOSH:
 
 
 DONE:
+(4/4/06) - **** SourceForge CVS server restored ****
 (4/3/06) - color non-zero superposition coefficients to match eigenstate selection color
 (4/3/06) - abbreviate superposition equation, show terms 1,2,n
 (4/3/06) - make superposition dialog show variable number of coefficients
