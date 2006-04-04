@@ -92,7 +92,7 @@ public class QTConstants {
     // Paints
     //----------------------------------------------------------------------------
    
-    public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
+    public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
     public static final Color DRAG_HANDLE_FILL_COLOR = Color.WHITE;
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
