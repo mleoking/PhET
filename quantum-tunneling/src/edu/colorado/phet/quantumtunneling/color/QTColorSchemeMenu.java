@@ -54,14 +54,14 @@ public class QTColorSchemeMenu extends JMenu {
     //----------------------------------------------------------------------------
     
     public QTColorSchemeMenu( QTModule module ) {
-        super( SimStrings.get( "menu.options.colorScheme" ) );
-        setMnemonic( SimStrings.get( "menu.options.colorScheme.mnemonic" ).charAt( 0 ) );
+        super( SimStrings.get( "menu.colorScheme" ) );
+        setMnemonic( SimStrings.get( "menu.colorScheme.mnemonic" ).charAt( 0 ) );
         
         _module = module;
 
         // Black
-        _blackItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.black" ) );
-        _blackItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.black.mnemonic" ).charAt( 0 ) );
+        _blackItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colorScheme.black" ) );
+        _blackItem.setMnemonic( SimStrings.get( "menu.colorScheme.black.mnemonic" ).charAt( 0 ) );
         _blackItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBlackSelection();
@@ -69,8 +69,8 @@ public class QTColorSchemeMenu extends JMenu {
         } );
 
         // White
-        _whiteItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.white" ) );
-        _whiteItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.white.mnemonic" ).charAt( 0 ) );
+        _whiteItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colorScheme.white" ) );
+        _whiteItem.setMnemonic( SimStrings.get( "menu.colorScheme.white.mnemonic" ).charAt( 0 ) );
         _whiteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleWhiteSelection();
@@ -78,8 +78,8 @@ public class QTColorSchemeMenu extends JMenu {
         } );
 
         // Custom
-        _customItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.custom" ) );
-        _customItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.custom.mnemonic" ).charAt( 0 ) );
+        _customItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colorScheme.custom" ) );
+        _customItem.setMnemonic( SimStrings.get( "menu.colorScheme.custom.mnemonic" ).charAt( 0 ) );
         _customItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleCustomSelection();

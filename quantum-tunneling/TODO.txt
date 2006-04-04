@@ -5,17 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- fix Richardson dt for new position range and dx
 - decide on correct behavior when we measure in a region where E<V
 - when wave packet's initial center is inside a well, total energy should be discrete energy levels, not a distribution
 
 MEDIUM PRIORITY:
-- parts of help items in "static" areas of the screen don't draw/erase when clock is running
-- zoom buttons sometimes aren't drawn or look transparent
-- add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
+- ant build file that applies proguard and removes unused images
 
 LOW PRIORITY:
-- top edge of +1 tick label on Energy plot y axis is clipped
+- add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
 
 OPTIMIZATIONS:
 - remove unused images from the JAR file that ProGuard produces
@@ -33,6 +30,13 @@ CLEANUP:
 
 
 DONE:
+(4/4/06) - when changing help item visibility, temporarily pause the clock so that things draw properly
+(4/4/06) - put Color Scheme menu in menubar, remove Options menu
+(4/4/06) - change "Wave Function view" -> "Electron Wave Function view"
+(4/4/06) - change "Wave Function form" -> "Electron Wave Function form"
+(4/4/06) - change some colors in black color scheme (as requested)
+(4/4/06) - change default color scheme to white
+(4/4/06) - Sam M. verified that dt is correct for new position range and dx
 (3/27/06) - move FastPathRenderer to jfreechart-phet
 (3/27/06) - add a command line arg (-dev) to enable Developer menu
 (3/27/06) - fix new warnings that eclipse 3.1.2 found
@@ -456,6 +460,9 @@ DONE:
 
 
 REJECTED:
+(4/4/06) - top edge of +1 tick label on Energy plot y axis is clipped (problem fixed itself)
+(4/4/06) - zoom buttons sometimes aren't drawn or look transparent (problem fixed itself when performance was improved)
+(4/4/06) - add a control to vary mass (vetoed by Carl, no pedagogical reason to use anything but constant electron mass)
 (3/24/06) - possibly add sum/separate feature for wave packet if we replace Richardson (we're using Richardson, other approaches are worse)
 (3/24/06) - try using SwingUtilities.invokeLater on WaveFunctionPlot.update to solve the Swing repaint problem (didn't do anything, not the problem)
 (2/22/06) - cache the total energy gradient as an image, update only when necessary (there would be negligible benfit; the times it needs to change are when we're things are sluggish)
