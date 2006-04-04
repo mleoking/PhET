@@ -175,6 +175,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     
     /**
      * Gets the eignestates for the potential.
+     * They are sorted in order from lowest to highest energy value.
      * 
      * @return
      */
