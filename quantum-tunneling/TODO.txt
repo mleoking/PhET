@@ -13,6 +13,7 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
+- menubar is sometimes not painted when app is maximized with clock running
 
 OPTIMIZATIONS:
 - remove unused images from the JAR file that ProGuard produces
