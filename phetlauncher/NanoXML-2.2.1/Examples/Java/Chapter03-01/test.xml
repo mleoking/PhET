@@ -1,0 +1,6 @@
+<book>
+    <chapter id="my chapter">
+        <title>The title</title>
+        Some text.
+    </chapter>
+</book>

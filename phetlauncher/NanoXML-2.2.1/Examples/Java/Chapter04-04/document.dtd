@@ -1,0 +1,11 @@
+<!ELEMENT Chapter (Paragraph*)>
+
+<!ATTLIST Chapter
+        title CDATA #REQUIRED
+        id CDATA #REQUIRED>
+
+<!ELEMENT Paragraph (#PCDATA)>
+
+<!ATTLIST Paragraph
+        align (left|center|right) 'left'>
+

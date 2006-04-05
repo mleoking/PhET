@@ -1,0 +1,6 @@
+<!DOCTYPE FOO SYSTEM "test.dtd" [
+        <!ENTITY % extParamEntity "blah">
+        ]>
+
+<FOO x='1'>&value;</FOO>
+

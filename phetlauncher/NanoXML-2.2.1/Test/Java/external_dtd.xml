@@ -1,0 +1,4 @@
+<!DOCTYPE FOO SYSTEM "test.dtd">
+
+<FOO x='1'>&value;</FOO>
+
