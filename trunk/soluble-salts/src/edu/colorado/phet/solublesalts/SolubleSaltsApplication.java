@@ -20,6 +20,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
+import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 /**
@@ -47,7 +48,10 @@ public class SolubleSaltsApplication extends PhetApplication {
         IClock moduleBClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         Module moduleB = new ConfigurableSaltModule( moduleBClock );
 
-        setModules( new Module[]{moduleA, moduleB } );
+        IClock moduleCClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
+        Module moduleC = new SodiumChlorideModule( moduleCClock );
+
+        setModules( new Module[]{moduleC, moduleA, moduleB } );
 
         setUpOptionsMenu();
     }

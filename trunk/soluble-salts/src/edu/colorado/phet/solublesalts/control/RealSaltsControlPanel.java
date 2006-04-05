@@ -12,8 +12,7 @@ package edu.colorado.phet.solublesalts.control;
 
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.salt.Salt;
-import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
+import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 
@@ -21,6 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 /**
  * RealSaltsControlPanel
@@ -30,8 +30,26 @@ import java.awt.event.ActionListener;
  */
 public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
 
+    static protected HashMap saltMap;
+
+    static {
+        saltMap = new HashMap();
+        saltMap.put( "Silver Bromide", new SilverBromide() );
+//        saltMap.put( "Sodium Chloride", new SodiumChloride() );
+//        saltMap.put( "Lead Chloride", new LeadChloride() );
+        saltMap.put( "Copper(I) Iodide", new CuprousIodide() );
+//        saltMap.put( "Silver Iodide", new SilverIodide() );
+        saltMap.put( "Thallium(I) Sulfide", new ThallousSulfide() );
+//        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
+        saltMap.put( "Silver Arsenate", new SilverArsenate() );
+//        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
+        saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
+        saltMap.put( "Mercury(II) Bromide", new MercuryBromide() );
+    }
+
+
     public RealSaltsControlPanel( final SolubleSaltsModule module ) {
-        super( module );                
+        super( module );
     }
 
     /**
@@ -44,28 +62,10 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
-
-                if( saltClass instanceof SodiumChloride ) {
-                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.7342E-25,
-//                                                        10E-23,
-                                                        5E-23,
-                                                        1E-23,
-                                                        0.5E-23 );
-                    getModule().setCalibration( calibration );
-                }
-                else {
-                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
-                                                        1E-16,
-                                                        0.5E-16,
-                                                        0.1E-16 );
-                    getModule().setCalibration( calibration );
-                }
-
                 getModule().reset();
                 revalidate();
             }
         } );
-        comboBox.setSelectedItem( SolubleSaltsConfig.DEFAULT_SALT_NAME );
 
         JPanel panel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new DefaultGridBagConstraints();
@@ -77,6 +77,10 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
         gbc.gridy++;
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         panel.add( saltSPinnerPanel, gbc );
+
+        Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
+        model.setCurrentSalt( saltClass );
+        revalidate();
 
         return panel;
     }

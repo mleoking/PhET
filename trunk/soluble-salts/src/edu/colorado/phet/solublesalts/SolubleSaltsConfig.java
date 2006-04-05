@@ -12,6 +12,7 @@ package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -26,9 +27,9 @@ import java.awt.geom.Point2D;
 public class SolubleSaltsConfig {
 
     // Descriptive information
-    public static final String TITLE = "Slightly Soluble Salts";
+    public static final String TITLE = SimStrings.get( "Application.Title" );
     public static final String DESCRIPTION = "Soluble Salts";
-    public static final String VERSION = "0.00.01";
+    public static final String VERSION = "0.01";
 
     // Clock parameters
     public static final double DT = 1;
@@ -81,7 +82,6 @@ public class SolubleSaltsConfig {
     public static boolean ONE_CRYSTAL_ONLY = false;
     public static boolean DEBUG = false;
     public static boolean SHOW_BONDS = false;
-
 
     //----------------------------------------------------------------
     // Configuration parameters that can be changed programatically at runtime

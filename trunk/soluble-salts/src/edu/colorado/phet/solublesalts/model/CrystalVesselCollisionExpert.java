@@ -100,6 +100,7 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
                     crystal.setAcceleration( 0, 0 );
                     crystal.setAcceleration( 0, 0 );
                     crystal.translate( dx, dy );
+                    crystal.setBound( true );
                 }
             }
         }
