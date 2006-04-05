@@ -111,6 +111,7 @@ public class Crystal extends Body implements Collidable {
     private Rectangle2D waterBounds;
     // An array to keep track of the most northerly, easterly, southerly and westerly ions in the crystal
     private Ion[] boundaryIons = new Ion[4];
+    private boolean isBound;
 
     //----------------------------------------------------------------
     // Lifecycle
@@ -258,9 +259,6 @@ public class Crystal extends Body implements Collidable {
             throw new RuntimeException( "maxRetries exceeded" );
         }
 
-        // todo: Is this doing anything? It isn't done in the other constructors
-//        model.getVessel().addChangeListener( vesselListener );
-
         // Reset the water bounds so that they will be respeced by other methods
         setWaterBounds( model.getVessel() );
 
@@ -294,12 +292,6 @@ public class Crystal extends Body implements Collidable {
         }
         // Note that using this constructor is a real hack. We use it to set the seed
         Crystal crystal = new Crystal( model, lattice, newIons, newSeed );
-
-//        if( newSeed == null ) {
-//            System.out.println( "Crystal.clone" );
-//        }
-//        crystal.setSeed( newSeed );
-
         trackExtremities();
 
         crystal.setVelocity( new Vector2D.Double( this.getVelocity() ) );
@@ -371,7 +363,6 @@ public class Crystal extends Body implements Collidable {
     }
 
     public void leaveModel() {
-//        model.getVessel().removeChangeListener( vesselListener );
         instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
     }
 
@@ -393,6 +384,18 @@ public class Crystal extends Body implements Collidable {
         cm.setLocation( cm.getX() / ions.size(),
                         cm.getY() / ions.size() );
     }
+
+    public boolean isBound() {
+        return isBound;
+    }
+
+    public void setBound( boolean bound ) {
+        isBound = bound;
+    }
+
+    //----------------------------------------------------------------
+    // Utility
+    //----------------------------------------------------------------
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -433,15 +436,6 @@ public class Crystal extends Body implements Collidable {
             }
 
             boolean b = lattice.addAtIonNode( ionA, ionB );
-//            if( b && !waterBounds.contains( ionA.getPosition() ) ) {
-////                b = lattice.addAtIonNode( ionA, ionB );
-//                removeIon( ionA );
-//                ionA.unbindFrom( this );
-//                added = false;
-//                updateCm();
-//                b = false;
-//            }
-
             if( b ) {
                 ions.add( ionA );
                 ionA.bindTo( this );
@@ -458,15 +452,6 @@ public class Crystal extends Body implements Collidable {
                         ionA.unbindFrom( this );
                         added = false;
                         updateCm();
-//                        lattice.addAtIonNode( ionA, ionB );
-//                        for( int j = 0; j < ions.size(); j++ ) {
-//                            Ion ion = (Ion)ions.get( j );
-//                            if( Math.abs( ion.getPosition().getX() - ionA.getPosition().getX() ) < 2
-//                                && Math.abs( ion.getPosition().getY() - ionA.getPosition().getY() ) < 2
-//                                && ion != ionA ) {
-//                                System.out.println( "Crystal.addIonNextToIon" );
-//                            }
-//                        }
                     }
                 }
             }
@@ -552,7 +537,6 @@ public class Crystal extends Body implements Collidable {
 
         // Sanity check
         if( ionToRelease == getSeed() && ions.size() > 1 ) {
-//            ionToRelease = lattice.getBestIonToRelease( getIons(), preferredIonType );
             throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
@@ -568,12 +552,6 @@ public class Crystal extends Body implements Collidable {
         ionToRelease.setVelocity( v );
         ionToRelease.unbindFrom( this );
         removeIon( ionToRelease );
-
-        // Give the ion a step so that it isn't in contact with the crystal
-        // todo: This used to be necessary, but it seems like it was responsible for some bugs,
-        // like ions getting outside of the tank, or flying off above the water. Sim seems to
-        // run properly with it commented out now
-//        ionToRelease.stepInTime( dt );
 
         // If there aren't any ions left in the crystal, remove it from the model
         if( getIons().size() == 0 ) {

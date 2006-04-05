@@ -106,6 +106,7 @@ public class Vessel implements ModelElement, Collidable {
             // todo: combine these lines into a single constructor
             Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice(), ion );
             crystal.addIon( ion );
+            crystal.setBound( true );
         }
     }
 

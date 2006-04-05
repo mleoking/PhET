@@ -164,13 +164,12 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public void update( ClockEvent event ) {
         super.update( event );
 
-        // If a crystal is aBOVE the water, it accelerates downward. If it's in the water, it moves
-        // at a constant speed
+        // If a crystal is Above the water and not bound to the vessel, it accelerates downward.
+        // If it's in the water, it moves at a constant speed
         List crystals = crystalTracker.getCrystals();
         for( int i = 0; i < crystals.size(); i++ ) {
             Crystal crystal = (Crystal)crystals.get( i );
-            if( crystal.getExtremeIon( Crystal.SOUTH).getPosition().getY() < vessel.getWater().getMinY()
-                && vessel.getWaterLevel() > 0
+            if( !crystal.isBound()
                 && !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
                 crystal.setAcceleration( accelerationOutOfWater );
             }
@@ -375,7 +374,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public Rectangle2D getWaterBounds() {
         return vessel.getWater().getBounds();
     }
-    
+
     //-----------------------------------------------------------------
     // Change events and listeners
     //-----------------------------------------------------------------
