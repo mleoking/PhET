@@ -117,15 +117,4 @@ public class Ion extends Atom {
     public interface ChangeListener extends EventListener {
         public void stateChanged( ChangeEvent event );
     }
-
-
-
-
-    public void setPosition( double x, double y ) {
-        super.setPosition( x, y );
-    }
-
-    public void setPosition( Point2D position ) {
-        super.setPosition( position );
-    }
 }
