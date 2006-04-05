@@ -23,7 +23,7 @@ import org.jfree.ui.Layer;
 
 /**
  * QTXYPlot makes it possible to directly draw an XYPlot's markers.
- * The methods required to do this are protectedf in XYPlot. 
+ * The methods required to do this are protected in XYPlot. 
  * This class simply makes those methods public.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
