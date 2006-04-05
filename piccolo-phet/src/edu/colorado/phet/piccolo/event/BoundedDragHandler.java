@@ -22,10 +22,12 @@ import java.awt.geom.Point2D;
  */
 
 public class BoundedDragHandler extends PBasicInputEventHandler {
+    private PNode dragNode;
     private PNode boundingNode;//work in global coordinate frame for generality.
     private Point2D relativeClickPoint;
 
-    public BoundedDragHandler( PNode boundingNode ) {
+    public BoundedDragHandler( PNode dragNode, PNode boundingNode ) {
+        this.dragNode = dragNode;
         this.boundingNode = boundingNode;
     }
 
@@ -34,15 +36,17 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     private void setRelativeClickPoint( PInputEvent event ) {
-        PNode node = event.getPickedNode();
-        Point2D nodeLoc = node.getGlobalTranslation();
+        Point2D nodeLoc = dragNode.getGlobalTranslation();
         Point2D clickLoc = getGlobalClickPoint( event );
         relativeClickPoint = new Point2D.Double( clickLoc.getX() - nodeLoc.getX(), clickLoc.getY() - nodeLoc.getY() );
     }
 
     private Point2D getGlobalClickPoint( PInputEvent event ) {
-//        return event.getPickedNode().localToGlobal( event.getPositionRelativeTo( event.getPickedNode() ) );//TODO this assumes there was a picked node, so must be used only in that context
-        return event.getPickedNode().localToGlobal( event.getPositionRelativeTo( event.getPickedNode() ) );
+        return event.getCanvasPosition();
+//
+//        Point2D pt = event.getPositionRelativeTo( dragNode ); //TODO lose the assumption that global=canvas coordinate frame.
+//        pt = dragNode.parentToLocal( pt );  //todo this failed for a ruler node in SchrodingerApp
+//        return dragNode.localToGlobal( pt );
     }
 
     public void mouseDragged( PInputEvent event ) {
@@ -50,17 +54,17 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             setRelativeClickPoint( event );
         }
         else {
-            PNode pickedNode = event.getPickedNode();
+            PNode pickedNode = dragNode;
 
             Point2D pt = getGlobalClickPoint( event );
             Point2D newPoint = new Point2D.Double( pt.getX() - relativeClickPoint.getX(), pt.getY() - relativeClickPoint.getY() );
-//            System.out.println( "newPoint = " + newPoint );
+//            System.out.println( System.currentTimeMillis() + ", relativeClickPoint=" + relativeClickPoint + ", pt=" + pt + ", newPoint = " + newPoint );
             pickedNode.setGlobalTranslation( newPoint );
 
 //            System.out.println( "pickedNode.getGlobalFullBounds().getMaxX() = " + pickedNode.getGlobalFullBounds().getMaxX() );
 //            System.out.println( "boundingNode.getGlobalFullBounds().getMaxX() = " + boundingNode.getGlobalFullBounds().getMaxX() );
 
-            if( !boundingNode.getGlobalFullBounds().contains( event.getPickedNode().getGlobalFullBounds() ) ) {
+            if( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
                 if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getFullBounds().getX() ) {
@@ -106,10 +110,11 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double y1 = pickedNode.getGlobalFullBounds().getMaxY();
                     newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxY() );
                 }
-                Point2D rollbackPoint = new Point2D.Double( newX, newY );
+                Point2D offset = new Point2D.Double( newX, newY );
+//                System.out.println( System.currentTimeMillis() + ", offset = " + offset );
 //                Point2D fullRollbackPoint = new Point2D.Double( newX - offset.getX(), newY - offset.getY() );
-                System.out.println( "rollbackPoint = " + rollbackPoint );
-                event.getPickedNode().setGlobalTranslation( rollbackPoint );
+//                System.out.println( "rollbackPoint = " + offset );
+                dragNode.setGlobalTranslation( offset );
 //                event.getPickedNode().setOffset( rollbackPoint );
             }
         }
@@ -129,5 +134,13 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     public void mouseReleased( PInputEvent event ) {
         super.mouseReleased( event );
         relativeClickPoint = null;
+    }
+
+    public PNode getBoundingNode() {
+        return boundingNode;
+    }
+
+    public PNode getDragNode() {
+        return dragNode;
     }
 }
