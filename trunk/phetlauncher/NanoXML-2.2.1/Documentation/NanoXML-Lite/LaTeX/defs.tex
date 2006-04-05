@@ -1,0 +1,24 @@
+\newcommand\ltext[1]{\mbox{#1}}
+\newcommand\term[1]{\emph{\mbox{#1}}}
+\newcommand\acronym[1]{\ltext{#1}}
+\newcommand\classname[1]{\mbox{\tt #1}}
+\newcommand\propertykey[1]{\mbox{\tt #1}}
+\newcommand\propertyvalue[1]{\mbox{\tt #1}}
+\newcommand\methodname[1]{\mbox{\tt #1}}
+\newcommand\filename[1]{\mbox{\sl #1}}
+\newcommand\packagename[1]{\mbox{\tt\sl #1}}
+
+\newcommand\xcallout[1]{\hfill\textcircled{#1}}
+\newcommand\xkeyword[1]{{\bf #1}}
+
+\newcounter{calloutindex}
+\newenvironment{callout}%
+{\begin{itemize}\setcounter{calloutindex}{1}}%
+{\end{itemize}}
+\newcommand\coitem{\item[\textcircled{\arabic{calloutindex}}%
+\addtocounter{calloutindex}{1}]}
+
+\newenvironment{example}%
+{\par\vskip 6pt\tt\small\obeylines\obeyspaces}%
+{\vskip 6pt}
+

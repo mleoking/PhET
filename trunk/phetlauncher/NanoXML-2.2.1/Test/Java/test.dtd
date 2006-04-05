@@ -1,0 +1,7 @@
+<!ENTITY % extParamEntity SYSTEM "include.ent">
+<!ENTITY value "%extParamEntity;">
+<!ELEMENT FOO (#PCDATA)>
+<!ATTLIST FOO 
+        x CDATA #REQUIRED
+        y CDATA #FIXED "fixedValue"
+        z CDATA "defaultValue">

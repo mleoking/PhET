@@ -1,0 +1,133 @@
+\chapter{Retrieving Data From An \XML{} Stream}
+
+If you're retrieving data from a stream, but you don't want to wait to process the data until it's completely read, you can use streaming.
+
+\section{The \XML{} Builder}
+
+The \XML{} data tree is created using an \XML{} builder. By default, the builder creates a tree of \classname{IXMLElement}.
+
+While the parser parses the data, it notifies the builder of any elements it encounters. Using this information, the builder generate the object tree. When the parser is done processing the data, it retrieves the object tree from the builder using \methodname{getResult}.
+
+The following example shows a simple builder that prints the notifications on the standard output.
+
+\begin{example}
+\xkeyword{import} java.io.*;
+\xkeyword{import} net.n3.nanoxml.*;
+~
+\xkeyword{public class} MyBuilder
+~~~~\xkeyword{implements} IXMLBuilder
+~~\{
+~~\xkeyword{public void} startBuilding(String systemID,\xcallout{1}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~\xkeyword{int} lineNr)
+~~\{
+~~~~System.out.println("Document started");
+~~\}
+~
+~~\xkeyword{public void} newProcessingInstruction(String target,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Reader reader)
+~~~~\xkeyword{throws} IOException
+~~\{
+~~~~System.out.println("New PI with target " + target);
+~~\}
+~
+~~\xkeyword{public void} startElement(String name,\xcallout{3}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsPrefix,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsSystemID,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String systemID,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~\xkeyword{int} lineNr)
+~~\{
+~~~~System.out.println("Element started: " + name);
+~~\}
+~
+~~\xkeyword{public void} endElement(String name,\xcallout{4}
+~~~~~~~~~~~~~~~~~~~~~~~~~String nsPrefix,
+~~~~~~~~~~~~~~~~~~~~~~~~~String nsSystemID)
+~~\{
+~~~~System.out.println("Element ended: " + name);
+~~\}
+~
+~~\xkeyword{public void} addAttribute(String key,\xcallout{5}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsPrefix,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsSystemID,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String value,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~String type)
+~~\{
+~~~~System.out.println(" " + key + ": " + type + " = " + value);
+~~\}
+~
+~~\xkeyword{public void} elementAttributesProcessed(String name,\xcallout{6}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsPrefix,
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~String nsSystemID)
+~~\{
+~~~~// nothing to do
+~~\}
+~
+~~\xkeyword{public void} addPCData(Reader reader,\xcallout{7}
+~~~~~~~~~~~~~~~~~~~~~~~~String systemID,
+~~~~~~~~~~~~~~~~~~~~~~~~\xkeyword{int} lineNr)
+~~~~\xkeyword{throws} IOException
+~~\{
+~~~~System.out.println("\#PCDATA");
+~~\}
+~
+~~\xkeyword{public} Object getResult()\xcallout{8}
+~~\{
+~~~~\xkeyword{return null};
+~~\}
+\}
+\end{example}
+
+\begin{callout}
+  \coitem
+    The \XML{} parser started parsing the document. The \variable{lineNr}
+    parameter contains the line number where the document starts.
+  \coitem
+    The \XML{} parser encountered a processing instruction (PI) which is not
+    handled by the parser itself.
+    The target contains the target of the PI.
+    The contents of the PI can be read from reader.
+  \coitem
+    A new element has been started at line \variable{lineNr}.
+    The name of the element is stored in \variable{name}.
+  \coitem
+    The current element has ended.
+    For convenience, the name of that element is put in the parameter
+    \variable{name}.
+  \coitem
+    An attribute is added to the current element.
+  \coitem
+    This method is called when all the attributes of the current element
+    have been processed.
+  \coitem
+    A \ltext{\#PCDATA} section has been encountered.
+    The contents of the section can be read from reader.
+  \coitem
+    This method is called when the parsing has finished.
+    If the builder has a result, it has to return it to the parser in this
+    method.
+\end{callout}
+
+
+\section{Registering an XML Builder}
+
+You can register the builder to the parser using the method \methodname{setBuilder}.
+
+The following example shows how to create a parser which uses the builder we created in the previous section:
+
+\begin{example}
+\xkeyword{import} net.n3.nanoxml.*;
+\xkeyword{import} java.io.*;
+~
+\xkeyword{public class} DumpXML
+\{
+~~\xkeyword{public static void} main(String args[])
+~~~~\xkeyword{throws} Exception
+~~\{
+~~~~IXMLParser parser = XMLParserFactory.createDefaultXMLParser();
+~~~~IXMLReader reader = StdXMLReader.fileReader("test.xml");
+~~~~parser.setReader(reader);
+~~~~parser.setBuilder(new MyBuilder());
+~~~~parser.parse();
+~~\}
+\}
+\end{example}

@@ -1,0 +1,6 @@
+<!DOCTYPE Chapter SYSTEM "document.dtd">
+<Chapter id="ch01" title="The Title">
+    <Paragraph>First paragraph...</Paragraph>
+    <Paragraph>Second paragraph...</Paragraph>
+</Chapter>
+

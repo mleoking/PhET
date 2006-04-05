@@ -1,0 +1,4 @@
+<FOO><BAR/><BAR x="1"/><BAR x="1" y="2"/><BAR><BAR/><BARBAR/><BA/><FOO/></BAR><BAR>blah</BAR><BAR x="1&lt;">blah</BAR><BAR>&lt;&amp;&gt;&apos;&quot;</BAR><BAR>abc</BAR>
+ &lt;&#x9;
+&#xd;&lt;&amp;&gt;&quot;&apos;!:&#x2030;
+</FOO>

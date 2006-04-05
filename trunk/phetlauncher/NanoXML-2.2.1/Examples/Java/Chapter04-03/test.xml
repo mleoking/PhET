@@ -1,0 +1,10 @@
+<!DOCTYPE book [
+        <!ENTITY blah "%foo;">
+        ]>
+
+<book>
+    <chapter id="&blah;">
+        <title>The title</title>
+        Some text.
+    </chapter>
+</book>

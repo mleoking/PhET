@@ -1,0 +1,123 @@
+\chapter{Introduction}
+
+This chapter gives a short introduction to \XML{} and \NanoXML{}.
+
+\section{About \XML{}}
+
+The extensible markup language,
+\href{http://www.w3c.org/TR/REC-xml}{\XML{}}, is a way to mark up text in
+a structured document.
+
+\XML  is a simplification of the complex \ltext{SGML} standard.
+\ltext{SGML}, the Standard Generalized Markup Language, is an international
+(\ltext{ISO}) standard for marking up text and graphics.
+The best known application of \ltext{SGML} is \ltext{HTML}.
+
+Although \ltext{SGML} data is very easy to write, it's very difficult to write a
+generic \ltext{SGML} parser.
+When designing \XML{} however, the authors removed much of the flexibility
+of \ltext{SGML} making it much easier to parse \XML{} documents correctly.
+
+\XML{} data is structured as a tree of \term{entities}.
+An entity can be a string of character data or an element which can contain other
+entities.
+Elements can optionally have a set of attributes.
+Attributes are key/value pairs which set some properties of an element.
+
+The following example shows some \XML{} data:
+
+\begin{example}
+$<$book$>$
+~~$<$chapter id="my chapter"$>$
+~~~~$<$title$>$The title$<$/title$>$
+~~~~Some text.
+~~$<$/chapter$>$
+$<$/book$>$
+\end{example}
+
+At the root of the tree, you can find the element ``book''.
+This element contains one child element: ``chapter''.
+The chapter element has one attribute which maps the key ``id'' to
+``my chapter''.
+The chapter element has two child entities: the element ``title'' and the
+character data ``Some text.''.
+Finally, the title element has one child, the string ``The title''.
+
+\section{About \NanoXML{}}
+
+In April 2000, \NanoXML{} was first released as a spin-off project of
+\ltext{AUIT}, the Abstract User Interface Toolkit.
+
+The intent of NanoXML was to be a small parser which was easy to use.
+\ltext{SAX} and \ltext{DOM} are much too complex for what I needed and the
+mainstream parsers were either much too big or had a very restrictive license.
+
+\ltext{NanoXML 1} has all the features I needed: it is very small (about 6K),
+is reasonably fast for small \XML{} documents, is very easy to use and is
+free (\ltext{zlib/libpng} license).
+As I never intended to use \NanoXML{} to parse \ltext{DocBook} documents,
+there was no support for mixed data or \ltext{DTD} parsing.
+
+\NanoXML{} was released as a \ltext{SourceForge} project and, because of the
+very good response from its users, it matured to a small and stable parser.
+The final version, release \ltext{1.6.8} was released in May 2001.
+
+Because of its small size, people started to use \NanoXML{} for embedded
+systems (\ltext{KVM}, \ltext{J2ME}) and kindly submitted patches to make
+\NanoXML{} work in such restricted environment.
+
+\section{\NanoXML{} 2}
+
+In July 2001, \ltext{NanoXML 2} has been released.
+Unlike \ltext{NanoXML 1}, speed and \XML{} compliancy were considered to be
+very important when the new parser was designed.
+\ltext{NanoXML 2} is also very modular: you can easily replace the different
+components in the parser to customize it to your needs.
+The modularity of \ltext{NanoXML 2} also benefits extensions like \acronym{e.g.} \ltext{SAX} support which can now directly access the parser.
+In \ltext{NanoXML 1}, the \ltext{SAX} adapter had to iterate the data structure built by the base product.
+
+Although many features were added to \NanoXML{}, the second release was
+still very small.
+The full parser with builder fits in a \ltext{JAR} file of about 32K.
+This is still very tiny, especially when you compare this with the ``standard'' parsers of more than four times its size.
+
+As there is still need for a tiny parser like \ltext{NanoXML 1}, there is a
+special branch of \ltext{NanoXML 2}: \ltext{NanoXML/Lite}. This parser is source compatible with \ltext{NanoXML 1} but features a new parsing algorithm which makes it more than twice as fast as the older version.
+It is however more restrictive on the \XML{} data it parses: the older
+version allowed some not-wellformed data to be parsed.
+
+There are three branches of \ltext{NanoXML 2}:
+\begin{itemize}
+  \item[$\bullet$]
+    \term{NanoXML/Lite} is the successor of \ltext{NanoXML 1}.
+    It features an almost compatible parser which is extremely small.
+  \item[$\bullet$]
+    \term{NanoXML/Java} is the standard parser.
+  \item[$\bullet$]
+    \term{NanoXML/SAX} is the \ltext{SAX} adapter for \ltext{NanoXML/Java}.
+\end{itemize}
+
+The latest version of \NanoXML{} is \ltext{NanoXML 2.2.1}, which has been
+released in April 2002.
+
+\section{\NanoXML{} Extension to the \XML{} System ID}
+
+Because it's convenient to put data files into jar files, we need some way to specify that we want some resource which can be found in the class path.
+There is no support for such resources in the \XML{} 1.0 specification.
+NanoXML allows you to specify such resources using the
+\emph{reference part} of a \ltext{URL}.
+
+This means that if the \ltext{DTD} of the \XML{} data is put in the
+resource \filename{/data/foo.dtd}, you can specify such path using the 
+following document type declaration:
+
+\begin{example}
+$<$!DOCTYPE foo SYSTEM 'file:\#/data/foo.dtd'$>$
+\end{example}
+
+It's even possible to specify a resource found in a particular jar, like in the following example:
+
+\begin{example}
+$<$!DOCTYPE foo SYSTEM 'http://myserver.com/dtds.jar\#/foo.dtd'$>$
+\end{example}
+

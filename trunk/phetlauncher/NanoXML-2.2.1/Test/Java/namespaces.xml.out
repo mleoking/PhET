@@ -1,0 +1,1 @@
+<Foo xmlns="http://nanoxml.n3.net/foo" a="test"><ns:Bar xmlns:ns="http://nanoxml.n3.net/bar"><Blah xmlns="http://nanoxml.n3.net/foo" xmlns:ns="http://nanoxml.n3.net/bar" x="1" ns:x="2"/></ns:Bar></Foo>
