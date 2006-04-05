@@ -2,7 +2,7 @@ Build scripts are not fixed for this 2nd draft feasibility test yet.
 
 Beware of the 256 max filename size in windows.
 
-Test on a mac.
+Test on a 10.3.9 mac.
 
 Original problems (with full-blown netx implementation)
 O security
