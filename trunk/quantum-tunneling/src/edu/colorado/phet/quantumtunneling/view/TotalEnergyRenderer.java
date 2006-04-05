@@ -51,7 +51,7 @@ import edu.colorado.phet.quantumtunneling.model.WavePacket;
  * <p>
  * Exceptions to the above:
  * <ul>
- * <li>If E0 <= V0, then the "band" is replaced with a line.</li>
+ * <li>If E0 <= V0, then the "band" is replaced with a dashed line.
  * <li>If k0*w <= 2, then E- = V0, where k0=sqrt(2*m*(E0-V0)/(hbar*hbar))
  * </ul>
  *
