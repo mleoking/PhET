@@ -26,13 +26,14 @@ public class PhETLauncher {
     private ArrayList launchers = new ArrayList();
     private JLabel webAvailableLabel;
     private JPanel contentPane;
+    private static final String version = "0.02";
 
     public PhETLauncher() throws IOException {
 //        SecurityManager securityManager = new JNLPSecurityManager();
 //        System.setSecurityManager( securityManager );
         JNLPRuntime.initialize();
         JNLPRuntime.setExitClass( PhETLauncher.class );
-        frame = new JFrame( "PhET Launcher" );
+        frame = new JFrame( "PhET Launcher (" + version + ")" );
         frame.setSize( 600, 600 );
 
         contentPane = new JPanel();

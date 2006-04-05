@@ -84,12 +84,16 @@ public class ApplicationComponent extends VerticalLayoutPanel {
             //todo test what happens when NEVER is set, and version 1 is local, 2 is remote.  1 should run.
             launcher.setCreateAppContext( false );
 //            launcher.launch( location );
-            launcher.launchBackground( location );
+//            launcher.launchBackground( location );
 //            launcher.launchExternal( location );
+            launcher.launchExternal( location );
             refresh();
         }
         catch( IOException e1 ) {
             e1.printStackTrace();
+        }
+        catch( LaunchException e ) {
+            e.printStackTrace();
         }
     }
 
