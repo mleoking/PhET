@@ -12,6 +12,7 @@ MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
 
 LOW PRIORITY:
+- when switching potential types in wave packet form, total energy gradient is not fully repainted (Mac only)
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
 - menubar is sometimes not painted when app is maximized with clock running
 
