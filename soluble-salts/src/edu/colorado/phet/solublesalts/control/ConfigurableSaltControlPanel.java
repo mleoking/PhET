@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
- * SolubleSaltsControlPanel
+ * ConfigurableSaltControlPanel
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -45,6 +45,9 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
      */
     protected JPanel makeSaltSelectionPanel( final SolubleSaltsModel model ) {
 
+        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
+        final KspControl kspControl = new KspControl( model );
+
         SpinnerModel anionSpinnerModel = new SpinnerNumberModel( 1, 1, 3, 1 );
         final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
 
@@ -57,6 +60,8 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();
+                // We must set the Ksp after a reset, so it doesn't get set to the default value
+                model.setKsp( kspControl.getKsp() );
             }
         } );
 
@@ -69,11 +74,10 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();
+                // We must set the Ksp after a reset, so it doesn't get set to the default value
+                model.setKsp( kspControl.getKsp() );
             }
         } );
-
-        SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
-        JComponent kspControl = new KspControl( model );
 
         // Layout the controls
         JPanel panel = new JPanel( new GridBagLayout() );

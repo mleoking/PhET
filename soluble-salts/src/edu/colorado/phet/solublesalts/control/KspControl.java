@@ -36,10 +36,12 @@ public class KspControl extends JPanel {
     private double maxValue = 3E-16;
     private ModelSlider kspSlider;
     private JSpinner mantissaSpinner;
-    private OrderOfMagnitudeSpinner oomSpinner;
+    private JSpinner oomSpinner;
+//    private OrderOfMagnitudeSpinner oomSpinner;
     private SolubleSaltsModel model;
     private double maxExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP;
-    private double minExponent = 1E-40;
+    private double minExponent = -40;
+//    private double minExponent = 1E-40;
     private double defaultExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP;
 
     /**
@@ -47,7 +49,6 @@ public class KspControl extends JPanel {
      * @param model
      */
     public KspControl( final SolubleSaltsModel model ) {
-        final GridBagConstraints gbc = new DefaultGridBagConstraints();
         this.model = model;
 
         kspSlider = createSlider( model, 1E-15 );
@@ -61,13 +62,22 @@ public class KspControl extends JPanel {
             }
         } );
 
-        oomSpinner = new OrderOfMagnitudeSpinner( defaultExponent, minExponent, maxExponent, "0E00" );
+        oomSpinner = new JSpinner( new SpinnerNumberModel( defaultExponent, minExponent, maxExponent, 1));
+        oomSpinner.setPreferredSize( new Dimension( 45, (int)oomSpinner.getPreferredSize().getHeight() ) );
         oomSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setKsp();
 //                sliderChanger( model, oomSpinner, gbc );
             }
         } );
+//
+//        oomSpinner = new OrderOfMagnitudeSpinner( defaultExponent, minExponent, maxExponent, "0E00" );
+//        oomSpinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                setKsp();
+////                sliderChanger( model, oomSpinner, gbc );
+//            }
+//        } );
 
 
         // Initialize the model
@@ -77,18 +87,16 @@ public class KspControl extends JPanel {
         setBorder( new TitledBorder( "Ksp") );
         setLayout( new GridBagLayout() );
 
+        final GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.EAST;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add( mantissaSpinner, gbc );
         gbc.gridx = 1;
-        add( new JLabel( "X"), gbc );
+        add( new JLabel( " E "), gbc );
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.WEST;
         add( oomSpinner, gbc );
-
-
-
 
 //        gbc.anchor = GridBagConstraints.CENTER;
 //        gbc.gridwidth = 2;
@@ -106,9 +114,7 @@ public class KspControl extends JPanel {
     }
 
     private void setKsp() {
-        double mantissa = ((Double)mantissaSpinner.getValue()).doubleValue();
-        double exponent = ((Double)oomSpinner.getValue()).doubleValue();
-        model.setKsp( mantissa * exponent );
+        model.setKsp( getKsp() );
     }
 
     private void sliderChanger( SolubleSaltsModel model, OrderOfMagnitudeSpinner oomSpinner, GridBagConstraints gbc ) {
@@ -134,5 +140,21 @@ public class KspControl extends JPanel {
         } );
         model.setKsp( kspSlider.getValue() );
         return kspSlider;
+    }
+
+    /**
+     * Returns the Ksp value specified by the controls in this panel.
+     * @return Ksp
+     */
+    public double getKsp() {
+        double mantissa = ((Double)mantissaSpinner.getValue()).doubleValue();
+        double exponent = ((Double)oomSpinner.getValue()).doubleValue();
+        double ksp = mantissa * Math.pow( 10, exponent );
+        return ksp;
+//        System.out.println( "ksp = " + ksp );
+//        double mantissa = ((Double)mantissaSpinner.getValue()).doubleValue();
+//        double exponent = ((Double)oomSpinner.getValue()).doubleValue();
+//
+//        return mantissa * exponent;
     }
 }

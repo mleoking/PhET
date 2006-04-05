@@ -38,6 +38,6 @@ public class ThallousSulfide extends Salt {
     }
 
     public ThallousSulfide() {
-        super( ThallousSulfide.components, ThallousSulfide.lattice, Thallium.class, Sulfur.class, 5E-21 );
+        super( ThallousSulfide.components, ThallousSulfide.lattice, Thallium.class, Sulfur.class, 6E-22 );
     }
 }

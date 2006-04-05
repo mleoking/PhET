@@ -35,18 +35,23 @@ public class ConfigurableSaltModule extends SolubleSaltsModule {
     public ConfigurableSaltModule( IClock clock ) {
         super( SimStrings.get( "Module.configurableSalt" ),
                clock,
-               new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-                                            5E-16,
-                                            1E-16,
-                                            0.5E-16 ));
+               new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
+                                                   1E-16,
+                                                   0.5E-16,
+                                                   0.1E-16 ) );
+
+//               new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+//                                            5E-16,
+//                                            1E-16,
+//                                            0.5E-16 ));
 
         // Set up the control panel
-        setControlPanel( new ConfigurableSaltControlPanel( this ) );        
+        setControlPanel( new ConfigurableSaltControlPanel( this ) );
 
         // Set the default salt
         ConfigurableAnion.setClassCharge( 1 );
         ConfigurableCation.setClassCharge( -1 );
         ConfigurableSalt.configure();
-        ((SolubleSaltsModel)getModel()).setCurrentSalt( new ConfigurableSalt() );
+        ( (SolubleSaltsModel)getModel() ).setCurrentSalt( new ConfigurableSalt() );
     }
 }
