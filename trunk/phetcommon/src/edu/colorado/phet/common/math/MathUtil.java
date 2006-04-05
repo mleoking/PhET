@@ -518,4 +518,32 @@ public class MathUtil {
             num = 0;
         }
     }
+
+
+    /**
+     * Finds the least common multiple of two integers
+     *
+     * @param a
+     * @param b
+     * @return the least common multiple of a and b
+     */
+    public static int getLeastCommonMultiple( int a, int b ) {
+        boolean found = false;
+        int aFactor = 0;
+
+        // Get positive versions of both integers
+        a = a < 0 ? -a : a;
+        b = b < 0 ? -b : b;
+
+        // Search for the least common multiple
+        while( !found ) {
+            aFactor++;
+            for( int bFactor = a / b; bFactor * b <= aFactor * a; bFactor++ ) {
+                if( bFactor * b == aFactor * a ) {
+                    found = true;
+                }
+            }
+        }
+        return a * aFactor;
+    }
 }
