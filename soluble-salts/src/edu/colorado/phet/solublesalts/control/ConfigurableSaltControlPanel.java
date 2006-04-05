@@ -48,15 +48,15 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         final KspControl kspControl = new KspControl( model );
 
-        SpinnerModel anionSpinnerModel = new SpinnerNumberModel( 1, 1, 3, 1 );
-        final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
+        SpinnerModel cationSpinnerModel = new SpinnerNumberModel( 1, 1, 3, 1 );
+        final JSpinner cationChargeSpinner = new JSpinner( cationSpinnerModel );
 
-        JLabel anionLabel = new JLabel( SimStrings.get( "ControlLabels.AnionCharge") + ": " );
-        JSpinner.NumberEditor anionNumberEditor = new JSpinner.NumberEditor( anionChargeSpinner, "+#" );
-        anionChargeSpinner.setEditor( anionNumberEditor );
-        anionChargeSpinner.addChangeListener( new ChangeListener() {
+        JLabel cationLabel = new JLabel( SimStrings.get( "ControlLabels.CationCharge") + ": " );
+        JSpinner.NumberEditor cationNumberEditor = new JSpinner.NumberEditor( cationChargeSpinner, "+#" );
+        cationChargeSpinner.setEditor( cationNumberEditor );
+        cationChargeSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                ConfigurableAnion.setClassCharge( ( (Integer)anionChargeSpinner.getValue() ).intValue() );
+                ConfigurableCation.setClassCharge( ( (Integer)cationChargeSpinner.getValue() ).intValue() );
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();
@@ -65,12 +65,12 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
             }
         } );
 
-        JLabel cationLabel = new JLabel( SimStrings.get( "ControlLabels.CationCharge") + ": " );
-        SpinnerModel cationSpinnerModel = new SpinnerNumberModel( -1, -3, -1, 1 );
-        final JSpinner cationChargeSpinner = new JSpinner( cationSpinnerModel );
-        cationSpinnerModel.addChangeListener( new ChangeListener() {
+        JLabel anionLabel = new JLabel( SimStrings.get( "ControlLabels.AnionCharge") + ": " );
+        SpinnerModel anionSpinnerModel = new SpinnerNumberModel( -1, -3, -1, 1 );
+        final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
+        anionSpinnerModel.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                ConfigurableCation.setClassCharge( ( (Integer)cationChargeSpinner.getValue() ).intValue() );
+                ConfigurableAnion.setClassCharge( ( (Integer)anionChargeSpinner.getValue() ).intValue() );
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();
@@ -84,17 +84,17 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.weightx = 0.5;
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add( anionLabel, gbc );
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel.add( anionChargeSpinner, gbc );
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        gbc.anchor = GridBagConstraints.EAST;
         panel.add( cationLabel, gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add( cationChargeSpinner, gbc );
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel.add( anionLabel, gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add( anionChargeSpinner, gbc );
 
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 0;
