@@ -17,8 +17,11 @@ import java.awt.event.ActionListener;
 public class DiodeControlPanel extends JPanel {
     ButtonGroup bg = new ButtonGroup();
     private JPanel pan = new JPanel();
+    private JCheckBox gateCheckBox;
+    private SemiconductorModule module;
 
     public DiodeControlPanel( final SemiconductorModule module ) {
+        this.module = module;
         pan.setLayout( new BoxLayout( pan, BoxLayout.Y_AXIS ) );
 
         addJButton( SimStrings.get( "DiodeControlPanel.OneButton" ), new ActionListener() {
@@ -41,17 +44,24 @@ public class DiodeControlPanel extends JPanel {
 
         setBackground( new Color( 240, 230, 210 ) );
         add( pan );
-        final JCheckBox gate = new JCheckBox( SimStrings.get( "DiodeControlPanel.GateCheckBox" ) );
-        gate.setSelected( true );
-        gate.addActionListener( new ActionListener() {
+        gateCheckBox = new JCheckBox( SimStrings.get( "DiodeControlPanel.GateCheckBox" ) );
+        gateCheckBox.setSelected( false );
+        gateCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getMagnetGraphic().setVisible( gate.isSelected() );
-                if( !gate.isSelected() ) {
-                    module.releaseGate();
-                }
+                updateGate();
             }
         } );
-        add( gate );
+        updateGate();
+//        add( gateCheckBox );
+    }
+
+    private void updateGate() {
+//        SemiconductorModule module = ...;
+//        JCheckBox gateCheckBox = ...;
+        module.getMagnetGraphic().setVisible( gateCheckBox.isSelected() );
+        if( !gateCheckBox.isSelected() ) {
+            module.releaseGate();
+        }
     }
 
     private void addJButton( String s, ActionListener actionListener, boolean selected ) {
