@@ -55,8 +55,6 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
                 }
                 else {
                     SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
-//                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-//                                                        10E-16,
                                                         1E-16,
                                                         0.5E-16,
                                                         0.1E-16 );

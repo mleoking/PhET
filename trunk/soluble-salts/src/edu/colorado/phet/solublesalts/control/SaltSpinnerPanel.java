@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -25,6 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * SaltSpinnerPanel
@@ -87,6 +89,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     private JLabel totalNumLabel;
     private JLabel freeNumLabel;
     private JLabel boundNumLabel;
+    private Random random = new Random();
 
     /**
      * @param model
@@ -399,12 +402,24 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
                         model.addModelElement( ion );
                     }
                 }
+
                 if( dIons < 0 ) {
                     for( int i = dIons; i < 0; i++ ) {
+                        // Remove a free ion if one is avaliable
                         java.util.List ions = model.getIonsOfType( ionClass );
-                        if( ions != null ) {
-                            Ion ion = (Ion)ions.get( 0 );
-                            model.removeModelElement( ion );
+                        boolean found = false;
+                        for( int j = 0; j < ions.size() && !found; j++ ) {
+                            Ion ion = (Ion)ions.get( j );
+                            if( !ion.isBound() ) {
+                                model.removeModelElement( ion );
+                                found = true;
+                            }
+                        }
+                        // If a free ion wasn't available, remove one from a crystal
+                        if( !found ) {
+                            java.util.List crystals = model.getCrystals();
+                            Crystal crystal = (Crystal)crystals.get( random.nextInt( crystals.size() ));
+                            crystal.releaseIon( SolubleSaltsConfig.DT );
                         }
                     }
                 }

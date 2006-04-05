@@ -27,7 +27,9 @@ import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * SolubleSaltsModel
@@ -315,6 +317,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         return ionTracker.getIons();
     }
 
+    public List getCrystals() {
+        return crystalTracker.getCrystals();
+    }
+
     public HeatSource getHeatSource() {
         return heatSource;
     }
@@ -369,7 +375,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public Rectangle2D getWaterBounds() {
         return vessel.getWater().getBounds();
     }
-
+    
     //-----------------------------------------------------------------
     // Change events and listeners
     //-----------------------------------------------------------------
