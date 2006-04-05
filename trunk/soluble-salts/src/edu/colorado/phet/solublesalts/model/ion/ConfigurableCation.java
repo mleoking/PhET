@@ -24,11 +24,11 @@ public class ConfigurableCation extends Ion {
 
     public static final double RADIUS = 8;
     private static final double MASS = 11;
-    private static int CHARGE = -1;
+    private static int CHARGE = 1;
 
     public static void setClassCharge( int charge ) {
-        if( charge >= 0 ) {
-            throw new IllegalArgumentException( "charge must be < 0");
+        if( charge <= 0 ) {
+            throw new IllegalArgumentException( "charge must be > 0");
         }
         CHARGE = charge;
     }

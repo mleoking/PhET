@@ -44,7 +44,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     static private HashMap ionClassToName = new HashMap();
 
     static {
-        ionClassToName.put( ConfigurableAnion.class, "Anion" );
+        ionClassToName.put( ConfigurableCation.class, "Cation" );
         ionClassToName.put( Sodium.class, "Sodium" );
         ionClassToName.put( Lead.class, "Lead" );
         ionClassToName.put( Chromium.class, "Chromium" );
@@ -54,7 +54,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         ionClassToName.put( Strontium.class, "Strontium" );
         ionClassToName.put( Mercury.class, "Mercury" );
 
-        ionClassToName.put( ConfigurableCation.class, "Cation" );
+        ionClassToName.put( ConfigurableAnion.class, "Anion" );
         ionClassToName.put( Phosphate.class, "Phosphate" );
         ionClassToName.put( Bromine.class, "Bromide" );
         ionClassToName.put( Arsenate.class, "Arsenate" );
@@ -101,21 +101,21 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         model.addChangeListener( this );
 
         // Make labels with the names of the ions and icons that corresponds to the ions graphics
-        anionClass = model.getCurrentSalt().getCationClass();
-        String anionName = getIonName( anionClass );
-        anionLabel = new JLabel( anionName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.RIGHT );
-        anionLabel.setPreferredSize( new Dimension( 85, 20 ) );
-        anionLabel.setHorizontalAlignment( JLabel.CENTER );
-
         cationClass = model.getCurrentSalt().getCationClass();
         String cationName = getIonName( cationClass );
         cationLabel = new JLabel( cationName, new ImageIcon( IonGraphicManager.getIonImage( cationClass ) ), JLabel.RIGHT );
         cationLabel.setPreferredSize( new Dimension( 85, 20 ) );
         cationLabel.setHorizontalAlignment( JLabel.CENTER );
 
+        anionClass = model.getCurrentSalt().getCationClass();
+        String anionName = getIonName( anionClass );
+        anionLabel = new JLabel( anionName, new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ), JLabel.RIGHT );
+        anionLabel.setPreferredSize( new Dimension( 85, 20 ) );
+        anionLabel.setHorizontalAlignment( JLabel.CENTER );
+
         // Make the spinners
-        anionSpinner = new IonSpinner();
         cationSpinner = new IonSpinner();
+        anionSpinner = new IonSpinner();
 
         // Make readouts for the number of free ions
         int textFieldWidth = 4;
@@ -232,8 +232,8 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         gbc.anchor = GridBagConstraints.EAST;
         add( ionsLabel, gbc );
         gbc.anchor = GridBagConstraints.CENTER;
-        add( anionLabel, gbc );
         add( cationLabel, gbc );
+        add( anionLabel, gbc );
 
         // Dissolved row
         gbc.gridy++;
@@ -241,8 +241,8 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         gbc.anchor = GridBagConstraints.EAST;
         add( freeNumLabel, gbc );
         gbc.anchor = GridBagConstraints.CENTER;
-        add( numFreeAnionTF, gbc );
         add( numFreeCationTF, gbc );
+        add( numFreeAnionTF, gbc );
 
         // Bound row
         gbc.gridy++;
@@ -250,8 +250,8 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         gbc.anchor = GridBagConstraints.EAST;
         add( boundNumLabel, gbc );
         gbc.anchor = GridBagConstraints.CENTER;
-        add( numBoundAnionTF, gbc );
         add( numBoundCationTF, gbc );
+        add( numBoundAnionTF, gbc );
 
         // Totals row
         gbc.gridy++;
@@ -259,8 +259,8 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         gbc.anchor = GridBagConstraints.EAST;
         add( totalNumLabel, gbc );
         gbc.anchor = GridBagConstraints.CENTER;
-        add( anionSpinner, gbc );
         add( cationSpinner, gbc );
+        add( anionSpinner, gbc );
 
     }
 

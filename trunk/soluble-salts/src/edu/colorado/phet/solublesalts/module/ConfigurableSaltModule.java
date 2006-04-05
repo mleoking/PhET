@@ -49,8 +49,8 @@ public class ConfigurableSaltModule extends SolubleSaltsModule {
         setControlPanel( new ConfigurableSaltControlPanel( this ) );
 
         // Set the default salt
-        ConfigurableAnion.setClassCharge( 1 );
-        ConfigurableCation.setClassCharge( -1 );
+        ConfigurableCation.setClassCharge( 1 );
+        ConfigurableAnion.setClassCharge( -1 );
         ConfigurableSalt.configure();
         ( (SolubleSaltsModel)getModel() ).setCurrentSalt( new ConfigurableSalt() );
     }

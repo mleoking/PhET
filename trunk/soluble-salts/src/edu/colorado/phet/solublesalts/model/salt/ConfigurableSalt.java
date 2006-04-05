@@ -40,49 +40,49 @@ public class ConfigurableSalt extends Salt {
 
     public static void configure() {
         components.clear();
-        int leastCommonMultiple = MathUtil.getLeastCommonMultiple( -ConfigurableCation.getClassCharge(), ConfigurableAnion.getClassCharge() );
-        components.add( new Component( ConfigurableAnion.class, new Integer( leastCommonMultiple / ConfigurableAnion.getClassCharge() ) ) );
-        components.add( new Component( ConfigurableCation.class, new Integer( leastCommonMultiple / -ConfigurableCation.getClassCharge() ) ) );
+        int leastCommonMultiple = MathUtil.getLeastCommonMultiple( ConfigurableCation.getClassCharge(), -ConfigurableAnion.getClassCharge() );
+        components.add( new Component( ConfigurableCation.class, new Integer( leastCommonMultiple / ConfigurableCation.getClassCharge() ) ) );
+        components.add( new Component( ConfigurableAnion.class, new Integer( leastCommonMultiple / -ConfigurableAnion.getClassCharge() ) ) );
 
         double spacing = ConfigurableAnion.RADIUS + ConfigurableCation.RADIUS;
-        switch( ConfigurableCation.getClassCharge() ) {
+        switch( ConfigurableAnion.getClassCharge() ) {
             case -1:
-                switch( ConfigurableAnion.getClassCharge() ) {
+                switch( ConfigurableCation.getClassCharge() ) {
                     case 1:
                         lattice = new OneToOneLattice( spacing );
                         break;
                     case 2:
-                        lattice = new TwoToOneLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
+                        lattice = new TwoToOneLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
                         break;
                     case 3:
-                        lattice = new ThreeToOneLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
+                        lattice = new ThreeToOneLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
                         break;
                     default:
                         throw new RuntimeException( "No lattice defined for ratio of ions in salt" );
                 }
                 break;
             case -2:
-                switch( ConfigurableAnion.getClassCharge() ) {
+                switch( ConfigurableCation.getClassCharge() ) {
                     case 1:
-                        lattice = new TwoToOneLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
+                        lattice = new TwoToOneLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
                         break;
                     case 2:
                         lattice = new OneToOneLattice( spacing );
                         break;
                     case 3:
-                        lattice = new ThreeToTwoLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
+                        lattice = new ThreeToTwoLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
                         break;
                     default:
                         throw new RuntimeException( "No lattice defined for ratio of ions in salt" );
                 }
                 break;
             case -3:
-                switch( ConfigurableAnion.getClassCharge() ) {
+                switch( ConfigurableCation.getClassCharge() ) {
                     case 1:
-                        lattice = new ThreeToOneLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
+                        lattice = new ThreeToOneLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
                         break;
                     case 2:
-                        lattice = new ThreeToTwoLattice( ConfigurableCation.class, ConfigurableAnion.class, spacing );
+                        lattice = new ThreeToTwoLattice( ConfigurableAnion.class, ConfigurableCation.class, spacing );
                         break;
                     case 3:
                         lattice = new OneToOneLattice( spacing );
@@ -102,7 +102,7 @@ public class ConfigurableSalt extends Salt {
     //----------------------------------------------------------------
 
     public ConfigurableSalt() {
-        super( components, lattice, ConfigurableAnion.class, ConfigurableCation.class, SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP );
+        super( components, lattice, ConfigurableCation.class, ConfigurableAnion.class, SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP );
     }
 
 }

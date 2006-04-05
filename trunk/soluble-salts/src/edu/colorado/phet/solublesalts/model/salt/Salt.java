@@ -28,7 +28,7 @@ public class Salt {
     private Component[] components;
     private double ksp;
 
-    protected Salt( List components, Lattice lattice, Class anionClass, Class cationClass, double ksp ) {
+    protected Salt( List components, Lattice lattice, Class cationClass, Class anionClass, double ksp ) {
         this.ksp = ksp;
         this.components = new Component[components.size()];
         for( int i = 0; i < components.size(); i++ ) {
