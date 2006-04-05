@@ -12,5 +12,6 @@ import edu.colorado.phet.common.view.ControlPanel;
 
 public class WaveInterferenceControlPanel extends ControlPanel {
     public WaveInterferenceControlPanel() {
+
     }
 }

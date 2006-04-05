@@ -20,11 +20,11 @@ public class WaveSideViewFull extends WaveSideView {
     }
 
     public void update() {
+        super.update();
         GeneralPath generalpath = getWavePath();
         double x0 = getX( 0 );
         double y0 = getY( 0, getYValue() );
         double xF = getX( getLattice2D().getWidth() - 1 );
-        double yF = getY( getLattice2D().getWidth() - 1, getYValue() );
         generalpath.lineTo( (float)xF, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)y0 );

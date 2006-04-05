@@ -19,7 +19,8 @@ public class WaveInterferenceModel implements ModelElement {
     private Oscillator primaryOscillator;
     private Oscillator secondaryOscillator;
 
-    private static final double startTime = System.currentTimeMillis() / 1000.0;
+//    private static final double startTime = System.currentTimeMillis() / 1000.0;
+    private double time = 0.0;
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
@@ -48,13 +49,15 @@ public class WaveInterferenceModel implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
+        time += dt;
         waveModel.propagate();
         primaryOscillator.setTime( getTime() );
         secondaryOscillator.setTime( getTime() );
     }
 
     private double getTime() {
-        return System.currentTimeMillis() / 1000.0 - startTime;
+        return time;
+//        return System.currentTimeMillis() / 1000.0 - startTime;
     }
 
 }

@@ -1,3 +1,13 @@
+New in 0.05 (4-4-2006)
+Reduced the size of intensity readers.
+Added vector view to photons.
+Decreased amplitude of side-views.
+Reduced the fraction of pink particles in particle view.
+
+New in 0.04 (3-31-2006)
+Fixed wave area to shrink to fit window size.
+Changed clock to run independent of system time.  This means pause & step work correctly, and time values are correct on detector readouts (still sans units).
+
 New in 0.03 (3-29-2006)
 Added water, sound and light tabs.
 

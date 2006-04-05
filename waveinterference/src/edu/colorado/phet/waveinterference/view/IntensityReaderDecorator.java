@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -29,9 +30,10 @@ public class IntensityReaderDecorator extends PNode {
     private PSwing buttonPSwing;
     private Point lastMovePoint = null;
 
-    public IntensityReaderDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        this.intensityReader = new IntensityReader( waveModel, latticeScreenCoordinates );
+    public IntensityReaderDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+        this.intensityReader = new IntensityReader( waveModel, latticeScreenCoordinates, clock );
         JButton options = new JButton( "Options" );
+        options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
         final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display Readout", intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {

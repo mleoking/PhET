@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
@@ -16,13 +17,14 @@ import java.util.ArrayList;
 
 public class IntensityReaderSet extends PNode {
     private ArrayList intensityReaders = new ArrayList();
+    private boolean middle = false;
 
-    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        addIntensityReader( phetPCanvas, waveModel, latticeScreenCoordinates, 300, 300 );
+    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+        addIntensityReader( phetPCanvas, waveModel, latticeScreenCoordinates, 300, 300, clock );
     }
 
-    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, double x, double y ) {
-        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( phetPCanvas, waveModel, latticeScreenCoordinates );
+    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, double x, double y, IClock clock ) {
+        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( phetPCanvas, waveModel, latticeScreenCoordinates, clock );
         intensityReader.addListener( new IntensityReaderDecorator.Listener() {
             public void deleted() {
                 intensityReaders.remove( intensityReader );
@@ -39,5 +41,9 @@ public class IntensityReaderSet extends PNode {
             IntensityReaderDecorator reader = (IntensityReaderDecorator)intensityReaders.get( i );
             reader.update();
         }
+    }
+
+    public void setToMiddle( boolean middle ) {
+        this.middle = middle;
     }
 }

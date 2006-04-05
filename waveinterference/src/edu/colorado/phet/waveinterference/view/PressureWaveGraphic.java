@@ -40,22 +40,23 @@ public class PressureWaveGraphic extends PNode {
         this.lattice = lattice;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         try {
-            blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
-            pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
+            blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
+            pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
             blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, 20 );
             pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, 20 );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        Random random = new Random();
+//        Random random = new Random();
         int MOD = 3;
+//        double red=0.02;
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
                 if( i % MOD == 0 && j % MOD == 0 ) {
 
 //                    Particle particle = new Particle( blueImage, i, j );
-                    Particle particle = new Particle( random.nextBoolean() ? pinkImage : blueImage, i, j );
+                    Particle particle = new Particle( isPink( i, j ) ? pinkImage : blueImage, i, j );
                     addParticle( particle );
                 }
             }
@@ -67,6 +68,10 @@ public class PressureWaveGraphic extends PNode {
         } );
         updateBounds();
         reorderChildren();
+    }
+
+    private boolean isPink( int i, int j ) {
+        return random.nextDouble() < 0.06;
     }
 
     private void updateBounds() {

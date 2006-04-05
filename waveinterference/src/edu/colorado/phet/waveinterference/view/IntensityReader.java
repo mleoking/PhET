@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
@@ -24,21 +25,24 @@ import java.awt.geom.*;
 public class IntensityReader extends PComposite {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private IClock clock;
     private CrosshairGraphic crosshairs;
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
-    private int time = 100;
 
-    public IntensityReader( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public IntensityReader( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
+        this.clock = clock;
         textReadout = new TextReadout();
         addChild( textReadout );
 
-        crosshairs = new CrosshairGraphic( 20, 25 );
+//        crosshairs = new CrosshairGraphic( 20, 25 );
+        crosshairs = new CrosshairGraphic( 10, 15 );
         addChild( crosshairs );
 
-        stripChartJFCNode = new StripChartJFCNode( 225, 150, "Time (s)", "Amplitude" );
+//        stripChartJFCNode = new StripChartJFCNode( 225, 150, "Time (s)", "Amplitude" );
+        stripChartJFCNode = new StripChartJFCNode( 175, 120, "Time (s)", "Amplitude" );
         addChild( stripChartJFCNode );
 
         addInputEventListener( new PDragEventHandler() );
@@ -61,8 +65,7 @@ public class IntensityReader extends PComposite {
         if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
             double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
             textReadout.setText( "Magnitude=" + new DefaultDecimalFormat( "0.00" ).format( value ) );
-            stripChartJFCNode.addValue( time, value );
-            time++;
+            stripChartJFCNode.addValue( clock.getSimulationTime(), value );
         }
         else {
             textReadout.setText( "" );

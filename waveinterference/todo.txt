@@ -1,15 +1,13 @@
 o Intensity readers should be constrained on the x-axis when in side-view.
 
-o Real-time model won't work when paused (wavelength comes out wrong).
-
-o Add vector view to photon view.
-
-o Add full field to photon-view?
-    This would require a major rewrite of the model (which is now 2-d and nonvectorial).  Is this really what we want here?
-
 o Should we show intensity readouts anywhere, or just wave values?
 
-o How to control frequency/amplitude when there are two wave sources?
+o The single frequency/amplitude controller should control both oscillators when there are 2.
+
+o When there are 2 wave sources, they should always be in phase.
+
+o Show intensity on the screen as default
+    Optionally show fluctuations.
 
 o We could get rid of edge effects by maintining a higher lattice than is shown on the screen.
 
@@ -17,6 +15,24 @@ o Add correct units to measuring tape.
 
 o Add correct units to stopwatch.
 
-o Make it so "pause" then "step" uses a sensible dt (not the actual system delay)
+o Barrier, multiple sources should disappear for rotate wave.
 
-o Wave area size should depend on window size.
+Probably right. Maybe rotate wave should be grayed out with barrier or
+multiple sources - otherwise, it will seem strange that all these things
+disappear when you rotate.
+
+o Intensity readout titles should depend on the module e.g. "E-Field"
+
+- The speaker should move when creating the sound wave (at least, the
+speaker cone should move).
+
+- It looks like the particles run away from the speaker and then fill in
+from behind. I know this is sort of an optical illusion, but there may be a
+way to minimize this visual effect. I tried to follow a single particle and
+it still looked like it was running away.
+
+-  When you change the wavelength of light, it resets rather than continuing
+with differently colored ripples. Also, when you turn the gun off, it goes
+to solid color rather than black. Also, I'd rather have a flashlight than a
+gun, unless there is a compelling reason to make it a gun (besides
+supporting the military-industrial complex).

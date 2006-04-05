@@ -63,6 +63,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
 
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateWaveSize();
@@ -83,16 +84,19 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
         rotationWaveGraphic.setCellSize( pixelsPerCell - 1 );
         double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     private void angleChanged() {
         if( rotationWaveGraphic.isTopView() ) {
             slitPotentialGraphic.setVisible( true );
+            intensityReaderSet.setToMiddle( true );
         }
         else {
             slitPotentialGraphic.setVisible( false );
+            intensityReaderSet.setToMiddle( false );
         }
+
     }
 
     public MultiFaucetDrip getMultiDrip() {
