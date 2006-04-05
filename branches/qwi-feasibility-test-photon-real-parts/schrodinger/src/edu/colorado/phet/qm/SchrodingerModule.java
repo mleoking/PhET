@@ -262,10 +262,19 @@ public class SchrodingerModule extends PiccoloModule {
         listeners.remove( listener );
     }
 
+    public void beamTypeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.beamTypeChanged();
+        }
+    }
+
     public static interface Listener {
         void deactivated();
 
         void activated();
+
+        void beamTypeChanged();
     }
 
     public void addListener( Listener listener ) {

@@ -18,9 +18,11 @@ import java.awt.*;
 public class MandelSplitColorMap implements ColorMap {
     private MiniPhotonColorMap leftColorMapMini;
     private MiniPhotonColorMap rightColorMapMini;
-    private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
+    private WaveValueAccessor waveValueAccessor;// = new WaveValueAccessor.Magnitude();
+//    private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Real();
 
-    public MandelSplitColorMap( MandelModule mandelModule ) {
+    public MandelSplitColorMap( MandelModule mandelModule, WaveValueAccessor accessor ) {
+        this.waveValueAccessor = accessor;
         leftColorMapMini = new MiniPhotonColorMap(
                 mandelModule.getMandelSchrodingerPanel().getLeftGun().getWavelength(),
                 waveValueAccessor, mandelModule.getMandelModel().getLeftWaveModel().getWavefunction() );

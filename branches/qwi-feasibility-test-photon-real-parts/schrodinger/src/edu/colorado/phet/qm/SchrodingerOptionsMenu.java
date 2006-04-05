@@ -66,6 +66,9 @@ public class SchrodingerOptionsMenu extends JMenu {
 
                         public void activated() {
                         }
+
+                        public void beamTypeChanged() {
+                        }
                     } );
                 }
                 dialog.show();

@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 
 public class VisualizationPanel extends VerticalLayoutPanel {
     private SchrodingerPanel schrodingerPanel;
+    private JRadioButton visualTM;
 
     public VisualizationPanel( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -38,7 +39,7 @@ public class VisualizationPanel extends VerticalLayoutPanel {
         JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
         addFullWidth( complexGray );
 
-        JRadioButton visualTM = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
+        visualTM = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
         addFullWidth( visualTM );
     }
 
@@ -53,5 +54,9 @@ public class VisualizationPanel extends VerticalLayoutPanel {
         buttonGroup.add( radioButton );
         radioButton.setSelected( b );
         return radioButton;
+    }
+
+    public void setPhaseColorEnabled( boolean b ) {
+        visualTM.setEnabled( b );
     }
 }

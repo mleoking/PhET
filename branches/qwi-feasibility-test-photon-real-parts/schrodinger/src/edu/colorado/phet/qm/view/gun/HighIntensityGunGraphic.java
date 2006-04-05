@@ -186,6 +186,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
             currentBeam.setHighIntensityModeOn( on );
 //            System.out.println( "alwaysOnCheckBox.isSelected() = " + alwaysOnCheckBox.isSelected() );
         }
+        getSchrodingerModule().beamTypeChanged();
         updateGunLocation();
         updateSliderColor();
     }
@@ -219,4 +220,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
     private void updateSliderColor() {
         intensitySlider.setColor( currentBeam instanceof PhotonBeam && getRootColor() != null ? getRootColor().toColor( 1.0 ) : Color.white );
     }
+
+//    public boolean isPhoton() {
+//        return currentBeam instanceof PhotonBeam;
+//    }
 }

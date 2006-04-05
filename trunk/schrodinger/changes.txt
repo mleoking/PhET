@@ -1,3 +1,9 @@
+New in 0.51
+Added wavefunction display options to the high-intensity panel.
+Removed "phase view" from photon particles.
+Added ripple mode to mandel panel.
+For photons: "Magnitude" shows REAL, "real" shows REAL, "imaginary" shows zero.
+
 New in 0.50
 Light wavelengths were changed to support quantitative measurements.
 Added ruler for photon-type gun.
