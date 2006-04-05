@@ -52,7 +52,7 @@ public class MacroModule extends Module {
     // Localization
 
     public static final String localizedStringsPath = "localization/ConductivityStrings";
-    private static String version = "0.05";
+    private static String version = "1.00";
 
     public AbstractClock getClock() {
         return clock;
