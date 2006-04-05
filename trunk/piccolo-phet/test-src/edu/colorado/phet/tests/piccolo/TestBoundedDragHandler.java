@@ -50,7 +50,7 @@ public class TestBoundedDragHandler {
         piccoloCanvas.getLayer().addChild( pText );
         pText.setOffset( 100, 100 );
 //        pText.addInputEventListener( new DefaultDragHandler() );
-        pText.addInputEventListener( new BoundedDragHandler( path ) );
+        pText.addInputEventListener( new BoundedDragHandler( pText, path ) );
         pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pText.rotate( Math.PI );
         pText.setPaint( Color.green );
