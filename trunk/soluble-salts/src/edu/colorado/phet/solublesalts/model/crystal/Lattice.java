@@ -34,6 +34,7 @@ public abstract class Lattice {
     private static Random random = new Random();
 
     private Ion seed;
+    // The bounds within which the lattice can be built
     private Rectangle2D bounds;
     private List nodes = new ArrayList();
     protected double spacing;
@@ -212,6 +213,7 @@ public abstract class Lattice {
                     }
                 }
             }
+            // If there isn't already a bond where this one should go, add one
             if( addNewBond ) {
                 Bond newBond = new Bond( newNode, orientation, spacing );
                 newBond.setOrigin( newNode );

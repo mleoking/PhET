@@ -47,16 +47,19 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
 
                 if( saltClass instanceof SodiumChloride ) {
                     SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.7342E-25,
+//                                                        10E-23,
                                                         5E-23,
                                                         1E-23,
                                                         0.5E-23 );
                     getModule().setCalibration( calibration );
                 }
                 else {
-                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-                                                        5E-16,
+                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
+//                    SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+//                                                        10E-16,
                                                         1E-16,
-                                                        0.5E-16 );
+                                                        0.5E-16,
+                                                        0.1E-16 );
                     getModule().setCalibration( calibration );
                 }
 

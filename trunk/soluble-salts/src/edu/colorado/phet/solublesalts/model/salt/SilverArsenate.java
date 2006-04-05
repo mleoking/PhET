@@ -27,17 +27,17 @@ import java.util.ArrayList;
  */
 public class SilverArsenate extends Salt {
 
-    static private Lattice lattice = new ThreeToOneLattice( Silver.class,
-                                                            Arsenate.class,
+    static private Lattice lattice = new ThreeToOneLattice( Arsenate.class,
+                                                            Silver.class,
                                                             Silver.RADIUS + Arsenate.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
-        SilverArsenate.components.add( new Component( Silver.class, new Integer( 1 ) ) );
-        SilverArsenate.components.add( new Component( Arsenate.class, new Integer( 3 ) ) );
+        SilverArsenate.components.add( new Component( Arsenate.class, new Integer( 1 ) ) );
+        SilverArsenate.components.add( new Component( Silver.class, new Integer( 3 ) ) );
     }
 
     public SilverArsenate() {
-        super( SilverArsenate.components, SilverArsenate.lattice, Silver.class, Arsenate.class, 1E-22 );
+        super( components, lattice, Silver.class, Arsenate.class, 1E-22 );
     }
 }

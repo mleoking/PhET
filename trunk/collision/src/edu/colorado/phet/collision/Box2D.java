@@ -30,6 +30,7 @@ public class Box2D extends Body implements Collidable {
     private double leftWallVx = 0;
     private double minimumWidth = 100;
     private CollidableAdapter collidableAdapter = new CollidableAdapter( this );
+    private Rectangle2D.Double bounds = new Rectangle2D.Double();
 
     public Box2D() {
         super();
@@ -63,7 +64,8 @@ public class Box2D extends Body implements Collidable {
     }
 
     public Rectangle2D getBounds() {
-        return new Rectangle2D.Double( minX, minY, getWidth(), getHeight() );
+        bounds.setRect( minX, minY, getWidth(), getHeight() );
+        return bounds;
     }
 
     private void setState( Point2D corner1, Point2D corner2 ) {

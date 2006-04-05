@@ -211,7 +211,7 @@ public class Bond {
     }
 
     public class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Bond source ) {
             super( source );
         }
 

@@ -26,9 +26,8 @@ import java.util.ArrayList;
 public class ChromiumHydroxide extends Salt {
 
     static private Lattice lattice = new ThreeToOneLattice( Chromium.class,
-//    static private Lattice lattice = new ThreeToOneLattice( Chromium.class,
-                                                                    Hydroxide.class,
-                                                                    Chromium.RADIUS + Hydroxide.RADIUS );
+                                                            Hydroxide.class,
+                                                            Chromium.RADIUS + Hydroxide.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {

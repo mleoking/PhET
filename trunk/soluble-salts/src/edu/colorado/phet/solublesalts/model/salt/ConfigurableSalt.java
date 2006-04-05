@@ -13,6 +13,8 @@ package edu.colorado.phet.solublesalts.model.salt;
 import edu.colorado.phet.solublesalts.model.crystal.*;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableAnion;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableCation;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.common.math.MathUtil;
 
 import java.util.ArrayList;
 
@@ -38,8 +40,9 @@ public class ConfigurableSalt extends Salt {
 
     public static void configure() {
         components.clear();
-        components.add( new Component( ConfigurableAnion.class, new Integer( -ConfigurableCation.getClassCharge() ) ) );
-        components.add( new Component( ConfigurableCation.class, new Integer( ConfigurableAnion.getClassCharge() ) ) );
+        int leastCommonMultiple = MathUtil.getLeastCommonMultiple( -ConfigurableCation.getClassCharge(), ConfigurableAnion.getClassCharge() );
+        components.add( new Component( ConfigurableAnion.class, new Integer( leastCommonMultiple / ConfigurableAnion.getClassCharge() ) ) );
+        components.add( new Component( ConfigurableCation.class, new Integer( leastCommonMultiple / -ConfigurableCation.getClassCharge() ) ) );
 
         double spacing = ConfigurableAnion.RADIUS + ConfigurableCation.RADIUS;
         switch( ConfigurableCation.getClassCharge() ) {
@@ -99,7 +102,7 @@ public class ConfigurableSalt extends Salt {
     //----------------------------------------------------------------
 
     public ConfigurableSalt() {
-        super( components, lattice, ConfigurableAnion.class, ConfigurableCation.class, 36 );
+        super( components, lattice, ConfigurableAnion.class, ConfigurableCation.class, SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP );
     }
 
 }
