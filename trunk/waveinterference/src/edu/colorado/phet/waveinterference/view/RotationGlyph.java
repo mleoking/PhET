@@ -23,6 +23,7 @@ public class RotationGlyph extends PNode {
     private double primaryWidth = 100;
     private double expansionWidth = 50;
     private PPath depth;
+    private int boxHeight = 200;
 
     public RotationGlyph() {
         surface = new PPath();
@@ -67,25 +68,50 @@ public class RotationGlyph extends PNode {
         update();
     }
 
+//    public void update() {
+//        Function.LinearFunction heightFunction = new Function.LinearFunction( 0, Math.PI / 2, 1, 0 );
+//        Function.LinearFunction widthFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, expansionWidth );
+//        double dx = widthFunction.evaluate( angle );//distance from normal edge to tilted edge
+//        double h = primaryHeight * heightFunction.evaluate( angle ) / 2;//distance from center to top
+//
+//        DoubleGeneralPath surfacePath = new DoubleGeneralPath();
+//        surfacePath.moveTo( dx, h );
+//        surfacePath.lineTo( primaryWidth - dx, h );
+//        surfacePath.lineTo( primaryWidth+dx, h*2 );
+//        Point2D pin1 = surfacePath.getCurrentPoint();
+//        surfacePath.lineTo( -dx, h*2 );
+//        Point2D pin2 = surfacePath.getCurrentPoint();
+//        surfacePath.lineTo( dx, h );
+//        surfacePath.closePath();
+//        surface.setPathTo( surfacePath.getGeneralPath() );
+//
+//        DoubleGeneralPath depthPath = new DoubleGeneralPath( pin1 );
+//        depthPath.lineToRelative( 0, boxHeight );
+//        depthPath.lineToRelative( pin2.getX() - pin1.getX(), 0 );
+//        depthPath.lineTo( pin2 );
+//        depthPath.closePath();
+//        depth.setPathTo( depthPath.getGeneralPath() );
+//    }
+
     public void update() {
         Function.LinearFunction heightFunction = new Function.LinearFunction( 0, Math.PI / 2, 1, 0 );
         Function.LinearFunction widthFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, expansionWidth );
         double dx = widthFunction.evaluate( angle );//distance from normal edge to tilted edge
         double h = primaryHeight * heightFunction.evaluate( angle ) / 2;//distance from center to top
 
-        DoubleGeneralPath generalPath = new DoubleGeneralPath();
-        generalPath.moveTo( dx, h );
-        generalPath.lineToRelative( primaryWidth - dx, 0 );
-        generalPath.lineToRelative( 2 * dx, h * 2 );
-        Point2D pin1 = generalPath.getCurrentPoint();
-        generalPath.lineToRelative( -primaryWidth - 4 * dx, 0 );
-        Point2D pin2 = generalPath.getCurrentPoint();
-        generalPath.lineTo( dx, h );
-        generalPath.closePath();
-        surface.setPathTo( generalPath.getGeneralPath() );
+        DoubleGeneralPath surfacePath = new DoubleGeneralPath();
+        surfacePath.moveTo( dx, h );
+        surfacePath.lineToRelative( primaryWidth - 2 * dx, 0 );
+        surfacePath.lineToRelative( 2 * dx, h * 2 );
+        Point2D pin1 = surfacePath.getCurrentPoint();
+        surfacePath.lineToRelative( -primaryWidth - 2 * dx, 0 );
+        Point2D pin2 = surfacePath.getCurrentPoint();
+        surfacePath.lineTo( dx, h );
+        surfacePath.closePath();
+        surface.setPathTo( surfacePath.getGeneralPath() );
 
         DoubleGeneralPath depthPath = new DoubleGeneralPath( pin1 );
-        depthPath.lineToRelative( 0, 200 );
+        depthPath.lineToRelative( 0, boxHeight );
         depthPath.lineToRelative( pin2.getX() - pin1.getX(), 0 );
         depthPath.lineTo( pin2 );
         depthPath.closePath();

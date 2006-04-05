@@ -35,7 +35,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
         } );
         intensityReaderSet = new IntensityReaderSet();
         getPhetPCanvas().addScreenChild( intensityReaderSet );
-        DetectorSetControlPanel detectorSetControlPanel = new DetectorSetControlPanel( intensityReaderSet, getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
+        DetectorSetControlPanel detectorSetControlPanel = new DetectorSetControlPanel( intensityReaderSet, getPhetPCanvas(), getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates(), getClock() );
 
         getControlPanel().addControl( cellDim );
         getControlPanel().addControl( detectorSetControlPanel );

@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.waveinterference.EBFieldGraphic;
 import edu.colorado.phet.waveinterference.view.ExplicitCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
@@ -14,14 +15,15 @@ import javax.swing.event.ChangeListener;
  * Time: 2:02:57 AM
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
-public class TestSideViewModule extends BasicWaveTestModule {
+public class TestSideVectorViewModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;
 
-    public TestSideViewModule() {
+    public TestSideVectorViewModule() {
         super( "Side View" );
 
-        waveSideView = new WaveSideView( getLattice(), new ExplicitCoordinates() );
+        waveSideView = new EBFieldGraphic( getLattice(), new ExplicitCoordinates(), 3 );
         waveSideView.setOffset( 0, 300 );
+
         getPhetPCanvas().addScreenChild( waveSideView );
 //        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
@@ -54,6 +56,6 @@ public class TestSideViewModule extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new TestSideViewModule() );
+        new ModuleApplication().startApplication( args, new TestSideVectorViewModule() );
     }
 }

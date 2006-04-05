@@ -36,7 +36,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         this.waterModule = waterModule;
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
-        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+//        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        waveSideView = new WaveSideViewPhoton( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+//        waveSideView = new CompositeWaveSideView(  );
+//        waveSideView = new EFieldGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() ,2);
 
         waveSideView.setStroke( new BasicStroke( 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
         waveModelGraphic.addListener( new WaveModelGraphic.Listener() {
@@ -98,7 +101,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
         waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
         double usedHeight = waveModelGraphic.getFullBounds().getHeight() + laserControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     private void colorChanged() {

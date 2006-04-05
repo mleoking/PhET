@@ -20,7 +20,9 @@ public class WaveSideView extends PNode {
     private Lattice2D lattice2D;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private double distBetweenPoints = 5;
-    private double amplitudeScale = -150;
+//    private double amplitudeScale = -150;
+//    private double amplitudeScale = -150/2.0;
+    private double amplitudeScale = -150 / 1.8;
 
     public WaveSideView( Lattice2D lattice2D, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.lattice2D = lattice2D;
@@ -28,6 +30,11 @@ public class WaveSideView extends PNode {
         path = new PPath();
         addChild( path );
         update();
+        latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
+            public void mappingChanged() {
+                update();
+            }
+        } );
     }
 
     protected PPath getPath() {
@@ -48,9 +55,10 @@ public class WaveSideView extends PNode {
 
     public void update() {
         setSpaceBetweenCells( latticeScreenCoordinates.getCellWidth() );
-        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, lattice2D.getHeight() / 2 ) );
-        GeneralPath generalpath = getWavePath();
-        path.setPathTo( generalpath );
+        //todo this is disabled because the RotationGraphic is managing the layout
+        //todo we should provide support for both.
+//        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, lattice2D.getHeight() / 2 ) );
+        path.setPathTo( getWavePath() );
     }
 
     protected GeneralPath getWavePath() {
@@ -77,7 +85,7 @@ public class WaveSideView extends PNode {
         return (float)( i * distBetweenPoints );
     }
 
-    float getY( int index, int yValue ) {
+    protected float getY( int index, int yValue ) {
         if( index >= 1 && index < lattice2D.getWidth() - 1 ) {
             double sum = getVerticalSlice( index, yValue ) + getVerticalSlice( index - 1, yValue ) + getVerticalSlice( index + 1, yValue );
             return (float)( sum / 3 );

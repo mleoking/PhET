@@ -31,9 +31,6 @@ public class StripChartJFCNode extends PNode {
         XYSeriesCollection xyDataset = new XYSeriesCollection();
         series = new XYSeries( "time series" );
         xyDataset.addSeries( series );
-        for( int i = 0; i < 100; i++ ) {
-            series.add( i, 0 );
-        }
 
         jFreeChart = createChart( xyDataset, xAxis, yAxis );
         jFreeChart.setBorderVisible( true );
@@ -58,7 +55,7 @@ public class StripChartJFCNode extends PNode {
         );
 
         XYPlot plot = (XYPlot)chart.getPlot();
-        plot.getDomainAxis().setAutoRange( true );
+
         plot.getRangeAxis().setAutoRange( false );
         plot.getRangeAxis().setRange( -1, 1 );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( true, false );
@@ -71,8 +68,20 @@ public class StripChartJFCNode extends PNode {
     public void addValue( double x, double y ) {
         if( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
-            series.add( x, y, false );
-            series.remove( 0 );
+            series.add( x, y, series.getItemCount() < 100 );
+            if( series.getItemCount() == 2 ) {
+                double x0 = series.getX( 0 ).doubleValue();
+                double dx = x - x0;
+                double projectedMax = dx * 100 + x0;
+                jFreeChart.getXYPlot().getDomainAxis().setRange( x0, projectedMax );
+            }
+            else if( series.getItemCount() == 100 ) {
+                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
+            }
+
+            if( series.getItemCount() > 100 ) {
+                series.remove( 0 );
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.03";
+    private static String VERSION = "0.05";
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION );
@@ -20,6 +20,11 @@ public class WaveInterferenceApplication extends PhetApplication {
         addModule( new SoundModule() );
         addModule( new LightModule() );
         getPhetFrame().addMenu( new WaveInterferenceMenu() );
+        if( getModules().length > 1 ) {
+            for( int i = 0; i < getModules().length; i++ ) {
+                getModule( i ).setLogoPanelVisible( false );
+            }
+        }
     }
 
     public static void main( String[] args ) {

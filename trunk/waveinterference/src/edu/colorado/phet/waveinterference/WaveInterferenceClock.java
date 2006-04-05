@@ -12,6 +12,6 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 
 public class WaveInterferenceClock extends SwingClock {
     public WaveInterferenceClock() {
-        super( 30, 1.0 );
+        super( 30, 1.0 / 30.0 );
     }
 }

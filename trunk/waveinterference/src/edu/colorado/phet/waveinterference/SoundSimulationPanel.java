@@ -33,38 +33,18 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         IndexColorMap colorMap = new IndexColorMap( getLattice(), Color.white );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
         waveModelGraphic.setOffset( 100, 10 );
-//        SoundWaveGraphic soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic );
-//        addScreenChild( soundWaveGraphic );
 
         PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         pressureWaveGraphic.setMaxVelocity( 3 );
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
         addScreenChild( soundWaveGraphic );
-//        addScreenChild( pressureWaveGraphic );
-//        WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
-//        RotationGlyph rotationGlyph = new RotationGlyph();
-//        rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-//        rotationWaveGraphic.setOffset( 300, 50 );
-//        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
-//            public void rotationChanged() {
-//                angleChanged();
-//            }
-//        } );
-//        addScreenChild( rotationWaveGraphic );
 
-//        primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
-//        addScreenChild( primaryFaucetGraphic );
-//
-//        secondaryFaucetGraphic = new FaucetGraphic( getWaveModel(), soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
-//        secondaryFaucetGraphic.setEnabled( false );
         ImageOscillatorPNode primarySpeaker = new SpeakerGraphic( soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         ImageOscillatorPNode secondarySpeaker = new SpeakerGraphic( soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
 
         addScreenChild( primarySpeaker );
         addScreenChild( secondarySpeaker );
         multiOscillator = new MultiOscillator( getWaveModel(), primarySpeaker, soundModule.getPrimaryOscillator(), secondarySpeaker, soundModule.getSecondaryOscillator() );
-//        addScreenChild( mu);
-//        addScreenChild( secondaryFaucetGraphic );
 
         slitPotentialGraphic = new SlitPotentialGraphic( soundModule.getSlitPotential(), waveModelGraphic.getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
@@ -75,10 +55,6 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         measurementToolSet = new MeasurementToolSet( this, soundModule.getClock() );
         addScreenChild( measurementToolSet );
 
-//        multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
-
-//        FaucetControlPanelPNode faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( soundModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
-//        addScreenChild( faucetControlPanelPNode );
         speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
         addScreenChild( speakerControlPanelPNode );
 
@@ -102,24 +78,12 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
         waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
         double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
     public MultiOscillator getMultiOscillator() {
         return multiOscillator;
     }
-//    private void angleChanged() {
-//        if( rotationWaveGraphic.isTopView() ) {
-//            slitPotentialGraphic.setVisible( true );
-//        }
-//        else {
-//            slitPotentialGraphic.setVisible( false );
-//        }
-//    }
-
-//    public MultiFaucetDrip getMultiDrip() {
-//        return multiFaucetDrip;
-//    }
 
     private Lattice2D getLattice() {
         return getWaveModel().getLattice();
@@ -128,10 +92,6 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveModel getWaveModel() {
         return soundModule.getWaveModel();
     }
-
-//    public RotationWaveGraphic getRotationWaveGraphic() {
-//        return rotationWaveGraphic;
-//    }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return soundWaveGraphic.getLatticeScreenCoordinates();
@@ -145,22 +105,10 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         return measurementToolSet;
     }
 
-//    public FaucetGraphic getPrimaryFaucetGraphic() {
-//        return primaryFaucetGraphic;
-//    }
-
     public void stepInTime( double dt ) {
-//        w.update();
         soundWaveGraphic.update();
-//        pressureWaveGraphic.update();
-//        primaryFaucetGraphic.step();
-//        secondaryFaucetGraphic.step();
         intensityReaderSet.update();
     }
-
-//    public SoundWaveGraphic getSoundWaveGraphic() {
-//        return soundWaveGraphic;
-//    }
 
     public SoundWaveGraphic getSoundWaveGraphic() {
         return soundWaveGraphic;
