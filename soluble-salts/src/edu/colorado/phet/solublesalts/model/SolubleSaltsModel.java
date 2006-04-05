@@ -162,13 +162,14 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public void update( ClockEvent event ) {
         super.update( event );
 
-        // If a crystal is not in the water, it accelerates downward. If it's in the water, it moves
+        // If a crystal is aBOVE the water, it accelerates downward. If it's in the water, it moves
         // at a constant speed
         List crystals = crystalTracker.getCrystals();
         for( int i = 0; i < crystals.size(); i++ ) {
             Crystal crystal = (Crystal)crystals.get( i );
-            if( !vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
-                !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
+            if( crystal.getExtremeIon( Crystal.SOUTH).getPosition().getY() < vessel.getWater().getMinY()
+                && vessel.getWaterLevel() > 0
+                && !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
                 crystal.setAcceleration( accelerationOutOfWater );
             }
             else if( vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
@@ -275,7 +276,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     }
 
     public void setKsp( double ksp ) {
-        System.out.println( "setKsp(): ksp = " + ksp );
         this.ksp = ksp;
     }
 
@@ -478,11 +478,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 // Remove ions that have gotten outside the bounds of the model
                 if( !getBounds().contains( ion.getPosition() ) ) {
                     removeModelElement( ion );
-                }
-
-
-                if( ion.getVelocity().getY() < 0 && ion.getPosition().getY() < vessel.getWater().getMinY() ) {
-                    System.out.println( "SolubleSaltsModel$ModelStepper.clockTicked" );
                 }
             }
         }
