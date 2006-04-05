@@ -116,7 +116,7 @@ public class QTMarkerNode extends PPath implements PlotChangeListener  {
     
     /**
      * Sets rendering hints used to draw the plot's markers.
-     * If drwing on top of a JFreeChart image, you'll probably want to use
+     * If drawing on top of a JFreeChart image, you'll probably want to use
      * the chart's rendering hints so that you have a consistent "look".
      * 
      * @param renderingHints
