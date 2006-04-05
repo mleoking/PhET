@@ -31,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+0.00.23...
 (4/5/06) - increase real/img/mag/probDensity line widths to 2 pixels, potential to 3 pixels
 (4/5/06) - change default color scheme to black
 (4/4/06) - make canvas background slightly darker to improve contrast with white charts
