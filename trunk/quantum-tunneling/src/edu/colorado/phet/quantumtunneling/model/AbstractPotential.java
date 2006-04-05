@@ -272,21 +272,15 @@ public abstract class AbstractPotential extends QTObservable {
     
     /**
      * Gets the energy at a specified position.
-     * If the position is outside the space, 0 is returned.
-     * If the position falls on the boundary of two regions,
-     * the energy of the region whose end point matches the
-     * position is returned.
+     * The first and last regions are treated as if they go on forever.
      * 
      * @param position
      * @return energy
      */
     public double getEnergyAt( final double position ) {
-        double energy = 0;
-        final int regionIndex = getRegionIndexAt( position );
-        if ( regionIndex != -1 ) {
-            energy = getRegion( regionIndex ).getEnergy();
-        }
-        return energy;
+        final int regionIndex = getRegionIndexAt( position ); // always returns a valid region index
+        PotentialRegion region = getRegion( regionIndex );
+        return region.getEnergy();
     }
     
     /**
