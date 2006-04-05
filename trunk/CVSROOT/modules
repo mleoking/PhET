@@ -89,6 +89,10 @@ collision-dir collision
 mechanics-module mechanics
 mechnics-dir mechanics
 
+#PhetLauncher
+phetlauncher-module phetlauncher &piccolo-dir &piccolo-phet-dir &phetcommon-dir
+phetlauncher-dir phetlauncher
+
 #============================================================================
 # Chris Malley's simulations
 #============================================================================
