@@ -27,14 +27,14 @@ import java.util.ArrayList;
  */
 public class ThallousSulfide extends Salt {
 
-    static private Lattice lattice = new TwoToOneLattice( Thallium.class,
-                                                          Sulfur.class,
+    static private Lattice lattice = new TwoToOneLattice( Sulfur.class,
+                                                          Thallium.class,
                                                           Thallium.RADIUS + Sulfur.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {
-        ThallousSulfide.components.add( new Component( Thallium.class, new Integer( 1 ) ) );
-        ThallousSulfide.components.add( new Component( Sulfur.class, new Integer( 2 ) ) );
+        ThallousSulfide.components.add( new Component( Thallium.class, new Integer( 2 ) ) );
+        ThallousSulfide.components.add( new Component( Sulfur.class, new Integer( 1 ) ) );
     }
 
     public ThallousSulfide() {

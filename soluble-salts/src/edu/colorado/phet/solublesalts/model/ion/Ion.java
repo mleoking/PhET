@@ -54,12 +54,6 @@ public class Ion extends Atom {
 
     public void stepInTime( double dt ) {
         if( !isBound() ) {
-
-            // Random walk
-//            if( getVelocity().getMagnitude() != 0 && SolubleSaltsConfig.RANDOM_WALK ) {
-//                double theta = random.nextDouble() * Math.toRadians( randomWalkTheta ) * MathUtil.nextRandomSign();
-//                setVelocity( getVelocity().rotate( theta ) );
-//            }
             super.stepInTime( dt );
         }
         else {
@@ -111,7 +105,7 @@ public class Ion extends Atom {
     }
 
     public class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Ion source ) {
             super( source );
         }
 
@@ -122,5 +116,16 @@ public class Ion extends Atom {
 
     public interface ChangeListener extends EventListener {
         public void stateChanged( ChangeEvent event );
+    }
+
+
+
+
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
     }
 }

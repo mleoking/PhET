@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
@@ -52,8 +53,9 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         saltMap = new HashMap();
         saltMap.put( "Sodium Chloride", new SodiumChloride() );
 //        saltMap.put( "Lead Chloride", new LeadChloride() );
-        saltMap.put( "Silver Iodide", new SilverIodide() );
-        saltMap.put( "Thallous Sulfide", new ThallousSulfide() );
+        saltMap.put( "Copper(I) Iodide", new CuprousIodide() );
+//        saltMap.put( "Silver Iodide", new SilverIodide() );
+        saltMap.put( "Thallium(I) Sulfide", new ThallousSulfide() );
 //        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
         saltMap.put( "Silver Arsenate", new SilverArsenate() );
 //        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
@@ -79,7 +81,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
     // Abstract methods
     //----------------------------------------------------------------
 
-    abstract protected  JPanel makeSaltSelectionPanel( final SolubleSaltsModel model );
+    abstract protected JPanel makeSaltSelectionPanel( final SolubleSaltsModel model );
 
 
     /**
@@ -94,7 +96,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
 
         JPanel saltPanel = new JPanel( new GridBagLayout() );
-        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), "Salt" ) );
+        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.get( "ControlLabels.Salt" ) ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -138,7 +140,6 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
     }
 
     /**
-     *
      * @param model
      */
     private void makeDebugControls( final SolubleSaltsModel model ) {
@@ -199,7 +200,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
                 model.setKsp( kspSlider.getValue() );
             }
         } );
-        model.setKsp( kspSlider.getValue() );
+//        model.setKsp( kspSlider.getValue() );
 
         // Add a listener that will change the Ksp when the current salt changes
         model.addChangeListener( new SolubleSaltsModel.ChangeAdapter() {

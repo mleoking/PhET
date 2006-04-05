@@ -68,7 +68,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             List ions = model.getIons();
             Drain drain = model.getDrain();
 
-            // Determine the distance from the drain to the farthest ioin, and how fast it has to travel
+            // Determine the distance from the drain to the farthest ion, and how fast it has to travel
             // to get to the drain before the water runs out.
             Vessel vessel = event.getVessel();
             double maxDistSq = Double.MIN_VALUE;
@@ -82,7 +82,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             double farthestDistToDrain = Math.sqrt( maxDistSq );
 
             // Determine the number of clock ticks before the vessel is nearly empty.
-            double timeToEmpty = ( vessel.getWaterLevel() - 0 ) / ( -change );
+            double virtualEmptyLevel = 10;
+            double timeToEmpty = ( vessel.getWaterLevel() - virtualEmptyLevel ) / ( -change );
 
             // Compute the speed that the ion farthest from the drain must have in order to make
             // it out of the tank by the time the water is gone.
@@ -124,7 +125,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
     public void stateChanged( Spigot.ChangeEvent event ) {
 
         // If there isn't any water flowing out of the drain, restore any ion's velcities that need it
-        if( event.getFaucet().getFlow() == 0 ) {
+        if( event.getSpigot().getFlow() == 0 ) {
             Set ionsToRestore = unadjustedVelocities.keySet();
             for( Iterator iterator = ionsToRestore.iterator(); iterator.hasNext(); ) {
                 Ion ion = (Ion)iterator.next();

@@ -89,6 +89,8 @@ public class SolubleSaltsConfig {
 
     // Initial water level
     public static double DEFAULT_WATER_LEVEL = 5E-16;
+    public static final double DEFAULT_CONFIGURABLE_KSP = 1E-12;
+    public static final int MAX_ION_SPINNER_NUM = 400;
 
     //----------------------------------------------------------------
     // Calibration object

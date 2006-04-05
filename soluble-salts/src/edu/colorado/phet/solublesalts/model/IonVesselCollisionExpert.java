@@ -79,14 +79,6 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
                 if( !ion.isBound() ) {
                     collisionOccurred = handleIonVesselCollision( ion, vessel );
                 }
-
-                // If the ion is bound, then its crystal has hit the vessel. Set its velocity
-                // to zero and make this ion its seed. Since it probably penetrated the wall of the
-                // vessel during the last time step, we must reposition it so it is just contacting
-                // the vessel
-                else {
-                    handleCrystalVesselCollision( ion );
-                }
             }
         }
         return collisionOccurred;

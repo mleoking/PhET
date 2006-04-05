@@ -26,45 +26,28 @@ import java.awt.geom.Point2D;
  */
 public class WiggleMe extends PNode implements ModelElement {
 
-    static final int DOWN = 1;
-    static final int UP = -1;
-
     PText text;
-    Point2D startLocation;
-    double maxY;
-    double x, y;
+    Point2D finalLocation;
     int direction = 1;
 
     public WiggleMe( String message, Point2D location, double shakeDist, Color color ) {
         text = new PText( message );
         Font font = UIManager.getFont( "Label.font" );
         text.setFont( new Font( font.getName(), font.getStyle(), 24 ) );
-        text.setTextPaint(  color );
+        text.setTextPaint( color );
         addChild( text );
-        startLocation = location;
-        x = startLocation.getX();
-        y = startLocation.getY();
-        maxY = startLocation.getY() + shakeDist;
-        setOffset( location );
+        Point2D startLocation = new Point2D.Double( 50, -20 );
+        finalLocation = location;
+        setOffset( startLocation );
     }
 
     public void stepInTime( double dt ) {
-        double dy = 0;
-        if( direction == DOWN ) {
-            dy = 15;
-        }
-        else if( direction == UP ) {
-            dy = -5;
-        }
+        double f = 20;
+        double dx = finalLocation.getX() - getOffset().getX();
+        double dy = finalLocation.getY() - getOffset().getY();
 
-        y += dy;
-        setOffset( x, y );
-
-         if( y < startLocation.getY() ) {
-             direction = DOWN;
-         }
-        else if( y > maxY ) {
-             direction = UP;
-         }
+        if( dx > 1 && dy > 1 ) {
+            setOffset( getOffset().getX() + ( dx / f ), getOffset().getY() + ( dy / f ) );
+        }
     }
 }

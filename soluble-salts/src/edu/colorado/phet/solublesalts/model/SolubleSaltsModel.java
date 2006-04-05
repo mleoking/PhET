@@ -74,9 +74,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     private WaterSource waterSource;
     private Drain drain;
 
-    // Collision mechanism objects
-    IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( this );
-
     private IonTracker ionTracker;
     private HeatSource heatSource;
     private boolean nucleationEnabled;
@@ -227,7 +224,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         heatSource.setHeatChangePerClockTick( 0 );
 
         ChangeEvent event = new ChangeEvent( this );
-        event.modelReset = true;
+        event.setModelReset( true );
         changeListenerProxy.stateChanged( event );
     }
 
@@ -278,6 +275,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     }
 
     public void setKsp( double ksp ) {
+        System.out.println( "setKsp(): ksp = " + ksp );
         this.ksp = ksp;
     }
 
@@ -307,6 +305,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
     public int getNumFreeIonsOfType( Class ionClass ) {
         return ionTracker.getNumFreeIonsOfType( ionClass );
+    }
+
+    public int getNumBoundIonsOfType( Class ionClass ) {
+        return getNumIonsOfType( ionClass ) - getNumFreeIonsOfType( ionClass );
     }
 
     public List getIons() {
@@ -383,15 +385,31 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     }
 
     public class ChangeEvent extends EventObject {
-        public boolean saltChanged;
-        public boolean modelReset;
+        private boolean saltChanged;
+        private boolean modelReset;
 
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( SolubleSaltsModel source ) {
             super( source );
         }
 
         public SolubleSaltsModel getModel() {
             return (SolubleSaltsModel)getSource();
+        }
+
+        public boolean isSaltChanged() {
+            return saltChanged;
+        }
+
+        public void setSaltChanged( boolean saltChanged ) {
+            this.saltChanged = saltChanged;
+        }
+
+        public boolean isModelReset() {
+            return modelReset;
+        }
+
+        public void setModelReset( boolean modelReset ) {
+            this.modelReset = modelReset;
         }
     }
 
@@ -425,7 +443,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         shaker.setCurrentSalt( salt );
         ksp = salt.getKsp();
         ChangeEvent event = new ChangeEvent( this );
-        event.saltChanged = true;
+        event.setSaltChanged( true );
         changeListenerProxy.stateChanged( event );
     }
 
@@ -461,6 +479,11 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 if( !getBounds().contains( ion.getPosition() ) ) {
                     removeModelElement( ion );
                 }
+
+
+                if( ion.getVelocity().getY() < 0 && ion.getPosition().getY() < vessel.getWater().getMinY() ) {
+                    System.out.println( "SolubleSaltsModel$ModelStepper.clockTicked" );
+                }
             }
         }
     }
@@ -469,9 +492,19 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
      * Detects and handles collisions between ions and the vessel
      */
     private class CollisionAgent implements ModelElement {
+        CrystalVesselCollisionExpert crystalVesselCollisionExpert = new CrystalVesselCollisionExpert( SolubleSaltsModel.this );
         IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
+        IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( SolubleSaltsModel.this );
+
 
         public void stepInTime( double dt ) {
+
+            // Look for crystals running into the vesset
+            List crystals = crystalTracker.getCrystals();
+            for( int i = 0; i < crystals.size(); i++ ) {
+                Crystal crystal = (Crystal)crystals.get( i );
+                crystalVesselCollisionExpert.detectAndDoCollision( crystal, SolubleSaltsModel.this.getVessel() );
+            }
 
             // Look for collisions between ions and the vessel, and each other
             for( int i = 0; i < numModelElements(); i++ ) {
@@ -514,18 +547,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
                 Crystal crystal = (Crystal)crystals.get( i );
-                // Only tell the crystal to toss an ion if the entire crystal is in the water
-                boolean isInWater = true;
-                List ions = crystal.getIons();
-
-                // If the entire crystal isn't in the water, skip it
-                for( int j = 0; j < ions.size() && isInWater; j++ ) {
-                    Ion ion = (Ion)ions.get( j );
-                    if( !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
-                        isInWater = false;
-                    }
-                }
-                if( isInWater ) {
+                if( crystal.isInWater(vessel.getWater().getBounds()) ) {
                     crystal.releaseIon( dt );
                     ionReleased = true;
                 }
@@ -534,10 +556,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
 
         private boolean isNucleationAllowed() {
-//            System.out.println( "getConcentrationFactor()  = " + getConcentrationFactor() );
-//            System.out.println( "ksp = " + ksp );
-            return ( getConcentrationFactor() > ksp ) ;
-//            return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
+            return ( getConcentrationFactor() > ksp ) && drain.getFlow() == 0;
         }
 
         public void instanceCreated( Crystal.InstanceLifetimeEvent event ) {

@@ -59,13 +59,14 @@ public class IonGraphicManager implements IonListener {
         putImage( new Copper(), new Color( 4, 110, 40 ) );
         putImage( new Hydroxide(), new Color( 255, 90, 13 ) );
         putImage( new Chromium(), Color.black );
-        putImage( new Strontium(), new Color( 160, 0, 200 ) );
+        putImage( new Strontium(), new Color( 220, 0, 160 ) );
         putImage( new Phosphate(), new Color( 20, 140, 30 ) );
         putImage( new Bromine(), new Color( 120, 100, 60 ) );
         putImage( new Mercury(), new Color( 100, 100, 180 ) );
-        putImage( new Thallium(), Color.black );
-        putImage( new Sulfur(), new Color( 255, 90, 13 ) );
-        putImage( new Arsenate(), new Color( 255, 90, 13 )); 
+        putImage( new Thallium(), new Color( 180, 0, 220 ) );
+        putImage( new Sulfur(), new Color( 255, 255, 0 ) );
+//        putImage( new Sulfur(), new Color( 255, 90, 13 ) );
+        putImage( new Arsenate(), new Color( 255, 90, 13 ));
     }
 
     static private void putImage( Ion ion, Color color ) {

@@ -17,19 +17,22 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollidableAdapter;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 /**
- * Lattice
+ * Crystal
  * <p/>
- * A lattice is a crystal of ions. It has a Form that defines how it is constructed.
+ * A crystal has a lattice, which it clones from the salt of which the crystal is an instance
  * <p/>
- * The lattice has a seed ion. The lattice's position is that of it's seed ion.
+ * The crystal has a seed ion. The crystal's position is that of it's seed ion.
  * <p/>
  * At each time step, a crystal determines if it should release an ion. The determination is
  * based on the following factors
@@ -45,11 +48,17 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Crystal extends Body {
+public class Crystal extends Body implements Collidable {
 
     //================================================================
     // Class data and methods
     //================================================================
+
+    public final static int NORTH = 0;
+    public final static int SOUTH = 1;
+    public final static int EAST = 2;
+    public final static int WEST = 3;
+
 
     private static EventChannel instanceLifetimeEventChannel = new EventChannel( InstanceLifetimeListener.class );
     protected static InstanceLifetimeListener instanceLifetimeListenerProxy =
@@ -57,6 +66,7 @@ public class Crystal extends Body {
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
     private SolubleSaltsModel model;
+    private Salt salt;
 
     public static void setDissociationLikelihood( double dissociationLikelihood ) {
         Crystal.dissociationLikelihood = dissociationLikelihood;
@@ -90,6 +100,7 @@ public class Crystal extends Body {
     // Instance data and methods
     //================================================================
 
+    private CollidableAdapter collidableAdapter;
     private Point2D cm = new Point2D.Double();
     private ArrayList ions = new ArrayList();
 
@@ -97,8 +108,9 @@ public class Crystal extends Body {
     // The list of ions that cannot be bound to this lattice at this time
     private Vector noBindList = new Vector();
     // Keeps track of the bounds of the water in the vessel
-    private VesselListener vesselListener = new VesselListener();
     private Rectangle2D waterBounds;
+    // An array to keep track of the most northerly, easterly, southerly and westerly ions in the crystal
+    private Ion[] boundaryIons = new Ion[4];
 
     //----------------------------------------------------------------
     // Lifecycle
@@ -108,8 +120,10 @@ public class Crystal extends Body {
      * @param model
      * @param lattice Prototype lattice. A clone is created for this crystal
      */
-    public Crystal( SolubleSaltsModel model, Lattice lattice ) {
-        this( model, lattice, new ArrayList() );
+    public Crystal( SolubleSaltsModel model, Lattice lattice, Ion ion ) {
+        ArrayList ions = new ArrayList();
+        ions.add( ion );
+        init( lattice, model, ions, ion );
     }
 
     /**
@@ -120,9 +134,49 @@ public class Crystal extends Body {
      * @param lattice Prototype lattice. A clone is created for this crystal
      * @param ions
      */
-    private Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
+    private Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
+        init( lattice, model, ions, seed );
+    }
+
+    /**
+     * Sets the seed to be the ion closest to the bottom of the vessel
+     *
+     * @param model
+     * @param lattice
+     * @param ions
+     */
+    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
+        init( lattice, model, ions, (Ion)ions.get( 0 ) );
+        Ion seed = null;
+        double maxY = Double.MIN_VALUE;
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion testIon = (Ion)ions.get( i );
+            if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
+                maxY = testIon.getPosition().getY() + testIon.getRadius();
+                seed = testIon;
+            }
+        }
+
+        // Sanity check
+        if( seed == null ) {
+            throw new RuntimeException( "seed == null" );
+        }
+        trackExtremities();
+        setSeed( seed );
+    }
+
+    /**
+     * Builds a lattice from a list of ions, and sets the seed
+     *
+     * @param lattice
+     * @param model
+     * @param ions
+     * @param seed
+     */
+    private void init( Lattice lattice, SolubleSaltsModel model, List ions, Ion seed ) {
         this.lattice = (Lattice)lattice.clone();
         this.model = model;
+        this.salt = model.getCurrentSalt();
 
         // Open up the bounds to include the whole model so we can make the lattice
         lattice.setBounds( model.getBounds() );
@@ -130,15 +184,29 @@ public class Crystal extends Body {
         // We need to interleave the positive and negative ions in the list, as much as possible, so the
         // lattice can be built out without any of them not finding an ion of the opposite polarity to
         // stick to
-        ArrayList anions = new ArrayList();
-        ArrayList cations = new ArrayList();
+
+        // Determine which type of ion is more plentiful in the lattice
+        Salt.Component[] components = salt.getComponents();
+        Class majorComponentClass = null;
+        Class minorComponentClass = null;
+        if( components[0].getLatticeUnitFraction().intValue() > components[1].getLatticeUnitFraction().intValue() ) {
+            majorComponentClass = components[0].getIonClass();
+            minorComponentClass = components[1].getIonClass();
+        }
+        else {
+            majorComponentClass = components[1].getIonClass();
+            minorComponentClass = components[0].getIonClass();
+        }
+
+        ArrayList majorityIons = new ArrayList();
+        ArrayList minorityIons = new ArrayList();
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
-            if( ion.getCharge() < 0 ) {
-                cations.add( ion );
+            if( ion.getClass() == minorComponentClass ) {
+                minorityIons.add( ion );
             }
-            else if( ion.getCharge() > 0 ) {
-                anions.add( ion );
+            else if( ion.getClass() == majorComponentClass ) {
+                majorityIons.add( ion );
             }
             else {
                 throw new RuntimeException( "ion with 0 charge" );
@@ -146,8 +214,8 @@ public class Crystal extends Body {
         }
         ArrayList ions2 = new ArrayList();
         List listA = model.getCurrentSalt().getNumAnionsInUnit() < model.getCurrentSalt().getNumCationsInUnit() ?
-                     anions : cations;
-        List listB = listA == anions ? cations : anions;
+                     majorityIons : minorityIons;
+        List listB = listA == majorityIons ? minorityIons : majorityIons;
 
         Iterator itA = listA.iterator();
         Iterator itB = listB.iterator();
@@ -191,57 +259,33 @@ public class Crystal extends Body {
         }
 
         // todo: Is this doing anything? It isn't done in the other constructors
-        model.getVessel().addChangeListener( vesselListener );
+//        model.getVessel().addChangeListener( vesselListener );
 
-        // Reset the water bounds so that they will be respeced by other constructors
+        // Reset the water bounds so that they will be respeced by other methods
         setWaterBounds( model.getVessel() );
 
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
-    }
 
-    /**
-     * Sets the seed to be the ion closest to the bottom of the vessel
-     * todo: This is the wrong way to to this!!!!
-     *
-     * @param model
-     * @param lattice
-     * @param ions
-     * @param seed
-     */
-    public Crystal( SolubleSaltsModel model, Lattice lattice, List ions, Ion seed ) {
-        this( model, lattice, ions );
-        seed = null;
-        double maxY = Double.MIN_VALUE;
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion testIon = (Ion)ions.get( i );
-            if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
-                maxY = testIon.getPosition().getY() + testIon.getRadius();
-                seed = testIon;
-            }
-        }
-
-        // Sanity check
-        if( seed == null ) {
-            throw new RuntimeException( "seed == null" );
-        }
         setSeed( seed );
+        if( collidableAdapter == null ) {
+            collidableAdapter = new CollidableAdapter( this );
+        }
     }
 
     /**
-     *
      * @return
      * @throws CloneNotSupportedException
      */
     public Object clone() throws CloneNotSupportedException {
-        ArrayList newIons = new ArrayList( );
+        ArrayList newIons = new ArrayList();
         IonFactory ionFactory = new IonFactory();
         Ion newSeed = null;
         for( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion)ions.get( i );
             Ion newIon = ionFactory.create( ion.getClass(),
-                                            new Point2D.Double( ion.getPosition().getX(), ion.getPosition().getY()),
-                                            new Vector2D.Double( ion.getVelocity()),
-                                            new Vector2D.Double( ion.getAcceleration() ));
+                                            new Point2D.Double( ion.getPosition().getX(), ion.getPosition().getY() ),
+                                            new Vector2D.Double( ion.getVelocity() ),
+                                            new Vector2D.Double( ion.getAcceleration() ) );
             if( this.getSeed() == ion ) {
                 newSeed = newIon;
             }
@@ -249,21 +293,75 @@ public class Crystal extends Body {
             model.addModelElement( newIon );
         }
         // Note that using this constructor is a real hack. We use it to set the seed
-        Crystal crystal = new Crystal( model, lattice, newIons, null );
+        Crystal crystal = new Crystal( model, lattice, newIons, newSeed );
+
+//        if( newSeed == null ) {
+//            System.out.println( "Crystal.clone" );
+//        }
 //        crystal.setSeed( newSeed );
-        crystal.setVelocity( new Vector2D.Double( this.getVelocity()));
-        crystal.setAcceleration( new Vector2D.Double( this.getAcceleration()));
+
+        trackExtremities();
+
+        crystal.setVelocity( new Vector2D.Double( this.getVelocity() ) );
+        crystal.setAcceleration( new Vector2D.Double( this.getAcceleration() ) );
 
         return crystal;
     }
 
+    /**
+     * Keeps track of the most northerly, easterly, southerly and westerly ions in the crystal
+     */
+    private void trackExtremities() {
+        double maxNorth = Double.MAX_VALUE;
+        double maxWest = Double.MAX_VALUE;
+        double maxEast = -Double.MAX_VALUE;
+        double maxSouth = -Double.MAX_VALUE;
+        Ion maxNorthIon = null;
+        Ion maxEastIon = null;
+        Ion maxSouthIon = null;
+        Ion maxWestIon = null;
+
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            if( ion.getPosition().getY() < maxNorth ) {
+                maxNorth = ion.getPosition().getY();
+                maxNorthIon = ion;
+            }
+            if( ion.getPosition().getX() < maxWest ) {
+                maxWest = ion.getPosition().getX();
+                maxWestIon = ion;
+            }
+            if( ion.getPosition().getY() > maxSouth ) {
+                maxSouth = ion.getPosition().getY();
+                maxSouthIon = ion;
+            }
+            if( ion.getPosition().getX() > maxEast ) {
+                maxEast = ion.getPosition().getX();
+                maxEastIon = ion;
+            }
+        }
+        boundaryIons[NORTH] = maxNorthIon;
+        boundaryIons[EAST] = maxEastIon;
+        boundaryIons[SOUTH] = maxSouthIon;
+        boundaryIons[WEST] = maxWestIon;
+    }
+
+    /**
+     * Returns the most northerly, easterly, southerly or westerly ion in the crystal
+     *
+     * @param direction Constants are defined as final static in this class
+     * @return the ion in the crystal that is farthest in the specified direction
+     */
+    public Ion getExtremeIon( int direction ) {
+        return boundaryIons[direction];
+    }
 
     /**
      * Sets the bounds in which the crystal can grow
      *
      * @param vessel
      */
-    void setWaterBounds( Vessel vessel ) {
+    public void setWaterBounds( Vessel vessel ) {
         waterBounds = vessel.getWater().getBounds();
         lattice.setBounds( waterBounds );
     }
@@ -273,7 +371,7 @@ public class Crystal extends Body {
     }
 
     public void leaveModel() {
-        model.getVessel().removeChangeListener( vesselListener );
+//        model.getVessel().removeChangeListener( vesselListener );
         instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
     }
 
@@ -335,6 +433,15 @@ public class Crystal extends Body {
             }
 
             boolean b = lattice.addAtIonNode( ionA, ionB );
+//            if( b && !waterBounds.contains( ionA.getPosition() ) ) {
+////                b = lattice.addAtIonNode( ionA, ionB );
+//                removeIon( ionA );
+//                ionA.unbindFrom( this );
+//                added = false;
+//                updateCm();
+//                b = false;
+//            }
+
             if( b ) {
                 ions.add( ionA );
                 ionA.bindTo( this );
@@ -363,6 +470,9 @@ public class Crystal extends Body {
                     }
                 }
             }
+
+            // Track extremity ions
+            trackExtremities();
 
             // Sanity check
             if( added && !waterBounds.contains( ionA.getPosition() ) ) {
@@ -402,6 +512,10 @@ public class Crystal extends Body {
                 System.out.println( "Crystal.addIon" );
             }
         }
+
+        // Track extremity ions
+        trackExtremities();
+
         return added;
     }
 
@@ -419,6 +533,9 @@ public class Crystal extends Body {
         if( getIons().size() == 0 ) {
             instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
         }
+
+        // Track extremity ions
+        trackExtremities();
     }
 
     /**
@@ -453,7 +570,10 @@ public class Crystal extends Body {
         removeIon( ionToRelease );
 
         // Give the ion a step so that it isn't in contact with the crystal
-        ionToRelease.stepInTime( dt );
+        // todo: This used to be necessary, but it seems like it was responsible for some bugs,
+        // like ions getting outside of the tank, or flying off above the water. Sim seems to
+        // run properly with it commented out now
+//        ionToRelease.stepInTime( dt );
 
         // If there aren't any ions left in the crystal, remove it from the model
         if( getIons().size() == 0 ) {
@@ -560,6 +680,18 @@ public class Crystal extends Body {
     }
 
     //----------------------------------------------------------------
+    // Collidable implementation
+    //----------------------------------------------------------------
+
+    public Vector2D getVelocityPrev() {
+        return collidableAdapter.getVelocityPrev();
+    }
+
+    public Point2D getPositionPrev() {
+        return collidableAdapter.getPositionPrev();
+    }
+
+    //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------
 
@@ -569,6 +701,7 @@ public class Crystal extends Body {
 
     public void setSeed( Ion ion ) {
         lattice.setSeed( ion );
+        this.collidableAdapter = new CollidableAdapter( this );
     }
 
     public ArrayList getIons() {
@@ -597,6 +730,44 @@ public class Crystal extends Body {
         lattice.setBounds( bounds );
     }
 
+    /**
+     * Tells if the entire crystal is in the water. Note that if the crystal is moving downward (eg, came out of the
+     * shaker), all ions in the crystal must be at least one diameter below the surface of the water for this to be true.
+     * This prevents ions from being released into the air when a crystal first enters the water from the shaker. There
+     * should be a better way to prevent that from happening, but I haven't found one yet.
+     *
+     * @param waterBounds
+     * @return true if the crystal is in the water, false otherwise
+     */
+    public boolean isInWater( Rectangle2D waterBounds ) {
+        boolean isInWater = true;
+        Point2D p = new Point2D.Double();
+        // Check that all ions are in the water
+        Ion east = getExtremeIon( EAST );
+        Ion west = getExtremeIon( WEST );
+        Ion north = getExtremeIon( NORTH );
+        Ion south = getExtremeIon( SOUTH );
+
+        // Note that the ion's radius isn't included in the test. This turns out not to work properly
+        // with the lattice building code, since it produces open bonds without regard to the radius of
+        // ions that might occupy them.
+        isInWater &= east.getPosition().getX() < waterBounds.getMaxX();
+        isInWater &= west.getPosition().getX() > waterBounds.getMinX();
+        isInWater &= south.getPosition().getY() < waterBounds.getMaxY();
+
+//        isInWater &= east.getPosition().getX() + east.getRadius() < waterBounds.getMaxX();
+//        isInWater &= west.getPosition().getX() - west.getRadius() > waterBounds.getMinX();
+//        isInWater &= south.getPosition().getY() + south.getRadius() < waterBounds.getMaxY();
+
+        // North is a special case. If the crystal is moving downward, we don't want to say that it is completely
+        // in the water unless it is far enough in that an ion release by the crystal will be sure to stay
+        // in the water
+        double dy = ( getVelocity().getY() > 0 ) ? 2 * north.getRadius() : 0;
+        isInWater &= north.getPosition().getY() - dy > waterBounds.getMinY();
+//        isInWater &= north.getPosition().getY() - north.getRadius() - dy > waterBounds.getMinY();
+
+        return isInWater;
+    }
 
     //----------------------------------------------------------------
     // Time-dependent behavior
@@ -610,9 +781,14 @@ public class Crystal extends Body {
      */
     public void stepInTime( double dt ) {
         // Only dissociate if the lattice is in the water
-        if( waterBounds.contains( getPosition() ) && random.nextDouble() < dissociationLikelihood ) {
+        if( isInWater( waterBounds ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );
         }
+
+        if( collidableAdapter == null ) {
+            System.out.println( "Crystal.stepInTime" );
+        }
+        collidableAdapter.stepInTime( dt );
         super.stepInTime( dt );
     }
 
@@ -640,12 +816,6 @@ public class Crystal extends Body {
                 e.printStackTrace();
             }
             noBindList.remove( ion );
-        }
-    }
-
-    private class VesselListener implements Vessel.ChangeListener {
-        public void stateChanged( Vessel.ChangeEvent event ) {
-            setWaterBounds( event.getVessel() );
         }
     }
 }

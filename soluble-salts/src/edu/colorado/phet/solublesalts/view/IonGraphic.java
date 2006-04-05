@@ -14,6 +14,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -105,6 +106,19 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
             if( ion.getBindingCrystal().getSeed() == ion ) {
                 color = Color.green;
             }
+//            if( ion.getBindingCrystal().getExtremeIon( Crystal.NORTH ) == ion ) {
+//                color = Color.orange;
+//            }
+//            if( ion.getBindingCrystal().getExtremeIon( Crystal.EAST ) == ion ) {
+//                color = Color.black;
+//            }
+//            if( ion.getBindingCrystal().getExtremeIon( Crystal.SOUTH ) == ion ) {
+//                color = Color.cyan;
+//            }
+//            if( ion.getBindingCrystal().getExtremeIon( Crystal.WEST ) == ion ) {
+//                color = Color.blue;
+//            }
+
             pDebugPath.setPaint( color );
             pDebugPath.setStrokePaint( color );
         }

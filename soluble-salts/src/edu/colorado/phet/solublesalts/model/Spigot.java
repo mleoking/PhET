@@ -71,11 +71,11 @@ public class Spigot extends Particle {
 
     public class ChangeEvent extends EventObject {
 
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Spigot source ) {
             super( source );
         }
 
-        public Spigot getFaucet() {
+        public Spigot getSpigot() {
             return (Spigot)getSource();
         }
     }

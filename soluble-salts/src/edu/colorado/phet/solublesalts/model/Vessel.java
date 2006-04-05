@@ -104,7 +104,7 @@ public class Vessel implements ModelElement, Collidable {
 
         if( !SolubleSaltsConfig.ONE_CRYSTAL_ONLY || model.crystalTracker.getCrystals().size() == 0 ) {
             // todo: combine these lines into a single constructor
-            Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice() );
+            Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice(), ion );
             crystal.addIon( ion );
         }
     }
@@ -136,7 +136,19 @@ public class Vessel implements ModelElement, Collidable {
         return shape;
     }
 
+    /**
+     * Determines if a point is outside of the vessel. Note that this test included the thickness
+     * of the vessel's walls.
+     *
+     * @param p
+     * @return true if the point is outside the vessel
+     */
     public boolean isOutside( Point2D p ) {
+//        return !( getShape().getMinX() < p.getX()
+//                && getShape().getMinY() < p.getY()
+//                && getShape().getMaxX() > p.getX()
+//                && getShape().getMaxY() > p.getY()
+//            );
         return !( getShape().getMinX() - wallThickness < p.getX()
                 && getShape().getMinY() < p.getY()
                 && getShape().getMaxX() + wallThickness > p.getX()
@@ -222,7 +234,7 @@ public class Vessel implements ModelElement, Collidable {
     //----------------------------------------------------------------
 
     public class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Vessel source ) {
             super( source );
         }
 
