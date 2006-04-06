@@ -125,6 +125,10 @@ public class QTModule extends AbstractModule implements Observer {
     // Colors 
     private QTColorScheme _colorScheme;
     
+    // This flag is set to true when the Measure button is pressed 
+    // so that we can make changes to Total Energy without the clock being reset.
+    private boolean _isMeasuring;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -659,7 +663,7 @@ public class QTModule extends AbstractModule implements Observer {
                 handleConfigureButton();
             }
             else if ( event.getSource() == _measureButton.getComponent() ) {
-                setMeasureEnabled( true );
+                handleMeasureButton();
             }
         }
     }
@@ -682,6 +686,18 @@ public class QTModule extends AbstractModule implements Observer {
                 getClock().start();
             }
         }
+    }
+    
+    /*
+     * When the Measure button is pressed, enabled measurement.
+     * If we happen to measure in a region when E0<V0, total energy will be changed.
+     * Setting the _isMeasuring flag prevent the clock from being reset if we have
+     * to change total energy.
+     */
+    private void handleMeasureButton() {
+        _isMeasuring = true;
+        setMeasureEnabled( true );
+        _isMeasuring = false;
     }
     
     //----------------------------------------------------------------------------
@@ -1048,9 +1064,10 @@ public class QTModule extends AbstractModule implements Observer {
     
     /**
      * Restarts the clock when energies change.
+     * Ignore total energy changes when we are making a quantum measurement.
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _potentialEnergy || o == _totalEnergy ) {
+        if ( o == _potentialEnergy || ( o == _totalEnergy && !_isMeasuring ) ) {
             resetClock();
         }
     }
