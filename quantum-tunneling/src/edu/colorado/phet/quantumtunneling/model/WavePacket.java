@@ -46,6 +46,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
     private boolean _measureEnabled;
     private double _saveCenter;
     private double _saveWidth;
+    private double _saveTotalEnergy;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,6 +67,7 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
         _measureEnabled = false;
         _saveCenter = _center;
         _saveWidth = _width;
+        _saveTotalEnergy = 0; // don't care what this value is
     }
     
     /**
@@ -274,16 +276,18 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
             if ( !wasMeasureEnabled ) {
                 _saveCenter = _center;
                 _saveWidth = _width;
+                _saveTotalEnergy = _te.getEnergy();
             }
             double position = chooseRandomPosition();
             setCenter( position );
             setWidth( QTConstants.MEASURING_WIDTH );
 
-            adjustTotalEnergyIfInForbiddenRegion(); // WORKAROUND
+            adjustTotalEnergyIfInForbiddenRegion( position ); // WORKAROUND
         }
         else if ( !enabled && wasMeasureEnabled ) {
             setCenter( _saveCenter );
             setWidth( _saveWidth );
+            _te.setEnergy( _saveTotalEnergy );
         }
         update();
     }
@@ -294,10 +298,10 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
      * then we adjust the total energy so that it is slightly higher than the 
      * potential energy.
      */
-    private void adjustTotalEnergyIfInForbiddenRegion() {
+    private void adjustTotalEnergyIfInForbiddenRegion( double wavePacketCenter ) {
         setEnabled( false );
         double E0 = _te.getEnergy();
-        double V0 = _pe.getEnergyAt( getCenter() );
+        double V0 = _pe.getEnergyAt( wavePacketCenter );
         if ( E0 < V0 ) {
             _te.setEnergy( V0 + 0.1 );  
         }
