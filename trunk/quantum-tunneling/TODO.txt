@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- decide on correct behavior when we measure in a region where E<V
 - when wave packet's initial center is inside a well, total energy should be discrete energy levels, not a distribution
 
 MEDIUM PRIORITY:
@@ -32,6 +31,8 @@ CLEANUP:
 
 
 DONE:
+(4/6/06) - fix behavior when we measure in a region where E<V, set E=V+0.1
+(4/5/06) - prototype using Schmidt-Lee algorithm to calculate eigenstates
 0.00.23...
 (4/5/06) - increase real/img/mag/probDensity line widths to 2 pixels, potential to 3 pixels
 (4/5/06) - change default color scheme to black

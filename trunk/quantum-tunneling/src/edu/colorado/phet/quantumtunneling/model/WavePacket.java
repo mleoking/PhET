@@ -275,14 +275,33 @@ public class WavePacket extends AbstractWave implements Observer, ClockListener 
                 _saveCenter = _center;
                 _saveWidth = _width;
             }
-            setCenter( chooseRandomPosition() );
+            double position = chooseRandomPosition();
+            setCenter( position );
             setWidth( QTConstants.MEASURING_WIDTH );
+
+            adjustTotalEnergyIfInForbiddenRegion(); // WORKAROUND
         }
         else if ( !enabled && wasMeasureEnabled ) {
             setCenter( _saveCenter );
             setWidth( _saveWidth );
         }
         update();
+    }
+    
+    /*
+     * A wave packet is in a "forbidden region" if the average total energy is less
+     * that the potential energy at the wave packet's center.  If this is the case,
+     * then we adjust the total energy so that it is slightly higher than the 
+     * potential energy.
+     */
+    private void adjustTotalEnergyIfInForbiddenRegion() {
+        setEnabled( false );
+        double E0 = _te.getEnergy();
+        double V0 = _pe.getEnergyAt( getCenter() );
+        if ( E0 < V0 ) {
+            _te.setEnergy( V0 + 0.1 );  
+        }
+        setEnabled( true );
     }
     
     /*
