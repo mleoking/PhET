@@ -32,6 +32,7 @@ CLEANUP:
 
 DONE:
 (4/6/06) - fix behavior when we measure in a region where E<V, set E=V+0.1
+(4/6/06) - change all labels "incident" -> "incoming"
 (4/5/06) - prototype using Schmidt-Lee algorithm to calculate eigenstates
 0.00.23...
 (4/5/06) - increase real/img/mag/probDensity line widths to 2 pixels, potential to 3 pixels
