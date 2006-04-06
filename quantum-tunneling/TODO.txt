@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- when wave packet's initial center is inside a well, total energy should be discrete energy levels, not a distribution
+- change representation of total energy when wave packet's initial center is inside a well (combined gradient and eigenstates)
 
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
@@ -31,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+(4/6/06) - don't restart the clock when we change total energy as a result of pushing Measure button
 (4/6/06) - fix behavior when we measure in a region where E<V, set E=V+0.1
 (4/6/06) - change all labels "incident" -> "incoming"
 (4/5/06) - prototype using Schmidt-Lee algorithm to calculate eigenstates
