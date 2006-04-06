@@ -64,7 +64,6 @@ public class QTModule extends AbstractModule implements Observer {
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
-    private static final int X_SPACING = 10; // horizontal space between nodes
     private static final int Y_SPACING = 10; // vertical space between nodes
     private static final int ZOOM_X_OFFSET = 3; // X offset of zoom buttons from edge of plot
     private static final int ZOOM_Y_OFFSET = 3; // Y offset of zoom buttons from edge of plot
