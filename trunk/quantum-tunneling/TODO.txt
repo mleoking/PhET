@@ -31,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+(4/6/06) - remove misc unused constants and member data
 (4/6/06) - don't restart the clock when we change total energy as a result of pushing Measure button
 (4/6/06) - fix behavior when we measure in a region where E<V, set E=V+0.1
 (4/6/06) - change all labels "incident" -> "incoming"
