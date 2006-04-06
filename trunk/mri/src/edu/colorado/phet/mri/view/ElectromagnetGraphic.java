@@ -33,6 +33,7 @@ public class ElectromagnetGraphic extends PNode implements Electromagnet.ChangeL
     public ElectromagnetGraphic( Electromagnet electromagnet ) {
 
         this.electromagnet = electromagnet;
+        electromagnet.addChangeListener( this );
 
         Rectangle2D bounds = electromagnet.getBounds();
         Ellipse2D shape = new Ellipse2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );

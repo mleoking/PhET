@@ -19,6 +19,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
 
 /**
  * MriModel
@@ -83,6 +84,10 @@ public class MriModel extends BaseModel {
 
     public Electromagnet getLowerMagnet() {
         return lowerMagnet;
+    }
+
+    public List getDipoles() {
+        return this.dipoles;
     }
 
     //----------------------------------------------------------------
