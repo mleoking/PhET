@@ -12,12 +12,14 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.*;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
@@ -56,6 +58,14 @@ public class MriModuleA extends Module {
         // Make the basic elements of the model
         makeBaseModelElements( model );
 
+        // Make a window for the energy levels monitor
+        MonitorPanel monitorPanel = new MonitorPanel( model );
+        monitorPanel.setPreferredSize( new Dimension( 400, 150 ) );
+        JDialog monitorDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+        monitorDlg.setContentPane( monitorPanel );
+        monitorDlg.pack();
+        monitorDlg.setVisible( true );
+
     }
 
     /**
@@ -85,7 +95,7 @@ public class MriModuleA extends Module {
         model.setLowerMagnet( lowerMagnet );
 
         // Make some dipoles
-        createDipoles( 20, sampleChamber, model );
+        createDipoles( 5, sampleChamber, model );
     }
 
     /**
