@@ -319,6 +319,28 @@ public abstract class AbstractPotential extends QTObservable {
 
         return success;
     }
+    
+    /**
+     * Determines if a position is in a well.
+     * 
+     * @param position
+     * @return true or false
+     */
+    public boolean isInWell( double position ) {
+        //XXX This implementation is not correct, need to look at more than just adjacent wells!
+        boolean inWell = false;
+        final int numberOfRegions = getNumberOfRegions();
+        if ( numberOfRegions > 2 ) {
+            int regionIndex = getRegionIndexAt( position );
+            if ( regionIndex > 0 && regionIndex < numberOfRegions - 1 ) {
+                double energy = getEnergy( regionIndex );
+                double leftEnergy = getEnergy( regionIndex - 1 );
+                double rightEnergy = getEnergy( regionIndex + 1 );
+                inWell = ( energy < leftEnergy && energy < rightEnergy );
+            }
+        }
+        return inWell;
+    }
        
     //----------------------------------------------------------------------------
     // Private & protected accessors

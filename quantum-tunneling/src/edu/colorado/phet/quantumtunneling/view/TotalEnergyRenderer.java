@@ -13,8 +13,9 @@ package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CrosshairState;
@@ -27,33 +28,24 @@ import org.jfree.ui.RectangleEdge;
 
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
+import edu.colorado.phet.quantumtunneling.model.EigenstateSolver;
 import edu.colorado.phet.quantumtunneling.model.WavePacket;
+import edu.colorado.phet.quantumtunneling.model.EigenstateSolver.EigenstateException;
+import edu.colorado.phet.quantumtunneling.model.EigenstateSolver.PotentialEvaluator;
 
 
 /**
- * TotalEnergyRenderer renders the total energy of a wave packet as a "band" of probabilites.
+ * TotalEnergyRenderer renders a representation of total energy for a wave packet.
+ * There are 3 possible representations of total energy:
  * <p>
- * For total energy E, the band will be brightest at E=E0, and decrease linearly in brightness
- * to E=minE below and E=maxE above.  minE and maxE are given by:
+ * (1) When total energy is less than the potential energy at the wave packet's center,
+ * the total energy is represented as a single dashed line.
+ * <p> 
+ * (2) When the wave packet's center is in a well, total energy is represented
+ * as a set of discrete eigenstate energies.
  * <p>
- * <code>
- * minE = E0 - ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
- * maxE = E0 + ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
- * </code>
- * where:
- * <code>
- * E0 = average total energy
- * V0 = potential energy at the wave packet's initial center position
- * w = wave packet's initial width
- * m = mass
- * hbar = Planck's constant
- * </code>
- * <p>
- * Exceptions to the above:
- * <ul>
- * <li>If E0 <= V0, then the "band" is replaced with a dashed line.
- * <li>If k0*w <= 2, then E- = V0, where k0=sqrt(2*m*(E0-V0)/(hbar*hbar))
- * </ul>
+ * (3) In all other case, total energy is represented as a "band" of probabilites.
+ * Higher brightness of color in the band is used to indicate higher probability.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -66,6 +58,10 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
+    
+    // EigenstateSolver parameters
+    private static final double EIGENSTATE_HB = ( HBAR * HBAR ) / ( 2 * MASS ); // magic constant
+    private static final int EIGENSTATE_POINTS = 1000; // number of sample points to use
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -137,12 +133,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     //----------------------------------------------------------------------------
     
     /**
-     * Draws the band that represents the range of possible energy.
-     * <p>
-     * This band is implemented as 2 rectangles, each with its own
-     * GradientPaint.  The rectangles and gradients are arranged such
-     * that the darkest color at the average total energy point, and the
-     * color fades out above and below.
+     * Draws the proper representation of total energy,
+     * as described in the javadoc for this class.
      */
     public void drawItem( 
             Graphics2D g2, 
@@ -187,51 +179,154 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         
+        // Enabled antialiasing
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        
+        // Determine which representation to use for total energy
         if ( E0 <= V0 ) {
-            // If the total energy is less than the potential energy at the wave packet's center,
-            // then draw a dashed line instead of the gradient "band".
-            // Use a GeneralPath so that we are pixel-accurate with the FastPathRenderer used for plane waves.
-            g2.setPaint( getSeriesPaint( series ) );
-            g2.setStroke( getSeriesStroke( series ) );
-            _path.reset();
-            _path.moveTo( (float)minX, (float)averageY );
-            _path.lineTo( (float)maxX, (float)averageY );
-            g2.draw( _path );
+            drawDashedLine( g2, series, minX, maxX, averageY );
+        }
+        else if ( _potentialEnergy.isInWell( packetCenter ) ) {
+//            System.out.println( "wave packet is in a well" );//XXX
+            drawDiscreteEigenstates( g2, series, dataArea, rangeAxis, rangeAxisLocation, minPosition, maxPosition, minX, maxX  );
         }
         else {
-            // Axis (model) coordinates
-            final double packetWidth = _wavePacket.getWidth();
-            final double k0 = Math.sqrt( ( 2 * MASS * ( E0 - V0 ) ) / ( HBAR * HBAR ) );
-            final double term1 = ( 2 * HBAR / packetWidth ) * Math.sqrt( 2 * ( E0 - V0 ) / MASS );
-            final double term2 = ( 2 * HBAR * HBAR ) / ( MASS * packetWidth * packetWidth );
-            final double maxE = E0 + term1 + term2; // min total energy
-            double minE = E0 - term1 + term2; // max total energy
-            if ( k0 * packetWidth <= 2 ) {
-                minE = V0;
+            drawGradientBand( g2, dataArea, rangeAxis, rangeAxisLocation, E0, V0, minX, maxX, averageY );
+        }
+    }
+  
+    /* 
+     * Draws total energy as a dashed line.
+     * 
+     * This drawing method is called if the total energy is less than the potential energy 
+     * at the wave packet's center. We use a GeneralPath so that we are pixel-accurate with 
+     * the FastPathRenderer used for plane waves.
+     */
+    private void drawDashedLine( Graphics2D g2, int series, double minX, double maxX, double averageY ) {
+        g2.setPaint( getSeriesPaint( series ) );
+        g2.setStroke( getSeriesStroke( series ) );
+        _path.reset();
+        _path.moveTo( (float)minX, (float)averageY );
+        _path.lineTo( (float)maxX, (float)averageY );
+        g2.draw( _path );
+    }
+    
+    /*
+     * Draws the total energy as a set of discrete eigenstates.
+     * This method is called when the wave packet's center is in a well.
+     */
+    private void drawDiscreteEigenstates( 
+            Graphics2D g2, int series,
+            Rectangle2D dataArea, ValueAxis rangeAxis, RectangleEdge rangeAxisLocation, 
+            double minPosition, double maxPosition, double minX, double maxX ) {
+
+        // Adapter for evaluating potential energy...
+        PotentialEvaluator function = new PotentialEvaluator() {
+            public double evaluate( double x ) {
+                return _potentialEnergy.getEnergyAt( x );
             }
-
-            // Java2D (screen) coorinates
-            final double minY = rangeAxis.valueToJava2D( maxE, dataArea, rangeAxisLocation ); // +y is down!
-            final double maxY = rangeAxis.valueToJava2D( minE, dataArea, rangeAxisLocation ); // +y is down!
-            final double width = Math.max( maxX - minX, 1 );
-            final double topHeight = Math.max( averageY - minY, 1 );
-            final double bottomHeight = Math.max( maxY - averageY, 1 );
-            
-            // Draw a band...
-            {
-                Shape topShape = new Rectangle2D.Double( minX, minY, width, topHeight + 1 );
-                Shape bottomShape = new Rectangle2D.Double( minX, averageY, width, bottomHeight );
-
-                // Take care that the gradients aren't zero pixels high! That will crash the JVM.
-                Paint topPaint = new GradientPaint( (float) minX, (float) minY, _edgeColor, (float) minX, (float) ( minY + topHeight ), _centerColor );
-                Paint bottomPaint = new GradientPaint( (float) minX, (float) averageY, _centerColor, (float) minX, (float) ( averageY + bottomHeight ), _edgeColor );
-
-                g2.setPaint( topPaint );
-                g2.fill( topShape );
-                g2.setPaint( bottomPaint );
-                g2.fill( bottomShape );
+        };
+        
+        // Create the eigenstate solver...
+        EigenstateSolver solver = new EigenstateSolver( EIGENSTATE_HB, minPosition, maxPosition, EIGENSTATE_POINTS, function );
+        
+        // Calculate the eigenstates...
+        ArrayList energies = new ArrayList(); // array of Double
+        int node = 0;
+        boolean done = false;
+        while ( !done ) {
+            try {
+                double energy = solver.getEnergy( node );
+//                System.out.println( "eigenstate energy = " + energy );//XXX
+                if ( energy > 1 ) {
+                    done = true;
+                }
+                else {
+                    energies.add( new Double( energy ) );
+                }
             }
+            catch ( EigenstateException e ) {
+                done =  true;
+                System.err.println( e.getMessage() );
+            }
+            node++;
+        }
+        
+        // Draw the eigenstate lines...
+        g2.setPaint( getSeriesPaint( series ) );
+        g2.setStroke( new BasicStroke(1f) ); //XXX
+        Iterator i = energies.iterator();
+        while ( i.hasNext() ) {
+            Double energy = (Double) i.next();
+            double y = rangeAxis.valueToJava2D( energy.doubleValue(), dataArea, rangeAxisLocation );
+            _path.reset();
+            _path.moveTo( (float)minX, (float)y );
+            _path.lineTo( (float)maxX, (float)y );
+            g2.draw( _path );
+        }
+    }
+    
+    /*
+     * Draws total energy as a gradient band.
+     * 
+     * The band is implemented as 2 rectangles, each with its own GradientPaint.
+     * The rectangles and gradients are arranged such that the "brightest" color is at 
+     * the average total energy point, and the color fades out above and below.
+     * 
+     * For total energy E, the band will be brightest at E=E0, and brightness decreases 
+     * linearly to E=minE below and E=maxE above E0.  minE and maxE are given by:
+     * 
+     *   minE = E0 - ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
+     *   maxE = E0 + ((2*hbar/w) * sqrt(2*(E0-V0 )/m )) + ((2*hbar*hbar)/(m*w*w))
+     * 
+     * where:
+     * 
+     *   E0 = average total energy
+     *   V0 = potential energy at the wave packet's initial center position
+     *   w = wave packet's initial width
+     *   m = mass
+     *   hbar = Planck's constant
+     * 
+     * Exceptions to the above:
+     * 
+     *   If k0*w <= 2, then minE = V0, where k0=sqrt(2*m*(E0-V0)/(hbar*hbar))
+     */
+    private void drawGradientBand( 
+            Graphics2D g2,
+            Rectangle2D dataArea, ValueAxis rangeAxis, RectangleEdge rangeAxisLocation, 
+            double E0, double V0, double minX, double maxX, double averageY ) 
+    {
+        // Axis (model) coordinates
+        final double packetWidth = _wavePacket.getWidth();
+        final double k0 = Math.sqrt( ( 2 * MASS * ( E0 - V0 ) ) / ( HBAR * HBAR ) );
+        final double term1 = ( 2 * HBAR / packetWidth ) * Math.sqrt( 2 * ( E0 - V0 ) / MASS );
+        final double term2 = ( 2 * HBAR * HBAR ) / ( MASS * packetWidth * packetWidth );
+        final double maxE = E0 + term1 + term2; // min total energy
+        double minE = E0 - term1 + term2; // max total energy
+        if ( k0 * packetWidth <= 2 ) {
+            minE = V0;
+        }
+
+        // Java2D (screen) coorinates
+        final double minY = rangeAxis.valueToJava2D( maxE, dataArea, rangeAxisLocation ); // +y is down!
+        final double maxY = rangeAxis.valueToJava2D( minE, dataArea, rangeAxisLocation ); // +y is down!
+        final double width = Math.max( maxX - minX, 1 );
+        final double topHeight = Math.max( averageY - minY, 1 );
+        final double bottomHeight = Math.max( maxY - averageY, 1 );
+        
+        // Draw a band...
+        {
+            Shape topShape = new Rectangle2D.Double( minX, minY, width, topHeight + 1 );
+            Shape bottomShape = new Rectangle2D.Double( minX, averageY, width, bottomHeight );
+
+            // Take care that the gradients aren't zero pixels high! That will crash the JVM.
+            Paint topPaint = new GradientPaint( (float) minX, (float) minY, _edgeColor, (float) minX, (float) ( minY + topHeight ), _centerColor );
+            Paint bottomPaint = new GradientPaint( (float) minX, (float) averageY, _centerColor, (float) minX, (float) ( averageY + bottomHeight ), _edgeColor );
+
+            g2.setPaint( topPaint );
+            g2.fill( topShape );
+            g2.setPaint( bottomPaint );
+            g2.fill( bottomShape );
         }
     }
 }
