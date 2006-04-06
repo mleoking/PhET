@@ -175,7 +175,7 @@ motion2d motion2d
 moving-man movingman &phetcommon-module &charts-0module
 
 # MRI
-mri mir &piccolo-phet-module &mechanics-dir
+mri mir &piccolo-phet-module &mechanics
 
 # Nuclear physics
 nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
