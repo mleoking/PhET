@@ -65,8 +65,6 @@ public class ConfigureEnergyDialog extends JDialog {
     private static final double ENERGY_STEP = QTConstants.ENERGY_STEP;
     private static final double MIN_ENERGY = QTConstants.ENERGY_RANGE.getLowerBound();
     private static final double MAX_ENERGY = QTConstants.ENERGY_RANGE.getUpperBound();
-    private static final double MIN_POSITION = QTConstants.POSITION_RANGE.getLowerBound();
-    private static final double MAX_POSITION = QTConstants.POSITION_RANGE.getUpperBound();
     
     /*
      * All SpinnerNumberModels are given a range that is well outside the range
@@ -109,7 +107,6 @@ public class ConfigureEnergyDialog extends JDialog {
     private JButton _applyButton, _closeButton;
     
     // Misc
-    private Frame _parent;
     private QTModule _module;
     private EventListener _listener;
     private boolean _peChanged, _teChanged;
@@ -149,7 +146,6 @@ public class ConfigureEnergyDialog extends JDialog {
         setModal( true );
         setResizable( false );
 
-        _parent = parent;
         _module = module;
         _listener = new EventListener();
 
