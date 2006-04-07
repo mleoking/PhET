@@ -43,59 +43,18 @@ public class MriModuleA extends Module {
     public MriModuleA() {
         super( name, new SwingClock( delay, 1 ) );
 
-        MriModel model = new MriModel();
+        PNode worldNode = new PNode();
+        MriModel model = new MriModel( new GraphicManager( worldNode ));
         setModel( model );
         setControlPanel( new MriControlPanel( this ) );
+
         PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
                                                                (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
         setSimulationPanel( simPanel );
-        PNode worldNode = new PNode();
         simPanel.addWorldChild( worldNode );
 
-        // Add a GraphicManager for the simulation panel
-        model.addListener( new GraphicManager( worldNode ) );
-
-        // Make the basic elements of the model
-        makeBaseModelElements( model );
-
-        // Make a window for the energy levels monitor
-        MonitorPanel monitorPanel = new MonitorPanel( model );
-        monitorPanel.setPreferredSize( new Dimension( 400, 150 ) );
-        JDialog monitorDlg = new JDialog( PhetUtilities.getPhetFrame(), false );
-        monitorDlg.setContentPane( monitorPanel );
-        monitorDlg.pack();
-        monitorDlg.setVisible( true );
-
-    }
-
-    /**
-     * Creates the model elements that constitute the basic model and adds them to the model
-     *
-     * @param model
-     */
-    private void makeBaseModelElements( MriModel model ) {
-        // Sample Chamber
-        SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.sampleChamberLocation.getX(),
-                                                                                 MriConfig.sampleChamberLocation.getY(),
-                                                                                 MriConfig.sampleChamberWidth,
-                                                                                 MriConfig.sampleChamberHeight ) );
-        model.addModelElement( sampleChamber );
-
-        // Magnets
-        double magnetHeight = 50;
-        Point2D upperMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
-                                                          sampleChamber.getBounds().getY() - magnetHeight * 1.5 );
-        Electromagnet upperMagnet = new Electromagnet( upperMagnetLocation,
-                                                       sampleChamber.getBounds().getWidth(), magnetHeight );
-        model.setUpperMagnet( upperMagnet );
-        Point2D lowerMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
-                                                          sampleChamber.getBounds().getY() + sampleChamber.getBounds().getHeight() + magnetHeight * 1.5 );
-        Electromagnet lowerMagnet = new Electromagnet( lowerMagnetLocation,
-                                                       sampleChamber.getBounds().getWidth(), magnetHeight );
-        model.setLowerMagnet( lowerMagnet );
-
         // Make some dipoles
-        createDipoles( 5, sampleChamber, model );
+        createDipoles( 10, model.getSampleChamber(), model );
     }
 
     /**
@@ -108,7 +67,7 @@ public class MriModuleA extends Module {
         Random random = new Random();
         for( int i = 0; i < numDipoles; i++ ) {
             double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-            double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 40) + sampleChamber.getBounds().getY() + 20;
+            double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60) + sampleChamber.getBounds().getY() + 20;
             Dipole dipole = new Dipole();
             dipole.setPosition( x, y );
 

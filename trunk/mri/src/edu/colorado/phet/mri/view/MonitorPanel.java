@@ -11,13 +11,13 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.Spin;
+import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -74,6 +74,7 @@ public class MonitorPanel extends PhetPCanvas {
     private ArrayList spinUpReps = new ArrayList();
     private ArrayList spinDownReps = new ArrayList();
     private EnergyLevel lowerLine, upperLine;
+    private double fieldStrength;
 
     /**
      * Constructor
@@ -91,6 +92,34 @@ public class MonitorPanel extends PhetPCanvas {
         upperLine.setOffset( 0, 60 );
 
         model.addModelElement( new DipoleRepUpdater( model ) );
+
+        model.getLowerMagnet().addChangeListener( new Electromagnet.ChangeListener() {
+            public void stateChanged( Electromagnet.ChangeEvent event ) {
+                fieldStrength = event.getElectromagnet().getFieldStrength();
+                setLinePositions();
+            }
+        } );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                setLinePositions();
+            }
+        } );
+    }
+
+    /**
+     * Establish the center point of the panel, and position the energy levels
+     * symetrically above and below it
+     */
+    private void setLinePositions() {
+        double heightFractionUsed = 0.8;
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight( ) * 2 / 3;
+        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
+        double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
+        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
+        double centerY = getHeight() / 2;
+        lowerLine.setPositionY( centerY + offsetY );
+        upperLine.setPositionY( centerY - offsetY );
     }
 
     /**
@@ -145,6 +174,10 @@ public class MonitorPanel extends PhetPCanvas {
             nucleiReps.add( dipoleGraphic );
             dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * 20, -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
+        }
+
+        public void setPositionY( double y ) {
+            setOffset( 0, y );
         }
     }
 

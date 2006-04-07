@@ -28,7 +28,6 @@ import java.util.EventObject;
 public class Electromagnet extends Particle {
     private double current;
     private double fieldStrength;
-    private Object fieldStrengthLock = new Object();
     private Rectangle2D bounds;
 
     public Electromagnet( Point2D position, double width, double height ) {
