@@ -54,7 +54,14 @@ public class MriModuleA extends Module {
         simPanel.addWorldChild( worldNode );
 
         // Make some dipoles
-        createDipoles( 10, model.getSampleChamber(), model );
+        createDipoles( 15, model.getSampleChamber(), model );
+
+//        BFieldGraphicPanel bfgp = new BFieldGraphicPanel( model.getLowerMagnet() );
+//        JDialog jdlg = new JDialog( PhetUtilities.getPhetFrame(), false );
+//        jdlg.setContentPane( bfgp );
+//        jdlg.pack();
+//        jdlg.setVisible( true );
+
     }
 
     /**
@@ -71,7 +78,8 @@ public class MriModuleA extends Module {
             Dipole dipole = new Dipole();
             dipole.setPosition( x, y );
 
-            dipole.setSpin( random.nextBoolean() ? Spin.UP : Spin.DOWN );
+            dipole.setSpin( i % 2 == 0 ? Spin.UP : Spin.DOWN );
+//            dipole.setSpin( random.nextBoolean() ? Spin.UP : Spin.DOWN );
 
             model.addModelElement( dipole );
         }
