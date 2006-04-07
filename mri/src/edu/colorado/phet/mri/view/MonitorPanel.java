@@ -49,8 +49,13 @@ public class MonitorPanel extends PhetPCanvas {
     //----------------------------------------------------------------
 
     private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
+    private static double IMAGE_WIDTH;
 
     static {
+        makeImages( 0.5 );
+    }
+
+    private static void makeImages( double scale ) {
         try {
             SPIN_DOWN_IMAGE = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
             SPIN_UP_IMAGE = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
@@ -61,10 +66,14 @@ public class MonitorPanel extends PhetPCanvas {
         SPIN_DOWN_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_DOWN_IMAGE, -Math.PI / 2 );
         SPIN_UP_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_UP_IMAGE, Math.PI / 2 );
 
-        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.5, 0.5 );
+        AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         SPIN_DOWN_IMAGE = scaleOp.filter( SPIN_DOWN_IMAGE, null );
         SPIN_UP_IMAGE = scaleOp.filter( SPIN_UP_IMAGE, null );
+
+        IMAGE_WIDTH = Math.max( SPIN_DOWN_IMAGE.getWidth(), SPIN_UP_IMAGE.getWidth() );
+        System.out.println( "SPIN_UP_IMAGE.getWidth() = " + SPIN_UP_IMAGE.getWidth() );
+        System.out.println( "SPIN_DOWN_IMAGE.getWidth() = " + SPIN_DOWN_IMAGE.getWidth() );
     }
 
     //----------------------------------------------------------------
@@ -134,6 +143,7 @@ public class MonitorPanel extends PhetPCanvas {
         public EnergyLevel( double width, List nucleiReps, MriModel model, BufferedImage dipoleRepImage ) {
             this.nucleiReps = nucleiReps;
             this.dipoleRepImage = dipoleRepImage;
+
             line = new Line2D.Double( 0, 0, width, 0 );
             lineNode = new PPath( line );
             lineNode.setStroke( new BasicStroke( 3 ) );
@@ -172,8 +182,12 @@ public class MonitorPanel extends PhetPCanvas {
         private void addDipoleRep() {
             PNode dipoleGraphic = new PImage( dipoleRepImage );
             nucleiReps.add( dipoleGraphic );
-            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * 20, -dipoleGraphic.getHeight() );
+            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
+
+            // Set the size of the panel
+            MonitorPanel.this.setPreferredSize( new Dimension( dipoleRepImage.getWidth() * nucleiReps.size(),
+                                                               getPreferredSize().height) );
         }
 
         public void setPositionY( double y ) {
@@ -192,6 +206,34 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void stepInTime( double dt ) {
+            stepInTimeA( dt);
+        }
+
+        public void stepInTimeA( double dt ) {
+            List dipoles = model.getDipoles();
+            int numUp = 0;
+            int numDown = 0;
+            for( int i = 0; i < dipoles.size(); i++ ) {
+                Dipole dipole = (Dipole)dipoles.get( i );
+                if( dipole.getSpin() == Spin.UP ) {
+                    numUp++;
+                }
+                else if( dipole.getSpin() == Spin.DOWN ) {
+                    numDown++;
+                }
+            }
+
+            float upTransparency = ((float)numUp) / dipoles.size();
+            for( int j = 0; j < spinUpReps.size(); j++ ) {
+                ( (PNode)spinUpReps.get( j ) ).setTransparency( upTransparency );
+            }
+            float downTransparency = ((float)numDown) / dipoles.size();
+            for( int j = 0; j < spinDownReps.size(); j++ ) {
+                ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
+            }
+        }
+
+        public void stepInTimeB( double dt ) {
             List dipoles = model.getDipoles();
             int numUp = 0;
             int numDown = 0;
