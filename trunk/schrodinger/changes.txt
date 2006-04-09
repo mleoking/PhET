@@ -1,3 +1,6 @@
+New in 0.52 (4-9-2006)
+The wave resizes with the screen size.
+
 New in 0.51
 Added wavefunction display options to the high-intensity panel.
 Removed "phase view" from photon particles.
