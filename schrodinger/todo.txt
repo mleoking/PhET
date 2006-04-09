@@ -1,8 +1,5 @@
-QWI
-1. Kathy keeps getting c=3e7 for the speed of light.
-2. Sam M has another bug. (hasn't emailed it yet).
-3. Sam M will supply units for photons.
-4. QWI wave area should resize, but come up at a nice size.
+Tests keep giving c=3e7 for the speed of light.
+    Units for photons still needed.
 
 Center the Reset All and Clear Wave buttons.
     This is difficult, given the "all control panels should have the same width" constraint.
