@@ -357,6 +357,7 @@ public class SchrodingerScreenNode extends PNode {
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
+        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() );
 
         String newTimeUnits = particleUnits.getDt().getUnits();
         String[]times = new String[]{"ns", "ps", "fs"};

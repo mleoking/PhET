@@ -22,8 +22,11 @@ public class Photon extends GunParticle {
 //    protected static final double minWavelength = 8;
 //    protected static final double maxWavelength = 30;
 
-    protected static final double minWavelength = 12;
-    protected static final double maxWavelength = 21;
+//    protected static final double minWavelength = 12;
+//    protected static final double maxWavelength = 21;
+
+    protected static final double minWavelength = 13.0 + 1.0 / 3.0;
+    protected static final double maxWavelength = 23.0 + 1.0 / 3.0;
     private ParticleUnits.PhotonUnits photonUnits;
 
     public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
