@@ -19,8 +19,8 @@ import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
-import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
+import edu.colorado.phet.quantumtunneling.color.WhiteColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
 
 
@@ -98,7 +98,7 @@ public class QTConstants {
     public static final Color DRAG_HANDLE_STROKE_COLOR = Color.BLACK;
     
     // The default color scheme
-    public static final QTColorScheme COLOR_SCHEME = new BlackColorScheme();
+    public static final QTColorScheme COLOR_SCHEME = new WhiteColorScheme();
     
     //----------------------------------------------------------------------------
     // Images
