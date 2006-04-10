@@ -12,6 +12,8 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.Clock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mri.MriConfig;
 
@@ -41,9 +43,9 @@ public class MriModel extends BaseModel {
     /**
      * Constructor
      *
-     * @param listener  An MriModel.Listener. Null is allowed.
+     * @param listener An MriModel.Listener. Null is allowed.
      */
-    public MriModel( Listener listener ) {
+    public MriModel( IClock clock, Listener listener ) {
 
         addListener( listener );
 
@@ -58,13 +60,11 @@ public class MriModel extends BaseModel {
         double magnetHeight = MriConfig.MAX_FADING_HEIGHT;
         Point2D upperMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
                                                           sampleChamber.getBounds().getY() - magnetHeight * 1.5 );
-        upperMagnet = new Electromagnet( upperMagnetLocation,
-                                                       sampleChamber.getBounds().getWidth(), magnetHeight );
+        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamber.getBounds().getWidth(), magnetHeight, clock );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
                                                           sampleChamber.getBounds().getY() + sampleChamber.getBounds().getHeight() + magnetHeight * 1.5 );
-        lowerMagnet = new Electromagnet( lowerMagnetLocation,
-                                                       sampleChamber.getBounds().getWidth(), magnetHeight );
+        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamber.getBounds().getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
 
         // Create agent that will control the spin orientations of the dipoles
@@ -147,7 +147,7 @@ public class MriModel extends BaseModel {
     //----------------------------------------------------------------
     // Debug & design methods
     //----------------------------------------------------------------
-    public void setSpinDeterminationPolicy( DipoleOrientationAgent.SpinDeterminationPolicy  policy ) {
+    public void setSpinDeterminationPolicy( DipoleOrientationAgent.SpinDeterminationPolicy policy ) {
         dipoleOrientationAgent.setPolicy( policy );
-    }    
+    }
 }

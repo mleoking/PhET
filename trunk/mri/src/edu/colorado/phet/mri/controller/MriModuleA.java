@@ -44,7 +44,7 @@ public class MriModuleA extends Module {
         super( name, new SwingClock( delay, 1 ) );
 
         PNode worldNode = new PNode();
-        MriModel model = new MriModel( new GraphicManager( worldNode ));
+        MriModel model = new MriModel( getClock(), new GraphicManager( worldNode ) );
         setModel( model );
         setControlPanel( new MriControlPanel( this ) );
 
