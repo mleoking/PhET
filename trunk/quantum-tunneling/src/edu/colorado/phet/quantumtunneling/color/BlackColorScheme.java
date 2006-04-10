@@ -26,13 +26,13 @@ public class BlackColorScheme extends QTColorScheme {
         super();
         setChartColor( Color.BLACK );
         setTickColor( Color.BLACK );
-        setGridlineColor( new Color( 204, 204, 204 ) ); // lighter gray
+        setGridlineColor( Color.WHITE );
         setAnnotationColor( Color.WHITE );
         setRegionMarkerColor( Color.LIGHT_GRAY );
         setTotalEnergyColor( Color.GREEN );
         setPotentialEnergyColor( Color.MAGENTA );
-        setRealColor( new Color( 255, 51, 51 ) ); // light red
-        setImaginaryColor( new Color( 51, 153, 255 ) ); // bright blue
+        setRealColor( new Color( 255, 153, 0 ) ); // orange
+        setImaginaryColor( new Color( 0, 185, 255 ) ); // bright blue
         setMagnitudeColor( Color.WHITE );
         setProbabilityDensityColor( Color.WHITE );
     }
