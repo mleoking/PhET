@@ -268,19 +268,23 @@ public class MonitorPanel extends PhetPCanvas {
                 Dipole dipole = (Dipole)dipoles.get( i );
                 if( dipole.getSpin() == Spin.UP ) {
                     ( (PNode)spinUpReps.get( numUp ) ).setVisible( true );
+                    ( (PNode)spinUpReps.get( numUp ) ).setTransparency( 1 );
                     numUp++;
                 }
                 else if( dipole.getSpin() == Spin.DOWN ) {
                     ( (PNode)spinDownReps.get( numDown ) ).setVisible( true );
+                    ( (PNode)spinDownReps.get( numUp ) ).setTransparency( 1 );
                     numDown++;
                 }
             }
 
             for( int j = numUp; j < spinUpReps.size(); j++ ) {
                 ( (PNode)spinUpReps.get( j ) ).setVisible( false );
+                ( (PNode)spinUpReps.get( j ) ).setTransparency( 1 );
             }
             for( int j = numDown; j < spinDownReps.size(); j++ ) {
                 ( (PNode)spinDownReps.get( j ) ).setVisible( false );
+                ( (PNode)spinDownReps.get( j ) ).setTransparency( 1 );
             }
         }
     }
@@ -297,16 +301,19 @@ public class MonitorPanel extends PhetPCanvas {
                 else if( dipole.getSpin() == Spin.DOWN ) {
                     numDown++;
                 }
+
             }
 
             float upTransparency = ((float)numUp) / dipoles.size();
+            System.out.println( "spinUpReps.size() = " + spinUpReps.size() );
+            System.out.println( "spinDownReps.size() = " + spinDownReps.size() );
             for( int j = 0; j < spinUpReps.size(); j++ ) {
                 ( (PNode)spinUpReps.get( j ) ).setVisible( true );
                 ( (PNode)spinUpReps.get( j ) ).setTransparency( upTransparency );
             }
             float downTransparency = ((float)numDown) / dipoles.size();
             for( int j = 0; j < spinDownReps.size(); j++ ) {
-                ( (PNode)spinUpReps.get( j ) ).setVisible( true );
+                ( (PNode)spinDownReps.get( j ) ).setVisible( true );
                 ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
             }
         }
