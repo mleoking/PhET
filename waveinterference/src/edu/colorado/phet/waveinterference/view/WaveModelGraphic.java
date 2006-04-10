@@ -96,7 +96,6 @@ public class WaveModelGraphic extends PNode {
     public void update() {
         colorGridNode.setGridDimensions( waveModel.getWidth(), waveModel.getHeight() );
         colorGridNode.paint( colorMap );
-        decorateBuffer();
         repaint();
         notifyMappingChanged();
         notifyColorChanged();
@@ -115,9 +114,6 @@ public class WaveModelGraphic extends PNode {
 
     public ColorGridNode getColorGridNode() {
         return colorGridNode;
-    }
-
-    protected void decorateBuffer() {
     }
 
     public ColorGrid getColorGrid() {
@@ -145,9 +141,9 @@ public class WaveModelGraphic extends PNode {
         return new Dimension( colorGridNode.getCellWidth(), colorGridNode.getCellHeight() );
     }
 
-    public void setColor( Color color ) {
-        setColorMap( new IndexColorMap( waveModel.getLattice(), color ) );
-    }
+//    public void setColor( Color color ) {
+//        setColorMap( new IndexColorMap( waveModel.getLattice(), color ) );
+//    }
 
     public void setBorderPaint( Color color ) {
         borderGraphic.setStrokePaint( color );

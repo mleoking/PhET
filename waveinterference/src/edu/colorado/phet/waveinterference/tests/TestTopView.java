@@ -18,7 +18,6 @@ import javax.swing.event.ChangeListener;
  */
 public class TestTopView extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;
-//    private BasicWaveTestControlPanel controlPanel;
 
     protected TestTopView() {
         this( "Top View" );
@@ -30,7 +29,6 @@ public class TestTopView extends BasicWaveTestModule {
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 10, 10, new IndexColorMap( super.getLattice() ) );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
-//        controlPanel = new BasicWaveTestControlPanel( this );
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -39,7 +37,6 @@ public class TestTopView extends BasicWaveTestModule {
             }
         } );
         getControlPanel().addControl( cellDim );
-//        setControlPanel( controlPanel );
     }
 
     public WaveModelGraphic getWaveModelGraphic() {
