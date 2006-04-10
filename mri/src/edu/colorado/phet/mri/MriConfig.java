@@ -27,11 +27,18 @@ public class MriConfig {
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
 
     // Physical parameters
+    public static final double MAX_FADING_HEIGHT = 50;
     public static final double MAX_FADING_COIL_CURRENT = 100;
     public static final double MAX_FADING_COIL_FIELD = MAX_FADING_COIL_CURRENT;
 
     // Layout
-    public static Point2D sampleChamberLocation = new Point2D.Double( 200, 200 );
-    public static double sampleChamberWidth = 600;
-    public static double sampleChamberHeight = 400;
+    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 200 );
+    public static double SAMPLE_CHAMBER_WIDTH = 600;
+    public static double SAMPLE_CHAMBER_HEIGHT = 400;
+
+    // Initial conditions
+    public static class InitialConditions {
+        public static double FADING_MAGNET_CURRENT = 0;
+        public static final double DIPOLE_PRECESSION = Math.toRadians( 20 );
+    }
 }
