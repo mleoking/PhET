@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.mri.MriConfig;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class Dipole extends Body {
 
     private Random random = new Random();
     // Range of precession, in radians
-    private double precession = Math.toRadians( 20 );
+    private double precession = MriConfig.InitialConditions.DIPOLE_PRECESSION;
     private Spin spin;
     private double orientation;
 
@@ -89,5 +90,13 @@ public class Dipole extends Body {
 
     public double getMomentOfInertia() {
         return 0;
+    }
+
+    //----------------------------------------------------------------
+    // Design & debug methods
+    //----------------------------------------------------------------
+
+    public void setPrecession( double precession ) {
+        this.precession = precession;
     }
 }
