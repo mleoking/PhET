@@ -101,6 +101,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
             currentObject = particle;
         }
         updateGunLocation();
+        getSchrodingerModule().beamTypeChanged();
     }
 
     protected ImagePComboBox initComboBox() {

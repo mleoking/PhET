@@ -19,6 +19,7 @@ public class SplitColorMap implements ColorMap {
     private SplitModel splitModel;
     private ColorData rootColor;
     private double intensityScale = 20;
+    private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
     public SplitColorMap( SplitModel splitModel, HighIntensitySchrodingerPanel schrodingerPanelHigh ) {
         this.splitModel = splitModel;
@@ -58,9 +59,17 @@ public class SplitColorMap implements ColorMap {
         return false;
     }
 
+    public WaveValueAccessor getWaveValueAccessor() {
+        return waveValueAccessor;
+    }
+
+    public void setWaveValueAccessor( WaveValueAccessor waveValueAccessor ) {
+        this.waveValueAccessor = waveValueAccessor;
+    }
+
     private double getValue( Wavefunction wavefunction, int i, int k ) {
         if( wavefunction.containsLocation( i, k ) ) {
-            return wavefunction.valueAt( i, k ).abs() * intensityScale;
+            return waveValueAccessor.getValue( wavefunction, i, k ) * intensityScale;
         }
         else {
             return 0;
