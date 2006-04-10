@@ -31,6 +31,8 @@ CLEANUP:
 
 
 DONE:
+(4/10/06) - reorganized TotalEnergyRender to prepare for big changes
+(4/10/06) - feasibility test of creating an eigenstate mask that is applied to total energy gradient
 (4/10/06) - change default color scheme to white
 (4/10/06) - change colors in black color scheme again
 (4/6/06) - remove misc unused constants and member data
