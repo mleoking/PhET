@@ -26,6 +26,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
     private AbstractGunGraphic gunGraphic;
     private ArrayList momentumChangeListeners = new ArrayList();
     private double intensityScale = 1.0;
+    protected boolean active = false;
 
     public GunParticle( final AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
         super( label, imageLocation );
@@ -119,6 +120,10 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     public abstract boolean isFiring();
+
+    public boolean isActive() {
+        return active;
+    }
 
     protected class ChangeHandler implements ChangeListener {
         private AbstractGunGraphic.MomentumChangeListener momentumChangeListener;

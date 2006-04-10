@@ -150,10 +150,12 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     public void activate( AbstractGunGraphic abstractGunGraphic ) {
+        super.active = true;
         photonBeam.getPhoton().activate( abstractGunGraphic );
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        super.active = false;
         photonBeam.getPhoton().deactivate( abstractGunGraphic );
         getGunGraphic().getSchrodingerPanel().setPhoton( null );
     }

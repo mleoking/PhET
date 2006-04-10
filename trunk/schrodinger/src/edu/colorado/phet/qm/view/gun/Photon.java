@@ -41,7 +41,7 @@ public class Photon extends GunParticle {
     }
 
     public void activate( AbstractGunGraphic abstractGunGraphic ) {
-
+        super.active = true;
         getSchrodingerModule().setUnits( photonUnits );
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
         abstractGunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
@@ -50,6 +50,7 @@ public class Photon extends GunParticle {
     }
 
     public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+        super.active = false;
         abstractGunGraphic.removeGunControls();
     }
 
