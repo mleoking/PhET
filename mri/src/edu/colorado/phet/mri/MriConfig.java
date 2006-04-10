@@ -44,6 +44,7 @@ public class MriConfig {
         public static double FADING_MAGNET_CURRENT = 0;
         public static final double DIPOLE_PRECESSION = Math.toRadians( 20 );
         public static final DipoleOrientationAgent.SpinDeterminationPolicy SPIN_DETERMINATION_POLICY = new DipoleOrientationAgent.StocasticPolicy();
-        public static final MonitorPanel.RepresentationPolicy MONITOR_PANEL_REP_POLICY = new MonitorPanel.DiscretePolicy();
+        public static final MonitorPanel.RepresentationPolicy MONITOR_PANEL_REP_POLICY = new MonitorPanel.TransparencyPolicy();
+//        public static final MonitorPanel.RepresentationPolicy MONITOR_PANEL_REP_POLICY = new MonitorPanel.DiscretePolicy();
     }
 }
