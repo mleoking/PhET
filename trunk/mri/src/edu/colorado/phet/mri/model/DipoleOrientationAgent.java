@@ -24,6 +24,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
+
 /**
  * Sets the spins of dipoles based on the field strength of the fading magnet
  */
@@ -33,7 +34,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
     private double fractionUp;
     private MriModel model;
 //    private SpinDeterminationStrategy spinDeterminationStrategy = new Fixed();
-    private SpinDeterminationStrategy spinDeterminationStrategy = new Stocastic();
+    private SpinDeterminationPolicy spinDeterminationPolicy = MriConfig.InitialConditions.SPIN_DETERMINATION_POLICY;
 
     public DipoleOrientationAgent( MriModel model ) {
         this.model = model;
@@ -41,11 +42,12 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
 
     public void stepInTime( double dt ) {
         List dipoles = model.getDipoles();
-        spinDeterminationStrategy.setSpins( dipoles, fractionUp );
+        spinDeterminationPolicy.setSpins( dipoles, fractionUp );
     }
 
     /**
      * When the field changes, the number of dipoles with each spin changes
+     *
      * @param event
      */
     public void stateChanged( Electromagnet.ChangeEvent event ) {
@@ -54,23 +56,27 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
         fractionUp *= maxUpPFraction;
     }
 
+    public void setPolicy( SpinDeterminationPolicy policy ) {
+        spinDeterminationPolicy = policy;
+    }
+
     //----------------------------------------------------------------
     // Strategies for determining the spins of dipoles in the model
     //----------------------------------------------------------------
 
-    public static interface SpinDeterminationStrategy {
+    public static interface SpinDeterminationPolicy {
         void setSpins( List dipoles, double fractionUp );
     }
 
     /**
      * Sets a fixed number of dipoles to each orientation
      */
-    public static class Deterministic implements SpinDeterminationStrategy {
+    public static class DeterministicPolicy implements SpinDeterminationPolicy {
 
         public void setSpins( List dipoles, double fractionUp ) {
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
-                Spin spin = ((double)i) / dipoles.size() < fractionUp ? Spin.UP : Spin.DOWN;
+                Spin spin = ( (double)i ) / dipoles.size() < fractionUp ? Spin.UP : Spin.DOWN;
 //                Spin spin = random.nextDouble() < fractionUp ? Spin.UP : Spin.DOWN;
                 dipole.setSpin( spin );
             }
@@ -79,7 +85,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
 
     public void setFractionUp( double fractionUp ) {
         if( fractionUp < 0 || fractionUp > 1 ) {
-            throw new IllegalArgumentException( );
+            throw new IllegalArgumentException();
         }
         this.fractionUp = fractionUp;
     }
@@ -87,7 +93,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
     /**
      *
      */
-    public static class Stocastic implements SpinDeterminationStrategy {
+    public static class StocasticPolicy implements SpinDeterminationPolicy {
         Random random = new Random();
 
         public void setSpins( List dipoles, double fractionUp ) {
