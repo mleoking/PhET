@@ -2,6 +2,7 @@ New in 0.53 (4-9-2006)
 The time for a clock tick is 0.1 fs, rather than 1 fs.
 Changed the range for the photon wavelength to rectify units.
 Changed the size of the box and the ruler to to 2700nm.
+Relabeled the resolution controls "low" "medium" and "high"
 
 New in 0.52 (4-9-2006)
 The wave resizes with the screen size.
