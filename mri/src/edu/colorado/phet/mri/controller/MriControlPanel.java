@@ -59,6 +59,7 @@ public class MriControlPanel extends ControlPanel {
         addControl( monitorPanel );
         addControl( new PrecessionControl() );
         addControl( new SpinDeterminationControl() );
+        addControl( new MonitorPanelRepControl() );
     }
 
     //----------------------------------------------------------------
@@ -98,16 +99,20 @@ public class MriControlPanel extends ControlPanel {
     private class SpinDeterminationControl extends JPanel {
         public SpinDeterminationControl() {
             super( new GridBagLayout() );
-            JRadioButton deterministicRb = new JRadioButton( "deterministic" );
+            final JRadioButton deterministicRb = new JRadioButton( "deterministic" );
             deterministicRb.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    model.setSpinDeterminationPolicy( new DipoleOrientationAgent.DeterministicPolicy() );
+                    if( deterministicRb.isSelected() ) {
+                        model.setSpinDeterminationPolicy( new DipoleOrientationAgent.DeterministicPolicy() );
+                    }
                 }
             } );
-            JRadioButton stocasticRB = new JRadioButton( "stocastic" );
+            final JRadioButton stocasticRB = new JRadioButton( "stocastic" );
             stocasticRB.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    model.setSpinDeterminationPolicy( new DipoleOrientationAgent.StocasticPolicy() );
+                    if( stocasticRB.isSelected() ) {
+                        model.setSpinDeterminationPolicy( new DipoleOrientationAgent.StocasticPolicy() );
+                    }
                 }
             } );
 
@@ -126,6 +131,47 @@ public class MriControlPanel extends ControlPanel {
             add( deterministicRb, gbc );
 
             setBorder( new TitledBorder( "Spin determination policy" ) );
+            setPreferredSize( new Dimension( 180, (int)getPreferredSize().getHeight() ) );
+        }
+    }
+
+    private class MonitorPanelRepControl extends JPanel {
+        public MonitorPanelRepControl() {
+            super( new GridBagLayout() );
+
+            final JRadioButton transparent = new JRadioButton( "transparency" );
+            transparent.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if( transparent.isSelected() ) {
+                        monitorPanel.setRepresentationPolicy( new MonitorPanel.TransparencyPolicy() );
+                    }
+                }
+            } );
+
+            final JRadioButton discrete = new JRadioButton( "discrete");
+            discrete.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if( discrete.isSelected() ) {
+                        monitorPanel.setRepresentationPolicy( new MonitorPanel.DiscretePolicy() );
+                    }
+                }
+            } );
+
+            transparent.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY instanceof MonitorPanel.TransparencyPolicy );
+            discrete.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY instanceof MonitorPanel.DiscretePolicy );
+
+            ButtonGroup btnGrp = new ButtonGroup();
+            btnGrp.add( discrete);
+            btnGrp.add( transparent );
+
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                             GridBagConstraints.NORTHWEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 30, 0, 0 ), 0, 0 );
+            add( transparent, gbc );
+            add( discrete, gbc );
+
+            setBorder( new TitledBorder( "Monitor panel representation" ) );
             setPreferredSize( new Dimension( 180, (int)getPreferredSize().getHeight() ) );
         }
     }
