@@ -11,7 +11,9 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Rectangle2D;
@@ -29,13 +31,16 @@ public class Electromagnet extends Particle {
     private double current;
     private double fieldStrength;
     private Rectangle2D bounds;
+    private FieldChangerA fieldChanger;
+//    private FieldChanger fieldChanger = new FieldChanger( 100 );
 
-    public Electromagnet( Point2D position, double width, double height ) {
+    public Electromagnet( Point2D position, double width, double height, IClock clock ) {
         super( position, new Vector2D.Double(), new Vector2D.Double() );
         this.bounds = new Rectangle2D.Double( position.getX() - width / 2,
                                               position.getY() - height / 2,
                                               width,
                                               height);
+        fieldChanger = new FieldChangerA( clock, 1, 1 );
     }
 
     public double getCurrent() {
@@ -43,8 +48,6 @@ public class Electromagnet extends Particle {
     }
 
     private void setFieldStrength( double fieldStrength ) {
-//    private synchronized void setFieldStrength( double fieldStrength ) {
-//        System.out.println( "Electromagnet.setFieldStrength" );
         this.fieldStrength = fieldStrength;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
@@ -60,7 +63,8 @@ public class Electromagnet extends Particle {
     public void setCurrent( double current ) {
         this.current = current;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-        setFieldStrength( getCurrent() );
+        fieldChanger.setTarget( current );
+//        setFieldStrength( getCurrent() );
 //        new Thread( new FieldChanger( 100)).start();
     }
 
@@ -68,14 +72,45 @@ public class Electromagnet extends Particle {
     // Inner classes
     //----------------------------------------------------------------
 
+    private class FieldChangerA extends ClockAdapter {
+        private double target;
+        private double dB;
+        private double eps;
+
+        FieldChangerA( IClock clock, double dB, double eps ) {
+            this.dB = dB;
+            this.eps = eps;
+            clock.addClockListener( this );
+        }
+
+        public void setTarget( double target ) {
+            this.target = target;
+        }
+
+        public void clockTicked( ClockEvent clockEvent ) {
+            double diff  = target-getFieldStrength();
+            if( Math.abs( diff ) > eps ) {
+                setFieldStrength( getFieldStrength() + dB * MathUtil.getSign( diff ) );
+            }
+        }
+    }
+
     private class FieldChanger implements Runnable {
         private int delay;
+        private double targetField;
 
         FieldChanger( int delay ) {
             this.delay = delay;
         }
 
         public void run() {
+            if( getFieldStrength() != targetField ) {
+
+            }
+
+
+
+
             try {
                 Thread.sleep( delay );
             }
@@ -83,6 +118,10 @@ public class Electromagnet extends Particle {
                 e.printStackTrace();
             }
             setFieldStrength( getCurrent() );
+        }
+
+        synchronized void setTargetField( double targetField) {
+            this.targetField = targetField;
         }
     }
 
