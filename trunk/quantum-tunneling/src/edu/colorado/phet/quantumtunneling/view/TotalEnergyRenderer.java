@@ -14,6 +14,7 @@ package edu.colorado.phet.quantumtunneling.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,14 +39,16 @@ import edu.colorado.phet.quantumtunneling.model.EigenstateSolver.PotentialEvalua
  * TotalEnergyRenderer renders a representation of total energy for a wave packet.
  * There are 3 possible representations of total energy:
  * <p>
- * (1) When total energy is less than the potential energy at the wave packet's center,
- * the total energy is represented as a single dashed line.
+ * (1) When total energy is less than the potential energy at the wave packet's 
+ * initial center, the total energy is represented as a single dashed line.
  * <p> 
- * (2) When the wave packet's center is in a well, total energy is represented
- * as a set of discrete eigenstate energies.
+ * (2) When the wave packet's center is in a well, total energy above the top of the
+ * well is represented by a "band" of probabilities (see #3 below). Below the 
+ * top of the well we show a set of discrete eigenstate energies. The color brightness
+ * of the eigenstate energies is indicative of their probability.
  * <p>
  * (3) In all other case, total energy is represented as a "band" of probabilites.
- * Higher brightness of color in the band is used to indicate higher probability.
+ * Higher brightness of color in the band indicates higher probability.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -165,33 +168,25 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             return;
         }
         
-        // Axis (model) coordinates
-        RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
-        RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
-        final double minPosition = domainAxis.getLowerBound();
-        final double maxPosition = domainAxis.getUpperBound();
-        final double packetCenter = _wavePacket.getCenter();
-        final double E0 = dataset.getYValue( series, item ); // the average total energy
-        final double V0 = _potentialEnergy.getEnergyAt( packetCenter );
-        
-        // Java2D (screen) coorinates
-        final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
-        final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
-        final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
-        
         // Enabled antialiasing
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR ); // Java 1.5 workaround
         
+        // Axis (model) coordinates
+        final double packetCenter = _wavePacket.getCenter();
+        final double E0 = dataset.getYValue( series, item ); // average total energy
+        final double V0 = _potentialEnergy.getEnergyAt( packetCenter ); // potential energy at wave packet's initial center
+          
         // Determine which representation to use for total energy
         if ( E0 <= V0 ) {
-            drawDashedLine( g2, series, minX, maxX, averageY );
+            drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         else if ( _potentialEnergy.isInWell( packetCenter ) ) {
 //            System.out.println( "wave packet is in a well" );//XXX
-            drawDiscreteEigenstates( g2, series, dataArea, rangeAxis, rangeAxisLocation, minPosition, maxPosition, minX, maxX  );
+            drawBandAndEigenstates( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         else {
-            drawGradientBand( g2, dataArea, rangeAxis, rangeAxisLocation, E0, V0, minX, maxX, averageY );
+            drawBand( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
     }
   
@@ -202,7 +197,30 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      * at the wave packet's center. We use a GeneralPath so that we are pixel-accurate with 
      * the FastPathRenderer used for plane waves.
      */
-    private void drawDashedLine( Graphics2D g2, int series, double minX, double maxX, double averageY ) {
+    private void drawDashedLine( 
+            Graphics2D g2, 
+            XYItemRendererState state, 
+            Rectangle2D dataArea, 
+            PlotRenderingInfo info, 
+            XYPlot plot, 
+            ValueAxis domainAxis, 
+            ValueAxis rangeAxis, 
+            XYDataset dataset, 
+            int series, 
+            int item ) 
+    {  
+        // Axis (model) coordinates
+        final double minPosition = domainAxis.getLowerBound();
+        final double maxPosition = domainAxis.getUpperBound();
+        final double E0 = dataset.getYValue( series, item ); // the average total energy
+        
+        // Java2D (screen) coordinates
+        RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
+        RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
+        final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
+        final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
+        final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
+        
         g2.setPaint( getSeriesPaint( series ) );
         g2.setStroke( getSeriesStroke( series ) );
         _path.reset();
@@ -215,17 +233,34 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      * Draws the total energy as a set of discrete eigenstates.
      * This method is called when the wave packet's center is in a well.
      */
-    private void drawDiscreteEigenstates( 
-            Graphics2D g2, int series,
-            Rectangle2D dataArea, ValueAxis rangeAxis, RectangleEdge rangeAxisLocation, 
-            double minPosition, double maxPosition, double minX, double maxX ) {
-
+    private void drawBandAndEigenstates( 
+            Graphics2D g2, 
+            XYItemRendererState state, 
+            Rectangle2D dataArea, 
+            PlotRenderingInfo info, 
+            XYPlot plot, 
+            ValueAxis domainAxis, 
+            ValueAxis rangeAxis, 
+            XYDataset dataset, 
+            int series, 
+            int item ) 
+    {
         // Adapter for evaluating potential energy...
         PotentialEvaluator function = new PotentialEvaluator() {
             public double evaluate( double x ) {
                 return _potentialEnergy.getEnergyAt( x );
             }
         };
+        
+        // Axis (model) coordinates
+        final double minPosition = domainAxis.getLowerBound();
+        final double maxPosition = domainAxis.getUpperBound();
+        
+        // Java2D (screen) coordinates
+        RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
+        RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
+        final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
+        final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         
         // Create the eigenstate solver...
         EigenstateSolver solver = new EigenstateSolver( EIGENSTATE_HB, minPosition, maxPosition, EIGENSTATE_POINTS, function );
@@ -291,13 +326,27 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      * 
      *   If k0*w <= 2, then minE = V0, where k0=sqrt(2*m*(E0-V0)/(hbar*hbar))
      */
-    private void drawGradientBand( 
-            Graphics2D g2,
-            Rectangle2D dataArea, ValueAxis rangeAxis, RectangleEdge rangeAxisLocation, 
-            double E0, double V0, double minX, double maxX, double averageY ) 
+    private void drawBand( 
+            Graphics2D g2, 
+            XYItemRendererState state, 
+            Rectangle2D dataArea, 
+            PlotRenderingInfo info, 
+            XYPlot plot, 
+            ValueAxis domainAxis, 
+            ValueAxis rangeAxis, 
+            XYDataset dataset, 
+            int series, 
+            int item ) 
     {
-        // Axis (model) coordinates
+        // Wave packet properties (model coordinates)
+        final double packetCenter = _wavePacket.getCenter();
         final double packetWidth = _wavePacket.getWidth();
+        
+        // Axis (model) coordinates
+        final double minPosition = domainAxis.getLowerBound();
+        final double maxPosition = domainAxis.getUpperBound();
+        final double E0 = dataset.getYValue( series, item ); // the average total energy
+        final double V0 = _potentialEnergy.getEnergyAt( packetCenter );
         final double k0 = Math.sqrt( ( 2 * MASS * ( E0 - V0 ) ) / ( HBAR * HBAR ) );
         final double term1 = ( 2 * HBAR / packetWidth ) * Math.sqrt( 2 * ( E0 - V0 ) / MASS );
         final double term2 = ( 2 * HBAR * HBAR ) / ( MASS * packetWidth * packetWidth );
@@ -307,9 +356,14 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             minE = V0;
         }
 
-        // Java2D (screen) coorinates
+        // Java2D (screen) coordinates
+        RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
+        RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
+        final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
+        final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         final double minY = rangeAxis.valueToJava2D( maxE, dataArea, rangeAxisLocation ); // +y is down!
         final double maxY = rangeAxis.valueToJava2D( minE, dataArea, rangeAxisLocation ); // +y is down!
+        final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         final double width = Math.max( maxX - minX, 1 );
         final double topHeight = Math.max( averageY - minY, 1 );
         final double bottomHeight = Math.max( maxY - averageY, 1 );
