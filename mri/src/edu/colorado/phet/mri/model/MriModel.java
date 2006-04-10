@@ -33,6 +33,7 @@ public class MriModel extends BaseModel {
     private Electromagnet upperMagnet, lowerMagnet;
     private ArrayList dipoles = new ArrayList();
     private SampleChamber sampleChamber;
+    private DipoleOrientationAgent dipoleOrientationAgent;
 
     /**
      * Constructor
@@ -67,7 +68,7 @@ public class MriModel extends BaseModel {
         addModelElement( lowerMagnet );
 
         // Create agent that will control the spin orientations of the dipoles
-        DipoleOrientationAgent dipoleOrientationAgent = new DipoleOrientationAgent( this );
+        dipoleOrientationAgent = new DipoleOrientationAgent( this );
         lowerMagnet.addChangeListener( dipoleOrientationAgent );
         addModelElement( dipoleOrientationAgent );
 
@@ -142,4 +143,11 @@ public class MriModel extends BaseModel {
 
         void modelElementRemoved( ModelElement modelElement );
     }
+
+    //----------------------------------------------------------------
+    // Debug & design methods
+    //----------------------------------------------------------------
+    public void setSpinDeterminationPolicy( DipoleOrientationAgent.SpinDeterminationPolicy  policy ) {
+        dipoleOrientationAgent.setPolicy( policy );
+    }    
 }

@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.mri;
 
+import edu.colorado.phet.mri.model.DipoleOrientationAgent;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -40,5 +42,6 @@ public class MriConfig {
     public static class InitialConditions {
         public static double FADING_MAGNET_CURRENT = 0;
         public static final double DIPOLE_PRECESSION = Math.toRadians( 20 );
+        public static final DipoleOrientationAgent.SpinDeterminationPolicy SPIN_DETERMINATION_POLICY = new DipoleOrientationAgent.StocasticPolicy();
     }
 }

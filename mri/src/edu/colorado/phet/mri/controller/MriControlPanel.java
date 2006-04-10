@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
@@ -22,8 +23,8 @@ import java.util.List;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 //import java.awt.*;
-import java.text.NumberFormat;
 import java.awt.*;
 
 /**
@@ -57,6 +58,7 @@ public class MriControlPanel extends ControlPanel {
         addControl( fadingMagnetsControl );
         addControl( monitorPanel );
         addControl( new PrecessionControl() );
+        addControl( new SpinDeterminationControl() );
     }
 
     //----------------------------------------------------------------
@@ -90,6 +92,41 @@ public class MriControlPanel extends ControlPanel {
                     }
                 }
             } );
+        }
+    }
+
+    private class SpinDeterminationControl extends JPanel {
+        public SpinDeterminationControl() {
+            super( new GridBagLayout() );
+            JRadioButton deterministicRb = new JRadioButton( "deterministic" );
+            deterministicRb.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.setSpinDeterminationPolicy( new DipoleOrientationAgent.DeterministicPolicy() );
+                }
+            } );
+            JRadioButton stocasticRB = new JRadioButton( "stocastic" );
+            stocasticRB.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    model.setSpinDeterminationPolicy( new DipoleOrientationAgent.StocasticPolicy() );
+                }
+            } );
+
+            deterministicRb.setSelected( MriConfig.InitialConditions.SPIN_DETERMINATION_POLICY instanceof DipoleOrientationAgent.DeterministicPolicy );
+            stocasticRB.setSelected( MriConfig.InitialConditions.SPIN_DETERMINATION_POLICY instanceof DipoleOrientationAgent.StocasticPolicy );
+
+            ButtonGroup btnGrp = new ButtonGroup();
+            btnGrp.add( deterministicRb );
+            btnGrp.add( stocasticRB );
+
+            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                             GridBagConstraints.NORTHWEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 30, 0, 0 ), 0, 0 );
+            add( stocasticRB, gbc );
+            add( deterministicRb, gbc );
+
+            setBorder( new TitledBorder( "Spin determination policy" ) );
+            setPreferredSize( new Dimension( 180, (int)getPreferredSize().getHeight() ) );
         }
     }
 }
