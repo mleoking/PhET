@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.modules.single;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.model.Detector;
 
@@ -22,6 +23,8 @@ import java.awt.event.ActionListener;
  */
 
 public class SingleParticleControlPanel extends SchrodingerControlPanel {
+    private VisualizationPanel colorPanel;
+
     public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
@@ -46,7 +49,20 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         getAdvancedPanel().addControl( createDetectorArray );
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
-        VerticalLayoutPanel colorPanel = new VisualizationPanel( getSchrodingerPanel() );
+        colorPanel = new VisualizationPanel( getSchrodingerPanel() );
+        singleParticleModule.addListener( new SchrodingerModule.Listener() {
+            public void deactivated() {
+            }
+
+            public void activated() {
+            }
+
+            public void beamTypeChanged() {
+                updateVisualizationPanel();
+            }
+
+        } );
+        updateVisualizationPanel();
         ExpandableDoubleSlitPanel doubleSlitPanel = new ExpandableDoubleSlitPanel( singleParticleModule );
 
         addSeparator();
@@ -63,6 +79,14 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addControl( advancedPanel );
 
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
+    }
+
+    private void updateVisualizationPanel() {
+        colorPanel.setPhaseColorEnabled( !isPhoton() );
+    }
+
+    private boolean isPhoton() {
+        return getSchrodingerPanel().getGunGraphic().isPhotonMode();
     }
 
     private void createDetectorArray() {

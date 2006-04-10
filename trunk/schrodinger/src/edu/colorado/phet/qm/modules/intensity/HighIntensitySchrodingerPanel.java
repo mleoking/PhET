@@ -2,9 +2,12 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
+import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
+import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.SmoothIntensityDisplay;
@@ -24,6 +27,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
     private SplitColorMap splitColorMap;
     private HighIntensityGunGraphic highIntensityGun;
     public static final boolean SMOOTH_SCREEN_DEFAULT = true;
+    private boolean splitMode = false;
 
     public HighIntensitySchrodingerPanel( SchrodingerModule intensityModule ) {
         super( intensityModule );
@@ -44,6 +48,52 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         }
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
+        intensityModule.addListener( new SchrodingerModule.Listener() {
+            public void deactivated() {
+            }
+
+            public void activated() {
+            }
+
+            public void beamTypeChanged() {
+                updateWavefunctionColorMap();
+                setSplitMode( splitMode );
+            }
+        } );
+    }
+
+    protected void updateWavefunctionColorMap() {
+        super.updateWavefunctionColorMap();
+        if( splitColorMap != null ) {
+            splitColorMap.setWaveValueAccessor( getWaveValueAccessorForSplit() );
+        }
+    }
+
+    public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
+        super.setVisualizationStyle( colorMap, waveValueAccessor );
+        if( splitMode ) {
+            setSplitMode( splitMode );
+        }
+//        setSplitMode( splitMode );
+    }
+
+    private WaveValueAccessor getWaveValueAccessorForSplit() {
+        Photon photon = getPhoton();
+        if( photon != null ) {
+            if( getWaveValueAccessor() instanceof WaveValueAccessor.Imag ) {
+                return new WaveValueAccessor() {
+                    public double getValue( Wavefunction wavefunction, int i, int j ) {
+                        return 0;
+                    }
+                };
+            }
+            else {
+                return new WaveValueAccessor.Real();
+            }
+        }
+        else {
+            return getWaveValueAccessor();
+        }
     }
 
     protected void doAddGunControlPanel() {
@@ -58,6 +108,10 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         }
     }
 
+    public HighIntensityGunGraphic getHighIntensityGun() {
+        return highIntensityGun;
+    }
+
     protected boolean useGunChooserGraphic() {
         return true;
     }
@@ -67,6 +121,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
     }
 
     public void setSplitMode( boolean splitMode ) {
+        this.splitMode = splitMode;
         if( splitMode ) {
             setSplitGraphics();
         }
@@ -129,4 +184,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         highIntensityGun.setOn( highIntensityGun.isOn() );
     }
 
+    public boolean isSplitMode() {
+        return splitMode;
+    }
 }

@@ -73,6 +73,7 @@ public class SchrodingerScreenNode extends PNode {
     private String speedupText = "Speeding Up Time";
     private boolean rescaleWaveGraphic = false;
     private int cellSize = 8;
+    private static final boolean FIXED_SIZE_WAVE = false;
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -307,14 +308,18 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     private Dimension getCellDimensions() {
-        return new Dimension( getCellSize(), getCellSize() );
-//        Dimension availableAreaForWaveform = getAvailableWaveAreaSize();
-//        int nx = schrodingerPanel.getDiscreteModel().getGridWidth();
-//        int ny = schrodingerPanel.getDiscreteModel().getGridHeight();
-//        int cellWidth = availableAreaForWaveform.width / nx;
-//        int cellHeight = availableAreaForWaveform.height / ny;
-//        int min = Math.min( cellWidth, cellHeight );
-//        return new Dimension( min, min );
+        if( FIXED_SIZE_WAVE ) {
+            return new Dimension( getCellSize(), getCellSize() );
+        }
+        else {
+            Dimension availableAreaForWaveform = getAvailableWaveAreaSize();
+            int nx = schrodingerPanel.getDiscreteModel().getGridWidth() + 5;
+            int ny = schrodingerPanel.getDiscreteModel().getGridHeight() + 5;
+            int cellWidth = availableAreaForWaveform.width / nx;
+            int cellHeight = availableAreaForWaveform.height / ny;
+            int min = Math.min( cellWidth, cellHeight );
+            return new Dimension( min, min );
+        }
     }
 
     public Dimension getAvailableWaveAreaSize() {
@@ -352,6 +357,7 @@ public class SchrodingerScreenNode extends PNode {
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
+        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() );
 
         String newTimeUnits = particleUnits.getDt().getUnits();
         String[]times = new String[]{"ns", "ps", "fs"};

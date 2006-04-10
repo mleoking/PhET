@@ -24,12 +24,30 @@ public class ResolutionControl extends AdvancedPanel {
     private final int WAVE_GRAPHIC_SIZE_1024x768 = 360;
     public static int INIT_WAVE_SIZE = 0;
 
+    public static class ResolutionSetup {
+        int value;
+        String name;
+
+        public ResolutionSetup( int value, String name ) {
+            this.value = value;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
+        }
+
+        public int intValue() {
+            return value;
+        }
+    }
+
     public ResolutionControl( final SchrodingerModule schrodingerModule ) {
         super( "Resolution>>", "Resolution<<" );
         this.schrodingerModule = schrodingerModule;
 
-        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
-        addControl( screenSizeLabel );
+//        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
+//        addControl( screenSizeLabel );
 
         final JSpinner screenSize = new JSpinner( new SpinnerNumberModel( DEFAULT_WAVE_SIZE, 10, 1024, 5 ) );
         getSchrodingerModule().setWaveSize( DEFAULT_WAVE_SIZE );
@@ -45,18 +63,25 @@ public class ResolutionControl extends AdvancedPanel {
 //        int[]values = new int[]{3, 4, 5, 6, 8, 10, 12, 16,32};
 //        int[]configFor1024x768 = new int[]{2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18};
 
-        int[]configFor1024x768 = new int[]{2, 4, 8};
-        Integer[]v = new Integer[configFor1024x768.length];
-        for( int i = 0; i < v.length; i++ ) {
-            v[i] = new Integer( configFor1024x768[i] );
+
+        int[]configFor1024x768 = new int[]{8, 4, 2};
+        String[]names = new String[]{"low", "medium", "high"};
+//        Integer[]v = new Integer[configFor1024x768.length];
+        ResolutionSetup[] resolutionSetup = new ResolutionSetup[configFor1024x768.length];
+        for( int i = 0; i < resolutionSetup.length; i++ ) {
+//            resolutionSetup[i] = new Integer( configFor1024x768[i] );
+            resolutionSetup[i] = new ResolutionSetup( configFor1024x768[i], names[i] );
         }
-        final JComboBox jComboBox = new JComboBox( v );
+
+
+        final JComboBox jComboBox = new JComboBox( resolutionSetup );
         jComboBox.setSelectedItem( new Integer( schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
-        addControl( new JLabel( "Pixels per lattice cell." ) );
+//        addControl( new JLabel( "Pixels per lattice cell." ) );
+        addControl( new JLabel( "Resolution" ) );
         addControl( jComboBox );
         jComboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Integer value = (Integer)jComboBox.getSelectedItem();
+                ResolutionSetup value = (ResolutionSetup)jComboBox.getSelectedItem();
                 schrodingerModule.setCellSize( value.intValue() );
                 int waveSize = WAVE_GRAPHIC_SIZE_1024x768 / value.intValue();
                 getSchrodingerModule().setWaveSize( waveSize );

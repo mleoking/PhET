@@ -8,6 +8,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
@@ -57,6 +58,10 @@ public class SchrodingerPanel extends PhetPCanvas {
         }
 
     };
+
+    protected Photon getPhoton() {
+        return photon;
+    }
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -222,8 +227,17 @@ public class SchrodingerPanel extends PhetPCanvas {
 
     protected ColorMap createColorMap() {
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
-            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
-//            return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
+//            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
+            if( waveValueAccessor instanceof WaveValueAccessor.Imag ) {
+                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor() {
+                    public double getValue( Wavefunction wavefunction, int i, int j ) {
+                        return 0;
+                    }
+                } );
+            }
+            else {
+                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
+            }
 //            return new RealPhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
 //            return new ComplexColorMapAdapter(getDiscreteModel().getWavefunction(), new GrayscaleColorMap.Real() );
         }

@@ -42,6 +42,7 @@ public class IntensityModule extends SchrodingerModule {
         setSchrodingerPanel( highIntensitySchrodingerPanel );
         intensityControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( intensityControlPanel );
+
         synchronizeModel();
 
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
