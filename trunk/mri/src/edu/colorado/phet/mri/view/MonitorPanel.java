@@ -85,6 +85,9 @@ public class MonitorPanel extends PhetPCanvas {
     private EnergyLevel lowerLine, upperLine;
     private double fieldStrength;
 
+    private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
+//    private RepresentationPolicy representationPolicy = new Transparency();
+
     /**
      * Constructor
      *
@@ -122,7 +125,7 @@ public class MonitorPanel extends PhetPCanvas {
      */
     private void setLinePositions() {
         double heightFractionUsed = 0.8;
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight( ) * 2 / 3;
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
@@ -130,6 +133,15 @@ public class MonitorPanel extends PhetPCanvas {
         lowerLine.setPositionY( centerY + offsetY );
         upperLine.setPositionY( centerY - offsetY );
     }
+
+    public void setRepresentationPolicy( RepresentationPolicy representationPolicy ) {
+        this.representationPolicy = representationPolicy;
+    }
+
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
 
     /**
      * A graphic with a line and an icon for each dipole in that energy level
@@ -187,7 +199,7 @@ public class MonitorPanel extends PhetPCanvas {
 
             // Set the size of the panel
             MonitorPanel.this.setPreferredSize( new Dimension( dipoleRepImage.getWidth() * nucleiReps.size(),
-                                                               getPreferredSize().height) );
+                                                               getPreferredSize().height ) );
         }
 
         public void setPositionY( double y ) {
@@ -206,35 +218,50 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void stepInTime( double dt ) {
-            stepInTimeA( dt);
+            List dipoles = model.getDipoles();
+            representationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
+//            stepInTimeA( dt );
         }
 
-        public void stepInTimeA( double dt ) {
-            List dipoles = model.getDipoles();
-            int numUp = 0;
-            int numDown = 0;
-            for( int i = 0; i < dipoles.size(); i++ ) {
-                Dipole dipole = (Dipole)dipoles.get( i );
-                if( dipole.getSpin() == Spin.UP ) {
-                    numUp++;
-                }
-                else if( dipole.getSpin() == Spin.DOWN ) {
-                    numDown++;
-                }
-            }
+//        public void stepInTimeA( double dt ) {
+//            List dipoles = model.getDipoles();
+//            representationPolicy.representSpins( dipoles );
+//        }
+//
+//        public void stepInTimeB( double dt ) {
+//            List dipoles = model.getDipoles();
+//            int numUp = 0;
+//            int numDown = 0;
+//            for( int i = 0; i < dipoles.size(); i++ ) {
+//                Dipole dipole = (Dipole)dipoles.get( i );
+//                if( dipole.getSpin() == Spin.UP ) {
+//                    ( (PNode)spinUpReps.get( numUp ) ).setVisible( true );
+//                    numUp++;
+//                }
+//                else if( dipole.getSpin() == Spin.DOWN ) {
+//                    ( (PNode)spinDownReps.get( numDown ) ).setVisible( true );
+//                    numDown++;
+//                }
+//            }
+//
+//            for( int j = numUp; j < spinUpReps.size(); j++ ) {
+//                ( (PNode)spinUpReps.get( j ) ).setVisible( false );
+//            }
+//            for( int j = numDown; j < spinDownReps.size(); j++ ) {
+//                ( (PNode)spinDownReps.get( j ) ).setVisible( false );
+//            }
+//        }
+    }
 
-            float upTransparency = ((float)numUp) / dipoles.size();
-            for( int j = 0; j < spinUpReps.size(); j++ ) {
-                ( (PNode)spinUpReps.get( j ) ).setTransparency( upTransparency );
-            }
-            float downTransparency = ((float)numDown) / dipoles.size();
-            for( int j = 0; j < spinDownReps.size(); j++ ) {
-                ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
-            }
-        }
+    //----------------------------------------------------------------
+    // Rpresentation policy
+    //----------------------------------------------------------------
+    public interface RepresentationPolicy {
+        void representSpins( List dipoles, List spinUpReps, List spinDownReps );
+    }
 
-        public void stepInTimeB( double dt ) {
-            List dipoles = model.getDipoles();
+    public static class DiscretePolicy implements RepresentationPolicy {
+        public void representSpins( List dipoles,  List spinUpReps, List spinDownReps ) {
             int numUp = 0;
             int numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
@@ -256,5 +283,33 @@ public class MonitorPanel extends PhetPCanvas {
                 ( (PNode)spinDownReps.get( j ) ).setVisible( false );
             }
         }
+    }
+
+    public static class TransparencyPolicy implements RepresentationPolicy {
+        public void representSpins( List dipoles, List spinUpReps, List spinDownReps) {
+            int numUp = 0;
+            int numDown = 0;
+            for( int i = 0; i < dipoles.size(); i++ ) {
+                Dipole dipole = (Dipole)dipoles.get( i );
+                if( dipole.getSpin() == Spin.UP ) {
+                    numUp++;
+                }
+                else if( dipole.getSpin() == Spin.DOWN ) {
+                    numDown++;
+                }
+            }
+
+            float upTransparency = ((float)numUp) / dipoles.size();
+            for( int j = 0; j < spinUpReps.size(); j++ ) {
+                ( (PNode)spinUpReps.get( j ) ).setVisible( true );
+                ( (PNode)spinUpReps.get( j ) ).setTransparency( upTransparency );
+            }
+            float downTransparency = ((float)numDown) / dipoles.size();
+            for( int j = 0; j < spinDownReps.size(); j++ ) {
+                ( (PNode)spinUpReps.get( j ) ).setVisible( true );
+                ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
+            }
+        }
+
     }
 }
