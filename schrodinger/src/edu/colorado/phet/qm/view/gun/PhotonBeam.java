@@ -31,7 +31,9 @@ public class PhotonBeam extends HighIntensityBeam {
 
         colorChangeHandler = new AbstractGunGraphic.MomentumChangeListener() {
             public void momentumChanged( double val ) {
-                handleColorChange();
+                if( getGunParticle().isActive() ) {
+                    handleColorChange();
+                }
             }
         };
 
