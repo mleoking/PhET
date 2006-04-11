@@ -322,21 +322,47 @@ public abstract class AbstractPotential extends QTObservable {
     
     /**
      * Determines if a position is in a well.
+     * A position is in a well if there is a higher potential on 
+     * both the left and right of the position.
      * 
      * @param position
      * @return true or false
      */
     public boolean isInWell( double position ) {
-        //XXX This implementation is not correct, need to look at more than just adjacent wells!
+
         boolean inWell = false;
+        
         final int numberOfRegions = getNumberOfRegions();
         if ( numberOfRegions > 2 ) {
+            
             int regionIndex = getRegionIndexAt( position );
+            
             if ( regionIndex > 0 && regionIndex < numberOfRegions - 1 ) {
+                
+                // Potential at the position...
                 double energy = getEnergy( regionIndex );
-                double leftEnergy = getEnergy( regionIndex - 1 );
-                double rightEnergy = getEnergy( regionIndex + 1 );
-                inWell = ( energy < leftEnergy && energy < rightEnergy );
+                
+                // Find a higher potential to the left...
+                boolean higherOnLeft = false;
+                for ( int i = 0; i < regionIndex; i++ ) {
+                    double leftEnergy = getEnergy( i );
+                    if ( leftEnergy > energy ) {
+                        higherOnLeft = true;
+                        break;
+                    }
+                }
+                
+                // Find a higher potential to the right...
+                boolean higherOnRight = false;
+                for ( int i = regionIndex + 1; i < numberOfRegions; i++ ) {
+                    double rightEnergy = getEnergy( i );
+                    if ( rightEnergy > energy ) {
+                        higherOnRight = true;
+                        break;
+                    }
+                }
+                
+                inWell = ( higherOnLeft && higherOnRight );
             }
         }
         return inWell;
