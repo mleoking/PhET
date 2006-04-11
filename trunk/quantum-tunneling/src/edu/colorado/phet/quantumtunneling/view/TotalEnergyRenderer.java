@@ -63,6 +63,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     private static final double HBAR = QTConstants.HBAR;
     private static final double MASS = QTConstants.MASS;
     
+    private static final Color MASK_COLOR = new Color( 255, 0, 0, 255 ); // opaque red
+    
     // EigenstateSolver parameters
     private static final double EIGENSTATE_HB = ( HBAR * HBAR ) / ( 2 * MASS ); // magic constant
     private static final int EIGENSTATE_POINTS = 1000; // number of sample points to use
@@ -78,6 +80,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     private Color _edgeColor;
     
     private GeneralPath _path; // reusable path
+    private AffineTransform _xform; // reusable transform
+    private Rectangle2D _rectangle; // reusable rectangle
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -89,6 +93,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     public TotalEnergyRenderer() {
         super();
         _path = new GeneralPath();
+        _xform = new AffineTransform();
+        _rectangle = new Rectangle2D.Double();
         setColor( QTConstants.COLOR_SCHEME.getTotalEnergyColor() );
     }
 
@@ -183,7 +189,6 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         else if ( _potentialEnergy.isInWell( packetCenter ) ) {
-//            System.out.println( "wave packet is in a well" );//XXX
             drawBandAndEigenstates( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         else {
@@ -253,17 +258,23 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             }
         };
         
+        // Wave packet properties (model coordinates)
+        final double packetCenter = _wavePacket.getCenter();
+        
         // Axis (model) coordinates
         final double minPosition = domainAxis.getLowerBound();
         final double maxPosition = domainAxis.getUpperBound();
+        final double E0 = dataset.getYValue( series, item ); // the average total energy
         final double minEnergy = rangeAxis.getLowerBound();
+        final double topOfWellEnergy = _potentialEnergy.getTopOfWellAt( packetCenter );
         
         // Java2D (screen) coordinates
         RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
         final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
-        final double maxY = domainAxis.valueToJava2D( minEnergy, dataArea, rangeAxisLocation ); // +y is down!
+        final double maxY = rangeAxis.valueToJava2D( minEnergy, dataArea, rangeAxisLocation ); // +y is down!
+        final double topOfWellY = rangeAxis.valueToJava2D( topOfWellEnergy, dataArea, rangeAxisLocation );
         
         // Create the eigenstate solver...
         EigenstateSolver solver = new EigenstateSolver( EIGENSTATE_HB, minPosition, maxPosition, EIGENSTATE_POINTS, function );
@@ -275,8 +286,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         while ( !done ) {
             try {
                 double energy = solver.getEnergy( node );
-//                System.out.println( "eigenstate energy = " + energy );//XXX
-                if ( energy > 1 ) {
+                if ( energy > topOfWellEnergy ) {
                     done = true;
                 }
                 else {
@@ -293,14 +303,11 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         // Size for images...
         final int iwidth = (int) maxX + 1;
         final int iheight = (int) maxY + 1;
-        Rectangle rect = new Rectangle( 0, 0, iwidth, iheight );
             
         // Draw the total energy "band" in a buffered image...
         BufferedImage band = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
         {
             Graphics2D gfx = band.createGraphics();
-            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
-            gfx.fill( rect );
             drawBand( gfx, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         
@@ -312,10 +319,13 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         BufferedImage mask = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
         {  
             Graphics2D gfx = mask.createGraphics();
-            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
-            gfx.fill( rect );
+            
             gfx.setComposite( AlphaComposite.Src );
-            gfx.setPaint( new Color( 255, 0, 0, 255 ) ); // opaque
+            
+            // Area above the top of the well...
+            gfx.setPaint( MASK_COLOR );
+            _rectangle.setRect( 0, 0, iwidth, topOfWellY );
+            gfx.fill( _rectangle );
             
             // Draw the eigenstate lines...
             gfx.setPaint( getSeriesPaint( series ) );
@@ -336,19 +346,22 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         BufferedImage compositeImage = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
         {
             Graphics2D gfx = compositeImage.createGraphics();
-            AffineTransform xform = new AffineTransform();
             gfx.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
-            gfx.fill( rect );
-            gfx.drawRenderedImage( band, xform );
+            _xform.setToIdentity();
+            gfx.drawRenderedImage( band, _xform );
             gfx.setComposite( AlphaComposite.DstIn );
-            gfx.drawRenderedImage( mask, xform );
+            gfx.drawRenderedImage( mask, _xform );
         }
 
         // Draw the composite image...
         {
-            AffineTransform xform = new AffineTransform();
-            g2.drawRenderedImage( compositeImage, xform );
+            _xform.setToIdentity();
+            g2.drawRenderedImage( compositeImage, _xform );
+            
+            // If the average total energy is below the top of the well, represent it with a dashed line.
+            if ( E0 < topOfWellEnergy ) {
+                drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
+            }
         }
     }
     
