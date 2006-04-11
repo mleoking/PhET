@@ -20,8 +20,36 @@ import java.util.HashMap;
 
 public class PhotonGraphic implements Graphic, Observer, ShapeGraphicType {
 
-    static int cnt = 0;
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
+    private static int cnt = 0;
     public static final int numTailPts = 4;
+
+    private static HashMap colorLUT = new HashMap();
+
+    static {
+        colorLUT.put( new Double( GreenhouseConfig.sunlightWavelength ), new Color( 255, 255, 120 ) );
+        colorLUT.put( new Double( GreenhouseConfig.irWavelength ), Color.red );
+        colorLUT.put( new Double( GreenhouseConfig.debug_wavelength), Color.green );
+    }
+
+    private static Color genColor( double wavelength ) {
+//        double d = 255 * Math.min( ( Math.abs( 1000 - wavelength ) / 1000), 1);
+//        double green = 255 - d;
+//        d = 255 * Math.min( ( Math.abs( 1500 - wavelength ) / 1500), 1);
+//        double red = 255 - d;
+//        d = 255 * Math.min( ( Math.abs( 400 - wavelength ) / 400), 1);
+//        double blue = 255 - d;
+//        return new Color( (int)red, (int)green, (int)blue );
+        return (Color)colorLUT.get( new Double( wavelength ) );
+    }
+
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
 
     private Photon photon;
 
@@ -35,9 +63,7 @@ public class PhotonGraphic implements Graphic, Observer, ShapeGraphicType {
     private boolean isVisible;
 
     public PhotonGraphic( Photon photon ) {
-
         cnt++;
-
         this.photon = photon;
         color = genColor( photon.getWavelength() );
         photon.addObserver( this );
@@ -56,8 +82,6 @@ public class PhotonGraphic implements Graphic, Observer, ShapeGraphicType {
     }
 
     public void paint( Graphics2D g2 ) {
-//        graphic.paint( g2 );
-
         GraphicsUtil.setAntiAliasingOn( g2 );
         g2.setColor( color );
         g2.setStroke( photonStroke );
@@ -87,7 +111,6 @@ public class PhotonGraphic implements Graphic, Observer, ShapeGraphicType {
     }
 
     public void update() {
-
         for( int i = numTailPts - 1; i > 0; i-- ) {
             tailPts[i].setLocation( tailPts[i - 1] );
         }
@@ -109,28 +132,4 @@ public class PhotonGraphic implements Graphic, Observer, ShapeGraphicType {
     public void setPhotonStroke( Stroke photonStroke ) {
         this.photonStroke = photonStroke;
     }
-
-    //
-    // Statics
-    //
-    private static HashMap colorLUT = new HashMap();
-
-
-    static {
-        colorLUT.put( new Double( GreenhouseConfig.sunlightWavelength ), new Color( 255, 255, 120 ) );
-        colorLUT.put( new Double( GreenhouseConfig.irWavelength ), Color.red );
-        colorLUT.put( new Double( GreenhouseConfig.debug_wavelength), Color.green );
-    }
-
-    private Color genColor( double wavelength ) {
-//        double d = 255 * Math.min( ( Math.abs( 1000 - wavelength ) / 1000), 1);
-//        double green = 255 - d;
-//        d = 255 * Math.min( ( Math.abs( 1500 - wavelength ) / 1500), 1);
-//        double red = 255 - d;
-//        d = 255 * Math.min( ( Math.abs( 400 - wavelength ) / 400), 1);
-//        double blue = 255 - d;
-//        return new Color( (int)red, (int)green, (int)blue );
-        return (Color)colorLUT.get( new Double( wavelength ) );
-    }
-
 }
