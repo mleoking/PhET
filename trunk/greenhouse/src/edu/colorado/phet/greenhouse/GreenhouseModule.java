@@ -15,6 +15,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class GreenhouseModule extends BaseGreenhouseModule {
 
@@ -38,7 +39,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         createCloud( getEarth().getLocation().getX() + 5.5,
                      getEarth().getLocation().getY() + Earth.radius + 5.8,
                      6, .4 );
-//        setVirginEarth();
 
         // Set up the controls
         setControlPanel( new GreenhouseControlPanel( this ) );
@@ -51,6 +51,18 @@ public class GreenhouseModule extends BaseGreenhouseModule {
     }
 
     public void deactivate( PhetApplication phetApplication ) {
+    }
+
+    public void reset() {
+        super.reset();
+        numCloudsEnabled( 0 );
+        cloudsEnabled( false );
+//
+//        List photons = ((GreenhouseModel)getModel()).getPhotons();
+//        for( int i = 0; i < photons.size(); i++ ) {
+//            Photon photon = (Photon)photons.get( i );
+//            ((GreenhouseModel)getModel()).photonAbsorbed( photon );
+//        }
     }
 
 
@@ -75,12 +87,10 @@ public class GreenhouseModule extends BaseGreenhouseModule {
             Cloud cloud = (Cloud)iterator.next();
             if( !cloudsEnabled && enabled ) {
                 getGreenhouseModel().addCloud( cloud );
-//                drawingCanvas.addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
                 getApparatusPanel().addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
             }
             else if( cloudsEnabled && !enabled ) {
                 getGreenhouseModel().removeCloud( cloud );
-//                drawingCanvas.removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
                 getApparatusPanel().removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
             }
         }
@@ -93,7 +103,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         for( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
             Cloud cloud = (Cloud)iterator.next();
             getGreenhouseModel().removeCloud( cloud );
-//                drawingCanvas.removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
             getApparatusPanel().removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
         }
         for( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
@@ -101,41 +110,9 @@ public class GreenhouseModule extends BaseGreenhouseModule {
             n++;
             if( n <= numClouds ) {
                 getGreenhouseModel().addCloud( cloud );
-//                drawingCanvas.addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
                 getApparatusPanel().addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
             }
         }
     }
-
-//
-//    public void setVirginEarth() {
-//        earthGraphic.setVirginEarth();
-//    }
-//
-//    public void setIceAge() {
-//        earthGraphic.setIceAge();
-//    }
-//
-//    public void setToday() {
-//        earthGraphic.setToday();
-//    }
-//
-//    public void setTomorrow() {
-//        earthGraphic.setTomorrow();
-//    }
-//
-//    public void setVenus() {
-//        earthGraphic.setVenus();
-//    }
-//
-//    public void setPreIndRev() {
-//        earthGraphic.set1750();
-////        earthGraphic.setToday();
-//    }
-//
-
-    //
-    // Inner classes
-    //
 
 }

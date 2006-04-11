@@ -25,7 +25,7 @@ import java.util.Hashtable;
 
 public class GreenhouseControlPanel extends JPanel {
 
-    private static Color iceAgeColor = Color.red;
+    private static Color iceAgeColor = new Color( 255, 180, 20 );
     private static Color preIndRevColor = Color.green;
     private static Color todayColor = Color.white;
     private static Color venusColor = Color.cyan;
@@ -63,6 +63,7 @@ public class GreenhouseControlPanel extends JPanel {
 
 
     private GreenhouseModule module;
+    private JSpinner cloudsSpinner;
 
     /**
      * @param module
@@ -115,7 +116,7 @@ public class GreenhouseControlPanel extends JPanel {
         int step = 1;
         int initValue = 0;
         SpinnerModel cloudSpinnerModel = new SpinnerNumberModel( initValue, min, max, step );
-        final JSpinner cloudsSpinner = new JSpinner( cloudSpinnerModel );
+        cloudsSpinner = new JSpinner( cloudSpinnerModel );
         cloudsSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 JSpinner spinner = (JSpinner)e.getSource();
@@ -157,6 +158,14 @@ public class GreenhouseControlPanel extends JPanel {
         // Atmosphere selection
         JPanel atmosphereSelectionPane = new AtmosphereSelectionPane();
 
+        // Reset button
+        JButton resetBtn = new JButton( SimStrings.get("GreenhouseControlPanel.Reset"));
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                reset();
+            }
+        } );
+
 
         //
         // Lay out the controls
@@ -176,6 +185,8 @@ public class GreenhouseControlPanel extends JPanel {
         add( cloudPanel, gbc );
         add( thermometerCB, gbc );
         add( allPhotonsCB, gbc );
+        gbc.anchor = GridBagConstraints.CENTER;
+        add( resetBtn, gbc );
 //        try {
 //            GraphicsUtil.addGridBagComponent( this, logo, 0, rowIdx++, 1, 1,
 //                                              GridBagConstraints.NONE, GridBagConstraints.NORTH );
@@ -213,6 +224,12 @@ public class GreenhouseControlPanel extends JPanel {
                 setBackground( (Container)component );
             }
         }
+
+    }
+
+    private void reset() {
+        module.reset();
+        cloudsSpinner.setValue( new Integer( 0 ));
 
     }
 

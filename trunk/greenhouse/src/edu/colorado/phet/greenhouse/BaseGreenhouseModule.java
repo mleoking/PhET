@@ -22,9 +22,7 @@ import javax.swing.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Collection;
+import java.util.*;
 
 public abstract class BaseGreenhouseModule extends Module {
     HashMap photonToGraphicsMap = new HashMap();
@@ -115,7 +113,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
         sunGraphic = new StarGraphic( sun, initialModelBounds );
         apparatusPanel.addGraphic( sunGraphic, 10 );
-
 
         // Create a black hole to suck away any photons that are beyond the
         // model bounds
@@ -216,6 +213,63 @@ public abstract class BaseGreenhouseModule extends Module {
         scatterToGraphicMap.remove( event );
     }
 
+    public void reset() {
+        java.util.List photons = ( (GreenhouseModel)getModel() ).getPhotons();
+        for( int i = 0; i < photons.size(); i++ ) {
+            Photon photon = (Photon)photons.get( i );
+//            PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
+//            getApparatusPanel().removeGraphic( photonView );
+//            photonToGraphicsMap.remove( photon );
+            ( (GreenhouseModel)getModel() ).photonAbsorbed( photon );
+        }
+
+        Iterator keyIt = photonToGraphicsMap.keySet().iterator();
+        while( keyIt.hasNext() ) {
+            Object o = keyIt.next();
+            PhotonGraphic pg = (PhotonGraphic)photonToGraphicsMap.get( o );
+            getApparatusPanel().removeGraphic( pg );
+        }
+        photonToGraphicsMap.clear();
+
+        earth.reset();
+    }
+
+    public void activate( PhetApplication phetApplication ) {
+        phetApplication.getApplicationModel().getClock().start();
+    }
+
+    public void deactivate( PhetApplication phetApplication ) {
+        phetApplication.getApplicationModel().getClock().stop();
+    }
+
+    public void setVirginEarth() {
+        earthGraphic.setVirginEarth();
+    }
+
+    public void setIceAge() {
+        earthGraphic.setIceAge();
+    }
+
+    public void setToday() {
+        earthGraphic.setToday();
+    }
+
+    public void setTomorrow() {
+        earthGraphic.setTomorrow();
+    }
+
+    public void setVenus() {
+        earthGraphic.setVenus();
+    }
+
+    public void setPreIndRev() {
+        earthGraphic.set1750();
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
     protected class PhotonEmitterListener implements PhotonEmitter.Listener {
         private int n = 0;
 
@@ -235,18 +289,6 @@ public abstract class BaseGreenhouseModule extends Module {
                 // reset counter
                 n = 0;
             }
-        }
-    }
-
-    class ModelToGraphicMap {
-        HashMap map;
-
-        public void put( ModelElement me, Graphic g ) {
-            map.put( me, g );
-        }
-
-        Graphic getGraphic( ModelElement me ) {
-            return (Graphic)map.get( me );
         }
     }
 
@@ -275,44 +317,9 @@ public abstract class BaseGreenhouseModule extends Module {
         }
     }
 
-    public void activate( PhetApplication phetApplication ) {
-        phetApplication.getApplicationModel().getClock().start();
-    }
-
-    public void deactivate( PhetApplication phetApplication ) {
-        phetApplication.getApplicationModel().getClock().stop();
-    }
-
-
-
-    public void setVirginEarth() {
-        earthGraphic.setVirginEarth();
-    }
-
-    public void setIceAge() {
-        earthGraphic.setIceAge();
-    }
-
-    public void setToday() {
-        earthGraphic.setToday();
-    }
-
-    public void setTomorrow() {
-        earthGraphic.setTomorrow();
-    }
-
-    public void setVenus() {
-        earthGraphic.setVenus();
-    }
-
-    public void setPreIndRev() {
-        earthGraphic.set1750();
-    }
-
-
-    //
-    // Inner classes
-    //
+    /**
+     * Handles zooming in from outer space to the earth
+     */
     private class Zoomer extends Thread {
         private Rectangle2D.Double currModelBounds;
         private Rectangle2D.Double finalModelBounds;
@@ -336,8 +343,8 @@ public abstract class BaseGreenhouseModule extends Module {
                 }
 
                 // Put up a dialog prompting the user to kick things off
-                String[] options = new String[] { SimStrings.get( "BaseGreenhouseModule.FlyMeInText" ),
-                                                  SimStrings.get( "BaseGreenhouseModule.BeamMeDownText" ) };
+                String[] options = new String[]{SimStrings.get( "BaseGreenhouseModule.FlyMeInText" ),
+                        SimStrings.get( "BaseGreenhouseModule.BeamMeDownText" )};
                 JOptionPane jop = new JOptionPane( SimStrings.get( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
                 JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), "" );
                 Point p = PhetApplication.instance().getApplicationView().getPhetFrame().getLocation();
