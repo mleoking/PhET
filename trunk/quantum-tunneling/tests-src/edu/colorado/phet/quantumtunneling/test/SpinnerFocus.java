@@ -45,8 +45,6 @@ public class SpinnerFocus extends JFrame {
     public SpinnerFocus() {
         super();
         
-        FocusListener focusListener = new SpinnerFocusHandler();
-        
         CommonSpinner spinner1 = new CommonSpinner( 10, 0, 20, 1, "0" );
         CommonSpinner spinner2 = new CommonSpinner( 10, 0, 20, 1, "0" );
         

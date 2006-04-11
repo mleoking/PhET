@@ -57,7 +57,6 @@ public class TestChartRenderingInfo extends ApplicationFrame {
         series.add( 1, 1 );
         XYSeriesCollection dataSet = new XYSeriesCollection( series );
         XYItemRenderer renderer = new StandardXYItemRenderer();
-        XYPlot plot = new XYPlot( dataSet, null, null, renderer );
         JFreeChart chart = ChartFactory.createXYLineChart( "My Chart", "X", "Y", 
                 dataSet, PlotOrientation.HORIZONTAL, false, false ,false );
         _chartPanel = new ChartPanel( chart );
