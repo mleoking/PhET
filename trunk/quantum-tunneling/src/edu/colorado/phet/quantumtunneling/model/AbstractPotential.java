@@ -328,19 +328,19 @@ public abstract class AbstractPotential extends QTObservable {
      * @param position
      * @return true or false
      */
-    public boolean isInWell( double position ) {
+    public boolean isInWell( final double position ) {
 
         boolean inWell = false;
         
         final int numberOfRegions = getNumberOfRegions();
         if ( numberOfRegions > 2 ) {
             
-            int regionIndex = getRegionIndexAt( position );
+            final int regionIndex = getRegionIndexAt( position );
             
             if ( regionIndex > 0 && regionIndex < numberOfRegions - 1 ) {
                 
                 // Potential at the position...
-                double energy = getEnergy( regionIndex );
+                final double energy = getEnergy( regionIndex );
                 
                 // Find a higher potential to the left...
                 boolean higherOnLeft = false;
@@ -368,6 +368,54 @@ public abstract class AbstractPotential extends QTObservable {
         return inWell;
     }
        
+    /**
+     * For a position that is in a well, this method returns the 
+     * energy of the "top" of the well.  The top of the well is 
+     * the lower of the two "sides" of the well.
+     * 
+     * @param position
+     * @return
+     */
+    public double getTopOfWellAt( final double position ) {
+        
+        assert( isInWell( position ) ); // check this as an assertion for performance reasons
+        
+        final int numberOfRegions = getNumberOfRegions();
+        final int regionIndex = getRegionIndexAt( position );
+        final double energy = getEnergy( regionIndex );
+        
+        // Find energy of the left side of the well...
+        double leftEnergy = energy;
+        for ( int i = regionIndex - 1; i >= 0; i-- ) {
+            double e = getEnergy( i );
+            if ( e > energy ) {
+                if ( e > leftEnergy ) {
+                    leftEnergy = e;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        
+        // Find energy of the right side of the well...
+        double rightEnergy = energy;
+        for ( int i = regionIndex + 1; i < numberOfRegions; i++ ) {
+            double e = getEnergy( i );
+            if ( e > energy ) {
+                if ( e > rightEnergy ) {
+                    rightEnergy = e;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        
+        // return the lower of the two sides of the well
+        return Math.min( leftEnergy, rightEnergy );
+    }
+    
     //----------------------------------------------------------------------------
     // Private & protected accessors
     //----------------------------------------------------------------------------
