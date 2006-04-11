@@ -31,6 +31,7 @@ CLEANUP:
 
 
 DONE:
+(4/10/06) - implement AbstractPotential.getTopOfWellAt
 (4/10/06) - fix implementation of AbstractPotential.isInWell
 (4/10/06) - reorganized TotalEnergyRender to prepare for big changes
 (4/10/06) - feasibility test of creating an eigenstate mask that is applied to total energy gradient
