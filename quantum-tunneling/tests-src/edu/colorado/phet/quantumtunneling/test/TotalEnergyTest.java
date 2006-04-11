@@ -46,6 +46,7 @@ public class TotalEnergyTest {
     private static final Color GRIDLINES_COLOR = Color.LIGHT_GRAY;
     private static final Paint TOP_PAINT = new GradientPaint( 0, 0, EDGE_COLOR, 0, H/2, CENTER_COLOR );
     private static final Paint BOTTOM_PAINT = new GradientPaint( 0, H, EDGE_COLOR, 0, H/2, CENTER_COLOR );
+    private static final Color MASK_COLOR = new Color( 255, 0, 0, 255 );  // opaque red!
     
     public static final Stroke GRIDLINES_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
@@ -65,8 +66,6 @@ public class TotalEnergyTest {
                 BufferedImage bi = new BufferedImage( W, H, BufferedImage.TYPE_INT_ARGB );
                 {
                     Graphics2D g2 = bi.createGraphics();
-                    g2.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
-                    g2.fill( BACKGROUND_RECT );
                     g2.setPaint( TOP_PAINT );
                     g2.fill( TOP_RECT );
                     g2.setPaint( BOTTOM_PAINT );
@@ -78,10 +77,8 @@ public class TotalEnergyTest {
                 BufferedImage mask = new BufferedImage( W, H, BufferedImage.TYPE_INT_ARGB );
                 {
                     Graphics2D g2 = mask.createGraphics();
-                    g2.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
-                    g2.fill( BACKGROUND_RECT );
                     g2.setComposite( AlphaComposite.Src );
-                    g2.setPaint( new Color( 255, 0, 0, 255 ) ); // opaque
+                    g2.setPaint( MASK_COLOR );
                     g2.fill( TOP_RECT );
                     final int numberOfLines = 30;
                     for ( int i = 0; i < numberOfLines; i++ ) {
@@ -97,8 +94,6 @@ public class TotalEnergyTest {
                     Graphics2D g2 = compositeImage.createGraphics();
                     AffineTransform xform = new AffineTransform();
                     g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-                    g2.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
-                    g2.fill( BACKGROUND_RECT );
                     g2.drawRenderedImage( bi, xform );
                     g2.setComposite( AlphaComposite.DstIn );
                     g2.drawRenderedImage( mask, xform );
