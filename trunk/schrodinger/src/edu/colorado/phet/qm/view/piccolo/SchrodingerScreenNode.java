@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -20,6 +21,7 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -62,7 +64,7 @@ public class SchrodingerScreenNode extends PNode {
     public static int numIterationsBetwenScreenUpdate = 2;
     private DetectorSheetPNode detectorSheetPNode;
     private StopwatchPanel stopwatchPanel;
-    private ParticleUnits particleUnits = new ParticleUnits.ElectronUnits();
+    private ParticleUnits particleUnits = new ParticleUnits.PhotonUnits();
     private Color TEXT_BACKGROUND = new Color( 255, 245, 190 );
     private PNode gunTypeChooserGraphic;
     private PSwing stopwatchPanelPSwing;
@@ -74,6 +76,8 @@ public class SchrodingerScreenNode extends PNode {
     private boolean rescaleWaveGraphic = false;
     private int cellSize = 8;
     private static final boolean FIXED_SIZE_WAVE = false;
+    private String zoomoutText = "Zooming Out";
+    private String zoominText = "Zooming In";
 
     public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -352,6 +356,7 @@ public class SchrodingerScreenNode extends PNode {
         }
 //        System.out.println( "particleUnits = " + particleUnits );
         String origTimeUnits = this.particleUnits.getDt().getUnits();
+        double origLatticeWidth = this.particleUnits.getLatticeWidth();
         this.particleUnits = particleUnits;
 //        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
@@ -377,6 +382,54 @@ public class SchrodingerScreenNode extends PNode {
             showTimeSlowDown();
         }
         rulerGraphic.setUnits( particleUnits.getDx().getUnits() );
+
+        if( particleUnits.getLatticeWidth() != origLatticeWidth ) {
+            showLatticeSizeChange( origLatticeWidth );
+        }
+    }
+
+    private void showLatticeSizeChange( double origLatticeWidth ) {
+        if( particleUnits.getLatticeWidth() > origLatticeWidth ) {
+            showZoomIn();
+        }
+        else if( particleUnits.getLatticeWidth() < origLatticeWidth ) {
+            showZoomOut();
+        }
+    }
+
+    private void showZoomOut() {
+        final PImage child = PImageFactory.create( "images/glassMinus.gif" );
+        showZoom( child, zoomoutText );
+    }
+
+    private void showZoom( final PImage child, String text ) {
+        final Timer timer = new Timer( 0, null );
+        timer.setInitialDelay( 3000 );
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                removeChild( child );
+                timer.stop();
+            }
+        };
+        timer.addActionListener( listener );
+        addChild( child );
+
+        PText shadowPText = new PText( text );
+        shadowPText.setTextPaint( Color.blue );
+
+        shadowPText.setOffset( 0, child.getFullBounds().getHeight() + 10 );
+        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+
+        boundGraphic.setPaint( TEXT_BACKGROUND );
+        child.addChild( boundGraphic );
+        child.addChild( shadowPText );
+        child.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - child.getFullBounds().getWidth() / 2, wavefunctionGraphic.getFullBounds().getCenterY() - child.getFullBounds().getHeight() / 2 );
+        timer.start();
+    }
+
+    private void showZoomIn() {
+        final PImage child = PImageFactory.create( "images/glassPlus.gif" );
+        showZoom( child, zoominText );
     }
 
 //    private void updateRulerUnits() {
