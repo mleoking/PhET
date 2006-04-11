@@ -18,6 +18,7 @@ import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.MonitorPanel;
+import edu.colorado.phet.mri.view.BFieldGraphicPanel;
 
 import java.util.List;
 import javax.swing.event.ChangeListener;
@@ -34,10 +35,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MriControlPanel extends ControlPanel {
-    private ModelSlider fadingMagnetsSlider;
     private MonitorPanel monitorPanel;
     private MriModel model;
-    private JComponent fadingMagnetsControl;
 
     /**
      * Constructor
@@ -47,19 +46,21 @@ public class MriControlPanel extends ControlPanel {
     public MriControlPanel( MriModuleA module ) {
         model = (MriModel)module.getModel();
 
-        fadingMagnetsControl = new FadingMagnetControl();
+        JComponent fadingMagnetsControl = new FadingMagnetControl();
         monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
+        BFieldGraphicPanel bFieldGraphicPanel = new BFieldGraphicPanel( model.getLowerMagnet() );
 
-        layoutPanel();
-    }
 
-    private void layoutPanel() {
         addControl( fadingMagnetsControl );
         addControl( monitorPanel );
+        addControl( bFieldGraphicPanel );
         addControl( new PrecessionControl() );
         addControl( new SpinDeterminationControl() );
         addControl( new MonitorPanelRepControl() );
+    }
+
+    private void layoutPanel() {
     }
 
     //----------------------------------------------------------------
