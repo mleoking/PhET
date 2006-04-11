@@ -1,5 +1,6 @@
 New in 0.54 (4-10-2006)
 Bugfix: If you change the resolution in electron mode, it starts displaying photons instead of electrons.
+Added zoom in and out icons.
 
 New in 0.53 (4-9-2006)
 The time for a clock tick is 0.1 fs, rather than 1 fs.
