@@ -87,7 +87,7 @@ public class QTConstants {
     public static final Stroke REGION_MARKER_STROKE = 
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
     public static final Stroke DRAG_HANDLE_STROKE = new BasicStroke( 1f );
-    public static final Stroke EIGENSTATE_STROKE = new BasicStroke( 1.25f );
+    public static final Stroke EIGENSTATE_STROKE = new BasicStroke( 2f );
     
     //----------------------------------------------------------------------------
     // Paints
