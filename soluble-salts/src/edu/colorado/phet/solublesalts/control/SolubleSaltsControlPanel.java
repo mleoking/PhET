@@ -23,6 +23,7 @@ import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
+import edu.colorado.phet.solublesalts.util.ScientificNotation;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -42,29 +43,6 @@ import java.util.List;
  * @version $Revision$
  */
 abstract public class SolubleSaltsControlPanel extends ControlPanel {
-
-    //----------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------
-
-//    static protected HashMap saltMap;
-//
-//    static {
-//        saltMap = new HashMap();
-//        saltMap.put( "Silver Bromide", new SilverBromide() );
-//        saltMap.put( "Sodium Chloride", new SodiumChloride() );
-////        saltMap.put( "Lead Chloride", new LeadChloride() );
-//        saltMap.put( "Copper(I) Iodide", new CuprousIodide() );
-////        saltMap.put( "Silver Iodide", new SilverIodide() );
-//        saltMap.put( "Thallium(I) Sulfide", new ThallousSulfide() );
-////        saltMap.put( "Copper Hydroxide", new CopperHydroxide() );
-//        saltMap.put( "Silver Arsenate", new SilverArsenate() );
-////        saltMap.put( "Chromium Hydroxide", new ChromiumHydroxide() );
-//        saltMap.put( "Strontium Phosphate", new StrontiumPhosphate() );
-//        saltMap.put( "Mercury(II) Bromide", new MercuryBromide() );
-//    }
-
-//    static private String DEFAULT_SALT_NAME = "Mercury Bromide";
 
     //----------------------------------------------------------------
     // Instance data and methods
@@ -312,6 +290,10 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
             readout.setEditable( false );
             gbc.gridx++;
             add( readout, gbc );
+
+            JLabel units = new JLabel( "liters (L)");
+            gbc.gridx++;
+            add( units, gbc );
         }
 
         public void stateChanged( Vessel.ChangeEvent event ) {
@@ -319,6 +301,9 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         }
 
         private void setReadoutValue( Vessel vessel ) {
+//            double  volume = vessel.getWaterLevel() * module.getCalibration().volumeCalibrationFactor;
+//            String s2 = ScientificNotation.toHtml( volume, 2, "","");
+//            readout.setText( s2 );
             readout.setText( format.format( vessel.getWaterLevel() * module.getCalibration().volumeCalibrationFactor ) );
         }
     }

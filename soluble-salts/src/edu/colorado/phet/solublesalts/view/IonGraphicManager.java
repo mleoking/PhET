@@ -50,7 +50,8 @@ public class IonGraphicManager implements IonListener {
 
     static {
         putImage( new ConfigurableCation(), new Color( 0, 0, 0 ) );
-        putImage( new ConfigurableAnion(), new Color( 200, 200, 200 ) );
+        putImage( new ConfigurableAnion(), new Color( 230, 230, 230 ) );
+//        putImage( new ConfigurableAnion(), new Color( 200, 200, 200 ) );
         putImage( new Sodium(), new Color( 200, 0, 60 ) );
         putImage( new Chlorine(), new Color( 0, 100, 0 ) );
         putImage( new Lead(), Color.red );
