@@ -186,7 +186,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
           
         // Determine which representation to use for total energy
         if ( E0 <= V0 ) {
-            drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
+            drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item, QTConstants.TOTAL_ENERGY_DASHED_STROKE );
         }
         else if ( _potentialEnergy.isInWell( packetCenter ) ) {
             drawBandAndEigenstates( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
@@ -213,7 +213,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             ValueAxis rangeAxis, 
             XYDataset dataset, 
             int series, 
-            int item ) 
+            int item,
+            Stroke stroke ) 
     {  
         // Axis (model) coordinates
         final double minPosition = domainAxis.getLowerBound();
@@ -228,7 +229,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         
         g2.setPaint( getSeriesPaint( series ) );
-        g2.setStroke( getSeriesStroke( series ) );
+        g2.setStroke( stroke );
         _path.reset();
         _path.moveTo( (float)minX, (float)averageY );
         _path.lineTo( (float)maxX, (float)averageY );
@@ -360,7 +361,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             
             // If the average total energy is below the top of the well, represent it with a dashed line.
             if ( E0 < topOfWellEnergy ) {
-                drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
+                drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item, QTConstants.EIGENSTATE_STROKE_DASHED );
             }
         }
     }
