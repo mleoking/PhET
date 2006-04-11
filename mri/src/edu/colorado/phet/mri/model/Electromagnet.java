@@ -90,38 +90,12 @@ public class Electromagnet extends Particle {
         public void clockTicked( ClockEvent clockEvent ) {
             double diff  = target-getFieldStrength();
             if( Math.abs( diff ) > eps ) {
-                setFieldStrength( getFieldStrength() + dB * MathUtil.getSign( diff ) );
+                double dField = dB * MathUtil.getSign( diff );
+                setFieldStrength( getFieldStrength() + dField );
             }
-        }
-    }
-
-    private class FieldChanger implements Runnable {
-        private int delay;
-        private double targetField;
-
-        FieldChanger( int delay ) {
-            this.delay = delay;
-        }
-
-        public void run() {
-            if( getFieldStrength() != targetField ) {
-
+            else if( getFieldStrength() != target ) {
+                setFieldStrength( target );
             }
-
-
-
-
-            try {
-                Thread.sleep( delay );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            setFieldStrength( getCurrent() );
-        }
-
-        synchronized void setTargetField( double targetField) {
-            this.targetField = targetField;
         }
     }
 

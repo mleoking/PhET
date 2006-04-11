@@ -15,6 +15,9 @@ import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.mri.model.Electromagnet;
 
 import java.awt.*;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * BFieldGraphicPanel
@@ -24,10 +27,12 @@ import java.awt.*;
  */
 public class BFieldGraphicPanel extends PhetPCanvas {
     private RegisterablePNode indicatorGraphic;
+    private double maxArrowFractionOfHeight;
 
     public BFieldGraphicPanel( Electromagnet magnet ) {
-        setPreferredSize( new Dimension( 200, 300 ));
-        BFieldIndicator indicator = new BFieldIndicator( magnet );
+        setPreferredSize( new Dimension( 200, 200 ));
+        maxArrowFractionOfHeight = 0.9;
+        final BFieldIndicator indicator = new BFieldIndicator( magnet, getPreferredSize().getHeight() * maxArrowFractionOfHeight );
         indicatorGraphic = new RegisterablePNode( indicator );
 
         magnet.addChangeListener( new Electromagnet.ChangeListener() {
@@ -36,7 +41,14 @@ public class BFieldGraphicPanel extends PhetPCanvas {
             }
         } );
         addWorldChild( indicatorGraphic );
-        updateRegistrationPoint();
+
+        // When the panel is resized (or first displayed) update the placement of the arror
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateRegistrationPoint();
+                indicator.setMaxLength( getHeight() * maxArrowFractionOfHeight );
+            }
+        } );
     }
 
     private void updateRegistrationPoint() {
