@@ -12,6 +12,7 @@
 package edu.colorado.phet.quantumtunneling.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -255,12 +256,14 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         // Axis (model) coordinates
         final double minPosition = domainAxis.getLowerBound();
         final double maxPosition = domainAxis.getUpperBound();
+        final double minEnergy = rangeAxis.getLowerBound();
         
         // Java2D (screen) coordinates
         RectangleEdge domainAxisLocation = plot.getDomainAxisEdge();
         RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
         final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
+        final double maxY = domainAxis.valueToJava2D( minEnergy, dataArea, rangeAxisLocation ); // +y is down!
         
         // Create the eigenstate solver...
         EigenstateSolver solver = new EigenstateSolver( EIGENSTATE_HB, minPosition, maxPosition, EIGENSTATE_POINTS, function );
@@ -287,17 +290,65 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             node++;
         }
         
-        // Draw the eigenstate lines...
-        g2.setPaint( getSeriesPaint( series ) );
-        g2.setStroke( new BasicStroke(1f) ); //XXX
-        Iterator i = energies.iterator();
-        while ( i.hasNext() ) {
-            Double energy = (Double) i.next();
-            double y = rangeAxis.valueToJava2D( energy.doubleValue(), dataArea, rangeAxisLocation );
-            _path.reset();
-            _path.moveTo( (float)minX, (float)y );
-            _path.lineTo( (float)maxX, (float)y );
-            g2.draw( _path );
+        // Size for images...
+        final int iwidth = (int) maxX + 1;
+        final int iheight = (int) maxY + 1;
+        Rectangle rect = new Rectangle( 0, 0, iwidth, iheight );
+            
+        // Draw the total energy "band" in a buffered image...
+        BufferedImage band = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
+        {
+            Graphics2D gfx = band.createGraphics();
+            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
+            gfx.fill( rect );
+            drawBand( gfx, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
+        }
+        
+        // Create a mask that shows the gradient above the top of the well, and 
+        // horizontal eigenstate lines below the top of the well.
+        // The opaque parts of this mask determine what parts of the gradient 
+        // will be visible, ensuring that the eigenstate lines will pick up the
+        // colors from the gradient.
+        BufferedImage mask = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
+        {  
+            Graphics2D gfx = mask.createGraphics();
+            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
+            gfx.fill( rect );
+            gfx.setComposite( AlphaComposite.Src );
+            gfx.setPaint( new Color( 255, 0, 0, 255 ) ); // opaque
+            
+            // Draw the eigenstate lines...
+            gfx.setPaint( getSeriesPaint( series ) );
+            gfx.setStroke( QTConstants.EIGENSTATE_STROKE );
+            Iterator i = energies.iterator();
+            while ( i.hasNext() ) {
+                Double energy = (Double) i.next();
+                double y = rangeAxis.valueToJava2D( energy.doubleValue(), dataArea, rangeAxisLocation );
+                _path.reset();
+                _path.moveTo( (float)minX, (float)y );
+                _path.lineTo( (float)maxX, (float)y );
+                gfx.draw( _path );
+            }
+        }
+        
+        // Apply the mask to the gradient band.
+        // The gradient shows through the opaque part of the mask.
+        BufferedImage compositeImage = new BufferedImage( iwidth, iheight, BufferedImage.TYPE_INT_ARGB );
+        {
+            Graphics2D gfx = compositeImage.createGraphics();
+            AffineTransform xform = new AffineTransform();
+            gfx.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+            gfx.setPaint( new Color( 255, 0, 0, 0 ) ); // transparent
+            gfx.fill( rect );
+            gfx.drawRenderedImage( band, xform );
+            gfx.setComposite( AlphaComposite.DstIn );
+            gfx.drawRenderedImage( mask, xform );
+        }
+
+        // Draw the composite image...
+        {
+            AffineTransform xform = new AffineTransform();
+            g2.drawRenderedImage( compositeImage, xform );
         }
     }
     
