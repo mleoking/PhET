@@ -30,6 +30,7 @@ CLEANUP:
 
 
 DONE:
+0.00.24...
 (4/10/06) - completed new representation of total energy when wave packet is in a well
 (4/10/06) - implement AbstractPotential.getTopOfWellAt
 (4/10/06) - fix implementation of AbstractPotential.isInWell
