@@ -40,7 +40,7 @@ package edu.colorado.phet.quantumtunneling.model;
  */
 public class EigenstateSolver {
 
-    private static final boolean REPORT_WARNINGS = true;
+    private static final boolean REPORT_WARNINGS = false;
     
     private double[]v;
     private double hb, xmin, xmax;
