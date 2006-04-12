@@ -1,5 +1,6 @@
-New in 0.56
+New in 0.56 (4-12-2006)
 Added new time units for particle waves.
+Timer is scaled so speed of particles is same independent of resolution. (needs to be checked)
 
 New in 0.55 (4-11-2006)
 Bugfix: startup failed on some machines.

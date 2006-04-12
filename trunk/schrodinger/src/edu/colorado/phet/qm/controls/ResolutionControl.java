@@ -28,11 +28,13 @@ public class ResolutionControl extends AdvancedPanel {
         int value;
         String name;
         double timeFudgeFactorForLight;//see SchrodingerScreenNode
+        private double timeFudgeFactorForParticles;
 
-        public ResolutionSetup( int value, String name, double timeFudgeFactorForLight ) {
+        public ResolutionSetup( int value, String name, double timeFudgeFactorForLight, double timeFudgeFactorForParticles ) {
             this.value = value;
             this.name = name;
             this.timeFudgeFactorForLight = timeFudgeFactorForLight;
+            this.timeFudgeFactorForParticles = timeFudgeFactorForParticles;
         }
 
         public String toString() {
@@ -45,6 +47,10 @@ public class ResolutionControl extends AdvancedPanel {
 
         public double getTimeFudgeFactorForLight() {
             return timeFudgeFactorForLight;
+        }
+
+        public double getTimeFudgeFactorForParticles() {
+            return timeFudgeFactorForParticles;
         }
     }
 
