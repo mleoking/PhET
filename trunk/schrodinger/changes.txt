@@ -1,3 +1,6 @@
+New in 0.57 (4-12-2006)
+Changed initial intensity of particle to reflect changes in DT due to resolution.
+
 New in 0.56 (4-12-2006)
 Added new time units for particle waves.
 Timer is scaled so speed of particles is same independent of resolution. (needs to be checked)
