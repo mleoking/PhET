@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class ResetButton extends JButton {
     public ResetButton( final SchrodingerModule module ) {
-        super( "Reset All" );
+        super( "Reset" );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean confirm = module.confirmReset();

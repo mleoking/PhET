@@ -1,3 +1,14 @@
+New in 0.55
+Bugfix: startup failed on some machines.
+Changed the startup splash window to show progress (part of workaround for the above bugfix)
+Removed the help button.
+Got rid of propagators control.
+Ruler for photons is now 0 to 3000nm instead of 0 to 2700nm
+Rotated the vertical ruler so that the bottom is 0 instead of the top.
+Moved the ruler to the front (so it's not obscured by the gun or gun controls).
+Renamed 'reset all' button to 'reset'.
+Timer is scaled so speed of light is the same independent of resolution.
+
 New in 0.54 (4-10-2006)
 Bugfix: If you change the resolution in electron mode, it starts displaying photons instead of electrons.
 Added zoom in and out icons.

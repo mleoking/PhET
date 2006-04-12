@@ -100,7 +100,7 @@ public class SchrodingerOptionsMenu extends JMenu {
             }
 
         } );
-        add( propagators );
+//        add( propagators );
 
         JMenuItem ui = new JMenuItem( "UI" );
         ui.addActionListener( new ActionListener() {

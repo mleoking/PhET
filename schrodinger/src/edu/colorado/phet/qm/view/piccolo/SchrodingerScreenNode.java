@@ -7,9 +7,11 @@ import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
 import edu.colorado.phet.qm.view.ClockGraphic;
@@ -79,7 +81,7 @@ public class SchrodingerScreenNode extends PNode {
     private String zoomoutText = "Zooming Out";
     private String zoominText = "Zooming In";
 
-    public SchrodingerScreenNode( SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
+    public SchrodingerScreenNode( final SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
         this.schrodingerPanel = schrodingerPanel;
         wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getDiscreteModel().getWavefunction() );
@@ -134,6 +136,11 @@ public class SchrodingerScreenNode extends PNode {
 
         layoutChildren();
         stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
+        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                stopwatchPanel.reset();
+            }
+        } );
         stopwatchPanel.getTimeDisplay().setEditable( false );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
         stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
@@ -156,6 +163,12 @@ public class SchrodingerScreenNode extends PNode {
 //        root.addInputEventListener( new PDragEventHandler() );
         stopwatchPanelPSwing.setOffset( 300, 300 );
         setStopwatchVisible( false );
+
+        module.getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void sizeChanged() {
+                setUnits( particleUnits );//see note in setUnits.
+            }
+        } );
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
@@ -177,8 +190,11 @@ public class SchrodingerScreenNode extends PNode {
             }
         }
         this.abstractGunGraphic = abstractGunGraphic;
-        addChild( abstractGunGraphic );
-
+        int waveareaIndex = 0;
+        if( getChildrenReference().contains( wavefunctionGraphic ) ) {
+            waveareaIndex = getChildrenReference().indexOf( wavefunctionGraphic );
+        }
+        addChild( waveareaIndex, abstractGunGraphic );
         invalidateLayout();
         repaint();
     }
@@ -356,13 +372,19 @@ public class SchrodingerScreenNode extends PNode {
         }
 //        System.out.println( "particleUnits = " + particleUnits );
         String origTimeUnits = this.particleUnits.getDt().getUnits();
+
+        /*Speed of light is correct at low resolution, but is 2x too slow for
+medium resolution and 4x too slow for high resolution.  To fix this,
+clock should tick half as many times per time step for medium
+resolution, and a quarter as many times for high resolution.*/
+
         double origLatticeWidth = this.particleUnits.getLatticeWidth();
         this.particleUnits = particleUnits;
 //        int numLatticePointsX = getWavefunctionGraphic().getWavefunction().getWidth();
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
-        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() );
+        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() * getTimeFudgeFactor() );
 
         String newTimeUnits = particleUnits.getDt().getUnits();
         String[]times = new String[]{"ns", "ps", "fs"};
@@ -385,6 +407,16 @@ public class SchrodingerScreenNode extends PNode {
 
         if( particleUnits.getLatticeWidth() != origLatticeWidth ) {
             showLatticeSizeChange( origLatticeWidth );
+        }
+    }
+
+    private double getTimeFudgeFactor() {
+        if( module.getDiscreteModel().getPropagator() instanceof ClassicalWavePropagator ) {
+            ResolutionControl.ResolutionSetup res = module.getResolution();
+            return res.getTimeFudgeFactorForLight();
+        }
+        else {
+            return 1;
         }
     }
 
@@ -574,12 +606,18 @@ public class SchrodingerScreenNode extends PNode {
             relayout();
         }
         else {
-            addChild( gunControlPanel.getPSwing() );
+
+
+            int gunIndex = 0;
+            if( getChildrenReference().contains( abstractGunGraphic ) ) {
+                gunIndex = getChildrenReference().indexOf( abstractGunGraphic );
+            }
+            addChild( gunIndex, gunControlPanel.getPSwing() );
             this.gunControlPanelPSwing = gunControlPanel.getPSwing();
             relayout();
 
             ConnectorGraphic connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunGraphic );
-            addChild( 3, connectorGraphic );
+            addChild( gunIndex, connectorGraphic );
         }
     }
 

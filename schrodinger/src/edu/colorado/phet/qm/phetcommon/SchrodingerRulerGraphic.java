@@ -94,8 +94,9 @@ public class SchrodingerRulerGraphic extends PhetPNode {
             rulerGraphic.setOffset( 0, 0 );
         }
         else {
-            rulerGraphic.setRotation( Math.PI / 2 );
-            rulerGraphic.setOffset( rulerGraphic.getHeight(), 0 );
+            rulerGraphic.setRotation( -Math.PI / 2 );
+//            rulerGraphic.setOffset( rulerGraphic.getHeight(), 0 );
+            rulerGraphic.setOffset( 0, rulerGraphic.getWidth() );
         }
     }
 
