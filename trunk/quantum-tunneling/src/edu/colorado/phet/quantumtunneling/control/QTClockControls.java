@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +23,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.quantumtunneling.QTConstants;
@@ -83,10 +83,10 @@ public class QTClockControls extends JPanel implements ClockListener {
         Icon stepIcon = null;
         Icon clockIcon = null;
         try {
-            restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_RESTART ) );
-            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_PLAY ) );
-            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_PAUSE ) );
-            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_STEP ) );
+            restartIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND ) );
+            playIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PLAY ) );
+            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_PAUSE ) );
+            stepIcon = new ImageIcon( ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_STEP ) );
             clockIcon = new ImageIcon( ImageLoader.loadBufferedImage( QTConstants.IMAGE_CLOCK ) );
         }
         catch ( IOException e ) {

@@ -31,6 +31,8 @@ CLEANUP
 
 DONE:
 1.00.00...
+(4/12/06) - use clock control images from phetcommon, delete images from data/images/
+(4/12/06) - phetcommon: add constants for clock button images in ClockControlPanel
 0.00.24...
 (4/10/06) - change dashed line stroke width to 1 when E0 < top of well
 (4/10/06) - change eigenstate line with from 1 -> 2 (roll into 0.00.24)
