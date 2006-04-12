@@ -280,4 +280,8 @@ public class SchrodingerModule extends PiccoloModule {
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
+
+    public boolean hasHelp() {
+        return false;
+    }
 }

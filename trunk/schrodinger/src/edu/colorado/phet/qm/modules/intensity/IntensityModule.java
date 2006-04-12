@@ -61,9 +61,9 @@ public class IntensityModule extends SchrodingerModule {
         } );
     }
 
-    public boolean hasHelp() {
-        return true;
-    }
+//    public boolean hasHelp() {
+//        return true;
+//    }
 
     private boolean isInverseSlits() {
         return getSchrodingerPanel().isInverseSlits();
