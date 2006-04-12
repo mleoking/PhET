@@ -232,15 +232,4 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
             }
         }
     }
-
-    public static void main( String[] args ) {
-        Image img = ImageLoader.fetchImage( "images/white-test.gif" );
-        BufferedImage bi = new BufferedImage( img.getWidth( null ), img.getHeight( null ), BufferedImage.TYPE_INT_ARGB );
-        Graphics g = bi.getGraphics();
-        g.drawImage( img, 0, 0, null );
-        int p = bi.getRGB( 10, 10 );
-        Raster r = bi.getRaster();
-        System.out.println( bi.isAlphaPremultiplied() );
-    }
-
 }
