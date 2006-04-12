@@ -194,7 +194,7 @@ public class SchrodingerScreenNode extends PNode {
         if( getChildrenReference().contains( wavefunctionGraphic ) ) {
             waveareaIndex = getChildrenReference().indexOf( wavefunctionGraphic );
         }
-        addChild( waveareaIndex, abstractGunGraphic );
+        addChild( waveareaIndex + 1, abstractGunGraphic );
         invalidateLayout();
         repaint();
     }

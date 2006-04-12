@@ -1,4 +1,4 @@
-New in 0.55
+New in 0.55 (4-11-2006)
 Bugfix: startup failed on some machines.
 Changed the startup splash window to show progress (part of workaround for the above bugfix)
 Removed the help button.
