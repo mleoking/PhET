@@ -411,12 +411,12 @@ resolution, and a quarter as many times for high resolution.*/
     }
 
     private double getTimeFudgeFactor() {
+        ResolutionControl.ResolutionSetup res = module.getResolution();
         if( module.getDiscreteModel().getPropagator() instanceof ClassicalWavePropagator ) {
-            ResolutionControl.ResolutionSetup res = module.getResolution();
             return res.getTimeFudgeFactorForLight();
         }
         else {
-            return 1;
+            return res.getTimeFudgeFactorForParticles();
         }
     }
 

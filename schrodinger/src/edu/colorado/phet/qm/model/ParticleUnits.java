@@ -127,7 +127,8 @@ public class ParticleUnits {
             setHbar( new Value( 0.658, 1, "eV fs" ) );
             setMass( new Value( 0.057, 100, "eV fs^2/nm^2" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 1, 1, "fs" ) );
+//            setDt( new Value( 1, 1, "fs" ) );
+            setDt( new Value( 0.05, 10, "fs" ) );
             setMinVelocity( new Value( 9.2, 100, "km/s" ) );
             setMaxVelocity( new Value( 36.8 * scaleDownMaxVel, 100, "km/s" ) );
 
@@ -151,7 +152,7 @@ public class ParticleUnits {
         public NeutronUnits() {
             setHbar( new Value( 0.000658, 1, "eV ps" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 1, 1, "ps" ) );
+            setDt( new Value( 0.1, 10, "ps" ) );
             setMass( new Value( 0.000104539, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 5, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 20 * scaleDownMaxVel, 0.1, "km/s" ) );
@@ -186,7 +187,7 @@ public class ParticleUnits {
         public HeliumUnits() {
             setHbar( new Value( 0.000658, 1, "eV ps" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
-            setDt( new Value( 1, 1, "ps" ) );
+            setDt( new Value( 0.5, 10, "ps" ) );
             setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 5 * scaleDownMaxVel, 0.1, "km/s" ) );
