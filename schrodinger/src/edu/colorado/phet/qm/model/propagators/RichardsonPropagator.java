@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.model.propagators;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.Wave;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.math.Complex;
 
@@ -17,7 +16,7 @@ import java.util.Map;
 public class RichardsonPropagator extends Propagator {
     private double simulationTime;
     private int timeStep;//the iteration number
-    private Wave wave;
+//    private Wave wave;
 
     private double hbar;
     private double mass;
@@ -32,7 +31,7 @@ public class RichardsonPropagator extends Propagator {
     public RichardsonPropagator( double TAU, Potential potential, double hbar, double mass ) {
         super( potential );
         setDeltaTime( TAU );
-        this.wave = wave;
+//        this.wave = wave;
         setPotential( potential );
         simulationTime = 0.0;
         timeStep = 0;
@@ -62,8 +61,7 @@ public class RichardsonPropagator extends Propagator {
         update();
     }
 
-
-    private void showControlDialog() {
+    public void showControlDialog() {
         JFrame frame = new JFrame();
         final ModelSlider modelSlider = new ModelSlider( "dt", "unitless", 0, 2, getDeltaTime(), new DecimalFormat( "0.000" ) );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -119,6 +117,14 @@ public class RichardsonPropagator extends Propagator {
     }
 
     public void propagate( Wavefunction w ) {
+//        int numSteps = ;
+//        setDeltaTime( 0.0822/numSteps);
+//        for( int i = 0; i < numSteps; i++ ) {
+        propagateOnce( w );
+//        }
+    }
+
+    private void propagateOnce( Wavefunction w ) {
         int nx = w.getWidth();
         if( betaeven.length != w.getWidth() ) {
             betaeven = new Complex[nx][nx];
@@ -230,9 +236,9 @@ public class RichardsonPropagator extends Propagator {
         return epsilon;
     }
 
-    public Wave getWave() {
-        return wave;
-    }
+//    public Wave getWave() {
+//        return wave;
+//    }
 
 
     public double getHBar() {
