@@ -19,6 +19,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -27,7 +29,8 @@ public class GreenhouseControlPanel extends JPanel {
 
     private static Color iceAgeColor = new Color( 255, 180, 20 );
     private static Color preIndRevColor = Color.green;
-    private static Color todayColor = Color.white;
+    private static Color todayColor = new Color( 60, 200, 255 );
+//    private static Color todayColor = Color.white;
     private static Color venusColor = Color.cyan;
     private static Color panelBackground = new Color( 110, 110, 110 );
     private static Color panelForeground = Color.white;
@@ -240,6 +243,14 @@ public class GreenhouseControlPanel extends JPanel {
     private class AtmosphereSelectionPane extends JPanel {
 
         AtmosphereSelectionPane() {
+
+            addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    setPreferredSize( new Dimension( 200, (int)getPreferredSize().getHeight() ) );
+//                    setPreferredSize( new Dimension( 200, getHeight() ) );
+                }
+            } );
+
             final JRadioButton adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
             adjustableGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Adjustable" ) );
@@ -333,7 +344,7 @@ public class GreenhouseControlPanel extends JPanel {
         private AbstractAction pickAdjustableGG = new AbstractAction() {
 
             public void actionPerformed( ActionEvent e ) {
-                greenhouseGasConcentrationControl.setModelValue( 0 );
+//                greenhouseGasConcentrationControl.setModelValue( 0 );
                 GreenhouseControlPanel.this.module.setVirginEarth();
                 greenhouseGasConcentrationControl.setEnabled( true );
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
@@ -520,16 +531,21 @@ public class GreenhouseControlPanel extends JPanel {
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                e.printStackTrace();
             }
 
             // Make the colored tick marks on the slider
+            Font defaultFont = new JLabel().getFont();
+            Font tickFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 6 );
             Hashtable labelTable = new Hashtable();
             JLabel iceAgeTick = new JLabel( "|" );
+            iceAgeTick.setFont( tickFont );
             iceAgeTick.setForeground( iceAgeColor );
             JLabel preIndRevTick = new JLabel( "|" );
+            preIndRevTick.setFont( tickFont );
             preIndRevTick.setForeground( preIndRevColor );
             JLabel todayTick = new JLabel( "|" );
+            todayTick.setFont( tickFont );
             todayTick.setForeground( todayColor );
             labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentrationIceAge ) ),
                             iceAgeTick );
