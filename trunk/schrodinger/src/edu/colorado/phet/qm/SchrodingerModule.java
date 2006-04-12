@@ -8,6 +8,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -43,6 +44,7 @@ public class SchrodingerModule extends PiccoloModule {
     private SchrodingerOptionsMenu optionsMenu;
     private ParticleUnits particleUnits;
     private ArrayList listeners = new ArrayList();
+    private ResolutionControl.ResolutionSetup resolution;
 
     /**
      * @param schrodingerApplication
@@ -50,6 +52,7 @@ public class SchrodingerModule extends PiccoloModule {
     public SchrodingerModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
+        this.resolution = getResolutionSetups()[0];
         setModel( new BaseModel() );
         setLogoPanelVisible( false );
     }
@@ -267,6 +270,27 @@ public class SchrodingerModule extends PiccoloModule {
             Listener listener = (Listener)listeners.get( i );
             listener.beamTypeChanged();
         }
+    }
+
+    public static ResolutionControl.ResolutionSetup[]getResolutionSetups() {
+        int[]configFor1024x768 = new int[]{8, 4, 2};
+        String[]names = new String[]{"low", "medium", "high"};
+        double[]timeFudgeFactors = new double[]{1, 0.5, 0.25};
+//        Integer[]v = new Integer[configFor1024x768.length];
+        ResolutionControl.ResolutionSetup[] resolutionSetup = new ResolutionControl.ResolutionSetup[configFor1024x768.length];
+        for( int i = 0; i < resolutionSetup.length; i++ ) {
+//            resolutionSetup[i] = new Integer( configFor1024x768[i] );
+            resolutionSetup[i] = new ResolutionControl.ResolutionSetup( configFor1024x768[i], names[i], timeFudgeFactors[i] );
+        }
+        return resolutionSetup;
+    }
+
+    public ResolutionControl.ResolutionSetup getResolution() {
+        return resolution;
+    }
+
+    public void setResolution( ResolutionControl.ResolutionSetup value ) {
+        this.resolution = value;
     }
 
     public static interface Listener {

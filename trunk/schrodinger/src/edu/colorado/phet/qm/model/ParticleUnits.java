@@ -175,7 +175,7 @@ public class ParticleUnits {
 //            setRulerWidth( 3000 );
 
             setLatticeWidth( 2700 );
-            setRulerWidth( 2700 );
+            setRulerWidth( 3000 );
 
             setRulerFormat( new DecimalFormat( "0" ) );
             setNumRulerReadings( 4 );

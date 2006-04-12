@@ -27,10 +27,12 @@ public class ResolutionControl extends AdvancedPanel {
     public static class ResolutionSetup {
         int value;
         String name;
+        double timeFudgeFactorForLight;//see SchrodingerScreenNode
 
-        public ResolutionSetup( int value, String name ) {
+        public ResolutionSetup( int value, String name, double timeFudgeFactorForLight ) {
             this.value = value;
             this.name = name;
+            this.timeFudgeFactorForLight = timeFudgeFactorForLight;
         }
 
         public String toString() {
@@ -39,6 +41,10 @@ public class ResolutionControl extends AdvancedPanel {
 
         public int intValue() {
             return value;
+        }
+
+        public double getTimeFudgeFactorForLight() {
+            return timeFudgeFactorForLight;
         }
     }
 
@@ -63,18 +69,7 @@ public class ResolutionControl extends AdvancedPanel {
 //        int[]values = new int[]{3, 4, 5, 6, 8, 10, 12, 16,32};
 //        int[]configFor1024x768 = new int[]{2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18};
 
-
-        int[]configFor1024x768 = new int[]{8, 4, 2};
-        String[]names = new String[]{"low", "medium", "high"};
-//        Integer[]v = new Integer[configFor1024x768.length];
-        ResolutionSetup[] resolutionSetup = new ResolutionSetup[configFor1024x768.length];
-        for( int i = 0; i < resolutionSetup.length; i++ ) {
-//            resolutionSetup[i] = new Integer( configFor1024x768[i] );
-            resolutionSetup[i] = new ResolutionSetup( configFor1024x768[i], names[i] );
-        }
-
-
-        final JComboBox jComboBox = new JComboBox( resolutionSetup );
+        final JComboBox jComboBox = new JComboBox( SchrodingerModule.getResolutionSetups() );
         jComboBox.setSelectedItem( new Integer( schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
 //        addControl( new JLabel( "Pixels per lattice cell." ) );
         addControl( new JLabel( "Resolution" ) );
@@ -82,6 +77,7 @@ public class ResolutionControl extends AdvancedPanel {
         jComboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ResolutionSetup value = (ResolutionSetup)jComboBox.getSelectedItem();
+                getSchrodingerModule().setResolution( value );//has to happen before event notification: see SSN for setUnits
                 schrodingerModule.setCellSize( value.intValue() );
                 int waveSize = WAVE_GRAPHIC_SIZE_1024x768 / value.intValue();
                 getSchrodingerModule().setWaveSize( waveSize );
