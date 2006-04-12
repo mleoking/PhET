@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * User: Sam Reid
@@ -36,19 +37,44 @@ import java.io.IOException;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.54";
+    public static String VERSION = "0.54-test9";
     private String[] args;
     private IntensityModule intensityModule;
 
-    public SchrodingerApplication( String[] args ) {
+    public SchrodingerApplication( String[] args ) throws InvocationTargetException, InterruptedException {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
+//        Thread t=new Thread( new Runnable() {
+//            public void run() {
+//                getSplashWindow().
+//            }
+//        });
         this.args = args;
+        Thread.yield();
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+                intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
+                addModule( intensityModule );
+            }
+        } );
+        Thread.yield();
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
 
-        intensityModule = new IntensityModule( this, createClock() );
-        addModule( intensityModule );
-        addModule( new SingleParticleModule( this, createClock() ) );
-        addModule( new MandelModule( this, createClock() ) );
+                addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
 
+            }
+        } );
+        Thread.yield();
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+                addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
+            }
+        } );
+
+//        intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
+//        addModule( intensityModule );
+//        addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
+//        addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -131,8 +157,20 @@ public class SchrodingerApplication extends PhetApplication {
         };
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
+//        SwingUtilities.invokeLater( new Runnable() {
+//            public void run() {
+        //To change body of implemented methods use File | Settings | File Templates.
+        oldmain( args );
+//            }
+//        } );
+//        oldmain( args );
+    }
 
+    private static void oldmain( String[] args ) throws InterruptedException, InvocationTargetException {
+
+        Runtime.getRuntime().gc();
+        System.out.println( "Runtime.getRuntime().freeMemory() = " + Runtime.getRuntime().freeMemory() );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
@@ -142,6 +180,8 @@ public class SchrodingerApplication extends PhetApplication {
         if( schrodingerApplication.intensityModule != null ) {
             addWiggleMe( schrodingerApplication );
         }
+        Runtime.getRuntime().gc();
+        System.out.println( "Runtime.getRuntime().freeMemory() = " + Runtime.getRuntime().freeMemory() );
     }
 
     private static void addWiggleMe( final SchrodingerApplication schrodingerApplication ) {
