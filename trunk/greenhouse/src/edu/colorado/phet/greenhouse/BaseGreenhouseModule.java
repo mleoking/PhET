@@ -50,6 +50,7 @@ public abstract class BaseGreenhouseModule extends Module {
     //
     private static boolean s_zoomed;
     private Rectangle2D.Double finalModelBounds;
+    private AtmosphereGraphic atmosphereGraphic;
 
     protected BaseGreenhouseModule( String s ) {
         super( s );
@@ -95,9 +96,17 @@ public abstract class BaseGreenhouseModule extends Module {
         // Create the atmosphere
         Atmosphere atmosphere = new Atmosphere( earth );
         model.setAtmosphere( atmosphere );
-        AtmosphereGraphic atmosphereGraphic = new AtmosphereGraphic( atmosphere );
+        atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds );
         atmosphere.addScatterEventListener( new GreenhouseModule.ModuleScatterEventListener() );
-        drawingCanvas.addGraphic( atmosphereGraphic, GreenhouseConfig.ATMOSPHERE_GRAPHIC_LAYER );
+//        drawingCanvas.addGraphic( atmosphereGraphic, GreenhouseConfig.ATMOSPHERE_GRAPHIC_LAYER );
+        atmosphereGraphic.setVisible( false );
+        drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE);
+
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                atmosphereGraphic.update( null, null );
+            }
+        } );
 
         // Create the sun
         sun = new Star( SUN_DIAM / 2, new Point2D.Double( 0, EARTH_DIAM + SUN_EARTH_DIST + SUN_DIAM / 2 ),
@@ -141,6 +150,7 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( sunGraphic );
             sunGraphic.stopAnimation();
             earthGraphic.stopAnimation();
+            atmosphereGraphic.setVisible( true );
 
             ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
             thermometerEnabled( true );
@@ -393,6 +403,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( currModelBounds );
 
                 getApparatusPanel().removeGraphic( sunGraphic );
+                atmosphereGraphic.setVisible( true );
                 sunGraphic.stopAnimation();
                 earthGraphic.stopAnimation();
                 earthGraphic.setToday();
