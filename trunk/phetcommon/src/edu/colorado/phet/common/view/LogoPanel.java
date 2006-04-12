@@ -23,11 +23,13 @@ import java.awt.*;
  */
 public class LogoPanel extends JPanel {
 
+    public static final String IMAGE_PHET_LOGO = "images/Phet-Flatirons-logo-3-small.gif";
+    
     private ImageIcon imageIcon;
     private JLabel titleLabel;
 
     public LogoPanel() {
-        imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" ) );
+        imageIcon = new ImageIcon( getClass().getClassLoader().getResource( IMAGE_PHET_LOGO ) );
         titleLabel = new JLabel( imageIcon );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         add( titleLabel );
