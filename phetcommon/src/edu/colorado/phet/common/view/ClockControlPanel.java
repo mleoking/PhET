@@ -36,6 +36,17 @@ import edu.colorado.phet.common.view.util.SwingUtils;
  * @version $Revision$
  */
 public class ClockControlPanel extends JPanel implements ClockListener {
+    
+    private static final String IMAGES_DIRECTORY = "images/icons/java/media/";
+    
+    // These image filenames may be used by sim-specific classes that have custom clock control panels!
+    public static final String IMAGE_PAUSE = IMAGES_DIRECTORY + "Pause24.gif";
+    public static final String IMAGE_PLAY = IMAGES_DIRECTORY + "Play24.gif";
+    public static final String IMAGE_STEP = IMAGES_DIRECTORY + "StepForward24.gif";
+    public static final String IMAGE_REWIND = IMAGES_DIRECTORY + "Rewind24.gif";
+    public static final String IMAGE_FAST_FORWARD = IMAGES_DIRECTORY + "FastForward24.gif";
+    public static final String IMAGE_STOP = IMAGES_DIRECTORY + "Stop24.gif";
+    
     private JButton play;
     private JButton pause;
     private JButton step;
@@ -48,10 +59,9 @@ public class ClockControlPanel extends JPanel implements ClockListener {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
 
-        String root = "images/icons/java/media/";
-        BufferedImage playU = loadImage( root + "Play24.gif" );
-        BufferedImage pauseU = loadImage( root + "Pause24.gif" );
-        BufferedImage stepU = loadImage( root + "StepForward24.gif" );
+        BufferedImage playU = loadImage( IMAGE_PLAY );
+        BufferedImage pauseU = loadImage( IMAGE_PAUSE );
+        BufferedImage stepU = loadImage( IMAGE_STEP );
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
