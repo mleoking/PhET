@@ -41,6 +41,9 @@ import java.util.ArrayList;
  */
 
 public class PhetTabbedPane extends JPanel {
+    
+    public static final String IMAGE_PHET_LOGO = "images/phetlogo.png";
+    
     private TabPane tabPane;
     /**
      * A piccolo canvas that displays the tabs
@@ -619,7 +622,7 @@ public class PhetTabbedPane extends JPanel {
         private static final int LEFT_TAB_INSET = 10;
 
         public TabPane( Color selectedTabColor ) {
-            logo = PImageFactory.create( "images/phetlogo4.png" );
+            logo = PImageFactory.create( IMAGE_PHET_LOGO );
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );
