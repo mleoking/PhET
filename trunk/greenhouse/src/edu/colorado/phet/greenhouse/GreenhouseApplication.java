@@ -19,6 +19,7 @@ import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.components.PhetFrame;
 
 import java.util.Locale;
+import java.awt.*;
 import javax.swing.*;
 
 public class GreenhouseApplication extends PhetApplication {
@@ -70,6 +71,15 @@ public class GreenhouseApplication extends PhetApplication {
         }
         frame.addMenu( plafMenu );
         frame.setDefaultLookAndFeelDecorated( true );
+
+        Color background = new Color( 110, 110, 110 );
+        UIManager.put( "Panel.background", background );
+        UIManager.put( "MenuBar.background", background );
+        UIManager.put( "TabbedPane.background", background );
+        UIManager.put( "Menu.background", background );
+//                UIManager.put( "TextField.background", newColor );
+        SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
+
 //        frame.setIconImage( lookAndFeel.getSmallIconImage() );
 
 //        s_application.startApplication( greenhouseModule2 );

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
+import javax.swing.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,7 +42,10 @@ public class GreenhouseModule extends BaseGreenhouseModule {
                      6, .4 );
 
         // Set up the controls
-        setControlPanel( new GreenhouseControlPanel( this ) );
+        JPanel pnl = new JPanel( );
+        pnl.add(  new GreenhouseControlPanel( this ) );
+        setControlPanel( pnl );
+//        setControlPanel( new GreenhouseControlPanel( this ) );
 
         // Tell the Earth not to jimmy the temperature
         getEarth().setJimmyArray( null );
