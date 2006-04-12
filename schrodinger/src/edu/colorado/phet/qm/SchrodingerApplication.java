@@ -43,13 +43,10 @@ public class SchrodingerApplication extends PhetApplication {
 
     public SchrodingerApplication( String[] args ) throws InvocationTargetException, InterruptedException {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
-//        Thread t=new Thread( new Runnable() {
-//            public void run() {
-//                getSplashWindow().
-//            }
-//        });
         this.args = args;
+        getSplashWindow().setIndeterminate( false );
         Thread.yield();
+        getSplashWindow().setRangeProperties( 1, 1, 0, 4 );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
@@ -57,20 +54,20 @@ public class SchrodingerApplication extends PhetApplication {
             }
         } );
         Thread.yield();
+        getSplashWindow().setRangeProperties( 2, 1, 0, 4 );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
-
                 addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
-
             }
         } );
         Thread.yield();
+        getSplashWindow().setRangeProperties( 3, 1, 0, 4 );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
             }
         } );
-
+        getSplashWindow().setRangeProperties( 4, 1, 0, 4 );
 //        intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
 //        addModule( intensityModule );
 //        addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
