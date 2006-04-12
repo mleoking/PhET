@@ -201,7 +201,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      * 
      * This drawing method is called if the total energy is less than the potential energy 
      * at the wave packet's center. We use a GeneralPath so that we are pixel-accurate with 
-     * the FastPathRenderer used for plane waves.
+     * the FastPathRenderer used for plane waves. The line is drawn at its screen coordinates; 
+     * there is no translation involved.
      */
     private void drawDashedLine( 
             Graphics2D g2, 
@@ -239,6 +240,12 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
     /*
      * Draws the total energy as a set of discrete eigenstates.
      * This method is called when the wave packet's center is in a well.
+     * <p>
+     * NOTE: This method draws everything at screen coordinates.
+     * The BufferedImages are slightly larger than would be necessary if
+     * we were translating the image.  Things were done this way because
+     * the other draw methods already existed, they already used absolute
+     * screen coordinates, and changing them would have been destabilizing.
      */
     private void drawBandAndEigenstates( 
             Graphics2D g2, 
@@ -302,6 +309,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         }
         
         // Size for images...
+        // Note that all of the images are sized as if their upper left corner is at screen coordinate (0,0).
         final int iwidth = (int) maxX + 1;
         final int iheight = (int) maxY + 1;
             
@@ -372,6 +380,8 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
      * The band is implemented as 2 rectangles, each with its own GradientPaint.
      * The rectangles and gradients are arranged such that the "brightest" color is at 
      * the average total energy point, and the color fades out above and below.
+     * The gradient band is drawn at its screen coordinates; there is 
+     * no translation involved.
      * 
      * For total energy E, the band will be brightest at E=E0, and brightness decreases 
      * linearly to E=minE below and E=maxE above E0.  minE and maxE are given by:
