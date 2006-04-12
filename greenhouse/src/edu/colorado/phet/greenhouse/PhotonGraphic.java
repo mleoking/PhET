@@ -33,7 +33,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer, ShapeGr
 
     static {
         baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
-        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.5, 0.5 );
+        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.3, 0.3 );
+//        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.5, 0.5 );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         baseImage = scaleOp.filter( baseImage, null );
     }
@@ -91,5 +92,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer, ShapeGr
 
     public void setVisible( boolean visible ) {
         isVisible = visible;
+    }
+
+    public Image getImage() {
+        return photonImage.getBufferedImage();
     }
 }

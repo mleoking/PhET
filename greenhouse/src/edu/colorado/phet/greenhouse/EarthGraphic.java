@@ -58,7 +58,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         Point2D.Double earthLoc = new Point2D.Double( earth.getLocation().getX(), earth.getLocation().getY() );
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
                               earthLoc.getY() + earth.getRadius() / 2 );
-        this.earthTx = AffineTransform.getScaleInstance(  gifToModelScale, -gifToModelScale );
+        this.earthTx = AffineTransform.getScaleInstance( gifToModelScale, -gifToModelScale );
         earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
     }
@@ -117,26 +117,31 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void setVirginEarth() {
         isIceAge = false;
-        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        disk.setPaint( new Color( 51, 160, 44 ) );
+//        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDrop( "images/today-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        disk.setPaint( new Color( 51, 160, 44, 0 ) );
     }
 
     public void setToday() {
         isIceAge = false;
-        setBackDrop( "images/today.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        disk.setPaint( Color.green );
+        setBackDrop( "images/today-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+//        setBackDrop( "images/today.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        disk.setPaint( new Color( 25, 174, 73, 0 ) );
+//        disk.setPaint( Color.green );
     }
 
     public void set1750() {
         isIceAge = false;
-        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        disk.setPaint( new Color( 51, 160, 44 ) );
+        setBackDrop( "images/1750-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+//        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        disk.setPaint( new Color( 25, 174, 73, 0 ) );
+//        disk.setPaint( new Color( 51, 160, 44 ) );
     }
 
     public void setVenus() {
         isIceAge = false;
-        setBackDrop(null, null );
-        disk.setPaint( new Color( 150, 130, 80 ));
+        setBackDrop( null, null );
+        disk.setPaint( new Color( 150, 130, 80 ) );
     }
 
 
@@ -147,8 +152,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void setIceAge() {
         isIceAge = true;
-        setBackDrop( "images/iceage-3.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ));
-        disk.setPaint( new Color( 0, 180, 100 ) );
+        setBackDrop( "images/ice-age-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ) );
+//        setBackDrop( "images/iceage-3.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ));
+        disk.setPaint( new Color( 149, 134, 78 ) );
+//        disk.setPaint( new Color( 0, 180, 100 ) );
     }
 
     private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
@@ -172,26 +179,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     public double getReflectivity( Photon photon ) {
         double reflectivity = 0;
         if( isIceAge ) {
-
-            // BAD HACK!!!
-//            double ySave = photon.getLocation().getY();
-//            photon.setLocation( photon.getLocation().getX(), ySave * 1.5 );
-//            if( backdropGraphic != null
-//                    && backdropGraphic.contains( photon.getLocation() )
-//                    && photon.getWavelength() == GreenhouseConfig.sunlightWavelength
-//                    && photon.getVelocity().getY() < 0 ) {
-//                reflectivity = .05;
-//            }
-//            photon.setLocation( photon.getLocation().getX(), ySave );
-//        }
-
-//        if( backdropGraphic != null ) System.out.println( "image type:" + backdropGraphic.getBufferedImage().getType() );
-//        if( backdropGraphic != null && backdropGraphic.getBufferedImage().getType() == BufferedImage.TYPE_INT_RGB ) System.out.println( "RGB" );
-//        if( backdropGraphic != null && backdropGraphic.getBufferedImage().getType() == BufferedImage.TYPE_INT_ARGB ) System.out.println( "ARGB" );
             if( backdropGraphic != null
-                    && backdropGraphic.contains( photon.getLocation() )
-                    && photon.getVelocity().getY() < 0
-                    && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
+                && backdropGraphic.contains( photon.getLocation() )
+                && photon.getVelocity().getY() < 0
+                && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
                 int pixel = backdropGraphic.getRGB( photon.getLocation() );
                 ColorModel colorModel = backdropGraphic.getBufferedImage().getColorModel();
                 int red = colorModel.getRed( pixel );
@@ -215,9 +206,11 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
      */
     private class EarthAnimator extends Thread {
         private boolean stop;
+
         void setStop() {
             stop = true;
         }
+
         public void run() {
             while( stop != true ) {
                 try {

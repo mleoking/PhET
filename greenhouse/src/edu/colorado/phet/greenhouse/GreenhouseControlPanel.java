@@ -227,13 +227,11 @@ public class GreenhouseControlPanel extends JPanel {
                 setBackground( (Container)component );
             }
         }
-
     }
 
     private void reset() {
         module.reset();
         cloudsSpinner.setValue( new Integer( 0 ));
-
     }
 
     //----------------------------------------------------------------

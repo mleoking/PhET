@@ -25,25 +25,27 @@ public class GreenhouseLegend extends JPanel {
         Graphics2D g2 = (Graphics2D)irPhotonBI.getGraphics();
         Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
-        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
-            irPhoton.setLocation(irPhotonBI.getWidth() / 2, i * 3);
-            irPhotonGraphic.update();
-        }
-        irPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
+//        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
+//            irPhoton.setLocation(irPhotonBI.getWidth() / 2, i * 3);
+//            irPhotonGraphic.update();
+//        }
+//        irPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
         irPhotonGraphic.paint( g2 );
-        ImageIcon irPhotonIcon = new ImageIcon( irPhotonBI );
+        ImageIcon irPhotonIcon = new ImageIcon( irPhotonGraphic.getImage() );
+//        ImageIcon irPhotonIcon = new ImageIcon( irPhotonBI );
 
         BufferedImage sunlightPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D)sunlightPhotonBI.getGraphics();
         Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
-        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
-            sunlightPhoton.setLocation(sunlightPhotonBI.getWidth() / 2, i * 3);
-            sunlightPhotonGraphic.update();
-        }
-        sunlightPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
+//        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
+//            sunlightPhoton.setLocation(sunlightPhotonBI.getWidth() / 2, i * 3);
+//            sunlightPhotonGraphic.update();
+//        }
+//        sunlightPhotonGraphic.setPhotonStroke( new BasicStroke( 3 ) );
         sunlightPhotonGraphic.paint( g2 );
-        ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonBI );
+        ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonGraphic.getImage() );
+//        ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonBI );
 
         setLayout( new GridBagLayout() );
         this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseLegend.LegendTitle" ) ) );
