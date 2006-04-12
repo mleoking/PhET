@@ -125,6 +125,10 @@ public class PhetApplication {
         splashWindow.setVisible( true );
     }
 
+    public SplashWindow getSplashWindow() {
+        return splashWindow;
+    }
+
     private void disposeSplashWindow() {
         if( splashWindow != null ) {
             splashWindow.setVisible( false );

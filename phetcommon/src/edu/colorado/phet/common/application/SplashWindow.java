@@ -24,12 +24,13 @@ import java.text.MessageFormat;
  * while the application is starting up.
  */
 public class SplashWindow extends JDialog {
+    private JProgressBar progressBar;
 
     public SplashWindow( Frame owner, String title ) throws HeadlessException {
         super( owner );
 
         setUndecorated( true );
-        
+
         // Put a border around the window.
         getRootPane().setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
 
@@ -40,9 +41,9 @@ public class SplashWindow extends JDialog {
         JLabel label = new JLabel( labelString );
 
         // Indeterminate progress bar
-        JProgressBar progressBar = new JProgressBar();
+        progressBar = new JProgressBar();
         progressBar.setIndeterminate( true );
-        
+
         // Phet logo
         BufferedImage image = null;
         try {
@@ -75,4 +76,15 @@ public class SplashWindow extends JDialog {
         setLocation( (int)( screenSize.getWidth() / 2 - getWidth() / 2 ),
                      (int)( screenSize.getHeight() / 2 - getHeight() / 2 ) );
     }
+
+    public void setIndeterminate( boolean indeterminate ) {
+        progressBar.setIndeterminate( indeterminate );
+    }
+
+    public void setRangeProperties( int value, int extent, int min, int max ) {
+        progressBar.getModel().setRangeProperties( value, extent, min, max, true );
+    }
+//    public void updateStatusBar(){
+//        progressBar.getModel().setValue( 3);
+//    }
 }
