@@ -37,7 +37,7 @@ import java.lang.reflect.InvocationTargetException;
 public class SchrodingerApplication extends PhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "0.56";
+    public static String VERSION = "0.57";
     private String[] args;
     private IntensityModule intensityModule;
 
