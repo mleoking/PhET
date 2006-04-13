@@ -29,6 +29,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private MultiFaucetDrip multiFaucetDrip;
     private FaucetControlPanelPNode faucetControlPanelPNode;
     private MutableColor waterColor = new MutableColor( new Color( 37, 179, 255 ) );
+    private FaucetConnector faucetConnector;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -69,7 +70,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         faucetControlPanelPNode = new FaucetControlPanelPNode( this, new ShinyPanel( new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ) ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
 
-        FaucetConnector faucetConnector = new FaucetConnector( faucetControlPanelPNode, getPrimaryFaucetGraphic() );
+        faucetConnector = new FaucetConnector( faucetControlPanelPNode, getPrimaryFaucetGraphic() );
         addScreenChild( 0, faucetConnector );
 
         addComponentListener( new ComponentAdapter() {

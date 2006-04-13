@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 
 /**
@@ -22,7 +23,24 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
         this.waveModel = waveModel;
         this.primary = primary;
         this.secondary = secondary;
+        primary.getOscillator().addListener( new Oscillator.Adapter() {
+
+            public void frequencyChanged() {
+                updateSecondary();
+            }
+
+            public void amplitudeChanged() {
+                updateSecondary();
+            }
+
+        } );
         setOneDrip();
+        updateSecondary();
+    }
+
+    private void updateSecondary() {
+        secondary.getOscillator().setAmplitude( primary.getOscillator().getAmplitude() );
+        secondary.getOscillator().setFrequency( primary.getOscillator().getFrequency() );
     }
 
     public boolean isOneDrip() {

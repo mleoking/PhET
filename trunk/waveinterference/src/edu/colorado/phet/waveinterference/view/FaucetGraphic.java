@@ -58,15 +58,9 @@ public class FaucetGraphic extends PhetPNode {
             }
         } );
         updateLocation();
-        oscillator.addListener( new Oscillator.Listener() {
-            public void enabledStateChanged() {
-            }
-
+        oscillator.addListener( new Oscillator.Adapter() {
             public void locationChanged() {
                 updateLocation();
-            }
-
-            public void frequencyChanged() {
             }
         } );
         FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( pSwingCanvas, this );
