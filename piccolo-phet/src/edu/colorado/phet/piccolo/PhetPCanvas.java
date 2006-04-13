@@ -110,6 +110,12 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.addScreenChild( node );
     }
 
+    /**
+     * Adds the child as a screen child at the specified index.
+     *
+     * @param index
+     * @param node
+     */
     public void addScreenChild( int index, PNode node ) {
         phetRootNode.addScreenChild( index, node );
     }
