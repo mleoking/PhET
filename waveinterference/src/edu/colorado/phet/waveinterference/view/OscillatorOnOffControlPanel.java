@@ -17,26 +17,46 @@ import java.awt.event.ActionListener;
 
 public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
     private Oscillator oscillator;
+    private JRadioButton onRadioButton;
+    private JRadioButton offRadioButton;
 
     public OscillatorOnOffControlPanel( final Oscillator oscillator ) {
         this.oscillator = oscillator;
         ButtonGroup buttonGroup = new ButtonGroup();
-        final JRadioButton on = new JRadioButton( "On", oscillator.isEnabled() );
-        on.addActionListener( new ActionListener() {
+        onRadioButton = new JRadioButton( "On", oscillator.isEnabled() );
+        onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                oscillator.setEnabled( on.isSelected() );
+                oscillator.setEnabled( onRadioButton.isSelected() );
             }
         } );
-        buttonGroup.add( on );
-        add( on );
+        buttonGroup.add( onRadioButton );
+        add( onRadioButton );
 
-        final JRadioButton off = new JRadioButton( "Off", !oscillator.isEnabled() );
-        off.addActionListener( new ActionListener() {
+        offRadioButton = new JRadioButton( "Off", !oscillator.isEnabled() );
+        offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                oscillator.setEnabled( !off.isSelected() );
+                oscillator.setEnabled( !offRadioButton.isSelected() );
             }
         } );
-        buttonGroup.add( off );
-        add( off );
+
+        oscillator.addListener( new Oscillator.Listener() {
+            public void enabledStateChanged() {
+                updateState();
+            }
+
+            public void locationChanged() {
+            }
+
+            public void frequencyChanged() {
+            }
+        } );
+
+        buttonGroup.add( offRadioButton );
+        add( offRadioButton );
+    }
+
+    private void updateState() {
+        onRadioButton.setSelected( oscillator.isEnabled() );
+        offRadioButton.setSelected( !oscillator.isEnabled() );
     }
 }

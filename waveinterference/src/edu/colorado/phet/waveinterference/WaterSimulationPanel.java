@@ -46,10 +46,10 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         addScreenChild( rotationWaveGraphic );
 
-        primaryFaucetGraphic = new RotationFaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates(), rotationWaveGraphic );
+        primaryFaucetGraphic = new RotationFaucetGraphic( this, getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates(), rotationWaveGraphic );
         addScreenChild( primaryFaucetGraphic );
 
-        secondaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        secondaryFaucetGraphic = new RotationFaucetGraphic( this, getWaveModel(), waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates(), rotationWaveGraphic );
         secondaryFaucetGraphic.setEnabled( false );
         addScreenChild( secondaryFaucetGraphic );
 

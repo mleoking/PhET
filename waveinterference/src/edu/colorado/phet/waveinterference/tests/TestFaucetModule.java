@@ -38,7 +38,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
         waveSideView = new WaveSideView( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( waveSideView );
         waveModelGraphic.setOffset( 300, 100 );
-        faucetGraphic = new FaucetGraphic( getWaveModel(), getOscillator(), waveModelGraphic.getLatticeScreenCoordinates() );
+        faucetGraphic = new FaucetGraphic( getPhetPCanvas(), getWaveModel(), getOscillator(), waveModelGraphic.getLatticeScreenCoordinates() );
 
         getPhetPCanvas().addScreenChild( faucetGraphic );
         setOscillatorRadius( 2 );

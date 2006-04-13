@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -34,12 +35,13 @@ public class FaucetGraphic extends PhetPNode {
     private double lastTime;
     private boolean enabled = true;
     private boolean clipDrops = true;
+    private ArrayList listeners = new ArrayList();
 
-    public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
+    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
     }
 
-    public FaucetGraphic( WaveModel waveModel, final Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
+    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, final Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
         this.waveModel = waveModel;
         this.oscillator = oscillator;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -67,6 +69,8 @@ public class FaucetGraphic extends PhetPNode {
             public void frequencyChanged() {
             }
         } );
+        FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( pSwingCanvas, this );
+        addChild( faucetOnOffButton );
     }
 
     private void updateLocation() {
@@ -175,6 +179,10 @@ public class FaucetGraphic extends PhetPNode {
         if( !enabled && drops.size() == 0 ) {
             oscillator.setEnabled( false );
         }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.enabledStateChanged();
+        }
     }
 
     public Oscillator getOscillator() {
@@ -183,6 +191,14 @@ public class FaucetGraphic extends PhetPNode {
 
     public void setClipDrops( boolean clipDrops ) {
         this.clipDrops = clipDrops;
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void enabledStateChanged();
     }
 
     class WaterDropGraphic extends PNode {
@@ -225,16 +241,7 @@ public class FaucetGraphic extends PhetPNode {
         }
     }
 
-    public static void main( String[] args ) {
-        WaveModel waveModel = new WaveModel( 50, 50 );
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( waveModel );
-        Oscillator oscillator = new Oscillator( waveModel );
-        oscillator.setPeriod( 2 );
-        FaucetGraphic faucetGraphic = new FaucetGraphic( waveModel, oscillator, waveModelGraphic.getLatticeScreenCoordinates() );
-        debugNearestTime( faucetGraphic, 31.2 );
-    }
-
-    private static void debugNearestTime( FaucetGraphic faucetGraphic, double t ) {
+    public static void debugNearestTime( FaucetGraphic faucetGraphic, double t ) {
         double nearest = faucetGraphic.getNearestReleaseTime( t );
         System.out.println( "t = " + t + ", nearest release = " + nearest );
     }
