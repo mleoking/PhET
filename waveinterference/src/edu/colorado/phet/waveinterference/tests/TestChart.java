@@ -2,6 +2,10 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
+import edu.colorado.phet.waveinterference.view.IndexColorMap;
+import edu.colorado.phet.waveinterference.view.MutableColor;
+
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -17,11 +21,17 @@ public class TestChart extends TestTopView {
         super( "Test Chart" );
         getWaveModelGraphic().setCellDimensions( 4, 4 );
         getWaveModelGraphic().setOffset( 100, 10 );
-        chartGraphic = new ChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel() );
+
+        final MutableColor waterColor = new MutableColor( new Color( 130, 185, 255 ) );
+        getWaveModelGraphic().setColorMap( new IndexColorMap( getLattice(), waterColor ) );
+        chartGraphic = new ChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor );
         getPhetPCanvas().getLayer().addChild( chartGraphic );
 
-        CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( crossSectionGraphic );
+
+        MutableColorChooser mutableColorChooser = new MutableColorChooser( waterColor );
+        getControlPanel().addControlFullWidth( mutableColorChooser );
     }
 
     protected void step() {

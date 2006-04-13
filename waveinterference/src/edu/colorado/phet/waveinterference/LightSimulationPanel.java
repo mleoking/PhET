@@ -105,7 +105,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void colorChanged() {
-        waveSideView.setColor( waveModelGraphic.getColorMap().getRootColor() );
+        waveSideView.setStrokeColor( waveModelGraphic.getColorMap().getRootColor() );
         rotationGlyph.setColor( waveModelGraphic.getColorMap().getRootColor() );
     }
 

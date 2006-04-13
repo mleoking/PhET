@@ -20,21 +20,41 @@ public class IndexColorMap implements ColorMap {
     private Color[] colors;
     private int NUM_COLORS = 201;
     private WaveValueReader waveValueReader;
+    private MutableColor color;
 
     public IndexColorMap( Lattice2D lattice ) {
-        this( lattice, Color.blue );
+        this( lattice, new MutableColor( new Color( 37, 179, 255 ) ) );
     }
 
     public IndexColorMap( Lattice2D lattice, Color color ) {
+        this( lattice, new MutableColor( color ) );
+    }
+
+    public IndexColorMap( Lattice2D lattice, MutableColor color ) {
         this( lattice, color, new WaveValueReader.Displacement() );
     }
 
     public IndexColorMap( Lattice2D lattice, Color color, WaveValueReader waveValueReader ) {
+        this( lattice, new MutableColor( color ), waveValueReader );
+    }
+
+    public IndexColorMap( Lattice2D lattice, MutableColor color, WaveValueReader waveValueReader ) {
         this.waveValueReader = waveValueReader;
+        this.color = color;
+        this.lattice = lattice;
+
+        color.addListener( new MutableColor.Listener() {
+            public void colorChanged() {
+                updateColors();
+            }
+        } );
+        updateColors();
+    }
+
+    private void updateColors() {
         r = color.getRed() / 255.0f;
         g = color.getGreen() / 255.0f;
         b = color.getBlue() / 255.0f;
-        this.lattice = lattice;
         colors = new Color[NUM_COLORS];
         for( int i = 0; i < colors.length - 1; i++ ) {
             float value = i / ( (float)colors.length );

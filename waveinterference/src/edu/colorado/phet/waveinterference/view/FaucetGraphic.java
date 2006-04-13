@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 
 public class FaucetGraphic extends PhetPNode {
-//public class FaucetGraphic extends PNode {
     private PImage image;
     private ArrayList drops = new ArrayList();
     private FaucetData faucetData;
@@ -34,6 +33,7 @@ public class FaucetGraphic extends PhetPNode {
     private double dropSpeed = 100;
     private double lastTime;
     private boolean enabled = true;
+    private boolean clipDrops = true;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
@@ -133,7 +133,7 @@ public class FaucetGraphic extends PhetPNode {
     }
 
     private void addDrop() {
-        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed );
+        WaterDropGraphic waterDropGraphic = new WaterDropGraphic( dropSpeed, clipDrops );
         double x = faucetData.getDistToOpeningX( image.getImage() ) - waterDropGraphic.getFullBounds().getWidth() / 2.0;
         double y = faucetData.getDistToOpeningY( image.getImage() ) - waterDropGraphic.getFullBounds().getHeight() / 2.0;
         waterDropGraphic.setOffset( x, y );
@@ -181,11 +181,17 @@ public class FaucetGraphic extends PhetPNode {
         return oscillator;
     }
 
+    public void setClipDrops( boolean clipDrops ) {
+        this.clipDrops = clipDrops;
+    }
+
     class WaterDropGraphic extends PNode {
         private PImage image;
         private double speed;
+        private boolean clip = false;
 
-        public WaterDropGraphic( double speed ) {
+        public WaterDropGraphic( double speed, boolean clip ) {
+            this.clip = clip;
             this.speed = speed;
             image = PImageFactory.create( "images/raindrop1.png" );
             addChild( image );
@@ -200,14 +206,19 @@ public class FaucetGraphic extends PhetPNode {
             //todo: works under a variety of conditions, not fully tested
             Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
             localToParent( rect );
-            paintContext.pushClip( rect );
+            if( clip ) {
+                paintContext.pushClip( rect );
+            }
             super.fullPaint( paintContext );
-            paintContext.popClip( origClip );
+            if( clip ) {
+                paintContext.popClip( origClip );
+            }
         }
 
         //todo works under a variety of conditions, not fully tested.
         public boolean readyToRemove() {
             Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
+//            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() ) );
             localToParent( rect );
             PBounds bounds = getFullBounds();
             return !bounds.intersects( rect );
