@@ -26,6 +26,7 @@ public class AmplitudeControl extends VerticalLayoutPanel {
         } );
         amplitudeSlider.setTextFieldVisible( false );
         amplitudeSlider.setPaintLabels( false );
+        amplitudeSlider.setPaintTicks( false );
         add( amplitudeSlider );
     }
 }

@@ -60,6 +60,13 @@ public class PhetRootPNode extends PNode {
         addChild( child );
     }
 
+
+    public void addScreenChild( int index, PNode node ) {
+        ScreenChild child = new ScreenChild( node );
+        child.setTransform( screenNode.getTransform() );
+        addChild( index, child );
+    }
+
     /**
      * Adds the child to the world.
      *

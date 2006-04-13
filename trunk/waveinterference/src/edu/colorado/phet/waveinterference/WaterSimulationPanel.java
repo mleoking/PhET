@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -64,9 +65,12 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
-        faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
+//        faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
+        faucetControlPanelPNode = new FaucetControlPanelPNode( this, new ShinyPanel( new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ) ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
 
+        FaucetConnector faucetConnector = new FaucetConnector( faucetControlPanelPNode, getPrimaryFaucetGraphic() );
+        addScreenChild( 0, faucetConnector );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
