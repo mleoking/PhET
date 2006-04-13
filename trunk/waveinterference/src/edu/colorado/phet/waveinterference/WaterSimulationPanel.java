@@ -31,7 +31,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         this.waterModule = waterModule;
 
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
-        WaveSideViewFull waveSideView = new WaveSideViewFull( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
         RotationGlyph rotationGlyph = new RotationGlyph();
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
         rotationWaveGraphic.setOffset( 150, 50 );

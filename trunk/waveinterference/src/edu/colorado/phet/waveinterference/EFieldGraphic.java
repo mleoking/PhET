@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -18,8 +18,8 @@ import java.awt.geom.Point2D;
 
 public class EFieldGraphic extends AbstractVectorViewGraphic {
 
-    public EFieldGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, int distBetweenSamples ) {
-        super( lattice, latticeScreenCoordinates, distBetweenSamples );
+    public EFieldGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, int distBetweenSamples ) {
+        super( waveModel, latticeScreenCoordinates, distBetweenSamples );
     }
 
     public void update() {

@@ -1,10 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -14,17 +15,18 @@ import java.awt.geom.GeneralPath;
  */
 
 public class WaveSideViewFull extends WaveSideView {
-    public WaveSideViewFull( Lattice2D lattice2D, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( lattice2D, latticeScreenCoordinates );
+    public WaveSideViewFull( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        super( waveModel, latticeScreenCoordinates );
         setStroke( new BasicStroke( 3 ) );
     }
 
     public void update() {
         super.update();
         GeneralPath generalpath = getWavePath();
-        double x0 = getX( 0 );
-        double y0 = getY( 0, getYValue() );
-        double xF = getX( getLattice2D().getWidth() - 1 );
+        Point2D[] pt = readValues();
+        double x0 = pt[0].getX();
+        double y0 = pt[0].getY();
+        double xF = pt[pt.length - 1].getX();
         generalpath.lineTo( (float)xF, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)y0 );

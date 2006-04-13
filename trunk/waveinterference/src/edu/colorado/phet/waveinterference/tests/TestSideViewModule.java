@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.ExplicitCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
+import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -20,10 +21,9 @@ public class TestSideViewModule extends BasicWaveTestModule {
     public TestSideViewModule() {
         super( "Side View" );
 
-        waveSideView = new WaveSideView( getLattice(), new ExplicitCoordinates() );
+        waveSideView = new WaveSideViewFull( getWaveModel(), new ExplicitCoordinates() );
         waveSideView.setOffset( 0, 300 );
         getPhetPCanvas().addScreenChild( waveSideView );
-//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
         double distBetweenCells = waveSideView.getDistBetweenCells();
         System.out.println( "distBetweenCells = " + distBetweenCells );
@@ -34,18 +34,6 @@ public class TestSideViewModule extends BasicWaveTestModule {
             }
         } );
         getControlPanel().addControl( cellDim );
-//        JButton photonView = new JButton( "Photon View" );
-//        photonView.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                getPhetPCanvas().removeScreenChild( waveSideView );
-//                waveSideView = new VectorViewGraphic( getLattice(), new ExplicitCoordinates() ,3);
-//                waveSideView.setSpaceBetweenCells( cellDim.getValue());
-//                waveSideView.setOffset( 0,300);
-//                getPhetPCanvas().addScreenChild( waveSideView );
-//            }
-//        } );
-//        getControlPanel().addControl( photonView );
-//        setControlPanel( controlPanel );
     }
 
     protected void step() {

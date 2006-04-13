@@ -21,7 +21,7 @@ public class TestSideVectorViewModule extends BasicWaveTestModule {
     public TestSideVectorViewModule() {
         super( "Side View" );
 
-        waveSideView = new EBFieldGraphic( getLattice(), new ExplicitCoordinates(), 3 );
+        waveSideView = new EBFieldGraphic( getWaveModel(), new ExplicitCoordinates(), 3 );
         waveSideView.setOffset( 0, 300 );
 
         getPhetPCanvas().addScreenChild( waveSideView );

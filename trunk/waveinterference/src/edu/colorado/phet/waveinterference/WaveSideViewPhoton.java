@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
@@ -15,9 +15,9 @@ import edu.colorado.phet.waveinterference.view.WaveSideView;
 public class WaveSideViewPhoton extends WaveSideView {
     private WaveSideView vectorViewGraphic;
 
-    public WaveSideViewPhoton( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( lattice, latticeScreenCoordinates );
-        vectorViewGraphic = new EFieldGraphic( lattice, latticeScreenCoordinates, 2 );
+    public WaveSideViewPhoton( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        super( waveModel, latticeScreenCoordinates );
+        vectorViewGraphic = new EFieldGraphic( waveModel, latticeScreenCoordinates, 2 );
 //        vectorViewGraphic = new WaveSideView( lattice, latticeScreenCoordinates);
         addChild( vectorViewGraphic );
         update();

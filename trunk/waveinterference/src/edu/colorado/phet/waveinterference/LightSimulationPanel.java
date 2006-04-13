@@ -37,7 +37,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
 //        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
-        waveSideView = new WaveSideViewPhoton( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        waveSideView = new WaveSideViewPhoton( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
 //        waveSideView = new CompositeWaveSideView(  );
 //        waveSideView = new EFieldGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() ,2);
 

@@ -2,11 +2,13 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -23,18 +25,21 @@ public class WaveSideView extends PNode {
 //    private double amplitudeScale = -150;
 //    private double amplitudeScale = -150/2.0;
     private double amplitudeScale = -150 / 1.8;
+    private WaveSampler waveSampler;
 
-    public WaveSideView( Lattice2D lattice2D, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        this.lattice2D = lattice2D;
+    public WaveSideView( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this.lattice2D = waveModel.getLattice();
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         path = new PPath();
         addChild( path );
-        update();
+
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
                 update();
             }
         } );
+        this.waveSampler = new WaveSampler( waveModel, -150 / 1.8, 5 );
+        update();
     }
 
     protected PPath getPath() {
@@ -57,53 +62,25 @@ public class WaveSideView extends PNode {
         setSpaceBetweenCells( latticeScreenCoordinates.getCellWidth() );
         //todo this is disabled because the RotationGraphic is managing the layout
         //todo we should provide support for both.
-//        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, lattice2D.getHeight() / 2 ) );
         path.setPathTo( getWavePath() );
     }
 
     protected GeneralPath getWavePath() {
         GeneralPath generalpath = new GeneralPath();
-        int yValue = getYValue();
-        for( int i = 0; i < lattice2D.getWidth(); i++ ) {
-            float y = getY( i, yValue );
-            float x = getX( i );
-            if( i == 0 ) {
-                generalpath.moveTo( x, y );
-            }
-            else {
-                generalpath.lineTo( x, y );
+        Point2D[] samples = readValues();
+        if( samples.length > 0 ) {
+            generalpath.moveTo( (float)samples[0].getX(), (float)samples[0].getY() );
+            for( int i = 1; i < samples.length; i++ ) {
+                generalpath.lineTo( (float)samples[i].getX(), (float)samples[i].getY() );
             }
         }
         return generalpath;
     }
 
-    protected int getYValue() {
-        return lattice2D.getHeight() / 2;
+    protected Point2D[] readValues() {
+        return waveSampler.readValues();
     }
 
-    protected float getX( int i ) {
-        return (float)( i * distBetweenPoints );
-    }
-
-    protected float getY( int index, int yValue ) {
-        if( index >= 1 && index < lattice2D.getWidth() - 1 ) {
-            double sum = getVerticalSlice( index, yValue ) + getVerticalSlice( index - 1, yValue ) + getVerticalSlice( index + 1, yValue );
-            return (float)( sum / 3 );
-        }
-        else {
-            return (float)getVerticalSlice( index, yValue );
-        }
-    }
-
-    private double getVerticalSlice( int index, int yValue ) {
-        double sum = getYORIG( index, yValue + 1 ) + getYORIG( index, yValue - 1 ) + getYORIG( index, yValue );
-        return sum / 3;
-    }
-
-    private float getYORIG( int i, int yValue ) {
-        float y = (float)( lattice2D.getValue( i, yValue ) * amplitudeScale );
-        return y;
-    }
 
     public double getDistBetweenCells() {
         return distBetweenPoints;
@@ -111,9 +88,14 @@ public class WaveSideView extends PNode {
 
     public void setSpaceBetweenCells( double dim ) {
         this.distBetweenPoints = dim;
+        waveSampler.setDistanceBetweenCells( distBetweenPoints );
     }
 
     public void setColor( Color color ) {
         path.setStrokePaint( color );
+    }
+
+    public int getYValue() {
+        return waveSampler.getYValue();
     }
 }
