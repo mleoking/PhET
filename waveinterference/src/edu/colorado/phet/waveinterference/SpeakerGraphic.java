@@ -4,6 +4,9 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.view.ImageOscillatorPNode;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
+import edu.colorado.phet.waveinterference.view.OscillatorOnOffControlPanel;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -13,7 +16,10 @@ import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
  */
 
 public class SpeakerGraphic extends ImageOscillatorPNode {
-    public SpeakerGraphic( Oscillator primaryOscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( primaryOscillator, latticeScreenCoordinates, "images/speaker.gif" );
+    public SpeakerGraphic( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        super( oscillator, latticeScreenCoordinates, "images/speaker.gif" );
+        OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
+        PSwing pswing = new PSwing( pSwingCanvas, oscillatorOnOffControlPanel );
+        addChild( pswing );
     }
 }

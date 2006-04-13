@@ -22,8 +22,8 @@ public class LaserControlPanel extends HorizontalLayoutPanel {
         this.oscillator = oscillator;
         wavelengthControlPanel = new OscillatorWavelengthControlPanel( waveModelGraphic, oscillator );
         addControl( wavelengthControlPanel );
-        addControl( new OscillatorOnOffControlPanel( oscillator ) );
-        setBorder( BorderFactory.createRaisedBevelBorder() );
+//        addControl( new OscillatorOnOffControlPanel( oscillator ) );
+//        setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 
     private void addControl( JComponent component ) {

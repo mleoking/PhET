@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.phetcommon.VerticalPipeConnector;
+import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 
 /**
  * User: Sam Reid
@@ -10,7 +10,7 @@ import edu.colorado.phet.waveinterference.phetcommon.VerticalPipeConnector;
  * Copyright (c) Apr 13, 2006 by Sam Reid
  */
 
-public class FaucetConnector extends VerticalPipeConnector {
+public class FaucetConnector extends VerticalConnector {
     public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic faucetGraphic ) {
         super( faucetControlPanelPNode, faucetGraphic.getImagePNode() );
     }

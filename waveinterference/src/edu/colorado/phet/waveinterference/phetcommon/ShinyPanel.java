@@ -32,11 +32,45 @@ public class ShinyPanel extends JPanel {
         add( component, BorderLayout.CENTER );
         setOpaque( this, false );
         setBorder( new ShinyBorder() );
+//        addComponentListener( new ComponentListener() {
+//            public void componentHidden( ComponentEvent e ) {
+//            }
+//
+//            public void componentMoved( ComponentEvent e ) {
+//            }
+//
+//            public void componentResized( ComponentEvent e ) {
+//                setOpaque( ShinyPanel.this, false );
+//            }
+//
+//            public void componentShown( ComponentEvent e ) {
+//                setOpaque( ShinyPanel.this, false );
+//            }
+//        } );
+//        addPropertyChangeListener( "background", new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                setOpaque( ShinyPanel.this, false );
+//            }
+//        } );
+//        Timer timer=new Timer( 30,new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setOpaque( ShinyPanel.this,false );
+//            }
+//        } );
+//        timer.start();
     }
 
     private void setOpaque( JComponent container, boolean b ) {
         container.setOpaque( b );
+        container.setBackground( new Color( 255, 255, 255, 0 ) );
         container.setForeground( Color.white );
+//
+//        container.addPropertyChangeListener( "background", new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                setOpaque( ShinyPanel.this, false );
+//            }
+//        } );
+
         for( int i = 0; i < container.getComponentCount(); i++ ) {
             Component child = container.getComponent( i );
             if( child instanceof JComponent && !( child instanceof JTextComponent ) ) {

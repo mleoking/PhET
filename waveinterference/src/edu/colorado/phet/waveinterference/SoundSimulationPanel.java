@@ -4,6 +4,8 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
+import edu.colorado.phet.waveinterference.phetcommon.VerticalConnectorLeftSide;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -26,6 +28,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private MultiOscillator multiOscillator;
     private SpeakerControlPanelPNode speakerControlPanelPNode;
     private WaveModelGraphic waveModelGraphic;
+    private VerticalConnector verticalConnector;
+    private ImageOscillatorPNode primarySpeaker;
+    private ImageOscillatorPNode secondarySpeaker;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -39,8 +44,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
         addScreenChild( soundWaveGraphic );
 
-        ImageOscillatorPNode primarySpeaker = new SpeakerGraphic( soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
-        ImageOscillatorPNode secondarySpeaker = new SpeakerGraphic( soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        primarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        secondarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
 
         addScreenChild( primarySpeaker );
         addScreenChild( secondarySpeaker );
@@ -57,6 +62,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
         addScreenChild( speakerControlPanelPNode );
+
+        verticalConnector = new VerticalConnectorLeftSide( speakerControlPanelPNode, primarySpeaker );
+        addScreenChild( 0, verticalConnector );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -77,7 +85,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         double latticeModelHeight = getWaveModel().getHeight();
         int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
         waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
-        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+//        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
 //        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
     }
 
@@ -108,6 +116,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     public void stepInTime( double dt ) {
         soundWaveGraphic.update();
         intensityReaderSet.update();
+        primarySpeaker.update();
+        secondarySpeaker.update();
     }
 
     public SoundWaveGraphic getSoundWaveGraphic() {

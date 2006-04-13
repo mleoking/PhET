@@ -4,9 +4,6 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
-import edu.colorado.phet.waveinterference.view.OscillatorOnOffControlPanel;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -19,8 +16,5 @@ public class SpeakerControlPanel extends HorizontalLayoutPanel {
     public SpeakerControlPanel( Oscillator oscillator ) {
         OscillatorControlPanel oscillatorControlPanel = new OscillatorControlPanel( oscillator );
         add( oscillatorControlPanel );
-        OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        add( oscillatorOnOffControlPanel );
-        setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 }

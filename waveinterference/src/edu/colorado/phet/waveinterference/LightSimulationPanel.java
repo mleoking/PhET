@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -23,8 +24,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
     private MeasurementToolSet measurementToolSet;
-    private LaserGraphic primaryLaserGraphic;
-    private LaserGraphic secondaryLaserGraphic;
+    private LightSourceGraphic primaryLaserGraphic;
+    private LightSourceGraphic secondaryLaserGraphic;
     private MultiOscillator multiOscillator;
     private WaveSideView waveSideView;
     private WaveModelGraphic waveModelGraphic;
@@ -62,10 +63,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         addScreenChild( rotationWaveGraphic );
 
-        primaryLaserGraphic = new LaserGraphic( waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        primaryLaserGraphic = new LightSourceGraphic( this, waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryLaserGraphic );
 
-        secondaryLaserGraphic = new LaserGraphic( waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        secondaryLaserGraphic = new LightSourceGraphic( this, waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( secondaryLaserGraphic );
 
         slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
@@ -80,6 +81,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, waterModule.getPrimaryOscillator(), secondaryLaserGraphic, waterModule.getSecondaryOscillator() );
         laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
+
+        VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
+        addScreenChild( 0, verticalConnector );
+
         colorChanged();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

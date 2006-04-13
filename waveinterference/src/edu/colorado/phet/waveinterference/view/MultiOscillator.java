@@ -22,12 +22,23 @@ public class MultiOscillator {
     private Oscillator secondaryOscillator;
     private int oscillatorX = 5;
 
-    public MultiOscillator( WaveModel waveModel, PNode primary, Oscillator primaryOscillator, PNode secondary, Oscillator secondaryOscillator ) {
+    public MultiOscillator( WaveModel waveModel, PNode primary, final Oscillator primaryOscillator, PNode secondary, final Oscillator secondaryOscillator ) {
         this.waveModel = waveModel;
         this.primary = primary;
         this.primaryOscillator = primaryOscillator;
         this.secondary = secondary;
         this.secondaryOscillator = secondaryOscillator;
+        primaryOscillator.addListener( new Oscillator.Adapter() {
+            public void frequencyChanged() {
+                secondaryOscillator.setFrequency( primaryOscillator.getFrequency() );
+            }
+
+            public void amplitudeChanged() {
+                secondaryOscillator.setAmplitude( primaryOscillator.getAmplitude() );
+            }
+        } );
+        secondaryOscillator.setFrequency( primaryOscillator.getFrequency() );
+        secondaryOscillator.setAmplitude( primaryOscillator.getAmplitude() );
         setOneDrip();
     }
 
