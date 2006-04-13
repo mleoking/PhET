@@ -60,7 +60,12 @@ public class PhetRootPNode extends PNode {
         addChild( child );
     }
 
-
+    /**
+     * Adds the child as a screen child at the specified index.
+     *
+     * @param index
+     * @param node
+     */
     public void addScreenChild( int index, PNode node ) {
         ScreenChild child = new ScreenChild( node );
         child.setTransform( screenNode.getTransform() );
