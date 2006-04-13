@@ -98,6 +98,10 @@ public class Oscillator {
 
     public void setAmplitude( double amplitude ) {
         this.amplitude = amplitude;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.amplitudeChanged();
+        }
     }
 
     public int getCenterX() {
@@ -140,9 +144,25 @@ public class Oscillator {
         void locationChanged();
 
         void frequencyChanged();
+
+        void amplitudeChanged();
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public static class Adapter implements Listener {
+        public void enabledStateChanged() {
+        }
+
+        public void locationChanged() {
+        }
+
+        public void frequencyChanged() {
+        }
+
+        public void amplitudeChanged() {
+        }
     }
 }

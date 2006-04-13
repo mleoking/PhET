@@ -28,13 +28,7 @@ public class LaserControlPanelPNode extends PNode {
         this.waveModelGraphic = waveModelGraphic;
         this.secondaryOscillator = secondaryOscillator;
         LaserControlPanel laserControlPanel = new LaserControlPanel( waveModelGraphic, oscillator );
-        oscillator.addListener( new Oscillator.Listener() {
-            public void enabledStateChanged() {
-            }
-
-            public void locationChanged() {
-            }
-
+        oscillator.addListener( new Oscillator.Adapter() {
             public void frequencyChanged() {
                 updateFrequency();
             }

@@ -39,15 +39,9 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        oscillator.addListener( new Oscillator.Listener() {
+        oscillator.addListener( new Oscillator.Adapter() {
             public void enabledStateChanged() {
                 updateState();
-            }
-
-            public void locationChanged() {
-            }
-
-            public void frequencyChanged() {
             }
         } );
 
