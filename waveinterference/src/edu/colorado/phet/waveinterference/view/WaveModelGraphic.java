@@ -109,7 +109,7 @@ public class WaveModelGraphic extends PNode {
     }
 
     private void notifyMappingChanged() {
-        latticeScreenCoordinates.notifyMappingChanged();
+        latticeScreenCoordinates.notifyMappingChanged();//todo this is unnecessarily expensive
     }
 
     public ColorGridNode getColorGridNode() {

@@ -212,6 +212,7 @@ public class FaucetGraphic extends PhetPNode {
         }
 
         public void update( double dt ) {
+//            System.out.println( "FaucetGraphic$WaterDropGraphic.update" );
             offset( 0, speed * dt );
         }
 
