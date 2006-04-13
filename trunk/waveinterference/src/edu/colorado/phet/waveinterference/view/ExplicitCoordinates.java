@@ -14,6 +14,18 @@ import java.awt.geom.Point2D;
  */
 
 public class ExplicitCoordinates extends LatticeScreenCoordinates {
+    private int width;
+    private int height;
+
+    public ExplicitCoordinates() {
+        this( 50, 50 );//todo remove this dummy default
+    }
+
+    public ExplicitCoordinates( int width, int height ) {
+        this.width = width;
+        this.height = height;
+    }
+
     public Point2D toScreenCoordinates( int i, int j ) {
         Point screenPt1 = new Point();
         Point screenPt2 = new Point( 100, 100 );
@@ -34,5 +46,9 @@ public class ExplicitCoordinates extends LatticeScreenCoordinates {
     public Point toLatticeCoordinates( double x, double y ) {
         Point2D fp = toLatticeCoordinatesFP( x, y );
         return new Point( (int)fp.getX(), (int)fp.getY() );
+    }
+
+    protected Dimension getGridSize() {
+        return new Dimension( width, height );
     }
 }

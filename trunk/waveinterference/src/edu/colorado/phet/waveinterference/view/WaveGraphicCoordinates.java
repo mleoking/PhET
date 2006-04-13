@@ -52,4 +52,8 @@ public class WaveGraphicCoordinates extends LatticeScreenCoordinates {
         Point2D fp = toLatticeCoordinatesFP( x, y );
         return new Point( (int)fp.getX(), (int)fp.getY() );
     }
+
+    protected Dimension getGridSize() {
+        return new Dimension( waveModel.getWidth(), waveModel.getHeight() );
+    }
 }
