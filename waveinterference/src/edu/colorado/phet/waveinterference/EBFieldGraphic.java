@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
 
@@ -16,10 +16,10 @@ public class EBFieldGraphic extends WaveSideView {
     private EFieldGraphic eFieldGraphic;
     private BFieldGraphic bFieldGraphic;
 
-    public EBFieldGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, int distBetweenSamples ) {
-        super( lattice, latticeScreenCoordinates );
-        eFieldGraphic = new EFieldGraphic( lattice, latticeScreenCoordinates, distBetweenSamples );
-        bFieldGraphic = new BFieldGraphic( lattice, latticeScreenCoordinates, distBetweenSamples );
+    public EBFieldGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, int distBetweenSamples ) {
+        super( waveModel, latticeScreenCoordinates );
+        eFieldGraphic = new EFieldGraphic( waveModel, latticeScreenCoordinates, distBetweenSamples );
+        bFieldGraphic = new BFieldGraphic( waveModel, latticeScreenCoordinates, distBetweenSamples );
         addChild( eFieldGraphic );
         addChild( bFieldGraphic );
     }
