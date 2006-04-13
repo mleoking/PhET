@@ -16,8 +16,11 @@ import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,6 +34,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
     private static final String IMAGE_PATH = "images/photon-comet.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
+    Point2D.Double p = new Point2D.Double();
     private double xOffset;
     private double yOffset;
 
@@ -58,6 +62,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
 
     private Photon photon;
     private ImageGraphic photonImage;
+    private ShapeGraphicType debugGraphic;
     private boolean isVisible;
     private double directionOfTravel = Double.POSITIVE_INFINITY;
 
@@ -68,12 +73,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
         this.update();
     }
 
-    Point2D.Double p = new Point2D.Double( );
-
     public void update() {
         double theta = Math.atan2( -photon.getVelocity().getY(), photon.getVelocity().getX() );
-        computeOffsets( theta );
-        p.setLocation( photon.getLocation().getX() - xOffset * 0.001, photon.getLocation().getY() + yOffset * 0.01);
         if( theta != directionOfTravel ) {
             directionOfTravel = theta;
             DuotoneImageOp dio = new DuotoneImageOp( genColor( photon.getWavelength() ) );
@@ -84,17 +85,19 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
             if( photonImage != null ) {
                 removeGraphic( photonImage );
             }
-//            computeOffsets( theta );
-//            Point2D.Double p = new Point2D.Double( photon.getLocation().getX(), photon.getLocation().getY() );
-//            Point2D.Double p = new Point2D.Double( photon.getLocation().getX() - xOffset, photon.getLocation().getY() - yOffset );
             photonImage = new ImageGraphic( bi2, p );
-//            photonImage = new ImageGraphic( bi2, photon.getLocation() );
-//            photonImage = new ImageGraphic( bi2, photon.getLocation() );
             this.addGraphic( photonImage, 0 );
         }
-//        photonImage.location = photon.getLocation();
-//        photonImage.location.setLocation( photon.getLocation().getX() - xOffset, photon.getLocation().getY() - yOffset );
-//        photonImage.location.setLocation( (int)( photon.getLocation().getX() - xOffset ), (int)( photon.getLocation().getY() - yOffset ) );
+
+        // Adjust the position of the image so that the head of the photon graphic is coincident with the
+        // position of the photon itself.
+        double sy = 0;
+        if( photon.getVelocity().getY() > 0 ) {
+            sy = 1;
+        }
+        double ratio = 0.03;
+        p.setLocation( photon.getLocation().getX() - photonImage.getBufferedImage().getWidth() * ratio * 0.5,
+                       photon.getLocation().getY() - sy * photonImage.getBufferedImage().getHeight() * ratio );
     }
 
     public void update( Observable o, Object arg ) {
@@ -116,6 +119,18 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
 
     public void paint( Graphics2D g2 ) {
         super.paint( g2 );
+
+        double ratio = 0.03;
+        double r = 2 * ratio;
+        Point2D p = photon.getLocation();
+
+        g2.setColor( Color.green );
+        Ellipse2D e = new Ellipse2D.Double( p.getX() - r, p.getY() - r, r, r );
+//        g2.fill( e );
+
+        Rectangle2D rect = new Rectangle2D.Double( p.getX(), p.getY(), photonImage.getBufferedImage().getWidth() * ratio, photonImage.getBufferedImage().getHeight() * ratio );
+        g2.setStroke( new BasicStroke( 0.03f ) );
+//        g2.draw( rect );
     }
 
     /**

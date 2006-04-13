@@ -43,7 +43,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         computeTemperature();
-        while( netEnergy > 0 ) {
+        while( netEnergy > 0 && !reset ) {
             photonSource.notifyListeners( photonSource.emitPhoton() );
         }
     }
@@ -59,15 +59,10 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
             thSum += temperatureHistory[i];
             temperatureHistory[i + 1] = temperatureHistory[i];
         }
-        temperatureHistory[0] =
-                baseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
-//                GreenhouseConfig.earthBaseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
-
-        if( temperatureHistory[0] < 265 ) {
-//            temperatureHistory[0] -=12;
-        }
+        temperatureHistory[0] = baseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
         thSum += temperatureHistory[0];
         temperature = thSum / temperatureHistoryLength;
+        System.out.println( "thSum = " + thSum );
 
         if( jimmyArray != null ) {
             jimmyTemperature();
@@ -195,11 +190,12 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     }
 
 
-
-
+    boolean reset = false;
     public void reset() {
         temperatureHistory = new double[temperatureHistoryLength];
+        temperature = GreenhouseConfig.earthBaseTemperature;
         netEnergy = 0;
+        reset = true;
     }
 }
 

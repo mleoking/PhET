@@ -223,6 +223,22 @@ public abstract class BaseGreenhouseModule extends Module {
     }
 
     public void reset() {
+
+        getModel().removeModelElement( earth );
+        double gamma = Math.atan( ( finalModelBounds.getWidth() / 2 ) / Earth.radius );
+        earth = new Earth( new Point2D.Double( 0, -Earth.radius + exposedEarth ), Math.PI / 2 - gamma, Math.PI / 2 + gamma );
+//        ((GreenhouseModel)getModel()).setEarth( earth );
+        earth.getPhotonSource().setProductionRate( 1E-2 );
+        earth.addPhotonEmitterListener( earthPhotonEmitterListener );
+        earth.addPhotonAbsorberListener( new GreenhouseModule.PhotonAbsorberListener() );
+        earth.getPhotonSource().addListener( (GreenhouseModel)getModel() );
+        earthGraphic = new EarthGraphic( getApparatusPanel(), earth, initialModelBounds );
+        earth.setReflectivityAssessor( earthGraphic );
+
+
+
+
+//        sun.setProductionRate( 0 );
         java.util.List photons = ( (GreenhouseModel)getModel() ).getPhotons();
         for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
@@ -231,6 +247,12 @@ public abstract class BaseGreenhouseModule extends Module {
 //            photonToGraphicsMap.remove( photon );
             ( (GreenhouseModel)getModel() ).photonAbsorbed( photon );
         }
+//        earth.reset();
+
+        photons = ( (GreenhouseModel)getModel() ).getPhotons();
+        System.out.println( "photons.size() = " + photons.size() );
+        System.out.println( "photonToGraphicsMap.size() = " + photonToGraphicsMap.size() );
+        sun.setProductionRate( 0 );
 
         Iterator keyIt = photonToGraphicsMap.keySet().iterator();
         while( keyIt.hasNext() ) {
@@ -239,8 +261,6 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
-
-        earth.reset();
     }
 
     /**
