@@ -4,7 +4,6 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.ExplicitCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
-import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -21,7 +20,7 @@ public class TestSideViewModule extends BasicWaveTestModule {
     public TestSideViewModule() {
         super( "Side View" );
 
-        waveSideView = new WaveSideViewFull( getWaveModel(), new ExplicitCoordinates() );
+        waveSideView = new WaveSideView( getWaveModel(), new ExplicitCoordinates() );
         waveSideView.setOffset( 0, 300 );
         getPhetPCanvas().addScreenChild( waveSideView );
 
