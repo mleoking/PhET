@@ -13,7 +13,7 @@ package edu.colorado.phet.boundstates.model;
 
 
 /**
- * BSEigenstate is the model of an eigenstate.
+ * BSEigenstate is the immutable model of an eigenstate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
