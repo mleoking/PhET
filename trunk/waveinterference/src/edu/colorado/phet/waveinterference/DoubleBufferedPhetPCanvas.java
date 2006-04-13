@@ -49,13 +49,17 @@ public class DoubleBufferedPhetPCanvas extends PhetPCanvas {
 //        }
     }
 
-    private void paintNormal( Graphics g ) {
+    protected void paintNormal( Graphics g ) {
         super.paintComponent( g );
     }
 
-    private void paintBuffered( Graphics g ) {
+    protected void superPaint( Graphics g ) {
+        super.paintComponent( g );
+    }
+
+    protected void paintBuffered( final Graphics g ) {
         synchronizeImage();
-        super.paintComponent( buffer.createGraphics() );
+        superPaint( buffer.createGraphics() );
         g.drawImage( buffer, 0, 0, null );
     }
 
