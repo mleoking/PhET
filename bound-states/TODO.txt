@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - show same number of superposition coefficients as there are eigenstates
-- model for superposition coefficients
 - model total energy as a set of eigenstates
 - disabled the superposition button if no eigenstates are found
 - keep 1 set of superposition coefficients, only set to ground state if some coefficient becomes irrelevant 
@@ -55,6 +54,8 @@ MACINTOSH:
 
 
 DONE:
+(4/13/06) - model for superposition coefficients
+(4/12/06) - time estimate for completing this simulation
 (4/4/06) - **** SourceForge CVS server restored ****
 (4/3/06) - color non-zero superposition coefficients to match eigenstate selection color
 (4/3/06) - abbreviate superposition equation, show terms 1,2,n

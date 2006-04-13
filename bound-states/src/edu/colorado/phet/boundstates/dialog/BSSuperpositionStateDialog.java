@@ -29,6 +29,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.DoubleSpinner;
+import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -61,14 +62,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _spinners; // array of DoubleSpinnerControl
+    private ArrayList _spinners; // array of DoubleSpinner
     private JButton _normalizeButton;
     private JButton _applyButton;
     private JButton _closeButton;
     private EventListener _eventListener;
     private boolean _changed;
     private int _startingIndex;
-    private int _numberOfCoefficients;
+    private BSSuperpositionCoefficients _coefficients;
     private Color _eigenstateSelectionColor;
     private Color _normalColor;
     
@@ -79,8 +80,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSuperpositionStateDialog( Frame parent, int numberOfCoefficients, int startingIndex, BSColorScheme colorScheme ) {
+    public BSSuperpositionStateDialog( Frame parent, BSSuperpositionCoefficients coefficients, int startingIndex, BSColorScheme colorScheme ) {
         super( parent );
+        
+        if ( coefficients.getNumberOfCoefficients() < 1 ) {
+            throw new IllegalArgumentException( "must have at least one coefficient, number of coefficients = " 
+                    + coefficients.getNumberOfCoefficients() );
+        }
+        
         setModal( false );
         setResizable( false );
         setTitle( SimStrings.get( "BSSuperpositionStateDialog.title" ) );
@@ -90,7 +97,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         _changed = false;
         _startingIndex = startingIndex;
-        _numberOfCoefficients = numberOfCoefficients;
+        _coefficients = coefficients;
+        _coefficients.addObserver( this );
         _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
         _normalColor = Color.WHITE;
         
@@ -101,7 +109,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        //XXX
+        if ( _coefficients != null ) {
+            _coefficients.deleteObserver( this );
+            _coefficients = null;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -140,17 +151,20 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         JLabel instructions = new JLabel( SimStrings.get( "label.superposition.instructions" ) );
         
-        String es = createEquationString( _numberOfCoefficients, _startingIndex );
+        final int numberOfCoefficients = _coefficients.getNumberOfCoefficients();
+        
+        String es = createEquationString( numberOfCoefficients, _startingIndex );
         JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
         ArrayList labels = new ArrayList();
         _spinners = new ArrayList();
-        for ( int i = 0; i < _numberOfCoefficients; i++ ) {
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
             int coefficientIndex = i + _startingIndex;
             String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + coefficientIndex + "</sub>:</html>";
             labels.add( new JLabel( label ) );
-            DoubleSpinner spinner = new DoubleSpinner( COEFFICIENT_MIN, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
+            final double value = _coefficients.getCoefficient( i );
+            DoubleSpinner spinner = new DoubleSpinner( value, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
             spinner.addChangeListener( _eventListener );
             _spinners.add( spinner );
         }
@@ -288,9 +302,16 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Apply, Normalize
     //----------------------------------------------------------------------------
     
+    /*
+     * Applies the coefficient values to the model.
+     */
     private void apply() {
         if ( isNormalized() ) {
-            //XXX apply changes to model
+            for ( int i = 0; i < _spinners.size(); i++ ) {
+                DoubleSpinner spinner = (DoubleSpinner)_spinners.get( i );
+                double value = spinner.getDoubleValue();
+                _coefficients.setCoefficient( i, value );
+            }
             _changed = false;
         }
         else {

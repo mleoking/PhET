@@ -71,6 +71,7 @@ public class BSManyModule extends BSAbstractModule {
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSSquareWells _squareWells;
     private BSAsymmetricWell _asymmetricWell;
+    private BSSuperpositionCoefficients _superpositionCoefficients;
     
     // View
     private PhetPCanvas _canvas;
@@ -354,6 +355,7 @@ public class BSManyModule extends BSAbstractModule {
         _squareWells = new BSSquareWells( _particle, 2 );
         _asymmetricWell = new BSAsymmetricWell( _particle );
         _selectedPotential = _harmonicOscillatorWell;
+        _superpositionCoefficients = new BSSuperpositionCoefficients( 5 /*XXX*/ );
         
         // View 
         _eigenstatesNode.setPotential( _selectedPotential );
@@ -527,7 +529,7 @@ public class BSManyModule extends BSAbstractModule {
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
             int startingIndex = _selectedPotential.getStartingIndex();
-            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), 20 /*XXX*/, startingIndex, _colorScheme );
+            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _superpositionCoefficients, startingIndex, _colorScheme );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _superpositionStateDialog = null;
