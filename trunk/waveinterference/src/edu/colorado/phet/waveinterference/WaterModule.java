@@ -79,4 +79,5 @@ public class WaterModule extends WaveInterferenceModule {
     public static void main( String[] args ) {
         new ModuleApplication().startApplication( args, new WaterModule() );
     }
+
 }

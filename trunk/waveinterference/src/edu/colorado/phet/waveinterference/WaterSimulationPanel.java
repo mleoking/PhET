@@ -6,6 +6,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.*;
 
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -26,13 +27,16 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private FaucetGraphic secondaryFaucetGraphic;
     private MultiFaucetDrip multiFaucetDrip;
     private FaucetControlPanelPNode faucetControlPanelPNode;
+    private MutableColor waterColor = new MutableColor( new Color( 37, 179, 255 ) );
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
 
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
+        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice(), waterColor ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
-        RotationGlyph rotationGlyph = new RotationGlyph();
+        waveSideView.setStrokeColor( waterColor.getColor().darker() );//todo make it mutable
+        waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
+        RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
         rotationWaveGraphic.setOffset( 150, 50 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
@@ -42,7 +46,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         addScreenChild( rotationWaveGraphic );
 
-        primaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        primaryFaucetGraphic = new RotationFaucetGraphic( getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates(), rotationWaveGraphic );
         addScreenChild( primaryFaucetGraphic );
 
         secondaryFaucetGraphic = new FaucetGraphic( getWaveModel(), waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );

@@ -30,7 +30,10 @@ public class WaveSideViewFull extends WaveSideView {
         generalpath.lineTo( (float)xF, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)( 200 ) );
         generalpath.lineTo( (float)x0, (float)y0 );
-        getPath().setPaint( Color.blue );
         getPath().setPathTo( generalpath );
+    }
+
+    public void setBodyColor( Color color ) {
+        getPath().setPaint( color );
     }
 }

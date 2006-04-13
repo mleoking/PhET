@@ -40,4 +40,8 @@ public class CrossSectionGraphic extends PNode {
         Rectangle2D rect = latticeScreenCoordinates.getScreenRect();
         path.setPathTo( new Line2D.Double( rect.getMinX(), rect.getCenterY(), rect.getMaxX(), rect.getCenterY() ) );
     }
+
+    public void setColor( Color color ) {
+        path.setStrokePaint( color );
+    }
 }

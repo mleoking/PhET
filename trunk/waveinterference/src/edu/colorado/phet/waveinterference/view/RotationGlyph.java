@@ -24,10 +24,13 @@ public class RotationGlyph extends PNode {
     private double expansionWidth = 50;
     private PPath depth;
     private int boxHeight = 200;
+    private MutableColor color;
 
-    public RotationGlyph() {
+    public RotationGlyph( MutableColor color ) {
+        this.color = color;
         surface = new PPath();
-        surface.setPaint( new Color( 128, 128, 255 ) );
+//        surface.setPaint( new Color( 128, 128, 255 ) );
+        surface.setPaint( color.getColor() );
         surface.setStroke( new BasicStroke( 3 ) );
 
         depth = new PPath();
@@ -38,6 +41,22 @@ public class RotationGlyph extends PNode {
 
         update();
         setRotation( 0.0 );
+        color.addListener( new MutableColor.Listener() {
+            public void colorChanged() {
+                updateColors();
+            }
+
+        } );
+        updateColors();
+    }
+
+    public RotationGlyph() {
+        this( new MutableColor( Color.blue ) );
+    }
+
+    private void updateColors() {
+        surface.setPaint( color.getColor().darker() );
+        depth.setPaint( color.getColor() );
     }
 
     public void setDepthVisible( boolean visible ) {

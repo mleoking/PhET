@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
+import edu.colorado.phet.waveinterference.view.MutableColor;
 import edu.colorado.phet.waveinterference.view.WaveSampler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -29,13 +30,15 @@ import java.awt.geom.Rectangle2D;
 public class ChartGraphic extends PNode {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private WaveModel waveModel;
+    private MutableColor strokeColor;
     private JFreeChart jFreeChart;
     private JFreeChartNode jFreeChartNode;
     private PPath path;
 
-    public ChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel ) {
+    public ChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.waveModel = waveModel;
+        this.strokeColor = strokeColor;
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
         jFreeChart = ChartFactory.createXYLineChart( title, "position", title, dataset, PlotOrientation.VERTICAL, false, false, false );
@@ -55,6 +58,13 @@ public class ChartGraphic extends PNode {
             }
         } );
         updateLocation();
+
+        strokeColor.addListener( new MutableColor.Listener() {
+            public void colorChanged() {
+                updateColor();
+            }
+        } );
+        updateColor();
     }
 
     private void updateLocation() {
@@ -103,5 +113,13 @@ public class ChartGraphic extends PNode {
         path.setPathTo( generalPath );
         Point2D nodeLoc = jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) );
         path.setOffset( nodeLoc );
+    }
+
+    public void setCurveColor( Color color ) {
+        path.setStrokePaint( color );
+    }
+
+    private void updateColor() {
+        setCurveColor( strokeColor.getColor() );
     }
 }

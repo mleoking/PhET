@@ -91,7 +91,7 @@ public class WaveSideView extends PNode {
         waveSampler.setDistanceBetweenCells( distBetweenPoints );
     }
 
-    public void setColor( Color color ) {
+    public void setStrokeColor( Color color ) {
         path.setStrokePaint( color );
     }
 
