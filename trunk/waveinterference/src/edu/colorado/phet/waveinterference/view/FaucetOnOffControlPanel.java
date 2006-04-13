@@ -16,28 +16,41 @@ import java.awt.event.ActionListener;
 
 public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
     private FaucetGraphic faucetGraphic;
+    private JRadioButton onRadioButton;
+    private JRadioButton offRadioButton;
 
     public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
         this.faucetGraphic = faucetGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        final JRadioButton on = new JRadioButton( "On", faucetGraphic.isEnabled() );
-        on.addActionListener( new ActionListener() {
+        onRadioButton = new JRadioButton( "On", faucetGraphic.isEnabled() );
+        onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                faucetGraphic.setEnabled( on.isSelected() );
+                faucetGraphic.setEnabled( onRadioButton.isSelected() );
             }
         } );
-        buttonGroup.add( on );
-        add( on );
+        buttonGroup.add( onRadioButton );
+        add( onRadioButton );
 
-        final JRadioButton off = new JRadioButton( "Off", !faucetGraphic.isEnabled() );
-        off.addActionListener( new ActionListener() {
+        offRadioButton = new JRadioButton( "Off", !faucetGraphic.isEnabled() );
+        offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                faucetGraphic.setEnabled( !off.isSelected() );
+                faucetGraphic.setEnabled( !offRadioButton.isSelected() );
             }
         } );
-        buttonGroup.add( off );
-        add( off );
+        buttonGroup.add( offRadioButton );
+        add( offRadioButton );
 
+        faucetGraphic.addListener( new FaucetGraphic.Listener() {
+            public void enabledStateChanged() {
+                updateState();
+            }
+        } );
+        updateState();
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Faucet" ) );
+    }
+
+    private void updateState() {
+        onRadioButton.setSelected( faucetGraphic.isEnabled() );
+        offRadioButton.setSelected( !faucetGraphic.isEnabled() );
     }
 }

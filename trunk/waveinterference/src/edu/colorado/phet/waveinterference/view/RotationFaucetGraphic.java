@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -14,8 +15,8 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 public class RotationFaucetGraphic extends FaucetGraphic {
     private RotationWaveGraphic rotationWaveGraphic;
 
-    public RotationFaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, RotationWaveGraphic rotationWaveGraphic ) {
-        super( waveModel, oscillator, latticeScreenCoordinates );
+    public RotationFaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, RotationWaveGraphic rotationWaveGraphic ) {
+        super( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates );
         this.rotationWaveGraphic = rotationWaveGraphic;
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {

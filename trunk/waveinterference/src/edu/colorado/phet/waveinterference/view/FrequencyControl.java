@@ -25,6 +25,7 @@ public class FrequencyControl extends VerticalLayoutPanel {
             }
         } );
         frequencySlider.setTextFieldVisible( false );
+        frequencySlider.setPaintLabels( false );
         add( frequencySlider );
     }
 }
