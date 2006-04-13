@@ -4,7 +4,9 @@ package edu.colorado.phet.waveinterference.tests;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
+import edu.colorado.phet.waveinterference.view.WaveSampler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -12,6 +14,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,6 +31,7 @@ public class ChartGraphic extends PNode {
     private WaveModel waveModel;
     private JFreeChart jFreeChart;
     private JFreeChartNode jFreeChartNode;
+    private PPath path;
 
     public ChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -35,12 +39,16 @@ public class ChartGraphic extends PNode {
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
         jFreeChart = ChartFactory.createXYLineChart( title, "position", title, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
         jFreeChartNode.setBounds( 0, 0, 500, 300 );
         jFreeChartNode.updateChartRenderingInfo();
-//        Rectangle2D data = jFreeChartNode.getDataArea();
-//        System.out.println( "data = " + data );
+        path = new PPath();
+        path.setStroke( new BasicStroke( 3 ) );
+        path.setStrokePaint( Color.blue );
+
         addChild( jFreeChartNode );
+        addChild( path );
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
                 updateLocation();
@@ -83,8 +91,17 @@ public class ChartGraphic extends PNode {
     }
 
     public void updateChart() {
-        GeneralPath path = new GeneralPath();
-//        path.moveTo( );
-//        for (int )
+        GeneralPath generalPath = new GeneralPath();
+        double dx = latticeScreenCoordinates.getCellWidth();
+        Point2D[]pts = new WaveSampler( waveModel, 50, dx ).readValues();//todo this just assumes the chart transform matches perfectly
+        if( pts.length > 0 ) {
+            generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );
+        }
+        for( int i = 1; i < pts.length; i++ ) {
+            generalPath.lineTo( (float)pts[i].getX(), (float)pts[i].getY() );
+        }
+        path.setPathTo( generalPath );
+        Point2D nodeLoc = jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) );
+        path.setOffset( nodeLoc );
     }
 }

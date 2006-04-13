@@ -25,7 +25,6 @@ public class TestSideVectorViewModule extends BasicWaveTestModule {
         waveSideView.setOffset( 0, 300 );
 
         getPhetPCanvas().addScreenChild( waveSideView );
-//        BasicWaveTestControlPanel controlPanel = new BasicWaveTestControlPanel( this );
 
         double distBetweenCells = waveSideView.getDistBetweenCells();
         System.out.println( "distBetweenCells = " + distBetweenCells );
