@@ -9,6 +9,8 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 
+import java.awt.*;
+
 public class GreenhouseConfig {
 
     //
@@ -33,7 +35,8 @@ public class GreenhouseConfig {
     public static double greenhouseGasConcentration1750 = 0.0050;
     public static double greenhouseGasConcentrationIceAge = 0.0044;
     public static double maxGreenhouseGasConcentration = 0.009;
-    public static double defaultGreenhouseGasConcentration = 0;
+    public static double minGreenhouseGasConcentration = 0.00001;
+    public static double defaultGreenhouseGasConcentration = minGreenhouseGasConcentration;
 
     public static double sunlightWavelength = 400E-9;
     public static double irWavelength = 850E-9;
@@ -56,4 +59,5 @@ public class GreenhouseConfig {
     public static double PHOTON_GRAPHIC_LAYER = EARTH_BASE_LAYER - 1;
     public static double ATMOSPHERE_GRAPHIC_LAYER = PHOTON_GRAPHIC_LAYER - 3;
     public static double EARTH_BACKDROP_LAYER = PHOTON_GRAPHIC_LAYER - 2;
+    public static final Color BACKGROUND_COLOR = new Color( 130, 130, 130 );
 }

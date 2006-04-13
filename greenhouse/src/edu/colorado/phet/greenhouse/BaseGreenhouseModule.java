@@ -98,7 +98,6 @@ public abstract class BaseGreenhouseModule extends Module {
         model.setAtmosphere( atmosphere );
         atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds );
         atmosphere.addScatterEventListener( new GreenhouseModule.ModuleScatterEventListener() );
-//        drawingCanvas.addGraphic( atmosphereGraphic, GreenhouseConfig.ATMOSPHERE_GRAPHIC_LAYER );
         atmosphereGraphic.setVisible( false );
         drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE);
 
@@ -244,12 +243,22 @@ public abstract class BaseGreenhouseModule extends Module {
         earth.reset();
     }
 
+    /**
+     * Hook up the model to the clock
+     * @param phetApplication
+     */
     public void activate( PhetApplication phetApplication ) {
-        phetApplication.getApplicationModel().getClock().start();
+        // Remove the model from the clock first, so we don't ever end up with it getting two ticks
+        phetApplication.getApplicationModel().getClock().removeClockTickListener( getModel() );
+        phetApplication.getApplicationModel().getClock().addClockTickListener( getModel() );
     }
 
+    /**
+     * Unhook the model from the clock
+     * @param phetApplication
+     */
     public void deactivate( PhetApplication phetApplication ) {
-        phetApplication.getApplicationModel().getClock().stop();
+        phetApplication.getApplicationModel().getClock().removeClockTickListener( getModel() );
     }
 
     public void setVirginEarth() {
@@ -361,6 +370,8 @@ public abstract class BaseGreenhouseModule extends Module {
                 zoomDialog.setLocation( p.x + 50, p.y + 50 );
                 zoomDialog.setVisible( true );
                 boolean doZoom = false;
+
+                setToday();
                 Object val = jop.getValue();
                 if( val instanceof String ) {
                     doZoom = val.equals( options[0] );
@@ -418,7 +429,6 @@ public abstract class BaseGreenhouseModule extends Module {
             // Set the default view. Note that this is a real mess. It works in conjunction with code in
             // GreenhouseControlPanel.AtmoshpereSelectionPane
             setToday();
-
         }
     }
 }
