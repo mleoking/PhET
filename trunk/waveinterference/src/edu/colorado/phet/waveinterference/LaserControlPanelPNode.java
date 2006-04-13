@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.view.LaserControlPanel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -33,7 +34,7 @@ public class LaserControlPanelPNode extends PNode {
                 updateFrequency();
             }
         } );
-        PSwing pSwing = new PSwing( lightSimulationPanel, laserControlPanel );
+        PSwing pSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
         addChild( pSwing );
         waveModelGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -54,6 +55,7 @@ public class LaserControlPanelPNode extends PNode {
     }
 
     private void updateLocation() {
-        setOffset( waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, 0 ).getX(), waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
+//        setOffset( waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, 0 ).getX(), waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
+        setOffset( 0, waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
     }
 }

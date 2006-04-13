@@ -16,8 +16,10 @@ import edu.umd.cs.piccolo.PNode;
 public class SoundWaveGraphic extends PNode {
     private PressureWaveGraphic pressureWaveGraphic;
     private WaveModelGraphic waveModelGraphic;
-    private double particleSize = 0;
+    private double particleSize = 1;
     private static final double MAX_PARTICLE_SIZE = 60 * 0.35;
+    private boolean grayscaleVisible = true;
+    private boolean particlesVisible = false;
 
     public SoundWaveGraphic( WaveModelGraphic waveModelGraphic, PressureWaveGraphic pressureWaveGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
@@ -27,7 +29,7 @@ public class SoundWaveGraphic extends PNode {
         updateView();
     }
 
-    private void updateView() {
+    private void updateViewORIG() {
         if( particleSize == 0 ) {
             pressureWaveGraphic.setVisible( false );
             waveModelGraphic.setVisible( true );
@@ -38,6 +40,13 @@ public class SoundWaveGraphic extends PNode {
             pressureWaveGraphic.setVisible( true );
             waveModelGraphic.setVisible( false );
         }
+    }
+
+    private void updateView() {
+        pressureWaveGraphic.setVisible( particlesVisible );
+        waveModelGraphic.setVisible( grayscaleVisible );
+        int imageHeight = (int)( particleSize * MAX_PARTICLE_SIZE );
+        pressureWaveGraphic.setParticleImageSize( Math.max( 1, imageHeight ) );
     }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
@@ -56,5 +65,23 @@ public class SoundWaveGraphic extends PNode {
     public void setParticleSize( double size ) {
         this.particleSize = size;
         updateView();
+    }
+
+    public void setGrayscaleVisible( boolean grayscaleVisible ) {
+        this.grayscaleVisible = grayscaleVisible;
+        updateView();
+    }
+
+    public boolean isGrayscaleVisible() {
+        return grayscaleVisible;
+    }
+
+    public void setParticlesVisible( boolean particlesVisible ) {
+        this.particlesVisible = particlesVisible;
+        updateView();
+    }
+
+    public boolean isParticleVisible() {
+        return particlesVisible;
     }
 }

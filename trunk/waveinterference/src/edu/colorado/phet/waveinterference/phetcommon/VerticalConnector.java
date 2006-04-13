@@ -17,8 +17,8 @@ import java.io.IOException;
  * Copyright (c) Jan 23, 2006 by Sam Reid
  */
 
-public class VerticalPipeConnector extends ConnectorGraphic {
-    public VerticalPipeConnector( PNode src, PNode dst ) {
+public class VerticalConnector extends ConnectorGraphic {
+    public VerticalConnector( PNode src, PNode dst ) {
         super( src, dst );
         BufferedImage txtr = null;
         try {

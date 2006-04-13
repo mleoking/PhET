@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -26,7 +27,8 @@ public class SpeakerControlPanelPNode extends PNode {
         this.waveModelGraphic = waveModelGraphic;
 
         SpeakerControlPanel speakerControlPanel = new SpeakerControlPanel( oscillator );
-        addChild( new PSwing( pSwingCanvas, speakerControlPanel ) );
+//        addChild( new PSwing( pSwingCanvas, speakerControlPanel ) );
+        addChild( new PSwing( pSwingCanvas, new ShinyPanel( speakerControlPanel ) ) );
 
         waveModelGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -37,7 +39,8 @@ public class SpeakerControlPanelPNode extends PNode {
     }
 
     private void updateLocation() {
-        setOffset( waveModelGraphic.getFullBounds().getX(), waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
+//        setOffset( waveModelGraphic.getFullBounds().getX(), waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
+        setOffset( 0, waveModelGraphic.getLatticeScreenCoordinates().toScreenCoordinates( 0, waveModelGraphic.getWaveModel().getHeight() ).getY() );
     }
 
 }

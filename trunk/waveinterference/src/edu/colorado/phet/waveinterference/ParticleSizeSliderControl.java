@@ -14,10 +14,10 @@ import javax.swing.event.ChangeListener;
  * Copyright (c) Mar 28, 2006 by Sam Reid
  */
 
-public class ParticleSizeControl extends VerticalLayoutPanel {
+public class ParticleSizeSliderControl extends VerticalLayoutPanel {
     private SoundWaveGraphic soundWaveGraphic;
 
-    public ParticleSizeControl( final SoundWaveGraphic soundWaveGraphic ) {
+    public ParticleSizeSliderControl( final SoundWaveGraphic soundWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
         final ModelSlider modelSlider = new ModelSlider( "Magnify Particles", "", 0, 1, soundWaveGraphic.getParticleSize() );
         modelSlider.setTextFieldVisible( false );

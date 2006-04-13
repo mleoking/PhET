@@ -59,7 +59,10 @@ public class DoubleBufferedPhetPCanvas extends PhetPCanvas {
 
     protected void paintBuffered( final Graphics g ) {
         synchronizeImage();
-        superPaint( buffer.createGraphics() );
+        Graphics2D g2 = buffer.createGraphics();
+//        System.out.println( "g.getClip() = " + g.getClip() );
+        g2.setClip( g.getClip() );
+        super.paintComponent( g2 );
         g.drawImage( buffer, 0, 0, null );
     }
 

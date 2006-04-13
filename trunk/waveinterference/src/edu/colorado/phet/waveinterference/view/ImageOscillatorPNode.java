@@ -32,8 +32,15 @@ public class ImageOscillatorPNode extends PNode {
         updateLocation();
     }
 
+    public Oscillator getOscillator() {
+        return oscillator;
+    }
+
     private void updateLocation() {
         Point2D coord = latticeScreenCoordinates.toScreenCoordinates( oscillator.getCenterX(), oscillator.getCenterY() );
         setOffset( coord.getX() - getFullBounds().getWidth(), coord.getY() - getFullBounds().getHeight() / 2.0 );
+    }
+
+    public void update() {
     }
 }
