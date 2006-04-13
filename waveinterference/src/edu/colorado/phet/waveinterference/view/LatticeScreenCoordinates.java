@@ -20,6 +20,13 @@ public abstract class LatticeScreenCoordinates {
 
     public abstract Point toLatticeCoordinates( double x, double y );
 
+    protected abstract Dimension getGridSize();
+
+    public Rectangle2D getScreenRect() {
+        Dimension dim = getGridSize();
+        return toScreenRect( new Rectangle( 0, 0, dim.width - 1, dim.height - 1 ) );
+    }
+
     public Rectangle2D toScreenRect( Rectangle rectangle ) {
         Point2D min = toScreenCoordinates( rectangle.x, rectangle.y );
         Point2D max = toScreenCoordinates( rectangle.x + rectangle.width, rectangle.y + rectangle.height );

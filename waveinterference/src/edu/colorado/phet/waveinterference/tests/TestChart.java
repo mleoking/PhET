@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
+
 /**
  * User: Sam Reid
  * Date: Apr 12, 2006
@@ -17,6 +19,9 @@ public class TestChart extends TestTopView {
         getWaveModelGraphic().setOffset( 100, 10 );
         chartGraphic = new ChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel() );
         getPhetPCanvas().getLayer().addChild( chartGraphic );
+
+        CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        getPhetPCanvas().addScreenChild( crossSectionGraphic );
     }
 
     protected void step() {
