@@ -21,7 +21,7 @@ public class FaucetControlPanel extends HorizontalLayoutPanel {
         this.oscillator = oscillator;
         this.faucetGraphic = faucetGraphic;
         addControl( new OscillatorControlPanel( oscillator ) );
-        addControl( new FaucetOnOffControlPanel( faucetGraphic ) );
+//        addControl( new FaucetOnOffControlPanel( faucetGraphic ) );
         setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 

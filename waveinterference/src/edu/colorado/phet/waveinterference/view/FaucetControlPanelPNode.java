@@ -5,6 +5,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -19,10 +20,10 @@ public class FaucetControlPanelPNode extends PNode {
     private FaucetGraphic faucetGraphic;
     private WaveModelGraphic waveModelGraphic;
 
-    public FaucetControlPanelPNode( PhetPCanvas phetPCanvas, FaucetControlPanel faucetControlPanel, final FaucetGraphic faucetGraphic, WaveModelGraphic waveModelGraphic ) {
+    public FaucetControlPanelPNode( PhetPCanvas phetPCanvas, JComponent faucetControlPanel, final FaucetGraphic faucetGraphic, WaveModelGraphic waveModelGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
         PSwing pSwing = new PSwing( phetPCanvas, faucetControlPanel );
-        addChild( pSwing );
+
         this.faucetGraphic = faucetGraphic;
         faucetGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -34,6 +35,8 @@ public class FaucetControlPanelPNode extends PNode {
                 updateLocation();
             }
         } );
+
+        addChild( pSwing );
         updateLocation();
     }
 

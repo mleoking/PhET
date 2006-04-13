@@ -10,25 +10,19 @@
  */
 package edu.colorado.phet.piccolo;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.util.EventListener;
-import java.util.EventObject;
-
-import javax.swing.BorderFactory;
-import javax.swing.event.EventListenerList;
-
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
@@ -60,7 +54,7 @@ public class PhetPCanvas extends PSwingCanvas {
         getLayer().addChild( phetRootNode );
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
-        
+
         resizeAdapter = new ResizeAdapter();
         addComponentListener( resizeAdapter );
         addMouseListener( new MouseAdapter() {
@@ -83,7 +77,7 @@ public class PhetPCanvas extends PSwingCanvas {
     }
 
     public void setWorldScale( double scale ) {
-        phetRootNode.setWorldScale(scale);
+        phetRootNode.setWorldScale( scale );
     }
 
     protected class ResizeAdapter extends ComponentAdapter {
@@ -114,6 +108,10 @@ public class PhetPCanvas extends PSwingCanvas {
 
     public void addScreenChild( PNode node ) {
         phetRootNode.addScreenChild( node );
+    }
+
+    public void addScreenChild( int index, PNode node ) {
+        phetRootNode.addScreenChild( index, node );
     }
 
     public void removeScreenChild( PNode node ) {

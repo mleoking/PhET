@@ -73,6 +73,10 @@ public class FaucetGraphic extends PhetPNode {
         addChild( faucetOnOffButton );
     }
 
+    public PImage getImagePNode() {
+        return image;
+    }
+
     private void updateLocation() {
         double dx = faucetData.getDistToOpeningX( image.getImage() );
         double dy = faucetData.getDistToOpeningY( image.getImage() );
