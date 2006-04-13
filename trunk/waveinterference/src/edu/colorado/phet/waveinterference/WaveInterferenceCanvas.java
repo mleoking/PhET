@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.piccolo.PhetPCanvas;
-
 import java.awt.*;
 
 /**
@@ -12,7 +10,7 @@ import java.awt.*;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class WaveInterferenceCanvas extends PhetPCanvas {
+public class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas {
     public void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
