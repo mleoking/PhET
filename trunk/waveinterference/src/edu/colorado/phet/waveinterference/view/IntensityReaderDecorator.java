@@ -40,6 +40,8 @@ public class IntensityReaderDecorator extends PNode {
         JButton close = null;
         try {
             close = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
+            close.setOpaque( false );
+//            close.setBackground( new Color( 0,0,0,255) );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     doDelete();
