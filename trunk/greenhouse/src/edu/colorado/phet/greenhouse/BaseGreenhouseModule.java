@@ -36,7 +36,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     // Determines how many photons are put in the model for everyone one
     // that shows up on the screen
-    private static int invisiblePhotonCnt = 10;
+    private int invisiblePhotonCnt = 10;
     private Earth earth;
     private Rectangle2D.Double initialModelBounds;
     HashMap scatterToGraphicMap = new HashMap();
@@ -195,7 +195,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 cnt = 0;
             }
         }
-        BaseGreenhouseModule.invisiblePhotonCnt = (int)( 1 / ratio );
+        invisiblePhotonCnt = (int)( 1 / ratio );
         earthPhotonEmitterListener.setInvisiblePhotonCnt( (int)( 1 / ratio ) );
         sunPhotonEmitterListener.setInvisiblePhotonCnt( (int)( 1 / ratio ) );
     }
@@ -313,7 +313,7 @@ public abstract class BaseGreenhouseModule extends Module {
         private int n = 0;
 
         public void setInvisiblePhotonCnt( int cnt ) {
-            BaseGreenhouseModule.invisiblePhotonCnt = cnt;
+            invisiblePhotonCnt = cnt;
         }
 
         public void photonEmitted( Photon photon ) {
@@ -321,7 +321,7 @@ public abstract class BaseGreenhouseModule extends Module {
             PhotonGraphic photonView = new PhotonGraphic( photon );
             photonToGraphicsMap.put( photon, photonView );
             photonView.setVisible( false );
-            if( n >= BaseGreenhouseModule.invisiblePhotonCnt ) {
+            if( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
                 drawingCanvas.addGraphic( photonView, GreenhouseConfig.PHOTON_GRAPHIC_LAYER );
 
