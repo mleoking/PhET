@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
@@ -114,6 +115,24 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
 
         return actionPanel;
     }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Synchronizes the view with the model.
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == _potential ) {
+            updateControls();
+        }
+    }
+    
+    /*
+     * Updates the controls to match the model.
+     */
+    protected abstract void updateControls();
     
     //----------------------------------------------------------------------------
     // JDialog overrides

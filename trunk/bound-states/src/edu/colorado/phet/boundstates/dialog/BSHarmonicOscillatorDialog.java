@@ -127,20 +127,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
         return inputPanel;
     }
 
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Synchronizes the view with the model.
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _potential ) {
-            updateControls();
-        }
-    }
-    
-    private void updateControls() {
+    protected void updateControls() {
         _offsetSlider.setValue( _potential.getOffset() );
         _angularFrequencySlider.setValue( _potential.getAngularFrequency() );
     }
