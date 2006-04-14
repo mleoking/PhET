@@ -115,14 +115,13 @@ public class VesselGraphic extends PNode implements SolubleSaltsModule.ResetList
             tick.setPaint( tickColor );
             addChild( tick );
 
-
             double volume = ( vessel.getDepth() - y ) * calibration.volumeCalibrationFactor;
             String volumeStr = ScientificNotation.toHtml( volume, 1, "", "L" );
             HTMLGraphic text = new HTMLGraphic( volumeStr );
             Font orgFont = text.getFont();
-            Font newFont = new Font( orgFont.getName(), orgFont.getStyle(), orgFont.getSize() + 12 );
+            Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() + 12 );
             text.setFont( newFont );
-            text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 14 );
+            text.setOffset( vessel.getWidth() + vessel.getWallThickness() + 5, y - 25 );
             addChild( text );
 
             minorTicks.add( tick );

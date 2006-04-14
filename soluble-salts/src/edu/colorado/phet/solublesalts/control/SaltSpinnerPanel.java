@@ -13,6 +13,7 @@ package edu.colorado.phet.solublesalts.control;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
+import edu.colorado.phet.solublesalts.model.Drain;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
@@ -150,9 +151,11 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         // Add a listener to the vessel that will disable the spinners when the tank is empty
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
-                boolean spinnersEnabled = event.getVessel().getWaterLevel() > 10;
-                anionSpinner.setEnabled( spinnersEnabled );
-                cationSpinner.setEnabled( spinnersEnabled );
+                Vessel vessel = event.getVessel();
+                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() -model.getDrain().getPosition().getY();
+                boolean b = vessel.getWaterLevel() > drainLevel;
+                anionSpinner.setEnabled( b );
+                cationSpinner.setEnabled( b );
             }
         } );
 
