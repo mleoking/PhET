@@ -72,8 +72,8 @@ public class WaveModelGraphic extends PNode {
 
     public void setColorMap( ColorMap colorMap ) {
         //todo selection for intensity color map
-        this.colorMap = colorMap;
-//        this.colorMap = new IntensityColorMap( getWaveModel(), new IndexColorMap( getWaveModel().getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 1 ) ) );
+//        this.colorMap = colorMap;
+        this.colorMap = new IntensityColorMap( getWaveModel(), new IndexColorMap( getWaveModel().getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 1 ) ) );
         update();
     }
 

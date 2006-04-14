@@ -30,9 +30,13 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private FaucetControlPanelPNode faucetControlPanelPNode;
     private MutableColor waterColor = new MutableColor( new Color( 37, 179, 255 ) );
     private FaucetConnector faucetConnector;
+    private WaveModel viewableModel;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
+
+        viewableModel = waterModule.getWaveModel();
+//        viewableModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( 30, 30 ) ) );
 
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice(), waterColor ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
@@ -117,7 +121,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private WaveModel getWaveModel() {
-        return waterModule.getWaveModel();
+        return viewableModel;
     }
 
     public RotationWaveGraphic getRotationWaveGraphic() {

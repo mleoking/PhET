@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  */
 
 public class Lattice2D {
-    public float[][] wavefunction;
+    float[][] wavefunction;
 
     public Lattice2D( Lattice2D lattice2D ) {
         this( lattice2D.wavefunction );
