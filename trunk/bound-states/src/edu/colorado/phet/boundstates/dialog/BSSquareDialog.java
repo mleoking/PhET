@@ -40,14 +40,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareDialog extends JDialog implements Observer {
+public class BSSquareDialog extends BSAbstractConfigureDialog implements Observer {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -58,8 +52,7 @@ public class BSSquareDialog extends JDialog implements Observer {
     private SliderControl _depthSlider;
     private SliderControl _offsetSlider;
     private SliderControl _spacingSlider;
-    private JButton _closeButton;
-    private EventListener _eventListener;
+    private JSeparator _spacingSeparator;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,70 +62,28 @@ public class BSSquareDialog extends JDialog implements Observer {
      * Constructor.
      */
     public BSSquareDialog( Frame parent, BSSquareWells potential ) {
-        super( parent );
-        setModal( false );
-        setResizable( false );
-        setTitle( SimStrings.get( "BSSquareDialog.title" ) );
-        
+        super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
         _potential = potential;
-        _potential.addObserver( this );
-        
-        _eventListener = new EventListener();
-        addWindowListener( _eventListener );
-        
-        createUI( parent );
-    }
-    
-    /**
-     * Clients should call this before releasing references to this object.
-     */
-    public void cleanup() {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-            _potential = null;
-        }
+        updateControls();
     }
     
     //----------------------------------------------------------------------------
-    // Private initializers
+    // BSAbstractConfigureDialog implementation
     //----------------------------------------------------------------------------
-
-    /*
-     * Creates the user interface for the dialog.
-     * 
-     * @param parent the parent Frame
-     */
-    private void createUI( Frame parent ) {
-        
-        JPanel inputPanel = createInputPanel();
-        JPanel actionsPanel = createActionsPanel();
-
-        JPanel bottomPanel = new JPanel( new BorderLayout() );
-        bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
-        bottomPanel.add( actionsPanel, BorderLayout.CENTER );
-        
-        JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
-        mainPanel.add( inputPanel, BorderLayout.CENTER );
-        mainPanel.add( bottomPanel, BorderLayout.SOUTH );
-
-        getContentPane().add( mainPanel );
-        pack();
-    }
 
     /*
      * Creates the dialog's input panel.
      * 
      * @return the input panel
      */
-    private JPanel createInputPanel() {
+    protected JPanel createInputPanel() {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
         
         // Width
         {
-            double value = _potential.getWidth();
+            double value = BSConstants.MIN_WELL_WIDTH;
             double min = BSConstants.MIN_WELL_WIDTH;
             double max = BSConstants.MAX_WELL_WIDTH;
             double tickSpacing = Math.abs( max - min );
@@ -141,11 +92,17 @@ public class BSSquareDialog extends JDialog implements Observer {
             String widthLabel = SimStrings.get( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
+            
+            _widthSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleWidthChange();
+                }
+            } );
         }
         
         // Depth
         {
-            double value = _potential.getDepth();
+            double value = BSConstants.MIN_WELL_DEPTH;
             double min = BSConstants.MIN_WELL_DEPTH;
             double max = BSConstants.MAX_WELL_DEPTH;
             double tickSpacing = Math.abs( max - min );
@@ -154,11 +111,17 @@ public class BSSquareDialog extends JDialog implements Observer {
             String depthLabel = SimStrings.get( "label.wellDepth" );
             _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
+            
+            _depthSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleDepthChange();
+                }
+            } );
         }
 
         // Offset
         {
-            double value = _potential.getOffset();
+            double value = BSConstants.MIN_WELL_OFFSET;
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -167,11 +130,17 @@ public class BSSquareDialog extends JDialog implements Observer {
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            
+            _offsetSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleOffsetChange();
+                }
+            } );
         }
 
         // Spacing
         {
-            double value = _potential.getSpacing();
+            double value = BSConstants.MIN_WELL_SPACING;
             double min = BSConstants.MIN_WELL_SPACING;
             double max = BSConstants.MAX_WELL_SPACING;
             double tickSpacing = Math.abs( max - min );
@@ -180,9 +149,13 @@ public class BSSquareDialog extends JDialog implements Observer {
             String spacingLabel = SimStrings.get( "label.wellSpacing" );
             _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
+            
+            _spacingSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleSpacingChange();
+                }
+            } );
         }
-        
-        updateControls();
         
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -200,34 +173,13 @@ public class BSSquareDialog extends JDialog implements Observer {
         row++;
         layout.addComponent( _depthSlider, row, col );
         row++;
-        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
+        _spacingSeparator = new JSeparator();
+        layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
         row++;
         layout.addComponent( _spacingSlider, row, col );
         row++;
-
-        // Interction
-        setEventHandlingEnabled( true );
         
         return inputPanel;
-    }
-
-    /*
-     * Creates the dialog's actions panel, consisting of a Close button.
-     * 
-     * @return the actions panel
-     */
-    private JPanel createActionsPanel() {
-
-        _closeButton = new JButton( SimStrings.get( "button.close" ) );
-        _closeButton.addActionListener( _eventListener );
-
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 1 ) );
-        buttonPanel.add( _closeButton );
-
-        JPanel actionPanel = new JPanel( new FlowLayout() );
-        actionPanel.add( buttonPanel );
-
-        return actionPanel;
     }
 
     //----------------------------------------------------------------------------
@@ -250,69 +202,14 @@ public class BSSquareDialog extends JDialog implements Observer {
         _spacingSlider.setValue( _potential.getSpacing() );
     
         // Visibility
-        _spacingSlider.setEnabled( _potential.getNumberOfWells() > 1 );
-    }
-    
-    private void setEventHandlingEnabled( boolean enabled ) {
-        if ( enabled ) {
-            _widthSlider.addChangeListener( _eventListener );
-            _depthSlider.addChangeListener( _eventListener );
-            _offsetSlider.addChangeListener( _eventListener );
-            _spacingSlider.addChangeListener( _eventListener );
-        }
-        else {
-            _widthSlider.removeChangeListener( _eventListener );
-            _depthSlider.removeChangeListener( _eventListener );
-            _offsetSlider.removeChangeListener( _eventListener );
-            _spacingSlider.removeChangeListener( _eventListener );
-        }
+        _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
+        _spacingSeparator.setVisible( _spacingSlider.isVisible() );
+        pack();
     }
     
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-
-    /*
-     * Dispatches events to the appropriate handler method.
-     */
-    private class EventListener extends WindowAdapter implements ActionListener, ChangeListener {
-
-        public void windowClosing( WindowEvent event ) {
-            handleCloseAction();
-        }
-        
-        public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _closeButton ) {
-                handleCloseAction();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
-        }
-
-        public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _widthSlider ) {
-                handleWidthChange();
-            }
-            else if ( event.getSource() == _depthSlider ) {
-                handleDepthChange();
-            }
-            else if ( event.getSource() == _offsetSlider ) {
-                handleOffsetChange();
-            }
-            else if ( event.getSource() == _spacingSlider ) {
-                handleSpacingChange();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
-        }
-    }
-    
-    private void handleCloseAction() {
-        cleanup();
-        dispose();
-    }
     
     private void handleWidthChange() {
         final double width = _widthSlider.getValue();
