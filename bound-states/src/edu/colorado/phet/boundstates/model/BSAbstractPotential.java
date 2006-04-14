@@ -182,6 +182,12 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public abstract BSEigenstate[] getEigenstates();
     
     /**
+     * Gets the number of eigenstates.
+     * @return
+     */
+    public abstract int getNumberOfEigenstates();
+    
+    /**
      * Gets the energy value for a specified position.
      * 
      * @param position position, in nm

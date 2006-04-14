@@ -12,6 +12,8 @@
 package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * BSSuperpositionCoefficients is a collection of superposition coefficients.
@@ -19,47 +21,60 @@ import java.util.ArrayList;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSuperpositionCoefficients extends BSObservable {
-
+public class BSSuperpositionCoefficients extends BSObservable implements Observer {
+        
+    private BSAbstractPotential _potential;
     private ArrayList _coefficients; // array of Double
    
-    public BSSuperpositionCoefficients( int numberOfCoefficients ) {
+    public BSSuperpositionCoefficients( BSAbstractPotential potential ) {
         _coefficients = new ArrayList();
-        setNumberOfCoefficients( numberOfCoefficients );
+        _potential = potential;
+        _potential.addObserver( this );
     }
     
-    public BSSuperpositionCoefficients() {
-        this( 0 );
+    public void setPotential( BSAbstractPotential potential ) {
+        if ( _potential != null ) {
+            _potential.deleteObserver( this );
+        }
+        _potential = potential;
+        _potential.addObserver( this );
+        setNumberOfCoefficients( _potential.getNumberOfEigenstates() );
     }
     
-    public void setNumberOfCoefficients( int numberOfCoefficients ) {
+    private void setNumberOfCoefficients( int numberOfCoefficients ) {
         if ( numberOfCoefficients < 0 ) {
             throw new IllegalArgumentException( "numberOfCoefficients must be >= 0: " + numberOfCoefficients );
         }
-        if ( numberOfCoefficients == 0 ) {
-            _coefficients.clear();
+        
+        if ( numberOfCoefficients == _coefficients.size() ) {
+            // no change, do nothing
         }
-        else if ( getNumberOfCoefficients() == 0 || numberOfCoefficients < getNumberOfCoefficients() ) {
-            /* 
-             * If we have no coefficients yet, or if the number of eigenstates has decreased,
-             * then set the first coefficient to 1 and all the others to 0.
-             */
-            _coefficients.clear();
-            _coefficients.add( new Double( 1 ) );
-            for ( int i = 1; i < numberOfCoefficients; i++ ) {
-                _coefficients.add( new Double( 0 ) );
+        else {
+            if ( numberOfCoefficients == 0 ) {
+                _coefficients.clear();
             }
-        }
-        else { 
-            /*
-             * If the number of eigenstates has increased,
-             * keep the existing coefficients and add new ones that are 0.
-             */
-            for ( int i = getNumberOfCoefficients(); i < numberOfCoefficients; i++ ) {
-                _coefficients.add( new Double( 0 ) );
+            else if ( getNumberOfCoefficients() == 0 || numberOfCoefficients < getNumberOfCoefficients() ) {
+                /* 
+                 * If we have no coefficients yet, or if the number of eigenstates has decreased,
+                 * then set the first coefficient to 1 and all the others to 0.
+                 */
+                _coefficients.clear();
+                _coefficients.add( new Double( 1 ) );
+                for ( int i = 1; i < numberOfCoefficients; i++ ) {
+                    _coefficients.add( new Double( 0 ) );
+                }
             }
+            else {
+                /*
+                 * If the number of eigenstates has increased,
+                 * keep the existing coefficients and add new ones that are 0.
+                 */
+                for ( int i = getNumberOfCoefficients(); i < numberOfCoefficients; i++ ) {
+                    _coefficients.add( new Double( 0 ) );
+                }
+            }
+            notifyObservers();
         }
-        notifyObservers();
     }
     
     /**
@@ -103,4 +118,10 @@ public class BSSuperpositionCoefficients extends BSObservable {
         _coefficients.set( index, new Double( value ) );
         notifyObservers();
     }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _potential ) {
+            setNumberOfCoefficients( _potential.getNumberOfEigenstates() );
+        }
+    }  
 }

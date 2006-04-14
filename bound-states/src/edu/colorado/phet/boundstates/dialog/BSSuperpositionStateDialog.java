@@ -26,9 +26,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.DoubleSpinner;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.boundstates.util.DialogUtils;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
@@ -62,6 +63,9 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private BSSuperpositionCoefficients _coefficients;
+    
+    private JPanel _dynamicPanel;
     private ArrayList _spinners; // array of DoubleSpinner
     private JButton _normalizeButton;
     private JButton _applyButton;
@@ -69,7 +73,6 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private EventListener _eventListener;
     private boolean _changed;
     private int _startingIndex;
-    private BSSuperpositionCoefficients _coefficients;
     private Color _eigenstateSelectionColor;
     private Color _normalColor;
     
@@ -80,13 +83,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     /**
      * Constructor.
      */
-    public BSSuperpositionStateDialog( Frame parent, BSSuperpositionCoefficients coefficients, int startingIndex, BSColorScheme colorScheme ) {
+    public BSSuperpositionStateDialog( Frame parent, 
+            BSSuperpositionCoefficients coefficients,
+            int startingIndex, BSColorScheme colorScheme ) {
         super( parent );
-        
-        if ( coefficients.getNumberOfCoefficients() < 1 ) {
-            throw new IllegalArgumentException( "must have at least one coefficient, number of coefficients = " 
-                    + coefficients.getNumberOfCoefficients() );
-        }
         
         setModal( false );
         setResizable( false );
@@ -95,14 +95,17 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         _eventListener = new EventListener();
         addWindowListener( _eventListener );
         
+        _coefficients = coefficients;
+        
         _changed = false;
         _startingIndex = startingIndex;
-        _coefficients = coefficients;
-        _coefficients.addObserver( this );
         _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
         _normalColor = Color.WHITE;
         
         createUI( parent );
+        
+        // After everything is initialized...
+        _coefficients.addObserver( this );
     }
     
     /**
@@ -126,7 +129,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      */
     private void createUI( Frame parent ) {
         
-        JPanel inputPanel = createInputPanel();
+        _dynamicPanel = new JPanel();
+        _dynamicPanel.add( createInputPanel() );
         JPanel actionsPanel = createActionsPanel();
 
         JPanel bottomPanel = new JPanel( new BorderLayout() );
@@ -135,7 +139,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
-        mainPanel.add( inputPanel, BorderLayout.CENTER );
+        mainPanel.add( _dynamicPanel, BorderLayout.CENTER );
         mainPanel.add( bottomPanel, BorderLayout.SOUTH );
 
         getContentPane().add( mainPanel );
@@ -150,10 +154,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private JPanel createInputPanel() {
         
         JLabel instructions = new JLabel( SimStrings.get( "label.superposition.instructions" ) );
-        
+           
         final int numberOfCoefficients = _coefficients.getNumberOfCoefficients();
         
-        String es = createEquationString( numberOfCoefficients, _startingIndex );
+        String es = createEquationString( _startingIndex );
         JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
@@ -249,10 +253,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Equation creation
     //----------------------------------------------------------------------------
     
-    private static String createEquationString( final int numberOfCoefficients, final int startingIndex ) {
+    private static String createEquationString( final int startingIndex ) {
         String s = "<html>" + PSI + "(x) = " + 
-            createTermString( 0 ) + " + " + 
-            createTermString( 1 ) + " + ... + " + 
+            createTermString( startingIndex ) + " + " + 
+            createTermString( startingIndex + 1 ) + " + ... + " + 
             createTermString( "n" );
         return s;
     }
@@ -286,7 +290,21 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      * Synchronizes the view with the model.
      */
     public void update( Observable o, Object arg ) {
-        //XXX
+        if ( o == _coefficients ) {
+            final int numberOfCoefficients = _coefficients.getNumberOfCoefficients();
+            if ( _spinners.size() == numberOfCoefficients ) {
+                // same number of coefficients, so just refresh values displayed...
+                for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                    ((DoubleSpinner)_spinners.get(i)).setDoubleValue( _coefficients.getCoefficient( i ) );
+                }
+            }
+            else {
+                // different number of coefficients, rebuild the input panel...
+                _dynamicPanel.removeAll();
+                _dynamicPanel.add( createInputPanel() );
+                pack();
+            }
+        }
     }
     
     //----------------------------------------------------------------------------

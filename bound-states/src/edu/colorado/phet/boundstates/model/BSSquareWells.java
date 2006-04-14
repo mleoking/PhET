@@ -171,4 +171,9 @@ public class BSSquareWells extends BSAbstractPotential {
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
+    
+    public int getNumberOfEigenstates() {
+        //XXX horribly inefficient!
+        return getEigenstates().length;
+    }
 }

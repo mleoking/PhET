@@ -355,7 +355,7 @@ public class BSManyModule extends BSAbstractModule {
         _squareWells = new BSSquareWells( _particle, 2 );
         _asymmetricWell = new BSAsymmetricWell( _particle );
         _selectedPotential = _harmonicOscillatorWell;
-        _superpositionCoefficients = new BSSuperpositionCoefficients( 5 /*XXX*/ );
+        _superpositionCoefficients = new BSSuperpositionCoefficients( _selectedPotential );
         
         // View 
         _eigenstatesNode.setPotential( _selectedPotential );
@@ -477,10 +477,6 @@ public class BSManyModule extends BSAbstractModule {
             _configureWellDialog.dispose();
         }
         
-        if ( _superpositionStateDialog != null ) {
-            _superpositionStateDialog.dispose();
-        }
-        
         if ( wellType == BSWellType.COULOMB ) {
             _selectedPotential = _coulombWells;
             _controlPanel.setNumberOfWellsControlVisible( true );
@@ -502,6 +498,7 @@ public class BSManyModule extends BSAbstractModule {
         _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         _eigenstatesNode.setPotential( _selectedPotential );
         _chart.getEnergyPlot().setPotential( _selectedPotential );
+        _superpositionCoefficients.setPotential( _selectedPotential );
         
         resetClock();
     }
@@ -570,9 +567,5 @@ public class BSManyModule extends BSAbstractModule {
 
     private void resetClock() {
         getClock().resetSimulationTime();
-    }
-    
-    private void handleClockReset() {
-        //XXX
     }
 }
