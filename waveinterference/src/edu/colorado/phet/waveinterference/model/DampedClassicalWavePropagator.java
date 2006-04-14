@@ -16,11 +16,20 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         this.dampY = dampY;
     }
 
-    static class PaddedPotential implements Potential {
+    class PaddedPotential implements Potential {
+        private Potential potential;
+
+        public PaddedPotential( Potential potential ) {
+            this.potential = potential;
+        }
 
         public double getPotential( int i, int j, int time ) {
-            return 0;
+            return potential.getPotential( i - dampX, j - dampY, time );
         }
+    }
+
+    public void setPotential( Potential potential ) {
+        super.setPotential( new PaddedPotential( potential ) );
     }
 
     public void setBoundaryCondition( int i, int k, float value ) {

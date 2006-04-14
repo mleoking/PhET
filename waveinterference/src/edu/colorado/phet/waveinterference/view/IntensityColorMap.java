@@ -16,9 +16,8 @@ import java.util.ArrayList;
 public class IntensityColorMap implements ColorMap {
     private WaveModel waveModel;
     private ColorMap colorMap;
-//    private MultiMap multiMap = new MultiMap();
     private ArrayList[][] history = new ArrayList[0][0];
-    private int maxHistory = 100;
+    private int maxHistory = 120;
     private double brightness = 3.5 * 2;
 
     public IntensityColorMap( WaveModel waveModel, ColorMap colorMap ) {
