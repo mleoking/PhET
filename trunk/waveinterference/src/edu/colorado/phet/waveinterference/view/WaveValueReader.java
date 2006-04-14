@@ -15,7 +15,8 @@ public interface WaveValueReader {
 
     public class Displacement implements WaveValueReader {
         public double getValue( Lattice2D lattice, int i, int k ) {
-            float value = ( lattice.wavefunction[i][k] + 1.0f ) / 2.0f;
+//            float value = ( lattice.wavefunction[i][k] + 1.0f ) / 2.0f;
+            float value = ( lattice.getValue( i, k ) + 1.0f ) / 2.0f;
             if( value > 1 ) {
                 value = 1;
             }
