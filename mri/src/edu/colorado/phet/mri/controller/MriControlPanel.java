@@ -34,16 +34,16 @@ public class MriControlPanel extends ControlPanel {
     public MriControlPanel( MriModuleA module ) {
         MriModel model = (MriModel)module.getModel();
 
-        JComponent fadingMagnetsControl = new FadingMagnetControl( model );
+//        JComponent fadingMagnetsControl = new FadingMagnetControl( model );
         MonitorPanel monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
-        BFieldGraphicPanel bFieldGraphicPanel = new BFieldGraphicPanel( model.getLowerMagnet() );
 
-        addControl( fadingMagnetsControl );
+        addControl( new FadingMagnetControl( model ) );
         addControl( monitorPanel );
-        addControl( bFieldGraphicPanel );
-        addControl( new PrecessionControl( model ) );
-        addControl( new SpinDeterminationControl( model ) );
-        addControl( new MonitorPanelRepControl( monitorPanel ) );
+        addControl( new BFieldGraphicPanel( model.getLowerMagnet() ) );
+        addControl( new SampleMaterialSelector( model ) );
+//        addControl( new PrecessionControl( model ) );
+//        addControl( new SpinDeterminationControl( model ) );
+//        addControl( new MonitorPanelRepControl( monitorPanel ) );
     }
 }

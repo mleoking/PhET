@@ -33,6 +33,8 @@ public class MriConfig {
     public static final double MAX_FADING_HEIGHT = 50;
     public static final double MAX_FADING_COIL_CURRENT = 100;
     public static final double MAX_FADING_COIL_FIELD = MAX_FADING_COIL_CURRENT;
+    public static final double MAX_MU = 2;
+    public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
 
     // Layout
     public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 200 );

@@ -38,4 +38,3 @@ public class FadingMagnetControl extends ModelSlider {
         } );
     }
 }
-

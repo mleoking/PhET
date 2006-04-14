@@ -36,18 +36,14 @@ public class MriModel extends BaseModel {
     private SampleChamber sampleChamber;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
+    private RadiowaveSource radiowaveSource;
 
-    /**
-     * Constructor
-     */
     /**
      * Constructor
      *
-     * @param listener An MriModel.Listener. Null is allowed.
+     * @param clock
      */
-    public MriModel( IClock clock, Listener listener ) {
-
-        addListener( listener );
+    public MriModel( IClock clock ) {
 
         // Sample Chamber
         sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
@@ -66,6 +62,14 @@ public class MriModel extends BaseModel {
                                                           sampleChamber.getBounds().getY() + sampleChamber.getBounds().getHeight() + magnetHeight * 1.5 );
         lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamber.getBounds().getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
+
+        // Radiowave Source
+        radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
+                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
+                                               MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                               RadiowaveSource.HORIZONTAL );
+        addModelElement( radiowaveSource );
 
         // Create agent that will control the spin orientations of the dipoles
         dipoleOrientationAgent = new DipoleOrientationAgent( this );
@@ -99,6 +103,14 @@ public class MriModel extends BaseModel {
         listenerProxy.modelElementRemoved( modelElement );
     }
 
+    public List getModelElements() {
+        ArrayList modelElements = new ArrayList( );
+        for( int i = 0; i < numModelElements(); i++ ) {
+            modelElements.add( modelElementAt( i ));
+        }
+        return modelElements;
+    }
+
     //----------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------
@@ -129,6 +141,7 @@ public class MriModel extends BaseModel {
 
     public void setSampleMaterial( SampleMaterial currentSampleMaterial ) {
         this.sampleMaterial = currentSampleMaterial;
+        listenerProxy.sampleMaterialChanged( sampleMaterial );
     }
 
     /**
@@ -144,21 +157,34 @@ public class MriModel extends BaseModel {
     //----------------------------------------------------------------
     // Events and listeners
     //----------------------------------------------------------------
-    private EventChannel modelEventChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)modelEventChannel.getListenerProxy();
+    private EventChannel modelEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener listenerProxy = (ChangeListener)modelEventChannel.getListenerProxy();
 
-    public void addListener( Listener listener ) {
+    public void addListener( ChangeListener listener ) {
         modelEventChannel.addListener( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( ChangeListener listener ) {
         modelEventChannel.removeListener( listener );
     }
 
-    public interface Listener extends EventListener {
+    public static interface ChangeListener extends EventListener {
         void modelElementAdded( ModelElement modelElement );
 
         void modelElementRemoved( ModelElement modelElement );
+
+        void sampleMaterialChanged( SampleMaterial sampleMaterial );
+    }
+
+    public static abstract class ChangeAdapter implements ChangeListener {
+        public void modelElementAdded( ModelElement modelElement ) {
+        }
+
+        public void modelElementRemoved( ModelElement modelElement ) {
+        }
+
+        public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
+        }
     }
 
     //----------------------------------------------------------------
