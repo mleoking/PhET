@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- can superposition dialog adjust itself as # coefficients changes?
 - show same number of superposition coefficients as there are eigenstates
 - model total energy as a set of eigenstates
 - disabled the superposition button if no eigenstates are found
@@ -55,6 +54,7 @@ MACINTOSH:
 
 
 DONE:
+(4/14/06) - make Superposition dialog dynamically reconfigure itself as model changes
 (4/13/06) - model for superposition coefficients
 (4/12/06) - time estimate for completing this simulation
 (4/4/06) - **** SourceForge CVS server restored ****
