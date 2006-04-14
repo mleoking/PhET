@@ -3,6 +3,9 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 /**
  * User: Sam Reid
  * Date: Apr 13, 2006
@@ -11,7 +14,17 @@ import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
  */
 
 public class FaucetConnector extends VerticalConnector {
-    public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic faucetGraphic ) {
-        super( faucetControlPanelPNode, faucetGraphic.getImagePNode() );
+    public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic target ) {
+        super( faucetControlPanelPNode, target.getImagePNode() );
+        target.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
+        target.addPropertyChangeListener( "bounds", new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
     }
 }

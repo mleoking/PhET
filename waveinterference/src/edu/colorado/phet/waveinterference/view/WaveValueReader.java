@@ -26,8 +26,28 @@ public interface WaveValueReader {
         }
     }
 
+    public class AverageAbs implements WaveValueReader {
+        int numNeighbors;
+
+        public AverageAbs() {
+            this( 1 );
+        }
+
+        public AverageAbs( int numNeighbors ) {
+            this.numNeighbors = numNeighbors;
+        }
+
+        public double getValue( Lattice2D lattice, int i, int k ) {
+            double value = Math.abs( lattice.getAverageValue( i, k, numNeighbors ) );
+            if( value > 1 ) {
+                value = 1;
+            }
+            return value;
+        }
+    }
+
     public class Abs implements WaveValueReader {
-        Displacement displacement = new Displacement();
+//        Displacement displacement = new Displacement();
 
         public double getValue( Lattice2D lattice, int i, int k ) {
             float value = Math.abs( lattice.wavefunction[i][k] );

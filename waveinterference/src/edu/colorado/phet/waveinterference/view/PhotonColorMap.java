@@ -14,18 +14,18 @@ import java.awt.*;
 
 public class PhotonColorMap implements ColorMap {
     private Lattice2D lattice;
-    private Vector3f rootColor;
-    private Vector3f positiveColor;
-    private Vector3f negativeColor;
+    private ColorVector rootColor;
+    private ColorVector positiveColor;
+    private ColorVector negativeColor;
 
     public PhotonColorMap( Lattice2D lattice ) {
         this( lattice, Color.blue );
     }
 
     public PhotonColorMap( Lattice2D lattice, Color color ) {
-        rootColor = new Vector3f( 0, 0, 0 );
-        positiveColor = new Vector3f( color.brighter() );
-        negativeColor = new Vector3f( color.darker() );
+        rootColor = new ColorVector( 0, 0, 0 );
+        positiveColor = new ColorVector( color.brighter() );
+        negativeColor = new ColorVector( color.darker() );
         this.lattice = lattice;
     }
 
@@ -53,31 +53,4 @@ public class PhotonColorMap implements ColorMap {
         return rootColor.toColor();
     }
 
-    private static class Vector3f {
-        float r;
-        float g;
-        float b;
-
-        public Vector3f( float r, float g, float b ) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-        }
-
-        public Vector3f( Color color ) {
-            this( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f );
-        }
-
-        public Vector3f add( Vector3f c ) {
-            return new Vector3f( r + c.r, g + c.g, b + c.b );
-        }
-
-        public Color toColor() {
-            return new Color( r, g, b );
-        }
-
-        public Vector3f scale( float value ) {
-            return new Vector3f( Math.min( r * value, 1f ), Math.min( g * value, 1f ), Math.min( b * value, 1f ) );
-        }
-    }
 }

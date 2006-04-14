@@ -16,10 +16,14 @@ public class ScreenNode extends PNode {
     private boolean intensityMode = true;
     private CurveScreenGraphic curveScreenGraphic;
     private BrightnessScreenGraphic brightnessScreenGraphic;
+    private WaveModel waveModel;
+    private IntensityColorMap intensityColorMap;
 
     public ScreenNode( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, final WaveModelGraphic waveModelGraphic ) {
+        this.waveModel = waveModel;
         curveScreenGraphic = new CurveScreenGraphic( waveModel, latticeScreenCoordinates );
-        brightnessScreenGraphic = new BrightnessScreenGraphic( waveModel, latticeScreenCoordinates, waveModelGraphic.getColorMap() );
+        intensityColorMap = new IntensityColorMap( waveModel, waveModelGraphic.getColorMap() );
+        brightnessScreenGraphic = new BrightnessScreenGraphic( waveModel, latticeScreenCoordinates, intensityColorMap );
         addChild( curveScreenGraphic );
         addChild( brightnessScreenGraphic );
         waveModelGraphic.addListener( new WaveModelGraphic.Listener() {
@@ -27,6 +31,7 @@ public class ScreenNode extends PNode {
                 setColorMap( waveModelGraphic.getColorMap() );
             }
         } );
+
         update();
     }
 
@@ -65,7 +70,8 @@ public class ScreenNode extends PNode {
 
     public void setColorMap( ColorMap colorMap ) {
         curveScreenGraphic.setColorMap( colorMap );
-        brightnessScreenGraphic.setColorMap( colorMap );
+//        intensityColorMap.setColorMap( new IndexColorMap( waveModel.getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 10) ) );
+        intensityColorMap.setColorMap( new IndexColorMap( waveModel.getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 1 ) ) );
     }
 
     public void updateScreen() {
