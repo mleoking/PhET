@@ -531,7 +531,6 @@ public class SliderControl extends JPanel {
          */
         public void focusGained( FocusEvent e ) {
             if ( e.getSource() == _valueTextField ) {
-                System.out.println( "focusGained" );
                 _valueTextField.selectAll();
             }
         }
