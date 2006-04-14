@@ -25,6 +25,7 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
 
     public MultiDripControlPanel( final MultiFaucetDrip multiFaucetDrip ) {
         this.multiFaucetDrip = multiFaucetDrip;
+        setBorder( BorderFactory.createEtchedBorder() );
         oneDrip = new JRadioButton( "One Drip", multiFaucetDrip.isOneDrip() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -45,6 +46,7 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         add( oneDrip );
         add( twoDrips );
         spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiFaucetDrip.getSpacing() );
+        spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 multiFaucetDrip.setSpacing( spacingSlider.getValue() );

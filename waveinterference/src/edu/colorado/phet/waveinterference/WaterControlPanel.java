@@ -19,8 +19,9 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
         addControl( new DetectorSetControlPanel( waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
+        addControlFullWidth( new VerticalSeparator() );
         addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
-
+        addControlFullWidth( new VerticalSeparator() );
 
         addControl( new MultiDripControlPanel( waterModule.getMultiDrip() ) );
     }
