@@ -42,13 +42,9 @@ public class IntensityColorMap implements ColorMap {
 
     public Color getColor( int i, int k ) {
         if( history[i][k] == null ) {
-            history[i][k] = new ArrayList();
+            update();
         }
-        Color c = colorMap.getColor( i, k );
-        history[i][k].add( c );
-        if( history[i][k].size() > maxHistory ) {
-            history[i][k].remove( 0 );
-        }
+
         ColorVector colorVector = new ColorVector( 0, 0, 0 );
         for( int j = 0; j < history[i][k].size(); j++ ) {
             colorVector = colorVector.add( new ColorVector( (Color)history[i][k].get( j ) ) );
@@ -67,5 +63,20 @@ public class IntensityColorMap implements ColorMap {
 
     public void setIntensityScale( double intensityScale ) {
         this.intensityScale = intensityScale;
+    }
+
+    public void update() {
+        for( int i = 0; i < waveModel.getWidth(); i++ ) {
+            for( int k = 0; k < waveModel.getHeight(); k++ ) {
+                if( history[i][k] == null ) {
+                    history[i][k] = new ArrayList();
+                }
+                Color c = colorMap.getColor( i, k );
+                history[i][k].add( c );
+                if( history[i][k].size() > maxHistory ) {
+                    history[i][k].remove( 0 );
+                }
+            }
+        }
     }
 }

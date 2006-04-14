@@ -19,10 +19,11 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
     public SoundControlPanel( SoundModule soundModule ) {
         this.waterModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
+        addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
         addControl( new DetectorSetControlPanel( soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
-        addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
+
         addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator() ) );
     }
 }

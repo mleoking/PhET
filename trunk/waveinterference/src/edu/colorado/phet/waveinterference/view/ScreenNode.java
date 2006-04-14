@@ -75,6 +75,7 @@ public class ScreenNode extends PNode {
     }
 
     public void updateScreen() {
+        intensityColorMap.update();
         if( curveScreenGraphic.getVisible() ) {
             curveScreenGraphic.update();
         }
@@ -85,5 +86,9 @@ public class ScreenNode extends PNode {
 
     public void setIntensityScale( double intensityScale ) {
         intensityColorMap.setIntensityScale( intensityScale );
+    }
+
+    public BrightnessScreenGraphic getBrightnessScreenGraphic() {
+        return brightnessScreenGraphic;
     }
 }
