@@ -43,7 +43,15 @@ public class SubLattice2D extends Lattice2D {
     }
 
     public float getValue( int i, int j ) {
-        return parent.getValue( i + region.x, j + region.y );
+        int x = i + region.x;
+        int y = j + region.y;
+
+        if( parent.containsLocation( x, y ) ) {
+            return parent.getValue( i + region.x, j + region.y );
+        }
+        else {
+            return 0;
+        }
     }
 
 }

@@ -30,7 +30,7 @@ public class BasicColorMap implements ColorMap {
     }
 
     public Color getColor( int i, int k ) {
-        float value = ( lattice.wavefunction[i][k] + 1.0f ) / 2.0f;
+        float value = ( lattice.getValue( i, k ) + 1.0f ) / 2.0f;
         if( value > 1 ) {
             value = 1;
         }

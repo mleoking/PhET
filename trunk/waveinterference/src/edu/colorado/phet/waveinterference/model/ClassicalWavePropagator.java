@@ -59,9 +59,9 @@ public class ClassicalWavePropagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
-//        for( int i = 0; i < 5; i++ ) {
-//            dampScale( w );
-//        }
+        for( int i = 0; i < 10; i++ ) {
+            dampScale( w );
+        }
         //todo avoid copying by cycling references.?
         last.copyTo( last2 );
         clearPotential( last2 );   //todo maybe only need to do one here.
@@ -74,7 +74,7 @@ public class ClassicalWavePropagator {
 
 
     private void dampScale( Lattice2D lattice ) {
-        int dampSize = 10;
+        int dampSize = 20;
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
                 if( i < dampSize || j < dampSize || i > lattice.getWidth() - dampSize || j > lattice.getHeight() - dampSize )

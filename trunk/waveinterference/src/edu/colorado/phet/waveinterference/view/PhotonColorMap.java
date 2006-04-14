@@ -31,7 +31,7 @@ public class PhotonColorMap implements ColorMap {
 
     public Color getColor( int i, int k ) {
 
-        float value = lattice.wavefunction[i][k];
+        float value = lattice.getValue( i, k );
         if( value > 0 ) {
             if( value > 1 ) {
                 value = 1;

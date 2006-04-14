@@ -32,9 +32,20 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private RotationGlyph rotationGlyph;
     private ScreenNode screenNode;
     private LaserControlPanelPNode laserControlPanelPNode;
+    private WaveModel visibleWaveModel;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
+
+        this.visibleWaveModel = waterModule.getWaveModel();
+
+//        Dimension origLatticeDim = new Dimension( waterModule.getWaveModel().getWidth(), waterModule.getWaveModel().getHeight() );
+//        int dampSize=20;
+//        this.visibleWaveModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( dampSize, dampSize, origLatticeDim.width - dampSize*2, origLatticeDim.height - dampSize*2) ) );
+//        this.visibleWaveModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( 10, 10) ) );
+//        this.visibleWaveModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( origLatticeDim.width -1, origLatticeDim.height - 1) ) );
+//        this.visibleWaveModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( 20,20) ) );
+//        this.visibleWaveModel = new WaveModel( waterModule.getWaveModel().getLattice( ) );
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
 //        waveSideView = new WaveSideView( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
@@ -128,7 +139,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private WaveModel getWaveModel() {
-        return waterModule.getWaveModel();
+        return visibleWaveModel;
     }
 
     public RotationWaveGraphic getRotationWaveGraphic() {

@@ -51,7 +51,7 @@ public interface WaveValueReader {
 //        Displacement displacement = new Displacement();
 
         public double getValue( Lattice2D lattice, int i, int k ) {
-            float value = Math.abs( lattice.wavefunction[i][k] );
+            float value = Math.abs( lattice.getValue( i, k ) );
             if( value > 1 ) {
                 value = 1;
             }
