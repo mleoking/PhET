@@ -1,31 +1,31 @@
 
 package edu.colorado.phet.boundstates.model;
 
-import java.text.ParseException;
-
-/*
- Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 2 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
- We can be contacted at the addresses given in the Schroedinger.tex
- or other forms of the documentation.
- */
-
 /**
- * SchmidtLeeSolver calculates eigenstates and 1D Schrodinger wave functions.
+ * SchmidtLeeSolver calculates eigenstates and 1D Schrodinger wave functions
+ * for a potential function
+ * <p>.
+ * This is a modified version of code written by Schmidt & Lee.
+ * Their copyright notice is reproduced below.
+ * <p>
+ *  Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
+ *  
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  
+ *  We can be contacted at the addresses given in the Schroedinger.tex
+ *  or other forms of the documentation.
  */
 public class SchmidtLeeSolver {
 
