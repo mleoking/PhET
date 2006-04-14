@@ -70,8 +70,8 @@ public class ScreenNode extends PNode {
 
     public void setColorMap( ColorMap colorMap ) {
         curveScreenGraphic.setColorMap( colorMap );
-//        intensityColorMap.setColorMap( new IndexColorMap( waveModel.getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 10) ) );
         intensityColorMap.setColorMap( new IndexColorMap( waveModel.getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 1 ) ) );
+//        intensityColorMap.setColorMap( new IndexColorMap( waveModel.getLattice(), colorMap.getRootColor(), new WaveValueReader.AverageAbs( 1 ) ) );
     }
 
     public void updateScreen() {

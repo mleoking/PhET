@@ -24,6 +24,7 @@ public class WaveInterferenceModel implements ModelElement {
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
+//        waveModel = new WaveModel( 120,120);
         slitPotential = new SlitPotential( waveModel );
         primaryOscillator = new Oscillator( waveModel );
         secondaryOscillator = new Oscillator( waveModel );
