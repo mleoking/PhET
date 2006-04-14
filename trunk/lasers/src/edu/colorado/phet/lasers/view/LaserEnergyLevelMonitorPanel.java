@@ -172,12 +172,15 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             double xIndent = ( states.length - i ) * 12;
             xIndent = 5;
             double xLoc = levelLineOriginX + xIndent;
+
+            boolean isAdjustable = i == 0 ? false : true;
+
             EnergyLevelGraphic elg = new EnergyLevelGraphic( this,
                                                              state,
                                                              states[0].getEnergyLevel(),
                                                              xLoc,
                                                              levelLineLength - levelLineOriginX,
-                                                             true,
+                                                             isAdjustable,
                                                              levelLineOriginX + levelLineLength - 25 );
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
