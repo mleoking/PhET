@@ -25,10 +25,12 @@ import java.text.ParseException;
  */
 
 /**
- * A one dimensional Schroedinger Wave Function class
+ * SchmidtLeeSolver calculates eigenstates and 1D Schrodinger wave functions.
  */
-public class Schrodinger1D {
+public class SchmidtLeeSolver {
 
+    private static final boolean REPORT_WARNINGS = true;
+    
     private double _hb, _minX, _maxX;
     private int _numberOfPoints;
     private double[] _potentialValues;
@@ -36,17 +38,17 @@ public class Schrodinger1D {
     /**
      * Constructor.
      * 
-     * @param hb ?
+     * @param hb magic constant, = (hbar * hbar) / (2 * mass)
      * @param minX mininum position
      * @param maxX maximum position
-     * @param dx position change between points
+     * @param numberOfPoints
      * @param potential
      */
-    public Schrodinger1D( double hb, double minX, double maxX, double dx, BSAbstractPotential potential ) {
+    public SchmidtLeeSolver( double hb, double minX, double maxX, int numberOfPoints, BSAbstractPotential potential ) {
         _hb = hb;
         _minX = minX;
         _maxX = maxX;
-        _numberOfPoints = (int) ( ( maxX - minX ) / dx ) + 1;
+        _numberOfPoints = numberOfPoints;
         _potentialValues = calculatePotential( potential );
     }
 
@@ -55,7 +57,7 @@ public class Schrodinger1D {
      * 
      * @param nodes
      */
-    public double getEnergy( int nodes ) {
+    public double getEnergy( int nodes ) throws SchmidtLeeException {
         return calculateEnergy( nodes );
     }
 
@@ -73,7 +75,7 @@ public class Schrodinger1D {
      * 
      * @param node
      */
-    private double calculateEnergy( final int nodes ) {
+    private double calculateEnergy( final int nodes ) throws SchmidtLeeException {
         final int MAX_TRIES = 100;
         final double SMALL = 1.e-10;
         int k;
@@ -90,7 +92,7 @@ public class Schrodinger1D {
             }
         }
         if ( k == MAX_TRIES ) {
-            throw new RuntimeException( "upper bound not found, nodes=" + nodes );
+            throw new SchmidtLeeException( "upper bound not found, nodes=" + nodes );
         }
 
         // Find lower bound...
@@ -103,7 +105,7 @@ public class Schrodinger1D {
             }
         }
         if ( k == MAX_TRIES ) {
-            throw new RuntimeException( "lower bound not found, nodes=" + nodes );
+            throw new SchmidtLeeException( "lower bound not found, nodes=" + nodes );
         }
 
         // Binary chop to get close...
@@ -120,7 +122,8 @@ public class Schrodinger1D {
             }
         }
         if ( k == MAX_TRIES ) {
-            throw new RuntimeException( "No convergence in binary chop, nodes=" + nodes );
+            warn( "No convergence in binary chop, nodes=" + nodes );
+            return en;
         }
 
         // Linearly interpolate for better convergence...
@@ -140,7 +143,8 @@ public class Schrodinger1D {
             }
         }
         if ( k == MAX_TRIES ) {
-            throw new RuntimeException( "No convergence in interpolation, nodes=" + nodes );
+            warn( "No convergence in interpolation, nodes=" + nodes );
+            return en;
         }
 
         return en;
@@ -283,7 +287,7 @@ public class Schrodinger1D {
     /**
      * Tests whether the energy is too high.
      */
-    class Tester {
+    private static class Tester {
 
         public int node; // Number of nodes
         public double alogd; // Derivative
@@ -295,6 +299,25 @@ public class Schrodinger1D {
 
         public boolean isupper( int node ) {
             return this.node > node || ( this.node == node && alogd < 0.0 );
+        }
+    }
+    
+    /**
+     * SchmidtLeeException is an exception that may be thrown by the SchmidtLeeSolver.
+     * This exception will always have an associated message.
+     */
+    public static class SchmidtLeeException extends Exception {
+        public SchmidtLeeException( String message ) {
+            super( message );
+        }
+    }
+    
+    /*
+     * Prints a warning message to System.err.
+     */
+    private void warn( String message ) {
+        if ( REPORT_WARNINGS ) {
+            System.err.println( "SchmidtLeeSolver WARNING: " + message );
         }
     }
 }
