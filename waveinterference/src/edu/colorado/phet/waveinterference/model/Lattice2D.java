@@ -14,8 +14,6 @@ import java.text.DecimalFormat;
 
 public class Lattice2D {
     public float[][] wavefunction;
-    private float magnitude = 0.0f;
-    private boolean magnitudeDirty = true;
 
     public Lattice2D( Lattice2D lattice2D ) {
         this( lattice2D.wavefunction );
@@ -28,7 +26,6 @@ public class Lattice2D {
 
     public Lattice2D( float[][] values ) {
         this.wavefunction = values;
-        setMagnitudeDirty();
     }
 
     public double getAverageValue( int x, int y, int windowWidth ) {
@@ -59,7 +56,6 @@ public class Lattice2D {
                 }
             }
         }
-        setMagnitudeDirty();
     }
 
     public boolean containsLocation( int i, int k ) {
@@ -75,7 +71,6 @@ public class Lattice2D {
                 dest.wavefunction[i][j] = wavefunction[i][j];
             }
         }
-        dest.setMagnitudeDirty();
     }
 
     public int getWidth() {
@@ -100,11 +95,6 @@ public class Lattice2D {
                 setValue( i, j, 0 );
             }
         }
-        setMagnitudeDirty();
-    }
-
-    public void setMagnitudeDirty() {
-        magnitudeDirty = true;
     }
 
     public void setSize( int width, int height ) {
@@ -139,7 +129,6 @@ public class Lattice2D {
         else {
             throw new RuntimeException( "illegal arg dim" );
         }
-        setMagnitudeDirty();
     }
 
     public void setWavefunction( Lattice2D lattice2D ) {

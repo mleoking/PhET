@@ -16,8 +16,12 @@ public class WaveModel {
     private ArrayList listeners = new ArrayList();
 
     public WaveModel( int width, int height ) {
-        lattice = new Lattice2D( width, height );
+        this( new Lattice2D( width, height ) );
+    }
+
+    public WaveModel( Lattice2D lattice2D ) {
         classicalWavePropagator = new ClassicalWavePropagator( new ConstantPotential() );
+        this.lattice = lattice2D;
     }
 
     public void setSize( int width, int height ) {
