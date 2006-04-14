@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;
@@ -13,6 +14,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -34,12 +36,20 @@ public class StripChartJFCNode extends PNode {
 
         jFreeChart = createChart( xyDataset, xAxis, yAxis );
         jFreeChart.setBorderVisible( true );
-        jFreeChart.setBorderStroke( new BasicStroke( 2 ) );
-        jFreeChart.setBorderPaint( Color.gray );
+        jFreeChart.setBorderStroke( new BasicStroke( 5 ) );
 
         jFreeChartNode = new JFreeChartNode( jFreeChart );
+
         addChild( jFreeChartNode );
         jFreeChartNode.setBounds( 0, 0, width, height );
+
+        jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float)jFreeChartNode.getFullBounds().getWidth(), (float)jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
+        try {
+            jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "images/wood.jpg" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     public static JFreeChart createChart( XYDataset dataset, String xaxis, String yaxis ) {

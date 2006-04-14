@@ -30,6 +30,20 @@ public class ImageOscillatorPNode extends PNode {
             }
         } );
         updateLocation();
+        oscillator.addListener( new Oscillator.Listener() {
+            public void enabledStateChanged() {
+            }
+
+            public void locationChanged() {
+                updateLocation();
+            }
+
+            public void frequencyChanged() {
+            }
+
+            public void amplitudeChanged() {
+            }
+        } );
     }
 
     public Oscillator getOscillator() {
