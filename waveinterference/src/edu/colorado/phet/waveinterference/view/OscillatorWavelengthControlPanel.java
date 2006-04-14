@@ -3,7 +3,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
-import edu.colorado.phet.waveinterference.tests.WavelengthControlPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;

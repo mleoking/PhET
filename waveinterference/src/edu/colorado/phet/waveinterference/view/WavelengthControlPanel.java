@@ -1,12 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
-import edu.colorado.phet.waveinterference.view.SRRWavelengthSliderComponent;
-import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

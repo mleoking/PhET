@@ -49,7 +49,11 @@ public class WaveModelGraphic extends PNode {
         borderGraphic.setStroke( new BasicStroke( 2 ) );
         borderGraphic.setStrokePaint( Color.darkGray );
         addChild( borderGraphic );
-
+        addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                notifyMappingChanged();
+            }
+        } );
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 borderGraphic.setPathTo( colorGridNode.getFullBounds() );
