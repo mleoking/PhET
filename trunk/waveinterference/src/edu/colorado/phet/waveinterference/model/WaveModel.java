@@ -20,7 +20,9 @@ public class WaveModel {
     }
 
     public WaveModel( Lattice2D lattice2D ) {
-        classicalWavePropagator = new ClassicalWavePropagator( new ConstantPotential() );
+//        classicalWavePropagator = new ClassicalWavePropagator( new ConstantPotential() );
+        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential(), 20, 20 );
+//        classicalWavePropagator = new DampedClassicalWavePropagator( new ConstantPotential() ,10,10);
         this.lattice = lattice2D;
     }
 
