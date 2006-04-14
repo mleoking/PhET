@@ -23,16 +23,17 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanel {
     private JRadioButton oneDrip;
     private MultiOscillator multiFaucetDrip;
 
-    public MultiOscillatorControlPanel( final MultiOscillator multiFaucetDrip ) {
+    public MultiOscillatorControlPanel( final MultiOscillator multiFaucetDrip, String name ) {
         this.multiFaucetDrip = multiFaucetDrip;
-        oneDrip = new JRadioButton( "One Drip", multiFaucetDrip.isOneSource() );
+        setBorder( BorderFactory.createEtchedBorder() );
+        oneDrip = new JRadioButton( "One " + name, multiFaucetDrip.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( "Two Drips", multiFaucetDrip.isTwoSource() );
+        twoDrips = new JRadioButton( "Two " + name + "s", multiFaucetDrip.isTwoSource() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setTwoDrips();
@@ -45,6 +46,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanel {
         add( oneDrip );
         add( twoDrips );
         spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiFaucetDrip.getSpacing() );
+        spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 multiFaucetDrip.setSpacing( spacingSlider.getValue() );

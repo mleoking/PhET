@@ -23,10 +23,10 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new DetectorSetControlPanel( soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
-
+        addControlFullWidth( new VerticalSeparator() );
         addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
+        addControlFullWidth( new VerticalSeparator() );
 
-
-        addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator() ) );
+        addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker" ) );
     }
 }

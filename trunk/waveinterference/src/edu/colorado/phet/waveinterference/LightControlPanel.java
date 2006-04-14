@@ -19,10 +19,10 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         addControl( new DetectorSetControlPanel( waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
+        addControlFullWidth( new VerticalSeparator() );
         addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
-
-
-        addControl( new MultiOscillatorControlPanel( waterModule.getMultiOscillator() ) );
+        addControlFullWidth( new VerticalSeparator() );
+        addControl( new MultiOscillatorControlPanel( waterModule.getMultiOscillator(), "Light" ) );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
         addControl( new ReducedScreenControlPanel( waterModule.getScreenNode() ) );
     }

@@ -2,7 +2,6 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -10,48 +9,24 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.util.ArrayList;
-
-/**
- * User: Sam Reid
- * Date: Mar 23, 2006
- * Time: 9:58:29 PM
- * Copyright (c) Mar 23, 2006 by Sam Reid
- */
 
 /**
  * Decorates with buttons and controls.
  */
-public class IntensityReaderDecorator extends PNode {
+public class IntensityReaderMenuDecorator extends PNode {
     private ArrayList listeners = new ArrayList();
     private IntensityReader intensityReader;
     private PSwing buttonPSwing;
     private Point lastMovePoint = null;
 
-    public IntensityReaderDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+    public IntensityReaderMenuDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReader = new IntensityReader( waveModel, latticeScreenCoordinates, clock );
-        JButton close = null;
-        try {
-            close = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
-            close.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    doDelete();
-                }
-            } );
-//            close.setMargin( new Insets( 0,0,0,0) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-//        JButton options = new JButton( "Options" );
-//        options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
+        JButton options = new JButton( "Options" );
+        options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
         final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display Readout", intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
@@ -78,33 +53,26 @@ public class IntensityReaderDecorator extends PNode {
                 lastMovePoint = e.getPoint();
             }
         } );
-//        options.addMouseListener( new MouseListener() {
-//            public void mouseClicked( MouseEvent e ) {
-//            }
-//
-//            public void mouseEntered( MouseEvent e ) {
-//            }
-//
-//            public void mouseExited( MouseEvent e ) {
-//            }
-//
-//            public void mousePressed( MouseEvent e ) {
-//            }
-//
-//            public void mouseReleased( MouseEvent e ) {
-//                if( lastMovePoint != null ) {
-//                    jPopupMenu.show( pSwingCanvas, lastMovePoint.x, lastMovePoint.y );
-//                }
-//            }
-//        } );
-//        buttonPSwing = PImageFactory.create( "images/x-14.gif");
-        buttonPSwing = new PSwing( pSwingCanvas, close );
-//        buttonPSwing.addInputEventListener( new PBasicInputEventHandler() {
-//            public void mouseReleased( PInputEvent event ) {
-//                super.mouseReleased( event );
-//                doDelete();
-//            }
-//        });
+        options.addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+                if( lastMovePoint != null ) {
+                    jPopupMenu.show( pSwingCanvas, lastMovePoint.x, lastMovePoint.y );
+                }
+            }
+        } );
+        buttonPSwing = new PSwing( pSwingCanvas, options );
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
@@ -116,7 +84,7 @@ public class IntensityReaderDecorator extends PNode {
 
     private void doDelete() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+            IntensityReaderMenuDecorator.Listener listener = (IntensityReaderMenuDecorator.Listener)listeners.get( i );
             listener.deleted();
         }
     }
@@ -125,12 +93,12 @@ public class IntensityReaderDecorator extends PNode {
         void deleted();
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( IntensityReaderMenuDecorator.Listener listener ) {
         listeners.add( listener );
     }
 
     private void updateLocation() {
-        buttonPSwing.setOffset( intensityReader.getFullBounds().getX(), intensityReader.getFullBounds().getY() - buttonPSwing.getFullBounds().getHeight() );
+        buttonPSwing.setOffset( intensityReader.getFullBounds().getX(), intensityReader.getFullBounds().getMaxY() );
     }
 
     public void update() {

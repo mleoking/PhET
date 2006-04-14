@@ -40,9 +40,13 @@ public class VerticalDoubleSlit extends VerticalBarrier {
         if( midBar.getHeight() < 0 ) {
             midBar.setSize( midBar.width, 0 );
         }
-        bottomBar = new Rectangle( x, round( bottomSlitCenter + slitSize / 2.0 ), thickness, midBarSize + 1 );
+
+        int bottomBarY = round( bottomSlitCenter + slitSize / 2.0 );
+        int remainingHeight = gridHeight - bottomBarY;
+        bottomBar = new Rectangle( x, bottomBarY, thickness, remainingHeight );
 
         this.topSlit = new Rectangle( x, topBar.x + topBar.width, thickness, slitSize );
+//        int remainingHeight=gridHeight-midBar.x+midBar.width;
         this.bottomSlit = new Rectangle( x, midBar.x + midBar.width, thickness, slitSize );
 
         CompositePotential compositePotential = new CompositePotential();
