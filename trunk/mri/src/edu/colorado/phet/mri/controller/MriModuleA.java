@@ -12,17 +12,13 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.*;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -46,6 +42,10 @@ public class MriModuleA extends Module {
         PNode worldNode = new PNode();
         MriModel model = new MriModel( getClock(), new GraphicManager( worldNode ) );
         setModel( model );
+
+        model.setSampleMaterial( SampleMaterial.HYDROGEN );
+
+
         setControlPanel( new MriControlPanel( this ) );
 
         PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),

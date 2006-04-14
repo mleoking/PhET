@@ -12,7 +12,6 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.Clock;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mri.MriConfig;
@@ -36,6 +35,7 @@ public class MriModel extends BaseModel {
     private ArrayList dipoles = new ArrayList();
     private SampleChamber sampleChamber;
     private DipoleOrientationAgent dipoleOrientationAgent;
+    private SampleMaterial sampleMaterial;
 
     /**
      * Constructor
@@ -75,7 +75,6 @@ public class MriModel extends BaseModel {
         // Set initial conditions
         setInitialConditions();
     }
-
 
     private void setInitialConditions() {
         upperMagnet.setCurrent( MriConfig.InitialConditions.FADING_MAGNET_CURRENT );
@@ -122,6 +121,24 @@ public class MriModel extends BaseModel {
 
     public SampleChamber getSampleChamber() {
         return sampleChamber;
+    }
+
+    public SampleMaterial getSampleMaterial() {
+        return sampleMaterial;
+    }
+
+    public void setSampleMaterial( SampleMaterial currentSampleMaterial ) {
+        this.sampleMaterial = currentSampleMaterial;
+    }
+
+    /**
+     * Returns the energy difference between spin up and spin down of the current
+     * sample material in the fading magnet field
+     *
+     * @return the energy split
+     */
+    public double getSpinEnergyDifference() {
+        return getLowerMagnet().getFieldStrength() * getSampleMaterial().getMu();
     }
 
     //----------------------------------------------------------------
