@@ -37,10 +37,14 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
             };
             fillPathFull( j, path );
             addBrightnessStripe( path );
-            Color paint = colorMap.getColor( getWaveModel().getWidth() - 1, j );
+            Color paint = getColor( j );
             path.setStroke( null );
             path.setPaint( paint );
         }
+    }
+
+    public Color getColor( int j ) {
+        return colorMap.getColor( getWaveModel().getWidth() - 1, j );
     }
 
     private void fillPathFull( int j, PPath path ) {

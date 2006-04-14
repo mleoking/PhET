@@ -19,7 +19,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
 
     public MeasurementControlPanel( final MeasurementToolSet measurementToolSet ) {
         this.measurementToolSet = measurementToolSet;
-        setBorder( BorderFactory.createTitledBorder( "Tools" ) );
+//        setBorder( BorderFactory.createTitledBorder( "Tools" ) );
         final JCheckBox measuringTape = new JCheckBox( "Measuring Tape", measurementToolSet.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
