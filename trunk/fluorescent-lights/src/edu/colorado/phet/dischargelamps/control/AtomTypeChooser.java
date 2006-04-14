@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps.control;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.quantum.model.ElementProperties;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -35,7 +36,7 @@ public class AtomTypeChooser extends JPanel {
     public AtomTypeChooser( final DischargeLampModel model, ElementProperties[] elementProperties ) {
         super( new GridBagLayout() );
 
-        setBorder( new TitledBorder( "Atom type " ) );
+        setBorder( new TitledBorder( SimStrings.get("Atom type" )) );
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
