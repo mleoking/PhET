@@ -32,6 +32,6 @@ public class GlassPaneGraphic implements Graphic {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, glassAlpha));
         g2.fill( graphic );
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
-        g2.draw( graphic );
+//        g2.draw( graphic );
     }
 }

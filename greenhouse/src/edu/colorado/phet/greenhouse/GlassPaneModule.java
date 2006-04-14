@@ -11,11 +11,13 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
     private GlassPane glassPane;
@@ -52,6 +54,13 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             glassPanes.add( glassPane );
         }
         glassPaneEnabled = false;
+
+        ImageGraphic backgroundGraphic = new ImageGraphic( "images/glass-pane-background.gif",
+                                                           new Point2D.Double(
+                                                           ((GreenhouseModel)getModel()).getBounds().getX(),
+                                                           ((GreenhouseModel)getModel()).getBounds().getY()));
+//        ImageGraphic backgroundGraphic = new ImageGraphic( "images/glass-pane-background.gif", new Point2D.Double( 0, 0 ));
+        drawingCanvas.addGraphic( backgroundGraphic, ApparatusPanel.LAYER_DEFAULT - 1);
 
         // Set up the controls
         setControlPanel( new GlassPaneControlPanel( this ) );

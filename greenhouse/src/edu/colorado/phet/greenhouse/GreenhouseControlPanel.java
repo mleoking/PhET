@@ -155,6 +155,7 @@ public class GreenhouseControlPanel extends JPanel {
                 }
             }
         } );
+        module.setVisiblePhotonRatio( 1.0 );
         // todo: HACK!!! make the control panel listen to the module for this?
         allPhotonsCB.setSelected( true );
 
