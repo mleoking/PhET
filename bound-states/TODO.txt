@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 - disabled the superposition button if no eigenstates are found
 - override reset, save, load methods in Single and Double modules
 - Single and Double modules need to permanently hide the "number of wells" control
-- Single module should hide spacing control in all Configure dialogs
 - different width ranges for single, double, many well modules
 - update persistence code to include new modules
 - use specified defaults for all controls
@@ -51,6 +50,8 @@ MACINTOSH:
 
 
 DONE:
+(4/14/06) - factor out common stuff from Configure dialogs in AbstractConfigureDialog
+(4/14/06) - hide spacing control in all Configure dialogs when #wells==1
 (4/14/06) - put the modified Schmidt-Lee code (SchmidtLeeSolver) in all well classes
 (4/14/06) - modify Schmidt-Lee code so that it doesn't calculate everything in the constructor
 (4/14/06) - show eigenstates with non-zero coefficients as selected

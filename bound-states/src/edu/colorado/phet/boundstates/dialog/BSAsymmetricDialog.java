@@ -11,19 +11,13 @@
 
 package edu.colorado.phet.boundstates.dialog;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -40,14 +34,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAsymmetricDialog extends JDialog implements Observer {
+public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Observer {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -57,8 +45,6 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
     private SliderControl _offsetSlider;
-    private JButton _closeButton;
-    private EventListener _eventListener;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,70 +54,28 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
      * Constructor.
      */
     public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential ) {
-        super( parent );
-        setModal( false );
-        setResizable( false );
-        setTitle( SimStrings.get( "BSAsymmetricDialog.title" ) );
-        
-        _potential = potential;
-        _potential.addObserver( this );
-        
-        _eventListener = new EventListener();
-        addWindowListener( _eventListener );
-        
-        createUI( parent );
-    }
-    
-    /**
-     * Clients should call this before releasing references to this object.
-     */
-    public void cleanup() {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-            _potential = null;
-        }
+        super( parent, SimStrings.get( "BSAsymmetricDialog.title" ), potential );
+        _potential = potential;  
+        updateControls();
     }
     
     //----------------------------------------------------------------------------
-    // Private initializers
+    // BSAbstractConfigureDialog implementation
     //----------------------------------------------------------------------------
-
-    /*
-     * Creates the user interface for the dialog.
-     * 
-     * @param parent the parent Frame
-     */
-    private void createUI( Frame parent ) {
-        
-        JPanel inputPanel = createInputPanel();
-        JPanel actionsPanel = createActionsPanel();
-
-        JPanel bottomPanel = new JPanel( new BorderLayout() );
-        bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
-        bottomPanel.add( actionsPanel, BorderLayout.CENTER );
-        
-        JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
-        mainPanel.add( inputPanel, BorderLayout.CENTER );
-        mainPanel.add( bottomPanel, BorderLayout.SOUTH );
-
-        getContentPane().add( mainPanel );
-        pack();
-    }
 
     /*
      * Creates the dialog's input panel.
      * 
      * @return the input panel
      */
-    private JPanel createInputPanel() {
+    protected JPanel createInputPanel() {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
         
         // Width
         {
-            double value = _potential.getWidth();
+            double value = BSConstants.MIN_WELL_WIDTH;
             double min = BSConstants.MIN_WELL_WIDTH;
             double max = BSConstants.MAX_WELL_WIDTH;
             double tickSpacing = Math.abs( max - min );
@@ -140,11 +84,17 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
             String widthLabel = SimStrings.get( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
+            
+            _widthSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleWidthChange();
+                }
+            } );
         }
         
         // Depth
         {
-            double value = _potential.getDepth();
+            double value = BSConstants.MIN_WELL_DEPTH;
             double min = BSConstants.MIN_WELL_DEPTH;
             double max = BSConstants.MAX_WELL_DEPTH;
             double tickSpacing = Math.abs( max - min );
@@ -153,11 +103,17 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
             String depthLabel = SimStrings.get( "label.wellDepth" );
             _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
+            
+            _depthSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleDepthChange();
+                }
+            } );
         }
 
         // Offset
         {
-            double value = _potential.getOffset();
+            double value = BSConstants.MIN_WELL_OFFSET;
             double min = BSConstants.MIN_WELL_OFFSET;
             double max = BSConstants.MAX_WELL_OFFSET;
             double tickSpacing = Math.abs( max - min );
@@ -166,9 +122,13 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            
+            _offsetSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) { 
+                    handleOffsetChange();
+                }
+            } );
         }
-        
-        updateControls();
         
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -186,30 +146,8 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
         row++;
         layout.addComponent( _depthSlider, row, col );
         row++;
-
-        // Interction
-        setEventHandlingEnabled( true );
         
         return inputPanel;
-    }
-
-    /*
-     * Creates the dialog's actions panel, consisting of a Close button.
-     * 
-     * @return the actions panel
-     */
-    private JPanel createActionsPanel() {
-
-        _closeButton = new JButton( SimStrings.get( "button.close" ) );
-        _closeButton.addActionListener( _eventListener );
-
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 1 ) );
-        buttonPanel.add( _closeButton );
-
-        JPanel actionPanel = new JPanel( new FlowLayout() );
-        actionPanel.add( buttonPanel );
-
-        return actionPanel;
     }
 
     //----------------------------------------------------------------------------
@@ -220,73 +158,22 @@ public class BSAsymmetricDialog extends JDialog implements Observer {
      * Synchronizes the view with the model.
      */
     public void update( Observable o, Object arg ) {
-        updateControls();
+        if ( o == _potential ) {
+            updateControls();
+        }
     }
     
     private void updateControls() {
-
         // Sync values
         _widthSlider.setValue( _potential.getWidth() );
         _depthSlider.setValue( _potential.getDepth() );
         _offsetSlider.setValue( _potential.getOffset() );
     }
     
-    private void setEventHandlingEnabled( boolean enabled ) {
-        if ( enabled ) {
-            _widthSlider.addChangeListener( _eventListener );
-            _depthSlider.addChangeListener( _eventListener );
-            _offsetSlider.addChangeListener( _eventListener );
-        }
-        else {
-            _widthSlider.removeChangeListener( _eventListener );
-            _depthSlider.removeChangeListener( _eventListener );
-            _offsetSlider.removeChangeListener( _eventListener );
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
 
-    /*
-     * Dispatches events to the appropriate handler method.
-     */
-    private class EventListener extends WindowAdapter implements ActionListener, ChangeListener {
-
-        public void windowClosing( WindowEvent event ) {
-            handleCloseAction();
-        }
-        
-        public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _closeButton ) {
-                handleCloseAction();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
-        }
-
-        public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _widthSlider ) {
-                handleWidthChange();
-            }
-            else if ( event.getSource() == _depthSlider ) {
-                handleDepthChange();
-            }
-            else if ( event.getSource() == _offsetSlider ) {
-                handleOffsetChange();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
-        }
-    }
-    
-    private void handleCloseAction() {
-        cleanup();
-        dispose();
-    }
-    
     private void handleWidthChange() {
         final double width = _widthSlider.getValue();
         _potential.setWidth( width );
