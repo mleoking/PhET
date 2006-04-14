@@ -182,18 +182,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         return inputPanel;
     }
 
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Synchronizes the view with the model.
-     */
-    public void update( Observable o, Object arg ) {
-        updateControls();
-    }
-    
-    private void updateControls() {
+    protected void updateControls() {
 
         // Sync values
         _widthSlider.setValue( _potential.getWidth() );

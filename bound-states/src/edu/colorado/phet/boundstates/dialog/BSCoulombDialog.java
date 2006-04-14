@@ -94,7 +94,7 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
 
         // Spacing
         {
-            double value = BSConstants.MIN_WELL_OFFSET;
+            double value = BSConstants.MIN_WELL_SPACING;
             double min = BSConstants.MIN_WELL_SPACING;
             double max = BSConstants.MAX_WELL_SPACING;
             double tickSpacing = Math.abs( max - min );
@@ -128,18 +128,7 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
         return inputPanel;
     }
 
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Synchronizes the view with the model.
-     */
-    public void update( Observable o, Object arg ) {
-        updateControls();
-    }
-    
-    private void updateControls() {
+    protected void updateControls() {
         // Sync values
         _offsetSlider.setValue( _potential.getOffset() );
         _spacingSlider.setValue( _potential.getSpacing() );

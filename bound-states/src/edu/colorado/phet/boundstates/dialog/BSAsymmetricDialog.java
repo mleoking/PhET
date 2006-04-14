@@ -149,21 +149,8 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         
         return inputPanel;
     }
-
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
     
-    /**
-     * Synchronizes the view with the model.
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _potential ) {
-            updateControls();
-        }
-    }
-    
-    private void updateControls() {
+    protected void updateControls() {
         // Sync values
         _widthSlider.setValue( _potential.getWidth() );
         _depthSlider.setValue( _potential.getDepth() );
