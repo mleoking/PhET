@@ -22,6 +22,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.debug.DebugOutput;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -49,13 +50,13 @@ public class BSEigenstatesNode extends PNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSCombinedChartNode _chartNode;
     private BSAbstractPotential _potential;
-    
+    private BSSuperpositionCoefficients _superpositionCoefficients;
     private BSEigenstate[] _eigenstates;
+    
+    private BSCombinedChartNode _chartNode;
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
     
-    private int _selectionIndex;
     private int _hiliteIndex;
     
     private Color _normalColor, _hiliteColor, _selectionColor;
@@ -76,7 +77,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _chartNode = chartNode;
         _lines = new ArrayList();
         _eigenstates = null;
-        _selectionIndex = INDEX_UNDEFINED;
         _hiliteIndex = INDEX_UNDEFINED;
         
         _normalColor = BSConstants.COLOR_SCHEME.getEigenstateNormalColor();
@@ -120,11 +120,24 @@ public class BSEigenstatesNode extends PNode implements Observer {
         updateDisplay();
     }
     
+    public void setSuperpositionCoefficients( BSSuperpositionCoefficients superpositionCoefficients ) {
+        if ( _superpositionCoefficients != null ) {
+            _superpositionCoefficients.deleteObserver( this );
+        }
+        _superpositionCoefficients = superpositionCoefficients;
+        _superpositionCoefficients.addObserver( this );
+        updateDisplay();
+    }
+    
     public void setColorScheme( BSColorScheme colorScheme ) {
         _normalColor = colorScheme.getEigenstateNormalColor();
         _hiliteColor = colorScheme.getEigenstateHiliteColor();
         _selectionColor = colorScheme.getEigenstateSelectionColor();
         updateDisplay();
+    }
+    
+    private boolean isInitalized() {
+        return ( _potential != null && _superpositionCoefficients != null );
     }
     
     //----------------------------------------------------------------------------
@@ -139,8 +152,12 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     public void update( Observable o, Object arg ) {
         if ( o == _potential ) {
-            _selectionIndex = 0;
             updateDisplay();
+        }
+        else if ( o == _superpositionCoefficients ) {
+            if ( _superpositionCoefficients.getNumberOfCoefficients() == _eigenstates.length ) {
+                selectEigenstates();
+            }
         }
     }
 
@@ -153,6 +170,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     public void updateDisplay() {
 
+        if ( !isInitalized() ) {
+            return;
+        }
+        
         setBounds( _chartNode.getEnergyPlotBounds() );
         
         clearHilite();
@@ -170,7 +191,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         
         // Create a line for each eigenstate...
         _eigenstates = _potential.getEigenstates();
-//        DebugOutput.printEigenstates( _eigenstates );//XXX
         for ( int i = 0; i < _eigenstates.length; i++ ) {
             final double energy = _eigenstates[i].getEnergy();
             Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
@@ -185,7 +205,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             _lines.add( line );
         }
 
-        selectEigenstate( _selectionIndex );
+        selectEigenstates();
     }
     
     //----------------------------------------------------------------------------
@@ -211,38 +231,33 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param index
      */
     private void selectEigenstate( final int index ) {
-//        System.out.println( "selectEigenstate " + index );//XXX
-        
-        clearSelection();
-        if ( index == _hiliteIndex ) {
-            clearHilite();
+        _superpositionCoefficients.setNotifyEnabled( false );
+        final int numberOfCoefficients = _superpositionCoefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            _superpositionCoefficients.setCoefficient( i, 0 );
         }
-        
-        if ( index >= 0 && index < _lines.size() ) {
-            _selectionIndex = index;
-        }
-        else {
-            _selectionIndex = INDEX_UNDEFINED;
-        }
-        
-        if ( _selectionIndex != INDEX_UNDEFINED ) {
-            PPath line = (PPath) _lines.get( _selectionIndex );
-            line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
-            line.setStrokePaint( _selectionColor );
-        }
+        _superpositionCoefficients.setCoefficient( index, 1 );
+        _superpositionCoefficients.setNotifyEnabled( true );
     }
     
     /*
-     * Clears the current selection.
+     * Selects eignestate lines based on superposition coefficient values.
+     * Each line with a non-zero coefficient is selected.
      */
-    private void clearSelection() {
-        if ( _selectionIndex != INDEX_UNDEFINED ) {
-            if ( _lines.size() > _selectionIndex ) {
-                PPath line = (PPath) _lines.get( _selectionIndex );
+    private void selectEigenstates() {
+        
+        final int numberOfCoefficients = _superpositionCoefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            final double value = _superpositionCoefficients.getCoefficient( i );
+            PPath line = (PPath) _lines.get( i );
+            if ( value == 0 ) {
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
                 line.setStrokePaint( _normalColor );
             }
-            _selectionIndex = INDEX_UNDEFINED;
+            else {
+                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
+                line.setStrokePaint( _selectionColor );
+            }
         }
     }
     
@@ -277,12 +292,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
 
         // Set the new highlight...
-        if ( hiliteIndex != _selectionIndex && hiliteIndex != INDEX_UNDEFINED ) {
-            _hiliteIndex = hiliteIndex;
-            PPath line = (PPath) _lines.get( _hiliteIndex );
-            line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
-            line.setStrokePaint( _hiliteColor );
-        }
+        _hiliteIndex = hiliteIndex;
+        PPath line = (PPath) _lines.get( _hiliteIndex );
+        line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
+        line.setStrokePaint( _hiliteColor );
     }
     
     /*
@@ -290,9 +303,16 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     private void clearHilite() {
         if ( _hiliteIndex != INDEX_UNDEFINED ) {
+            final double value = _superpositionCoefficients.getCoefficient( _hiliteIndex );
             PPath line = (PPath) _lines.get( _hiliteIndex );
-            line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
-            line.setStrokePaint( _normalColor );
+            if ( value == 0 ) {
+                line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+                line.setStrokePaint( _normalColor );
+            }
+            else {
+                line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
+                line.setStrokePaint( _selectionColor );
+            }
             _hiliteIndex = INDEX_UNDEFINED;
         }
     }
