@@ -14,10 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.Spin;
-import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -84,14 +81,15 @@ public class MonitorPanel extends PhetPCanvas {
     private double fieldStrength;
 
     private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
-//    private RepresentationPolicy representationPolicy = new Transparency();
 
     /**
      * Constructor
      *
      * @param model
      */
-    public MonitorPanel( MriModel model ) {
+    public MonitorPanel( final MriModel model ) {
+
+        model.addListener( new ModelChangeListener( model ));
 
         lowerLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
         addWorldChild( lowerLine );
@@ -103,33 +101,13 @@ public class MonitorPanel extends PhetPCanvas {
 
         model.addModelElement( new DipoleRepUpdater( model ) );
 
-        model.getLowerMagnet().addChangeListener( new Electromagnet.ChangeListener() {
-            public void stateChanged( Electromagnet.ChangeEvent event ) {
-                fieldStrength = event.getElectromagnet().getFieldStrength();
-                setLinePositions();
-            }
-        } );
+        model.getLowerMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                setLinePositions();
+                setLinePositions( model );
             }
         } );
-    }
-
-    /**
-     * Establish the center point of the panel, and position the energy levels
-     * symetrically above and below it
-     */
-    private void setLinePositions() {
-        double heightFractionUsed = 0.9;
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
-        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
-        double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
-        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
-        double centerY = getHeight() / 2 + imageReserveSpace;
-        lowerLine.setPositionY( centerY + offsetY );
-        upperLine.setPositionY( centerY - offsetY );
     }
 
     public void setRepresentationPolicy( RepresentationPolicy representationPolicy ) {
@@ -171,15 +149,11 @@ public class MonitorPanel extends PhetPCanvas {
             }
 
             // Add a listener that will add and remove dipole reps as they go in and out of the model
-            model.addListener( new MriModel.Listener() {
+            model.addListener( new MriModel.ChangeAdapter() {
                 public void modelElementAdded( ModelElement modelElement ) {
                     if( modelElement instanceof Dipole ) {
                         addDipoleRep();
                     }
-                }
-
-                public void modelElementRemoved( ModelElement modelElement ) {
-                    throw new RuntimeException( "not implemented" );
                 }
             } );
         }
@@ -221,8 +195,23 @@ public class MonitorPanel extends PhetPCanvas {
         }
     }
 
+    /**
+     * Establish the center point of the panel, and position the energy levels
+     * symetrically above and below it
+     */
+    private void setLinePositions( MriModel model ) {
+        double heightFractionUsed = 0.9;
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
+        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
+        double fractionMaxField = Math.min( model.getSampleMaterial().getMu() * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
+        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
+        double centerY = getHeight() / 2 + imageReserveSpace;
+        lowerLine.setPositionY( centerY + offsetY );
+        upperLine.setPositionY( centerY - offsetY );
+    }
+
     //----------------------------------------------------------------
-    // Rpresentation policy
+    // Representation policy
     //----------------------------------------------------------------
     public interface RepresentationPolicy {
         void representSpins( List dipoles, List spinUpReps, List spinDownReps );
@@ -284,5 +273,33 @@ public class MonitorPanel extends PhetPCanvas {
             }
         }
 
+    }
+
+    private class EnergyLevelSeparationUpdater implements Electromagnet.ChangeListener {
+        private MriModel model;
+
+        public EnergyLevelSeparationUpdater( MriModel model ) {
+            this.model = model;
+        }
+
+        public void stateChanged( Electromagnet.ChangeEvent event ) {
+            fieldStrength = event.getElectromagnet().getFieldStrength();
+            setLinePositions( model );
+        }
+   }
+
+    //----------------------------------------------------------------
+    // ModelChangeListener
+    //----------------------------------------------------------------
+    private class ModelChangeListener extends MriModel.ChangeAdapter {
+        private MriModel model;
+
+        public ModelChangeListener( MriModel model ) {
+            this.model = model;
+        }
+
+        public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
+            setLinePositions( model );
+        }
     }
 }

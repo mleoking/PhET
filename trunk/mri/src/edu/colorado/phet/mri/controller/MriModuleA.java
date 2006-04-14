@@ -39,19 +39,24 @@ public class MriModuleA extends Module {
     public MriModuleA() {
         super( name, new SwingClock( delay, 1 ) );
 
-        PNode worldNode = new PNode();
-        MriModel model = new MriModel( getClock(), new GraphicManager( worldNode ) );
+        MriModel model = new MriModel( getClock() );
         setModel( model );
 
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
 
-
+        // Control panel
         setControlPanel( new MriControlPanel( this ) );
 
+        // Make the canvas, world node, and graphics manager
         PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
                                                                (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
         setSimulationPanel( simPanel );
+        PNode worldNode = new PNode();
         simPanel.addWorldChild( worldNode );
+
+        GraphicManager graphicsManager = new GraphicManager( simPanel, worldNode );
+        graphicsManager.scanModel( model );
+        model.addListener( graphicsManager );
 
         // Make some dipoles
         createDipoles( 15, model.getSampleChamber(), model );

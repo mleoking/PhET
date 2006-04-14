@@ -21,9 +21,13 @@ public class SampleMaterial {
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
-    public static SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", 1.0 );    
-    public static SampleMaterial UBIDUBIUM = new SampleMaterial( "ubidubium", 0.6 );
+    public static final SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", 1.0 );
+    public static final SampleMaterial UBIDUBIUM = new SampleMaterial( "ubidubium", 0.6 );
 
+    public static final SampleMaterial[] INSTANCES = new SampleMaterial[]{
+            HYDROGEN,
+            UBIDUBIUM
+    };
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -32,9 +36,13 @@ public class SampleMaterial {
     private String name;
     private double mu;
 
-    public SampleMaterial( String name, double mu ) {
+    private SampleMaterial( String name, double mu ) {
         this.name = name;
         this.mu = mu;
+    }
+
+    public String toString() {
+        return getName();
     }
 
     public String getName() {

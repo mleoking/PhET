@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.SampleChamber;
-import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.HashMap;
-import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
  * DipoleGraphicManager
@@ -26,16 +24,26 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class GraphicManager implements MriModel.Listener {
+public class GraphicManager extends MriModel.ChangeAdapter {
 
+    private PhetPCanvas phetPCanvas;
     // The PNode on which all dipole graphics are placed
     private PNode canvas;
 
     // A map of dipoles to their graphics
     private HashMap modelElementToGraphicMap = new HashMap();
 
-    public GraphicManager( PNode canvas ) {
+    public GraphicManager( PhetPCanvas phetPCanvas, PNode canvas ) {
+        this.phetPCanvas = phetPCanvas;
         this.canvas = canvas;
+    }
+
+    public void scanModel( MriModel model ) {
+        List modelElements = model.getModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)modelElements.get( i );
+            modelElementAdded( modelElement );
+        }
     }
 
     public void modelElementAdded( ModelElement modelElement ) {
@@ -49,6 +57,9 @@ public class GraphicManager implements MriModel.Listener {
         }
         if( modelElement instanceof Electromagnet ) {
             graphic = new ElectromagnetGraphic( (Electromagnet)modelElement );
+        }
+        if( modelElement instanceof RadiowaveSource ) {
+            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas  );
         }
 
         if( graphic != null ) {
