@@ -16,8 +16,7 @@ import java.util.Collections;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.test.schmidt_lee.PotentialFunction;
-import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
+import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 
 /**
@@ -95,15 +94,14 @@ public class BSCoulombWells extends BSAbstractPotential {
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
         
+        SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
         for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
             try {
-                PotentialFunction function = new PotentialFunctionAdapter( this );
-                Wavefunction wavefunction = new Wavefunction( hb, minX, maxX, numberOfPoints, nodes, function );
-                double E = wavefunction.getE();
+                double E = solver.getEnergy( nodes );
                 eigenstates.add( new BSEigenstate( E ) );
             }
-            catch ( Exception e ) {
-                System.err.println( e.getClass() + ": " + e.getMessage() );//XXX
+            catch ( SchmidtLeeException sle ) {
+                System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
                 break;
             }
         }

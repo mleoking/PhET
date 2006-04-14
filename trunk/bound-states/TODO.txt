@@ -49,6 +49,8 @@ MACINTOSH:
 
 
 DONE:
+(4/14/06) - put the modified Schmidt-Lee code (SchmidtLeeSolver) in all well classes
+(4/14/06) - modify Schmidt-Lee code so that it doesn't calculate everything in the constructor
 (4/14/06) - show eigenstates with non-zero coefficients as selected
 (4/14/06) - make Superposition dialog dynamically reconfigure itself as model changes
 (4/13/06) - model for superposition coefficients
