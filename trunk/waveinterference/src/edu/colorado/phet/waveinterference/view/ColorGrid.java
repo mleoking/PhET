@@ -143,6 +143,10 @@ public class ColorGrid {
         }
     }
 
+    public Dimension getGridDimensions() {
+        return new Dimension( nx, ny );
+    }
+
     public static interface Listener {
 
         void update();

@@ -18,9 +18,14 @@ public class IntensityColorMap implements ColorMap {
     private ColorMap colorMap;
     private ArrayList[][] history = new ArrayList[0][0];
     private int maxHistory = 120;
-    private double brightness = 3.5 * 2;
+    private double intensityScale;
 
     public IntensityColorMap( WaveModel waveModel, ColorMap colorMap ) {
+        this( waveModel, colorMap, 7 );
+    }
+
+    public IntensityColorMap( WaveModel waveModel, ColorMap colorMap, double intensityScale ) {
+        this.intensityScale = intensityScale;
         this.waveModel = waveModel;
         this.colorMap = colorMap;
         waveModel.addListener( new WaveModel.Listener() {
@@ -48,7 +53,7 @@ public class IntensityColorMap implements ColorMap {
         for( int j = 0; j < history[i][k].size(); j++ ) {
             colorVector = colorVector.add( new ColorVector( (Color)history[i][k].get( j ) ) );
         }
-        colorVector = colorVector.scale( (float)( brightness / history[i][k].size() ) );
+        colorVector = colorVector.scale( (float)( intensityScale / history[i][k].size() ) );
         return colorVector.toColor();
     }
 
@@ -58,5 +63,9 @@ public class IntensityColorMap implements ColorMap {
 
     public void setColorMap( ColorMap colorMap ) {
         this.colorMap = colorMap;
+    }
+
+    public void setIntensityScale( double intensityScale ) {
+        this.intensityScale = intensityScale;
     }
 }

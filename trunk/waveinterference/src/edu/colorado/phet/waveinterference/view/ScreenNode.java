@@ -82,4 +82,8 @@ public class ScreenNode extends PNode {
             brightnessScreenGraphic.update();
         }
     }
+
+    public void setIntensityScale( double intensityScale ) {
+        intensityColorMap.setIntensityScale( intensityScale );
+    }
 }
