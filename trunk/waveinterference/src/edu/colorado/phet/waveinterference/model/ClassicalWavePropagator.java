@@ -59,9 +59,9 @@ public class ClassicalWavePropagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
-        for( int i = 0; i < 10; i++ ) {
-            dampScale( w );
-        }
+//        for( int i = 0; i < 10; i++ ) {
+//            dampScale( w );
+//        }
         //todo avoid copying by cycling references.?
         last.copyTo( last2 );
         clearPotential( last2 );   //todo maybe only need to do one here.

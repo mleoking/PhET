@@ -20,10 +20,6 @@ public class SubLattice2D extends Lattice2D {
         this.region = region;
     }
 
-    public double getAverageValue( int x, int y, int windowWidth ) {
-        return super.getAverageValue( x, y, windowWidth );
-    }
-
     public int getWidth() {
         if( region != null ) {
             return region.width;
