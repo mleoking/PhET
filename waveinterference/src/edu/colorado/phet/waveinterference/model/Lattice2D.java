@@ -31,25 +31,6 @@ public class Lattice2D {
             }
         }
     }
-//
-//    public void splitWave( Rectangle region, Lattice2D a, Lattice2D b ) {
-//        for( int i = region.x; i < region.x + region.width; i++ ) {
-//            for( int j = region.y; j < region.y + region.height; j++ ) {
-//                float v = valueAt( i, j );
-//                a.setValue( i, j, v*( 0.5 ) );
-//                b.setValue( i, j, v*( 0.5 ) );
-//            }
-//        }
-//    }
-//
-//    public void combineWaves( Rectangle region, Lattice2D a, Lattice2D b ) {
-//        for( int i = region.x; i < region.x + region.width; i++ ) {
-//            for( int j = region.y; j < region.y + region.height; j++ ) {
-//                float sum = SplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
-//                setValue( i, j, new float( sum, 0 ) );
-//            }
-//        }
-//    }
 
     public void maximize() {
         float max = 0;
@@ -127,30 +108,6 @@ public class Lattice2D {
         return getBounds().contains( i, k );
     }
 
-//    public static String toString( float[] complexes ) {
-//        return Arrays.asList( complexes ).toString();
-//    }
-
-    public static float[][] newInstance( int w, int h ) {
-        float[][] copy = new float[w][h];
-        for( int i = 0; i < copy.length; i++ ) {
-            for( int j = 0; j < copy[i].length; j++ ) {
-                copy[i][j] = 0;
-            }
-        }
-        return copy;
-    }
-
-    public static float[][] copy( float[][] w ) {
-        float[][] copy = new float[w.length][w[0].length];
-        for( int i = 0; i < copy.length; i++ ) {
-            for( int j = 0; j < copy[i].length; j++ ) {
-                copy[i][j] = w[i][j];
-            }
-        }
-        return copy;
-    }
-
     public void copyTo( Lattice2D dest ) {
         dest.setSize( getWidth(), getHeight() );
         int width = getWidth();
@@ -222,17 +179,10 @@ public class Lattice2D {
     public void clear() {
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-//                if( valueAt( i, j ) == null ) {
-//                    wavefunction[i][j] = new float();
-//                }
-//                else {
-//                    valueAt( i, j ).zero();
-//                }
                 setValue( i, j, 0 );
             }
         }
         setMagnitudeDirty();
-//        notifyCleared();
     }
 
     public void setMagnitudeDirty() {
@@ -244,7 +194,6 @@ public class Lattice2D {
             wavefunction = new float[width][height];
             clear();
         }
-
     }
 
     public Lattice2D copy() {
@@ -259,16 +208,6 @@ public class Lattice2D {
 
     public Rectangle getBounds() {
         return new Rectangle( getWidth(), getHeight() );
-    }
-
-    public Lattice2D copyRegion( int x, int y, int width, int height ) {
-        Lattice2D sub = new Lattice2D( width, height );
-        for( int i = x; i < x + width; i++ ) {
-            for( int j = y; j < y + height; j++ ) {
-                sub.wavefunction[i - x][j - y] = ( getValue( i, j ) );
-            }
-        }
-        return sub;
     }
 
     public void add( Lattice2D w ) {
