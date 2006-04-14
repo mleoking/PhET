@@ -39,7 +39,6 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
 
     /**
-     *
      * @param model
      */
     public IonFlowManager( SolubleSaltsModel model ) {
@@ -82,8 +81,14 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             double farthestDistToDrain = Math.sqrt( maxDistSq );
 
             // Determine the number of clock ticks before the vessel is nearly empty.
-            double virtualEmptyLevel = 10;
-            double timeToEmpty = ( vessel.getWaterLevel() - virtualEmptyLevel ) / ( -change );
+            double virtualEmptyLevel = model.getVessel().getLocation().getY()
+                                       + model.getVessel().getDepth()
+                                       - model.getDrain().getPosition().getY();
+//            double virtualEmptyLevel = 10;
+            double waterToDrain = vessel.getWaterLevel() - virtualEmptyLevel;
+            waterToDrain = waterToDrain > 0 ? waterToDrain : vessel.getWaterLevel();
+            double timeToEmpty = waterToDrain / ( -change );
+//            double timeToEmpty = ( vessel.getWaterLevel() - virtualEmptyLevel ) / ( -change );
 
             // Compute the speed that the ion farthest from the drain must have in order to make
             // it out of the tank by the time the water is gone.
@@ -91,8 +96,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
             for( int i = 0; i < ions.size(); i++ ) {
                 Ion ion = (Ion)ions.get( i );
-                // If the ion isn't in the water, don't mess with it
-                if( !vessel.getWater().getBounds().contains( ion.getPosition() )) {
+                // If the ion isn't in the water or is bound, don't mess with it
+                if( ion.isBound() || !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
                     continue;
                 }
 
