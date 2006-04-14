@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.quantum.AtomicStateFactory;
 import edu.colorado.phet.quantum.model.AtomicState;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * HydrogenProperties
@@ -21,15 +22,14 @@ import edu.colorado.phet.quantum.model.AtomicState;
  */
 public class ConfigurableElementProperties extends DischargeLampElementProperties {
     private static double[] energyLevels = {
-        -13.6
+            -13.6
     };
 
     private double meanStateLifetime = DischargeLampAtom.DEFAULT_STATE_LIFETIME;
 
     public ConfigurableElementProperties( int numEnergyLevels, DischargeLampModel model ) {
-        super( "Configurable", energyLevels,
+        super( SimStrings.get( "Element.configurable" ), energyLevels,
                new ConfigurableAtomEnergyEmissionStrategy(),
-//               new HydrogenEnergyEmissionStrategy(),
                new FiftyPercentAbsorptionStrategy(),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         setMeanStateLifetime( meanStateLifetime );
