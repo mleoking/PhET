@@ -274,13 +274,13 @@ public class WaveFunctionPlot extends QTXYPlot implements Observer {
     /**
      * Sets the wave that the plot will display.
      * 
-     * @param planeWave
+     * @param wave
      */
-    public void setWave( AbstractWave planeWave ) {
+    public void setWave( AbstractWave wave ) {
         if ( _wave != null ) {
             _wave.deleteObserver( this );
         }
-        _wave = planeWave;
+        _wave = wave;
         _wave.addObserver( this );
         updateDatasets();
     }
