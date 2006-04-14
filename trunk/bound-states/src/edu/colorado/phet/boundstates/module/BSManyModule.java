@@ -496,10 +496,10 @@ public class BSManyModule extends BSAbstractModule {
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         
+        _superpositionCoefficients.setPotential( _selectedPotential );
         _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         _eigenstatesNode.setPotential( _selectedPotential );
         _chart.getEnergyPlot().setPotential( _selectedPotential );
-        _superpositionCoefficients.setPotential( _selectedPotential );
         
         resetClock();
     }

@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- cache eigenstates in well classes, for use by getEigenstates and getNumberOfEigenstates
 - solve wavefunction and display in chart for selected eigenstate(s)
 - solve wavefunction and display in chart for hilited eigenstate 
 - scale position axis to fit excited portion of wavefunction
