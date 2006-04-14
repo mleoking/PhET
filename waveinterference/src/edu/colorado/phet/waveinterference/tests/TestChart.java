@@ -15,7 +15,7 @@ import java.awt.*;
  */
 
 public class TestChart extends TestTopView {
-    private ChartGraphic chartGraphic;
+    private WaveChartGraphic waveChartGraphic;
 
     public TestChart() {
         super( "Test Chart" );
@@ -24,8 +24,8 @@ public class TestChart extends TestTopView {
 
         final MutableColor waterColor = new MutableColor( new Color( 130, 185, 255 ) );
         getWaveModelGraphic().setColorMap( new IndexColorMap( getLattice(), waterColor ) );
-        chartGraphic = new ChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor );
-        getPhetPCanvas().getLayer().addChild( chartGraphic );
+        waveChartGraphic = new WaveChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor );
+        getPhetPCanvas().getLayer().addChild( waveChartGraphic );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( crossSectionGraphic );
@@ -36,7 +36,7 @@ public class TestChart extends TestTopView {
 
     protected void step() {
         super.step();
-        chartGraphic.updateChart();
+        waveChartGraphic.updateChart();
     }
 
     public static void main( String[] args ) {

@@ -96,10 +96,13 @@ public class WaveModelGraphic extends PNode {
     }
 
     public void update() {
+        Dimension origGridDim = colorGridNode.getGridDimensions();
         colorGridNode.setGridDimensions( waveModel.getWidth(), waveModel.getHeight() );
         colorGridNode.paint( colorMap );
         repaint();
-        notifyMappingChanged();
+        if( !origGridDim.equals( colorGridNode.getGridDimensions() ) ) {
+            notifyMappingChanged();
+        }
         notifyColorChanged();
     }
 

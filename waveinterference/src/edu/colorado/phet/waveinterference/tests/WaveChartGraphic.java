@@ -27,7 +27,7 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Apr 12, 2006 by Sam Reid
  */
 
-public class ChartGraphic extends PNode {
+public class WaveChartGraphic extends PNode {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private WaveModel waveModel;
     private MutableColor strokeColor;
@@ -35,7 +35,7 @@ public class ChartGraphic extends PNode {
     private JFreeChartNode jFreeChartNode;
     private PPath path;
 
-    public ChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor ) {
+    public WaveChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.waveModel = waveModel;
         this.strokeColor = strokeColor;

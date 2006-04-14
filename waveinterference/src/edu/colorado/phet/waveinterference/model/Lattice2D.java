@@ -42,6 +42,10 @@ public class Lattice2D {
         return sum / count;
     }
 
+    public Dimension getSize() {
+        return new Dimension( getWidth(), getHeight() );
+    }
+
     public static interface Listener {
         void cleared();
 

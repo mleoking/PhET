@@ -8,6 +8,7 @@ package edu.colorado.phet.waveinterference.model;
 public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
     private int dampX;
     private int dampY;
+    private Lattice2D largeLattice;
 
     public DampedClassicalWavePropagator( Potential potential, int dampX, int dampY ) {
         super( potential );
@@ -37,7 +38,10 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         //copy to large lattice
-        Lattice2D largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
+        if( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() )
+        {
+            largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
+        }
         for( int i = 0; i < w.getWidth(); i++ ) {
             for( int k = 0; k < w.getHeight(); k++ ) {
                 largeLattice.setValue( i + dampX, k + dampY, w.getValue( i, k ) );
@@ -61,8 +65,8 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
                 float damp = getDamp( distFromDampBoundary );
                 int i = origin + step * sign;
                 lattice.setValue( i, j, lattice.getValue( i, j ) * damp );
-                last.setValue( i, j, last.getValue( i, j ) * damp );
-                last2.setValue( i, j, last2.getValue( i, j ) * damp );
+                getLast().setValue( i, j, getLast().getValue( i, j ) * damp );
+                getLast2().setValue( i, j, getLast2().getValue( i, j ) * damp );
             }
         }
     }
@@ -74,8 +78,8 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
                 float damp = getDamp( distFromDampBoundary );
                 int j = origin + step * sign;
                 lattice.setValue( j, i, lattice.getValue( j, i ) * damp );
-                last.setValue( j, i, last.getValue( j, i ) * damp );
-                last2.setValue( j, i, last2.getValue( j, i ) * damp );
+                getLast().setValue( j, i, getLast().getValue( j, i ) * damp );
+                getLast2().setValue( j, i, getLast2().getValue( j, i ) * damp );
             }
         }
     }

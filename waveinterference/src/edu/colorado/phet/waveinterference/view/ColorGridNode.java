@@ -2,6 +2,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -46,5 +47,9 @@ public class ColorGridNode extends PImage {
 
     public void setCellDimensions( int dx, int dy ) {
         colorGrid.setCellDimensions( dx, dy );
+    }
+
+    public Dimension getGridDimensions() {
+        return colorGrid.getGridDimensions();
     }
 }
