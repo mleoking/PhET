@@ -6,7 +6,12 @@ package edu.colorado.phet.boundstates.model;
  * for a potential function
  * <p>.
  * This is a modified version of code written by Schmidt & Lee.
- * Their copyright notice is reproduced below.
+ * Instead of doing all of the calculations immediately in the 
+ * constructor, calculations are done on deman.  Some method names
+ * have been changed to add clarity, and an inner type was added 
+ * for exceptions.
+ * <p>
+ * Here is the original copyright notice:
  * <p>
  *  Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee
  *  
