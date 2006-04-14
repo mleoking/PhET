@@ -1,11 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.waveinterference.tests;
+package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
-import edu.colorado.phet.waveinterference.view.MutableColor;
-import edu.colorado.phet.waveinterference.view.WaveSampler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;

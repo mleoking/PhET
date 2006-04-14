@@ -1,9 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
-import edu.colorado.phet.waveinterference.view.IndexColorMap;
-import edu.colorado.phet.waveinterference.view.MutableColor;
+import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
 

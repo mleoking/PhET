@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.waveinterference.view.ColorMap;
+import edu.colorado.phet.waveinterference.view.WavelengthControlPanel;
 
 /**
  * User: Sam Reid
