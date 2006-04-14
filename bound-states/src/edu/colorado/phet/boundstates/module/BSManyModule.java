@@ -359,6 +359,7 @@ public class BSManyModule extends BSAbstractModule {
         
         // View 
         _eigenstatesNode.setPotential( _selectedPotential );
+        _eigenstatesNode.setSuperpositionCoefficients( _superpositionCoefficients );
         _chart.getEnergyPlot().setPotential( _selectedPotential );
         
         // Controls

@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - solve wavefunction and display in chart for hilited eigenstate 
 - width and spacing sliders in BSSquareDialog don't interact like they should
 - relationship in UI between well depth & spacing, how do they affect each others controls?
-- support for programmatic multiple selection of eigenstate lines
 - normalization of Superposition coefficients has round-off and double precision error
 - drag handles for each potential type (all slightly different)
 - scale position axis to fit excited portion of wavefunction
@@ -51,6 +50,7 @@ MACINTOSH:
 
 
 DONE:
+(4/14/06) - show eigenstates with non-zero coefficients as selected
 (4/14/06) - make Superposition dialog dynamically reconfigure itself as model changes
 (4/13/06) - model for superposition coefficients
 (4/12/06) - time estimate for completing this simulation
