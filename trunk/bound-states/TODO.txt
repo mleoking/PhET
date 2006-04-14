@@ -5,10 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- show same number of superposition coefficients as there are eigenstates
-- model total energy as a set of eigenstates
 - disabled the superposition button if no eigenstates are found
-- keep 1 set of superposition coefficients, only set to ground state if some coefficient becomes irrelevant 
 - solve wavefunction and display in chart for selected eigenstate(s)
 - solve wavefunction and display in chart for hilited eigenstate 
 - width and spacing sliders in BSSquareDialog don't interact like they should
