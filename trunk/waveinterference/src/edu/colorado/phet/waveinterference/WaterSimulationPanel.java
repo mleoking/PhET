@@ -70,7 +70,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         faucetControlPanelPNode = new FaucetControlPanelPNode( this, new ShinyPanel( new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ) ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
 
-        faucetConnector = new FaucetConnector( faucetControlPanelPNode, getPrimaryFaucetGraphic() );
+        faucetConnector = new FaucetConnector( faucetControlPanelPNode, primaryFaucetGraphic );
         addScreenChild( 0, faucetConnector );
 
         addComponentListener( new ComponentAdapter() {

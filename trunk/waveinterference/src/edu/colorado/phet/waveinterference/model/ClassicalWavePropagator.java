@@ -59,6 +59,7 @@ public class ClassicalWavePropagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
+//        dampScale( w );
         //todo avoid copying by cycling references.?
         last.copyTo( last2 );
         clearPotential( last2 );   //todo maybe only need to do one here.
@@ -68,6 +69,28 @@ public class ClassicalWavePropagator {
 //        last.setMagnitudeDirty();
 //        last2.setMagnitudeDirty();
     }
+
+//    private void dampScale( Lattice2D lattice ) {
+//        for( int i = 0; i < lattice.getWidth(); i++ ) {
+//            for( int j = 0; j < lattice.getHeight(); j++ ) {
+//                int dampSize = 10;
+//                if( i < dampSize || j < dampSize || i > lattice.getWidth() - dampSize || j > lattice.getHeight()- dampSize )
+//                {
+//                    float damp = 1.0f;
+//                    if(j<dampSize){
+//                        damp=(float)( 0.999f - j * 0.02 );
+//                    }
+//                    else if (j>lattice.getHeight()-dampSize){
+//                        double dist=lattice.getHeight()-j;
+//                        damp=(float)( 0.999f - dist* 0.02 );
+//                    }
+//                    lattice.setValue( i, j, lattice.getValue( i, j ) * damp );
+//                    last.setValue( i, j, last.getValue( i, j ) * damp );
+//                    last2.setValue( i, j, last2.getValue( i, j ) * damp );
+//                }
+//            }
+//        }
+//    }
 
     private void clearPotential( Lattice2D last ) {
         //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0. (18% application in one run)
@@ -95,6 +118,19 @@ public class ClassicalWavePropagator {
             lattice2D.setValue( i, j, last2.getValue( i + di, j ) );
         }
     }
+//    private void dampHorizontal( Lattice2D lattice2D, int j, int dj ) {
+//        for( int i = 1; i < lattice2D.getWidth()-1; i++ ) {
+//            float value = last2.getValue( i, j + dj )*2+last2.getValue( i-1, j + dj )+last2.getValue( i+1, j + dj );
+//            lattice2D.setValue( i, j, value/4.0f );
+//        }
+//    }
+//
+//    private void dampVertical( Lattice2D lattice2D, int i, int di ) {
+//        for( int j = 1; j < lattice2D.getHeight()-1; j++ ) {
+//            float value = last2.getValue( i + di, j )*2+last2.getValue( i + di, j-1 )+last2.getValue( i + di, j+1 );
+//            lattice2D.setValue( i, j, value/4f );
+//        }
+//    }
 
 //    private float ZERO = 0;
 

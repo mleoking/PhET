@@ -73,4 +73,8 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
         this.colorMap = colorMap;
         update();
     }
+
+    public ColorMap getColorMap() {
+        return colorMap;
+    }
 }
