@@ -21,36 +21,14 @@ public class Lattice2D {
         this( lattice2D.wavefunction );
     }
 
-    public void clearRect( Rectangle rect ) {
-        for( int i = rect.x; i < rect.x + rect.width; i++ ) {
-            for( int j = rect.y; j < rect.y + rect.height; j++ ) {
-                //todo intersect rectangles to avoid contains call each time.
-                if( containsLocation( i, j ) ) {
-                    setValue( i, j, 0 );
-                }
-            }
-        }
+    public Lattice2D( int width, int height ) {
+        wavefunction = new float[width][height];
+        clear();
     }
 
-    public void maximize() {
-        float max = 0;
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
-                max = Math.max( Math.abs( getValue( i, j ) ), max );
-            }
-        }
-        scale( 1.0f / max );
+    public Lattice2D( float[][] values ) {
+        this.wavefunction = values;
         setMagnitudeDirty();
-    }
-
-    public Lattice2D getNormalizedInstance() {
-        Lattice2D w = copy();
-        w.normalize();
-        return w;
-    }
-
-    public Dimension getSize() {
-        return new Dimension( getWidth(), getHeight() );
     }
 
     public double getAverageValue( int x, int y, int windowWidth ) {
@@ -71,26 +49,6 @@ public class Lattice2D {
         void cleared();
 
         void scaled( float scale );
-    }
-
-    public Lattice2D( int width, int height ) {
-        wavefunction = new float[width][height];
-        clear();
-    }
-
-    public Lattice2D( float[][] values ) {
-        this.wavefunction = values;
-        setMagnitudeDirty();
-    }
-
-    public void setMagnitude( float newMagnitude ) {
-        setMagnitudeDirty();
-        float origMagnitude = getMagnitude();
-        scale( (float)( Math.sqrt( newMagnitude ) / Math.sqrt( origMagnitude ) ) );
-        float m = getMagnitude();//todo remove this after we're sure its working
-        if( Math.abs( m - newMagnitude ) > 10E-6 ) {
-            throw new RuntimeException( "Normalization failed: requested new magnitude=" + newMagnitude + ", received=" + m );
-        }
     }
 
     public void scale( float scale ) {
@@ -134,46 +92,6 @@ public class Lattice2D {
 
     public float getValue( int i, int j ) {
         return wavefunction[i][j];
-    }
-
-    public void normalize() {
-        float totalProbability = getMagnitude();
-//        System.out.println( "totalProbability = " + totalProbability );
-        float scale = (float)( 1.0 / Math.sqrt( totalProbability ) );
-        scale( scale );
-        float postProb = getMagnitude();
-//        System.out.println( "postProb = " + postProb );
-
-        float diff = (float)( 1.0 - postProb );
-        float err = Math.abs( diff );
-        if( err > 0.0001 ) {
-            System.out.println( "Error in probability normalization, norm=" + postProb + ", err=" + err );
-//            new Exception("Error in probability normalization, norm=" + postProb  ).printStackTrace( );
-//            throw new RuntimeException( "Error in probability normalization." );
-        }
-        setMagnitudeDirty();
-    }
-
-    public float getMagnitude() {
-        if( magnitudeDirty ) {
-//            System.out.println( "Wavefunction.getMagnitude" );
-            this.magnitude = recomputeMagnitude();
-            magnitudeDirty = false;
-        }
-        return magnitude;
-    }
-
-    private float recomputeMagnitude() {//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
-        float runningSum = 0.0f;
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
-                float psiStar = wavefunction[i][j];
-                float psi = wavefunction[i][j];
-                float term = psiStar * psi;
-                runningSum = runningSum + term;
-            }
-        }
-        return runningSum;
     }
 
     public void clear() {

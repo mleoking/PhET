@@ -191,23 +191,23 @@ public class ClassicalWavePropagator {
 //        return new ClassicalWavePropagator( getPotential() );
 //    }
 
-    public void normalize() {
-        if( last2 != null ) {
-            last2.normalize();
-        }
-        if( last != null ) {
-            last.normalize();
-        }
-    }
+//    public void normalize() {
+//        if( last2 != null ) {
+//            last2.normalize();
+//        }
+//        if( last != null ) {
+//            last.normalize();
+//        }
+//    }
 
-    public void setWavefunctionNorm( float norm ) {
-        if( last2 != null ) {
-            last2.setMagnitude( norm );
-        }
-        if( last != null ) {
-            last.setMagnitude( norm );
-        }
-    }
+//    public void setWavefunctionNorm( float norm ) {
+//        if( last2 != null ) {
+//            last2.setMagnitude( norm );
+//        }
+//        if( last != null ) {
+//            last.setMagnitude( norm );
+//        }
+//    }
 
     public void scale( float scale ) {
         if( last2 != null ) {
