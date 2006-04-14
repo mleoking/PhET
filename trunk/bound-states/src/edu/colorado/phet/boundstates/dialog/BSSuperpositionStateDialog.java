@@ -172,6 +172,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             spinner.addChangeListener( _eventListener );
             _spinners.add( spinner );
         }
+        updateSpinnersColor();
 
         // Layout the spinners in columns so that tab traversal works in column-major order...
         JPanel[] columns = new JPanel[ NUMBER_OF_COLUMNS ];
@@ -275,11 +276,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     public void setColorScheme( BSColorScheme colorScheme ) {
         _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
-        Iterator i = _spinners.iterator();
-        while ( i.hasNext() ) {
-            DoubleSpinner spinner = (DoubleSpinner) i.next();
-            updateSpinnerColor( spinner );
-        }
+        updateSpinnersColor();
     }
     
     //----------------------------------------------------------------------------
@@ -297,6 +294,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
                 for ( int i = 0; i < numberOfCoefficients; i++ ) {
                     ((DoubleSpinner)_spinners.get(i)).setDoubleValue( _coefficients.getCoefficient( i ) );
                 }
+                updateSpinnersColor();
             }
             else {
                 // different number of coefficients, rebuild the input panel...
@@ -304,6 +302,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
                 _dynamicPanel.add( createInputPanel() );
                 pack();
             }
+            _changed = false;
         }
     }
     
@@ -325,12 +324,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      */
     private void apply() {
         if ( isNormalized() ) {
+            _coefficients.setNotifyEnabled( false );
             for ( int i = 0; i < _spinners.size(); i++ ) {
                 DoubleSpinner spinner = (DoubleSpinner)_spinners.get( i );
                 double value = spinner.getDoubleValue();
                 _coefficients.setCoefficient( i, value );
             }
             _changed = false;
+            _coefficients.setNotifyEnabled( true );
         }
         else {
             throw new IllegalStateException( "attempt to apply unnormalized" );
@@ -483,6 +484,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         }
         updateSpinnerColor( spinner );
         updateButtons();
+    }
+    
+    private void updateSpinnersColor() {
+        Iterator i = _spinners.iterator();
+        while ( i.hasNext() ) {
+            DoubleSpinner spinner = (DoubleSpinner) i.next();
+            updateSpinnerColor( spinner );
+        }
     }
     
     private void updateSpinnerColor( DoubleSpinner spinner ) {
