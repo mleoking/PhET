@@ -157,6 +157,14 @@ public class ModelSlider extends JPanel {
         setValue( initialValue );
     }
 
+    public double getMinimumModelValue() {
+        return min;
+    }
+
+    public double getMaximumModelValue() {
+        return max;
+    }
+
     /**
      * Creates the JSlider for this object
      */
@@ -491,7 +499,10 @@ public class ModelSlider extends JPanel {
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
+                System.out.println( "sliderValue = " + sliderValue );
                 slider.setValue( sliderValue ); //this recursively changes values
+                slider.revalidate();
+                slider.repaint();
             }
             fireStateChanged();
         }
