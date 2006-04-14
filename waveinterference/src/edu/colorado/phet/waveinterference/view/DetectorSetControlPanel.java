@@ -3,12 +3,16 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -36,7 +40,17 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
                 addIntensityReader();
             }
         } );
-        add( addDetector );
+        add( new IconComponent( addDetector, getDetectorImage() ) );
+    }
+
+    private BufferedImage getDetectorImage() {
+        try {
+            return ImageLoader.loadBufferedImage( "images/detector-thumb.gif" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void addIntensityReader() {
