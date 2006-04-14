@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- don't update while sliders are dragging (for now)
 - use fewer points for calculating eigenstates
 - cache eigenstates in well classes, for use by getEigenstates and getNumberOfEigenstates
 - solve wavefunction and display in chart for selected eigenstate(s)
