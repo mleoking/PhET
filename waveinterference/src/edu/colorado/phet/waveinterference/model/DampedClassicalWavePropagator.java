@@ -8,7 +8,6 @@ package edu.colorado.phet.waveinterference.model;
 public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
     private int dampX;
     private int dampY;
-//    private ClassicalWavePropagator child;
 
     public DampedClassicalWavePropagator( Potential potential, int dampX, int dampY ) {
         super( potential );
@@ -38,13 +37,9 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         //copy to large lattice
-//        if (child==null){
-//            child=new ClassicalWavePropagator( new PaddedPotential());
-//        }
         Lattice2D largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
         for( int i = 0; i < w.getWidth(); i++ ) {
             for( int k = 0; k < w.getHeight(); k++ ) {
-//                System.out.println( "Copy to large: "+new Point(i,k)+" -> "+new Point(i+dampX,k+dampY) );
                 largeLattice.setValue( i + dampX, k + dampY, w.getValue( i, k ) );
             }
         }
@@ -54,7 +49,6 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         }
         for( int i = 0; i < w.getWidth(); i++ ) {
             for( int k = 0; k < w.getHeight(); k++ ) {
-//                System.out.println( "Copy to small: "+new Point(i+dampX,k+dampY)+" -> "+new Point(i,k) );
                 w.setValue( i, k, largeLattice.getValue( i + dampX, k + dampY ) );//+dampX*2,k+dampY*2) );
             }
         }
