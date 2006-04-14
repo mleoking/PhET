@@ -45,18 +45,20 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private XYSeries _realSeries;
     private XYSeries _imaginarySeries;
     private XYSeries _magnitudeSeries;
     private XYSeries _phaseSeries;
     private XYSeries _probabilityDensitySeries;
+    private XYSeries _hiliteSeries;
     
     private int _realIndex;
     private int _imaginaryIndex;
     private int _magnitudeIndex;
     private int _phaseIndex;
     private int _probabilityDensityIndex;
+    private int _hiliteIndex;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -133,6 +135,19 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             setRenderer( _probabilityDensityIndex, renderer );
         }
         
+        // Hilited eigenstate's time-independent wave function
+        {
+            _hiliteIndex = index++;
+            _hiliteSeries = new XYSeries( "hilite", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _hiliteSeries );
+            setDataset( _hiliteIndex, dataset );
+            XYItemRenderer renderer = new FastPathRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
+            renderer.setStroke( BSConstants.HILITE_STROKE );
+            setRenderer( _hiliteIndex, renderer );
+        }
+        
         // X (domain) axis 
         BSPositionAxis xAxis = new BSPositionAxis();
         
@@ -177,6 +192,10 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         getRenderer( _probabilityDensityIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
+    public void setHiliteVisible( boolean visible ) {
+        getRenderer( _hiliteIndex ).setSeriesVisible( new Boolean( visible ) );
+    }
+    
     /**
      * Sets the color scheme for this plot.
      * 
@@ -199,6 +218,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         getRenderer( _imaginaryIndex ).setPaint( scheme.getImaginaryColor() );
         getRenderer( _magnitudeIndex ).setPaint( scheme.getMagnitudeColor() );
         getRenderer( _probabilityDensityIndex ).setPaint( scheme.getMagnitudeColor() ); // use magnitude color!
+        getRenderer( _hiliteIndex ).setPaint( scheme.getEigenstateHiliteColor() );
     }
     
     //----------------------------------------------------------------------------
@@ -222,7 +242,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     private void updateDatasets() {
         clearAllSeries();
         setSeriesNotify( false );
-        //XXX update data items
+        //XXX
         setSeriesNotify( true );
     }
     
@@ -235,6 +255,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         _magnitudeSeries.clear();
         _phaseSeries.clear();
         _probabilityDensitySeries.clear();
+        _hiliteSeries.clear();
     }
     
     /*
@@ -253,5 +274,6 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         _magnitudeSeries.setNotify( notify );
         _phaseSeries.setNotify( notify );
         _probabilityDensitySeries.setNotify( notify );
+        _hiliteSeries.setNotify( notify );
     }
 }

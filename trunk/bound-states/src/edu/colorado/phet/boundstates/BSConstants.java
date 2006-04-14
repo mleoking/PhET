@@ -76,10 +76,11 @@ public class BSConstants {
     public static final Stroke EIGENSTATE_HILITE_STROKE = new BasicStroke( 2f );
     public static final Stroke EIGENSTATE_SELECTION_STROKE = new BasicStroke( 2f );
     public static final Stroke POTENTIAL_ENERGY_STROKE = new BasicStroke( 3f );
-    public static final Stroke REAL_STROKE = new BasicStroke( 1f );
-    public static final Stroke IMAGINARY_STROKE = new BasicStroke( 1f );
-    public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 1f );
-    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 1f );
+    public static final Stroke REAL_STROKE = new BasicStroke( 2f );
+    public static final Stroke IMAGINARY_STROKE = new BasicStroke( 2f );
+    public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 2f );
+    public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
+    public static final Stroke HILITE_STROKE = new BasicStroke( 2f );
     
     //----------------------------------------------------------------------------
     // Paints
