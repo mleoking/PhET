@@ -154,10 +154,11 @@ public class BSControlPanel extends BSAbstractControlPanel {
             row++;
             layout.addComponent( _numberOfWellsSlider, row, col );
             row++;
-            layout.addComponent( eigenstateLabel, row, col );
-            row++;
-            layout.addComponent( _eigenstateComboBox, row, col );
-            row++;
+            // XXX remove eigenstate selection control permanently?
+//            layout.addComponent( eigenstateLabel, row, col );
+//            row++;
+//            layout.addComponent( _eigenstateComboBox, row, col );
+//            row++;
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
             layout.addComponent( _superpositionButton, row, col );
