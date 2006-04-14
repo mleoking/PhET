@@ -62,7 +62,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
      * @param groundStateEnergy
      * @param xLoc
      * @param width
-     * @param isAdjustable
+     * @param isAdjustable  Determines if the graphic can be moved up and down with the mouse
      */
     public EnergyLevelGraphic( Component component, AtomicState atomicState, double groundStateEnergy, double xLoc, double width,
                                boolean isAdjustable, double iconLocX ) {
