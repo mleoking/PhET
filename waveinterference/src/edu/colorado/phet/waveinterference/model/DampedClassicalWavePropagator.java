@@ -1,0 +1,98 @@
+/* Copyright 2004, Sam Reid */
+package edu.colorado.phet.waveinterference.model;
+
+/**
+ * See: http://www.mtnmath.com/whatth/node47.html
+ */
+
+public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
+    private int dampX;
+    private int dampY;
+//    private ClassicalWavePropagator child;
+
+    public DampedClassicalWavePropagator( Potential potential, int dampX, int dampY ) {
+        super( potential );
+        this.dampX = dampX;
+        this.dampY = dampY;
+    }
+
+    static class PaddedPotential implements Potential {
+
+        public double getPotential( int i, int j, int time ) {
+            return 0;
+        }
+    }
+
+    public void setBoundaryCondition( int i, int k, float value ) {
+        super.setBoundaryCondition( i + dampX, k + dampY, value );
+    }
+
+    public void propagate( Lattice2D w ) {
+        //copy to large lattice
+//        if (child==null){
+//            child=new ClassicalWavePropagator( new PaddedPotential());
+//        }
+        Lattice2D largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
+        for( int i = 0; i < w.getWidth(); i++ ) {
+            for( int k = 0; k < w.getHeight(); k++ ) {
+//                System.out.println( "Copy to large: "+new Point(i,k)+" -> "+new Point(i+dampX,k+dampY) );
+                largeLattice.setValue( i + dampX, k + dampY, w.getValue( i, k ) );
+            }
+        }
+        super.propagate( largeLattice );
+        for( int i = 0; i < 3; i++ ) {
+            dampScale( largeLattice );
+        }
+        for( int i = 0; i < w.getWidth(); i++ ) {
+            for( int k = 0; k < w.getHeight(); k++ ) {
+//                System.out.println( "Copy to small: "+new Point(i+dampX,k+dampY)+" -> "+new Point(i,k) );
+                w.setValue( i, k, largeLattice.getValue( i + dampX, k + dampY ) );//+dampX*2,k+dampY*2) );
+            }
+        }
+    }
+
+    private void dampVertical( Lattice2D lattice, int origin, int sign, int numDampPts ) {
+        for( int j = 0; j < lattice.getHeight(); j++ ) {
+            for( int step = 0; step < numDampPts; step++ ) {
+                int distFromDampBoundary = numDampPts - step;
+                float damp = getDamp( distFromDampBoundary );
+                int i = origin + step * sign;
+                lattice.setValue( i, j, lattice.getValue( i, j ) * damp );
+                last.setValue( i, j, last.getValue( i, j ) * damp );
+                last2.setValue( i, j, last2.getValue( i, j ) * damp );
+            }
+        }
+    }
+
+    private void dampHorizontal( Lattice2D lattice, int origin, int sign, int numDampPts ) {
+        for( int i = 0; i < lattice.getWidth(); i++ ) {
+            for( int step = 0; step < numDampPts; step++ ) {
+                int distFromDampBoundary = numDampPts - step;
+                float damp = getDamp( distFromDampBoundary );
+                int j = origin + step * sign;
+                lattice.setValue( j, i, lattice.getValue( j, i ) * damp );
+                last.setValue( j, i, last.getValue( j, i ) * damp );
+                last2.setValue( j, i, last2.getValue( j, i ) * damp );
+            }
+        }
+    }
+
+    private void dampScale( Lattice2D lattice ) {
+        dampVertical( lattice, 0, +1, dampX / 2 );
+        dampVertical( lattice, lattice.getWidth() - 1, -1, dampX / 3 );
+        dampHorizontal( lattice, 0, +1, dampY / 2 );
+        dampHorizontal( lattice, lattice.getHeight() - 1, -1, dampY / 3 );
+    }
+//    double[]dampCoefficients=new double[]{0.999,0.999,0.998,0.995,0.99,0.9,0.8};
+
+    private float getDamp( int depthInDampRegion ) {
+        return (float)( 1 - depthInDampRegion * 0.0001 );
+    }
+
+    double[] dampCoefficients = new double[]{0.999, 0.999, 0.998, 0.995, 0.99, 0.95, 0.9, 0.8, 0.7, 0.5, 0.25, 0.2};
+//    private float getDamp( int depthInDampRegion ) {
+//
+//        return (float)dampCoefficients[depthInDampRegion];
+//    }
+
+}
