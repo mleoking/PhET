@@ -64,6 +64,12 @@ public class WaveChartGraphic extends PNode {
         updateColor();
     }
 
+    public Rectangle2D getChartBounds() {
+        Rectangle2D bounds = jFreeChartNode.getFullBounds();
+        localToParent( bounds );
+        return bounds;
+    }
+
     private void updateLocation() {
         synchronizeWidth();
         synchronizeWidth();//in case the first one changed the insets of the graph
@@ -103,7 +109,7 @@ public class WaveChartGraphic extends PNode {
         double dx = latticeScreenCoordinates.getCellWidth();
         Point2D[]pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
         if( pts.length > 0 ) {
-            generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );
+            generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );//todo crop to fit inside data area.
         }
         for( int i = 1; i < pts.length; i++ ) {
             generalPath.lineTo( (float)pts[i].getX(), (float)pts[i].getY() );
@@ -120,5 +126,9 @@ public class WaveChartGraphic extends PNode {
 
     private void updateColor() {
         setCurveColor( strokeColor.getColor() );
+    }
+
+    public double getChartHeight() {
+        return jFreeChartNode.getFullBounds().getHeight();
     }
 }

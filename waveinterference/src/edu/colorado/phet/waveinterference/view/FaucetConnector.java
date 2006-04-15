@@ -15,7 +15,8 @@ import java.beans.PropertyChangeListener;
 
 public class FaucetConnector extends VerticalConnector {
     public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic target ) {
-        super( faucetControlPanelPNode, target.getImagePNode() );
+//        super( faucetControlPanelPNode, target.getImagePNode() );
+        super( target.getImagePNode(), faucetControlPanelPNode );
         target.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();

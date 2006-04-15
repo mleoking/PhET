@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Apr 12, 2006 by Sam Reid
  */
 
-public class CrossSectionGraphic extends PNode {
+public class CrossSectionGraphic extends PhetPNode {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private PPath path;

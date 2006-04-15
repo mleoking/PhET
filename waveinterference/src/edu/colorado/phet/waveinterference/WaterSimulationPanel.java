@@ -47,7 +47,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
         RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 150, 5 );
+        rotationWaveGraphic.setOffset( 200, 5 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -83,6 +83,16 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
+        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        addScreenChild( crossSectionGraphic );
+
+        expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
+            public void expansionStateChanged() {
+                crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+            }
+        } );
+        crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateWaveSize();
@@ -96,18 +106,23 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void updateWaveSize() {
-        System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
-        int insetTop = 0;
-        System.out.println( "insetTop = " + insetTop );
-        double insetBottom = waveChartGraphic.getFullBounds().getHeight() + 5;
-        System.out.println( "insetBottom = " + insetBottom );
-        double availableHeight = getHeight() - insetTop - insetBottom;
-        int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
-        System.out.println( "pixelsPerCell = " + pixelsPerCell );
-        rotationWaveGraphic.setCellSize( pixelsPerCell );
-        double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
-        System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
+        if( getHeight() > 0 ) {
+            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
+            int insetTop = 0;
+            System.out.println( "insetTop = " + insetTop );
+            double insetBottom = waveChartGraphic.getChartHeight();
+//            if (waveChartGraphic.getFullBounds().getHeight()>300){
+//                System.out.println( "WaterSimulationPanel.updateWaveSize" );
+//            }
+            System.out.println( "insetBottom = " + insetBottom );
+            double availableHeight = getHeight() - insetTop - insetBottom;
+            int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+            System.out.println( "pixelsPerCell = " + pixelsPerCell );
+            rotationWaveGraphic.setCellSize( pixelsPerCell );
+            double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
+        }
     }
 
     private void angleChanged() {
