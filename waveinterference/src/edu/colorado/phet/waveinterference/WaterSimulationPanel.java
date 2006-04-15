@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
+import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -31,6 +32,8 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private MutableColor waterColor = new MutableColor( new Color( 37, 179, 255 ) );
     private FaucetConnector faucetConnector;
     private WaveModel viewableModel;
+    private ExpandableWaveChart expandableWaveChart;
+    private WaveChartGraphic waveChartGraphic;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -38,13 +41,13 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         viewableModel = waterModule.getWaveModel();
 //        viewableModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( 30, 30 ) ) );
 
-        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice(), waterColor ) );
+        WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 6, 6, new IndexColorMap( getLattice(), waterColor ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
         waveSideView.setStrokeColor( waterColor.getColor().darker() );//todo make it mutable
         waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
         RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 150, 50 );
+        rotationWaveGraphic.setOffset( 150, 5 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -70,12 +73,15 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
-//        faucetControlPanelPNode = new FaucetControlPanelPNode( this, new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ), getPrimaryFaucetGraphic(), waveModelGraphic );
         faucetControlPanelPNode = new FaucetControlPanelPNode( this, new ShinyPanel( new FaucetControlPanel( waterModule.getPrimaryOscillator(), getPrimaryFaucetGraphic() ) ), getPrimaryFaucetGraphic(), waveModelGraphic );
         addScreenChild( faucetControlPanelPNode );
 
         faucetConnector = new FaucetConnector( faucetControlPanelPNode, primaryFaucetGraphic );
         addScreenChild( 0, faucetConnector );
+
+        waveChartGraphic = new WaveChartGraphic( "Water Level", getLatticeScreenCoordinates(), getWaveModel(), waterColor );
+        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        addScreenChild( expandableWaveChart );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -90,14 +96,18 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void updateWaveSize() {
-        int insetTop = 2;
-        int insetBottom = 2;
-        double availableHeight = getHeight() - faucetControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
-        double latticeModelHeight = getWaveModel().getHeight();
-        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
-        rotationWaveGraphic.setCellSize( pixelsPerCell - 1 );
+        System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
+        int insetTop = 0;
+        System.out.println( "insetTop = " + insetTop );
+        double insetBottom = waveChartGraphic.getFullBounds().getHeight() + 5;
+        System.out.println( "insetBottom = " + insetBottom );
+        double availableHeight = getHeight() - insetTop - insetBottom;
+        int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+        System.out.println( "pixelsPerCell = " + pixelsPerCell );
+        rotationWaveGraphic.setCellSize( pixelsPerCell );
         double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+        System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
     }
 
     private void angleChanged() {
@@ -149,5 +159,6 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         primaryFaucetGraphic.step();
         secondaryFaucetGraphic.step();
         intensityReaderSet.update();
+        expandableWaveChart.updateChart();
     }
 }

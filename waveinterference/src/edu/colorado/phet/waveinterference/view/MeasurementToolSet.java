@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.MeasuringTape;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +34,7 @@ public class MeasurementToolSet extends PNode {
         measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
 
-        stopwatchGraphic = new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock ) );
+        stopwatchGraphic = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock ) ) );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );
         stopwatchGraphic.setVisible( false );
