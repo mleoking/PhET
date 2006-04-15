@@ -45,7 +45,7 @@ public class ConnectorGraphic extends PPath {
         setStrokePaint( Color.black );
     }
 
-    private void update() {
+    public void update() {
         connectRectsWithLine();
     }
 
