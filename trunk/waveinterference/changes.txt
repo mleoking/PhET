@@ -1,3 +1,15 @@
+New in 0.06
+Water color is lighter  (easier to see on projector)
+Drips disappear immediately when hitting the water (in side view)
+Wave sources have on/off radio buttons.
+Frequency & Amplitude sliders are non-numeric.
+Frequency & Amplitude sliders are attached to the wave source, and colorized.
+Frequency & Amplitude sliders control both wave sources.
+Buttons switch from Grayscale to Particle View in Sound Module instead of slider for magnification.
+The speaker cone moves.
+Light source graphic is now a theater lamp.
+
+
 New in 0.05 (4-4-2006)
 Reduced the size of intensity readers.
 Added vector view to photons.

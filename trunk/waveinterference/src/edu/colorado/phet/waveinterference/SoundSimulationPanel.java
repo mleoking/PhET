@@ -41,7 +41,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         MutableColor latticeColor = new MutableColor( Color.white );
         IndexColorMap colorMap = new IndexColorMap( getLattice(), latticeColor );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
-        waveModelGraphic.setOffset( 200, 10 );
+        waveModelGraphic.setOffset( super.getWaveModelGraphicOffset() );
 
         PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         pressureWaveGraphic.setMaxVelocity( 3 );
