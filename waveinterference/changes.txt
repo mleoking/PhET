@@ -1,4 +1,4 @@
-New in 0.06
+New in 0.06 (4-15-2006)
 Water color is lighter  (easier to see on projector)
 Drips disappear immediately when hitting the water (in side view)
 Wave sources have on/off radio buttons.

@@ -44,4 +44,6 @@ it still looked like it was running away.
 -  When you change the wavelength of light, it resets rather than continuing
 with differently colored ripples.
 
-When you turn the gun off, it goes to solid color rather than black. 
+When you turn the gun off, it goes to solid color rather than black.
+
+ Cross section graphic shouldn't show in side-view (water waves only).
