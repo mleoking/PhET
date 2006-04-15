@@ -4,6 +4,8 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 25, 2006
@@ -18,6 +20,7 @@ public class ScreenNode extends PNode {
     private BrightnessScreenGraphic brightnessScreenGraphic;
     private WaveModel waveModel;
     private IntensityColorMap intensityColorMap;
+    private ArrayList listeners = new ArrayList();
 
     public ScreenNode( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, final WaveModelGraphic waveModelGraphic ) {
         this.waveModel = waveModel;
@@ -50,6 +53,7 @@ public class ScreenNode extends PNode {
     public void setScreenEnabled( boolean selected ) {
         this.enabled = selected;
         update();
+        notifyEnabledStateChanged();
     }
 
     public void update() {
@@ -90,5 +94,24 @@ public class ScreenNode extends PNode {
 
     public BrightnessScreenGraphic getBrightnessScreenGraphic() {
         return brightnessScreenGraphic;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public static interface Listener {
+        void enabledStateChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyEnabledStateChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.enabledStateChanged();
+        }
     }
 }

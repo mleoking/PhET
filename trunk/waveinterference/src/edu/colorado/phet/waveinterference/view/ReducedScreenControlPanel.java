@@ -19,7 +19,6 @@ public class ReducedScreenControlPanel extends VerticalLayoutPanel {
 
     public ReducedScreenControlPanel( final ScreenNode screenNode ) {
         this.screenNode = screenNode;
-//        setBorder( BorderFactory.createTitledBorder( "Screen" ) );
         final JCheckBox enabled = new JCheckBox( "Show Screen", screenNode.isScreenEnabled() );
         enabled.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -27,23 +26,5 @@ public class ReducedScreenControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( enabled );
-
-//        ButtonGroup buttonGroup = new ButtonGroup();
-//        JRadioButton curveMode = new JRadioButton( "Curve", screenNode.isCurveMode() );
-//        curveMode.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                screenNode.setCurveMode();
-//            }
-//        } );
-//        JRadioButton intensityMode = new JRadioButton( "Intensity", screenNode.isIntensityMode() );
-//        intensityMode.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                screenNode.setIntensityMode();
-//            }
-//        } );
-//        buttonGroup.add( curveMode );
-//        buttonGroup.add( intensityMode );
-//        add( intensityMode );
-//        add( curveMode );
     }
 }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.view.ScreenChartGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -24,9 +25,9 @@ import java.io.IOException;
 public class ExpandableScreenChartGraphic extends PNode {
 
     boolean expanded = false;
-    private PSwing showChartPSwing;
+    private PhetPNode expandNode;
     private ScreenChartGraphic screenChart;
-    private PSwing closePSwing;
+    private PhetPNode closeNode;
 
     public ExpandableScreenChartGraphic( PSwingCanvas pSwingCanvas, ScreenChartGraphic screenChart ) {
         this.screenChart = screenChart;
@@ -48,11 +49,11 @@ public class ExpandableScreenChartGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        closePSwing = new PSwing( pSwingCanvas, closeButton );
-        showChartPSwing = new PSwing( pSwingCanvas, showChart );
+        closeNode = new PhetPNode( new PSwing( pSwingCanvas, closeButton ) );
+        expandNode = new PhetPNode( new PSwing( pSwingCanvas, showChart ) );
         addChild( screenChart );
-        addChild( showChartPSwing );
-        addChild( closePSwing );
+        addChild( expandNode );
+        addChild( closeNode );
         screenChart.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 updateLocation();
@@ -69,20 +70,28 @@ public class ExpandableScreenChartGraphic extends PNode {
 
     private void update() {
         if( expanded ) {
-            showChartPSwing.setVisible( false );
+            expandNode.setVisible( false );
             screenChart.setVisible( true );
-            closePSwing.setVisible( true );
+            closeNode.setVisible( true );
         }
         else {
-            showChartPSwing.setVisible( true );
+            expandNode.setVisible( true );
             screenChart.setVisible( false );
-            closePSwing.setVisible( false );
+            closeNode.setVisible( false );
         }
+//        expandNode.setVisible( screenChart.get);
         updateLocation();
+        updateChart();
     }
 
     private void updateLocation() {
-        showChartPSwing.setOffset( screenChart.getFullBounds().getMaxX() + 2, screenChart.getFullBounds().getY() );
-        closePSwing.setOffset( screenChart.getFullBounds().getMaxX(), screenChart.getFullBounds().getY() );
+        expandNode.setOffset( screenChart.getChartBounds().getMaxX() + 2, screenChart.getChartBounds().getY() );
+        closeNode.setOffset( screenChart.getChartBounds().getMaxX(), screenChart.getChartBounds().getY() );
+    }
+
+    public void updateChart() {
+        if( screenChart.getVisible() ) {
+            screenChart.updateChart();
+        }
     }
 }
