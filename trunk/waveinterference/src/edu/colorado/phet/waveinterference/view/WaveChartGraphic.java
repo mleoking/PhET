@@ -41,7 +41,7 @@ public class WaveChartGraphic extends PNode {
         jFreeChart = ChartFactory.createXYLineChart( title, "position", title, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
-        jFreeChartNode.setBounds( 0, 0, 500, 300 );
+        jFreeChartNode.setBounds( 0, 0, 500, 200 );
         jFreeChartNode.updateChartRenderingInfo();
         path = new PPath();
         path.setStroke( new BasicStroke( 3 ) );
@@ -71,9 +71,10 @@ public class WaveChartGraphic extends PNode {
         Rectangle2D r2 = jFreeChartNode.getBounds();
         Rectangle2D data = jFreeChartNode.getDataArea();
         double dataX = latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getX();
-        double dataY = latticeScreenCoordinates.toScreenCoordinates( 0, waveModel.getHeight() - 1 ).getY();
+        double dataY = latticeScreenCoordinates.toScreenCoordinates( 0, waveModel.getHeight() ).getY();
         double dataInsetX = data.getX() - r2.getX();
-        jFreeChartNode.setBounds( dataX - dataInsetX, dataY, r2.getWidth(), r2.getHeight() );
+        jFreeChartNode.setBounds( 0, 0, r2.getWidth(), r2.getHeight() );
+        jFreeChartNode.setOffset( dataX - dataInsetX, dataY );
     }
 
     private void synchronizeWidth() {
@@ -109,6 +110,7 @@ public class WaveChartGraphic extends PNode {
         }
         path.setPathTo( generalPath );
         Point2D nodeLoc = jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) );
+        jFreeChartNode.localToParent( nodeLoc );
         path.setOffset( nodeLoc );
     }
 

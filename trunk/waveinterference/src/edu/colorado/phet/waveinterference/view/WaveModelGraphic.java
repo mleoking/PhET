@@ -132,11 +132,13 @@ public class WaveModelGraphic extends PNode {
     public void setCellDimensions( int dx, int dy ) {
         colorGridNode.setCellDimensions( dx, dy );
         update();
+        notifyMappingChanged();
     }
 
     public void setGridDimensions( int width, int height ) {
         colorGridNode.setGridDimensions( width, height );
         update();
+        notifyMappingChanged();
     }
 
     public Point getGridCoordinates( Point2D localLocation ) {
