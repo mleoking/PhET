@@ -1,5 +1,7 @@
 o Test at 1024x768
 
+o Test on a Mac.
+
 o Intensity readers should be constrained on the x-axis when in side-view.
 
 o Should we show intensity readouts anywhere, or just wave values?
