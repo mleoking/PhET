@@ -6,6 +6,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnectorLeftSide;
+import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -31,13 +32,16 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private VerticalConnector verticalConnector;
     private ImageOscillatorPNode primarySpeaker;
     private ImageOscillatorPNode secondarySpeaker;
+    private WaveChartGraphic waveChartGraphic;
+    private ExpandableWaveChart expandableWaveChart;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
 
-        IndexColorMap colorMap = new IndexColorMap( getLattice(), Color.white );
+        MutableColor latticeColor = new MutableColor( Color.white );
+        IndexColorMap colorMap = new IndexColorMap( getLattice(), latticeColor );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
-        waveModelGraphic.setOffset( 100, 10 );
+        waveModelGraphic.setOffset( 200, 10 );
 
         PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
         pressureWaveGraphic.setMaxVelocity( 3 );
@@ -66,6 +70,20 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         verticalConnector = new VerticalConnectorLeftSide( speakerControlPanelPNode, primarySpeaker );
         addScreenChild( 0, verticalConnector );
 
+        waveChartGraphic = new WaveChartGraphic( "Pressure", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ) );
+        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        addScreenChild( expandableWaveChart );
+
+        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        addScreenChild( crossSectionGraphic );
+
+        expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
+            public void expansionStateChanged() {
+                crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+            }
+        } );
+        crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateWaveSize();
@@ -79,15 +97,34 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void updateWaveSize() {
-        int insetTop = 2;
-        int insetBottom = 2;
-        double availableHeight = getHeight() - speakerControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
-        double latticeModelHeight = getWaveModel().getHeight();
-        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
-        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
-//        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+        if( getHeight() > 0 ) {
+            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
+            int insetTop = 0;
+            System.out.println( "insetTop = " + insetTop );
+            double insetBottom = waveChartGraphic.getChartHeight();
+//            if (waveChartGraphic.getFullBounds().getHeight()>300){
+//                System.out.println( "WaterSimulationPanel.updateWaveSize" );
+//            }
+            System.out.println( "insetBottom = " + insetBottom );
+            double availableHeight = getHeight() - insetTop - insetBottom;
+            int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+            System.out.println( "pixelsPerCell = " + pixelsPerCell );
+            waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
+//            double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+//            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
+        }
     }
+//    private void updateWaveSize() {
+//        int insetTop = 2;
+//        int insetBottom = 2;
+//        double availableHeight = getHeight() - speakerControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
+//        double latticeModelHeight = getWaveModel().getHeight();
+//        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
+//        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
+////        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + speakerControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+////        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//    }
 
     public MultiOscillator getMultiOscillator() {
         return multiOscillator;
@@ -118,6 +155,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet.update();
         primarySpeaker.update();
         secondarySpeaker.update();
+        expandableWaveChart.updateChart();
     }
 
     public SoundWaveGraphic getSoundWaveGraphic() {

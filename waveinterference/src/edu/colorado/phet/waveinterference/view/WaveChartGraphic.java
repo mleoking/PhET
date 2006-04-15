@@ -131,4 +131,5 @@ public class WaveChartGraphic extends PNode {
     public double getChartHeight() {
         return jFreeChartNode.getFullBounds().getHeight();
     }
+
 }
