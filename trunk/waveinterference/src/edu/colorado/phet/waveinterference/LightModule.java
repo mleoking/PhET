@@ -56,10 +56,6 @@ public class LightModule extends WaveInterferenceModule {
         return waterSimulationPanel.getMeasurementToolSet();
     }
 
-//    public FaucetGraphic getPrimaryFaucetGraphic() {
-//        return waterSimulationPanel.getPrimaryFaucetGraphic();
-//    }
-
     public LightSimulationPanel getWaterSimulationPanel() {
         return waterSimulationPanel;
     }
@@ -67,10 +63,6 @@ public class LightModule extends WaveInterferenceModule {
     public RotationWaveGraphic getRotationWaveGraphic() {
         return waterSimulationPanel.getRotationWaveGraphic();
     }
-
-//    public MultiFaucetDrip getMultiDrip() {
-//        return waterSimulationPanel.getMultiDrip();
-//    }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return waterSimulationPanel.getLatticeScreenCoordinates();

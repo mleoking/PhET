@@ -24,7 +24,7 @@ public abstract class LatticeScreenCoordinates {
 
     public Rectangle2D getScreenRect() {
         Dimension dim = getGridSize();
-        return toScreenRect( new Rectangle( 0, 0, dim.width - 1, dim.height - 1 ) );
+        return toScreenRect( new Rectangle( 0, 0, dim.width, dim.height ) );
     }
 
     public Rectangle2D toScreenRect( Rectangle rectangle ) {

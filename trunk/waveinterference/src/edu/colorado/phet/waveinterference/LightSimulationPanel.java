@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
+import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -33,6 +34,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ScreenNode screenNode;
     private LaserControlPanelPNode laserControlPanelPNode;
     private WaveModel visibleWaveModel;
+    private WaveChartGraphic waveChartGraphic;
+    private ExpandableWaveChart expandableWaveChart;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
@@ -51,7 +54,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         rotationGlyph = new RotationGlyph();
         rotationGlyph.setDepthVisible( false );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 150, 2 );
+        rotationWaveGraphic.setOffset( 200, 2 );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();
@@ -85,6 +88,20 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
         addScreenChild( 0, verticalConnector );
 
+        waveChartGraphic = new WaveChartGraphic( "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ) );
+        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        addScreenChild( expandableWaveChart );
+
+        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        addScreenChild( crossSectionGraphic );
+
+        expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
+            public void expansionStateChanged() {
+                crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+            }
+        } );
+        crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+
         colorChanged();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -99,19 +116,41 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void updateWaveSize() {
-        int insetTop = 2;
-        int insetBottom = 2;
-        double availableHeight = getHeight() - laserControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
-        double latticeModelHeight = getWaveModel().getHeight();
-        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
-        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
-        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + laserControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-//        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+        if( getHeight() > 0 ) {
+            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
+            int insetTop = 0;
+            System.out.println( "insetTop = " + insetTop );
+            double insetBottom = waveChartGraphic.getChartHeight();
+//            if (waveChartGraphic.getFullBounds().getHeight()>300){
+//                System.out.println( "WaterSimulationPanel.updateWaveSize" );
+//            }
+            System.out.println( "insetBottom = " + insetBottom );
+            double availableHeight = getHeight() - insetTop - insetBottom;
+            int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+            System.out.println( "pixelsPerCell = " + pixelsPerCell );
+            waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
+//            double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+//            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
+        }
     }
+//    private void updateWaveSize() {
+//        int insetTop = 2;
+//        int insetBottom = 2;
+//        double availableHeight = getHeight() - laserControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
+//        double latticeModelHeight = getWaveModel().getHeight();
+//        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
+//        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
+//        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + laserControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
+////        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//    }
 
     private void colorChanged() {
         waveSideView.setStrokeColor( waveModelGraphic.getColorMap().getRootColor() );
         rotationGlyph.setColor( waveModelGraphic.getColorMap().getRootColor() );
+        if( expandableWaveChart != null ) {
+            expandableWaveChart.setColor( waveModelGraphic.getColorMap().getRootColor() );
+        }
     }
 
     private void angleChanged() {
@@ -151,6 +190,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         rotationWaveGraphic.update();
         intensityReaderSet.update();
         screenNode.updateScreen();
+        expandableWaveChart.updateChart();
     }
 
     public MultiOscillator getMultiOscillator() {

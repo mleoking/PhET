@@ -11,6 +11,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -113,6 +114,10 @@ public class ExpandableWaveChart extends PNode {
         if( waveChartGraphic.getVisible() ) {
             waveChartGraphic.updateChart();
         }
+    }
+
+    public void setColor( Color rootColor ) {
+        waveChartGraphic.setCurveColor( rootColor );
     }
 
     public static interface Listener {
