@@ -15,3 +15,11 @@ http://www.math.tu-berlin.de/geometrie/lab/ds.shtml
 
 a nice demo of 3-d pressure waves
 http://www.kettering.edu/~drussell/Demos/waves/wavemotion.html
+
+?	The graph that shows the efield should have the arrows colored the same as the curve and possibly a place to choose vectors on or off but hard to say until we see the graph.
+Not easy (yet) to make the view angle box narrower.
+
+?	Detectors should have red x’s in the upper right corner to delete them.
+>Did you mean Barriers?
+
+All three views will rotate (Sound and Light show same thing on side as on top)

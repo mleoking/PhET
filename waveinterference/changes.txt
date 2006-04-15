@@ -7,8 +7,21 @@ Frequency & Amplitude sliders are attached to the wave source, and colorized.
 Frequency & Amplitude sliders control both wave sources.
 Buttons switch from Grayscale to Particle View in Sound Module instead of slider for magnification.
 The speaker cone moves.
-Light source graphic is now a theater lamp.
-
+Light Module: Source graphic is now a theater lamp.
+Light Module: Show Screen option is reduced.
+Light Module: Added Intensity Graph.
+Light Module: Intensity is plotted rather than displacement.
+Tools are at the top of the control panel.
+Added thumnails to control panel.
+Improved View Angle slider.
+Improved Barrier controls.
+Barriers are draggable horizontally.
+Labels are module-specific.
+Detectors have 'x' close buttons.
+Removed detector options button.
+Added a wave area graph.
+Added a dotted midline to show cross-section for wave area graph.
+Added an increased lattice size, for reduced boundary problems.
 
 New in 0.05 (4-4-2006)
 Reduced the size of intensity readers.

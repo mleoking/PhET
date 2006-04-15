@@ -30,7 +30,7 @@ public class IntensityReader extends PComposite {
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
 
-    public IntensityReader( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+    public IntensityReader( String title, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.clock = clock;
@@ -42,7 +42,7 @@ public class IntensityReader extends PComposite {
         addChild( crosshairs );
 
 //        stripChartJFCNode = new StripChartJFCNode( 225, 150, "Time (s)", "Amplitude" );
-        stripChartJFCNode = new StripChartJFCNode( 175, 120, "Time (s)", "Amplitude" );
+        stripChartJFCNode = new StripChartJFCNode( 175, 120, "Time (s)", title );
         addChild( stripChartJFCNode );
 
         addInputEventListener( new PDragEventHandler() );

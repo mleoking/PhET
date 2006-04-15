@@ -23,8 +23,8 @@ public class IntensityReaderMenuDecorator extends PNode {
     private PSwing buttonPSwing;
     private Point lastMovePoint = null;
 
-    public IntensityReaderMenuDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
-        this.intensityReader = new IntensityReader( waveModel, latticeScreenCoordinates, clock );
+    public IntensityReaderMenuDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+        this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton options = new JButton( "Options" );
         options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
         final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );

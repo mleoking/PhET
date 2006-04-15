@@ -35,8 +35,8 @@ public class IntensityReaderDecorator extends PNode {
     private PSwing buttonPSwing;
     private Point lastMovePoint = null;
 
-    public IntensityReaderDecorator( final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
-        this.intensityReader = new IntensityReader( waveModel, latticeScreenCoordinates, clock );
+    public IntensityReaderDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+        this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton close = null;
         try {
             close = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );

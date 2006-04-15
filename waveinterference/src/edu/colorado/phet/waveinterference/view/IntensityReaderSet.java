@@ -19,12 +19,12 @@ public class IntensityReaderSet extends PNode {
     private ArrayList intensityReaders = new ArrayList();
     private boolean middle = false;
 
-    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
-        addIntensityReader( phetPCanvas, waveModel, latticeScreenCoordinates, 300, 300, clock );
+    public void addIntensityReader( String title, PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+        addIntensityReader( title, phetPCanvas, waveModel, latticeScreenCoordinates, 300, 300, clock );
     }
 
-    public void addIntensityReader( PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, double x, double y, IClock clock ) {
-        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( phetPCanvas, waveModel, latticeScreenCoordinates, clock );
+    public void addIntensityReader( String title, PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, double x, double y, IClock clock ) {
+        final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( title, phetPCanvas, waveModel, latticeScreenCoordinates, clock );
         intensityReader.addListener( new IntensityReaderDecorator.Listener() {
             public void deleted() {
                 intensityReaders.remove( intensityReader );

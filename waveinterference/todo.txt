@@ -1,15 +1,12 @@
 o Intensity readers should be constrained on the x-axis when in side-view.
 
 o Should we show intensity readouts anywhere, or just wave values?
-
-o The single frequency/amplitude controller should control both oscillators when there are 2.
-
-o When there are 2 wave sources, they should always be in phase.
-
-o Show intensity on the screen as default
-    Optionally show fluctuations.
-
-o We could get rid of edge effects by maintining a higher lattice than is shown on the screen.
+6. Could show intensity on detectors instead of displacement (ask Noah P)
+Okay, I'll add a switch to detectors to show intensity.  Do we want to optionally show absolute values (or intensities) in the wave area (to give a more global idea of constructive and destructive interference)?
+> I would leave it up to others whether we should show intensity in the wave
+itself. I don't really have an opinion, but I would lean towards not doing
+this, since there are already a lot of controls in this sim and I'm not sure
+what this option would buy us. Maybe in an advanced pull-down menu??
 
 o Add correct units to measuring tape.
 
@@ -17,23 +14,11 @@ o Add correct units to stopwatch.
 
 o Barrier, multiple sources should disappear for rotate wave.
 
-Probably right. Maybe rotate wave should be grayed out with barrier or
-multiple sources - otherwise, it will seem strange that all these things
-disappear when you rotate.
-
-o Intensity readout titles should depend on the module e.g. "E-Field"
-
 Wave Interference: notes from phet meeting 4-4-06
-1. View angle slider should have labels "top" and "side" and snap to one or the other when released.
-    No numbers on this control.
-2. In side view, drops should disappear completely instead of incrementally.
-3. Barriers in the play area should be draggable.
 4. When a barrier is present, it should be shown in side view as behind the wave.
 5. Show a dotted gray line on intermediate rotation graphic to signify the cross section.
-6. Could show intensity on detectors instead of displacement (ask Noah P)
 7. Faucets should be draggable.
 8. In particle mode, there should be a smaller number of red particles.
-9. In the speaker panel, the speaker cone should move (see Ron for graphics).
 10. For the photon panel, users should be able to view with or without arrow vectors.
 11. Should be able to view sound waves from the side.
 12. Photon vectors should not have their tail fixed at E=0, but their middle,
@@ -44,29 +29,12 @@ barrier don't go through (this is correct), but the particles on the left of
 the barrier penetrate the barrier. I suspect that there is a boundary
 condition on the right side, but not the left?
 
-- Issue with the light source. I'm not crazy about the laser gun, but I
-don't think a flashlight is physically correct either (you need coherent
+- Issue with the light source. (you need coherent
 light to get interference). The way this is actually done (I think) is to
 shine a laser through a single slit (or pinhole) and make the light
 diffract, creating circular wavefronts. Also a problem of scale, since the
 light should be ~500nm.  Maybe none of this matters, but it's something I
 noticed and should be solved if there is an easy solution.
-
-Okay, I'll add a switch to detectors to show intensity.  Do we want to optionally show absolute values (or intensities) in the wave area (to give a more global idea of constructive and destructive interference)?
-
-Sound side view:
-By sinewave view, I mean a sinusoid that represents the sound pressure vs.
-distance from speaker. This is analogous to the light wave that also has a
-sinusoid representing E-field.
-
-Intensity:
-I would leave it up to others whether we should show intensity in the wave
-itself. I don't really have an opinion, but I would lean towards not doing
-this, since there are already a lot of controls in this sim and I'm not sure
-what this option would buy us. Maybe in an advanced pull-down menu??
-
-- The speaker should move when creating the sound wave (at least, the
-speaker cone should move).
 
 - It looks like the particles run away from the speaker and then fill in
 from behind. I know this is sort of an optical illusion, but there may be a
@@ -74,7 +42,6 @@ way to minimize this visual effect. I tried to follow a single particle and
 it still looked like it was running away.
 
 -  When you change the wavelength of light, it resets rather than continuing
-with differently colored ripples. Also, when you turn the gun off, it goes
-to solid color rather than black. Also, I'd rather have a flashlight than a
-gun, unless there is a compelling reason to make it a gun (besides
-supporting the military-industrial complex).
+with differently colored ripples.
+
+When you turn the gun off, it goes to solid color rather than black. 
