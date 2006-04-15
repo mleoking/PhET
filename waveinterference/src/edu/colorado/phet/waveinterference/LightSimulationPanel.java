@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
+import edu.colorado.phet.waveinterference.tests.ExpandableScreenChartGraphic;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -36,6 +37,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveModel visibleWaveModel;
     private WaveChartGraphic waveChartGraphic;
     private ExpandableWaveChart expandableWaveChart;
+    private ScreenChartGraphic screenChart;
+    private ExpandableScreenChartGraphic expandableScreenChartGraphic;
 
     public LightSimulationPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
@@ -102,6 +105,18 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
 
+        screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
+
+        expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
+        addScreenChild( expandableScreenChartGraphic );
+
+        screenNode.addListener( new ScreenNode.Listener() {
+            public void enabledStateChanged() {
+                updateExpandableGraphicVisibility();
+            }
+        } );
+        updateExpandableGraphicVisibility();
+
         colorChanged();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -115,10 +130,14 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         updateWaveSize();
     }
 
+    private void updateExpandableGraphicVisibility() {
+        expandableScreenChartGraphic.setVisible( screenNode.isEnabled() );
+    }
+
     private void updateWaveSize() {
         if( getHeight() > 0 ) {
             System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
-            int insetTop = 0;
+            double insetTop = super.getWaveModelGraphicOffset().getY();
             System.out.println( "insetTop = " + insetTop );
             double insetBottom = waveChartGraphic.getChartHeight();
 //            if (waveChartGraphic.getFullBounds().getHeight()>300){
@@ -191,6 +210,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet.update();
         screenNode.updateScreen();
         expandableWaveChart.updateChart();
+        expandableScreenChartGraphic.updateChart();
     }
 
     public MultiOscillator getMultiOscillator() {

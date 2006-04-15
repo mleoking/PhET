@@ -99,7 +99,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private void updateWaveSize() {
         if( getHeight() > 0 ) {
             System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
-            int insetTop = 0;
+            double insetTop = super.getWaveModelGraphicOffset().getY();
             System.out.println( "insetTop = " + insetTop );
             double insetBottom = waveChartGraphic.getChartHeight();
 //            if (waveChartGraphic.getFullBounds().getHeight()>300){

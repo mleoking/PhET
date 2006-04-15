@@ -5,7 +5,6 @@ import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -65,7 +64,7 @@ public class ScreenChartGraphic extends PNode {
             }
         } );
         updateColor();
-        addChild( debug );
+//        addChild( debug );
     }
 
     private void updateLocation() {
@@ -106,10 +105,10 @@ public class ScreenChartGraphic extends PNode {
         return max.getY() - min.getY();
     }
 
-    PText debug = new PText( "DEBUG" );
+//    PText debug = new PText( "DEBUG" );
 
     public void updateChart() {
-        debug.setTextPaint( Color.red );
+//        debug.setTextPaint( Color.red );
         GeneralPath generalPath = new GeneralPath();
 
 //        fillPath( generalPath );
@@ -121,7 +120,7 @@ public class ScreenChartGraphic extends PNode {
         jFreeChartNode.localToParent( nodeLoc );
 //        System.out.println( "nodeLocPARENT = " + nodeLoc );
         path.setOffset( new Point2D.Double( nodeLoc.getX(), nodeLoc.getY() ) );
-        debug.setOffset( nodeLoc );
+//        debug.setOffset( nodeLoc );
     }
 
     private double colorToMagnitude( Color color ) {
@@ -152,5 +151,11 @@ public class ScreenChartGraphic extends PNode {
 
     private void updateColor() {
         setCurveColor( strokeColor.getColor() );
+    }
+
+    public Rectangle2D getChartBounds() {
+        Rectangle2D bounds = jFreeChartNode.getFullBounds();
+        localToParent( bounds );
+        return bounds;
     }
 }
