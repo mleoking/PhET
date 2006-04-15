@@ -76,7 +76,6 @@ public class ExpandableWaveChart extends PNode {
         updateLocations();
         addChild( expandPSwing );
         update();
-
     }
 
     public boolean isExpanded() {
@@ -103,9 +102,9 @@ public class ExpandableWaveChart extends PNode {
     }
 
     private void updateLocations() {
-        double expandX = waveChartGraphic.getFullBounds().getMaxX() - expandPSwing.getFullBounds().getWidth();
-        double collapseX = waveChartGraphic.getFullBounds().getMaxX() - collapsePSwing.getFullBounds().getWidth();
-        double buttonY = waveChartGraphic.getFullBounds().getY();
+        double expandX = waveChartGraphic.getChartBounds().getMaxX() - expandPSwing.getFullBounds().getWidth();
+        double collapseX = waveChartGraphic.getChartBounds().getMaxX() - collapsePSwing.getFullBounds().getWidth();
+        double buttonY = waveChartGraphic.getChartBounds().getY();
         expandPSwing.setOffset( expandX, buttonY );
         collapsePSwing.setOffset( collapseX, buttonY );
     }
