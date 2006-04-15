@@ -80,7 +80,8 @@ public class ScreenChartGraphic extends PNode {
         double dataInsetX = data.getX() - r2.getX();
 //        jFreeChartNode.setBounds( dataX + dataInsetX, dataY - dataInsetY, r2.getWidth(), r2.getHeight() );
         jFreeChartNode.setBounds( 0, 0, r2.getWidth(), r2.getHeight() );
-        jFreeChartNode.setOffset( dataX + dataInsetY, dataY - dataInsetY );
+//        jFreeChartNode.setOffset( dataX + dataInsetX, dataY - dataInsetY );
+        jFreeChartNode.setOffset( brightnessScreenGraphic.getFullBounds().getMaxX() + 2, dataY - dataInsetY );
 //        jFreeChartNode.setBounds( 0, dataY - dataInsetY, r2.getWidth(), r2.getHeight() );
     }
 

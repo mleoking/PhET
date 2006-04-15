@@ -46,7 +46,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
         RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 200, 5 );
+        rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();

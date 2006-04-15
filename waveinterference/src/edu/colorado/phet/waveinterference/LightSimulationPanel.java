@@ -54,7 +54,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         rotationGlyph = new RotationGlyph();
         rotationGlyph.setDepthVisible( false );
         rotationWaveGraphic = new RotationWaveGraphic( waveModelGraphic, waveSideView, rotationGlyph );
-        rotationWaveGraphic.setOffset( 200, 2 );
+        rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 angleChanged();

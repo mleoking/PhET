@@ -48,7 +48,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
             }
         }
         super.propagate( largeLattice );
-        for( int i = 0; i < 3; i++ ) {
+        for( int i = 0; i < 1; i++ ) {
             dampScale( largeLattice );
         }
         for( int i = 0; i < w.getWidth(); i++ ) {
@@ -66,7 +66,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
                 int i = origin + step * sign;
                 lattice.setValue( i, j, lattice.getValue( i, j ) * damp );
                 getLast().setValue( i, j, getLast().getValue( i, j ) * damp );
-                getLast2().setValue( i, j, getLast2().getValue( i, j ) * damp );
+//                getLast2().setValue( i, j, getLast2().getValue( i, j ) * damp );
             }
         }
     }
@@ -79,7 +79,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
                 int j = origin + step * sign;
                 lattice.setValue( j, i, lattice.getValue( j, i ) * damp );
                 getLast().setValue( j, i, getLast().getValue( j, i ) * damp );
-                getLast2().setValue( j, i, getLast2().getValue( j, i ) * damp );
+//                getLast2().setValue( j, i, getLast2().getValue( j, i ) * damp );
             }
         }
     }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -15,5 +16,9 @@ public class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas {
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         super.paintComponent( g );
+    }
+
+    public Point2D getWaveModelGraphicOffset() {
+        return new Point2D.Double( 200, 10 );
     }
 }
