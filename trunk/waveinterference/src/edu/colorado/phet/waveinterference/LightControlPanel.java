@@ -16,7 +16,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
     public LightControlPanel( LightModule waterModule ) {
         this.waterModule = waterModule;
         addControl( new MeasurementControlPanel( waterModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( "E-Field", waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );

@@ -28,7 +28,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private IClock clock;
 
-    public DetectorSetControlPanel( IntensityReaderSet intensityReaderSet, PhetPCanvas canvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
+    public DetectorSetControlPanel( final String title, IntensityReaderSet intensityReaderSet, PhetPCanvas canvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReaderSet = intensityReaderSet;
         this.canvas = canvas;
         this.waveModel = waveModel;
@@ -37,7 +37,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
         JButton addDetector = new JButton( "Add Detector" );
         addDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                addIntensityReader();
+                addIntensityReader( title );
             }
         } );
         add( new IconComponent( addDetector, getDetectorImage() ) );
@@ -53,7 +53,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
         }
     }
 
-    public void addIntensityReader() {
-        intensityReaderSet.addIntensityReader( canvas, waveModel, latticeScreenCoordinates, clock );
+    public void addIntensityReader( String title ) {
+        intensityReaderSet.addIntensityReader( title, canvas, waveModel, latticeScreenCoordinates, clock );
     }
 }
