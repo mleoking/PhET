@@ -39,7 +39,6 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         this.waterModule = waterModule;
 
         viewableModel = waterModule.getWaveModel();
-//        viewableModel = new WaveModel( new SubLattice2D( waterModule.getWaveModel().getLattice(), new Rectangle( 30, 30 ) ) );
 
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 6, 6, new IndexColorMap( getLattice(), waterColor ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
