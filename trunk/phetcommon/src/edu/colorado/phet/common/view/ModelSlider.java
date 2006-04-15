@@ -499,7 +499,7 @@ public class ModelSlider extends JPanel {
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
-                System.out.println( "sliderValue = " + sliderValue );
+//                System.out.println( "sliderValue = " + sliderValue );
                 slider.setValue( sliderValue ); //this recursively changes values
                 slider.revalidate();
                 slider.repaint();
