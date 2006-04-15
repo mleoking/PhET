@@ -52,14 +52,23 @@ Bug: When you turn the gun off, it goes to solid color rather than black.
  Bug: Cross section graphic shouldn't show in side-view (water waves only).
 
  The graph that shows the efield should have the arrows colored the same as the curve and possibly a place to choose vectors on or off but hard to say until we see the graph.
- >What does this mean?
+ -This means the graph should look like the "curve with vectors" view in
+Radio Waves. turn the arrows on/off means an option make it look like just a
+curve (no arrows).
 
 Not easy (yet) to make the view angle box narrower.
 
-A comment said "Detectors should have red x’s in the upper right corner to delete them."
->Did you mean Barriers?
-
 All three views will rotate (Sound and Light show same thing on side as on top)
 >I'm not sure how to visualize the intermediate graphics for sound & light.
+-I think the idea is that it will look just like the intermediate graphics
+look right now. It's just that when it flips over to "side" it will look the
+same as "top". This is because both sound and light waves are the same from
+all angles.
 
 Pressure waves are out of phase (particles are too slow to keep up with pressure).
+- I did notice that - I was going to mention that high pressure should be
+where the particles are dense. Right now it looks 180 deg. out of phase.
+Would it help speed things up to make the particles smaller? They could be
+maybe 75% of their current size and it might look better anyway.
+
+Background should be black in particle view like it is with ideal gas.
