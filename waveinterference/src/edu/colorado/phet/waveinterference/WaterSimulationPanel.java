@@ -34,6 +34,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveModel viewableModel;
     private ExpandableWaveChart expandableWaveChart;
     private WaveChartGraphic waveChartGraphic;
+    private CrossSectionGraphic crossSectionGraphic;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -82,15 +83,15 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
-        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         addScreenChild( crossSectionGraphic );
 
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
             public void expansionStateChanged() {
-                crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+                updateCrossSectionGraphicVisible();
             }
         } );
-        crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+        updateCrossSectionGraphicVisible();
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -102,6 +103,10 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+    }
+
+    private void updateCrossSectionGraphicVisible() {
+        crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() && rotationWaveGraphic.isTopView() );
     }
 
     private void updateWaveSize() {
@@ -133,7 +138,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
             slitPotentialGraphic.setVisible( false );
             intensityReaderSet.setToMiddle( false );
         }
-
+        updateCrossSectionGraphicVisible();
     }
 
     public MultiFaucetDrip getMultiDrip() {

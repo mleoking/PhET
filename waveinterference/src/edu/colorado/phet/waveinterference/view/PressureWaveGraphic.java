@@ -7,9 +7,11 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,10 +37,16 @@ public class PressureWaveGraphic extends PNode {
     private double acceleration = 0.3;
     private double maxVelocity = 3;
     private double friction = 0.97;
+    private boolean pinked = false;
+    private PPath background;
 
     public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.lattice = lattice;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
+        background = new PPath();
+        background.setPaint( Color.black );
+        background.setStrokePaint( Color.gray );
+        addChild( background );
         try {
             blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
             pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
@@ -48,14 +56,10 @@ public class PressureWaveGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        Random random = new Random();
         int MOD = 3;
-//        double red=0.02;
         for( int i = 0; i < lattice.getWidth(); i++ ) {
             for( int j = 0; j < lattice.getHeight(); j++ ) {
                 if( i % MOD == 0 && j % MOD == 0 ) {
-
-//                    Particle particle = new Particle( blueImage, i, j );
                     Particle particle = new Particle( isPink( i, j ) ? pinkImage : blueImage, i, j );
                     addParticle( particle );
                 }
@@ -71,22 +75,37 @@ public class PressureWaveGraphic extends PNode {
     }
 
     private boolean isPink( int i, int j ) {
-        return random.nextDouble() < 0.06;
+        if( !pinked && i >= lattice.getWidth() / 2 && j >= lattice.getHeight() / 2 ) {
+            pinked = true;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private void updateBounds() {
         setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, 0 ) );
         int spacingBetweenCells = (int)latticeScreenCoordinates.getCellWidth();
         setSpaceBetweenCells( spacingBetweenCells );
+        background.setPathTo( new Rectangle2D.Double( 0, 0, latticeScreenCoordinates.getScreenRect().getWidth(), latticeScreenCoordinates.getScreenRect().getHeight() ) );
     }
 
     private void reorderChildren() {
         ArrayList all = new ArrayList( particles );
         super.removeAllChildren();
+        addChild( background );
         Collections.shuffle( all );
         for( int i = 0; i < all.size(); i++ ) {
             Particle particle = (Particle)all.get( i );
             addChild( particle );
+        }
+        for( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle)particles.get( i );
+            if( particle.getImage() == pinkImage ) {
+                removeChild( particle );
+                addChild( particle );
+            }
         }
     }
 
@@ -171,23 +190,28 @@ public class PressureWaveGraphic extends PNode {
             update();
         }
 
+        class SearchResult {
+            private double pressure;
+            private Point location;
+
+            public SearchResult( double pressure, Point location ) {
+                this.pressure = pressure;
+                this.location = location;
+            }
+
+            public double getPressure() {
+                return pressure;
+            }
+
+            public Point getLocation() {
+                return location;
+            }
+        }
+
         public void update() {
             //look near to x,y (but don't stray from homeX and homeY)
-            double bestValue = Double.NEGATIVE_INFINITY;
-            int windowSize = 8;
-            Point bestPoint = null;
-            for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
-                for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
-                    if( inBounds( homeX + i, homeY + j ) ) {
-//                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
-                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) )
-                        {
-                            bestPoint = new Point( homeX + i, homeY + j );
-                            bestValue = lattice.getValue( homeX + i, homeY + j );
-                        }
-                    }
-                }
-            }
+            SearchResult searchResult = searchForTarget();
+            Point bestPoint = searchResult.getLocation();
             if( bestPoint != null ) {
                 //step towards the peak
                 double prefX = bestPoint.x * spacingBetweenCells;
@@ -195,7 +219,7 @@ public class PressureWaveGraphic extends PNode {
                 Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
                 double accelScale = 1.0;
                 double frictionScale = 1.0;
-                if( Math.abs( bestValue ) < 0.01 ) {
+                if( Math.abs( searchResult.getPressure() ) < 0.01 ) {
                     prefX = homeX * spacingBetweenCells;
                     prefY = homeY * spacingBetweenCells;
                     vec.rotate( random.nextDouble() * Math.PI * 2 );
@@ -207,7 +231,48 @@ public class PressureWaveGraphic extends PNode {
                 accelerateToTarget( vec, accelScale, frictionScale );
 //            accelerateFromNeighbors();//very expensive
             }
+        }
 
+        private SearchResult searchForTarget() {
+            return searchForMin();
+        }
+
+        private SearchResult searchForMin() {
+            double bestValue = Double.POSITIVE_INFINITY;
+            int windowSize = 8;
+            Point bestPoint = null;
+            for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
+                for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
+                    if( inBounds( homeX + i, homeY + j ) ) {
+                        //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
+                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) < bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) )
+                        {
+                            bestPoint = new Point( homeX + i, homeY + j );
+                            bestValue = lattice.getValue( homeX + i, homeY + j );
+                        }
+                    }
+                }
+            }
+            return new SearchResult( bestValue, bestPoint );
+        }
+
+        private SearchResult searchForMax() {
+            double bestValue = Double.NEGATIVE_INFINITY;
+            int windowSize = 8;
+            Point bestPoint = null;
+            for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
+                for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
+                    if( inBounds( homeX + i, homeY + j ) ) {
+                        //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
+                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) )
+                        {
+                            bestPoint = new Point( homeX + i, homeY + j );
+                            bestValue = lattice.getValue( homeX + i, homeY + j );
+                        }
+                    }
+                }
+            }
+            return new SearchResult( bestValue, bestPoint );
         }
 
 //        private void accelerateFromNeighbors() {
@@ -228,20 +293,12 @@ public class PressureWaveGraphic extends PNode {
 //        }
 
         private void accelerateToTarget( Vector2D.Double vec, double accelScale, double frictionScale ) {
-//            double acceleration = 0.4;
             if( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
-//                double finalAcceleration = acceleration * ( bestValue / 2.0 + 0.5 );
-//                double finalAcceleration = acceleration;
                 double finalAcceleration = acceleration * accelScale;
-//                if( Math.abs( bestValue ) < 0.1 ) {
-//                    finalAcceleration = 0;
-//                }
                 vec.scale( finalAcceleration );
-//                System.out.println( "vec = " + vec );
 
                 velocity = velocity.add( vec );
-//                double maxVelocity = 15;
                 if( velocity.getX() > maxVelocity ) {
                     velocity.setX( maxVelocity );
                 }
@@ -259,7 +316,6 @@ public class PressureWaveGraphic extends PNode {
                 a = dest.getX();
                 b = dest.getY();
                 setOffset( a, b );
-
             }
         }
 

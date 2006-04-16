@@ -7,6 +7,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -25,10 +26,14 @@ public class RotationGlyph extends PNode {
     private PPath depth;
     private int boxHeight = 200;
     private MutableColor color;
+    private PPath crossSectionGraphic;
 
     public RotationGlyph( MutableColor color ) {
         this.color = color;
         surface = new PPath();
+        this.crossSectionGraphic = new PPath();
+        crossSectionGraphic.setPaint( Color.black );
+        crossSectionGraphic.setStroke( CrossSectionGraphic.STROKE );
 //        surface.setPaint( new Color( 128, 128, 255 ) );
         surface.setPaint( color.getColor() );
         surface.setStroke( new BasicStroke( 3 ) );
@@ -38,7 +43,7 @@ public class RotationGlyph extends PNode {
         depth.setStroke( new BasicStroke( 4 ) );
         addChild( depth );
         addChild( surface );
-
+        addChild( crossSectionGraphic );
         update();
         setRotation( 0.0 );
         color.addListener( new MutableColor.Listener() {
@@ -135,6 +140,7 @@ public class RotationGlyph extends PNode {
         depthPath.lineTo( pin2 );
         depthPath.closePath();
         depth.setPathTo( depthPath.getGeneralPath() );
+        crossSectionGraphic.setPathTo( new Line2D.Double( 0, 2 * h, primaryWidth, 2 * h ) );
     }
 
     public double getSurfaceHeight() {

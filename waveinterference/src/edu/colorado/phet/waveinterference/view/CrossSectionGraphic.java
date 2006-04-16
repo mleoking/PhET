@@ -20,12 +20,14 @@ public class CrossSectionGraphic extends PhetPNode {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private PPath path;
+    public static final BasicStroke STROKE = new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 5}, 0 );
 
     public CrossSectionGraphic( WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.path = new PPath();
-        path.setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 5}, 0 ) );
+
+        path.setStroke( STROKE );
         path.setStrokePaint( Color.black );
         addChild( path );
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
