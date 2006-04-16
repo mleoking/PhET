@@ -68,7 +68,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock() );
+        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates() );
         addScreenChild( measurementToolSet );
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
@@ -111,21 +111,21 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     private void updateWaveSize() {
         if( getHeight() > 0 ) {
-            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
+//            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
             double insetTop = super.getWaveModelGraphicOffset().getY();
-            System.out.println( "insetTop = " + insetTop );
+//            System.out.println( "insetTop = " + insetTop );
             double insetBottom = waveChartGraphic.getChartHeight();
 //            if (waveChartGraphic.getFullBounds().getHeight()>300){
 //                System.out.println( "WaterSimulationPanel.updateWaveSize" );
 //            }
-            System.out.println( "insetBottom = " + insetBottom );
+//            System.out.println( "insetBottom = " + insetBottom );
             double availableHeight = getHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
-            System.out.println( "pixelsPerCell = " + pixelsPerCell );
+//            System.out.println( "pixelsPerCell = " + pixelsPerCell );
             rotationWaveGraphic.setCellSize( pixelsPerCell );
             double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
-            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
+//            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
+//            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
         }
     }
 

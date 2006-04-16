@@ -2,18 +2,14 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.piccolo.nodes.MeasuringTape;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -23,15 +19,15 @@ import java.awt.geom.Rectangle2D;
  */
 
 public class MeasurementToolSet extends PNode {
-    private MeasuringTape measuringTape;
+    private WaveMeasuringTape measuringTape;
     private PNode stopwatchGraphic;
     private PSwingCanvas pSwingCanvas;
 
-    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock ) {
+    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.pSwingCanvas = pSwingCanvas;
-        measuringTape = new MeasuringTape( new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 100, 100 ), new Rectangle2D.Double( 0, 0, 100, 100 ) ), new Point2D.Double( 0, 0 ) );
+        measuringTape = new WaveMeasuringTape( latticeScreenCoordinates );
         measuringTape.setVisible( false );
-        measuringTape.setOffset( 100, 100 );
+//        measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
 
         stopwatchGraphic = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock ) ) );
