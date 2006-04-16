@@ -61,7 +61,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet( this, soundModule.getClock() );
+        measurementToolSet = new MeasurementToolSet( this, soundModule.getClock(), getLatticeScreenCoordinates() );
         addScreenChild( measurementToolSet );
 
         speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
