@@ -12,6 +12,7 @@ import edu.colorado.phet.waveinterference.view.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -82,6 +83,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( intensityReaderSet );
 
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates() );
+        measurementToolSet.setDistanceUnits( "nm" );
+        //todo: determined through experiment, depends on wavelength to frequency mapping in WavelengthControlPanel
+        measurementToolSet.getWaveMeasuringTape().setWaveAreaSize( 4200, 4200 );
+        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
         addScreenChild( measurementToolSet );
 
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, waterModule.getPrimaryOscillator(), secondaryLaserGraphic, waterModule.getSecondaryOscillator() );

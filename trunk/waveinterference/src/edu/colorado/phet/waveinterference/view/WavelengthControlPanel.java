@@ -43,6 +43,7 @@ public class WavelengthControlPanel extends VerticalLayoutPanel {
         PhotonEmissionColorMap colorMap = new PhotonEmissionColorMap( getWaveModel(), getColor() );
         waveModelGraphic.setColorMap( colorMap );
         double frequency = speedOfLight / slider.getWavelength();
+        System.out.println( "slider.getWavelength() = " + slider.getWavelength() );
 //        System.out.println( "frequency = " + frequency );
         oscillator.setFrequency( frequency );
     }
