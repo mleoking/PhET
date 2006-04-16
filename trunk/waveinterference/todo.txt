@@ -48,7 +48,8 @@ with differently colored ripples.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
-  The graph that shows the efield should have the arrows colored the same as the curve and possibly a place to choose vectors on or off but hard to say until we see the graph.
+  The graph that shows the efield should have the arrows colored the same as the curve
+  and possibly a place to choose vectors on or off but hard to say until we see the graph.
  -This means the graph should look like the "curve with vectors" view in
 Radio Waves. turn the arrows on/off means an option make it look like just a
 curve (no arrows).
