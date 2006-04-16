@@ -61,6 +61,26 @@ public class MeasuringTape extends PhetPNode {
         update();
     }
 
+    public void setUnits( String units ) {
+        readoutGraphic.setUnits( units );
+        update();
+    }
+
+    public void setModelSrc( Point2D modelSrc ) {
+        this.modelSrc = new Point2D.Double( modelSrc.getX(), modelSrc.getY() );
+        update();
+    }
+
+    public void setModelDst( Point2D modelDst ) {
+        this.modelDst = new Point2D.Double( modelDst.getX(), modelDst.getY() );
+        update();
+    }
+
+    public void setModelViewTransform2D( ModelViewTransform2D modelViewTransform2D ) {
+        this.modelViewTransform2D = modelViewTransform2D;
+        update();
+    }
+
     class BodyGraphic extends PNode {
         private PImage imageGraphic;
 
@@ -107,7 +127,9 @@ public class MeasuringTape extends PhetPNode {
     }
 
     private void update() {
+        System.out.println( "modelSrc = " + modelSrc );
         Point viewSrc = modelViewTransform2D.modelToView( modelSrc );
+        System.out.println( "viewSrc = " + viewSrc );
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
         Vector2D.Double viewVector = new Vector2D.Double( viewSrc, viewDst );
 
@@ -203,6 +225,10 @@ public class MeasuringTape extends PhetPNode {
         public void setDistance( double modelDistance ) {
             String text = decimalFormat.format( modelDistance ) + " " + units;
             phetShadowTextGraphic.setText( text );
+        }
+
+        public void setUnits( String units ) {
+            this.units = units;
         }
     }
 
