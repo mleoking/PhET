@@ -127,9 +127,9 @@ public class MeasuringTape extends PhetPNode {
     }
 
     private void update() {
-        System.out.println( "modelSrc = " + modelSrc );
+//        System.out.println( "modelSrc = " + modelSrc );
         Point viewSrc = modelViewTransform2D.modelToView( modelSrc );
-        System.out.println( "viewSrc = " + viewSrc );
+//        System.out.println( "viewSrc = " + viewSrc );
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
         Vector2D.Double viewVector = new Vector2D.Double( viewSrc, viewDst );
 
