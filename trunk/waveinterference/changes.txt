@@ -1,3 +1,8 @@
+New in 0.08
+Sound Module:
+    Made it so just one particle is pink, always in front.
+    Changed particle view background to black.
+
 New in 0.07 (4-15-2006)
 Water color is lighter  (easier to see on projector)
 Drips disappear immediately when hitting the water (in side view)
