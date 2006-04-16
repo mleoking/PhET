@@ -52,4 +52,12 @@ public class MeasurementToolSet extends PNode {
     public void setStopwatchVisible( boolean selected ) {
         stopwatchGraphic.setVisible( selected );
     }
+
+    public void setDistanceUnits( String distanceUnits ) {
+        measuringTape.setUnits( distanceUnits );
+    }
+
+    public WaveMeasuringTape getWaveMeasuringTape() {
+        return measuringTape;
+    }
 }

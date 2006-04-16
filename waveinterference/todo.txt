@@ -2,22 +2,11 @@ o Test at 1024x768
 
 o Test on a Mac.
 
-o Intensity readers should be constrained on the x-axis when in side-view.
-
-o Should we show intensity readouts anywhere, or just wave values?
-o Could show intensity on detectors instead of displacement (ask Noah P)
-o Okay, I'll add a switch to detectors to show intensity.
-Do we want to optionally show absolute values (or intensities) in the wave area (to give a more global idea of constructive and destructive interference)?
-o I would leave it up to others whether we should show intensity in the wave
-itself. I don't really have an opinion, but I would lean towards not doing
-this, since there are already a lot of controls in this sim and I'm not sure
-what this option would buy us. Maybe in an advanced pull-down menu??
-
 o Add correct units to measuring tape.
 
 o Add correct units to stopwatch.
 
-o Barrier, multiple sources should disappear for rotate wave.
+o Barrier, multiple sources should disappear for rotate wave in water module.
 
 Wave Interference: notes from phet meeting 4-4-06
 o When a barrier is present, it should be shown in side view as behind the wave.
@@ -53,6 +42,9 @@ Bug: When you turn the gun off, it goes to solid color rather than black.
  -This means the graph should look like the "curve with vectors" view in
 Radio Waves. turn the arrows on/off means an option make it look like just a
 curve (no arrows).
+They should be the same color (hollow is still good) and I think
+there should be a radio button that allows the user to show these vectors or
+not.
 
 Not easy (yet) to make the view angle box narrower.
 
@@ -68,5 +60,41 @@ all angles.
 Pressure waves are out of phase (particles are too slow to keep up with pressure).
 - I did notice that - I was going to mention that high pressure should be
 where the particles are dense. Right now it looks 180 deg. out of phase.
+
 Would it help speed things up to make the particles smaller? They could be
 maybe 75% of their current size and it might look better anyway.
+ I would pick a smaller particle size for the particle view.  Probably half
+your current size or a little smaller.
+
+Have the bar that connects to the faucets be silver like the faucets and
+frame of control box. On the speaker the current color doesn't look bad at
+all.  For the light I'd also change to a grey.
+
+I would also like to add a reset button to each screen because you can screw
+around with the barrier and get situations that appear to be a steady state
+but after a very very long time, they seem to calm down.  The amount of tiem
+it takes to calm down, however, is not reasonable.  I waited 10 minutes
+after creating the second one in the attached screen shot and it still
+wasn't back to a sine wave.  I took these screen shots about 30 seconds
+after scooting the barriers back and forth very quickly.
+
+o Intensity readers should be constrained on the x-axis when in side-view.
+>>This sounds like a lot of work.  Let's just disable them instead.
+
+Is it possible to get some sort of switch or button as the on off's for each
+panel?
+>>I think the "on" "off" checkboxes we have now is very clear, and looks good.
+>>Let's become more strongly motivated before changing this, and also have something
+>>extremely concrete that we're sure will work.
+
+o Should we show intensity readouts anywhere, or just wave values?
+o Could show intensity on detectors instead of displacement
+>>This does not look like it will be a useful feature.  I'll drop it for now.
+
+Do we want to optionally show absolute values (or intensities) in the wave area
+(to give a more global idea of constructive and destructive interference)?
+o I would leave it up to others whether we should show intensity in the wave
+itself. I don't really have an opinion, but I would lean towards not doing
+this, since there are already a lot of controls in this sim and I'm not sure
+what this option would buy us. Maybe in an advanced pull-down menu??
+>>This looks like it wouldn't be a useful feature.  I'll drop it for now.
