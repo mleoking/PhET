@@ -62,6 +62,8 @@ All three views will rotate (Sound and Light show same thing on side as on top)
 look right now. It's just that when it flips over to "side" it will look the
 same as "top". This is because both sound and light waves are the same from
 all angles.
+>Not sure I want to handle what to do with barriers, sources in these cases.
+>Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
 
 Pressure waves are out of phase (particles are too slow to keep up with pressure).
 - I did notice that - I was going to mention that high pressure should be
