@@ -6,38 +6,26 @@
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
     <property name="ant.lib" location="${ant.output}/lib"/>
+    <property name="ant.jnlp" location="${ant.output}/jnlp"/>
 
     <!--    Set current sister directories, for backup and release data. -->
     <property name="backup" location="../backup"/>
     <property name="releases" location="../releases"/>
 
-    <!--  Set up child directories, for during the build.  -->
-    <property name="src" location="src"/>
-    <property name="tests-src" location="test-src"/>
-    <property name="data" location="data"/>
-
     <property file="build.properties"/>
     <property file="local.properties"/>
-    <property file="build.time.stamp" location="${data}"/>
+    <property file="build.time.stamp" location="data"/>
 
-    <property name="build.number.txt" value="${data}/${distname}.build.number"/>
-    <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
+    <property name="build.number.txt" value="data/${distname}.build.number"/>
+    <property name="timestamp.name" value="data/${distname}.build.time.stamp"/>
 
-    <property name="proguard-file" value="cck3.pro"/>
+    <property name="phet-ssh-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
+    <property name="dev-parent" value="${phet-ssh-root}/${dev-path}"/>
+    <property name="dev-dir" value="${dev-parent}/${dev-version}"/>
 
-    <property name="phet-root" value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>
-    <property name="dev-dir" value="${phet-root}/${dev-path}/${dev-version}"/>
+    <taskdef resource="proguard/ant/task.properties" classpath="antutil-dir/lib/proguard.jar"/>
 
-    <taskdef resource="proguard/ant/task.properties"
-             classpath="proguard3.4/lib/proguard.jar"/>
-
-    <taskdef name="maverick-ssh"
-             classname="com.sshtools.ant.Ssh"
-             classpath="maverick-ant/maverick/lib/maverick-ant.jar"/>
-
-    <description>
-        PhET Build File.
-    </description>
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="antutil-dir/lib/maverick-ant.jar"/>
 
     <target name="init">
         <tstamp/>
@@ -51,21 +39,20 @@
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean"
-            description="compile the source ">
+    <target name="Compile" depends="init, Clean">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="src:phetcommon-cck/src"
-               excludes=""
-               classpath="lib/Jama-1.0.1.jar:lib/jnlp.jar:lib/localJNLP.jar:lib/nanoxml-2.2.1.jar:lib/smoothmetal.jar"
-               destdir="${ant.classes}"/>
-        <!--    Uncomment the following line to add test classes to the output jar.    -->
-        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
+        <javac srcdir="${build-src}"
+               excludes="${build-excludes}"
+               classpath="${build-classpath}"
+               source="1.4"
+               destdir="${ant.classes}"
+                />
     </target>
 
     <target name="Generate Build Info">
         <buildnumber file="${build.number.txt}"/>
         <tstamp>
-            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
+            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
         </tstamp>
         <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
     </target>
@@ -79,51 +66,32 @@
         <property file="${build.number.txt}"/>
         <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
-            <fileset dir="${data}"/>
-            <fileset dir="phetcommon-cck/data"></fileset>
+            <fileset dir="data">
+                <exclude name="**/*Thumbs.db"/>
+            </fileset>
+            <fileset dir="phetcommon-cck/data"/>
+            <!--<fileset dir="piccolo-phet-dir/data"/>-->
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>
     </target>
 
-    <!--<target name="Publish Executables" depends="Generate Jar"-->
-    <!--description="generate executables, jar files, lib files, a batchfile">-->
-    <!--<mkdir dir="${releases}"/>-->
-    <!--<property file="${build.number.txt}"/>-->
-    <!--<property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>-->
-    <!--<mkdir dir="${destdir}"/>-->
-    <!--<copy todir="${destdir}">-->
-    <!--<fileset dir="${ant.jars}"/>-->
-    <!--</copy>-->
-    <!--<copy todir="${destdir}">-->
-    <!--<fileset dir="." casesensitive="yes">-->
-    <!--<include name="*.jnlp"/>-->
-    <!--</fileset>-->
-    <!--</copy>-->
-    <!--<mkdir dir="${destdir}/lib"/>-->
-    <!--<copy todir="${destdir}/lib">-->
-    <!--<fileset dir="jfreechart/lib"/>-->
-    <!--</copy>-->
-    <!--<exec dir="${destdir}" executable="${explorer}">-->
-    <!--<arg line="${destdir}"/>-->
-    <!--</exec>-->
-    <!--</target>-->
-
     <target name="ProGuard" depends="Generate Jar">
         <proguard configuration="${proguard-file}"/>
     </target>
 
-    <target name="Update JNLP">
+    <target name="Update-JNLP">
         <copy todir="ant_output/jnlp" overwrite="yes">
-            <fileset file="ec3.jnlp"/>
+            <fileset file="${jnlp-filename}"/>
             <filterset>
                 <filter token="VERSION" value="${dev-version}"/>
+                <filter token="MAIN-CLASS" value="${main.class}"/>
             </filterset>
         </copy>
     </target>
 
-    <target name="Post Dev">
+    <target name="Post">
         <maverick-ssh host="${ssh-host}"
                       username="${username}"
                       password="${password}"
@@ -131,11 +99,40 @@
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="ant_output/jars/ec3-pro.jar"/>
-                <fileset file="ant_output/jnlp/ec3.jnlp"/>
+                <fileset file="${ant.jars}/${app-jar-file}"/>
+                <fileset file="${ant.jnlp}/${jnlp-filename}"/>
+                <!--<fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>-->
+                <!--<fileset file="screenshot.gif"/>-->
+                <!--<fileset file="README"/>-->
+                <!--<fileset file="todo.txt"/>-->
+                <!--<fileset file="changes.txt"/>-->
             </sftp>
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev"/>
+    <target name="Post Docs Only">
+        <maverick-ssh host="${ssh-host}"
+                      username="${username}"
+                      password="${password}"
+                      version="2">
+            <sftp action="mkdir"
+                  remotedir="${dev-parent}"/>
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
+                <fileset file="todo.txt"/>
+                <fileset file="changes.txt"/>
+            </sftp>
+        </maverick-ssh>
+    </target>
+
+    <target name="Build and Deploy" depends="ProGuard,Update-JNLP,Post"/>
+
+    <!-- tag the source tree with tag -->
+    <target name="test-cvs-tag"
+            description="Tags source tree in CVS, from a given branch with the given tag.">
+        <echo message="tagging source from CVS..."/>
+        <cvs cvsRoot=":ssh:samreid:${cvspassword}$@cvs.sourceforge.net:/cvsroot/phet"
+             command="tag -b waveinterference-test-tag-4-6-06 src"/>
+        <echo message="...done"/>
+    </target>
+
 </project>
