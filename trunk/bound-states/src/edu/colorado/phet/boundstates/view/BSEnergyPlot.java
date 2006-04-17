@@ -44,7 +44,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     
     // Model references
     private BSModel _model;
-    private double _dx;
     
     // View
     private XYSeries _potentialSeries;
@@ -95,9 +94,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         setDomainGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
-        setRangeAxis( yAxis ); 
-        
-        _dx = 1;
+        setRangeAxis( yAxis );
     }
     
     public void cleanup() {
@@ -115,13 +112,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         _model = model;
         _model.addObserver( this );
         updateDisplay();
-    }
-    
-    public void setDx( double dx ) {
-        if ( dx != _dx ) {
-            _dx = dx;
-            updateDisplay();
-        }
     }
     
     /**
@@ -171,7 +161,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
         BSAbstractPotential potential = _model.getPotential();
-        Point2D[] points = potential.getPoints( minX, maxX, _dx );
+        Point2D[] points = potential.getPoints( minX, maxX );
         _potentialSeries.clear();
         for ( int i = 0; i < points.length; i++ ) {
             _potentialSeries.add( points[i].getX(), points[i].getY() );

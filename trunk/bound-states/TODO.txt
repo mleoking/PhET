@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - solve wavefunction and display in chart for selected eigenstate(s)
 - solve wavefunction and display in chart for hilited eigenstate 
 - scale position axis to fit excited portion of wavefunction
+- odd nodes for Coulomb
 
 MEDIUM PRIORITY:
 - use fewer points (bigger dx) for calculating eigenstates
@@ -51,6 +52,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - move dx into the model
 (4/17/06) - Colors menu in menu bar
 (4/17/06) - cache eigenstates, recalculate only when dirty
 (4/17/06) - add abstract BSAbstractPotential.supportsMultipleWells
