@@ -105,7 +105,7 @@
                 <!--<fileset file="screenshot.gif"/>-->
                 <!--<fileset file="README"/>-->
                 <!--<fileset file="todo.txt"/>-->
-                <!--<fileset file="changes.txt"/>-->
+                <fileset file="changes.txt"/>
             </sftp>
         </maverick-ssh>
     </target>
