@@ -87,7 +87,6 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
             throw new UnsupportedOperationException( "multiple wells are not supported" );
         }
         if ( numberOfWells != _numberOfWells ) {
-            System.out.println( "BSAbstractPotential.setNumberOfWells " + numberOfWells );//XXX
             _numberOfWells = numberOfWells;
             markEigenstatesDirty();
             notifyObservers();
