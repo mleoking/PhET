@@ -11,7 +11,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - make things update correctly when the clock is paused
 - drag handles for each potential type (all slightly different)
-- normalization of Superposition coefficients has round-off and double precision error
 - width and spacing sliders in BSSquareDialog don't interact like they should
 - disabled the superposition button if no eigenstates are found
 - implement Save/Load for model
@@ -49,6 +48,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) -handle roundoff error in normalization of Superposition coefficients
 (4/17/06) - add a small bit of space about y-axis range on the Energy chart
 (4/17/06) - test "Reset All" feature, appears to be working
 (4/17/06) - calculate Coulomb eigenstates for only the even states (odd node numbers)

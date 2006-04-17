@@ -59,6 +59,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
+    private static final double NORMALIZATION_ERROR = 0.00001;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -339,13 +341,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     }
     
     private void normalize() {
-        if ( !isZero() && !isNormalized() ) {
+        if ( !isZero() ) {
             final double total = getCoefficientsTotal();
             Iterator i = _spinners.iterator();
             while ( i.hasNext() ) {
                 DoubleSpinner spinner = (DoubleSpinner) i.next();
                 double normalizedValue = spinner.getDoubleValue() / total;
-                //XXX handle roundoff error
                 spinner.setDoubleValue( normalizedValue );
             }
         }
@@ -362,7 +363,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     }
     
     private boolean isNormalized() {
-        return ( getCoefficientsTotal() == 1 );
+        final double total = getCoefficientsTotal();
+        return ( total < 1 + NORMALIZATION_ERROR && total > 1 - NORMALIZATION_ERROR );
     }
     
     private boolean isZero() {
@@ -394,7 +396,6 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _normalizeButton ) {
-                handleNormalizeAction();
                 handleNormalizeAction();
             }
             else if ( event.getSource() == _applyButton ) {
