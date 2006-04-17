@@ -86,7 +86,7 @@ public class BSConstants {
     // Paints
     //----------------------------------------------------------------------------
     
-    public static final Color CANVAS_BACKGROUND = new Color( 240, 240, 240 );
+    public static final Color CANVAS_BACKGROUND = new Color( 220, 220, 220 );
     
     // The default color scheme
     public static final BSColorScheme COLOR_SCHEME = new BSBlackColorScheme();
