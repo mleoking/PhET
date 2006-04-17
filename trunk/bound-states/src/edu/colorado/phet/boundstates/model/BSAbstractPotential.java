@@ -45,7 +45,8 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAbstractPotential( BSParticle particle, int numberOfWells, double spacing, double offset, double center ) {
+    public BSAbstractPotential( BSParticle particle, 
+            int numberOfWells, double spacing, double offset, double center ) {
         setNumberOfWells( numberOfWells );
         setSpacing( spacing );
         setOffset( offset );
