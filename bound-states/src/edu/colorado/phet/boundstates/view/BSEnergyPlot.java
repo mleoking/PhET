@@ -83,7 +83,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
         yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( BSConstants.ENERGY_RANGE );
+        yAxis.setRange( BSConstants.ENERGY_RANGE.getLowerBound() * 1.05, BSConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
         yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
         yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
 
