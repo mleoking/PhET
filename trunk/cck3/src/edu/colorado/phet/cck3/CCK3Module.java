@@ -134,6 +134,7 @@ public class CCK3Module extends Module {
 
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
+    private static final String VERSION = "3.49";
 
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
@@ -697,7 +698,7 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
-        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ),
+        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ) + " (" + VERSION + ")",
                                                        SimStrings.get( "CCK3Application.description" ),
                                                        SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
         model.setName( "cck" );
