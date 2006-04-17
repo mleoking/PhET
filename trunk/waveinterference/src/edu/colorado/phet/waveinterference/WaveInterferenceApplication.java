@@ -3,6 +3,8 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.application.PhetApplication;
 
+import javax.swing.*;
+
 /**
  * User: Sam Reid
  * Date: Mar 21, 2006
@@ -25,10 +27,12 @@ public class WaveInterferenceApplication extends PhetApplication {
                 getModule( i ).setLogoPanelVisible( false );
             }
         }
+
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
         WaveIntereferenceLookAndFeel.initLookAndFeel();
+        UIManager.setLookAndFeel( smooth.SmoothLookAndFeelFactory.getSystemLookAndFeelClassName() );
         new WaveInterferenceApplication( args ).startApplication();
     }
 }
