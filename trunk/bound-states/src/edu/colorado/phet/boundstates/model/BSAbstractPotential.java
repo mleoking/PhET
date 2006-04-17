@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 
 
@@ -146,7 +147,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
     
-    public Point2D[] getPoints( double minX, double maxX ) {
+    public Point2D[] getPotentialPoints( double minX, double maxX ) {
         ArrayList points = new ArrayList();
         for ( double x = minX; x <= maxX; x += _dx ) {
             points.add( new Point2D.Double( x, getEnergyAt(x) ) );
@@ -169,6 +170,29 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      */
     protected void markEigenstatesDirty() {
         _eigenstates = null;
+    }
+    
+    /**
+     * Gets the points that approximate the wave function for an eigenstate.
+     * 
+     * @param energy
+     * @param minX
+     * @param maxX
+     * @return
+     */
+    public Point2D[] getWaveFunctionPoints( final double energy, final double minX, final double maxX ) {
+        final double dx = getDx();
+        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
+        final int numberOfPoints = (int)( (maxX - minX) / dx ) + 1;
+        SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
+        double[] psi = solver.getWavefunction( energy );
+        Point2D[] points = new Point2D.Double[ psi.length ];
+        for ( int i = 0; i < psi.length; i++ ) {
+            double x = minX + ( i * dx );
+            double y = psi[i];
+            points[i] = new Point2D.Double( x, y );
+        }
+        return points;
     }
     
     //----------------------------------------------------------------------------

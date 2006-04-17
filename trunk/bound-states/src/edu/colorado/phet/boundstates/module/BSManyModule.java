@@ -151,6 +151,9 @@ public class BSManyModule extends BSAbstractModule {
             _chart = new BSCombinedChart();
             _chart.setBackgroundPaint( BSConstants.CANVAS_BACKGROUND );
             
+            // Wave Function plot shows time-dependent data
+            getClock().addClockListener( _chart.getWaveFunctionPlot() );
+            
             _chartNode = new BSCombinedChartNode( _chart );
             _parentNode.addChild( _chartNode );
         }
@@ -373,6 +376,7 @@ public class BSManyModule extends BSAbstractModule {
         
         // View
         _chart.getEnergyPlot().setModel( _model );
+        _chart.getWaveFunctionPlot().setModel( _model );
         _eigenstatesNode.setModel( _model );
         
         // Control

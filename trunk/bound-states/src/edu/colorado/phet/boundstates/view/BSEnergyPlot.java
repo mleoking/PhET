@@ -109,9 +109,14 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     public void setModel( BSModel model ) {
-        _model = model;
-        _model.addObserver( this );
-        updateDisplay();
+        if ( _model != model ) {
+            if ( _model != null ) {
+                _model.deleteObserver( this );
+            }
+            _model = model;
+            _model.addObserver( this );
+            updateDatasets();
+        }
     }
     
     /**
@@ -146,25 +151,27 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      */
     public void update( Observable observable, Object arg ) {
         if ( observable == _model && arg == BSModel.PROPERTY_POTENTIAL ) {
-            updateDisplay();
+            updateDatasets();
         }
     }
     
     //----------------------------------------------------------------------------
-    // Update handlers
+    // Dataset updaters
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the display to match the model.
+     * Updates the datasets to match the model.
      */
-    private void updateDisplay() {
+    private void updateDatasets() {
+        _potentialSeries.setNotify( false );
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
         BSAbstractPotential potential = _model.getPotential();
-        Point2D[] points = potential.getPoints( minX, maxX );
+        Point2D[] points = potential.getPotentialPoints( minX, maxX );
         _potentialSeries.clear();
         for ( int i = 0; i < points.length; i++ ) {
             _potentialSeries.add( points[i].getX(), points[i].getY() );
         }
+        _potentialSeries.setNotify( true );
     }
 }
