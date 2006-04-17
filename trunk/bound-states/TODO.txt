@@ -52,6 +52,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - add abstract BSAbstractPotential.supportsMultipleWells
 (4/17/06) - wrap various model elements in BSModel and use that in most places
 (4/17/06) - don't update while sliders are dragging (for now)
 (4/14/06) - factor out common stuff from Configure dialogs in AbstractConfigureDialog

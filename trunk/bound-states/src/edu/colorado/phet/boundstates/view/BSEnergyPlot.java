@@ -25,6 +25,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -42,7 +43,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     // Model references
-    private BSAbstractPotential _potential;
+    private BSModel _model;
+    private double _dx;
     
     // View
     private XYSeries _potentialSeries;
@@ -94,12 +96,14 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis ); 
+        
+        _dx = 1;
     }
     
     public void cleanup() {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-            _potential = null;
+        if ( _model != null ) {
+            _model.deleteObserver( this );
+            _model = null;
         }
     }
     
@@ -107,10 +111,17 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPotential( BSAbstractPotential well ) {
-        _potential = well;
-        _potential.addObserver( this );
+    public void setModel( BSModel model ) {
+        _model = model;
+        _model.addObserver( this );
         updateDisplay();
+    }
+    
+    public void setDx( double dx ) {
+        if ( dx != _dx ) {
+            _dx = dx;
+            updateDisplay();
+        }
     }
     
     /**
@@ -144,7 +155,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _potential ) {
+        if ( observable == _model && arg == BSModel.PROPERTY_POTENTIAL ) {
             updateDisplay();
         }
     }
@@ -159,8 +170,8 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     private void updateDisplay() {
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
-        final double dx = 0.01; //XXX calculate based on plot bounds and pixels per sample
-        Point2D[] points = _potential.getPoints( minX, maxX, dx );
+        BSAbstractPotential potential = _model.getPotential();
+        Point2D[] points = potential.getPoints( minX, maxX, _dx );
         _potentialSeries.clear();
         for ( int i = 0; i < points.length; i++ ) {
             _potentialSeries.add( points[i].getX(), points[i].getY() );

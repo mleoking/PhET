@@ -68,19 +68,6 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     }
     
     //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-    
-    public void setNumberOfWells( int numberOfWells ) {
-        if ( numberOfWells != 1 ) {
-            throw new UnsupportedOperationException( "mutiple harmonic oscillator wells are not supported" );
-        }
-        else {
-            super.setNumberOfWells( numberOfWells );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
@@ -184,5 +171,9 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         }
 
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
+    }
+    
+    public boolean supportsMultipleWells() {
+        return false;
     }
 }

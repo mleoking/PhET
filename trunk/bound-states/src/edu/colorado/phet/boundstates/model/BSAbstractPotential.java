@@ -79,6 +79,9 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         if ( numberOfWells < 1 ) {
             throw new IllegalArgumentException( "invalid numberOfWells:" + numberOfWells );
         }
+        if ( numberOfWells != 1 && !supportsMultipleWells() ) {
+            throw new UnsupportedOperationException( "multiple wells are not supported" );
+        }
         if ( numberOfWells != _numberOfWells ) {
             System.out.println( "BSAbstractPotential.setNumberOfWells " + numberOfWells );//XXX
             _numberOfWells = numberOfWells;
@@ -187,4 +190,10 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * @param position position, in nm
      */
     public abstract double getEnergyAt( double position );
+    
+    /**
+     * Does this potential type support multiple wells?
+     * @return true or false
+     */
+    public abstract boolean supportsMultipleWells();
 }
