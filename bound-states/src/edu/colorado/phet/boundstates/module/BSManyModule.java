@@ -151,9 +151,6 @@ public class BSManyModule extends BSAbstractModule {
             _chart = new BSCombinedChart();
             _chart.setBackgroundPaint( BSConstants.CANVAS_BACKGROUND );
             
-            // Wave Function plot shows time-dependent data
-            getClock().addClockListener( _chart.getWaveFunctionPlot() );
-            
             _chartNode = new BSCombinedChartNode( _chart );
             _parentNode.addChild( _chartNode );
         }
@@ -207,6 +204,10 @@ public class BSManyModule extends BSAbstractModule {
             _parentNode.addChild( _waveFunctionPlotNode );
         }
         
+        
+        // Wave Function plot shows time-dependent data
+        getClock().addClockListener( _waveFunctionPlot );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -239,6 +240,7 @@ public class BSManyModule extends BSAbstractModule {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
+        getClock().start();
     }
     
     //----------------------------------------------------------------------------
@@ -375,8 +377,8 @@ public class BSManyModule extends BSAbstractModule {
         _model = new BSModel( _harmonicOscillatorWell, _superpositionCoefficients );
         
         // View
-        _chart.getEnergyPlot().setModel( _model );
-        _chart.getWaveFunctionPlot().setModel( _model );
+        _energyPlot.setModel( _model );
+        _waveFunctionPlot.setModel( _model );
         _eigenstatesNode.setModel( _model );
         
         // Control
@@ -556,25 +558,24 @@ public class BSManyModule extends BSAbstractModule {
         }
     }
     
-    public void setDisplayType( int displayType ) {
-        //XX displayType is one of the BSManyControlPanel.DISPLAY_* constants
-        resetClock();
-    }
-    
     public void setRealVisible( boolean visible ) {
-        //XXX
+        _waveFunctionPlot.setRealVisible( visible );
     }
     
     public void setImaginaryVisible( boolean visible ) {
-        //XXX
+        _waveFunctionPlot.setImaginaryVisible( visible );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
-        //XXX
+        _waveFunctionPlot.setMagnitudeVisible( visible );
     }
     
     public void setPhaseVisible( boolean visible ) {
-        //XXX
+        _waveFunctionPlot.setPhaseVisible( visible );
+    }
+    
+    public void setProbabilityDensityVisible( boolean visible ) {
+        _waveFunctionPlot.setProbabilityDensityVisible( visible );
     }
     
     public void setParticleMass( double mass ) {
