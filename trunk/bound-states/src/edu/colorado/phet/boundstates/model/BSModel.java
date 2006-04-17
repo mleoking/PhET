@@ -48,8 +48,11 @@ public class BSModel extends BSObservable implements Observer {
     //----------------------------------------------------------------------------
     
     public BSModel( BSAbstractPotential potential, BSSuperpositionCoefficients superpositionCoefficients ) {
-        setSuperpositionCoefficients( superpositionCoefficients );
-        setPotential( potential );
+        _potential = potential;
+        _potential.addObserver( this );
+        _superpositionCoefficients = superpositionCoefficients;
+        _superpositionCoefficients.addObserver( this );
+        syncWithPotential();
     }
 
     //----------------------------------------------------------------------------
@@ -63,9 +66,9 @@ public class BSModel extends BSObservable implements Observer {
             }
             _potential = potential;
             _potential.addObserver( this );
+            syncWithPotential();
+            notifyObservers( PROPERTY_POTENTIAL );
         }
-        syncWithPotential();
-        notifyObservers( PROPERTY_POTENTIAL );
     }
     
     public BSAbstractPotential getPotential() {
@@ -79,8 +82,9 @@ public class BSModel extends BSObservable implements Observer {
             }
             _superpositionCoefficients = superpositionCoefficients;
             _superpositionCoefficients.addObserver( this );
+            syncWithPotential();
+            notifyObservers( PROPERTY_SUPERPOSITION_COEFFICIENTS );
         }
-        notifyObservers( PROPERTY_SUPERPOSITION_COEFFICIENTS );
     }
     
     public BSSuperpositionCoefficients getSuperpositionCoefficients() {
