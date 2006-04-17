@@ -347,17 +347,21 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
         clearTimeDependentSeries();
         Complex[] psiSum = computeTimeDependentWaveFunction( t );
         if ( psiSum != null ) {
+            final double minX = getDomainAxis().getLowerBound();
+            final double maxX = getDomainAxis().getUpperBound();
             Point2D[] points = (Point2D[])_waveFunctionSolutions.get(0); // all should share the same x values
             assert( psiSum.length == points.length );
             for ( int i = 0; i < psiSum.length; i++ ) {
                 final double x = points[i].getX();
-                Complex y = psiSum[i];
-                _realSeries.add( x, y.getReal() );
-                _imaginarySeries.add( x, y.getImaginary() );
-                _magnitudeSeries.add( x, y.getAbs() );
-                _phaseSeries.add( x, y.getAbs() );
-                _phaseSeries.add( x, y.getPhase() );
-                _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+                if ( x >= minX && x <= maxX ) {
+                    Complex y = psiSum[i];
+                    _realSeries.add( x, y.getReal() );
+                    _imaginarySeries.add( x, y.getImaginary() );
+                    _magnitudeSeries.add( x, y.getAbs() );
+                    _phaseSeries.add( x, y.getAbs() );
+                    _phaseSeries.add( x, y.getPhase() );
+                    _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+                }
             }
         }
         setTimeDependentSeriesNotify( true );
