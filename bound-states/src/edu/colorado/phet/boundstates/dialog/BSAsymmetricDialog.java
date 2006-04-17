@@ -84,6 +84,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             String widthLabel = SimStrings.get( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
+            _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _widthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -103,6 +104,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             String depthLabel = SimStrings.get( "label.wellDepth" );
             _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
+            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _depthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -122,6 +124,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _offsetSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 

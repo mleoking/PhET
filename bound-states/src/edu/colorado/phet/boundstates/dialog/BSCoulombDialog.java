@@ -84,6 +84,7 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _offsetSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -103,6 +104,7 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
             String spacingLabel = SimStrings.get( "label.wellSpacing" );
             _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
+            _spacingSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _spacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 

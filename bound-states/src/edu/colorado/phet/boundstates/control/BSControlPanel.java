@@ -289,6 +289,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _massSlider = new SliderControl( 
                     BSConstants.DEFAULT_MASS, BSConstants.MIN_MASS, BSConstants.MAX_MASS, 5,
                     1, 1, massLabel, massUnits, 3, SLIDER_INSETS );
+            _massSlider.setNotifyWhileDragging( false );
             _massSlider.setTextEditable( true );
             _massSlider.setInverted( true );
             // Put a label at each tick mark.

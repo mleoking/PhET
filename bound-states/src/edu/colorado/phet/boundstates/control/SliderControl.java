@@ -66,6 +66,7 @@ public class SliderControl extends JPanel {
     private DecimalFormat _tickNumberFormat;
     private DecimalFormat _valueNumberFormat;
     private EventListenerList _listenerList; // notification of slider changes
+    private boolean _notifyWhileDragging; // if true, fire ChangeEvents while the slider is dragged
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,6 +128,8 @@ public class SliderControl extends JPanel {
         _tickNumberFormat = createFormat( tickDecimalPlaces );
         _valueNumberFormat = createFormat( valueDecimalPlaces );
 
+        _notifyWhileDragging = true;
+        
         _listenerList = new EventListenerList();
         
         // Label
@@ -220,11 +223,22 @@ public class SliderControl extends JPanel {
      * @param value
      */
     public void setValue( double value ) {
-        if ( value != _value ) {
+        setValue( value, true );
+    }
+    
+    /*
+     * Sets the value and optionally fires a ChangeEvent.
+     * @param value
+     * @param notify
+     */
+    private void setValue( double value, boolean notify ) {
+        if ( value != _value || !_notifyWhileDragging ) {
             if ( isValid( value ) ) {
                 _value = value;
                 updateView();
-                fireChangeEvent( new ChangeEvent( this ) );
+                if ( notify ) {
+                    fireChangeEvent( new ChangeEvent( this ) );
+                }
             }
             else {
                 beep();
@@ -369,6 +383,17 @@ public class SliderControl extends JPanel {
      */
     public double getMinimum() {
         return _min;
+    }
+    
+    /**
+     * Determines whether ChangeEvents are fired while the slider is dragged.
+     * If this is set to false, then ChangeEvents are fired only when the 
+     * slider is released.
+     * 
+     * @param b true or false
+     */
+    public void setNotifyWhileDragging( boolean b ) {
+        _notifyWhileDragging = b;
     }
     
     //----------------------------------------------------------------------------
@@ -522,7 +547,8 @@ public class SliderControl extends JPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _slider ) {
-                setValue( getSliderValue() );
+                boolean notify = ( _notifyWhileDragging || !_slider.getValueIsAdjusting() );
+                setValue( getSliderValue(), notify );
             }
         }
         
