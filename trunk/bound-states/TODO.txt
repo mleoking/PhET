@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - solve wavefunction and display in chart for selected eigenstate(s)
-- solve wavefunction and display in chart for hilited eigenstate 
 - scale position axis to fit excited portion of wavefunction
 - odd nodes for Coulomb
 - cache wavefunction solutions
