@@ -14,7 +14,12 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
+import edu.colorado.phet.quantum.model.PhotonAtomCollisonExpert;
+import edu.colorado.phet.quantum.model.Photon;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
@@ -33,6 +38,7 @@ public class MriModel extends BaseModel {
     private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
     private Electromagnet upperMagnet, lowerMagnet;
     private ArrayList dipoles = new ArrayList();
+    ArrayList photons = new ArrayList( );
     private SampleChamber sampleChamber;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
@@ -64,17 +70,26 @@ public class MriModel extends BaseModel {
         addModelElement( lowerMagnet );
 
         // Radiowave Source
-        radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+        radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
                                                MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                               RadiowaveSource.HORIZONTAL );
+                                               new Vector2D.Double( 0, -1 ));
         addModelElement( radiowaveSource );
+        radiowaveSource.setEnabled( true );
+        radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
+            public void photonEmitted( PhotonEmittedEvent event ) {
+                addModelElement( event.getPhoton() );
+            }
+        } );
 
         // Create agent that will control the spin orientations of the dipoles
         dipoleOrientationAgent = new DipoleOrientationAgent( this );
         lowerMagnet.addChangeListener( dipoleOrientationAgent );
-        addModelElement( dipoleOrientationAgent );
+//        addModelElement( dipoleOrientationAgent );
+
+        // Create an agent that will detect photon-atom collisions
+        addModelElement( new CollisionAgent( this ) );
 
         // Set initial conditions
         setInitialConditions();
@@ -91,6 +106,9 @@ public class MriModel extends BaseModel {
         if( modelElement instanceof Dipole ) {
             dipoles.add( modelElement );
         }
+        if( modelElement instanceof Photon ) {
+            photons.add( modelElement);
+        }
         listenerProxy.modelElementAdded( modelElement );
     }
 
@@ -99,6 +117,9 @@ public class MriModel extends BaseModel {
 
         if( modelElement instanceof Dipole ) {
             dipoles.remove( modelElement );
+        }
+        if( modelElement instanceof Photon ) {
+            photons.remove( modelElement);
         }
         listenerProxy.modelElementRemoved( modelElement );
     }
@@ -131,6 +152,10 @@ public class MriModel extends BaseModel {
         return this.dipoles;
     }
 
+    public ArrayList getPhotons() {
+        return photons;
+    }
+
     public SampleChamber getSampleChamber() {
         return sampleChamber;
     }
@@ -153,6 +178,15 @@ public class MriModel extends BaseModel {
     public double getSpinEnergyDifference() {
         return getLowerMagnet().getFieldStrength() * getSampleMaterial().getMu();
     }
+
+    //----------------------------------------------------------------
+    // Time dependent behavior
+    //----------------------------------------------------------------
+
+    protected void stepInTime( double dt ) {
+        super.stepInTime( dt );
+    }
+
 
     //----------------------------------------------------------------
     // Events and listeners

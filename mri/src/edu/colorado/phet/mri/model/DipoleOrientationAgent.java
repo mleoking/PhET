@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Sets the spins of dipoles based on the field strength of the fading magnet
  */
-public class DipoleOrientationAgent implements Electromagnet.ChangeListener, ModelElement {
+public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, ModelElement*/ {
     private Random random = new Random();
     private double maxUpPFraction = 0.9;
     private double fractionUp;
@@ -40,7 +40,11 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
         this.model = model;
     }
 
-    public void stepInTime( double dt ) {
+//    public void stepInTime( double dt ) {
+//        updateSpins();
+//    }
+
+    private void updateSpins() {
         List dipoles = model.getDipoles();
         spinDeterminationPolicy.setSpins( dipoles, fractionUp );
     }
@@ -54,6 +58,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener, Mod
         double fieldStrength = model.getUpperMagnet().getFieldStrength();
         fractionUp = 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD );
         fractionUp *= maxUpPFraction;
+        updateSpins();
     }
 
     public void setPolicy( SpinDeterminationPolicy policy ) {

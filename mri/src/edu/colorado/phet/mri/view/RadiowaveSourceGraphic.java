@@ -36,18 +36,23 @@ public class RadiowaveSourceGraphic extends PNode {
 
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
 
-        setOffset( radiowaveSource.getLocation().getX(), radiowaveSource.getLocation().getY() );
-
         double w = 0;
         double h = 0;
+        double x = 0;
+        double y = 0;
         if( radiowaveSource.getOrientation() == RadiowaveSource.HORIZONTAL ) {
             w = radiowaveSource.getLength();
             h = 120;
+            x = radiowaveSource.getPosition().getX() - w / 2;
+            y = radiowaveSource.getPosition().getY();
         }
         else if( radiowaveSource.getOrientation() == RadiowaveSource.VERTICAL ) {
             w = 120;
             h = radiowaveSource.getLength();
+            x = radiowaveSource.getPosition().getX();
+            y = radiowaveSource.getPosition().getY() + h / 2;
         }
+        setOffset( x, y );
 
         Rectangle2D box = new Rectangle2D.Double( 0, 0, w, h );
         PPath boxGraphic = new PPath( box );
