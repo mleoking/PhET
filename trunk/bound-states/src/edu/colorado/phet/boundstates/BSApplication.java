@@ -20,7 +20,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.color.BSColorSchemeMenu;
+import edu.colorado.phet.boundstates.color.BSColorsMenu;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSDoubleModule;
 import edu.colorado.phet.boundstates.module.BSManyModule;
@@ -59,7 +59,7 @@ public class BSApplication extends PhetApplication {
     // PersistanceManager handles loading/saving application configurations.
     private BSPersistenceManager _persistenceManager;
     
-    private BSColorSchemeMenu _colorSchemeMenu;
+    private BSColorsMenu _colorsMenu;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -136,21 +136,16 @@ public class BSApplication extends PhetApplication {
             frame.addFileMenuSeparator();
         }
         
-        // Options menu
+        // Colors menu
         {
-            JMenu optionsMenu = new JMenu( SimStrings.get( "menu.options" ) );
-            optionsMenu.setMnemonic( SimStrings.get( "menu.options.mnemonic" ).charAt( 0 ) );
-            getPhetFrame().addMenu( optionsMenu );
-            
-            // Color Scheme submenu
-            _colorSchemeMenu = new BSColorSchemeMenu( this );
-            optionsMenu.add( _colorSchemeMenu );
+            _colorsMenu = new BSColorsMenu( this );
             if ( BSConstants.COLOR_SCHEME instanceof BSBlackColorScheme ) {
-                _colorSchemeMenu.selectBlack();
+                _colorsMenu.selectBlack();
             }
             else {
-                _colorSchemeMenu.selectWhite();
+                _colorsMenu.selectWhite();
             }
+            getPhetFrame().addMenu( _colorsMenu );
         }
         
         // Help menu extensions
@@ -206,8 +201,8 @@ public class BSApplication extends PhetApplication {
         config.setVersionNumber( BSVersion.NUMBER );
         
         // Color scheme
-        config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
-        config.setColorScheme( _colorSchemeMenu.getColorScheme() );
+        config.setColorSchemeName( _colorsMenu.getColorSchemeName() );
+        config.setColorScheme( _colorsMenu.getColorScheme() );
     }
 
     /**
@@ -222,7 +217,7 @@ public class BSApplication extends PhetApplication {
         // Color scheme
         String colorSchemeName = config.getColorSchemeName();
         BSColorScheme colorScheme = config.getColorScheme().toBSColorScheme();
-        _colorSchemeMenu.setColorScheme( colorSchemeName, colorScheme );
+        _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
     }
 
     //----------------------------------------------------------------------------

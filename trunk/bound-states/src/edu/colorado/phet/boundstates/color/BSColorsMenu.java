@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSColorSchemeMenu extends JMenu {
+public class BSColorsMenu extends JMenu {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -53,15 +53,15 @@ public class BSColorSchemeMenu extends JMenu {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSColorSchemeMenu( BSApplication app ) {
-        super( SimStrings.get( "menu.options.colorScheme" ) );
-        setMnemonic( SimStrings.get( "menu.options.colorScheme.mnemonic" ).charAt( 0 ) );
+    public BSColorsMenu( BSApplication app ) {
+        super( SimStrings.get( "menu.colors" ) );
+        setMnemonic( SimStrings.get( "menu.colors.mnemonic" ).charAt( 0 ) );
         
         _app = app;
 
         // Black
-        _blackItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.black" ) );
-        _blackItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.black.mnemonic" ).charAt( 0 ) );
+        _blackItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colors.black" ) );
+        _blackItem.setMnemonic( SimStrings.get( "menu.colors.black.mnemonic" ).charAt( 0 ) );
         _blackItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBlackSelection();
@@ -69,8 +69,8 @@ public class BSColorSchemeMenu extends JMenu {
         } );
 
         // White
-        _whiteItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.white" ) );
-        _whiteItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.white.mnemonic" ).charAt( 0 ) );
+        _whiteItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colors.white" ) );
+        _whiteItem.setMnemonic( SimStrings.get( "menu.colors.white.mnemonic" ).charAt( 0 ) );
         _whiteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleWhiteSelection();
@@ -78,8 +78,8 @@ public class BSColorSchemeMenu extends JMenu {
         } );
 
         // Custom
-        _customItem = new JRadioButtonMenuItem( SimStrings.get( "menu.options.colorScheme.custom" ) );
-        _customItem.setMnemonic( SimStrings.get( "menu.options.colorScheme.custom.mnemonic" ).charAt( 0 ) );
+        _customItem = new JRadioButtonMenuItem( SimStrings.get( "menu.colors.custom" ) );
+        _customItem.setMnemonic( SimStrings.get( "menu.colors.custom.mnemonic" ).charAt( 0 ) );
         _customItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleCustomSelection();

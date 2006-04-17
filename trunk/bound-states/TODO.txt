@@ -50,6 +50,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - Colors menu in menu bar
 (4/17/06) - cache eigenstates, recalculate only when dirty
 (4/17/06) - add abstract BSAbstractPotential.supportsMultipleWells
 (4/17/06) - wrap various model elements in BSModel and use that in most places
