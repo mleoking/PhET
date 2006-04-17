@@ -86,7 +86,6 @@ public class BSCoulombWells extends BSAbstractPotential {
       
     public BSEigenstate[] getEigenstates() {
 
-        System.out.println( "BSCoulombWells.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         ArrayList eigenstates = new ArrayList();
 
         final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
