@@ -132,7 +132,6 @@ public class BSSquareWells extends BSAbstractPotential {
     }
     
     public BSEigenstate[] getEigenstates() {
-        System.out.println( "BSSquareWells.getEigenestates, numberOfWells=" + getNumberOfWells() );//XXX
         
         ArrayList eigenstates = new ArrayList();
 
