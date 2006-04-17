@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - scale position axis to fit excited portion of wavefunction
 - cache wavefunction solutions
 
