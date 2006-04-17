@@ -30,14 +30,14 @@ import java.util.Random;
 public class MriModuleA extends Module {
 
     private static String name = "Module A";
-    private static double FPS = 25;
-    private static int delay = (int)( 1000 / FPS );
+    private static int delay = (int)( 1000 / MriConfig.FPS );
+    private static double dt = MriConfig.DT;
 
     /**
      * Constructor
      */
     public MriModuleA() {
-        super( name, new SwingClock( delay, 1 ) );
+        super( name, new SwingClock( delay, dt ) );
 
         MriModel model = new MriModel( getClock() );
         setModel( model );
@@ -59,7 +59,7 @@ public class MriModuleA extends Module {
         model.addListener( graphicsManager );
 
         // Make some dipoles
-        createDipoles( 15, model.getSampleChamber(), model );
+        createDipoles( 16, model.getSampleChamber(), model );
     }
 
     /**
@@ -75,10 +75,8 @@ public class MriModuleA extends Module {
             double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60) + sampleChamber.getBounds().getY() + 20;
             Dipole dipole = new Dipole();
             dipole.setPosition( x, y );
-
-//            dipole.setSpin( i % 2 == 0 ? Spin.UP : Spin.DOWN );
-//            dipole.setSpin( random.nextBoolean() ? Spin.UP : Spin.DOWN );
-
+            Spin spin =  i % 2 == 0 ? Spin.UP : Spin.DOWN;
+            dipole.setSpin( spin );
             model.addModelElement( dipole );
         }
     }

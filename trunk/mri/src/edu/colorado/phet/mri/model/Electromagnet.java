@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.mri.MriConfig;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
@@ -28,11 +29,11 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public class Electromagnet extends Particle {
+
     private double current;
     private double fieldStrength;
     private Rectangle2D bounds;
     private FieldChangerA fieldChanger;
-//    private FieldChanger fieldChanger = new FieldChanger( 100 );
 
     public Electromagnet( Point2D position, double width, double height, IClock clock ) {
         super( position, new Vector2D.Double(), new Vector2D.Double() );
@@ -40,7 +41,7 @@ public class Electromagnet extends Particle {
                                               position.getY() - height / 2,
                                               width,
                                               height);
-        fieldChanger = new FieldChangerA( clock, 1, 1 );
+        fieldChanger = new FieldChangerA( clock, MriConfig.CURRENT_TO_FIELD_FACTOR, MriConfig.CURRENT_TO_FIELD_FACTOR );
     }
 
     public double getCurrent() {
@@ -63,7 +64,7 @@ public class Electromagnet extends Particle {
     public void setCurrent( double current ) {
         this.current = current;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-        fieldChanger.setTarget( current );
+        fieldChanger.setTarget( current * MriConfig.CURRENT_TO_FIELD_FACTOR );
 //        setFieldStrength( getCurrent() );
 //        new Thread( new FieldChanger( 100)).start();
     }
