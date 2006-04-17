@@ -18,6 +18,7 @@ import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.cck3.common.ColorDialog;
 import edu.colorado.phet.cck3.common.WiggleMe;
+import edu.colorado.phet.cck3.phetcommon.PhetLookAndFeel;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -664,9 +665,14 @@ public class CCK3Module extends Module {
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
 
         SimStrings.init( args, localizedStringsPath );
-        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
-        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
-        UIManager.setLookAndFeel( cckLookAndFeel );
+        PhetLookAndFeel.setLookAndFeel();
+        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        phetLookAndFeel.apply();
+
+//        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
+//        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
+//        UIManager.setLookAndFeel( cckLookAndFeel );
         UIManager.getLookAndFeelDefaults().put( "ClassLoader", CCK3Module.class.getClassLoader() );
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
@@ -756,7 +762,7 @@ public class CCK3Module extends Module {
         dev.add( toolboxColor );
         app.getApplicationView().getPhetFrame().addMenu( dev );
 
-        UIManager.setLookAndFeel( cckLookAndFeel );
+//        UIManager.setLookAndFeel( cckLookAndFeel );
         updateFrames();
         app.startApplication();
         updateFrames();
