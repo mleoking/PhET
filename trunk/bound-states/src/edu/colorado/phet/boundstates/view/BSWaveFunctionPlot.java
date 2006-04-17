@@ -12,6 +12,8 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -72,7 +74,10 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
     private int _probabilityDensityIndex;
     private int _hiliteIndex;
     
-    private Point2D[] _waveFunctionPoints;
+    // array of Point2D[], time-independent wave function solutions for eigenstates that have non-zero superposition coefficients
+    private ArrayList _waveFunctionSolutions; 
+    // array of Integer, indicies of eigenstates that have non-zero superposition coefficients
+    private ArrayList _eigenstateIndicies;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -180,6 +185,9 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
         setRangeGridlinePaint( BSConstants.COLOR_SCHEME.getGridlineColor() );
         setDomainAxis( xAxis );
         setRangeAxis( yAxis );
+        
+        _waveFunctionSolutions = new ArrayList();
+        _eigenstateIndicies = new ArrayList();
     }
     
     //----------------------------------------------------------------------------
@@ -262,7 +270,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
                 updateHiliteDataset();
             }
             else {
-                updateTimeDependentDatasets();
+                updateWaveFunctionSolutions();
+                updateTimeDependentDatasets( 0 );
             }
         }
     }
@@ -271,42 +280,19 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
     // Dataset updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates all datasets.
+     */
     private void updateDatasets() {
-        updateTimeDependentDatasets();
+        updateWaveFunctionSolutions();
+        updateTimeDependentDatasets( 0 );
         updateHiliteDataset();
     }
     
-    private void updateTimeDependentDatasets() {
-       
-        BSAbstractPotential potential = _model.getPotential();
-        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
-        BSEigenstate[] eigenstates = _model.getEigenstates();
-        final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
-        
-        _waveFunctionPoints = null;
-        
-        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
-        for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            final double coefficient = superpositionCoefficients.getCoefficient( i );
-            final double energy = eigenstates[ i ].getEnergy();
-            if ( coefficient != 0 ) {
-                if ( _waveFunctionPoints == null ) {
-                    _waveFunctionPoints = potential.getWaveFunctionPoints( energy, minX, maxX );
-                }
-                else {
-                    Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
-                    assert( points.length == _waveFunctionPoints.length );
-                    for ( int j = 0; j < points.length; j++ ) {
-                        final double x = _waveFunctionPoints[i].getX() + points[i].getX();
-                        final double y = _waveFunctionPoints[i].getY() + points[i].getY();
-                        _waveFunctionPoints[i].setLocation( x, y );
-                    }
-                }
-            }
-        }
-    }
-    
+    /*
+     * Updates the dataset for the hilited eigenstate,
+     * which is a time-independent wave function solution.
+     */
     private void updateHiliteDataset() {
         _hiliteSeries.setNotify( false );
         _hiliteSeries.clear();
@@ -323,6 +309,109 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
              }
         }
         _hiliteSeries.setNotify( true );
+    }
+    
+    /*
+     * Updates the wave function solutions for all eigenstates 
+     * that have non-zero superposition coefficients.
+     */
+    private void updateWaveFunctionSolutions() {
+       
+        BSAbstractPotential potential = _model.getPotential();
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+        
+        _waveFunctionSolutions.clear();
+        _eigenstateIndicies.clear();
+        
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            final double coefficient = superpositionCoefficients.getCoefficient( i );
+            if ( coefficient != 0 ) {
+                final double energy = eigenstates[ i ].getEnergy();
+                Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+                _waveFunctionSolutions.add( points );
+                _eigenstateIndicies.add( new Integer(i) );
+            }
+        }
+    }
+    
+    /*
+     * Updates the datasets that display the time-dependent superposition state.
+     * This is the sum of all wave functions for eigenstates with non-zero superposition coefficients.
+     */
+    private void updateTimeDependentDatasets( final double t ) {
+        setTimeDependentSeriesNotify( false );
+        clearTimeDependentSeries();
+        Complex[] psiSum = computeTimeDependentWaveFunction( t );
+        if ( psiSum != null ) {
+            Point2D[] points = (Point2D[])_waveFunctionSolutions.get(0); // all should share the same x values
+            assert( psiSum.length == points.length );
+            for ( int i = 0; i < psiSum.length; i++ ) {
+                final double x = points[i].getX();
+                Complex y = psiSum[i];
+                _realSeries.add( x, y.getReal() );
+                _imaginarySeries.add( x, y.getImaginary() );
+                _magnitudeSeries.add( x, y.getAbs() );
+                _phaseSeries.add( x, y.getAbs() );
+                _phaseSeries.add( x, y.getPhase() );
+                _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+            }
+        }
+        setTimeDependentSeriesNotify( true );
+    }
+    
+    /*
+     * Converts each eigenstate's time-independent wave function to a time-dependent
+     * wave function, and sums all of the time-dependent wave functions according 
+     * to the superposition coefficients.
+     * 
+     * @param t
+     */
+    private Complex[] computeTimeDependentWaveFunction( final double t ) {
+
+        MutableComplex[] psiSum = null;
+   
+        if ( _waveFunctionSolutions.size() > 0 ) {
+            
+            BSEigenstate[] eigenstates = _model.getEigenstates();
+            BSSuperpositionCoefficients coefficients = _model.getSuperpositionCoefficients();
+            assert( eigenstates.length == coefficients.getNumberOfCoefficients() );
+            
+            Point2D[] points = null;
+            MutableComplex y = new MutableComplex();
+            
+            points = ((Point2D[])_waveFunctionSolutions.get(0));
+            psiSum = new MutableComplex[ points.length ];
+            for ( int i = 0; i < psiSum.length; i++ ) {
+                psiSum[i] = new MutableComplex();
+            }
+            
+            final int numberOfEigenstates = _eigenstateIndicies.size();
+            for ( int i = 0; i < numberOfEigenstates; i++ ) {
+                
+                final int eigenstateIndex = ((Integer)_eigenstateIndicies.get(i)).intValue();
+                
+                // F(t) = e^(-i * E * t / hbar), where E = eigenstate energy 
+                final double E = eigenstates[ eigenstateIndex ].getEnergy();
+                MutableComplex Ft = new MutableComplex( Complex.I );
+                Ft.multiply( -1 * E * t / BSConstants.HBAR );
+                Ft.exp();
+                
+                points = ((Point2D[])_waveFunctionSolutions.get(i)); // Ps(x)
+                final double coefficient = coefficients.getCoefficient( eigenstateIndex );
+                for ( int j = 0; j < points.length; j++ ) {
+                    // Psi(x,t) = Psi(x) * F(t) * C
+                    y.setValue( points[j].getY() );
+                    y.multiply( Ft );
+                    y.multiply( coefficient );
+                    psiSum[j].add( y );
+                }
+            }
+        }
+        return psiSum;
     }
     
     /*
@@ -358,45 +447,17 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
     //----------------------------------------------------------------------------
     // ClockListener implementation
     //----------------------------------------------------------------------------
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        final double t = clockEvent.getSimulationTime();
+        updateTimeDependentDatasets( t );
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
     
     public void clockTicked( ClockEvent clockEvent ) {}
 
     public void clockStarted( ClockEvent clockEvent ) {}
 
     public void clockPaused( ClockEvent clockEvent ) {}
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
-
-        setTimeDependentSeriesNotify( false );
-        clearTimeDependentSeries();
-        
-        if ( _waveFunctionPoints != null ) {
-            
-            /*
-             * F(t) = e^(-i * E * t / hbar)
-             * where E = eigenstate energy
-             */ 
-            final double t = clockEvent.getSimulationTime();
-            MutableComplex Ft = new MutableComplex( Complex.I );
-            Ft.multiply( -1 * t / BSConstants.HBAR );
-            Ft.exp();
-           
-            MutableComplex y = new MutableComplex();
-            for ( int i = 0; i < _waveFunctionPoints.length; i++ ) {
-                final double x = _waveFunctionPoints[i].getX();
-                y.setValue( Ft );
-                y.multiply( _waveFunctionPoints[i].getY() );
-                _realSeries.add( x, y.getReal() );
-                _imaginarySeries.add( x, y.getImaginary() );
-                _magnitudeSeries.add( x, y.getAbs() );
-                _phaseSeries.add( x, y.getAbs() );
-                _phaseSeries.add( x, y.getPhase() );
-                _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
-            }
-        }
-        
-        setTimeDependentSeriesNotify( true );
-    }
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }
