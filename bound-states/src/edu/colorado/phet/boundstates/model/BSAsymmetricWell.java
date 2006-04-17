@@ -93,20 +93,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
             notifyObservers();
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // Overrides
-    //----------------------------------------------------------------------------
-    
-    public void setNumberOfWells( int numberOfWells ) {
-        if ( numberOfWells != 1 ) {
-            throw new UnsupportedOperationException( "mutiple wells not supported for asymmetric well" );
-        }
-        else {
-            super.setNumberOfWells( numberOfWells );
-        }
-    }
-    
+
     //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
@@ -167,5 +154,9 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
+    }
+    
+    public boolean supportsMultipleWells() {
+        return false;
     }
 }

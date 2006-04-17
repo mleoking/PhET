@@ -110,4 +110,8 @@ public class BSCoulombWells extends BSAbstractPotential {
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
+    
+    public boolean supportsMultipleWells() {
+        return true;
+    }
 }

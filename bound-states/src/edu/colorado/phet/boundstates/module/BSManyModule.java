@@ -299,6 +299,9 @@ public class BSManyModule extends BSAbstractModule {
                 _squareWells.setDx( dx );
                 _asymmetricWell.setDx( dx );
             }
+            
+            // Set the dx for the Energy plot...
+            _chart.getEnergyPlot().setDx( dx );
         }
 
         // Legend
@@ -348,12 +351,18 @@ public class BSManyModule extends BSAbstractModule {
      */
     public void reset() {
         
-        // Controls that are not model related
-        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
-        _controlPanel.setRealSelected( true );
-        _controlPanel.setImaginarySelected( false );
-        _controlPanel.setMagnitudeSelected( false );
-        _controlPanel.setPhaseSelected( false );
+        // Close all dialogs...
+        {
+            if ( _configureWellDialog != null ) {
+                _configureWellDialog.dispose();
+                _configureWellDialog = null;
+            }
+
+            if ( _superpositionStateDialog != null ) {
+                _superpositionStateDialog.dispose();
+                _superpositionStateDialog = null;
+            }
+        }
         
         // Model
         _particle = new BSParticle( BSConstants.DEFAULT_MASS );
@@ -364,7 +373,19 @@ public class BSManyModule extends BSAbstractModule {
         _superpositionCoefficients = new BSSuperpositionCoefficients();
         _model = new BSModel( _harmonicOscillatorWell, _superpositionCoefficients );
         
-        setWellType( BSWellType.HARMONIC_OSCILLATOR );
+        // View
+        _chart.getEnergyPlot().setModel( _model );
+        _eigenstatesNode.setModel( _model );
+        
+        // Control
+        _controlPanel.setWellType( _model.getWellType() );
+        _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
+        _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setRealSelected( true );
+        _controlPanel.setImaginarySelected( false );
+        _controlPanel.setMagnitudeSelected( false );
+        _controlPanel.setPhaseSelected( false );
     }
     
     /**
@@ -468,37 +489,38 @@ public class BSManyModule extends BSAbstractModule {
     
     public void setWellType( BSWellType wellType ) {
         
-        if ( _configureWellDialog != null ) { 
-            _configureWellDialog.dispose();
+        if ( wellType != _model.getWellType() ) {
+            
+            if ( _configureWellDialog != null ) {
+                _configureWellDialog.dispose();
+            }
+
+            if ( wellType == BSWellType.COULOMB ) {
+                _model.setPotential( _coulombWells );
+            }
+            else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
+                _model.setPotential( _harmonicOscillatorWell );
+            }
+            else if ( wellType == BSWellType.SQUARE ) {
+                _model.setPotential( _squareWells );
+            }
+            else if ( wellType == BSWellType.ASYMMETRIC ) {
+                _model.setPotential( _asymmetricWell );
+            }
+
+            _controlPanel.setWellType( wellType );
+            _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
+            _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+
+            resetClock();
         }
-        
-        if ( wellType == BSWellType.COULOMB ) {
-            _model.setPotential( _coulombWells );
-            _controlPanel.setNumberOfWellsControlVisible( true );
-        }
-        else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            _model.setPotential( _harmonicOscillatorWell );
-            _controlPanel.setNumberOfWellsControlVisible( false );
-        }
-        else if ( wellType == BSWellType.SQUARE ) {
-            _model.setPotential( _squareWells );
-            _controlPanel.setNumberOfWellsControlVisible( true );
-        }
-        else if ( wellType == BSWellType.ASYMMETRIC ) {
-            _model.setPotential( _asymmetricWell );
-            _controlPanel.setNumberOfWellsControlVisible( false );
-        }
-        
-        _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-        _eigenstatesNode.setModel( _model );
-        _chart.getEnergyPlot().setPotential( _model.getPotential() );
-        
-        resetClock();
     }
     
     public void setNumberOfWells( int numberOfWells ) {
-        _model.getPotential().setNumberOfWells( numberOfWells );
-        resetClock();
+        if ( numberOfWells != _model.getNumberOfWells() ) {
+            _model.getPotential().setNumberOfWells( numberOfWells );
+            resetClock();
+        }
     }
     
     public void showConfigureEnergyDialog() {
