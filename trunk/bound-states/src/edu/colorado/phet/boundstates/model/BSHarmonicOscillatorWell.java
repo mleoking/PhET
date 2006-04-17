@@ -113,7 +113,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
      */
     public BSEigenstate[] getEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-//        return getEigenstatesSimple();
+//        return getEigenstatesAnalytic();
         return getEigenstatesSchmidtLee();
     }
     
