@@ -53,7 +53,7 @@ public class SolubleSaltsApplication extends PhetApplication {
 
         setModules( new Module[]{moduleC, moduleA, moduleB } );
 
-        setUpOptionsMenu();
+//        setUpOptionsMenu();
     }
 
     private void setUpOptionsMenu() {

@@ -42,7 +42,7 @@ public class KspControl extends JPanel {
     private double maxExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP;
     private double minExponent = -40;
 //    private double minExponent = 1E-40;
-    private double defaultExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP;
+    private double defaultExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP_EXP;
 
     /**
      *

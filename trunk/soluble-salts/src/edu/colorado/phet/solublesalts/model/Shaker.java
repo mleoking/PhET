@@ -48,6 +48,8 @@ public class Shaker extends Particle {
     private double minY;
     private double maxShakeDistance = 100;
 
+    boolean enabled = true;
+
     boolean done;   // debug tool
 
     /**
@@ -55,11 +57,20 @@ public class Shaker extends Particle {
      *
      * @param model
      */
-    public Shaker( SolubleSaltsModel model ) {
+    public Shaker( final SolubleSaltsModel model ) {
         this.model = model;
         openingLength = 80;
         maxY = model.getVessel().getLocation().getY();
         minY = maxY - maxShakeDistance;
+
+        // Add a listener to the vessel that will disable the spinners when the tank is empty
+        model.getVessel().addChangeListener( new Vessel.ChangeListener() {
+            public void stateChanged( Vessel.ChangeEvent event ) {
+                Vessel vessel = event.getVessel();
+                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() -model.getDrain().getPosition().getY();
+                enabled = vessel.getWaterLevel() > drainLevel;
+            }
+        } );
     }
 
     public void setCurrentSalt( Salt currentSalt ) {
@@ -100,6 +111,12 @@ public class Shaker extends Particle {
      * @param dy
      */
     public void shake( double dy ) {
+
+        // If not enabled, do nothing
+        if( !enabled ) {
+            return;
+        }
+
         int cnt = 0;
 
         // Set the shaker's position
