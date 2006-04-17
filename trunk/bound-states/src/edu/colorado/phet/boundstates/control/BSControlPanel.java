@@ -46,8 +46,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
     // Class data (public)
     //----------------------------------------------------------------------------
-
-    // Display types
+    
+    // "Display Type" choices
     public static final int DISPLAY_WAVE_FUNCTION = 0;
     public static final int DISPLAY_PROBABIITY_DENSITY = 1;
     
@@ -56,7 +56,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
     // Class data (private)
     //----------------------------------------------------------------------------
-
+    
     private static final boolean NOTIFY_WHILE_DRAGGING = false; // behavior of sliders
     
     private static final int SUBPANEL_SPACING = 5; // pixels
@@ -622,10 +622,26 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     private void handleDisplaySelection() {
         if ( _waveFunctionRadioButton.isSelected() ) {
-            _module.setDisplayType( DISPLAY_WAVE_FUNCTION );
+            _module.setRealVisible( _realCheckBox.isSelected() );
+            _module.setImaginaryVisible( _imaginaryCheckBox.isSelected() );
+            _module.setMagnitudeVisible( _magnitudeCheckBox.isSelected() );
+            _module.setPhaseVisible( _phaseCheckBox.isSelected() );
+            _module.setProbabilityDensityVisible( false );
+            _realCheckBox.setEnabled( true );
+            _imaginaryCheckBox.setEnabled( true );
+            _magnitudeCheckBox.setEnabled( true );
+            _phaseCheckBox.setEnabled( true );
         }
         else if ( _probabilityDensityRadioButton.isSelected() ) {
-            _module.setDisplayType( DISPLAY_PROBABIITY_DENSITY );
+            _module.setRealVisible( false );
+            _module.setImaginaryVisible( false );
+            _module.setMagnitudeVisible( false );
+            _module.setPhaseVisible( false );
+            _module.setProbabilityDensityVisible( true );
+            _realCheckBox.setEnabled( false );
+            _imaginaryCheckBox.setEnabled( false );
+            _magnitudeCheckBox.setEnabled( false );
+            _phaseCheckBox.setEnabled( false );
         }
     }
 

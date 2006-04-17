@@ -53,6 +53,8 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - implement switching between wave function and probability density views
+(4/17/06) - attach models to XYPlotNodes instead of chart, big performance improvement
 (4/17/06) - first (incorrect) attempt at showing time-dependent wave function for selected eigenstates
 (4/17/06) - show time-independent wavefunction for hilited eigenstate
 (4/17/06) - move dx into the model
