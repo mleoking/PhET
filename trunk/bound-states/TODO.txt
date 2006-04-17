@@ -23,7 +23,7 @@ LOW PRIORITY:
 - use fewer points (bigger dx) for calculating eigenstates
 - commandline options for choosing which modules to display
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
-
+- DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 OPTIMIZATIONS:
 - flatten static elements
