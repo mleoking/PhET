@@ -1,9 +1,9 @@
 New in 0.08
+Added a dotted gray line on intermediate rotation graphic to signify the cross section.
+Bugfix: Cross section graphic shouldn't show in side-view (water waves only).
 Sound Module:
     Made it so just one particle is pink, always in front.
     Changed particle view background to black.
-    Added a dotted gray line on intermediate rotation graphic to signify the cross section.
-    Bugfix: Cross section graphic shouldn't show in side-view (water waves only).
 Light Module:
     Can view with or without arrow vectors.
 Added smoothmetal UI (optional)

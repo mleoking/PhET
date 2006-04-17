@@ -17,7 +17,7 @@ information.
 <jnlp
         spec="1.0+"
         codebase="http://www.colorado.edu/physics/phet/dev/"
-        href="waveinterference/@VERSION@/waveinterference.jnlp">
+        href="waveinterference/@VERSION@/waveinterference-smooth.jnlp">
     <information>
         <title>Wave Interference</title>
         <vendor>PhET(tm)</vendor>

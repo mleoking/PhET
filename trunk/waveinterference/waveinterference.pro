@@ -12,15 +12,13 @@
 -dontoptimize
 -dontobfuscate
 -verbose
-#-dontshrink
-
--keep class smooth.**{}
--keep class smoothmetal.**{}
 
 #See: http://proguard.sourceforge.net/manual/examples.html#componentui
--keep class * extends javax.swing.plaf.ComponentUI {
-    public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
-}
+#-keep class * extends javax.swing.plaf.ComponentUI {
+#    public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
+#}
+#-keep class smooth.**{}
+#-keep class smoothmetal.**{}
 
 # Keep - Applications. Keep all application classes that have a main method.
 -keepclasseswithmembers public class edu.colorado.phet.waveinterference.WaveInterferenceApplication {
