@@ -15,7 +15,6 @@ o Barrier, multiple sources should disappear for rotate wave in water module.
 Wave Interference: notes from phet meeting 4-4-06
 o When a barrier is present, it should be shown in side view as behind the wave.
 o Faucets should be draggable.
-o For the photon panel, users should be able to view with or without arrow vectors.
 o Photon vectors should not have their tail fixed at E=0, but their middle, so students don't confuse "y" with "E"
 o Should be able to view sound waves and light waves from the side.
 
@@ -31,14 +30,7 @@ it still looked like it was running away.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
-  The graph that shows the efield should have the arrows colored the same as the curve
-  and possibly a place to choose vectors on or off but hard to say until we see the graph.
- -This means the graph should look like the "curve with vectors" view in
-Radio Waves. turn the arrows on/off means an option make it look like just a
-curve (no arrows).
-They should be the same color (hollow is still good) and I think
-there should be a radio button that allows the user to show these vectors or
-not.
+Maybe e-field vector should be hollow?
 
 Would it help speed things up to make the particles smaller? They could be
 maybe 75% of their current size and it might look better anyway.

@@ -4,7 +4,9 @@ Sound Module:
     Changed particle view background to black.
     Added a dotted gray line on intermediate rotation graphic to signify the cross section.
     Bugfix: Cross section graphic shouldn't show in side-view (water waves only).
-
+Light Module:
+    Can view with or without arrow vectors.
+    
 New in 0.07 (4-15-2006)
 Water color is lighter  (easier to see on projector)
 Drips disappear immediately when hitting the water (in side view)

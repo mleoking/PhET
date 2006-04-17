@@ -7,6 +7,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -78,6 +79,13 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
             for( int i = 0; i < pts.length; i++ ) {
                 Point2D pt = pts[i];
                 addArrow( (float)pt.getX(), (float)pt.getY() );
+                if( i == pts.length / 4 ) {
+                    PPath path = (PPath)getChildrenReference().get( getChildrenReference().size() - 1 );
+
+                    path.setPaint( Color.black );
+//                    Color origColor=(Color)path.getPaint();
+//                    path.setPaint( new Color( 255-origColor.getRed(),255-origColor.getGreen(),255-origColor.getBlue()) );
+                }
             }
         }
 
