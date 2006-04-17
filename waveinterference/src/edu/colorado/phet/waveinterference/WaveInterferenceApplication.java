@@ -33,6 +33,7 @@ public class WaveInterferenceApplication extends PhetApplication {
 
     public static void main( String[] args ) {
         WaveIntereferenceLookAndFeel.initLookAndFeel();
+//        System.out.println( "Arrays.ss = " + Arrays.s );
         if( Arrays.asList( args ).contains( "-smooth" ) ) {
             doSmooth();
         }

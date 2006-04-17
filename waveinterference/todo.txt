@@ -58,10 +58,6 @@ panel?
 >>Let's become more strongly motivated before changing this, and also have something
 >>extremely concrete that we're sure will work.
 
-o Should we show intensity readouts anywhere, or just wave values?
-o Could show intensity on detectors instead of displacement
->>This does not look like it will be a useful feature.  I'll drop it for now.
-
 Do we want to optionally show absolute values (or intensities) in the wave area
 (to give a more global idea of constructive and destructive interference)?
 o I would leave it up to others whether we should show intensity in the wave
@@ -69,11 +65,6 @@ itself. I don't really have an opinion, but I would lean towards not doing
 this, since there are already a lot of controls in this sim and I'm not sure
 what this option would buy us. Maybe in an advanced pull-down menu??
 >>This looks like it wouldn't be a useful feature.  I'll drop it for now.
-
--  When you change the wavelength of light, it resets rather than continuing
-with differently colored ripples.
->>Representing different colors of ripple on one lattice is not an easy problem.
->>Are we sure this is worth it?  In QWI we decided it was sufficient to clear the wave at a change.
 
 All three views will rotate (Sound and Light show same thing on side as on top)
 >I'm not sure how to visualize the intermediate graphics for sound & light.
@@ -83,6 +74,7 @@ same as "top". This is because both sound and light waves are the same from
 all angles.
 >Not sure I want to handle what to do with barriers, sources in these cases.
 >Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
+>>Delete rotation for light & sound.
 
 Make the view angle box narrower.
 >>This is currently very difficult.  Maybe I should forget it for now.
