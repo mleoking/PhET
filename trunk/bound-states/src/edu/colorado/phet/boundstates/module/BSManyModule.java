@@ -65,8 +65,8 @@ public class BSManyModule extends BSAbstractModule {
     //----------------------------------------------------------------------------
 
     // Model
+    private BSModel _model;
     private BSParticle _particle;
-    private BSAbstractPotential _selectedPotential;
     private BSCoulombWells _coulombWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSSquareWells _squareWells;
@@ -348,29 +348,23 @@ public class BSManyModule extends BSAbstractModule {
      */
     public void reset() {
         
+        // Controls that are not model related
+        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setRealSelected( true );
+        _controlPanel.setImaginarySelected( false );
+        _controlPanel.setMagnitudeSelected( false );
+        _controlPanel.setPhaseSelected( false );
+        
         // Model
         _particle = new BSParticle( BSConstants.DEFAULT_MASS );
         _coulombWells = new BSCoulombWells( _particle, 2 );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle );
         _squareWells = new BSSquareWells( _particle, 2 );
         _asymmetricWell = new BSAsymmetricWell( _particle );
-        _selectedPotential = _harmonicOscillatorWell;
-        _superpositionCoefficients = new BSSuperpositionCoefficients( _selectedPotential );
+        _superpositionCoefficients = new BSSuperpositionCoefficients();
+        _model = new BSModel( _harmonicOscillatorWell, _superpositionCoefficients );
         
-        // View 
-        _eigenstatesNode.setPotential( _selectedPotential );
-        _eigenstatesNode.setSuperpositionCoefficients( _superpositionCoefficients );
-        _chart.getEnergyPlot().setPotential( _selectedPotential );
-        
-        // Controls
-        _controlPanel.setWellType( _selectedPotential.getWellType() );
-        _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
-        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
-        _controlPanel.setRealSelected( true );
-        _controlPanel.setImaginarySelected( false );
-        _controlPanel.setMagnitudeSelected( false );
-        _controlPanel.setPhaseSelected( false );
-        //XXX
+        setWellType( BSWellType.HARMONIC_OSCILLATOR );
     }
     
     /**
@@ -479,39 +473,37 @@ public class BSManyModule extends BSAbstractModule {
         }
         
         if ( wellType == BSWellType.COULOMB ) {
-            _selectedPotential = _coulombWells;
+            _model.setPotential( _coulombWells );
             _controlPanel.setNumberOfWellsControlVisible( true );
-            _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            _selectedPotential = _harmonicOscillatorWell;
+            _model.setPotential( _harmonicOscillatorWell );
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         else if ( wellType == BSWellType.SQUARE ) {
-            _selectedPotential = _squareWells;
+            _model.setPotential( _squareWells );
             _controlPanel.setNumberOfWellsControlVisible( true );
         }
         else if ( wellType == BSWellType.ASYMMETRIC ) {
-            _selectedPotential = _asymmetricWell;
+            _model.setPotential( _asymmetricWell );
             _controlPanel.setNumberOfWellsControlVisible( false );
         }
         
-        _superpositionCoefficients.setPotential( _selectedPotential );
-        _controlPanel.setNumberOfWells( _selectedPotential.getNumberOfWells() );
-        _eigenstatesNode.setPotential( _selectedPotential );
-        _chart.getEnergyPlot().setPotential( _selectedPotential );
+        _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+        _eigenstatesNode.setModel( _model );
+        _chart.getEnergyPlot().setPotential( _model.getPotential() );
         
         resetClock();
     }
     
     public void setNumberOfWells( int numberOfWells ) {
-        _selectedPotential.setNumberOfWells( numberOfWells );
+        _model.getPotential().setNumberOfWells( numberOfWells );
         resetClock();
     }
     
     public void showConfigureEnergyDialog() {
         if ( _configureWellDialog == null ) {
-            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _selectedPotential );
+            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential() );
             _configureWellDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _configureWellDialog = null;
@@ -526,7 +518,7 @@ public class BSManyModule extends BSAbstractModule {
     
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
-            int startingIndex = _selectedPotential.getStartingIndex();
+            int startingIndex = _model.getPotential().getStartingIndex();
             _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _superpositionCoefficients, startingIndex, _colorScheme );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {

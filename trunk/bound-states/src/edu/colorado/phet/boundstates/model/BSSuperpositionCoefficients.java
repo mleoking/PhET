@@ -12,8 +12,6 @@
 package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * BSSuperpositionCoefficients is a collection of superposition coefficients.
@@ -21,27 +19,15 @@ import java.util.Observer;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSuperpositionCoefficients extends BSObservable implements Observer {
+public class BSSuperpositionCoefficients extends BSObservable {
         
-    private BSAbstractPotential _potential;
     private ArrayList _coefficients; // array of Double
    
-    public BSSuperpositionCoefficients( BSAbstractPotential potential ) {
+    public BSSuperpositionCoefficients() {
         _coefficients = new ArrayList();
-        _potential = potential;
-        _potential.addObserver( this );
     }
     
-    public void setPotential( BSAbstractPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-        }
-        _potential = potential;
-        _potential.addObserver( this );
-        setNumberOfCoefficients( _potential.getNumberOfEigenstates() );
-    }
-    
-    private void setNumberOfCoefficients( int numberOfCoefficients ) {
+    public void setNumberOfCoefficients( int numberOfCoefficients, boolean notify ) {
         if ( numberOfCoefficients < 0 ) {
             throw new IllegalArgumentException( "numberOfCoefficients must be >= 0: " + numberOfCoefficients );
         }
@@ -73,7 +59,10 @@ public class BSSuperpositionCoefficients extends BSObservable implements Observe
                     _coefficients.add( new Double( 0 ) );
                 }
             }
-            notifyObservers();
+            
+            if ( notify ) {
+                notifyObservers();
+            }
         }
     }
     
@@ -118,10 +107,4 @@ public class BSSuperpositionCoefficients extends BSObservable implements Observe
         _coefficients.set( index, new Double( value ) );
         notifyObservers();
     }
-
-    public void update( Observable o, Object arg ) {
-        if ( o == _potential ) {
-            setNumberOfCoefficients( _potential.getNumberOfEigenstates() );
-        }
-    }  
 }
