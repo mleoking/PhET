@@ -5,12 +5,12 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- use fewer points for calculating eigenstates
 - solve wavefunction and display in chart for selected eigenstate(s)
 - solve wavefunction and display in chart for hilited eigenstate 
 - scale position axis to fit excited portion of wavefunction
 
 MEDIUM PRIORITY:
+- use fewer points (bigger dx) for calculating eigenstates
 - drag handles for each potential type (all slightly different)
 - normalization of Superposition coefficients has round-off and double precision error
 - width and spacing sliders in BSSquareDialog don't interact like they should
