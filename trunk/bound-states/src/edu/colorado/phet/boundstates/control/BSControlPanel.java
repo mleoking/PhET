@@ -57,6 +57,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Class data (private)
     //----------------------------------------------------------------------------
 
+    private static final boolean NOTIFY_WHILE_DRAGGING = false; // behavior of sliders
+    
     private static final int SUBPANEL_SPACING = 5; // pixels
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
@@ -129,6 +131,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                     BSConstants.MAX_NUMBER_OF_WELLS,
                     1, 0, 0, SimStrings.get( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
             _numberOfWellsSlider.setTextEditable( true );
+            _numberOfWellsSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
             // Eigenstate 
@@ -289,7 +292,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _massSlider = new SliderControl( 
                     BSConstants.DEFAULT_MASS, BSConstants.MIN_MASS, BSConstants.MAX_MASS, 5,
                     1, 1, massLabel, massUnits, 3, SLIDER_INSETS );
-            _massSlider.setNotifyWhileDragging( false );
+            _massSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             _massSlider.setTextEditable( true );
             _massSlider.setInverted( true );
             // Put a label at each tick mark.
