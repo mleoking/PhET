@@ -290,18 +290,19 @@ public class BSManyModule extends BSAbstractModule {
             Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( BSConstants.PIXELS_PER_SAMPLE_POINT, 0 ) );
             double dx = p2.getX() - p1.getX();
+            System.out.println( "BSManyModule.layout dx=" + dx ); //XXX
             
-            // Set the dx for each potential...
             if ( dx >= Double.MIN_VALUE && dx <= Double.MAX_VALUE ) {
-                System.out.println( "BSManyModule.layout dx=" + dx ); //XXX
+                
+                // Set the dx for each potential...
                 _coulombWells.setDx( dx );
                 _harmonicOscillatorWell.setDx( dx );
                 _squareWells.setDx( dx );
                 _asymmetricWell.setDx( dx );
-            }
-            
-            // Set the dx for the Energy plot...
-            _chart.getEnergyPlot().setDx( dx );
+                
+                // Set the dx for the Energy plot...
+                _chart.getEnergyPlot().setDx( dx );
+            }  
         }
 
         // Legend
