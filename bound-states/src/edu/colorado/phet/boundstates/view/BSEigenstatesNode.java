@@ -19,9 +19,9 @@ import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.debug.DebugOutput;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -39,25 +39,15 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * @version $Revision$
  */
 public class BSEigenstatesNode extends PNode implements Observer {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int INDEX_UNDEFINED = -1;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSAbstractPotential _potential;
-    private BSSuperpositionCoefficients _superpositionCoefficients;
-    private BSEigenstate[] _eigenstates;
+    private BSModel _model;
     
     private BSCombinedChartNode _chartNode;
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
-    
-    private int _hiliteIndex;
     
     private Color _normalColor, _hiliteColor, _selectionColor;
     
@@ -74,10 +64,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
     public BSEigenstatesNode( BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
         
+        _model = null;
+        
         _chartNode = chartNode;
         _lines = new ArrayList();
-        _eigenstates = null;
-        _hiliteIndex = INDEX_UNDEFINED;
         
         _normalColor = BSConstants.COLOR_SCHEME.getEigenstateNormalColor();
         _hiliteColor = BSConstants.COLOR_SCHEME.getEigenstateHiliteColor();
@@ -101,9 +91,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * Call this method before releasing all references to an object of this type.
      */
     public void cleanup() {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
-            _potential = null;
+        if ( _model != null ) {
+            _model.deleteObserver( this );
+            _model = null;
         }
     }
     
@@ -111,22 +101,15 @@ public class BSEigenstatesNode extends PNode implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setPotential( BSAbstractPotential potential ) {
-        if ( _potential != null ) {
-            _potential.deleteObserver( this );
+    public void setModel( BSModel model ) {
+        if ( model != _model ) {
+            if ( _model != null ) {
+                _model.deleteObserver( this );
+            }
+            _model = model;
+            _model.addObserver( this );
+            updateDisplay();
         }
-        _potential = potential;
-        _potential.addObserver( this );
-        updateDisplay();
-    }
-    
-    public void setSuperpositionCoefficients( BSSuperpositionCoefficients superpositionCoefficients ) {
-        if ( _superpositionCoefficients != null ) {
-            _superpositionCoefficients.deleteObserver( this );
-        }
-        _superpositionCoefficients = superpositionCoefficients;
-        _superpositionCoefficients.addObserver( this );
-        updateDisplay();
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -137,7 +120,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     }
     
     private boolean isInitalized() {
-        return ( _potential != null && _superpositionCoefficients != null );
+        return ( _model != null );
     }
     
     //----------------------------------------------------------------------------
@@ -151,12 +134,12 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param arg
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _potential ) {
-            updateDisplay();
-        }
-        else if ( o == _superpositionCoefficients ) {
-            if ( _superpositionCoefficients.getNumberOfCoefficients() == _eigenstates.length ) {
+        if ( o == _model ) {
+            if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
                 selectEigenstates();
+            }
+            else if ( arg == BSModel.PROPERTY_POTENTIAL ) {
+                updateDisplay();
             }
         }
     }
@@ -179,7 +162,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
         
         removeAllChildren();
-        _eigenstates = null;
         _lines.clear();
         
         // Determine the Energy chart's bounds...
@@ -190,9 +172,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
         final double maxPosition = chart.getEnergyPlot().getDomainAxis().getUpperBound();
         
         // Create a line for each eigenstate...
-        _eigenstates = _potential.getEigenstates();
-        for ( int i = 0; i < _eigenstates.length; i++ ) {
-            final double energy = _eigenstates[i].getEnergy();
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            final double energy = eigenstates[i].getEnergy();
             Point2D pLeft = _chartNode.energyToNode( new Point2D.Double( minPosition, energy ) );
             Point2D pRight = _chartNode.energyToNode( new Point2D.Double( maxPosition, energy ) );
             Point2D[] points = new Point2D[] { pLeft, pRight };
@@ -219,8 +201,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param event
      */
     private void handleSelection() {
-        if ( _hiliteIndex != INDEX_UNDEFINED ) {
-            selectEigenstate( _hiliteIndex );
+        final int hiliteIndex = _model.getHilitedEigenstateIndex();
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            selectEigenstate( hiliteIndex );
         }
     }
     
@@ -231,13 +214,14 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param index
      */
     private void selectEigenstate( final int index ) {
-        _superpositionCoefficients.setNotifyEnabled( false );
-        final int numberOfCoefficients = _superpositionCoefficients.getNumberOfCoefficients();
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        superpositionCoefficients.setNotifyEnabled( false );  // we're going to change them all 
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            _superpositionCoefficients.setCoefficient( i, 0 );
+            superpositionCoefficients.setCoefficient( i, 0 );
         }
-        _superpositionCoefficients.setCoefficient( index, 1 );
-        _superpositionCoefficients.setNotifyEnabled( true );
+        superpositionCoefficients.setCoefficient( index, 1 );
+        superpositionCoefficients.setNotifyEnabled( true ); // we're done changing, OK to notify
     }
     
     /*
@@ -246,9 +230,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     private void selectEigenstates() {
         
-        final int numberOfCoefficients = _superpositionCoefficients.getNumberOfCoefficients();
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            final double value = _superpositionCoefficients.getCoefficient( i );
+            final double value = superpositionCoefficients.getCoefficient( i );
             PPath line = (PPath) _lines.get( i );
             if ( value == 0 ) {
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
@@ -292,19 +277,23 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
 
         // Set the new highlight...
-        _hiliteIndex = hiliteIndex;
-        PPath line = (PPath) _lines.get( _hiliteIndex );
+        PPath line = (PPath) _lines.get( hiliteIndex );
         line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
         line.setStrokePaint( _hiliteColor );
+        
+        // Update the model...
+        _model.setHilitedEigenstateIndex( hiliteIndex );
     }
     
     /*
      * Clears the current highlight.
      */
     private void clearHilite() {
-        if ( _hiliteIndex != INDEX_UNDEFINED ) {
-            final double value = _superpositionCoefficients.getCoefficient( _hiliteIndex );
-            PPath line = (PPath) _lines.get( _hiliteIndex );
+        final int hiliteIndex = _model.getHilitedEigenstateIndex();
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+            final double value = superpositionCoefficients.getCoefficient( _model.getHilitedEigenstateIndex() );
+            PPath line = (PPath) _lines.get( hiliteIndex );
             if ( value == 0 ) {
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
                 line.setStrokePaint( _normalColor );
@@ -313,7 +302,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
                 line.setStrokePaint( _selectionColor );
             }
-            _hiliteIndex = INDEX_UNDEFINED;
+            _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
         }
     }
     
@@ -324,21 +313,22 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @return index, possibly INDEX_UNDEFINED
      */
     private int getClosestEigenstateIndex( final double energy ) {
+        BSEigenstate[] eigenstates = _model.getEigenstates();
         int index = 0;
-        if ( _eigenstates == null || _eigenstates.length == 0 ) {
-            index = INDEX_UNDEFINED;
+        if ( eigenstates == null || eigenstates.length == 0 ) {
+            index = BSEigenstate.INDEX_UNDEFINED;
         }
-        else if ( energy < _eigenstates[0].getEnergy() ) {
+        else if ( energy < eigenstates[0].getEnergy() ) {
             index = 0;
         }
-        else if ( energy > _eigenstates[_eigenstates.length - 1 ].getEnergy() ) {
-            index = _eigenstates.length - 1;
+        else if ( energy > eigenstates[eigenstates.length - 1 ].getEnergy() ) {
+            index = eigenstates.length - 1;
         }
         else {
-            for ( int i = 1; i < _eigenstates.length; i++ ) {
-                final double currentEnergy = _eigenstates[ i ].getEnergy();
+            for ( int i = 1; i < eigenstates.length; i++ ) {
+                final double currentEnergy = eigenstates[ i ].getEnergy();
                 if ( energy <= currentEnergy ) {
-                    final double lowerEnergy = _eigenstates[ i - 1 ].getEnergy();
+                    final double lowerEnergy = eigenstates[ i - 1 ].getEnergy();
                     final double upperEnergyDifference = currentEnergy - energy;
                     final double lowerEnergyDifference = energy - lowerEnergy;
                     if ( upperEnergyDifference < lowerEnergyDifference ) {

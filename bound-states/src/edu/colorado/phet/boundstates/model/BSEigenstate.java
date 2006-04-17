@@ -20,6 +20,8 @@ package edu.colorado.phet.boundstates.model;
  */
 public class BSEigenstate implements Comparable {
 
+    public static final int INDEX_UNDEFINED = -1;
+    
     private double _energy;
     
     public BSEigenstate( double energy ) {

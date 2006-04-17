@@ -110,7 +110,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     public void setPotential( BSAbstractPotential well ) {
         _potential = well;
         _potential.addObserver( this );
-        update();
+        updateDisplay();
     }
     
     /**
@@ -145,25 +145,18 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      */
     public void update( Observable observable, Object arg ) {
         if ( observable == _potential ) {
-            updatePotential();
+            updateDisplay();
         }
     }
     
     //----------------------------------------------------------------------------
     // Update handlers
     //----------------------------------------------------------------------------
-
-    /*
-     * Updates everything.
-     */
-    private void update() {
-        updatePotential();
-    }
     
     /*
-     * Updates the potential energy series to match the model.
+     * Updates the display to match the model.
      */
-    private void updatePotential() {
+    private void updateDisplay() {
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
         final double dx = 0.01; //XXX calculate based on plot bounds and pixels per sample
