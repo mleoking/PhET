@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -28,6 +29,7 @@ import java.util.Random;
 public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private SlitPotential slitPotential;
     private BufferedImage blueImageORIG;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
@@ -40,9 +42,10 @@ public class PressureWaveGraphic extends PNode {
     private boolean pinked = false;
     private PPath background;
 
-    public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, SlitPotential slitPotential ) {
         this.lattice = lattice;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
+        this.slitPotential = slitPotential;
         background = new PPath();
         background.setPaint( Color.black );
         background.setStrokePaint( Color.gray );
@@ -316,6 +319,18 @@ public class PressureWaveGraphic extends PNode {
                 a = dest.getX();
                 b = dest.getY();
                 setOffset( a, b );
+                //observe the barriers
+                // .
+
+//                Point pt = latticeScreenCoordinates.toLatticeCoordinates( a-PressureWaveGraphic.this.getOffset().getX(), b-PressureWaveGraphic.this.getOffset().getY() );
+//                System.out.println( "pt = " + pt );
+//                double pot = slitPotential.getPotential( pt.x, pt.y, 0 );
+//                if( pot == 0 ) {
+
+//                }
+//                else{
+//                    System.out.println( "PressureWaveGraphic$Particle.accelerateToTarget" );
+//                }
             }
         }
 

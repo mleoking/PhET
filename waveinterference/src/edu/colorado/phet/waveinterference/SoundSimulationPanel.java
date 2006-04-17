@@ -43,7 +43,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
         waveModelGraphic.setOffset( super.getWaveModelGraphicOffset() );
 
-        PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates(), soundModule.getSlitPotential() );
         pressureWaveGraphic.setMaxVelocity( 3 );
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
         addScreenChild( soundWaveGraphic );

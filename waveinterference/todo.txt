@@ -1,8 +1,12 @@
+o Graphs need to be cropped.
+
 o Test at 1024x768
 
 o Test on a Mac.
 
 o Add correct units to measuring tape.
+
+o Add audio to sound.
 
 o Add correct units to stopwatch.
 
@@ -20,20 +24,10 @@ barrier don't go through (this is correct), but the particles on the left of
 the barrier penetrate the barrier. I suspect that there is a boundary
 condition on the right side, but not the left?
 
-- Issue with the light source. (you need coherent
-light to get interference). The way this is actually done (I think) is to
-shine a laser through a single slit (or pinhole) and make the light
-diffract, creating circular wavefronts. Also a problem of scale, since the
-light should be ~500nm.  Maybe none of this matters, but it's something I
-noticed and should be solved if there is an easy solution.
-
 - It looks like the particles run away from the speaker and then fill in
 from behind. I know this is sort of an optical illusion, but there may be a
 way to minimize this visual effect. I tried to follow a single particle and
 it still looked like it was running away.
-
--  When you change the wavelength of light, it resets rather than continuing
-with differently colored ripples.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
@@ -45,21 +39,6 @@ curve (no arrows).
 They should be the same color (hollow is still good) and I think
 there should be a radio button that allows the user to show these vectors or
 not.
-
-Not easy (yet) to make the view angle box narrower.
-
-All three views will rotate (Sound and Light show same thing on side as on top)
->I'm not sure how to visualize the intermediate graphics for sound & light.
--I think the idea is that it will look just like the intermediate graphics
-look right now. It's just that when it flips over to "side" it will look the
-same as "top". This is because both sound and light waves are the same from
-all angles.
->Not sure I want to handle what to do with barriers, sources in these cases.
->Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
-
-Pressure waves are out of phase (particles are too slow to keep up with pressure).
-- I did notice that - I was going to mention that high pressure should be
-where the particles are dense. Right now it looks 180 deg. out of phase.
 
 Would it help speed things up to make the particles smaller? They could be
 maybe 75% of their current size and it might look better anyway.
@@ -98,3 +77,33 @@ itself. I don't really have an opinion, but I would lean towards not doing
 this, since there are already a lot of controls in this sim and I'm not sure
 what this option would buy us. Maybe in an advanced pull-down menu??
 >>This looks like it wouldn't be a useful feature.  I'll drop it for now.
+
+-  When you change the wavelength of light, it resets rather than continuing
+with differently colored ripples.
+>>Representing different colors of ripple on one lattice is not an easy problem.
+>>Are we sure this is worth it?  In QWI we decided it was sufficient to clear the wave at a change.
+
+All three views will rotate (Sound and Light show same thing on side as on top)
+>I'm not sure how to visualize the intermediate graphics for sound & light.
+-I think the idea is that it will look just like the intermediate graphics
+look right now. It's just that when it flips over to "side" it will look the
+same as "top". This is because both sound and light waves are the same from
+all angles.
+>Not sure I want to handle what to do with barriers, sources in these cases.
+>Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
+
+Make the view angle box narrower.
+>>This is currently very difficult.  Maybe I should forget it for now.
+
+- Issue with the light source. (you need coherent
+light to get interference). The way this is actually done (I think) is to
+shine a laser through a single slit (or pinhole) and make the light
+diffract, creating circular wavefronts. Also a problem of scale, since the
+light should be ~500nm.  Maybe none of this matters, but it's something I
+noticed and should be solved if there is an easy solution.
+>>We can leave this as a lamp source for now.  Let me know if we think of something better.
+
+Pressure waves are out of phase (particles are too slow to keep up with pressure).
+- I did notice that - I was going to mention that high pressure should be
+where the particles are dense. Right now it looks 180 deg. out of phase.
+>>I switched the phase by 180 degrees, still slightly off, but maybe good enough?

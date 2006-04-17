@@ -70,7 +70,7 @@ public class WaveChartGraphic extends PNode {
         return bounds;
     }
 
-    private void updateLocation() {
+    protected void updateLocation() {
         synchronizeWidth();
         synchronizeWidth();//in case the first one changed the insets of the graph
 
@@ -98,6 +98,10 @@ public class WaveChartGraphic extends PNode {
         return jFreeChartNode.getDataArea().getWidth();
     }
 
+    public JFreeChartNode getjFreeChartNode() {
+        return jFreeChartNode;
+    }
+
     private double getDesiredDataWidth() {
         Point2D min = latticeScreenCoordinates.toScreenCoordinates( 0, 0 );
         Point2D max = latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() - 1, waveModel.getHeight() - 1 );
@@ -106,8 +110,7 @@ public class WaveChartGraphic extends PNode {
 
     public void updateChart() {
         GeneralPath generalPath = new GeneralPath();
-        double dx = latticeScreenCoordinates.getCellWidth();
-        Point2D[]pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
+        Point2D[]pts = readValues();//todo this just assumes the chart transform matches perfectly
         if( pts.length > 0 ) {
             generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );//todo crop to fit inside data area.
         }
@@ -115,21 +118,50 @@ public class WaveChartGraphic extends PNode {
             generalPath.lineTo( (float)pts[i].getX(), (float)pts[i].getY() );
         }
         path.setPathTo( generalPath );
+        path.setOffset( getPathLocation() );
+    }
+
+    protected Point2D getPathLocation() {
         Point2D nodeLoc = jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) );
         jFreeChartNode.localToParent( nodeLoc );
-        path.setOffset( nodeLoc );
+        return nodeLoc;
+    }
+
+    protected Point2D[] readValues() {
+        return new WaveSampler( waveModel, -60, latticeScreenCoordinates.getCellWidth() ).readValues();
     }
 
     public void setCurveColor( Color color ) {
-        path.setStrokePaint( color );
+        strokeColor.setColor( color );
+        updateColor();
     }
 
-    private void updateColor() {
-        setCurveColor( strokeColor.getColor() );
+    protected void updateColor() {
+        path.setStrokePaint( strokeColor.getColor() );
+//        setCurveColor( strokeColor.getColor() );
     }
 
     public double getChartHeight() {
         return jFreeChartNode.getFullBounds().getHeight();
     }
 
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return latticeScreenCoordinates;
+    }
+
+    public WaveModel getWaveModel() {
+        return waveModel;
+    }
+
+    public MutableColor getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setCurveVisible( boolean visible ) {
+        path.setVisible( visible );
+    }
+
+    public boolean isCurveVisible() {
+        return path.getVisible();
+    }
 }

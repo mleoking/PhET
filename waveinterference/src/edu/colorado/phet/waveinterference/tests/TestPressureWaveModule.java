@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
@@ -28,7 +29,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         waveModelGraphic.setOffset( 50, 50 );
         super.getPhetPCanvas().addScreenChild( waveModelGraphic );
 
-        pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates() );
+        pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates(), new SlitPotential( getWaveModel() ) );
         getPhetPCanvas().addScreenChild( pressureWaveGraphic );
 
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
