@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - scale position axis to fit excited portion of wavefunction
-- odd nodes for Coulomb
 - cache wavefunction solutions
 
 MEDIUM PRIORITY:
@@ -52,6 +51,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - calculate Coulomb eigenstates for only the even states (odd node numbers)
 (4/17/06) - fix implementation of time-dependendent wave function sum
 (4/17/06) - implement switching between wave function and probability density views
 (4/17/06) - attach models to XYPlotNodes instead of chart, big performance improvement

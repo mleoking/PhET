@@ -102,7 +102,8 @@ public class BSCoulombWells extends BSAbstractPotential {
         final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
         
         SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
-        for ( int nodes = 0; nodes < NUMBER_OF_NODES; nodes++ ) {
+        // Odd states are unstable, so calculate only even states (which correspond to odd node numbers).
+        for ( int nodes = 1; nodes < NUMBER_OF_NODES; nodes += 2 ) {
             try {
                 double E = solver.getEnergy( nodes );
                 eigenstates.add( new BSEigenstate( E ) );
