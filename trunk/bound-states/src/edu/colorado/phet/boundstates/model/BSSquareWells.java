@@ -79,6 +79,7 @@ public class BSSquareWells extends BSAbstractPotential {
         }
         if ( width != _width ) {
             _width = width;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -93,6 +94,7 @@ public class BSSquareWells extends BSAbstractPotential {
         }
         if ( depth != _depth ) {
             _depth = depth;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -103,6 +105,10 @@ public class BSSquareWells extends BSAbstractPotential {
     
     public BSWellType getWellType() {
         return BSWellType.SQUARE;
+    }
+    
+    public boolean supportsMultipleWells() {
+        return true;
     }
     
     public int getStartingIndex() {
@@ -131,7 +137,7 @@ public class BSSquareWells extends BSAbstractPotential {
         return energy;
     }
     
-    public BSEigenstate[] getEigenstates() {
+    protected BSEigenstate[] calculateEigenstates() {
         
         ArrayList eigenstates = new ArrayList();
 
@@ -165,9 +171,5 @@ public class BSSquareWells extends BSAbstractPotential {
         Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
-    }
-    
-    public boolean supportsMultipleWells() {
-        return true;
     }
 }

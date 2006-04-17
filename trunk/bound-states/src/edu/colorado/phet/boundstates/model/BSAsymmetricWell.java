@@ -76,6 +76,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         }
         if ( width != _width ) {
             _width = width;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -90,6 +91,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         }
         if ( depth != _depth ) {
             _depth = depth;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -100,6 +102,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     
     public BSWellType getWellType() {
         return BSWellType.ASYMMETRIC;
+    }
+    
+    public boolean supportsMultipleWells() {
+        return false;
     }
     
     public int getStartingIndex() {
@@ -120,7 +126,7 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         return energy;
     }
 
-    public BSEigenstate[] getEigenstates() {
+    protected BSEigenstate[] calculateEigenstates() {
 
         ArrayList eigenstates = new ArrayList();
 
@@ -154,9 +160,5 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
-    }
-    
-    public boolean supportsMultipleWells() {
-        return false;
     }
 }

@@ -36,6 +36,10 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  */
 public class BSCoulombWells extends BSAbstractPotential {
    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int NUMBER_OF_NODES = 10;
     
     //----------------------------------------------------------------------------
@@ -62,6 +66,10 @@ public class BSCoulombWells extends BSAbstractPotential {
         return BSWellType.COULOMB;
     }
     
+    public boolean supportsMultipleWells() {
+        return true;
+    }
+    
     public int getStartingIndex() {
         return 1;
     }
@@ -83,8 +91,8 @@ public class BSCoulombWells extends BSAbstractPotential {
         
         return offset + energy;
     }
-      
-    public BSEigenstate[] getEigenstates() {
+    
+    protected BSEigenstate[] calculateEigenstates() {
 
         ArrayList eigenstates = new ArrayList();
 
@@ -109,9 +117,5 @@ public class BSCoulombWells extends BSAbstractPotential {
         Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
-    }
-    
-    public boolean supportsMultipleWells() {
-        return true;
     }
 }
