@@ -45,7 +45,8 @@
                excludes="${build-excludes}"
                classpath="${build-classpath}"
                source="1.4"
-               destdir="${ant.classes}"/>
+               destdir="${ant.classes}"
+                />
     </target>
 
     <target name="Generate Build Info">

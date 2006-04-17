@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
 
@@ -30,9 +31,25 @@ public class WaveInterferenceApplication extends PhetApplication {
 
     }
 
-    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
+    public static void main( String[] args ) {
         WaveIntereferenceLookAndFeel.initLookAndFeel();
-        UIManager.setLookAndFeel( smooth.SmoothLookAndFeelFactory.getSystemLookAndFeelClassName() );
+        try {
+            final String systemLookAndFeelClassName = SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
+            System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
+            UIManager.setLookAndFeel( systemLookAndFeelClassName );
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
         new WaveInterferenceApplication( args ).startApplication();
     }
 }
