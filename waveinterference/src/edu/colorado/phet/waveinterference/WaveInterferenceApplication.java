@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -14,7 +15,7 @@ import javax.swing.*;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.07";
+    private static String VERSION = "0.08";
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION );
@@ -28,11 +29,17 @@ public class WaveInterferenceApplication extends PhetApplication {
                 getModule( i ).setLogoPanelVisible( false );
             }
         }
-
     }
 
     public static void main( String[] args ) {
         WaveIntereferenceLookAndFeel.initLookAndFeel();
+        if( Arrays.asList( args ).contains( "-smooth" ) ) {
+            doSmooth();
+        }
+        new WaveInterferenceApplication( args ).startApplication();
+    }
+
+    private static void doSmooth() {
         try {
             final String systemLookAndFeelClassName = SmoothLookAndFeelFactory.getSystemLookAndFeelClassName();
             System.out.println( "systemLookAndFeelClassName = " + systemLookAndFeelClassName );
@@ -50,6 +57,5 @@ public class WaveInterferenceApplication extends PhetApplication {
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
-        new WaveInterferenceApplication( args ).startApplication();
     }
 }
