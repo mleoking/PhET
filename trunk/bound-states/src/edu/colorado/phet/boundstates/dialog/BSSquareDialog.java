@@ -92,6 +92,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             String widthLabel = SimStrings.get( "label.wellWidth" );
             _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
+            _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _widthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -111,6 +112,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             String depthLabel = SimStrings.get( "label.wellDepth" );
             _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
+            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _depthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -130,6 +132,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _offsetSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -149,6 +152,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             String spacingLabel = SimStrings.get( "label.wellSpacing" );
             _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
+            _spacingSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _spacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 

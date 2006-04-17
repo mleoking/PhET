@@ -32,10 +32,13 @@ public class BSParticle extends BSObservable {
     }
     
     public void setMass( double mass ) {
-        if ( mass <= 0 ) {
-            throw new IllegalArgumentException( "invalid mass: " + mass );
+        System.out.println( "BSParticle.setMass " + mass );//XXX
+        if ( mass != _mass ) {
+            if ( mass <= 0 ) {
+                throw new IllegalArgumentException( "invalid mass: " + mass );
+            }
+            _mass = mass;
+            notifyObservers();
         }
-        _mass = mass;
-        notifyObservers();
     }
 }

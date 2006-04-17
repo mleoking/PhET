@@ -22,6 +22,7 @@ MEDIUM PRIORITY:
 - different width ranges for single, double, many well modules
 - update persistence code to include new modules
 - use specified defaults for all controls
+- update while sliders are dragging
 
 LOW PRIORITY:
 - add a small bit of space about y-axis range on the Energy chart
@@ -51,6 +52,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - don't update while sliders are dragging (for now)
 (4/14/06) - factor out common stuff from Configure dialogs in AbstractConfigureDialog
 (4/14/06) - hide spacing control in all Configure dialogs when #wells==1
 (4/14/06) - put the modified Schmidt-Lee code (SchmidtLeeSolver) in all well classes

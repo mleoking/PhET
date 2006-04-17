@@ -83,6 +83,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _offsetSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 
@@ -103,6 +104,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, 
                     angularFrequencyLabel, angularFrequencyUnits, 4, SLIDER_INSETS );
             _angularFrequencySlider.setTextEditable( true );
+            _angularFrequencySlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             _angularFrequencySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) { 

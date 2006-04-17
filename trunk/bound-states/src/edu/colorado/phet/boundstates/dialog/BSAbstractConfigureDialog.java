@@ -37,6 +37,8 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     
     protected static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
     
+    protected static final boolean NOTIFY_WHILE_DRAGGING = false;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
