@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.boundstates.view;
 
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +24,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.model.BSModel;
+import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.boundstates.util.Complex;
+import edu.colorado.phet.boundstates.util.MutableComplex;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -33,7 +42,7 @@ import edu.colorado.phet.jfreechart.FastPathRenderer;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSWaveFunctionPlot extends XYPlot implements Observer {
+public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -46,6 +55,9 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model references
+    private BSModel _model;
+    
     private XYSeries _realSeries;
     private XYSeries _imaginarySeries;
     private XYSeries _magnitudeSeries;
@@ -60,6 +72,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     private int _probabilityDensityIndex;
     private int _hiliteIndex;
     
+    private Point2D[] _waveFunctionPoints;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -71,6 +85,19 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
         
         int index = 0;
+              
+        // Hilited eigenstate's time-independent wave function
+        {
+            _hiliteIndex = index++;
+            _hiliteSeries = new XYSeries( "hilite", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _hiliteSeries );
+            setDataset( _hiliteIndex, dataset );
+            XYItemRenderer renderer = new FastPathRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
+            renderer.setStroke( BSConstants.HILITE_STROKE );
+            setRenderer( _hiliteIndex, renderer );
+        }
         
         // Real
         {
@@ -135,19 +162,6 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
             setRenderer( _probabilityDensityIndex, renderer );
         }
         
-        // Hilited eigenstate's time-independent wave function
-        {
-            _hiliteIndex = index++;
-            _hiliteSeries = new XYSeries( "hilite", AUTO_SORT );
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _hiliteSeries );
-            setDataset( _hiliteIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
-            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
-            renderer.setStroke( BSConstants.HILITE_STROKE );
-            setRenderer( _hiliteIndex, renderer );
-        }
-        
         // X (domain) axis 
         BSPositionAxis xAxis = new BSPositionAxis();
         
@@ -172,6 +186,17 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
 
+    public void setModel( BSModel model ) {
+        if ( _model != model ) {
+            if ( _model != null ) {
+                _model.deleteObserver( this );
+            }
+            _model = model;
+            _model.addObserver( this );
+            updateDatasets();
+        }
+    }
+    
     public void setRealVisible( boolean visible ) {
         getRenderer( _realIndex ).setSeriesVisible( new Boolean( visible ) );
     }
@@ -231,35 +256,88 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
      * @param observable
      * @param arg
      */
-    public void update( Observable observable, Object arg ) {
-        updateDatasets();
+    public void update( Observable o, Object arg ) {
+        if ( o == _model ) {
+            if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+                updateHiliteDataset();
+            }
+            else {
+                updateTimeDependentDatasets();
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // Dataset updaters
     //----------------------------------------------------------------------------
     
     private void updateDatasets() {
-        clearAllSeries();
-        setSeriesNotify( false );
-        //XXX
-        setSeriesNotify( true );
+        updateTimeDependentDatasets();
+        updateHiliteDataset();
+    }
+    
+    private void updateTimeDependentDatasets() {
+       
+        BSAbstractPotential potential = _model.getPotential();
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+        
+        _waveFunctionPoints = null;
+        
+        final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            final double coefficient = superpositionCoefficients.getCoefficient( i );
+            final double energy = eigenstates[ i ].getEnergy();
+            if ( coefficient != 0 ) {
+                if ( _waveFunctionPoints == null ) {
+                    _waveFunctionPoints = potential.getWaveFunctionPoints( energy, minX, maxX );
+                }
+                else {
+                    Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+                    assert( points.length == _waveFunctionPoints.length );
+                    for ( int j = 0; j < points.length; j++ ) {
+                        final double x = _waveFunctionPoints[i].getX() + points[i].getX();
+                        final double y = _waveFunctionPoints[i].getY() + points[i].getY();
+                        _waveFunctionPoints[i].setLocation( x, y );
+                    }
+                }
+            }
+        }
+    }
+    
+    private void updateHiliteDataset() {
+        _hiliteSeries.setNotify( false );
+        _hiliteSeries.clear();
+        final int hiliteIndex = _model.getHilitedEigenstateIndex();
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+             BSEigenstate[] eigenstates = _model.getEigenstates();
+             final double energy = eigenstates[ hiliteIndex ].getEnergy();
+             BSAbstractPotential potential = _model.getPotential();
+             final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
+             final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+             Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+             for ( int i = 0; i < points.length; i++ ) {
+                 _hiliteSeries.add( points[i].getX(), points[i].getY() );
+             }
+        }
+        _hiliteSeries.setNotify( true );
     }
     
     /*
-     * Clears the data from all series.
+     * Clears the data from all time-dependent series.
      */
-    private void clearAllSeries() {
+    private void clearTimeDependentSeries() {
         _realSeries.clear();
         _imaginarySeries.clear();
         _magnitudeSeries.clear();
         _phaseSeries.clear();
         _probabilityDensitySeries.clear();
-        _hiliteSeries.clear();
     }
     
     /*
-     * Changes notification for all series.
+     * Changes notification for all time-dependent series.
      * <p>
      * Call this method with false before adding a lot of points, so that
      * we don't get unnecessary updates.  When all points have been added,
@@ -268,7 +346,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
      * 
      * @param notify true or false
      */
-    private void setSeriesNotify( boolean notify ) {
+    private void setTimeDependentSeriesNotify( boolean notify ) {
         _realSeries.setNotify( notify );
         _imaginarySeries.setNotify( notify );
         _magnitudeSeries.setNotify( notify );
@@ -276,4 +354,49 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer {
         _probabilityDensitySeries.setNotify( notify );
         _hiliteSeries.setNotify( notify );
     }
+
+    //----------------------------------------------------------------------------
+    // ClockListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void clockTicked( ClockEvent clockEvent ) {}
+
+    public void clockStarted( ClockEvent clockEvent ) {}
+
+    public void clockPaused( ClockEvent clockEvent ) {}
+
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+
+        setTimeDependentSeriesNotify( false );
+        clearTimeDependentSeries();
+        
+        if ( _waveFunctionPoints != null ) {
+            
+            /*
+             * F(t) = e^(-i * E * t / hbar)
+             * where E = eigenstate energy
+             */ 
+            final double t = clockEvent.getSimulationTime();
+            MutableComplex Ft = new MutableComplex( Complex.I );
+            Ft.multiply( -1 * t / BSConstants.HBAR );
+            Ft.exp();
+           
+            MutableComplex y = new MutableComplex();
+            for ( int i = 0; i < _waveFunctionPoints.length; i++ ) {
+                final double x = _waveFunctionPoints[i].getX();
+                y.setValue( Ft );
+                y.multiply( _waveFunctionPoints[i].getY() );
+                _realSeries.add( x, y.getReal() );
+                _imaginarySeries.add( x, y.getImaginary() );
+                _magnitudeSeries.add( x, y.getAbs() );
+                _phaseSeries.add( x, y.getAbs() );
+                _phaseSeries.add( x, y.getPhase() );
+                _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+            }
+        }
+        
+        setTimeDependentSeriesNotify( true );
+    }
+
+    public void simulationTimeReset( ClockEvent clockEvent ) {}
 }
