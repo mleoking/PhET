@@ -5,9 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- don't update while sliders are dragging (for now)
 - use fewer points for calculating eigenstates
-- cache eigenstates in well classes, for use by getEigenstates and getNumberOfEigenstates
 - solve wavefunction and display in chart for selected eigenstate(s)
 - solve wavefunction and display in chart for hilited eigenstate 
 - scale position axis to fit excited portion of wavefunction
@@ -52,6 +50,7 @@ MACINTOSH:
 
 
 DONE:
+(4/17/06) - cache eigenstates, recalculate only when dirty
 (4/17/06) - add abstract BSAbstractPotential.supportsMultipleWells
 (4/17/06) - wrap various model elements in BSModel and use that in most places
 (4/17/06) - don't update while sliders are dragging (for now)

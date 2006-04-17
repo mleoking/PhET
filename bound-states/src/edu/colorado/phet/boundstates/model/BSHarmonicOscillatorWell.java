@@ -63,6 +63,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     public void setAngularFrequency( double angularFrequency ) {
         if ( angularFrequency != _angularFrequency ) {
             _angularFrequency = angularFrequency;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -75,6 +76,10 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         return BSWellType.HARMONIC_OSCILLATOR;
     }
 
+    public boolean supportsMultipleWells() {
+        return false;
+    }
+    
     public int getStartingIndex() {
         return 0;
     }
@@ -92,22 +97,24 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
 
 
     /**
+     * Calculates the eigenstates.
+     * 
      * En = h * w * ( n + 0.5 )
      * where:
      * n = 0, 1, 2,....
      * h = hbar
      * w = angular frequency
      */
-    public BSEigenstate[] getEigenstates() {
+    protected BSEigenstate[] calculateEigenstates() {
         assert( getNumberOfWells() == 1 ); // this solution works only for single wells
-//        return getEigenstatesAnalytic();
-        return getEigenstatesSchmidtLee();
+//        return calculateEigenstatesAnalytic();
+        return calculateEigenstatesSchmidtLee();
     }
     
     /*
-     * Gets the eigenstates using the Schmidt-Lee algorithm.
+     * Calculates the eigenstates using the Schmidt-Lee algorithm.
      */
-    private BSEigenstate[] getEigenstatesSchmidtLee() {
+    private BSEigenstate[] calculateEigenstatesSchmidtLee() {
         
         ArrayList eigenstates = new ArrayList();
         
@@ -144,7 +151,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     }
     
     /*
-     * Gets the eigenstates by calculating En directly, as follows:
+     * Calculates the eigenstates by calculating En directly, as follows:
      * 
      * En = ( h * w * ( n + 0.5 ) ) + offset
      * 
@@ -153,7 +160,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
      *     h = hbar
      *     w = angular frequency
      */
-    private BSEigenstate[] getEigenstatesAnalytic() {
+    private BSEigenstate[] calculateEigenstatesAnalytic() {
         ArrayList eigenstates = new ArrayList();
         
         boolean done = false;
@@ -173,7 +180,5 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
     
-    public boolean supportsMultipleWells() {
-        return false;
-    }
+
 }

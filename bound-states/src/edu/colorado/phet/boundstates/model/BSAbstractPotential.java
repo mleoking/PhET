@@ -37,6 +37,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     private double _center;
     private double _offset;
     private BSParticle _particle;
+    private BSEigenstate[] _eigenstates; // Eigenstates cache
     private double _dx;
 
     //----------------------------------------------------------------------------
@@ -67,6 +68,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
             }
             _particle = particle;
             _particle.addObserver( this );
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -85,6 +87,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         if ( numberOfWells != _numberOfWells ) {
             System.out.println( "BSAbstractPotential.setNumberOfWells " + numberOfWells );//XXX
             _numberOfWells = numberOfWells;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -99,6 +102,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
         if ( spacing != _spacing ) {
             _spacing = spacing;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -110,6 +114,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public void setCenter( double center ) {
         if ( center != _center ) {
             _center = center;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }  
@@ -121,6 +126,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public void setOffset( double offset ) {
         if ( offset != _offset ) {
             _offset = offset;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -135,6 +141,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
         if ( dx != _dx ) {
             _dx = dx;
+            markEigenstatesDirty();
             notifyObservers();
         }
     }
@@ -147,15 +154,32 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         // Convert to an array...
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
     }
-      
+    
+    public BSEigenstate[] getEigenstates() {
+        if ( _eigenstates == null ) {
+            _eigenstates = calculateEigenstates();
+        } 
+        return _eigenstates;
+    }
+    
+    /*
+     * Marks the eigenstates cache as dirty.
+     * Subclasses should call this whenever they change a property
+     * that affects the eigenstates, just before calling notifyObservers.
+     */
+    protected void markEigenstatesDirty() {
+        _eigenstates = null;
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
         if ( o == _particle ) {
+            markEigenstatesDirty();
             notifyObservers();
-        }   
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -170,19 +194,17 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public abstract BSWellType getWellType();
     
     /**
+     * Does this potential type support multiple wells?
+     * @return true or false
+     */
+    public abstract boolean supportsMultipleWells();
+    
+    /**
      * Gets the starting index, used as the label on eigenvalues and superposition coefficients.
      * 
      * @return the starting index
      */
     public abstract int getStartingIndex();
-    
-    /**
-     * Gets the eignestates for the potential.
-     * They are sorted in order from lowest to highest energy value.
-     * 
-     * @return
-     */
-    public abstract BSEigenstate[] getEigenstates();
     
     /**
      * Gets the energy value for a specified position.
@@ -192,8 +214,10 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public abstract double getEnergyAt( double position );
     
     /**
-     * Does this potential type support multiple wells?
-     * @return true or false
+     * Calculates the eignestates for the potential.
+     * They are sorted in order from lowest to highest energy value.
+     * 
+     * @return
      */
-    public abstract boolean supportsMultipleWells();
+    protected abstract BSEigenstate[] calculateEigenstates();
 }
