@@ -320,8 +320,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
         BSAbstractPotential potential = _model.getPotential();
         BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
         BSEigenstate[] eigenstates = _model.getEigenstates();
-        final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+        final double minX = getDomainAxis().getLowerBound();
+        final double maxX = getDomainAxis().getUpperBound();
         
         _waveFunctionSolutions.clear();
         _eigenstateIndicies.clear();
