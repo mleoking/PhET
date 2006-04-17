@@ -301,8 +301,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
              BSEigenstate[] eigenstates = _model.getEigenstates();
              final double energy = eigenstates[ hiliteIndex ].getEnergy();
              BSAbstractPotential potential = _model.getPotential();
-             final double minX = BSConstants.POSITION_VIEW_RANGE.getLowerBound();
-             final double maxX = BSConstants.POSITION_VIEW_RANGE.getUpperBound();
+             final double minX = getDomainAxis().getLowerBound();
+             final double maxX = getDomainAxis().getUpperBound();
              Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
              for ( int i = 0; i < points.length; i++ ) {
                  _hiliteSeries.add( points[i].getX(), points[i].getY() );
