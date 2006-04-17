@@ -299,9 +299,6 @@ public class BSManyModule extends BSAbstractModule {
                 _harmonicOscillatorWell.setDx( dx );
                 _squareWells.setDx( dx );
                 _asymmetricWell.setDx( dx );
-                
-                // Set the dx for the Energy plot...
-                _chart.getEnergyPlot().setDx( dx );
             }  
         }
 

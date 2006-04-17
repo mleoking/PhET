@@ -146,9 +146,9 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
     
-    public Point2D[] getPoints( double minX, double maxX, double dx ) {
+    public Point2D[] getPoints( double minX, double maxX ) {
         ArrayList points = new ArrayList();
-        for ( double x = minX; x <= maxX; x += dx ) {
+        for ( double x = minX; x <= maxX; x += _dx ) {
             points.add( new Point2D.Double( x, getEnergyAt(x) ) );
         }
         // Convert to an array...

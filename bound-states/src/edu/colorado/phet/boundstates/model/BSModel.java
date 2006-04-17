@@ -135,6 +135,10 @@ public class BSModel extends BSObservable implements Observer {
     // Convenience methods
     //----------------------------------------------------------------------------
     
+    public double getDx() {
+        return _potential.getDx();
+    }
+    
     public BSWellType getWellType() {
         return _potential.getWellType();
     }
