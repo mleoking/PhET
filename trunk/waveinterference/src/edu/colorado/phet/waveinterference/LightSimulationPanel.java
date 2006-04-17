@@ -96,7 +96,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
         addScreenChild( 0, verticalConnector );
 
-        waveChartGraphic = new WaveChartGraphic( "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ) );
+        waveChartGraphic = new LaserWaveChartGraphic( this, "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ) );
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
