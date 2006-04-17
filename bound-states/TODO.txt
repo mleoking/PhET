@@ -26,6 +26,7 @@ LOW PRIORITY:
 - add a small bit of space about y-axis range on the Energy chart
 - commandline options for choosing which modules to display
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
+- +5 label on Energy y-axis is clipped
 
 OPTIMIZATIONS:
 - flatten static elements
