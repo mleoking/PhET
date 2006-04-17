@@ -6,6 +6,7 @@ Sound Module:
     Bugfix: Cross section graphic shouldn't show in side-view (water waves only).
 Light Module:
     Can view with or without arrow vectors.
+Added smoothmetal UI.
     
 New in 0.07 (4-15-2006)
 Water color is lighter  (easier to see on projector)
