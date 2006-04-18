@@ -1,0 +1,34 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 04/11/06-04/17/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Quantum Tunneling:
+  - reduce JAR file size
+  - published 1.0 to PhET website
+  - post mortem of development time
+  
+  Bound States:
+  - time estimate to complete
+  - finished model
+  - integrated superposition coefficients into eigenstate view
+  - implemented view of hilited eigenstate's time-independent wave function
+  - implemented view of selected eigenstates' time-dependent wave function sum
+  - switch between wave function and probability density display
+  - improved performance
+  
+  Common Code:
+  - clean up image files
+  
+WHAT'S NEXT:
+ 
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+ 
+  o none
+
+-- 

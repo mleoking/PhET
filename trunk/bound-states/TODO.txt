@@ -18,8 +18,10 @@ MEDIUM PRIORITY:
 - different width ranges for single, double, many well modules
 - use specified defaults for all controls
 - update while sliders are dragging
+- different method of solving when multi-wells are spaced far apart
 
 LOW PRIORITY:
+- Spanish translations
 - use fewer points (bigger dx) for calculating eigenstates
 - commandline options for choosing which modules to display
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
