@@ -20,8 +20,9 @@ import java.awt.geom.NoninvertibleTransformException;
  * RegisterablePNode
  * <p>
  * A PNode that can have a specified registration point. This is the point within the local reference frame
- * of the PNode that will be placed at a specified point by a call to setOffset(). If, for example, you want to
- * center and image at a specified point you would do the following:
+ * of the PNode that will be placed at a specified point by a call to setOffset(). Note that you MUST set the
+ * registration point before setting the offset. If, for example, you want to center and image at a specified
+ * point you would do the following:
  * <code>
  *      RegisteredPNode rpn = new RegisteredPNode();
  *      PImage pi = PImageFactory.create( "my-image.png" );
