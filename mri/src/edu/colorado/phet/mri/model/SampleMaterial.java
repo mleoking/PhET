@@ -21,7 +21,8 @@ public class SampleMaterial {
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
-    public static final SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", 1.0 );
+    public static final double HYDROGEN_GYROMAGNETIC_RATIO = 42.58E6;   // MHz/Tesla
+    public static final SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", HYDROGEN_GYROMAGNETIC_RATIO );
     public static final SampleMaterial UBIDUBIUM = new SampleMaterial( "ubidubium", 0.6 );
 
     public static final SampleMaterial[] INSTANCES = new SampleMaterial[]{
@@ -35,6 +36,8 @@ public class SampleMaterial {
 
     private String name;
     private double mu;
+    // Frequency associated with the energy needed to
+    private double nu;
 
     private SampleMaterial( String name, double mu ) {
         this.name = name;
