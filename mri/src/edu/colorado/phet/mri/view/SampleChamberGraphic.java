@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.mri.model.SampleChamber;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.mri.model.SampleChamber;
 
 import java.awt.*;
 

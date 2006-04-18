@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.CollidableAdapter;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Random;
 
 /**
  * Dipole
@@ -74,6 +73,7 @@ public class Dipole extends Body implements Collidable {
     }
 
     double oldOrientation;
+
     public void stepInTime( double dt ) {
         double baseOrientation = ( spin == Spin.UP ? 1 : -1 ) * Math.PI / 2;
         if( oldOrientation != baseOrientation ) {
@@ -213,7 +213,8 @@ public class Dipole extends Body implements Collidable {
 
         public abstract void setOrientation( Vector2D fieldVector, double dt );
 
-        public void startMovingNow() { }
+        public void startMovingNow() {
+        }
     }
 
     /**
@@ -263,7 +264,7 @@ public class Dipole extends Body implements Collidable {
             // Difference between the field angle and the compass angle.
             double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
 
-            if ( Math.abs( phi ) < THRESHOLD ) {
+            if( Math.abs( phi ) < THRESHOLD ) {
                 // When the difference between the field angle and the compass angle is insignificant,
                 // simply set the angle and consider the compass to be at rest.
                 _theta = angle;
@@ -278,7 +279,7 @@ public class Dipole extends Body implements Collidable {
                 double thetaOld = _theta;
                 double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
                 _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
-                if ( _theta != thetaOld ) {
+                if( _theta != thetaOld ) {
                     // Set the compass needle direction.
                     getCompass().setOrientation( _theta );
                 }
@@ -303,8 +304,6 @@ public class Dipole extends Body implements Collidable {
             _omega = 0.03; // adjust as needed for desired behavior
         }
     }
-
-
 
     //----------------------------------------------------------------
     // Design & debug methods

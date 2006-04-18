@@ -10,11 +10,10 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mri.MriConfig;
 
-import java.util.Random;
 import java.util.List;
+import java.util.Random;
 
 /**
  * DipoleOrientationAgent

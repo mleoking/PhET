@@ -10,21 +10,20 @@
  */
 package edu.colorado.phet.mri.model;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.quantum.model.PhotonAtomCollisonExpert;
-import edu.colorado.phet.quantum.model.Photon;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
-import java.util.EventListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class MriModel extends BaseModel {
     private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
     private Electromagnet upperMagnet, lowerMagnet;
     private ArrayList dipoles = new ArrayList();
-    ArrayList photons = new ArrayList( );
+    ArrayList photons = new ArrayList();
     private SampleChamber sampleChamber;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
@@ -75,8 +74,8 @@ public class MriModel extends BaseModel {
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
 //                                               10,
-                                               MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                               new Vector2D.Double( 0, -1 ));
+MriConfig.SAMPLE_CHAMBER_WIDTH,
+new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
@@ -109,7 +108,7 @@ public class MriModel extends BaseModel {
             dipoles.add( modelElement );
         }
         if( modelElement instanceof Photon ) {
-            photons.add( modelElement);
+            photons.add( modelElement );
         }
         listenerProxy.modelElementAdded( modelElement );
     }
@@ -121,15 +120,15 @@ public class MriModel extends BaseModel {
             dipoles.remove( modelElement );
         }
         if( modelElement instanceof Photon ) {
-            photons.remove( modelElement);
+            photons.remove( modelElement );
         }
         listenerProxy.modelElementRemoved( modelElement );
     }
 
     public List getModelElements() {
-        ArrayList modelElements = new ArrayList( );
+        ArrayList modelElements = new ArrayList();
         for( int i = 0; i < numModelElements(); i++ ) {
-            modelElements.add( modelElementAt( i ));
+            modelElements.add( modelElementAt( i ) );
         }
         return modelElements;
     }
@@ -191,7 +190,7 @@ public class MriModel extends BaseModel {
         List photons = getPhotons();
         for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
-            if( !getBounds().contains( photon.getPosition() )) {
+            if( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );
             }
         }

@@ -11,12 +11,12 @@
 package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.MriModel;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * FadingMagnetControl

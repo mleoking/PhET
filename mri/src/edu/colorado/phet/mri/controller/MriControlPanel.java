@@ -15,7 +15,6 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**

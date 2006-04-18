@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.mri.view.MonitorPanel;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.view.MonitorPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**

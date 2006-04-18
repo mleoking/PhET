@@ -10,19 +10,19 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.mri.model.Electromagnet;
-import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.common.view.graphics.Arrow;
 
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * ElectromagnetGraphic
@@ -50,8 +50,8 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         setRegistrationPoint( bounds.getWidth() / 2, bounds.getHeight() / 2 );
 
         // Graphics for the lead wires
-        Line2D upperLeadLine = new Line2D.Double( -300, bounds.getHeight() / 3, bounds.getWidth() / 2, bounds.getHeight() / 3);
-        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() * 2 / 3, bounds.getWidth() / 2, bounds.getHeight() * 2 / 3);
+        Line2D upperLeadLine = new Line2D.Double( -300, bounds.getHeight() / 3, bounds.getWidth() / 2, bounds.getHeight() / 3 );
+        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() * 2 / 3, bounds.getWidth() / 2, bounds.getHeight() * 2 / 3 );
         upperLead = new PPath( upperLeadLine );
         lowerLead = new PPath( lowerLeadLine );
         addChild( upperLead );
@@ -60,15 +60,15 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         // Graphics for the arrows indicating current
         upperArrowCenterPoint = new Point2D.Double( -100, 0 );
         lowerArrowCenterPoint = new Point2D.Double( -100, bounds.getHeight() );
-        upperArrow = new Arrow( new Point2D.Double (-100, - 20),
-                                new Point2D.Double( 0, -20), 15, 15, 3 );
-        upperArrowGraphic = new RegisterablePNode( new PPath( upperArrow.getShape() ));
-        addChild( upperArrowGraphic);
+        upperArrow = new Arrow( new Point2D.Double( -100, - 20 ),
+                                new Point2D.Double( 0, -20 ), 15, 15, 3 );
+        upperArrowGraphic = new RegisterablePNode( new PPath( upperArrow.getShape() ) );
+        addChild( upperArrowGraphic );
 
-        lowerArrow = new Arrow( new Point2D.Double ( 0, 20),
-                                new Point2D.Double( -100, 20), 15, 15, 3 );
-        lowerArrowGraphic = new RegisterablePNode( new PPath( lowerArrow.getShape() ));
-        addChild( lowerArrowGraphic);
+        lowerArrow = new Arrow( new Point2D.Double( 0, 20 ),
+                                new Point2D.Double( -100, 20 ), 15, 15, 3 );
+        lowerArrowGraphic = new RegisterablePNode( new PPath( lowerArrow.getShape() ) );
+        addChild( lowerArrowGraphic );
 
         // Graphics for the "I" characters indicating current
         PText lowerI = new PText( "I" );
@@ -94,21 +94,21 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
 
         double maxArrowLength = 200;
         double minArrowLength = 20;
-        double arrowLength = (maxArrowLength - minArrowLength) * fractionMaxCurrent + minArrowLength;
+        double arrowLength = ( maxArrowLength - minArrowLength ) * fractionMaxCurrent + minArrowLength;
         upperArrow.setTailLocation( new Point2D.Double( upperArrowCenterPoint.getX() + arrowLength / 2,
-                                                        upperArrowCenterPoint.getY() ));
+                                                        upperArrowCenterPoint.getY() ) );
         upperArrow.setTipLocation( new Point2D.Double( upperArrowCenterPoint.getX() - arrowLength / 2,
-                                                        upperArrowCenterPoint.getY() ));
+                                                       upperArrowCenterPoint.getY() ) );
         removeChild( upperArrowGraphic );
-        upperArrowGraphic = new RegisterablePNode( new PPath( upperArrow.getShape() ));
+        upperArrowGraphic = new RegisterablePNode( new PPath( upperArrow.getShape() ) );
         addChild( upperArrowGraphic );
 
         lowerArrow.setTipLocation( new Point2D.Double( lowerArrowCenterPoint.getX() + arrowLength / 2,
-                                                        lowerArrowCenterPoint.getY() ));
+                                                       lowerArrowCenterPoint.getY() ) );
         lowerArrow.setTailLocation( new Point2D.Double( lowerArrowCenterPoint.getX() - arrowLength / 2,
-                                                        lowerArrowCenterPoint.getY() ));
+                                                        lowerArrowCenterPoint.getY() ) );
         removeChild( lowerArrowGraphic );
-        lowerArrowGraphic = new RegisterablePNode( new PPath( lowerArrow.getShape() ));
+        lowerArrowGraphic = new RegisterablePNode( new PPath( lowerArrow.getShape() ) );
         addChild( lowerArrowGraphic );
     }
 

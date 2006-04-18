@@ -12,10 +12,9 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.quantum.model.PhotonAtomCollisonExpert;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CollisionAgent
@@ -25,7 +24,7 @@ import java.util.ArrayList;
  */
 public class CollisionAgent implements ModelElement {
     private MriModel model;
-    private List collisionExperts = new ArrayList( );
+    private List collisionExperts = new ArrayList();
     private PhotonDipoleExpert photonDipoleCollisonExpert;
 
     public CollisionAgent( MriModel model ) {

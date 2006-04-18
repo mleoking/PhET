@@ -10,20 +10,18 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.RadiowaveSource;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.colorado.phet.mri.model.RadiowaveSource;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.common.view.ModelSlider;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.geom.Rectangle2D;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 /**
@@ -60,25 +58,37 @@ public class RadiowaveSourceGraphic extends PNode {
         addChild( boxGraphic );
 
         // Frequency control
-        final ModelSlider freqCtrl = new ModelSlider( "Frequency", "Hz", 1E9, 100E9, 1E9, new DecimalFormat( "0.0E0" ) );
+        final ModelSlider freqCtrl = new ModelSlider( "Frequency",
+                                                      "Hz",
+                                                      MriConfig.MIN_FEQUENCY,
+                                                      MriConfig.MAX_FEQUENCY,
+                                                      MriConfig.MIN_FEQUENCY,
+                                                      new DecimalFormat( "0.0E0" ) );
         freqCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setFrequency( freqCtrl.getValue() );
             }
         } );
+        radiowaveSource.setFrequency( freqCtrl.getValue() );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
         freqPSwing.setOffset( radiowaveSource.getLength() / 4 - freqPSwing.getBounds().getWidth() / 2, 15 );
         addChild( freqPSwing );
 
         // Power control
-        final ModelSlider powerCtrl = new ModelSlider( "Power", "???", 0, 1E6, 0, new DecimalFormat( "0.0E0" ) );
+        final ModelSlider powerCtrl = new ModelSlider( "Power",
+                                                       "???",
+                                                       0,
+                                                       MriConfig.MAX_POWER,
+                                                       0,
+                                                       new DecimalFormat( "0.0E0" ) );
         powerCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setPower( powerCtrl.getValue() );
             }
         } );
+        radiowaveSource.setPower( powerCtrl.getValue() );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
-        powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 15);
+        powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 15 );
         addChild( powerPSwing );
     }
 }
