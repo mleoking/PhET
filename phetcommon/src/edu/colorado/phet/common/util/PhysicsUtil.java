@@ -47,7 +47,7 @@ public class PhysicsUtil {
      * Determines the energy, in EV, of radiation with a specified wavelength
      *
      * @param wavelength in nm
-     * @return
+     * @return energy in EV
      */
     static public double wavelengthToEnergy( double wavelength ) {
         return PLANCK * LIGHT_SPEED / wavelength / JOULES_PER_EV * NM_PER_M;
@@ -57,30 +57,49 @@ public class PhysicsUtil {
      * Determines the wavelength, in nm, of radiation with a specified energy
      *
      * @param ev energy of the radiation, in ev
-     * @return
+     * @return wavelength in nm
      */
     static public double energyToWavelength( double ev ) {
         return ( PLANCK * LIGHT_SPEED / ev ) * EV_PER_JOULE * NM_PER_M;
     }
 
     /**
-     * Returns the frequency of RF radiation of a specified wavelength
+     * Returns the frequency of EM radiation of a specified wavelength
      *
      * @param wavelength Wavelength, in nm
-     * @return
+     * @return frequency in Hz
      */
     static public double wavelengthToFrequency( double wavelength ) {
         return LIGHT_SPEED * NM_PER_M / wavelength;
     }
 
     /**
-     * Returns the wavelength, in nm, of RF radiation of a specified
+     * Returns the wavelength, in nm, of EM radiation of a specified
      * frequency
      *
-     * @param frequency
-     * @return
+     * @param frequency in Hz
+     * @return wavelength in nm
      */
     static public double frequencyToWavelength( double frequency ) {
         return LIGHT_SPEED * NM_PER_M / frequency;
+    }
+
+    /**
+     * Returns the energy, in EV, of EM radiation of a specified frequency
+     *
+     * @param frequency in Hz
+     * @return energy in EV
+     */
+    static public double frequencyToEnergy( double frequency ) {
+        return wavelengthToEnergy( frequencyToWavelength( frequency ));
+    }
+
+    /**
+     * Returns the frequency, in Hz, of EM radiation of a specified energy
+     * @param energy
+     * @return frequency in Hz
+     */
+    static public double energyToFrequency( double energy ) {
+        return wavelengthToFrequency( energyToWavelength( energy ));
     }
 }
