@@ -10,15 +10,17 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.model.clock.*;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mri.MriConfig;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -40,7 +42,7 @@ public class Electromagnet extends Particle {
         this.bounds = new Rectangle2D.Double( position.getX() - width / 2,
                                               position.getY() - height / 2,
                                               width,
-                                              height);
+                                              height );
         fieldChanger = new FieldChangerA( clock, MriConfig.CURRENT_TO_FIELD_FACTOR, MriConfig.CURRENT_TO_FIELD_FACTOR );
     }
 
@@ -89,7 +91,7 @@ public class Electromagnet extends Particle {
         }
 
         public void clockTicked( ClockEvent clockEvent ) {
-            double diff  = target-getFieldStrength();
+            double diff = target - getFieldStrength();
             if( Math.abs( diff ) > eps ) {
                 double dField = dB * MathUtil.getSign( diff );
                 setFieldStrength( getFieldStrength() + dField );

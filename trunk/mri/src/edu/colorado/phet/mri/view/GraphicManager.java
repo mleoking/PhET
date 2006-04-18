@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
@@ -61,7 +61,7 @@ public class GraphicManager extends MriModel.ChangeAdapter {
             graphic = new ElectromagnetGraphic( (Electromagnet)modelElement );
         }
         if( modelElement instanceof RadiowaveSource ) {
-            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas  );
+            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
         }
         if( modelElement instanceof Photon ) {
             graphic = PhotonGraphic.getInstance( (Photon)modelElement );

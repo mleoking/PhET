@@ -12,12 +12,12 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.quantum.model.PhotonSource;
-import edu.colorado.phet.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.quantum.model.PhotonSource;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * RadiowaveSource
@@ -32,7 +32,10 @@ public class RadiowaveSource_org implements ModelElement, PhotonSource {
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
-    public static class Orientation{};
+    public static class Orientation {
+    }
+
+    ;
     public static RadiowaveSource_org.Orientation VERTICAL;
     public static RadiowaveSource_org.Orientation HORIZONTAL;
 

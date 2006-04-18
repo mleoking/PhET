@@ -12,9 +12,9 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.view.*;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.view.GraphicManager;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 

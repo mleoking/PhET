@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.mri;
 
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
-import edu.colorado.phet.common.util.PhysicsUtil;
-import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
@@ -37,6 +37,9 @@ public class MriConfig {
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
 
     // Physical parameters
+    public static final double MIN_FEQUENCY = 40E6;
+    public static final double MAX_FEQUENCY = 80E6;
+
     public static final double MAX_FADING_HEIGHT = 50;
     // Conversion factor between current and B field
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
