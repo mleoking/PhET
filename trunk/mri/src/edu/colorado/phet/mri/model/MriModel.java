@@ -49,7 +49,8 @@ public class MriModel extends BaseModel {
      *
      * @param clock
      */
-    public MriModel( IClock clock ) {
+    public MriModel( IClock clock, Rectangle2D bounds ) {
+        this.bounds = bounds;
 
         // Sample Chamber
         sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
@@ -73,6 +74,7 @@ public class MriModel extends BaseModel {
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
+//                                               10,
                                                MriConfig.SAMPLE_CHAMBER_WIDTH,
                                                new Vector2D.Double( 0, -1 ));
         addModelElement( radiowaveSource );
@@ -185,6 +187,14 @@ public class MriModel extends BaseModel {
 
     protected void stepInTime( double dt ) {
         super.stepInTime( dt );
+
+        List photons = getPhotons();
+        for( int i = 0; i < photons.size(); i++ ) {
+            Photon photon = (Photon)photons.get( i );
+            if( !getBounds().contains( photon.getPosition() )) {
+                removeModelElement( photon );
+            }
+        }
     }
 
 

@@ -19,6 +19,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 /**
@@ -39,7 +40,7 @@ public class MriModuleA extends Module {
     public MriModuleA() {
         super( name, new SwingClock( delay, dt ) );
 
-        MriModel model = new MriModel( getClock() );
+        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1024, 768 ) );
         setModel( model );
 
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
@@ -64,6 +65,7 @@ public class MriModuleA extends Module {
 
     /**
      * Creates a number of dipoles and places them at random locations within the sample chamber
+     *
      * @param numDipoles
      * @param sampleChamber
      * @param model
@@ -72,12 +74,19 @@ public class MriModuleA extends Module {
         Random random = new Random();
         for( int i = 0; i < numDipoles; i++ ) {
             double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-            double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60) + sampleChamber.getBounds().getY() + 20;
+            double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
             Dipole dipole = new Dipole();
             dipole.setPosition( x, y );
-            Spin spin =  i % 2 == 0 ? Spin.UP : Spin.DOWN;
+            Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
             dipole.setSpin( spin );
             model.addModelElement( dipole );
         }
+
+//        Dipole dipole = new Dipole();
+//        dipole.setPosition( ( sampleChamber.getBounds().getWidth() / 2 ) + sampleChamber.getBounds().getX(),
+//                            sampleChamber.getBounds().getY() + 100 );
+//        dipole.setSpin( Spin.DOWN );
+//        model.addModelElement( dipole );
+
     }
 }

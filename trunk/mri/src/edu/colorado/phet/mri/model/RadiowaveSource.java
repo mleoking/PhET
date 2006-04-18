@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.colorado.phet.quantum.model.PhotonEmissionListener;
@@ -30,7 +31,7 @@ import java.util.EventListener;
  */
 public class RadiowaveSource extends Beam {
     private static final double MAX_POWER = MriConfig.MAX_POWER;
-    private static final double DEFAULT_FREQUENCY = 1E9;
+    private static final double DEFAULT_FREQUENCY = 2E6;
     private static final double DEFAULT_WAVELENGTH = 1 / DEFAULT_FREQUENCY;
 
     //----------------------------------------------------------------
@@ -52,8 +53,13 @@ public class RadiowaveSource extends Beam {
         this.location = location;
         this.length = length;
 
+//        setPhotonsPerSecond( 0.01 / ( MriConfig.DT / 1000 ) );
         setPhotonsPerSecond( 1 / ( MriConfig.DT / 1000 ) );
         setWavelength( 500E-9 );
+
+        double freq = MriConfig.MAX_FADING_COIL_FIELD * SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO / 2;
+        double wavelength = PhysicsUtil.frequencyToWavelength( freq );
+        setWavelength( wavelength );
     }
 
     public Orientation getOrientation() {

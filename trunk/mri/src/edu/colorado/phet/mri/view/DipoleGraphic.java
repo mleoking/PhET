@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 
 /**
@@ -53,14 +55,9 @@ public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
 
 
     public void update() {
-        setRegistrationPoint( getBounds().getX() + getBounds().getWidth() / 2,
-                              getBounds().getY() + getBounds().getHeight() / 2);
+        BufferedImage newImage = BufferedImageUtils.getRotatedImage( baseImage, dipole.getOrientation());
+        baseDipoleGraphic.setImage( newImage );
+        setRegistrationPoint( newImage.getWidth()/2, newImage.getHeight( )/2 );
         setOffset( dipole.getPosition());
-//        AffineTransform rTx = AffineTransform.getRotateInstance( dipole.getBaseOrientation() );
-//        AffineTransformOp txOp = new AffineTransformOp( rTx, AffineTransformOp.TYPE_BILINEAR );
-
-        BufferedImage bi = BufferedImageUtils.getRotatedImage( baseImage, dipole.getOrientation());
-        baseDipoleGraphic.setImage( bi );
-//        baseDipoleGraphic.setImage( txOp.filter( baseImage, null ));
     }
 }

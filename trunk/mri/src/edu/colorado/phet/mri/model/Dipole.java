@@ -48,6 +48,7 @@ public class Dipole extends Body implements Collidable {
 
     public interface ClassListener extends EventListener {
         void instanceCreated( Dipole dipole );
+
         void instanceDestroyed( Dipole dipole );
     }
 
@@ -63,16 +64,26 @@ public class Dipole extends Body implements Collidable {
     private Spin spin;
     private double orientation;
     private CollidableAdapter collidableAdapter;
+    private IBehavior orientationBehavior;
 
     public Dipole() {
         collidableAdapter = new CollidableAdapter( this );
+        orientationBehavior = new KinematicBehavior( this );
 
         classListenerProxy.instanceCreated( this );
     }
 
+    double oldOrientation;
     public void stepInTime( double dt ) {
         double baseOrientation = ( spin == Spin.UP ? 1 : -1 ) * Math.PI / 2;
-        setOrientation( baseOrientation + precession * random.nextDouble() * MathUtil.nextRandomSign() );
+        if( oldOrientation != baseOrientation ) {
+            orientationBehavior.startMovingNow();
+            oldOrientation = baseOrientation;
+        }
+//        setOrientation( baseOrientation + precession * random.nextDouble() * MathUtil.nextRandomSign() );
+        Vector2D vect = new Vector2D.Double( 1, 0 ).rotate( baseOrientation );
+        orientationBehavior.setOrientation( vect, dt );
+
         notifyObservers();
     }
 
@@ -140,11 +151,11 @@ public class Dipole extends Body implements Collidable {
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-    public void addChangeListener ( ChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener ( ChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
 
@@ -161,6 +172,139 @@ public class Dipole extends Body implements Collidable {
     public interface ChangeListener extends EventListener {
         public void orientationChanged( ChangeEvent event );
     }
+
+    //----------------------------------------------------------------------------
+    // Behaviors
+    //----------------------------------------------------------------------------
+
+    /**
+     * IBehavior is the interface implemented by all Dipole behaviors.
+     */
+    private interface IBehavior {
+        /*
+         * Sets the Dipole needle direction.
+         *
+         * @param fieldVector the B-field vector at the Dipole location
+         * @param dt time step, in simulation clock ticks
+         */
+        public void setOrientation( Vector2D fieldVector, double dt );
+
+        /*
+         * Starts the Dipole needle moving immediately.
+         */
+        public void startMovingNow();
+    }
+
+    /**
+     * AbstractBehavior contains a base implementation shared by all behaviors.
+     */
+    private static abstract class AbstractBehavior implements IBehavior {
+
+        private Dipole _compassModel;
+
+        public AbstractBehavior( Dipole compassModel ) {
+            super();
+            _compassModel = compassModel;
+        }
+
+        public Dipole getCompass() {
+            return _compassModel;
+        }
+
+        public abstract void setOrientation( Vector2D fieldVector, double dt );
+
+        public void startMovingNow() { }
+    }
+
+    /**
+     * SimpleBehavior tracks the B-field exactly.
+     */
+    private static class SimpleBehavior extends AbstractBehavior {
+
+        public SimpleBehavior( Dipole compassModel ) {
+            super( compassModel );
+        }
+
+        public void setOrientation( Vector2D fieldVector, double dt ) {
+            getCompass().setOrientation( fieldVector.getAngle() );
+        }
+    }
+
+    /**
+     * KinematicBehavior rotates the compass needle using the Verlet algorithm
+     * to mimic rotational kinematics.  The needle must overcome inertia, and it has
+     * angular velocity and angular acceleration. This causes the needle to accelerate
+     * at it starts to move, and to wobble as it comes to rest.
+     */
+    private static class KinematicBehavior extends AbstractBehavior {
+
+        /* Change these at your peril. */
+        private static final double SENSITIVITY = 0.003;
+        private static final double DAMPING = 0.025;
+        private static final double THRESHOLD = Math.toRadians( 0.2 );
+
+        // Angle of needle orientation (in radians)
+        private double _theta;
+        // Angular velocity, the change in angle over time.
+        private double _omega;
+        // Angular accelaration, the change in angular velocity over time.
+        private double _alpha;
+
+        public KinematicBehavior( Dipole compassModel ) {
+            super( compassModel );
+            _theta = _omega = _alpha = 0.0;
+        }
+
+        public void setOrientation( Vector2D fieldVector, double dt ) {
+
+            double magnitude = fieldVector.getMagnitude();
+            double angle = fieldVector.getAngle();
+
+            // Difference between the field angle and the compass angle.
+            double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
+
+            if ( Math.abs( phi ) < THRESHOLD ) {
+                // When the difference between the field angle and the compass angle is insignificant,
+                // simply set the angle and consider the compass to be at rest.
+                _theta = angle;
+                _omega = 0;
+                _alpha = 0;
+                getCompass().setOrientation( _theta );
+            }
+            else {
+                // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
+
+                // Step 1: orientation
+                double thetaOld = _theta;
+                double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
+                _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
+                if ( _theta != thetaOld ) {
+                    // Set the compass needle direction.
+                    getCompass().setOrientation( _theta );
+                }
+
+                // Step 2: angular accelaration
+                double omegaTemp = _omega + ( alphaTemp * dt );
+                _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
+
+                // Step 3: angular velocity
+                _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
+            }
+        }
+
+        /**
+         * Workaround to get the compass moving immediately.
+         * In some situations, such as when the magnet polarity is flipped,
+         * it can take quite awhile for the magnet to start moving.
+         * So we give the compass needle a small amount of
+         * angular velocity to get it going.
+         */
+        public void startMovingNow() {
+            _omega = 0.03; // adjust as needed for desired behavior
+        }
+    }
+
+
 
     //----------------------------------------------------------------
     // Design & debug methods

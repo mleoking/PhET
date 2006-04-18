@@ -203,7 +203,8 @@ public class MonitorPanel extends PhetPCanvas {
         double heightFractionUsed = 0.9;
         double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
-        double fractionMaxField = Math.min( model.getSampleMaterial().getMu() * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
+        double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
+//        double fractionMaxField = Math.min( model.getSampleMaterial().getMu() * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
         double centerY = getHeight() / 2 + imageReserveSpace;
         lowerLine.setPositionY( centerY + offsetY );
