@@ -214,6 +214,13 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         }
     }
     
+    /**
+     * Sets the mode for this plot.
+     * This plot has 2 modes -- it can be either the "Wave Function" plot
+     * or the "Probability Density" plot.
+     * 
+     * @param mode MODE_WAVE_FUNCTION or MODE_PROBABILITY_DENSITY
+     */
     public void setMode( int mode ) {
         ValueAxis yAxis = getRangeAxis();
         if ( mode == MODE_WAVE_FUNCTION ) {
