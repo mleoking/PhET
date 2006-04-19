@@ -116,6 +116,9 @@ public class BSConstants {
     // Wave Function
     public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
     
+    // Probability Density
+    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 2 );
+    
     // Position
     public static final Range POSITION_MODEL_RANGE = new Range( -20, 20 ); // nm
     public static final Range POSITION_VIEW_RANGE = new Range( -4, 4 ); // nm
