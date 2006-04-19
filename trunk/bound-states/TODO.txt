@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - square wells don't look square
 - SamM says that harmonic oscillator potential curve looks too wide
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
-- scale position axis to fit excited portion of wavefunction
 - cache wavefunction solutions
 
 MEDIUM PRIORITY:
@@ -25,6 +24,7 @@ MEDIUM PRIORITY:
 - different method of solving when multi-wells are spaced far apart
 
 LOW PRIORITY:
+- scale position axis to fit excited portion of wavefunction (might not do this)
 - Spanish translations
 - use fewer points (bigger dx) for calculating eigenstates
 - commandline options for choosing which modules to display
