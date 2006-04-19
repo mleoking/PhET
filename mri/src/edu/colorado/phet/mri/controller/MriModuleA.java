@@ -14,8 +14,10 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.view.GraphicManager;
+import edu.colorado.phet.mri.view.ModelElementGraphicManager;
+import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -30,9 +32,26 @@ import java.util.Random;
  */
 public class MriModuleA extends Module {
 
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
     private static String name = "Module A";
     private static int delay = (int)( 1000 / MriConfig.FPS );
     private static double dt = MriConfig.DT;
+    private ModelElementGraphicManager graphicsManager;
+
+    public static class EmRep {
+        private EmRep() {
+        }
+    }
+
+    public static EmRep PHOTON_VIEW = new EmRep();
+    public static EmRep WAVE_VIEW = new EmRep();
+
+    //----------------------------------------------------------------
+    // Instance methods and fields
+    //----------------------------------------------------------------
 
     /**
      * Constructor
@@ -55,7 +74,7 @@ public class MriModuleA extends Module {
         PNode worldNode = new PNode();
         simPanel.addWorldChild( worldNode );
 
-        GraphicManager graphicsManager = new GraphicManager( simPanel, worldNode );
+        graphicsManager = new ModelElementGraphicManager( simPanel, worldNode );
         graphicsManager.scanModel( model );
         model.addListener( graphicsManager );
 
@@ -88,5 +107,17 @@ public class MriModuleA extends Module {
 //        dipole.setSpin( Spin.DOWN );
 //        model.addModelElement( dipole );
 
+    }
+
+
+    public void setEmRep( EmRep emRep ) {
+        if( emRep == WAVE_VIEW ) {
+            graphicsManager.setAllOfTypeVisible( PhotonGraphic.class, false );
+            graphicsManager.setAllOfTypeVisible( PlaneWaveGraphic.class, true );
+        }
+        else if( emRep == PHOTON_VIEW ) {
+            graphicsManager.setAllOfTypeVisible( PhotonGraphic.class, true );
+            graphicsManager.setAllOfTypeVisible( PlaneWaveGraphic.class, false );
+        }
     }
 }

@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.util.IScalar;
 import edu.colorado.phet.quantum.model.Beam;
 
 import java.awt.geom.Point2D;
@@ -23,7 +24,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class RadiowaveSource extends Beam {
+public class RadiowaveSource extends Beam implements IScalar {
     private static final double MAX_POWER = MriConfig.MAX_POWER;
     private static final double DEFAULT_FREQUENCY = 2E6;
     private static final double DEFAULT_WAVELENGTH = PhysicsUtil.frequencyToWavelength( DEFAULT_FREQUENCY );
@@ -36,7 +37,6 @@ public class RadiowaveSource extends Beam {
     public static class Orientation {
     }
 
-    ;
     public static Orientation VERTICAL;
     public static Orientation HORIZONTAL;
 
@@ -45,6 +45,9 @@ public class RadiowaveSource extends Beam {
     //----------------------------------------------------------------
 
     private double power;
+    private double currentAmplitude;
+    private double runningTime;
+    private double period = 100;
 
     public RadiowaveSource( Point2D location, double length, Vector2D direction ) {
         super( DEFAULT_WAVELENGTH, location, length, length, direction, MAX_POWER, 0 );
@@ -67,6 +70,17 @@ public class RadiowaveSource extends Beam {
         return direction;
     }
 
+    public double getValue() {
+        return currentAmplitude;
+    }
+
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        runningTime += dt;
+        // amplitude is always >= 0
+        currentAmplitude = power * 0.5 * ( 1 + Math.sin( ( runningTime % period ) / period * Math.PI * 2 ) );
+    }
+
     //----------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------
@@ -76,6 +90,9 @@ public class RadiowaveSource extends Beam {
         setPhotonsPerSecond( MAX_PHOTONS_PER_SEC * power / MAX_POWER );
     }
 
+    public double getPower() {
+        return power;
+    }
 
     public double getFrequency() {
         return PhysicsUtil.wavelengthToFrequency( getWavelength() );

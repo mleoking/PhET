@@ -86,7 +86,7 @@ public class RadiowaveSourceGraphic extends PNode {
                 radiowaveSource.setPower( powerCtrl.getValue() );
             }
         } );
-        radiowaveSource.setPower( powerCtrl.getValue() );
+        powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
         powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 15 );
         addChild( powerPSwing );

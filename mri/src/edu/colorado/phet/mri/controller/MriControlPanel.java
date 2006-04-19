@@ -41,6 +41,7 @@ public class MriControlPanel extends ControlPanel {
         addControl( monitorPanel );
         addControl( new BFieldGraphicPanel( model.getLowerMagnet() ) );
         addControl( new SampleMaterialSelector( model ) );
+        addControl( new EmRepSelector( module ) );
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );
 //        addControl( new MonitorPanelRepControl( monitorPanel ) );
