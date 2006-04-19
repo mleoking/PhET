@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - cache wavefunction solutions
 
 MEDIUM PRIORITY:
+- verify that datasets are updated only when absolutely necessary
 - drag handles for each potential type (all slightly different)
 - width and spacing sliders in BSSquareDialog don't interact like they should
 - disable the superposition button if no eigenstates are found
