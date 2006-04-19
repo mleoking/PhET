@@ -13,10 +13,13 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.text.DecimalFormat;
 
 /**
  * BFieldGraphicPanel
@@ -27,27 +30,47 @@ import java.awt.event.ComponentEvent;
 public class BFieldGraphicPanel extends PhetPCanvas {
     private RegisterablePNode indicatorGraphic;
     private double maxArrowFractionOfHeight;
+    private JTextField readout;
+    private DecimalFormat readoutFormat = new DecimalFormat( "0.00" );
 
     public BFieldGraphicPanel( Electromagnet magnet ) {
         setPreferredSize( new Dimension( 200, 200 ) );
         maxArrowFractionOfHeight = 0.9;
         final BFieldIndicator indicator = new BFieldIndicator( magnet, getPreferredSize().getHeight() * maxArrowFractionOfHeight );
         indicatorGraphic = new RegisterablePNode( indicator );
-
-        magnet.addChangeListener( new Electromagnet.ChangeListener() {
-            public void stateChanged( Electromagnet.ChangeEvent event ) {
-                updateRegistrationPoint();
-            }
-        } );
         addWorldChild( indicatorGraphic );
+
+        // Text readout for field
+        readout = new JTextField( 6 );
+        readout.setHorizontalAlignment( JTextField.CENTER );
+        final PSwing readoutPSwing = new PSwing( this, readout );
+        readoutPSwing.setOffset( getWidth() - 50, getHeight() / 2 );
+        readoutPSwing.setOffset( getWidth() - 50, getHeight() / 2 );
+        addWorldChild( readoutPSwing );
+        updateReadout( magnet );
 
         // When the panel is resized (or first displayed) update the placement of the arror
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateRegistrationPoint();
                 indicator.setMaxLength( getHeight() * maxArrowFractionOfHeight );
+                readoutPSwing.setOffset( getWidth() - 70, getHeight() / 2 );
             }
         } );
+
+        // Hook up listeners to the model
+        magnet.addChangeListener( new Electromagnet.ChangeListener() {
+            public void stateChanged( Electromagnet.ChangeEvent event ) {
+                updateRegistrationPoint();
+                updateReadout( event.getElectromagnet() );
+            }
+        } );
+
+    }
+
+    private void updateReadout( Electromagnet magnet ) {
+        String valueStr = readoutFormat.format( magnet.getFieldStrength() );
+        readout.setText( valueStr + " Tesla" );
     }
 
     private void updateRegistrationPoint() {
