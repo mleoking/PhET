@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- why is BSHarmonicOscillator.getEnergyAt called while mousing over (hiliting) eigenstates?
+- SamM says that harmonic oscillator potential curve looks too wide
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - scale position axis to fit excited portion of wavefunction
 - cache wavefunction solutions
