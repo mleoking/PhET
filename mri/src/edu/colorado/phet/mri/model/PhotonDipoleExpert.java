@@ -85,8 +85,19 @@ public class PhotonDipoleExpert implements CollisionExpert {
 
                 Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.SPEED );
                 double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
-                Photon photon = Photon.create( wavelength, dipole.getPosition(), velocity );
+                MriEmittedPhoton photon = new MriEmittedPhoton();
+                photon.setWavelength( wavelength );
+                photon.setPosition( dipole.getPosition() );
+                photon.setVelocity( velocity );
+//                Photon photon = Photon.create( wavelength, dipole.getPosition(), velocity );
                 model.addModelElement( photon );
+
+                PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( photon,
+                                                                       photon.getPosition(),
+                                                                       100,
+                                                                       PlaneWaveMedium.EAST,
+                                                                       10 );
+                model.addModelElement( planeWaveMedium );
             }
         }
     }
