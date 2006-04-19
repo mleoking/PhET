@@ -29,6 +29,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.module.BSManyModule;
+import edu.colorado.phet.boundstates.view.BSBottomPlot;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -46,10 +47,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     //----------------------------------------------------------------------------
     // Class data (public)
     //----------------------------------------------------------------------------
-    
-    // "Display Type" choices
-    public static final int DISPLAY_WAVE_FUNCTION = 0;
-    public static final int DISPLAY_PROBABIITY_DENSITY = 1;
     
     private static final int INDENTATION = 10; // pixels
     
@@ -78,7 +75,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Energy controls
     private BSWellComboBox _wellTypeComboBox;
     private SliderControl _numberOfWellsSlider;
-    private BSEigenstateComboBox _eigenstateComboBox;
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
 
@@ -134,10 +130,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _numberOfWellsSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             _numberOfWellsSlider.getSlider().setSnapToTicks( true );
             
-            // Eigenstate 
-            JLabel eigenstateLabel = new JLabel( SimStrings.get( "label.eigenstate" ) );
-            _eigenstateComboBox = new BSEigenstateComboBox( 6, 0 );
-            
             // Configure button
             _configureEnergyButton = new JButton( SimStrings.get( "button.configureEnergy" ) );
 
@@ -157,11 +149,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
             row++;
             layout.addComponent( _numberOfWellsSlider, row, col );
             row++;
-            // XXX remove eigenstate selection control permanently?
-//            layout.addComponent( eigenstateLabel, row, col );
-//            row++;
-//            layout.addComponent( _eigenstateComboBox, row, col );
-//            row++;
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
             layout.addComponent( _superpositionButton, row, col );
@@ -170,12 +157,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
             energyControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
 
-        // Wave Function controls
-        JPanel waveFunctionControlsPanel = new JPanel();
+        // Bottom chart controls
+        JPanel bottomChartControlsPanel = new JPanel();
         {          
             // Title
-            String title = SimStrings.get( "title.waveFunctionChartControls" );
-            waveFunctionControlsPanel.setBorder( new TitledBorder( title ) );
+            String title = SimStrings.get( "title.bottomChartControls" );
+            bottomChartControlsPanel.setBorder( new TitledBorder( title ) );
             
             // Display 
             JPanel displayPanel = new JPanel();
@@ -184,14 +171,14 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JLabel label = new JLabel( SimStrings.get( "label.display" ) );
 
                 // Radio buttons
-                _waveFunctionRadioButton = new JRadioButton( SimStrings.get( "choice.display.waveFunction" ) );
                 _probabilityDensityRadioButton = new JRadioButton( SimStrings.get( "choice.display.probabilityDensity" ) );
+                _waveFunctionRadioButton = new JRadioButton( SimStrings.get( "choice.display.waveFunction" ) );
 
                 // Button group
                 ButtonGroup buttonGroup = new ButtonGroup();
-                buttonGroup.add( _waveFunctionRadioButton );
                 buttonGroup.add( _probabilityDensityRadioButton );
-
+                buttonGroup.add( _waveFunctionRadioButton );
+                
                 // Layout
                 JPanel innerPanel = new JPanel();
                 EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -204,9 +191,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( label, row, col, 2, 1 );
                 row++;
                 col++;
-                layout.addComponent( _waveFunctionRadioButton, row, col );
-                row++;
                 layout.addComponent( _probabilityDensityRadioButton, row, col );
+                row++;
+                layout.addComponent( _waveFunctionRadioButton, row, col );
                 row++;
                 displayPanel.setLayout( new BorderLayout() );
                 displayPanel.add( innerPanel, BorderLayout.WEST );
@@ -276,8 +263,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             layout.setAnchor( GridBagConstraints.WEST );
             layout.addComponent( displayPanel, 0, 0 );
             layout.addComponent( viewPanel, 1, 0 );
-            waveFunctionControlsPanel.setLayout( new BorderLayout() );
-            waveFunctionControlsPanel.add( innerPanel, BorderLayout.WEST );
+            bottomChartControlsPanel.setLayout( new BorderLayout() );
+            bottomChartControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
         
         // Particle controls
@@ -317,7 +304,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
         {
             addControlFullWidth( energyControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
-            addControlFullWidth( waveFunctionControlsPanel );
+            addControlFullWidth( bottomChartControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addControlFullWidth( particleControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
@@ -420,25 +407,25 @@ public class BSControlPanel extends BSAbstractControlPanel {
         return (int) _numberOfWellsSlider.getValue();
     }
 
-    public void setDisplayType( int displayType ) {
-        if ( displayType == DISPLAY_WAVE_FUNCTION ) {
+    public void setBottomPlotMode( int mode ) {
+        if ( mode == BSBottomPlot.MODE_WAVE_FUNCTION ) {
             _waveFunctionRadioButton.setSelected( true );
         }
-        else if ( displayType == DISPLAY_PROBABIITY_DENSITY ) {
+        else if ( mode == BSBottomPlot.MODE_PROBABILITY_DENSITY ) {
             _probabilityDensityRadioButton.setSelected( true );
         }
         else {
-            throw new IllegalArgumentException( "invalid display type: " + displayType );
+            throw new IllegalArgumentException( "invalid mode: " + mode );
         }
         handleDisplaySelection();
     }
 
-    public int getDisplayType() {
-        int displayType = DISPLAY_WAVE_FUNCTION;
+    public int getBottomPlotMode() {
+        int mode = BSBottomPlot.MODE_WAVE_FUNCTION;
         if ( _probabilityDensityRadioButton.isSelected() ) {
-            displayType = DISPLAY_PROBABIITY_DENSITY;
+            mode = BSBottomPlot.MODE_PROBABILITY_DENSITY;
         }
-        return displayType;
+        return mode;
     }
 
     public void setRealSelected( boolean selected ) {
@@ -622,22 +609,18 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     private void handleDisplaySelection() {
         if ( _waveFunctionRadioButton.isSelected() ) {
+            _module.setBottomPlotMode( BSBottomPlot.MODE_WAVE_FUNCTION );
             _module.setRealVisible( _realCheckBox.isSelected() );
             _module.setImaginaryVisible( _imaginaryCheckBox.isSelected() );
             _module.setMagnitudeVisible( _magnitudeCheckBox.isSelected() );
             _module.setPhaseVisible( _phaseCheckBox.isSelected() );
-            _module.setProbabilityDensityVisible( false );
             _realCheckBox.setEnabled( true );
             _imaginaryCheckBox.setEnabled( true );
             _magnitudeCheckBox.setEnabled( true );
             _phaseCheckBox.setEnabled( true );
         }
         else if ( _probabilityDensityRadioButton.isSelected() ) {
-            _module.setRealVisible( false );
-            _module.setImaginaryVisible( false );
-            _module.setMagnitudeVisible( false );
-            _module.setPhaseVisible( false );
-            _module.setProbabilityDensityVisible( true );
+            _module.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY );
             _realCheckBox.setEnabled( false );
             _imaginaryCheckBox.setEnabled( false );
             _magnitudeCheckBox.setEnabled( false );

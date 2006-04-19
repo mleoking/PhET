@@ -26,7 +26,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 
 /**
  * BSCombinedChart is a "combined chart" (in JFreeChart terminology).
- * It combines plots for "Energy" and "Wave Function",
+ * It combines plots for "Energy" and "Wave Function / Probability Density",
  * and has them share a common x-axis for "Position".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -42,7 +42,7 @@ public class BSCombinedChart extends JFreeChart {
      * the subplots are added to the CombinedDomainXYPlot.
      */
     public static final int ENERGY_PLOT_INDEX = 0;
-    public static final int WAVE_FUNCTION_PLOT_INDEX = 1;
+    public static final int BOTTOM_PLOT_INDEX = 1;
         
     private static final boolean CREATE_LEGEND = false;
     private static final double CHART_SPACING = 25.0;
@@ -55,7 +55,7 @@ public class BSCombinedChart extends JFreeChart {
     //----------------------------------------------------------------------------
     
     private BSEnergyPlot _energyPlot;
-    private BSWaveFunctionPlot _waveFunctionPlot;
+    private BSBottomPlot _bottomPlot;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -82,10 +82,10 @@ public class BSCombinedChart extends JFreeChart {
         
         // Wave Function plot...
         {
-            _waveFunctionPlot = new BSWaveFunctionPlot();
-            _waveFunctionPlot.setDomainAxis( null );
-            _waveFunctionPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
-            _waveFunctionPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
+            _bottomPlot = new BSBottomPlot();
+            _bottomPlot.setDomainAxis( null );
+            _bottomPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
+            _bottomPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
         }
 
         // Common X axis...
@@ -111,7 +111,7 @@ public class BSCombinedChart extends JFreeChart {
 
             // Add the subplots, energy plot is twice the size of wave function plot.
             plot.add( _energyPlot, 2 );
-            plot.add( _waveFunctionPlot, 1 );
+            plot.add( _bottomPlot, 1 );
         }
     }
     
@@ -129,12 +129,12 @@ public class BSCombinedChart extends JFreeChart {
     }
     
     /**
-     * Gets a reference to the Wave Function plot.
+     * Gets a reference to the bottom plot.
      *
      * @return
      */
-    public BSWaveFunctionPlot getWaveFunctionPlot() {
-        return _waveFunctionPlot;
+    public BSBottomPlot getBottomPlot() {
+        return _bottomPlot;
     }
     
     /**
@@ -144,6 +144,6 @@ public class BSCombinedChart extends JFreeChart {
      */
     public void setColorScheme( BSColorScheme scheme ) {
         _energyPlot.setColorScheme( scheme );
-        _waveFunctionPlot.setColorScheme( scheme );
+        _bottomPlot.setColorScheme( scheme );
     }
 }

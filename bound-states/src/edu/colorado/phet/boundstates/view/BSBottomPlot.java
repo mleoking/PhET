@@ -13,12 +13,12 @@ package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -39,16 +39,19 @@ import edu.colorado.phet.jfreechart.FastPathRenderer;
 
 
 /**
- * BSWaveFunctionPlot is the Wave Function plot.
+ * BSBottomPlot does double-duty as both the "Wave Function" and "Probability Density" plot.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListener {
+public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    public static final int MODE_WAVE_FUNCTION = 0;
+    public static final int MODE_PROBABILITY_DENSITY = 1;
     
     // We provide sorted data, so turn off series autosort to improve performance.
     private static final boolean AUTO_SORT = false;
@@ -74,6 +77,9 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
     private int _probabilityDensityIndex;
     private int _hiliteIndex;
     
+    private String _waveFunctionLabel;
+    private String _probabilityDensityLabel;
+    
     // array of Point2D[], time-independent wave function solutions for eigenstates that have non-zero superposition coefficients
     private ArrayList _waveFunctionSolutions; 
     // array of Integer, indicies of eigenstates that have non-zero superposition coefficients
@@ -83,11 +89,12 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSWaveFunctionPlot() {
+    public BSBottomPlot() {
         super();
         
         // Labels
-        String waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
+        _waveFunctionLabel = SimStrings.get( "axis.waveFunction" );
+        _probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
         
         int index = 0;
               
@@ -171,7 +178,7 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
         BSPositionAxis xAxis = new BSPositionAxis();
         
         // Y (range) axis
-        NumberAxis yAxis = new NumberAxis( waveFunctionLabel );
+        NumberAxis yAxis = new NumberAxis( _waveFunctionLabel );
         yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
         yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
         yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
@@ -188,6 +195,8 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
         
         _waveFunctionSolutions = new ArrayList();
         _eigenstateIndicies = new ArrayList();
+        
+        setMode( MODE_WAVE_FUNCTION );
     }
     
     //----------------------------------------------------------------------------
@@ -202,6 +211,33 @@ public class BSWaveFunctionPlot extends XYPlot implements Observer, ClockListene
             _model = model;
             _model.addObserver( this );
             updateDatasets();
+        }
+    }
+    
+    public void setMode( int mode ) {
+        ValueAxis yAxis = getRangeAxis();
+        if ( mode == MODE_WAVE_FUNCTION ) {
+            yAxis.setLabel( _waveFunctionLabel );
+            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
+            setHiliteVisible( true );
+            setRealVisible( true );
+            setImaginaryVisible( true );
+            setMagnitudeVisible( true );
+            setPhaseVisible( true );
+            setProbabilityDensityVisible( false );
+        }
+        else if ( mode == MODE_PROBABILITY_DENSITY ) {
+            yAxis.setLabel( _probabilityDensityLabel );
+            yAxis.setRange( BSConstants.PROBABILITY_DENSITY_RANGE );
+            setHiliteVisible( false );
+            setRealVisible( false );
+            setImaginaryVisible( false );
+            setMagnitudeVisible( false );
+            setPhaseVisible( false );
+            setProbabilityDensityVisible( true );
+        }
+        else {
+            throw new IllegalArgumentException( "invalid mode: " + mode );
         }
     }
     

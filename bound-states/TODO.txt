@@ -5,13 +5,14 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- why is BSHarmonicOscillator.getEnergyAt called while mousing over (hiliting) eigenstates?
+- square wells don't look square
 - SamM says that harmonic oscillator potential curve looks too wide
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - scale position axis to fit excited portion of wavefunction
 - cache wavefunction solutions
 
 MEDIUM PRIORITY:
+- default to Probability Density
 - verify that datasets are updated only when absolutely necessary
 - drag handles for each potential type (all slightly different)
 - width and spacing sliders in BSSquareDialog don't interact like they should
@@ -53,6 +54,9 @@ MACINTOSH:
 
 
 DONE:
+(4/19/06) - change some labels in control panel because bottom change changes its identity
+(4/19/06) - change label and range on bottom chart when set to Probability Density
+(4/19/06) - rename BSWaveFunctionPlot to BSBottomPlot
 (4/17/06) - verify that view updates when clock is paused
 (4/17/06) - handle roundoff error in normalization of Superposition coefficients
 (4/17/06) - add a small bit of space about y-axis range on the Energy chart

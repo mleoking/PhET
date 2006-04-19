@@ -83,11 +83,11 @@ public class BSManyModule extends BSAbstractModule {
     
     // Plots
     private BSEnergyPlot _energyPlot;
-    private BSWaveFunctionPlot _waveFunctionPlot;
+    private BSBottomPlot _bottomPlot;
     
     // Nodes to draw plots separately from chart
     private XYPlotNode _energyPlotNode;
-    private XYPlotNode _waveFunctionPlotNode;
+    private XYPlotNode _bottomPlotNode;
 
     // Controls
     private BSControlPanel _controlPanel;
@@ -173,7 +173,7 @@ public class BSManyModule extends BSAbstractModule {
              * We'll add our data to those plots so that the chart changes dynamically.
              */
             _energyPlot = _chart.getEnergyPlot();
-            _waveFunctionPlot = _chart.getWaveFunctionPlot();
+            _bottomPlot = _chart.getBottomPlot();
         }
         else {
             /*
@@ -189,7 +189,7 @@ public class BSManyModule extends BSAbstractModule {
             _chartNode.setBuffered( true );
             
             _energyPlot = new BSEnergyPlot();
-            _waveFunctionPlot = new BSWaveFunctionPlot();
+            _bottomPlot = new BSBottomPlot();
 
             RenderingHints renderingHints = _chart.getRenderingHints();
             
@@ -198,15 +198,15 @@ public class BSManyModule extends BSAbstractModule {
             _energyPlotNode.setName( "energyPlotNode" ); // debug
             _parentNode.addChild( _energyPlotNode );
 
-            _waveFunctionPlotNode = new XYPlotNode( _waveFunctionPlot );
-            _waveFunctionPlotNode.setRenderingHints( renderingHints );
-            _waveFunctionPlotNode.setName( "waveFunctionPlotNode" ); // debug
-            _parentNode.addChild( _waveFunctionPlotNode );
+            _bottomPlotNode = new XYPlotNode( _bottomPlot );
+            _bottomPlotNode.setRenderingHints( renderingHints );
+            _bottomPlotNode.setName( "bottomPlotNode" ); // debug
+            _parentNode.addChild( _bottomPlotNode );
         }
         
         
         // Wave Function plot shows time-dependent data
-        getClock().addClockListener( _waveFunctionPlot );
+        getClock().addClockListener( _bottomPlot );
         
         //----------------------------------------------------------------------------
         // Control
@@ -275,7 +275,7 @@ public class BSManyModule extends BSAbstractModule {
         
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
         Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
-        Rectangle2D waveFunctionPlotBounds = _chartNode.localToGlobal( _chartNode.getWaveFunctionPlotBounds() );
+        Rectangle2D bottomPlotBounds = _chartNode.localToGlobal( _chartNode.getBottomPlotBounds() );
 
         // Plot nodes (these exist if JFreeChart is not drawing dynamic elements)
         {
@@ -283,9 +283,9 @@ public class BSManyModule extends BSAbstractModule {
                 _energyPlotNode.setOffset( 0, 0 );
                 _energyPlotNode.setDataArea( energyPlotBounds );
             }
-            if ( _waveFunctionPlotNode != null ) {
-                _waveFunctionPlotNode.setOffset( 0, 0 );
-                _waveFunctionPlotNode.setDataArea( waveFunctionPlotBounds );
+            if ( _bottomPlotNode != null ) {
+                _bottomPlotNode.setOffset( 0, 0 );
+                _bottomPlotNode.setDataArea( bottomPlotBounds );
             }
         }
 
@@ -378,14 +378,14 @@ public class BSManyModule extends BSAbstractModule {
         
         // View
         _energyPlot.setModel( _model );
-        _waveFunctionPlot.setModel( _model );
+        _bottomPlot.setModel( _model );
         _eigenstatesNode.setModel( _model );
         
         // Control
         _controlPanel.setWellType( _model.getWellType() );
         _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
         _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-        _controlPanel.setDisplayType( BSControlPanel.DISPLAY_WAVE_FUNCTION );
+        _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
@@ -407,7 +407,7 @@ public class BSManyModule extends BSAbstractModule {
         //XXX
         
         // Control panel
-        config.setDisplayType( _controlPanel.getDisplayType() );
+        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
@@ -435,7 +435,7 @@ public class BSManyModule extends BSAbstractModule {
         //XXX
         
         // Control panel
-        _controlPanel.setDisplayType( config.getDisplayType() );
+        _controlPanel.setBottomPlotMode( config.getBottomPlotMode() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
@@ -449,7 +449,7 @@ public class BSManyModule extends BSAbstractModule {
         _chart.setColorScheme( colorScheme );
         // Plots, in case we're drawing them separately from the chart...
         _energyPlot.setColorScheme( colorScheme );
-        _waveFunctionPlot.setColorScheme( colorScheme );
+        _bottomPlot.setColorScheme( colorScheme );
         // Control panel legend...
         _controlPanel.setColorScheme( colorScheme );
         // Legend above the charts...
@@ -559,23 +559,24 @@ public class BSManyModule extends BSAbstractModule {
     }
     
     public void setRealVisible( boolean visible ) {
-        _waveFunctionPlot.setRealVisible( visible );
+        _bottomPlot.setRealVisible( visible );
     }
     
     public void setImaginaryVisible( boolean visible ) {
-        _waveFunctionPlot.setImaginaryVisible( visible );
+        _bottomPlot.setImaginaryVisible( visible );
     }
     
     public void setMagnitudeVisible( boolean visible ) {
-        _waveFunctionPlot.setMagnitudeVisible( visible );
+        _bottomPlot.setMagnitudeVisible( visible );
     }
     
     public void setPhaseVisible( boolean visible ) {
-        _waveFunctionPlot.setPhaseVisible( visible );
+        _bottomPlot.setPhaseVisible( visible );
     }
     
-    public void setProbabilityDensityVisible( boolean visible ) {
-        _waveFunctionPlot.setProbabilityDensityVisible( visible );
+    public void setBottomPlotMode( int mode ) {
+        _chart.getBottomPlot().setMode( mode );
+        _bottomPlot.setMode( mode );
     }
     
     public void setParticleMass( double mass ) {
