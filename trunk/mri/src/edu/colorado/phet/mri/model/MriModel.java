@@ -73,9 +73,8 @@ public class MriModel extends BaseModel {
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
-//                                               10,
-MriConfig.SAMPLE_CHAMBER_WIDTH,
-new Vector2D.Double( 0, -1 ) );
+                                               MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                               new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
@@ -83,6 +82,14 @@ new Vector2D.Double( 0, -1 ) );
                 addModelElement( event.getPhoton() );
             }
         } );
+
+        // Add the wave medium that the radio wave source emits into
+        PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( radiowaveSource,
+                                                               radiowaveSource.getPosition(),
+                                                               radiowaveSource.getLength(),
+                                                               PlaneWaveMedium.NORTH,
+                                                               10 );
+        addModelElement( planeWaveMedium );
 
         // Create agent that will control the spin orientations of the dipoles
         dipoleOrientationAgent = new DipoleOrientationAgent( this );
@@ -168,6 +175,10 @@ new Vector2D.Double( 0, -1 ) );
     public void setSampleMaterial( SampleMaterial currentSampleMaterial ) {
         this.sampleMaterial = currentSampleMaterial;
         listenerProxy.sampleMaterialChanged( sampleMaterial );
+    }
+
+    public RadiowaveSource getRadiowaveSource() {
+        return radiowaveSource;
     }
 
     /**
