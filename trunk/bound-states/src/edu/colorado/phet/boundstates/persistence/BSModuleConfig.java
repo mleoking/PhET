@@ -32,7 +32,7 @@ public class BSModuleConfig implements BSSerializable {
     //XXX
     
     // Controls
-    private int _displayType;
+    private int _bottomPlotMode;
     private boolean _realSelected;
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
@@ -60,12 +60,12 @@ public class BSModuleConfig implements BSSerializable {
         return _clockRunning;
     }
 
-    public int getDisplayType() {
-        return _displayType;
+    public int getBottomPlotMode() {
+        return _bottomPlotMode;
     }
     
-    public void setDisplayType( int displayType ) {
-        _displayType = displayType;
+    public void setBottomPlotMode( int displayType ) {
+        _bottomPlotMode = displayType;
     }
     
     public boolean isRealSelected() {

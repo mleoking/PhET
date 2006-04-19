@@ -77,13 +77,13 @@ public class BSCombinedChartNode extends JFreeChartNode {
     }
     
     /**
-     * Gets the bounds of the "Wave Function" plot's drawing area.
+     * Gets the bounds of the bottom plot's drawing area.
      * The bounds are in the node's local coordinates.
      * 
      * @return
      */
-    public Rectangle2D getWaveFunctionPlotBounds() {
-        return getPlotBounds( BSCombinedChart.WAVE_FUNCTION_PLOT_INDEX );
+    public Rectangle2D getBottomPlotBounds() {
+        return getPlotBounds( BSCombinedChart.BOTTOM_PLOT_INDEX );
     }
     
     /**
