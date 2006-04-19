@@ -72,6 +72,12 @@ public class PhetRootPNode extends PNode {
         addChild( index, child );
     }
 
+    public void addWorldChild( int index, PNode graphic ) {
+        WorldChild worldChild = new WorldChild( graphic );
+        worldChild.setTransform( worldNode.getTransform() );
+        addChild( index, worldChild );
+    }
+
     /**
      * Adds the child to the world.
      *

@@ -124,13 +124,12 @@ public class PhetPCanvas extends PSwingCanvas {
         phetRootNode.removeChild( node );
     }
 
-    /**
-     * This may become deprecated (just use phetRootNode.removeChild)
-     *
-     * @param graphic
-     */
     public void addWorldChild( PNode graphic ) {
         phetRootNode.addWorldChild( graphic );
+    }
+
+    public void addWorldChild( int index, PNode graphic ) {
+        phetRootNode.addWorldChild( index, graphic );
     }
 
     /**
