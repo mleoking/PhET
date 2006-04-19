@@ -80,6 +80,10 @@ public class MriModuleA extends Module {
 
         // Make some dipoles
         createDipoles( 16, model.getSampleChamber(), model );
+
+        // Set the initial view
+        setEmRep( MriModuleA.PHOTON_VIEW );
+
     }
 
     /**
