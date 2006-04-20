@@ -54,6 +54,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - show energy value above hilited eigenstate
 (4/19/06) - change some labels in control panel because bottom change changes its identity
 (4/19/06) - change label and range on bottom chart when set to Probability Density
 (4/19/06) - rename BSWaveFunctionPlot to BSBottomPlot
