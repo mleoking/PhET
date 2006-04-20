@@ -36,6 +36,9 @@ public class SchmidtLeeSolver {
 
     private static final boolean REPORT_WARNINGS = true;
     
+    private static final int MAX_TRIES = 100;
+    private static final double SMALL = 1.E-10; // used in interpolator
+    
     private double _hb, _minX, _maxX;
     private int _numberOfPoints;
     private double[] _potentialValues;
@@ -81,8 +84,7 @@ public class SchmidtLeeSolver {
      * @param node
      */
     private double calculateEnergy( final int nodes ) throws SchmidtLeeException {
-        final int MAX_TRIES = 100;
-        final double SMALL = 1.e-10;
+        
         int k;
         Tester t = null, tu = null, tl = null;
         double en = 0.0, eu, el;
