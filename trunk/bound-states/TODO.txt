@@ -54,6 +54,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - get newer PhaseRenderer from Quantum Tunneling sim
 (4/20/06) - use same position range for view and model until we figure out Schidmt-Lee
 (4/20/06) - bugfix: mass wasn't initialized properly, made harmonic oscillator look too wide
 (4/20/06) - show energy value above hilited eigenstate
