@@ -171,11 +171,11 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         row++;
         layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
-        layout.addComponent( _widthSlider, row, col );
+        layout.addComponent( _depthSlider, row, col );
         row++;
         layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
-        layout.addComponent( _depthSlider, row, col );
+        layout.addComponent( _widthSlider, row, col );
         row++;
         _spacingSeparator = new JSeparator();
         layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );

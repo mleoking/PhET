@@ -143,11 +143,11 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         row++;
         layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
-        layout.addComponent( _widthSlider, row, col );
+        layout.addComponent( _depthSlider, row, col );
         row++;
         layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
         row++;
-        layout.addComponent( _depthSlider, row, col );
+        layout.addComponent( _widthSlider, row, col );
         row++;
         
         return inputPanel;
