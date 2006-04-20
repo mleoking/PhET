@@ -62,7 +62,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     private BSColorScheme _scheme;
     private BSColorScheme _restoreScheme;
     private JLabel _currentChip;
-    private JLabel _chartChip, _ticksChip, _gridlinesChip, _annotationChip, _regionMarkersChip;
+    private JLabel _chartChip, _ticksChip, _gridlinesChip;
     private JLabel _eigenstateNormalChip, _eigenstateHiliteChip, _eigenstateSelectionChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip;
     private JButton _okButton, _cancelButton;
@@ -158,31 +158,20 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
-        // Annotations
-        {
-            JLabel label = new JLabel( SimStrings.get( "label.color.annotations" ) );
-            _annotationChip = new JLabel();
-            setColor( _annotationChip, _scheme.getAnnotationColor() );
-            _annotationChip.addMouseListener( listener );
-            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
-            inputPanelLayout.addAnchoredComponent( _annotationChip, row, 1, GridBagConstraints.WEST );
-            row++;
-        }
-        
-        // Region Markers
-        {
-            JLabel label = new JLabel( SimStrings.get( "label.color.regionMarkers" ) );
-            _regionMarkersChip = new JLabel();
-            setColor( _regionMarkersChip, _scheme.getRegionMarkerColor() );
-            _regionMarkersChip.addMouseListener( listener );
-            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
-            inputPanelLayout.addAnchoredComponent( _regionMarkersChip, row, 1, GridBagConstraints.WEST );
-            row++;
-        }
-        
         // Vertical space
         inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
         row++;
+        
+        // Potential Energy
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.potentialEnergy" ) );
+            _potentialEnergyChip = new JLabel();
+            setColor( _potentialEnergyChip, _scheme.getPotentialEnergyColor() );
+            _potentialEnergyChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _potentialEnergyChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
         
         // Eigenstate normal
         {
@@ -214,17 +203,6 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             _eigenstateSelectionChip.addMouseListener( listener );
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
             inputPanelLayout.addAnchoredComponent( _eigenstateSelectionChip, row, 1, GridBagConstraints.WEST );
-            row++;
-        }
-        
-        // Potential Energy
-        {
-            JLabel label = new JLabel( SimStrings.get( "label.color.potentialEnergy" ) );
-            _potentialEnergyChip = new JLabel();
-            setColor( _potentialEnergyChip, _scheme.getPotentialEnergyColor() );
-            _potentialEnergyChip.addMouseListener( listener );
-            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
-            inputPanelLayout.addAnchoredComponent( _potentialEnergyChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
         
@@ -335,14 +313,6 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         else if ( _currentChip == _gridlinesChip ) {
             titlePrefix = SimStrings.get( "label.color.gridlines" );
             initialColor = _scheme.getGridlineColor();
-        }
-        else if ( _currentChip == _annotationChip ) {
-            titlePrefix = SimStrings.get( "label.color.annotations" );
-            initialColor = _scheme.getAnnotationColor();
-        }
-        else if ( _currentChip == _regionMarkersChip ) {
-            titlePrefix = SimStrings.get( "label.color.regionMarkers" );
-            initialColor = _scheme.getRegionMarkerColor();
         }
         else if ( _currentChip == _eigenstateNormalChip ) {
             titlePrefix = SimStrings.get( "label.color.eigenstateNormal" );
@@ -474,12 +444,6 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         }
         else if ( _currentChip == _gridlinesChip ) {
             _scheme.setGridlineColor( color );
-        }
-        else if ( _currentChip == _annotationChip ) {
-            _scheme.setAnnotationColor( color );
-        }
-        else if ( _currentChip == _regionMarkersChip ) {
-            _scheme.setRegionMarkerColor( color );
         }
         else if ( _currentChip == _eigenstateNormalChip ) {
             _scheme.setEigenstateNormalColor( color );
