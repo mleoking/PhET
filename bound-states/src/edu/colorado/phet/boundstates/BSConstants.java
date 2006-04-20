@@ -167,7 +167,7 @@ public class BSConstants {
     public static final double MIN_WELL_SEPARATION = 0.05; // nm
     
     public static final double MIN_WELL_WIDTH = 0.1; // nm
-    public static final double MAX_WELL_WIDTH = 8; // nm
+    public static final double MAX_WELL_WIDTH = 3; // nm
     
     public static final double MIN_WELL_SPACING = 0.3; // nm
     public static final double MAX_WELL_SPACING = 4; // nm
