@@ -47,6 +47,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Energy must be at least this close to eigenstate to be hilited.
+    private static final double HILITE_ENERGY_THRESHOLD = BSConstants.ENERGY_RANGE.getLength() / 20;
+    
     private static final DecimalFormat HILITE_VALUE_FORMAT = new DecimalFormat( "0.000" );
     
     //----------------------------------------------------------------------------
@@ -347,33 +350,37 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     private int getClosestEigenstateIndex( final double energy ) {
         BSEigenstate[] eigenstates = _model.getEigenstates();
-        int index = 0;
-        if ( eigenstates == null || eigenstates.length == 0 ) {
-            index = BSEigenstate.INDEX_UNDEFINED;
-        }
-        else if ( energy < eigenstates[0].getEnergy() ) {
-            index = 0;
-        }
-        else if ( energy > eigenstates[eigenstates.length - 1 ].getEnergy() ) {
-            index = eigenstates.length - 1;
-        }
-        else {
-            for ( int i = 1; i < eigenstates.length; i++ ) {
-                final double currentEnergy = eigenstates[ i ].getEnergy();
-                if ( energy <= currentEnergy ) {
-                    final double lowerEnergy = eigenstates[ i - 1 ].getEnergy();
-                    final double upperEnergyDifference = currentEnergy - energy;
-                    final double lowerEnergyDifference = energy - lowerEnergy;
-                    if ( upperEnergyDifference < lowerEnergyDifference ) {
-                        index = i;
+        int index = BSEigenstate.INDEX_UNDEFINED;
+        if ( eigenstates != null && eigenstates.length > 0 ) {
+            if ( energy < eigenstates[0].getEnergy() ) {
+                if ( energy + HILITE_ENERGY_THRESHOLD >= eigenstates[0].getEnergy() ) {
+                    index = 0;
+                }
+            }
+            else if ( energy > eigenstates[eigenstates.length - 1].getEnergy() ) {
+                if ( energy - HILITE_ENERGY_THRESHOLD <= eigenstates[eigenstates.length - 1].getEnergy() ) {
+                    index = eigenstates.length - 1;
+                }
+            }
+            else {
+                for ( int i = 1; i < eigenstates.length; i++ ) {
+                    final double currentEnergy = eigenstates[i].getEnergy();
+                    if ( energy <= currentEnergy ) {
+                        final double lowerEnergy = eigenstates[i - 1].getEnergy();
+                        final double upperEnergyDifference = currentEnergy - energy;
+                        final double lowerEnergyDifference = energy - lowerEnergy;
+                        if ( upperEnergyDifference < lowerEnergyDifference ) {
+                            index = i;
+                        }
+                        else {
+                            index = i - 1;
+                        }
+                        break;
                     }
-                    else {
-                        index = i - 1;
-                    }
-                    break;
                 }
             }
         }
+        System.out.println( "getClosestEigenstateIndex energy=" + energy + " index=" + index );//XXX
         return index;
     }
 }
