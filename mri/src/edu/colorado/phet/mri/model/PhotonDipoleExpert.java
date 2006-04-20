@@ -83,20 +83,31 @@ public class PhotonDipoleExpert implements CollisionExpert {
                 dipole.setSpin( Spin.UP );
                 model.removeModelElement( this );
 
+                // Create a photon
                 Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.SPEED );
                 double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
                 MriEmittedPhoton photon = new MriEmittedPhoton();
                 photon.setWavelength( wavelength );
                 photon.setPosition( dipole.getPosition() );
                 photon.setVelocity( velocity );
-//                Photon photon = Photon.create( wavelength, dipole.getPosition(), velocity );
                 model.addModelElement( photon );
 
-                PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( photon,
-                                                                       photon.getPosition(),
-                                                                       100,
-                                                                       PlaneWaveMedium.EAST,
-                                                                       10 );
+                // Create an EM wave
+                PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), 10,
+                                                               new Vector2D.Double( 1, 0 ) );
+                waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
+                waveCycle.setPower( MriConfig.MAX_POWER );
+//                PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), MriConfig.MAX_POWER,
+//                                                               PhysicsUtil.frequencyToWavelength( 42E6 ));
+                model.addModelElement( waveCycle );
+                PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
+                                                                       waveCycle.getPosition(),
+//                                                                       waveCycle.getOrigin(),
+20,
+model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
+//                                                                       model.getBounds().getMaxX() - waveCycle.getOrigin().getX(),
+PlaneWaveMedium.EAST,
+10 );
                 model.addModelElement( planeWaveMedium );
             }
         }

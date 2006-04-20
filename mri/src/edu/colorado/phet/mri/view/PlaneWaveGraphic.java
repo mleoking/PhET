@@ -45,8 +45,6 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D origin;
     private double width;
-    private double stroke = 1;
-    private boolean isPlanar = true;
     private float opacity = 1.0f;
     private static final double MAX_AMPLITDUE = 100;
     private double xExtent;
@@ -57,21 +55,15 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
     private PPath[] components;
     // Number of linear units represented by a single color in the graphic
     private double stepSize = 5;
-    private PlaneWaveMedium.Direction direction;
 
     /**
+     * Constructor
+     *
      * @param waveMedium
-     * @param origin
-     * @param width
-     * @param xExtent
-     * @param speed      number of linear distance units the wave medium steps in a single time step
      * @param maxOpacity
+     * @param color
      */
     public PlaneWaveGraphic( PlaneWaveMedium waveMedium,
-                             Point2D origin,
-                             double width,
-                             double xExtent,
-                             double speed,
                              double maxOpacity,
                              Color color ) {
         this.waveMedium = waveMedium;
@@ -79,11 +71,10 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
         this.color = color;
         waveMedium.addObserver( this );
 
-        this.origin = origin;
-        this.xExtent = xExtent;
-        this.width = width;
-        this.stepSize = speed;
-        this.direction = waveMedium.getDirection();
+        this.origin = waveMedium.getOrigin();
+        this.xExtent = waveMedium.getLongitudinalExtent();
+        this.width = waveMedium.getLateralExtent();
+        this.stepSize = waveMedium.getSpeed();
 
         int numComponents = (int)( xExtent / stepSize );
         components = new PPath[ numComponents ];

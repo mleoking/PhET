@@ -39,26 +39,29 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
     private IScalar source;
     private Point2D origin;
-    private double length;
+    private double lateralExtent;
     private Direction direction;
     private double speed;
     private double[] values;
+    private double longitudinalExtent;
 
     /**
      * @param source
      * @param origin
-     * @param length    length of the medium in distance units
+     * @param lateralExtent      lateralExtent of the medium in distance units
+     * @param longitudinalExtent longitudinalExtent of the medium in the direction the wave is traveling
      * @param direction
-     * @param speed     number of distance units the wave travels in a time unit
+     * @param speed              number of distance units the wave travels in a time unit
      */
-    public PlaneWaveMedium( IScalar source, Point2D origin, double length, Direction direction, double speed ) {
+    public PlaneWaveMedium( IScalar source, Point2D origin, double lateralExtent, double longitudinalExtent, Direction direction, double speed ) {
         this.source = source;
         this.origin = origin;
-        this.length = length;
+        this.lateralExtent = lateralExtent;
         this.direction = direction;
         this.speed = speed;
+        this.longitudinalExtent = longitudinalExtent;
 
-        values = new double[ (int)( length / speed )];
+        values = new double[ (int)( longitudinalExtent / speed )];
     }
 
     public Point2D getOrigin() {
@@ -73,12 +76,20 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         this.speed = speed;
     }
 
-    public double getLength() {
-        return length;
+    public double getLateralExtent() {
+        return lateralExtent;
     }
 
-    public void setLength( double length ) {
-        this.length = length;
+    public void setLateralExtent( double lateralExtent ) {
+        this.lateralExtent = lateralExtent;
+    }
+
+    public double getLongitudinalExtent() {
+        return longitudinalExtent;
+    }
+
+    public void setLongitudinalExtent( double longitudinalExtent ) {
+        this.longitudinalExtent = longitudinalExtent;
     }
 
     public Direction getDirection() {

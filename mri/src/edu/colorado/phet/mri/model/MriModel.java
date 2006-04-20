@@ -87,6 +87,7 @@ public class MriModel extends BaseModel {
         PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( radiowaveSource,
                                                                radiowaveSource.getPosition(),
                                                                radiowaveSource.getLength(),
+                                                               800,
                                                                PlaneWaveMedium.NORTH,
                                                                10 );
         addModelElement( planeWaveMedium );
@@ -94,7 +95,6 @@ public class MriModel extends BaseModel {
         // Create agent that will control the spin orientations of the dipoles
         dipoleOrientationAgent = new DipoleOrientationAgent( this );
         lowerMagnet.addChangeListener( dipoleOrientationAgent );
-//        addModelElement( dipoleOrientationAgent );
 
         // Create an agent that will detect photon-atom collisions
         addModelElement( new CollisionAgent( this ) );

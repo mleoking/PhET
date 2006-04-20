@@ -29,6 +29,7 @@ public class RadiowaveSource extends Beam implements IScalar {
     private static final double DEFAULT_FREQUENCY = 2E6;
     private static final double DEFAULT_WAVELENGTH = PhysicsUtil.frequencyToWavelength( DEFAULT_FREQUENCY );
     private static final double MAX_PHOTONS_PER_SEC = 1 / ( MriConfig.DT / 1000 );
+    private double phaseAngle;
 
 
     //----------------------------------------------------------------
@@ -41,7 +42,7 @@ public class RadiowaveSource extends Beam implements IScalar {
     public static Orientation HORIZONTAL;
 
     //----------------------------------------------------------------
-    // Instance fields and methods 
+    // Instance fields and methods
     //----------------------------------------------------------------
 
     private double power;
@@ -49,8 +50,20 @@ public class RadiowaveSource extends Beam implements IScalar {
     private double runningTime;
     private double period = 100;
 
+    /**
+     * Constructor
+     *
+     * @param location
+     * @param length
+     * @param direction
+     */
     public RadiowaveSource( Point2D location, double length, Vector2D direction ) {
+        this( location, length, direction, 0 );
+    }
+
+    public RadiowaveSource( Point2D location, double length, Vector2D direction, double phaseAngle ) {
         super( DEFAULT_WAVELENGTH, location, length, length, direction, MAX_POWER, 0 );
+        this.phaseAngle = phaseAngle;
         setPhotonsPerSecond( 1 / ( MriConfig.DT / 1000 ) );
         setWavelength( 500E-9 );
 
@@ -60,14 +73,14 @@ public class RadiowaveSource extends Beam implements IScalar {
     }
 
     public Orientation getOrientation() {
-        Orientation direction = null;
+        Orientation orientation = null;
         if( getDirection().getX() == 0 && getDirection().getY() != 0 ) {
-            direction = HORIZONTAL;
+            orientation = HORIZONTAL;
         }
         if( getDirection().getX() != 0 && getDirection().getY() == 0 ) {
-            direction = VERTICAL;
+            orientation = VERTICAL;
         }
-        return direction;
+        return orientation;
     }
 
     public double getValue() {
@@ -78,7 +91,7 @@ public class RadiowaveSource extends Beam implements IScalar {
         super.stepInTime( dt );
         runningTime += dt;
         // amplitude is always >= 0
-        currentAmplitude = power * 0.5 * ( 1 + Math.sin( ( runningTime % period ) / period * Math.PI * 2 ) );
+        currentAmplitude = power * 0.5 * ( 1 + Math.sin( phaseAngle + ( runningTime % period ) / period * Math.PI * 2 ) );
     }
 
     //----------------------------------------------------------------
@@ -100,5 +113,6 @@ public class RadiowaveSource extends Beam implements IScalar {
 
     public void setFrequency( double frequency ) {
         setWavelength( PhysicsUtil.frequencyToWavelength( frequency ) );
+        period = 1 / ( frequency * MriConfig.ModelToView.FREQUENCY );
     }
 }

@@ -56,6 +56,12 @@ public class MriConfig {
 
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 
+    // Model to view conversion factors
+    public static class ModelToView {
+        public static double FREQUENCY = 1 / 4E9;
+    }
+
+
     // Layout
     public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 200 );
     public static double SAMPLE_CHAMBER_WIDTH = 600;
