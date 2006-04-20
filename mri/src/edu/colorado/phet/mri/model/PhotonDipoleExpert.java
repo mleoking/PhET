@@ -22,6 +22,9 @@ import edu.colorado.phet.quantum.model.Photon;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class PhotonDipoleExpert implements CollisionExpert {
     private Object[] bodies = new Object[2];
     private Map classifiedBodies = new HashMap();
@@ -92,23 +95,27 @@ public class PhotonDipoleExpert implements CollisionExpert {
                 photon.setVelocity( velocity );
                 model.addModelElement( photon );
 
-                // Create an EM wave
+                // Create an EM wave and a medium to carry it through the model
                 PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), 10,
                                                                new Vector2D.Double( 1, 0 ) );
                 waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
                 waveCycle.setPower( MriConfig.MAX_POWER );
-//                PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), MriConfig.MAX_POWER,
-//                                                               PhysicsUtil.frequencyToWavelength( 42E6 ));
                 model.addModelElement( waveCycle );
-                PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
-                                                                       waveCycle.getPosition(),
-//                                                                       waveCycle.getOrigin(),
-20,
-model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
-//                                                                       model.getBounds().getMaxX() - waveCycle.getOrigin().getX(),
-PlaneWaveMedium.EAST,
-10 );
+                final PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
+                                                                             waveCycle.getPosition(),
+                                                                             20,
+                                                                             model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
+                                                                             PlaneWaveMedium.EAST,
+                                                                             10 );
                 model.addModelElement( planeWaveMedium );
+
+                // Add a listener to the photon that will remove the wave representation from the model when
+                // the photon leaves the model
+                photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
+                    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+                        model.removeModelElement( planeWaveMedium );
+                    }
+                } );
             }
         }
     }

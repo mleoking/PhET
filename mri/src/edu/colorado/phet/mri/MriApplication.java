@@ -12,8 +12,10 @@ package edu.colorado.phet.mri;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.mri.controller.MriModuleA;
+import edu.colorado.phet.mri.controller.OptionMenu;
 
 /**
  * MriApplication
@@ -34,6 +36,17 @@ public class MriApplication extends PhetApplication {
         setModules( new Module[]{
                 new MriModuleA()
         } );
+    }
+
+    protected void parseArgs( String[] args ) {
+        super.parseArgs( args );
+
+        for( int i = 0; args != null && i < args.length; i++ ) {
+            String arg = args[i];
+            if( arg.startsWith( "-d" ) ) {
+                PhetUtilities.getPhetFrame().addMenu( new OptionMenu() );
+            }
+        }
     }
 
     public static void main( String[] args ) {
