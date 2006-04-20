@@ -65,8 +65,6 @@ public class BSColorSchemeConfig implements BSSerializable {
         setChartColor( toArray( colorScheme.getChartColor() ) );
         setTickColor( toArray( colorScheme.getTickColor() ) );
         setGridlineColor( toArray( colorScheme.getGridlineColor() ) );
-        setAnnotationColor( toArray( colorScheme.getAnnotationColor() ) );
-        setRegionMarkerColor( toArray( colorScheme.getRegionMarkerColor() ) );
         setEigenstateNormalColor( toArray( colorScheme.getEigenstateNormalColor() ) );
         setEigenstateHiliteColor( toArray( colorScheme.getEigenstateHiliteColor() ) );
         setEigenstateSelectionColor( toArray( colorScheme.getEigenstateSelectionColor() ) );
@@ -205,8 +203,6 @@ public class BSColorSchemeConfig implements BSSerializable {
         colorScheme.setChartColor( toColor( getChartColor() ) );
         colorScheme.setTickColor( toColor( getTickColor() ) );
         colorScheme.setGridlineColor( toColor( getGridlineColor() ) );
-        colorScheme.setAnnotationColor( toColor( getAnnotationColor() ) );
-        colorScheme.setRegionMarkerColor( toColor( getRegionMarkerColor() ) );
         colorScheme.setEigenstateNormalColor( toColor( getEigenstateNormalColor() ) );
         colorScheme.setEigenstateHiliteColor( toColor( getEigenstateHiliteColor() ) );
         colorScheme.setEigenstateSelectionColor( toColor( getEigenstateSelectionColor() ) );

@@ -27,8 +27,6 @@ public class BSWhiteColorScheme extends BSColorScheme {
         setChartColor( Color.WHITE );
         setTickColor( Color.BLACK );
         setGridlineColor( Color.DARK_GRAY );
-        setAnnotationColor( Color.BLACK );
-        setRegionMarkerColor( Color.BLACK );
         setEigenstateNormalColor( new Color( 0, 108, 0 ) ); // dark green
         setEigenstateHiliteColor( Color.LIGHT_GRAY );
         setEigenstateSelectionColor( Color.GREEN );

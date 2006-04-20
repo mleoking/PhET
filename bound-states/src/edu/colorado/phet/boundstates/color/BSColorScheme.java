@@ -25,8 +25,6 @@ public class BSColorScheme {
     private Color _chartColor;
     private Color _tickColor;
     private Color _gridlineColor;
-    private Color _annotationColor;
-    private Color _regionMarkerColor;
     
     private Color _eigenstateNormalColor;
     private Color _eigenstateHiliteColor;
@@ -41,8 +39,6 @@ public class BSColorScheme {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
         _gridlineColor = colorScheme.getGridlineColor();
-        _annotationColor = colorScheme.getAnnotationColor();
-        _regionMarkerColor = colorScheme.getRegionMarkerColor();
         
         _eigenstateNormalColor = colorScheme.getEigenstateNormalColor();
         _eigenstateHiliteColor = colorScheme.getEigenstateHiliteColor();
@@ -102,14 +98,6 @@ public class BSColorScheme {
         _gridlineColor = gridlineColor;
     }
     
-    public Color getAnnotationColor() {
-        return _annotationColor;
-    }
-    
-    public void setAnnotationColor( Color annotationColor ) {
-        _annotationColor = annotationColor;
-    }
-    
     public Color getImaginaryColor() {
         return _imaginaryColor;
     }
@@ -140,14 +128,6 @@ public class BSColorScheme {
     
     public void setRealColor( Color realColor ) {
         _realColor = realColor;
-    }
-    
-    public Color getRegionMarkerColor() {
-        return _regionMarkerColor;
-    }
-    
-    public void setRegionMarkerColor( Color regionMarkerColor ) {
-        _regionMarkerColor = regionMarkerColor;
     }
     
     public Color getTickColor() {

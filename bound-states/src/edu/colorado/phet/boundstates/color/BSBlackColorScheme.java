@@ -26,14 +26,12 @@ public class BSBlackColorScheme extends BSColorScheme {
         super();
         setChartColor( Color.BLACK );
         setTickColor( Color.BLACK );
-        setGridlineColor( Color.DARK_GRAY );
-        setAnnotationColor( Color.WHITE );
-        setRegionMarkerColor( Color.LIGHT_GRAY );
+        setGridlineColor( Color.LIGHT_GRAY );
         setEigenstateNormalColor( Color.GREEN );
         setEigenstateHiliteColor( Color.YELLOW );
         setEigenstateSelectionColor( Color.RED );
         setPotentialEnergyColor( new Color( 178, 25, 205 ) ); // purple
-        setRealColor( Color.RED );
+        setRealColor( new Color( 255, 120, 0 ) ); // pumpkin orange
         setImaginaryColor( new Color( 26, 135, 255 ) ); // bright blue
         setMagnitudeColor( Color.WHITE );
     }
