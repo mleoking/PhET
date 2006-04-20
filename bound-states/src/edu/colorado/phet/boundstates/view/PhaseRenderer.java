@@ -13,6 +13,8 @@ package edu.colorado.phet.boundstates.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import org.jfree.chart.axis.ValueAxis;
@@ -36,18 +38,11 @@ import org.jfree.ui.RectangleEdge;
 public class PhaseRenderer extends AbstractXYItemRenderer {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // number of point in our polygons
-    private static int POLYGON_POINTS = 4;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    // coordinates used to describe a polygon
-    private int _xCoordinates[], _yCoordinates[];
+    // shape used to describe a polygon
+    private GeneralPath _polygonPath;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,8 +53,7 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
      */
     public PhaseRenderer() {
         super();
-        _xCoordinates = new int[POLYGON_POINTS];
-        _yCoordinates = new int[POLYGON_POINTS];
+        _polygonPath = new GeneralPath();
     }
     
     //----------------------------------------------------------------------------
@@ -121,20 +115,28 @@ public class PhaseRenderer extends AbstractXYItemRenderer {
         double ty1 = rangeAxis.valueToJava2D( y1, dataArea, yAxisLocation );
         double ty2 = rangeAxis.valueToJava2D( y2, dataArea, yAxisLocation );
 
+        // Enable antialiasing...
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        
         // determine the color that corresponds to the phase...
         Color color = phaseToRGB( phase );
         g2.setPaint( color );
         
         // fill the area under the curve between the two data points...
-        _xCoordinates[0] = (int) tx1;
-        _yCoordinates[0] = (int) ty0;
-        _xCoordinates[1] = (int) tx1;
-        _yCoordinates[1] = (int) ty1;
-        _xCoordinates[2] = (int) tx2;
-        _yCoordinates[2] = (int) ty2;
-        _xCoordinates[3] = (int) tx2;
-        _yCoordinates[3] = (int) ty0;
-        g2.fillPolygon( _xCoordinates, _yCoordinates, POLYGON_POINTS );
+        //
+        //     (tx1,ty1) +--------+ (tx2,ty2)
+        //               |        |
+        //               |        |
+        //               |        |
+        //     (tx1,ty0) +--------+ (tx2, ty0)
+        //
+        _polygonPath.reset();
+        _polygonPath.moveTo( (float) tx1, (float) ty0 );
+        _polygonPath.lineTo( (float) tx1, (float) ty1 );
+        _polygonPath.lineTo( (float) tx2, (float) ty2 );
+        _polygonPath.lineTo( (float) tx2, (float) ty0 );
+        _polygonPath.closePath();
+        g2.fill( _polygonPath );
     }
     
     //----------------------------------------------------------------------------
