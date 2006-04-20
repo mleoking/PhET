@@ -203,10 +203,10 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
-    private void handleWidthChange() {
-        final double width = _widthSlider.getValue();
-        _potential.setWidth( width );
+   
+    private void handleOffsetChange() {
+        final double offset = _offsetSlider.getValue();
+        _potential.setOffset( offset );
     }
     
     private void handleDepthChange() {
@@ -214,14 +214,22 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         _potential.setDepth( depth );
     }
     
-    private void handleOffsetChange() {
-        final double offset = _offsetSlider.getValue();
-        _potential.setOffset( offset );
+    private void handleWidthChange() {
+        final double width = _widthSlider.getValue();
+        _potential.setWidth( width );
+        final double spacing = _potential.getSpacing();
+        if ( width > spacing - BSConstants.MIN_WELL_SPACING ) {
+            _potential.setSpacing( width + BSConstants.MIN_WELL_SPACING );
+        }
     }
     
     private void handleSpacingChange() {
         final double spacing = _spacingSlider.getValue();
         _potential.setSpacing( spacing );
+        final double width = _potential.getWidth();
+        if ( width > spacing - BSConstants.MIN_WELL_SPACING ) {
+            _potential.setWidth( spacing - BSConstants.MIN_WELL_SPACING );
+        }
     }
 
 }
