@@ -6,7 +6,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - lower bound not found in Schmidt-Lee for initial state of harmonic oscillator
-- square wells don't look square (override getPotentialPoints for square & asymm)
+- square wells don't look square when dx gets larger (override getPotentialPoints for square & asymm)
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - cache wavefunction solutions
 
