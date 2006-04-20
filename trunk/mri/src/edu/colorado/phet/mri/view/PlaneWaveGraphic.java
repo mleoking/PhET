@@ -114,8 +114,7 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
             addChild( components[i] );
         }
 
-        // Hook up to the WaveMedium we are observing
-//            source.addObserver( this );
+        // Compute the colors we'll need for the wave graphic
         setMaxAmplitudeColor( color );
     }
 

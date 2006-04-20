@@ -49,10 +49,10 @@ public class MriConfig {
     public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
     public static final double MAX_POWER = 100;
     // Difference in energies that is equivalent to 0
-    public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO * MAX_FADING_COIL_FIELD ) / 20;
+    public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO * MAX_FADING_COIL_FIELD ) / 150;
     // Length of time (simulation time) that a dipole kicked into spin down state will stay there until
     // it spontaneously fall to spin up
-    public static final long SPIN_DOWN_TIMEOUT = 500;
+    public static long SPIN_DOWN_TIMEOUT = 500;
 
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 
@@ -60,7 +60,6 @@ public class MriConfig {
     public static class ModelToView {
         public static double FREQUENCY = 1 / 4E9;
     }
-
 
     // Layout
     public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 200 );

@@ -41,14 +41,14 @@ public class EmRepSelector extends JPanel {
         ButtonGroup repBtnGrp = new ButtonGroup();
         repBtnGrp.add( photonViewButton );
         repBtnGrp.add( waveViewButton );
-        photonViewButton.setSelected( true );
+        waveViewButton.setSelected( true );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( photonViewButton, gbc );
         add( waveViewButton, gbc );
+        add( photonViewButton, gbc );
     }
 }

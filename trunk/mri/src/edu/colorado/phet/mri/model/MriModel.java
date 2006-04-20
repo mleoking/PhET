@@ -73,7 +73,7 @@ public class MriModel extends BaseModel {
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
-                                               MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                               MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1,
                                                new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );

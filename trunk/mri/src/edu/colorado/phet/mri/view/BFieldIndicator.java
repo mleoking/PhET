@@ -28,6 +28,7 @@ import java.awt.geom.Point2D;
 public class BFieldIndicator extends PNode {
     private double maxLength;
     private PPath arrowPPath;
+    private Color arrowColor;
 
     public BFieldIndicator( Electromagnet magnet, double maxLength ) {
         this.maxLength = maxLength;
@@ -56,7 +57,8 @@ public class BFieldIndicator extends PNode {
                                        length / 4, length / 4, length / 8, .5, true );
 //                                       20, 20, 10, .5, true );
         arrowPPath = new PPath( bFieldArrow.getShape() );
-        arrowPPath.setPaint( new Color( 80, 80, 180 ) );
+        arrowColor = new Color( 80, 80, 180 );
+        arrowPPath.setPaint( arrowColor );
         this.addChild( arrowPPath );
     }
 }

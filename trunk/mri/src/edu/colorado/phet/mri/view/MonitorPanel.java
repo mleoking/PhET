@@ -11,15 +11,18 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -47,6 +50,8 @@ public class MonitorPanel extends PhetPCanvas {
 
     private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
     private static double IMAGE_WIDTH;
+    // fraction of panel height that is usable for representing energy levels
+    private double heightFractionUsed;
 
     static {
         makeImages( 0.5 );
@@ -79,6 +84,7 @@ public class MonitorPanel extends PhetPCanvas {
     private ArrayList spinDownReps = new ArrayList();
     private EnergyLevel lowerLine, upperLine;
     private double fieldStrength;
+    private EnergySquiggle energySquiggle;
 
     private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
 
@@ -89,8 +95,7 @@ public class MonitorPanel extends PhetPCanvas {
      */
     public MonitorPanel( final MriModel model ) {
 
-        model.addListener( new ModelChangeListener( model ));
-
+        // Add graphics for the energy levels
         lowerLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
         addWorldChild( lowerLine );
         lowerLine.setOffset( 0, 100 );
@@ -99,13 +104,19 @@ public class MonitorPanel extends PhetPCanvas {
         addWorldChild( upperLine );
         upperLine.setOffset( 0, 60 );
 
+        // Add a squiggle to show the energy of the radio waves
+        energySquiggle = new EnergySquiggle( EnergySquiggle.VERTICAL );
+        addWorldChild( energySquiggle );
+
+        // Add elements to the model that will get notified when things we are monitoring change
+        model.addListener( new ModelChangeListener( model ) );
         model.addModelElement( new DipoleRepUpdater( model ) );
-
         model.getLowerMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
-
+        model.getRadiowaveSource().addChangeListener( new SquiggleUpdater( model ) );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setLinePositions( model );
+                adjustSquiggle( model );
             }
         } );
     }
@@ -113,7 +124,6 @@ public class MonitorPanel extends PhetPCanvas {
     public void setRepresentationPolicy( RepresentationPolicy representationPolicy ) {
         this.representationPolicy = representationPolicy;
     }
-
 
     //----------------------------------------------------------------
     // Inner classes
@@ -166,7 +176,8 @@ public class MonitorPanel extends PhetPCanvas {
         private void addDipoleRep() {
             PNode dipoleGraphic = new PImage( dipoleRepImage );
             nucleiReps.add( dipoleGraphic );
-            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
+            dipoleGraphic.setOffset( ( nucleiReps.size() + 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
+//            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
 
             // Set the size of the panel
@@ -200,7 +211,7 @@ public class MonitorPanel extends PhetPCanvas {
      * symetrically above and below it
      */
     private void setLinePositions( MriModel model ) {
-        double heightFractionUsed = 0.9;
+        heightFractionUsed = 0.9;
         double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
@@ -211,6 +222,27 @@ public class MonitorPanel extends PhetPCanvas {
         upperLine.setPositionY( centerY - offsetY );
     }
 
+    private void adjustSquiggle( MriModel model ) {
+        heightFractionUsed = 0.9;
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
+        double maxLength = getHeight() * heightFractionUsed - imageReserveSpace * 2;
+
+        double frequency = model.getRadiowaveSource().getFrequency();
+        double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
+        double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 3.25;
+
+        energySquiggle.update( wavelength * 1E3, 0, (int)length, 10 );
+//        energySquiggle.update( wavelength * 1E3, 0, 50, 10 );
+        energySquiggle.setOffset( 10, lowerLine.getOffset().getY() - length );
+
+        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
+        double rfEnergy = PhysicsUtil.frequencyToEnergy( model.getRadiowaveSource().getFrequency() );
+        if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
+            GraphicFlasher gf = new GraphicFlasher( energySquiggle );
+            gf.start();
+        }
+    }
+
     //----------------------------------------------------------------
     // Representation policy
     //----------------------------------------------------------------
@@ -219,7 +251,7 @@ public class MonitorPanel extends PhetPCanvas {
     }
 
     public static class DiscretePolicy implements RepresentationPolicy {
-        public void representSpins( List dipoles,  List spinUpReps, List spinDownReps ) {
+        public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
             int numUp = 0;
             int numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
@@ -248,7 +280,7 @@ public class MonitorPanel extends PhetPCanvas {
     }
 
     public static class TransparencyPolicy implements RepresentationPolicy {
-        public void representSpins( List dipoles, List spinUpReps, List spinDownReps) {
+        public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
             int numUp = 0;
             int numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
@@ -262,12 +294,12 @@ public class MonitorPanel extends PhetPCanvas {
 
             }
 
-            float upTransparency = ((float)numUp) / dipoles.size();
+            float upTransparency = ( (float)numUp ) / dipoles.size();
             for( int j = 0; j < spinUpReps.size(); j++ ) {
                 ( (PNode)spinUpReps.get( j ) ).setVisible( true );
                 ( (PNode)spinUpReps.get( j ) ).setTransparency( upTransparency );
             }
-            float downTransparency = ((float)numDown) / dipoles.size();
+            float downTransparency = ( (float)numDown ) / dipoles.size();
             for( int j = 0; j < spinDownReps.size(); j++ ) {
                 ( (PNode)spinDownReps.get( j ) ).setVisible( true );
                 ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
@@ -286,8 +318,9 @@ public class MonitorPanel extends PhetPCanvas {
         public void stateChanged( Electromagnet.ChangeEvent event ) {
             fieldStrength = event.getElectromagnet().getFieldStrength();
             setLinePositions( model );
+            adjustSquiggle( model );
         }
-   }
+    }
 
     //----------------------------------------------------------------
     // ModelChangeListener
@@ -301,6 +334,59 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
             setLinePositions( model );
+            adjustSquiggle( model );
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of RadiowaveSource.ChangeListener
+    //--------------------------------------------------------------------------------------------------
+    private class SquiggleUpdater implements RadiowaveSource.ChangeListener {
+        private MriModel model;
+
+        public SquiggleUpdater( MriModel model ) {
+            this.model = model;
+        }
+
+        public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+            // noop
+        }
+
+        public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+            adjustSquiggle( model );
+        }
+    }
+
+
+    private class GraphicFlasher extends Thread {
+        private int numFlashes = 5;
+        private PNode graphic;
+
+        public GraphicFlasher( PNode graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void run() {
+            try {
+                for( int i = 0; i < numFlashes; i++ ) {
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            graphic.setVisible( false );
+                        }
+                    } );
+                    Thread.sleep( 100 );
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            graphic.setVisible( true );
+                        }
+                    } );
+                    Thread.sleep( 100 );
+                }
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
