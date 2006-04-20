@@ -53,10 +53,10 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_STEP = 0.1; // fs, femtoseconds (model time)
+    public static final double CLOCK_STEP = 0.01; // fs, femtoseconds (model time)
     
     /* Controls how time is displayed, should match CLOCK_STEP precision */
-    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.0" );
+    public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
     
     /* Is the time display visible next to the clock controls? */
     public static final boolean TIME_DISPLAY_VISIBLE = true;
@@ -145,7 +145,7 @@ public class BSConstants {
     public static final boolean SHOW_VERTICAL_GRIDLINES = true;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = false;
     
-    public static final double PIXELS_PER_SAMPLE_POINT = 1;
+    public static final double PIXELS_PER_SAMPLE_POINT = 0.5;
     
     //----------------------------------------------------------------------------
     // Particle
@@ -154,7 +154,8 @@ public class BSConstants {
     // Mass
     public static final double ELECTRON_MASS = 5.68; // eV/c^2
     public static final double MIN_MASS_MULTIPLIER = 1;
-    public static final double MAX_MASS_MULTIPLIER = 10;
+    public static final double MAX_MASS_MULTIPLIER = 4;
+    public static final double MASS_SLIDER_TICKS_SPACING = 1;
     public static final double DEFAULT_MASS_MULTIPLIER = 1;
     public static final double DEFAULT_MASS = DEFAULT_MASS_MULTIPLIER * ELECTRON_MASS;
     
@@ -179,7 +180,7 @@ public class BSConstants {
     public static final double MAX_WELL_OFFSET = 5; // eV
     
     public static final double MIN_WELL_ANGULAR_FREQUENCY = 1; // femtoseconds^-1
-    public static final double MAX_WELL_ANGULAR_FREQUENCY = 10; // femtoseconds^-1
+    public static final double MAX_WELL_ANGULAR_FREQUENCY = 2.5; // femtoseconds^-1
     
     // Defaults...
     

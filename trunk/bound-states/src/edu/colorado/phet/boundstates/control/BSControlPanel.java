@@ -277,7 +277,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             String massLabel = SimStrings.get( "label.particleMass" );
             String massUnits = "<html>m<sub>e</sub></html>";
             _massSlider = new SliderControl( 
-                    BSConstants.DEFAULT_MASS_MULTIPLIER, BSConstants.MIN_MASS_MULTIPLIER, BSConstants.MAX_MASS_MULTIPLIER, 5,
+                    BSConstants.DEFAULT_MASS_MULTIPLIER, BSConstants.MIN_MASS_MULTIPLIER, BSConstants.MAX_MASS_MULTIPLIER, 
+                    BSConstants.MASS_SLIDER_TICKS_SPACING,
                     1, 1, massLabel, massUnits, 3, SLIDER_INSETS );
             _massSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             _massSlider.setTextEditable( true );
