@@ -152,9 +152,10 @@ public class BSConstants {
     
     // Mass
     public static final double ELECTRON_MASS = 5.68; // eV/c^2
-    public static final double MIN_MASS = 1; // x ELECTRON_MASS
-    public static final double MAX_MASS = 10; // x ELECTRON_MASS
-    public static final double DEFAULT_MASS = 1; // x ELECTRON_MASS
+    public static final double MIN_MASS_MULTIPLIER = 1;
+    public static final double MAX_MASS_MULTIPLIER = 10;
+    public static final double DEFAULT_MASS_MULTIPLIER = 1;
+    public static final double DEFAULT_MASS = DEFAULT_MASS_MULTIPLIER * ELECTRON_MASS;
     
     //----------------------------------------------------------------------------
     // Potentials
