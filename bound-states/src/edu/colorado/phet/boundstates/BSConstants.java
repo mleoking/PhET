@@ -144,7 +144,7 @@ public class BSConstants {
     public static final boolean SHOW_VERTICAL_GRIDLINES = true;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = false;
     
-    public static final double PIXELS_PER_SAMPLE_POINT = 2;
+    public static final double PIXELS_PER_SAMPLE_POINT = 1;
     
     //----------------------------------------------------------------------------
     // Particle
