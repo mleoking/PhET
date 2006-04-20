@@ -87,7 +87,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _lines = new ArrayList();
         _hiliteValueNode = new PText();
         _hiliteValueNode.setTextPaint( _hiliteColor );
-        _hiliteValueNode.setFont( new Font( "Lucida Sans", Font.PLAIN, 12 ) );
+        _hiliteValueNode.setFont( BSConstants.HILITE_ENERGY_FONT );
         _hiliteValueNode.setVisible( false );
         _hiliteValueNode.setOffset( 100, 100 );
         
