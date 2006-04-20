@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- square wells don't look square
+- square wells don't look square (override getPotentialPoints for square & asymm)
 - SamM says that harmonic oscillator potential curve looks too wide
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - cache wavefunction solutions
