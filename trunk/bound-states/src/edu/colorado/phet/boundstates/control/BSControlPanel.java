@@ -285,9 +285,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _massSlider.setInverted( true );
             // Put a label at each tick mark.
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( 100 ), new JLabel( "<html>m<sub>e</sub></html>" ) );
-            labelTable.put( new Integer( 50 ), new JLabel( "<html>5m<sub>e</sub></html>" ) );
-            labelTable.put( new Integer( 10 ), new JLabel( "<html>10m<sub>e</sub></html>" ) );
+            labelTable.put( new Integer( 40 ), new JLabel( "<html>m<sub>e</sub></html>" ) );
+            labelTable.put( new Integer( 30 ), new JLabel( "<html>2m<sub>e</sub></html>" ) );
+            labelTable.put( new Integer( 20 ), new JLabel( "<html>3m<sub>e</sub></html>" ) );
+            labelTable.put( new Integer( 10 ), new JLabel( "<html>4m<sub>e</sub></html>" ) );
             _massSlider.getSlider().setLabelTable( labelTable );
             
             // Layout
