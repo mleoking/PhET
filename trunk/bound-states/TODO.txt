@@ -5,8 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- lower bound not found in Schmidt-Lee for initial state of harmonic oscillator
 - square wells don't look square (override getPotentialPoints for square & asymm)
-- SamM says that harmonic oscillator potential curve looks too wide
 - ArrayIndexOutOfBoundsException in BSEigenstateNode.hiliteEigenstate when changing mass
 - cache wavefunction solutions
 
@@ -54,6 +54,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - bugfix: mass wasn't initialized properly, made harmonic oscillator look too wide
 (4/20/06) - show energy value above hilited eigenstate
 (4/19/06) - change some labels in control panel because bottom change changes its identity
 (4/19/06) - change label and range on bottom chart when set to Probability Density
