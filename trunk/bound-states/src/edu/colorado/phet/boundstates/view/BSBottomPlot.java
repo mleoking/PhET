@@ -85,6 +85,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     // array of Integer, indicies of eigenstates that have non-zero superposition coefficients
     private ArrayList _eigenstateIndicies;
     
+    private int _mode; // MODE_WAVE_FUNCTION or MODE_PROBABILITY_DENSITY
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -222,11 +224,14 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * @param mode MODE_WAVE_FUNCTION or MODE_PROBABILITY_DENSITY
      */
     public void setMode( int mode ) {
+        if ( mode != MODE_WAVE_FUNCTION && mode != MODE_PROBABILITY_DENSITY ) {
+            throw new IllegalArgumentException( "invalid mode: " + mode );
+        }
+        _mode = mode;
         ValueAxis yAxis = getRangeAxis();
         if ( mode == MODE_WAVE_FUNCTION ) {
             yAxis.setLabel( _waveFunctionLabel );
             yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
-            setHiliteVisible( true );
             setRealVisible( true );
             setImaginaryVisible( true );
             setMagnitudeVisible( true );
@@ -236,15 +241,11 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         else if ( mode == MODE_PROBABILITY_DENSITY ) {
             yAxis.setLabel( _probabilityDensityLabel );
             yAxis.setRange( BSConstants.PROBABILITY_DENSITY_RANGE );
-            setHiliteVisible( false );
             setRealVisible( false );
             setImaginaryVisible( false );
             setMagnitudeVisible( false );
             setPhaseVisible( false );
             setProbabilityDensityVisible( true );
-        }
-        else {
-            throw new IllegalArgumentException( "invalid mode: " + mode );
         }
     }
     
@@ -266,10 +267,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setProbabilityDensityVisible( boolean visible ) {
         getRenderer( _probabilityDensityIndex ).setSeriesVisible( new Boolean( visible ) );
-    }
-    
-    public void setHiliteVisible( boolean visible ) {
-        getRenderer( _hiliteIndex ).setSeriesVisible( new Boolean( visible ) );
     }
     
     /**
@@ -348,7 +345,12 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
              final double maxX = getDomainAxis().getUpperBound();
              Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
              for ( int i = 0; i < points.length; i++ ) {
-                 _hiliteSeries.add( points[i].getX(), points[i].getY() );
+                 double x = points[i].getX();
+                 double y = points[i].getY();
+                 if ( _mode == MODE_PROBABILITY_DENSITY ) {
+                     y = Math.abs( y ) * Math.abs( y );
+                 }
+                 _hiliteSeries.add( x, y );
              }
         }
         _hiliteSeries.setNotify( true );

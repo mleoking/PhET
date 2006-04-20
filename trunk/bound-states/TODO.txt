@@ -54,6 +54,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - probability density of hilited eigenstate should be shown in Probability Density view
 (4/20/06) - remove annotation and region marker colors from color schemes
 (4/20/06) - get newer PhaseRenderer from Quantum Tunneling sim
 (4/20/06) - use same position range for view and model until we figure out Schidmt-Lee
