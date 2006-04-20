@@ -5,16 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- lower bound not found in Schmidt-Lee for initial state of harmonic oscillator
-- square & asymm wells don't have square sides when dx gets larger (override getPotentialPoints for square & asymm)
+- width and spacing sliders in BSSquareDialog don't interact like they should
 - cache wavefunction solutions
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
 MEDIUM PRIORITY:
+- square & asymm wells don't have square sides when dx gets larger (override getPotentialPoints for square & asymm)
 - default to Probability Density
 - verify that datasets are updated only when absolutely necessary
 - drag handles for each potential type (all slightly different)
-- width and spacing sliders in BSSquareDialog don't interact like they should
 - disable the superposition button if no eigenstates are found
 - implement Save/Load for model
 - Single and Double modules need to permanently hide the "number of wells" control
