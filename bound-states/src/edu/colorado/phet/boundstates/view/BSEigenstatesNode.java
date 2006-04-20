@@ -294,24 +294,27 @@ public class BSEigenstatesNode extends PNode implements Observer {
         // Clear the previous highlight...
         clearHilite();
 
-        // Set the new highlight...
-        PPath line = (PPath) _lines.get( hiliteIndex );
-        line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
-        line.setStrokePaint( _hiliteColor );
-        
-        // Update the model...
-        _model.setHilitedEigenstateIndex( hiliteIndex );
-        
-        // Show the eigenstate's value...
-        BSEigenstate[] eigenstates = _model.getEigenstates();
-        double energy = eigenstates[hiliteIndex].getEnergy();
-        String text = HILITE_VALUE_FORMAT.format( energy );
-        _hiliteValueNode.setText( text );
-        _hiliteValueNode.setVisible( true );
-        
-        // Position the value just above the hilited line...
-        Rectangle2D bounds = line.getFullBounds();
-        _hiliteValueNode.setOffset( bounds.getX() + 5, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            
+            // Set the new highlight...
+            PPath line = (PPath) _lines.get( hiliteIndex );
+            line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
+            line.setStrokePaint( _hiliteColor );
+
+            // Update the model...
+            _model.setHilitedEigenstateIndex( hiliteIndex );
+
+            // Show the eigenstate's value...
+            BSEigenstate[] eigenstates = _model.getEigenstates();
+            double energy = eigenstates[hiliteIndex].getEnergy();
+            String text = HILITE_VALUE_FORMAT.format( energy );
+            _hiliteValueNode.setText( text );
+            _hiliteValueNode.setVisible( true );
+
+            // Position the value just above the hilited line...
+            Rectangle2D bounds = line.getFullBounds();
+            _hiliteValueNode.setOffset( bounds.getX() + 5, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
+        }
     }
     
     /*
