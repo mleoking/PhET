@@ -380,7 +380,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 }
             }
         }
-        System.out.println( "getClosestEigenstateIndex energy=" + energy + " index=" + index );//XXX
         return index;
     }
 }
