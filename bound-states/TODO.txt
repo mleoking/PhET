@@ -53,6 +53,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - constant for hilite energy value font, make it bigger
 (4/20/06) - hilite lowest and highest eigenstate only when cursor gets close to them
 (4/20/06) - probability density of hilited eigenstate should be shown in Probability Density view
 (4/20/06) - remove annotation and region marker colors from color schemes
