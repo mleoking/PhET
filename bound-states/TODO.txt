@@ -52,6 +52,7 @@ MACINTOSH:
 
 
 DONE:
+(4/20/06) - change label table on mass slider
 (4/20/06) - change PIXELS_PER_SAMPLE to 0.5 (Sam M request)
 (4/20/06) - change angular freq range to 1-2.5 (Sam M request)
 (4/20/06) - change mass range to 1-4 x 5.68 (Sam M request)
