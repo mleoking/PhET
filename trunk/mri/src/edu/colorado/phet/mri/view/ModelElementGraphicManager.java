@@ -62,7 +62,8 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         if( modelElement instanceof Electromagnet ) {
             graphic = new ElectromagnetGraphic( (Electromagnet)modelElement );
         }
-        if( modelElement instanceof RadiowaveSource ) {
+        if( modelElement instanceof RadiowaveSource
+            && !( modelElement instanceof PlaneWaveCycle ) ) {
             graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
         }
         if( modelElement instanceof Photon ) {
@@ -71,10 +72,6 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         if( modelElement instanceof PlaneWaveMedium ) {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;
             graphic = new PlaneWaveGraphic( pwm,
-                                            pwm.getOrigin(),
-                                            pwm.getLength(),
-                                            pwm.getLength(),
-                                            pwm.getSpeed(),
                                             0.5,
                                             Color.black );
         }

@@ -95,22 +95,28 @@ public class MriModuleA extends Module {
      */
     private void createDipoles( int numDipoles, SampleChamber sampleChamber, MriModel model ) {
         Random random = new Random();
-        for( int i = 0; i < numDipoles; i++ ) {
-            double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-            double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
+
+        boolean singleDipole = false;
+
+        if( !singleDipole ) {
+            for( int i = 0; i < numDipoles; i++ ) {
+                double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
+                double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
+                Dipole dipole = new Dipole();
+                dipole.setPosition( x, y );
+                Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
+                dipole.setSpin( spin );
+                model.addModelElement( dipole );
+            }
+
+        }
+        else {
             Dipole dipole = new Dipole();
-            dipole.setPosition( x, y );
-            Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
-            dipole.setSpin( spin );
+            dipole.setPosition( ( sampleChamber.getBounds().getWidth() / 2 ) + sampleChamber.getBounds().getX(),
+                                sampleChamber.getBounds().getY() + 100 );
+            dipole.setSpin( Spin.DOWN );
             model.addModelElement( dipole );
         }
-
-//        Dipole dipole = new Dipole();
-//        dipole.setPosition( ( sampleChamber.getBounds().getWidth() / 2 ) + sampleChamber.getBounds().getX(),
-//                            sampleChamber.getBounds().getY() + 100 );
-//        dipole.setSpin( Spin.DOWN );
-//        model.addModelElement( dipole );
-
     }
 
 
