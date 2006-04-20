@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - lower bound not found in Schmidt-Lee for initial state of harmonic oscillator
 - square wells don't look square when dx gets larger (override getPotentialPoints for square & asymm)
 - cache wavefunction solutions
+- determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
 MEDIUM PRIORITY:
 - default to Probability Density
