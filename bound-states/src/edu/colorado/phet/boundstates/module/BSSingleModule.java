@@ -25,9 +25,11 @@ public class BSSingleModule extends BSManyModule {
 
     public BSSingleModule() {
         super( SimStrings.get( "BSSingleModule.title" ) );
+        BSWellType[] wellTypeChoices = 
+            { BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR, BSWellType.SQUARE, BSWellType.ASYMMETRIC };
+        setWellTypeChoices( wellTypeChoices );
+        setWellType( BSWellType.SQUARE );
         setNumberOfWells( 1 );
         setNumberOfWellsControlVisible( false );
-        BSWellType[] wellTypeChoices = { BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR, BSWellType.SQUARE, BSWellType.ASYMMETRIC };
-        setWellTypeChoices( wellTypeChoices );
     }
 }

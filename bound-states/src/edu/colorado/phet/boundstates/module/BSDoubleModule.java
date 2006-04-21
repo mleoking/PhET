@@ -26,9 +26,10 @@ public class BSDoubleModule extends BSManyModule {
 
     public BSDoubleModule() {
         super( SimStrings.get( "BSDoubleModule.title" ) );
-        setNumberOfWells( 2 );
-        setNumberOfWellsControlVisible( false );
         BSWellType[] wellTypeChoices = { BSWellType.COULOMB, BSWellType.SQUARE };
         setWellTypeChoices( wellTypeChoices );
+        setWellType( BSWellType.SQUARE );
+        setNumberOfWells( 2 );
+        setNumberOfWellsControlVisible( false );
     }
 }

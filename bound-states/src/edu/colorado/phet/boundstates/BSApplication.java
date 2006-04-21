@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
@@ -28,6 +27,7 @@ import edu.colorado.phet.boundstates.module.BSSingleModule;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
+import edu.colorado.phet.boundstates.util.ArgUtils;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -48,6 +48,11 @@ public class BSApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------------------
        
+    // Command line args for choosing modules...
+    private static final String ARG_SINGLE = "-single";
+    private static final String ARG_DOUBLE = "-double";
+    private static final String ARG_MANY = "-many";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -80,7 +85,7 @@ public class BSApplication extends PhetApplication {
             String title, String description, String version, FrameSetup frameSetup )
     {
         super( args, title, description, version, frameSetup );
-        initModules();
+        initModules( args );
         initMenubar();
     }
     
@@ -90,16 +95,32 @@ public class BSApplication extends PhetApplication {
     
     /*
      * Initializes the modules.
+     * Command line args are consulted to see which modules should be created.
+     * If no command line args are found, then all of the modules are created.
      * 
      * @param clock
      */
-    private void initModules() {
-//        _singleModule = new BSSingleModule();
-//        addModule( _singleModule );
-//        _doubleModule = new BSDoubleModule();
-//        addModule( _doubleModule );
-        _manyModule = new BSManyModule();
-        addModule( _manyModule );
+    private void initModules( String[] args ) {
+        
+        final boolean hasSingle = ArgUtils.contains( args, ARG_SINGLE );
+        final boolean hasDouble = ArgUtils.contains( args, ARG_DOUBLE );
+        final boolean hasMany = ArgUtils.contains( args, ARG_MANY );
+        final boolean hasAll = !( hasSingle || hasDouble || hasMany );
+        
+        if ( hasSingle || hasAll ) {
+            _singleModule = new BSSingleModule();
+            addModule( _singleModule );
+        }
+        
+        if ( hasDouble || hasAll ) {
+            _doubleModule = new BSDoubleModule();
+            addModule( _doubleModule );
+        }
+
+        if ( hasMany || hasAll ) {
+            _manyModule = new BSManyModule();
+            addModule( _manyModule );
+        }
     }
     
     /*
@@ -179,9 +200,7 @@ public class BSApplication extends PhetApplication {
     
     public void startApplication() {
         super.startApplication();
-        
         // Do things that need to be done after starting the application...
-        setActiveModule( _manyModule ); //XXX
     }
     
     //----------------------------------------------------------------------------
