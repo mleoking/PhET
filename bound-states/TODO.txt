@@ -43,14 +43,6 @@ CLEANUP:
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
-PHETCOMMON:
-
-
-JFREECHART:
-
-
-MACINTOSH:
-
 
 DONE:
 (4/21/06) - hand cursor when an eigenstate is hilited
