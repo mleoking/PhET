@@ -21,6 +21,9 @@ import java.awt.geom.Point2D;
 
 /**
  * BFieldIndicator
+ * <p/>
+ * An arrow graphic that grows and shrinks with the magnitude of a specified
+ * Electromagnet
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -28,10 +31,11 @@ import java.awt.geom.Point2D;
 public class BFieldIndicator extends PNode {
     private double maxLength;
     private PPath arrowPPath;
-    private Color arrowColor;
+    private Paint arrowColor;
 
-    public BFieldIndicator( Electromagnet magnet, double maxLength ) {
+    public BFieldIndicator( Electromagnet magnet, double maxLength, Paint fill ) {
         this.maxLength = maxLength;
+        this.arrowColor = fill;
         magnet.addChangeListener( new Electromagnet.ChangeListener() {
             public void stateChanged( Electromagnet.ChangeEvent event ) {
                 update( event.getElectromagnet() );
@@ -51,14 +55,13 @@ public class BFieldIndicator extends PNode {
         double field = magnet.getFieldStrength();
         double length = ( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;
         length = Math.min( length, maxLength );
-//        length = Math.max( length, 0 );
         Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, length / 2 ),
                                        new Point2D.Double( 0, -length / 2 ),
-                                       length / 4, length / 4, length / 8, .5, true );
-//                                       20, 20, 10, .5, true );
+                                       length / 2, length / 2, length / 4, .5, true );
         arrowPPath = new PPath( bFieldArrow.getShape() );
-        arrowColor = new Color( 80, 80, 180 );
-        arrowPPath.setPaint( arrowColor );
+        if( arrowColor != null ) {
+            arrowPPath.setPaint( arrowColor );
+        }
         this.addChild( arrowPPath );
     }
 }

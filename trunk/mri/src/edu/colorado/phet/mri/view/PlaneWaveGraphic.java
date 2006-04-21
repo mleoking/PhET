@@ -54,7 +54,8 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
 
     private PPath[] components;
     // Number of linear units represented by a single color in the graphic
-    private double stepSize = 5;
+//    private double stepSize = 1;
+    private double stepSize = 10;
 
     /**
      * Constructor

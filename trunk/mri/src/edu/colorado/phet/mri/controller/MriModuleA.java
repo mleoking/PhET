@@ -79,7 +79,8 @@ public class MriModuleA extends Module {
         model.addListener( graphicsManager );
 
         // Make some dipoles
-        createDipoles( 16, model.getSampleChamber(), model );
+        createDipoles( 20, model.getSampleChamber(), model );
+//        createDipoles( 16, model.getSampleChamber(), model );
 
         // Set the initial view
         setEmRep( MriModuleA.WAVE_VIEW );
@@ -113,13 +114,14 @@ public class MriModuleA extends Module {
 
             double colSpacing = bounds.getWidth() / ( numCols + 1 );
             double rowSpacing = bounds.getHeight() / ( numRows + 1 );
+            int cnt = 0;
             for( int i = 1; i <= numRows; i++ ) {
                 for( int j = 1; j <= numCols; j++ ) {
                     double x = sampleChamber.getBounds().getX() + j * colSpacing;
                     double y = sampleChamber.getBounds().getY() + i * rowSpacing;
                     Dipole dipole = new Dipole();
                     dipole.setPosition( x, y );
-                    Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
+                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
                     dipole.setSpin( spin );
                     model.addModelElement( dipole );
                 }

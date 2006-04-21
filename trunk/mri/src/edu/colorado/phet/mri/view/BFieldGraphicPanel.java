@@ -36,7 +36,9 @@ public class BFieldGraphicPanel extends PhetPCanvas {
     public BFieldGraphicPanel( Electromagnet magnet ) {
         setPreferredSize( new Dimension( 200, 200 ) );
         maxArrowFractionOfHeight = 0.9;
-        final BFieldIndicator indicator = new BFieldIndicator( magnet, getPreferredSize().getHeight() * maxArrowFractionOfHeight );
+        final BFieldIndicator indicator = new BFieldIndicator( magnet,
+                                                               getPreferredSize().getHeight() * maxArrowFractionOfHeight,
+                                                               new Color( 80, 80, 180 ) );
         indicatorGraphic = new RegisterablePNode( indicator );
         addWorldChild( indicatorGraphic );
 
