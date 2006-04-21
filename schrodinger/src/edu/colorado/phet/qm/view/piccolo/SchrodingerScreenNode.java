@@ -388,8 +388,12 @@ resolution, and a quarter as many times for high resolution.*/
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
-        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() * getTimeFudgeFactor() );
-
+        System.out.println( "particleUnits.getDt() = " + particleUnits.getDt() );
+        System.out.println( "getTimeFudgeFactor() = " + getTimeFudgeFactor() );
+        stopwatchPanel.setScaleFactor( getTimeFudgeFactor() * particleUnits.getDt().getDisplayValue() );
+//        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() * getTimeFudgeFactor() );
+        stopwatchPanel.setTimeFormat( new DecimalFormat( "0.000" ) );
+        stopwatchPanel.reset();
         String newTimeUnits = particleUnits.getDt().getUnits();
         String[]times = new String[]{"ns", "ps", "fs"};
         ArrayList list = new ArrayList( Arrays.asList( times ) );

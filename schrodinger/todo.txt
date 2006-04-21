@@ -1,8 +1,5 @@
 fix neutron barrier bug
-..Not sure how to reproduce this.
-
-Tests keep giving c=3e7 for the speed of light.
-    Units for photons still needed.
+..Not sure how to reproduce this (haven't tried)
 
 It looks like you've implemented everything correctly except the units
 per clock tick.  In the current version, for electrons at low
@@ -16,13 +13,6 @@ Electrons	0.005 fs
 Neutrons	0.01 ps
 He Atoms	0.05 ps
 (At medium resolution, divide these numbers by 4, at high, by 16)
-
-Also, in version 0.57, the scale of the intensity at high resolution is
-such that I can barely see the particle.  I think the correction for the
-bleaching out has gone too far.  Also, the bleaching out occurs for
-photons as well at high resolution.  I don't think the bleaching out is
-that big of a deal, but if you're going to correct it in one place, you
-may as well correct it everywhere.
 
 Center the Reset All and Clear Wave buttons.
     This is difficult, given the "all control panels should have the same width" constraint.
