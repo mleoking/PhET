@@ -131,7 +131,8 @@ public class MonitorPanel extends PhetPCanvas {
     //----------------------------------------------------------------
 
     /**
-     * A graphic with a line and an icon for each dipole in that energy level
+     * A graphic with a line and an icon for each dipole in that energy level. It actually has an icon for all
+     * the dipoles, but only displays the one that are currently in this energy level.
      */
     private class EnergyLevel extends PNode {
         private PPath lineNode;
@@ -161,6 +162,7 @@ public class MonitorPanel extends PhetPCanvas {
 
             // Add a listener that will add and remove dipole reps as they go in and out of the model
             model.addListener( new MriModel.ChangeAdapter() {
+                int cnt;
                 public void modelElementAdded( ModelElement modelElement ) {
                     if( modelElement instanceof Dipole ) {
                         addDipoleRep();
@@ -200,6 +202,7 @@ public class MonitorPanel extends PhetPCanvas {
             this.model = model;
         }
 
+        int cnt;
         public void stepInTime( double dt ) {
             List dipoles = model.getDipoles();
             representationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
@@ -255,8 +258,6 @@ public class MonitorPanel extends PhetPCanvas {
                 boolean isDown = !isUp;
                 ( (PNode)spinUpReps.get( i ) ).setVisible( isUp );
                 ( (PNode)spinDownReps.get( i ) ).setVisible( isDown );
-                ( (PNode)spinUpReps.get( i ) ).setTransparency( 1 );
-                ( (PNode)spinDownReps.get( i ) ).setTransparency( 1 );
             }
         }
     }
