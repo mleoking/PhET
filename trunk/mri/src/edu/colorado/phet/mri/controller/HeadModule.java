@@ -16,8 +16,8 @@ import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.SampleChamber;
 import edu.colorado.phet.mri.model.Spin;
-
-import java.util.Random;
+import edu.colorado.phet.piccolo.util.PImageFactory;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * MriModuleA
@@ -25,13 +25,13 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MriModuleA extends AbstractMriModule {
+public class HeadModule extends AbstractMriModule {
 
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = "Module A";
+    private static String name = "The Head";
 
     //----------------------------------------------------------------
     // Instance methods and fields
@@ -40,22 +40,20 @@ public class MriModuleA extends AbstractMriModule {
     /**
      * Constructor
      */
-    public MriModuleA() {
-        super( name, new SwingClock( delay, dt ) );
+    public HeadModule() {
+        super( HeadModule.name, new SwingClock( delay, dt ) );
 
-        // Sample Chamber
-//        SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-//                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
-//                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
-//        addModelElement( sampleChamber );
+        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE );
+        headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION );
+        int n = getWorldNode().getChildrenCount();
+        getWorldNode().addChild( n, headGraphic );
 
         // Make some dipoles
         createDipoles( 20, ( (MriModel)getModel() ).getSampleChamber(), ( (MriModel)getModel() ) );
 //        createDipoles( 16, model.getSampleChamber(), model );
 
         // Set the initial view
-        setEmRep( MriModuleA.WAVE_VIEW );
+        setEmRep( HeadModule.WAVE_VIEW );
     }
 
     /**
@@ -66,7 +64,6 @@ public class MriModuleA extends AbstractMriModule {
      * @param model
      */
     protected void createDipoles( int numDipoles, SampleChamber sampleChamber, MriModel model ) {
-        Random random = new Random();
 
         boolean singleDipole = false;
 
@@ -85,7 +82,7 @@ public class MriModuleA extends AbstractMriModule {
                 testAspectRatio = ( (double)numCols ) / numRows;
             }
 
-            double colSpacing = MriConfig.SAMPLE_CHAMBER_WIDTH / ( numCols + 1 );
+            double colSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numCols + 1 );
             double rowSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numRows + 1 );
 //            double colSpacing = bounds.getWidth() / ( numCols + 1 );
 //            double rowSpacing = bounds.getHeight() / ( numRows + 1 );

@@ -30,7 +30,7 @@ public class MriControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public MriControlPanel( MriModuleA module ) {
+    public MriControlPanel( AbstractMriModule module ) {
         MriModel model = (MriModel)module.getModel();
 
 //        JComponent fadingMagnetsControl = new FadingMagnetControl( model );

@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class EmRepSelector extends JPanel {
-    public EmRepSelector( final MriModuleA module ) {
+    public EmRepSelector( final AbstractMriModule module ) {
         super( new GridBagLayout() );
 
         JRadioButton photonViewButton = new JRadioButton( "Photons" );

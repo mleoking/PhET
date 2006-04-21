@@ -231,17 +231,21 @@ public class MonitorPanel extends PhetPCanvas {
     }
 
     private void adjustSquiggle( MriModel model ) {
-        double frequency = model.getRadiowaveSource().getFrequency();
+        RadiowaveSource radiowaveSource = model.getRadiowaveSource();
+        double frequency = radiowaveSource.getFrequency();
         double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
+
+        double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
+        energySquiggle.setTransparency( (float)transparency );
 
         // TODO: the "calibration" numbers here need to be understood and made more systematic
         double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 2.8;
-
         energySquiggle.update( wavelength, 0, (int)length, 10 );
         energySquiggle.setOffset( 10, lowerLine.getOffset().getY() - length );
 
+        // Test to see if the squiggle should be flashed
         double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
-        double rfEnergy = PhysicsUtil.frequencyToEnergy( model.getRadiowaveSource().getFrequency() );
+        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
         if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
             if( !matched ) {
                 GraphicFlasher gf = new GraphicFlasher( energySquiggle );
@@ -370,7 +374,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
-            // noop
+            adjustSquiggle( model );
         }
 
         public void wavelengthChanged( PhotonSource.ChangeEvent event ) {

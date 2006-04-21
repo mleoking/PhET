@@ -60,13 +60,17 @@ public class MriModel extends BaseModel {
 
         // Magnets
         double magnetHeight = MriConfig.MAX_FADING_HEIGHT;
-        Point2D upperMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
-                                                          sampleChamber.getBounds().getY() - magnetHeight * 1.5 );
-        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamber.getBounds().getWidth(), magnetHeight, clock );
+        Rectangle2D sampleChamberBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+                                                                  MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+                                                                  MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT );
+        Point2D upperMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
+                                                          sampleChamberBounds.getY() - magnetHeight * 1.5 );
+        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( upperMagnet );
-        Point2D lowerMagnetLocation = new Point2D.Double( sampleChamber.getBounds().getX() + sampleChamber.getBounds().getWidth() / 2,
-                                                          sampleChamber.getBounds().getY() + sampleChamber.getBounds().getHeight() + magnetHeight * 1.5 );
-        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamber.getBounds().getWidth(), magnetHeight, clock );
+        Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
+                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
+        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
 
         // Radiowave Source
@@ -162,6 +166,11 @@ public class MriModel extends BaseModel {
 
     public ArrayList getPhotons() {
         return photons;
+    }
+
+    public void setSampleChamber( SampleChamber sampleChamber ) {
+        this.sampleChamber = sampleChamber;
+        addModelElement( sampleChamber );
     }
 
     public SampleChamber getSampleChamber() {

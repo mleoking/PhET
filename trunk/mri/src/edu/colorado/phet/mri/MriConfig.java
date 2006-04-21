@@ -35,6 +35,7 @@ public class MriConfig {
     // Images
     public static final String IMAGE_PATH = "images/";
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
+    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 20E6;
