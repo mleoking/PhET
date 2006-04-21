@@ -52,6 +52,7 @@ MACINTOSH:
 
 
 DONE:
+(4/21/06) - tweak presentation of eigenstate energy value display
 (4/21/06) - move common code into AbstractPotential.getEigenstateSolver
 (4/21/06) - always use the same # points for calculating eigenstates, don't change based on window size
 (4/20/06) - change label table on mass slider
