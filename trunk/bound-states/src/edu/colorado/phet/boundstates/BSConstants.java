@@ -156,7 +156,7 @@ public class BSConstants {
      * rendering quality will be the same resolution for all simulation
      * window sizes.
      */
-    public static final double PIXELS_PER_SAMPLE_POINT = 0.5;
+    public static final double PIXELS_PER_SAMPLE_POINT = 1;
     
     /*
      * Determines the number of sample points used to calculate eigenstates.
