@@ -66,7 +66,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double deltaPhase = desiredPhase - uneditedPhase;
 
         wave2DSetup.setPhase( deltaPhase );
-        wave2DSetup.setScale( getIntensityScale() * getWaveAreaSizeScale() * getResolutionIntensityFudgeFactor() );
+//        wave2DSetup.setScale( getIntensityScale() * getWaveAreaSizeScale() * getResolutionIntensityFudgeFactor() );//would have handled bleaching.
+        wave2DSetup.setScale( getIntensityScale() * getWaveAreaSizeScale() );
 
         return wave2DSetup;
     }
