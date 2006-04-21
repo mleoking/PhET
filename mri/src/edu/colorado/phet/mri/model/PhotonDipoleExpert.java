@@ -21,19 +21,35 @@ import edu.colorado.phet.quantum.model.Photon;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
  */
 public class PhotonDipoleExpert implements CollisionExpert {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private static Random random = new Random();
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private Object[] bodies = new Object[2];
     private Map classifiedBodies = new HashMap();
     private MriModel model;
+    private CollisionProbablilityStrategy collisionProbablilityStrategy;
+//    private CollisionProbablilityStrategy collisionProbablilityStrategy = new ConstantCollisionProbability();
 
     public PhotonDipoleExpert( MriModel model ) {
         this.model = model;
         classifiedBodies.put( Photon.class, null );
         classifiedBodies.put( Dipole.class, null );
+
+        collisionProbablilityStrategy = new LinearCollisionProbability( 0, 1 );
     }
 
     public boolean detectAndDoCollision( Collidable body1, Collidable body2 ) {
@@ -51,8 +67,8 @@ public class PhotonDipoleExpert implements CollisionExpert {
             }
 
             if( dipole != null && photon != null ) {
-                if( photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius() )
-                {
+                if( photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius()
+                    && applyProbabilityStrategy( dipole ) ) {
                     // If the difference between the energy states of the spin up and down is equal to the
                     // energy of the photon, and the dipole is in the spin up (lower energy) state, flip the
                     // dipole
@@ -69,6 +85,10 @@ public class PhotonDipoleExpert implements CollisionExpert {
             }
         }
         return false;
+    }
+
+    private boolean applyProbabilityStrategy( Dipole dipole ) {
+        return random.nextDouble() <= collisionProbablilityStrategy.getProbability( dipole );
     }
 
     //----------------------------------------------------------------
@@ -126,4 +146,38 @@ public class PhotonDipoleExpert implements CollisionExpert {
             }
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Collision probability strategies
+    //--------------------------------------------------------------------------------------------------
+
+    private interface CollisionProbablilityStrategy {
+        double getProbability( Dipole dipole );
+    }
+
+    private class ConstantCollisionProbability implements CollisionProbablilityStrategy {
+        public double getProbability( Dipole dipole ) {
+            return 1;
+        }
+    }
+
+    private class LinearCollisionProbability implements CollisionProbablilityStrategy {
+        private double m;
+        private double minProbability;
+        private double maxProbability;
+
+        public LinearCollisionProbability( double minProbability, double maxProbability ) {
+            this.minProbability = minProbability;
+            this.maxProbability = maxProbability;
+            double yMax = model.getRadiowaveSource().getPosition().getY() - model.getSampleChamber().getPosition().getY();
+            m = ( maxProbability - minProbability ) / yMax;
+        }
+
+        public double getProbability( Dipole dipole ) {
+            double dy = model.getRadiowaveSource().getPosition().getY() - dipole.getPosition().getY();
+            double probability = minProbability + m * dy;
+            return probability;
+        }
+    }
 }
+
