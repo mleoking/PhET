@@ -77,16 +77,11 @@ public class BSEigenstatesNode extends PNode implements Observer {
     public BSEigenstatesNode( BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
         super();
       
-        _normalColor = BSConstants.COLOR_SCHEME.getEigenstateNormalColor();
-        _hiliteColor = BSConstants.COLOR_SCHEME.getEigenstateHiliteColor();
-        _selectionColor = BSConstants.COLOR_SCHEME.getEigenstateSelectionColor();
-        
         _model = null;
         
         _chartNode = chartNode;
         _lines = new ArrayList();
         _hiliteValueNode = new PText();
-        _hiliteValueNode.setTextPaint( _hiliteColor );
         _hiliteValueNode.setFont( BSConstants.HILITE_ENERGY_FONT );
         _hiliteValueNode.setVisible( false );
         _hiliteValueNode.setOffset( 100, 100 );
@@ -103,6 +98,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
             }
         };
         addInputEventListener( mouseHandler );
+        
+        setColorScheme( BSConstants.COLOR_SCHEME );
     }
 
     /**
@@ -131,10 +128,14 @@ public class BSEigenstatesNode extends PNode implements Observer {
     }
     
     public void setColorScheme( BSColorScheme colorScheme ) {
+        
         _normalColor = colorScheme.getEigenstateNormalColor();
         _hiliteColor = colorScheme.getEigenstateHiliteColor();
         _selectionColor = colorScheme.getEigenstateSelectionColor();
+        
+        _hiliteValueNode.setPaint( colorScheme.getChartColor() );
         _hiliteValueNode.setTextPaint( _hiliteColor );
+        
         updateDisplay();
     }
     
@@ -181,7 +182,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         clearHilite();
         
         removeAllChildren();
-        addChild( _hiliteValueNode );
         
         _lines.clear();
         
@@ -208,6 +208,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
             _lines.add( line );
         }
 
+        addChild( _hiliteValueNode ); // add last, so it's on top
+        
         selectEigenstates();
     }
     
@@ -310,13 +312,13 @@ public class BSEigenstatesNode extends PNode implements Observer {
             // Show the eigenstate's value...
             BSEigenstate[] eigenstates = _model.getEigenstates();
             double energy = eigenstates[hiliteIndex].getEnergy();
-            String text = HILITE_VALUE_FORMAT.format( energy );
+            String text = " " + HILITE_VALUE_FORMAT.format( energy );
             _hiliteValueNode.setText( text );
             _hiliteValueNode.setVisible( true );
 
             // Position the value just above the hilited line...
             Rectangle2D bounds = line.getFullBounds();
-            _hiliteValueNode.setOffset( bounds.getX() + 5, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
+            _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
         }
     }
     
