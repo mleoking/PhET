@@ -145,7 +145,27 @@ public class BSConstants {
     public static final boolean SHOW_VERTICAL_GRIDLINES = true;
     public static final boolean SHOW_HORIZONTAL_GRIDLINES = false;
     
+    //----------------------------------------------------------------------------
+    // Lattice size controls
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Determines the number of sample points used to draw the potential 
+     * and wave functions.  The actual number of sample points will vary
+     * with the width (in pixels) of the charts.  This guarantees that the
+     * rendering quality will be the same resolution for all simulation
+     * window sizes.
+     */
     public static final double PIXELS_PER_SAMPLE_POINT = 0.5;
+    
+    /*
+     * Determines the number of sample points used to calculate eigenstates.
+     * Because of how the Schmidt-Lee algorithm behaves, we don't want this 
+     * to vary with the size of the simulation window.  Schmidt-Lee will
+     * fail if dx gets too small, so if you change the position range,
+     * you may need to change this value.
+     */
+    public static final int EIGENSTATE_SAMPLE_POINTS = 1350;
     
     //----------------------------------------------------------------------------
     // Particle
