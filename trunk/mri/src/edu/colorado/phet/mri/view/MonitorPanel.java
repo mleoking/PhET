@@ -16,13 +16,13 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.util.GraphicFlasher;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -51,7 +51,7 @@ public class MonitorPanel extends PhetPCanvas {
     private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
     private static double IMAGE_WIDTH;
     // fraction of panel height that is usable for representing energy levels
-    private double heightFractionUsed;
+    private double heightFractionUsed = 0.9;
 
     static {
         makeImages( 0.5 );
@@ -223,11 +223,10 @@ public class MonitorPanel extends PhetPCanvas {
     }
 
     private void adjustSquiggle( MriModel model ) {
-        heightFractionUsed = 0.9;
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
-
         double frequency = model.getRadiowaveSource().getFrequency();
         double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
+
+        // TODO: the "calibration" numbers here need to be understood and made more systematic
         double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 2.8;
 
         energySquiggle.update( wavelength * 1E3, 0, (int)length, 10 );
@@ -303,7 +302,6 @@ public class MonitorPanel extends PhetPCanvas {
                 else if( dipole.getSpin() == Spin.DOWN ) {
                     numDown++;
                 }
-
             }
 
             float upTransparency = ( (float)numUp ) / dipoles.size();
@@ -317,7 +315,6 @@ public class MonitorPanel extends PhetPCanvas {
                 ( (PNode)spinDownReps.get( j ) ).setTransparency( downTransparency );
             }
         }
-
     }
 
     private class EnergyLevelSeparationUpdater implements Electromagnet.ChangeListener {
@@ -368,37 +365,4 @@ public class MonitorPanel extends PhetPCanvas {
             adjustSquiggle( model );
         }
     }
-
-
-    private class GraphicFlasher extends Thread {
-        private int numFlashes = 5;
-        private PNode graphic;
-
-        public GraphicFlasher( PNode graphic ) {
-            this.graphic = graphic;
-        }
-
-        public void run() {
-            try {
-                for( int i = 0; i < numFlashes; i++ ) {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            graphic.setVisible( false );
-                        }
-                    } );
-                    Thread.sleep( 100 );
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            graphic.setVisible( true );
-                        }
-                    } );
-                    Thread.sleep( 100 );
-                }
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }
