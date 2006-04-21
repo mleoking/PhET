@@ -116,16 +116,11 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
      */
     private BSEigenstate[] calculateEigenstatesSchmidtLee() {
         
+        SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        
-        final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
-        final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
         final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
-        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
-        final int numberOfPoints = (int)( (maxX - minX) / getDx() ) + 1;
-        
-        SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
         int nodes = 0;
+
         boolean done = false;
         while ( !done ) {
             try {

@@ -52,6 +52,8 @@ MACINTOSH:
 
 
 DONE:
+(4/21/06) - move common code into AbstractPotential.getEigenstateSolver
+(4/21/06) - always use the same # points for calculating eigenstates, don't change based on window size
 (4/20/06) - change label table on mass slider
 (4/20/06) - change PIXELS_PER_SAMPLE to 0.5 (Sam M request)
 (4/20/06) - change angular freq range to 1-2.5 (Sam M request)

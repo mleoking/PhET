@@ -196,6 +196,17 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         return points;
     }
     
+    /*
+     * Gets the eigenstate solver.
+     */
+    protected SchmidtLeeSolver getEigenstateSolver() {
+        final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
+        final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
+        final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
+        final int numberOfPoints = BSConstants.EIGENSTATE_SAMPLE_POINTS;
+        return new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
