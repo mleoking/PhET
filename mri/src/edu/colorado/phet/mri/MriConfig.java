@@ -56,6 +56,9 @@ public class MriConfig {
 
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 
+    // Can photons emitted by dipoles be reabsorbed by another dipole?
+    public static final boolean REABSORPTION_ALLOWED = false;
+
     // Model to view conversion factors
     public static class ModelToView {
         public static double FREQUENCY = 1 / 4E9;
