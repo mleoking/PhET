@@ -25,8 +25,8 @@ import edu.colorado.phet.mri.controller.OptionMenu;
  */
 public class MriApplication extends PhetApplication {
 
-    private static String title = "MRI";
-    private static String description = "MRI";
+    private static String title = "Simplified MRI";
+    private static String description = "A simplified model of magnetic resonance imaging";
     private static String version = "0.0.1";
     private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 

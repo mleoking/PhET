@@ -16,6 +16,7 @@ import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.event.ChangeEvent;
@@ -71,7 +72,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
-        freqPSwing.setOffset( radiowaveSource.getLength() / 4 - freqPSwing.getBounds().getWidth() / 2, 15 );
+        freqPSwing.setOffset( radiowaveSource.getLength() / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
         addChild( freqPSwing );
 
         // Power control
@@ -88,7 +89,17 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
-        powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 15 );
+        powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
         addChild( powerPSwing );
+
+        // Label
+        PText title = new PText( "Radiowave\nSource" );
+        title.setPaint( new Color( 0, 0, 0, 0 ) );
+        title.setTextPaint( Color.white );
+        Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+        title.setFont( font );
+        title.setJustification( javax.swing.JLabel.CENTER_ALIGNMENT );
+        title.setOffset( radiowaveSource.getLength() / 2 - title.getBounds().getWidth() / 2, 10 );
+        addChild( title );
     }
 }

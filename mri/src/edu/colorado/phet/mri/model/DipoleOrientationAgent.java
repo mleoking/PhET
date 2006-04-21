@@ -12,9 +12,9 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.ArrayList;
 
 /**
  * DipoleOrientationAgent
@@ -33,16 +33,16 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
     private double maxUpPFraction = 0.9;
     private double fractionUp;
     private MriModel model;
-//    private SpinDeterminationStrategy spinDeterminationStrategy = new Fixed();
     private SpinDeterminationPolicy spinDeterminationPolicy = MriConfig.InitialConditions.SPIN_DETERMINATION_POLICY;
 
+    /**
+     * Constructor
+     *
+     * @param model
+     */
     public DipoleOrientationAgent( MriModel model ) {
         this.model = model;
     }
-
-//    public void stepInTime( double dt ) {
-//        updateSpins();
-//    }
 
     private void updateSpins() {
         List dipoles = model.getDipoles();
@@ -82,35 +82,31 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
         public void setSpins( List dipoles, double fractionUp ) {
 
             if( dipoles.size() > 0 ) {
+                // Determine how many dipoles should be spin up
+                int desiredNumUp = (int)Math.round( fractionUp * dipoles.size() );
+
+                // Identify the dipoles that are spin up and spin down
                 ArrayList upDipoles = new ArrayList();
                 ArrayList downDipoles = new ArrayList();
-
-                // Determine the fraction of dipoles that are current up
                 for( int i = 0; i < dipoles.size(); i++ ) {
                     Dipole dipole = (Dipole)dipoles.get( i );
                     List list = dipole.getSpin() == Spin.UP ? upDipoles : downDipoles;
                     list.add( dipole );
                 }
-                double fractionCurrentlyUp = ( (double)upDipoles.size() ) / dipoles.size();
 
-                if( fractionCurrentlyUp > fractionUp ) {
-                    while( fractionCurrentlyUp > fractionUp ) {
-                        Dipole dipole = (Dipole)upDipoles.get( random.nextInt( upDipoles.size() ) );
-                        dipole.setSpin( Spin.DOWN );
-                        upDipoles.remove( dipole );
-                        downDipoles.add( dipole );
-                        fractionCurrentlyUp = ( (double)upDipoles.size() ) / dipoles.size();
-                    }
+                // Flip dipoles until we get the desired number spin up
+                while( upDipoles.size() > desiredNumUp ) {
+                    Dipole dipole = (Dipole)upDipoles.get( random.nextInt( upDipoles.size() ) );
+                    dipole.setSpin( Spin.DOWN );
+                    upDipoles.remove( dipole );
+                    downDipoles.add( dipole );
                 }
-                else if( fractionCurrentlyUp < fractionUp ) {
 
-                    while( fractionCurrentlyUp < fractionUp ) {
-                        Dipole dipole = (Dipole)downDipoles.get( random.nextInt( downDipoles.size() ) );
-                        dipole.setSpin( Spin.UP );
-                        downDipoles.remove( dipole );
-                        upDipoles.add( dipole );
-                        fractionCurrentlyUp = ( (double)upDipoles.size() ) / dipoles.size();
-                    }
+                while( upDipoles.size() < desiredNumUp ) {
+                    Dipole dipole = (Dipole)downDipoles.get( random.nextInt( downDipoles.size() ) );
+                    dipole.setSpin( Spin.UP );
+                    downDipoles.remove( dipole );
+                    upDipoles.add( dipole );
                 }
             }
 

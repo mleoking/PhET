@@ -81,6 +81,10 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         coilGraphic = new PPath( shape );
         addChild( coilGraphic );
 
+        // Graphic for the arrow
+        BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null );
+        addChild( arrow );
+        arrow.setOffset( getRegistrationPoint() );
 
         update();
     }

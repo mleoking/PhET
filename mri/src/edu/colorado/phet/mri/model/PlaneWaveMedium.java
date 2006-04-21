@@ -53,7 +53,12 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
      * @param direction
      * @param speed              number of distance units the wave travels in a time unit
      */
-    public PlaneWaveMedium( IScalar source, Point2D origin, double lateralExtent, double longitudinalExtent, Direction direction, double speed ) {
+    public PlaneWaveMedium( IScalar source,
+                            Point2D origin,
+                            double lateralExtent,
+                            double longitudinalExtent,
+                            Direction direction,
+                            double speed ) {
         this.source = source;
         this.origin = origin;
         this.lateralExtent = lateralExtent;
@@ -61,6 +66,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         this.speed = speed;
         this.longitudinalExtent = longitudinalExtent;
 
+//        values = new double[ (int)( longitudinalExtent )];
         values = new double[ (int)( longitudinalExtent / speed )];
     }
 
@@ -102,14 +108,20 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         double newValue = source.getValue();
+//        for( int i = values.length - 1; i >= (int)speed; i-- ) {
         for( int i = values.length - 1; i > 0; i-- ) {
+//            values[i] = values[i - (int)speed];
             values[i] = values[i - 1];
         }
+//        for( int i = 0; i < (int)speed; i++ ){
+//            values[i] = newValue;
+//        }
         values[0] = newValue;
         notifyObservers();
     }
 
     public double getAmplitudeAt( double x ) {
+//        return values[(int)( x )];
         return values[(int)( x / speed )];
     }
 
