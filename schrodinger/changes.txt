@@ -1,3 +1,9 @@
+New in 0.58
+Added label above 2-lasers screen "Black & White Screen"
+Bugfix: With clear screen button - made this area always the same size
+Bugfix: ruler should be in front of copied screen, not behind it
+Bugfix: When you copy screen in hits mode, it should show whole screen, not half.  Now it shows the visible half only.
+
 New in 0.57 (4-12-2006)
 Changed initial intensity of particle to reflect changes in DT due to resolution.
 

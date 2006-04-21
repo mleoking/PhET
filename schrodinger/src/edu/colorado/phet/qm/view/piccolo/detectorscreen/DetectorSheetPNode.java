@@ -16,6 +16,7 @@ import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -51,12 +52,17 @@ public class DetectorSheetPNode extends PhetPNode {
     private PSwing detectorSheetControlPanelPNode;
     private MyConnectorGraphic connectorGraphic;
     private final double shearAngle = 0.4636;
+    private PText title = new PText();
 
     public DetectorSheetPNode( final SchrodingerPanel schrodingerPanel, WavefunctionGraphic wavefunctionGraphic, final int detectorSheetHeight ) {
         this.wavefunctionGraphic = wavefunctionGraphic;
         this.detectorSheetHeight = detectorSheetHeight;
+
         this.schrodingerPanel = schrodingerPanel;
         recreateImage();
+//        title.setShadowColor( Color.black );
+        title.setTextPaint( Color.black );
+        title.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         screenGraphic = new ScreenGraphic( bufferedImage );
 
         setBrightness( 1.0 );
@@ -70,15 +76,13 @@ public class DetectorSheetPNode extends PhetPNode {
             }
 
             private boolean isSmoothScreen() {
-                if( schrodingerPanel instanceof HighIntensitySchrodingerPanel ) {
-                    HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)schrodingerPanel;
-                    return ip.isSmoothScreen();
-                }
-                return false;
+                return DetectorSheetPNode.this.isSmoothScreen();
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
         detectorSheetControlPanelPNode = new PSwing( schrodingerPanel, new ShinyPanel( detectorSheetControlPanel ) );
+//        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
+
 //        FontSetter.setFont( new Font( "Lucida Sans",Font.PLAIN, 8 ),detectorSheetControlPanel );
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
@@ -101,6 +105,17 @@ public class DetectorSheetPNode extends PhetPNode {
         addChild( connectorGraphic );
         addChild( screenGraphic );
         addChild( detectorSheetControlPanelPNode );
+
+        addChild( title );
+    }
+
+    private boolean isSmoothScreen() {
+
+        if( schrodingerPanel instanceof HighIntensitySchrodingerPanel ) {
+            HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)schrodingerPanel;
+            return ip.isSmoothScreen();
+        }
+        return false;
     }
 
     protected void layoutChildren() {
@@ -108,6 +123,7 @@ public class DetectorSheetPNode extends PhetPNode {
         double shearfac = Math.tan( shearAngle );
         screenGraphic.getTransformReference( true ).shear( shearfac, 0 );
         detectorSheetControlPanelPNode.setOffset( screenGraphic.getFullBounds().getWidth() + 12, screenGraphic.getFullBounds().getY() );
+        title.setOffset( 0, screenGraphic.getFullBounds().getY() - title.getFullBounds().getHeight() );
         connectorGraphic.update();
     }
 
@@ -146,10 +162,13 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     public BufferedImage copyScreen() {
-        BufferedImage image = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType() );
+        int h = isSmoothScreen() ? bufferedImage.getHeight() : bufferedImage.getHeight() / 2;
+
+        BufferedImage image = new BufferedImage( bufferedImage.getWidth(), h, bufferedImage.getType() );
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.drawRenderedImage( bufferedImage, new AffineTransform() );
+//        g2.drawRenderedImage( bufferedImage, AffineTransform.getTranslateInstance( 0, bufferedImage.getHeight() / 2 ) );
         g2.dispose();
         return image;
     }
@@ -263,6 +282,10 @@ public class DetectorSheetPNode extends PhetPNode {
 
     public void updatePSwing() {
         detectorSheetControlPanelPNode.computeBounds();
+    }
+
+    public void setTitle( String s ) {
+        title.setText( s );
     }
 
     static class ScreenGraphic extends PNode {

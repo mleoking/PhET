@@ -4,6 +4,10 @@ package edu.colorado.phet.qm.phetcommon;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
 /**
  * User: Sam Reid
@@ -23,18 +27,67 @@ public class ShinyPanel extends JPanel {
     public ShinyPanel( JComponent component, Color lightGray, Color shadedGray ) {
         this.lightGray = lightGray;
         this.shadedGray = shadedGray;
-        setLayout( new BorderLayout() );
-        add( component, BorderLayout.CENTER );
-        setOpaque( this, false );
+        add( component );
+//        setLayout( new BorderLayout() );
+//        add( component, BorderLayout.CENTER );
+        init( this, false );
         setBorder( new ShinyBorder() );
+        initListeners( component );
     }
 
-    private void setOpaque( JComponent container, boolean b ) {
+    private void initListeners( JComponent component ) {
+        component.addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+                relayout();
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                relayout();
+            }
+        } );
+        component.addContainerListener( new ContainerListener() {
+            public void componentAdded( ContainerEvent e ) {
+                relayout();
+            }
+
+            public void componentRemoved( ContainerEvent e ) {
+                relayout();
+            }
+        } );
+    }
+
+    private void relayout() {
+
+        layoutAll();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                layoutAll();
+            }
+        } );
+    }
+
+    private void layoutAll() {
+        invalidate();
+        validateTree();
+        revalidate();
+        doLayout();
+        repaint();
+    }
+
+    private void init( JComponent container, boolean b ) {
         container.setOpaque( b );
+        initListeners( container );
         for( int i = 0; i < container.getComponentCount(); i++ ) {
             Component child = container.getComponent( i );
             if( child instanceof JComponent && !( child instanceof JTextComponent ) ) {
-                setOpaque( (JComponent)child, b );
+                init( (JComponent)child, b );
             }
         }
     }
@@ -55,6 +108,6 @@ public class ShinyPanel extends JPanel {
 
 
     public void update() {
-        setOpaque( this, false );
+        init( this, false );
     }
 }

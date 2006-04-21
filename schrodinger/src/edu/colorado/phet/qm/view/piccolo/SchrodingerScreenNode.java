@@ -20,6 +20,7 @@ import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
+import edu.colorado.phet.qm.view.piccolo.detectorscreen.SavedScreenGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -80,6 +81,7 @@ public class SchrodingerScreenNode extends PNode {
     private static final boolean FIXED_SIZE_WAVE = false;
     private String zoomoutText = "Zooming Out";
     private String zoominText = "Zooming In";
+    private PNode detectorScreenGraphics;
 
     public SchrodingerScreenNode( final SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
         this.module = module;
@@ -120,6 +122,8 @@ public class SchrodingerScreenNode extends PNode {
         intensityManager = new IntensityManager( getSchrodingerModule(), schrodingerPanel, detectorSheetPNode );
         addChild( detectorSheetPNode );
         addChild( wavefunctionGraphic );
+        detectorScreenGraphics = new PNode();
+        addChild( detectorScreenGraphics );
         addChild( rulerGraphic );
         schrodingerPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -633,5 +637,13 @@ resolution, and a quarter as many times for high resolution.*/
 
     public int getCellSize() {
         return cellSize;
+    }
+
+    public void addSavedScreenGraphic( SavedScreenGraphic savedScreenGraphic ) {
+        detectorScreenGraphics.addChild( savedScreenGraphic );
+    }
+
+    public void removeSavedScreenGraphic( SavedScreenGraphic savedScreenGraphic ) {
+        detectorScreenGraphics.removeChild( savedScreenGraphic );
     }
 }

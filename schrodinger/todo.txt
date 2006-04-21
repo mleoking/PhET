@@ -1,8 +1,5 @@
-"black and white screen" label in two lasers panel
-fix bug with clear screen button - make this area always the same size
-ruler should be in front of copied screen, not behind it
-When you copy screen in hits mode, it should show whole screen, not half
 fix neutron barrier bug
+..Not sure how to reproduce this.
 
 Tests keep giving c=3e7 for the speed of light.
     Units for photons still needed.
