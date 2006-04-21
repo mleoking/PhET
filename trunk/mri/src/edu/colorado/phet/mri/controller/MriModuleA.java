@@ -98,15 +98,42 @@ public class MriModuleA extends Module {
         boolean singleDipole = false;
 
         if( !singleDipole ) {
-            for( int i = 0; i < numDipoles; i++ ) {
-                double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-                double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
-                Dipole dipole = new Dipole();
-                dipole.setPosition( x, y );
-                Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
-                dipole.setSpin( spin );
-                model.addModelElement( dipole );
+
+            // Lay out the dipoles in a grid
+            Rectangle2D bounds = model.getSampleChamber().getBounds();
+            double aspectRatio = bounds.getWidth() / bounds.getHeight();
+            int numCols = 0;
+            int numRows = 0;
+            double testAspectRatio = -1;
+            while( testAspectRatio < aspectRatio ) {
+                numCols++;
+                numRows = numDipoles / numCols;
+                testAspectRatio = ( (double)numCols ) / numRows;
             }
+
+            double colSpacing = bounds.getWidth() / ( numCols + 1 );
+            double rowSpacing = bounds.getHeight() / ( numRows + 1 );
+            for( int i = 1; i <= numRows; i++ ) {
+                for( int j = 1; j <= numCols; j++ ) {
+                    double x = sampleChamber.getBounds().getX() + j * colSpacing;
+                    double y = sampleChamber.getBounds().getY() + i * rowSpacing;
+                    Dipole dipole = new Dipole();
+                    dipole.setPosition( x, y );
+                    Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
+                    dipole.setSpin( spin );
+                    model.addModelElement( dipole );
+                }
+            }
+
+//            for( int i = 0; i < numDipoles; i++ ) {
+//                double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
+//                double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
+//                Dipole dipole = new Dipole();
+//                dipole.setPosition( x, y );
+//                Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
+//                dipole.setSpin( spin );
+//                model.addModelElement( dipole );
+//            }
 
         }
         else {
