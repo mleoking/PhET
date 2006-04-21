@@ -175,13 +175,16 @@ motion2d motion2d
 moving-man movingman &phetcommon-module &charts-0module
 
 # MRI
-mri mri &piccolo-phet-module &mechanics &collision-dir
+mri mri &piccolo-phet-module &mechanics &collision-dir &quantum-rjl
 
 # Nuclear physics
 nuclear-physics nuclearphysics &phetcommon-module &mechanics-module
 
 # Photoelectric effect
 photoelectric photoelectric &dischargelamps &charts-dir
+
+# Quantum base classes for RJL simulations
+quantum-rjl quantum-rjl
 
 # Radio Waves
 radio-waves emf 
