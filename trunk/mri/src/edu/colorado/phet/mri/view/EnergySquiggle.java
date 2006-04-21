@@ -44,9 +44,17 @@ public class EnergySquiggle extends PNode {
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
+    // Used to get the wavelength to look right graphically for the range of frequencies the graphic
+    // is intended to represent
+    private double frequencyFactor = 1E-9;
     private PImage squiggleGraphic;
     private Orientation orientation;
 
+    /**
+     * Constructor
+     *
+     * @param orientation
+     */
     public EnergySquiggle( Orientation orientation ) {
         this.orientation = orientation;
     }
@@ -78,7 +86,8 @@ public class EnergySquiggle extends PNode {
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
         c = Color.black;
-        double freqFactor = 15 * wavelength / 680;
+
+        double freqFactor = wavelength * frequencyFactor;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {

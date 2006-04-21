@@ -50,8 +50,6 @@ public class MonitorPanel extends PhetPCanvas {
 
     private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
     private static double IMAGE_WIDTH;
-    // fraction of panel height that is usable for representing energy levels
-    private double heightFractionUsed = 0.9;
 
     static {
         makeImages( 0.5 );
@@ -86,6 +84,11 @@ public class MonitorPanel extends PhetPCanvas {
     private double fieldStrength;
     private EnergySquiggle energySquiggle;
     private double energySquiggleReserve = 30;
+    // fraction of panel height that is usable for representing energy levels
+    private double heightFractionUsed = 0.9;
+    // Flag that tells if the energy of the radiowave source is considered close enough to the
+    // energy difference between the spin levels to be considered a match
+    private boolean matched = false;
 
     private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
 
@@ -163,6 +166,7 @@ public class MonitorPanel extends PhetPCanvas {
             // Add a listener that will add and remove dipole reps as they go in and out of the model
             model.addListener( new MriModel.ChangeAdapter() {
                 int cnt;
+
                 public void modelElementAdded( ModelElement modelElement ) {
                     if( modelElement instanceof Dipole ) {
                         addDipoleRep();
@@ -203,6 +207,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         int cnt;
+
         public void stepInTime( double dt ) {
             List dipoles = model.getDipoles();
             representationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
@@ -232,14 +237,20 @@ public class MonitorPanel extends PhetPCanvas {
         // TODO: the "calibration" numbers here need to be understood and made more systematic
         double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 2.8;
 
-        energySquiggle.update( wavelength * 1E3, 0, (int)length, 10 );
+        energySquiggle.update( wavelength, 0, (int)length, 10 );
         energySquiggle.setOffset( 10, lowerLine.getOffset().getY() - length );
 
         double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         double rfEnergy = PhysicsUtil.frequencyToEnergy( model.getRadiowaveSource().getFrequency() );
         if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
-            GraphicFlasher gf = new GraphicFlasher( energySquiggle );
-            gf.start();
+            if( !matched ) {
+                GraphicFlasher gf = new GraphicFlasher( energySquiggle );
+                gf.start();
+                matched = true;
+            }
+        }
+        else {
+            matched = false;
         }
     }
 

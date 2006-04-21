@@ -37,7 +37,7 @@ public class MriConfig {
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
 
     // Physical parameters
-    public static final double MIN_FEQUENCY = 40E6;
+    public static final double MIN_FEQUENCY = 20E6;
     public static final double MAX_FEQUENCY = 80E6;
 
     public static final double MAX_FADING_HEIGHT = 50;
