@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.MriModuleA;
 import edu.colorado.phet.mri.controller.OptionMenu;
 
@@ -34,7 +35,8 @@ public class MriApplication extends PhetApplication {
         super( args, title, description, version, frameSetup );
 
         setModules( new Module[]{
-                new MriModuleA()
+                new MriModuleA(),
+                new HeadModule()
         } );
     }
 

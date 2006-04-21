@@ -169,7 +169,8 @@ public class PhotonDipoleExpert implements CollisionExpert {
         public LinearCollisionProbability( double minProbability, double maxProbability ) {
             this.minProbability = minProbability;
             this.maxProbability = maxProbability;
-            double yMax = model.getRadiowaveSource().getPosition().getY() - model.getSampleChamber().getPosition().getY();
+            double yMax = model.getRadiowaveSource().getPosition().getY() - MriConfig.SAMPLE_CHAMBER_LOCATION.getY();
+//            double yMax = model.getRadiowaveSource().getPosition().getY() - model.getSampleChamber().getPosition().getY();
             m = ( maxProbability - minProbability ) / yMax;
         }
 
