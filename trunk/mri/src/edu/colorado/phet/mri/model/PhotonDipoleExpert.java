@@ -37,12 +37,19 @@ public class PhotonDipoleExpert implements CollisionExpert {
     }
 
     public boolean detectAndDoCollision( Collidable body1, Collidable body2 ) {
+
         if( CollisionUtil.areConformantToClasses( body1, body2, Photon.class, Dipole.class ) ) {
             bodies[0] = body1;
             bodies[1] = body2;
             CollisionUtil.classifyBodies( bodies, classifiedBodies );
             Dipole dipole = (Dipole)classifiedBodies.get( Dipole.class );
             Photon photon = (Photon)classifiedBodies.get( Photon.class );
+
+            // If the photon was emitted by a dipole flipping back to its lower energy state, don't consider it
+            if( photon instanceof MriEmittedPhoton && !MriConfig.REABSORPTION_ALLOWED ) {
+                return false;
+            }
+
             if( dipole != null && photon != null ) {
                 if( photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius() )
                 {
