@@ -53,6 +53,7 @@ MACINTOSH:
 
 DONE:
 0.00.01...
+(4/21/06) - change "Configure Energy" button to "Configure Potential"
 (4/21/06) - eigenstates may be close together, so make sure selected and hilited eigenstate nodes are always "on top"
 (4/21/06) - tweak presentation of eigenstate energy value display
 (4/21/06) - move common code into AbstractPotential.getEigenstateSolver
