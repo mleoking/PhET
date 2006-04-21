@@ -30,6 +30,7 @@ CLEANUP
 
 
 DONE:
+(4/21/06) - fix in Spanish translations, Colors -> Colores
 1.00.00...
 (4/12/06) - use clock control images from phetcommon, delete images from data/images/
 (4/12/06) - phetcommon: add constants for clock button images in ClockControlPanel
