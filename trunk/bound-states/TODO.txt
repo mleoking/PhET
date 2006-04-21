@@ -57,6 +57,7 @@ DONE:
 (4/21/06) - eigenstates may be close together, so make sure selected and hilited eigenstate nodes are always "on top"
 (4/21/06) - tweak presentation of eigenstate energy value display
 (4/21/06) - move common code into AbstractPotential.getEigenstateSolver
+(4/21/06) - change PIXELS_PER_SAMPLE back to 1, since it's no longer related to eigenstate solver
 (4/21/06) - always use the same # points for calculating eigenstates, don't change based on window size
 (4/20/06) - change label table on mass slider
 (4/20/06) - change PIXELS_PER_SAMPLE to 0.5 (Sam M request)
