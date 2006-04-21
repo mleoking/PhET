@@ -50,7 +50,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     // Energy must be at least this close to eigenstate to be hilited.
     private static final double HILITE_ENERGY_THRESHOLD = BSConstants.ENERGY_RANGE.getLength() / 20;
     
-    private static final DecimalFormat HILITE_VALUE_FORMAT = new DecimalFormat( "0.000" );
+    private static final DecimalFormat HILITE_VALUE_FORMAT = new DecimalFormat( "0.00000" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -266,7 +266,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
                 line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
                 line.setStrokePaint( _selectionColor );
             }
+            line.moveToFront();
         }
+        _hiliteValueNode.moveToFront();
     }
     
     /*
@@ -305,6 +307,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             PPath line = (PPath) _lines.get( hiliteIndex );
             line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
             line.setStrokePaint( _hiliteColor );
+            line.moveToFront();
 
             // Update the model...
             _model.setHilitedEigenstateIndex( hiliteIndex );
@@ -319,6 +322,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             // Position the value just above the hilited line...
             Rectangle2D bounds = line.getFullBounds();
             _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
+            _hiliteValueNode.moveToFront();
         }
     }
     
@@ -334,10 +338,12 @@ public class BSEigenstatesNode extends PNode implements Observer {
             if ( value == 0 ) {
                 line.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
                 line.setStrokePaint( _normalColor );
+                line.moveToBack();
             }
             else {
                 line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
                 line.setStrokePaint( _selectionColor );
+                line.moveToFront();
             }
             _hiliteValueNode.setVisible( false );
             _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
