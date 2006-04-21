@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
 MEDIUM PRIORITY:
+- make SchmidtLee.getWaveFunction return Point2D[] instead of double[]
 - square & asymm wells don't have square sides when dx gets larger (override getPotentialPoints for square & asymm)
 - default to Probability Density
 - verify that datasets are updated only when absolutely necessary
