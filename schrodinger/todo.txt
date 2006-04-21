@@ -1,5 +1,31 @@
+"black and white screen" label in two lasers panel
+fix bug with clear screen button - make this area always the same size
+ruler should be in front of copied screen, not behind it
+When you copy screen in hits mode, it should show whole screen, not half
+fix neutron barrier bug
+
 Tests keep giving c=3e7 for the speed of light.
     Units for photons still needed.
+
+It looks like you've implemented everything correctly except the units
+per clock tick.  In the current version, for electrons at low
+resolution, a clock tick corresponds to 10fs, rather than 0.5fs, as I
+requested.  However, I realized that I put in my factor of 10 the wrong
+way, so with the units per clock tick I requested, the speeds would be
+off by a factor of 100.
+
+So here are the revised units per clock tick:
+Electrons	0.005 fs
+Neutrons	0.01 ps
+He Atoms	0.05 ps
+(At medium resolution, divide these numbers by 4, at high, by 16)
+
+Also, in version 0.57, the scale of the intensity at high resolution is
+such that I can barely see the particle.  I think the correction for the
+bleaching out has gone too far.  Also, the bleaching out occurs for
+photons as well at high resolution.  I don't think the bleaching out is
+that big of a deal, but if you're going to correct it in one place, you
+may as well correct it everywhere.
 
 Center the Reset All and Clear Wave buttons.
     This is difficult, given the "all control panels should have the same width" constraint.
