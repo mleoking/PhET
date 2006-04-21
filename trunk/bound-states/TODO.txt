@@ -24,7 +24,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - scale position axis to fit excited portion of wavefunction (might not do this)
-- Spanish translations
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
@@ -51,6 +50,7 @@ MACINTOSH:
 
 
 DONE:
+(4/21/06) - Spanish translations
 (4/21/06) - command line options (-single, -double, -many) for choosing which modules to display
 0.00.01...
 (4/21/06) - change "Configure Energy" button to "Configure Potential"
