@@ -1,4 +1,4 @@
-New in 0.58
+New in 0.58 (4-21-2006)
 Added label above 2-lasers screen "Black & White Screen"
 Bugfix: With clear screen button - made this area always the same size
 Bugfix: ruler should be in front of copied screen, not behind it
