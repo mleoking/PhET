@@ -49,7 +49,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
                 BufferedImage image = detectorSheetPNode.copyScreen();
                 SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( getSchrodingerPanel(), image );
                 savedScreenGraphic.setOffset( 130, 130 );
-                getSchrodingerPanel().getSchrodingerScreenNode().addChild( savedScreenGraphic );
+                getSchrodingerPanel().getSchrodingerScreenNode().addSavedScreenGraphic( savedScreenGraphic );
             }
         } );
 
@@ -135,7 +135,7 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
     }
 
     public void setClearButtonVisible( boolean b ) {
-        clearButton.setVisible( b );
+        clearButton.setEnabled( b );
     }
 
     public void setSaveButtonVisible( boolean b ) {

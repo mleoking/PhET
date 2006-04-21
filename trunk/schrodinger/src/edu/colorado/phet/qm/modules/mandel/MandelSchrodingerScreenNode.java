@@ -15,6 +15,7 @@ import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 public class MandelSchrodingerScreenNode extends SchrodingerScreenNode {
     public MandelSchrodingerScreenNode( SchrodingerModule module, SchrodingerPanel schrodingerPanel ) {
         super( module, schrodingerPanel );
+        getDetectorSheetPNode().setTitle( "Black & White Screen" );
     }
 
     protected double getWavefunctionGraphicX( double availableWidth ) {
