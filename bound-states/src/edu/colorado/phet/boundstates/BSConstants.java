@@ -11,16 +11,13 @@
 
 package edu.colorado.phet.boundstates;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.text.DecimalFormat;
 
 import org.jfree.data.Range;
 
-import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
+import edu.colorado.phet.boundstates.color.BSColorScheme;
 
 
 /**
@@ -105,6 +102,14 @@ public class BSConstants {
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
 
+    //----------------------------------------------------------------------------
+    // Cursors
+    //----------------------------------------------------------------------------
+    
+    public static final Cursor DEFAULT_CURSOR = new Cursor( Cursor.DEFAULT_CURSOR );
+    public static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
+    public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
+    
     //----------------------------------------------------------------------------
     // Ranges
     //----------------------------------------------------------------------------

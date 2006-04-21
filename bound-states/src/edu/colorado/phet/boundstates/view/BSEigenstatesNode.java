@@ -12,7 +12,6 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -25,12 +24,12 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 /**
@@ -58,6 +57,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     
     private BSModel _model;
     
+    private PCanvas _canvas;
     private BSCombinedChartNode _chartNode;
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
     private PText _hiliteValueNode;
@@ -74,12 +74,14 @@ public class BSEigenstatesNode extends PNode implements Observer {
      * @param chartNode
      * @param canvas
      */
-    public BSEigenstatesNode( BSCombinedChartNode chartNode, PSwingCanvas canvas ) {
+    public BSEigenstatesNode( BSCombinedChartNode chartNode, PCanvas canvas ) {
         super();
       
         _model = null;
         
         _chartNode = chartNode;
+        _canvas = canvas;
+        
         _lines = new ArrayList();
         _hiliteValueNode = new PText();
         _hiliteValueNode.setFont( BSConstants.HILITE_ENERGY_FONT );
@@ -323,6 +325,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
             Rectangle2D bounds = line.getFullBounds();
             _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
             _hiliteValueNode.moveToFront();
+            
+            // Set the cursor to a hand...
+            _canvas.setCursor( BSConstants.HAND_CURSOR );
         }
     }
     
@@ -347,6 +352,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             }
             _hiliteValueNode.setVisible( false );
             _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+            _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
         }
     }
     
