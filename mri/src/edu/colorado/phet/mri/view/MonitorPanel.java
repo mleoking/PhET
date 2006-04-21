@@ -85,6 +85,7 @@ public class MonitorPanel extends PhetPCanvas {
     private EnergyLevel lowerLine, upperLine;
     private double fieldStrength;
     private EnergySquiggle energySquiggle;
+    private double energySquiggleReserve = 30;
 
     private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
 
@@ -176,12 +177,11 @@ public class MonitorPanel extends PhetPCanvas {
         private void addDipoleRep() {
             PNode dipoleGraphic = new PImage( dipoleRepImage );
             nucleiReps.add( dipoleGraphic );
-            dipoleGraphic.setOffset( ( nucleiReps.size() + 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
-//            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH, -dipoleGraphic.getHeight() );
+            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH + energySquiggleReserve, -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
 
             // Set the size of the panel
-            MonitorPanel.this.setPreferredSize( new Dimension( dipoleRepImage.getWidth() * nucleiReps.size(),
+            MonitorPanel.this.setPreferredSize( new Dimension( (int)( dipoleRepImage.getWidth() * ( nucleiReps.size() ) + energySquiggleReserve ),
                                                                getPreferredSize().height ) );
         }
 
@@ -213,9 +213,9 @@ public class MonitorPanel extends PhetPCanvas {
     private void setLinePositions( MriModel model ) {
         heightFractionUsed = 0.9;
         double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
+        imageReserveSpace = 0;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
-//        double fractionMaxField = Math.min( model.getSampleMaterial().getMu() * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
         double centerY = getHeight() / 2 + imageReserveSpace;
         lowerLine.setPositionY( centerY + offsetY );
@@ -225,14 +225,12 @@ public class MonitorPanel extends PhetPCanvas {
     private void adjustSquiggle( MriModel model ) {
         heightFractionUsed = 0.9;
         double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
-        double maxLength = getHeight() * heightFractionUsed - imageReserveSpace * 2;
 
         double frequency = model.getRadiowaveSource().getFrequency();
         double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
-        double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 3.25;
+        double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 2.8;
 
         energySquiggle.update( wavelength * 1E3, 0, (int)length, 10 );
-//        energySquiggle.update( wavelength * 1E3, 0, 50, 10 );
         energySquiggle.setOffset( 10, lowerLine.getOffset().getY() - length );
 
         double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
@@ -248,6 +246,20 @@ public class MonitorPanel extends PhetPCanvas {
     //----------------------------------------------------------------
     public interface RepresentationPolicy {
         void representSpins( List dipoles, List spinUpReps, List spinDownReps );
+    }
+
+    public static class DiscretePolicyB implements RepresentationPolicy {
+        public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
+            for( int i = 0; i < dipoles.size(); i++ ) {
+                Dipole dipole = (Dipole)dipoles.get( i );
+                boolean isUp = dipole.getSpin() == Spin.UP;
+                boolean isDown = !isUp;
+                ( (PNode)spinUpReps.get( i ) ).setVisible( isUp );
+                ( (PNode)spinDownReps.get( i ) ).setVisible( isDown );
+                ( (PNode)spinUpReps.get( i ) ).setTransparency( 1 );
+                ( (PNode)spinDownReps.get( i ) ).setTransparency( 1 );
+            }
+        }
     }
 
     public static class DiscretePolicy implements RepresentationPolicy {
