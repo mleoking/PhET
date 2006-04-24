@@ -76,11 +76,17 @@ public class MriModel extends BaseModel {
 
 
         // Radiowave Source
+        double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
-                                               MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1,
+                                               length,
                                                new Vector2D.Double( 0, -1 ) );
+//        radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
+//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
+//                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
+//                                               MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1,
+//                                               new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
@@ -245,6 +251,8 @@ public class MriModel extends BaseModel {
         double b = lowerMagnet.getFieldStrength();
         if( gradientMagnet != null ) {
             b += gradientMagnet.getFieldStrengthAt( x );
+//            System.out.println( "gradientMagnet.getFieldStrengthAt( x ) = " + gradientMagnet.getFieldStrengthAt( x ) );
+//            System.out.println( "b = " + b );
         }
         return b;
     }

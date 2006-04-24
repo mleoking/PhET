@@ -53,25 +53,8 @@ public class MriModuleA extends AbstractMriModule {
         addModelElement( sampleChamber );
         sampleChamber.createDipoles( (MriModel)getModel(), 20 );
 
-        // Make some dipoles
-//        createDipoles( 20, ( (MriModel)getModel() ).getSample(), ( (MriModel)getModel() ) );
-
         // Set the initial view
         setEmRep( MriModuleA.WAVE_VIEW );
-    }
-
-    /**
-     * Creates a number of dipoles and places them at random locations within the sample chamber
-     *
-     * @param sample
-     * @param model
-     */
-    protected void createSingleDipole( Sample sample, MriModel model ) {
-        Dipole dipole = new Dipole();
-        dipole.setPosition( ( sample.getBounds().getWidth() / 2 ) + sample.getBounds().getX(),
-                            sample.getBounds().getY() + 100 );
-        dipole.setSpin( Spin.DOWN );
-        model.addModelElement( dipole );
     }
 
 }

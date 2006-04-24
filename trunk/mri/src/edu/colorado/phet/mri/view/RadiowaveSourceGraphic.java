@@ -37,25 +37,31 @@ public class RadiowaveSourceGraphic extends PNode {
 
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
 
+        // todo: this line and variable is just for debugging
+        double length = 800;
+//        double length = radiowaveSource.getLength();
+
         double w = 0;
         double h = 0;
         double x = 0;
         double y = 0;
         if( radiowaveSource.getOrientation() == RadiowaveSource.HORIZONTAL ) {
-            w = radiowaveSource.getLength();
+            w = length;
+//            w = radiowaveSource.getLength();
             h = 120;
             x = radiowaveSource.getPosition().getX() - w / 2;
             y = radiowaveSource.getPosition().getY();
         }
         else if( radiowaveSource.getOrientation() == RadiowaveSource.VERTICAL ) {
             w = 120;
-            h = radiowaveSource.getLength();
+            h = length;
             x = radiowaveSource.getPosition().getX();
             y = radiowaveSource.getPosition().getY() + h / 2;
         }
         setOffset( x, y );
 
-        Rectangle2D box = new Rectangle2D.Double( 0, 0, w, h );
+        Rectangle2D box = new Rectangle2D.Double( 0, 0, length, h );
+//        Rectangle2D box = new Rectangle2D.Double( 0, 0, w, h );
         PPath boxGraphic = new PPath( box );
         boxGraphic.setPaint( new Color( 80, 80, 80 ) );
         addChild( boxGraphic );
@@ -75,7 +81,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
-        freqPSwing.setOffset( radiowaveSource.getLength() / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
+        freqPSwing.setOffset( length / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
         addChild( freqPSwing );
 
         // Power control
@@ -92,7 +98,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
-        powerPSwing.setOffset( radiowaveSource.getLength() * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
+        powerPSwing.setOffset( length * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
         addChild( powerPSwing );
 
         // Label
@@ -101,7 +107,8 @@ public class RadiowaveSourceGraphic extends PNode {
         title.setTextPaint( Color.white );
         title.setFont( font );
         title.setJustification( javax.swing.JLabel.CENTER_ALIGNMENT );
-        title.setOffset( radiowaveSource.getLength() / 2 - title.getBounds().getWidth() / 2, 10 );
+        title.setOffset( length / 2 - title.getBounds().getWidth() / 2, 10 );
+//        title.setOffset( radiowaveSource.getLength() / 2 - title.getBounds().getWidth() / 2, 10 );
         addChild( title );
     }
 }

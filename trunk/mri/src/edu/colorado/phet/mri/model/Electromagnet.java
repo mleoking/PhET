@@ -26,6 +26,8 @@ import java.util.EventObject;
 
 /**
  * Electromagnet
+ * <p>
+ * Note that the location or the magnet is its midpoint
  *
  * @author Ron LeMaster
  * @version $Revision$
