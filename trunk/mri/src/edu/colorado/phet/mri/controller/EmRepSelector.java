@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.mri.controller;
 
+import edu.colorado.phet.mri.controller.AbstractMriModule;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -14,13 +14,12 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
 import edu.colorado.phet.mri.view.MonitorPanel;
+import edu.colorado.phet.mri.controller.AbstractMriModule;
+import edu.colorado.phet.mri.controller.EmRepSelector;
+import edu.colorado.phet.mri.controller.FadingMagnetControl;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * MriControlPanel
@@ -56,7 +55,7 @@ public class MriControlPanel extends ControlPanel {
 
         addControl( new EmRepSelector( module ) );
 //        addControl( new SampleMaterialSelector( model ) );
-        
+
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );
 //        addControl( new MonitorPanelRepControl( monitorPanel ) );

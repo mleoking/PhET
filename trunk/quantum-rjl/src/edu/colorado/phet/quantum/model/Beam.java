@@ -19,7 +19,6 @@ import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.EventListener;
 import java.util.Random;
 
 /**

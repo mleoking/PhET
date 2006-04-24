@@ -18,6 +18,9 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
+import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.model.MriEmittedPhoton;
+import edu.colorado.phet.mri.model.MriModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +75,8 @@ public class PhotonDipoleExpert implements CollisionExpert {
                     // If the difference between the energy states of the spin up and down is equal to the
                     // energy of the photon, and the dipole is in the spin up (lower energy) state, flip the
                     // dipole
-                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
+                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( photon.getPosition().getX()) * model.getSampleMaterial().getMu() );
+//                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
                     if( dipole.getSpin() == Spin.UP
                         && Math.abs( hEnergy - photon.getEnergy() )
                            < MriConfig.ENERGY_EPS ) {

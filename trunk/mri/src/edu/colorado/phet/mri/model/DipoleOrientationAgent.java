@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.Dipole;
 
 import java.util.ArrayList;
 import java.util.List;
