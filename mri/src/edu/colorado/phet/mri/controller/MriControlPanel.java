@@ -15,7 +15,12 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * MriControlPanel
@@ -39,9 +44,18 @@ public class MriControlPanel extends ControlPanel {
 
         addControl( new FadingMagnetControl( model ) );
         addControl( monitorPanel );
-        addControl( new BFieldGraphicPanel( model.getLowerMagnet() ) );
-        addControl( new SampleMaterialSelector( model ) );
+
+        // These lines should be in a class that wraps around the PhetPCanvas in BFieldGraphicPanel
+        {
+            final BFieldGraphicPanel fieldGraphic = new BFieldGraphicPanel( model.getLowerMagnet() );
+            final JPanel fieldGraphicPanel = new JPanel();
+            fieldGraphicPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ),"Magnetic Field") );
+            fieldGraphicPanel.add( fieldGraphic );
+            addControl( fieldGraphicPanel );
+        }
+
         addControl( new EmRepSelector( module ) );
+        addControl( new SampleMaterialSelector( model ) );
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );
 //        addControl( new MonitorPanelRepControl( monitorPanel ) );

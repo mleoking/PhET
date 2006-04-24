@@ -25,6 +25,8 @@ public class EmRepSelector extends JPanel {
     public EmRepSelector( final AbstractMriModule module ) {
         super( new GridBagLayout() );
 
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), "EMW Representation"));
+
         JRadioButton photonViewButton = new JRadioButton( "Photons" );
         photonViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -43,7 +45,7 @@ public class EmRepSelector extends JPanel {
         repBtnGrp.add( waveViewButton );
         waveViewButton.setSelected( true );
 
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,

@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.util.GraphicFlasher;
@@ -22,12 +23,14 @@ import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -50,9 +53,15 @@ public class MonitorPanel extends PhetPCanvas {
 
     private static BufferedImage SPIN_UP_IMAGE, SPIN_DOWN_IMAGE;
     private static double IMAGE_WIDTH;
+    private static double BASE_SCALE = 0.5;
+    private static double SCALE = 0.4;
+    private static Color BACKGROUND = SampleChamberGraphic.BACKGROUND;
+    private static double BASE_SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.8; // for scale = 0;5
+    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
+    ;
 
     static {
-        makeImages( 0.5 );
+        makeImages( SCALE );
     }
 
     private static void makeImages( double scale ) {
@@ -83,14 +92,18 @@ public class MonitorPanel extends PhetPCanvas {
     private EnergyLevel lowerLine, upperLine;
     private double fieldStrength;
     private EnergySquiggle energySquiggle;
-    private double energySquiggleReserve = 30;
+    // Reserved horizontal space for the squiggle
+    private double energySquiggleReserveX = 15;
+    // Reserved horizontal space for the energy axis
+    private double energyAxisReserveX = 30;
     // fraction of panel height that is usable for representing energy levels
-    private double heightFractionUsed = 0.9;
+    private double heightFractionUsed = 0.85;
     // Flag that tells if the energy of the radiowave source is considered close enough to the
-    // energy difference between the spin levels to be considered a match
+    // energy difference between the spin levels to be considered a match. This keeps the squiggles from
+    // flashing once it's matched, then moved an amount that is still within the mathing tolerancd
     private boolean matched = false;
-
-    private RepresentationPolicy representationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY;
+    // There are several possibilities for how dipoles are represented. This specifies the representation du jour
+    private DipoleRepresentationPolicy dipoleRepresentationPolicy = MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY_DIPOLE;
 
     /**
      * Constructor
@@ -98,6 +111,8 @@ public class MonitorPanel extends PhetPCanvas {
      * @param model
      */
     public MonitorPanel( final MriModel model ) {
+
+        setBackground( BACKGROUND );
 
         // Add graphics for the energy levels
         lowerLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
@@ -111,6 +126,12 @@ public class MonitorPanel extends PhetPCanvas {
         // Add a squiggle to show the energy of the radio waves
         energySquiggle = new EnergySquiggle( EnergySquiggle.VERTICAL );
         addWorldChild( energySquiggle );
+        energySquiggle.setOffset( energyAxisReserveX, 0 );
+
+        // A dd a legend
+        EnergyAxis energyAxis = new EnergyAxis();
+        energyAxis.setOffset( 5, 50 );
+        addWorldChild( energyAxis );
 
         // Add elements to the model that will get notified when things we are monitoring change
         model.addListener( new ModelChangeListener( model ) );
@@ -119,19 +140,87 @@ public class MonitorPanel extends PhetPCanvas {
         model.getRadiowaveSource().addChangeListener( new SquiggleUpdater( model ) );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                setLinePositions( model );
-                adjustSquiggle( model );
+                updatePanel( model );
             }
         } );
     }
 
-    public void setRepresentationPolicy( RepresentationPolicy representationPolicy ) {
-        this.representationPolicy = representationPolicy;
+    private void updatePanel( MriModel model ) {
+        setLinePositions();
+        adjustSquiggle( model );
+    }
+
+    public void setRepresentationPolicy( DipoleRepresentationPolicy dipoleRepresentationPolicy ) {
+        this.dipoleRepresentationPolicy = dipoleRepresentationPolicy;
+    }
+
+
+    /**
+     * Establish the center point of the panel, and position the energy levels
+     * symetrically above and below it
+     */
+    private void setLinePositions() {
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
+        imageReserveSpace = 0;
+        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
+        double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
+        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
+        double centerY = getHeight() / 2 + imageReserveSpace;
+        lowerLine.setPositionY( centerY + offsetY );
+        upperLine.setPositionY( centerY - offsetY );
+    }
+
+    /**
+     * Sets the length, wavelength and location of the squiggle, and flashes it if  necessary
+     * @param model
+     */
+    private void adjustSquiggle( MriModel model ) {
+        RadiowaveSource radiowaveSource = model.getRadiowaveSource();
+        double frequency = radiowaveSource.getFrequency();
+        double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
+
+        double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
+        energySquiggle.setTransparency( (float)transparency );
+
+        // TODO: the "calibration" numbers here need to be understood and made more systematic
+        double length = PhysicsUtil.frequencyToEnergy( frequency ) * SQUIGGLE_LENGTH_CALIBRATION_FACTOR;
+        energySquiggle.update( wavelength, 0, (int)length, 10 );
+        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length );
+
+        // Test to see if the squiggle should be flashed
+        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
+        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
+        if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
+            if( !matched ) {
+                GraphicFlasher gf = new GraphicFlasher( energySquiggle );
+                gf.start();
+                matched = true;
+            }
+        }
+        else {
+            matched = false;
+        }
     }
 
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
+
+    private class EnergyAxis extends PNode {
+        public EnergyAxis() {
+            PText axisLabel = new PText( "Energy" );
+            axisLabel.rotate( -Math.PI / 2 );
+            addChild( axisLabel );
+            Arrow arrow = new Arrow( new Point2D.Double( 10, 40 ),
+                                     new Point2D.Double( 10, 0 ),
+                                     10, 8, 3,
+                                     1, false );
+            PPath arrowGraphic = new PPath( arrow.getShape() );
+            arrowGraphic.setPaint( new Color( 80, 80, 80 ) );
+            addChild( arrowGraphic );
+            arrowGraphic.setOffset( 10, -40 );
+        }
+    }
 
     /**
      * A graphic with a line and an icon for each dipole in that energy level. It actually has an icon for all
@@ -183,11 +272,14 @@ public class MonitorPanel extends PhetPCanvas {
         private void addDipoleRep() {
             PNode dipoleGraphic = new PImage( dipoleRepImage );
             nucleiReps.add( dipoleGraphic );
-            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH + energySquiggleReserve, -dipoleGraphic.getHeight() );
+            dipoleGraphic.setOffset( ( nucleiReps.size() - 1 ) * IMAGE_WIDTH + energySquiggleReserveX + energyAxisReserveX,
+                                     -dipoleGraphic.getHeight() );
             addChild( dipoleGraphic );
 
             // Set the size of the panel
-            MonitorPanel.this.setPreferredSize( new Dimension( (int)( dipoleRepImage.getWidth() * ( nucleiReps.size() ) + energySquiggleReserve ),
+            MonitorPanel.this.setPreferredSize( new Dimension( (int)( dipoleRepImage.getWidth() * ( nucleiReps.size() )
+                                                                      + energySquiggleReserveX
+                                                                      + energyAxisReserveX ),
                                                                getPreferredSize().height ) );
         }
 
@@ -210,62 +302,18 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void stepInTime( double dt ) {
             List dipoles = model.getDipoles();
-            representationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
-        }
-    }
-
-    /**
-     * Establish the center point of the panel, and position the energy levels
-     * symetrically above and below it
-     */
-    private void setLinePositions( MriModel model ) {
-        heightFractionUsed = 0.9;
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
-        imageReserveSpace = 0;
-        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
-        double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
-        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
-        double centerY = getHeight() / 2 + imageReserveSpace;
-        lowerLine.setPositionY( centerY + offsetY );
-        upperLine.setPositionY( centerY - offsetY );
-    }
-
-    private void adjustSquiggle( MriModel model ) {
-        RadiowaveSource radiowaveSource = model.getRadiowaveSource();
-        double frequency = radiowaveSource.getFrequency();
-        double wavelength = PhysicsUtil.frequencyToWavelength( frequency );
-
-        double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
-        energySquiggle.setTransparency( (float)transparency );
-
-        // TODO: the "calibration" numbers here need to be understood and made more systematic
-        double length = PhysicsUtil.frequencyToEnergy( frequency ) * 1.21E8 * 2.8;
-        energySquiggle.update( wavelength, 0, (int)length, 10 );
-        energySquiggle.setOffset( 10, lowerLine.getOffset().getY() - length );
-
-        // Test to see if the squiggle should be flashed
-        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
-        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
-            if( !matched ) {
-                GraphicFlasher gf = new GraphicFlasher( energySquiggle );
-                gf.start();
-                matched = true;
-            }
-        }
-        else {
-            matched = false;
+            dipoleRepresentationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
         }
     }
 
     //----------------------------------------------------------------
     // Representation policy
     //----------------------------------------------------------------
-    public interface RepresentationPolicy {
+    public interface DipoleRepresentationPolicy {
         void representSpins( List dipoles, List spinUpReps, List spinDownReps );
     }
 
-    public static class DiscretePolicyB implements RepresentationPolicy {
+    public static class DiscretePolicyB implements DipoleRepresentationPolicy {
         public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
@@ -277,7 +325,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
     }
 
-    public static class DiscretePolicy implements RepresentationPolicy {
+    public static class DiscretePolicy implements DipoleRepresentationPolicy {
         public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
             int numUp = 0;
             int numDown = 0;
@@ -306,7 +354,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
     }
 
-    public static class TransparencyPolicy implements RepresentationPolicy {
+    public static class TransparencyPolicy implements DipoleRepresentationPolicy {
         public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
             int numUp = 0;
             int numDown = 0;
@@ -342,8 +390,7 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void stateChanged( Electromagnet.ChangeEvent event ) {
             fieldStrength = event.getElectromagnet().getFieldStrength();
-            setLinePositions( model );
-            adjustSquiggle( model );
+            updatePanel( model );
         }
     }
 
@@ -358,8 +405,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
-            setLinePositions( model );
-            adjustSquiggle( model );
+            updatePanel( model );
         }
     }
 

@@ -48,8 +48,8 @@ public class MonitorPanelRepControl extends JPanel {
             }
         } );
 
-        transparent.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY instanceof MonitorPanel.TransparencyPolicy );
-        discrete.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY instanceof MonitorPanel.DiscretePolicy );
+        transparent.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY_DIPOLE instanceof MonitorPanel.TransparencyPolicy );
+        discrete.setSelected( MriConfig.InitialConditions.MONITOR_PANEL_REP_POLICY_DIPOLE instanceof MonitorPanel.DiscretePolicy );
 
         ButtonGroup btnGrp = new ButtonGroup();
         btnGrp.add( discrete );
