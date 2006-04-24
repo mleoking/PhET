@@ -26,18 +26,33 @@ import edu.colorado.phet.mri.controller.OptionMenu;
  */
 public class MriApplication extends PhetApplication {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static String title = "Simplified MRI";
     private static String description = "A simplified model of magnetic resonance imaging";
-    private static String version = "0.0.1";
+    private static String version = "0.01";
     private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
+
+    private static Module[] singleModule = new Module[]{
+            new MriModuleA(),
+    };
+
+    private static Module[] fullAppModules = new Module[]{
+            new MriModuleA(),
+            new HeadModule()
+    };
+    private static Module[] modules = fullAppModules;
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
     public MriApplication( String[] args ) {
         super( args, title, description, version, frameSetup );
-
-        setModules( new Module[]{
-                new MriModuleA(),
-                new HeadModule()
-        } );
+        setModules( modules );
     }
 
     protected void parseArgs( String[] args ) {
@@ -47,6 +62,9 @@ public class MriApplication extends PhetApplication {
             String arg = args[i];
             if( arg.startsWith( "-d" ) ) {
                 PhetUtilities.getPhetFrame().addMenu( new OptionMenu() );
+            }
+            if( arg.equals( "-singlemodule" ) ) {
+                modules = singleModule;
             }
         }
     }

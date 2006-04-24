@@ -14,9 +14,11 @@ import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -80,6 +82,10 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         Ellipse2D shape = new Ellipse2D.Double( 0, 0, bounds.getWidth(), bounds.getHeight() );
         coilGraphic = new PPath( shape );
         addChild( coilGraphic );
+
+        PImage coilOverlayGraphic = PImageFactory.create( "images/coil-overlay.png");
+        addChild( coilOverlayGraphic );
+        coilOverlayGraphic.setOffset( 0, coilOverlayGraphic.getHeight() / 4);
 
         // Graphic for the arrow
         BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null );

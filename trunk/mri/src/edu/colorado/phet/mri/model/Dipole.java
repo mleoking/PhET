@@ -63,7 +63,8 @@ public class Dipole extends Body implements Collidable {
     private Spin spin;
     private double orientation;
     private CollidableAdapter collidableAdapter;
-    private IBehavior orientationBehavior;
+    private IOrientationBehavior orientationBehavior;
+    private double oldOrientation;
 
     public Dipole() {
         collidableAdapter = new CollidableAdapter( this );
@@ -72,15 +73,12 @@ public class Dipole extends Body implements Collidable {
         classListenerProxy.instanceCreated( this );
     }
 
-    double oldOrientation;
-
     public void stepInTime( double dt ) {
         double baseOrientation = ( spin == Spin.UP ? 1 : -1 ) * Math.PI / 2;
         if( oldOrientation != baseOrientation ) {
             orientationBehavior.startMovingNow();
             oldOrientation = baseOrientation;
         }
-//        setOrientation( baseOrientation + precession * random.nextDouble() * MathUtil.nextRandomSign() );
         Vector2D vect = new Vector2D.Double( 1, 0 ).rotate( baseOrientation );
         orientationBehavior.setOrientation( vect, dt );
 
@@ -180,7 +178,7 @@ public class Dipole extends Body implements Collidable {
     /**
      * IBehavior is the interface implemented by all Dipole behaviors.
      */
-    private interface IBehavior {
+    private interface IOrientationBehavior {
         /*
          * Sets the Dipole needle direction.
          *
@@ -198,7 +196,7 @@ public class Dipole extends Body implements Collidable {
     /**
      * AbstractBehavior contains a base implementation shared by all behaviors.
      */
-    private static abstract class AbstractBehavior implements IBehavior {
+    private static abstract class AbstractBehavior implements IOrientationBehavior {
 
         private Dipole _compassModel;
 

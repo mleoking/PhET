@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * PlaneWaveGraphic
@@ -33,6 +35,10 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
     public static final int TO_LEFT = -1;
     public static final int TO_RIGHT = 1;
 
+    private static final double MAX_AMPLITDUE = 100;
+    private static Map maxColorToShades = new HashMap();
+
+
     public static boolean Y_GRADIENT = false;
 
     //----------------------------------------------------------------
@@ -41,21 +47,16 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
 
     private PlaneWaveMedium waveMedium;
     private double maxOpacity;
-    private Color color;
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D origin;
     private double width;
     private float opacity = 1.0f;
-    private static final double MAX_AMPLITDUE = 100;
     private double xExtent;
-    private double xOffset = 15;
-    private Color maxAmplitudeColor = Color.red;
     private Paint[] colorForAmplitude = new Paint[255];
 
     private PPath[] components;
     // Number of linear units represented by a single color in the graphic
-//    private double stepSize = 1;
-    private double stepSize = 10;
+    private double stepSize;
 
     /**
      * Constructor
@@ -69,8 +70,15 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
                              Color color ) {
         this.waveMedium = waveMedium;
         this.maxOpacity = maxOpacity;
-        this.color = color;
         waveMedium.addObserver( this );
+        stepSize = waveMedium.getSpeed();
+
+        // Get a reference to the shades of the color we are using
+        colorForAmplitude = (Paint[])maxColorToShades.get( color );
+        if( colorForAmplitude == null ) {
+            colorForAmplitude = computePaintArray( color );
+            maxColorToShades.put( color, colorForAmplitude );
+        }
 
         this.origin = waveMedium.getOrigin();
         this.xExtent = waveMedium.getLongitudinalExtent();
@@ -116,13 +124,21 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
         }
 
         // Compute the colors we'll need for the wave graphic
-        setMaxAmplitudeColor( color );
+        computePaintArray( color );
     }
 
-    public void setMaxAmplitudeColor( Color color ) {
-        for( int i = 0; i < colorForAmplitude.length; i++ ) {
+    /**
+     * Computes the array of Paints that are needed to build the wave graphic
+     *
+     * @param color
+     * @return an array of Paint
+     */
+    public Paint[] computePaintArray( Color color ) {
+        int numShades = 255;
+        Paint[] shades = new Paint[ numShades ];
+        for( int i = 0; i < shades.length; i++ ) {
             if( Y_GRADIENT ) {
-                colorForAmplitude[i] = new GradientPaint( 0,
+                shades[i] = new GradientPaint( 0,
                                                           (int)( origin.getY() - width / 2 ),
                                                           new Color( color.getRed(),
                                                                      color.getGreen(),
@@ -135,12 +151,13 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
                                                           true );
             }
             else {
-                colorForAmplitude[i] = new Color( color.getRed(),
+                shades[i] = new Color( color.getRed(),
                                                   color.getGreen(),
                                                   color.getBlue(),
                                                   i );
             }
         }
+        return shades;
     }
 
     /**

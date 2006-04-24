@@ -31,7 +31,7 @@ public class MriModuleA extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = "Module A";
+    private static String name = "Simplified NMR";
 
     //----------------------------------------------------------------
     // Instance methods and fields
@@ -52,7 +52,6 @@ public class MriModuleA extends AbstractMriModule {
 
         // Make some dipoles
         createDipoles( 20, ( (MriModel)getModel() ).getSampleChamber(), ( (MriModel)getModel() ) );
-//        createDipoles( 16, model.getSampleChamber(), model );
 
         // Set the initial view
         setEmRep( MriModuleA.WAVE_VIEW );
@@ -73,8 +72,6 @@ public class MriModuleA extends AbstractMriModule {
         if( !singleDipole ) {
 
             // Lay out the dipoles in a grid
-//            Rectangle2D bounds = model.getSampleChamber().getBounds();
-//            double aspectRatio = bounds.getWidth() / bounds.getHeight();
             double aspectRatio = MriConfig.SAMPLE_CHAMBER_WIDTH / MriConfig.SAMPLE_CHAMBER_HEIGHT;
             int numCols = 0;
             int numRows = 0;
@@ -87,33 +84,18 @@ public class MriModuleA extends AbstractMriModule {
 
             double colSpacing = MriConfig.SAMPLE_CHAMBER_WIDTH / ( numCols + 1 );
             double rowSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numRows + 1 );
-//            double colSpacing = bounds.getWidth() / ( numCols + 1 );
-//            double rowSpacing = bounds.getHeight() / ( numRows + 1 );
             int cnt = 0;
             for( int i = 1; i <= numRows; i++ ) {
                 for( int j = 1; j <= numCols; j++ ) {
                     double x = MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + j * colSpacing;
                     double y = MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + i * rowSpacing;
-//                    double x = sampleChamber.getBounds().getX() + j * colSpacing;
-//                    double y = sampleChamber.getBounds().getY() + i * rowSpacing;
+                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
                     Dipole dipole = new Dipole();
                     dipole.setPosition( x, y );
-                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
                     dipole.setSpin( spin );
                     model.addModelElement( dipole );
                 }
             }
-
-//            for( int i = 0; i < numDipoles; i++ ) {
-//                double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-//                double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
-//                Dipole dipole = new Dipole();
-//                dipole.setPosition( x, y );
-//                Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
-//                dipole.setSpin( spin );
-//                model.addModelElement( dipole );
-//            }
-
         }
         else {
             Dipole dipole = new Dipole();
