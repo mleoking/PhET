@@ -55,7 +55,8 @@ public class MriControlPanel extends ControlPanel {
         }
 
         addControl( new EmRepSelector( module ) );
-        addControl( new SampleMaterialSelector( model ) );
+//        addControl( new SampleMaterialSelector( model ) );
+        
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );
 //        addControl( new MonitorPanelRepControl( monitorPanel ) );

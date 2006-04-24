@@ -33,6 +33,8 @@ import java.text.DecimalFormat;
  */
 public class RadiowaveSourceGraphic extends PNode {
 
+    Font font = new Font( "Lucida Sans", Font.BOLD, 20 );
+
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
 
         double w = 0;
@@ -65,6 +67,7 @@ public class RadiowaveSourceGraphic extends PNode {
                                                       MriConfig.MAX_FEQUENCY,
                                                       MriConfig.MIN_FEQUENCY,
                                                       new DecimalFormat( "0.0E0" ) );
+        freqCtrl.setFont( font );
         freqCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setFrequency( freqCtrl.getValue() );
@@ -77,7 +80,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Power control
         final ModelSlider powerCtrl = new ModelSlider( "Power",
-                                                       "???",
+                                                       "",
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,
@@ -96,7 +99,6 @@ public class RadiowaveSourceGraphic extends PNode {
         PText title = new PText( "Radiowave\nSource" );
         title.setPaint( new Color( 0, 0, 0, 0 ) );
         title.setTextPaint( Color.white );
-        Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
         title.setFont( font );
         title.setJustification( javax.swing.JLabel.CENTER_ALIGNMENT );
         title.setOffset( radiowaveSource.getLength() / 2 - title.getBounds().getWidth() / 2, 10 );
