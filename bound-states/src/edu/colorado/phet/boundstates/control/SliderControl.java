@@ -241,7 +241,8 @@ public class SliderControl extends JPanel {
                 }
             }
             else {
-                beep();
+                warnUser();
+                System.out.println( "SliderControl.setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + value );
                 updateView(); // revert
             }
         }
@@ -518,7 +519,7 @@ public class SliderControl extends JPanel {
     /*
      * Produces an audible beep, used to indicate invalid text entry.
      */
-    private void beep() {
+    private void warnUser() {
         Toolkit.getDefaultToolkit().beep();
     }
     
@@ -571,7 +572,7 @@ public class SliderControl extends JPanel {
                     setValue( getTextFieldValue() );
                 }
                 catch ( ParseException pe ) {
-                    beep();
+                    warnUser();
                     updateView(); // revert
                 }
             }
