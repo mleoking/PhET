@@ -32,7 +32,7 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.help.GlassPaneCanvas;
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -135,7 +135,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             canvas.getLayer().addChild( pathNode );
             
             // Pop-up menu attached to right mouse button
-            HTMLGraphic html = new HTMLGraphic( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
+            HTMLNode html = new HTMLNode( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
             html.setFont( new Font( "Lucida Sans", Font.PLAIN, 18 ) );
             html.setOffset( 300, 100 );
             canvas.getLayer().addChild( html );
@@ -156,7 +156,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             
             // Control panel -----------------------------------
                
-            ControlPanel controlPanel = new ControlPanel( this );
+            ControlPanel controlPanel = new ControlPanel();
             setControlPanel( controlPanel );
           
             JButton button1 = new JButton( "button1" );

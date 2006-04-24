@@ -10,6 +10,8 @@ import java.awt.*;
 
 /**
  * Class for rendering HTML Text.
+ * 
+ * @deprecated use HTMLNode
  */
 public class HTMLGraphic extends PNode {
 
