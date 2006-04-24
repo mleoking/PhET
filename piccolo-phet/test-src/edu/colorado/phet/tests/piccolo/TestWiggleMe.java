@@ -1,21 +1,23 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo;
 
-import edu.colorado.phet.piccolo.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.geom.Ellipse2D;
+
+import javax.swing.JFrame;
+
 import edu.colorado.phet.piccolo.help.WiggleMe;
 import edu.colorado.phet.piccolo.nodes.ArrowConnectorGraphic;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.P3DRect;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
@@ -54,9 +56,9 @@ public class TestWiggleMe {
 
         pText.addChild( child );
 
-        HTMLGraphic htmlGraphic = new HTMLGraphic( "<html>MY HTML<br>is awesome<sup>2</html>" );
-        pCanvas.getLayer().addChild( htmlGraphic );
-        htmlGraphic.setOffset( 200, 150 );
+        HTMLNode htmlNode = new HTMLNode( "<html>MY HTML<br>is awesome<sup>2</html>" );
+        pCanvas.getLayer().addChild( htmlNode );
+        htmlNode.setOffset( 200, 150 );
 
         PPath p3 = new PPath( new Ellipse2D.Double( 0, 0, 45, 65 ) );
         p3.setPaint( Color.blue );

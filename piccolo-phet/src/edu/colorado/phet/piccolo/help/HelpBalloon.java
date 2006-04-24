@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -96,8 +97,8 @@ public class HelpBalloon extends AbstractHelpItem {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HTMLGraphic _textNode;
-    private HTMLGraphic _shadowTextNode;
+    private HTMLNode _textNode;
+    private HTMLNode _shadowTextNode;
     private PComposite _compositeTextNode;
     private PPath _balloonNode;
     private PPath _arrowNode; 
@@ -199,15 +200,15 @@ public class HelpBalloon extends AbstractHelpItem {
         {
             _textMargin = DEFAULT_TEXT_MARGIN;
 
-            _textNode = new HTMLGraphic( text );
+            _textNode = new HTMLNode( text );
             _textNode.setFont( DEFAULT_TEXT_FONT );
-            _textNode.setColor( DEFAULT_TEXT_COLOR );
+            _textNode.setHTMLColor( DEFAULT_TEXT_COLOR );
             
             _shadowTextOffset = new Dimension( DEFAULT_SHADOW_TEXT_OFFSET );
             
-            _shadowTextNode = new HTMLGraphic( text );
+            _shadowTextNode = new HTMLNode( text );
             _shadowTextNode.setFont( DEFAULT_TEXT_FONT );
-            _shadowTextNode.setColor( DEFAULT_SHADOW_TEXT_COLOR );
+            _shadowTextNode.setHTMLColor( DEFAULT_SHADOW_TEXT_COLOR );
             _shadowTextNode.setVisible( false ); // default is no shadow text
             
             _compositeTextNode = new PComposite();
@@ -228,7 +229,7 @@ public class HelpBalloon extends AbstractHelpItem {
     //----------------------------------------------------------------------------
     
     public String toString() {
-        return getClass().getName() + " [text=" + _textNode.getHtml() + "]";
+        return getClass().getName() + " [text=" + _textNode.getHTML() + "]";
     }
     
     //----------------------------------------------------------------------------
@@ -254,8 +255,8 @@ public class HelpBalloon extends AbstractHelpItem {
     // Text attributes -----------------------------------------------------------
     
     public void setText( String html ) {
-        _textNode.setHtml( html );
-        _shadowTextNode.setHtml( html );
+        _textNode.setHTML( html );
+        _shadowTextNode.setHTML( html );
         updateDisplay();
     }
 
@@ -266,7 +267,7 @@ public class HelpBalloon extends AbstractHelpItem {
     }
     
     public void setTextColor( Color color ) {
-        _textNode.setColor( color );
+        _textNode.setHTMLColor( color );
     }
     
     /**
@@ -287,7 +288,7 @@ public class HelpBalloon extends AbstractHelpItem {
     }
     
     public void setShadowTextColor( Color color ) {
-        _shadowTextNode.setColor( color );
+        _shadowTextNode.setHTMLColor( color );
     }
     
     /**

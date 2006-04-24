@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.piccolo.help;
 
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.piccolo.activities.OscillateActivity;
 import edu.colorado.phet.piccolo.nodes.BoundGraphic;
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivityScheduler;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -29,16 +29,15 @@ import java.awt.geom.Point2D;
  */
 
 public class WiggleMe extends PNode {
-    private String message;
+
     private OscillateActivity oscillate;
     boolean oscillating = false;
 
     public WiggleMe( String message, int x, int y ) {
-        this.message = message;
         if( !message.startsWith( "<html>" ) ) {
             message = "<html>" + message + "</html>";
         }
-        HTMLGraphic htmlGraphic = new HTMLGraphic( message );
+        HTMLNode htmlGraphic = new HTMLNode( message );
         BoundGraphic htmlBound = new BoundGraphic( htmlGraphic, 2, 2 );
         htmlBound.setPaint( Color.yellow );
         addChild( htmlBound );

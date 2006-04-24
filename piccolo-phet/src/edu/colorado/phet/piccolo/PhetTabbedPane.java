@@ -10,7 +10,19 @@
  */
 package edu.colorado.phet.piccolo;
 
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -20,15 +32,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
-import java.util.ArrayList;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -329,24 +332,24 @@ public class PhetTabbedPane extends JPanel {
      * This AbstractTabNode renders HTML.
      */
     public static class HTMLTabNode extends AbstractTabNode {
-        private HTMLGraphic htmlGraphic;
+        private HTMLNode htmlNode;
 
         public HTMLTabNode( String text, JComponent component, Color selectedTabColor, Font tabFont ) {
             super( text, component, selectedTabColor, tabFont );
         }
 
         protected PNode createTextNode( String text, Color selectedTabColor ) {
-            this.htmlGraphic = new HTMLGraphic( text, getTabFont(), Color.black );
-            return this.htmlGraphic;
+            this.htmlNode = new HTMLNode( text, getTabFont(), Color.black );
+            return this.htmlNode;
         }
 
         protected void updateTextNode() {
-            this.htmlGraphic.setFont( getTabFont() );
-            this.htmlGraphic.setColor( (Color)getTextPaint() );
+            this.htmlNode.setFont( getTabFont() );
+            this.htmlNode.setHTMLColor( (Color)getTextPaint() );
         }
 
         public void updateFont( Font font ) {
-            htmlGraphic.setFont( font );
+            htmlNode.setFont( font );
             updateShape();
         }
     }
