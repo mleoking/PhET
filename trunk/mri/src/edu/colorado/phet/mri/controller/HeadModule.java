@@ -12,12 +12,12 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.SampleChamber;
-import edu.colorado.phet.mri.model.Spin;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 /**
  * MriModuleA
@@ -43,82 +43,28 @@ public class HeadModule extends AbstractMriModule {
     public HeadModule() {
         super( HeadModule.name, new SwingClock( delay, dt ) );
 
-        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE );
-        headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION );
-        int n = getWorldNode().getChildrenCount();
-        getWorldNode().addChild( n, headGraphic );
+        // Control panel
+        HeadModuleControlPanel controlPanel = new HeadModuleControlPanel( this );
+        setControlPanel( controlPanel );
+
+        double earOffsetX = 60;
+        Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
+                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 25,
+                                                    MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
+                                                    MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
 
         // Make some dipoles
-        createDipoles( 20, ( (MriModel)getModel() ).getSampleChamber(), ( (MriModel)getModel() ) );
-//        createDipoles( 16, model.getSampleChamber(), model );
+        head.createDipoles( (MriModel)getModel(), 60);
+
+        // Add the head graphic
+        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE, new Dimension( (int)MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                                                                       (int)MriConfig.SAMPLE_CHAMBER_WIDTH) );
+        headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION );
+        getWorldNode().addChild( headGraphic );
 
         // Set the initial view
         setEmRep( HeadModule.WAVE_VIEW );
-    }
 
-    /**
-     * Creates a number of dipoles and places them at random locations within the sample chamber
-     *
-     * @param numDipoles
-     * @param sampleChamber
-     * @param model
-     */
-    protected void createDipoles( int numDipoles, SampleChamber sampleChamber, MriModel model ) {
-
-        boolean singleDipole = false;
-
-        if( !singleDipole ) {
-
-            // Lay out the dipoles in a grid
-//            Rectangle2D bounds = model.getSampleChamber().getBounds();
-//            double aspectRatio = bounds.getWidth() / bounds.getHeight();
-            double aspectRatio = MriConfig.SAMPLE_CHAMBER_WIDTH / MriConfig.SAMPLE_CHAMBER_HEIGHT;
-            int numCols = 0;
-            int numRows = 0;
-            double testAspectRatio = -1;
-            while( testAspectRatio < aspectRatio ) {
-                numCols++;
-                numRows = numDipoles / numCols;
-                testAspectRatio = ( (double)numCols ) / numRows;
-            }
-
-            double colSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numCols + 1 );
-            double rowSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numRows + 1 );
-//            double colSpacing = bounds.getWidth() / ( numCols + 1 );
-//            double rowSpacing = bounds.getHeight() / ( numRows + 1 );
-            int cnt = 0;
-            for( int i = 1; i <= numRows; i++ ) {
-                for( int j = 1; j <= numCols; j++ ) {
-                    double x = MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + j * colSpacing;
-                    double y = MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + i * rowSpacing;
-//                    double x = sampleChamber.getBounds().getX() + j * colSpacing;
-//                    double y = sampleChamber.getBounds().getY() + i * rowSpacing;
-                    Dipole dipole = new Dipole();
-                    dipole.setPosition( x, y );
-                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
-                    dipole.setSpin( spin );
-                    model.addModelElement( dipole );
-                }
-            }
-
-//            for( int i = 0; i < numDipoles; i++ ) {
-//                double x = random.nextDouble() * ( sampleChamber.getBounds().getWidth() - 100 ) + sampleChamber.getBounds().getX() + 50;
-//                double y = random.nextDouble() * ( sampleChamber.getBounds().getHeight() - 60 ) + sampleChamber.getBounds().getY() + 20;
-//                Dipole dipole = new Dipole();
-//                dipole.setPosition( x, y );
-//                Spin spin = i % 2 == 0 ? Spin.UP : Spin.DOWN;
-//                dipole.setSpin( spin );
-//                model.addModelElement( dipole );
-//            }
-
-        }
-        else {
-            Dipole dipole = new Dipole();
-            dipole.setPosition( ( sampleChamber.getBounds().getWidth() / 2 ) + sampleChamber.getBounds().getX(),
-                                sampleChamber.getBounds().getY() + 100 );
-            dipole.setSpin( Spin.DOWN );
-            model.addModelElement( dipole );
-        }
     }
 
 }
