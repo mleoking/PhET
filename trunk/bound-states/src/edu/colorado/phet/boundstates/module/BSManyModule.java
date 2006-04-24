@@ -155,10 +155,6 @@ public class BSManyModule extends BSAbstractModule {
             _parentNode.addChild( _chartNode );
         }
         
-        // Eigenstate interface
-        _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
-        _parentNode.addChild( _eigenstatesNode );
-        
         // Energy graph legend
         { 
             _legend = new BSEnergyLegend();
@@ -204,6 +200,9 @@ public class BSManyModule extends BSAbstractModule {
             _parentNode.addChild( _bottomPlotNode );
         }
         
+        // Eigenstate interface
+        _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
+        _parentNode.addChild( _eigenstatesNode );
         
         // Wave Function plot shows time-dependent data
         getClock().addClockListener( _bottomPlot );
