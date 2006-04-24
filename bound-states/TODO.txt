@@ -46,6 +46,8 @@ CLEANUP:
 
 
 DONE:
+(4/24/06) - use HTMLNode to put a subscript on En for hilited eigenstate value display
+(4/24/06) - piccolo-phet: write HTMLNode, based on HTMLGraphic
 (4/24/06) - put eigenstates on top of potential plot
 (4/24/06) - add En to the value shown for hilited eigenstate
 (4/24/06) - construct DecimalFormat for hilited eigenstate so that it shows enough digits to differentiate between all energies

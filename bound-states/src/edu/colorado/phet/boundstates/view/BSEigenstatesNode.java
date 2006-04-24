@@ -25,12 +25,12 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
@@ -62,7 +62,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     private PCanvas _canvas;
     private BSCombinedChartNode _chartNode;
     private ArrayList _lines; // array of PPath, one for each entry in _eigenstates array
-    private PText _hiliteValueNode;
+    private HTMLNode _hiliteValueNode;
     
     private Color _normalColor, _hiliteColor, _selectionColor;
     
@@ -94,7 +94,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _differenceFormat = new DecimalFormat( format );
         
         _lines = new ArrayList();
-        _hiliteValueNode = new PText();
+        _hiliteValueNode = new HTMLNode();
         _hiliteValueNode.setFont( BSConstants.HILITE_ENERGY_FONT );
         _hiliteValueNode.setVisible( false );
         _hiliteValueNode.setOffset( 100, 100 );
@@ -147,7 +147,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _selectionColor = colorScheme.getEigenstateSelectionColor();
         
         _hiliteValueNode.setPaint( colorScheme.getChartColor() );
-        _hiliteValueNode.setTextPaint( _hiliteColor );
+        _hiliteValueNode.setHTMLColor( _hiliteColor );
         
         updateDisplay();
     }
@@ -329,7 +329,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
 
             // Show the eigenstate's value...
             String text = createValueString( hiliteIndex );
-            _hiliteValueNode.setText( text );
+            _hiliteValueNode.setHTML( text );
             _hiliteValueNode.setVisible( true );
 
             // Position the value just above the hilited line...
@@ -409,7 +409,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     }
     
     /*
-     * Creates a string used to display the hilited eigenstate's energy value.
+     * Creates an HTML string used to display the hilited eigenstate's energy value.
      * 
      * @param hiliteIndex
      */
@@ -423,7 +423,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
         NumberFormat format = createFormat( hiliteIndex );
         String energyString = format.format( energy );
         
-        return " " + "E" + indexE + "=" + energyString;
+        return "<html> E<sub>" + indexE + "</sub> = " + energyString + "</html>";
     }
     
     /*
