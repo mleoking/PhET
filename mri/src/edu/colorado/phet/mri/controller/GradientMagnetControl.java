@@ -32,5 +32,6 @@ public class GradientMagnetControl extends ModelSlider {
                 magnet.setCurrent( getValue() );
             }
         } );
+        magnet.setCurrent( 0 );
     }
 }

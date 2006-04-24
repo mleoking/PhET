@@ -53,10 +53,7 @@ public class HeadModule extends AbstractMriModule {
         MriModel model = (MriModel)getModel();
         Electromagnet lowerMagnet = model.getLowerMagnet();
 
-        Point2D.Double position = new Point2D.Double( lowerMagnet.getPosition().getX(),
-                                                      lowerMagnet.getPosition().getY() - 40 );
-        GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 0,0);
-
+        GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 1,0);
         Point2D gradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 30 );
         GradientElectromagnet gradientElectromagnet = new GradientElectromagnet( gradientMagnetLocation,
@@ -79,6 +76,8 @@ public class HeadModule extends AbstractMriModule {
                                                                                 MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
 
         // Make some dipoles
+//        createSingleDipole( head, model );
+//        head.createDipoles( (MriModel)getModel(), 1);
         head.createDipoles( (MriModel)getModel(), 20);
 //        head.createDipoles( (MriModel)getModel(), 60);
 

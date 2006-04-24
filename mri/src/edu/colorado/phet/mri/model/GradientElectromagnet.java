@@ -11,12 +11,13 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.mri.model.Electromagnet;
 
 import java.awt.geom.Point2D;
 
 /**
  * GradientElectromagnet
+ * <p>
+ * Note that the location or the magnet is its midpoint
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -24,17 +25,18 @@ import java.awt.geom.Point2D;
 public class GradientElectromagnet extends Electromagnet {
     private Gradient gradient;
 //    private Point2D position;
-//    private double width;
+    private double width;
 //    private double fieldOffset;
 
 
     public GradientElectromagnet( Point2D position, double width, double height, IClock clock, Gradient gradient ) {
         super( position, width, height, clock );
+        this.width = width;
         this.gradient = gradient;
     }
 
     public double getFieldStrengthAt( double x ){
-        return gradient.getValueAt( x );
+        return getFieldStrength() * gradient.getValueAt( x, width );
     }
 
     public void setGradient( Gradient gradient ) {
@@ -45,7 +47,7 @@ public class GradientElectromagnet extends Electromagnet {
     // Gradient specifications
     //--------------------------------------------------------------------------------------------------
     public static interface Gradient {
-        double getValueAt( double x );
+        double getValueAt( double x, double width );
     }
 
     public static class LinearGradient implements Gradient {
@@ -56,8 +58,10 @@ public class GradientElectromagnet extends Electromagnet {
             this.b = b;
         }
 
-        public double getValueAt( double x ) {
-            return m * x + b;
+        public double getValueAt( double x, double width ) {
+            // This looks funny because (0,0) for the magnet is at its center,
+            // and b is specified for the left end
+            return m * (x / width ) + b;//  + ( m * width / 2 );
         }
     }
 

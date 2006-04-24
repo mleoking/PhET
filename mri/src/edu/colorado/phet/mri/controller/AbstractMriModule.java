@@ -13,8 +13,7 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.SampleMaterial;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -38,6 +37,11 @@ public abstract class AbstractMriModule extends Module {
     public static EmRep WAVE_VIEW = new EmRep();
     private PNode worldNode;
 
+    /**
+     *
+     * @param name
+     * @param clock
+     */
     public AbstractMriModule( String name, IClock clock ) {
         super( name, clock );
 
@@ -77,4 +81,19 @@ public abstract class AbstractMriModule extends Module {
     protected PNode getWorldNode() {
         return worldNode;
     }
+
+    /**
+     * Creates a number of dipoles and places them at random locations within the sample chamber
+     *
+     * @param sample
+     * @param model
+     */
+    protected void createSingleDipole( Sample sample, MriModel model ) {
+        Dipole dipole = new Dipole();
+        dipole.setPosition( ( sample.getBounds().getWidth() / 2 ) + sample.getBounds().getX(),
+                            sample.getBounds().getY() + 100 );
+        dipole.setSpin( Spin.DOWN );
+        model.addModelElement( dipole );
+    }
+
 }
