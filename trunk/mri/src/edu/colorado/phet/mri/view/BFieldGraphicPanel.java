@@ -34,7 +34,8 @@ public class BFieldGraphicPanel extends PhetPCanvas {
     private DecimalFormat readoutFormat = new DecimalFormat( "0.00" );
 
     public BFieldGraphicPanel( Electromagnet magnet ) {
-        setPreferredSize( new Dimension( 200, 200 ) );
+
+        setPreferredSize( new Dimension( 150, 150 ) );
         maxArrowFractionOfHeight = 0.9;
         final BFieldIndicator indicator = new BFieldIndicator( magnet,
                                                                getPreferredSize().getHeight() * maxArrowFractionOfHeight,
