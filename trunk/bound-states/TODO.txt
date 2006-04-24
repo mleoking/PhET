@@ -5,9 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- some eigenstates are so close together that one or more can't be selected or hilited
+- don't construct DecimalFormat, use NumberFormat.getInstance
 - Coulomb potential disappears when #wells=1, eigenstates still visible
 - Single or Double module occassionally throws an exception during startup
-- construct DecimalFormat for hilited eigenstate so that it shows enough digits to differentiate between all energies
 - cache wavefunction solutions
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
@@ -45,6 +46,9 @@ CLEANUP:
 
 
 DONE:
+(4/24/06) - put eigenstates on top of potential plot
+(4/24/06) - add En to the value shown for hilited eigenstate
+(4/24/06) - construct DecimalFormat for hilited eigenstate so that it shows enough digits to differentiate between all energies
 (4/24/06) - control "separation" instead of "spacing" for square wells
 (4/21/06) - hand cursor when an eigenstate is hilited
 (4/21/06) - Spanish translations

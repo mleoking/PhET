@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -49,7 +50,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
     // Energy must be at least this close to eigenstate to be hilited.
     private static final double HILITE_ENERGY_THRESHOLD = BSConstants.ENERGY_RANGE.getLength() / 20;
     
-    private static final DecimalFormat HILITE_VALUE_FORMAT = new DecimalFormat( "0.00000" );
+    private static final int MIN_DECIMAL_PLACES = 2; // min decimal places shown for energy value
+    private static final int MAX_DECIMAL_PLACES = 12; // max decimal places shown for energy value
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,6 +65,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
     private PText _hiliteValueNode;
     
     private Color _normalColor, _hiliteColor, _selectionColor;
+    
+    // Used to determine the number of decimal places in display of the hilited energy value.
+    private NumberFormat _differenceFormat;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,6 +86,12 @@ public class BSEigenstatesNode extends PNode implements Observer {
         
         _chartNode = chartNode;
         _canvas = canvas;
+        
+        String format = "0.";
+        for ( int i = 0; i < MAX_DECIMAL_PLACES + 1; i++ ) {
+            format += "#";
+        }
+        _differenceFormat = new DecimalFormat( format );
         
         _lines = new ArrayList();
         _hiliteValueNode = new PText();
@@ -289,7 +300,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
 
         // Find the closest eigenstate...
         int hiliteIndex = getClosestEigenstateIndex( energy );
-        hiliteEigenstate( hiliteIndex );
+        if ( hiliteIndex != _model.getHilitedEigenstateIndex() ) {
+            hiliteEigenstate( hiliteIndex );
+        }
     }
     
     /**
@@ -315,9 +328,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
             _model.setHilitedEigenstateIndex( hiliteIndex );
 
             // Show the eigenstate's value...
-            BSEigenstate[] eigenstates = _model.getEigenstates();
-            double energy = eigenstates[hiliteIndex].getEnergy();
-            String text = " " + HILITE_VALUE_FORMAT.format( energy );
+            String text = createValueString( hiliteIndex );
             _hiliteValueNode.setText( text );
             _hiliteValueNode.setVisible( true );
 
@@ -395,5 +406,81 @@ public class BSEigenstatesNode extends PNode implements Observer {
             }
         }
         return index;
+    }
+    
+    /*
+     * Creates a string used to display the hilited eigenstate's energy value.
+     * 
+     * @param hiliteIndex
+     */
+    private String createValueString( int hiliteIndex ) {
+        
+        int startIndex = _model.getPotential().getStartingIndex();
+        int indexE = startIndex + hiliteIndex;
+        
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        double energy = eigenstates[hiliteIndex].getEnergy();
+        NumberFormat format = createFormat( hiliteIndex );
+        String energyString = format.format( energy );
+        
+        return " " + "E" + indexE + "=" + energyString;
+    }
+    
+    /*
+     * Creates a NumberFormat that will show the proper number of decimal places
+     * to differentiate between adjacent eigenstate energy values.
+     * 
+     * @param hiliteIndex
+     */
+    private NumberFormat createFormat( int hiliteIndex ) {
+        
+        // Determine the smallest difference between adjacent eigenstate energies...
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        double energy = eigenstates[hiliteIndex].getEnergy();
+        double difference = 1;
+        if ( hiliteIndex > 0 ) {
+            difference = Math.abs( energy - eigenstates[hiliteIndex-1].getEnergy() );
+        }
+        if ( hiliteIndex < eigenstates.length - 1 ) {
+            double d2 = Math.abs( energy - eigenstates[hiliteIndex+1].getEnergy() );
+            if ( d2 < difference ) {
+                difference = d2;
+            }
+        }
+        
+        // Determine the number of significant decimal places needed to show the difference...
+        String differenceString = _differenceFormat.format( difference );
+        System.out.println( 
+                "hiliteIndex=" + hiliteIndex + 
+                " energy=" + energy + 
+                " diff=" + difference +
+                " diffString=" + differenceString );
+        int significantDecimalPlaces = 0;
+        if ( differenceString.charAt( 0 ) != '0' ) {
+            significantDecimalPlaces = MIN_DECIMAL_PLACES;
+        }
+        else {
+            int decimalPointIndex = differenceString.indexOf( '.' );
+            for ( int i = decimalPointIndex + 1; i < differenceString.length(); i++ ) {
+                significantDecimalPlaces++;
+                char c = differenceString.charAt( i );
+                if ( c != '0' ) {
+                    break;
+                }
+            }
+            if ( significantDecimalPlaces < MIN_DECIMAL_PLACES ) {
+                significantDecimalPlaces = MIN_DECIMAL_PLACES;
+            }
+            else if ( significantDecimalPlaces > MAX_DECIMAL_PLACES ) {
+                significantDecimalPlaces = MAX_DECIMAL_PLACES;
+            }
+        }
+        
+        // Construct a formatter...
+        String formatString = "0.";
+        for ( int i = 0; i < significantDecimalPlaces; i++ ) {
+            formatString += "0";
+        }
+        return new DecimalFormat( formatString );
     }
 }
