@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(4/24/06) - control "separation" instead of "spacing" for square wells
 (4/21/06) - hand cursor when an eigenstate is hilited
 (4/21/06) - Spanish translations
 (4/21/06) - command line options (-single, -double, -many) for choosing which modules to display

@@ -190,8 +190,6 @@ public class BSConstants {
 
     // Ranges...
     
-    public static final double MIN_WELL_SEPARATION = 0.05; // nm
-    
     public static final double MIN_WELL_WIDTH = 0.1; // nm
     public static final double MAX_WELL_WIDTH = 3; // nm
     
@@ -201,6 +199,9 @@ public class BSConstants {
     public static final double MIN_WELL_DEPTH = 0; // eV
     public static final double MAX_WELL_DEPTH = 20; // eV
 
+    public static final double MIN_WELL_SEPARATION = 0.1; // nm
+    public static final double MAX_WELL_SEPARATION = 4; // nm
+    
     public static final double MIN_WELL_OFFSET = -15; // eV
     public static final double MAX_WELL_OFFSET = 5; // eV
     
