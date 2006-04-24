@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Rectangle2D;

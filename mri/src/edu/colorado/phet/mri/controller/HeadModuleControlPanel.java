@@ -12,8 +12,13 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.MonitorPanel;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
+import edu.colorado.phet.mri.controller.AbstractMriModule;
+import edu.colorado.phet.mri.controller.EmRepSelector;
+import edu.colorado.phet.mri.controller.FadingMagnetControl;
+import edu.colorado.phet.mri.controller.GradientMagnetControl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +36,7 @@ public class HeadModuleControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public HeadModuleControlPanel( AbstractMriModule module ) {
+    public HeadModuleControlPanel( AbstractMriModule module, GradientElectromagnet gradientMagnet ) {
         MriModel model = (MriModel)module.getModel();
 
 //        JComponent fadingMagnetsControl = new FadingMagnetControl( model );
@@ -39,7 +44,8 @@ public class HeadModuleControlPanel extends ControlPanel {
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
 
         addControl( new FadingMagnetControl( model ) );
-//        addControl( monitorPanel );
+        addControl( new GradientMagnetControl( gradientMagnet ));
+        addControl( monitorPanel );
 
         // These lines should be in a class that wraps around the PhetPCanvas in BFieldGraphicPanel
         {

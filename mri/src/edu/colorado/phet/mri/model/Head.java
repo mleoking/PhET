@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.Dipole;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;

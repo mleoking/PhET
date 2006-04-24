@@ -11,10 +11,12 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
+import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.view.DipoleGraphic;
+import edu.colorado.phet.mri.view.ElectromagnetGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.HashMap;

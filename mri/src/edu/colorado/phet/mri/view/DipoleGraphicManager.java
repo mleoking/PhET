@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.view.DipoleGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.HashMap;

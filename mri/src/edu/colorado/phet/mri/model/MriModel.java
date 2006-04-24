@@ -36,6 +36,7 @@ public class MriModel extends BaseModel {
 
     private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
     private Electromagnet upperMagnet, lowerMagnet;
+    private GradientElectromagnet gradientMagnet;
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
@@ -72,6 +73,7 @@ public class MriModel extends BaseModel {
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
         lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
+
 
         // Radiowave Source
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
@@ -190,6 +192,14 @@ public class MriModel extends BaseModel {
         return radiowaveSource;
     }
 
+    public GradientElectromagnet getGradientMagnet() {
+        return gradientMagnet;
+    }
+
+    public void setGradientMagnet( GradientElectromagnet gradientMagnet ) {
+        this.gradientMagnet = gradientMagnet;
+    }
+
     /**
      * Returns the energy difference between spin up and spin down of the current
      * sample material in the fading magnet field
@@ -229,6 +239,14 @@ public class MriModel extends BaseModel {
 
     public void removeListener( ChangeListener listener ) {
         modelEventChannel.removeListener( listener );
+    }
+
+    public double getTotalFieldStrengthAt( double x ) {
+        double b = lowerMagnet.getFieldStrength();
+        if( gradientMagnet != null ) {
+            b += gradientMagnet.getFieldStrengthAt( x );
+        }
+        return b;
     }
 
     public static interface ChangeListener extends EventListener {
