@@ -16,6 +16,7 @@ import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.SampleChamber;
 import edu.colorado.phet.mri.model.SampleMaterial;
+import edu.colorado.phet.mri.model.Sample;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -47,8 +48,8 @@ public abstract class AbstractMriModule extends Module {
 
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
 
-        // Control panel
-        setControlPanel( new MriControlPanel( this ) );
+//        // Control panel
+//        setControlPanel( new MriControlPanel( this ) );
 
         // Make the canvas, world node, and graphics manager
         PhetPCanvas simPanel = new PhetPCanvas( new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
@@ -81,6 +82,4 @@ public abstract class AbstractMriModule extends Module {
     protected PNode getWorldNode() {
         return worldNode;
     }
-
-    protected abstract void createDipoles( int numDipoles, SampleChamber sampleChamber, MriModel model );
 }

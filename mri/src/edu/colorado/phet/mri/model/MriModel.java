@@ -38,7 +38,7 @@ public class MriModel extends BaseModel {
     private Electromagnet upperMagnet, lowerMagnet;
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
-    private SampleChamber sampleChamber;
+    private Sample sample;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
     private RadiowaveSource radiowaveSource;
@@ -52,11 +52,11 @@ public class MriModel extends BaseModel {
         this.bounds = bounds;
 
         // Sample Chamber
-        sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
-        addModelElement( sampleChamber );
+//        sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+//                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
+//                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
+//        addModelElement( sampleChamber );
 
         // Magnets
         double magnetHeight = MriConfig.MAX_FADING_HEIGHT;
@@ -168,13 +168,13 @@ public class MriModel extends BaseModel {
         return photons;
     }
 
-    public void setSampleChamber( SampleChamber sampleChamber ) {
-        this.sampleChamber = sampleChamber;
-        addModelElement( sampleChamber );
+    public Sample getSample() {
+        return sample;
     }
 
-    public SampleChamber getSampleChamber() {
-        return sampleChamber;
+    public void setSample( Sample sample ) {
+        this.sample = sample;
+        addModelElement( sample );
     }
 
     public SampleMaterial getSampleMaterial() {
