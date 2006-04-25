@@ -234,7 +234,6 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         _separation = _separationSlider.getValue();
         final double width = _potential.getWidth();
         final double spacing = _separation + width;
-        System.out.println( "handleSeparationChange separation=" + _separation + " spacing=" + spacing );//XXX
         _potential.setSpacing( spacing );
     }
 
