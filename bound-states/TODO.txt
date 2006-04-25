@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+(4/25/06) - create a set of input files for Schmidt-Lee applet to test all of our well types
 (4/25/06) - use up/down arrow keys to change textfield in SliderControl
 (4/24/06) - use HTMLNode to put a subscript on En for hilited eigenstate value display
 (4/24/06) - piccolo-phet: write HTMLNode, based on HTMLGraphic
