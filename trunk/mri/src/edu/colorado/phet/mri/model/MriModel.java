@@ -35,6 +35,7 @@ import java.util.List;
 public class MriModel extends BaseModel {
 
     private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
+//    private GradientElectromagnet upperMagnet, lowerMagnet;
     private Electromagnet upperMagnet, lowerMagnet;
     private GradientElectromagnet gradientMagnet;
     private ArrayList dipoles = new ArrayList();
@@ -49,7 +50,7 @@ public class MriModel extends BaseModel {
      *
      * @param clock
      */
-    public MriModel( IClock clock, Rectangle2D bounds ) {
+    public MriModel( IClock clock, Rectangle2D bounds, Sample sample ) {
         this.bounds = bounds;
 
         // Sample Chamber
@@ -57,7 +58,7 @@ public class MriModel extends BaseModel {
 //                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
 //                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
 //                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
-//        addModelElement( sampleChamber );
+        addModelElement( sample );
 
         // Magnets
         double magnetHeight = MriConfig.MAX_FADING_HEIGHT;
@@ -67,11 +68,20 @@ public class MriModel extends BaseModel {
                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT );
         Point2D upperMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() - magnetHeight * 1.5 );
-        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
+        upperMagnet = new GradientElectromagnet( upperMagnetLocation,
+                                                 sampleChamberBounds.getWidth(),
+                                                 magnetHeight,
+                                                 clock,
+                                                 new GradientElectromagnet.Constant() );
+//        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
-        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
+        lowerMagnet = new GradientElectromagnet( lowerMagnetLocation,
+                                                 sampleChamberBounds.getWidth(),
+                                                 magnetHeight, clock,
+                                                 new GradientElectromagnet.Constant() );
+//        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
 
 

@@ -69,8 +69,6 @@ public class Electromagnet extends Particle {
         this.current = current;
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
         fieldChanger.setTarget( current * MriConfig.CURRENT_TO_FIELD_FACTOR );
-//        setFieldStrength( getCurrent() );
-//        new Thread( new FieldChanger( 100)).start();
     }
 
     //----------------------------------------------------------------

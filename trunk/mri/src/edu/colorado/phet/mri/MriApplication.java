@@ -40,8 +40,8 @@ public class MriApplication extends PhetApplication {
     };
 
     private static Module[] fullAppModules = new Module[]{
-            new HeadModule(),
             new MriModuleA(),
+            new HeadModule(),
     };
     private static Module[] modules = fullAppModules;
 

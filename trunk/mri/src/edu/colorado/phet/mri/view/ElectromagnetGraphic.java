@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.BFieldIndicator;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
@@ -44,7 +45,7 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
     private Point2D upperArrowCenterPoint;
     private Point2D lowerArrowCenterPoint;
 
-    public ElectromagnetGraphic( Electromagnet electromagnet ) {
+    public ElectromagnetGraphic( GradientElectromagnet electromagnet ) {
 
         this.electromagnet = electromagnet;
         electromagnet.addChangeListener( this );
@@ -84,14 +85,20 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         coilGraphic = new PPath( shape );
         addChild( coilGraphic );
 
-        PImage coilOverlayGraphic = PImageFactory.create( "images/coil-overlay.png");
-        addChild( coilOverlayGraphic );
-        coilOverlayGraphic.setOffset( 0, coilOverlayGraphic.getHeight() / 4);
+//        PImage coilOverlayGraphic = PImageFactory.create( "images/coil-overlay.png" );
+//        addChild( coilOverlayGraphic );
+//        coilOverlayGraphic.setOffset( 0, coilOverlayGraphic.getHeight() / 4 );
 
         // Graphic for the arrow
-        BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null );
-        addChild( arrow );
-        arrow.setOffset( getRegistrationPoint() );
+        int numBFieldArrows = 5;
+        double spacing = bounds.getWidth() / ( numBFieldArrows + 1 );
+        for( int i = 0; i < numBFieldArrows; i++ ) {
+            double xLoc = spacing * ( i + 1 );
+            BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
+            addChild( arrow );
+            Point2D.Double p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
+            arrow.setOffset( p );
+        }
 
         update();
     }

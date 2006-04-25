@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -32,13 +33,19 @@ public class BFieldIndicator extends PNode {
     private double maxLength;
     private PPath arrowPPath;
     private Paint arrowColor;
+    private double xLoc;
 
-    public BFieldIndicator( Electromagnet magnet, double maxLength, Paint fill ) {
+    public BFieldIndicator( GradientElectromagnet magnet, double maxLength, Paint fill ) {
+        this( magnet, maxLength, fill, 0 );
+    }
+
+    public BFieldIndicator( GradientElectromagnet magnet, double maxLength, Paint fill, double xLoc ) {
+        this.xLoc = xLoc;
         this.maxLength = maxLength;
         this.arrowColor = fill;
         magnet.addChangeListener( new Electromagnet.ChangeListener() {
             public void stateChanged( Electromagnet.ChangeEvent event ) {
-                update( event.getElectromagnet() );
+                update( (GradientElectromagnet)event.getElectromagnet() );
             }
         } );
         update( magnet );
@@ -48,11 +55,11 @@ public class BFieldIndicator extends PNode {
         this.maxLength = maxLength;
     }
 
-    private void update( Electromagnet magnet ) {
+    private void update( GradientElectromagnet magnet ) {
         if( arrowPPath != null ) {
             removeChild( arrowPPath );
         }
-        double field = magnet.getFieldStrength();
+        double field = magnet.getFieldStrengthAt( xLoc);
         double length = ( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;
         length = Math.min( length, maxLength );
         Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, length / 2 ),

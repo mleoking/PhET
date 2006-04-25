@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 /**
- * FadingMagnetControl
+ * GradientMagnetControl
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -26,7 +26,7 @@ import javax.swing.event.ChangeEvent;
 public class GradientMagnetControl extends ModelSlider {
 
     public GradientMagnetControl( final GradientElectromagnet magnet ) {
-        super( "Current to Gradient Magnet", "", 0, MriConfig.MAX_FADING_COIL_CURRENT, 0 );
+        super( "Current to Gradient Magnet", "", 0, MriConfig.MAX_FADING_COIL_CURRENT / 5, 0 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 magnet.setCurrent( getValue() );
