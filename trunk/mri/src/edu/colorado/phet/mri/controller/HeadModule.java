@@ -44,11 +44,10 @@ public class HeadModule extends AbstractMriModule {
     // Instance methods and fields
     //----------------------------------------------------------------
 
-    static double earOffsetX = 60;
+    static double earOffsetX = 70;
     static double headOffsetY = 35;
     static  Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
                                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
-//                                                                            MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 25,
                                                                             MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
                                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
 

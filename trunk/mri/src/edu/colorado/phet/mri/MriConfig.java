@@ -14,6 +14,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
+import edu.colorado.phet.mri.model.PhotonDipoleExpert;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
 import java.awt.geom.Point2D;
@@ -54,20 +55,20 @@ public class MriConfig {
     public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO * MAX_FADING_COIL_FIELD ) / 150;
     // Length of time (simulation time) that a dipole kicked into spin down state will stay there until
     // it spontaneously fall to spin up
-    public static long SPIN_DOWN_TIMEOUT = 500;
+    public static long SPIN_DOWN_TIMEOUT = 250;
 
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;
 
-    // Model to view conversion factors
+        // Model to view conversion factors
     public static class ModelToView {
         public static double FREQUENCY = 1 / 4E9;
     }
 
     // Layout
-    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 200 );
+    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 120 );
     public static double SAMPLE_CHAMBER_WIDTH = 600;
     public static double SAMPLE_CHAMBER_HEIGHT = 400;
 

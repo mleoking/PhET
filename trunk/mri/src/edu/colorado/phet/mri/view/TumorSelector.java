@@ -20,25 +20,41 @@ import java.awt.event.ActionEvent;
 
 /**
  * TumorSelector
- * <p>
+ * <p/>
  * Provides a button that adds a tumor to the head
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class TumorSelector extends JPanel {
+    private static String unselectedStr = "Add tumor";
+    private static String selectedStr = "RemoveTumor";
 
+    private Tumor tumor;
+
+    /**
+     *
+     * @param head
+     * @param model
+     */
     public TumorSelector( final Head head, final BaseModel model ) {
-        JButton tumorBtn = new JButton( "Add tumor");
+        final JToggleButton tumorBtn = new JToggleButton( unselectedStr );
         add( tumorBtn );
         tumorBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-
-                Tumor tumor  = new Tumor( head.getBounds().getX() + head.getBounds().getWidth() / 2,
-                                          head.getBounds().getY() + head.getBounds().getHeight() / 3,
-                                          head.getBounds().getWidth() * 2/ 3,
-                                          head.getBounds().getHeight() / 6);
-                head.addTumor( tumor, model );
+                if( tumorBtn.isSelected() ) {
+                    tumor = new Tumor( head.getBounds().getX() + head.getBounds().getWidth() * 0.5,
+                                             head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
+                                             head.getBounds().getWidth() * 0.3,
+                                             head.getBounds().getHeight() / 6,
+                                             10 );
+                    head.addTumor( tumor, model );
+                    tumorBtn.setText( selectedStr );
+                }
+                else {
+                    head.removeTumor( tumor, model );
+                    tumorBtn.setText( unselectedStr );
+                }
             }
         } );
     }

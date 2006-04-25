@@ -10,7 +10,11 @@
  */
 package edu.colorado.phet.mri.model;
 
+import edu.colorado.phet.mri.util.MriUtil;
+
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tumor
@@ -19,11 +23,17 @@ import java.awt.geom.Ellipse2D;
  * @version $Revision$
  */
 public class Tumor extends Ellipse2D.Double {
+    private List dipoles;
 
     public Tumor() {
     }
 
-    public Tumor( double x, double y, double w, double h ) {
+    public Tumor( double x, double y, double w, double h, double spacing ) {
         super( x, y, w, h );
+        dipoles = MriUtil.createDipolesForEllipse( this, 20 );
+    }
+
+    public List getDipoles() {
+        return dipoles;
     }
 }
