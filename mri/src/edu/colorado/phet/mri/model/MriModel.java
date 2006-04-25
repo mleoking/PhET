@@ -54,10 +54,6 @@ public class MriModel extends BaseModel {
         this.bounds = bounds;
 
         // Sample Chamber
-//        sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-//                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
-//                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
         addModelElement( sample );
 
         // Magnets
@@ -143,6 +139,7 @@ public class MriModel extends BaseModel {
         }
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
+            ((Photon)modelElement).removeFromSystem();
         }
         listenerProxy.modelElementRemoved( modelElement );
     }

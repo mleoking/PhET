@@ -35,6 +35,8 @@ public class PhotonDipoleExpert implements CollisionExpert {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
+    public static final boolean CONSUME_PHOTON_ON_COLLISION = true;
+
     private static Random random = new Random();
 
     //--------------------------------------------------------------------------------------------------
@@ -45,13 +47,13 @@ public class PhotonDipoleExpert implements CollisionExpert {
     private Map classifiedBodies = new HashMap();
     private MriModel model;
     private CollisionProbablilityStrategy collisionProbablilityStrategy;
-//    private CollisionProbablilityStrategy collisionProbablilityStrategy = new ConstantCollisionProbability();
 
     public PhotonDipoleExpert( MriModel model ) {
         this.model = model;
         classifiedBodies.put( Photon.class, null );
         classifiedBodies.put( Dipole.class, null );
 
+//        collisionProbablilityStrategy = new ConstantCollisionProbability( .7 );
         collisionProbablilityStrategy = new LinearCollisionProbability( 0, 1 );
     }
 
@@ -75,14 +77,15 @@ public class PhotonDipoleExpert implements CollisionExpert {
                     // If the difference between the energy states of the spin up and down is equal to the
                     // energy of the photon, and the dipole is in the spin up (lower energy) state, flip the
                     // dipole
-                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( photon.getPosition().getX()) * model.getSampleMaterial().getMu() );
-//                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
+                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( photon.getPosition().getX() ) * model.getSampleMaterial().getMu() );
                     if( dipole.getSpin() == Spin.UP
                         && Math.abs( hEnergy - photon.getEnergy() )
                            < MriConfig.ENERGY_EPS ) {
                         dipole.collideWithPhoton( photon );
-                        photon.removeFromSystem();
-                        model.removeModelElement( photon );
+                        if( CONSUME_PHOTON_ON_COLLISION ) {
+                            photon.removeFromSystem();
+                            model.removeModelElement( photon );
+                        }
                         model.addModelElement( new DipoleFlipper( dipole, MriConfig.SPIN_DOWN_TIMEOUT, model ) );
                     }
                 }
@@ -155,17 +158,23 @@ public class PhotonDipoleExpert implements CollisionExpert {
     // Collision probability strategies
     //--------------------------------------------------------------------------------------------------
 
-    private interface CollisionProbablilityStrategy {
+    public static interface CollisionProbablilityStrategy {
         double getProbability( Dipole dipole );
     }
 
-    private class ConstantCollisionProbability implements CollisionProbablilityStrategy {
+    public static class ConstantCollisionProbability implements CollisionProbablilityStrategy {
+        private double probability;
+
+        public ConstantCollisionProbability( double probability ) {
+            this.probability = probability;
+        }
+
         public double getProbability( Dipole dipole ) {
-            return 1;
+            return probability;
         }
     }
 
-    private class LinearCollisionProbability implements CollisionProbablilityStrategy {
+    public class LinearCollisionProbability implements CollisionProbablilityStrategy {
         private double m;
         private double minProbability;
         private double maxProbability;
