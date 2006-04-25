@@ -450,11 +450,6 @@ public class BSEigenstatesNode extends PNode implements Observer {
         
         // Determine the number of significant decimal places needed to show the difference...
         String differenceString = _differenceFormat.format( difference );
-        System.out.println( 
-                "hiliteIndex=" + hiliteIndex + 
-                " energy=" + energy + 
-                " diff=" + difference +
-                " diffString=" + differenceString );
         int significantDecimalPlaces = 0;
         if ( differenceString.charAt( 0 ) != '0' ) {
             significantDecimalPlaces = MIN_DECIMAL_PLACES;
