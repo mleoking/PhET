@@ -14,14 +14,17 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.MonitorPanel;
+import edu.colorado.phet.mri.view.BFieldArrowGraphic;
+import edu.colorado.phet.mri.view.TumorSelector;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
-import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.controller.FadingMagnetControl;
 import edu.colorado.phet.mri.controller.GradientMagnetControl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * MriControlPanel
@@ -36,7 +39,7 @@ public class HeadModuleControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public HeadModuleControlPanel( AbstractMriModule module, GradientElectromagnet gradientMagnet ) {
+    public HeadModuleControlPanel( HeadModule module, GradientElectromagnet gradientMagnet ) {
         MriModel model = (MriModel)module.getModel();
 
 //        JComponent fadingMagnetsControl = new FadingMagnetControl( model );
@@ -44,23 +47,23 @@ public class HeadModuleControlPanel extends ControlPanel {
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
 
         addControl( new FadingMagnetControl( model ) );
-        addControl( new GradientMagnetControl( gradientMagnet ));
-        addControl( monitorPanel );
+        addControl( new GradientMagnetControl( gradientMagnet ) );
+//        addControl( monitorPanel );
 
-        // These lines should be in a class that wraps around the PhetPCanvas in BFieldGraphicPanel
-        {
-            final BFieldGraphicPanel fieldGraphic = new BFieldGraphicPanel( model.getLowerMagnet() );
-            final JPanel fieldGraphicPanel = new JPanel();
-            fieldGraphicPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ),"Magnetic Field") );
-            fieldGraphicPanel.add( fieldGraphic );
-            addControl( fieldGraphicPanel );
-        }
+        addControl( new BFieldGraphicPanel( model ) );
 
+        addControl( new TumorSelector( module.getHead(), model ) );
         addControl( new EmRepSelector( module ) );
 //        addControl( new SampleMaterialSelector( model ) );
 
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );
 //        addControl( new MonitorPanelRepControl( monitorPanel ) );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                setPreferredSize( new Dimension( 250, (int)getPreferredSize().getHeight() ) );
+            }
+        } );
     }
 }

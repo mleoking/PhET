@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.Electromagnet;
@@ -43,11 +44,19 @@ public class HeadModule extends AbstractMriModule {
     // Instance methods and fields
     //----------------------------------------------------------------
 
+    static double earOffsetX = 60;
+    static double headOffsetY = 35;
+    static  Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
+                                                                            MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
+//                                                                            MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 25,
+                                                                            MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
+                                                                            MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
+
     /**
      * Constructor
      */
     public HeadModule() {
-        super( HeadModule.name, new SwingClock( delay, dt ) );
+        super( HeadModule.name, new SwingClock( delay, dt ), head );
 
         // Add the gradient magnet
         MriModel model = (MriModel)getModel();
@@ -68,23 +77,14 @@ public class HeadModule extends AbstractMriModule {
         HeadModuleControlPanel controlPanel = new HeadModuleControlPanel( this, gradientElectromagnet );
         setControlPanel( controlPanel );
 
-        // Add the head
-        double earOffsetX = 60;
-        Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
-                                                                                MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 25,
-                                                                                MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
-                                                                                MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
 
         // Make some dipoles
-//        createSingleDipole( head, model );
-//        head.createDipoles( (MriModel)getModel(), 1);
-        head.createDipoles( (MriModel)getModel(), 20);
-//        head.createDipoles( (MriModel)getModel(), 60);
+        head.createDipoles( (MriModel)getModel(), 40);
 
         // Add the head graphic
-        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE, new Dimension( (int)MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                                                                       (int)MriConfig.SAMPLE_CHAMBER_WIDTH) );
-        headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION );
+        PNode headGraphic = new HeadGraphic();
+        headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 35);
         getWorldNode().addChild( headGraphic );
 
         // Set the initial view
@@ -92,4 +92,7 @@ public class HeadModule extends AbstractMriModule {
 
     }
 
+    public Head getHead() {
+        return head;
+    }
 }

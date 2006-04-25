@@ -42,10 +42,10 @@ public abstract class AbstractMriModule extends Module {
      * @param name
      * @param clock
      */
-    public AbstractMriModule( String name, IClock clock ) {
+    public AbstractMriModule( String name, IClock clock, Sample sample ) {
         super( name, clock );
 
-        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1024, 768 ) );
+        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1024, 768 ), sample );
         setModel( model );
 
         model.setSampleMaterial( SampleMaterial.HYDROGEN );

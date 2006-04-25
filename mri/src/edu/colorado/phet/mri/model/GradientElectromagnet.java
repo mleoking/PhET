@@ -17,18 +17,24 @@ import java.awt.geom.Point2D;
 /**
  * GradientElectromagnet
  * <p>
- * Note that the location or the magnet is its midpoint
+ * An Electromagnet to which an arbitrary gradient can be applied.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class GradientElectromagnet extends Electromagnet {
     private Gradient gradient;
-//    private Point2D position;
     private double width;
-//    private double fieldOffset;
 
-
+    /**
+     * Constructor
+     *
+     * @param position
+     * @param width
+     * @param height
+     * @param clock
+     * @param gradient
+     */
     public GradientElectromagnet( Point2D position, double width, double height, IClock clock, Gradient gradient ) {
         super( position, width, height, clock );
         this.width = width;
@@ -47,9 +53,31 @@ public class GradientElectromagnet extends Electromagnet {
     // Gradient specifications
     //--------------------------------------------------------------------------------------------------
     public static interface Gradient {
+
+        /**
+         * Returns a factor that is to be multiplied against the base field of the magnet to
+         * achieve the desired gradient.
+         *
+         * @param x     The place along the magnet's length for which the multiplier is to be determined
+         * @param width
+         * @return the factor to be multiplied against the base field magnitude
+         * of the magnet
+         */
         double getValueAt( double x, double width );
     }
 
+    /**
+     * Essentially a no-op. The gradient is 0 across the length of the magnet
+     */
+    public static class Constant implements Gradient {
+        public double getValueAt( double x, double width ) {
+            return 1;
+        }
+    }
+
+    /**
+     * Applies a linear gradient to the field
+     */
     public static class LinearGradient implements Gradient {
         private double m,b;
 
@@ -59,17 +87,7 @@ public class GradientElectromagnet extends Electromagnet {
         }
 
         public double getValueAt( double x, double width ) {
-            // This looks funny because (0,0) for the magnet is at its center,
-            // and b is specified for the left end
-            return m * (x / width ) + b;//  + ( m * width / 2 );
+            return m * (x / width ) + b;
         }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of ModelElement
-    //--------------------------------------------------------------------------------------------------
-
-    public void stepInTime( double dt ) {
-
     }
 }

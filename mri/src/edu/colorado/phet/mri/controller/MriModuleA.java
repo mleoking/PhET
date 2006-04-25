@@ -36,21 +36,25 @@ public class MriModuleA extends AbstractMriModule {
     // Instance methods and fields
     //----------------------------------------------------------------
 
+    static SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+                                                                                                         MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+                                                                                                         MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                                                                                         MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
     /**
      * Constructor
      */
     public MriModuleA() {
-        super( name, new SwingClock( delay, dt ) );
+        super( name, new SwingClock( delay, dt ), sampleChamber );
 
         // Control panel
         setControlPanel( new MriControlPanel( this ) );
 
         // Sample Chamber
-        SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-                                                                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-                                                                                                             MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                                                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
-        addModelElement( sampleChamber );
+//        SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+//                                                                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+//                                                                                                             MriConfig.SAMPLE_CHAMBER_WIDTH,
+//                                                                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
+//        addModelElement( sampleChamber );
         sampleChamber.createDipoles( (MriModel)getModel(), 20 );
 
         // Set the initial view

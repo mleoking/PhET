@@ -12,13 +12,17 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Head
+ * <p>
+ * A type of Sample that can have a tumor in it
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -26,6 +30,7 @@ import java.awt.geom.Point2D;
 public class Head extends Sample {
 
     private Ellipse2D shape;
+    private ArrayList dipoles = new ArrayList( );
 
     public Head( Ellipse2D shape ) {
         this.shape = shape;
@@ -37,6 +42,15 @@ public class Head extends Sample {
 
     public Rectangle2D getBounds() {
         return shape.getBounds();
+    }
+
+    public void addTumor( Tumor tumor, BaseModel model ) {
+        for( int i = 0; i < dipoles.size(); i++ ) {
+            Dipole dipole = (Dipole)dipoles.get( i );
+            if( tumor.contains( dipole.getPosition() )) {
+                model.removeModelElement( dipole );
+            }
+        }
     }
 
     public void createDipoles( MriModel model, int numDipoles ) {
@@ -55,37 +69,8 @@ public class Head extends Sample {
                     Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
                     dipole.setSpin( spin );
                     model.addModelElement( dipole );
+                    dipoles.add( dipole );
                 }
-            }
-        }
-
-        if( true ) {
-            return;
-        }
-
-        // Lay out the dipoles in a grid
-        double aspectRatio = MriConfig.SAMPLE_CHAMBER_WIDTH / MriConfig.SAMPLE_CHAMBER_HEIGHT;
-        int numCols = 0;
-        int numRows = 0;
-        double testAspectRatio = -1;
-        while( testAspectRatio < aspectRatio ) {
-            numCols++;
-            numRows = numDipoles / numCols;
-            testAspectRatio = ( (double)numCols ) / numRows;
-        }
-
-        double colSpacing = MriConfig.SAMPLE_CHAMBER_WIDTH / ( numCols + 1 );
-        double rowSpacing = MriConfig.SAMPLE_CHAMBER_HEIGHT / ( numRows + 1 );
-//        int cnt = 0;
-        for( int i = 1; i <= numRows; i++ ) {
-            for( int j = 1; j <= numCols; j++ ) {
-                double x = MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + j * colSpacing;
-                double y = MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + i * rowSpacing;
-                Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
-                Dipole dipole = new Dipole();
-                dipole.setPosition( x, y );
-                dipole.setSpin( spin );
-                model.addModelElement( dipole );
             }
         }
     }
