@@ -14,10 +14,7 @@ package edu.colorado.phet.boundstates.control;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Hashtable;
@@ -26,8 +23,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.DefaultFormatterFactory;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
@@ -182,6 +177,7 @@ public class SliderControl extends JPanel {
         EventDispatcher listener = new EventDispatcher();
         _valueTextField.addActionListener( listener );
         _valueTextField.addFocusListener( listener );
+        _valueTextField.addKeyListener( listener );
         _slider.addChangeListener( listener );
         
         setValue( value );
@@ -530,8 +526,24 @@ public class SliderControl extends JPanel {
     /*
      * Dispatches events to the proper handler.
      */
-    private class EventDispatcher implements ActionListener, ChangeListener, FocusListener {
+    private class EventDispatcher extends KeyAdapter implements ActionListener, ChangeListener, FocusListener {
 
+        /**
+         * Use the up/down arrow keys to change the value.
+         */
+        public void keyPressed( KeyEvent e ) {
+            if ( e.getSource() == _valueTextField ) {
+                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    final double value = getValue() + ( 1 / _multiplier );
+                    setValue( value );
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    final double value = getValue() - ( 1 / _multiplier );
+                    setValue( value );
+                }
+            }
+        }
+        
         /**
          * User pressed enter in text field.
          */
