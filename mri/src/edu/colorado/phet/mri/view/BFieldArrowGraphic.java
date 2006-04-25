@@ -34,7 +34,12 @@ public class BFieldArrowGraphic extends PhetPCanvas {
     private JTextField readout;
     private DecimalFormat readoutFormat = new DecimalFormat( "0.00" );
 
-    public BFieldArrowGraphic( GradientElectromagnet magnet ) {
+    /**
+     * Constructor
+     * @param magnet
+     * @param minLength
+     */
+    public BFieldArrowGraphic( GradientElectromagnet magnet, double minLength ) {
 
         setPreferredSize( new Dimension( 150, 150 ) );
         maxArrowFractionOfHeight = 0.9;
@@ -42,6 +47,7 @@ public class BFieldArrowGraphic extends PhetPCanvas {
                                                                getPreferredSize().getHeight() * maxArrowFractionOfHeight,
                                                                new Color( 80, 80, 180 ),
                                                                0 );
+        indicator.setMinLength( minLength );
         indicatorGraphic = new RegisterablePNode( indicator );
         addWorldChild( indicatorGraphic );
 
@@ -70,7 +76,14 @@ public class BFieldArrowGraphic extends PhetPCanvas {
                 updateReadout( event.getElectromagnet() );
             }
         } );
+    }
 
+    /**
+     * Constructor
+     * @param magnet
+     */
+    public BFieldArrowGraphic( GradientElectromagnet magnet ) {
+        this( magnet, 0 );
     }
 
     private void updateReadout( Electromagnet magnet ) {

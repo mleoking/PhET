@@ -94,10 +94,10 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         double spacing = bounds.getWidth() / ( numBFieldArrows + 1 );
         for( int i = 0; i < numBFieldArrows; i++ ) {
             double xLoc = spacing * ( i + 1 );
-            BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
-            addChild( arrow );
-            Point2D.Double p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
-            arrow.setOffset( p );
+//            BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
+//            addChild( arrow );
+//            Point2D.Double p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
+//            arrow.setOffset( p );
         }
 
         update();

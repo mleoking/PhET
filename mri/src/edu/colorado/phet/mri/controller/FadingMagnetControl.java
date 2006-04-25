@@ -26,15 +26,26 @@ import javax.swing.event.ChangeListener;
  */
 public class FadingMagnetControl extends ModelSlider {
 
+    private static double MIN_CURRENT = MriConfig.MAX_FADING_COIL_CURRENT / 50;
+
     public FadingMagnetControl( final MriModel model ) {
-        super( "Current to Magnet", "", 0, MriConfig.MAX_FADING_COIL_CURRENT, 0 );
+        super( "Current to Magnet",
+               "",
+               MIN_CURRENT,
+               MriConfig.MAX_FADING_COIL_CURRENT,
+               MIN_CURRENT );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Electromagnet upperMagnet = model.getUpperMagnet();
-                upperMagnet.setCurrent( getValue() );
-                Electromagnet lowerMagnet = model.getLowerMagnet();
-                lowerMagnet.setCurrent( getValue() );
+                updateMagnets( model, MIN_CURRENT );
             }
         } );
+        updateMagnets( model, MIN_CURRENT );
+    }
+
+    private void updateMagnets( MriModel model, double value ) {
+        Electromagnet upperMagnet = model.getUpperMagnet();
+        upperMagnet.setCurrent( getValue() );
+        Electromagnet lowerMagnet = model.getLowerMagnet();
+        lowerMagnet.setCurrent( getValue() );
     }
 }
