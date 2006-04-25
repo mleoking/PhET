@@ -15,6 +15,7 @@ import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.BFieldArrowGraphic;
 import edu.colorado.phet.mri.view.MonitorPanel;
+import edu.colorado.phet.mri.view.BFieldGraphicPanel;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.controller.FadingMagnetControl;
@@ -45,14 +46,8 @@ public class MriControlPanel extends ControlPanel {
         addControl( new FadingMagnetControl( model ) );
         addControl( monitorPanel );
 
-        // These lines should be in a class that wraps around the PhetPCanvas in BFieldArrowGraphic
-        {
-            final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( (GradientElectromagnet)model.getLowerMagnet() );
-            final JPanel fieldGraphicPanel = new JPanel();
-            fieldGraphicPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ),"Magnetic Field") );
-            fieldGraphicPanel.add( fieldGraphic );
-            addControl( fieldGraphicPanel );
-        }
+        addControl( new BFieldGraphicPanel( model ) );
+
 
         addControl( new EmRepSelector( module ) );
 //        addControl( new SampleMaterialSelector( model ) );

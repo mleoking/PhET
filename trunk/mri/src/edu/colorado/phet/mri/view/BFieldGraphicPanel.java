@@ -26,7 +26,7 @@ import javax.swing.*;
 public class BFieldGraphicPanel extends JPanel {
 
     public BFieldGraphicPanel( MriModel model) {
-        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( (GradientElectromagnet)model.getLowerMagnet() );
+        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( (GradientElectromagnet)model.getLowerMagnet(), 0 );
         setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ),"Magnetic Field") );
         add( fieldGraphic );
     }

@@ -35,8 +35,8 @@ import java.util.List;
 public class MriModel extends BaseModel {
 
     private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
-//    private GradientElectromagnet upperMagnet, lowerMagnet;
-    private Electromagnet upperMagnet, lowerMagnet;
+    private GradientElectromagnet upperMagnet, lowerMagnet;
+//    private Electromagnet upperMagnet, lowerMagnet;
     private GradientElectromagnet gradientMagnet;
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
@@ -73,7 +73,6 @@ public class MriModel extends BaseModel {
                                                  magnetHeight,
                                                  clock,
                                                  new GradientElectromagnet.Constant() );
-//        upperMagnet = new Electromagnet( upperMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
@@ -81,7 +80,6 @@ public class MriModel extends BaseModel {
                                                  sampleChamberBounds.getWidth(),
                                                  magnetHeight, clock,
                                                  new GradientElectromagnet.Constant() );
-//        lowerMagnet = new Electromagnet( lowerMagnetLocation, sampleChamberBounds.getWidth(), magnetHeight, clock );
         addModelElement( lowerMagnet );
 
 
@@ -92,11 +90,6 @@ public class MriModel extends BaseModel {
                                                                    + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
                                                length,
                                                new Vector2D.Double( 0, -1 ) );
-//        radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
-//                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
-//                                               MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1,
-//                                               new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {
@@ -226,6 +219,20 @@ public class MriModel extends BaseModel {
         return getLowerMagnet().getFieldStrength() * getSampleMaterial().getMu();
     }
 
+    /**
+     * Returns the total B field magnitude at a particular x location
+     *
+     * @param x
+     * @return the total B field magnitude at the specified location
+     */
+    public double getTotalFieldStrengthAt( double x ) {
+        double b = lowerMagnet.getFieldStrength();
+        if( gradientMagnet != null ) {
+            b += gradientMagnet.getFieldStrengthAt( x );
+        }
+        return b;
+    }
+
     //----------------------------------------------------------------
     // Time dependent behavior
     //----------------------------------------------------------------
@@ -255,16 +262,6 @@ public class MriModel extends BaseModel {
 
     public void removeListener( ChangeListener listener ) {
         modelEventChannel.removeListener( listener );
-    }
-
-    public double getTotalFieldStrengthAt( double x ) {
-        double b = lowerMagnet.getFieldStrength();
-        if( gradientMagnet != null ) {
-            b += gradientMagnet.getFieldStrengthAt( x );
-//            System.out.println( "gradientMagnet.getFieldStrengthAt( x ) = " + gradientMagnet.getFieldStrengthAt( x ) );
-//            System.out.println( "b = " + b );
-        }
-        return b;
     }
 
     public static interface ChangeListener extends EventListener {

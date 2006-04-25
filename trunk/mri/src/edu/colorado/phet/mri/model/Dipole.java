@@ -51,7 +51,7 @@ public class Dipole extends Body implements Collidable {
         void instanceDestroyed( Dipole dipole );
     }
 
-    private static double RADIUS = 15;
+    private static double RADIUS = 30;
 
     //----------------------------------------------------------------
     // Instance fields and methods

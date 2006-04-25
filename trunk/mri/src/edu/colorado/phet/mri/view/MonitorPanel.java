@@ -129,7 +129,7 @@ public class MonitorPanel extends PhetPCanvas {
         addWorldChild( energySquiggle );
         energySquiggle.setOffset( energyAxisReserveX, 0 );
 
-        // A dd a legend
+        // Add a legend
         EnergyAxis energyAxis = new EnergyAxis();
         energyAxis.setOffset( 5, 50 );
         addWorldChild( energyAxis );
@@ -146,10 +146,9 @@ public class MonitorPanel extends PhetPCanvas {
         } );
 
         // DEBUG
-        if( model.getGradientMagnet() != null ) {
-            model.getGradientMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
-        }
-
+//        if( model.getGradientMagnet() != null ) {
+//            model.getGradientMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
+//        }
     }
 
     private void updatePanel( MriModel model ) {
@@ -396,12 +395,7 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void stateChanged( Electromagnet.ChangeEvent event ) {
-            fieldStrength = event.getElectromagnet().getFieldStrength();
-
-            double f1 = fieldStrength;
             fieldStrength = model.getTotalFieldStrengthAt( MriConfig.SAMPLE_CHAMBER_WIDTH / 2 );
-            double f2 = fieldStrength;
-            System.out.println( "f1 = " + f1 + "\tf2 = " + f2 );
             updatePanel( model );
         }
     }
