@@ -136,9 +136,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         boolean done = false;
         while ( !done ) {
             try {
+                int subscript = nodes + 1; // subscripts start at 1
                 double E = solver.getEnergy( nodes );
                 if ( E <= maxE ) {
-                    eigenstates.add( new BSEigenstate( E ) );
+                    eigenstates.add( new BSEigenstate( subscript, E ) );
                 }
                 else {
                     done = true;

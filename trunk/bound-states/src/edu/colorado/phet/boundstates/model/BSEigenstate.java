@@ -23,9 +23,15 @@ public class BSEigenstate implements Comparable {
     public static final int INDEX_UNDEFINED = -1;
     
     private double _energy;
+    private int _subscript;
     
-    public BSEigenstate( double energy ) {
+    public BSEigenstate( int subscript, double energy ) {
+        _subscript = subscript;
         _energy = energy;
+    }
+    
+    public int getSubscript() {
+        return _subscript;
     }
     
     public double getEnergy() {

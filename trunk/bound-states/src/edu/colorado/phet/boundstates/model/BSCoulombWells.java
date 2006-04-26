@@ -101,8 +101,9 @@ public class BSCoulombWells extends BSAbstractPotential {
         // Since indexing starts at 1 for Coulomb, this corresponds to odd node numbers.
         for ( int nodes = 1; nodes < NUMBER_OF_NODES; nodes += 2 ) {
             try {
+                int subscript = nodes + 1; // subscripts start at 1
                 double E = solver.getEnergy( nodes );
-                eigenstates.add( new BSEigenstate( E ) );
+                eigenstates.add( new BSEigenstate( subscript, E ) );
             }
             catch ( SchmidtLeeException sle ) {
                 System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
