@@ -170,7 +170,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         final int numberOfPoints = BSConstants.SCHMIDT_LEE_SAMPLE_POINTS;
         SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
         // Solve the wave function...
-        double[] psi = solver.getWavefunction( energy );
+        double[] psi = solver.getWaveFunction( energy );
         // Construct a set of 2D points...
         final double dx = (maxX - minX ) / numberOfPoints;
         Point2D[] points = new Point2D.Double[ psi.length ];
