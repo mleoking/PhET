@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+0.00.02...
 (4/26/06) - Coulomb potential disappears when #wells=1, eigenstates still visible (other changes fixed this)
 (4/26/06) - move dynamic dx out of model and into view (BSEnergyPlot)
 (4/26/06) - use a dymanic dx only for displaying the potential function
