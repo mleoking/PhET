@@ -76,7 +76,8 @@ public class GradientElectromagnet extends Electromagnet {
     }
 
     /**
-     * Applies a linear gradient to the field
+     * Applies a linear gradient to the field. The gradient is 0 at the center of the magnet. Field goes
+     * negative for x < 0, and positive for x > 0.
      */
     public static class LinearGradient implements Gradient {
         private double m,b;
