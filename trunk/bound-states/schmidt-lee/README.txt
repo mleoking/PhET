@@ -1,13 +1,17 @@
+===========================================================================
 
 This folder contains the Schmidt-Lee applet from
 http://fermi.la.asu.edu/Schroedinger/index.html
+This applet is a "visualizer-solver for the one-dimensional Schrodinger Equation".
+See COPYRIGHT.txt for the author's original copyright statement.
+
 
 ABOUT THE JAR FILE...
 ---------------------
 I packaged this applet into a double-click JAR file so that
-it can be run as a standalone application.  When run as a JAR file,
-the Read/Write features don't work because of Java security issues
-with applets.
+it can be run as a standalone application.  When run from a web browser
+as an applet, the Read/Write features don't work because of Java security issues.
+
 
 ABOUT THE TXT FILES...
 ----------------------
@@ -22,3 +26,5 @@ w = width
 s = spacing (separation for square wells)
 
 Mass is assumed to be 1 x electron mass (5.68).
+
+===========================================================================
