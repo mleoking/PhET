@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+(4/26/06) - install Schmidt-Lee applet and sample files in spot:dev/bound-states/schmidt-lee
 0.00.02...
 (4/26/06) - move subscript into eigenstate model so that they are labeled properly in all cases
 (4/26/06) - Coulomb potential disappears when #wells=1, eigenstates still visible (other changes fixed this)
