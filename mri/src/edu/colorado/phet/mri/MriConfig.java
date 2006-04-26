@@ -38,8 +38,8 @@ public class MriConfig {
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
 //    public static final String HEAD_IMAGE = IMAGE_PATH + "mrihead.gif";
 //    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.gif";
-//    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
-    public static final String HEAD_IMAGE = IMAGE_PATH + "head-2.gif";
+    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
+//    public static final String HEAD_IMAGE = IMAGE_PATH + "head-2.gif";
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 20E6;

@@ -68,10 +68,10 @@ public class Head extends Sample {
             model.addModelElement( dipole );
         }
         Dipole rightEarDipole = new Dipole();
-        rightEarDipole.setPosition( shape.getX() - 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 );
+        rightEarDipole.setPosition( shape.getX() - 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 -10);
         model.addModelElement( rightEarDipole );
         Dipole leftEarDipole = new Dipole();
-        leftEarDipole.setPosition( shape.getX() + shape.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 );
+        leftEarDipole.setPosition( shape.getX() + shape.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 -10 );
         model.addModelElement( leftEarDipole );
     }
 }

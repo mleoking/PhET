@@ -87,7 +87,7 @@ public class GradientElectromagnet extends Electromagnet {
         }
 
         public double getValueAt( double x, double width ) {
-            return m * (x / width ) + b;
+            return m * ( (x - width / 2)  / width ) + b;
         }
     }
 }
