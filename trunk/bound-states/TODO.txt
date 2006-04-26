@@ -12,6 +12,9 @@ HIGH PRIORITY:
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
 MEDIUM PRIORITY:
+- represent closely-spaced eigenstates as a thicker line?
+- examine closely-spaced eigenstates using a magnifying glass?
+- display values of all closely-spaced eigenstates at the same time?
 - should selected eigenstate values be displayed in red when they are hilited?
 - selected eigenstate nodes should be above unselected, hilited above all others
 - pause clock by default
