@@ -86,7 +86,7 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
                             photon.removeFromSystem();
                             model.removeModelElement( photon );
                         }
-                        model.addModelElement( new DipoleFlipper( dipole, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
+                        model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
                     }
                 }
             }
