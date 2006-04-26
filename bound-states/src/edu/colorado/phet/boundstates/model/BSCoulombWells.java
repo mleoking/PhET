@@ -97,7 +97,8 @@ public class BSCoulombWells extends BSAbstractPotential {
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
         
-        // Odd states are unstable, so calculate only even states (which correspond to odd node numbers).
+        // Odd states (E1, E3, E5,...) are unstable, so calculate only even states (E2, E4, ...).
+        // Since indexing starts at 1 for Coulomb, this corresponds to odd node numbers.
         for ( int nodes = 1; nodes < NUMBER_OF_NODES; nodes += 2 ) {
             try {
                 double E = solver.getEnergy( nodes );
