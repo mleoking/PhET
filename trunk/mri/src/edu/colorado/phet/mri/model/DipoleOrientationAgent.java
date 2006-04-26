@@ -57,7 +57,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
      */
     public void stateChanged( Electromagnet.ChangeEvent event ) {
         double fieldStrength = model.getUpperMagnet().getFieldStrength();
-        fractionUp = 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD );
+        fractionUp = 1 - ( 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD ));
         fractionUp *= maxUpPFraction;
         updateSpins();
     }
@@ -110,14 +110,6 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
                     upDipoles.add( dipole );
                 }
             }
-
-//
-//            for( int i = 0; i < dipoles.size(); i++ ) {
-//                Dipole dipole = (Dipole)dipoles.get( i );
-//                Spin spin = ( (double)i ) / dipoles.size() < fractionUp ? Spin.UP : Spin.DOWN;
-////                Spin spin = random.nextDouble() < fractionUp ? Spin.UP : Spin.DOWN;
-//                dipole.setSpin( spin );
-//            }
         }
     }
 

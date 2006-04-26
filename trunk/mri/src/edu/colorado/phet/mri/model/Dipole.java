@@ -58,7 +58,6 @@ public class Dipole extends Body implements Collidable {
     // Instance fields and methods
     //----------------------------------------------------------------
 
-    private Random random = new Random();
     // Range of precession, in radians
     private double precession = MriConfig.InitialConditions.DIPOLE_PRECESSION;
     private Spin spin;
@@ -75,7 +74,7 @@ public class Dipole extends Body implements Collidable {
     }
 
     public void stepInTime( double dt ) {
-        double baseOrientation = ( spin == Spin.UP ? 1 : -1 ) * Math.PI / 2;
+        double baseOrientation = ( spin == Spin.DOWN ? 1 : -1 ) * Math.PI / 2;
         if( oldOrientation != baseOrientation ) {
             orientationBehavior.startMovingNow();
             oldOrientation = baseOrientation;
@@ -101,6 +100,7 @@ public class Dipole extends Body implements Collidable {
 
     public void setSpin( Spin spin ) {
         this.spin = spin;
+//        changeListenerProxy.spinChanged( new ChangeEvent( this ) );
         notifyObservers();
     }
 
@@ -140,7 +140,7 @@ public class Dipole extends Body implements Collidable {
     }
 
     public void collideWithPhoton( Photon photon ) {
-        setSpin( Spin.DOWN );
+        setSpin( Spin.UP );
         notifyObservers();
     }
 
@@ -169,7 +169,7 @@ public class Dipole extends Body implements Collidable {
     }
 
     public interface ChangeListener extends EventListener {
-        public void orientationChanged( ChangeEvent event );
+        public void spinChanged( ChangeEvent event );
     }
 
     //----------------------------------------------------------------------------

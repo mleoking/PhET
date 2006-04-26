@@ -24,12 +24,12 @@ import java.util.*;
 public class CollisionAgent implements ModelElement {
     private MriModel model;
     private List collisionExperts = new ArrayList();
-    private PhotonDipoleExpert photonDipoleCollisonExpert;
+    private PhotonDipoleCollisionAgent photonDipoleCollisonCollisionAgent;
 
     public CollisionAgent( MriModel model ) {
         this.model = model;
 
-        photonDipoleCollisonExpert = new PhotonDipoleExpert( model );
+        photonDipoleCollisonCollisionAgent = new PhotonDipoleCollisionAgent( model );
     }
 
     public void stepInTime( double dt ) {
@@ -46,7 +46,7 @@ public class CollisionAgent implements ModelElement {
 //            while( photon != null && photon.getPosition().getX() < dipole.getPosition().getX() + dipole.getRadius() ) {
 
                 Photon photon = (Photon)photons.get( j );
-                photonDipoleCollisonExpert.detectAndDoCollision( dipole, photon );
+                photonDipoleCollisonCollisionAgent.detectAndDoCollision( dipole, photon );
 //                if( photonIt.hasNext() ) {
 //                    photon = (Photon)photonIt.next();
 //                }

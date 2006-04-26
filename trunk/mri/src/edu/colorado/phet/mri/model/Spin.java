@@ -21,9 +21,9 @@ package edu.colorado.phet.mri.model;
 public class Spin {
 
     // The lower energy state
-    public static final Spin UP = new Spin();
-    // the higher energy state
     public static final Spin DOWN = new Spin();
+    // the higher energy state
+    public static final Spin UP = new Spin();
 
     /**
      * No public or protected constructors

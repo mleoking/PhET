@@ -43,7 +43,6 @@ public class MriModel extends BaseModel {
     private SampleMaterial sampleMaterial;
     private RadiowaveSource radiowaveSource;
     private TreeMap xLocToPhotons = new TreeMap();
-    private Rectangle2D.Double trimBounds;
 
 
     /**
@@ -53,10 +52,6 @@ public class MriModel extends BaseModel {
      */
     public MriModel( IClock clock, Rectangle2D bounds, Sample sample ) {
 
-        //TODO: THIS IS A HACK!!!
-        // Expand the bounds so that model elements make it off the canvas before they're removed
-        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
-//        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth() + 200, bounds.getHeight() + 200 );
         this.bounds = bounds;
 
         // Sample Chamber
@@ -254,8 +249,7 @@ public class MriModel extends BaseModel {
         List photons = getPhotons();
         for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
-            if( !trimBounds.contains( photon.getPosition() ) ) {
-//            if( !getBounds().contains( photon.getPosition() ) ) {
+            if( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );
             }
         }
