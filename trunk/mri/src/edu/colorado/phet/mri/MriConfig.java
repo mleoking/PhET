@@ -57,6 +57,8 @@ public class MriConfig {
     // Length of time (simulation time) that a dipole kicked into spin down state will stay there until
     // it spontaneously fall to spin up
     public static long SPIN_DOWN_TIMEOUT = 250;
+    // Mean time between injections of thermal noise
+    public static double MEAN_THERMAL_NOISE_INJECTION_TIME = 500;
 
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 

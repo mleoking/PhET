@@ -25,10 +25,6 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-
-/**
- * Sets the spins of dipoles based on the field strength of the fading magnet
- */
 public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, ModelElement*/ {
     private Random random = new Random();
     private double maxUpPFraction = 0.9;
@@ -47,7 +43,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
 
     private void updateSpins() {
         List dipoles = model.getDipoles();
-        spinDeterminationPolicy.setSpins( dipoles, fractionUp );
+        spinDeterminationPolicy.setSpins( dipoles, fractionUp, model );
     }
 
     /**
@@ -71,7 +67,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
     //----------------------------------------------------------------
 
     public static interface SpinDeterminationPolicy {
-        void setSpins( List dipoles, double fractionUp );
+        void setSpins( List dipoles, double fractionUp, MriModel model );
     }
 
     /**
@@ -79,8 +75,9 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
      */
     public static class DeterministicPolicy implements SpinDeterminationPolicy {
         Random random = new Random();
+        long meanFlipTimout = 100;
 
-        public void setSpins( List dipoles, double fractionUp ) {
+        public void setSpins( List dipoles, double fractionUp, MriModel model ) {
 
             if( dipoles.size() > 0 ) {
                 // Determine how many dipoles should be spin up
@@ -113,11 +110,22 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
         }
     }
 
-    public void setFractionUp( double fractionUp ) {
-        if( fractionUp < 0 || fractionUp > 1 ) {
-            throw new IllegalArgumentException();
+
+    /**
+     * Notifies the DipoleOrientationAgent when a dipole has been flipped by a DipoleFLipper. This allows the
+     * DipoleOrientationAgent to keep the numbers of spin up and spin down dipoles at the right number
+     */
+    private static class FlipWatcher implements Dipole.ChangeListener {
+        private final DipoleOrientationAgent orientationAgent;
+
+        public FlipWatcher( DipoleOrientationAgent orientationAgent ) {
+            this.orientationAgent = orientationAgent;
         }
-        this.fractionUp = fractionUp;
+
+        public void spinChanged( Dipole.ChangeEvent event ) {
+            orientationAgent.updateSpins();
+            event.getDipole().removeChangeListener( this );
+        }
     }
 
     /**
@@ -126,7 +134,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
     public static class StocasticPolicy implements SpinDeterminationPolicy {
         Random random = new Random();
 
-        public void setSpins( List dipoles, double fractionUp ) {
+        public void setSpins( List dipoles, double fractionUp, MriModel model ) {
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
                 boolean up = fractionUp > random.nextDouble();

@@ -330,7 +330,7 @@ public class MonitorPanel extends PhetPCanvas {
                 numUp += isUp ? 1 : 0;
                 numDown += isDown ? 1 : 0;
             }
-            System.out.println( "numUp = " + numUp  + " numDown = " + numDown );
+//            System.out.println( "numUp = " + numUp  + " numDown = " + numDown );
         }
     }
 
