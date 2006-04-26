@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
@@ -83,13 +84,14 @@ public class BFieldIndicator extends PNode {
             removeChild( arrowPPath );
         }
         double field = magnet.getFieldStrengthAt( xLoc);
-        double length = ( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;
+        int sign = MathUtil.getSign( field );
+        double length = Math.abs( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;
         if( minLength != 0 ) {
             System.out.println( "BFieldIndicator.update" );
         }
         length = Math.max( minLength, Math.min( length, maxLength ));
-        Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, length / 2 ),
-                                       new Point2D.Double( 0, -length / 2 ),
+        Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, ( length * sign) / 2 ),
+                                       new Point2D.Double( 0, ( length * -sign )/ 2 ),
                                        length / 2, length / 2, length / 4, .5, true );
         arrowPPath = new PPath( bFieldArrow.getShape() );
         if( arrowColor != null ) {

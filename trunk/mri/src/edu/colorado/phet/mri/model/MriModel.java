@@ -55,7 +55,8 @@ public class MriModel extends BaseModel {
 
         //TODO: THIS IS A HACK!!!
         // Expand the bounds so that model elements make it off the canvas before they're removed
-        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth() + 200, bounds.getHeight() + 200 );
+        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+//        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth() + 200, bounds.getHeight() + 200 );
         this.bounds = bounds;
 
         // Sample Chamber
@@ -86,9 +87,10 @@ public class MriModel extends BaseModel {
 
         // Radiowave Source
         double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
+//        length = 10;
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
-                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 140 ),
+                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 110 ),
                                                length,
                                                new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
@@ -236,7 +238,8 @@ public class MriModel extends BaseModel {
     public double getTotalFieldStrengthAt( double x ) {
         double b = lowerMagnet.getFieldStrength();
         if( gradientMagnet != null ) {
-            b += gradientMagnet.getFieldStrengthAt( x );
+            double leftEndOfMagnetX = ( gradientMagnet.getPosition().getX() - gradientMagnet.getBounds().getWidth() / 2 );
+            b += gradientMagnet.getFieldStrengthAt( x - leftEndOfMagnetX );
         }
         return b;
     }
