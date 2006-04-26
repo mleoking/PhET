@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- wave function behavior differs from Schmidt-Lee applet
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Coulomb potential disappears when #wells=1, eigenstates still visible
 - Single or Double module occassionally throws an exception during startup
@@ -13,6 +12,7 @@ HIGH PRIORITY:
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
 
 MEDIUM PRIORITY:
+- we're only getting odd eigenstates for Coluomb, should that affect En labeling?
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
@@ -55,6 +55,9 @@ CLEANUP:
 
 
 DONE:
+(4/26/06) - move dynamic dx out of model and into view (BSEnergyPlot)
+(4/26/06) - use a dymanic dx only for displaying the potential function
+(4/26/06) - use a fixed number of points for both eigenstate solver & wave function solver in Schmidt-Lee
 (4/26/06) - put Schmidt-Lee jar and test files in their own folder
 (4/25/06) - package Schmidt-Lee applet as a double-clickable JAR file, so Read/Write works
 (4/25/06) - create a set of input files for Schmidt-Lee applet to test all of our well types

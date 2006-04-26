@@ -39,7 +39,6 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     private double _offset;
     private BSParticle _particle;
     private BSEigenstate[] _eigenstates; // Eigenstates cache
-    private double _dx;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,7 +51,6 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         setOffset( offset );
         setCenter( center );
         setParticle( particle );
-        setDx( 0.1 );
     }
 
     //----------------------------------------------------------------------------
@@ -132,24 +130,9 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
     
-    public double getDx() {
-        return _dx;
-    }
-    
-    public void setDx( double dx ) {
-        if ( dx <= 0  ) {
-            throw new IllegalArgumentException( "invalid dx: " + dx );
-        }
-        if ( dx != _dx ) {
-            _dx = dx;
-            markEigenstatesDirty();
-            notifyObservers();
-        }
-    }
-    
-    public Point2D[] getPotentialPoints( double minX, double maxX ) {
+    public Point2D[] getPotentialPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
-        for ( double x = minX; x <= maxX; x += _dx ) {
+        for ( double x = minX; x <= maxX; x += dx ) {
             Point2D point = new Point2D.Double( x, getEnergyAt(x) );
             points.add( point );
         }
@@ -182,11 +165,14 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * @return
      */
     public Point2D[] getWaveFunctionPoints( final double energy, final double minX, final double maxX ) {
-        final double dx = getDx();
+        // Create the wave function solver...
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
-        final int numberOfPoints = (int)( (maxX - minX) / dx ) + 1;
+        final int numberOfPoints = BSConstants.SCHMIDT_LEE_SAMPLE_POINTS;
         SchmidtLeeSolver solver = new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
+        // Solve the wave function...
         double[] psi = solver.getWavefunction( energy );
+        // Construct a set of 2D points...
+        final double dx = (maxX - minX ) / numberOfPoints;
         Point2D[] points = new Point2D.Double[ psi.length ];
         for ( int i = 0; i < psi.length; i++ ) {
             double x = minX + ( i * dx );
@@ -203,7 +189,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final double minX = BSConstants.POSITION_MODEL_RANGE.getLowerBound();
         final double maxX = BSConstants.POSITION_MODEL_RANGE.getUpperBound();
-        final int numberOfPoints = BSConstants.EIGENSTATE_SAMPLE_POINTS;
+        final int numberOfPoints = BSConstants.SCHMIDT_LEE_SAMPLE_POINTS;
         return new SchmidtLeeSolver( hb, minX, maxX, numberOfPoints, this );
     }
     
