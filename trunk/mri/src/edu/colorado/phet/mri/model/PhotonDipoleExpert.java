@@ -102,6 +102,9 @@ public class PhotonDipoleExpert implements CollisionExpert {
     // Inner classes
     //----------------------------------------------------------------
 
+    /**
+     * Flips a dipole back to the lower energy state after a specified timeout
+     */
     private class DipoleFlipper implements ModelElement {
         private Dipole dipole;
         private long timeout;
@@ -188,7 +191,7 @@ public class PhotonDipoleExpert implements CollisionExpert {
         }
 
         public double getProbability( Dipole dipole ) {
-            double dy = model.getRadiowaveSource().getPosition().getY() - dipole.getPosition().getY();
+            double dy = model.getRadiowaveSource().getPosition().getY() - MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - dipole.getPosition().getY();
             double probability = minProbability + m * dy;
             return probability;
         }

@@ -70,6 +70,10 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         values = new double[ (int)( longitudinalExtent / speed )];
     }
 
+    public IScalar getSource() {
+        return source;    
+    }
+
     public Point2D getOrigin() {
         return origin;
     }

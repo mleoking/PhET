@@ -45,7 +45,7 @@ public abstract class AbstractMriModule extends Module {
     public AbstractMriModule( String name, IClock clock, Sample sample ) {
         super( name, clock );
 
-        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1024, 768 ), sample );
+        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1000, 768 ), sample );
         setModel( model );
 
         model.setSampleMaterial( SampleMaterial.HYDROGEN );
@@ -55,7 +55,8 @@ public abstract class AbstractMriModule extends Module {
                                                                (int)( model.getBounds().getHeight() * MriConfig.scale ) ) );
         setSimulationPanel( simPanel );
         worldNode = new PNode();
-        simPanel.addWorldChild( worldNode );
+        simPanel.addScreenChild( worldNode );
+//        simPanel.addWorldChild( worldNode );
 
         graphicsManager = new ModelElementGraphicManager( simPanel, worldNode );
         graphicsManager.scanModel( model );
@@ -73,13 +74,12 @@ public abstract class AbstractMriModule extends Module {
         }
     }
 
-    public static class EmRep {
-        private EmRep() {
-        }
-    }
-
     protected PNode getWorldNode() {
         return worldNode;
+    }
+
+    protected ModelElementGraphicManager getGraphicsManager() {
+        return graphicsManager;
     }
 
     /**
@@ -96,4 +96,13 @@ public abstract class AbstractMriModule extends Module {
         model.addModelElement( dipole );
     }
 
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    private static class EmRep {
+        private EmRep() {
+        }
+    }
 }
