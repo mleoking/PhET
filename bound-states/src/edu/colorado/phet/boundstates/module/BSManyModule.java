@@ -538,8 +538,7 @@ public class BSManyModule extends BSAbstractModule {
     
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
-            int startingIndex = _model.getPotential().getStartingIndex();
-            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _superpositionCoefficients, startingIndex, _colorScheme );
+            _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _model, _colorScheme );
             _superpositionStateDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _superpositionStateDialog = null;

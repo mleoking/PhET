@@ -126,7 +126,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
             try {
                 double E = solver.getEnergy( nodes );
                 if ( E <= maxE ) {
-                    eigenstates.add( new BSEigenstate( E ) );
+                    final int subscript = nodes; // subscripts start at 0 for harmonics oscillator
+                    eigenstates.add( new BSEigenstate( subscript, E ) );
                 }
                 else {
                     done = true;
@@ -164,7 +165,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         while ( !done ) {
             double E = ( BSConstants.HBAR * _angularFrequency * ( n + 0.5 ) ) + getOffset();
             if ( E <= maxE ) {
-                eigenstates.add( new BSEigenstate( E ) );
+                final int subscript = n; // subscripts start at 0 for harmonics oscillator
+                eigenstates.add( new BSEigenstate( subscript, E ) );
             }
             else {
                 done = true;

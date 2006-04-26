@@ -415,15 +415,13 @@ public class BSEigenstatesNode extends PNode implements Observer {
      */
     private String createValueString( int hiliteIndex ) {
         
-        int startIndex = _model.getPotential().getStartingIndex();
-        int indexE = startIndex + hiliteIndex;
-        
         BSEigenstate[] eigenstates = _model.getEigenstates();
         double energy = eigenstates[hiliteIndex].getEnergy();
+        int subscript = eigenstates[hiliteIndex].getSubscript();
         NumberFormat format = createFormat( hiliteIndex );
         String energyString = format.format( energy );
         
-        return "<html> E<sub>" + indexE + "</sub> = " + energyString + "</html>";
+        return "<html> E<sub>" + subscript + "</sub> = " + energyString + "</html>";
     }
     
     /*

@@ -149,7 +149,8 @@ public class BSSquareWells extends BSAbstractPotential {
             try {
                 double E = solver.getEnergy( nodes );
                 if ( E <= maxE ) {
-                    eigenstates.add( new BSEigenstate( E ) );
+                    int subscript = nodes + 1; // subscripts start at 1
+                    eigenstates.add( new BSEigenstate( subscript, E ) );
                 }
                 else {
                     done = true;
