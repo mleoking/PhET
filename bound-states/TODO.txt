@@ -8,10 +8,10 @@ HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
-- determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
+- determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
-- we're only getting odd eigenstates for Coluomb, should that affect En labeling?
+- change superposition equation for Coulomb to include only even eigenstates?
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
@@ -19,10 +19,8 @@ MEDIUM PRIORITY:
 - selected eigenstate nodes should be above unselected, hilited above all others
 - pause clock by default
 - what is the proper behavior when we hilite the eigenstate that's selected?
-- wave function curves look segmented when screen resolution is decreased after sim is started
 - green eigenstate lines have varying brightnesses on Windows
 - make SchmidtLee.getWaveFunction return Point2D[] instead of double[]
-- square & asymm wells don't have square sides when dx gets larger (override getPotentialPoints for square & asymm)
 - default to Probability Density
 - verify that datasets are updated only when absolutely necessary
 - drag handles for each potential type (all slightly different)
@@ -32,9 +30,10 @@ MEDIUM PRIORITY:
 - different width ranges for single, double, many well modules
 - use specified defaults for all controls
 - update while sliders are dragging
-- different method of solving when multi-wells are spaced far apart
+- different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- wave function curves look segmented when screen resolution is decreased after sim is started
 - scale position axis to fit excited portion of wavefunction (might not do this)
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
@@ -54,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+(4/26/06) - document changes made to Schmidt-Lee code
 (4/26/06) - install Schmidt-Lee applet and sample files in spot:dev/bound-states/schmidt-lee
 0.00.02...
 (4/26/06) - move subscript into eigenstate model so that they are labeled properly in all cases
@@ -195,6 +195,7 @@ DONE:
 
 
 REJECTED:
+(4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)
 (4/24/06) - don't construct DecimalFormat, use NumberFormat.getInstance (doesn't do what I need)
 (4/21/06) - change semantics of spacing (only works for Square wells, where would we put drag handles?)
 (4/17/06) - +5 label on Energy y-axis is clipped (fixed itself when I added a bit to range)

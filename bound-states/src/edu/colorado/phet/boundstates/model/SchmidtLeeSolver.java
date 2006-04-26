@@ -6,10 +6,19 @@ package edu.colorado.phet.boundstates.model;
  * for a potential function
  * <p>.
  * This is a modified version of code written by Schmidt & Lee.
- * Instead of doing all of the calculations immediately in the 
- * constructor, calculations are done on deman.  Some method names
- * have been changed to add clarity, and an inner type was added 
- * for exceptions.
+ * CHANGES:
+ * <ul>  
+ * <li>changed class name
+ * <li>changed some method names for clarity
+ * <li>changed some member data names for clarity
+ * <li>added an inner exception type
+ * <li>factored out constants
+ * <li>added underscore prefix to member data names
+ * <li>added/modified javadoc
+ * <li>interface directly with BSAbstractPotential to calculate potential
+ * <li>defer calculations until they are requested, instead of precalculating in constructor
+ * <li>added more verbose warning messages when eigenstate solver fails
+ * </ul>
  * <p>
  * Here is the original copyright notice:
  * <p>
@@ -46,7 +55,7 @@ public class SchmidtLeeSolver {
     /**
      * Constructor.
      * 
-     * @param hb magic constant, = (hbar * hbar) / (2 * mass)
+     * @param hb magic constant, = (hbar^2) / (2 * mass)
      * @param minX mininum position
      * @param maxX maximum position
      * @param numberOfPoints
@@ -70,12 +79,12 @@ public class SchmidtLeeSolver {
     }
 
     /**
-     * Gets the wavefunction values for a specified eigenstate energy.
+     * Gets the wave function values for a specified eigenstate energy.
      * 
      * @param energy
      */
-    public double[] getWavefunction( final double energy ) {
-        return calculateWavefunction( energy );
+    public double[] getWaveFunction( final double energy ) {
+        return calculateWaveFunction( energy );
     }
 
     /*
@@ -93,7 +102,7 @@ public class SchmidtLeeSolver {
         eu = _hb * ( nodes + 1 ) * ( nodes + 1 ) * 10.0 / ( ( _maxX - _minX ) * ( _maxX - _minX ) );
         for ( k = 0; k < MAX_TRIES; k++ ) {
             eu *= 2.;
-            tu = integ( eu );
+            tu = integrate( eu );
             if ( tu.isupper( nodes ) ) {
                 break;
             }
@@ -106,7 +115,7 @@ public class SchmidtLeeSolver {
         el = -_hb * ( nodes + 1 ) * ( nodes + 1 ) * 10.0 / ( ( _maxX - _minX ) * ( _maxX - _minX ) );
         for ( k = 0; k < MAX_TRIES; k++ ) {
             el *= 2.;
-            tl = integ( el );
+            tl = integrate( el );
             if ( !tl.isupper( nodes ) ) {
                 break;
             }
@@ -118,7 +127,7 @@ public class SchmidtLeeSolver {
         // Binary chop to get close...
         for ( k = 0; k < MAX_TRIES && ( tl.node != tu.node ); k++ ) {
             en = .5 * ( eu + el );
-            t = integ( en );
+            t = integrate( en );
             if ( t.isupper( nodes ) ) {
                 eu = en;
                 tu = t;
@@ -139,7 +148,7 @@ public class SchmidtLeeSolver {
             if ( en > eu || en < el ) {
                 en = 0.5 * ( eu + el );
             }
-            t = integ( en );
+            t = integrate( en );
             if ( t.isupper( nodes ) ) {
                 eu = en;
                 tu = t;
@@ -161,7 +170,7 @@ public class SchmidtLeeSolver {
      * Integrates the Schroedinger equation for a guessed value
      * of the energy and returns whether the energy is too high or low.
      */
-    private Tester integ( double e ) {
+    private Tester integrate( double e ) {
         int i, nmat, node;
         double dx, alogd, h12, u1, u2, u3, v1, v2, v3, u1f, u2f, hbi;
         hbi = 1.0 / _hb;
@@ -231,7 +240,7 @@ public class SchmidtLeeSolver {
      * 
      * @param energy
      */
-    private double[] calculateWavefunction( final double energy ) {
+    private double[] calculateWaveFunction( final double energy ) {
         int i, nmat;
         double dx, h12, u1, u2, u3, v1, v2, v3, u1f, u2f, hbi, usave, uabs;
         double[] psi = new double[_numberOfPoints];
