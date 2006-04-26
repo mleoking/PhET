@@ -75,7 +75,6 @@ public class SchmidtLeeSolver {
      * @param energy
      */
     public double[] getWavefunction( final double energy ) {
-        System.out.println( "SchmidtLeeSolve.getWaveFunction energy=" + energy + " points=" + _numberOfPoints + " range=[" + _minX + "," + _maxX + "]" );//XXX
         return calculateWavefunction( energy );
     }
 
