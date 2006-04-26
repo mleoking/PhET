@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
-- Coulomb potential disappears when #wells=1, eigenstates still visible
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
 - determine the constraints on position range and dx for Schmidt-Lee, when does it fail?
@@ -55,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+(4/26/06) - Coulomb potential disappears when #wells=1, eigenstates still visible (other changes fixed this)
 (4/26/06) - move dynamic dx out of model and into view (BSEnergyPlot)
 (4/26/06) - use a dymanic dx only for displaying the potential function
 (4/26/06) - use a fixed number of points for both eigenstate solver & wave function solver in Schmidt-Lee
