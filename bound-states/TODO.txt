@@ -20,7 +20,6 @@ MEDIUM PRIORITY:
 - pause clock by default
 - what is the proper behavior when we hilite the eigenstate that's selected?
 - green eigenstate lines have varying brightnesses on Windows
-- make SchmidtLee.getWaveFunction return Point2D[] instead of double[]
 - default to Probability Density
 - verify that datasets are updated only when absolutely necessary
 - drag handles for each potential type (all slightly different)
@@ -195,6 +194,7 @@ DONE:
 
 
 REJECTED:
+(4/26/06) - make SchmidtLee.getWaveFunction return Point2D[] instead of double[] (wrapped by BSAbstractPotential.getWaveFunctionPoints)
 (4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)
 (4/24/06) - don't construct DecimalFormat, use NumberFormat.getInstance (doesn't do what I need)
 (4/21/06) - change semantics of spacing (only works for Square wells, where would we put drag handles?)
