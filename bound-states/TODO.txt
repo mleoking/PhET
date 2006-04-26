@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- wave function behavior differs from Schmidt-Lee applet
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Coulomb potential disappears when #wells=1, eigenstates still visible
 - Single or Double module occassionally throws an exception during startup
@@ -54,7 +55,7 @@ CLEANUP:
 
 
 DONE:
-(4/26/06) - put Schmidt-Lee jar and test files in its own folder
+(4/26/06) - put Schmidt-Lee jar and test files in their own folder
 (4/25/06) - package Schmidt-Lee applet as a double-clickable JAR file, so Read/Write works
 (4/25/06) - create a set of input files for Schmidt-Lee applet to test all of our well types
 (4/25/06) - use up/down arrow keys to change textfield in SliderControl
