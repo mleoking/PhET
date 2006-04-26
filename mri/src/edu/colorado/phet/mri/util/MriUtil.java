@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.mri.util;
 
-import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.Spin;
 
@@ -47,7 +46,7 @@ public class MriUtil {
                 Point2D p = new Point2D.Double( shape.getX() + x, shape.getY() + y );
                 if( shape.contains( p ) ) {
                     dipole.setPosition( shape.getX() + x, shape.getY() + y );
-                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
+                    Spin spin = ( ++cnt ) % 2 == 0 ? Spin.DOWN : Spin.UP;
                     dipole.setSpin( spin );
                     dipoles.add( dipole );
                 }

@@ -92,7 +92,7 @@ public abstract class AbstractMriModule extends Module {
         Dipole dipole = new Dipole();
         dipole.setPosition( ( sample.getBounds().getWidth() / 2 ) + sample.getBounds().getX(),
                             sample.getBounds().getY() + 100 );
-        dipole.setSpin( Spin.DOWN );
+        dipole.setSpin( Spin.UP );
         model.addModelElement( dipole );
     }
 

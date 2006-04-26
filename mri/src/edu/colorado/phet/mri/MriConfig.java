@@ -14,7 +14,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
-import edu.colorado.phet.mri.model.PhotonDipoleExpert;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
 import java.awt.geom.Point2D;
@@ -82,6 +81,6 @@ public class MriConfig {
         public static double FADING_MAGNET_CURRENT = 0;
         public static final double DIPOLE_PRECESSION = Math.toRadians( 0 );
         public static final DipoleOrientationAgent.SpinDeterminationPolicy SPIN_DETERMINATION_POLICY = new DipoleOrientationAgent.DeterministicPolicy();
-        public static final MonitorPanel.DipoleRepresentationPolicy MONITOR_PANEL_REP_POLICY_DIPOLE = new MonitorPanel.DiscretePolicyB();
+        public static final MonitorPanel.DipoleRepresentationPolicy MONITOR_PANEL_REP_POLICY_DIPOLE = new MonitorPanel.DiscretePolicy();
     }
 }

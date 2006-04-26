@@ -29,7 +29,7 @@ import java.util.Random;
 /**
  *
  */
-public class PhotonDipoleExpert implements CollisionExpert {
+public class PhotonDipoleCollisionAgent implements CollisionExpert {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -48,7 +48,7 @@ public class PhotonDipoleExpert implements CollisionExpert {
     private MriModel model;
     private CollisionProbablilityStrategy collisionProbablilityStrategy;
 
-    public PhotonDipoleExpert( MriModel model ) {
+    public PhotonDipoleCollisionAgent( MriModel model ) {
         this.model = model;
         classifiedBodies.put( Photon.class, null );
         classifiedBodies.put( Dipole.class, null );
@@ -78,7 +78,7 @@ public class PhotonDipoleExpert implements CollisionExpert {
                     // energy of the photon, and the dipole is in the spin up (lower energy) state, flip the
                     // dipole
                     double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( photon.getPosition().getX() ) * model.getSampleMaterial().getMu() );
-                    if( dipole.getSpin() == Spin.UP
+                    if( dipole.getSpin() == Spin.DOWN
                         && Math.abs( hEnergy - photon.getEnergy() )
                            < MriConfig.ENERGY_EPS ) {
                         dipole.collideWithPhoton( photon );
@@ -86,7 +86,7 @@ public class PhotonDipoleExpert implements CollisionExpert {
                             photon.removeFromSystem();
                             model.removeModelElement( photon );
                         }
-                        model.addModelElement( new DipoleFlipper( dipole, MriConfig.SPIN_DOWN_TIMEOUT, model ) );
+                        model.addModelElement( new DipoleFlipper( dipole, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
                     }
                 }
             }
@@ -96,65 +96,6 @@ public class PhotonDipoleExpert implements CollisionExpert {
 
     private boolean applyProbabilityStrategy( Dipole dipole ) {
         return random.nextDouble() <= collisionProbablilityStrategy.getProbability( dipole );
-    }
-
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
-
-    /**
-     * Flips a dipole back to the lower energy state after a specified timeout
-     */
-    private class DipoleFlipper implements ModelElement {
-        private Dipole dipole;
-        private long timeout;
-        private MriModel model;
-        private long elapsedTime;
-
-        DipoleFlipper( Dipole dipole, long timeout, MriModel model ) {
-            this.dipole = dipole;
-            this.timeout = timeout;
-            this.model = model;
-        }
-
-        public void stepInTime( double dt ) {
-            elapsedTime += dt;
-            if( elapsedTime >= timeout ) {
-                dipole.setSpin( Spin.UP );
-                model.removeModelElement( this );
-
-                // Create a photon
-                Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.SPEED );
-                double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
-                MriEmittedPhoton photon = new MriEmittedPhoton();
-                photon.setWavelength( wavelength );
-                photon.setPosition( dipole.getPosition() );
-                photon.setVelocity( velocity );
-                model.addModelElement( photon );
-
-                // Create an EM wave and a medium to carry it through the model
-                PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), 10,
-                                                               new Vector2D.Double( 1, 0 ) );
-                waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
-                waveCycle.setPower( MriConfig.MAX_POWER );
-                model.addModelElement( waveCycle );
-                final PlaneWaveMedium planeWaveMedium = new PlaneWaveMedium( waveCycle,
-                                                                             waveCycle.getPosition(),
-                                                                             20,
-                                                                             model.getBounds().getMaxX() - waveCycle.getPosition().getX(),
-                                                                             PlaneWaveMedium.EAST,
-                                                                             10 );
-                model.addModelElement( planeWaveMedium );
-
-                // Add a listener to the photon that will remove the wave representation from the model when
-                // the photon leaves the model
-                photon.addLeftSystemListener( new Photon.LeftSystemEventListener() {
-                    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-                        model.removeModelElement( planeWaveMedium );
-                    }
-                } );
-            }
-        }
     }
 
     //--------------------------------------------------------------------------------------------------

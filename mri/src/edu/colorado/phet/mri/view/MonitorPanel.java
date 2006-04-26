@@ -116,11 +116,11 @@ public class MonitorPanel extends PhetPCanvas {
         setBackground( BACKGROUND );
 
         // Add graphics for the energy levels
-        lowerLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
+        lowerLine = new EnergyLevel( 200, spinDownReps, model, SPIN_DOWN_IMAGE );
         addWorldChild( lowerLine );
         lowerLine.setOffset( 0, 100 );
 
-        upperLine = new EnergyLevel( 200, spinDownReps, model, SPIN_DOWN_IMAGE );
+        upperLine = new EnergyLevel( 200, spinUpReps, model, SPIN_UP_IMAGE );
         addWorldChild( upperLine );
         upperLine.setOffset( 0, 60 );
 
@@ -178,6 +178,7 @@ public class MonitorPanel extends PhetPCanvas {
 
     /**
      * Sets the length, wavelength and location of the squiggle, and flashes it if  necessary
+     *
      * @param model
      */
     private void adjustSquiggle( MriModel model ) {
@@ -260,8 +261,6 @@ public class MonitorPanel extends PhetPCanvas {
 
             // Add a listener that will add and remove dipole reps as they go in and out of the model
             model.addListener( new MriModel.ChangeAdapter() {
-                int cnt;
-
                 public void modelElementAdded( ModelElement modelElement ) {
                     if( modelElement instanceof Dipole ) {
                         addDipoleRep();
@@ -270,7 +269,7 @@ public class MonitorPanel extends PhetPCanvas {
             } );
         }
 
-        void setLinelength( double lineLength ) {
+        private void setLinelength( double lineLength ) {
             line.setLine( line.getX1(), line.getY1(), line.getX1() + lineLength, line.getY2() );
             lineNode.setPathTo( line );
         }
@@ -304,8 +303,6 @@ public class MonitorPanel extends PhetPCanvas {
             this.model = model;
         }
 
-        int cnt;
-
         public void stepInTime( double dt ) {
             List dipoles = model.getDipoles();
             dipoleRepresentationPolicy.representSpins( dipoles, spinUpReps, spinDownReps );
@@ -319,44 +316,21 @@ public class MonitorPanel extends PhetPCanvas {
         void representSpins( List dipoles, List spinUpReps, List spinDownReps );
     }
 
-    public static class DiscretePolicyB implements DipoleRepresentationPolicy {
+    public static class DiscretePolicy implements DipoleRepresentationPolicy {
         public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
+
+            int numUp = 0, numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
                 boolean isUp = dipole.getSpin() == Spin.UP;
                 boolean isDown = !isUp;
                 ( (PNode)spinUpReps.get( i ) ).setVisible( isUp );
                 ( (PNode)spinDownReps.get( i ) ).setVisible( isDown );
-            }
-        }
-    }
 
-    public static class DiscretePolicy implements DipoleRepresentationPolicy {
-        public void representSpins( List dipoles, List spinUpReps, List spinDownReps ) {
-            int numUp = 0;
-            int numDown = 0;
-            for( int i = 0; i < dipoles.size(); i++ ) {
-                Dipole dipole = (Dipole)dipoles.get( i );
-                if( dipole.getSpin() == Spin.UP ) {
-                    ( (PNode)spinUpReps.get( numUp ) ).setVisible( true );
-                    ( (PNode)spinUpReps.get( numUp ) ).setTransparency( 1 );
-                    numUp++;
-                }
-                else if( dipole.getSpin() == Spin.DOWN ) {
-                    ( (PNode)spinDownReps.get( numDown ) ).setVisible( true );
-                    ( (PNode)spinDownReps.get( numUp ) ).setTransparency( 1 );
-                    numDown++;
-                }
+                numUp += isUp ? 1 : 0;
+                numDown += isDown ? 1 : 0;
             }
-
-            for( int j = numUp; j < spinUpReps.size(); j++ ) {
-                ( (PNode)spinUpReps.get( j ) ).setVisible( false );
-                ( (PNode)spinUpReps.get( j ) ).setTransparency( 1 );
-            }
-            for( int j = numDown; j < spinDownReps.size(); j++ ) {
-                ( (PNode)spinDownReps.get( j ) ).setVisible( false );
-                ( (PNode)spinDownReps.get( j ) ).setTransparency( 1 );
-            }
+            System.out.println( "numUp = " + numUp  + " numDown = " + numDown );
         }
     }
 
@@ -366,10 +340,10 @@ public class MonitorPanel extends PhetPCanvas {
             int numDown = 0;
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
-                if( dipole.getSpin() == Spin.UP ) {
+                if( dipole.getSpin() == Spin.DOWN ) {
                     numUp++;
                 }
-                else if( dipole.getSpin() == Spin.DOWN ) {
+                else if( dipole.getSpin() == Spin.UP ) {
                     numDown++;
                 }
             }

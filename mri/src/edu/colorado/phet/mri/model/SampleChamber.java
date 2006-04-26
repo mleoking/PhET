@@ -53,7 +53,7 @@ public class SampleChamber extends Sample {
             for( int j = 1; j <= numCols; j++ ) {
                 double x = MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + j * colSpacing;
                 double y = MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + i * rowSpacing;
-                Spin spin = ( ++cnt ) % 2 == 0 ? Spin.UP : Spin.DOWN;
+                Spin spin = ( ++cnt ) % 2 == 0 ? Spin.DOWN : Spin.UP;
                 Dipole dipole = new Dipole();
                 dipole.setPosition( x, y );
                 dipole.setSpin( spin );
