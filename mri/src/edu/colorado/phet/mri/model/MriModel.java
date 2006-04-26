@@ -22,9 +22,7 @@ import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
+import java.util.*;
 
 /**
  * MriModel
@@ -34,7 +32,7 @@ import java.util.List;
  */
 public class MriModel extends BaseModel {
 
-    private Rectangle2D bounds = new Rectangle2D.Double( 0, 0, 1000, 700 );
+    private Rectangle2D bounds;
     private GradientElectromagnet upperMagnet, lowerMagnet;
 //    private Electromagnet upperMagnet, lowerMagnet;
     private GradientElectromagnet gradientMagnet;
@@ -44,6 +42,9 @@ public class MriModel extends BaseModel {
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
     private RadiowaveSource radiowaveSource;
+    private TreeMap xLocToPhotons = new TreeMap();
+    private Rectangle2D.Double trimBounds;
+
 
     /**
      * Constructor
@@ -51,6 +52,10 @@ public class MriModel extends BaseModel {
      * @param clock
      */
     public MriModel( IClock clock, Rectangle2D bounds, Sample sample ) {
+
+        //TODO: THIS IS A HACK!!!
+        // Expand the bounds so that model elements make it off the canvas before they're removed
+        this.trimBounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth() + 200, bounds.getHeight() + 200 );
         this.bounds = bounds;
 
         // Sample Chamber
@@ -124,9 +129,11 @@ public class MriModel extends BaseModel {
 
         if( modelElement instanceof Dipole ) {
             dipoles.add( modelElement );
+//            sample.addDipole( (Dipole)modelElement );
         }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
+            xLocToPhotons.put( new Double( ((Photon)modelElement).getPosition().getX()), modelElement );
         }
         listenerProxy.modelElementAdded( modelElement );
     }
@@ -142,6 +149,10 @@ public class MriModel extends BaseModel {
             ((Photon)modelElement).removeFromSystem();
         }
         listenerProxy.modelElementRemoved( modelElement );
+    }
+
+    public TreeMap getPhotonsByXLoc() {
+        return xLocToPhotons;
     }
 
     public List getModelElements() {
@@ -240,7 +251,8 @@ public class MriModel extends BaseModel {
         List photons = getPhotons();
         for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
-            if( !getBounds().contains( photon.getPosition() ) ) {
+            if( !trimBounds.contains( photon.getPosition() ) ) {
+//            if( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );
             }
         }

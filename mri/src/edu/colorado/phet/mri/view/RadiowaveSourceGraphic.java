@@ -33,12 +33,14 @@ import java.text.DecimalFormat;
  */
 public class RadiowaveSourceGraphic extends PNode {
 
-    Font font = new Font( "Lucida Sans", Font.BOLD, 20 );
+    Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private double panelDepth = 90;
 
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
 
         // todo: this line and variable is just for debugging
-        double length = 800;
+        double length = 600;
+//        double length = 800;
 //        double length = radiowaveSource.getLength();
 
         double w = 0;
@@ -48,12 +50,12 @@ public class RadiowaveSourceGraphic extends PNode {
         if( radiowaveSource.getOrientation() == RadiowaveSource.HORIZONTAL ) {
             w = length;
 //            w = radiowaveSource.getLength();
-            h = 120;
+            h = panelDepth;
             x = radiowaveSource.getPosition().getX() - w / 2;
             y = radiowaveSource.getPosition().getY();
         }
         else if( radiowaveSource.getOrientation() == RadiowaveSource.VERTICAL ) {
-            w = 120;
+            w = panelDepth;
             h = length;
             x = radiowaveSource.getPosition().getX();
             y = radiowaveSource.getPosition().getY() + h / 2;
@@ -81,7 +83,8 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
-        freqPSwing.setOffset( length / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
+        freqPSwing.setOffset( length * 0.2 - freqPSwing.getBounds().getWidth() / 2, 5 );
+//        freqPSwing.setOffset( length / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
         addChild( freqPSwing );
 
         // Power control
@@ -98,7 +101,8 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
-        powerPSwing.setOffset( length * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
+        powerPSwing.setOffset( length * 0.8 - powerPSwing.getBounds().getWidth() / 2, 5 );
+//        powerPSwing.setOffset( length * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
         addChild( powerPSwing );
 
         // Label

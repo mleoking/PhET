@@ -44,12 +44,12 @@ public class HeadModule extends AbstractMriModule {
     // Instance methods and fields
     //----------------------------------------------------------------
 
-    static double earOffsetX = 70;
-    static double headOffsetY = 35;
-    static  Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
-                                                                            MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
-                                                                            MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
-                                                                            MriConfig.SAMPLE_CHAMBER_HEIGHT + 100) );
+    static double earOffsetX = 70  * MriConfig.SCALE_FOR_ORG;
+    static double headOffsetY = 35  * MriConfig.SCALE_FOR_ORG;
+    static Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
+                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
+                                                       MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
+                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
 
     /**
      * Constructor
@@ -61,14 +61,14 @@ public class HeadModule extends AbstractMriModule {
         MriModel model = (MriModel)getModel();
         Electromagnet lowerMagnet = model.getLowerMagnet();
 
-        GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 1,0);
+        GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
         Point2D gradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 30 );
         GradientElectromagnet gradientElectromagnet = new GradientElectromagnet( gradientMagnetLocation,
-                                                                                                             lowerMagnet.getBounds().getWidth(),
-                                                                                                             lowerMagnet.getBounds().getHeight(),
-                                                                                                             getClock(),
-                                                                                                             gradient );
+                                                                                 lowerMagnet.getBounds().getWidth(),
+                                                                                 lowerMagnet.getBounds().getHeight(),
+                                                                                 getClock(),
+                                                                                 gradient );
         model.addModelElement( gradientElectromagnet );
         model.setGradientMagnet( gradientElectromagnet );
 
@@ -76,15 +76,15 @@ public class HeadModule extends AbstractMriModule {
         HeadModuleControlPanel controlPanel = new HeadModuleControlPanel( this, gradientElectromagnet );
         setControlPanel( controlPanel );
 
-
         // Make some dipoles
+//        head.createDipoles( (MriModel)getModel(), 0 );
         head.createDipoles( (MriModel)getModel(), 40);
 
         // Add the head graphic
         PNode headGraphic = new HeadGraphic();
         headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 35);
-        getWorldNode().addChild( headGraphic );
+                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 35 );
+        getGraphicsManager().addGraphic( headGraphic, getGraphicsManager().getHeadLayer() );
 
         // Set the initial view
         setEmRep( HeadModule.WAVE_VIEW );

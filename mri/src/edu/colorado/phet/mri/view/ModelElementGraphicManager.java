@@ -48,6 +48,8 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
     private PNode rfLayer = new PNode();
     private PNode sampleChamberLayer = new PNode();
     private PNode magnetCoilLayer = new PNode();
+    private PNode controlLayer = new PNode();
+    private PNode headLayer = new PNode();
 
     /**
      * Constructor
@@ -60,9 +62,13 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
 
         // Add composite nodes in the layer order we want to maintain
         canvas.addChild( magnetCoilLayer );
+        canvas.addChild( headLayer );
         canvas.addChild( sampleChamberLayer );
         canvas.addChild( dipolesLayer );
         canvas.addChild( rfLayer );
+//        canvas.addChild( headLayer );
+        canvas.addChild( controlLayer );
+
     }
 
     public void scanModel( MriModel model ) {
@@ -92,14 +98,20 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         if( modelElement instanceof RadiowaveSource
             && !( modelElement instanceof PlaneWaveCycle ) ) {
             graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
+            layer = controlLayer;
         }
         if( modelElement instanceof Photon ) {
             graphic = PhotonGraphic.getInstance( (Photon)modelElement );
+            layer = rfLayer;
         }
         if( modelElement instanceof PlaneWaveMedium ) {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;
+            double maxOpacity = 0.25;
+            if( pwm.getSource() instanceof MriEmittedPhoton ) {
+                   maxOpacity = 0.5;
+            }
             graphic = new PlaneWaveGraphic( pwm,
-                                            0.25,
+                                            maxOpacity,
                                             Color.black );
             layer = rfLayer;
         }
@@ -109,8 +121,13 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
                 graphic.setVisible( false );
             }
             modelElementToGraphicMap.put( modelElement, new GraphicRecord( graphic, layer ) );
-            layer.addChild( graphic );
+            addGraphic( graphic, layer );
+//            layer.addChild( graphic );
         }
+    }
+
+    public void addGraphic( PNode graphic, PNode layer ) {
+        layer.addChild( graphic );
     }
 
     public void modelElementRemoved( ModelElement modelElement ) {
@@ -145,6 +162,30 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         else {
             invisibleGraphicClasses.remove( graphicClass );
         }
+    }
+
+    public PNode getDipolesLayer() {
+        return dipolesLayer;
+    }
+
+    public PNode getRfLayer() {
+        return rfLayer;
+    }
+
+    public PNode getSampleChamberLayer() {
+        return sampleChamberLayer;
+    }
+
+    public PNode getMagnetCoilLayer() {
+        return magnetCoilLayer;
+    }
+
+    public PNode getControlLayer() {
+        return controlLayer;
+    }
+
+    public PNode getHeadLayer() {
+        return headLayer;
     }
 
     //--------------------------------------------------------------------------------------------------

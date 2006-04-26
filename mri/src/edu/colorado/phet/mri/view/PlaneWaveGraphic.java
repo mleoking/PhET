@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.mri.model.PlaneWaveMedium;
+import edu.colorado.phet.mri.MriConfig;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -95,7 +96,9 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
         double fy = 0;
         if( waveMedium.getDirection() == PlaneWaveMedium.EAST ) {
             x = stepSize;
-            dy = width;
+
+            // TODO: HACK!!!!!
+            dy = width  * MriConfig.SCALE_FOR_ORG;
             fy = 0.5;
         }
         else if( waveMedium.getDirection() == PlaneWaveMedium.WEST ) {

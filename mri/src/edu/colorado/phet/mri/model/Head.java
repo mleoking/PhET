@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.util.MriUtil;
 import edu.colorado.phet.mri.model.Dipole;
+import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Rectangle2D;
@@ -67,10 +68,10 @@ public class Head extends Sample {
             model.addModelElement( dipole );
         }
         Dipole rightEarDipole = new Dipole();
-        rightEarDipole.setPosition( shape.getX() - 30, shape.getY() + shape.getHeight() * 0.5 );
+        rightEarDipole.setPosition( shape.getX() - 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 );
         model.addModelElement( rightEarDipole );
         Dipole leftEarDipole = new Dipole();
-        leftEarDipole.setPosition( shape.getX() + shape.getWidth() + 30, shape.getY() + shape.getHeight() * 0.5 );
+        leftEarDipole.setPosition( shape.getX() + shape.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 );
         model.addModelElement( leftEarDipole );
     }
 }

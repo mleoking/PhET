@@ -34,6 +34,8 @@ public class Dipole extends Body implements Collidable {
     //----------------------------------------------------------------
     // Class field and methods
     //----------------------------------------------------------------
+    public static final double RADIUS = 30;
+
     private static EventChannel classEventChannel = new EventChannel( ClassListener.class );
     private static ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
 
@@ -51,7 +53,6 @@ public class Dipole extends Body implements Collidable {
         void instanceDestroyed( Dipole dipole );
     }
 
-    private static double RADIUS = 30;
 
     //----------------------------------------------------------------
     // Instance fields and methods

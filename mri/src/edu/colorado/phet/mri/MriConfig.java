@@ -37,6 +37,7 @@ public class MriConfig {
     public static final String IMAGE_PATH = "images/";
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
 //    public static final String HEAD_IMAGE = IMAGE_PATH + "mrihead.gif";
+//    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
 
     // Physical parameters
@@ -69,8 +70,11 @@ public class MriConfig {
 
     // Layout
     public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 120 );
-    public static double SAMPLE_CHAMBER_WIDTH = 600;
-    public static double SAMPLE_CHAMBER_HEIGHT = 400;
+    public static double SCALE_FOR_ORG = 400.0 / 600;
+    public static double SAMPLE_CHAMBER_WIDTH = 400;
+//    public static double SAMPLE_CHAMBER_WIDTH = 600;
+    public static double SAMPLE_CHAMBER_HEIGHT = 267;
+//    public static double SAMPLE_CHAMBER_HEIGHT = 400;
 
     // Initial conditions
     public static class InitialConditions {

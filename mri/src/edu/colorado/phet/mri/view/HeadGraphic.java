@@ -25,6 +25,7 @@ import java.awt.*;
 public class HeadGraphic extends PNode {
 
     public HeadGraphic() {
+//        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE );
         PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE,
                                                   new Dimension( (int)MriConfig.SAMPLE_CHAMBER_WIDTH,
                                                                  (int)MriConfig.SAMPLE_CHAMBER_WIDTH ) );
