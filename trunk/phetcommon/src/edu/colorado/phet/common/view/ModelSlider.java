@@ -304,7 +304,6 @@ public class ModelSlider extends JPanel {
             table.put( new Double( tick ), new JLabel( sliderLabelFormat.format( tick ) ) );
         }
         setModelLabels( table );
-//        relabelSlider();
     }
 
     public void setModelLabels( Hashtable modelLabels ) {
@@ -319,7 +318,6 @@ public class ModelSlider extends JPanel {
             viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
         }
         slider.setLabelTable( viewLabels );
-//        relabelSlider();
     }
 
     public void setPaintTicks( boolean paintTicks ) {
@@ -499,7 +497,6 @@ public class ModelSlider extends JPanel {
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
-//                System.out.println( "sliderValue = " + sliderValue );
                 slider.setValue( sliderValue ); //this recursively changes values
                 slider.revalidate();
                 slider.repaint();
