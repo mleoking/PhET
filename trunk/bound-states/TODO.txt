@@ -4,8 +4,6 @@
 
 IN PROGRESS:
 - stop looking for Coulomb eigenstates when energy > max visible potential
-- change wave function equation when switching to Probability Density
-- add wave function equation for hilited eigenstate
 
 HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -54,6 +52,9 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - change wave function equation when switching to Probability Density
+(4/27/06) - add wave function equation for hilited eigenstate
+(4/27/06) - factor out common equation code into BSAbstractWaveFunctionEquation
 (4/27/06) - add Coulomb eigenstates only if entire "cluster" is below cut-off
 (4/27/06) - reduce stroke width for hilited wave function
 (4/27/06) - put hilited wave function behind everything else
