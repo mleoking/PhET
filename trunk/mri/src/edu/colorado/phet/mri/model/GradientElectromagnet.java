@@ -13,6 +13,8 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.model.clock.IClock;
 
 import java.awt.geom.Point2D;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * GradientElectromagnet
@@ -23,26 +25,60 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class GradientElectromagnet extends Electromagnet {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    public static class Orientation{}
+    public static final Orientation HORIZONTAL = new Orientation();
+    public static final Orientation VERTICAL = new Orientation();
+    private static Set ORIENTATIONS = new HashSet( );
+    static {
+        ORIENTATIONS.add( HORIZONTAL );
+        ORIENTATIONS.add( VERTICAL );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private Orientation orientation;
     private Gradient gradient;
-    private double width;
+    private double length;
 
     /**
      * Constructor
      *
      * @param position
-     * @param width
+     * @param length
      * @param height
      * @param clock
      * @param gradient
      */
-    public GradientElectromagnet( Point2D position, double width, double height, IClock clock, Gradient gradient ) {
-        super( position, width, height, clock );
-        this.width = width;
+    public GradientElectromagnet( Point2D position,
+                                  double length,
+                                  double height,
+                                  IClock clock,
+                                  Gradient gradient,
+                                  Orientation orientation ) {
+        super( position, length, height, clock );
+
+        if( !ORIENTATIONS.contains( orientation )) {
+            throw new IllegalArgumentException( "invalid orientation");
+        }
+
+        this.orientation = orientation;
+
+        this.length = length;
         this.gradient = gradient;
     }
 
-    public double getFieldStrengthAt( double x ){
-        return getFieldStrength() * gradient.getValueAt( x, width );
+    public double getFieldStrengthAt( Point2D p ){
+        double loc = orientation == HORIZONTAL
+                     ? p.getX() - ( getPosition().getX() - length / 2 ) 
+                     : p.getY() -  ( getPosition().getY() - length / 2 );
+        return getFieldStrength() * gradient.getValueAt( loc, length );
     }
 
     public void setGradient( Gradient gradient ) {

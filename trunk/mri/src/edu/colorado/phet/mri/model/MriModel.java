@@ -34,8 +34,8 @@ public class MriModel extends BaseModel {
 
     private Rectangle2D bounds;
     private GradientElectromagnet upperMagnet, lowerMagnet;
-//    private Electromagnet upperMagnet, lowerMagnet;
     private GradientElectromagnet gradientMagnet;
+    private ArrayList magnets = new ArrayList();
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
@@ -69,14 +69,16 @@ public class MriModel extends BaseModel {
                                                  sampleChamberBounds.getWidth(),
                                                  magnetHeight,
                                                  clock,
-                                                 new GradientElectromagnet.Constant() );
-        addModelElement( upperMagnet );
+                                                 new GradientElectromagnet.Constant(),
+                                                 GradientElectromagnet.HORIZONTAL );
+//        addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
         lowerMagnet = new GradientElectromagnet( lowerMagnetLocation,
                                                  sampleChamberBounds.getWidth(),
                                                  magnetHeight, clock,
-                                                 new GradientElectromagnet.Constant() );
+                                                 new GradientElectromagnet.Constant(),
+                                                 GradientElectromagnet.HORIZONTAL );
         addModelElement( lowerMagnet );
 
 
@@ -130,11 +132,13 @@ public class MriModel extends BaseModel {
 
         if( modelElement instanceof Dipole ) {
             dipoles.add( modelElement );
-//            sample.addDipole( (Dipole)modelElement );
         }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
             xLocToPhotons.put( new Double( ((Photon)modelElement).getPosition().getX()), modelElement );
+        }
+        if( modelElement instanceof Electromagnet ) {
+            magnets.add( modelElement );
         }
         listenerProxy.modelElementAdded( modelElement );
     }
@@ -148,6 +152,9 @@ public class MriModel extends BaseModel {
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
             ((Photon)modelElement).removeFromSystem();
+        }
+        if( modelElement instanceof Electromagnet ) {
+            magnets.remove( modelElement );
         }
         listenerProxy.modelElementRemoved( modelElement );
     }
@@ -210,10 +217,6 @@ public class MriModel extends BaseModel {
         return radiowaveSource;
     }
 
-    public GradientElectromagnet getGradientMagnet() {
-        return gradientMagnet;
-    }
-
     public void setGradientMagnet( GradientElectromagnet gradientMagnet ) {
         this.gradientMagnet = gradientMagnet;
     }
@@ -234,12 +237,18 @@ public class MriModel extends BaseModel {
      * @param x
      * @return the total B field magnitude at the specified location
      */
-    public double getTotalFieldStrengthAt( double x ) {
-        double b = lowerMagnet.getFieldStrength();
-        if( gradientMagnet != null ) {
-            double leftEndOfMagnetX = ( gradientMagnet.getPosition().getX() - gradientMagnet.getBounds().getWidth() / 2 );
-            b += gradientMagnet.getFieldStrengthAt( x - leftEndOfMagnetX );
+    public double getTotalFieldStrengthAt( Point2D p ) {
+        double b = 0;
+        for( int i = 0; i < magnets.size(); i++ ) {
+            GradientElectromagnet magnet = (GradientElectromagnet)magnets.get( i );
+            b += magnet.getFieldStrengthAt( p );
         }
+
+//        double b = lowerMagnet.getFieldStrength();
+//        if( gradientMagnet != null ) {
+//            double leftEndOfMagnetX = ( gradientMagnet.getPosition().getX() - gradientMagnet.getBounds().getWidth() / 2 );
+//            b += gradientMagnet.getFieldStrengthAt( new Point2D.Double(  x - leftEndOfMagnetX, 0 ) );
+//        }
         return b;
     }
 
