@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -48,7 +49,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final char PSI = '\u03c8';
+    private static final char PSI = BSConstants.PSI;
     
     private static final double COEFFICIENT_MIN = 0.00;
     private static final double COEFFICIENT_MAX = 1.00;
