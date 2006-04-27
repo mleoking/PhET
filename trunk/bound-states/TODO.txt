@@ -3,17 +3,17 @@
 ===============================================================================
 
 IN PROGRESS:
-
-HIGH PRIORITY:
 - when to stop looking for eigenstates with Coulomb?
 - what if one or more eigenstates in Coulomb cluster is above cut-off?
+- change hilited eigenstate representation in bottom chart depending on what views are checked?
+
+HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
-- change hilited eigenstate representation in bottom chart depending on what views are checked?
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
