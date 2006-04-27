@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- when to stop looking for eigenstates with Coulomb?
+- what if one or more eigenstates in Coulomb cluster is above cut-off?
 - add equation in upper left of wave function chart
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
