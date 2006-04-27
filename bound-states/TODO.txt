@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+0.00.03...
 (4/27/06) - disable Normalize and Apply buttons when all coefficients are zero
 (4/27/06) - change display of hilite wave function based on which views are checked
 (4/27/06) - change wave function equation when switching to Probability Density
