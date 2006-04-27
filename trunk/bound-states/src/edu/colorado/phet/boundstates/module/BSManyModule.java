@@ -80,6 +80,7 @@ public class BSManyModule extends BSAbstractModule {
     private BSCombinedChart _chart;
     private BSCombinedChartNode _chartNode;
     private BSEigenstatesNode _eigenstatesNode;
+    private BSWaveFunctionEquation _equationNode;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -204,6 +205,10 @@ public class BSManyModule extends BSAbstractModule {
         _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
         _parentNode.addChild( _eigenstatesNode );
         
+        // Wave function equation
+        _equationNode = new BSWaveFunctionEquation();
+        _parentNode.addChild( _equationNode );
+        
         // Wave Function plot shows time-dependent data
         getClock().addClockListener( _bottomPlot );
         
@@ -309,6 +314,14 @@ public class BSManyModule extends BSAbstractModule {
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
+        
+        // Wave function equation
+        {
+            // Move to upper right corner of bottom chart
+            double x = bottomPlotBounds.getX() + bottomPlotBounds.getWidth() - 5;
+            double y = bottomPlotBounds.getY() + 5;
+            _equationNode.setLocation( x, y );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -374,6 +387,7 @@ public class BSManyModule extends BSAbstractModule {
         _energyPlot.setModel( _model );
         _bottomPlot.setModel( _model );
         _eigenstatesNode.setModel( _model );
+        _equationNode.setModel( _model );
         
         // Control
         _controlPanel.setWellType( _model.getWellType() );
@@ -450,6 +464,8 @@ public class BSManyModule extends BSAbstractModule {
         _legend.setColorScheme( colorScheme );
         // Eigenstates...
         _eigenstatesNode.setColorScheme( colorScheme );
+        // Wave function equation...
+        _equationNode.setColorScheme( colorScheme );
         // Superposition dialog...
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.setColorScheme( _colorScheme );
