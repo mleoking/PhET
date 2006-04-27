@@ -67,28 +67,16 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
             Photon photon = (Photon)classifiedBodies.get( Photon.class );
 
             // If the photon was emitted by a dipole flipping back to its lower energy state, don't consider it
-            if( photon instanceof MriEmittedPhoton && !MriConfig.REABSORPTION_ALLOWED ) {
-                return false;
-            }
-
-            if( dipole != null && photon != null ) {
-                if( photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius()
-                    && applyProbabilityStrategy( dipole ) ) {
-                    // If the difference between the energy states of the spin up and down is equal to the
-                    // energy of the photon, and the dipole is in the spin up (lower energy) state, flip the
-                    // dipole
-                    double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( photon.getPosition().getX() ) * model.getSampleMaterial().getMu() );
-                    if( dipole.getSpin() == Spin.DOWN
-                        && Math.abs( hEnergy - photon.getEnergy() )
-                           < MriConfig.ENERGY_EPS ) {
-                        dipole.collideWithPhoton( photon );
-                        if( CONSUME_PHOTON_ON_COLLISION ) {
-                            photon.removeFromSystem();
-                            model.removeModelElement( photon );
-                        }
-                        model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
-                    }
+//            if( photon instanceof MriEmittedPhoton && !MriConfig.REABSORPTION_ALLOWED ) {
+//                return false;
+//            }
+            if( collisionShouldOccur( photon, dipole ) ) {
+                dipole.collideWithPhoton( photon );
+                if( CONSUME_PHOTON_ON_COLLISION && !(dipole instanceof TumorDipole )) {
+                    photon.removeFromSystem();
+                    model.removeModelElement( photon );
                 }
+                model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
             }
         }
         return false;
@@ -96,6 +84,30 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
 
     private boolean applyProbabilityStrategy( Dipole dipole ) {
         return random.nextDouble() <= collisionProbablilityStrategy.getProbability( dipole );
+    }
+
+    private boolean collisionShouldOccur( Photon photon, Dipole dipole ) {
+        boolean result = true;
+
+        // Only spin down dipoles (lower energy state) can be affected by photons
+        result &= dipole.getSpin() == Spin.DOWN;
+
+        // If the photon was emitted by a dipole flipping back to its lower energy state, don't consider it
+        result &= !(photon instanceof MriEmittedPhoton
+                    && !MriConfig.REABSORPTION_ALLOWED );
+
+        // Check for physical proximity
+        result &= photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius();
+
+        // Apply the likelihood strategy
+        result &= applyProbabilityStrategy( dipole );
+
+        // The energy of the photon must be aprox. equal to the strength of the net magnetic field at the
+        // dipole's location times the sample material's mu.
+        double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( dipole.getPosition().getX() ) * model.getSampleMaterial().getMu() );
+        result &= Math.abs( hEnergy - photon.getEnergy() ) < MriConfig.ENERGY_EPS;
+
+        return result;
     }
 
     //--------------------------------------------------------------------------------------------------
