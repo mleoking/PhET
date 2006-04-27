@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- change hilited wave function display based on view settings
 - stop looking for Coulomb eigenstates when energy > max visible potential
 
 HIGH PRIORITY:
@@ -52,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - change display of hilite wave function based on which views are checked
 (4/27/06) - change wave function equation when switching to Probability Density
 (4/27/06) - add wave function equation for hilited eigenstate
 (4/27/06) - factor out common equation code into BSAbstractWaveFunctionEquation

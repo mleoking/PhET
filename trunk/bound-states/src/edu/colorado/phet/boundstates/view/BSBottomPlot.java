@@ -253,22 +253,47 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setRealVisible( boolean visible ) {
         getRenderer( _realIndex ).setSeriesVisible( new Boolean( visible ) );
+        updateHiliteDataset();
+    }
+    
+    protected boolean isRealVisible() {
+        return getRenderer( _realIndex ).getSeriesVisible().booleanValue();
     }
     
     public void setImaginaryVisible( boolean visible ) {
         getRenderer( _imaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
+        updateHiliteDataset();
+    }
+    
+    protected boolean isImaginaryVisible() {
+        return getRenderer( _imaginaryIndex ).getSeriesVisible().booleanValue();
     }
     
     public void setMagnitudeVisible( boolean visible ) {
         getRenderer( _magnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
+        updateHiliteDataset();
+    }
+    
+    protected boolean isMagnitudeVisible() {
+        return getRenderer( _magnitudeIndex ).getSeriesVisible().booleanValue();
     }
     
     public void setPhaseVisible( boolean visible ) {
         getRenderer( _phaseIndex ).setSeriesVisible( new Boolean( visible ) );
+        updateHiliteDataset();
+    }
+    
+    protected boolean isPhaseVisible() {
+        return getRenderer( _phaseIndex ).getSeriesVisible().booleanValue();
     }
     
     public void setProbabilityDensityVisible( boolean visible ) {
         getRenderer( _probabilityDensityIndex ).setSeriesVisible( new Boolean( visible ) );
+        updateHiliteDataset();
+    }
+    
+    protected boolean isProbabilityDensityVisible() {
+        return getRenderer( _probabilityDensityIndex ).getSeriesVisible().booleanValue();
     }
     
     /**
@@ -334,27 +359,50 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     /*
      * Updates the dataset for the hilited eigenstate,
      * which is a time-independent wave function solution.
+     * <p>
+     * How we display the hilited eigenstate's wave function is dependent
+     * on what other views are visible.  If probability density is visible,
+     * we display the hilite as probability density. If either real or 
+     * imaginary part is visible, we display the real hililite.  
+     * If magnitude or phase is the only thing visible, we display
+     * magnitude.  If none of the other views is visible, we display
+     * nothing.
      */
     private void updateHiliteDataset() {
         _hiliteSeries.setNotify( false );
         _hiliteSeries.clear();
-        final int hiliteIndex = _model.getHilitedEigenstateIndex();
-        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
-             BSEigenstate[] eigenstates = _model.getEigenstates();
-             final double energy = eigenstates[ hiliteIndex ].getEnergy();
-             BSAbstractPotential potential = _model.getPotential();
-             final double minX = getDomainAxis().getLowerBound();
-             final double maxX = getDomainAxis().getUpperBound();
-             Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
-             for ( int i = 0; i < points.length; i++ ) {
-                 double x = points[i].getX();
-                 double y = points[i].getY();
-                 if ( _mode == MODE_PROBABILITY_DENSITY ) {
-                     y = Math.abs( y ) * Math.abs( y );
-                 }
-                 _hiliteSeries.add( x, y );
-             }
+        
+        if ( _model != null ) {
+            final int hiliteIndex = _model.getHilitedEigenstateIndex();
+            if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+                
+                BSEigenstate[] eigenstates = _model.getEigenstates();
+                final double energy = eigenstates[hiliteIndex].getEnergy();
+                BSAbstractPotential potential = _model.getPotential();
+                final double minX = getDomainAxis().getLowerBound();
+                final double maxX = getDomainAxis().getUpperBound();
+                Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+                
+                for ( int i = 0; i < points.length; i++ ) {
+                    if ( isProbabilityDensityVisible() ) {
+                        double x = points[i].getX();
+                        double y = Math.pow( points[i].getY(), 2 );
+                        _hiliteSeries.add( x, y );
+                    }
+                    else if ( isRealVisible() || isImaginaryVisible() ) {
+                        double x = points[i].getX();
+                        double y = points[i].getY();
+                        _hiliteSeries.add( x, y );
+                    }
+                    else if ( isMagnitudeVisible() || isPhaseVisible() ) {
+                        double x = points[i].getX();
+                        double y = Math.abs( points[i].getY() );
+                        _hiliteSeries.add( x, y );
+                    }
+                }
+            }
         }
+        
         _hiliteSeries.setNotify( true );
     }
     
