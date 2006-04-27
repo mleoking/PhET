@@ -13,6 +13,7 @@ package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -103,7 +104,8 @@ public class BSCoulombWells extends BSAbstractPotential {
     protected BSEigenstate[] calculateEigenstates() {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
-        ArrayList eigenstates = new ArrayList();
+        ArrayList eigenstates = new ArrayList(); // array of BSEigentate
+        ArrayList cluster = new ArrayList(); // array of BSEigenstate
         final double maxE = getOffset();
         final int numberOfWells = getNumberOfWells();
         
@@ -112,12 +114,14 @@ public class BSCoulombWells extends BSAbstractPotential {
         int subscript = getStartingIndex();
         boolean done = false;
         while ( !done ) {
-            // solve for the cluster
+            
+            // Get the cluster's eigenstates...
+            cluster.clear();
             for ( int i = 0; !done && i < numberOfWells; i++ ) {
                 try {
                     double E = solver.getEnergy( nodes );
                     if ( E <= maxE ) {
-                        eigenstates.add( new BSEigenstate( subscript, E ) );
+                        cluster.add( new BSEigenstate( subscript, E ) );
                     }
                     else {
                         done = true;
@@ -130,6 +134,15 @@ public class BSCoulombWells extends BSAbstractPotential {
                 nodes++;
                 subscript++;
             }
+            
+            // Add the entire cluster or nothing...
+            if ( cluster.size() == numberOfWells ) {
+                Iterator i = cluster.iterator();
+                while ( i.hasNext() ) {
+                    eigenstates.add( i.next() );
+                }
+            }
+            
             // skip the next cluster
             nodes += numberOfWells;
         }

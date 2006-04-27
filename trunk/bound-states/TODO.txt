@@ -3,9 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-- when to stop looking for eigenstates with Coulomb?
-- what if one or more eigenstates in Coulomb cluster is above cut-off?
-- change hilited eigenstate representation in bottom chart depending on what views are checked?
+- stop looking for Coulomb eigenstates when energy > max visible potential
+- change wave function equation when switching to Probability Density
+- add wave function equation for hilited eigenstate
 
 HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - add Coulomb eigenstates only if entire "cluster" is below cut-off
 (4/27/06) - reduce stroke width for hilited wave function
 (4/27/06) - put hilited wave function behind everything else
 (4/27/06) - add transparency to background of hilited eigenstate's value
