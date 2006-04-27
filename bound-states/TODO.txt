@@ -206,6 +206,7 @@ REJECTED:
 (4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)
 (4/24/06) - don't construct DecimalFormat, use NumberFormat.getInstance (doesn't do what I need)
 (4/21/06) - change semantics of spacing (only works for Square wells, where would we put drag handles?)
+(4/18/06) - eigenstate combo box was dropped from the control panel when we decided to show coefficients for all eigenstates
 (4/17/06) - +5 label on Energy y-axis is clipped (fixed itself when I added a bit to range)
 
 ===============================================================================
