@@ -53,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - add transparency to background of hilited eigenstate's value
 (4/27/06) - bugfix: eigenstates off the top of the chart can be hilited
 (4/27/06) - add wave function equation in upper left of wave function chart
 (4/27/06) - label Coulomb eigenstates E1, E2, E3, etc.

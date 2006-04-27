@@ -146,7 +146,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
         _hiliteColor = colorScheme.getEigenstateHiliteColor();
         _selectionColor = colorScheme.getEigenstateSelectionColor();
         
-        _hiliteValueNode.setPaint( colorScheme.getChartColor() );
+        Color c = colorScheme.getChartColor();
+        Color hiliteValueBackground = new Color( c.getRed(), c.getGreen(), c.getBlue(), BSConstants.HILITE_VALUE_BACKGROUND_ALPHA );
+        _hiliteValueNode.setPaint( hiliteValueBackground );
         _hiliteValueNode.setHTMLColor( _hiliteColor );
         
         updateDisplay();

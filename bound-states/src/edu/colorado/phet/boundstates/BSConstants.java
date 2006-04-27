@@ -96,6 +96,9 @@ public class BSConstants {
     // The default color scheme
     public static final BSColorScheme COLOR_SCHEME = new BSBlackColorScheme();
     
+    // Transparency (alpha) of the background for the hilited eigenstate's value
+    public static final int HILITE_VALUE_BACKGROUND_ALPHA = 175;
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
