@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- change hilited eigenstate representation in bottom chart depending on what views are checked?
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
