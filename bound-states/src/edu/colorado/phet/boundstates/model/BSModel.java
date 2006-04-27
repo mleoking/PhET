@@ -150,4 +150,11 @@ public class BSModel extends BSObservable implements Observer {
         }
         return numberOfEigenstates;
     }
+    
+    public BSEigenstate getEigenstate( int index ) {
+        if ( index < 0 || index >= _eigenstates.length ) {
+            throw new IndexOutOfBoundsException( "index out of bounds: " + index );
+        }
+        return _eigenstates[ index ];
+    }
 }
