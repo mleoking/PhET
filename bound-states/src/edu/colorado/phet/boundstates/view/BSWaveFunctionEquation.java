@@ -35,11 +35,22 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
  */
 public class BSWaveFunctionEquation extends HTMLNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private BSModel _model;
     private Point2D _location;
     private AffineTransform _xform; // reusable transform
     private String _superpositionString;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
     public BSWaveFunctionEquation() {
         setFont( BSConstants.WAVE_FUNCTION_EQUATION_FONT );
         setHTMLColor( Color.BLACK );
@@ -48,6 +59,14 @@ public class BSWaveFunctionEquation extends HTMLNode implements Observer {
         _superpositionString = SimStrings.get( "label.equation.superposition" );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the model.
+     * @param model
+     */
     public void setModel( BSModel model ) {
         if ( _model != null ) {
             _model.deleteObserver( this );
@@ -57,6 +76,12 @@ public class BSWaveFunctionEquation extends HTMLNode implements Observer {
         updateDisplay();
     }
     
+    /**
+     * Sets the color scheme.
+     * The color of the text is set to the color used for the selected eigenstate.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
         setHTMLColor( colorScheme.getEigenstateSelectionColor() );
     }
@@ -73,12 +98,28 @@ public class BSWaveFunctionEquation extends HTMLNode implements Observer {
         updateDisplay();
     }
     
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the superposition coefficients change.
+     * @param o
+     * @param arg
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _model && arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
             updateDisplay();
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the display to match the model.
+     */
     private void updateDisplay() {
         
         // Determine how many coefficients are non-zero...
