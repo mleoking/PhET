@@ -14,7 +14,6 @@ package edu.colorado.phet.boundstates.view;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,6 +22,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 
 /**
@@ -35,13 +35,17 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
  */
 public class BSWaveFunctionEquation extends HTMLNode implements Observer {
 
-    public BSModel _model;
+    private BSModel _model;
     private Point2D _location;
+    private AffineTransform _xform; // reusable transform
+    private String _superpositionString;
     
     public BSWaveFunctionEquation() {
         setFont( BSConstants.WAVE_FUNCTION_EQUATION_FONT );
         setHTMLColor( Color.BLACK );
         _location = new Point2D.Double();
+        _xform = new AffineTransform();
+        _superpositionString = SimStrings.get( "label.equation.superposition" );
     }
     
     public void setModel( BSModel model ) {
@@ -80,32 +84,35 @@ public class BSWaveFunctionEquation extends HTMLNode implements Observer {
         // Determine how many coefficients are non-zero...
         BSSuperpositionCoefficients coefficients = _model.getSuperpositionCoefficients();
         final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
-        int selectedEigenstateIndex = BSEigenstate.INDEX_UNDEFINED;
+        int coefficientIndex = -1;
         int count = 0;
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
             double energy = coefficients.getCoefficient( i );
             if ( energy > 0 ) {
                 if ( count == 0 ) {
-                    selectedEigenstateIndex = i;
+                    coefficientIndex = i;
                 }
                 count++;
             }
         }
         
         // Set the text...
-        String text = "";
+        String text = "";  // when count==0
         if ( count == 1 ) {
-            text = "<html>" + BSConstants.PSI + "<sub>" + selectedEigenstateIndex + "</sub>(x)";
+            // Map the coefficient index to an eigenstate subscript...
+            BSEigenstate eigenstate = _model.getEigenstate( coefficientIndex );
+            final int subscript = eigenstate.getSubscript();
+            text = "<html>" + BSConstants.PSI + "<sub>" + subscript + "</sub>(x)";
         }
         else if ( count > 1 ) {
-            text = "Superposition"; //XXX
+            text = _superpositionString;
         }
         setHTML( text );
 
-        // Translate so that it's upper right corner is at the location...
-        AffineTransform xform = new AffineTransform();
-        xform.translate( _location.getX(), _location.getY() );
-        xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
-        setTransform( xform );
+        // Translate so the upper right corner is at the location...
+        _xform.setToIdentity();
+        _xform.translate( _location.getX(), _location.getY() );
+        _xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
+        setTransform( _xform );
     }
 }
