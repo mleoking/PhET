@@ -80,7 +80,8 @@ public class BSManyModule extends BSAbstractModule {
     private BSCombinedChart _chart;
     private BSCombinedChartNode _chartNode;
     private BSEigenstatesNode _eigenstatesNode;
-    private BSWaveFunctionEquation _equationNode;
+    private BSSelectedEquation _selectedEquationNode;
+    private BSHilitedEquation _hilitedEquationNode;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -205,9 +206,11 @@ public class BSManyModule extends BSAbstractModule {
         _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
         _parentNode.addChild( _eigenstatesNode );
         
-        // Wave function equation
-        _equationNode = new BSWaveFunctionEquation();
-        _parentNode.addChild( _equationNode );
+        // Equations
+        _selectedEquationNode = new BSSelectedEquation();
+        _parentNode.addChild( _selectedEquationNode );
+        _hilitedEquationNode = new BSHilitedEquation();
+        _parentNode.addChild( _hilitedEquationNode );
         
         // Wave Function plot shows time-dependent data
         getClock().addClockListener( _bottomPlot );
@@ -315,12 +318,17 @@ public class BSManyModule extends BSAbstractModule {
             _legend.setTransform( legendTransform );
         }
         
-        // Wave function equation
+        // Equations
         {
             // Move to upper right corner of bottom chart
-            double x = bottomPlotBounds.getX() + bottomPlotBounds.getWidth() - 5;
-            double y = bottomPlotBounds.getY() + 5;
-            _equationNode.setLocation( x, y );
+            double x1 = bottomPlotBounds.getX() + bottomPlotBounds.getWidth() - 5;
+            double y1 = bottomPlotBounds.getY() + 5;
+            _selectedEquationNode.setLocation( x1, y1 );
+            
+            // Just below other equations
+            double x2 = x1;
+            double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight() + 5;
+            _hilitedEquationNode.setLocation( x2, y2 );
         }
     }
     
@@ -387,7 +395,8 @@ public class BSManyModule extends BSAbstractModule {
         _energyPlot.setModel( _model );
         _bottomPlot.setModel( _model );
         _eigenstatesNode.setModel( _model );
-        _equationNode.setModel( _model );
+        _selectedEquationNode.setModel( _model );
+        _hilitedEquationNode.setModel( _model );
         
         // Control
         _controlPanel.setWellType( _model.getWellType() );
@@ -464,8 +473,9 @@ public class BSManyModule extends BSAbstractModule {
         _legend.setColorScheme( colorScheme );
         // Eigenstates...
         _eigenstatesNode.setColorScheme( colorScheme );
-        // Wave function equation...
-        _equationNode.setColorScheme( colorScheme );
+        // Equations...
+        _selectedEquationNode.setColorScheme( colorScheme );
+        _hilitedEquationNode.setColorScheme( colorScheme );
         // Superposition dialog...
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.setColorScheme( _colorScheme );
@@ -586,6 +596,8 @@ public class BSManyModule extends BSAbstractModule {
     public void setBottomPlotMode( int mode ) {
         _chart.getBottomPlot().setMode( mode );
         _bottomPlot.setMode( mode );
+        _selectedEquationNode.setMode( mode );
+        _hilitedEquationNode.setMode( mode );
     }
     
     public void setParticleMass( double mass ) {
