@@ -74,10 +74,28 @@ public class GradientElectromagnet extends Electromagnet {
         this.gradient = gradient;
     }
 
-    public double getFieldStrengthAt( Point2D p ){
+    /**
+     * Gets the strength of the field from this magnet at an absolute point in space
+     * @param p
+     * @return the magnitude of the field
+     */
+    public double getFieldStrengthAtAbsolute( Point2D p ){
         double loc = orientation == HORIZONTAL
-                     ? p.getX() - ( getPosition().getX() - length / 2 ) 
+                     ? p.getX() - ( getPosition().getX() - length / 2 )
                      : p.getY() -  ( getPosition().getY() - length / 2 );
+        return getFieldStrength() * gradient.getValueAt( loc, length );
+    }
+
+    /**
+     * Gets the strength of the field from the magnet at a point in space relative to
+     * the center of the magnet
+     * @param p
+     * @return the magnitude of the field
+     */
+    public double getFieldStrengthAtRelative( Point2D p ) {
+        double loc = orientation == HORIZONTAL
+                     ? p.getX()
+                     : p.getY();
         return getFieldStrength() * gradient.getValueAt( loc, length );
     }
 

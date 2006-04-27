@@ -241,13 +241,13 @@ public class MriModel extends BaseModel {
         double b = 0;
         for( int i = 0; i < magnets.size(); i++ ) {
             GradientElectromagnet magnet = (GradientElectromagnet)magnets.get( i );
-            b += magnet.getFieldStrengthAt( p );
+            b += magnet.getFieldStrengthAtAbsolute( p );
         }
 
 //        double b = lowerMagnet.getFieldStrength();
 //        if( gradientMagnet != null ) {
 //            double leftEndOfMagnetX = ( gradientMagnet.getPosition().getX() - gradientMagnet.getBounds().getWidth() / 2 );
-//            b += gradientMagnet.getFieldStrengthAt( new Point2D.Double(  x - leftEndOfMagnetX, 0 ) );
+//            b += gradientMagnet.getFieldStrengthAtAbsolute( new Point2D.Double(  x - leftEndOfMagnetX, 0 ) );
 //        }
         return b;
     }
