@@ -5,13 +5,15 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add equation in upper left of wave function chart
+- label Coulomb eigenstates E1, E2, E3, etc.
+- for Coulomb skip every other group of N eigenstates, where N is the # of wells
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
-- change superposition equation for Coulomb to include only even eigenstates?
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
@@ -194,6 +196,7 @@ DONE:
 
 
 REJECTED:
+(4/26/06) - change superposition equation for Coulomb to include only even eigenstates? (no)
 (4/26/06) - make SchmidtLee.getWaveFunction return Point2D[] instead of double[] (wrapped by BSAbstractPotential.getWaveFunctionPoints)
 (4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)
 (4/24/06) - don't construct DecimalFormat, use NumberFormat.getInstance (doesn't do what I need)
