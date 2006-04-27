@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- eigenstate values are display for eigenstates that are not visible on the chart
 - when to stop looking for eigenstates with Coulomb?
 - what if one or more eigenstates in Coulomb cluster is above cut-off?
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -54,6 +53,7 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - bugfix: eigenstates off the top of the chart can be hilited
 (4/27/06) - add wave function equation in upper left of wave function chart
 (4/27/06) - label Coulomb eigenstates E1, E2, E3, etc.
 (4/27/06) - for Coulomb skip every other group of N eigenstates, where N is the # of wells

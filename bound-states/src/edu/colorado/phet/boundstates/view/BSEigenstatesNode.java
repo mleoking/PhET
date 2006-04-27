@@ -320,25 +320,28 @@ public class BSEigenstatesNode extends PNode implements Observer {
             
             // Set the new highlight...
             PPath line = (PPath) _lines.get( hiliteIndex );
-            line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
-            line.setStrokePaint( _hiliteColor );
-            line.moveToFront();
+            if ( line.getVisible() ) {
+                
+                line.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
+                line.setStrokePaint( _hiliteColor );
+                line.moveToFront();
 
-            // Update the model...
-            _model.setHilitedEigenstateIndex( hiliteIndex );
+                // Update the model...
+                _model.setHilitedEigenstateIndex( hiliteIndex );
 
-            // Show the eigenstate's value...
-            String text = createValueString( hiliteIndex );
-            _hiliteValueNode.setHTML( text );
-            _hiliteValueNode.setVisible( true );
+                // Show the eigenstate's value...
+                String text = createValueString( hiliteIndex );
+                _hiliteValueNode.setHTML( text );
+                _hiliteValueNode.setVisible( line.getVisible() );
 
-            // Position the value just above the hilited line...
-            Rectangle2D bounds = line.getFullBounds();
-            _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
-            _hiliteValueNode.moveToFront();
-            
-            // Set the cursor to a hand...
-            _canvas.setCursor( BSConstants.HAND_CURSOR );
+                // Position the value just above the hilited line...
+                Rectangle2D bounds = line.getFullBounds();
+                _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
+                _hiliteValueNode.moveToFront();
+
+                // Set the cursor to a hand...
+                _canvas.setCursor( BSConstants.HAND_CURSOR );
+            }
         }
     }
     
