@@ -6,8 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add equation in upper left of wave function chart
-- label Coulomb eigenstates E1, E2, E3, etc.
-- for Coulomb skip every other group of N eigenstates, where N is the # of wells
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
@@ -54,6 +52,8 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - label Coulomb eigenstates E1, E2, E3, etc.
+(4/27/06) - for Coulomb skip every other group of N eigenstates, where N is the # of wells
 (4/26/06) - document changes made to Schmidt-Lee code
 (4/26/06) - install Schmidt-Lee applet and sample files in spot:dev/bound-states/schmidt-lee
 0.00.02...

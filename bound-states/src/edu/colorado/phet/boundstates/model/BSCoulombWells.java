@@ -35,12 +35,6 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * @version $Revision$
  */
 public class BSCoulombWells extends BSAbstractPotential {
-   
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int NUMBER_OF_NODES = 10;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,24 +85,53 @@ public class BSCoulombWells extends BSAbstractPotential {
         
         return offset + energy;
     }
-    
+  
+    /*
+     * Calculates the eigenstates.
+     * Skips ever-other "cluster" of nodes, where the cluster size 
+     * is equal to the number of wells in the potential.
+     * We do this because every-other cluster of eigenstates is unstable.
+     * Stop solving when we reach the top of the well (the top is the same as the offset).
+     * Label the eigenstates with consecutive subscripts, (E1, E2, E3,...)
+     * regardless of the node number used to solve.
+     * 
+     * Examples:
+     * 1 well:  skip node0, solve node1, skip node2, solve node3, etc.
+     * 2 wells: skip node0-1, solve node2-3, skip node4-5, solve node6-7, etc.
+     * 3 wells: skip node0-2, solve node3-5, skip node6-8, solve node9-11, etc.
+     */
     protected BSEigenstate[] calculateEigenstates() {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
+        final double maxE = getOffset();
+        final int numberOfWells = getNumberOfWells();
         
-        // Odd states (E1, E3, E5,...) are unstable, so calculate only even states (E2, E4, ...).
-        // Since indexing starts at 1 for Coulomb, this corresponds to odd node numbers.
-        for ( int nodes = 1; nodes < NUMBER_OF_NODES; nodes += 2 ) {
-            try {
-                int subscript = nodes + 1; // subscripts start at 1
-                double E = solver.getEnergy( nodes );
-                eigenstates.add( new BSEigenstate( subscript, E ) );
+        // Calculate the eigentates...
+        int nodes = numberOfWells; // skip the first cluster
+        int subscript = getStartingIndex();
+        boolean done = false;
+        while ( !done ) {
+            // solve for the cluster
+            for ( int i = 0; !done && i < numberOfWells; i++ ) {
+                try {
+                    double E = solver.getEnergy( nodes );
+                    if ( E <= maxE ) {
+                        eigenstates.add( new BSEigenstate( subscript, E ) );
+                    }
+                    else {
+                        done = true;
+                    }
+                }
+                catch ( SchmidtLeeException sle ) {
+                    System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
+                    done = true;
+                }
+                nodes++;
+                subscript++;
             }
-            catch ( SchmidtLeeException sle ) {
-                System.err.println( sle.getClass() + ": " + sle.getMessage() );//XXX
-                break;
-            }
+            // skip the next cluster
+            nodes += numberOfWells;
         }
         
         // Ensure that they appear in ascending order...
