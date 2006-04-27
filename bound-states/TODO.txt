@@ -5,9 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- eigenstate values are display for eigenstates that are not visible on the chart
 - when to stop looking for eigenstates with Coulomb?
 - what if one or more eigenstates in Coulomb cluster is above cut-off?
-- add equation in upper left of wave function chart
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - add wave function equation in upper left of wave function chart
 (4/27/06) - label Coulomb eigenstates E1, E2, E3, etc.
 (4/27/06) - for Coulomb skip every other group of N eigenstates, where N is the # of wells
 (4/26/06) - document changes made to Schmidt-Lee code
