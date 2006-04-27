@@ -72,15 +72,16 @@ public class HeadModule extends AbstractMriModule {
 
         // Add the vertical gradient magnet
         GradientElectromagnet.Gradient verticalGradient = new GradientElectromagnet.LinearGradient( 1, 0 );
-        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 30,
-                                                                     MriConfig.SAMPLE_CHAMBER_LOCATION.getY());
+        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX()
+                                                                     + MriConfig.SAMPLE_CHAMBER_WIDTH + 100,
+                                                                     MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 50 );
         GradientElectromagnet verticalGradientMagnet = new GradientElectromagnet( verticalGradientMagnetLocation,
                                                                                   lowerMagnet.getBounds().getWidth(),
                                                                                   lowerMagnet.getBounds().getHeight(),
                                                                                   getClock(),
                                                                                   verticalGradient,
                                                                                   GradientElectromagnet.VERTICAL );
-//        model.addModelElement( verticalGradientMagnet );
+        model.addModelElement( verticalGradientMagnet );
 //        model.setGradientMagnet( horizontalGradientMagnet );
 
         // Control panel

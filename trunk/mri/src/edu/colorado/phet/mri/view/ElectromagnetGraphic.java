@@ -23,10 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 /**
  * ElectromagnetGraphic
@@ -115,6 +112,9 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
             arrow.setOffset( p );
         }
 
+        if( electromagnet.getOrientation() == GradientElectromagnet.VERTICAL ) {
+            setTransform( AffineTransform.getRotateInstance( -Math.PI / 2 ));
+        }
         update();
     }
 
