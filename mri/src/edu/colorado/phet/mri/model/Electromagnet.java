@@ -23,6 +23,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Electromagnet
@@ -34,11 +36,26 @@ import java.util.EventObject;
  */
 public class Electromagnet extends Particle {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private double current;
     private double fieldStrength;
     private Rectangle2D bounds;
     private FieldChangerA fieldChanger;
 
+    /**
+     *
+     * @param position
+     * @param width
+     * @param height
+     * @param clock
+     */
     public Electromagnet( Point2D position, double width, double height, IClock clock ) {
         super( position, new Vector2D.Double(), new Vector2D.Double() );
         this.bounds = new Rectangle2D.Double( position.getX() - width / 2,

@@ -369,7 +369,8 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void stateChanged( Electromagnet.ChangeEvent event ) {
-            fieldStrength = model.getTotalFieldStrengthAt( MriConfig.SAMPLE_CHAMBER_WIDTH / 2 );
+            fieldStrength = model.getTotalFieldStrengthAt( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
+                                                                               MriConfig.SAMPLE_CHAMBER_HEIGHT / 2));
             updatePanel( model );
         }
     }

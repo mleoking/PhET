@@ -83,7 +83,7 @@ public class BFieldIndicator extends PNode {
         if( arrowPPath != null ) {
             removeChild( arrowPPath );
         }
-        double field = magnet.getFieldStrengthAt( xLoc);
+        double field = magnet.getFieldStrengthAt( new Point2D.Double(  xLoc, 0 ));
         // Use sign to determine if arrow points up or down
         int sign = MathUtil.getSign( field );
         double length = Math.abs( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;

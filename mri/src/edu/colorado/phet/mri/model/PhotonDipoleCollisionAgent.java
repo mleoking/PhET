@@ -25,6 +25,7 @@ import edu.colorado.phet.mri.model.MriModel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -104,7 +105,8 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
 
         // The energy of the photon must be aprox. equal to the strength of the net magnetic field at the
         // dipole's location times the sample material's mu.
-        double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( dipole.getPosition().getX() ) * model.getSampleMaterial().getMu() );
+        double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( dipole.getPosition() ) * model.getSampleMaterial().getMu() );
+//        double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( dipole.getPosition().getX() ) * model.getSampleMaterial().getMu() );
         result &= Math.abs( hEnergy - photon.getEnergy() ) < MriConfig.ENERGY_EPS;
 
         return result;
