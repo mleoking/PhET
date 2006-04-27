@@ -65,6 +65,13 @@ public class BSConstants {
     public static final String FONT_NAME = "Lucida Sans";
     public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
+    public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 24 );
+    
+    //----------------------------------------------------------------------------
+    // Special characters
+    //----------------------------------------------------------------------------
+    
+    public static final char PSI = '\u03c8';
     
     //----------------------------------------------------------------------------
     // Strokes
