@@ -46,6 +46,7 @@ public class MriConfig {
 
     public static final double MAX_FADING_HEIGHT = 50;
     // Conversion factor between current and B field
+    public static final double MAX_GRADIENT_COIL_CURRENT = 2;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
     public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT;

@@ -87,24 +87,24 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             graphic = new DipoleGraphic( (Dipole)modelElement );
             layer = dipolesLayer;
         }
-        if( modelElement instanceof SampleChamber ) {
+        else if( modelElement instanceof SampleChamber ) {
             graphic = new SampleChamberGraphic( (SampleChamber)modelElement );
             layer = sampleChamberLayer;
         }
-        if( modelElement instanceof GradientElectromagnet ) {
+        else if( modelElement instanceof GradientElectromagnet ) {
             graphic = new ElectromagnetGraphic( (GradientElectromagnet)modelElement );
             layer = magnetCoilLayer;
         }
-        if( modelElement instanceof RadiowaveSource
+        else if( modelElement instanceof RadiowaveSource
             && !( modelElement instanceof PlaneWaveCycle ) ) {
             graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
             layer = controlLayer;
         }
-        if( modelElement instanceof Photon ) {
+        else if( modelElement instanceof Photon ) {
             graphic = PhotonGraphic.getInstance( (Photon)modelElement );
             layer = rfLayer;
         }
-        if( modelElement instanceof PlaneWaveMedium ) {
+        else if( modelElement instanceof PlaneWaveMedium ) {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;
             double maxOpacity = 0.25;
             if( pwm.getSource() instanceof MriEmittedPhoton ) {
@@ -116,13 +116,13 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             layer = rfLayer;
         }
 
+        // If we created a graphic, add it to the canvas
         if( graphic != null ) {
             if( invisibleGraphicClasses.contains( graphic.getClass() ) ) {
                 graphic.setVisible( false );
             }
             modelElementToGraphicMap.put( modelElement, new GraphicRecord( graphic, layer ) );
             addGraphic( graphic, layer );
-//            layer.addChild( graphic );
         }
     }
 
