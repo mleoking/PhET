@@ -73,8 +73,8 @@ public class MonitorPanel extends PhetPCanvas {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        SPIN_DOWN_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_DOWN_IMAGE, -Math.PI / 2 );
-        SPIN_UP_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_UP_IMAGE, Math.PI / 2 );
+        SPIN_DOWN_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_DOWN_IMAGE, Math.PI / 2 );
+        SPIN_UP_IMAGE = BufferedImageUtils.getRotatedImage( SPIN_UP_IMAGE, -Math.PI / 2 );
 
         AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );

@@ -18,8 +18,10 @@ import java.util.List;
 /**
  * ThermalNoise
  * <p>
- * Injects thermal noise into the system by flipping random dipoles at random times,
- * then telling the DipoleOrientationAgent to rebalance.
+ * Injects thermal noise into the system by flipping dipoles at random times,
+ * then telling the DipoleOrientationAgent to rebalance. Dipoles are randomly
+ * selected in a way that maintains the ratio of up to down dipoles as closely
+ * as possible.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -29,12 +31,10 @@ public class ThermalNoise implements ModelElement {
     private double meanInjectionTime = 500;
     private double timeToInjection = 0;
     private double elapsedTime = 0;
-    private DipoleOrientationAgent dipoleOrientationAgent;
     private MriModel model;
 
-    public ThermalNoise( double meanInjectionTime, DipoleOrientationAgent dipoleOrientationAgent, MriModel model ) {
+    public ThermalNoise( double meanInjectionTime, MriModel model ) {
         this.meanInjectionTime = meanInjectionTime;
-        this.dipoleOrientationAgent = dipoleOrientationAgent;
         this.model = model;
         setInjectionTime();
     }
@@ -53,8 +53,9 @@ public class ThermalNoise implements ModelElement {
             Spin spinToChange = random.nextBoolean() ? Spin.UP : Spin.DOWN;
             List dipoles = model.getDipoles();
             boolean flipped = false;
-            for( int i = 0; i < dipoles.size() && !flipped; i++ ) {
-                Dipole dipole = (Dipole)dipoles.get( i );
+            int attempts = 0;
+            while( !flipped && attempts < dipoles.size() ) {
+                Dipole dipole = (Dipole)dipoles.get( random.nextInt( dipoles.size()) );
                 if( dipole.getSpin() == spinToChange ) {
                     Spin newSpin = spinToChange == Spin.UP ? Spin.DOWN : Spin.UP;
                     dipole.setSpin( newSpin );

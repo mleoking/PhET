@@ -46,8 +46,7 @@ public class TumorSelector extends JPanel {
                     tumor = new Tumor( head.getBounds().getX() + head.getBounds().getWidth() * 0.5,
                                              head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
                                              head.getBounds().getWidth() * 0.3,
-                                             head.getBounds().getHeight() / 6,
-                                             10 );
+                                             head.getBounds().getHeight() / 6);
                     head.addTumor( tumor, model );
                     tumorBtn.setText( selectedStr );
                 }

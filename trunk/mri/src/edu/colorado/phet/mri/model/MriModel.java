@@ -110,8 +110,7 @@ public class MriModel extends BaseModel {
         lowerMagnet.addChangeListener( dipoleOrientationAgent );
 
         // Add thermal noise
-        ThermalNoise thermalNoise = new ThermalNoise( MriConfig.MEAN_THERMAL_NOISE_INJECTION_TIME,
-                                                      dipoleOrientationAgent, this );
+        ThermalNoise thermalNoise = new ThermalNoise( MriConfig.MEAN_THERMAL_NOISE_INJECTION_TIME, this );
         addModelElement( thermalNoise );
 
         // Create an agent that will detect photon-atom collisions
