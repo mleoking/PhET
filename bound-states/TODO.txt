@@ -54,6 +54,8 @@ CLEANUP:
 
 
 DONE:
+(4/27/06) - reduce stroke width for hilited wave function
+(4/27/06) - put hilited wave function behind everything else
 (4/27/06) - add transparency to background of hilited eigenstate's value
 (4/27/06) - bugfix: eigenstates off the top of the chart can be hilited
 (4/27/06) - add wave function equation in upper left of wave function chart

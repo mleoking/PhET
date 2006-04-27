@@ -99,19 +99,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         _probabilityDensityLabel = SimStrings.get( "axis.probabilityDensity" );
         
         int index = 0;
-              
-        // Hilited eigenstate's time-independent wave function
-        {
-            _hiliteIndex = index++;
-            _hiliteSeries = new XYSeries( "hilite", AUTO_SORT );
-            XYSeriesCollection dataset = new XYSeriesCollection();
-            dataset.addSeries( _hiliteSeries );
-            setDataset( _hiliteIndex, dataset );
-            XYItemRenderer renderer = new FastPathRenderer();
-            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
-            renderer.setStroke( BSConstants.HILITE_STROKE );
-            setRenderer( _hiliteIndex, renderer );
-        }
         
         // Real
         {
@@ -174,6 +161,21 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             renderer.setPaint( BSConstants.COLOR_SCHEME.getMagnitudeColor() ); // use magnitude color!
             renderer.setStroke( BSConstants.PROBABILITY_DENSITY_STROKE );
             setRenderer( _probabilityDensityIndex, renderer );
+        }
+        
+        
+        // Hilited eigenstate's time-independent wave function.
+        // Add this last so that it's behind everything else.
+        {
+            _hiliteIndex = index++;
+            _hiliteSeries = new XYSeries( "hilite", AUTO_SORT );
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _hiliteSeries );
+            setDataset( _hiliteIndex, dataset );
+            XYItemRenderer renderer = new FastPathRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
+            renderer.setStroke( BSConstants.HILITE_STROKE );
+            setRenderer( _hiliteIndex, renderer );
         }
         
         // X (domain) axis 

@@ -85,7 +85,7 @@ public class BSConstants {
     public static final Stroke IMAGINARY_STROKE = new BasicStroke( 2f );
     public static final Stroke MAGNITUDE_STROKE = new BasicStroke( 2f );
     public static final Stroke PROBABILITY_DENSITY_STROKE = new BasicStroke( 2f );
-    public static final Stroke HILITE_STROKE = new BasicStroke( 2f );
+    public static final Stroke HILITE_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Paints
