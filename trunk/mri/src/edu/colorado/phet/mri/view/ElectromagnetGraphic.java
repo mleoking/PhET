@@ -44,8 +44,23 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
     private RegisterablePNode lowerArrowGraphic;
     private Point2D upperArrowCenterPoint;
     private Point2D lowerArrowCenterPoint;
+    private double scale;
 
+    /**
+     *
+     * @param electromagnet
+     */
     public ElectromagnetGraphic( GradientElectromagnet electromagnet ) {
+        this( electromagnet, 1 );
+    }
+
+    /**
+     *
+     * @param electromagnet
+     * @param scale
+     */
+    public ElectromagnetGraphic( GradientElectromagnet electromagnet, double scale ) {
+        this.scale = scale;
 
         this.electromagnet = electromagnet;
         electromagnet.addChangeListener( this );
@@ -65,12 +80,12 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         upperArrowCenterPoint = new Point2D.Double( -100, 0 );
         lowerArrowCenterPoint = new Point2D.Double( -100, bounds.getHeight() );
         upperArrow = new Arrow( new Point2D.Double( -100, - 20 ),
-                                new Point2D.Double( 0, -20 ), 15, 15, 3 );
+                                new Point2D.Double( 0, -20 ), 15, 15, 3, 0.5, true );
         upperArrowGraphic = new RegisterablePNode( new PPath( upperArrow.getShape() ) );
         addChild( upperArrowGraphic );
 
         lowerArrow = new Arrow( new Point2D.Double( 0, 20 ),
-                                new Point2D.Double( -100, 20 ), 15, 15, 3 );
+                                new Point2D.Double( -100, 20 ), 15, 15, 3, 0.5, true );
         lowerArrowGraphic = new RegisterablePNode( new PPath( lowerArrow.getShape() ) );
         addChild( lowerArrowGraphic );
 
@@ -103,6 +118,9 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         update();
     }
 
+    /**
+     *
+     */
     public void update() {
         setOffset( electromagnet.getPosition() );
 
@@ -112,7 +130,7 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
 
         double maxArrowLength = 200;
         double minArrowLength = 20;
-        double arrowLength = ( maxArrowLength - minArrowLength ) * fractionMaxCurrent + minArrowLength;
+        double arrowLength = ( maxArrowLength - minArrowLength ) * fractionMaxCurrent + minArrowLength * scale;
         upperArrow.setTailLocation( new Point2D.Double( upperArrowCenterPoint.getX() + arrowLength / 2,
                                                         upperArrowCenterPoint.getY() ) );
         upperArrow.setTipLocation( new Point2D.Double( upperArrowCenterPoint.getX() - arrowLength / 2,

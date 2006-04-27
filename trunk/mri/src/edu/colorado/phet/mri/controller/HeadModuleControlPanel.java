@@ -40,13 +40,11 @@ public class HeadModuleControlPanel extends ControlPanel {
     public HeadModuleControlPanel( HeadModule module, GradientElectromagnet gradientMagnet ) {
         MriModel model = (MriModel)module.getModel();
 
-//        JComponent fadingMagnetsControl = new FadingMagnetControl( model );
         MonitorPanel monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
 
         addControl( new FadingMagnetControl( model ) );
         addControl( new GradientMagnetControl( gradientMagnet ) );
-//        addControl( monitorPanel );
 
         addControl( new BFieldGraphicPanel( model ) );
 
