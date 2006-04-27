@@ -69,7 +69,6 @@ public class GradientElectromagnet extends Electromagnet {
         }
 
         this.orientation = orientation;
-
         this.length = length;
         this.gradient = gradient;
     }
@@ -99,8 +98,20 @@ public class GradientElectromagnet extends Electromagnet {
         return getFieldStrength() * gradient.getValueAt( loc, length );
     }
 
+    /**
+     * Sets the gradient function that the magnet will use to compute the field along its length
+     * @param gradient
+     */
     public void setGradient( Gradient gradient ) {
         this.gradient = gradient;
+    }
+
+    /**
+     *
+     * @return the orientation of the magnet
+     */
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     //--------------------------------------------------------------------------------------------------
