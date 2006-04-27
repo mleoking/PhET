@@ -3,8 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- change hilited wave function display based on view settings
-- stop looking for Coulomb eigenstates when energy > max visible potential
 
 HIGH PRIORITY:
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -13,6 +11,7 @@ HIGH PRIORITY:
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- stop looking for Coulomb eigenstates when energy > max visible potential
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
