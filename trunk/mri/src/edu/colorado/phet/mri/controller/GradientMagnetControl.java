@@ -16,7 +16,6 @@ import edu.colorado.phet.mri.MriConfig;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.text.NumberFormat;
 
 /**
  * GradientMagnetControl
@@ -29,13 +28,13 @@ public class GradientMagnetControl extends ModelSlider {
     // number to be displayed in the control panel. This was requested by Carl.
     public final static double VIEW_TO_MODEL_FACTOR = 10;
 
-    public GradientMagnetControl( final GradientElectromagnet magnet ) {
-        super( "Current to Gradient Magnet", "", 0, MriConfig.MAX_GRADIENT_COIL_CURRENT, 0 );
+    public GradientMagnetControl( final GradientElectromagnet horizontalMagnet, String title ) {
+        super( title, "", 0, MriConfig.MAX_GRADIENT_COIL_CURRENT, 0 );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                magnet.setCurrent( getValue() * VIEW_TO_MODEL_FACTOR );
+                horizontalMagnet.setCurrent( getValue() * VIEW_TO_MODEL_FACTOR );
             }
         } );
-        magnet.setCurrent( 0 );
+        horizontalMagnet.setCurrent( 0 );
     }
 }

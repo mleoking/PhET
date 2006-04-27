@@ -16,11 +16,9 @@ import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.BFieldIndicator;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -34,7 +32,7 @@ import java.awt.geom.*;
 public class ElectromagnetGraphic extends RegisterablePNode implements Electromagnet.ChangeListener {
     private PNode coilGraphic;
     private PNode upperLead, lowerLead;
-    private Electromagnet electromagnet;
+    private GradientElectromagnet magnet;
     private Arrow upperArrow;
     private RegisterablePNode upperArrowGraphic;
     private Arrow lowerArrow;
@@ -59,7 +57,7 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
     public ElectromagnetGraphic( GradientElectromagnet electromagnet, double scale ) {
         this.scale = scale;
 
-        this.electromagnet = electromagnet;
+        this.magnet = electromagnet;
         electromagnet.addChangeListener( this );
 
         Rectangle2D bounds = electromagnet.getBounds();
@@ -101,19 +99,22 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
 //        addChild( coilOverlayGraphic );
 //        coilOverlayGraphic.setOffset( 0, coilOverlayGraphic.getHeight() / 4 );
 
-        // Graphic for the arrow
+        // Graphics for the field strength arrows
         int numBFieldArrows = 5;
-        double spacing = bounds.getWidth() / ( numBFieldArrows + 1 );
+        double baseDim = magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ? bounds.getWidth() : bounds.getHeight();
+        double spacing = baseDim / ( numBFieldArrows + 1 );
         for( int i = 0; i < numBFieldArrows; i++ ) {
             double xLoc = spacing * ( i + 1 );
             BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
             addChild( arrow );
-            Point2D.Double p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
+            Point2D.Double p = null;
+            if( magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ) {
+                p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
+            }
+            else {
+                p = new Point2D.Double( bounds.getWidth() / 2, xLoc );
+            }
             arrow.setOffset( p );
-        }
-
-        if( electromagnet.getOrientation() == GradientElectromagnet.VERTICAL ) {
-            setTransform( AffineTransform.getRotateInstance( -Math.PI / 2 ));
         }
         update();
     }
@@ -122,9 +123,9 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
      *
      */
     public void update() {
-        setOffset( electromagnet.getPosition() );
+        setOffset( magnet.getPosition() );
 
-        double fractionMaxCurrent = electromagnet.getCurrent() / MriConfig.MAX_FADING_COIL_CURRENT;
+        double fractionMaxCurrent = magnet.getCurrent() / MriConfig.MAX_FADING_COIL_CURRENT;
         int blueComponent = (int)( 200 - 200 * fractionMaxCurrent );
         coilGraphic.setPaint( new Color( 200, 200, blueComponent ) );
 

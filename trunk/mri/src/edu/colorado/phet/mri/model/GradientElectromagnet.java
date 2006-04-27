@@ -19,7 +19,8 @@ import java.util.HashSet;
 /**
  * GradientElectromagnet
  * <p>
- * An Electromagnet to which an arbitrary gradient can be applied.
+ * An Electromagnet to which an arbitrary gradient can be applied. The length of the magnet is its extent
+ * perpendicular to the field. (This is sloppy nomenclature, I know.)
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -51,25 +52,25 @@ public class GradientElectromagnet extends Electromagnet {
      * Constructor
      *
      * @param position
-     * @param length
-     * @param height
+     * @param width    width of the magnet
+     * @param height   thickness of the magnet
      * @param clock
      * @param gradient
      */
     public GradientElectromagnet( Point2D position,
-                                  double length,
+                                  double width,
                                   double height,
                                   IClock clock,
                                   Gradient gradient,
                                   Orientation orientation ) {
-        super( position, length, height, clock );
+        super( position, width, height, clock );
 
         if( !ORIENTATIONS.contains( orientation )) {
             throw new IllegalArgumentException( "invalid orientation");
         }
 
         this.orientation = orientation;
-        this.length = length;
+        this.length = orientation == HORIZONTAL ? width : height;
         this.gradient = gradient;
     }
 
@@ -82,6 +83,9 @@ public class GradientElectromagnet extends Electromagnet {
         double loc = orientation == HORIZONTAL
                      ? p.getX() - ( getPosition().getX() - length / 2 )
                      : p.getY() -  ( getPosition().getY() - length / 2 );
+        if( orientation == VERTICAL ) {
+//            System.out.println( "loc = " + loc );
+        }
         return getFieldStrength() * gradient.getValueAt( loc, length );
     }
 

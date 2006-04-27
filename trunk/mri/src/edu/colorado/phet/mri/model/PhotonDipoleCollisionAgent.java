@@ -77,7 +77,9 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
                     photon.removeFromSystem();
                     model.removeModelElement( photon );
                 }
-                model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
+                double timeout = MriConfig.SPIN_DOWN_TIMEOUT * ( 1 + random.nextGaussian() ); 
+                model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, timeout, model, true ) );
+//                model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
             }
         }
         return false;
@@ -120,6 +122,9 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
         double getProbability( Dipole dipole );
     }
 
+    /**
+     *
+     */
     public static class ConstantCollisionProbability implements CollisionProbablilityStrategy {
         private double probability;
 
@@ -132,6 +137,9 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
         }
     }
 
+    /**
+     *
+     */
     public class LinearCollisionProbability implements CollisionProbablilityStrategy {
         private double m;
         private double minProbability;
