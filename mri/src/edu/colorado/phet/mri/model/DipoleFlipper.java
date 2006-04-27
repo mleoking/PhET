@@ -27,7 +27,7 @@ import edu.colorado.phet.quantum.model.Photon;
 public class DipoleFlipper implements ModelElement {
     private Dipole dipole;
     private Spin targetSpin;
-    private long timeout;
+    private double timeout;
     private MriModel model;
     private boolean emitPhoton;
     private long elapsedTime;
@@ -40,7 +40,7 @@ public class DipoleFlipper implements ModelElement {
      * @param emitPhoton Flag to determine if a photon should be produced if the dipole flips to
      * the lower energy state
      */
-    DipoleFlipper( Dipole dipole, Spin targetSpin, long timeout, MriModel model, boolean emitPhoton ) {
+    DipoleFlipper( Dipole dipole, Spin targetSpin, double timeout, MriModel model, boolean emitPhoton ) {
         this.dipole = dipole;
         this.targetSpin = targetSpin;
         this.timeout = timeout;
@@ -53,10 +53,11 @@ public class DipoleFlipper implements ModelElement {
      * @param dt
      */
     public void stepInTime( double dt ) {
+
+        // If we've time out, flip the dipole
         elapsedTime += dt;
         if( elapsedTime >= timeout ) {
             // Flip the dipole's spine
-//            Spin newSpin = dipole.getSpin() == Spin.DOWN ? Spin.UP : Spin.DOWN;
             if( dipole.getSpin() != targetSpin ) {
                 dipole.setSpin( targetSpin );
 
@@ -65,7 +66,6 @@ public class DipoleFlipper implements ModelElement {
                     emitPhoton();
                 }
             }
-
             // Remove us from the model
             model.removeModelElement( this );
         }

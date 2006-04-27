@@ -71,7 +71,7 @@ public class MriModel extends BaseModel {
                                                  clock,
                                                  new GradientElectromagnet.Constant(),
                                                  GradientElectromagnet.HORIZONTAL );
-//        addModelElement( upperMagnet );
+        addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
         lowerMagnet = new GradientElectromagnet( lowerMagnetLocation,

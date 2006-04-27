@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.mri.MriConfig;
 
 import java.util.Random;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class ThermalNoise implements ModelElement {
     private Random random = new Random();
-    private double meanInjectionTime = 500;
+    private double meanInjectionTime;
     private double timeToInjection = 0;
     private double elapsedTime = 0;
     private MriModel model;
@@ -40,14 +41,15 @@ public class ThermalNoise implements ModelElement {
     }
 
     private void setInjectionTime() {
-        timeToInjection = meanInjectionTime * Math.abs(random.nextGaussian());
-        System.out.println( "timeToInjection = " + timeToInjection );
+//        timeToInjection = meanInjectionTime * random.nextDouble();
+        timeToInjection = meanInjectionTime * ( 1 + random.nextGaussian());
     }
 
     public void stepInTime( double dt ) {
         elapsedTime+=dt;
         if( elapsedTime >= timeToInjection ) {
             elapsedTime = 0;
+            setInjectionTime();
 
             // Flip a random dipole
             Spin spinToChange = random.nextBoolean() ? Spin.UP : Spin.DOWN;

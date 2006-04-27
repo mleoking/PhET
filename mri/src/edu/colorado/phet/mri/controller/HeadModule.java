@@ -41,8 +41,8 @@ public class HeadModule extends AbstractMriModule {
     // Instance methods and fields
     //----------------------------------------------------------------
 
-    static double earOffsetX = 70  * MriConfig.SCALE_FOR_ORG;
-    static double headOffsetY = 35  * MriConfig.SCALE_FOR_ORG;
+    static double earOffsetX = 70 * MriConfig.SCALE_FOR_ORG;
+    static double headOffsetY = 35 * MriConfig.SCALE_FOR_ORG;
     static Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
                                                        MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
                                                        MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
@@ -68,28 +68,29 @@ public class HeadModule extends AbstractMriModule {
                                                                                     gradient,
                                                                                     GradientElectromagnet.HORIZONTAL );
         model.addModelElement( horizontalGradientMagnet );
-//        model.setGradientMagnet( horizontalGradientMagnet );
 
         // Add the vertical gradient magnet
         GradientElectromagnet.Gradient verticalGradient = new GradientElectromagnet.LinearGradient( 1, 0 );
-        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX()
-                                                                     + MriConfig.SAMPLE_CHAMBER_WIDTH + 100,
-                                                                     MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 50 );
+        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() - 100,
+                                                                     MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
+                                                                     + MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 );
         GradientElectromagnet verticalGradientMagnet = new GradientElectromagnet( verticalGradientMagnetLocation,
-                                                                                  lowerMagnet.getBounds().getWidth(),
                                                                                   lowerMagnet.getBounds().getHeight(),
+                                                                                  head.getBounds().getHeight(),
+//                                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT,
                                                                                   getClock(),
                                                                                   verticalGradient,
                                                                                   GradientElectromagnet.VERTICAL );
         model.addModelElement( verticalGradientMagnet );
-//        model.setGradientMagnet( horizontalGradientMagnet );
 
         // Control panel
-        HeadModuleControlPanel controlPanel = new HeadModuleControlPanel( this, horizontalGradientMagnet );
+        HeadModuleControlPanel controlPanel = new HeadModuleControlPanel( this,
+                                                                          horizontalGradientMagnet,
+                                                                          verticalGradientMagnet );
         setControlPanel( controlPanel );
 
         // Make some dipoles
-        head.createDipoles( (MriModel)getModel(), 40);
+        head.createDipoles( (MriModel)getModel(), 40 );
 
         // Add the head graphic
         PNode headGraphic = new HeadGraphic();
