@@ -355,8 +355,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     }
     
     private void updateButtons() { 
-        _applyButton.setEnabled( isChanged() );
-        // Normalize button is always enabled.
+        _applyButton.setEnabled( isChanged() && !isZero() );
+        _normalizeButton.setEnabled( !isZero() );
         // Close button is always enabled.
     }
 
@@ -366,7 +366,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private boolean isNormalized() {
         final double total = getCoefficientsTotal();
-        return ( total < 1 + NORMALIZATION_ERROR && total > 1 - NORMALIZATION_ERROR );
+        return ( total > 0 && total < 1 + NORMALIZATION_ERROR && total > 1 - NORMALIZATION_ERROR );
     }
     
     private boolean isZero() {
@@ -449,7 +449,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private void handleCloseAction() {
         
-        if ( !isChanged() ) {
+        if ( !isChanged() || isZero() ) {
             dispose();
         }
         else {
