@@ -55,6 +55,7 @@ CLEANUP:
 
 DONE:
 0.00.03...
+(4/28/06) - bugfix: reset superposition coefficients only when we're losing non-zero coefficients
 (4/28/06) - bugfix: subscript on equations is wrong when switch potential type
 (4/27/06) - disable Normalize and Apply buttons when all coefficients are zero
 (4/27/06) - change display of hilite wave function based on which views are checked

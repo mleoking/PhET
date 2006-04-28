@@ -171,6 +171,10 @@ public class BSEigenstatesNode extends PNode implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _model ) {
             if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
+                BSEigenstate[] eigenstates = _model.getEigenstates();
+                if ( eigenstates.length != _lines.size() ) {
+                    updateDisplay();
+                }
                 selectEigenstates();
             }
             else if ( arg == BSModel.PROPERTY_POTENTIAL ) {

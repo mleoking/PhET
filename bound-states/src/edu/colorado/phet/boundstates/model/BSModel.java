@@ -114,7 +114,7 @@ public class BSModel extends BSObservable implements Observer {
     private void syncWithPotential() {
         _hilitedEigenstateIndex = BSEigenstate.INDEX_UNDEFINED;
         _eigenstates = _potential.getEigenstates();
-        _superpositionCoefficients.setNumberOfCoefficients( _eigenstates.length, false /* notify */ );
+        _superpositionCoefficients.setNumberOfCoefficients( _eigenstates.length );
     }
     
     //----------------------------------------------------------------------------

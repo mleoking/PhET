@@ -27,42 +27,63 @@ public class BSSuperpositionCoefficients extends BSObservable {
         _coefficients = new ArrayList();
     }
     
-    public void setNumberOfCoefficients( int numberOfCoefficients, boolean notify ) {
+    public void setNumberOfCoefficients( int numberOfCoefficients ) {
         if ( numberOfCoefficients < 0 ) {
             throw new IllegalArgumentException( "numberOfCoefficients must be >= 0: " + numberOfCoefficients );
         }
         
-        if ( numberOfCoefficients == _coefficients.size() ) {
+        final int currentNumberOfCoefficients = getNumberOfCoefficients();
+        
+        if ( numberOfCoefficients == currentNumberOfCoefficients ) {
             // no change, do nothing
         }
         else {
             if ( numberOfCoefficients == 0 ) {
                 _coefficients.clear();
             }
-            else if ( getNumberOfCoefficients() == 0 || numberOfCoefficients < getNumberOfCoefficients() ) {
-                /* 
-                 * If we have no coefficients yet, or if the number of eigenstates has decreased,
-                 * then set the first coefficient to 1 and all the others to 0.
-                 */
+            else if ( currentNumberOfCoefficients == 0 ) {
+                // If we have no coefficients yet, then set the first coefficient to 1 and all the others to 0.
                 _coefficients.clear();
                 _coefficients.add( new Double( 1 ) );
                 for ( int i = 1; i < numberOfCoefficients; i++ ) {
                     _coefficients.add( new Double( 0 ) );
                 }
             }
-            else {
-                /*
-                 * If the number of eigenstates has increased,
-                 * keep the existing coefficients and add new ones that are 0.
-                 */
+            else if ( numberOfCoefficients > currentNumberOfCoefficients ) {
+                // If the number of eigenstates is increasing, add new ones with zero values.
                 for ( int i = getNumberOfCoefficients(); i < numberOfCoefficients; i++ ) {
                     _coefficients.add( new Double( 0 ) );
                 }
             }
-            
-            if ( notify ) {
-                notifyObservers();
+            else  { /* The number of coefficients is decreasing. */
+                    
+                // Will we lose any non-zero coefficients?
+                boolean lost = false;
+                for ( int i = numberOfCoefficients; !lost && i < currentNumberOfCoefficients; i++ ) {
+                    double coefficient = ((Double)_coefficients.get( i )).doubleValue();
+                    if ( coefficient != 0 ) {
+                        lost = true;
+                    }
+                }
+
+                if ( lost ) {
+                    // If we're going to lose non-zero coefficients, then clear them all and set the first to 1.
+                    _coefficients.clear();
+                    _coefficients.add( new Double( 1 ) );
+                    for ( int i = 1; i < numberOfCoefficients; i++ ) {
+                        _coefficients.add( new Double( 0 ) );
+                    }
+                }
+                else {
+                    // If we're not losing non-zero coefficients, then simply remove them.
+                    final int numberToRemove = currentNumberOfCoefficients - numberOfCoefficients;
+                    for ( int i = 0; i < numberToRemove; i++ ) {
+                        _coefficients.remove( _coefficients.size() - 1 );
+                    }
+                }
             }
+            
+            notifyObservers();
         }
     }
     
