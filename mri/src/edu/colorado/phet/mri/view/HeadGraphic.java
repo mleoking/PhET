@@ -28,7 +28,7 @@ public class HeadGraphic extends PNode {
 //        PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE );
         PNode headGraphic = PImageFactory.create( MriConfig.HEAD_IMAGE,
                                                   new Dimension( (int)MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                                                 (int)MriConfig.SAMPLE_CHAMBER_HEIGHT) );
+                                                                 (int)MriConfig.SAMPLE_CHAMBER_WIDTH) );
         addChild( headGraphic );
     }
 }

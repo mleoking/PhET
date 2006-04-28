@@ -32,9 +32,9 @@ import java.util.*;
  */
 public class MriModel extends BaseModel {
 
+    private Detector detector;
     private Rectangle2D bounds;
     private GradientElectromagnet upperMagnet, lowerMagnet;
-    private GradientElectromagnet gradientMagnet;
     private ArrayList magnets = new ArrayList();
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
@@ -73,10 +73,11 @@ public class MriModel extends BaseModel {
                                                  GradientElectromagnet.HORIZONTAL );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
-                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 1.5 );
+                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
         lowerMagnet = new GradientElectromagnet( lowerMagnetLocation,
                                                  sampleChamberBounds.getWidth(),
-                                                 magnetHeight, clock,
+                                                 magnetHeight,
+                                                 clock,
                                                  new GradientElectromagnet.Constant(),
                                                  GradientElectromagnet.HORIZONTAL );
         addModelElement( lowerMagnet );
@@ -217,8 +218,8 @@ public class MriModel extends BaseModel {
         return radiowaveSource;
     }
 
-    public void setGradientMagnet( GradientElectromagnet gradientMagnet ) {
-        this.gradientMagnet = gradientMagnet;
+    public Detector getDetector() {
+        return detector;
     }
 
     /**
@@ -234,7 +235,7 @@ public class MriModel extends BaseModel {
     /**
      * Returns the total B field magnitude at a particular x location
      *
-     * @param x
+     * @param p the point at which the field magnitude is to be evaluated
      * @return the total B field magnitude at the specified location
      */
     public double getTotalFieldStrengthAt( Point2D p ) {

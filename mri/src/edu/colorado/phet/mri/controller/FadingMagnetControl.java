@@ -40,6 +40,16 @@ public class FadingMagnetControl extends ModelSlider {
             }
         } );
         updateMagnets( model, MIN_CURRENT );
+
+        // Add a listener that will update the slider if the magnet's current is changed by
+        // some means other than the slider
+        Electromagnet.ChangeListener magnetListener = new Electromagnet.ChangeListener() {
+            public void stateChanged( Electromagnet.ChangeEvent event ) {
+                setValue( event.getElectromagnet().getCurrent() );
+            }
+        };
+        model.getUpperMagnet().addChangeListener( magnetListener );
+        model.getLowerMagnet().addChangeListener( magnetListener );
     }
 
     private void updateMagnets( MriModel model, double value ) {

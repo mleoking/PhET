@@ -67,19 +67,14 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
             Dipole dipole = (Dipole)classifiedBodies.get( Dipole.class );
             Photon photon = (Photon)classifiedBodies.get( Photon.class );
 
-            // If the photon was emitted by a dipole flipping back to its lower energy state, don't consider it
-//            if( photon instanceof MriEmittedPhoton && !MriConfig.REABSORPTION_ALLOWED ) {
-//                return false;
-//            }
             if( collisionShouldOccur( photon, dipole ) ) {
                 dipole.collideWithPhoton( photon );
                 if( CONSUME_PHOTON_ON_COLLISION && !(dipole instanceof TumorDipole )) {
                     photon.removeFromSystem();
                     model.removeModelElement( photon );
                 }
-                double timeout = MriConfig.SPIN_DOWN_TIMEOUT * ( 1 + random.nextGaussian() ); 
+                double timeout = MriConfig.SPIN_DOWN_TIMEOUT * ( 1 + random.nextGaussian() );
                 model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, timeout, model, true ) );
-//                model.addModelElement( new DipoleFlipper( dipole, Spin.DOWN, MriConfig.SPIN_DOWN_TIMEOUT, model, true ) );
             }
         }
         return false;

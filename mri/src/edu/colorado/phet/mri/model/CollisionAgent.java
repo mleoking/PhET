@@ -40,9 +40,9 @@ public class CollisionAgent implements ModelElement {
 //        Collection photons = map.values();
         Iterator photonIt = photons.iterator();
 //        Photon photon = (Photon)photonIt.next();
-        for( int i = 0; i < dipoles.size(); i++ ) {
-            Dipole dipole = (Dipole)dipoles.get( i );
-            for( int j = 0; j < photons.size(); j++ ) {
+        for( int j = 0; j < photons.size(); j++ ) {
+            for( int i = 0; i < dipoles.size(); i++ ) {
+                Dipole dipole = (Dipole)dipoles.get( i );
 //            while( photon != null && photon.getPosition().getX() < dipole.getPosition().getX() + dipole.getRadius() ) {
 
                 Photon photon = (Photon)photons.get( j );
@@ -54,6 +54,9 @@ public class CollisionAgent implements ModelElement {
 //                    photon = null;
 //                }
             }
+
+
+
         }
     }
 }

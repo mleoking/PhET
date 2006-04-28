@@ -31,7 +31,6 @@ import java.util.List;
 public class Head extends Sample {
 
     private Ellipse2D shape;
-    private ArrayList dipoles = new ArrayList( );
 
     public Head( Ellipse2D shape ) {
         this.shape = shape;
