@@ -46,12 +46,12 @@ public class PImageFactory {
      *
      * @param imageName
      * @param size
-     * @return
+     * @return a buffered image
      */
     public static PImage create( String imageName, Dimension size ) {
         BufferedImage image = loadImage( imageName );
         double scaleX = size.getWidth() / image.getWidth();
-        double scaleY = size.getWidth() / image.getHeight();
+        double scaleY = size.getHeight() / image.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleY );
         BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         image = op.filter( image, null );
