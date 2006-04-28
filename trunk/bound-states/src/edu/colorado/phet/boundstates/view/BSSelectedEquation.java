@@ -89,19 +89,4 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
         
         return subscript;
     }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the display when the superposition coefficients change.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == getModel() && arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
-            updateDisplay();
-        }
-    }
 }

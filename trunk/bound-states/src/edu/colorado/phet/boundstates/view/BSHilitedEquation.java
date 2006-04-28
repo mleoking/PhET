@@ -60,25 +60,12 @@ public class BSHilitedEquation extends BSAbstractWaveFunctionEquation implements
     protected int getEigenstateSubscript() {
         BSModel model = getModel();
         final int hiliteIndex = model.getHilitedEigenstateIndex();
-        int subscript = hiliteIndex;
-        if ( subscript == BSEigenstate.INDEX_UNDEFINED ) {
-            subscript = EIGENSTATE_SUBSCRIPT_NONE;
+        int subscript = EIGENSTATE_SUBSCRIPT_NONE;
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            // map to an eigenstate subscript...
+            BSEigenstate eigenstate = model.getEigenstate( hiliteIndex );
+            subscript = eigenstate.getSubscript();
         }
         return subscript;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Observer implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the display when the hilite eigenstate changes.
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == getModel() && arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-            updateDisplay();
-        }
     }
 }
