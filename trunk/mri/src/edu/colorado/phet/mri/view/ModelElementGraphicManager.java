@@ -104,6 +104,10 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             graphic = PhotonGraphic.getInstance( (Photon)modelElement );
             layer = rfLayer;
         }
+        else if( modelElement instanceof Detector ) {
+            graphic = new DetectorGraphic( (Detector)modelElement );
+            layer = rfLayer;
+        }
         else if( modelElement instanceof PlaneWaveMedium ) {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;
             double maxOpacity = 0.25;
@@ -124,6 +128,10 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             modelElementToGraphicMap.put( modelElement, new GraphicRecord( graphic, layer ) );
             addGraphic( graphic, layer );
         }
+    }
+
+    public void addGraphic( PNode graphic ) {
+        addGraphic( graphic, canvas );
     }
 
     public void addGraphic( PNode graphic, PNode layer ) {

@@ -11,9 +11,11 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.quantum.model.PhotonSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,8 +42,6 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // todo: this line and variable is just for debugging
         double length = 600;
-//        double length = 800;
-//        double length = radiowaveSource.getLength();
 
         double w = 0;
         double h = 0;
@@ -49,7 +49,6 @@ public class RadiowaveSourceGraphic extends PNode {
         double y = 0;
         if( radiowaveSource.getOrientation() == RadiowaveSource.HORIZONTAL ) {
             w = length;
-//            w = radiowaveSource.getLength();
             h = panelDepth;
             x = radiowaveSource.getPosition().getX() - w / 2;
             y = radiowaveSource.getPosition().getY();
@@ -63,7 +62,6 @@ public class RadiowaveSourceGraphic extends PNode {
         setOffset( x, y );
 
         Rectangle2D box = new Rectangle2D.Double( 0, 0, length, h );
-//        Rectangle2D box = new Rectangle2D.Double( 0, 0, w, h );
         PPath boxGraphic = new PPath( box );
         boxGraphic.setPaint( new Color( 80, 80, 80 ) );
         addChild( boxGraphic );
@@ -84,7 +82,6 @@ public class RadiowaveSourceGraphic extends PNode {
         radiowaveSource.setFrequency( freqCtrl.getValue() );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
         freqPSwing.setOffset( length * 0.2 - freqPSwing.getBounds().getWidth() / 2, 5 );
-//        freqPSwing.setOffset( length / 4 - freqPSwing.getBounds().getWidth() / 2, 30 );
         addChild( freqPSwing );
 
         // Power control
@@ -102,7 +99,6 @@ public class RadiowaveSourceGraphic extends PNode {
         powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
         powerPSwing.setOffset( length * 0.8 - powerPSwing.getBounds().getWidth() / 2, 5 );
-//        powerPSwing.setOffset( length * 3 / 4 - powerPSwing.getBounds().getWidth() / 2, 30 );
         addChild( powerPSwing );
 
         // Label
@@ -112,7 +108,21 @@ public class RadiowaveSourceGraphic extends PNode {
         title.setFont( font );
         title.setJustification( javax.swing.JLabel.CENTER_ALIGNMENT );
         title.setOffset( length / 2 - title.getBounds().getWidth() / 2, 10 );
-//        title.setOffset( radiowaveSource.getLength() / 2 - title.getBounds().getWidth() / 2, 10 );
         addChild( title );
+
+
+        // Update the sliders if the radiowave source changes its state through some mechanism other than our
+        // sliders
+        radiowaveSource.addChangeListener( new PhotonSource.ChangeListener() {
+            public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
+                powerCtrl.setValue( ((RadiowaveSource)event.getPhotonSource()).getPower() );
+            }
+
+            public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
+                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( event.getPhotonSource().getWavelength()) );
+            }
+        } );
+
+
     }
 }

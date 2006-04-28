@@ -13,15 +13,14 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.HeadGraphic;
+import edu.colorado.phet.mri.view.SampleTargetGraphic;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
-import edu.colorado.phet.mri.model.Electromagnet;
-import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.mri.model.Head;
-import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.model.*;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * MriModuleA
@@ -60,7 +59,7 @@ public class HeadModule extends AbstractMriModule {
         // Add the horizontal gradient magnet
         GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
         Point2D gradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 30 );
+                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 60 );
         GradientElectromagnet horizontalGradientMagnet = new GradientElectromagnet( gradientMagnetLocation,
                                                                                     lowerMagnet.getBounds().getWidth(),
                                                                                     lowerMagnet.getBounds().getHeight(),
@@ -71,16 +70,16 @@ public class HeadModule extends AbstractMriModule {
 
         // Add the vertical gradient magnet
         GradientElectromagnet.Gradient verticalGradient = new GradientElectromagnet.LinearGradient( 1, 0 );
-        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() - 100,
+        Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() - 40,
                                                                      MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                      + MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 );
         GradientElectromagnet verticalGradientMagnet = new GradientElectromagnet( verticalGradientMagnetLocation,
                                                                                   lowerMagnet.getBounds().getHeight(),
                                                                                   head.getBounds().getHeight(),
 //                                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT,
-                                                                                  getClock(),
-                                                                                  verticalGradient,
-                                                                                  GradientElectromagnet.VERTICAL );
+getClock(),
+verticalGradient,
+GradientElectromagnet.VERTICAL );
         model.addModelElement( verticalGradientMagnet );
 
         // Control panel
@@ -98,12 +97,20 @@ public class HeadModule extends AbstractMriModule {
                                MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 35 );
         getGraphicsManager().addGraphic( headGraphic, getGraphicsManager().getHeadLayer() );
 
+        // Add a detector
+        Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 60,
+                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 100,
+                                                             100,
+                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT  + 200);
+        Detector detector = new Detector( detectorBounds, model );
+        model.addModelElement( detector );
+
         // Set the initial view
         setEmRep( HeadModule.WAVE_VIEW );
-
     }
 
     public Head getHead() {
         return head;
     }
+
 }

@@ -56,7 +56,7 @@ public class ThermalNoise implements ModelElement {
             List dipoles = model.getDipoles();
             boolean flipped = false;
             int attempts = 0;
-            while( !flipped && attempts < dipoles.size() ) {
+            while( !flipped && attempts++ < dipoles.size() ) {
                 Dipole dipole = (Dipole)dipoles.get( random.nextInt( dipoles.size()) );
                 if( dipole.getSpin() == spinToChange ) {
                     Spin newSpin = spinToChange == Spin.UP ? Spin.DOWN : Spin.UP;

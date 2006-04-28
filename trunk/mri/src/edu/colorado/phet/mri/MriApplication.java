@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.MriModuleA;
 import edu.colorado.phet.mri.controller.OptionMenu;
+import edu.colorado.phet.mri.controller.ScanModule;
 
 /**
  * MriApplication
@@ -42,6 +43,7 @@ public class MriApplication extends PhetApplication {
     private static Module[] fullAppModules = new Module[]{
             new MriModuleA(),
             new HeadModule(),
+            new ScanModule(),
     };
     private static Module[] modules = fullAppModules;
 
@@ -70,7 +72,15 @@ public class MriApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        System.out.println( "MriApplication.main A" );
+
         PhetApplication app = new MriApplication( args );
+
+        System.out.println( "MriApplication.main B" );
+
         app.startApplication();
+
+        System.out.println( "MriApplication.main C" );
+
     }
 }

@@ -236,12 +236,11 @@ public class Dipole extends Body implements Collidable {
      * angular velocity and angular acceleration. This causes the needle to accelerate
      * at it starts to move, and to wobble as it comes to rest.
      */
-    public static class KinematicBehavior extends AbstractBehavior {
-//    private static class KinematicBehavior extends AbstractBehavior {
+    private static class KinematicBehavior extends AbstractBehavior {
 
         /* Change these at your peril. */
         public static double SENSITIVITY = 0.003;
-        public static double DAMPING = 0.025;
+        public static double DAMPING = 0.035;
         private static final double THRESHOLD = Math.toRadians( 0.2 );
 
         // Angle of needle orientation (in radians)
