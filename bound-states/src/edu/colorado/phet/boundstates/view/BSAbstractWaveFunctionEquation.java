@@ -122,6 +122,21 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     }
     
     //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the hilite eigenstate changes.
+     * @param o
+     * @param arg
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == getModel() ) {
+            updateDisplay();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
