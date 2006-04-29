@@ -114,15 +114,35 @@ public class PhetFrame extends JFrame {
         }
     }
 
+    /**
+     * Creates a tabbed pane of a type specific to the graphics type specified for use by the application
+     *
+     * @param application
+     * @param modules
+     * @return a Container
+     */
     protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-        Container tabbedPane  = null;
-        if( PhetUtilities.getGraphicsType() == PhetApplication.PHET_GRAPHICS ) {
-            tabbedPane =  new TabbedModulePanePhetGraphics( application, modules );
+        ITabbedModulePane tabbedPane  = null;
+        try {
+            if( PhetUtilities.getGraphicsType() == PhetApplication.PHET_GRAPHICS ) {
+                tabbedPane = (ITabbedModulePane)Class.forName( "edu.colorado.phet.common.view.TabbedModulePanePhetGraphics").newInstance();
+                tabbedPane.init( application, modules );
+            }
+            else if(PhetUtilities.getGraphicsType() == PhetApplication.PICCOLO ) {
+                tabbedPane = (ITabbedModulePane)Class.forName( "edu.colorado.phet.piccolo.TabbedModulePanePiccolo").newInstance();
+                tabbedPane.init(application, modules );
+            }
         }
-        else if(PhetUtilities.getGraphicsType() == PhetApplication.PICCOLO ) {
-            tabbedPane =  new TabbedModulePanePiccolo( application, modules );
+        catch( InstantiationException e ) {
+            e.printStackTrace();
         }
-        return tabbedPane;
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        return (Container)tabbedPane;
     }
 
     private void removeModule( Module module ) {
