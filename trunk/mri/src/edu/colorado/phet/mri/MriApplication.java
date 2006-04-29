@@ -54,8 +54,8 @@ public class MriApplication extends PhetApplication {
 
     public MriApplication( String[] args ) {
 //        super( args, title, description, version, frameSetup, PhetApplication.PHET_GRAPHICS );
-        super( args, title, description, version, frameSetup );
-//        super( args, title, description, version, frameSetup, PhetApplication.PICCOLO );
+//        super( args, title, description, version, frameSetup );
+        super( args, title, description, version, frameSetup, PhetApplication.PICCOLO );
         setModules( modules );
     }
 

@@ -56,7 +56,7 @@ public class PhetApplication {
     static {
         GRAPHICS_TYPE = PICCOLO;
         try {
-            Class.forName( "edu.colorado.phet.common.view.TabbedModulePanePiccolo" );
+            Class.forName( "edu.colorado.phet.piccolo.TabbedModulePanePiccolo" );
         }
         catch( ClassNotFoundException e ) {
             GRAPHICS_TYPE = PHET_GRAPHICS;

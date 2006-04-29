@@ -8,33 +8,35 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view;
+package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.ITabbedModulePane;
+import edu.colorado.phet.common.view.ModulePanel;
+import edu.colorado.phet.piccolo.PhetTabbedPane;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
- * that have more than one module. This class uses JTabbedPane as its base, and is intended for
- * use primarilly for simulations that do not use Piccolo.
+ * that have more than one module.
+ * <p>
+ * This class depends on PhetTabbedPane and Piccolo.
  *
  * @author Sam and Ron
  * @version $Revision$
  */
-//public class TabbedModulePane extends PhetTabbedPane implements ModuleObserver {
-public class TabbedModulePanePhetGraphics extends JTabbedPane implements ITabbedModulePane {
+public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
     private Module current;
     private PhetApplication application;
 
-    public TabbedModulePanePhetGraphics() {
+    public TabbedModulePanePiccolo() {
     }
-    
-    public void init( final PhetApplication application, final Module[] modules ) {
+
+    public void init( final PhetApplication application, final Module[] modules  ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
