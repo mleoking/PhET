@@ -102,7 +102,7 @@ public class PhetFrame extends JFrame {
             return module.getModulePanel();
         }
         else if( contentPanel instanceof ModulePanel ) {
-            return createTabbedPane( application, new Module[]{lastAdded, module} );
+            return TabbedModulePaneFactory.createTabbedPane( application, new Module[]{lastAdded, module} );
         }
         else if( contentPanel instanceof ITabbedModulePane ) {
             ITabbedModulePane tabbedModulePane = (ITabbedModulePane)contentPanel;
@@ -112,37 +112,6 @@ public class PhetFrame extends JFrame {
         else {
             throw new RuntimeException( "Illegal type for content pane: " + contentPanel );
         }
-    }
-
-    /**
-     * Creates a tabbed pane of a type specific to the graphics type specified for use by the application
-     *
-     * @param application
-     * @param modules
-     * @return a Container
-     */
-    protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-        ITabbedModulePane tabbedPane  = null;
-        try {
-            if( PhetUtilities.getGraphicsType() == PhetApplication.PHET_GRAPHICS ) {
-                tabbedPane = (ITabbedModulePane)Class.forName( "edu.colorado.phet.common.view.TabbedModulePanePhetGraphics").newInstance();
-                tabbedPane.init( application, modules );
-            }
-            else if(PhetUtilities.getGraphicsType() == PhetApplication.PICCOLO ) {
-                tabbedPane = (ITabbedModulePane)Class.forName( "edu.colorado.phet.piccolo.TabbedModulePanePiccolo").newInstance();
-                tabbedPane.init(application, modules );
-            }
-        }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        catch( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        return (Container)tabbedPane;
     }
 
     private void removeModule( Module module ) {
