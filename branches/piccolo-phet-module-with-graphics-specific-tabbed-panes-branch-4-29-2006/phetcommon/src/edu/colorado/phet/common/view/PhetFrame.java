@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.piccolo.TabbedModulePanePiccolo;
 
 import javax.swing.*;
 import java.awt.*;
