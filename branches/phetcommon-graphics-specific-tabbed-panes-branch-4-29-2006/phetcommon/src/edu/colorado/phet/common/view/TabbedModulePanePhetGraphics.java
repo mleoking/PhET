@@ -20,7 +20,8 @@ import javax.swing.event.ChangeListener;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
- * that have more than one module.
+ * that have more than one module. This class uses JTabbedPane as its base, and is intended for
+ * use primarilly for simulations that do not use Piccolo.
  *
  * @author Sam and Ron
  * @version $Revision$

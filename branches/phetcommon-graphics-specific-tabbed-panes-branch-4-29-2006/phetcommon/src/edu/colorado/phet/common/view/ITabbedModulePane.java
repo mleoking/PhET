@@ -16,13 +16,13 @@ import edu.colorado.phet.common.application.ModuleObserver;
 
 /**
  * ITabbedModulePane
+ * <p>
+ * The interface for tabbed panes that contain and switch between module views 
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public interface ITabbedModulePane extends ModuleObserver {
-
-
     public void addTab( Module module );
     public void moduleAdded( ModuleEvent event );
     public void removeTab( Module module );

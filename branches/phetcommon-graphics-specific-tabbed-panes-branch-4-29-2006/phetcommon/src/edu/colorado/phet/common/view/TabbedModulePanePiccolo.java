@@ -21,12 +21,13 @@ import javax.swing.event.ChangeListener;
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
  * that have more than one module.
+ * <p>
+ * This class depends on PhetTabbedPane and Piccolo.
  *
  * @author Sam and Ron
  * @version $Revision$
  */
 public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
-//public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
     private Module current;
     private PhetApplication application;
 
