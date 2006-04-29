@@ -41,6 +41,28 @@ public class PhetApplication {
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
+
+    /**
+     * Mechanism for determining which graphics subsystem we're using
+     */
+    public static class GraphicsType {
+        private GraphicsType() {
+        }
+    }
+    public static final GraphicsType PHET_GRAPHICS = new GraphicsType();
+    public static final GraphicsType PICCOLO = new GraphicsType();
+    private static GraphicsType GRAPHICS_TYPE = PICCOLO;
+    //  Try to determine if the application is running with Piccolo or PhetGraphics
+    static {
+        GRAPHICS_TYPE = PICCOLO;
+        try {
+            Class.forName( "edu.colorado.phet.common.view.TabbedModulePanePiccolo" );
+        }
+        catch( ClassNotFoundException e ) {
+            GRAPHICS_TYPE = PHET_GRAPHICS;
+        }
+    }
+
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
@@ -70,11 +92,10 @@ public class PhetApplication {
     private String title;
     private String description;
     private String version;
-
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-
     private SplashWindow splashWindow;
+    private GraphicsType graphcsType = PHET_GRAPHICS;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -89,7 +110,7 @@ public class PhetApplication {
     }
 
     /**
-     * Initialize a PhetApplication.
+     * Constructor
      *
      * @param args        Command line args
      * @param title       Title that appears in the frame and the About dialog
@@ -98,6 +119,23 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+        this( args, title, description, version, frameSetup, GRAPHICS_TYPE );
+    }
+
+    /**
+     * Constructor
+     *
+     * @param args        Command line args
+     * @param title       Title that appears in the frame and the About dialog
+     * @param description Appears in the About dialog
+     * @param version     Appears in the About dialog
+     * @param frameSetup  Defines the size and location of the frame
+     * @param graphicsType Specifies if the application will use Piccolo or PhetGraphics
+     */
+
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, GraphicsType graphicsType ) {
+        this.graphcsType  = graphicsType;
+
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
 
@@ -229,10 +267,6 @@ public class PhetApplication {
         moduleManager.addModule( module );
     }
 
-    private ModuleManager getModuleManager() {
-        return moduleManager;
-    }
-
     /**
      * Get the specified Module.
      *
@@ -307,6 +341,14 @@ public class PhetApplication {
      */
     public Module getActiveModule() {
         return moduleManager.getActiveModule();
+    }
+
+    /**
+     * Returns the type of graphics used in the applciation.
+     * @return the type of graphics used in the applciation
+     */
+    public GraphicsType getGraphcsType() {
+        return graphcsType;
     }
 
     //-----------------------------------------------------------------

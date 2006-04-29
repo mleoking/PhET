@@ -78,4 +78,13 @@ public class PhetUtilities {
     public static PhetFrame getPhetFrame() {
         return PhetApplication.instance().getPhetFrame();
     }
+
+    /**
+     * Returns the type of graphics used by the application. Eg, PhetGraphcis or Piccolo
+     *
+     * @return the type of graphics used by the application
+     */
+    public static PhetApplication.GraphicsType getGraphicsType() {
+        return PhetApplication.instance().getGraphcsType();
+    }
 }
