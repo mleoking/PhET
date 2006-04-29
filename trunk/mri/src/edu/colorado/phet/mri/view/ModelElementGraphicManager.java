@@ -106,7 +106,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         }
         else if( modelElement instanceof Detector ) {
             graphic = new DetectorGraphic( (Detector)modelElement );
-            layer = rfLayer;
+            layer = controlLayer;
         }
         else if( modelElement instanceof PlaneWaveMedium ) {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;

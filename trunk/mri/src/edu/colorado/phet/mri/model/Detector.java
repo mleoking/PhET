@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.mri.MriConfig;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Detector implements ModelElement {
+public class Detector extends SimpleObservable implements ModelElement {
     private Rectangle2D bounds;
     private MriModel model;
     private double detectingPeriod = MriConfig.DT * 10;
@@ -57,5 +58,10 @@ public class Detector implements ModelElement {
             System.out.println( "numDetected = " + numDetected );
             numDetected = 0;
         }
+        notifyObservers();        
+    }
+
+    public int getNumDetected() {
+        return numDetected;
     }
 }
