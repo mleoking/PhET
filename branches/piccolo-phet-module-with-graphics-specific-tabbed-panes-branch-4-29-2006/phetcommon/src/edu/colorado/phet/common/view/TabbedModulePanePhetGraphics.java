@@ -26,14 +26,13 @@ import javax.swing.event.ChangeListener;
  * @author Sam and Ron
  * @version $Revision$
  */
-//public class TabbedModulePane extends PhetTabbedPane implements ModuleObserver {
 public class TabbedModulePanePhetGraphics extends JTabbedPane implements ITabbedModulePane {
     private Module current;
     private PhetApplication application;
 
     public TabbedModulePanePhetGraphics() {
     }
-    
+
     public void init( final PhetApplication application, final Module[] modules ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
