@@ -16,6 +16,7 @@ import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.view.BFieldIndicator;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -42,7 +43,6 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
     private double scale;
 
     /**
-     *
      * @param electromagnet
      */
     public ElectromagnetGraphic( GradientElectromagnet electromagnet ) {
@@ -50,7 +50,6 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
     }
 
     /**
-     *
      * @param electromagnet
      * @param scale
      */
@@ -62,14 +61,6 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
 
         Rectangle2D bounds = electromagnet.getBounds();
         setRegistrationPoint( bounds.getWidth() / 2, bounds.getHeight() / 2 );
-
-        // Graphics for the lead wires
-        Line2D upperLeadLine = new Line2D.Double( -300, bounds.getHeight() / 3, bounds.getWidth() / 2, bounds.getHeight() / 3 );
-        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() * 2 / 3, bounds.getWidth() / 2, bounds.getHeight() * 2 / 3 );
-        upperLead = new PPath( upperLeadLine );
-        lowerLead = new PPath( lowerLeadLine );
-        addChild( upperLead );
-        addChild( lowerLead );
 
         // Graphics for the arrows indicating current
         upperArrowCenterPoint = new Point2D.Double( -100, 0 );
@@ -90,9 +81,37 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         lowerI.setOffset( lowerArrowCenterPoint.getX() - 10, lowerArrowCenterPoint.getY() + 3 );
         addChild( lowerI );
 
+        // Graphics for the lead wires
+        Line2D upperLeadLine = new Line2D.Double( -300, 10, 0, 10 );
+//        Line2D upperLeadLine = new Line2D.Double( -300, 10, bounds.getWidth() / 2, 10 );
+        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() - 10, 0, bounds.getHeight() - 10 );
+//        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() - 10, bounds.getWidth() / 2, bounds.getHeight() - 10 );
+        upperLead = new PPath( upperLeadLine );
+        lowerLead = new PPath( lowerLeadLine );
+        addChild( upperLead );
+        addChild( lowerLead );
+
         // Graphic for the coil
-        Ellipse2D shape = new Ellipse2D.Double( 0, 0, bounds.getWidth(), bounds.getHeight() );
-        coilGraphic = new PPath( shape );
+//        Ellipse2D shape = new Ellipse2D.Double( 0, 0, bounds.getWidth(), bounds.getHeight() );
+//        coilGraphic = new PPath( shape );
+//        coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE );
+
+        if( magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ) {
+            coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)bounds.getWidth(), (int)bounds.getHeight() ) );
+        }
+        else {
+            coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)bounds.getHeight(), (int)bounds.getWidth()  ));
+            coilGraphic.rotate( Math.PI/2);
+            coilGraphic.translate( 0, -bounds.getWidth() );
+        }
+//        // Graphics for the lead wires
+//        Line2D upperLeadLine = new Line2D.Double( -300, 10, bounds.getWidth() / 2, 10 );
+//        Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() - 10, bounds.getWidth() / 2, bounds.getHeight() - 10 );
+//        upperLead = new PPath( upperLeadLine );
+//        lowerLead = new PPath( lowerLeadLine );
+//        addChild( upperLead );
+//        addChild( lowerLead );
+
         addChild( coilGraphic );
 
 //        PImage coilOverlayGraphic = PImageFactory.create( "images/coil-overlay.png" );
@@ -129,7 +148,7 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         int blueComponent = (int)( 200 - 200 * fractionMaxCurrent );
         coilGraphic.setPaint( new Color( 200, 200, blueComponent ) );
 
-        double maxArrowLength = 200;
+        double maxArrowLength = 120;
         double minArrowLength = 20;
         double arrowLength = ( maxArrowLength - minArrowLength ) * fractionMaxCurrent + minArrowLength * scale;
         upperArrow.setTailLocation( new Point2D.Double( upperArrowCenterPoint.getX() + arrowLength / 2,

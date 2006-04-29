@@ -39,12 +39,13 @@ public class MriConfig {
 //    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
 //    public static final String HEAD_IMAGE = IMAGE_PATH + "head-2.gif";
+    public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 20E6;
     public static final double MAX_FEQUENCY = 80E6;
 
-    public static final double MAX_FADING_HEIGHT = 50;
+    public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field
     public static final double MAX_GRADIENT_COIL_CURRENT = 2;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
@@ -66,17 +67,18 @@ public class MriConfig {
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;
 
-        // Model to view conversion factors
-    public static class ModelToView {
-        public static double FREQUENCY = 1 / 4E9;
-    }
+    // Model to view conversion factors
+public static class ModelToView {
+    public static double FREQUENCY = 1 / 4E9;
+}
 
     // Layout
-    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 200, 120 );
+    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170,80 );
+//    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170, 120 );
     public static double SCALE_FOR_ORG = 400.0 / 600;
     public static double SAMPLE_CHAMBER_WIDTH = 400;
-//    public static double SAMPLE_CHAMBER_WIDTH = 600;
-    public static double SAMPLE_CHAMBER_HEIGHT = 267;
+//    public static double SAMPLE_CHAMBER_HEIGHT = 267;
+    public static double SAMPLE_CHAMBER_HEIGHT = 300;
 //    public static double SAMPLE_CHAMBER_HEIGHT = 400;
 
     // Initial conditions

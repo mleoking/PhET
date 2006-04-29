@@ -75,11 +75,10 @@ public class HeadModule extends AbstractMriModule {
                                                                      + MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 );
         GradientElectromagnet verticalGradientMagnet = new GradientElectromagnet( verticalGradientMagnetLocation,
                                                                                   lowerMagnet.getBounds().getHeight(),
-                                                                                  head.getBounds().getHeight(),
-//                                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT,
-getClock(),
-verticalGradient,
-GradientElectromagnet.VERTICAL );
+                                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT,
+                                                                                  getClock(),
+                                                                                  verticalGradient,
+                                                                                  GradientElectromagnet.VERTICAL );
         model.addModelElement( verticalGradientMagnet );
 
         // Control panel
@@ -99,9 +98,9 @@ GradientElectromagnet.VERTICAL );
 
         // Add a detector
         Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 60,
-                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 100,
+                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 40,
                                                              100,
-                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT  + 200);
+                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 );
         Detector detector = new Detector( detectorBounds, model );
         model.addModelElement( detector );
 
