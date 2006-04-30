@@ -97,9 +97,9 @@ public class HeadModule extends AbstractMriModule {
         getGraphicsManager().addGraphic( headGraphic, getGraphicsManager().getHeadLayer() );
 
         // Add a detector
-        Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 60,
+        Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 30,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 40,
-                                                             100,
+                                                             150,
                                                              MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 );
         Detector detector = new Detector( detectorBounds, model );
         model.addModelElement( detector );

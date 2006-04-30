@@ -33,6 +33,11 @@ public class Detector extends SimpleObservable implements ModelElement {
     private int numDetected;
     private List detectedPhotons = new ArrayList( );
 
+    /**
+     * Constructor
+     * @param bounds
+     * @param model
+     */
     public Detector( Rectangle2D bounds, MriModel model ) {
         this.bounds = bounds;
         this.model = model;
@@ -55,7 +60,6 @@ public class Detector extends SimpleObservable implements ModelElement {
         if( elapsedTime >= detectingPeriod ) {
             elapsedTime = 0;
             detectedPhotons.clear();
-            System.out.println( "numDetected = " + numDetected );
             numDetected = 0;
         }
         notifyObservers();        
