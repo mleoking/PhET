@@ -88,7 +88,13 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         double x = detector.getBounds().getWidth() / 2;
         double y = detector.getBounds().getHeight() / 2;
         for( int i = 0; i < gradientPaints.length; i++ ) {
-            gradientPaints[i] = new RoundGradientPaint( x, y, grayScale[i], new Point2D.Double( 0, 20 ), Color.white );;
+//            double radius = (gradientPaints.length - i) * 0.5;
+            double radius = (detector.getBounds().getWidth() - detector.getBounds().getWidth() * i / gradientPaints.length ) / 2;
+            gradientPaints[i] = new RoundGradientPaint( x, y,
+                                                        grayScale[i],
+                                                        new Point2D.Double( 0, radius ),
+//                                                        new Point2D.Double( 0, 20 ),
+                                                        Color.white );;
         }
     }
 

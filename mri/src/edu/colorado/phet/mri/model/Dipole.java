@@ -242,6 +242,8 @@ public class Dipole extends Body implements Collidable {
         public static double SENSITIVITY = 0.003;
         public static double DAMPING = 0.035;
         private static final double THRESHOLD = Math.toRadians( 0.2 );
+        // Used to randomize the direction that the dipole rotates
+        private static Random random = new Random( );
 
         // Angle of needle orientation (in radians)
         private double _theta;
@@ -300,7 +302,8 @@ public class Dipole extends Body implements Collidable {
          * angular velocity to get it going.
          */
         public void startMovingNow() {
-            _omega = 0.03; // adjust as needed for desired behavior
+            int direction = random.nextBoolean() ? 1 : -1;
+            _omega = 0.03 * direction; // adjust as needed for desired behavior
         }
     }
 

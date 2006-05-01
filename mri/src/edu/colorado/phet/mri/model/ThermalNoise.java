@@ -15,6 +15,7 @@ import edu.colorado.phet.mri.MriConfig;
 
 import java.util.Random;
 import java.util.List;
+import java.awt.geom.Point2D;
 
 /**
  * ThermalNoise
@@ -29,20 +30,39 @@ import java.util.List;
  */
 public class ThermalNoise implements ModelElement {
     private Random random = new Random();
+    private double minMeanInjectionTime;
     private double meanInjectionTime;
     private double timeToInjection = 0;
     private double elapsedTime = 0;
     private MriModel model;
 
-    public ThermalNoise( double meanInjectionTime, MriModel model ) {
-        this.meanInjectionTime = meanInjectionTime;
+    public ThermalNoise( double minMeanInjectionTime, MriModel model ) {
+        this.minMeanInjectionTime = minMeanInjectionTime;
+        meanInjectionTime = minMeanInjectionTime;
         this.model = model;
+        setInjectionTime();
+        setMeanInjectionTime();
+
+        model.getLowerMagnet().addChangeListener( new Electromagnet.ChangeListener() {
+            public void stateChanged( Electromagnet.ChangeEvent event ) {
+                setMeanInjectionTime();
+            }
+        } );
+    }
+
+    private void setMeanInjectionTime() {
+        double b = model.getTotalFieldStrengthAt( new Point2D.Double( 0,0 ));
+        // Mean time to injection is 5x longer when magnetic field is at max
+        meanInjectionTime = minMeanInjectionTime * (1 + 5 * b / MriConfig.MAX_FADING_COIL_FIELD );
         setInjectionTime();
     }
 
+    /**
+     * Determines the elapsed time before noice is next injected.
+     */
     private void setInjectionTime() {
-//        timeToInjection = meanInjectionTime * random.nextDouble();
-        timeToInjection = meanInjectionTime * ( 1 + random.nextGaussian());
+        double sigma = 0.5;
+        timeToInjection = meanInjectionTime * ( 1 + random.nextGaussian() * sigma );
     }
 
     public void stepInTime( double dt ) {

@@ -36,14 +36,14 @@ public class BFieldArrowGraphic extends PhetPCanvas {
 
     /**
      * Constructor
-     * @param magnet
+     * @param lowerMagnet
      * @param minLength
      */
-    public BFieldArrowGraphic( GradientElectromagnet magnet, double minLength ) {
+    public BFieldArrowGraphic( GradientElectromagnet lowerMagnet, final GradientElectromagnet upperMagnet, double minLength ) {
 
         setPreferredSize( new Dimension( 150, 150 ) );
         maxArrowFractionOfHeight = 0.9;
-        final BFieldIndicator indicator = new BFieldIndicator( magnet,
+        final BFieldIndicator indicator = new BFieldIndicator( lowerMagnet,
                                                                getPreferredSize().getHeight() * maxArrowFractionOfHeight,
                                                                new Color( 80, 80, 180 ),
                                                                0 );
@@ -58,7 +58,7 @@ public class BFieldArrowGraphic extends PhetPCanvas {
         readoutPSwing.setOffset( getWidth() - 50, getHeight() / 2 );
         readoutPSwing.setOffset( getWidth() - 50, getHeight() / 2 );
         addWorldChild( readoutPSwing );
-        updateReadout( magnet );
+        updateReadout( lowerMagnet, upperMagnet );
 
         // When the panel is resized (or first displayed) update the placement of the arror
         addComponentListener( new ComponentAdapter() {
@@ -70,24 +70,17 @@ public class BFieldArrowGraphic extends PhetPCanvas {
         } );
 
         // Hook up listeners to the model
-        magnet.addChangeListener( new Electromagnet.ChangeListener() {
+        lowerMagnet.addChangeListener( new Electromagnet.ChangeListener() {
             public void stateChanged( Electromagnet.ChangeEvent event ) {
                 updateRegistrationPoint();
-                updateReadout( event.getElectromagnet() );
+                updateReadout( event.getElectromagnet(), upperMagnet );
             }
         } );
     }
 
-    /**
-     * Constructor
-     * @param magnet
-     */
-    public BFieldArrowGraphic( GradientElectromagnet magnet ) {
-        this( magnet, 0 );
-    }
-
-    private void updateReadout( Electromagnet magnet ) {
-        String valueStr = readoutFormat.format( magnet.getFieldStrength() );
+    private void updateReadout( Electromagnet magnet, Electromagnet upperMagnet ) {
+        double fieldStrength = magnet.getFieldStrength() + upperMagnet.getFieldStrength();
+        String valueStr = readoutFormat.format( fieldStrength );
         readout.setText( valueStr + " Tesla" );
     }
 

@@ -18,6 +18,7 @@ import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.MriModuleA;
 import edu.colorado.phet.mri.controller.OptionMenu;
 import edu.colorado.phet.mri.controller.ScanModule;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 /**
  * MriApplication
@@ -25,7 +26,7 @@ import edu.colorado.phet.mri.controller.ScanModule;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MriApplication extends PhetApplication {
+public class MriApplication extends PiccoloPhetApplication {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -53,9 +54,9 @@ public class MriApplication extends PhetApplication {
     //--------------------------------------------------------------------------------------------------
 
     public MriApplication( String[] args ) {
-//        super( args, title, description, version, frameSetup, PhetApplication.PHET_GRAPHICS );
-        super( args, title, description, version, frameSetup );
-//        super( args, title, description, version, frameSetup, PhetApplication.PICCOLO );
+//        super( args, title, description, version, frameSetup, PhetApplication.JTABBED_PANE );
+//        super( args, title, description, version, frameSetup );
+        super( args, title, description, version, frameSetup, PiccoloPhetApplication.PHET_TABBED_PANE );
         setModules( modules );
     }
 
