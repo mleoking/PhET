@@ -85,8 +85,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     // array of Integer, indicies of eigenstates that have non-zero superposition coefficients
     private ArrayList _eigenstateIndicies;
     
-    private int _mode; // MODE_WAVE_FUNCTION or MODE_PROBABILITY_DENSITY
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -229,7 +227,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         if ( mode != MODE_WAVE_FUNCTION && mode != MODE_PROBABILITY_DENSITY ) {
             throw new IllegalArgumentException( "invalid mode: " + mode );
         }
-        _mode = mode;
+
         ValueAxis yAxis = getRangeAxis();
         if ( mode == MODE_WAVE_FUNCTION ) {
             yAxis.setLabel( _waveFunctionLabel );
