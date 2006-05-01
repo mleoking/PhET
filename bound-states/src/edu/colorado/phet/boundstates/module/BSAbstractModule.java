@@ -267,7 +267,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
-        getClock().start();
     }
     
     //----------------------------------------------------------------------------
@@ -322,7 +321,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
             Point2D p1 = _chartNode.nodeToEnergy( new Point2D.Double( 0, 0 ) );
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( BSConstants.PIXELS_PER_POTENTIAL_SAMPLE_POINT, 0 ) );
             double dx = p2.getX() - p1.getX();
-            System.out.println( "BSManyModule.layout dx=" + dx ); //XXX
+//            System.out.println( "BSAbstractModule.layout dx=" + dx );
+            
             if ( dx >= Double.MIN_VALUE && dx <= Double.MAX_VALUE ) {            
                 // Set the dx use to draw the potentials...
                 _energyPlot.setDx( dx );
