@@ -34,7 +34,7 @@ public class MriModel extends BaseModel {
 
     private Detector detector;
     private Rectangle2D bounds;
-    private GradientElectromagnet upperMagnet, lowerMagnet;
+    private SimpleMagnet upperMagnet, lowerMagnet;
     private ArrayList magnets = new ArrayList();
     private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
@@ -65,20 +65,18 @@ public class MriModel extends BaseModel {
                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT );
         Point2D upperMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() - magnetHeight * 1.5 );
-        upperMagnet = new GradientElectromagnet( upperMagnetLocation,
+        upperMagnet = new SimpleMagnet( upperMagnetLocation,
                                                  sampleChamberBounds.getWidth(),
                                                  magnetHeight,
                                                  clock,
-                                                 new GradientElectromagnet.Constant(),
                                                  GradientElectromagnet.HORIZONTAL );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
-        lowerMagnet = new GradientElectromagnet( lowerMagnetLocation,
+        lowerMagnet = new SimpleMagnet( lowerMagnetLocation,
                                                  sampleChamberBounds.getWidth(),
                                                  magnetHeight,
                                                  clock,
-                                                 new GradientElectromagnet.Constant(),
                                                  GradientElectromagnet.HORIZONTAL );
         addModelElement( lowerMagnet );
 

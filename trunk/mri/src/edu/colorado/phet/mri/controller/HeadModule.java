@@ -52,16 +52,20 @@ public class HeadModule extends AbstractMriModule {
      * Constructor
      */
     public HeadModule() {
-        super( HeadModule.name, new SwingClock( delay, dt ), head );
+        this( HeadModule.name );
+    }
+
+    public HeadModule( String name ) {
+        super( name, new SwingClock( delay, dt ), head );
 
         MriModel model = (MriModel)getModel();
         Electromagnet lowerMagnet = model.getLowerMagnet();
 
         // Add the horizontal gradient magnet
-        GradientElectromagnet.Gradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
+        GradientElectromagnet.LinearGradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
         Point2D gradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 60 );
-        GradientElectromagnet horizontalGradientMagnet = new GradientElectromagnet( gradientMagnetLocation,
+        GradientElectromagnet horizontalGradientMagnet = new LinearGradientMagnet( gradientMagnetLocation,
                                                                                     lowerMagnet.getBounds().getWidth(),
                                                                                     lowerMagnet.getBounds().getHeight(),
                                                                                     getClock(),
@@ -70,11 +74,11 @@ public class HeadModule extends AbstractMriModule {
         model.addModelElement( horizontalGradientMagnet );
 
         // Add the vertical gradient magnet
-        GradientElectromagnet.Gradient verticalGradient = new GradientElectromagnet.LinearGradient( 1, 0 );
+        GradientElectromagnet.LinearGradient verticalGradient = new GradientElectromagnet.LinearGradient( 1, 0 );
         Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() - 40,
                                                                      MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                      + MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 );
-        GradientElectromagnet verticalGradientMagnet = new GradientElectromagnet( verticalGradientMagnetLocation,
+        GradientElectromagnet verticalGradientMagnet = new LinearGradientMagnet( verticalGradientMagnetLocation,
                                                                                   lowerMagnet.getBounds().getHeight(),
                                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT,
                                                                                   getClock(),

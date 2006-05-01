@@ -14,10 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.mri.controller.HeadModule;
-import edu.colorado.phet.mri.controller.MriModuleA;
-import edu.colorado.phet.mri.controller.OptionMenu;
-import edu.colorado.phet.mri.controller.ScanModule;
+import edu.colorado.phet.mri.controller.*;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 /**
@@ -45,6 +42,7 @@ public class MriApplication extends PiccoloPhetApplication {
             new MriModuleA(),
             new HeadModule(),
             new ScanModule(),
+            new ScanModuleB(),
     };
     private static Module[] modules = fullAppModules;
 
