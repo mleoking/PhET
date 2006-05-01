@@ -198,7 +198,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         _waveFunctionSolutions = new ArrayList();
         _eigenstateIndicies = new ArrayList();
         
-        setMode( MODE_WAVE_FUNCTION );
+        setMode( MODE_PROBABILITY_DENSITY );
     }
     
     //----------------------------------------------------------------------------
