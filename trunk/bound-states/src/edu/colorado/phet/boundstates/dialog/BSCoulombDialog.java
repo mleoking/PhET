@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
@@ -21,9 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulombWells;
+import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -40,8 +39,6 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSCoulombWells _potential;
-    
     private SliderControl _offsetSlider;
     private SliderControl _spacingSlider;
     private JSeparator _spacingSeparator;
@@ -53,9 +50,11 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
     /**
      * Constructor.
      */
-    public BSCoulombDialog( Frame parent, BSCoulombWells potential ) {
+    public BSCoulombDialog( Frame parent, BSCoulombWells potential, 
+            BSDoubleRange offsetRange, BSDoubleRange spacingRange ) {
         super( parent, SimStrings.get( "BSCoulombDialog.title" ), potential );
-        _potential = potential;
+        JPanel inputPanel = createInputPanel( offsetRange, spacingRange );
+        createUI( inputPanel );
         updateControls();
     }
     
@@ -68,16 +67,16 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel() {
+    protected JPanel createInputPanel( BSDoubleRange offsetRange, BSDoubleRange spacingRange ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
-            double value = BSConstants.MIN_WELL_OFFSET;
-            double min = BSConstants.MIN_WELL_OFFSET;
-            double max = BSConstants.MAX_WELL_OFFSET;
+            double value = offsetRange.getDefault();
+            double min = offsetRange.getMin();
+            double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -95,9 +94,9 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
 
         // Spacing
         {
-            double value = BSConstants.MIN_WELL_SPACING;
-            double min = BSConstants.MIN_WELL_SPACING;
-            double max = BSConstants.MAX_WELL_SPACING;
+            double value = spacingRange.getDefault();
+            double min = spacingRange.getMin();
+            double max = spacingRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -131,12 +130,15 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
     }
 
     protected void updateControls() {
+        
+        BSCoulombWells potential = (BSCoulombWells) getPotential();
+        
         // Sync values
-        _offsetSlider.setValue( _potential.getOffset() );
-        _spacingSlider.setValue( _potential.getSpacing() );
+        _offsetSlider.setValue( potential.getOffset() );
+        _spacingSlider.setValue( potential.getSpacing() );
         
         // Visiblility
-        _spacingSlider.setVisible( _potential.getNumberOfWells() > 1 );
+        _spacingSlider.setVisible( potential.getNumberOfWells() > 1 );
         _spacingSeparator.setVisible( _spacingSlider.isVisible() );
         pack();
     }
@@ -147,12 +149,13 @@ public class BSCoulombDialog extends BSAbstractConfigureDialog implements Observ
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _potential.setOffset( offset );
+        getPotential().setOffset( offset );
     }
     
     private void handleSpacingChange() {
+        BSCoulombWells potential = (BSCoulombWells) getPotential();
         final double spacing = _spacingSlider.getValue();
-        _potential.setSpacing( spacing );
+        potential.setSpacing( spacing );
     }
 
 }

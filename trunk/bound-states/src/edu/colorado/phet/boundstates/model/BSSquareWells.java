@@ -42,27 +42,19 @@ public class BSSquareWells extends BSAbstractPotential {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _width;
     private double _depth;
+    private double _width;
+    private double _separation;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSSquareWells( BSParticle particle, int numberOfWells ) {
-        this( particle, 
-                numberOfWells, 
-                BSConstants.DEFAULT_SQUARE_SPACING, 
-                BSConstants.DEFAULT_SQUARE_WIDTH, 
-                BSConstants.DEFAULT_SQUARE_DEPTH, 
-                BSConstants.DEFAULT_SQUARE_OFFSET, 
-                BSConstants.DEFAULT_WELL_CENTER );
-    }
-    
-    public BSSquareWells( BSParticle particle, int numberOfWells, double spacing, double width, double depth, double offset, double center ) {
-        super( particle, numberOfWells, spacing, offset, center );
-        setWidth( width );
+    public BSSquareWells( BSParticle particle, int numberOfWells, double offset, double depth, double width, double separation ) {
+        super( particle, numberOfWells, offset );
         setDepth( depth );
+        setWidth( width );
+        setSeparation( separation );
     }
     
     //----------------------------------------------------------------------------
@@ -99,6 +91,21 @@ public class BSSquareWells extends BSAbstractPotential {
         }
     }
     
+    public double getSeparation() {
+        return _separation;
+    }
+
+    public void setSeparation( double separation ) {
+        if ( separation < 0 ) {
+            throw new IllegalArgumentException( "invalid separation: " + separation );
+        }
+        if ( separation != _separation ) {
+            _separation = separation;
+            markEigenstatesDirty();
+            notifyObservers();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
@@ -120,7 +127,7 @@ public class BSSquareWells extends BSAbstractPotential {
         final int n = getNumberOfWells();
         final double offset = getOffset();
         final double c = getCenter();
-        final double s = getSpacing();
+        final double s = getWidth() + getSeparation(); // spacing between well centers
         final double w = getWidth();
         final double d = getDepth();
         

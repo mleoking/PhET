@@ -5,6 +5,34 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- exception on startup, happens in all modules:
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException
+	at java.lang.System.arraycopy(Native Method)
+	at java.util.ArrayList.ensureCapacity(ArrayList.java:170)
+	at java.util.ArrayList.add(ArrayList.java:354)
+	at org.jfree.data.xy.XYSeries.add(XYSeries.java:376)
+	at org.jfree.data.xy.XYSeries.add(XYSeries.java:324)
+	at org.jfree.data.xy.XYSeries.add(XYSeries.java:247)
+	at edu.colorado.phet.boundstates.view.BSBottomPlot.updateTimeDependentDatasets(BSBottomPlot.java:453)
+	at edu.colorado.phet.boundstates.view.BSBottomPlot.update(BSBottomPlot.java:341)
+	at java.util.Observable.notifyObservers(Observable.java:142)
+	at edu.colorado.phet.boundstates.model.BSObservable.notifyObservers(BSObservable.java:71)
+	at edu.colorado.phet.boundstates.model.BSModel.update(BSModel.java:130)
+	at java.util.Observable.notifyObservers(Observable.java:142)
+	at edu.colorado.phet.boundstates.model.BSObservable.notifyObservers(BSObservable.java:71)
+	at java.util.Observable.notifyObservers(Observable.java:98)
+	at edu.colorado.phet.boundstates.model.BSObservable.notifyObservers(BSObservable.java:63)
+	at edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients.setNumberOfCoefficients(BSSuperpositionCoefficients.java:86)
+	at edu.colorado.phet.boundstates.model.BSModel.syncWithPotential(BSModel.java:117)
+	at edu.colorado.phet.boundstates.model.BSModel.setPotential(BSModel.java:69)
+	at edu.colorado.phet.boundstates.module.BSAbstractModule.setWellType(BSAbstractModule.java:568)
+	at edu.colorado.phet.boundstates.module.BSOneWellModule.<init>(BSOneWellModule.java:53)
+	at edu.colorado.phet.boundstates.BSApplication.initModules(BSApplication.java:111)
+	at edu.colorado.phet.boundstates.BSApplication.<init>(BSApplication.java:88)
+	at edu.colorado.phet.boundstates.BSApplication.main(BSApplication.java:267)
+
+
+- add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - Single Module
 - Double Module
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -54,6 +82,13 @@ CLEANUP:
 
 
 DONE:
+(5/1/06) - add "separation" property to BSSquareWells
+(5/1/06) - move "spacing" property out of BSAbstractPotential and into BSCoulombWells
+(5/1/06) - add range parameters to modules, control panel, & dialogs, remove ranges from BSConstants
+(5/1/06) - create classes for describing range + default value
+(5/1/06) - move all common stuff out of "many" module and into BSAbstractModule
+(5/1/06) - rename module classes
+(5/1/06) - change command line args to -one, -two, -many
 0.00.03...
 (4/28/06) - bugfix: reset superposition coefficients only when we're losing non-zero coefficients
 (4/28/06) - bugfix: subscript on equations is wrong when switch potential type

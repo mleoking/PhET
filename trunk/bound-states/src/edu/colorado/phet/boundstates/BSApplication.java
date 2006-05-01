@@ -21,9 +21,9 @@ import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorsMenu;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
-import edu.colorado.phet.boundstates.module.BSDoubleModule;
-import edu.colorado.phet.boundstates.module.BSManyModule;
-import edu.colorado.phet.boundstates.module.BSSingleModule;
+import edu.colorado.phet.boundstates.module.BSManyWellsModule;
+import edu.colorado.phet.boundstates.module.BSOneWellModule;
+import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
@@ -49,17 +49,17 @@ public class BSApplication extends PhetApplication {
     //----------------------------------------------------------------------------
        
     // Command line args for choosing modules...
-    private static final String ARG_SINGLE = "-single";
-    private static final String ARG_DOUBLE = "-double";
+    private static final String ARG_ONE = "-one";
+    private static final String ARG_TWO = "-two";
     private static final String ARG_MANY = "-many";
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSSingleModule _singleModule;
-    private BSDoubleModule _doubleModule;
-    private BSManyModule _manyModule;
+    private BSOneWellModule _oneWellModule;
+    private BSTwoWellsModule _twoWellsModule;
+    private BSManyWellsModule _manyWellsModule;
     
     // PersistanceManager handles loading/saving application configurations.
     private BSPersistenceManager _persistenceManager;
@@ -102,24 +102,24 @@ public class BSApplication extends PhetApplication {
      */
     private void initModules( String[] args ) {
         
-        final boolean hasSingle = ArgUtils.contains( args, ARG_SINGLE );
-        final boolean hasDouble = ArgUtils.contains( args, ARG_DOUBLE );
-        final boolean hasMany = ArgUtils.contains( args, ARG_MANY );
-        final boolean hasAll = !( hasSingle || hasDouble || hasMany );
+        final boolean hasOneWellModule = ArgUtils.contains( args, ARG_ONE );
+        final boolean hasTwoWellsModule = ArgUtils.contains( args, ARG_TWO );
+        final boolean hasManyWellsModule = ArgUtils.contains( args, ARG_MANY );
+        final boolean hasAll = !( hasOneWellModule || hasTwoWellsModule || hasManyWellsModule );
         
-        if ( hasSingle || hasAll ) {
-            _singleModule = new BSSingleModule();
-            addModule( _singleModule );
+        if ( hasOneWellModule || hasAll ) {
+            _oneWellModule = new BSOneWellModule();
+            addModule( _oneWellModule );
         }
         
-        if ( hasDouble || hasAll ) {
-            _doubleModule = new BSDoubleModule();
-            addModule( _doubleModule );
+        if ( hasTwoWellsModule || hasAll ) {
+            _twoWellsModule = new BSTwoWellsModule();
+            addModule( _twoWellsModule );
         }
 
-        if ( hasMany || hasAll ) {
-            _manyModule = new BSManyModule();
-            addModule( _manyModule );
+        if ( hasManyWellsModule || hasAll ) {
+            _manyWellsModule = new BSManyWellsModule();
+            addModule( _manyWellsModule );
         }
     }
     
