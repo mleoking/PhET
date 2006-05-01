@@ -47,6 +47,7 @@ CLEANUP:
 
 
 DONE:
+0.00.04...
 (5/1/06) - depth order of eigenstates should be (back to front) unselected, selected, hilited
 (5/1/06) - bugfix: choices in BSWellComboBox shouldn't be static!
 (5/1/06) - default to Probability Density
