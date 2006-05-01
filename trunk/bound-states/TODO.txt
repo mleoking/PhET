@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- check tick marks on all sliders with new ranges
 - exception on startup, happens in all modules:
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException
 	at java.lang.System.arraycopy(Native Method)
@@ -33,8 +34,6 @@ Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException
 
 
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
-- Single Module
-- Double Module
 - some eigenstates are so close together that one or more can't be selected or hilited
 - Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
@@ -55,9 +54,6 @@ MEDIUM PRIORITY:
 - drag handles for each potential type (all slightly different)
 - disable the superposition button if no eigenstates are found
 - implement Save/Load for model
-- Single and Double modules need to permanently hide the "number of wells" control
-- different width ranges for single, double, many well modules
-- use specified defaults for all controls
 - update while sliders are dragging
 - different method of solving when multi-wells are spaced far apart?
 
