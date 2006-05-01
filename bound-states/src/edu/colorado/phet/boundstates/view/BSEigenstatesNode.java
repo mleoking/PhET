@@ -284,8 +284,8 @@ public class BSEigenstatesNode extends PNode implements Observer {
             else {
                 line.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
                 line.setStrokePaint( _selectionColor );
+                line.moveToFront();
             }
-            line.moveToFront();
         }
         _hiliteValueNode.moveToFront();
     }
