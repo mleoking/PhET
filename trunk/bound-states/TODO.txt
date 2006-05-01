@@ -19,7 +19,6 @@ MEDIUM PRIORITY:
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
-- depth order of eigenstates should be (back to front) unselected, selected, hilited
 - pause clock by default
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
@@ -48,6 +47,7 @@ CLEANUP:
 
 
 DONE:
+(5/1/06) - depth order of eigenstates should be (back to front) unselected, selected, hilited
 (5/1/06) - bugfix: choices in BSWellComboBox shouldn't be static!
 (5/1/06) - default to Probability Density
 (5/1/06) - start clock at end of module contructors to prevent exception during startup
