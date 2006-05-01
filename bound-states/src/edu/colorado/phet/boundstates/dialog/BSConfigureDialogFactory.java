@@ -28,23 +28,29 @@ public class BSConfigureDialogFactory {
 
     private BSConfigureDialogFactory() {}
 
-    public static JDialog createDialog( Frame owner, BSAbstractPotential well ) {
+    public static JDialog createDialog( Frame owner, BSAbstractPotential well,
+            BSDoubleRange offsetRange, BSDoubleRange depthRange,
+            BSDoubleRange widthRange, BSDoubleRange spacingRange,
+            BSDoubleRange separationRange, BSDoubleRange angularFrequencyRange ) {
+        
         JDialog dialog = null;
-        if ( well instanceof BSCoulombWells ) {
-            dialog = new BSCoulombDialog( owner, (BSCoulombWells) well );
+        
+        if ( well instanceof BSAsymmetricWell ) {
+            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well, offsetRange, depthRange, widthRange );
+        }
+        else if ( well instanceof BSCoulombWells ) {
+            dialog = new BSCoulombDialog( owner, (BSCoulombWells) well, offsetRange, spacingRange );
         }
         else if ( well instanceof BSHarmonicOscillatorWell ) {
-            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well );
+            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well, offsetRange, angularFrequencyRange );
         }
         else if ( well instanceof BSSquareWells ) {
-            dialog = new BSSquareDialog( owner, (BSSquareWells) well );
-        }
-        else if ( well instanceof BSAsymmetricWell ) {
-            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well );
+            dialog = new BSSquareDialog( owner, (BSSquareWells) well, offsetRange, depthRange, widthRange, separationRange );
         }
         else {
             throw new IllegalArgumentException( "unsupported well type: " + well.getWellType() );
         }
+        
         return dialog;
     }
 }

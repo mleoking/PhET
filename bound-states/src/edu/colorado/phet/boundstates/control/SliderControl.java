@@ -100,11 +100,8 @@ public class SliderControl extends JPanel {
         if ( value < min || value > max ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
-        if ( min >= max ) {
-            throw new IllegalArgumentException( "min >= max" );
-        }
-        if ( tickSpacing > max - min ) {
-            throw new IllegalArgumentException( "tickSpacing > max - min" );
+        if ( min > max ) {
+            throw new IllegalArgumentException( "min > max" );
         }
         if ( tickDecimalPlaces < 0 ) {
             throw new IllegalArgumentException( "tickPrecision must be >= 0" );

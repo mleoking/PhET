@@ -28,7 +28,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.module.BSManyModule;
+import edu.colorado.phet.boundstates.model.BSIntegerRange;
+import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.view.BSBottomPlot;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -70,7 +71,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BSManyModule _module;
+    private BSAbstractModule _module;
 
     // Energy controls
     private BSWellComboBox _wellTypeComboBox;
@@ -97,7 +98,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
      * 
      * @param module
      */
-    public BSControlPanel( BSManyModule module ) {
+    public BSControlPanel( BSAbstractModule module,
+            BSWellType[] wellTypes,
+            BSIntegerRange numberOfWellsRange 
+            ) {
         super( module );
 
         _module = module;
@@ -119,12 +123,15 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Well type 
             JLabel wellTypeLabel = new JLabel( SimStrings.get( "label.wellType" ) );
             _wellTypeComboBox = new BSWellComboBox();
+            for ( int i = 0; i < wellTypes.length; i++ ) {
+                _wellTypeComboBox.addChoice( wellTypes[i] );   
+            }
 
             // Number of wells
             _numberOfWellsSlider = new SliderControl( 
-                    BSConstants.DEFAULT_NUMBER_OF_WELLS, 
-                    BSConstants.MIN_NUMBER_OF_WELLS, 
-                    BSConstants.MAX_NUMBER_OF_WELLS,
+                    numberOfWellsRange.getDefault(),
+                    numberOfWellsRange.getMin(), 
+                    numberOfWellsRange.getMax(),
                     1, 0, 0, SimStrings.get( "label.numberOfWells" ), "", 2, SLIDER_INSETS );
             _numberOfWellsSlider.setTextEditable( true );
             _numberOfWellsSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
@@ -147,8 +154,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             row++;
             layout.addComponent( _wellTypeComboBox, row, col );
             row++;
-            layout.addComponent( _numberOfWellsSlider, row, col );
-            row++;
+            if ( numberOfWellsRange.getLength() > 0 ) {
+                layout.addComponent( _numberOfWellsSlider, row, col );
+                row++;
+            }
             layout.addComponent( _configureEnergyButton, row, col );
             row++;
             layout.addComponent( _superpositionButton, row, col );
@@ -498,15 +507,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     public void setNumberOfWellsControlVisible( boolean visible ) {
         _numberOfWellsSlider.setVisible( visible );
-    }
-    
-    public void setWellTypeChoices( BSWellType[] wellTypes ) {
-        _wellTypeComboBox.removeItemListener( _listener );
-        _wellTypeComboBox.clearChoices();
-        for ( int i = 0; i < wellTypes.length; i++ ) {
-            _wellTypeComboBox.addChoice( wellTypes[i] );   
-        }
-        _wellTypeComboBox.addItemListener( _listener );
     }
     
     //----------------------------------------------------------------------------

@@ -43,12 +43,8 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSHarmonicOscillatorWell( BSParticle particle ) {
-        this( particle, BSConstants.DEFAULT_HARMONIC_OSCILLATOR_OFFSET, BSConstants.DEFAULT_HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY );
-    }
-    
     public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
-        super( particle, 1, 0, offset, BSConstants.DEFAULT_WELL_CENTER );
+        super( particle, 1 /* numberOfWells */, offset );
         setAngularFrequency( angularFrequency );
     }
     

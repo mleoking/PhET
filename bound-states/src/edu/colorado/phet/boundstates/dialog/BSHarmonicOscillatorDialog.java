@@ -13,7 +13,6 @@ package edu.colorado.phet.boundstates.dialog;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
@@ -21,8 +20,11 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import sun.security.krb5.internal.ccache.an;
+
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
+import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorWell;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -40,8 +42,6 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSHarmonicOscillatorWell _potential;
-    
     private SliderControl _offsetSlider;
     private SliderControl _angularFrequencySlider;
     
@@ -52,9 +52,11 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     /**
      * Constructor.
      */
-    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential ) {
-        super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );    
-        _potential = potential;
+    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential,
+            BSDoubleRange offsetRange, BSDoubleRange angularFrequencyRange ) {
+        super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
+        JPanel inputPanel = createInputPanel( offsetRange, angularFrequencyRange );
+        createUI( inputPanel );
         updateControls();
     }
     
@@ -67,16 +69,16 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel() {
+    protected JPanel createInputPanel( BSDoubleRange offsetRange, BSDoubleRange angularFrequencyRange ) {
         
         String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
-            double value = BSConstants.MIN_WELL_OFFSET;
-            double min = BSConstants.MIN_WELL_OFFSET;
-            double max = BSConstants.MAX_WELL_OFFSET;
+            double value = offsetRange.getDefault();
+            double min = offsetRange.getMin();
+            double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -94,9 +96,9 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
 
         // Angular Frequency
         {
-            double value = BSConstants.MIN_WELL_ANGULAR_FREQUENCY;
-            double min = BSConstants.MIN_WELL_ANGULAR_FREQUENCY;
-            double max = BSConstants.MAX_WELL_ANGULAR_FREQUENCY;
+            double value = angularFrequencyRange.getDefault();
+            double min = angularFrequencyRange.getMin();
+            double max = angularFrequencyRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -130,8 +132,9 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     }
 
     protected void updateControls() {
-        _offsetSlider.setValue( _potential.getOffset() );
-        _angularFrequencySlider.setValue( _potential.getAngularFrequency() );
+        BSHarmonicOscillatorWell potential = (BSHarmonicOscillatorWell) getPotential();
+        _offsetSlider.setValue( potential.getOffset() );
+        _angularFrequencySlider.setValue( potential.getAngularFrequency() );
     }
     
     //----------------------------------------------------------------------------
@@ -140,12 +143,13 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _potential.setOffset( offset );
+        getPotential().setOffset( offset );
     }
     
     private void handleAngularFrequencyChange() {
         final double angularFrequency = _angularFrequencySlider.getValue();
-        _potential.setAngularFrequency( angularFrequency );
+        BSHarmonicOscillatorWell potential = (BSHarmonicOscillatorWell) getPotential();
+        potential.setAngularFrequency( angularFrequency );
     }
 
 }

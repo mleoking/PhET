@@ -60,7 +60,10 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         } );
         _potential = potential;
         _potential.addObserver( this );
-        createUI();
+    }
+    
+    protected BSAbstractPotential getPotential() {
+        return _potential;
     }
     
     //----------------------------------------------------------------------------
@@ -72,9 +75,8 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
      * 
      * @param parent the parent Frame
      */
-    private void createUI() {
+    protected void createUI( JPanel inputPanel ) {
         
-        JPanel inputPanel = createInputPanel();
         JPanel actionsPanel = createActionsPanel();
 
         JPanel bottomPanel = new JPanel( new BorderLayout() );
@@ -91,16 +93,11 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     }
     
     /*
-     * Creates the dialog's input panel.
-     */
-    protected abstract JPanel createInputPanel();
-    
-    /*
      * Creates the dialog's actions panel, consisting of a Close button.
      * 
      * @return the actions panel
      */
-    private JPanel createActionsPanel() {
+    protected JPanel createActionsPanel() {
 
         JButton closeButton = new JButton( SimStrings.get( "button.close" ) );
         closeButton.addActionListener( new ActionListener() {

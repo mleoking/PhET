@@ -48,18 +48,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAsymmetricWell( BSParticle particle ) {
-        this( particle,
-              BSConstants.DEFAULT_ASYMMETRIC_WIDTH, 
-              BSConstants.DEFAULT_ASYMMETRIC_DEPTH, 
-              BSConstants.DEFAULT_ASYMMETRIC_OFFSET, 
-              BSConstants.DEFAULT_WELL_CENTER );
-    }
-    
-    public BSAsymmetricWell( BSParticle particle, double width, double depth, double offset, double center ) {
-        super( particle, 1, 0, offset, center );
-        setWidth( width );
+    public BSAsymmetricWell( BSParticle particle, double offset, double depth, double width ) {
+        super( particle, 1 /* numberOfWells */, offset );
         setDepth( depth );
+        setWidth( width );
     }
     
     //----------------------------------------------------------------------------

@@ -11,24 +11,18 @@
 
 package edu.colorado.phet.boundstates.dialog;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Observable;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
+import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSSquareWells;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -46,16 +40,11 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSSquareWells _potential;
-    private double _separation;
-    
     private SliderControl _widthSlider;
     private SliderControl _depthSlider;
     private SliderControl _offsetSlider;
     private SliderControl _separationSlider;
     private JSeparator _separationSeparator;
-    
-    private boolean _ignoreUpdate;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,11 +53,11 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells potential ) {
+    public BSSquareDialog( Frame parent, BSSquareWells potential,
+            BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange, BSDoubleRange separationSpacing ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
-        _potential = potential;
-        _separation = _potential.getSpacing() - _potential.getWidth();
-        _ignoreUpdate = false;
+        JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange, separationSpacing );
+        createUI( inputPanel );
         updateControls();
     }
     
@@ -81,16 +70,18 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel() {
+    protected JPanel createInputPanel(
+            BSDoubleRange offsetRange, BSDoubleRange depthRange, 
+            BSDoubleRange widthRange, BSDoubleRange separationSpacing ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
         
         // Width
         {
-            double value = BSConstants.MIN_WELL_WIDTH;
-            double min = BSConstants.MIN_WELL_WIDTH;
-            double max = BSConstants.MAX_WELL_WIDTH;
+            double value = widthRange.getDefault();
+            double min = widthRange.getMin();
+            double max = widthRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -108,9 +99,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         
         // Depth
         {
-            double value = BSConstants.MIN_WELL_DEPTH;
-            double min = BSConstants.MIN_WELL_DEPTH;
-            double max = BSConstants.MAX_WELL_DEPTH;
+            double value = depthRange.getDefault();
+            double min = depthRange.getMin();
+            double max = depthRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -128,9 +119,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Offset
         {
-            double value = BSConstants.MIN_WELL_OFFSET;
-            double min = BSConstants.MIN_WELL_OFFSET;
-            double max = BSConstants.MAX_WELL_OFFSET;
+            double value = offsetRange.getDefault();
+            double min = offsetRange.getMin();
+            double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -148,9 +139,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Separation
         {
-            double value = BSConstants.MIN_WELL_SEPARATION;
-            double min = BSConstants.MIN_WELL_SEPARATION;
-            double max = BSConstants.MAX_WELL_SEPARATION;
+            double value = separationSpacing.getDefault();
+            double min = separationSpacing.getMin();
+            double max = separationSpacing.getMax();
             double tickSpacing = Math.abs( max - min );
             int tickPrecision = 1;
             int labelPrecision = 1;
@@ -193,18 +184,18 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
     protected void updateControls() {
 
-        if ( !_ignoreUpdate ) {
-            // Sync values
-            _widthSlider.setValue( _potential.getWidth() );
-            _depthSlider.setValue( _potential.getDepth() );
-            _offsetSlider.setValue( _potential.getOffset() );
-            _separationSlider.setValue( _separation );
+        BSSquareWells potential = (BSSquareWells) getPotential();
 
-            // Visibility
-            _separationSlider.setVisible( _potential.getNumberOfWells() > 1 );
-            _separationSeparator.setVisible( _separationSlider.isVisible() );
-            pack();
-        }
+        // Sync values
+        _widthSlider.setValue( potential.getWidth() );
+        _depthSlider.setValue( potential.getDepth() );
+        _offsetSlider.setValue( potential.getOffset() );
+        _separationSlider.setValue( potential.getSeparation() );
+
+        // Visibility
+        _separationSlider.setVisible( potential.getNumberOfWells() > 1 );
+        _separationSeparator.setVisible( _separationSlider.isVisible() );
+        pack();
     }
     
     //----------------------------------------------------------------------------
@@ -213,28 +204,25 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
    
     private void handleOffsetChange() {
         final double offset = _offsetSlider.getValue();
-        _potential.setOffset( offset );
+        getPotential().setOffset( offset );
     }
     
     private void handleDepthChange() {
+        BSSquareWells potential = (BSSquareWells) getPotential();
         final double depth = _depthSlider.getValue();
-        _potential.setDepth( depth );
+        potential.setDepth( depth );
     }
     
     private void handleWidthChange() {
+        BSSquareWells potential = (BSSquareWells) getPotential();
         final double width = _widthSlider.getValue();
-        final double spacing = _separation + width;
-        _ignoreUpdate = true; // because we're changing 2 properties...
-        _potential.setWidth( width );
-        _ignoreUpdate = false;
-        _potential.setSpacing( spacing );
+        potential.setWidth( width );
     }
     
     private void handleSeparationChange() {
-        _separation = _separationSlider.getValue();
-        final double width = _potential.getWidth();
-        final double spacing = _separation + width;
-        _potential.setSpacing( spacing );
+        BSSquareWells potential = (BSSquareWells) getPotential();
+        final double separation = _separationSlider.getValue();
+        potential.setSeparation( separation );
     }
 
 }

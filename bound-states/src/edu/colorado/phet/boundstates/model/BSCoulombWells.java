@@ -37,22 +37,32 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  */
 public class BSCoulombWells extends BSAbstractPotential {
     
+    private double _spacing;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSCoulombWells( BSParticle particle, int numberOfWells ) {
-        this( particle, 
-                numberOfWells, 
-                BSConstants.DEFAULT_COULOMB_SPACING,
-                BSConstants.DEFAULT_COULOMB_OFFSET, 
-                BSConstants.DEFAULT_WELL_CENTER );
-    }
-    
-    public BSCoulombWells( BSParticle particle, int numberOfWells, double spacing, double offset, double center ) {
-        super( particle, numberOfWells, spacing, offset, center );
+    public BSCoulombWells( BSParticle particle, int numberOfWells, double offset, double spacing ) {
+        super( particle, numberOfWells, offset );
+        setSpacing( spacing );
     }
 
+    public double getSpacing() {
+        return _spacing;
+    }
+
+    public void setSpacing( double spacing ) {
+        if ( spacing < 0 ) {
+            throw new IllegalArgumentException( "invalid spacing: " + spacing );
+        }
+        if ( spacing != _spacing ) {
+            _spacing = spacing;
+            markEigenstatesDirty();
+            notifyObservers();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------

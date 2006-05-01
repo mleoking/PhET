@@ -141,11 +141,6 @@ public class BSConstants {
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
-    // Number of wells
-    public static final int MIN_NUMBER_OF_WELLS = 1;
-    public static final int MAX_NUMBER_OF_WELLS = 10;
-    public static final int DEFAULT_NUMBER_OF_WELLS = 2;
-    
     //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------
@@ -192,54 +187,6 @@ public class BSConstants {
     public static final double MASS_SLIDER_TICKS_SPACING = 1;
     public static final double DEFAULT_MASS_MULTIPLIER = 1;
     public static final double DEFAULT_MASS = DEFAULT_MASS_MULTIPLIER * ELECTRON_MASS;
-    
-    //----------------------------------------------------------------------------
-    // Potentials
-    //----------------------------------------------------------------------------
-
-    // Ranges...
-    
-    public static final double MIN_WELL_WIDTH = 0.1; // nm
-    public static final double MAX_WELL_WIDTH = 3; // nm
-    
-    public static final double MIN_WELL_SPACING = 0.3; // nm
-    public static final double MAX_WELL_SPACING = 4; // nm
-    
-    public static final double MIN_WELL_DEPTH = 0; // eV
-    public static final double MAX_WELL_DEPTH = 20; // eV
-
-    public static final double MIN_WELL_SEPARATION = 0.1; // nm
-    public static final double MAX_WELL_SEPARATION = 4; // nm
-    
-    public static final double MIN_WELL_OFFSET = -15; // eV
-    public static final double MAX_WELL_OFFSET = 5; // eV
-    
-    public static final double MIN_WELL_ANGULAR_FREQUENCY = 1; // femtoseconds^-1
-    public static final double MAX_WELL_ANGULAR_FREQUENCY = 2.5; // femtoseconds^-1
-    
-    // Defaults...
-    
-    // Common to all well types...
-    public static final double DEFAULT_WELL_CENTER = 0; // nm
-    
-    // Coulomb well...
-    public static final double DEFAULT_COULOMB_OFFSET = 0; // eV
-    public static final double DEFAULT_COULOMB_SPACING = 1.2; // nm
-    
-    // Harmonic Oscillator...
-    public static final double DEFAULT_HARMONIC_OSCILLATOR_OFFSET = 0; // eV
-    public static final double DEFAULT_HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY = 1; // femtoseconds^-1
-    
-    // Square well...
-    public static final double DEFAULT_SQUARE_OFFSET = 0; // eV
-    public static final double DEFAULT_SQUARE_WIDTH = 0.5; // nm
-    public static final double DEFAULT_SQUARE_DEPTH = 10; // eV
-    public static final double DEFAULT_SQUARE_SPACING = 1.2; // nm
-    
-    // Asymmetric well...
-    public static final double DEFAULT_ASYMMETRIC_OFFSET = 0; // eV
-    public static final double DEFAULT_ASYMMETRIC_WIDTH = 0.5; // nm
-    public static final double DEFAULT_ASYMMETRIC_DEPTH = 10; // eV
     
     //----------------------------------------------------------------------------
     // Miscellaneous

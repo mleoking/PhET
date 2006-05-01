@@ -34,7 +34,6 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     //----------------------------------------------------------------------------
     
     private int _numberOfWells;
-    private double _spacing;
     private double _center;
     private double _offset;
     private BSParticle _particle;
@@ -44,13 +43,11 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAbstractPotential( BSParticle particle, 
-            int numberOfWells, double spacing, double offset, double center ) {
+    public BSAbstractPotential( BSParticle particle, int numberOfWells, double offset ) {
         setNumberOfWells( numberOfWells );
-        setSpacing( spacing );
         setOffset( offset );
-        setCenter( center );
-        setParticle( particle );
+        setCenter( 0 );
+        setParticle( particle ); // add this last!
     }
 
     //----------------------------------------------------------------------------
@@ -86,21 +83,6 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
         if ( numberOfWells != _numberOfWells ) {
             _numberOfWells = numberOfWells;
-            markEigenstatesDirty();
-            notifyObservers();
-        }
-    }
-    
-    public double getSpacing() {
-        return _spacing;
-    }
-
-    public void setSpacing( double spacing ) {
-        if ( spacing < 0 ) {
-            throw new IllegalArgumentException( "invalid spacing: " + spacing );
-        }
-        if ( spacing != _spacing ) {
-            _spacing = spacing;
             markEigenstatesDirty();
             notifyObservers();
         }
