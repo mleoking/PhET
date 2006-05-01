@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class BSTwoWellsModule extends BSAbstractModule {
 
-    private static final BSWellType[] WELL_TYPES = { BSWellType.COULOMB, BSWellType.SQUARE };
+    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB };
 
     // Ranges (min, max, default)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 2, 2, 2 );
@@ -48,5 +48,6 @@ public class BSTwoWellsModule extends BSAbstractModule {
                 ANGULAR_FREQUENCY_RANGE );
 
         setWellType( BSWellType.SQUARE );
+        getClock().start();
     }
 }
