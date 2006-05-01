@@ -91,8 +91,12 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             graphic = new SampleChamberGraphic( (SampleChamber)modelElement );
             layer = sampleChamberLayer;
         }
-        else if( modelElement instanceof GradientElectromagnet ) {
+        else if( modelElement instanceof SimpleMagnet ) {
             graphic = new ElectromagnetGraphic( (GradientElectromagnet)modelElement );
+            layer = magnetCoilLayer;
+        }
+        else if( modelElement instanceof LinearGradientMagnet ) {
+            graphic = new GradientMagnetGraphic( (GradientElectromagnet)modelElement );
             layer = magnetCoilLayer;
         }
         else if( modelElement instanceof RadiowaveSource

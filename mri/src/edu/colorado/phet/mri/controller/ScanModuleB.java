@@ -19,10 +19,10 @@ import edu.colorado.phet.mri.view.SampleTargetGraphic;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ScanModule extends HeadModule {
+public class ScanModuleB extends HeadModule {
 
-    public ScanModule() {
-        super( "Scanner I");
+    public ScanModuleB() {
+        super( "Scanner II");
         MriModel model = (MriModel)getModel();
         RadiowaveSource radioSource = model.getRadiowaveSource();
         radioSource.setFrequency( 42E6 );
@@ -32,16 +32,16 @@ public class ScanModule extends HeadModule {
         magnet.setCurrent( 33 );
 
 
-        SampleTarget sampleTarget = new SampleTarget();
-        sampleTarget.setLocation( 300, 300 );
-        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleTarget );
-        getGraphicsManager().addGraphic( sampleTargetGraphic );
-
-        sampleTarget.addChangeListener( new SampleTargetModelConfigurator( (MriModel)getModel() ) );
-
-//        SampleScanner sampleScanner = new SampleScanner( getHead() );
-//        model.addModelElement( sampleScanner);
-//        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
+//        SampleTarget sampleTarget = new SampleTarget();
+//        sampleTarget.setLocation( 300, 300 );
+//        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleTarget );
 //        getGraphicsManager().addGraphic( sampleTargetGraphic );
+//
+//        sampleTarget.addChangeListener( new SampleTargetModelConfigurator( (MriModel)getModel() ) );
+
+        SampleScanner sampleScanner = new SampleScanner( getHead() );
+        model.addModelElement( sampleScanner);
+        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
+        getGraphicsManager().addGraphic( sampleTargetGraphic );
     }
 }

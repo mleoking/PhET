@@ -29,7 +29,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SampleTargetGraphic extends PNode implements SampleTarget.ChangeListener {
-    private static double LINE_LENGTH = 30;
+    private static double LINE_LENGTH = 50;
 
     public SampleTargetGraphic( SampleTarget sampleTarget ) {
 
@@ -41,10 +41,17 @@ public class SampleTargetGraphic extends PNode implements SampleTarget.ChangeLis
         PPath verticalLinePNode = new PPath( verticalLine );
         addChild( horizontalLinePNode );
         addChild( verticalLinePNode );
+        Color lineColor = Color.black;
+//        Color lineColor = new Color( 180, 0, 0);
+        horizontalLinePNode.setStrokePaint( lineColor );
+        verticalLinePNode.setStrokePaint( lineColor );
 
         Ellipse2D ring = new Ellipse2D.Double( -LINE_LENGTH / 3, -LINE_LENGTH / 3, LINE_LENGTH * 2 / 3, LINE_LENGTH * 2 / 3 );
         PPath ringPNode = new PPath( ring );
         addChild( ringPNode );
+        Color ringColor = new Color( 0, 160, 0 );
+        ringPNode.setStroke( new BasicStroke( 5 ) );
+        ringPNode.setStrokePaint( ringColor );
 
         addMouseHandling( sampleTarget );
 

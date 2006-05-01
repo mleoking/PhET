@@ -84,7 +84,6 @@ public class GradientElectromagnet extends Electromagnet {
                      ? p.getX() - ( getPosition().getX() - length / 2 )
                      : p.getY() -  ( getPosition().getY() - length / 2 );
         if( orientation == VERTICAL ) {
-//            System.out.println( "loc = " + loc );
         }
         return getFieldStrength() * gradient.getValueAt( loc, length );
     }
