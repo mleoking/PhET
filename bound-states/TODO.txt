@@ -48,6 +48,7 @@ CLEANUP:
 
 
 DONE:
+(5/1/06) - bugfix: choices in BSWellComboBox shouldn't be static!
 (5/1/06) - default to Probability Density
 (5/1/06) - start clock at end of module contructors to prevent exception during startup
 (5/1/06) - add "separation" property to BSSquareWells
