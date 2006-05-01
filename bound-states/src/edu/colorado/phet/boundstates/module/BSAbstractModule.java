@@ -71,11 +71,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
     // Model
     private BSModel _model;
     private BSParticle _particle;
+    private BSSuperpositionCoefficients _superpositionCoefficients;
+    private BSAsymmetricWell _asymmetricWell;
     private BSCoulombWells _coulombWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSSquareWells _squareWells;
-    private BSAsymmetricWell _asymmetricWell;
-    private BSSuperpositionCoefficients _superpositionCoefficients;
     
     // View
     private PhetPCanvas _canvas;
@@ -381,7 +381,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractModule implementation
+    // 
     //----------------------------------------------------------------------------
     
     /**
@@ -404,16 +404,16 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Model
         _particle = new BSParticle( BSConstants.DEFAULT_MASS );
+        _superpositionCoefficients = new BSSuperpositionCoefficients();
+        _asymmetricWell = new BSAsymmetricWell( _particle, 
+                _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );
         _coulombWells = new BSCoulombWells( _particle, _numberOfWellsRange.getDefault(), 
                 _offsetRange.getDefault(), _spacingRange.getDefault() );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
                 _offsetRange.getDefault(), _angularFrequencyRange.getDefault() );
         _squareWells = new BSSquareWells( _particle, _numberOfWellsRange.getDefault(), 
                 _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault(), _separationRange.getDefault() );
-        _asymmetricWell = new BSAsymmetricWell( _particle, 
-                _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );
-        _superpositionCoefficients = new BSSuperpositionCoefficients();
-        _model = new BSModel( _harmonicOscillatorWell, _superpositionCoefficients );
+        _model = new BSModel( _squareWells, _superpositionCoefficients );
         
         // View
         _energyPlot.setModel( _model );
@@ -432,6 +432,10 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel.setPhaseSelected( false );
         _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY ); // do this after setting views
     }
+    
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
     
     /**
      * Saves the module's configuration by writing it to a provided configuration object.
