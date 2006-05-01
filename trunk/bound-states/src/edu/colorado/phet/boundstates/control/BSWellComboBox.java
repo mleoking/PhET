@@ -44,7 +44,7 @@ public class BSWellComboBox extends JComboBox {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private static ArrayList _choices;
+    private ArrayList _choices;
     private Color _potentialColor;
     
     //----------------------------------------------------------------------------
