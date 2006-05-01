@@ -227,6 +227,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         if ( mode != MODE_WAVE_FUNCTION && mode != MODE_PROBABILITY_DENSITY ) {
             throw new IllegalArgumentException( "invalid mode: " + mode );
         }
+        System.out.println( "BSBottomPlot.setMode " + mode );//XXX
 
         ValueAxis yAxis = getRangeAxis();
         if ( mode == MODE_WAVE_FUNCTION ) {

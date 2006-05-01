@@ -5,33 +5,29 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
-- add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - some eigenstates are so close together that one or more can't be selected or hilited
-- Single or Double module occassionally throws an exception during startup
 - cache wavefunction solutions
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
+- drag handles for each potential type (all slightly different)
+- implement Save/Load for model
 - reduce startup time
-- stop looking for Coulomb eigenstates when energy > max visible potential
 - represent closely-spaced eigenstates as a thicker line?
 - examine closely-spaced eigenstates using a magnifying glass?
 - display values of all closely-spaced eigenstates at the same time?
-- should selected eigenstate values be displayed in red when they are hilited?
-- selected eigenstate nodes should be above unselected, hilited above all others
+- depth order of eigenstates should be (back to front) unselected, selected, hilited
 - pause clock by default
-- what is the proper behavior when we hilite the eigenstate that's selected?
 - green eigenstate lines have varying brightnesses on Windows
-- default to Probability Density
 - verify that datasets are updated only when absolutely necessary
-- drag handles for each potential type (all slightly different)
-- disable the superposition button if no eigenstates are found
-- implement Save/Load for model
-- update while sliders are dragging
+- stop looking for Coulomb eigenstates when energy > max visible potential
 - different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- update while sliders are dragging
 - wave function curves look segmented when screen resolution is decreased after sim is started
 - scale position axis to fit excited portion of wavefunction (might not do this)
 - remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
@@ -52,6 +48,7 @@ CLEANUP:
 
 
 DONE:
+(5/1/06) - default to Probability Density
 (5/1/06) - start clock at end of module contructors to prevent exception during startup
 (5/1/06) - add "separation" property to BSSquareWells
 (5/1/06) - move "spacing" property out of BSAbstractPotential and into BSCoulombWells
@@ -218,6 +215,7 @@ DONE:
 
 
 REJECTED:
+(5/1/06) - disable the superposition button if no eigenstates are found (we should always find states, and superposition dialog works OK if we don't)
 (4/26/06) - change superposition equation for Coulomb to include only even eigenstates? (no)
 (4/26/06) - make SchmidtLee.getWaveFunction return Point2D[] instead of double[] (wrapped by BSAbstractPotential.getWaveFunctionPoints)
 (4/26/06) - square & asymm wells don't have square sides when dx gets larger, override getPotentialPoints for square & asymm (set pixels-per-sample appropriately)

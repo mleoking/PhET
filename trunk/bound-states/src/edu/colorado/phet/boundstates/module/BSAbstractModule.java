@@ -426,11 +426,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel.setWellType( _model.getWellType() );
         _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
         _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-        _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_WAVE_FUNCTION );
         _controlPanel.setRealSelected( true );
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
         _controlPanel.setPhaseSelected( false );
+        _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY ); // do this after setting views
     }
     
     /**
@@ -448,11 +448,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //XXX
         
         // Control panel
-        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
+        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() ); // do this after setting views
         //XXX
     }
     
