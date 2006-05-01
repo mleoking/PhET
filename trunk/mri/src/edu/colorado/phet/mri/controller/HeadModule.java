@@ -46,6 +46,7 @@ public class HeadModule extends AbstractMriModule {
                                                        MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
                                                        MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
                                                        MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
+    private Detector detector;
 
     /**
      * Constructor
@@ -101,7 +102,7 @@ public class HeadModule extends AbstractMriModule {
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 40,
                                                              150,
                                                              MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 );
-        Detector detector = new Detector( detectorBounds, model );
+        detector = new Detector( detectorBounds, model );
         model.addModelElement( detector );
 
         // Set the initial view
@@ -110,6 +111,10 @@ public class HeadModule extends AbstractMriModule {
 
     public Head getHead() {
         return head;
+    }
+
+    public Detector getDetector() {
+        return detector;
     }
 
 }

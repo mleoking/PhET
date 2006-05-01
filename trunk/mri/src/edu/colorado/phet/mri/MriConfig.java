@@ -66,6 +66,7 @@ public class MriConfig {
 
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;
+    public static final double DETECTOR_DEFAULT_PERIOD = 200;
 
     // Model to view conversion factors
 public static class ModelToView {

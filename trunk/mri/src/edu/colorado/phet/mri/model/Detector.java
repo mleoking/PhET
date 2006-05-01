@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class Detector extends SimpleObservable implements ModelElement {
     private Rectangle2D bounds;
     private MriModel model;
-    private double detectingPeriod = MriConfig.DT * 10;
+    private double detectingPeriod = MriConfig.DETECTOR_DEFAULT_PERIOD;
     private double elapsedTime;
     private int numDetected;
     private List detectedPhotons = new ArrayList( );
@@ -41,6 +41,10 @@ public class Detector extends SimpleObservable implements ModelElement {
     public Detector( Rectangle2D bounds, MriModel model ) {
         this.bounds = bounds;
         this.model = model;
+    }
+
+    public void setDetectingPeriod( double detectingPeriod ) {
+        this.detectingPeriod = detectingPeriod;
     }
 
     public Rectangle2D getBounds() {
