@@ -48,6 +48,7 @@ CLEANUP:
 
 
 DONE:
+(5/2/06) - change order of Configure dialogs code to reflect order that controls appear in dialogs
 (5/2/06) - bugfix: closing Configure dialogs causes an exception when SliderControl loses focus
 (5/2/06) - remove superposition button from "Many" panel
 (5/2/06) - change "Coulomb" to "Coulomb 1D"
