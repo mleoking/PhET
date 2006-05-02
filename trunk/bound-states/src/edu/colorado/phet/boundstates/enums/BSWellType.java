@@ -26,10 +26,11 @@ public class BSWellType extends AbstractEnum {
     }
     
     // Well type values
+    public static final BSWellType ASYMMETRIC = new BSWellType( "asymmetric" );
     public static final BSWellType COULOMB_1D = new BSWellType( "coulomb1D" );
+    public static final BSWellType COULOMB_3D = new BSWellType( "coulomb3D" );
     public static final BSWellType HARMONIC_OSCILLATOR = new BSWellType( "harmonicOscillator" );
     public static final BSWellType SQUARE = new BSWellType( "square" );
-    public static final BSWellType ASYMMETRIC = new BSWellType( "asymmetric" );
     
     /**
      * Retrieves a well type by name.
@@ -40,17 +41,20 @@ public class BSWellType extends AbstractEnum {
      */
     public static BSWellType getByName( String name ) {
         BSWellType wellType = null;
-        if ( COULOMB_1D.isNamed( name ) ) {
+        if ( ASYMMETRIC.isNamed( name ) ) {
+            wellType = ASYMMETRIC;
+        }
+        else if ( COULOMB_1D.isNamed( name ) ) {
             wellType = COULOMB_1D;
+        }
+        else if ( COULOMB_3D.isNamed( name ) ) {
+            wellType = COULOMB_3D;
         }
         else if ( HARMONIC_OSCILLATOR.isNamed( name ) ) {
             wellType = HARMONIC_OSCILLATOR;
         }
         else if ( SQUARE.isNamed( name ) ) {
             wellType = SQUARE;
-        }
-        else if ( ASYMMETRIC.isNamed( name ) ) {
-            wellType = ASYMMETRIC;
         }
         return wellType;
     }

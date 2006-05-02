@@ -74,6 +74,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private BSSuperpositionCoefficients _superpositionCoefficients;
     private BSAsymmetricWell _asymmetricWell;
     private BSCoulomb1DWells _coulomb1DWells;
+    private BSCoulomb3DWell _coulomb3DWell;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSSquareWells _squareWells;
     
@@ -410,6 +411,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
                 _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );
         _coulomb1DWells = new BSCoulomb1DWells( _particle, _numberOfWellsRange.getDefault(), 
                 _offsetRange.getDefault(), _spacingRange.getDefault() );
+        _coulomb3DWell = new BSCoulomb3DWell( _particle,  
+                _offsetRange.getDefault() );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
                 _offsetRange.getDefault(), _angularFrequencyRange.getDefault() );
         _squareWells = new BSSquareWells( _particle, _numberOfWellsRange.getDefault(), 
@@ -563,8 +566,14 @@ public abstract class BSAbstractModule extends PiccoloModule {
                 _configureWellDialog.dispose();
             }
 
-            if ( wellType == BSWellType.COULOMB_1D ) {
+            if ( wellType == BSWellType.ASYMMETRIC ) {
+                _model.setPotential( _asymmetricWell );
+            }
+            else if ( wellType == BSWellType.COULOMB_1D ) {
                 _model.setPotential( _coulomb1DWells );
+            }
+            else if ( wellType == BSWellType.COULOMB_3D ) {
+                _model.setPotential( _coulomb3DWell );
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 _model.setPotential( _harmonicOscillatorWell );
@@ -572,8 +581,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
             else if ( wellType == BSWellType.SQUARE ) {
                 _model.setPotential( _squareWells );
             }
-            else if ( wellType == BSWellType.ASYMMETRIC ) {
-                _model.setPotential( _asymmetricWell );
+            else {
+                throw new IllegalArgumentException( "unsupported wellType: " + wellType );
             }
 
             _controlPanel.setWellType( wellType );
