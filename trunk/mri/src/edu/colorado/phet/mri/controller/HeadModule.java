@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.colorado.phet.mri.view.SampleTargetGraphic;
+import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.*;
 import edu.umd.cs.piccolo.PNode;

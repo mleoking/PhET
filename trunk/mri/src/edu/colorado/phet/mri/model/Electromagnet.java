@@ -62,7 +62,7 @@ public class Electromagnet extends Particle {
                                               position.getY() - height / 2,
                                               width,
                                               height );
-        fieldChanger = new FieldChangerA( clock, MriConfig.CURRENT_TO_FIELD_FACTOR, MriConfig.CURRENT_TO_FIELD_FACTOR );
+        fieldChanger = new FieldChangerA( clock, MriConfig.MAGNET_FIELD_DB, MriConfig.MAGNET_FIELD_DB );
     }
 
     public double getCurrent() {
