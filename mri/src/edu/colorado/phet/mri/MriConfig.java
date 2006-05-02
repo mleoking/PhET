@@ -18,6 +18,7 @@ import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Calibration
@@ -55,12 +56,12 @@ public class MriConfig {
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
     public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT / 2;
+    public static final double MAGNET_FIELD_DB = 0.05;
     public static final double MAX_MU = 2;
     public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
     public static final double MAX_POWER = 100;
     // Difference in energies that is equivalent to 0
     public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN.getMu() * MAX_FADING_COIL_FIELD ) / 150;
-//    public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO * MAX_FADING_COIL_FIELD ) / 150;
     // Length of time (simulation time) that a dipole kicked into spin down state will stay there until
     // it spontaneously fall to spin up
     public static long SPIN_DOWN_TIMEOUT = 250;
@@ -85,6 +86,10 @@ public class MriConfig {
     public static double SCALE_FOR_ORG = 400.0 / 600;
     public static double SAMPLE_CHAMBER_WIDTH = 400;
     public static double SAMPLE_CHAMBER_HEIGHT = 300;
+    public static Rectangle2D SAMPLE_CHAMBER_BOUNDS = new Rectangle2D.Double( SAMPLE_CHAMBER_LOCATION.getX(),
+                                                                              SAMPLE_CHAMBER_LOCATION.getY(),
+                                                                              SAMPLE_CHAMBER_WIDTH,
+                                                                              SAMPLE_CHAMBER_HEIGHT );
 
     // Initial conditions
     public static class InitialConditions {

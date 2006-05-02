@@ -63,6 +63,18 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         setRegistrationPoint( bounds.getWidth() / 2, bounds.getHeight() / 2 );
 
         // Graphics for the arrows indicating current
+        createCurrentArrows( bounds );
+
+        // Graphics for the lead wires
+        createLeadWires( bounds );
+
+        // Graphics for the field strength arrows
+//        createFieldStrengthArrows( bounds, electromagnet );
+
+        update();
+    }
+
+    private void createCurrentArrows( Rectangle2D bounds ) {
         upperArrowCenterPoint = new Point2D.Double( -100, 0 );
         lowerArrowCenterPoint = new Point2D.Double( -100, bounds.getHeight() );
         upperArrow = new Arrow( new Point2D.Double( -100, - 20 ),
@@ -80,8 +92,9 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         lowerI.setFont( new Font( "Serif", Font.BOLD, 24 ) );
         lowerI.setOffset( lowerArrowCenterPoint.getX() - 10, lowerArrowCenterPoint.getY() + 3 );
         addChild( lowerI );
+    }
 
-        // Graphics for the lead wires
+    private void createLeadWires( Rectangle2D bounds ) {
         Line2D upperLeadLine = new Line2D.Double( -300, 10, 0, 10 );
         Line2D lowerLeadLine = new Line2D.Double( -300, bounds.getHeight() - 10, 0, bounds.getHeight() - 10 );
         upperLead = new PPath( upperLeadLine );
@@ -98,8 +111,9 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
             coilGraphic.translate( 0, -bounds.getWidth() );
         }
         addChild( coilGraphic );
+    }
 
-        // Graphics for the field strength arrows
+    private void createFieldStrengthArrows( Rectangle2D bounds, GradientElectromagnet electromagnet ) {
         int numBFieldArrows = 5;
         double baseDim = magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ? bounds.getWidth() : bounds.getHeight();
         double spacing = baseDim / ( numBFieldArrows + 1 );
@@ -116,7 +130,6 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
             }
             arrow.setOffset( p );
         }
-        update();
     }
 
     /**

@@ -85,7 +85,8 @@ public class GradientMagnetGraphic extends RegisterablePNode implements Electrom
         createCoilGraphics( bounds );
 
         // Graphics for the field strength arrows
-        createFieldStrengthArrows( bounds, gradientMagnet );
+//        createFieldStrengthArrows( bounds, gradientMagnet );
+        
         update();
     }
 

@@ -36,7 +36,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     private Rectangle2D bounds;
     private SimpleMagnet upperMagnet, lowerMagnet;
     private ArrayList magnets = new ArrayList();
-//    private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
     private DipoleOrientationAgent dipoleOrientationAgent;
@@ -129,32 +128,29 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
-//
-//        if( modelElement instanceof Dipole ) {
-//            dipoles.add( modelElement );
-//        }
+
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
             xLocToPhotons.put( new Double( ( (Photon)modelElement ).getPosition().getX() ), modelElement );
         }
         if( modelElement instanceof Electromagnet ) {
-            magnets.add( modelElement );
+            Electromagnet magnet = (Electromagnet)modelElement;
+            magnets.add( magnet );
+            magnet.addChangeListener( new MagnetListener() );
         }
         listenerProxy.modelElementAdded( modelElement );
     }
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-//
-//        if( modelElement instanceof Dipole ) {
-//            dipoles.remove( modelElement );
-//        }
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
             ( (Photon)modelElement ).removeFromSystem();
         }
         if( modelElement instanceof Electromagnet ) {
+            Electromagnet magnet = (Electromagnet)modelElement;
             magnets.remove( modelElement );
+            magnet.removeChangeListener( new MagnetListener() );
         }
         listenerProxy.modelElementRemoved( modelElement );
     }
@@ -278,6 +274,15 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
+    private class MagnetListener implements Electromagnet.ChangeListener {
+        public void stateChanged( Electromagnet.ChangeEvent event ) {
+            listenerProxy.fieldChanged( MriModel.this );
+        }
+    }
+
 
     //----------------------------------------------------------------
     // Events and listeners
@@ -299,6 +304,8 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         void modelElementRemoved( ModelElement modelElement );
 
         void sampleMaterialChanged( SampleMaterial sampleMaterial );
+
+        void fieldChanged( MriModel model );
     }
 
     public static abstract class ChangeAdapter implements ChangeListener {
@@ -309,6 +316,9 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         }
 
         public void sampleMaterialChanged( SampleMaterial sampleMaterial ) {
+        }
+
+        public void fieldChanged( MriModel model ) {
         }
     }
 

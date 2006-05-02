@@ -12,11 +12,14 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.view.ModelElementGraphicManager;
+import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.NmrControlPanel;
 import edu.colorado.phet.mri.model.*;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 /**
  * MriModuleA
@@ -37,9 +40,10 @@ public class NmrModule extends AbstractMriModule {
     //----------------------------------------------------------------
 
     static SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-                                                                                                         MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-                                                                                                         MriConfig.SAMPLE_CHAMBER_WIDTH,
-                                                                                                         MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
+                                                                                    MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+                                                                                    MriConfig.SAMPLE_CHAMBER_WIDTH,
+                                                                                    MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
+
     /**
      * Constructor
      */
@@ -50,11 +54,6 @@ public class NmrModule extends AbstractMriModule {
         setControlPanel( new NmrControlPanel( this ) );
 
         // Sample Chamber
-//        SampleChamber sampleChamber = new SampleChamber( new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-//                                                                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
-//                                                                                                             MriConfig.SAMPLE_CHAMBER_WIDTH,
-//                                                                                                             MriConfig.SAMPLE_CHAMBER_HEIGHT ) );
-//        addModelElement( sampleChamber );
         sampleChamber.createDipoles( (MriModel)getModel(), 20 );
 
         // Set the initial view

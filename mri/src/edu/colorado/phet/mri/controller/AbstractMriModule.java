@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
+import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 /**
  * AbstractMriModule
@@ -39,7 +40,6 @@ public abstract class AbstractMriModule extends PiccoloModule {
     private PNode worldNode;
 
     /**
-     *
      * @param name
      * @param clock
      */
@@ -62,6 +62,41 @@ public abstract class AbstractMriModule extends PiccoloModule {
         graphicsManager = new ModelElementGraphicManager( simPanel, worldNode );
         graphicsManager.scanModel( model );
         model.addListener( graphicsManager );
+
+        // Add the field represetntation arrows
+        createFieldStrengthArrows( model );
+
+    }
+
+    /**
+     *
+     */
+    private void createFieldStrengthArrows( MriModel model ) {
+        int numArrowsX = 5;
+        int numArrowsY = 5;
+        Point2D ulc = new Point2D.Double( model.getUpperMagnet().getBounds().getMinX(),
+                                          model.getUpperMagnet().getBounds().getMaxY() );
+        Point2D lrc = new Point2D.Double( model.getLowerMagnet().getBounds().getMaxX(),
+                                          model.getLowerMagnet().getBounds().getMinY() );
+        double spacingX = ( lrc.getX() - ulc.getX() ) / numArrowsX;
+        double spacingY = ( lrc.getY() - ulc.getY() ) / numArrowsY;
+//        double spacingX = MriConfig.SAMPLE_CHAMBER_BOUNDS.getWidth() / numArrowsX;
+//        double spacingY = MriConfig.SAMPLE_CHAMBER_BOUNDS.getHeight() / numArrowsY;
+
+        for( int i = 0; i < numArrowsX; i++ ) {
+            for( int j = 0; j < numArrowsY; j++ ) {
+                Point2D location = new Point2D.Double( ulc.getX() + spacingX * ( i + 0.5 ),
+                                                       ulc.getY() + spacingY * ( j + 0.5 ) );
+//                Point2D location = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + spacingX * ( i + 0.5 ),
+//                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + spacingY * ( j + 0.5 ) );
+                BFieldIndicatorB bfi = new BFieldIndicatorB( (MriModel)getModel(),
+                                                             location,
+                                                             100,
+                                                             null );
+                bfi.setOffset( location );
+                getGraphicsManager().addGraphic( bfi, getGraphicsManager().getControlLayer() );
+            }
+        }
     }
 
     public void setEmRep( EmRep emRep ) {
@@ -96,7 +131,6 @@ public abstract class AbstractMriModule extends PiccoloModule {
         dipole.setSpin( Spin.UP );
         model.addModelElement( dipole );
     }
-
 
     //----------------------------------------------------------------
     // Inner classes
