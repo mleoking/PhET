@@ -32,7 +32,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class GradientMagnetGraphic extends RegisterablePNode implements Electromagnet.ChangeListener {
-    private int numSegments = 10;
+    private int numSegments = 7;
     private PNode[] coilsGraphics = new PNode[numSegments];
     private PNode upperLead, lowerLead;
     private GradientElectromagnet magnet;

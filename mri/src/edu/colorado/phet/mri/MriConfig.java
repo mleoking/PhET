@@ -67,6 +67,8 @@ public class MriConfig {
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;
     public static final double DETECTOR_DEFAULT_PERIOD = 200;
+    // The maximum fraction of dipoles that can have spin down
+    public static final double MAX_SPIN_DOWN_FRACTION = 0.9;
 
     // Model to view conversion factors
 public static class ModelToView {
