@@ -100,7 +100,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
      */
     public BSControlPanel( BSAbstractModule module,
             BSWellType[] wellTypes,
-            BSIntegerRange numberOfWellsRange 
+            BSIntegerRange numberOfWellsRange,
+            final boolean supportsSuperposition
             ) {
         super( module );
 
@@ -154,14 +155,16 @@ public class BSControlPanel extends BSAbstractControlPanel {
             row++;
             layout.addComponent( _wellTypeComboBox, row, col );
             row++;
+            layout.addComponent( _configureEnergyButton, row, col );
+            row++;
             if ( numberOfWellsRange.getLength() > 0 ) {
                 layout.addComponent( _numberOfWellsSlider, row, col );
                 row++;
             }
-            layout.addComponent( _configureEnergyButton, row, col );
-            row++;
-            layout.addComponent( _superpositionButton, row, col );
-            row++;
+            if ( supportsSuperposition ) {
+                layout.addComponent( _superpositionButton, row, col );
+                row++;
+            }
             energyControlsPanel.setLayout( new BorderLayout() );
             energyControlsPanel.add( innerPanel, BorderLayout.WEST );
         }

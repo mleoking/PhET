@@ -28,6 +28,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSManyWellsModule extends BSAbstractModule {
 
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
+    
+    private static final boolean SUPPORTS_SUPERPOSITION = false;
 
     // Ranges (min, max, default)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 1, 10, 2 ); 
@@ -41,6 +43,7 @@ public class BSManyWellsModule extends BSAbstractModule {
     public BSManyWellsModule() {
         super( SimStrings.get( "BSManyWellsModule.title" ), 
                 WELL_TYPES,
+                SUPPORTS_SUPERPOSITION,
                 NUMBER_OF_WELLS_RANGE,
                 OFFSET_RANGE,
                 DEPTH_RANGE,

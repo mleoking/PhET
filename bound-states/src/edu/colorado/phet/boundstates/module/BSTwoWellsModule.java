@@ -27,6 +27,8 @@ public class BSTwoWellsModule extends BSAbstractModule {
 
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
 
+    private static final boolean SUPPORTS_SUPERPOSITION = true;
+    
     // Ranges (min, max, default)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 2, 2, 2 );
     private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0 ); // eV
@@ -39,6 +41,7 @@ public class BSTwoWellsModule extends BSAbstractModule {
     public BSTwoWellsModule() {
         super( SimStrings.get( "BSTwoWellsModule.title" ), 
                 WELL_TYPES,
+                SUPPORTS_SUPERPOSITION,
                 NUMBER_OF_WELLS_RANGE,
                 OFFSET_RANGE,
                 DEPTH_RANGE,
