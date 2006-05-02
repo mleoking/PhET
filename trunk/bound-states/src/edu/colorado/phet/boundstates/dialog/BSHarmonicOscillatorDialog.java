@@ -36,7 +36,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implements Observer {
+public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implements Observer, ChangeListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -86,12 +86,6 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _offsetSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleOffsetChange();
-                }
-            } );
         }
 
         // Angular Frequency
@@ -107,34 +101,75 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
                     angularFrequencyLabel, angularFrequencyUnits, 4, SLIDER_INSETS );
             _angularFrequencySlider.setTextEditable( true );
             _angularFrequencySlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _angularFrequencySlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleAngularFrequencyChange();
-                }
-            } );
         }
         
+        // Events
+        {
+            _offsetSlider.addChangeListener( this );
+            _angularFrequencySlider.addChangeListener( this );    
+        }
+        
+        // Layout
         JPanel inputPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
-        inputPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int col = 0;
-        layout.addComponent( _offsetSlider, row, col );
-        row++;
-        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
-        row++;
-        layout.addComponent( _angularFrequencySlider, row, col );
-        row++;
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
+            inputPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _offsetSlider, row, col );
+            row++;
+            layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
+            row++;
+            layout.addComponent( _angularFrequencySlider, row, col );
+            row++;
+        }
         
         return inputPanel;
     }
+
+    //----------------------------------------------------------------------------
+    // BSAbstractConfigureDialog implementation
+    //----------------------------------------------------------------------------
 
     protected void updateControls() {
         BSHarmonicOscillatorWell potential = (BSHarmonicOscillatorWell) getPotential();
         _offsetSlider.setValue( potential.getOffset() );
         _angularFrequencySlider.setValue( potential.getAngularFrequency() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+
+    /**
+     * Removes change listeners before disposing of the dialog.
+     * If we don't do this, then we'll get events that are caused by
+     * the sliders losing focus.
+     */
+    public void dispose() {
+        _offsetSlider.removeChangeListener( this );
+        _angularFrequencySlider.removeChangeListener( this );
+        super.dispose();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Dispatches a ChangeEvent to the proper handler method.
+     */
+    public void stateChanged( ChangeEvent e ) {
+        if ( e.getSource() == _offsetSlider ) {
+            handleOffsetChange();
+        }
+        else if ( e.getSource() == _angularFrequencySlider ) {
+            handleAngularFrequencyChange();
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
+        }
     }
     
     //----------------------------------------------------------------------------
