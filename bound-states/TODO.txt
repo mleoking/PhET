@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- support separate Energy chart y-axis range for each potential type
+- support separate offset range for each potential type
 - investigate magnifying glass with ability to select/hilite eigenstates
 - investigate overview interface for energy chart
 - investivate more/less zoom controls
