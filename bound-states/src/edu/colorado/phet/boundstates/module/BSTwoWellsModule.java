@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class BSTwoWellsModule extends BSAbstractModule {
 
-    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB };
+    private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
 
     // Ranges (min, max, default)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 2, 2, 2 );

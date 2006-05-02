@@ -28,7 +28,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSOneWellModule extends BSAbstractModule {
 
     private static final BSWellType[] WELL_TYPES = 
-        { BSWellType.SQUARE, BSWellType.ASYMMETRIC, BSWellType.COULOMB, BSWellType.HARMONIC_OSCILLATOR };
+        { BSWellType.SQUARE, BSWellType.ASYMMETRIC, BSWellType.COULOMB_1D, BSWellType.HARMONIC_OSCILLATOR };
    
     // Ranges (min, max, default)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 1, 1, 1 );

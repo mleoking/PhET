@@ -73,7 +73,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private BSParticle _particle;
     private BSSuperpositionCoefficients _superpositionCoefficients;
     private BSAsymmetricWell _asymmetricWell;
-    private BSCoulombWells _coulombWells;
+    private BSCoulomb1DWells _coulomb1DWells;
     private BSHarmonicOscillatorWell _harmonicOscillatorWell;
     private BSSquareWells _squareWells;
     
@@ -407,7 +407,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _superpositionCoefficients = new BSSuperpositionCoefficients();
         _asymmetricWell = new BSAsymmetricWell( _particle, 
                 _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );
-        _coulombWells = new BSCoulombWells( _particle, _numberOfWellsRange.getDefault(), 
+        _coulomb1DWells = new BSCoulomb1DWells( _particle, _numberOfWellsRange.getDefault(), 
                 _offsetRange.getDefault(), _spacingRange.getDefault() );
         _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
                 _offsetRange.getDefault(), _angularFrequencyRange.getDefault() );
@@ -562,8 +562,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
                 _configureWellDialog.dispose();
             }
 
-            if ( wellType == BSWellType.COULOMB ) {
-                _model.setPotential( _coulombWells );
+            if ( wellType == BSWellType.COULOMB_1D ) {
+                _model.setPotential( _coulomb1DWells );
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
                 _model.setPotential( _harmonicOscillatorWell );
