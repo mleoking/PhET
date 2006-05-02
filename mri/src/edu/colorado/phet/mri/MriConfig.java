@@ -12,6 +12,7 @@ package edu.colorado.phet.mri;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
@@ -26,6 +27,13 @@ import java.awt.geom.Point2D;
  */
 public class MriConfig {
 
+    // Descriptive information
+    public static final String TITLE = SimStrings.get( "Application.Title" );
+    public static final String DESCRIPTION = SimStrings.get( "Application.Description" );
+    public static final String VERSION = "0.01";
+
+    public static final String STRINGS_BUNDLE_NAME = "localization/MriStrings";
+
     public final static double scale = 1;
 
     // Clock parameters
@@ -35,22 +43,18 @@ public class MriConfig {
     // Images
     public static final String IMAGE_PATH = "images/";
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
-//    public static final String HEAD_IMAGE = IMAGE_PATH + "mrihead.gif";
-//    public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
-//    public static final String HEAD_IMAGE = IMAGE_PATH + "head-2.gif";
     public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";
 
     // Physical parameters
     public static final double MIN_FEQUENCY = 20E6;
     public static final double MAX_FEQUENCY = 80E6;
-
     public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field
-    public static final double MAX_GRADIENT_COIL_CURRENT = 2;   // arbitrary units, suitable for a JSlider
+    public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
-    public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT  / 2;
+    public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT / 2;
     public static final double MAX_MU = 2;
     public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
     public static final double MAX_POWER = 100;
@@ -71,18 +75,15 @@ public class MriConfig {
     public static final double MAX_SPIN_DOWN_FRACTION = 0.9;
 
     // Model to view conversion factors
-public static class ModelToView {
-    public static double FREQUENCY = 1 / 4E9;
-}
+    public static class ModelToView {
+        public static double FREQUENCY = 1 / 4E9;
+    }
 
     // Layout
-    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170,80 );
-//    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170, 120 );
+    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170, 80 );
     public static double SCALE_FOR_ORG = 400.0 / 600;
     public static double SAMPLE_CHAMBER_WIDTH = 400;
-//    public static double SAMPLE_CHAMBER_HEIGHT = 267;
     public static double SAMPLE_CHAMBER_HEIGHT = 300;
-//    public static double SAMPLE_CHAMBER_HEIGHT = 400;
 
     // Initial conditions
     public static class InitialConditions {

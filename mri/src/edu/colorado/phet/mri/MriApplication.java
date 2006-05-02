@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.controller.*;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
@@ -34,22 +35,24 @@ public class MriApplication extends PiccoloPhetApplication {
     private static String version = "0.01";
     private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-    private static Module[] singleModule = new Module[]{
-            new MriModuleA(),
-    };
-
-    private static Module[] fullAppModules = new Module[]{
-            new MriModuleA(),
-            new HeadModule(),
-            new ScanModule(),
-            new ScanModuleB(),
-    };
-    private static Module[] modules = fullAppModules;
 
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
+
+    private  Module[] singleModule = new Module[]{
+            new MriModuleA(),
+    };
+
+    private Module[] fullAppModules = new Module[]{
+            new MriModuleA(),
+            new HeadModule(),
+            new ScanModule(),
+            new ScanModuleB(),
+    };
+
+    private Module[] modules = fullAppModules;
 
     public MriApplication( String[] args ) {
 //        super( args, title, description, version, frameSetup, PhetApplication.JTABBED_PANE );
@@ -73,15 +76,9 @@ public class MriApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        System.out.println( "MriApplication.main A" );
-
+        SimStrings.init( args, MriConfig.STRINGS_BUNDLE_NAME );
         PhetApplication app = new MriApplication( args );
-
-        System.out.println( "MriApplication.main B" );
-
         app.startApplication();
-
-        System.out.println( "MriApplication.main C" );
 
     }
 }
