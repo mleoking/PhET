@@ -5,7 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- add "Coulomb 3D"
+- investigate magnifying glass with ability to select/hilite eigenstates
+- investigate overview interface for energy chart
+- investivate more/less zoom controls
+- replace Coulomb 1-D and 3-D eigenstate solver with analytic solution
+- bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -48,6 +52,7 @@ CLEANUP:
 
 
 DONE:
+(5/2/06) - add "Coulomb (3-D)" potential, use 1-D solvers for now
 (5/2/06) - change order of Configure dialogs code to reflect order that controls appear in dialogs
 (5/2/06) - bugfix: closing Configure dialogs causes an exception when SliderControl loses focus
 (5/2/06) - remove superposition button from "Many" panel

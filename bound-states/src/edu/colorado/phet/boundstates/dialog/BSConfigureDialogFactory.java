@@ -15,6 +15,7 @@ import java.awt.Frame;
 
 import javax.swing.JDialog;
 
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 
 
@@ -35,20 +36,25 @@ public class BSConfigureDialogFactory {
         
         JDialog dialog = null;
         
-        if ( well instanceof BSAsymmetricWell ) {
+        BSWellType wellType = well.getWellType();
+        
+        if ( wellType == BSWellType.ASYMMETRIC ) {
             dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well, offsetRange, depthRange, widthRange );
         }
-        else if ( well instanceof BSCoulomb1DWells ) {
+        else if ( wellType == BSWellType.COULOMB_1D ) {
             dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) well, offsetRange, spacingRange );
         }
-        else if ( well instanceof BSHarmonicOscillatorWell ) {
+        else if ( wellType == BSWellType.COULOMB_3D ) {
+            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) well, offsetRange, spacingRange );
+        }
+        else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
             dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well, offsetRange, angularFrequencyRange );
         }
-        else if ( well instanceof BSSquareWells ) {
+        else if ( wellType == BSWellType.SQUARE ) {
             dialog = new BSSquareDialog( owner, (BSSquareWells) well, offsetRange, depthRange, widthRange, separationRange );
         }
         else {
-            throw new IllegalArgumentException( "unsupported well type: " + well.getWellType() );
+            throw new IllegalArgumentException( "unsupported well type: " + wellType );
         }
         
         return dialog;

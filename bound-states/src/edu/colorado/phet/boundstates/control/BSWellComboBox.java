@@ -80,9 +80,21 @@ public class BSWellComboBox extends JComboBox {
      * @param wellType
      */
     public void addChoice( BSWellType wellType ) {
-        if ( wellType == BSWellType.COULOMB_1D ) {
+        if ( wellType == BSWellType.ASYMMETRIC ) {
+            ImageIcon icon = createAsymmetricIcon( _potentialColor );
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.asymmetric" ), icon );
+            _choices.add( item );
+            addItem( item ); 
+        }
+        else if ( wellType == BSWellType.COULOMB_1D ) {
             ImageIcon icon = createCoulombIcon( _potentialColor );
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb1D" ), icon );
+            _choices.add( item );
+            addItem( item );
+        }
+        else if ( wellType == BSWellType.COULOMB_3D ) {
+            ImageIcon icon = createCoulombIcon( _potentialColor );
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb3D" ), icon );
             _choices.add( item );
             addItem( item );
         }
@@ -97,13 +109,6 @@ public class BSWellComboBox extends JComboBox {
             WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.square" ), icon );
             _choices.add( item );
             addItem( item );
-        }
-        else if ( wellType == BSWellType.ASYMMETRIC ) {
-            ImageIcon icon = createAsymmetricIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.asymmetric" ), icon );
-            _choices.add( item );
-            addItem( item );
-            
         }
         else {
             throw new IllegalArgumentException( "unsupported well type: " + wellType );
@@ -124,15 +129,20 @@ public class BSWellComboBox extends JComboBox {
      * Sets the current selection.
      * 
      * @param wellType
+     * @throws IllegalStateException if potentialType is not one of the choices
      */
     public void setSelectedWellType( BSWellType potentialType ) {
         Iterator i = _choices.iterator();
-        while ( i.hasNext() ) {
+        boolean found = false;
+        while ( i.hasNext() && !found ) {
             WellChoice choice = (WellChoice) i.next();
             if ( choice.getWellType() == potentialType ) {
                 setSelectedItem( choice );
-                break;
+                found = true;
             }
+        }
+        if ( !found ) {
+            throw new IllegalStateException( "potentialType is not one of the choices: " + potentialType );
         }
     }
     
@@ -162,7 +172,7 @@ public class BSWellComboBox extends JComboBox {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates the "Coulomb" well icon.
+     * Creates the "Coulomb" well icon (same for 1-D and 3-D).
      */
     private static ImageIcon createCoulombIcon( Color color ) {
         final int w = 20;
