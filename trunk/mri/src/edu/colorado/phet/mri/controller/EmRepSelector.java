@@ -32,14 +32,14 @@ public class EmRepSelector extends JPanel {
         JRadioButton photonViewButton = new JRadioButton( "Photons" );
         photonViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setEmRep( MriModuleA.PHOTON_VIEW );
+                module.setEmRep( NmrModule.PHOTON_VIEW );
             }
         } );
 
         JRadioButton waveViewButton = new JRadioButton( "Waves" );
         waveViewButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setEmRep( MriModuleA.WAVE_VIEW );
+                module.setEmRep( NmrModule.WAVE_VIEW );
             }
         } );
         ButtonGroup repBtnGrp = new ButtonGroup();

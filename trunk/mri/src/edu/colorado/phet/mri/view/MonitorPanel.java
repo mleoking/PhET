@@ -144,15 +144,10 @@ public class MonitorPanel extends PhetPCanvas {
                 updatePanel( model );
             }
         } );
-
-        // DEBUG
-//        if( model.getGradientMagnet() != null ) {
-//            model.getGradientMagnet().addChangeListener( new EnergyLevelSeparationUpdater( model ) );
-//        }
     }
 
     private void updatePanel( MriModel model ) {
-        setLinePositions();
+        setLinePositions( model );
         adjustSquiggle( model );
     }
 
@@ -165,12 +160,13 @@ public class MonitorPanel extends PhetPCanvas {
      * Establish the center point of the panel, and position the energy levels
      * symetrically above and below it
      */
-    private void setLinePositions() {
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 2 / 3;
-        imageReserveSpace = 0;
-        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace * 2;
+    private void setLinePositions( MriModel model ) {
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 1/2;
+        double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
-        double offsetY = maxOffset * fractionMaxField + imageReserveSpace;
+        double sampleMaterialRatio = model.getSampleMaterial().getMu() / SampleMaterial.HYDROGEN.getMu();
+
+        double offsetY = maxOffset * fractionMaxField * sampleMaterialRatio ;
         double centerY = getHeight() / 2 + imageReserveSpace;
         lowerLine.setPositionY( centerY + offsetY );
         upperLine.setPositionY( centerY - offsetY );
