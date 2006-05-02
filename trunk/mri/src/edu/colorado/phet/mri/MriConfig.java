@@ -56,7 +56,7 @@ public class MriConfig {
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
     public static final double CURRENT_TO_FIELD_FACTOR = MAX_FADING_COIL_FIELD / MAX_FADING_COIL_CURRENT / 2;
-    public static final double MAGNET_FIELD_DB = 0.05;
+    public static final double MAGNET_FIELD_DB = 0.03;
     public static final double MAX_MU = 2;
     public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
     public static final double MAX_POWER = 100;
