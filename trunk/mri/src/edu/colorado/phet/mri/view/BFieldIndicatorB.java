@@ -51,6 +51,7 @@ public class BFieldIndicatorB extends PNode {
         this.location = location;
         this.maxLength = maxLength;
         this.arrowColor = fill;
+        arrowColor = new Color(  255, 255, 255, 50 );
         model.addListener( new MriModel.ChangeAdapter() {
             public void fieldChanged( MriModel model ) {
                 update( model );
