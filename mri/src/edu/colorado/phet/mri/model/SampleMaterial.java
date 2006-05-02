@@ -21,13 +21,24 @@ public class SampleMaterial {
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
-    public static final double HYDROGEN_GYROMAGNETIC_RATIO = 42.58E6;   // MHz/Tesla
-    public static final SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", HYDROGEN_GYROMAGNETIC_RATIO );
-    public static final SampleMaterial UBIDUBIUM = new SampleMaterial( "ubidubium", 0.6 );
+    // Gyromagnetic ratios, in MHz/Tesla (from http://www.cis.rit.edu/htbooks/mri/chap-3/chap-3.htm#3.3)
+    public static final SampleMaterial HYDROGEN = new SampleMaterial( "hydrogen", 42.58E6 );
+    public static final SampleMaterial UBIDUBIUM = new SampleMaterial( "ubidubium", 14 );
+    public static final SampleMaterial NITROGEN = new SampleMaterial( "nitrogen", 3.08E6 );
+    public static final SampleMaterial SODIUM = new SampleMaterial( "sodium", 11.27E6 );
+    public static final SampleMaterial CARBON_13 = new SampleMaterial( "carbon-13", 10.71E6 );
+    public static final SampleMaterial OXYGEN = new SampleMaterial( "oxygen", 5.772E6 );
+    public static final SampleMaterial SULFUR = new SampleMaterial( "sulfur", 3.2654E6 );
+    public static final SampleMaterial UNKNOWN = new SampleMaterial( "???", 12.089E6 ); // Cu
 
     public static final SampleMaterial[] INSTANCES = new SampleMaterial[]{
             HYDROGEN,
-            UBIDUBIUM
+            NITROGEN,
+            SODIUM,
+            CARBON_13,
+            OXYGEN,
+            SULFUR,
+            UNKNOWN
     };
 
     //----------------------------------------------------------------

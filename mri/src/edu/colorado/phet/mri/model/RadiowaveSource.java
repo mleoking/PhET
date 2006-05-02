@@ -68,7 +68,7 @@ public class RadiowaveSource extends Beam implements IScalar {
         setPhotonsPerSecond( 1 / ( MriConfig.DT / 1000 ) );
         setWavelength( 500E-9 );
 
-        double freq = MriConfig.MAX_FADING_COIL_FIELD * SampleMaterial.HYDROGEN_GYROMAGNETIC_RATIO / 2;
+        double freq = MriConfig.MAX_FADING_COIL_FIELD * SampleMaterial.HYDROGEN.getMu() / 2;
         double wavelength = PhysicsUtil.frequencyToWavelength( freq );
         setWavelength( wavelength );
     }
