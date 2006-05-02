@@ -54,6 +54,7 @@ CLEANUP:
 
 
 DONE:
+(5/2/06) - change min well spacing to 0.01
 (5/2/06) - add "Coulomb (3-D)" potential, use 1-D solvers for now
 (5/2/06) - change order of Configure dialogs code to reflect order that controls appear in dialogs
 (5/2/06) - bugfix: closing Configure dialogs causes an exception when SliderControl loses focus
