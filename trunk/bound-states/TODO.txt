@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - support separate offset range for each potential type
 - investigate magnifying glass with ability to select/hilite eigenstates
 - investigate overview interface for energy chart
+- remove mass control from Many panel (?)
 - investivate more/less zoom controls
 - replace Coulomb 1-D and 3-D eigenstate solver with analytic solution
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
@@ -54,6 +55,7 @@ CLEANUP:
 
 
 DONE:
+(5/2/06) - provide SamM with a version that has energy scale [-250,5] so she can investigate issues
 (5/2/06) - change min well spacing to 0.01
 (5/2/06) - add "Coulomb (3-D)" potential, use 1-D solvers for now
 (5/2/06) - change order of Configure dialogs code to reflect order that controls appear in dialogs
