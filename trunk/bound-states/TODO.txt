@@ -5,6 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- change "Coulomb" to "Coulomb 1D"
+- add "Coulomb 3D"
+- remove superposition button from "Many" panel
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
 - some eigenstates are so close together that one or more can't be selected or hilited
@@ -47,6 +50,7 @@ CLEANUP:
 
 
 DONE:
+(5/2/06) - change equation for selected eigenstate to Psi(x,t)
 0.00.04...
 (5/1/06) - depth order of eigenstates should be (back to front) unselected, selected, hilited
 (5/1/06) - bugfix: choices in BSWellComboBox shouldn't be static!

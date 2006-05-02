@@ -49,7 +49,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final char PSI = BSConstants.PSI;
+    private static final char PSI = BSConstants.LOWERCASE_PSI;
     
     private static final double COEFFICIENT_MIN = 0.00;
     private static final double COEFFICIENT_MAX = 1.00;
