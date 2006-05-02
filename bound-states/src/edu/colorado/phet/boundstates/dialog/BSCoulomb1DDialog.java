@@ -74,10 +74,11 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = 1;
+            int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, offsetLabel, energyUnits, columns, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );   
         }
@@ -88,10 +89,11 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             double min = spacingRange.getMin();
             double max = spacingRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 2;
+            int labelDecimalPlaces = 2;
+            int columns = 4;
             String spacingLabel = SimStrings.get( "label.wellSpacing" );
-            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
+            _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, spacingLabel, positionUnits, columns, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
             _spacingSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         };
