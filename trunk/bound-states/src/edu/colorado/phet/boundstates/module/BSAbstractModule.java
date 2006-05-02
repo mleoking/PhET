@@ -121,6 +121,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     public BSAbstractModule( 
             String title,
             BSWellType[] wellTypes,
+            final boolean supportsSuperposition,
             BSIntegerRange numberOfWellsRange,
             BSDoubleRange offsetRange,
             BSDoubleRange depthRange,
@@ -243,7 +244,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new BSControlPanel( this, wellTypes, numberOfWellsRange );
+        _controlPanel = new BSControlPanel( this, wellTypes, numberOfWellsRange, supportsSuperposition );
         setControlPanel( _controlPanel );
         
         String timeUnits = SimStrings.get( "units.time" );
