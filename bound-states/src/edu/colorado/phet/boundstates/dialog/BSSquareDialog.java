@@ -34,7 +34,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSSquareDialog extends BSAbstractConfigureDialog implements Observer {
+public class BSSquareDialog extends BSAbstractConfigureDialog implements Observer, ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,10 +61,6 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         updateControls();
     }
     
-    //----------------------------------------------------------------------------
-    // BSAbstractConfigureDialog implementation
-    //----------------------------------------------------------------------------
-
     /*
      * Creates the dialog's input panel.
      * 
@@ -76,6 +72,34 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
+ 
+        // Offset
+        {
+            double value = offsetRange.getDefault();
+            double min = offsetRange.getMin();
+            double max = offsetRange.getMax();
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String offsetLabel = SimStrings.get( "label.wellOffset" );
+            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider.setTextEditable( true );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+        }
+
+        // Depth
+        {
+            double value = depthRange.getDefault();
+            double min = depthRange.getMin();
+            double max = depthRange.getMax();
+            double tickSpacing = Math.abs( max - min );
+            int tickPrecision = 1;
+            int labelPrecision = 1;
+            String depthLabel = SimStrings.get( "label.wellDepth" );
+            _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
+            _depthSlider.setTextEditable( true );
+            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+        }
         
         // Width
         {
@@ -89,52 +113,6 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
             _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _widthSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleWidthChange();
-                }
-            } );
-        }
-        
-        // Depth
-        {
-            double value = depthRange.getDefault();
-            double min = depthRange.getMin();
-            double max = depthRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
-            String depthLabel = SimStrings.get( "label.wellDepth" );
-            _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
-            _depthSlider.setTextEditable( true );
-            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _depthSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleDepthChange();
-                }
-            } );
-        }
-
-        // Offset
-        {
-            double value = offsetRange.getDefault();
-            double min = offsetRange.getMin();
-            double max = offsetRange.getMax();
-            double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
-            String offsetLabel = SimStrings.get( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
-            _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _offsetSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleOffsetChange();
-                }
-            } );
         }
 
         // Separation
@@ -149,53 +127,104 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             _separationSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
             _separationSlider.setTextEditable( true );
             _separationSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _separationSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleSeparationChange();
-                }
-            } );
         }
         
+        // Events
+        {
+            _offsetSlider.addChangeListener( this );
+            _depthSlider.addChangeListener( this );
+            _widthSlider.addChangeListener( this );
+            _separationSlider.addChangeListener( this ); 
+        }
+        
+        // Layout
         JPanel inputPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
-        inputPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int col = 0;
-        layout.addComponent( _offsetSlider, row, col );
-        row++;
-        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
-        row++;
-        layout.addComponent( _depthSlider, row, col );
-        row++;
-        layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
-        row++;
-        layout.addComponent( _widthSlider, row, col );
-        row++;
-        _separationSeparator = new JSeparator();
-        layout.addFilledComponent( _separationSeparator, row, col, GridBagConstraints.HORIZONTAL );
-        row++;
-        layout.addComponent( _separationSlider, row, col );
-        row++;
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
+            inputPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _offsetSlider, row, col );
+            row++;
+            layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
+            row++;
+            layout.addComponent( _depthSlider, row, col );
+            row++;
+            layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
+            row++;
+            layout.addComponent( _widthSlider, row, col );
+            row++;
+            _separationSeparator = new JSeparator();
+            layout.addFilledComponent( _separationSeparator, row, col, GridBagConstraints.HORIZONTAL );
+            row++;
+            layout.addComponent( _separationSlider, row, col );
+            row++;
+        }
         
         return inputPanel;
     }
+
+    //----------------------------------------------------------------------------
+    // BSAbstractConfigureDialog implementation
+    //----------------------------------------------------------------------------
 
     protected void updateControls() {
 
         BSSquareWells potential = (BSSquareWells) getPotential();
 
         // Sync values
-        _widthSlider.setValue( potential.getWidth() );
-        _depthSlider.setValue( potential.getDepth() );
         _offsetSlider.setValue( potential.getOffset() );
+        _depthSlider.setValue( potential.getDepth() );
+        _widthSlider.setValue( potential.getWidth() );
         _separationSlider.setValue( potential.getSeparation() );
 
         // Visibility
         _separationSlider.setVisible( potential.getNumberOfWells() > 1 );
         _separationSeparator.setVisible( _separationSlider.isVisible() );
         pack();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+
+    /**
+     * Removes change listeners before disposing of the dialog.
+     * If we don't do this, then we'll get events that are caused by
+     * the sliders losing focus.
+     */
+    public void dispose() {
+        _offsetSlider.removeChangeListener( this );
+        _depthSlider.removeChangeListener( this );
+        _widthSlider.removeChangeListener( this );
+        _separationSlider.removeChangeListener( this );
+        super.dispose();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Dispatches a ChangeEvent to the proper handler method.
+     */
+    public void stateChanged( ChangeEvent e ) {
+        if ( e.getSource() == _offsetSlider ) {
+            handleOffsetChange();
+        }
+        else if ( e.getSource() == _depthSlider ) {
+            handleDepthChange();
+        }
+        else if ( e.getSource() == _widthSlider ) {
+            handleWidthChange();
+        }
+        else if ( e.getSource() == _separationSlider ) {
+            handleSeparationChange();
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
+        }
     }
     
     //----------------------------------------------------------------------------

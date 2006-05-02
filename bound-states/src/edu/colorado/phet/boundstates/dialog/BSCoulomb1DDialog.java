@@ -33,7 +33,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Observer {
+public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Observer, ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -57,10 +57,6 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
         createUI( inputPanel );
         updateControls();
     }
-    
-    //----------------------------------------------------------------------------
-    // BSAbstractConfigureDialog implementation
-    //----------------------------------------------------------------------------
 
     /*
      * Creates the dialog's input panel.
@@ -83,13 +79,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             String offsetLabel = SimStrings.get( "label.wellOffset" );
             _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
-            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _offsetSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleOffsetChange();
-                }
-            } );
+            _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );   
         }
 
         // Spacing
@@ -104,30 +94,37 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             _spacingSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, spacingLabel, positionUnits, 4, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
             _spacingSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            
-            _spacingSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) { 
-                    handleSpacingChange();
-                }
-            } );
         };
         
+        // Events
+        {
+            _offsetSlider.addChangeListener( this );
+            _spacingSlider.addChangeListener( this );
+        }
+        
+        // Layout
         JPanel inputPanel = new JPanel();
-        EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
-        inputPanel.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        int row = 0;
-        int col = 0;
-        layout.addComponent( _offsetSlider, row, col );
-        row++;
-        _spacingSeparator = new JSeparator();
-        layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
-        row++;
-        layout.addComponent( _spacingSlider, row, col );
-        row++;
+        {
+            EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
+            inputPanel.setLayout( layout );
+            layout.setAnchor( GridBagConstraints.WEST );
+            int row = 0;
+            int col = 0;
+            layout.addComponent( _offsetSlider, row, col );
+            row++;
+            _spacingSeparator = new JSeparator();
+            layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
+            row++;
+            layout.addComponent( _spacingSlider, row, col );
+            row++;
+        }
         
         return inputPanel;
     }
+
+    //----------------------------------------------------------------------------
+    // BSAbstractConfigureDialog implementation
+    //----------------------------------------------------------------------------
 
     protected void updateControls() {
         
@@ -141,6 +138,40 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
         _spacingSlider.setVisible( potential.getNumberOfWells() > 1 );
         _spacingSeparator.setVisible( _spacingSlider.isVisible() );
         pack();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+
+    /**
+     * Removes change listeners before disposing of the dialog.
+     * If we don't do this, then we'll get events that are caused by
+     * the sliders losing focus.
+     */
+    public void dispose() {
+        _offsetSlider.removeChangeListener( this );
+        _spacingSlider.removeChangeListener( this );
+        super.dispose();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Dispatches a ChangeEvent to the proper handler method.
+     */
+    public void stateChanged( ChangeEvent e ) {
+        if ( e.getSource() == _offsetSlider ) {
+            handleOffsetChange();
+        }
+        else if ( e.getSource() == _spacingSlider ) {
+            handleSpacingChange();
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported event source: " + e.getSource() );
+        }
     }
     
     //----------------------------------------------------------------------------
