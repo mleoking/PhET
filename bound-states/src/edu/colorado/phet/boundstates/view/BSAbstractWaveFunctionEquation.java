@@ -46,8 +46,6 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     
     private BSModel _model;
     private Point2D _location;
-    private AffineTransform _xform; // reusable transform
-    private String _superpositionString;
     private int _mode; // BSBottomPlot.MODE_PROBABILITY_DENSITY or BSBottomPlot.MODE_WAVE_FUNCTION
     
     //----------------------------------------------------------------------------
@@ -61,8 +59,6 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
         setFont( BSConstants.WAVE_FUNCTION_EQUATION_FONT );
         setHTMLColor( Color.BLACK );
         _location = new Point2D.Double();
-        _xform = new AffineTransform();
-        _superpositionString = SimStrings.get( "label.equation.superposition" );
         _mode = BSBottomPlot.MODE_PROBABILITY_DENSITY;
     }
     
@@ -103,11 +99,12 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
         updateDisplay();
     }
     
-    /**
-     * Sets the color scheme.
-     * @param colorScheme
+    /*
+     * Gets the mode, for use by subclasses.
      */
-    public abstract void setColorScheme( BSColorScheme colorScheme );
+    protected int getMode() {
+        return _mode;
+    }
 
     /**
      * Sets the "location" of this node.
@@ -119,6 +116,10 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     public void setLocation( double x, double y ) {
         _location.setLocation( x, y );
         updateDisplay();
+    }
+    
+    protected Point2D getLocation() {
+        return _location;
     }
     
     //----------------------------------------------------------------------------
@@ -137,51 +138,17 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     }
     
     //----------------------------------------------------------------------------
-    // Updaters
+    // Abstract methods
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the eigenstate subscript.
-     * If one eigenstate, then its subscript is returned.
-     * If no eigenstate, then EIGENSTATE_SUBSCRIPT_NONE is returned.
-     * If more than one eigenstate, then EIGENSTATE_SUBSCRIPT_SUPERPOSITION is returned.
+    /**
+     * Sets the color scheme.
+     * @param colorScheme
      */
-    protected abstract int getEigenstateSubscript();
+    public abstract void setColorScheme( BSColorScheme colorScheme );
     
     /*
      * Updates the display to match the model.
-     * Subclasses should call this from their update method.
      */
-    protected void updateDisplay() {
-        
-        if ( _model != null ) {
-            
-            // Determine which eigenstate...
-            int eigenstateSubscript = getEigenstateSubscript();
-
-            // Set the text...
-            String text = null;
-            if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_NONE ) {
-                text = "";
-            }
-            else if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_SUPERPOSITION ) {
-                text = _superpositionString;
-            }
-            else {
-                if ( _mode == BSBottomPlot.MODE_WAVE_FUNCTION ) {
-                    text = "<html>" + BSConstants.PSI + "<sub>" + eigenstateSubscript + "</sub>(x)</html>";
-                }
-                else {
-                    text = "<html>|" + BSConstants.PSI + "<sub>" + eigenstateSubscript + "</sub>(x)|<sup>2</sup></html>";
-                }
-            }
-            setHTML( text );
-
-            // Translate so the upper right corner is at the location...
-            _xform.setToIdentity();
-            _xform.translate( _location.getX(), _location.getY() );
-            _xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
-            setTransform( _xform );
-        }
-    }
+    protected abstract void updateDisplay();
 }

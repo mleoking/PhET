@@ -71,7 +71,8 @@ public class BSConstants {
     // Special characters
     //----------------------------------------------------------------------------
     
-    public static final char PSI = '\u03c8';
+    public static final char LOWERCASE_PSI = '\u03c8';
+    public static final char UPPERCASE_PSI = '\u03a8';
     
     //----------------------------------------------------------------------------
     // Strokes

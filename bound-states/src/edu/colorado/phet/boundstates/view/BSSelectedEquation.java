@@ -11,13 +11,16 @@
 
 package edu.colorado.phet.boundstates.view;
 
+import java.awt.geom.AffineTransform;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSSelectedEquation displays the wave function equation of the selected eigenstate.
@@ -28,6 +31,13 @@ import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implements Observer {
 
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private AffineTransform _xform; // reusable transform
+    private String _superpositionString;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -36,6 +46,8 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
      */
     public BSSelectedEquation() {
         super();
+        _xform = new AffineTransform();
+        _superpositionString = SimStrings.get( "label.equation.superposition" );
     }
     
     //----------------------------------------------------------------------------
@@ -53,12 +65,53 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     }
     
     /*
+     * Updates the display to match the model.
+     * Subclasses should call this from their update method.
+     */
+    protected void updateDisplay() {
+        
+        if ( getModel() != null ) {
+            
+            // Determine which eigenstate...
+            int eigenstateSubscript = getEigenstateSubscript();
+
+            // Set the text...
+            String text = null;
+            if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_NONE ) {
+                text = "";
+            }
+            else if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_SUPERPOSITION ) {
+                text = _superpositionString;
+            }
+            else {
+                if ( getMode() == BSBottomPlot.MODE_WAVE_FUNCTION ) {
+                    text = "<html>" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)</html>";
+                }
+                else {
+                    text = "<html>|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup></html>";
+                }
+            }
+            setHTML( text );
+
+            // Translate so the upper right corner is at the location...
+            _xform.setToIdentity();
+            _xform.translate( getLocation().getX(), getLocation().getY() );
+            _xform.translate( -getFullBounds().getWidth(), 0 ); // upper right
+            setTransform( _xform );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // private methods
+    //----------------------------------------------------------------------------
+    
+    /*
      * Gets the eigenstate subscript.
      * If one eigenstate is selected, then its subscript is returned.
      * If no eigenstate is selected, then EIGENSTATE_SUBSCRIPT_NONE is returned.
      * If more than one eigenstate is selected, then EIGENSTATE_SUBSCRIPT_SUPERPOSITION is returned.
      */
-    protected int getEigenstateSubscript() {
+    private int getEigenstateSubscript() {
         
         BSModel model = getModel();
         
