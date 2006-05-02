@@ -80,9 +80,9 @@ public class BSWellComboBox extends JComboBox {
      * @param wellType
      */
     public void addChoice( BSWellType wellType ) {
-        if ( wellType == BSWellType.COULOMB ) {
+        if ( wellType == BSWellType.COULOMB_1D ) {
             ImageIcon icon = createCoulombIcon( _potentialColor );
-            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb" ), icon );
+            WellChoice item = new WellChoice( wellType, SimStrings.get( "choice.well.coulomb1D" ), icon );
             _choices.add( item );
             addItem( item );
         }

@@ -38,8 +38,8 @@ public class BSConfigureDialogFactory {
         if ( well instanceof BSAsymmetricWell ) {
             dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well, offsetRange, depthRange, widthRange );
         }
-        else if ( well instanceof BSCoulombWells ) {
-            dialog = new BSCoulombDialog( owner, (BSCoulombWells) well, offsetRange, spacingRange );
+        else if ( well instanceof BSCoulomb1DWells ) {
+            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) well, offsetRange, spacingRange );
         }
         else if ( well instanceof BSHarmonicOscillatorWell ) {
             dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well, offsetRange, angularFrequencyRange );
