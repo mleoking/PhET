@@ -11,9 +11,7 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Dipole;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,10 +23,7 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, ModelElement*/ {
-    private Random random = new Random();
-    private double maxUpPFraction = 0.9;
-    private double fractionUp;
+public class DipoleOrientationAgent implements Electromagnet.ChangeListener {
     private MriModel model;
     private SpinDeterminationPolicy spinDeterminationPolicy = MriConfig.InitialConditions.SPIN_DETERMINATION_POLICY;
 
@@ -42,8 +37,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
     }
 
     private void updateSpins() {
-        List dipoles = model.getDipoles();
-        spinDeterminationPolicy.setSpins( dipoles, fractionUp, model );
+        spinDeterminationPolicy.setSpins( model );
     }
 
     /**
@@ -52,9 +46,6 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
      * @param event
      */
     public void stateChanged( Electromagnet.ChangeEvent event ) {
-        double fieldStrength = model.getUpperMagnet().getFieldStrength();
-        fractionUp = 1 - ( 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD ));
-        fractionUp *= maxUpPFraction;
         updateSpins();
     }
 
@@ -67,7 +58,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
     //----------------------------------------------------------------
 
     public static interface SpinDeterminationPolicy {
-        void setSpins( List dipoles, double fractionUp, MriModel model );
+        void setSpins( MriModel model );
     }
 
     /**
@@ -77,34 +68,23 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
         Random random = new Random();
         long meanFlipTimout = 100;
 
-        public void setSpins( List dipoles, double fractionUp, MriModel model ) {
+        public void setSpins( MriModel model ) {
 
+            List dipoles = model.getDipoles();
             if( dipoles.size() > 0 ) {
-                // Determine how many dipoles should be spin up
-                int desiredNumUp = (int)Math.round( fractionUp * dipoles.size() );
-
-                // Identify the dipoles that are spin up and spin down
-                ArrayList upDipoles = new ArrayList();
-                ArrayList downDipoles = new ArrayList();
-                for( int i = 0; i < dipoles.size(); i++ ) {
-                    Dipole dipole = (Dipole)dipoles.get( i );
-                    List list = dipole.getSpin() == Spin.UP ? upDipoles : downDipoles;
-                    list.add( dipole );
-                }
+                // Determine how many dipoles should be spin up. There must always be at least 1 up
+                double fractionUp = model.determineDesiredFractionDown();
+                int desiredNumUp = Math.max((int)Math.round( fractionUp * dipoles.size() ), 1 );
 
                 // Flip dipoles until we get the desired number spin up
-                while( upDipoles.size() > desiredNumUp ) {
-                    Dipole dipole = (Dipole)upDipoles.get( random.nextInt( upDipoles.size() ) );
-                    dipole.setSpin( Spin.DOWN );
-                    upDipoles.remove( dipole );
-                    downDipoles.add( dipole );
+                while( model.getUpDipoles().size() > desiredNumUp ) {
+                    Dipole dipole = (Dipole)model.getUpDipoles().get( random.nextInt( model.getUpDipoles().size() ) );
+                    dipole.flip();
                 }
 
-                while( upDipoles.size() < desiredNumUp ) {
-                    Dipole dipole = (Dipole)downDipoles.get( random.nextInt( downDipoles.size() ) );
-                    dipole.setSpin( Spin.UP );
-                    downDipoles.remove( dipole );
-                    upDipoles.add( dipole );
+                while( model.getUpDipoles().size() < desiredNumUp ) {
+                    Dipole dipole = (Dipole)model.getDownDipoles().get( random.nextInt( model.getDownDipoles().size() ) );
+                    dipole.flip();
                 }
             }
         }
@@ -112,29 +92,14 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener /*, 
 
 
     /**
-     * Notifies the DipoleOrientationAgent when a dipole has been flipped by a DipoleFLipper. This allows the
-     * DipoleOrientationAgent to keep the numbers of spin up and spin down dipoles at the right number
-     */
-    private static class FlipWatcher implements Dipole.ChangeListener {
-        private final DipoleOrientationAgent orientationAgent;
-
-        public FlipWatcher( DipoleOrientationAgent orientationAgent ) {
-            this.orientationAgent = orientationAgent;
-        }
-
-        public void spinChanged( Dipole.ChangeEvent event ) {
-            orientationAgent.updateSpins();
-            event.getDipole().removeChangeListener( this );
-        }
-    }
-
-    /**
      *
      */
     public static class StocasticPolicy implements SpinDeterminationPolicy {
         Random random = new Random();
 
-        public void setSpins( List dipoles, double fractionUp, MriModel model ) {
+        public void setSpins( MriModel model ) {
+            double fractionUp = model.determineDesiredFractionDown();
+            List dipoles = model.getDipoles();
             for( int i = 0; i < dipoles.size(); i++ ) {
                 Dipole dipole = (Dipole)dipoles.get( i );
                 boolean up = fractionUp > random.nextDouble();

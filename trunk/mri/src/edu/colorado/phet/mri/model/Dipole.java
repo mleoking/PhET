@@ -14,6 +14,7 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
@@ -25,6 +26,10 @@ import java.util.Random;
 
 /**
  * Dipole
+ * <p>
+ * The SimpleObservable/SimpleObserver mechanism is used to notify objects that want to know about
+ * things that change with the frequency of stepInTime(). A change listener mechanism is used to
+ * communicate with object that are interested in other state changes.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -91,7 +96,7 @@ public class Dipole extends Body implements Collidable {
 
     public void setOrientation( double orientation ) {
         this.orientation = orientation;
-        notifyObservers();
+//        notifyObservers();
     }
 
     public Spin getSpin() {
@@ -100,8 +105,12 @@ public class Dipole extends Body implements Collidable {
 
     public void setSpin( Spin spin ) {
         this.spin = spin;
-//        changeListenerProxy.spinChanged( new ChangeEvent( this ) );
-        notifyObservers();
+        changeListenerProxy.spinChanged( new ChangeEvent( this ) );
+    }
+
+    public void flip() {
+        Spin newSpin = getSpin() == Spin.UP ? Spin.DOWN : Spin.UP;
+        setSpin( newSpin );
     }
 
     public Point2D getCM() {
@@ -141,7 +150,7 @@ public class Dipole extends Body implements Collidable {
 
     public void collideWithPhoton( Photon photon ) {
         setSpin( Spin.UP );
-        notifyObservers();
+//        notifyObservers();
     }
 
     //----------------------------------------------------------------

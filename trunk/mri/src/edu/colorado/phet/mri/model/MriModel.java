@@ -30,19 +30,20 @@ import java.util.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MriModel extends BaseModel {
+public class MriModel extends BaseModel implements IDipoleMonitor {
 
     private Detector detector;
     private Rectangle2D bounds;
     private SimpleMagnet upperMagnet, lowerMagnet;
     private ArrayList magnets = new ArrayList();
-    private ArrayList dipoles = new ArrayList();
+//    private ArrayList dipoles = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
     private DipoleOrientationAgent dipoleOrientationAgent;
     private SampleMaterial sampleMaterial;
     private RadiowaveSource radiowaveSource;
     private TreeMap xLocToPhotons = new TreeMap();
+    private DipoleMonitor dipoleMonitor;
 
 
     /**
@@ -52,6 +53,7 @@ public class MriModel extends BaseModel {
      */
     public MriModel( IClock clock, Rectangle2D bounds, Sample sample ) {
 
+        this.dipoleMonitor = new DipoleMonitor( this );
         this.bounds = bounds;
 
         // Sample Chamber
@@ -66,20 +68,19 @@ public class MriModel extends BaseModel {
         Point2D upperMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() - magnetHeight * 1.5 );
         upperMagnet = new SimpleMagnet( upperMagnetLocation,
-                                                 sampleChamberBounds.getWidth(),
-                                                 magnetHeight,
-                                                 clock,
-                                                 GradientElectromagnet.HORIZONTAL );
+                                        sampleChamberBounds.getWidth(),
+                                        magnetHeight,
+                                        clock,
+                                        GradientElectromagnet.HORIZONTAL );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
                                                           sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
         lowerMagnet = new SimpleMagnet( lowerMagnetLocation,
-                                                 sampleChamberBounds.getWidth(),
-                                                 magnetHeight,
-                                                 clock,
-                                                 GradientElectromagnet.HORIZONTAL );
+                                        sampleChamberBounds.getWidth(),
+                                        magnetHeight,
+                                        clock,
+                                        GradientElectromagnet.HORIZONTAL );
         addModelElement( lowerMagnet );
-
 
         // Radiowave Source
         double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
@@ -128,13 +129,13 @@ public class MriModel extends BaseModel {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
-
-        if( modelElement instanceof Dipole ) {
-            dipoles.add( modelElement );
-        }
+//
+//        if( modelElement instanceof Dipole ) {
+//            dipoles.add( modelElement );
+//        }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
-            xLocToPhotons.put( new Double( ((Photon)modelElement).getPosition().getX()), modelElement );
+            xLocToPhotons.put( new Double( ( (Photon)modelElement ).getPosition().getX() ), modelElement );
         }
         if( modelElement instanceof Electromagnet ) {
             magnets.add( modelElement );
@@ -144,13 +145,13 @@ public class MriModel extends BaseModel {
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-
-        if( modelElement instanceof Dipole ) {
-            dipoles.remove( modelElement );
-        }
+//
+//        if( modelElement instanceof Dipole ) {
+//            dipoles.remove( modelElement );
+//        }
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
-            ((Photon)modelElement).removeFromSystem();
+            ( (Photon)modelElement ).removeFromSystem();
         }
         if( modelElement instanceof Electromagnet ) {
             magnets.remove( modelElement );
@@ -187,7 +188,16 @@ public class MriModel extends BaseModel {
     }
 
     public List getDipoles() {
-        return this.dipoles;
+        return dipoleMonitor.getDipoles();
+//        return this.dipoles;
+    }
+
+    public List getUpDipoles() {
+        return dipoleMonitor.getUpDipoles();
+    }
+
+    public List getDownDipoles() {
+        return dipoleMonitor.getDownDipoles();
     }
 
     public ArrayList getPhotons() {
@@ -242,13 +252,14 @@ public class MriModel extends BaseModel {
             GradientElectromagnet magnet = (GradientElectromagnet)magnets.get( i );
             b += magnet.getFieldStrengthAtAbsolute( p );
         }
-
-//        double b = lowerMagnet.getFieldStrength();
-//        if( gradientMagnet != null ) {
-//            double leftEndOfMagnetX = ( gradientMagnet.getPosition().getX() - gradientMagnet.getBounds().getWidth() / 2 );
-//            b += gradientMagnet.getFieldStrengthAtAbsolute( new Point2D.Double(  x - leftEndOfMagnetX, 0 ) );
-//        }
         return b;
+    }
+
+    public double determineDesiredFractionDown() {
+        double fieldStrength = getTotalFieldStrengthAt( new Point2D.Double() );
+        double fractionDown = 1 - ( 0.5 + ( 0.5 * fieldStrength / MriConfig.MAX_FADING_COIL_FIELD ) );
+        fractionDown *= MriConfig.MAX_SPIN_DOWN_FRACTION;
+        return fractionDown;
     }
 
     //----------------------------------------------------------------
