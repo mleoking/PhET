@@ -10,9 +10,9 @@ HIGH PRIORITY:
 - implement analytic solution for 3D Coulomb (eigenstates and wave function)
 - use analytic solution for single-well 1D Coulomb
 - support separate Energy chart y-axis range for each potential type
-- change energy range: Coulomb=[-15,+5], others=[-5,+15]
-- change definition of offset for Square and Asymmetric, make it bottom of well (no! drag handles issue!)
-- support separate offset range for each potential type
+- change energy range: Coulomb=[-15,+5], others=[-5,+15] (not until offset issue is resolved)
+- change definition of offset for Square and Asymmetric, make it bottom of well (not until drag handles issue is resolved)
+- support separate offset range for each potential type (not until offset issue is resolved)
 - investigate magnifying glass with ability to select/hilite eigenstates
 - investigate overview interface for energy chart
 - investivate more/less zoom controls
