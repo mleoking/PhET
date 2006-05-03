@@ -55,6 +55,7 @@ CLEANUP:
 
 
 DONE:
+(5/3/06) - change position range to [-3.5,+3.5]
 (5/2/06) - provide SamM with a version that has energy scale [-250,5] so she can investigate issues
 (5/2/06) - change min well spacing to 0.01
 (5/2/06) - add "Coulomb (3-D)" potential, use 1-D solvers for now
