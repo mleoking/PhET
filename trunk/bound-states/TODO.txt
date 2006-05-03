@@ -61,6 +61,7 @@ CLEANUP:
 
 
 DONE:
+0.00.05...
 (5/3/06) - change tick spacing on energy chart to 5eV
 (5/3/06) - change Wave Function y-axis range to [-1.5,+1.5], tick spacing 0.5
 (5/3/06) - change Prob Density y-axis range to [0,+1.5], tick spacing 0.5
