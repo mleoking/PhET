@@ -40,7 +40,7 @@ public class BSManyWellsModule extends BSAbstractModule {
     private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 0.5, 0.5, 1 ); // nm
     private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0.01, 1, 0.5, 2 ); // nm
     private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0.05, 0.2, 0.1, 2 ); // nm
-    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 1, 2.5, 1, 2 ); // fs^-1
+    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // not supported for many wells
 
     public BSManyWellsModule() {
         super( SimStrings.get( "BSManyWellsModule.title" ), 
