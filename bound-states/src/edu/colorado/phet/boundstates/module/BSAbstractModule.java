@@ -108,6 +108,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     
     // Ranges and defaults
     private BSIntegerRange _numberOfWellsRange;
+    private BSDoubleRange _massMultiplierRange;
     private BSDoubleRange _offsetRange, _depthRange, _widthRange, _spacingRange, _separationRange, _angularFrequencyRange;
     
     //----------------------------------------------------------------------------
@@ -122,8 +123,10 @@ public abstract class BSAbstractModule extends PiccoloModule {
     public BSAbstractModule( 
             String title,
             BSWellType[] wellTypes,
-            final boolean supportsSuperposition,
+            final boolean supportsSuperpositionControls,
+            final boolean supportsParticleControls,
             BSIntegerRange numberOfWellsRange,
+            BSDoubleRange massMultiplierRange,
             BSDoubleRange offsetRange,
             BSDoubleRange depthRange,
             BSDoubleRange widthRange,
@@ -146,6 +149,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         // Save ranges and default.
         {
             _numberOfWellsRange = numberOfWellsRange;
+            _massMultiplierRange = massMultiplierRange;
             _offsetRange = offsetRange;
             _depthRange = depthRange;
             _widthRange = widthRange;
@@ -245,7 +249,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new BSControlPanel( this, wellTypes, numberOfWellsRange, supportsSuperposition );
+        _controlPanel = new BSControlPanel( this, wellTypes, numberOfWellsRange, massMultiplierRange, supportsSuperpositionControls, supportsParticleControls );
         setControlPanel( _controlPanel );
         
         String timeUnits = SimStrings.get( "units.time" );
@@ -405,7 +409,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         }
         
         // Model
-        _particle = new BSParticle( BSConstants.DEFAULT_MASS );
+        final double mass = BSConstants.ELECTRON_MASS * _massMultiplierRange.getDefault();
+        _particle = new BSParticle( mass );
         _superpositionCoefficients = new BSSuperpositionCoefficients();
         _asymmetricWell = new BSAsymmetricWell( _particle, 
                 _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );

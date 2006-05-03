@@ -18,7 +18,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -28,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSIntegerRange;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.view.BSBottomPlot;
@@ -85,7 +85,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private JLabel _realLegend, _imaginaryLegend, _magnitudeLegend, _phaseLegend;
 
     // Particle controls
-    private SliderControl _massSlider;
+    private SliderControl _massMultiplierSlider;
 
     private EventListener _listener;
 
@@ -101,7 +101,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
     public BSControlPanel( BSAbstractModule module,
             BSWellType[] wellTypes,
             BSIntegerRange numberOfWellsRange,
-            final boolean supportsSuperposition
+            BSDoubleRange massMultiplierRange,
+            final boolean supportsSuperpositionControls,
+            final boolean supportsParticleControls
             ) {
         super( module );
 
@@ -161,7 +163,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( _numberOfWellsSlider, row, col );
                 row++;
             }
-            if ( supportsSuperposition ) {
+            if ( supportsSuperpositionControls ) {
                 layout.addComponent( _superpositionButton, row, col );
                 row++;
             }
@@ -285,23 +287,19 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Border
             particleControlsPanel.setBorder( new TitledBorder( "" ) );
             
-            // Mass slider
+            // Mass Multiplier slider
+            final double value = massMultiplierRange.getDefault();
+            final double min = massMultiplierRange.getMin();
+            final double max = massMultiplierRange.getMax();
+            final double tickSpacing = ( max - min );
+            final int decimalPlaces = massMultiplierRange.getSignificantDecimalPlaces();
             String massLabel = SimStrings.get( "label.particleMass" );
             String massUnits = "<html>m<sub>e</sub></html>";
-            _massSlider = new SliderControl( 
-                    BSConstants.DEFAULT_MASS_MULTIPLIER, BSConstants.MIN_MASS_MULTIPLIER, BSConstants.MAX_MASS_MULTIPLIER, 
-                    BSConstants.MASS_SLIDER_TICKS_SPACING,
-                    1, 1, massLabel, massUnits, 3, SLIDER_INSETS );
-            _massSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
-            _massSlider.setTextEditable( true );
-            _massSlider.setInverted( true );
-            // Put a label at each tick mark.
-            Hashtable labelTable = new Hashtable();
-            labelTable.put( new Integer( 40 ), new JLabel( "<html>m<sub>e</sub></html>" ) );
-            labelTable.put( new Integer( 30 ), new JLabel( "<html>2m<sub>e</sub></html>" ) );
-            labelTable.put( new Integer( 20 ), new JLabel( "<html>3m<sub>e</sub></html>" ) );
-            labelTable.put( new Integer( 10 ), new JLabel( "<html>4m<sub>e</sub></html>" ) );
-            _massSlider.getSlider().setLabelTable( labelTable );
+            final int columns = 3;
+            _massMultiplierSlider = new BSMassMultiplierSlider( value, min, max,
+                    tickSpacing, decimalPlaces, decimalPlaces,
+                    massLabel, massUnits, columns, SLIDER_INSETS );
+            _massMultiplierSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
             
             // Layout
             JPanel innerPanel = new JPanel();
@@ -309,7 +307,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             innerPanel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-            layout.addComponent( _massSlider, 0, 0 );
+            layout.addComponent( _massMultiplierSlider, 0, 0 );
             particleControlsPanel.setLayout( new BorderLayout() );
             particleControlsPanel.add( innerPanel, BorderLayout.WEST );
         }
@@ -320,8 +318,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             addVerticalSpace( SUBPANEL_SPACING );
             addControlFullWidth( bottomChartControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
-            addControlFullWidth( particleControlsPanel );
-            addVerticalSpace( SUBPANEL_SPACING );
+            if ( supportsParticleControls ) {
+                addControlFullWidth( particleControlsPanel );
+                addVerticalSpace( SUBPANEL_SPACING );
+            }
             addResetButton();
         }
 
@@ -338,7 +338,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
             _phaseCheckBox.addActionListener( _listener );
-            _massSlider.addChangeListener( _listener );
+            if ( supportsParticleControls ) {
+                _massMultiplierSlider.addChangeListener( _listener );
+            }
         }
     }
 
@@ -480,12 +482,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
 
     public void setParticleMass( double mass ) {
-        _massSlider.setValue( mass / BSConstants.ELECTRON_MASS );;
+        _massMultiplierSlider.setValue( mass / BSConstants.ELECTRON_MASS );;
         handleMassSlider();
     }
     
     public double getParticleMass() {
-        return _massSlider.getValue() * BSConstants.ELECTRON_MASS;
+        return _massMultiplierSlider.getValue() * BSConstants.ELECTRON_MASS;
     }
 
     //----------------------------------------------------------------------------
@@ -501,7 +503,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
     
     public JComponent getParticleMassControl() {
-        return _massSlider;
+        return _massMultiplierSlider;
     }
 
     //----------------------------------------------------------------------------
@@ -558,7 +560,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             if ( event.getSource() == _numberOfWellsSlider ) {
                 handleNumberOfWells();
             }
-            else if ( event.getSource() == _massSlider ) {
+            else if ( event.getSource() == _massMultiplierSlider ) {
                 handleMassSlider();
             }
             else {
@@ -634,7 +636,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
 
     private void handleMassSlider() {
-        double mass = _massSlider.getValue() * BSConstants.ELECTRON_MASS;
+        double mass = _massMultiplierSlider.getValue() * BSConstants.ELECTRON_MASS;
         _module.setParticleMass( mass );
     }
     
