@@ -63,8 +63,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private double height = EmfConfig.WAVEFRONT_HEIGHT;
     private double stroke = 1;
     private boolean isPlanar = true;
-    private BufferedImage buffImg;
-    private Graphics2D g2DBuffImg;
     private float opacity = 1.0f;
     private static final double MAX_AMPLITDUE = 100;
     private double xExtent;
@@ -87,14 +85,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         // Hook up to the WaveMedium we are observing
         this.electron = electron;
         electron.addObserver( this );
-
-        buffImg = super.getImage();
-        g2DBuffImg = buffImg.createGraphics();
-//        g2DBuffImg.setColor( backgroundColor );
-        g2DBuffImg.setColor( new Color( 0, 0, 0, 0 ) );
-
-        g2DBuffImg.fill( new Rectangle( buffImg.getMinX(), buffImg.getMinY(), buffImg.getWidth(), buffImg.getHeight() ) );
-        setGraphicsHints( g2DBuffImg );
 
         setMaxAmplitudeColor( Color.red );
     }
