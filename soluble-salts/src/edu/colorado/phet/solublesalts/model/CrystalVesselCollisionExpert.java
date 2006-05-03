@@ -81,16 +81,19 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
                 Ion eastmostIon = crystal.getExtremeIon( Crystal.EAST );
                 if( eastmostIon.getPosition().getX() + eastmostIon.getRadius() >= vesselBounds.getMaxX() ) {
                     dx = vessel.getWater().getMaxX() - eastmostIon.getPosition().getX() - eastmostIon.getRadius();
+                    handleCrystalVesselCollision( eastmostIon );
                     collisionOccurred = true;
                 }
                 Ion southmostIon = crystal.getExtremeIon( Crystal.SOUTH );
                 if( southmostIon.getPosition().getY() + southmostIon.getRadius() >= vesselBounds.getMaxY() ) {
                     dy = vessel.getWater().getMaxY() - southmostIon.getPosition().getY() - southmostIon.getRadius();
+                    handleCrystalVesselCollision( southmostIon );
                     collisionOccurred = true;
                 }
                 Ion westmostIon = crystal.getExtremeIon( Crystal.WEST );
                 if( westmostIon.getPosition().getX() - westmostIon.getRadius() <= vesselBounds.getMinX() ) {
                     dx = vessel.getWater().getMinX() - westmostIon.getPosition().getX() + westmostIon.getRadius();
+                    handleCrystalVesselCollision( westmostIon );
                     collisionOccurred = true;
                 }
                 if( collisionOccurred ) {
