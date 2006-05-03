@@ -90,6 +90,7 @@ public class PotentialComboBox extends JComboBox {
         _choices.add( singleBarrierItem );
         _choices.add( doubleBarrierItem );
         
+        removeAllItems();
         Iterator i = _choices.iterator();
         while( i.hasNext() ) {
             addItem( i.next() );
