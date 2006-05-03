@@ -45,7 +45,7 @@ public class BSConfigureDialogFactory {
             dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) well, offsetRange, spacingRange );
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
-            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) well, offsetRange, spacingRange );
+            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) well, offsetRange );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
             dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well, offsetRange, angularFrequencyRange );

@@ -75,10 +75,13 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = tickDecimalPlaces;
+            int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
+                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -89,10 +92,13 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = depthRange.getMin();
             double max = depthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = tickDecimalPlaces;
+            int columns = 4;
             String depthLabel = SimStrings.get( "label.wellDepth" );
-            _depthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, depthLabel, energyUnits, 4, SLIDER_INSETS );
+            _depthSlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
+                    depthLabel, energyUnits, columns, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
             _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -103,10 +109,13 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = widthRange.getMin();
             double max = widthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = tickDecimalPlaces;
+            int columns = 4;
             String widthLabel = SimStrings.get( "label.wellWidth" );
-            _widthSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, widthLabel, positionUnits, 4, SLIDER_INSETS );
+            _widthSlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
+                    widthLabel, positionUnits, columns, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
             _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
