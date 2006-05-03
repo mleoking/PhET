@@ -17,6 +17,8 @@ import java.util.Observer;
 
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -83,10 +85,19 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
-        yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( BSConstants.ENERGY_RANGE.getLowerBound() * 1.05, BSConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
-        yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
-        yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+        {
+            yAxis.setRange( BSConstants.ENERGY_RANGE.getLowerBound() * 1.05, BSConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
+            yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
+            yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
+            yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+            yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+            
+            // Y axis tick units
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( BSConstants.ENERGY_TICK_SPACING, BSConstants.ENERGY_TICK_FORMAT ) );
+            yAxis.setStandardTickUnits( tickUnits );
+            yAxis.setAutoTickUnitSelection( true );
+        }
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( BSConstants.COLOR_SCHEME.getChartColor() );

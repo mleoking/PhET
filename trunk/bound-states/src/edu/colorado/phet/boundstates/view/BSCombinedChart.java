@@ -47,9 +47,6 @@ public class BSCombinedChart extends JFreeChart {
     private static final boolean CREATE_LEGEND = false;
     private static final double CHART_SPACING = 25.0;
     
-    private static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 20 );
-    private static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -71,34 +68,16 @@ public class BSCombinedChart extends JFreeChart {
         { 
             _energyPlot = new BSEnergyPlot();
             _energyPlot.setDomainAxis( null );
-            _energyPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
-            _energyPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
-            // Y axis tick units
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( BSConstants.ENERGY_TICK_SPACING, BSConstants.ENERGY_TICK_FORMAT ) );
-            _energyPlot.getRangeAxis().setStandardTickUnits( tickUnits );
-            _energyPlot.getRangeAxis().setAutoTickUnitSelection( true );
         }
         
         // Wave Function plot...
         {
             _bottomPlot = new BSBottomPlot();
             _bottomPlot.setDomainAxis( null );
-            _bottomPlot.getRangeAxis().setLabelFont( AXIS_LABEL_FONT );
-            _bottomPlot.getRangeAxis().setTickLabelFont( AXIS_TICK_LABEL_FONT );
         }
 
         // Common X axis...
         BSPositionAxis positionAxis = new BSPositionAxis();
-        {
-            positionAxis.setLabelFont( AXIS_LABEL_FONT );
-            positionAxis.setTickLabelFont( AXIS_TICK_LABEL_FONT );
-            // Tick units
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( BSConstants.POSITION_TICK_SPACING, BSConstants.POSITION_TICK_FORMAT ) );
-            positionAxis.setStandardTickUnits( tickUnits );
-            positionAxis.setAutoTickUnitSelection( true );
-        }
         
         // Parent plot configuration...
         {

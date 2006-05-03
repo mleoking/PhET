@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.jfree.chart.axis.*;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -181,10 +182,13 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         
         // Y (range) axis
         NumberAxis yAxis = new NumberAxis( _waveFunctionLabel );
-        yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
-        yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
-        yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
-        yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+        {
+            yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
+            yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
+            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
+            yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+            yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+        }
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
         setBackgroundPaint( BSConstants.COLOR_SCHEME.getChartColor() );
@@ -230,22 +234,34 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
 
         ValueAxis yAxis = getRangeAxis();
         if ( mode == MODE_WAVE_FUNCTION ) {
-            yAxis.setLabel( _waveFunctionLabel );
-            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
+            // Views
             setRealVisible( true );
             setImaginaryVisible( true );
             setMagnitudeVisible( true );
             setPhaseVisible( true );
             setProbabilityDensityVisible( false );
+            // Y-axis
+            yAxis.setLabel( _waveFunctionLabel );
+            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( BSConstants.WAVE_FUNCTION_TICK_SPACING, BSConstants.WAVE_FUNCTION_TICK_FORMAT ) );
+            yAxis.setStandardTickUnits( tickUnits );
+            yAxis.setAutoTickUnitSelection( true );
         }
         else if ( mode == MODE_PROBABILITY_DENSITY ) {
-            yAxis.setLabel( _probabilityDensityLabel );
-            yAxis.setRange( BSConstants.PROBABILITY_DENSITY_RANGE );
+            // Views
             setRealVisible( false );
             setImaginaryVisible( false );
             setMagnitudeVisible( false );
             setPhaseVisible( false );
             setProbabilityDensityVisible( true );
+            // Y-axis
+            yAxis.setLabel( _probabilityDensityLabel );
+            yAxis.setRange( BSConstants.PROBABILITY_DENSITY_RANGE );
+            TickUnits tickUnits = new TickUnits();
+            tickUnits.add( new NumberTickUnit( BSConstants.PROBABILITY_DENSITY_TICK_SPACING, BSConstants.PROBABILITY_DENSITY_TICK_FORMAT ) );
+            yAxis.setStandardTickUnits( tickUnits );
+            yAxis.setAutoTickUnitSelection( true );
         }
     }
     
