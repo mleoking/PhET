@@ -16,12 +16,16 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
 import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * SolubleSaltsApplication
@@ -98,7 +102,18 @@ public class SolubleSaltsApplication extends PhetApplication {
         }
 
         SimStrings.init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
+
+
+        Color blueBackground = new Color( 230, 250, 255 );
+        Color grayBackground = new Color( 220, 220, 220 );
+        UIManager.put( "Panel.background", blueBackground );
+        UIManager.put( "MenuBar.background", grayBackground );
+        UIManager.put( "Menu.background", grayBackground );
+        UIManager.put( "TabbedPane.background", blueBackground );
+        UIManager.put( "TabbedPane.selected", blueBackground );
+
         PhetApplication app = new SolubleSaltsApplication( args );
+
 
         app.startApplication();
 
@@ -112,9 +127,6 @@ public class SolubleSaltsApplication extends PhetApplication {
 //                    simPanel.addWorldChild( mouseTracker );
                 }
             }
-
         }
-
     }
-
 }
