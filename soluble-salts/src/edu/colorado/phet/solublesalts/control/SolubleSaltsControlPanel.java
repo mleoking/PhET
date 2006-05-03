@@ -88,7 +88,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         makeDebugControls( model );
 
         // Reset button
-        JButton resetBtn = new JButton( "Reset" );
+        JButton resetBtn = new JButton( SimStrings.get("ControlLabels.reset" ));
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().reset();
@@ -276,12 +276,12 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         public WaterLevelReadout( Vessel vessel ) {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), "Water" ) );
+            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.get( "ControlLabels.Water" ) ));
             vessel.addChangeListener( this );
 
             GridBagConstraints gbc = new DefaultGridBagConstraints();
             gbc.insets = new Insets( 0, 5, 0, 5 );
-            JLabel waterVolumeLabel = new JLabel( "Volume:", JLabel.RIGHT );
+            JLabel waterVolumeLabel = new JLabel( SimStrings.get( "ControlLabels.Volume" ) + ":", JLabel.RIGHT );
             add( waterVolumeLabel, gbc );
 
             readout = new JTextField( 6 );
@@ -291,7 +291,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
             gbc.gridx++;
             add( readout, gbc );
 
-            JLabel units = new JLabel( "liters (L)");
+            JLabel units = new JLabel( SimStrings.get("ControlLabels.liters") + " (L)");
             gbc.gridx++;
             add( units, gbc );
         }
