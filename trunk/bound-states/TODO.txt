@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- change tick spacing on energy chart to 5eV (why?)
 - support separate Energy chart y-axis range for each potential type
 - change energy range: Coulomb=[-15,+5], others=[-5,+15]
 - change definition of offset for Square and Asymmetric, make it bottom of well
@@ -58,6 +59,7 @@ CLEANUP:
 
 
 DONE:
+(5/3/06) - change 3D Coulomb to have 0 eigenstates until we get the analytic solver
 (5/3/06) - make BSMassMultiplierSlider component, dynamically configure label table
 (5/3/06) - make mass range specific to panel
 (5/3/06) - remove mass slider (particle controls) from "Two" and "Many" panels
