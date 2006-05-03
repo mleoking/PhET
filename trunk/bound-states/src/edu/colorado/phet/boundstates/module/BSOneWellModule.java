@@ -32,14 +32,14 @@ public class BSOneWellModule extends BSAbstractModule {
    
     private static final boolean SUPPORTS_SUPERPOSITION = true;
     
-    // Ranges (min, max, default)
+    // Ranges (min, max, default, significantDecimalPlaces)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 1, 1, 1 );
-    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0 ); // eV
-    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10 ); // eV
-    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 8, 1 ); // nm
-    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0, 0, 0 ); // nm (don't care for one well)
-    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0, 0, 0 ); // nm (don't care for one well)
-    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 1, 2.5, 1 ); // fs^-1
+    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0, 0 ); // eV
+    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10, 0 ); // eV
+    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 1, 2.5, 1, 1 ); // fs^-1
     
     public BSOneWellModule() {
         super( SimStrings.get( "BSOneWellModule.title" ),

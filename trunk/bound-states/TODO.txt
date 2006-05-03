@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- move "significant decimal places" into BSDoubleRange
 - support separate Energy chart y-axis range for each potential type
 - change energy range: Coulomb=[-15,+5], others=[-5,+15]
 - change definition of offset for Square and Asymmetric, make it bottom of well
@@ -58,6 +57,9 @@ CLEANUP:
 
 
 DONE:
+(5/3/06) - move "significant decimal places" into BSDoubleRange
+(5/3/06) - change defaults for square well width & separation
+(5/3/06) - change default #wells to 5 for "Many" module
 (5/3/06) - make BSCoulomb3DDialog extend BSCoulomb1DDialog
 (5/3/06) - clean up local variable names in Configure dialogs
 (5/3/06) - change Square range width, "Two"=[0.1,3]  "Many"=[0.1,0.5]
