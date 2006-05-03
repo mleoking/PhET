@@ -29,14 +29,14 @@ public class BSTwoWellsModule extends BSAbstractModule {
 
     private static final boolean SUPPORTS_SUPERPOSITION = true;
     
-    // Ranges (min, max, default)
+    // Ranges (min, max, default, significantDecimalPlaces)
     private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 2, 2, 2 );
-    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0 ); // eV
-    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10 ); // eV
-    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 3, 1.5 ); // nm
-    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0.3, 3, 1 ); // nm
-    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0.05, 0.7, 0.3 ); // nm
-    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 1, 2.5, 1 ); // fs^-1
+    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0, 0 ); // eV
+    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10, 0 ); // eV
+    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 3, 1, 1 ); // nm
+    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0.3, 3, 1, 1 ); // nm
+    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0.05, 0.7, 0.1, 2 ); // nm
+    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 1, 2.5, 1, 1 ); // fs^-1
 
     public BSTwoWellsModule() {
         super( SimStrings.get( "BSTwoWellsModule.title" ), 

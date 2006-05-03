@@ -80,7 +80,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
@@ -97,7 +97,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double min = angularFrequencyRange.getMin();
             double max = angularFrequencyRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = angularFrequencyRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String angularFrequencyLabel = SimStrings.get( "label.wellAngularFrequency" );

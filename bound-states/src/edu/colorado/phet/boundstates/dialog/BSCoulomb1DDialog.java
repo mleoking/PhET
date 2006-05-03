@@ -74,7 +74,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
@@ -91,7 +91,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             double min = spacingRange.getMin();
             double max = spacingRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 2;
+            int tickDecimalPlaces = spacingRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String spacingLabel = SimStrings.get( "label.wellSpacing" );

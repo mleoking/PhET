@@ -35,7 +35,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class BSCoulomb3DDialog extends BSCoulomb1DDialog {
 
     public BSCoulomb3DDialog( Frame parent, BSCoulomb3DWell potential, BSDoubleRange offsetRange ) {
-        super( parent, potential, offsetRange, new BSDoubleRange(0,0,0) /* spacingRange */ );
+        super( parent, potential, offsetRange, new BSDoubleRange(0,0,0,0) /* spacingRange */ );
         setTitle( SimStrings.get( "BSCoulomb3DDialog.title" ) );
     }
 }

@@ -75,7 +75,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
@@ -92,7 +92,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = depthRange.getMin();
             double max = depthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = depthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String depthLabel = SimStrings.get( "label.wellDepth" );
@@ -109,7 +109,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             double min = widthRange.getMin();
             double max = widthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String widthLabel = SimStrings.get( "label.wellWidth" );

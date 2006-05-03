@@ -54,9 +54,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * Constructor.
      */
     public BSSquareDialog( Frame parent, BSSquareWells potential,
-            BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange, BSDoubleRange separationSpacing ) {
+            BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange, BSDoubleRange separationRange ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange, separationSpacing );
+        JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange, separationRange );
         createUI( inputPanel );
         updateControls();
     }
@@ -68,7 +68,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      */
     protected JPanel createInputPanel(
             BSDoubleRange offsetRange, BSDoubleRange depthRange, 
-            BSDoubleRange widthRange, BSDoubleRange separationSpacing ) {
+            BSDoubleRange widthRange, BSDoubleRange separationRange ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
@@ -79,7 +79,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = offsetRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
@@ -96,7 +96,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             double min = depthRange.getMin();
             double max = depthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = depthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String depthLabel = SimStrings.get( "label.wellDepth" );
@@ -113,7 +113,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             double min = widthRange.getMin();
             double max = widthRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 1;
+            int tickDecimalPlaces = widthRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String widthLabel = SimStrings.get( "label.wellWidth" );
@@ -126,11 +126,11 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Separation
         {
-            double value = separationSpacing.getDefault();
-            double min = separationSpacing.getMin();
-            double max = separationSpacing.getMax();
+            double value = separationRange.getDefault();
+            double min = separationRange.getMin();
+            double max = separationRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = 2;
+            int tickDecimalPlaces = separationRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String spacingLabel = SimStrings.get( "label.wellSeparation" );
