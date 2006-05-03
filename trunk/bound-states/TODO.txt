@@ -4,6 +4,7 @@
 
 IN PROGRESS:
 
+
 HIGH PRIORITY:
 - support separate Energy chart y-axis range for each potential type
 - change energy range: Coulomb=[-15,+5], others=[-5,+15]
@@ -11,7 +12,6 @@ HIGH PRIORITY:
 - support separate offset range for each potential type
 - investigate magnifying glass with ability to select/hilite eigenstates
 - investigate overview interface for energy chart
-- remove mass control from Many panel (?)
 - investivate more/less zoom controls
 - replace Coulomb 1-D and 3-D eigenstate solver with analytic solution
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
@@ -22,6 +22,7 @@ HIGH PRIORITY:
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- stopwatch does not run smoothly (garbage collection?)
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - drag handles for each potential type (all slightly different)
 - implement Save/Load for model
@@ -57,6 +58,9 @@ CLEANUP:
 
 
 DONE:
+(5/3/06) - make BSMassMultiplierSlider component, dynamically configure label table
+(5/3/06) - make mass range specific to panel
+(5/3/06) - remove mass slider (particle controls) from "Two" and "Many" panels
 (5/3/06) - move "significant decimal places" into BSDoubleRange
 (5/3/06) - change defaults for square well width & separation
 (5/3/06) - change default #wells to 5 for "Many" module

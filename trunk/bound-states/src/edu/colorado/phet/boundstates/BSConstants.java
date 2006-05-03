@@ -178,21 +178,10 @@ public class BSConstants {
     public static final int SCHMIDT_LEE_SAMPLE_POINTS = 1350;
     
     //----------------------------------------------------------------------------
-    // Particle
-    //----------------------------------------------------------------------------
-    
-    // Mass
-    public static final double ELECTRON_MASS = 5.68; // eV/c^2
-    public static final double MIN_MASS_MULTIPLIER = 1;
-    public static final double MAX_MASS_MULTIPLIER = 4;
-    public static final double MASS_SLIDER_TICKS_SPACING = 1;
-    public static final double DEFAULT_MASS_MULTIPLIER = 1;
-    public static final double DEFAULT_MASS = DEFAULT_MASS_MULTIPLIER * ELECTRON_MASS;
-    
-    //----------------------------------------------------------------------------
     // Miscellaneous
     //----------------------------------------------------------------------------
     
+    public static final double ELECTRON_MASS = 5.68; // eV/c^2
     public static final double HBAR = 0.658;
     public static final double KEE = 1.44; // ke^2, eV nm
 }
