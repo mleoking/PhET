@@ -30,6 +30,8 @@ CLEANUP
 
 
 DONE:
+1.00.01...
+(5/3/06) - bugfix: potential combo box contains duplicate choices, one for each color scheme
 (4/21/06) - fix in Spanish translations, Colors -> Colores
 1.00.00...
 (4/12/06) - use clock control images from phetcommon, delete images from data/images/
