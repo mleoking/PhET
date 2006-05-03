@@ -6,10 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- change tick spacing on energy chart to 5eV (why?)
+- have a "config" object for each module that contains ranges, flags, etc.
+- implement analytic solution for 3D Coulomb (eigenstates and wave function)
+- use analytic solution for single-well 1D Coulomb
 - support separate Energy chart y-axis range for each potential type
 - change energy range: Coulomb=[-15,+5], others=[-5,+15]
-- change definition of offset for Square and Asymmetric, make it bottom of well
+- change definition of offset for Square and Asymmetric, make it bottom of well (no! drag handles issue!)
 - support separate offset range for each potential type
 - investigate magnifying glass with ability to select/hilite eigenstates
 - investigate overview interface for energy chart
@@ -59,6 +61,9 @@ CLEANUP:
 
 
 DONE:
+(5/3/06) - change tick spacing on energy chart to 5eV
+(5/3/06) - change Wave Function y-axis range to [-1.5,+1.5], tick spacing 0.5
+(5/3/06) - change Prob Density y-axis range to [0,+1.5], tick spacing 0.5
 (5/3/06) - change 3D Coulomb to have 0 eigenstates until we get the analytic solver
 (5/3/06) - make BSMassMultiplierSlider component, dynamically configure label table
 (5/3/06) - make mass range specific to panel

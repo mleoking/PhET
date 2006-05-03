@@ -55,15 +55,13 @@ public class BSConstants {
     /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
     
-    /* Is the time display visible next to the clock controls? */
-    public static final boolean TIME_DISPLAY_VISIBLE = true;
-    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 
     public static final String FONT_NAME = "Lucida Sans";
-    public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
+    public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 20 );
+    public static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
     public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 24 );
     
@@ -92,6 +90,7 @@ public class BSConstants {
     // Paints
     //----------------------------------------------------------------------------
     
+    // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 220, 220, 220 );
     
     // The default color scheme
@@ -105,13 +104,6 @@ public class BSConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
-    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
-    public static final String IMAGE_PAUSE = IMAGES_DIRECTORY + "pauseButton.gif";
-    public static final String IMAGE_PLAY = IMAGES_DIRECTORY + "playButton.gif";
-    public static final String IMAGE_STEP = IMAGES_DIRECTORY + "stepButton.gif";
-    public static final String IMAGE_RESTART = IMAGES_DIRECTORY + "restartButton.gif";
-    public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
-    public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
 
     //----------------------------------------------------------------------------
     // Cursors
@@ -126,15 +118,19 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     // Energy
-    public static final Range ENERGY_RANGE = new Range( -15, 5 ); // eV
-    public static final double ENERGY_TICK_SPACING = 2.5; // eV
+    public static final Range ENERGY_RANGE = new Range( -15, +5 ); // eV
+    public static final double ENERGY_TICK_SPACING = 5; // eV
     public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Wave Function
-    public static final Range WAVE_FUNCTION_RANGE = new Range( -2, 2 );
+    public static final Range WAVE_FUNCTION_RANGE = new Range( -1.5, +1.5 );
+    public static final double WAVE_FUNCTION_TICK_SPACING = 0.5;
+    public static final DecimalFormat WAVE_FUNCTION_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Probability Density
-    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 2 );
+    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 1.5 );
+    public static final double PROBABILITY_DENSITY_TICK_SPACING = 0.5;
+    public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Position
     public static final Range POSITION_MODEL_RANGE = new Range( -3.5, 3.5 ); // nm
