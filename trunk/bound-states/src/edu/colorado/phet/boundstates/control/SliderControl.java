@@ -390,6 +390,14 @@ public class SliderControl extends JPanel {
         _notifyWhileDragging = b;
     }
     
+    /*
+     * Gets the multiplier used to convert the JSlider's integer values 
+     * to double model values. For use by subclasses.
+     */
+    protected double getMultiplier() {
+        return _multiplier;
+    }
+    
     //----------------------------------------------------------------------------
     // Private methods
     //----------------------------------------------------------------------------
