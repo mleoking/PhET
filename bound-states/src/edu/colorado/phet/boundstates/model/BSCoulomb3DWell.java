@@ -40,4 +40,15 @@ public class BSCoulomb3DWell extends BSCoulomb1DWells {
     public boolean supportsMultipleWells() {
         return false;
     }
+    
+    /**
+     * Calculates the eignestates for the potential.
+     * They are sorted in order from lowest to highest energy value.
+     * 
+     * @return
+     */
+    protected BSEigenstate[] calculateEigenstates() {
+        //XXX replace this with an analytic solution
+        return new BSEigenstate[0];
+    }
 }
