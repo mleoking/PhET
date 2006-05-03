@@ -83,7 +83,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, offsetLabel, energyUnits, columns, SLIDER_INSETS );
+            _offsetSlider = new SliderControl( value, min, max,
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
+                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -98,7 +100,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String depthLabel = SimStrings.get( "label.wellDepth" );
-            _depthSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, depthLabel, energyUnits, columns, SLIDER_INSETS );
+            _depthSlider = new SliderControl( value, min, max,
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
+                    depthLabel, energyUnits, columns, SLIDER_INSETS );
             _depthSlider.setTextEditable( true );
             _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -113,7 +117,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String widthLabel = SimStrings.get( "label.wellWidth" );
-            _widthSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, widthLabel, positionUnits, columns, SLIDER_INSETS );
+            _widthSlider = new SliderControl( value, min, max,
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
+                    widthLabel, positionUnits, columns, SLIDER_INSETS );
             _widthSlider.setTextEditable( true );
             _widthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -128,7 +134,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
             String spacingLabel = SimStrings.get( "label.wellSeparation" );
-            _separationSlider = new SliderControl( value, min, max, tickSpacing, tickDecimalPlaces, labelDecimalPlaces, spacingLabel, positionUnits, columns, SLIDER_INSETS );
+            _separationSlider = new SliderControl( value, min, max,
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
+                    spacingLabel, positionUnits, columns, SLIDER_INSETS );
             _separationSlider.setTextEditable( true );
             _separationSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }

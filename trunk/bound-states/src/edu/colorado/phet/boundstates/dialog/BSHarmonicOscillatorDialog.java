@@ -80,10 +80,13 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = tickDecimalPlaces;
+            int columns = 4;
             String offsetLabel = SimStrings.get( "label.wellOffset" );
-            _offsetSlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, offsetLabel, energyUnits, 4, SLIDER_INSETS );
+            _offsetSlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
+                    offsetLabel, energyUnits, columns, SLIDER_INSETS );
             _offsetSlider.setTextEditable( true );
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
@@ -94,11 +97,13 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
             double min = angularFrequencyRange.getMin();
             double max = angularFrequencyRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickPrecision = 1;
-            int labelPrecision = 1;
+            int tickDecimalPlaces = 1;
+            int labelDecimalPlaces = tickDecimalPlaces;
+            int columns = 4;
             String angularFrequencyLabel = SimStrings.get( "label.wellAngularFrequency" );
-            _angularFrequencySlider = new SliderControl( value, min, max, tickSpacing, tickPrecision, labelPrecision, 
-                    angularFrequencyLabel, angularFrequencyUnits, 4, SLIDER_INSETS );
+            _angularFrequencySlider = new SliderControl( value, min, max, 
+                    tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
+                    angularFrequencyLabel, angularFrequencyUnits, columns, SLIDER_INSETS );
             _angularFrequencySlider.setTextEditable( true );
             _angularFrequencySlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
