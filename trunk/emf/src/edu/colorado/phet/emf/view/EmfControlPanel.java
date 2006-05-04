@@ -178,7 +178,12 @@ public class EmfControlPanel extends JPanel {
 
             stripChartCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setStripChartEnabled( stripChartCB.isSelected() );
+                    JDialog dlg = module.setStripChartEnabled( stripChartCB.isSelected() );
+                    dlg.addComponentListener( new ComponentAdapter() {
+                        public void componentHidden( ComponentEvent e ) {
+                            stripChartCB.setSelected( false );
+                        }
+                    } );
                 }
             } );
 
@@ -198,6 +203,7 @@ public class EmfControlPanel extends JPanel {
             add( fieldRepPane, gbcC );
             add( fieldSensePane, gbcC );
             add( fieldTypePane, gbcC );
+            add( stripChartCB, gbcC );
 
             // Set initial conditions
             vectorWCurveRB.setSelected( true );
@@ -231,6 +237,7 @@ public class EmfControlPanel extends JPanel {
             singleVectorRowRB.setEnabled( isEnabled );
             curveRB.setEnabled( isEnabled );
             vectorWCurveRB.setEnabled( isEnabled );
+            scalarRepRB.setEnabled( isEnabled );
 
 
             int display = EmfPanel.NO_FIELD;

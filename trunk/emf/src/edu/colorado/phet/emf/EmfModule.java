@@ -244,12 +244,12 @@ public class EmfModule extends Module {
                                                (int)electronLoc.getY() ) );
     }
 
-    public void setStripChartEnabled( boolean isEnabled ) {
+    public JDialog setStripChartEnabled( boolean isEnabled ) {
         if( isEnabled && stripChartDlg == null ) {
             JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
-            stripChartDlg = new JDialog( frame );
-            stripChartDlg.setUndecorated( true );
-            stripChartDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+            stripChartDlg = new JDialog( frame, false );
+//            stripChartDlg.setUndecorated( true );
+//            stripChartDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
             stripChartDlg.getContentPane().setLayout( new GridBagLayout() );
             new StripChartDelegate( receivingElectron, receiverStripChart );
             new StripChartDelegate( electron, senderStripChart );
@@ -292,7 +292,7 @@ public class EmfModule extends Module {
                 e.printStackTrace();
             }
 
-            stripChartDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
+//            stripChartDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             stripChartDlg.pack();
             GraphicsUtil.centerDialogInParent( stripChartDlg );
 
@@ -301,6 +301,7 @@ public class EmfModule extends Module {
         if( stripChartDlg != null ) {
             stripChartDlg.setVisible( isEnabled );
         }
+        return stripChartDlg;
     }
 
     public void setMovementSinusoidal() {
