@@ -37,7 +37,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * QTApplication is the main application.
+ * BSApplication is the main application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -77,8 +77,6 @@ public class BSApplication extends PhetApplication {
      * @param title
      * @param description
      * @param version
-     * @param clock
-     * @param useClockControlPanel
      * @param frameSetup
      */
     public BSApplication( String[] args, 
