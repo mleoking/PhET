@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
@@ -33,7 +34,7 @@ public class NmrModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = "Simplified NMR";
+    private static String name = SimStrings.get("Module.NmrTitle");
 
     //----------------------------------------------------------------
     // Instance methods and fields
