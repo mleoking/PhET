@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- have a "config" object for each module that contains ranges, flags, etc.
 - implement analytic solution for 3D Coulomb (eigenstates and wave function)
 - use analytic solution for single-well 1D Coulomb
 - support separate Energy chart y-axis range for each potential type
@@ -61,6 +60,8 @@ CLEANUP:
 
 
 DONE:
+(5/4/06) - add particle to BSModel for completeness
+(5/4/06) - use a "module spec" object for each module to encapsulate the every-growing ranges, flags, etc.
 0.00.05...
 (5/3/06) - change tick spacing on energy chart to 5eV
 (5/3/06) - change Wave Function y-axis range to [-1.5,+1.5], tick spacing 0.5

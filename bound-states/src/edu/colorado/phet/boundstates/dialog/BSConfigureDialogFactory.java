@@ -17,6 +17,7 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 
 
 /**
@@ -29,14 +30,17 @@ public class BSConfigureDialogFactory {
 
     private BSConfigureDialogFactory() {}
 
-    public static JDialog createDialog( Frame owner, BSAbstractPotential well,
-            BSDoubleRange offsetRange, BSDoubleRange depthRange,
-            BSDoubleRange widthRange, BSDoubleRange spacingRange,
-            BSDoubleRange separationRange, BSDoubleRange angularFrequencyRange ) {
+    public static JDialog createDialog( Frame owner, BSAbstractPotential well, BSAbstractModuleSpec moduleSpec ) {
         
         JDialog dialog = null;
         
         BSWellType wellType = well.getWellType();
+        BSDoubleRange offsetRange = moduleSpec.getOffsetRange();
+        BSDoubleRange depthRange = moduleSpec.getDepthRange();
+        BSDoubleRange widthRange = moduleSpec.getWidthRange();
+        BSDoubleRange spacingRange = moduleSpec.getSpacingRange();
+        BSDoubleRange separationRange = moduleSpec.getSeparationRange();
+        BSDoubleRange angularFrequencyRange = moduleSpec.getAngularFrequencyRange();
         
         if ( wellType == BSWellType.ASYMMETRIC ) {
             dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well, offsetRange, depthRange, widthRange );

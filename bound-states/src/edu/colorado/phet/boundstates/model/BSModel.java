@@ -30,6 +30,7 @@ public class BSModel extends BSObservable implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    public static final String PROPERTY_PARTICLE = "particle";
     public static final String PROPERTY_POTENTIAL = "potential";
     public static final String PROPERTY_SUPERPOSITION_COEFFICIENTS = "superpositionCoefficients";
     public static final String PROPERTY_HILITED_EIGENSTATE_INDEX = "hilitedEnergy";
@@ -38,6 +39,7 @@ public class BSModel extends BSObservable implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private BSParticle _particle;
     private BSAbstractPotential _potential;
     private BSSuperpositionCoefficients _superpositionCoefficients;
     private BSEigenstate[] _eigenstates;
@@ -47,7 +49,9 @@ public class BSModel extends BSObservable implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSModel( BSAbstractPotential potential, BSSuperpositionCoefficients superpositionCoefficients ) {
+    public BSModel( BSParticle particle, BSAbstractPotential potential, BSSuperpositionCoefficients superpositionCoefficients ) {
+        _particle = particle;
+        _particle.addObserver( this );
         _potential = potential;
         _potential.addObserver( this );
         _superpositionCoefficients = superpositionCoefficients;
@@ -58,6 +62,21 @@ public class BSModel extends BSObservable implements Observer {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setParticle( BSParticle particle ) {
+        if ( particle != _particle ) {
+            if ( _particle != null ) {
+                _particle.deleteObserver( this );
+            }
+            _particle = particle;
+            _particle.addObserver( this );
+            notifyObservers( PROPERTY_PARTICLE );
+        }
+    }
+    
+    public BSParticle getParticle() {
+        return _particle;
+    }
     
     public void setPotential( BSAbstractPotential potential ) {
         if ( potential != _potential ) {
@@ -122,7 +141,10 @@ public class BSModel extends BSObservable implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _potential ) {
+        if ( o == _particle ) {
+            notifyObservers( PROPERTY_PARTICLE );
+        }
+        else if ( o == _potential ) {
             syncWithPotential();
             notifyObservers( PROPERTY_POTENTIAL );
         }
