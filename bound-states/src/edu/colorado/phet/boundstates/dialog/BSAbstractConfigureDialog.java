@@ -28,7 +28,13 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.common.view.util.SimStrings;
 
-
+/**
+ * BSAbstractConfigureDialog is the base class for all dialogs that 
+ * are used to configure potential energy types.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public abstract class BSAbstractConfigureDialog extends JDialog implements Observer {
 
     //----------------------------------------------------------------------------
@@ -49,6 +55,13 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param frame
+     * @param title
+     * @param potential
+     */
     public BSAbstractConfigureDialog( Frame frame, String title, BSAbstractPotential potential ) {
         super( frame, title );
         setModal( false );
@@ -62,6 +75,10 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         _potential.addObserver( this );
     }
     
+    /*
+     * Gets the potential that this dialog will configure.
+     * For use by subclasses.
+     */
     protected BSAbstractPotential getPotential() {
         return _potential;
     }

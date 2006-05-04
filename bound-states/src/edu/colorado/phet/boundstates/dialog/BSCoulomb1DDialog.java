@@ -28,7 +28,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSCoulomb1DDialog
+ * BSCoulomb1DDialog is the dialog for configuring a potential composed of 1-D Coulomb wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSAsymmetricDialog
+ * BSAsymmetricDialog is the dialog for configuring a potential composed of asymmetric wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

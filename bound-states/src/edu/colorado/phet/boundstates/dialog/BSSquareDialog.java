@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSSquareDialog
+ * BSSquareDialog is the dialog for configuring a potential composed of square wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

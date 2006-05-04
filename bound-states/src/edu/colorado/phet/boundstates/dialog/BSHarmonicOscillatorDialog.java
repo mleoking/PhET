@@ -31,7 +31,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSHarmonicOscillatorDialog
+ * BSHarmonicOscillatorDialog is the dialog for configuring a potential 
+ * composed of harmonic oscillator wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

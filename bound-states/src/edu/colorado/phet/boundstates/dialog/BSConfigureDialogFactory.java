@@ -21,20 +21,31 @@ import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 
 
 /**
- * BSConfigureDialogFactory
+ * BSConfigureDialogFactory is a factory that creates the proper type 
+ * of "Configure" dialog for a specified potential.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class BSConfigureDialogFactory {
 
+    /* Not intended for instantiation */
     private BSConfigureDialogFactory() {}
 
-    public static JDialog createDialog( Frame owner, BSAbstractPotential well, BSAbstractModuleSpec moduleSpec ) {
+    /**
+     * Creates a "Configure" dialog for a specified potential.
+     * The moduleSpec determines the value ranges for the dialog's controls.
+     * 
+     * @param owner
+     * @param potential
+     * @param moduleSpec
+     * @return
+     */
+    public static JDialog createDialog( Frame owner, BSAbstractPotential potential, BSAbstractModuleSpec moduleSpec ) {
         
         JDialog dialog = null;
         
-        BSWellType wellType = well.getWellType();
+        BSWellType wellType = potential.getWellType();
         BSDoubleRange offsetRange = moduleSpec.getOffsetRange();
         BSDoubleRange depthRange = moduleSpec.getDepthRange();
         BSDoubleRange widthRange = moduleSpec.getWidthRange();
@@ -43,19 +54,19 @@ public class BSConfigureDialogFactory {
         BSDoubleRange angularFrequencyRange = moduleSpec.getAngularFrequencyRange();
         
         if ( wellType == BSWellType.ASYMMETRIC ) {
-            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) well, offsetRange, depthRange, widthRange );
+            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) potential, offsetRange, depthRange, widthRange );
         }
         else if ( wellType == BSWellType.COULOMB_1D ) {
-            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) well, offsetRange, spacingRange );
+            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) potential, offsetRange, spacingRange );
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
-            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) well, offsetRange );
+            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) potential, offsetRange );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) well, offsetRange, angularFrequencyRange );
+            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) potential, offsetRange, angularFrequencyRange );
         }
         else if ( wellType == BSWellType.SQUARE ) {
-            dialog = new BSSquareDialog( owner, (BSSquareWells) well, offsetRange, depthRange, widthRange, separationRange );
+            dialog = new BSSquareDialog( owner, (BSSquareWells) potential, offsetRange, depthRange, widthRange, separationRange );
         }
         else {
             throw new IllegalArgumentException( "unsupported well type: " + wellType );
