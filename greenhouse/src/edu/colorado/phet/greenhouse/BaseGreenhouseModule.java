@@ -187,6 +187,8 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
+
+        setToday();
     }
 
 
