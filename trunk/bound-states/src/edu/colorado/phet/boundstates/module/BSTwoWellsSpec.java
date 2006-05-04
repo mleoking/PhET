@@ -17,7 +17,7 @@ import edu.colorado.phet.boundstates.model.BSIntegerRange;
 
 
 /**
- * BSTwoWellsSpec
+ * BSTwoWellsSpec contains the information needed to set up the "Two Wells" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

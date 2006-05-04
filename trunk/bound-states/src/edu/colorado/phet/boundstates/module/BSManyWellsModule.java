@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSManyWellsModule
+ * BSManyWellsModule is the "Many Wells" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
