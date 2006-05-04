@@ -132,7 +132,6 @@ public class EmfControlPanel extends JPanel {
             // Set the default
             curveRB.setSelected( true );
 
-
             // Lay out the radio buttons
             JPanel fieldRepPane = new JPanel( new GridBagLayout() );
             GridBagConstraints gbcB = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
@@ -153,10 +152,10 @@ public class EmfControlPanel extends JPanel {
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
             JPanel fieldSensePane = new JPanel( new GridBagLayout() );
             GridBagConstraints gbcD = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                              1,1,1,1,
+                                                              1, 1, 1, 1,
                                                               GridBagConstraints.WEST,
                                                               GridBagConstraints.HORIZONTAL,
-                                                              new Insets( 0, 10, 0,0 ),0,0 );
+                                                              new Insets( 0, 10, 0, 0 ), 0, 0 );
             JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( SimStrings.get( "EmfControlPanel.ForceFieldRadioButton" ) ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -164,7 +163,7 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
             fieldSenseRBGroup.add( fFieldRB );
-            fieldSensePane.add( fFieldRB,gbcD );
+            fieldSensePane.add( fFieldRB, gbcD );
             JRadioButton eFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ElectricFieldRadioButton" ) );
             eFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -203,6 +202,7 @@ public class EmfControlPanel extends JPanel {
             add( fieldRepPane, gbcC );
             add( fieldSensePane, gbcC );
             add( fieldTypePane, gbcC );
+            gbcC.insets = new Insets( 4, 15, 0, 0 );
             add( stripChartCB, gbcC );
 
             // Set initial conditions
@@ -349,7 +349,7 @@ public class EmfControlPanel extends JPanel {
             gbc.gridy++;
             add( sineRB, gbc );
             gbc.anchor = GridBagConstraints.CENTER;
-            gbc.insets = new Insets( 0,0,0,0 );
+            gbc.insets = new Insets( 0, 0, 0, 0 );
             gbc.gridy++;
             freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
             add( freqLabel, gbc );
