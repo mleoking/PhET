@@ -11,6 +11,7 @@
 package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.colorado.phet.mri.view.SampleTargetGraphic;
@@ -35,7 +36,7 @@ public class HeadModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = "The Head";
+    private static String name = SimStrings.get("Module.MriTitle");
 
     //----------------------------------------------------------------
     // Instance methods and fields

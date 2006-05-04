@@ -23,7 +23,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- * BFieldIndicator
+ * BFieldIndicatorB
  * <p/>
  * An arrow graphic that grows and shrinks with the magnitude of a specified
  * Electromagnet
@@ -34,10 +34,10 @@ import java.awt.geom.Point2D;
 public class BFieldIndicatorB extends PNode {
     private double maxLength;
     private PPath arrowPPath;
-    private Paint arrowColor;
+    private Paint arrowColor = new Color(  255, 255, 255, 50 );
     private double minLength;
     private Point2D location;
-    private Color strokePaint = new Color( 0, 0, 0, 100 );
+    private Color strokePaint = new Color( 0, 0, 0, 50 );
 
     /**
      * Constructor
@@ -51,7 +51,6 @@ public class BFieldIndicatorB extends PNode {
         this.location = location;
         this.maxLength = maxLength;
         this.arrowColor = fill;
-        arrowColor = new Color(  255, 255, 255, 50 );
         model.addListener( new MriModel.ChangeAdapter() {
             public void fieldChanged( MriModel model ) {
                 update( model );

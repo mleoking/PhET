@@ -43,6 +43,7 @@ public class GlassPaneControlPanel extends JPanel {
         int initValue = 0;
         SpinnerModel glassPaneSpinnerModel = new SpinnerNumberModel( initValue, min, max, step );
         glassPaneSpinner = new JSpinner( glassPaneSpinnerModel );
+        glassPaneSpinner.getEditor().setBackground( Color.white );
         glassPaneSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 JSpinner spinner = (JSpinner)e.getSource();
@@ -79,6 +80,7 @@ public class GlassPaneControlPanel extends JPanel {
 
         // Reset button
         JButton resetBtn = new JButton( SimStrings.get( "GreenhouseControlPanel.Reset" ) );
+        resetBtn.setForeground( Color.black );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -133,15 +135,22 @@ public class GlassPaneControlPanel extends JPanel {
         Component[] components = container.getComponents();
         for( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
+            if( component instanceof JLabel
+                    || component instanceof JCheckBox ) {
+                component.setForeground( panelForeground );
+            }
             if( ! ( component instanceof JButton ) ) {
                 component.setBackground( panelBackground );
             }
-            if( component.getForeground().equals( Color.black ) ) {
+            if( component.getForeground().equals( Color.black )
+                    && ! ( component instanceof JButton ) ) {
                 component.setForeground( panelForeground );
             }
-//            if( component instanceof Container ) {
-//                setBackground( (Container)component );
-//            }
+            if( component instanceof Container
+                     && ! ( component instanceof JButton )
+                     && ! ( component instanceof JSpinner ) ) {
+                setBackground( (Container)component );
+            }
         }
     }
 }
