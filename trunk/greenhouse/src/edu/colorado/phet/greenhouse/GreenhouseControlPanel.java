@@ -31,10 +31,12 @@ import java.util.Hashtable;
 
 public class GreenhouseControlPanel extends JPanel {
 
+    private static Color adjustableGGColor = Color.cyan;
+//    private static Color adjustableGGColor = new Color( 255, 160, 180 );
     private static Color iceAgeColor = new Color( 255, 180, 20 );
     private static Color preIndRevColor = Color.green;
-    private static Color todayColor = new Color( 60, 200, 255 );
-//    private static Color todayColor = Color.white;
+//    private static Color todayColor = new Color( 60, 200, 255 );
+    private static Color todayColor = Color.yellow;
     private static Color venusColor = Color.cyan;
     private static Color panelBackground = new Color( 110, 110, 110 );
     private static Color panelForeground = Color.white;
@@ -250,6 +252,7 @@ public class GreenhouseControlPanel extends JPanel {
             final JRadioButton adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
             adjustableGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Adjustable" ) );
+            adjustableGGRB.setForeground( adjustableGGColor );
 
             JRadioButton iceAgeGGRB = new JRadioButton();
             iceAgeGGRB.setAction( pickIceAgeGG );

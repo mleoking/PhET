@@ -67,7 +67,8 @@ public class GreenhouseApplication extends PhetApplication {
             JMenuItem item = items[i];
             plafMenu.add( item );
         }
-        frame.addMenu( plafMenu );
+//        frame.addMenu( plafMenu );
+        
         frame.setDefaultLookAndFeelDecorated( true );
 
         Color background = new Color( 110, 110, 110 );
