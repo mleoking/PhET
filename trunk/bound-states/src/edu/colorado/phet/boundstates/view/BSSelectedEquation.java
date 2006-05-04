@@ -12,11 +12,11 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
-import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
@@ -84,11 +84,14 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
                 text = _superpositionString;
             }
             else {
-                if ( getMode() == BSBottomPlot.MODE_WAVE_FUNCTION ) {
+                if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
                     text = "<html>" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)</html>";
                 }
-                else {
+                else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
                     text = "<html>|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup></html>";
+                }
+                else {
+                    throw new UnsupportedOperationException( "unsupported mode: " + getMode() );
                 }
             }
             setHTML( text );

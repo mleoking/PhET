@@ -29,6 +29,7 @@ import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
@@ -452,7 +453,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel.setImaginarySelected( false );
         _controlPanel.setMagnitudeSelected( false );
         _controlPanel.setPhaseSelected( false );
-        _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY ); // do this after setting views
+        _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
         _controlPanel.setParticleMass( _particle.getMass() );
         
         // Clock
@@ -682,7 +683,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _bottomPlot.setPhaseVisible( visible );
     }
     
-    public void setBottomPlotMode( int mode ) {
+    public void setBottomPlotMode( BSBottomPlotMode mode ) {
         _chart.getBottomPlot().setMode( mode );
         _bottomPlot.setMode( mode );
         _selectedEquationNode.setMode( mode );

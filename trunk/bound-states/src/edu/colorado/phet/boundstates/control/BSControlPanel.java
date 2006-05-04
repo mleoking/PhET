@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSIntegerRange;
@@ -419,23 +420,23 @@ public class BSControlPanel extends BSAbstractControlPanel {
         return (int) _numberOfWellsSlider.getValue();
     }
 
-    public void setBottomPlotMode( int mode ) {
-        if ( mode == BSBottomPlot.MODE_WAVE_FUNCTION ) {
+    public void setBottomPlotMode( BSBottomPlotMode mode ) {
+        if ( mode == BSBottomPlotMode.WAVE_FUNCTION ) {
             _waveFunctionRadioButton.setSelected( true );
         }
-        else if ( mode == BSBottomPlot.MODE_PROBABILITY_DENSITY ) {
+        else if ( mode == BSBottomPlotMode.PROBABILITY_DENSITY ) {
             _probabilityDensityRadioButton.setSelected( true );
         }
         else {
-            throw new IllegalArgumentException( "invalid mode: " + mode );
+            throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
         handleDisplaySelection();
     }
 
-    public int getBottomPlotMode() {
-        int mode = BSBottomPlot.MODE_WAVE_FUNCTION;
+    public BSBottomPlotMode getBottomPlotMode() {
+        BSBottomPlotMode mode = BSBottomPlotMode.WAVE_FUNCTION;
         if ( _probabilityDensityRadioButton.isSelected() ) {
-            mode = BSBottomPlot.MODE_PROBABILITY_DENSITY;
+            mode = BSBottomPlotMode.PROBABILITY_DENSITY;
         }
         return mode;
     }
@@ -612,7 +613,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
     private void handleDisplaySelection() {
         if ( _waveFunctionRadioButton.isSelected() ) {
-            _module.setBottomPlotMode( BSBottomPlot.MODE_WAVE_FUNCTION );
+            _module.setBottomPlotMode( BSBottomPlotMode.WAVE_FUNCTION );
             _module.setRealVisible( _realCheckBox.isSelected() );
             _module.setImaginaryVisible( _imaginaryCheckBox.isSelected() );
             _module.setMagnitudeVisible( _magnitudeCheckBox.isSelected() );
@@ -623,7 +624,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _phaseCheckBox.setEnabled( true );
         }
         else if ( _probabilityDensityRadioButton.isSelected() ) {
-            _module.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY );
+            _module.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY );
             _realCheckBox.setEnabled( false );
             _imaginaryCheckBox.setEnabled( false );
             _magnitudeCheckBox.setEnabled( false );
