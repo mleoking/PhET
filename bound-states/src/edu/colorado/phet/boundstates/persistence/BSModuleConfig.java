@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.boundstates.persistence;
 
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
+import edu.colorado.phet.boundstates.view.BSBottomPlot;
+
 
 /**
  * BSModuleConfig is a JavaBean-compliant data structure that stores
@@ -32,7 +35,7 @@ public class BSModuleConfig implements BSSerializable {
     //XXX
     
     // Controls
-    private int _bottomPlotMode;
+    private String _bottomPlotMode;
     private boolean _realSelected;
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
@@ -60,12 +63,12 @@ public class BSModuleConfig implements BSSerializable {
         return _clockRunning;
     }
 
-    public int getBottomPlotMode() {
-        return _bottomPlotMode;
+    public BSBottomPlotMode getBottomPlotMode() {
+        return BSBottomPlotMode.getByName( _bottomPlotMode );
     }
     
-    public void setBottomPlotMode( int displayType ) {
-        _bottomPlotMode = displayType;
+    public void setBottomPlotMode( BSBottomPlotMode bottomPlotMode ) {
+        _bottomPlotMode = bottomPlotMode.getName();
     }
     
     public boolean isRealSelected() {

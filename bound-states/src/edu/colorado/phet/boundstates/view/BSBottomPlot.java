@@ -17,9 +17,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.jfree.chart.axis.*;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
@@ -27,6 +24,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
@@ -50,9 +48,6 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    public static final int MODE_WAVE_FUNCTION = 0;
-    public static final int MODE_PROBABILITY_DENSITY = 1;
     
     // We provide sorted data, so turn off series autosort to improve performance.
     private static final boolean AUTO_SORT = false;
@@ -202,7 +197,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         _waveFunctionSolutions = new ArrayList();
         _eigenstateIndicies = new ArrayList();
         
-        setMode( MODE_PROBABILITY_DENSITY );
+        setMode( BSBottomPlotMode.PROBABILITY_DENSITY );
     }
     
     //----------------------------------------------------------------------------
@@ -227,13 +222,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * 
      * @param mode MODE_WAVE_FUNCTION or MODE_PROBABILITY_DENSITY
      */
-    public void setMode( int mode ) {
-        if ( mode != MODE_WAVE_FUNCTION && mode != MODE_PROBABILITY_DENSITY ) {
-            throw new IllegalArgumentException( "invalid mode: " + mode );
-        }
-
+    public void setMode( BSBottomPlotMode mode ) {
         ValueAxis yAxis = getRangeAxis();
-        if ( mode == MODE_WAVE_FUNCTION ) {
+        if ( mode == BSBottomPlotMode.WAVE_FUNCTION ) {
             // Views
             setRealVisible( true );
             setImaginaryVisible( true );
@@ -248,7 +239,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             yAxis.setStandardTickUnits( tickUnits );
             yAxis.setAutoTickUnitSelection( true );
         }
-        else if ( mode == MODE_PROBABILITY_DENSITY ) {
+        else if ( mode == BSBottomPlotMode.PROBABILITY_DENSITY ) {
             // Views
             setRealVisible( false );
             setImaginaryVisible( false );
@@ -262,6 +253,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             tickUnits.add( new NumberTickUnit( BSConstants.PROBABILITY_DENSITY_TICK_SPACING, BSConstants.PROBABILITY_DENSITY_TICK_FORMAT ) );
             yAxis.setStandardTickUnits( tickUnits );
             yAxis.setAutoTickUnitSelection( true );
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
     }
     

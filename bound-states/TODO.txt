@@ -60,6 +60,7 @@ CLEANUP:
 
 
 DONE:
+(5/4/06) - add enum BSBottomPlotMode so that mode changes are type-safe
 (5/4/06) - some javadoc
 (5/4/06) - reset stopwatch when "Reset All" is done
 (5/4/06) - add particle to BSModel for completeness

@@ -12,16 +12,14 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.model.BSEigenstate;
+import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 
 /**
@@ -46,7 +44,7 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     
     private BSModel _model;
     private Point2D _location;
-    private int _mode; // BSBottomPlot.MODE_PROBABILITY_DENSITY or BSBottomPlot.MODE_WAVE_FUNCTION
+    private BSBottomPlotMode _mode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -59,7 +57,7 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
         setFont( BSConstants.WAVE_FUNCTION_EQUATION_FONT );
         setHTMLColor( Color.BLACK );
         _location = new Point2D.Double();
-        _mode = BSBottomPlot.MODE_PROBABILITY_DENSITY;
+        _mode = BSBottomPlotMode.PROBABILITY_DENSITY;
     }
     
     //----------------------------------------------------------------------------
@@ -89,12 +87,9 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     /**
      * Sets the mode.
      * 
-     * @param mode BSBottomPlot.MODE_PROBABILITY_DENSITY, BSBottomPlot.MODE_WAVE_FUNCTION
+     * @param mode
      */
-    public void setMode( int mode ) {
-        if ( mode != BSBottomPlot.MODE_PROBABILITY_DENSITY && mode != BSBottomPlot.MODE_WAVE_FUNCTION ) {
-            throw new IllegalArgumentException( "invalid mode: " + mode );
-        }
+    public void setMode( BSBottomPlotMode mode ) {
         _mode = mode;
         updateDisplay();
     }
@@ -102,7 +97,7 @@ public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements
     /*
      * Gets the mode, for use by subclasses.
      */
-    protected int getMode() {
+    protected BSBottomPlotMode getMode() {
         return _mode;
     }
 
