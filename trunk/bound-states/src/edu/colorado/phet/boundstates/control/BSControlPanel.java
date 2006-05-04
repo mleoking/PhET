@@ -30,6 +30,7 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSIntegerRange;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.view.BSBottomPlot;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -98,13 +99,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
      * 
      * @param module
      */
-    public BSControlPanel( BSAbstractModule module,
-            BSWellType[] wellTypes,
-            BSIntegerRange numberOfWellsRange,
-            BSDoubleRange massMultiplierRange,
-            final boolean supportsSuperpositionControls,
-            final boolean supportsParticleControls
-            ) {
+    public BSControlPanel( BSAbstractModule module, BSAbstractModuleSpec moduleSpec ) {
         super( module );
 
         _module = module;
@@ -126,11 +121,13 @@ public class BSControlPanel extends BSAbstractControlPanel {
             // Well type 
             JLabel wellTypeLabel = new JLabel( SimStrings.get( "label.wellType" ) );
             _wellTypeComboBox = new BSWellComboBox();
+            BSWellType[] wellTypes = moduleSpec.getWellTypes();
             for ( int i = 0; i < wellTypes.length; i++ ) {
                 _wellTypeComboBox.addChoice( wellTypes[i] );   
             }
 
             // Number of wells
+            BSIntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
             _numberOfWellsSlider = new SliderControl( 
                     numberOfWellsRange.getDefault(),
                     numberOfWellsRange.getMin(), 
@@ -163,7 +160,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 layout.addComponent( _numberOfWellsSlider, row, col );
                 row++;
             }
-            if ( supportsSuperpositionControls ) {
+            if ( moduleSpec.isSuperpositionControlsSupported() ) {
                 layout.addComponent( _superpositionButton, row, col );
                 row++;
             }
@@ -288,6 +285,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             particleControlsPanel.setBorder( new TitledBorder( "" ) );
             
             // Mass Multiplier slider
+            BSDoubleRange massMultiplierRange = moduleSpec.getMassMultiplierRange();
             final double value = massMultiplierRange.getDefault();
             final double min = massMultiplierRange.getMin();
             final double max = massMultiplierRange.getMax();
@@ -318,7 +316,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             addVerticalSpace( SUBPANEL_SPACING );
             addControlFullWidth( bottomChartControlsPanel );
             addVerticalSpace( SUBPANEL_SPACING );
-            if ( supportsParticleControls ) {
+            if ( moduleSpec.isParticleControlsSupported() ) {
                 addControlFullWidth( particleControlsPanel );
                 addVerticalSpace( SUBPANEL_SPACING );
             }
@@ -338,9 +336,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _imaginaryCheckBox.addActionListener( _listener );
             _magnitudeCheckBox.addActionListener( _listener );
             _phaseCheckBox.addActionListener( _listener );
-            if ( supportsParticleControls ) {
-                _massMultiplierSlider.addChangeListener( _listener );
-            }
+            _massMultiplierSlider.addChangeListener( _listener );
         }
     }
 

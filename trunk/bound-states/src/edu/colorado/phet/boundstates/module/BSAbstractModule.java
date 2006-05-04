@@ -106,11 +106,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
     // Colors 
     private BSColorScheme _colorScheme;
     
-    // Ranges and defaults
-    private BSIntegerRange _numberOfWellsRange;
-    private BSDoubleRange _massMultiplierRange;
-    private BSDoubleRange _offsetRange, _depthRange, _widthRange, _spacingRange, _separationRange, _angularFrequencyRange;
-    
+    // Module specification
+    private BSAbstractModuleSpec _moduleSpec;
+ 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -120,22 +118,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
      * 
      * @param title
      */
-    public BSAbstractModule( 
-            String title,
-            BSWellType[] wellTypes,
-            final boolean supportsSuperpositionControls,
-            final boolean supportsParticleControls,
-            BSIntegerRange numberOfWellsRange,
-            BSDoubleRange massMultiplierRange,
-            BSDoubleRange offsetRange,
-            BSDoubleRange depthRange,
-            BSDoubleRange widthRange,
-            BSDoubleRange spacingRange,
-            BSDoubleRange separationRange,
-            BSDoubleRange angularFrequencyRange
-            ) {
+    public BSAbstractModule( String title, BSAbstractModuleSpec moduleSpec ) {
         
         super( title, new BSClock(), true /* startsPaused */ );
+        
+        _moduleSpec = moduleSpec;
         
         // hide the PhET logo
         setLogoPanel( null );
@@ -145,18 +132,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //----------------------------------------------------------------------------
         
         // Objects are created in reset method
-        
-        // Save ranges and default.
-        {
-            _numberOfWellsRange = numberOfWellsRange;
-            _massMultiplierRange = massMultiplierRange;
-            _offsetRange = offsetRange;
-            _depthRange = depthRange;
-            _widthRange = widthRange;
-            _spacingRange = spacingRange;
-            _separationRange = separationRange;
-            _angularFrequencyRange = angularFrequencyRange;
-        }
         
         //----------------------------------------------------------------------------
         // View
@@ -249,7 +224,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new BSControlPanel( this, wellTypes, numberOfWellsRange, massMultiplierRange, supportsSuperpositionControls, supportsParticleControls );
+        _controlPanel = new BSControlPanel( this, moduleSpec );
         setControlPanel( _controlPanel );
         
         String timeUnits = SimStrings.get( "units.time" );
@@ -409,20 +384,62 @@ public abstract class BSAbstractModule extends PiccoloModule {
         }
         
         // Model
-        final double mass = BSConstants.ELECTRON_MASS * _massMultiplierRange.getDefault();
-        _particle = new BSParticle( mass );
-        _superpositionCoefficients = new BSSuperpositionCoefficients();
-        _asymmetricWell = new BSAsymmetricWell( _particle, 
-                _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault() );
-        _coulomb1DWells = new BSCoulomb1DWells( _particle, _numberOfWellsRange.getDefault(), 
-                _offsetRange.getDefault(), _spacingRange.getDefault() );
-        _coulomb3DWell = new BSCoulomb3DWell( _particle,  
-                _offsetRange.getDefault() );
-        _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
-                _offsetRange.getDefault(), _angularFrequencyRange.getDefault() );
-        _squareWells = new BSSquareWells( _particle, _numberOfWellsRange.getDefault(), 
-                _offsetRange.getDefault(), _depthRange.getDefault(), _widthRange.getDefault(), _separationRange.getDefault() );
-        _model = new BSModel( _squareWells, _superpositionCoefficients );
+        {
+            final double massMultiplier = _moduleSpec.getMassMultiplierRange().getDefault();
+            final double mass = BSConstants.ELECTRON_MASS * massMultiplier;
+            _particle = new BSParticle( mass );
+
+            _superpositionCoefficients = new BSSuperpositionCoefficients();
+
+            _asymmetricWell = new BSAsymmetricWell( _particle, 
+                    _moduleSpec.getOffsetRange().getDefault(), 
+                    _moduleSpec.getDepthRange().getDefault(), 
+                    _moduleSpec.getWidthRange().getDefault() );
+
+            _coulomb1DWells = new BSCoulomb1DWells( _particle, 
+                    _moduleSpec.getNumberOfWellsRange().getDefault(), 
+                    _moduleSpec.getOffsetRange().getDefault(), 
+                    _moduleSpec.getSpacingRange().getDefault() );
+            
+            _coulomb3DWell = new BSCoulomb3DWell( _particle, 
+                    _moduleSpec.getOffsetRange().getDefault() );
+            
+            _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
+                    _moduleSpec.getOffsetRange().getDefault(), 
+                    _moduleSpec.getAngularFrequencyRange().getDefault() );
+            
+            _squareWells = new BSSquareWells( _particle, 
+                    _moduleSpec.getNumberOfWellsRange().getDefault(), 
+                    _moduleSpec.getOffsetRange().getDefault(), 
+                    _moduleSpec.getDepthRange().getDefault(), 
+                    _moduleSpec.getWidthRange().getDefault(), 
+                    _moduleSpec.getSeparationRange().getDefault() );
+            
+            // Select the default...
+            BSAbstractPotential defaultPotential = null;
+            BSWellType defaultWellType = _moduleSpec.getDefaultWellType();
+            if ( defaultWellType == BSWellType.ASYMMETRIC ) {
+                defaultPotential = _asymmetricWell;
+            }
+            else if ( defaultWellType == BSWellType.COULOMB_1D ) {
+                defaultPotential = _coulomb1DWells;
+            }
+            else if ( defaultWellType == BSWellType.COULOMB_1D ) {
+                defaultPotential = _coulomb1DWells;
+            }
+            else if ( defaultWellType == BSWellType.COULOMB_3D ) {
+                defaultPotential = _coulomb3DWell;
+            }
+            else if ( defaultWellType == BSWellType.HARMONIC_OSCILLATOR ) {
+                defaultPotential = _harmonicOscillatorWell;
+            }
+            else if ( defaultWellType == BSWellType.SQUARE ) {
+                defaultPotential = _squareWells;
+            }
+            
+            // Populate the model...
+            _model = new BSModel( _particle, defaultPotential, _superpositionCoefficients );
+        }
         
         // View
         _energyPlot.setModel( _model );
@@ -440,6 +457,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel.setMagnitudeSelected( false );
         _controlPanel.setPhaseSelected( false );
         _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY ); // do this after setting views
+        _controlPanel.setParticleMass( _particle.getMass() );
     }
     
     //----------------------------------------------------------------------------
@@ -607,8 +625,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     
     public void showConfigureEnergyDialog() {
         if ( _configureWellDialog == null ) {
-            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential(),
-                    _offsetRange, _depthRange, _widthRange, _spacingRange, _separationRange, _angularFrequencyRange );
+            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential(), _moduleSpec );
             _configureWellDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
                     _configureWellDialog = null;
