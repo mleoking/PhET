@@ -8,8 +8,8 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.coreadditions.Disk;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Star extends HorizontalPhotonEmitter {
     Disk extent;

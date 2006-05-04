@@ -16,13 +16,13 @@ import java.awt.geom.Ellipse2D;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 public class GreenhouseModule extends BaseGreenhouseModule {
 
 
     HashMap cloudsToGraphicMap = new HashMap();
     boolean cloudsEnabled = false;
+    private GreenhouseControlPanel greenhouseControlPanel;
 
 
     public GreenhouseModule() {
@@ -43,7 +43,8 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
         // Set up the controls
         JPanel pnl = new JPanel( );
-        pnl.add(  new GreenhouseControlPanel( this ) );
+        greenhouseControlPanel = new GreenhouseControlPanel( this );
+        pnl.add(  greenhouseControlPanel );
         setControlPanel( pnl );
 //        setControlPanel( new GreenhouseControlPanel( this ) );
 
@@ -58,9 +59,11 @@ public class GreenhouseModule extends BaseGreenhouseModule {
     }
 
     public void reset() {
+
         super.reset();
         numCloudsEnabled( 0 );
         cloudsEnabled( false );
+
 //
 //        List photons = ((GreenhouseModel)getModel()).getPhotons();
 //        for( int i = 0; i < photons.size(); i++ ) {

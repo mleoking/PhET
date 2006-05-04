@@ -4,6 +4,12 @@
  * Author: Another Guy
  * Date: Oct 10, 2003
  */
+/**
+ * Class: GreenhouseControlPanel
+ * Package: edu.colorado.phet.greenhouse
+ * Author: Another Guy
+ * Date: Oct 10, 2003
+ */
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -19,8 +25,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -64,10 +68,12 @@ public class GreenhouseControlPanel extends JPanel {
     private GreenhouseCompositionPane todayCompositionPane = new GreenhouseCompositionPane( todayConcentrations );
     private GreenhouseCompositionPane venusCompositionPane = new GreenhouseCompositionPane( venusConcentrations );
     private JPanel adjustableCompositionPane = new JPanel();
-
-
     private GreenhouseModule module;
     private JSpinner cloudsSpinner;
+    private AtmosphereSelectionPane atmosphereSelectionPane;
+    private JCheckBox allPhotonsCB;
+    private JCheckBox thermometerCB;
+
 
     /**
      * @param module
@@ -132,19 +138,19 @@ public class GreenhouseControlPanel extends JPanel {
         cloudPanel.add( new JLabel( SimStrings.get( "GreenhouseControlPanel.NumberOfCloudsLabel" ) ) );
 
         // Show/hide thermometer
-        final JCheckBox thermometerCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ThermometerCheckbox" ) );
+        thermometerCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ThermometerCheckbox" ) );
         thermometerCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.thermometerEnabled( thermometerCB.isSelected() );
             }
         } );
-        thermometerCB.setSelected( module.isThermometerEnabled() );
-
-        // todo: HACK!!! make the control panel listen to the module for this?
-        thermometerCB.setSelected( true );
+//        thermometerCB.setSelected( module.isThermometerEnabled() );
+//
+//        // todo: HACK!!! make the control panel listen to the module for this?
+//        thermometerCB.setSelected( true );
 
         // Ratio of photons to see
-        final JCheckBox allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
+        allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( allPhotonsCB.isSelected() ) {
@@ -155,12 +161,12 @@ public class GreenhouseControlPanel extends JPanel {
                 }
             }
         } );
-        module.setVisiblePhotonRatio( 1.0 );
-        // todo: HACK!!! make the control panel listen to the module for this?
-        allPhotonsCB.setSelected( true );
+//        module.setVisiblePhotonRatio( 1.0 );
+//        // todo: HACK!!! make the control panel listen to the module for this?
+//        allPhotonsCB.setSelected( true );
 
         // Atmosphere selection
-        JPanel atmosphereSelectionPane = new AtmosphereSelectionPane();
+        atmosphereSelectionPane = new AtmosphereSelectionPane();
 
         // Reset button
         JButton resetBtn = new JButton( SimStrings.get( "GreenhouseControlPanel.Reset" ) );
@@ -171,11 +177,12 @@ public class GreenhouseControlPanel extends JPanel {
             }
         } );
 
+        setDefaultConditions();
+
         //
         // Lay out the controls
         //
         this.setLayout( new GridBagLayout() );
-        int rowIdx = 0;
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -193,29 +200,21 @@ public class GreenhouseControlPanel extends JPanel {
         add( allPhotonsCB, gbc );
         gbc.anchor = GridBagConstraints.CENTER;
         add( resetBtn, gbc );
-//        try {
-//            GraphicsUtil.addGridBagComponent( this, logo, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.NONE, GridBagConstraints.NORTH );
-//            GraphicsUtil.addGridBagComponent( this, new GreenhouseLegend(), 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-//            GraphicsUtil.addGridBagComponent( this, greenhouseGasConcentrationControl, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
-//            GraphicsUtil.addGridBagComponent( this, atmosphereSelectionPane, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-//            GraphicsUtil.addGridBagComponent( this, cloudPanel, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-//            GraphicsUtil.addGridBagComponent( this, thermometerCB, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-//            GraphicsUtil.addGridBagComponent( this, allPhotonsCB, 0, rowIdx++, 1, 1,
-//                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-//        }
-//        catch( AWTException e ) {
-//            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-//        }
 
         setBackground( this );
     }
 
+    private void setDefaultConditions() {
+        cloudsSpinner.setValue( new Integer( 0 ) );
+
+        // todo: HACK!!! make the control panel listen to the module for this?
+        allPhotonsCB.setSelected( true );
+        module.setVisiblePhotonRatio( 1.0 );
+
+        // todo: HACK!!! make the control panel listen to the module for this?
+        thermometerCB.setSelected( true );
+//        module.thermometerEnabled( thermometerCB.isSelected() );
+    }
 
     private void setBackground( Container container ) {
 //        container.setBackground( panelBackground );
@@ -234,7 +233,9 @@ public class GreenhouseControlPanel extends JPanel {
 
     private void reset() {
         module.reset();
-        cloudsSpinner.setValue( new Integer( 0 ) );
+        atmosphereSelectionPane.reset();
+        setDefaultConditions();
+        module.thermometerEnabled( thermometerCB.isSelected() );
     }
 
     //----------------------------------------------------------------
@@ -242,15 +243,9 @@ public class GreenhouseControlPanel extends JPanel {
     //----------------------------------------------------------------
 
     private class AtmosphereSelectionPane extends JPanel {
+        private JRadioButton todayGGRB;
 
         AtmosphereSelectionPane() {
-
-//            addComponentListener( new ComponentAdapter() {
-//                public void componentResized( ComponentEvent e ) {
-//                    setPreferredSize( new Dimension( 200, 400 ) );
-////                    setPreferredSize( new Dimension( 200, (int)getPreferredSize().getHeight() ) );
-//                }
-//            } );
 
             final JRadioButton adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
@@ -266,7 +261,7 @@ public class GreenhouseControlPanel extends JPanel {
             preIndRevGGRB.setText( SimStrings.get( "GreenhouseControlPanel.PreIndustrialLabel" ) );
             preIndRevGGRB.setForeground( preIndRevColor );
 
-            JRadioButton todayGGRB = new JRadioButton();
+            todayGGRB = new JRadioButton();
             todayGGRB.setAction( pickTodayGG );
             todayGGRB.setText( SimStrings.get( "GreenhouseControlPanel.TodayLabel" ) );
             todayGGRB.setForeground( todayColor );
@@ -309,6 +304,14 @@ public class GreenhouseControlPanel extends JPanel {
             titledBorder.setTitleJustification( TitledBorder.LEFT );
             this.setBorder( titledBorder );
 
+            setDefaultConditions();
+        }
+
+        public void reset() {
+            setDefaultConditions();
+        }
+
+        private void setDefaultConditions() {
             // Default conditions. Note that this very messy way of setting the startup condition isn't good, but it
             // works. This is a duplicate of the code in pickTodayGG.actionPerformed(), without the line telling
             // the module to setToday(). The other key line of code in setting initial conditions is at the
@@ -417,8 +420,6 @@ public class GreenhouseControlPanel extends JPanel {
         JTextField co2TF = new JTextField( 10 );
         JTextField ch4TF = new JTextField( 10 );
         JTextField n2oTF = new JTextField( 10 );
-        private Dimension concentrationsPanelDim;
-
 
         GreenhouseCompositionPane( String[] concentrations ) {
             this();
@@ -448,22 +449,24 @@ public class GreenhouseControlPanel extends JPanel {
             Font font = this.getFont();
             FontMetrics fontMetrics = getFontMetrics( font );
             int width = fontMetrics.stringWidth( SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) + "   " );
-            concentrationsPanelDim = new Dimension( width, 120 );
+            Dimension concentrationsPanelDim = new Dimension( width, 120 );
             this.setPreferredSize( concentrationsPanelDim );
 
             titledBorder.setTitleJustification( TitledBorder.LEFT );
             titledBorder.setTitleColor( panelForeground );
             this.setBorder( titledBorder );
-            try {
-                for( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
-                    GraphicsUtil.addGridBagComponent( this, new JLabel( labels[rowIdx] ), 0, rowIdx, 1, 1,
-                                                      GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                    GraphicsUtil.addGridBagComponent( this, concentrations[rowIdx], 1, rowIdx, 1, 1,
-                                                      GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                }
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.EAST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 5, 0, 5 ), 0, 0 );
+            for( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
+                gbc.gridy = rowIdx;
+                gbc.gridx = 0;
+                gbc.anchor = GridBagConstraints.EAST;
+                add( new JLabel( labels[rowIdx] ), gbc );
+                gbc.anchor = GridBagConstraints.WEST;
+                gbc.gridx = 1;
+                add( concentrations[rowIdx], gbc );
             }
         }
 

@@ -7,7 +7,6 @@
 package edu.colorado.phet.coreadditions;
 
 import java.awt.geom.Point2D;
-import java.io.File;
 
 public class Annulus extends Body {
 

@@ -7,13 +7,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.coreadditions.Body;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 public class Cloud extends Body {
 

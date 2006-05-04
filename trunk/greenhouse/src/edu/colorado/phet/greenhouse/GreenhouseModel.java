@@ -9,7 +9,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.IClock;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 

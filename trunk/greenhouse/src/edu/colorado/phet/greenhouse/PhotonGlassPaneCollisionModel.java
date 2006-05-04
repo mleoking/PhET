@@ -8,11 +8,8 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.coreadditions.Vector3D;
-import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.filter.BandpassFilter;
-
-import java.awt.geom.Point2D;
+import edu.colorado.phet.filter.Filter1D;
 
 public class PhotonGlassPaneCollisionModel {
     private static Vector2D n = new Vector2D();

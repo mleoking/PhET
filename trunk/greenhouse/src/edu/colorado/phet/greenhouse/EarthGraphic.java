@@ -8,21 +8,18 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.Animation;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
 import java.awt.*;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.math.BigInteger;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 
 public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphicType {
 

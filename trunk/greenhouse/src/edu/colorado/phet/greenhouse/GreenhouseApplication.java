@@ -18,9 +18,8 @@ import edu.colorado.phet.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.components.PhetFrame;
 
-import java.util.Locale;
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class GreenhouseApplication extends PhetApplication {
     // Localization
@@ -44,6 +43,7 @@ public class GreenhouseApplication extends PhetApplication {
         super( applicationDescriptor, apparatusPanelContainerFactory, modules, iClock );
     }
 
+
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
@@ -59,9 +59,7 @@ public class GreenhouseApplication extends PhetApplication {
                 SimStrings.get( "GreenHouseApplication.version" ),
                 1024, 768 );
         s_application = new PhetApplication( appDescriptor, modules,
-//                                             new FixedClock( new StaticClockModel( 10, 50 ), ThreadPriority.MIN ));
                                              new SwingTimerClock( new StaticClockModel( 10, 20 ) ) );
-//                                             new SwingTimerClock( new DynamicClockModel( 5, 20 ) ) );
         PhetFrame frame = s_application.getApplicationView().getPhetFrame();
         JMenu plafMenu = new JMenu( SimStrings.get( "GreenhouseApplication.ViewMenuTitle" ) );
         JMenuItem[] items = PlafUtil.getLookAndFeelItems();

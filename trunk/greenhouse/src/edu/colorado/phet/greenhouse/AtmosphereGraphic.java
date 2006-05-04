@@ -6,21 +6,17 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions.Annulus;
-import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
+import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observer;
+import java.awt.image.BufferedImage;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the

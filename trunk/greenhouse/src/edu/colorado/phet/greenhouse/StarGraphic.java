@@ -11,10 +11,10 @@ import edu.colorado.phet.coreadditions.Disk;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Arrays;
 
 public class StarGraphic extends DiskGraphic {
     private Star star;
