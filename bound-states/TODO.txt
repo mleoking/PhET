@@ -60,6 +60,8 @@ CLEANUP:
 
 
 DONE:
+(5/4/06) - some javadoc
+(5/4/06) - reset stopwatch when "Reset All" is done
 (5/4/06) - add particle to BSModel for completeness
 (5/4/06) - use a "module spec" object for each module to encapsulate the every-growing ranges, flags, etc.
 0.00.05...

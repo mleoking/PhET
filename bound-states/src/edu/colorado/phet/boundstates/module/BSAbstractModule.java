@@ -47,7 +47,9 @@ import edu.umd.cs.piccolo.PNode;
 
 
 /**
- * BSSharedModule
+ * BSAbstractModule is the module implementation shared by all modules 
+ * in this simulation.  The BSAbstractModuleSpec (provided in the constructor)
+ * is used to describe how the module should be specialized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -98,9 +100,10 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
     // Controls
     private BSControlPanel _controlPanel;
+    private StopwatchPanel _stopwatchPanel;
 
     // Dialogs
-    private JDialog _configureWellDialog;
+    private JDialog _configureDialog;
     private BSSuperpositionStateDialog _superpositionStateDialog;
     
     // Colors 
@@ -228,8 +231,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         String timeUnits = SimStrings.get( "units.time" );
-        StopwatchPanel stopwatchPanel = new StopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
-        getClockControlPanel().addToLeft( stopwatchPanel );
+        _stopwatchPanel = new StopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
+        getClockControlPanel().addToLeft( _stopwatchPanel );
         
         //----------------------------------------------------------------------------
         // Help
@@ -341,24 +344,17 @@ public abstract class BSAbstractModule extends PiccoloModule {
         return true;
     }
     
+    /**
+     * Disposes of dialogs when we switch to some other module.
+     */
     public void deactivate() {
-        if ( _configureWellDialog != null ) {
-            _configureWellDialog.hide();
+        if ( _configureDialog != null ) {
+            _configureDialog.dispose();
         }
         if ( _superpositionStateDialog != null ) {
-            _superpositionStateDialog.hide();
+            _superpositionStateDialog.dispose();
         }
         super.deactivate();
-    }
-    
-    public void activate() {
-        if ( _configureWellDialog != null ) {
-            _configureWellDialog.show();
-        }
-        if ( _superpositionStateDialog != null ) {
-            _superpositionStateDialog.show();
-        }
-        super.activate();
     }
     
     //----------------------------------------------------------------------------
@@ -372,9 +368,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Close all dialogs...
         {
-            if ( _configureWellDialog != null ) {
-                _configureWellDialog.dispose();
-                _configureWellDialog = null;
+            if ( _configureDialog != null ) {
+                _configureDialog.dispose();
+                _configureDialog = null;
             }
 
             if ( _superpositionStateDialog != null ) {
@@ -458,6 +454,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel.setPhaseSelected( false );
         _controlPanel.setBottomPlotMode( BSBottomPlot.MODE_PROBABILITY_DENSITY ); // do this after setting views
         _controlPanel.setParticleMass( _particle.getMass() );
+        
+        // Clock
+        resetClock();
     }
     
     //----------------------------------------------------------------------------
@@ -515,6 +514,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //XXX
     }
     
+    /**
+     * Sets the module's color scheme.
+     * 
+     * @param colorScheme
+     */
     public void setColorScheme( BSColorScheme colorScheme ) {
         _colorScheme = colorScheme;
         // Chart
@@ -543,6 +547,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
     
     private class EventListener extends ComponentAdapter {
 
+        /*
+         * Redo the "play area" layout when the window size changes.
+         */
         public void componentResized( ComponentEvent event ) {
             if ( event.getSource() == _canvas ) {
                 layoutCanvas();
@@ -585,8 +592,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         if ( wellType != _model.getWellType() ) {
             
-            if ( _configureWellDialog != null ) {
-                _configureWellDialog.dispose();
+            if ( _configureDialog != null ) {
+                _configureDialog.dispose();
             }
 
             if ( wellType == BSWellType.ASYMMETRIC ) {
@@ -623,21 +630,27 @@ public abstract class BSAbstractModule extends PiccoloModule {
         }
     }
     
-    public void showConfigureEnergyDialog() {
-        if ( _configureWellDialog == null ) {
-            _configureWellDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential(), _moduleSpec );
-            _configureWellDialog.addWindowListener( new WindowAdapter() {
+    /**
+     * Opens a "Configure Potential" dialog for the currently-selected potential.
+     */
+    public void showConfigureDialog() {
+        if ( _configureDialog == null ) {
+            _configureDialog = BSConfigureDialogFactory.createDialog( getFrame(), _model.getPotential(), _moduleSpec );
+            _configureDialog.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent event ) {
-                    _configureWellDialog = null;
+                    _configureDialog = null;
                 }
                 public void windowClosed( WindowEvent event ) {
-                    _configureWellDialog = null;
+                    _configureDialog = null;
                 }
             } );
-            _configureWellDialog.show();
+            _configureDialog.show();
         }
     }
     
+    /**
+     * Opens a "Superposition State" dialog.
+     */
     public void showSuperpositionStateDialog() {
         if ( _superpositionStateDialog == null ) {
             _superpositionStateDialog = new BSSuperpositionStateDialog( getFrame(), _model, _colorScheme );
@@ -683,5 +696,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
     private void resetClock() {
         getClock().resetSimulationTime();
+        _stopwatchPanel.reset();
     }
 }

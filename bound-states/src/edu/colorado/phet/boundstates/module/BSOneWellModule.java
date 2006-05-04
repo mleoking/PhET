@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSOneWellModule
+ * BSOneWellModule is the "One Well" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

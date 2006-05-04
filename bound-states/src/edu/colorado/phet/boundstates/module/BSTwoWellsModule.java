@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSTwoWellsModule
+ * BSTwoWellsModule is the "Two Wells" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

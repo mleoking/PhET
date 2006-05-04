@@ -16,7 +16,8 @@ import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSIntegerRange;
 
 /**
- * BSAbstractModuleSpec
+ * BSAbstractModuleSpec contains the information needed to set up a module,
+ * including ranges, flags, combo box choices, etc.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

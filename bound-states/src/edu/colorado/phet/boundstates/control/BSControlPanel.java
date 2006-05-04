@@ -587,7 +587,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
     
     private void handleConfigureEnergyButton() {
-        _module.showConfigureEnergyDialog();
+        _module.showConfigureDialog();
     }
     
     private void handleSuperpositionButton() {
