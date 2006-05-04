@@ -27,7 +27,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSCoulomb3DDialog
+ * BSCoulomb3DDialog is the dialog for configuring a potential composed of 3-D Coulomb wells.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

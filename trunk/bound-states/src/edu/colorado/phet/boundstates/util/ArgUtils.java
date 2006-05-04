@@ -20,6 +20,7 @@ package edu.colorado.phet.boundstates.util;
  */
 public class ArgUtils {
 
+    /* Not intended for instantiation */
     private ArgUtils() {}
     
     /**

@@ -38,7 +38,13 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * BSSuperpositionStateDialog
+ * BSSuperpositionStateDialog is the "Superposition State" dialog.
+ * It shows a set of coefficients, one for each eigenstate.
+ * The use can change the coefficient values in the range [0,1].
+ * Before the user's changes can be "applied", the coefficients
+ * must be normalized so that their values sum to 1.  Normalization
+ * is done by pressing the "Normalize" button.  When coefficients
+ * are applied, the underlying model is updated.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -74,10 +80,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private JButton _normalizeButton;
     private JButton _applyButton;
     private JButton _closeButton;
+    
     private EventListener _eventListener;
     private boolean _changed;
-    private Color _eigenstateSelectionColor;
-    private Color _normalColor;
+    
+    private Color _selectionColor; // non-zero coefficients are shown with this color
+    private Color _normalColor; // zero coefficients are shown with this color
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,7 +108,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         _coefficients = model.getSuperpositionCoefficients();
         
         _changed = false;
-        _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
+        _selectionColor = colorScheme.getEigenstateSelectionColor();
         _normalColor = Color.WHITE;
         
         createUI( parent );
@@ -279,7 +287,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     //----------------------------------------------------------------------------
     
     public void setColorScheme( BSColorScheme colorScheme ) {
-        _eigenstateSelectionColor = colorScheme.getEigenstateSelectionColor();
+        _selectionColor = colorScheme.getEigenstateSelectionColor();
         updateSpinnersColor();
     }
     
@@ -500,7 +508,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private void updateSpinnerColor( DoubleSpinner spinner ) {
         double value = spinner.getDoubleValue();
         if ( value != 0 ) {
-            spinner.getFormattedTextField().setBackground( _eigenstateSelectionColor );
+            spinner.getFormattedTextField().setBackground( _selectionColor );
         }
         else {
             spinner.getFormattedTextField().setBackground( _normalColor );
