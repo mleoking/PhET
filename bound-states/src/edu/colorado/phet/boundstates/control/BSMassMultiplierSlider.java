@@ -26,6 +26,20 @@ import javax.swing.JLabel;
  */
 public class BSMassMultiplierSlider extends SliderControl {
 
+    /**
+     * Constructor.
+     * 
+     * @param value
+     * @param min
+     * @param max
+     * @param tickSpacing
+     * @param tickDecimalPlaces
+     * @param valueDecimalPlaces
+     * @param label
+     * @param units
+     * @param columns
+     * @param insets
+     */
     public BSMassMultiplierSlider( double value, double min, double max, 
             double tickSpacing, int tickDecimalPlaces, int valueDecimalPlaces, 
             String label, String units, int columns, Insets insets ) 
