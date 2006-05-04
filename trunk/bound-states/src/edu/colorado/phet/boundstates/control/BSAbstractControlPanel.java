@@ -60,6 +60,11 @@ public abstract class BSAbstractControlPanel extends ControlPanel {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the module that this control panel is associated with.
+     * 
+     * @return the module
+     */
     public BSAbstractModule getModule() {
         return _module;
     }

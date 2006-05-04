@@ -15,7 +15,12 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 
-
+/**
+ * DebugOutput is a collection of methods related to debugging output.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class DebugOutput {
 
     /* Not intended for instantiation */

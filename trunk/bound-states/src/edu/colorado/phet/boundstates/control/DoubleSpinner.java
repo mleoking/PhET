@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 
 /**
- * DoubleSpinner
+ * DoubleSpinner is a spinner that contains a double precision value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
