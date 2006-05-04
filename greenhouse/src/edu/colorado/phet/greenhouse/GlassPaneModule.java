@@ -13,11 +13,11 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
     private GlassPane glassPane;

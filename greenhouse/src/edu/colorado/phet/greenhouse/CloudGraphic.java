@@ -10,9 +10,8 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 public class CloudGraphic implements Graphic, ShapeGraphicType {

@@ -7,8 +7,6 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.coreadditions.Vector3D;
 
 import java.awt.geom.Point2D;
 

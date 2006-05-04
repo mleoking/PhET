@@ -10,9 +10,8 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class GreenhouseLegend extends JPanel {
 

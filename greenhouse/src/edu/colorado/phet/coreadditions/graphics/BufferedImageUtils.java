@@ -11,9 +11,9 @@
 package edu.colorado.phet.coreadditions.graphics;
 
 import javax.swing.*;
-import java.awt.image.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.*;
 
 /**
  * BufferedImageUtils

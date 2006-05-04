@@ -9,7 +9,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.coreadditions.Annulus;
 import edu.colorado.phet.filter.BandpassFilter;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;

@@ -9,10 +9,10 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
-import java.util.Observer;
+import java.awt.geom.Point2D;
 import java.util.Observable;
+import java.util.Observer;
 
 public class ScatterEventGraphic implements Graphic {
     private ScatterEvent se;

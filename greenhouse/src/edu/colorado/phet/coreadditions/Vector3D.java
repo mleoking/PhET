@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.PhysicalVector;
+import edu.colorado.phet.common.math.Vector2D;
 
 public class Vector3D extends PhysicalVector {
 

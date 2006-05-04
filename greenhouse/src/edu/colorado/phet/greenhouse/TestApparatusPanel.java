@@ -9,7 +9,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class TestApparatusPanel extends ApparatusPanel {

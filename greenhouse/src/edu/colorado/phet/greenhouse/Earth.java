@@ -9,10 +9,8 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.coreadditions.Disk;
 import edu.colorado.phet.coreadditions.ModelViewTx1D;
 import edu.colorado.phet.instrumentation.TemperatureReporter;
-import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
 
 import java.awt.geom.Point2D;
-import java.util.HashMap;
 
 public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener {
 
@@ -38,12 +36,16 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         photonAbsorber = new BasicPhotonAbsorber();
         temperature = GreenhouseConfig.earthBaseTemperature;
         baseTemperature = GreenhouseConfig.earthBaseTemperature;
+
+        for( int i = 0; i < temperatureHistory.length; i++ ) {
+            temperatureHistory[i] = baseTemperature;
+        }
     }
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         computeTemperature();
-        while( netEnergy > 0 && !reset ) {
+        while( netEnergy > 0 ) {
             photonSource.notifyListeners( photonSource.emitPhoton() );
         }
     }
@@ -62,7 +64,6 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         temperatureHistory[0] = baseTemperature - 9 + 3 * Math.pow( netEnergy / GreenhouseConfig.k, 0.25 );
         thSum += temperatureHistory[0];
         temperature = thSum / temperatureHistoryLength;
-        System.out.println( "thSum = " + thSum );
 
         if( jimmyArray != null ) {
             jimmyTemperature();
@@ -190,12 +191,13 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     }
 
 
-    boolean reset = false;
     public void reset() {
-        temperatureHistory = new double[temperatureHistoryLength];
-        temperature = GreenhouseConfig.earthBaseTemperature;
+        for( int i = 0; i < temperatureHistory.length; i++ ) {
+            temperatureHistory[i] = baseTemperature;
+        }
+//        temperatureHistory = new double[temperatureHistoryLength];
+//        temperature = GreenhouseConfig.earthBaseTemperature;
         netEnergy = 0;
-        reset = true;
     }
 }
 

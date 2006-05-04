@@ -8,7 +8,6 @@ package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.model.ModelElement;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 

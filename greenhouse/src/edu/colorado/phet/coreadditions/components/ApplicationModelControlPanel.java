@@ -3,10 +3,9 @@ package edu.colorado.phet.coreadditions.components;
 
 import edu.colorado.phet.common.model.ApplicationModel;
 import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.view.ApplicationView;
 import edu.colorado.phet.common.view.components.media.Resettable;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,8 +7,8 @@
 package edu.colorado.phet.instrumentation;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
 import java.awt.*;

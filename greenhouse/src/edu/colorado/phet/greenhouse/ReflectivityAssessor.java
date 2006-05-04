@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import java.awt.geom.Point2D;
-
 public interface ReflectivityAssessor {
     double getReflectivity( Photon photon );
 }
