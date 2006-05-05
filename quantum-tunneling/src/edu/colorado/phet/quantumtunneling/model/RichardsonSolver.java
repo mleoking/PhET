@@ -47,7 +47,7 @@ public class RichardsonSolver implements IWavePacketSolver {
     //----------------------------------------------------------------------
     
     /* Enables debugging output */
-    private static boolean PRINT_DEBUG = false;
+    private static boolean PRINT_DEBUG = true;
     
     /* Number of propagator steps per tick of the simulation clock */
     private static final int STEPS_PER_CLOCK_TICK = 40;
@@ -561,7 +561,7 @@ public class RichardsonSolver implements IWavePacketSolver {
             boolean thresholdExceeded = false;
             for ( int i = _thresholdStart; i < _thresholding; i++ ) {
                 // Stop as soon as one value exceeds the threshold.
-                if ( _Psi[i]._real > ZERO_THRESHOLD || _Psi[i]._imaginary > ZERO_THRESHOLD ) {
+                if ( Math.abs( _Psi[i]._real ) > ZERO_THRESHOLD || Math.abs( _Psi[i]._imaginary ) > ZERO_THRESHOLD ) {
                     thresholdExceeded = true;
                     break;
                 }
