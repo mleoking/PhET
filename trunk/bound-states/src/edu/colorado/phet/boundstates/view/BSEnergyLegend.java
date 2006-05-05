@@ -44,8 +44,8 @@ public class BSEnergyLegend extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BSLegendItem _totalEnergyItem;
-    private BSLegendItem _potentialEnergyItem;
+    private LegendItem _totalEnergyItem;
+    private LegendItem _potentialEnergyItem;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,13 +58,13 @@ public class BSEnergyLegend extends PNode {
         
         // Total Energy
         _totalEnergyItem = 
-            new BSLegendItem( SimStrings.get( "legend.totalEnergy" ), BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
+            new LegendItem( SimStrings.get( "legend.totalEnergy" ), BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
         _totalEnergyItem.translate( 0, 0 );
         addChild( _totalEnergyItem );
         
         // Potential Energy
         _potentialEnergyItem = 
-            new BSLegendItem( SimStrings.get( "legend.potentialEnergy" ), BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
+            new LegendItem( SimStrings.get( "legend.potentialEnergy" ), BSConstants.COLOR_SCHEME.getPotentialEnergyColor() );
         _potentialEnergyItem.translate( _totalEnergyItem.getFullBounds().getWidth() + 20, 0 );
         addChild( _potentialEnergyItem );
         

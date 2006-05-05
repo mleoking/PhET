@@ -35,6 +35,10 @@ import edu.colorado.phet.piccolo.nodes.HTMLNode;
  */
 public abstract class BSAbstractWaveFunctionEquation extends HTMLNode implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     protected static final int EIGENSTATE_SUBSCRIPT_NONE = -1;
     protected static final int EIGENSTATE_SUBSCRIPT_SUPERPOSITION = Integer.MIN_VALUE;
     
