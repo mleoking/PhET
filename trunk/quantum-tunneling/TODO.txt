@@ -30,6 +30,8 @@ CLEANUP
 
 
 DONE:
+1.02.00... 
+(5/5/06) - bugfix: zero thresholding of wave function should be based on absolute value
 1.01.00...
 (5/3/06) - bugfix: potential combo box contains duplicate choices, one for each color scheme
 (4/21/06) - fix in Spanish translations, Colors -> Colores
