@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 /**
- * BSLegendItem is an item in a graph legend.
+ * LegendItem is an item in a graph legend.
  * The item consists of a colored line and a text label.
  * The line is positioned to the left of the label.
  *
