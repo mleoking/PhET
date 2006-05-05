@@ -18,6 +18,8 @@ package edu.colorado.phet.boundstates.model;
  * <li>interface directly with BSAbstractPotential to calculate potential
  * <li>defer calculations until they are requested, instead of precalculating in constructor
  * <li>added more verbose warning messages when eigenstate solver fails
+ * <li>added comment blocks
+ * <li>reordered methods so that there is clear division between eigenstate solve and wave function solver
  * </ul>
  * <p>
  * Here is the original copyright notice:
@@ -43,15 +45,29 @@ package edu.colorado.phet.boundstates.model;
  */
 public class SchmidtLeeSolver {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final boolean REPORT_WARNINGS = true;
     
     private static final int MAX_TRIES = 100;
     private static final double SMALL = 1.E-10; // used in interpolator
     
-    private double _hb, _minX, _maxX;
-    private int _numberOfPoints;
-    private double[] _potentialValues;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private double _hb;  // magic constant, = (hbar^2) / (2 * mass)
+    private double _minX; // lower bound for position, in nm
+    private double _maxX; // upper bound for position, in nm
+    private int _numberOfPoints; // number of sample points in our "lattice"
+    private double[] _potentialValues; // potential energy value along the "lattice", in eV
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
      * Constructor.
      * 
@@ -69,6 +85,10 @@ public class SchmidtLeeSolver {
         _potentialValues = calculatePotential( potential );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     /**
      * Gets the energy of the eigenstate for a specified number of nodes.
      * 
@@ -87,6 +107,31 @@ public class SchmidtLeeSolver {
         return calculateWaveFunction( energy );
     }
 
+    //----------------------------------------------------------------------------
+    // Potential Energy methods
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Calculates the lattice points for a specified potential.
+     * 
+     * @param potential
+     */
+    private double[] calculatePotential( BSAbstractPotential potential ) {
+        int i;
+        double x, dx;
+        double[] v = new double[_numberOfPoints];
+        dx = ( _maxX - _minX ) / ( _numberOfPoints - 1 );
+        for ( i = 1; i < _numberOfPoints - 1; i++ ) {
+            x = _minX + i * dx;
+            v[i] = potential.getEnergyAt( x );
+        }
+        return v;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Eigenstate solver
+    //----------------------------------------------------------------------------
+    
     /*
      * Calcuates the eigenvalue for a specified number of nodes.
      * 
@@ -218,23 +263,28 @@ public class SchmidtLeeSolver {
         return new Tester( node, alogd );
     }
 
-    /*
-     * Calculates the lattice points for a specified potential.
-     * 
-     * @param potential
+    /**
+     * Tests whether the energy is too high.
      */
-    private double[] calculatePotential( BSAbstractPotential potential ) {
-        int i;
-        double x, dx;
-        double[] v = new double[_numberOfPoints];
-        dx = ( _maxX - _minX ) / ( _numberOfPoints - 1 );
-        for ( i = 1; i < _numberOfPoints - 1; i++ ) {
-            x = _minX + i * dx;
-            v[i] = potential.getEnergyAt( x );
-        }
-        return v;
-    }
+    private static class Tester {
 
+        public int node; // Number of nodes
+        public double alogd; // Derivative
+
+        public Tester( int node, double alogd ) {
+            this.node = node;
+            this.alogd = alogd;
+        }
+
+        public boolean isupper( int node ) {
+            return this.node > node || ( this.node == node && alogd < 0.0 );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Wave Function solver
+    //----------------------------------------------------------------------------
+    
     /*
      * Calculates the wave function for a specified eigenstate energy.
      * 
@@ -299,24 +349,10 @@ public class SchmidtLeeSolver {
         }
         return psi;
     }
-
-    /**
-     * Tests whether the energy is too high.
-     */
-    private static class Tester {
-
-        public int node; // Number of nodes
-        public double alogd; // Derivative
-
-        public Tester( int node, double alogd ) {
-            this.node = node;
-            this.alogd = alogd;
-        }
-
-        public boolean isupper( int node ) {
-            return this.node > node || ( this.node == node && alogd < 0.0 );
-        }
-    }
+  
+    //----------------------------------------------------------------------------
+    // Exception class
+    //---------------------------------------------------------------------------
     
     /**
      * SchmidtLeeException is an exception that may be thrown by the SchmidtLeeSolver.
@@ -327,6 +363,10 @@ public class SchmidtLeeSolver {
             super( message );
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //---------------------------------------------------------------------------
     
     /*
      * Prints a warning message to System.err.
