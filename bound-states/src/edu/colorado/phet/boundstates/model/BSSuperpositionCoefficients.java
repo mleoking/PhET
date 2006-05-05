@@ -21,12 +21,43 @@ import java.util.ArrayList;
  */
 public class BSSuperpositionCoefficients extends BSObservable {
         
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private ArrayList _coefficients; // array of Double
    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor, creates an empty set of coefficients.
+     */
     public BSSuperpositionCoefficients() {
         _coefficients = new ArrayList();
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the number of coefficients.
+     * <p>
+     * If there are no coefficients, the first one is set to 1 and all others to zero.
+     * <p>
+     * If the number of coefficients is increasing, the new ones are set to zero.
+     * <p>
+     * If the number of coefficients is decreasing, then we need to examine the 
+     * coefficient values. If any non-zero coefficients will be lost, then 
+     * the first coefficient is set to 1 and all others to zero.
+     * If only zero-valued coefficients will be lost, then they can
+     * simply be deleted without changing the values of any of the
+     * non-zero coefficients.
+     * 
+     * @param numberOfCoefficients
+     */
     public void setNumberOfCoefficients( int numberOfCoefficients ) {
         if ( numberOfCoefficients < 0 ) {
             throw new IllegalArgumentException( "numberOfCoefficients must be >= 0: " + numberOfCoefficients );
@@ -100,7 +131,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
      * Gets a coefficient's value.
      * 
      * @param index
-     * @return
+     * @return the value, between 0 and 1 inclusive
      * @throws IndexOutOfBoundsException if index is out of bounds
      */
     public double getCoefficient( int index ) {
@@ -114,7 +145,7 @@ public class BSSuperpositionCoefficients extends BSObservable {
      * Sets a coefficient's value.
      * 
      * @param index
-     * @param value
+     * @param value a value between 0 and 1 inclusive
      * @throws IndexOutOfBoundsException if index is out of bounds
      * @throws IllegalArgumentException if value isn't between 0 and 1
      */

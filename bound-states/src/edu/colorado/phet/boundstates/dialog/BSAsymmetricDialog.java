@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
+import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -52,7 +52,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
      * Constructor.
      */
     public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, 
-            BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange ) {
+            DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange ) {
         super( parent, SimStrings.get( "BSAsymmetricDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange );
         createUI( inputPanel );
@@ -64,7 +64,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
      * 
      * @return the input panel
      */
-    private JPanel createInputPanel( BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange ) {
+    private JPanel createInputPanel( DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );

@@ -24,8 +24,8 @@ import sun.security.krb5.internal.ccache.an;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorWell;
+import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -54,7 +54,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * Constructor.
      */
     public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential,
-            BSDoubleRange offsetRange, BSDoubleRange angularFrequencyRange ) {
+            DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
         super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( offsetRange, angularFrequencyRange );
         createUI( inputPanel );
@@ -70,7 +70,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSDoubleRange offsetRange, BSDoubleRange angularFrequencyRange ) {
+    protected JPanel createInputPanel( DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
         
         String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
         String energyUnits = SimStrings.get( "units.energy" );

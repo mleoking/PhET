@@ -168,8 +168,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         BSEigenstate[] eigenstates = _model.getEigenstates();
         assert( eigenstates.length == numberOfCoefficients );
         
-        int startingIndex = _model.getPotential().getStartingIndex();
-        String es = createEquationString( startingIndex );
+        int groundStateSubscript = _model.getPotential().getGroundStateSubscript();
+        String es = createEquationString( groundStateSubscript );
         JLabel equation = new JLabel( es );
          
         // Create the coefficient spinners...
@@ -266,10 +266,10 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     // Equation creation
     //----------------------------------------------------------------------------
     
-    private static String createEquationString( final int startingIndex ) {
+    private static String createEquationString( final int groundStateSubscript ) {
         String s = "<html>" + PSI + "(x) = " + 
-            createTermString( startingIndex ) + " + " + 
-            createTermString( startingIndex + 1 ) + " + ... + " + 
+            createTermString( groundStateSubscript ) + " + " + 
+            createTermString( groundStateSubscript + 1 ) + " + ... + " + 
             createTermString( "n" );
         return s;
     }

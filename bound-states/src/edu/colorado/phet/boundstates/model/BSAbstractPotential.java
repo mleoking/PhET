@@ -34,8 +34,8 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     //----------------------------------------------------------------------------
     
     private int _numberOfWells;
-    private double _center;
-    private double _offset;
+    private double _center; // the center, in nm
+    private double _offset; // the offset, in eV
     private BSParticle _particle;
     private BSEigenstate[] _eigenstates; // Eigenstates cache
 
@@ -43,6 +43,13 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param particle
+     * @param numberOfWells
+     * @param offset
+     */
     public BSAbstractPotential( BSParticle particle, int numberOfWells, double offset ) {
         setNumberOfWells( numberOfWells );
         setOffset( offset );
@@ -54,10 +61,20 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the particle associated with this potential.
+     * 
+     * @return the particle
+     */
     public BSParticle getParticle() {
         return _particle;
     }
     
+    /**
+     * Sets the particle.
+     * 
+     * @param particle
+     */
     public void setParticle( BSParticle particle ) {
         if ( particle != _particle ) {
             if ( _particle != null ) {
@@ -70,10 +87,21 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
     
+    /**
+     * Gets the number of wells.
+     * 
+     * @return number of wells, >= 0
+     */
     public int getNumberOfWells() {
         return _numberOfWells;
     }
     
+    /**
+     * Sets the number of wells.
+     * 
+     * @param numberOfWells the number of wells, >= 0
+     * @throws UnsupportedOperationException if the potential doesn't support multiple wells
+     */
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells < 1 ) {
             throw new IllegalArgumentException( "invalid numberOfWells:" + numberOfWells );
@@ -88,11 +116,24 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
 
+    /**
+     * Gets the center.
+     * 
+     * @return the center, in nm
+     */
     public double getCenter() {
         return _center;
     }
     
-    public void setCenter( double center ) {
+    /*
+     * Sets the center.
+     * NOTE: This method is currently private because changing the center 
+     * is not a feature of this simulation.  All of the calculations herein
+     * support center, but have not been tested.
+     * 
+     * @param center the center, in nm
+     */
+    private void setCenter( double center ) {
         if ( center != _center ) {
             _center = center;
             markEigenstatesDirty();
@@ -100,10 +141,20 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }  
     
+    /**
+     * Gets the offset.
+     * 
+     * @return the offset, in eV
+     */
     public double getOffset() {
         return _offset;
     }
 
+    /**
+     * Sets the offset.
+     * 
+     * @param offset the offset, in eV
+     */
     public void setOffset( double offset ) {
         if ( offset != _offset ) {
             _offset = offset;
@@ -112,6 +163,14 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         }
     }
     
+    /**
+     * Gets the points that describe this potential.
+     * 
+     * @param minX
+     * @param maxX
+     * @param dx
+     * @return
+     */
     public Point2D[] getPotentialPoints( double minX, double maxX, double dx ) {
         ArrayList points = new ArrayList();
         for ( double x = minX; x <= maxX; x += dx ) {
@@ -122,6 +181,12 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
         return (Point2D[]) points.toArray( new Point2D.Double[points.size()] );
     }
     
+    /**
+     * Gets the eigenstates.
+     * The eigenstates are calculated if they are currently null.
+     * 
+     * @return
+     */
     public BSEigenstate[] getEigenstates() {
         if ( _eigenstates == null ) {
             _eigenstates = calculateEigenstates();
@@ -179,6 +244,11 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     // Observer implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * When the particle changes, mark the eigenstates as "dirty" and 
+     * notify observers.  Marking the eigenstates as "dirty" ensures that
+     * they will be re-calculated when someone asks for them.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _particle ) {
             markEigenstatesDirty();
@@ -191,9 +261,10 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the type of well.
+     * Gets the type of well used in the potential.
+     * Potentials in this simulation are composed of homogeneous well types.
      * 
-     * @return a WellType
+     * @return a BSWellType
      */
     public abstract BSWellType getWellType();
     
@@ -204,11 +275,12 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public abstract boolean supportsMultipleWells();
     
     /**
-     * Gets the starting index, used as the label on eigenvalues and superposition coefficients.
+     * Gets the subscript used to label the ground eigenstate.
+     * The same subscriupts are used to label superposition coefficients.
      * 
-     * @return the starting index
+     * @return the subscript of the ground eigenstate
      */
-    public abstract int getStartingIndex();
+    public abstract int getGroundStateSubscript();
     
     /**
      * Gets the energy value for a specified position.
@@ -221,7 +293,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
      * Calculates the eignestates for the potential.
      * They are sorted in order from lowest to highest energy value.
      * 
-     * @return
+     * @return an array of BSEigenstates, possibly zero length. Do NOT return null!
      */
     protected abstract BSEigenstate[] calculateEigenstates();
 }

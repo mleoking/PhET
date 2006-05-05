@@ -12,8 +12,8 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
-import edu.colorado.phet.boundstates.model.BSIntegerRange;
+import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.boundstates.util.IntegerRange;
 
 /**
  * BSAbstractModuleSpec contains the information needed to set up a module,
@@ -30,70 +30,70 @@ public abstract class BSAbstractModuleSpec {
     private boolean _superpositionControlsSupported;
     private boolean _particleControlsSupported;
 
-    private BSIntegerRange _numberOfWellsRange;
-    private BSDoubleRange _massMultiplierRange;
-    private BSDoubleRange _offsetRange;
-    private BSDoubleRange _depthRange;
-    private BSDoubleRange _widthRange;
-    private BSDoubleRange _spacingRange;
-    private BSDoubleRange _separationRange;
-    private BSDoubleRange _angularFrequencyRange;
+    private IntegerRange _numberOfWellsRange;
+    private DoubleRange _massMultiplierRange;
+    private DoubleRange _offsetRange;
+    private DoubleRange _depthRange;
+    private DoubleRange _widthRange;
+    private DoubleRange _spacingRange;
+    private DoubleRange _separationRange;
+    private DoubleRange _angularFrequencyRange;
 
     public BSAbstractModuleSpec() {}
     
-    public BSDoubleRange getAngularFrequencyRange() {
+    public DoubleRange getAngularFrequencyRange() {
         return _angularFrequencyRange;
     }
   
-    protected void setAngularFrequencyRange( BSDoubleRange angularFrequencyRange ) {
+    protected void setAngularFrequencyRange( DoubleRange angularFrequencyRange ) {
         _angularFrequencyRange = angularFrequencyRange;
     }
 
-    public BSDoubleRange getDepthRange() {
+    public DoubleRange getDepthRange() {
         return _depthRange;
     }
 
-    protected void setDepthRange( BSDoubleRange depthRange ) {
+    protected void setDepthRange( DoubleRange depthRange ) {
         _depthRange = depthRange;
     }
     
-    public BSDoubleRange getMassMultiplierRange() {
+    public DoubleRange getMassMultiplierRange() {
         return _massMultiplierRange;
     }
     
-    protected void setMassMultiplierRange( BSDoubleRange massMultiplierRange ) {
+    protected void setMassMultiplierRange( DoubleRange massMultiplierRange ) {
         _massMultiplierRange = massMultiplierRange;
     }
     
-    public BSIntegerRange getNumberOfWellsRange() {
+    public IntegerRange getNumberOfWellsRange() {
         return _numberOfWellsRange;
     }
     
-    protected void setNumberOfWellsRange( BSIntegerRange numberOfWellsRange ) {
+    protected void setNumberOfWellsRange( IntegerRange numberOfWellsRange ) {
         _numberOfWellsRange = numberOfWellsRange;
     }
     
-    public BSDoubleRange getOffsetRange() {
+    public DoubleRange getOffsetRange() {
         return _offsetRange;
     }
     
-    protected void setOffsetRange( BSDoubleRange offsetRange ) {
+    protected void setOffsetRange( DoubleRange offsetRange ) {
         _offsetRange = offsetRange;
     }
     
-    public BSDoubleRange getSeparationRange() {
+    public DoubleRange getSeparationRange() {
         return _separationRange;
     }
     
-    protected void setSeparationRange( BSDoubleRange separationRange ) {
+    protected void setSeparationRange( DoubleRange separationRange ) {
         _separationRange = separationRange;
     }
     
-    public BSDoubleRange getSpacingRange() {
+    public DoubleRange getSpacingRange() {
         return _spacingRange;
     }
     
-    protected void setSpacingRange( BSDoubleRange spacingRange ) {
+    protected void setSpacingRange( DoubleRange spacingRange ) {
         _spacingRange = spacingRange;
     }
     
@@ -121,11 +121,11 @@ public abstract class BSAbstractModuleSpec {
         _wellTypes = wellTypes;
     }
     
-    public BSDoubleRange getWidthRange() {
+    public DoubleRange getWidthRange() {
         return _widthRange;
     }
     
-    protected void setWidthRange( BSDoubleRange widthRange ) {
+    protected void setWidthRange( DoubleRange widthRange ) {
         _widthRange = widthRange;
     }
 

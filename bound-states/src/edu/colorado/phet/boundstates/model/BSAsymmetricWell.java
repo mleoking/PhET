@@ -58,10 +58,22 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the width.
+     * Width is the same for all wells.
+     * 
+     * @return width the width, in nm
+     */
     public double getWidth() {
         return _width;
     }
 
+    /**
+     * Sets the width.
+     * Width is the same for all wells.
+     * 
+     * param width the width, > 0, in nm
+     */
     public void setWidth( double width ) {
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "invalid width: " + width );
@@ -73,10 +85,22 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         }
     }
 
+    /**
+     * Gets the depth.
+     * Depth is a positive quantity, and is the same for all wells.
+     * 
+     * @return the depth, in eV
+     */
     public double getDepth() {
         return _depth;
     }
 
+    /**
+     * Sets the depth.
+     * Depth is a positive quantity, and is the same for all wells.
+     * 
+     * @param depth the depth, >= 0, in eV
+     */
     public void setDepth( double depth ) {
         if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
@@ -92,18 +116,36 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the type of well used in the potential.
+     * Potentials in this simulation are composed of homogeneous well types.
+     * @return BSWellType.ASYMMETRIC
+     */
     public BSWellType getWellType() {
         return BSWellType.ASYMMETRIC;
     }
     
+    /**
+     * Multiple wells are not supported.
+     * @returns false
+     */
     public boolean supportsMultipleWells() {
         return false;
     }
     
-    public int getStartingIndex() {
+    /**
+     * The ground state is E1.
+     * @returns 1
+     */
+    public int getGroundStateSubscript() {
         return 1;
     }
 
+    /**
+     * Gets the energy at a specified position.
+     * 
+     * @param position the position, in nm
+     */
     public double getEnergyAt( double position ) {
         assert( getNumberOfWells() == 1 );
         
@@ -118,6 +160,10 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         return energy;
     }
 
+    /*
+     * Calculates eigenstates, starting from the ground state (node=0) and 
+     * continuing until we find an energy value that is higher than the offset.
+     */
     protected BSEigenstate[] calculateEigenstates() {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
@@ -143,9 +189,6 @@ public class BSAsymmetricWell extends BSAbstractPotential {
             }
             nodes++;
         }
-        
-        // Ensure that they appear in ascending order...
-        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }

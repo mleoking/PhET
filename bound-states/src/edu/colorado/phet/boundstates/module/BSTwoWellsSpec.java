@@ -12,8 +12,8 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
-import edu.colorado.phet.boundstates.model.BSIntegerRange;
+import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.boundstates.util.IntegerRange;
 
 
 /**
@@ -31,14 +31,14 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
     
     // Ranges (min, max, default, significantDecimalPlaces)
-    private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 2, 2, 2 );
-    private static final BSDoubleRange MASS_MULTIPLIER_RANGE = new BSDoubleRange( 0.5, 1.1, 1, 1 );
-    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0, 0 ); // eV
-    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10, 0 ); // eV
-    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 3, 1, 1 ); // nm
-    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0.3, 3, 1, 1 ); // nm
-    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0.05, 0.7, 0.1, 2 ); // nm
-    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // not supported for many wells
+    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 2, 2, 2 );
+    private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 1 );
+    private static final DoubleRange OFFSET_RANGE = new DoubleRange( -15, 5, 0, 0 ); // eV
+    private static final DoubleRange DEPTH_RANGE = new DoubleRange( 0, 20, 10, 0 ); // eV
+    private static final DoubleRange WIDTH_RANGE = new DoubleRange( 0.1, 3, 1, 1 ); // nm
+    private static final DoubleRange SPACING_RANGE = new DoubleRange( 0.3, 3, 1, 1 ); // nm
+    private static final DoubleRange SEPARATION_RANGE = new DoubleRange( 0.05, 0.7, 0.1, 2 ); // nm
+    private static final DoubleRange ANGULAR_FREQUENCY_RANGE = new DoubleRange( 0, 0, 0, 0 ); // not supported for many wells
 
     public BSTwoWellsSpec() {
         super();
