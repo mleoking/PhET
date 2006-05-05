@@ -1,0 +1,20 @@
+<simulations>
+    <simulation name="Masses &amp; Springs" description="" thumbnail=""/>
+    <simulation name="Circuit Construction Kit" description="" thumbnail=""/>
+    <simulation name="Radio Waves" description="" thumbnail=""/>
+    <simulation name="Salts &amp; Solubility" description="" thumbnail=""/>
+    <simulation name="Lasers" description="" thumbnail=""/>
+    <simulation name="The Ramp" description="" thumbnail=""/>
+    <simulation name="The Moving Man" description="" thumbnail=""/>
+    <simulation name="Waves on a String" description="" thumbnail=""/>
+    <simulation name="Fourier: Making Waves" description="" thumbnail=""/>
+
+
+    <categories>
+        <category name="Motion"/>
+        <category name="Electricity &amp; Circuits"/>
+        <category name="Chemistry"/>
+        <category name="Work &amp; Energy"/>
+        <category name="Quantum Phenomena"/>
+    </categories>
+</simulations>
