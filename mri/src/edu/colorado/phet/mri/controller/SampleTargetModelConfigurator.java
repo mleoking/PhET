@@ -30,8 +30,10 @@ public class SampleTargetModelConfigurator implements SampleTarget.ChangeListene
     }
 
     private void setRadioFrequency( SampleTarget sampleTarget ) {
-        double hEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( sampleTarget.getLocation() ) * model.getSampleMaterial().getMu() );
-        model.getRadiowaveSource().setFrequency( PhysicsUtil.energyToFrequency( hEnergy ));
+        double fieldStrength = model.getTotalFieldStrengthAt( sampleTarget.getLocation() ) * model.getSampleMaterial().getMu();
+        double hEnergy = PhysicsUtil.frequencyToEnergy( fieldStrength );
+        double frequency = PhysicsUtil.energyToFrequency( hEnergy );
+        model.getRadiowaveSource().setFrequency( frequency );
     }
 
     public void stateChanged( SampleTarget.ChangeEvent event ) {

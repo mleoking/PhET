@@ -72,4 +72,11 @@ public class Detector extends SimpleObservable implements ModelElement {
     public int getNumDetected() {
         return numDetected;
     }
+
+    /**
+     * Sets the count of photons detected to 0.
+     */
+    public void reset() {
+        numDetected = 0;
+    }
 }

@@ -43,5 +43,9 @@ public class ScanModule extends HeadModule {
 //        model.addModelElement( sampleScanner);
 //        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
 //        getGraphicsManager().addGraphic( sampleTargetGraphic );
+//
+//        ComputedImageWindow ciw = new ComputedImageWindow( new Dimension(  (int)getHead().getBounds().getWidth(),
+//                                                                           (int)getHead().getBounds().getHeight()));
+//        ciw.setVisible( true );
     }
 }
