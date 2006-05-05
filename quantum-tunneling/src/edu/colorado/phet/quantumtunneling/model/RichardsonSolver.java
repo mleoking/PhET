@@ -47,7 +47,7 @@ public class RichardsonSolver implements IWavePacketSolver {
     //----------------------------------------------------------------------
     
     /* Enables debugging output */
-    private static boolean PRINT_DEBUG = true;
+    private static boolean PRINT_DEBUG = false;
     
     /* Number of propagator steps per tick of the simulation clock */
     private static final int STEPS_PER_CLOCK_TICK = 40;
