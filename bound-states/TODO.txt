@@ -24,7 +24,7 @@ HIGH PRIORITY:
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
-- stopwatch does not run smoothly (garbage collection?)
+- stopwatch and animation pauses every few clock ticks (garbage collection?)
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - drag handles for each potential type (all slightly different)
 - implement Save/Load for model
