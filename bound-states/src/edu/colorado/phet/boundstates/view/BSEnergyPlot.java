@@ -33,7 +33,8 @@ import edu.colorado.phet.jfreechart.FastPathRenderer;
 
 
 /**
- * BSEnergyPlot is the plot that displays total and potential energy.
+ * BSEnergyPlot is the plot that displays potential energy.
+ * (Total energy is drawn as an overlay by BSEigenstatesNode.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
