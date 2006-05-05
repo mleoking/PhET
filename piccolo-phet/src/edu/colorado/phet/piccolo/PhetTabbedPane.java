@@ -10,18 +10,6 @@
  */
 package edu.colorado.phet.piccolo;
 
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -32,6 +20,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -44,9 +41,9 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 
 public class PhetTabbedPane extends JPanel {
-    
+
     public static final String IMAGE_PHET_LOGO = "images/phetlogo.png";
-    
+
     private TabPane tabPane;
     /**
      * A piccolo canvas that displays the tabs
@@ -115,13 +112,9 @@ public class PhetTabbedPane extends JPanel {
      * Sets the bounds of each tab JComponent to mimic behavior in JTabbedPane
      */
     private void relayoutComponents() {
-//todo Deleted body of relayoutComponents()
 //todo I originally believed this to be necessary in QWI to get tabs content JComponent to appear at the right size the first time they appear, but this code causes an error in 1.5: no content JComponent shows initially.
 //todo This fixed version works correctly for the TestPhetTabbedPane test under 1.4 and 1.5, so maybe the fault was originally with QWI.  This warrants further investigation.
-        invalidate();
-        revalidate();
         Rectangle bounds = component.getBounds();
-//        Rectangle bounds=  new Rectangle( getWidth(),getHeight()-tabPane.getHeight());
         for( int i = 0; i < getTabCount(); i++ ) {
             tabPane.getTabs()[i].getComponent().setSize( bounds.width, bounds.height );//to mimic behavior in JTabbedPane
         }
@@ -263,17 +256,16 @@ public class PhetTabbedPane extends JPanel {
      *
      * @param component
      */
-    private void setComponent( JComponent component ) {
-        if( this.component != null ) {
-            remove( this.component );
+    private void setComponent( final JComponent component ) {
+        if( component != this.component ) {
+            if( this.component != null ) {
+                remove( this.component );
+            }
+            this.component = component;
+            add( component, BorderLayout.CENTER );
+            revalidate();
+            repaint();
         }
-        this.component = component;
-        add( component, BorderLayout.CENTER );
-        invalidate();
-        doLayout();
-        validateTree();
-        repaint();
-//        revalidate();//this was supposed to do the work of invalidate, doLayout, validateTree, repaint, but didn't work.
     }
 
     /**
