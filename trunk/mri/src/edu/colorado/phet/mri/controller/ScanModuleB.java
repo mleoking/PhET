@@ -12,6 +12,8 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.SampleTargetGraphic;
+import edu.colorado.phet.mri.view.computedimage.ComputedImageWindow;
+import edu.colorado.phet.common.util.PhetUtilities;
 
 /**
  * ScanModule
@@ -31,17 +33,19 @@ public class ScanModuleB extends HeadModule {
         magnet = model.getUpperMagnet();
         magnet.setCurrent( 33 );
 
-
-//        SampleTarget sampleTarget = new SampleTarget();
-//        sampleTarget.setLocation( 300, 300 );
-//        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleTarget );
-//        getGraphicsManager().addGraphic( sampleTargetGraphic );
-//
-//        sampleTarget.addChangeListener( new SampleTargetModelConfigurator( (MriModel)getModel() ) );
-
-        SampleScanner sampleScanner = new SampleScanner( getHead() );
-        model.addModelElement( sampleScanner);
+        double dwellTime = 100;
+        double stepSize = 50;
+        SampleScannerB sampleScanner = new SampleScannerB( model, getHead(), getDetector(), getClock(), dwellTime, stepSize );
         SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
         getGraphicsManager().addGraphic( sampleTargetGraphic );
+
+        getDetector().setDetectingPeriod( Double.MAX_VALUE );
+
+        ComputedImageWindow ciw = new ComputedImageWindow( getHead().getBounds(),
+                                                           sampleScanner,
+                                                           getDetector() );
+        ciw.setVisible( true );
+        sampleScanner.start();
+
     }
 }

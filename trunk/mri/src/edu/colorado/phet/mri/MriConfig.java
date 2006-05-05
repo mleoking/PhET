@@ -33,6 +33,7 @@ public class MriConfig {
     public static final String DESCRIPTION = SimStrings.get( "Application.Description" );
     public static final String VERSION = "0.01";
 
+    // Location of strings
     public static final String STRINGS_BUNDLE_NAME = "localization/MriStrings";
 
     public final static double scale = 1;
@@ -67,18 +68,20 @@ public class MriConfig {
     public static long SPIN_DOWN_TIMEOUT = 250;
     // Mean time between injections of thermal noise
     public static double MEAN_THERMAL_NOISE_INJECTION_TIME = 500;
-
+    // The direction photons come out of the radio wave source
     public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D.Double( 1, 0 );
 
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;
+    // Default detector period
     public static final double DETECTOR_DEFAULT_PERIOD = 200;
     // The maximum fraction of dipoles that can have spin down
     public static final double MAX_SPIN_DOWN_FRACTION = 0.9;
 
     // Model to view conversion factors
     public static class ModelToView {
-        public static double FREQUENCY = 1 / 4E9;
+        public static double FREQUENCY = 1 / 8E9;
+//        public static double FREQUENCY = 1 / 4E9;
     }
 
     // Layout

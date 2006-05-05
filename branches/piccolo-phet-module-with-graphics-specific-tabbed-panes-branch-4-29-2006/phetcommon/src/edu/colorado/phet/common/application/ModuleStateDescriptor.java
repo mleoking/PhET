@@ -50,7 +50,7 @@ public class ModuleStateDescriptor {
 //        Module module = (Module)persistentObject;
 
         // Remove and clean up the current model
-//        IClock clock = PhetApplication.instance().getApplicationModel().getClock();
+//        IClock clock = PhetApplication.instance().getApplicationModel().getActiveClock();
         BaseModel oldModel = module.getModel();
         oldModel.removeAllModelElements();
 //        clock.removeClockListener( oldModel );

@@ -38,7 +38,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
  * left of the the simulation's play/pause/step controls 
  * (do this inside your module's constructor):
  * <code>
- * IClock clock = getClock();
+ * IClock clock = getActiveClock();
  * String timeUnits = "psec";
  * double scaleFactor = 1E3;
  * DecimalFormat timeFormat = new DecimalFormat( "#0.00" );
