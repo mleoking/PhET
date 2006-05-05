@@ -18,53 +18,55 @@ package edu.colorado.phet.boundstates.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSEigenstate implements Comparable {
+public class BSEigenstate {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     public static final int INDEX_UNDEFINED = -1;
     
-    private double _energy;
-    private int _subscript;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
+    private int _subscript;
+    private double _energy; // in eV
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param subscript
+     * @param energy
+     */
     public BSEigenstate( int subscript, double energy ) {
         _subscript = subscript;
         _energy = energy;
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the subscript n, used to label En.
+     * 
+     * @param the subscript
+     */
     public int getSubscript() {
         return _subscript;
     }
     
+    /**
+     * Gets the energy.
+     * 
+     * @return the energy, in eV
+     */
     public double getEnergy() {
         return _energy;
-    }
-
-    public int compareTo( Object o ) {
-        int rval = 0;
-        if ( o instanceof BSEigenstate ) {
-            BSEigenstate eigenstate = (BSEigenstate) o;
-            if ( equals( eigenstate ) ) {
-                rval = 0;
-            }
-            else if ( _energy < eigenstate.getEnergy() ) {
-                rval = -1;
-            }
-            else {
-                rval = 1;
-            }
-        }
-        else {
-            throw new ClassCastException();
-        }
-        return rval;
-    }
-    
-    public boolean equals( Object o ) {
-        boolean b = false;
-        if ( o instanceof BSEigenstate ) {
-            if ( _energy == ((BSEigenstate)o).getEnergy() ) {
-                b = true;
-            }
-        }
-        return b;
     }
 }

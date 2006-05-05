@@ -28,10 +28,10 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
-import edu.colorado.phet.boundstates.model.BSIntegerRange;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
+import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.boundstates.util.IntegerRange;
 import edu.colorado.phet.boundstates.view.BSBottomPlot;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -128,7 +128,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             }
 
             // Number of wells
-            BSIntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
+            IntegerRange numberOfWellsRange = moduleSpec.getNumberOfWellsRange();
             _numberOfWellsSlider = new SliderControl( 
                     numberOfWellsRange.getDefault(),
                     numberOfWellsRange.getMin(), 
@@ -286,7 +286,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             particleControlsPanel.setBorder( new TitledBorder( "" ) );
             
             // Mass Multiplier slider
-            BSDoubleRange massMultiplierRange = moduleSpec.getMassMultiplierRange();
+            DoubleRange massMultiplierRange = moduleSpec.getMassMultiplierRange();
             final double value = massMultiplierRange.getDefault();
             final double min = massMultiplierRange.getMin();
             final double max = massMultiplierRange.getMax();

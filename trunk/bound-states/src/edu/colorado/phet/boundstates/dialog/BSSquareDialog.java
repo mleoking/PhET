@@ -22,8 +22,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
 import edu.colorado.phet.boundstates.model.BSSquareWells;
+import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -54,7 +54,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * Constructor.
      */
     public BSSquareDialog( Frame parent, BSSquareWells potential,
-            BSDoubleRange offsetRange, BSDoubleRange depthRange, BSDoubleRange widthRange, BSDoubleRange separationRange ) {
+            DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange, DoubleRange separationRange ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
         JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange, separationRange );
         createUI( inputPanel );
@@ -67,8 +67,8 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * @return the input panel
      */
     protected JPanel createInputPanel(
-            BSDoubleRange offsetRange, BSDoubleRange depthRange, 
-            BSDoubleRange widthRange, BSDoubleRange separationRange ) {
+            DoubleRange offsetRange, DoubleRange depthRange, 
+            DoubleRange widthRange, DoubleRange separationRange ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );

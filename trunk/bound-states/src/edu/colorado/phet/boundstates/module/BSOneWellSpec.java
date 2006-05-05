@@ -12,8 +12,8 @@
 package edu.colorado.phet.boundstates.module;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
-import edu.colorado.phet.boundstates.model.BSIntegerRange;
+import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.boundstates.util.IntegerRange;
 
 /**
  * BSOneWellSpec contains the information needed to set up the "One Well" module.
@@ -30,14 +30,14 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = true;
 
     // Ranges (min, max, default, significantDecimalPlaces)
-    private static final BSIntegerRange NUMBER_OF_WELLS_RANGE = new BSIntegerRange( 1, 1, 1 );
-    private static final BSDoubleRange MASS_MULTIPLIER_RANGE = new BSDoubleRange( 0.5, 1.1, 1, 1 );
-    private static final BSDoubleRange OFFSET_RANGE = new BSDoubleRange( -15, 5, 0, 0 ); // eV
-    private static final BSDoubleRange DEPTH_RANGE = new BSDoubleRange( 0, 20, 10, 0 ); // eV
-    private static final BSDoubleRange WIDTH_RANGE = new BSDoubleRange( 0.1, 8, 1, 1 ); // nm
-    private static final BSDoubleRange SPACING_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
-    private static final BSDoubleRange SEPARATION_RANGE = new BSDoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
-    private static final BSDoubleRange ANGULAR_FREQUENCY_RANGE = new BSDoubleRange( 0.1, 10, 1, 2 ); // fs^-1
+    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 1, 1 );
+    private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 1 );
+    private static final DoubleRange OFFSET_RANGE = new DoubleRange( -15, 5, 0, 0 ); // eV
+    private static final DoubleRange DEPTH_RANGE = new DoubleRange( 0, 20, 10, 0 ); // eV
+    private static final DoubleRange WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final DoubleRange SPACING_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final DoubleRange SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final DoubleRange ANGULAR_FREQUENCY_RANGE = new DoubleRange( 0.1, 10, 1, 2 ); // fs^-1
     
     public BSOneWellSpec() {
         super();

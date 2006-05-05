@@ -14,8 +14,8 @@ package edu.colorado.phet.boundstates.module;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.model.BSDoubleRange;
-import edu.colorado.phet.boundstates.model.BSIntegerRange;
+import edu.colorado.phet.boundstates.util.DoubleRange;
+import edu.colorado.phet.boundstates.util.IntegerRange;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 

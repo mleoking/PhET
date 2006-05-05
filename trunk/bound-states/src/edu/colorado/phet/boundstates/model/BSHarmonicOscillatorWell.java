@@ -21,6 +21,7 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 
 /**
  * BSHarmonicOscillatorWell is the model of a potential composed of one Harmonic Oscillator well.
+ * This implementation does not support multiple wells.
  * <p>
  * Our model supports these parameters:
  * <ul>
@@ -37,12 +38,19 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _angularFrequency;
+    private double _angularFrequency; // angular frequency in fs^-1
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param particle
+     * @param offset
+     * @param angularFrequency
+     */
     public BSHarmonicOscillatorWell( BSParticle particle, double offset, double angularFrequency ) {
         super( particle, 1 /* numberOfWells */, offset );
         setAngularFrequency( angularFrequency );
@@ -52,10 +60,20 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Gets the angular frequency.
+     * 
+     * @return angular frequency, in fs^-1
+     */
     public double getAngularFrequency() {
         return _angularFrequency;
     }
 
+    /**
+     * Sets the angular frequency.
+     * 
+     * @param angularFrequency angular frequency, in fs^1
+     */
     public void setAngularFrequency( double angularFrequency ) {
         if ( angularFrequency != _angularFrequency ) {
             _angularFrequency = angularFrequency;
@@ -68,18 +86,37 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the type of well used in the potential.
+     * Potentials in this simulation are composed of homogeneous well types.
+     * 
+     * @return BSWellType.HARMONIC_OSCILLATOR
+     */
     public BSWellType getWellType() {
         return BSWellType.HARMONIC_OSCILLATOR;
     }
 
+    /**
+     * Multiple wells are not supported.
+     * @returns false
+     */
     public boolean supportsMultipleWells() {
         return false;
     }
     
-    public int getStartingIndex() {
+    /**
+     * The ground state is E0.
+     * @returns 0
+     */
+    public int getGroundStateSubscript() {
         return 0;
     }
 
+    /**
+     * Gets the energy at a specified position.
+     * 
+     * @param position the position, in nm
+     */
     public double getEnergyAt( double position ) {
         assert( getNumberOfWells() == 1 );  // this solution works only for single wells
         
@@ -90,7 +127,6 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         
         return offset + ( 0.5 * m * w * w * ( position - c ) * ( position - c ) );
     }
-
 
     /**
      * Calculates the eigenstates.
@@ -109,6 +145,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
     
     /*
      * Calculates the eigenstates using the Schmidt-Lee algorithm.
+     * Start at the ground state and continue based on the energy range we're interested in.
      */
     private BSEigenstate[] calculateEigenstatesSchmidtLee() {
         
@@ -136,14 +173,13 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
             nodes++;
         }
         
-        // Ensure that they appear in ascending order...
-        Collections.sort( eigenstates );
-        
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
     
     /*
-     * Calculates the eigenstates by calculating En directly, as follows:
+     * Calculates the eigenstates by calculating En directly.
+     * Start at the ground state and continue based on the energy range we're interested in.
+     * The analytic solution is as follows:
      * 
      * En = ( h * w * ( n + 0.5 ) ) + offset
      * 

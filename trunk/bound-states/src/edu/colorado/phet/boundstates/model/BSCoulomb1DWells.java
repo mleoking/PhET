@@ -38,21 +38,51 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  */
 public class BSCoulomb1DWells extends BSAbstractPotential {
     
-    private double _spacing;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private double _spacing; // spacing, in nm
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param particle
+     * @param numberOfWells
+     * @param spacing
+     */
     public BSCoulomb1DWells( BSParticle particle, int numberOfWells, double offset, double spacing ) {
         super( particle, numberOfWells, offset );
         setSpacing( spacing );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the spacing.
+     * The spacing is the distance between the center of
+     * each pair of adjacent wells, and is the same for all wells.
+     * 
+     * @return the spacing, in nm
+     */
     public double getSpacing() {
         return _spacing;
     }
 
+    /**
+     * Sets the spacing.
+     * The spacing is the distance between the center of
+     * each pair of adjacent wells, and is the same for all wells.
+     * Spacing of zero is OK.
+     *      
+     * @param spacing the spacing, >= 0, in nm
+     */
     public void setSpacing( double spacing ) {
         if ( spacing < 0 ) {
             throw new IllegalArgumentException( "invalid spacing: " + spacing );
@@ -68,18 +98,37 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the type of well used in the potential.
+     * Potentials in this simulation are composed of homogeneous well types.
+     * 
+     * @return BSWellType.COULOMB_1D
+     */
     public BSWellType getWellType() {
         return BSWellType.COULOMB_1D;
     }
     
+    /**
+     * Multiple wells are supported.
+     * @returns true
+     */
     public boolean supportsMultipleWells() {
         return true;
     }
     
-    public int getStartingIndex() {
+    /**
+     * The ground state is E1.
+     * @returns 1
+     */
+    public int getGroundStateSubscript() {
         return 1;
     }
 
+    /**
+     * Gets the energy at a specified position.
+     * 
+     * @param position the position, in nm
+     */
     public double getEnergyAt( double position ) {
 
         double energy = 0;
@@ -100,6 +149,8 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
   
     /*
      * Calculates the eigenstates.
+     * We start from the ground state and continue up to the offset.
+     * 
      * Skips ever-other "cluster" of nodes, where the cluster size 
      * is equal to the number of wells in the potential.
      * We do this because every-other cluster of eigenstates is unstable.
@@ -122,7 +173,7 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
         
         // Calculate the eigentates...
         int nodes = numberOfWells; // skip the first cluster
-        int subscript = getStartingIndex();
+        int subscript = getGroundStateSubscript();
         boolean done = false;
         while ( !done ) {
             
@@ -157,9 +208,6 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
             // skip the next cluster
             nodes += numberOfWells;
         }
-        
-        // Ensure that they appear in ascending order...
-        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }

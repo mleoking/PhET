@@ -42,14 +42,24 @@ public class BSSquareWells extends BSAbstractPotential {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _depth;
-    private double _width;
-    private double _separation;
+    private double _depth; // depth in eV
+    private double _width; // width in nm
+    private double _separation; // separation in nm
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param particle
+     * @param numberOfWells
+     * @param offset
+     * @param depth
+     * @param width
+     * @param separation
+     */
     public BSSquareWells( BSParticle particle, int numberOfWells, double offset, double depth, double width, double separation ) {
         super( particle, numberOfWells, offset );
         setDepth( depth );
@@ -61,10 +71,22 @@ public class BSSquareWells extends BSAbstractPotential {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the width.
+     * Width is the same for all wells.
+     * 
+     * @return width the width, in nm
+     */
     public double getWidth() {
         return _width;
     }
 
+    /**
+     * Sets the width.
+     * Width is the same for all wells.
+     * 
+     * @param width the width, > 0, in nm
+     */
     public void setWidth( double width ) {
         if ( width <= 0 ) {
             throw new IllegalArgumentException( "invalid width: " + width );
@@ -76,10 +98,22 @@ public class BSSquareWells extends BSAbstractPotential {
         }
     }
 
+    /**
+     * Gets the depth.
+     * Depth is a positive quantity, and is the same for all wells.
+     * 
+     * @return the depth, in eV
+     */
     public double getDepth() {
         return _depth;
     }
 
+    /**
+     * Sets the depth.
+     * Depth is a positive quantity, and is the same for all wells.
+     * 
+     * @param depth the depth, >= 0, in eV
+     */
     public void setDepth( double depth ) {
         if ( depth < 0 ) {
             throw new IllegalArgumentException( "invalid depth: " + depth );
@@ -91,13 +125,27 @@ public class BSSquareWells extends BSAbstractPotential {
         }
     }
     
+    /**
+     * Gets the separation between wells.
+     * Separation is the distance between the walls of adjacent wells.
+     * 
+     * @return separation the separation, in nm
+     */
     public double getSeparation() {
         return _separation;
     }
 
+    /**
+     * Sets the separation between wells.
+     * Separation is the distance between the walls of adjacent wells,
+     * and is the same for each pair of wells.
+     * Separation of zero is OK.
+     * 
+     * @param separation the separation, >= 0, in nm
+     */
     public void setSeparation( double separation ) {
         if ( separation < 0 ) {
-            throw new IllegalArgumentException( "invalid separation: " + separation );
+                throw new IllegalArgumentException( "invalid separation: " + separation );
         }
         if ( separation != _separation ) {
             _separation = separation;
@@ -110,18 +158,37 @@ public class BSSquareWells extends BSAbstractPotential {
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the type of well used in the potential.
+     * Potentials in this simulation are composed of homogeneous well types.
+     * 
+     * @return BSWellType.SQUARE
+     */
     public BSWellType getWellType() {
         return BSWellType.SQUARE;
     }
     
+    /**
+     * Multiple wells are supported.
+     * @returns true
+     */
     public boolean supportsMultipleWells() {
         return true;
     }
     
-    public int getStartingIndex() {
+    /**
+     * The ground state is E1.
+     * @returns 1
+     */
+    public int getGroundStateSubscript() {
         return 1;
     }
     
+    /**
+     * Gets the energy at a specified position.
+     * 
+     * @param position the position, in nm
+     */
     public double getEnergyAt( double position ) {
         
         final int n = getNumberOfWells();
@@ -144,6 +211,10 @@ public class BSSquareWells extends BSAbstractPotential {
         return energy;
     }
     
+    /*
+     * Calculates the eigenstates.
+     * Start at the ground state and continue up to the offset.
+     */
     protected BSEigenstate[] calculateEigenstates() {
         
         SchmidtLeeSolver solver = getEigenstateSolver();
@@ -169,9 +240,6 @@ public class BSSquareWells extends BSAbstractPotential {
             }
             nodes++;
         }
-        
-        // Ensure that they appear in ascending order...
-        Collections.sort( eigenstates );
         
         return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
     }
