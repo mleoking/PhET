@@ -1,3 +1,9 @@
+New in 0.00.59
+Reverted Photon view to Intensity.
+Made different visualization panel for photons than for particles.
+    -time-averaged intensity
+    -e-field
+
 New in 0.58 (4-21-2006)
 Added label above 2-lasers screen "Black & White Screen"
 Bugfix: With clear screen button - made this area always the same size

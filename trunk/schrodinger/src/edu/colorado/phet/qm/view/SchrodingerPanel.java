@@ -236,7 +236,9 @@ public class SchrodingerPanel extends PhetPCanvas {
                 } );
             }
             else {
-                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
+//                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Real() );
+//                return new PhotonColorMap( this, photon.getWavelengthNM(), new WaveValueAccessor.Magnitude() );
+                return new PhotonColorMap( this, photon.getWavelengthNM(), waveValueAccessor );
             }
 //            return new RealPhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
 //            return new ComplexColorMapAdapter(getDiscreteModel().getWavefunction(), new GrayscaleColorMap.Real() );
