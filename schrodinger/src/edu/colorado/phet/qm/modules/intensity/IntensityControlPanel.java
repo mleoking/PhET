@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.*;
 import edu.colorado.phet.qm.util.ComponentCenterer;
-import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
 
 import java.awt.*;
 
@@ -18,7 +17,9 @@ import java.awt.*;
 
 public class IntensityControlPanel extends SchrodingerControlPanel {
     private IntensityModule intensityModule;
-    private VisualizationPanel visualizationPanel;
+    private ParticleVisualizationPanel particleVisualizationPanel;
+    private VisualizationPanelContainer visualizationPanel;
+    private IVisualizationPanel photonVisualizationPanel;
 
     public IntensityControlPanel( final IntensityModule intensityModule ) {
         super( intensityModule );
@@ -34,7 +35,8 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         addSeparator();
         addSpacer();
 
-        visualizationPanel = new VisualizationPanel( getSchrodingerPanel() );
+        particleVisualizationPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
+        photonVisualizationPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
         intensityModule.addListener( new SchrodingerModule.Listener() {
             public void deactivated() {
             }
@@ -46,9 +48,11 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
                 updateVisualizationPanel();
             }
         } );
-        updateVisualizationPanel();
-        addControl( visualizationPanel );
 
+        visualizationPanel = new VisualizationPanelContainer();
+//        addControl( particleVisualizationPanel );
+        addControl( visualizationPanel );
+        updateVisualizationPanel();
         new ComponentCenterer( resetButton, super.getContentPanel() ).start();
         ExpandableDoubleSlitPanel expandableDoubleSlitPanel = new ExpandableDoubleSlitPanel( intensityModule );
         setPreferredWidth( expandableDoubleSlitPanel.getControls().getPreferredSize().width + 10 );
@@ -57,11 +61,17 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         AdvancedPanel advancedPanel = new AdvancedPanel( "Advanced>>", "Hide Advanced<<" );
         advancedPanel.addControlFullWidth( new PotentialPanel( getModule() ) );
         addControl( advancedPanel );
+
+        updateVisualizationPanel();
     }
 
     private void updateVisualizationPanel() {
-        HighIntensityGunGraphic gun = intensityModule.getIntensityPanel().getHighIntensityGun();
-        visualizationPanel.setPhaseColorEnabled( !gun.isPhotonMode() );
+        boolean photon = intensityModule.getIntensityPanel().getHighIntensityGun().isPhotonMode();
+        visualizationPanel.setContent( photon ? photonVisualizationPanel : particleVisualizationPanel );
+//        visualizationPanel.setContent( particleVisualizationPanel );
+//        HighIntensityGunGraphic gun = intensityModule.getIntensityPanel().getHighIntensityGun();
+//        particleVisualizationPanel.setPhaseColorEnabled( !gun.isPhotonMode() );
+//        visualizationPanel.setPhaseColorEnabled
     }
 
 

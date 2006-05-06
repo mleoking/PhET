@@ -23,7 +23,9 @@ import java.awt.event.ActionListener;
  */
 
 public class SingleParticleControlPanel extends SchrodingerControlPanel {
-    private VisualizationPanel colorPanel;
+    private IVisualizationPanel particleVisPanel;
+    private IVisualizationPanel photonVisPanel;
+    private VisualizationPanelContainer visPanel;
 
     public SingleParticleControlPanel( SingleParticleModule singleParticleModule ) {
         super( singleParticleModule );
@@ -49,7 +51,9 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         getAdvancedPanel().addControl( createDetectorArray );
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
-        colorPanel = new VisualizationPanel( getSchrodingerPanel() );
+        particleVisPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
+        photonVisPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
+        visPanel = new VisualizationPanelContainer();
         singleParticleModule.addListener( new SchrodingerModule.Listener() {
             public void deactivated() {
             }
@@ -74,15 +78,21 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
         addSpacer();
         addSeparator();
         addSpacer();
-        addControl( colorPanel );
+        addControl( visPanel );
         addControl( doubleSlitPanel );
         addControl( advancedPanel );
 
         setPreferredWidth( doubleSlitPanel.getControls().getPreferredSize().width + 10 );
     }
 
+//    private void updateVisualizationPanel() {
+//        colorPanelParticle.setPhaseColorEnabled( !isPhoton() );
+//
+//    }
+
     private void updateVisualizationPanel() {
-        colorPanel.setPhaseColorEnabled( !isPhoton() );
+        visPanel.setContent( isPhoton() ? photonVisPanel : particleVisPanel );
+        revalidate();
     }
 
     private boolean isPhoton() {
