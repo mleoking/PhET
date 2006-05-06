@@ -162,7 +162,8 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     public BufferedImage copyScreen() {
-        int h = isSmoothScreen() ? bufferedImage.getHeight() : bufferedImage.getHeight() / 2;
+//        int h = isSmoothScreen() ? bufferedImage.getHeight() : bufferedImage.getHeight() / 2;
+        int h = bufferedImage.getHeight() / 2;
 
         BufferedImage image = new BufferedImage( bufferedImage.getWidth(), h, bufferedImage.getType() );
         Graphics2D g2 = image.createGraphics();
