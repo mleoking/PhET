@@ -3,6 +3,7 @@ Reverted Photon view to Intensity.
 Made different visualization panel for photons than for particles.
     -time-averaged intensity
     -e-field
+Reduced the size of "copy screen" for intensity mode to match hits mode.
 
 New in 0.58 (4-21-2006)
 Added label above 2-lasers screen "Black & White Screen"
