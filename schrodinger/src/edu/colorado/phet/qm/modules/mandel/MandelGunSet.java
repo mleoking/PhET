@@ -35,6 +35,23 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         rightGun.setControlsOffset( rightGun.getGunImageGraphic().getFullBounds().getWidth(), 0 );
         rightGun.setControlBackgroundColor( PinkGunDetails.backgroundColor );
         rightGun.translateOnGunControls( 10, 5 );
+
+        leftGun.addListener( new MandelGun.Listener() {
+            public void wavelengthChanged() {
+                updateWavelengths();
+            }
+
+            public void intensityChanged() {
+            }
+        } );
+        rightGun.addListener( new MandelGun.Listener() {
+            public void wavelengthChanged() {
+                updateWavelengths();
+            }
+
+            public void intensityChanged() {
+            }
+        } );
         getOnGunGraphic().setVisible( false );
         getOnGunGraphic().setPickable( false );
         getOnGunGraphic().setChildrenPickable( false );
@@ -48,6 +65,12 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         layoutChildren();
     }
 
+    private void updateWavelengths() {
+//        leftGun.getWavelength();
+        photonMandelBeam.setLeftMomentum( leftGun.getMomentum() );
+        photonMandelBeam.setRightMomentum( rightGun.getMomentum() );
+    }
+
     protected void layoutChildren() {
         super.layoutChildren();
         Point2D origGunLoc = getGunLocation();
@@ -59,14 +82,14 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         }
     }
 
-    protected double getControlOffsetX() {
-        if( rightGun != null ) {
-            return rightGun.getFullBounds().getMaxX();
-        }
-        else {
-            return 0;
-        }
-    }
+//    protected double getControlOffsetX() {
+//        if( rightGun != null ) {
+//            return rightGun.getFullBounds().getMaxX();
+//        }
+//        else {
+//            return 0;
+//        }
+//    }
 
     private double getGunOffsetDx() {
         double width = getSchrodingerPanel().getWavefunctionGraphic().getGlobalFullBounds().getWidth();
@@ -80,6 +103,7 @@ public class MandelGunSet extends HighIntensityGunGraphic {
     protected ImagePComboBox initComboBox() {
         photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
+
         final HighIntensityBeam[] beams = new HighIntensityBeam[]{photonMandelBeam};
         setBeams( beams );
 

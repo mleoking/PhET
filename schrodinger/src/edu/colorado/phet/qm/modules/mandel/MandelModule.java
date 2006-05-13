@@ -104,18 +104,18 @@ public class MandelModule extends SchrodingerModule {
     }
 
     public static class BeamParam {
-        double wavelength;
+        double momentum;
         double intensity;
         WaveModel wavefunction;
 
-        public BeamParam( double leftWavelength, double leftIntensity, WaveModel leftWavefunction ) {
-            this.wavelength = leftWavelength;
+        public BeamParam( double momentum, double leftIntensity, WaveModel leftWavefunction ) {
+            this.momentum = momentum;
             this.intensity = leftIntensity;
             this.wavefunction = leftWavefunction;
         }
 
-        public double getWavelength() {
-            return wavelength;
+        public double getMomentum() {
+            return momentum;
         }
 
         public double getIntensity() {
@@ -127,7 +127,11 @@ public class MandelModule extends SchrodingerModule {
         }
 
         public String toString() {
-            return "wavelength=" + wavelength + ", intensity=" + intensity + ", wavefunction=" + wavefunction;
+            return "wavelength=" + momentum + ", intensity=" + intensity + ", wavefunction=" + wavefunction;
+        }
+
+        public void setMomentum( double momentum ) {
+            this.momentum = momentum;
         }
     }
 

@@ -26,6 +26,10 @@ public class PlaneWave2D implements Wave {
         this.gridDim = gridDim;
     }
 
+    public void setWaveVector( AbstractVector2D k ) {
+        this.k = k;
+    }
+
     public double getScale() {
         return scale;
     }

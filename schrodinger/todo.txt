@@ -1,37 +1,18 @@
-fix neutron barrier bug
-..Not sure how to reproduce this (haven't tried)
+Bug: Mandel panel photons all have same wavelength (though different color)
+The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
+>>see MandelSchrodingerPanel::createAccessor() for debugging this.
 
-It looks like you've implemented everything correctly except the units
-per clock tick.  In the current version, for electrons at low
-resolution, a clock tick corresponds to 10fs, rather than 0.5fs, as I
-requested.  However, I realized that I put in my factor of 10 the wrong
-way, so with the units per clock tick I requested, the speeds would be
-off by a factor of 100.
+Mandel Panel should have both visualization styles
+>>(if not too much work).
 
-So here are the revised units per clock tick:
-Electrons	0.005 fs
-Neutrons	0.01 ps
-He Atoms	0.05 ps
-(At medium resolution, divide these numbers by 4, at high, by 16)
+Reset should reset wavelength, velocity,
+>>This proves to be very difficult right now.  After refactoring, should be piece of cake.
 
-Center the Reset All and Clear Wave buttons.
-    This is difficult, given the "all control panels should have the same width" constraint.
+Bug: In all panels, if you move the wavelength slider all the way to the left, funny little brown squares flash all over the wave:
+     >>I Can't reproduce this.
 
-Add units to split operator method.
-
-Mac osx10.3 still exhibits out of memory errors for Chris' machine (not the Mac mini)
-
-is 0.1 nm scale correct?
-
-close button for stopwatch
-
-modelslider labels have a bug on mac
-
-Rescale both space and time for photons.
-
-Gun should shrink for small screen size (gun size is now incorrectly dependent on screen size).
-
-Add separate control for box physical size (independent of lattice size)?
+In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
+      >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
@@ -43,33 +24,21 @@ o Wave function norm is incorrect.  A detector that covers the entire box only r
 Allow user to move slit barrier up and down by clicking on it and dragging.
 The “slit absorption” checkbox should have no effect if there are no slits or barriers.
 
-Allow user to change the colors of the two lasers independently.
-    If the colors are different, they don’t interfere, just like when there are detectors in the first panel.
-    In order to interfere with each other, the colors should be sufficiently similar that they look like the same color,
-    but they shouldn’t have to be so close that you go crazy trying to get the sliders in exactly the same place.
-    For now, let’s say they interfere if they are within 5 nm of each other,
-    but we’ll probably have to tweak it a bit once we see what it looks like.
-        -How do we want colors to mix?  Just average them?
-
 o There is an abnormally bright region just beneath the slits in intensity mode with detector(s) on.
-
-Shrink the play area so there is not so much extra space.
-     o	What does this mean?
-
-     Because you got rid of the scaling factor, the only measure of the size
-of your box is the number of pixels.  Suppose you want to set up your
-units so that the box is 60 nm wide.  If your box is 60 pixels wide,
-then one pixel equals one nm.  If you change the resolution, the box
-should still be 60 nm wide, which means that the way the units relate to
-  the grid should change.  I think the way your code is currently set
-up, the units are inherently tied to the grid.  A scaling factor would
-remove this dependence of the units on the grid, so that changing the
-resolution would not change the units.
->> This will make more sense when we have a nonlocal propagator.
->>This problem is solved (I think).  The solution is kind of piecework.
 
 Ruler should revise size on resolution change or wave area size change.
 
 Sizes should be relative:
 Slits
 Wave velocity (hard to do this with a local propagator)
+
+Gun should shrink for small screen size (gun size is now incorrectly dependent on screen size).
+
+Add separate control for box physical size (independent of lattice size)?
+
+Center the Reset All and Clear Wave buttons.
+    This is difficult, given the "all control panels should have the same width" constraint.
+
+Add a close button for the stopwatch.
+
+Modelslider labels have a bug on mac.

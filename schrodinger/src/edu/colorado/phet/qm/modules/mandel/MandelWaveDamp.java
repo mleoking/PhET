@@ -11,13 +11,14 @@ import edu.colorado.phet.qm.model.math.Complex;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 
-public class MandelDampedWave implements Wave {
+public class MandelWaveDamp {
     private Wave wave;
     private double intensity;
     private int x0;
     private double dxLattice = 4;
+//    private double dxLattice = 30;
 
-    public MandelDampedWave( int x0, Wave wave, double intensity, int waveWidth ) {
+    public MandelWaveDamp( int x0, Wave wave, double intensity, int waveWidth ) {
         this.x0 = x0;
         this.wave = wave;
         this.intensity = intensity;

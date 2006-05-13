@@ -31,4 +31,12 @@ public class PhotonMandelBeam extends PhotonBeam {
     public void setBeamParameters( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam ) {
         doublePhotonWave.setBeamParameters( leftParam, rightParam );
     }
+
+    public void setLeftMomentum( double momentum ) {
+        doublePhotonWave.setLeftMomentum( momentum );
+    }
+
+    public void setRightMomentum( double momentum ) {
+        doublePhotonWave.setRightMomentum( momentum );
+    }
 }

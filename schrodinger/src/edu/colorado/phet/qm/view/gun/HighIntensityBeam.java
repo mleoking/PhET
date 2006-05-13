@@ -66,4 +66,9 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
     public Point getGunLocation() {
         return new Point( -10, 35 );
     }
+
+    public void reset() {
+        setIntensity( 0.0 );
+//        gunParticle.reset();
+    }
 }

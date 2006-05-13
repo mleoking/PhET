@@ -214,6 +214,7 @@ public class SchrodingerScreenNode extends PNode {
     public void reset() {
         detectorSheetPNode.reset();
         intensityManager.reset();
+//        getGunGraphic().reset();
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {

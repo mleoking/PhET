@@ -14,39 +14,35 @@ import edu.colorado.phet.qm.model.waves.PlaneWave2D;
  */
 
 public class MandelWave implements Wave {
-    private PlaneWave2D leftWave;
-    private MandelDampedWave dampedLeft;
-    private PlaneWave2D rightWave;
-    private MandelDampedWave dampedRight;
+//    private PlaneWave2D leftWave;
+    private MandelWaveDamp leftDamp;
+//    private PlaneWave2D rightWave;
+    private MandelWaveDamp rightDamp;
     private double momentum;
     private double phase;
-//    private double intensity;
     private int waveWidth;
 
     public MandelWave( int distFromLeft, double momentum, double phase, double dPhase, double intensity, int waveWidth ) {
-        this( distFromLeft, momentum, phase, dPhase, intensity, intensity, waveWidth );
+        this( distFromLeft, momentum, momentum, phase, dPhase, intensity, intensity, waveWidth );
     }
 
-    public MandelWave( int distFromLeft, double momentum, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
-        this.momentum = momentum;
+    public MandelWave( int distFromLeft, double momentumLeft, double momentumRight, double phase, double dPhase, double leftIntensity, double rightIntensity, int waveWidth ) {
+        this.momentum = momentumLeft;
         this.phase = phase;
-//        this.intensity = intensity;
         this.waveWidth = waveWidth;
 
-        leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, 0 ), 100 );
-        dampedLeft = new MandelDampedWave( distFromLeft, leftWave, leftIntensity, waveWidth );
+        PlaneWave2D leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumLeft, 0 ), 100 );
         leftWave.setPhase( phase );
+        leftDamp = new MandelWaveDamp( distFromLeft, leftWave, leftIntensity, waveWidth );
 
-        rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentum, 0 ), 100 );
+
+        PlaneWave2D rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
         rightWave.setPhase( phase + dPhase );
-        dampedRight = new MandelDampedWave( waveWidth - distFromLeft, rightWave, rightIntensity, waveWidth );
+        rightDamp = new MandelWaveDamp( waveWidth - distFromLeft, rightWave, rightIntensity, waveWidth );
     }
-
-//    private double getIntensity() {
-//        return intensity;
-//    }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        return dampedLeft.getValue( i, j, simulationTime ).plus( dampedRight.getValue( i, j, simulationTime ) );
+        return leftDamp.getValue( i, j, simulationTime ).plus( rightDamp.getValue( i, j, simulationTime ) );
     }
+
 }
