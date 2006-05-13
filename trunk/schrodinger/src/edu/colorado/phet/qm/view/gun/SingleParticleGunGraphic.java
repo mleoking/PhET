@@ -136,6 +136,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
     }
 
     public void reset() {
+//        super.reset();
         photonBeamParticle.reset();
     }
 

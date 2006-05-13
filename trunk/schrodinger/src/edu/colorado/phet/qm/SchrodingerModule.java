@@ -21,7 +21,6 @@ import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
@@ -200,7 +199,7 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public void clearPotential() {
-        getDiscreteModel().clearPotential();
+        getDiscreteModel().clearPotentialIgnoreSlits();
         getSchrodingerPanel().clearPotential();
     }
 
@@ -252,8 +251,9 @@ public class SchrodingerModule extends PiccoloModule {
     }
 
     public boolean confirmReset() {
-        int answer = JOptionPane.showConfirmDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
-        return answer == JOptionPane.YES_OPTION;
+        return true;
+//        int answer = JOptionPane.showConfirmDialog( getPhetFrame(), "Are you sure you want to reset everything?" );
+//        return answer == JOptionPane.YES_OPTION;
     }
 
 

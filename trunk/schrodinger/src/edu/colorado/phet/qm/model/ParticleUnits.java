@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * User: Sam Reid
@@ -132,6 +133,8 @@ public class ParticleUnits {
 
     public static class ElectronUnits extends ParticleUnits {
         public ElectronUnits() {
+            //o	Electrons: 920 km/s to 1840 km/s
+
             setHbar( new Value( 0.658, 1, "eV fs" ) );
             setMass( new Value( 0.057, 100, "eV fs^2/nm^2" ) );
             setDx( new Value( 1.0, 0.1, "nm" ) );
@@ -140,12 +143,20 @@ public class ParticleUnits {
             setMinVelocity( new Value( 9.2, 100, "km/s" ) );
             setMaxVelocity( new Value( 36.8 * scaleDownMaxVel, 100, "km/s" ) );
 
+            DecimalFormat defaultFormat = new DecimalFormat( "0" );
+            setVelocityFormat( defaultFormat );
+
             setLatticeWidth( 0.45 );
             setRulerWidth( 0.50 );
             setRulerFormat( new DecimalFormat( "0.0" ) );
             setNumRulerReadings( 6 );
 //            int numRulerReadings, double rulerScale, DecimalFormat rulerFormat ) {
         }
+    }
+
+    protected void setVelocityFormat( DecimalFormat defaultFormat ) {
+        getMinVelocity().setDefaultFormat( defaultFormat );
+        getMaxVelocity().setDefaultFormat( defaultFormat );
     }
 
     public static class NeutronUnits extends ParticleUnits {
@@ -156,6 +167,8 @@ public class ParticleUnits {
             setMass( new Value( 0.000104539, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 5, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 20 * scaleDownMaxVel, 0.1, "km/s" ) );
+            DecimalFormat defaultFormat = new DecimalFormat( "0.0" );
+            setVelocityFormat( defaultFormat );
             setLatticeWidth( 0.45 );
             setRulerWidth( 0.50 );
             setRulerFormat( new DecimalFormat( "0.0" ) );
@@ -191,6 +204,8 @@ public class ParticleUnits {
             setMass( new Value( 0.000414741, 1.0 / 10000.0, "eV fs^2/nm^2" ) );
             setMinVelocity( new Value( 1.25, 0.1, "km/s" ) );
             setMaxVelocity( new Value( 5 * scaleDownMaxVel, 0.1, "km/s" ) );
+            DecimalFormat defaultFormat = new DecimalFormat( "0.000" );
+            setVelocityFormat( defaultFormat );
             setLatticeWidth( 0.45 );
             setRulerWidth( 0.50 );
             setRulerFormat( new DecimalFormat( "0.0" ) );
@@ -202,11 +217,16 @@ public class ParticleUnits {
         double value;
         double displayScaleFactor;
         String units;
+        private NumberFormat defaultFormat;
 
         public Value( double modelValue, double displayScaleFactor, String units ) {
             this.value = modelValue;
             this.displayScaleFactor = displayScaleFactor;
             this.units = units;
+        }
+
+        public void setDefaultFormat( NumberFormat defaultFormat ) {
+            this.defaultFormat = defaultFormat;
         }
 
         public double getValue() {
@@ -227,6 +247,14 @@ public class ParticleUnits {
 
         public String toString() {
             return "" + getDisplayValue() + " " + units + " [@" + value + "]";
+        }
+
+        public String toPrettyString( NumberFormat numberFormat ) {
+            return numberFormat.format( getDisplayValue() ) + " " + units;
+        }
+
+        public String toPrettyString() {
+            return toPrettyString( defaultFormat );
         }
     }
 }

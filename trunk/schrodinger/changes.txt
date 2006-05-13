@@ -1,3 +1,9 @@
+New in 0.00.60
+Labeled the min and max of the velocity sliders for each type of particle so that students can easily see what the velocity range is and that it’s different for each particle.
+Reset button no longer has a warning.
+Reset resets slit width, and slit separation, but does not make the double slits go away.
+Bugfix: Adding a barrier in neutron mode no longer crashes the simulation.
+
 New in 0.00.59
 Reverted Photon view to Intensity.
 Made different visualization panel for photons than for particles.

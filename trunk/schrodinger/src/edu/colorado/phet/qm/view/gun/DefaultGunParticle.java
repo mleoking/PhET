@@ -11,6 +11,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -26,8 +29,8 @@ public class DefaultGunParticle extends GunParticle {
 
     public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation, ParticleUnits particleUnits ) {
         super( gunGraphic, label, imageLocation );
-        createControls();
         this.particleUnits = particleUnits;
+        createControls();
     }
 
     public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
@@ -37,6 +40,8 @@ public class DefaultGunParticle extends GunParticle {
 
     private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
+//        velocitySlider.setLabelTable( createLabels( velocitySlider ) );
+//        velocitySlider.setPaintLabels( true );
 //        velocitySlider.setBorder( BorderFactory.createTitledBorder( new LineBorder( Color.white,1,true),"Velocity" , TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,new Font( "Lucida Sans",Font.BOLD, 10),Color.white ) );
         TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), "Velocity", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( "Lucida Sans", Font.BOLD, 12 ), Color.white ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
@@ -46,9 +51,35 @@ public class DefaultGunParticle extends GunParticle {
             }
         };
 //        velocitySlider.setBorder( BorderFactory.createTitledBorder( new LineBorder( Color.white,1,true),"Velocity" , TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,new Font( "Lucida Sans",Font.BOLD, 12),Color.white ) );
-        velocitySlider.setBorder( titledBorder );
+
         controlPanel = new VerticalLayoutPanel();
         controlPanel.addFullWidth( velocitySlider );
+        controlPanel.setBorder( titledBorder );
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout( new BorderLayout() );
+        labelPanel.add( getLowLabel(), BorderLayout.WEST );
+        labelPanel.add( getHighLabel(), BorderLayout.EAST );
+        controlPanel.addFullWidth( labelPanel );
+    }
+
+    private Dictionary createLabels( JSlider velocitySlider ) {
+        Dictionary labels = new Hashtable();
+        DecimalFormat numberFormat = new DecimalFormat( "0.0" );
+        labels.put( new Integer( velocitySlider.getMinimum() ), getLowLabel() );
+        labels.put( new Integer( velocitySlider.getMaximum() ), getHighLabel() );
+        return labels;
+    }
+
+    private JLabel getHighLabel() {
+        JLabel label = new JLabel( particleUnits.getMaxVelocity().toPrettyString() );
+        label.setForeground( Color.lightGray );
+        return label;
+    }
+
+    private JLabel getLowLabel() {
+        JLabel label = new JLabel( particleUnits.getMinVelocity().toPrettyString() );
+        label.setForeground( Color.lightGray );
+        return label;
     }
 
     public double getSliderFraction() {

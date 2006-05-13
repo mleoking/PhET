@@ -52,6 +52,7 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     public void reset() {
+//        super.reset();
         photonBeam.setIntensity( 0.0 );
         photonBeam.setHighIntensityModeOn( false );
         clearModelElements();

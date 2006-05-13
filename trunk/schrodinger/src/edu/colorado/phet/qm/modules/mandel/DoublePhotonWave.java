@@ -33,23 +33,27 @@ public class DoublePhotonWave extends PhotonWave {
         leftWaveSource.setRegion( createRectRegionForCylinder() );
         rightWaveSource.setRegion( createRectRegionForCylinder() );
         if( leftParam == null ) {
-            leftParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWaveModel() );
-            rightParam = new MandelModule.BeamParam( 450, 0, getDiscreteModel().getWaveModel() );
+            leftParam = new MandelModule.BeamParam( getMomentum(), 0, getDiscreteModel().getWaveModel() );
+            rightParam = new MandelModule.BeamParam( getMomentum(), 0, getDiscreteModel().getWaveModel() );
         }
-        leftWaveSource.setWave( createLeftWave( leftParam, rightParam, getPhase() ) );
-        rightWaveSource.setWave( createRightWave( leftParam, rightParam, getPhase() ) );
+        updateWaves();
         leftWaveSource.initializeEntrantWave( leftParam.getWaveModel(), getDiscreteModel().getSimulationTime() );
         rightWaveSource.initializeEntrantWave( rightParam.getWaveModel(), getDiscreteModel().getSimulationTime() );
+    }
+
+    private void updateWaves() {
+        leftWaveSource.setWave( createLeftWave( leftParam, rightParam, getPhase() ) );
+        rightWaveSource.setWave( createRightWave( leftParam, rightParam, getPhase() ) );
     }
 
     protected Wave createLeftWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
         double insetX = getInsetX();
         if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
-            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
+            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
                                    getDiscreteModel().getWavefunction().getWidth() );
         }
         else {
-            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), 0,
+            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), 0,
                                    getDiscreteModel().getWavefunction().getWidth() );
         }
     }
@@ -57,11 +61,11 @@ public class DoublePhotonWave extends PhotonWave {
     protected Wave createRightWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
         double insetX = getInsetX();
         if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
-            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
+            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
                                    getDiscreteModel().getWavefunction().getWidth() );
         }
         else {
-            return new MandelWave( (int)insetX, getMomentum(), phase, dPhase, 0, getTotalWaveMagnitudeRight(),
+            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, 0, getTotalWaveMagnitudeRight(),
                                    getDiscreteModel().getWavefunction().getWidth() );
         }
     }
@@ -89,5 +93,15 @@ public class DoublePhotonWave extends PhotonWave {
         this.rightParam = rightParam;
 //        System.out.println( "leftParam = " + leftParam );
 //        System.out.println( "rightParam = " + rightParam );
+    }
+
+    public void setLeftMomentum( double momentum ) {
+        leftParam.setMomentum( momentum );
+        updateWaves();
+    }
+
+    public void setRightMomentum( double momentum ) {
+        rightParam.setMomentum( momentum );
+        updateWaves();
     }
 }

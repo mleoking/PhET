@@ -142,6 +142,10 @@ public class MandelGun extends PhetPNode {
         return on ? intensitySlider.getValue() / 100.0 : 0.0;
     }
 
+    public double getMomentum() {
+        return 1.0 / getWavelength();//todo fix this!
+    }
+
     public static interface Listener {
         void wavelengthChanged();
 

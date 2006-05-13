@@ -201,9 +201,13 @@ public class RichardsonPropagator extends Propagator {
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 double pot = getPotential().getPotential( i, j, timeStep );
-                potTemp.setValue( Math.cos( pot * getDeltaTime() / hbar ), -Math.sin( pot * getDeltaTime() / hbar ) );
-                waveTemp.setValue( w.valueAt( i, j ) );
-                w.valueAt( i, j ).setToProduct( waveTemp, potTemp );
+                //todo: do we need this original potential code?  It failed for neutrons (maybe bad hbar?)
+//                potTemp.setValue( Math.cos( pot * getDeltaTime() / hbar ), -Math.sin( pot * getDeltaTime() / hbar ) );
+//                waveTemp.setValue( w.valueAt( i, j ) );
+//                w.valueAt( i, j ).setToProduct( waveTemp, potTemp );
+                if( pot > 10 ) {
+                    w.valueAt( i, j ).setValue( 0, 0 );
+                }
             }
         }
     }

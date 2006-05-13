@@ -103,6 +103,11 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         updateSliderColor();
     }
 
+    public void reset() {
+//        super.reset();
+        currentBeam.reset();
+    }
+
     protected GunControlPanel createGunControlPanel() {
         GunControlPanel gunControlPanel = new GunControlPanel( getSchrodingerPanel() );
         gunControlPanel.add( intensitySlider );
@@ -116,9 +121,9 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         }
     }
 
-    protected double getControlOffsetX() {
-        return getGunImageGraphic().getFullBounds().getWidth() - 40;
-    }
+//    protected double getControlOffsetX() {
+//        return getGunImageGraphic().getFullBounds().getWidth() - 40;
+//    }
 
     protected Point getGunLocation() {
         if( currentBeam != null ) {

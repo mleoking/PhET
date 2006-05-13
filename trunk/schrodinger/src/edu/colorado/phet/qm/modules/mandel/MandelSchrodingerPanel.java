@@ -111,22 +111,22 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     }
 
     protected ColorMap createColorMap() {
-        WaveValueAccessor accessor = createAccessor();
         if( getMandelModule() == null || getMandelModule().getMandelModel() == null ) {
-            return new PhotonColorMap( this, 0, accessor );
+            return new PhotonColorMap( this, 0, createAccessor() );
         }
         if( getMandelModule().getMandelModel().isSplit() ) {
 //            System.out.println( "MandelSchrodingerPanel.createColorMap: using mandelSplitColorMap" );
-            return new MandelSplitColorMap( mandelModule, accessor );
+            return new MandelSplitColorMap( mandelModule, createAccessor() );
         }
         else {
 //            System.out.println( "MandelSchrodingerPanel.createColorMap: using photonColormap (average)." );
-            return new PhotonColorMap( this, ( getLeftGun().getWavelength() + getRightGun().getWavelength() ) / 2, accessor );
+            return new PhotonColorMap( this, ( getLeftGun().getWavelength() + getRightGun().getWavelength() ) / 2, createAccessor() );
         }
     }
 
     private WaveValueAccessor createAccessor() {
         WaveValueAccessor accessor = new WaveValueAccessor.Real();
+//        WaveValueAccessor accessor = new WaveValueAccessor.Magnitude(); //todo uncomment this to facilitate testing of wavelength
         return accessor;
     }
 }

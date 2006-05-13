@@ -79,7 +79,7 @@ public class DiscreteModel implements ModelElement {
                 notifyPotentialChanged();
             }
         } );
-        fractionalDoubleSlit = new FractionalDoubleSlit( this, 0.4, 0.05, 0.14, 0.25 );
+        fractionalDoubleSlit = createFractionalDoubleSlit();
 
         if( DEBUG_WAVES ) {
             final WaveDebugger sourceWaveDebugger = new WaveDebugger( "Source wave", getSourceWave() );
@@ -97,6 +97,10 @@ public class DiscreteModel implements ModelElement {
                 }
             } );
         }
+    }
+
+    private FractionalDoubleSlit createFractionalDoubleSlit() {
+        return new FractionalDoubleSlit( this, 0.4, 0.05, 0.14, 0.25 );
     }
 
     public FractionalDoubleSlit getFractionalDoubleSlit() {
@@ -319,6 +323,7 @@ public class DiscreteModel implements ModelElement {
         detectorSet.reset();
         getPropagator().reset();
         getSourcePropagator().reset();
+        fractionalDoubleSlit.reset( 0.4, 0.05, 0.14, 0.25, fractionalDoubleSlit.getPotential() );//todo this code is duplicated
     }
 
     public int getGridWidth() {
@@ -413,6 +418,17 @@ public class DiscreteModel implements ModelElement {
             Listener listener = (Listener)listeners.get( i );
             listener.potentialChanged();
         }
+    }
+
+    public void clearPotentialIgnoreSlits() {
+        boolean doubleSlitEnabled = isDoubleSlitEnabled();
+        setDoubleSlitEnabled( false );
+        compositePotential.clear();
+        setDoubleSlitEnabled( doubleSlitEnabled );
+        if( isDoubleSlitEnabled() != doubleSlitEnabled ) {
+            notifySlitStateChanged();
+        }
+        updatePotential();
     }
 
     public void clearPotential() {
