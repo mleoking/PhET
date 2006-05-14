@@ -206,4 +206,8 @@ class ModuleManager {
             moduleObserver.moduleRemoved( event );
         }
     }
+
+    public void addLazyModule( LazyModuleConstructor module ) {
+
+    }
 }

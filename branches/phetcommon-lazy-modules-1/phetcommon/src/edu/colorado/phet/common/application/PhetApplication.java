@@ -44,6 +44,7 @@ public class PhetApplication {
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
+    private ArrayList lazyModuleConstructors = new ArrayList();
 
     /**
      * Get the last created PhetApplication.
@@ -229,6 +230,11 @@ public class PhetApplication {
         moduleManager.addModule( module );
     }
 
+    public void addLazyModule( LazyModuleConstructor module ) {
+//        moduleManager.addLazyModule(module);
+        lazyModuleConstructors.add( module );
+    }
+
     private ModuleManager getModuleManager() {
         return moduleManager;
     }
@@ -391,5 +397,13 @@ public class PhetApplication {
      */
     public Module[] getModules() {
         return moduleManager.getModules();
+    }
+
+    public LazyModuleConstructor lazyModuleConstructorAt( int i ) {
+        return (LazyModuleConstructor)lazyModuleConstructors.get( i );
+    }
+
+    public int numLazyModules() {
+        return lazyModuleConstructors.size();
     }
 }

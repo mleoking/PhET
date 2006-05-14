@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleEvent;
-import edu.colorado.phet.common.application.ModuleObserver;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -47,7 +44,26 @@ public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
             Module module = modules[i];
             addTab( module );
         }
+        for( int i = 0; i < application.numLazyModules(); i++ ) {
+            LazyModuleConstructor lazyModuleConstructor = application.lazyModuleConstructorAt( i );
+            addTab( lazyModuleConstructor );
+        }
         setOpaque( true );
+    }
+
+    private void addTab( LazyModuleConstructor lazyModuleConstructor ) {
+        addTab( lazyModuleConstructor.getName(), new JPanel() );
+        // Register a change listener
+        addChangeListener( new ChangeListener() {
+            // This method is called whenever the selected tab changes
+            public void stateChanged( ChangeEvent evt ) {
+//                JTabbedPane pane = (JTabbedPane)evt.getSource();
+
+                // Get current tab
+                int sel = getSelectedIndex();
+
+            }
+        } );
     }
 
     public void addTab( Module module ) {
