@@ -14,9 +14,7 @@ import edu.colorado.phet.qm.model.waves.PlaneWave2D;
  */
 
 public class MandelWave implements Wave {
-//    private PlaneWave2D leftWave;
     private MandelWaveDamp leftDamp;
-//    private PlaneWave2D rightWave;
     private MandelWaveDamp rightDamp;
     private double momentum;
     private double phase;
