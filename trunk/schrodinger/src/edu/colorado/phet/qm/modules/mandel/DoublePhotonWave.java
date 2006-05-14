@@ -48,26 +48,16 @@ public class DoublePhotonWave extends PhotonWave {
 
     protected Wave createLeftWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
         double insetX = getInsetX();
-        if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
-            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
-                                   getDiscreteModel().getWavefunction().getWidth() );
-        }
-        else {
-            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), 0,
-                                   getDiscreteModel().getWavefunction().getWidth() );
-        }
+        double rightMag = leftParam.getWaveModel() == rightParam.getWaveModel() ? getTotalWaveMagnitudeRight() : 0;
+        return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), rightMag,
+                               getDiscreteModel().getWavefunction().getWidth() );
     }
 
     protected Wave createRightWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
         double insetX = getInsetX();
-        if( leftParam.getWaveModel() == rightParam.getWaveModel() ) {
-            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), getTotalWaveMagnitudeRight(),
-                                   getDiscreteModel().getWavefunction().getWidth() );
-        }
-        else {
-            return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, 0, getTotalWaveMagnitudeRight(),
-                                   getDiscreteModel().getWavefunction().getWidth() );
-        }
+        double leftMag = leftParam.getWaveModel() == rightParam.getWaveModel() ? getTotalWaveMagnitudeLeft() : 0.0;
+        return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, leftMag, getTotalWaveMagnitudeRight(),
+                               getDiscreteModel().getWavefunction().getWidth() );
     }
 
     private double getInsetX() {
