@@ -27,9 +27,9 @@ import edu.colorado.phet.boundstates.test.schmidt_lee.Wavefunction;
  * <p>
  * Our model supports these parameters:
  * <ul>
- * <li>offset
+ * <li>offset (at the bottom of the well)
  * <li>width
- * <li>depth
+ * <li>height
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -42,15 +42,15 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     //----------------------------------------------------------------------------
     
     private double _width;
-    private double _depth;
+    private double _height;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAsymmetricWell( BSParticle particle, double offset, double depth, double width ) {
+    public BSAsymmetricWell( BSParticle particle, double offset, double height, double width ) {
         super( particle, 1 /* numberOfWells */, offset );
-        setDepth( depth );
+        setHeight( height );
         setWidth( width );
     }
     
@@ -86,27 +86,27 @@ public class BSAsymmetricWell extends BSAbstractPotential {
     }
 
     /**
-     * Gets the depth.
-     * Depth is a positive quantity, and is the same for all wells.
+     * Gets the height.
+     * Height is the same for all wells.
      * 
-     * @return the depth, in eV
+     * @return the height, in eV
      */
-    public double getDepth() {
-        return _depth;
+    public double getHeight() {
+        return _height;
     }
 
     /**
-     * Sets the depth.
-     * Depth is a positive quantity, and is the same for all wells.
+     * Sets the height.
+     * Height is the same for all wells.
      * 
-     * @param depth the depth, >= 0, in eV
+     * @param height the height, >= 0, in eV
      */
-    public void setDepth( double depth ) {
-        if ( depth < 0 ) {
-            throw new IllegalArgumentException( "invalid depth: " + depth );
+    public void setHeight( double height ) {
+        if ( height < 0 ) {
+            throw new IllegalArgumentException( "invalid height: " + height );
         }
-        if ( depth != _depth ) {
-            _depth = depth;
+        if ( height != _height ) {
+            _height = height;
             markEigenstatesDirty();
             notifyObservers();
         }
@@ -152,23 +152,24 @@ public class BSAsymmetricWell extends BSAbstractPotential {
         final double offset = getOffset();
         final double c = getCenter();
         final double w = getWidth();
+        final double h = getHeight();
         
-        double energy = offset;
+        double energy = offset + h;
         if ( Math.abs( position - c ) <= w / 2 ) {
-            energy = offset - Math.abs( c + w/2 - position ) * getDepth() / w;
+            energy = offset + ( h - ( Math.abs( c + w/2 - position ) * h / w ) );
         }
         return energy;
     }
 
     /*
      * Calculates eigenstates, starting from the ground state (node=0) and 
-     * continuing until we find an energy value that is higher than the offset.
+     * continuing until we find an energy value that is higher than the offset + height.
      */
     protected BSEigenstate[] calculateEigenstates() {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        final double maxE = getOffset();
+        final double maxE = getOffset() + _height;
         int nodes = 0;
         
         boolean done = false;

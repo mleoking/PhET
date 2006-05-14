@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSCoulomb1DWells;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -50,10 +51,9 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DWells potential, 
-            DoubleRange offsetRange, DoubleRange spacingRange ) {
+    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DWells potential, BSWellRangeSpec rangeSpec ) {
         super( parent, SimStrings.get( "BSCoulomb1DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( offsetRange, spacingRange );
+        JPanel inputPanel = createInputPanel( rangeSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -63,13 +63,14 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( DoubleRange offsetRange, DoubleRange spacingRange ) {
+    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
+            DoubleRange offsetRange = rangeSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -87,6 +88,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
 
         // Spacing
         {
+            DoubleRange spacingRange = rangeSpec.getSpacingRange();
             double value = spacingRange.getDefault();
             double min = spacingRange.getMin();
             double max = spacingRange.getMax();

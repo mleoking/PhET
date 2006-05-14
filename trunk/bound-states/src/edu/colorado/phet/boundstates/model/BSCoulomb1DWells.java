@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.boundstates.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -95,6 +96,26 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
     }
     
     //----------------------------------------------------------------------------
+    // Overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the wave function approximation.
+     * For the single-well case, use an analytic solver.
+     * For multiple-wells, use the Schmidt-Lee solver.
+     */
+    public Point2D[] getWaveFunctionPoints( BSEigenstate eigenstate, final double minX, final double maxX ) {
+        if ( getNumberOfWells() != 1 ) {
+            return super.getWaveFunctionPoints( eigenstate, minX, maxX );
+        }
+        else {
+            final int numberOfPoints = BSConstants.COULOMB_ANALYTIC_SAMPLE_POINTS;
+            BSCoulomb1DSolver solver = new BSCoulomb1DSolver( this, getParticle() );
+            return solver.getWaveFunction( eigenstate.getSubscript(), minX, maxX, numberOfPoints );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // AbstractPotential implementation
     //----------------------------------------------------------------------------
     
@@ -134,7 +155,7 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
         double energy = 0;
         
         final int n = getNumberOfWells();
-        final double kee = BSConstants.KEE;
+        final double kee = BSConstants.KE2;
         final double s = getSpacing();
         final double offset = getOffset();
         final double c = getCenter();
@@ -146,9 +167,44 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
         
         return offset + energy;
     }
-  
+ 
     /*
      * Calculates the eigenstates.
+     * For the single-well case, use an analytic solver.
+     * For multiple-wells, use the Schmidt-Lee solver.
+     */
+    protected BSEigenstate[] calculateEigenstates() {
+        if ( getNumberOfWells() == 1 ) {
+            return calculateEigenstatesAnalytic();
+        }
+        else {
+            return calculateEigenstatesSchmidtLee();
+        }
+    }
+    
+    /*
+     * Calculates the eigenstates using Sam McKagan's analytic solution.
+     */
+    private BSEigenstate[] calculateEigenstatesAnalytic() {
+        
+        BSCoulomb1DSolver solver = new BSCoulomb1DSolver( this, getParticle() );
+        
+        ArrayList eigenstates = new ArrayList();
+        final int numberOfEigenstates = solver.getMaxEigenstates();
+        int subscript = getGroundStateSubscript();
+        
+        for ( int n = 1; n <= numberOfEigenstates; n++ ) {
+            double E = solver.getEnergy( n );
+            eigenstates.add( new BSEigenstate( subscript, E ) );
+            subscript++;
+        }
+        
+        return (BSEigenstate[]) eigenstates.toArray( new BSEigenstate[ eigenstates.size() ] );
+    }
+    
+    /*
+     * Calculates the eigenstates using the Schmidt-Lee solver.
+     * 
      * We start from the ground state and continue up to the offset.
      * 
      * Skips ever-other "cluster" of nodes, where the cluster size 
@@ -163,7 +219,7 @@ public class BSCoulomb1DWells extends BSAbstractPotential {
      * 2 wells: skip node0-1, solve node2-3, skip node4-5, solve node6-7, etc.
      * 3 wells: skip node0-2, solve node3-5, skip node6-8, solve node9-11, etc.
      */
-    protected BSEigenstate[] calculateEigenstates() {
+    private BSEigenstate[] calculateEigenstatesSchmidtLee() {
 
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList(); // array of BSEigentate

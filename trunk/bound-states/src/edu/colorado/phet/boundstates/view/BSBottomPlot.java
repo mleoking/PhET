@@ -21,6 +21,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -51,6 +52,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     // We provide sorted data, so turn off series autosort to improve performance.
     private static final boolean AUTO_SORT = false;
+    
+    // Are ticks visible on the Y axis?
+    private static final boolean Y_AXIS_TICKS_VISIBLE = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -178,11 +182,16 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         // Y (range) axis
         NumberAxis yAxis = new NumberAxis( _waveFunctionLabel );
         {
+            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
             yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
             yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
-            yAxis.setRange( BSConstants.WAVE_FUNCTION_RANGE );
             yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
             yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
+            yAxis.setTickLabelsVisible( Y_AXIS_TICKS_VISIBLE );
+            yAxis.setTickMarksVisible( Y_AXIS_TICKS_VISIBLE );
+            if ( !Y_AXIS_TICKS_VISIBLE ) {
+                yAxis.setLabelInsets( new RectangleInsets( 0,0,0,35 ) );
+            }
         }
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
@@ -385,11 +394,10 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
                 
                 BSEigenstate[] eigenstates = _model.getEigenstates();
-                final double energy = eigenstates[hiliteIndex].getEnergy();
                 BSAbstractPotential potential = _model.getPotential();
                 final double minX = getDomainAxis().getLowerBound();
                 final double maxX = getDomainAxis().getUpperBound();
-                Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+                Point2D[] points = potential.getWaveFunctionPoints( eigenstates[hiliteIndex], minX, maxX );
                 
                 for ( int i = 0; i < points.length; i++ ) {
                     if ( isProbabilityDensityVisible() ) {
@@ -433,8 +441,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
             final double coefficient = superpositionCoefficients.getCoefficient( i );
             if ( coefficient != 0 ) {
-                final double energy = eigenstates[ i ].getEnergy();
-                Point2D[] points = potential.getWaveFunctionPoints( energy, minX, maxX );
+                Point2D[] points = potential.getWaveFunctionPoints( eigenstates[i], minX, maxX );
                 _waveFunctionSolutions.add( points );
                 _eigenstateIndicies.add( new Integer(i) );
             }

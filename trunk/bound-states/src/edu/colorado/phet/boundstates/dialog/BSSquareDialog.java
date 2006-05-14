@@ -20,9 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSSquareWells;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -41,7 +41,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     //----------------------------------------------------------------------------
     
     private SliderControl _widthSlider;
-    private SliderControl _depthSlider;
+    private SliderControl _heightSlider;
     private SliderControl _offsetSlider;
     private SliderControl _separationSlider;
     private JSeparator _separationSeparator;
@@ -53,10 +53,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells potential,
-            DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange, DoubleRange separationRange ) {
+    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellRangeSpec rangeSpec ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange, separationRange );
+        JPanel inputPanel = createInputPanel( rangeSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -66,15 +65,14 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel(
-            DoubleRange offsetRange, DoubleRange depthRange, 
-            DoubleRange widthRange, DoubleRange separationRange ) {
+    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
  
         // Offset
         {
+            DoubleRange offsetRange = rangeSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -90,25 +88,27 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
 
-        // Depth
+        // Height
         {
-            double value = depthRange.getDefault();
-            double min = depthRange.getMin();
-            double max = depthRange.getMax();
+            DoubleRange heightRange = rangeSpec.getHeightRange();
+            double value = heightRange.getDefault();
+            double min = heightRange.getMin();
+            double max = heightRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = depthRange.getSignificantDecimalPlaces();
+            int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String depthLabel = SimStrings.get( "label.wellDepth" );
-            _depthSlider = new SliderControl( value, min, max,
+            String heightLabel = SimStrings.get( "label.wellHeight" );
+            _heightSlider = new SliderControl( value, min, max,
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces,
-                    depthLabel, energyUnits, columns, SLIDER_INSETS );
-            _depthSlider.setTextEditable( true );
-            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+                    heightLabel, energyUnits, columns, SLIDER_INSETS );
+            _heightSlider.setTextEditable( true );
+            _heightSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
         
         // Width
         {
+            DoubleRange widthRange = rangeSpec.getWidthRange();
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();
@@ -126,6 +126,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Separation
         {
+            DoubleRange separationRange = rangeSpec.getSeparationRange();
             double value = separationRange.getDefault();
             double min = separationRange.getMin();
             double max = separationRange.getMax();
@@ -144,7 +145,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         // Events
         {
             _offsetSlider.addChangeListener( this );
-            _depthSlider.addChangeListener( this );
+            _heightSlider.addChangeListener( this );
             _widthSlider.addChangeListener( this );
             _separationSlider.addChangeListener( this ); 
         }
@@ -161,7 +162,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _depthSlider, row, col );
+            layout.addComponent( _heightSlider, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
@@ -187,7 +188,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Sync values
         _offsetSlider.setValue( potential.getOffset() );
-        _depthSlider.setValue( potential.getDepth() );
+        _heightSlider.setValue( potential.getHeight() );
         _widthSlider.setValue( potential.getWidth() );
         _separationSlider.setValue( potential.getSeparation() );
 
@@ -208,7 +209,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      */
     public void dispose() {
         _offsetSlider.removeChangeListener( this );
-        _depthSlider.removeChangeListener( this );
+        _heightSlider.removeChangeListener( this );
         _widthSlider.removeChangeListener( this );
         _separationSlider.removeChangeListener( this );
         super.dispose();
@@ -225,8 +226,8 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         if ( e.getSource() == _offsetSlider ) {
             handleOffsetChange();
         }
-        else if ( e.getSource() == _depthSlider ) {
-            handleDepthChange();
+        else if ( e.getSource() == _heightSlider ) {
+            handleHeightChange();
         }
         else if ( e.getSource() == _widthSlider ) {
             handleWidthChange();
@@ -248,10 +249,10 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         getPotential().setOffset( offset );
     }
     
-    private void handleDepthChange() {
+    private void handleHeightChange() {
         BSSquareWells potential = (BSSquareWells) getPotential();
-        final double depth = _depthSlider.getValue();
-        potential.setDepth( depth );
+        final double height = _heightSlider.getValue();
+        potential.setHeight( height );
     }
     
     private void handleWidthChange() {

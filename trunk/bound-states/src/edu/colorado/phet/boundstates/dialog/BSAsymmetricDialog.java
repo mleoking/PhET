@@ -21,8 +21,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
-import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -41,7 +41,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
     //----------------------------------------------------------------------------
     
     private SliderControl _widthSlider;
-    private SliderControl _depthSlider;
+    private SliderControl _heightSlider;
     private SliderControl _offsetSlider;
     
     //----------------------------------------------------------------------------
@@ -51,10 +51,9 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
     /**
      * Constructor.
      */
-    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, 
-            DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange ) {
+    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, BSWellRangeSpec rangeSpec ) {
         super( parent, SimStrings.get( "BSAsymmetricDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( offsetRange, depthRange, widthRange );
+        JPanel inputPanel = createInputPanel( rangeSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -64,13 +63,14 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
      * 
      * @return the input panel
      */
-    private JPanel createInputPanel( DoubleRange offsetRange, DoubleRange depthRange, DoubleRange widthRange ) {
+    private JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
      
         // Offset
         {
+            DoubleRange offsetRange = rangeSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -86,25 +86,27 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             _offsetSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
         
-        // Depth
+        // Height
         {
-            double value = depthRange.getDefault();
-            double min = depthRange.getMin();
-            double max = depthRange.getMax();
+            DoubleRange heightRange = rangeSpec.getHeightRange();
+            double value = heightRange.getDefault();
+            double min = heightRange.getMin();
+            double max = heightRange.getMax();
             double tickSpacing = Math.abs( max - min );
-            int tickDecimalPlaces = depthRange.getSignificantDecimalPlaces();
+            int tickDecimalPlaces = heightRange.getSignificantDecimalPlaces();
             int labelDecimalPlaces = tickDecimalPlaces;
             int columns = 4;
-            String depthLabel = SimStrings.get( "label.wellDepth" );
-            _depthSlider = new SliderControl( value, min, max, 
+            String heightLabel = SimStrings.get( "label.wellHeight" );
+            _heightSlider = new SliderControl( value, min, max, 
                     tickSpacing, tickDecimalPlaces, labelDecimalPlaces, 
-                    depthLabel, energyUnits, columns, SLIDER_INSETS );
-            _depthSlider.setTextEditable( true );
-            _depthSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+                    heightLabel, energyUnits, columns, SLIDER_INSETS );
+            _heightSlider.setTextEditable( true );
+            _heightSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
         }
         
         // Width
         {
+            DoubleRange widthRange = rangeSpec.getWidthRange();
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();
@@ -123,7 +125,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         // Events
         {
             _offsetSlider.addChangeListener( this );
-            _depthSlider.addChangeListener( this );
+            _heightSlider.addChangeListener( this );
             _widthSlider.addChangeListener( this );
         }
         
@@ -139,7 +141,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
-            layout.addComponent( _depthSlider, row, col );
+            layout.addComponent( _heightSlider, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
             row++;
@@ -158,7 +160,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         // Sync values
         BSAsymmetricWell potential = (BSAsymmetricWell) getPotential();
         _offsetSlider.setValue( potential.getOffset() );
-        _depthSlider.setValue( potential.getDepth() );
+        _heightSlider.setValue( potential.getHeight() );
         _widthSlider.setValue( potential.getWidth() );
     }
     
@@ -173,7 +175,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
      */
     public void dispose() {
         _offsetSlider.removeChangeListener( this );
-        _depthSlider.removeChangeListener( this );
+        _heightSlider.removeChangeListener( this );
         _widthSlider.removeChangeListener( this );
         super.dispose();
     }
@@ -189,8 +191,8 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         if ( e.getSource() == _offsetSlider ) {
             handleOffsetChange();
         }
-        else if ( e.getSource() == _depthSlider ) {
-            handleDepthChange();
+        else if ( e.getSource() == _heightSlider ) {
+            handleHeightChange();
         }
         else if ( e.getSource() == _widthSlider ) {
             handleWidthChange();
@@ -210,10 +212,10 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         potential.setWidth( width );
     }
     
-    private void handleDepthChange() {
-        final double depth = _depthSlider.getValue();
+    private void handleHeightChange() {
+        final double height = _heightSlider.getValue();
         BSAsymmetricWell potential = (BSAsymmetricWell) getPotential();
-        potential.setDepth( depth );
+        potential.setHeight( height );
     }
     
     private void handleOffsetChange() {

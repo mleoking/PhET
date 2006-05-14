@@ -18,6 +18,7 @@ import javax.swing.JDialog;
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 
 
@@ -47,27 +48,21 @@ public class BSConfigureDialogFactory {
         JDialog dialog = null;
         
         BSWellType wellType = potential.getWellType();
-        DoubleRange offsetRange = moduleSpec.getOffsetRange();
-        DoubleRange depthRange = moduleSpec.getDepthRange();
-        DoubleRange widthRange = moduleSpec.getWidthRange();
-        DoubleRange spacingRange = moduleSpec.getSpacingRange();
-        DoubleRange separationRange = moduleSpec.getSeparationRange();
-        DoubleRange angularFrequencyRange = moduleSpec.getAngularFrequencyRange();
         
         if ( wellType == BSWellType.ASYMMETRIC ) {
-            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) potential, offsetRange, depthRange, widthRange );
+            dialog = new BSAsymmetricDialog( owner, (BSAsymmetricWell) potential, moduleSpec.getAsymmetricRangeSpec() );
         }
         else if ( wellType == BSWellType.COULOMB_1D ) {
-            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) potential, offsetRange, spacingRange );
+            dialog = new BSCoulomb1DDialog( owner, (BSCoulomb1DWells) potential, moduleSpec.getCoulomb1DRangeSpec() );
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
-            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) potential, offsetRange );
+            dialog = new BSCoulomb3DDialog( owner, (BSCoulomb3DWell) potential, moduleSpec.getCoulomb3DRangeSpec() );
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) potential, offsetRange, angularFrequencyRange );
+            dialog = new BSHarmonicOscillatorDialog( owner, (BSHarmonicOscillatorWell) potential, moduleSpec.getHarmonicOscillatorRangeSpec() );
         }
         else if ( wellType == BSWellType.SQUARE ) {
-            dialog = new BSSquareDialog( owner, (BSSquareWells) potential, offsetRange, depthRange, widthRange, separationRange );
+            dialog = new BSSquareDialog( owner, (BSSquareWells) potential, moduleSpec.getSquareRangeSpec() );
         }
         else {
             throw new IllegalArgumentException( "unsupported well type: " + wellType );

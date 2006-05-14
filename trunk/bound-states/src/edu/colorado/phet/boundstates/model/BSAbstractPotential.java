@@ -143,6 +143,8 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     
     /**
      * Gets the offset.
+     * The semantics of the offset differ by well type.
+     * Some well types put the offset at the top of the well, others at the bottom.
      * 
      * @return the offset, in eV
      */
@@ -152,6 +154,8 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
 
     /**
      * Sets the offset.
+     * The semantics of the offset differ by well type.
+     * Some well types put the offset at the top of the well, others at the bottom.
      * 
      * @param offset the offset, in eV
      */
@@ -190,6 +194,7 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     public BSEigenstate[] getEigenstates() {
         if ( _eigenstates == null ) {
             _eigenstates = calculateEigenstates();
+            assert( _eigenstates != null ); // calculateEigenstates should not return null
         } 
         return _eigenstates;
     }
@@ -206,12 +211,13 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     /**
      * Gets the points that approximate the wave function for an eigenstate.
      * 
-     * @param energy
+     * @param eigenstate
      * @param minX
      * @param maxX
      * @return
      */
-    public Point2D[] getWaveFunctionPoints( final double energy, final double minX, final double maxX ) {
+    public Point2D[] getWaveFunctionPoints( BSEigenstate eigenstate, final double minX, final double maxX ) {
+        final double energy = eigenstate.getEnergy();
         // Create the wave function solver...
         final double hb = ( BSConstants.HBAR * BSConstants.HBAR ) / ( 2 * getParticle().getMass() );
         final int numberOfPoints = BSConstants.SCHMIDT_LEE_SAMPLE_POINTS;
@@ -291,7 +297,8 @@ public abstract class BSAbstractPotential extends BSObservable implements Observ
     
     /**
      * Calculates the eignestates for the potential.
-     * They are sorted in order from lowest to highest energy value.
+     * They are sorted in order from lowest to highest eigenstate subscript
+     * (and therefore energy value).
      * 
      * @return an array of BSEigenstates, possibly zero length. Do NOT return null!
      */

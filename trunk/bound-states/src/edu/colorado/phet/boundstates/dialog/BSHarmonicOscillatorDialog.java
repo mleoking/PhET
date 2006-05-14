@@ -20,11 +20,9 @@ import javax.swing.JSeparator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import sun.security.krb5.internal.ccache.an;
-
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSHarmonicOscillatorWell;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -53,10 +51,9 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
     /**
      * Constructor.
      */
-    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential,
-            DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
+    public BSHarmonicOscillatorDialog( Frame parent, BSHarmonicOscillatorWell potential, BSWellRangeSpec rangeSpec ) {
         super( parent, SimStrings.get( "BSHarmonicOscillatorDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( offsetRange, angularFrequencyRange );
+        JPanel inputPanel = createInputPanel( rangeSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -70,13 +67,14 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
+    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
         
         String angularFrequencyUnits = SimStrings.get( "units.angularFrequency" );
         String energyUnits = SimStrings.get( "units.energy" );
 
         // Offset
         {
+            DoubleRange offsetRange = rangeSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -94,6 +92,7 @@ public class BSHarmonicOscillatorDialog extends BSAbstractConfigureDialog implem
 
         // Angular Frequency
         {
+            DoubleRange angularFrequencyRange = rangeSpec.getAngularFrequencyRange();
             double value = angularFrequencyRange.getDefault();
             double min = angularFrequencyRange.getMin();
             double max = angularFrequencyRange.getMax();

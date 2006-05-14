@@ -139,7 +139,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
             BSEigenstate eigenstate = model.getEigenstate( coefficientIndex );
             subscript = eigenstate.getSubscript();
         }
-        else {
+        else if ( count > 1 ) {
             subscript = EIGENSTATE_SUBSCRIPT_SUPERPOSITION;
         }
         

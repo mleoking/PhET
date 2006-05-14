@@ -118,7 +118,6 @@ public class BSConstants {
     //----------------------------------------------------------------------------
     
     // Energy
-    public static final Range ENERGY_RANGE = new Range( -15, +5 ); // eV
     public static final double ENERGY_TICK_SPACING = 5; // eV
     public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
@@ -144,8 +143,8 @@ public class BSConstants {
     
     /**
      * Controls when and how JFreeChart is used.
-     * true = use JFreeChart to do all chart elements (static and dynamic)
-     * false = use JFreeChart to draw static elements, custom code for dynamic elements
+     * true = use JFreeChart to do all chart elements (static and dynamic).
+     * false = use JFreeChart to draw static elements, custom code for dynamic elements.
      */
     public static final boolean JFREECHART_DYNAMIC = false;
     
@@ -156,7 +155,7 @@ public class BSConstants {
     // Lattice size controls
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Determines the number of sample points used to draw the potentials. 
      * The actual number of sample points will vary with the width (in pixels) 
      * of the charts.  This guarantees that the rendering quality will be the
@@ -164,7 +163,7 @@ public class BSConstants {
      */
     public static final double PIXELS_PER_POTENTIAL_SAMPLE_POINT = 1;
     
-    /*
+    /**
      * Determines the number of sample points used to calculate eigenstates
      * and wave functions. Because of how the Schmidt-Lee algorithm behaves,
      * we don't want this to vary with the size of the simulation window.
@@ -173,11 +172,17 @@ public class BSConstants {
      */
     public static final int SCHMIDT_LEE_SAMPLE_POINTS = 1350;
     
+    /**
+     * Determines the number of samples points used to calculate the 
+     * wave function when using the analytic solver for Coulomb wells.
+     */
+    public static final int COULOMB_ANALYTIC_SAMPLE_POINTS = SCHMIDT_LEE_SAMPLE_POINTS;
+    
     //----------------------------------------------------------------------------
     // Miscellaneous
     //----------------------------------------------------------------------------
     
     public static final double ELECTRON_MASS = 5.68; // eV/c^2
     public static final double HBAR = 0.658;
-    public static final double KEE = 1.44; // ke^2, eV nm
+    public static final double KE2 = 1.44; // ke^2, eV nm
 }

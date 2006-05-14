@@ -21,13 +21,17 @@ import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSModel;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
+import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -87,7 +91,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         // Y axis
         NumberAxis yAxis = new NumberAxis( energyLabel );
         {
-            yAxis.setRange( BSConstants.ENERGY_RANGE.getLowerBound() * 1.05, BSConstants.ENERGY_RANGE.getUpperBound() * 1.05 );
+            yAxis.setRange( 1, 10 ); // this will be adjusted based on the potential type
             yAxis.setLabelFont( BSConstants.AXIS_LABEL_FONT );
             yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
             yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
@@ -161,6 +165,15 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         }
     }
     
+    /*
+     * Updates the energy axis range to match the type of well.
+     */
+    public void setEnergyRange( Range range ) {
+        final double min = 1.05 * range.getLowerBound();
+        final double max = 1.05 * range.getUpperBound();
+        getRangeAxis().setRange( min, max );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -178,7 +191,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     }
     
     //----------------------------------------------------------------------------
-    // Dataset updaters
+    // Updaters
     //----------------------------------------------------------------------------
     
     /*

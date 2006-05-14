@@ -36,6 +36,7 @@ public class BSModuleConfig implements BSSerializable {
     
     // Controls
     private String _bottomPlotMode;
+    private boolean _magnifyingGlassSelected;
     private boolean _realSelected;
     private boolean _imaginarySelected;
     private boolean _magnitudeSelected;
@@ -101,6 +102,14 @@ public class BSModuleConfig implements BSSerializable {
     
     public void setPhaseSelected( boolean phaseSelected ) {
         _phaseSelected = phaseSelected;
+    }
+
+    public boolean isMagnifyingGlassSelected() {
+        return _magnifyingGlassSelected;
+    }
+  
+    public void setMagnifyingGlassSelected( boolean magnifyingGlassSelected ) {
+        _magnifyingGlassSelected = magnifyingGlassSelected;
     }
 
 }
