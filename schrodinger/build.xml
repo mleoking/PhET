@@ -89,6 +89,18 @@
         </copy>
     </target>
 
+    <target name="Update html">
+        <tstamp>
+            <format property="time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"/>
+        </tstamp>
+        <copy todir="ant_output/html" overwrite="yes">
+            <fileset file="index.html"/>
+            <filterset>
+                <filter token="VERSION" value="${dev-version}"/>
+                <filter token="DATE" value="${time}"/>
+            </filterset>
+        </copy>
+    </target>
     <target name="Post Dev">
         <maverick-ssh host="${ssh-host}"
                       username="${username}"
@@ -100,7 +112,7 @@
                 <fileset file="${ant.jars}/schrodinger-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <fileset file="screenshot.gif"/>
-                <!--<fileset file="index.html"/>-->
+                <fileset file="ant_output/html/index.html"/>
                 <fileset file="README"/>
             </sftp>
         </maverick-ssh>
@@ -120,6 +132,6 @@
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs"/>
+    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Update html,Post Dev,Post Docs"/>
 
 </project>
