@@ -4,45 +4,50 @@
 
 IN PROGRESS:
 
+Magnifying glass TODO:
+- constrain dragging to Energy chart
+- show chart boundaries
+- hilite eigenstate thru glass
+- select eigenstate thru glass
+- prevent mouse events from going thru any parts of the magnifying glass
+- nicer "look", angled handle
+- color scheme for handle and bezel
+- solve problem with potential plot being drawn on top (Mac only?)
+- reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- implement analytic solution for 3D Coulomb (eigenstates and wave function)
-- use analytic solution for single-well 1D Coulomb
-- support separate Energy chart y-axis range for each potential type
-- change energy range: Coulomb=[-15,+5], others=[-5,+15] (not until offset issue is resolved)
-- change definition of offset for Square and Asymmetric, make it bottom of well (not until drag handles issue is resolved)
-- support separate offset range for each potential type (not until offset issue is resolved)
-- investigate magnifying glass with ability to select/hilite eigenstates
-- investigate overview interface for energy chart
-- investivate more/less zoom controls
-- replace Coulomb 1-D and 3-D eigenstate solver with analytic solution
+- wave function is wrong for 1-well Coulomb 1D & 3D
+- compare analytic 1D Coulomb solution to examples on p 14 of SM's document
+- compare analytic 3D Coulomb solution to examples on p 6 of SM's document
+- why is the magnifying glass only in the "Many" panel? all panels have the problem of closely-space eigenstates
+- use 1D Coulomb wave function to display prob density for 3D Coulomb
+- magnifying glass
+- magnifying glass with ability to select/hilite eigenstates
+- more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
-- some eigenstates are so close together that one or more can't be selected or hilited
 - cache wavefunction solutions
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - stopwatch and animation pauses every few clock ticks (garbage collection?)
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - drag handles for each potential type (all slightly different)
 - implement Save/Load for model
 - reduce startup time
-- represent closely-spaced eigenstates as a thicker line?
-- examine closely-spaced eigenstates using a magnifying glass?
-- display values of all closely-spaced eigenstates at the same time?
 - pause clock by default
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
-- stop looking for Coulomb eigenstates when energy > max visible potential
 - different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- how does the user know the mass in the Two and Many panels? there is no mass control
+- remove ticks from BSBottomPlot y-axis, set Y_AXIS_TICKS_VISIBLE=false (confirm before doing!)
 - update while sliders are dragging
 - wave function curves look segmented when screen resolution is decreased after sim is started
 - scale position axis to fit excited portion of wavefunction (might not do this)
-- remove Harmonic Oscillator and Asymmetric potential choices in Multiple module
 - DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 OPTIMIZATIONS:
@@ -60,6 +65,21 @@ CLEANUP:
 
 
 DONE:
+(5/11/06 13:16) - analytic wave function solver for one-well 1D and 3D Coulomb
+(5/11/06 13:16) - analytic eigenstate solver for one-well 1D and 3D Coulomb, first 10 eigenstates
+(5/10/06 14:21) - add ability to turn off y-axis ticks on bottom plot
+(5/10/06 13:52) - bugfix: red "Superposition State" is displayed in upper left of bottom plot when there are zero eigenstates
+(5/10/06 13:28) - support different energy ranges for each well type, Coulomb=[-15,+5], others=[-5,+15]
+(5/10/06 12:37) - support different attribute ranges for each well type
+(5/10/06 11:07) - replace "depth" with "height" in square and asymmetric
+(5/10/06 10:43) - change titles for 1D and 3D Coulomb
+(5/9/06) - show magnifying glass feature for Many module only
+(5/9/06) - add ability to hide magnifying glass feature per module
+(5/9/06) - add on/off control for magnifying glass, add persistence support for control
+(5/9/06) - change angular frequency range to [1,10]
+(5/8/06) - **** SourceForge CVS server down ****
+(5/8/06) - add view of potential to magnifying glass
+(5/8/06) - first prototype of magnifying glass, shows only eigenstates
 (5/5/06) - move BSDoubleRange and BSIntegerRange to util, rename DoubleRange and IntegerRange
 (5/5/06) - javadoc a bunch of classes
 (5/5/06) - reorder and javadoc SchmidtLeeSolver
@@ -263,6 +283,12 @@ DONE:
 
 
 REJECTED:
+(5/9/06) - stop looking for Coulomb eigenstates when energy > max visible potential (stop after first 10 eigenstates)
+(5/9/06) - represent closely-spaced eigenstates as a thicker line (decided on magnifying glass solution)
+(5/9/06) - display values of all closely-spaced eigenstates at the same time (decided on magnifying glass solution)
+(5/9/06) - investigate overview interface for energy chart (use more/less zoom instead)
+(5/9/06) - magnify width of lines thru magnifying glass (makes eigenstates overlap)
+(5/9/06) - show chart ticks & gridlines thru magnifying glass (too damn hard, not necessary)
 (5/1/06) - disable the superposition button if no eigenstates are found (we should always find states, and superposition dialog works OK if we don't)
 (4/26/06) - change superposition equation for Coulomb to include only even eigenstates? (no)
 (4/26/06) - make SchmidtLee.getWaveFunction return Point2D[] instead of double[] (wrapped by BSAbstractPotential.getWaveFunctionPoints)
