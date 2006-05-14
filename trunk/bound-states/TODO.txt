@@ -65,6 +65,8 @@ CLEANUP:
 
 
 DONE:
+(5/14/06) - change cvs.sourceforge.net to phet.cvs.sourceforge.net in all CVS/Root files
+(5/14/06) **** SourceForge CVS server up ****
 (5/11/06 13:16) - analytic wave function solver for one-well 1D and 3D Coulomb
 (5/11/06 13:16) - analytic eigenstate solver for one-well 1D and 3D Coulomb, first 10 eigenstates
 (5/10/06 14:21) - add ability to turn off y-axis ticks on bottom plot
