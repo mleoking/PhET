@@ -125,8 +125,8 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
     }
 
     private WaveValueAccessor createAccessor() {
-        WaveValueAccessor accessor = new WaveValueAccessor.Real();
-//        WaveValueAccessor accessor = new WaveValueAccessor.Magnitude(); //todo uncomment this to facilitate testing of wavelength
+//        WaveValueAccessor accessor = new WaveValueAccessor.Real();
+        WaveValueAccessor accessor = new WaveValueAccessor.Magnitude(); //todo uncomment this to facilitate testing of wavelength
         return accessor;
     }
 }

@@ -1,12 +1,11 @@
 Bug: Mandel panel photons all have same wavelength (though different color)
 The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
+Mandel Panel should have both visualization styles
+>>This proves difficult with the current setup.  I estimate 2+ hours to add these features.  For right now, I've reverted to intensity-view only, and wavelength is changed with color.
 >>see MandelSchrodingerPanel::createAccessor() for debugging this.
 
-Mandel Panel should have both visualization styles
->>(if not too much work).
-
 Reset should reset wavelength, velocity,
->>This proves to be very difficult right now.  After refactoring, should be piece of cake.
+>>This proves to be very difficult right now (2+ hours?).  After refactoring, should be piece of cake.
 
 Bug: In all panels, if you move the wavelength slider all the way to the left, funny little brown squares flash all over the wave:
      >>I Can't reproduce this.
