@@ -14,8 +14,8 @@ import edu.colorado.phet.qm.model.waves.PlaneWave2D;
  */
 
 public class MandelWave implements Wave {
-    private MandelWaveDamp leftDamp;
-    private MandelWaveDamp rightDamp;
+    private MandelWaveDamp leftWave;
+    private MandelWaveDamp rightWave;
     private double momentum;
     private double phase;
     private int waveWidth;
@@ -31,16 +31,15 @@ public class MandelWave implements Wave {
 
         PlaneWave2D leftWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumLeft, 0 ), 100 );
         leftWave.setPhase( phase );
-        leftDamp = new MandelWaveDamp( distFromLeft, leftWave, leftIntensity, waveWidth );
-
+        this.leftWave = new MandelWaveDamp( distFromLeft, leftWave, leftIntensity, waveWidth );
 
         PlaneWave2D rightWave = new PlaneWave2D( AbstractVector2D.Double.parseAngleAndMagnitude( momentumRight, 0 ), 100 );
         rightWave.setPhase( phase + dPhase );
-        rightDamp = new MandelWaveDamp( waveWidth - distFromLeft, rightWave, rightIntensity, waveWidth );
+        this.rightWave = new MandelWaveDamp( waveWidth - distFromLeft, rightWave, rightIntensity, waveWidth );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        return leftDamp.getValue( i, j, simulationTime ).plus( rightDamp.getValue( i, j, simulationTime ) );
+        return leftWave.getValue( i, j, simulationTime ).plus( rightWave.getValue( i, j, simulationTime ) );
     }
 
 }
