@@ -24,6 +24,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+import org.jfree.data.Range;
+
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
@@ -45,6 +47,7 @@ import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 
 /**
@@ -90,6 +93,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private BSEigenstatesNode _eigenstatesNode;
     private BSSelectedEquation _selectedEquationNode;
     private BSHilitedEquation _hilitedEquationNode;
+    private BSMagnifyingGlass _magnifyingGlass;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -220,6 +224,14 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _hilitedEquationNode = new BSHilitedEquation();
         _parentNode.addChild( _hilitedEquationNode );
         
+        // Magnifying glass
+        if ( _moduleSpec.isMagnifyingGlassSupported() ) {
+            _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
+            _parentNode.addChild( _magnifyingGlass );
+            _magnifyingGlass.setOffset( 100, 100 );
+            _magnifyingGlass.addInputEventListener( new PDragEventHandler() );
+        }
+        
         // Wave Function plot shows time-dependent data
         getClock().addClockListener( _bottomPlot );
         
@@ -335,6 +347,12 @@ public abstract class BSAbstractModule extends PiccoloModule {
             double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight() + 5;
             _hilitedEquationNode.setLocation( x2, y2 );
         }
+        
+        // Magnifying glass 
+        if ( _magnifyingGlass != null ) {
+            //XXX need to adjust the position!
+            _magnifyingGlass.updateDisplay();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -388,29 +406,47 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
             _superpositionCoefficients = new BSSuperpositionCoefficients();
 
-            _asymmetricWell = new BSAsymmetricWell( _particle, 
-                    _moduleSpec.getOffsetRange().getDefault(), 
-                    _moduleSpec.getDepthRange().getDefault(), 
-                    _moduleSpec.getWidthRange().getDefault() );
+            final int numberOfWells = _moduleSpec.getNumberOfWellsRange().getDefault();
+            BSWellRangeSpec rangeSpec = null;
+            
+            rangeSpec = _moduleSpec.getAsymmetricRangeSpec();
+            if ( rangeSpec != null ) {
+                _asymmetricWell = new BSAsymmetricWell( _particle, 
+                    rangeSpec.getOffsetRange().getDefault(), 
+                    rangeSpec.getHeightRange().getDefault(), 
+                    rangeSpec.getWidthRange().getDefault() );
+            }
 
-            _coulomb1DWells = new BSCoulomb1DWells( _particle, 
-                    _moduleSpec.getNumberOfWellsRange().getDefault(), 
-                    _moduleSpec.getOffsetRange().getDefault(), 
-                    _moduleSpec.getSpacingRange().getDefault() );
+            rangeSpec = _moduleSpec.getCoulomb1DRangeSpec();
+            if ( rangeSpec != null ) {
+                _coulomb1DWells = new BSCoulomb1DWells( _particle, 
+                    numberOfWells, 
+                    rangeSpec.getOffsetRange().getDefault(), 
+                    rangeSpec.getSpacingRange().getDefault() );
+            }
             
-            _coulomb3DWell = new BSCoulomb3DWell( _particle, 
-                    _moduleSpec.getOffsetRange().getDefault() );
+            rangeSpec = _moduleSpec.getCoulomb3DRangeSpec();
+            if ( rangeSpec != null ) {
+                _coulomb3DWell = new BSCoulomb3DWell( _particle, 
+                    rangeSpec.getOffsetRange().getDefault() );
+            }
             
-            _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
-                    _moduleSpec.getOffsetRange().getDefault(), 
-                    _moduleSpec.getAngularFrequencyRange().getDefault() );
+            rangeSpec = _moduleSpec.getHarmonicOscillatorRangeSpec();
+            if ( rangeSpec != null ) {
+                _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
+                    rangeSpec.getOffsetRange().getDefault(), 
+                    rangeSpec.getAngularFrequencyRange().getDefault() );
+            }
             
-            _squareWells = new BSSquareWells( _particle, 
-                    _moduleSpec.getNumberOfWellsRange().getDefault(), 
-                    _moduleSpec.getOffsetRange().getDefault(), 
-                    _moduleSpec.getDepthRange().getDefault(), 
-                    _moduleSpec.getWidthRange().getDefault(), 
-                    _moduleSpec.getSeparationRange().getDefault() );
+            rangeSpec = _moduleSpec.getSquareRangeSpec();
+            if ( rangeSpec != null ) {
+                _squareWells = new BSSquareWells( _particle, 
+                    numberOfWells, 
+                    rangeSpec.getOffsetRange().getDefault(), 
+                    rangeSpec.getHeightRange().getDefault(), 
+                    rangeSpec.getWidthRange().getDefault(), 
+                    rangeSpec.getSeparationRange().getDefault() );
+            }
             
             // Select the default...
             BSAbstractPotential defaultPotential = null;
@@ -433,28 +469,49 @@ public abstract class BSAbstractModule extends PiccoloModule {
             else if ( defaultWellType == BSWellType.SQUARE ) {
                 defaultPotential = _squareWells;
             }
+            else {
+                throw new UnsupportedOperationException( "unsupported well type: " + defaultWellType );
+            }
+            assert( defaultPotential != null );
             
             // Populate the model...
             _model = new BSModel( _particle, defaultPotential, _superpositionCoefficients );
         }
         
         // View
-        _energyPlot.setModel( _model );
-        _bottomPlot.setModel( _model );
-        _eigenstatesNode.setModel( _model );
-        _selectedEquationNode.setModel( _model );
-        _hilitedEquationNode.setModel( _model );
+        {
+            _energyPlot.setModel( _model );
+            _bottomPlot.setModel( _model );
+            _eigenstatesNode.setModel( _model );
+            _selectedEquationNode.setModel( _model );
+            _hilitedEquationNode.setModel( _model );
+            if ( _magnifyingGlass != null ) {
+                _magnifyingGlass.setModel( _model );
+            }
+
+            // Adjust the Y-axis on the energy plot
+            {
+                BSWellType wellType = _model.getPotential().getWellType();
+                BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
+                Range energyRange = rangeSpec.getEnergyRange();
+                _energyPlot.setEnergyRange( energyRange );
+                _chart.getEnergyPlot().setEnergyRange( energyRange );
+            }
+        }
         
         // Control
-        _controlPanel.setWellType( _model.getWellType() );
-        _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
-        _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-        _controlPanel.setRealSelected( true );
-        _controlPanel.setImaginarySelected( false );
-        _controlPanel.setMagnitudeSelected( false );
-        _controlPanel.setPhaseSelected( false );
-        _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
-        _controlPanel.setParticleMass( _particle.getMass() );
+        {
+            _controlPanel.setWellType( _model.getWellType() );
+            _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
+            _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
+            _controlPanel.setMagnifyingGlassSelected( true );
+            _controlPanel.setRealSelected( true );
+            _controlPanel.setImaginarySelected( false );
+            _controlPanel.setMagnitudeSelected( false );
+            _controlPanel.setPhaseSelected( false );
+            _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
+            _controlPanel.setParticleMass( _particle.getMass() );
+        }
         
         // Clock
         resetClock();
@@ -479,6 +536,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //XXX
         
         // Control panel
+        config.setMagnifyingGlassSelected( _controlPanel.isMagnifyingGlassSelected() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
@@ -507,6 +565,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         //XXX
         
         // Control panel
+        _controlPanel.setMagnifyingGlassSelected( config.isMagnifyingGlassSelected() );
         _controlPanel.setBottomPlotMode( config.getBottomPlotMode() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
@@ -536,6 +595,10 @@ public abstract class BSAbstractModule extends PiccoloModule {
         // Equations...
         _selectedEquationNode.setColorScheme( colorScheme );
         _hilitedEquationNode.setColorScheme( colorScheme );
+        // Magnifying glass
+        if ( _magnifyingGlass != null ) {
+            _magnifyingGlass.setColorScheme( colorScheme );
+        }
         // Superposition dialog...
         if ( _superpositionStateDialog != null ) {
             _superpositionStateDialog.setColorScheme( _colorScheme );
@@ -597,25 +660,36 @@ public abstract class BSAbstractModule extends PiccoloModule {
                 _configureDialog.dispose();
             }
 
+            // Adjust y-axis on the Energy plot...
+            BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
+            Range energyRange = rangeSpec.getEnergyRange();
+            _energyPlot.setEnergyRange( energyRange );
+            _chart.getEnergyPlot().setEnergyRange( energyRange );
+            
+            BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
-                _model.setPotential( _asymmetricWell );
+                potential = _asymmetricWell;
             }
             else if ( wellType == BSWellType.COULOMB_1D ) {
-                _model.setPotential( _coulomb1DWells );
+                assert( _coulomb1DWells != null );
+                potential = _coulomb1DWells;
             }
             else if ( wellType == BSWellType.COULOMB_3D ) {
-                _model.setPotential( _coulomb3DWell );
+                assert( _coulomb3DWell != null );
+                potential = _coulomb3DWell;
             }
             else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-                _model.setPotential( _harmonicOscillatorWell );
+                potential = _harmonicOscillatorWell;
             }
             else if ( wellType == BSWellType.SQUARE ) {
-                _model.setPotential( _squareWells );
+                potential = _squareWells;
             }
             else {
                 throw new IllegalArgumentException( "unsupported wellType: " + wellType );
             }
-
+            assert( potential != null );
+            _model.setPotential( potential );
+            
             _controlPanel.setWellType( wellType );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
@@ -693,6 +767,12 @@ public abstract class BSAbstractModule extends PiccoloModule {
     public void setParticleMass( double mass ) {
         _particle.setMass( mass );
         resetClock();
+    }
+    
+    public void setMagnifyingGlassVisible( boolean visible ) {
+        if ( _magnifyingGlass != null ) {
+            _magnifyingGlass.setVisible( visible );
+        }
     }
 
     private void resetClock() {
