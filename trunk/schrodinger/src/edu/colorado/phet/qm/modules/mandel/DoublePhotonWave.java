@@ -42,21 +42,23 @@ public class DoublePhotonWave extends PhotonWave {
     }
 
     private void updateWaves() {
-        leftWaveSource.setWave( createLeftWave( leftParam, rightParam, getPhase() ) );
-        rightWaveSource.setWave( createRightWave( leftParam, rightParam, getPhase() ) );
+        leftWaveSource.setWave( createLeftWave() );
+        rightWaveSource.setWave( createRightWave() );
     }
 
-    protected Wave createLeftWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
-        double insetX = getInsetX();
-        double rightMag = leftParam.getWaveModel() == rightParam.getWaveModel() ? getTotalWaveMagnitudeRight() : 0;
-        return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, getTotalWaveMagnitudeLeft(), rightMag,
+    public boolean isCombinedWaveModel() {
+        return leftParam.getWaveModel() == rightParam.getWaveModel();
+    }
+
+    protected Wave createLeftWave() {
+        double rightMag = isCombinedWaveModel() ? getTotalWaveMagnitudeRight() : 0.0;
+        return new MandelWave( (int)getInsetX(), getMomentum(), getMomentum(), getPhase(), dPhase, getTotalWaveMagnitudeLeft(), rightMag,
                                getDiscreteModel().getWavefunction().getWidth() );
     }
 
-    protected Wave createRightWave( MandelModule.BeamParam leftParam, MandelModule.BeamParam rightParam, double phase ) {
-        double insetX = getInsetX();
-        double leftMag = leftParam.getWaveModel() == rightParam.getWaveModel() ? getTotalWaveMagnitudeLeft() : 0.0;
-        return new MandelWave( (int)insetX, getMomentum(), getMomentum(), phase, dPhase, leftMag, getTotalWaveMagnitudeRight(),
+    protected Wave createRightWave() {
+        double leftMag = isCombinedWaveModel() ? getTotalWaveMagnitudeLeft() : 0.0;
+        return new MandelWave( (int)getInsetX(), getMomentum(), getMomentum(), getPhase(), dPhase, leftMag, getTotalWaveMagnitudeRight(),
                                getDiscreteModel().getWavefunction().getWidth() );
     }
 
@@ -81,6 +83,7 @@ public class DoublePhotonWave extends PhotonWave {
         setIntensity( 1.0 );
         this.leftParam = leftParam;
         this.rightParam = rightParam;
+        updateWaves();//todo is this necessary?
 //        System.out.println( "leftParam = " + leftParam );
 //        System.out.println( "rightParam = " + rightParam );
     }
