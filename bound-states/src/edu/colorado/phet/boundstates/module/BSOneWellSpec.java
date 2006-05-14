@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.module;
 
+import org.jfree.data.Range;
+
 import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.util.IntegerRange;
@@ -28,33 +30,68 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = true;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = true;
+    private static final boolean MAGNIFYING_GLASS_SUPPORTED = false;
 
-    // Ranges (min, max, default, significantDecimalPlaces)
-    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 1, 1 );
+    // Particle ranges (min, max, default, significantDecimalPlaces)
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 1 );
-    private static final DoubleRange OFFSET_RANGE = new DoubleRange( -15, 5, 0, 0 ); // eV
-    private static final DoubleRange DEPTH_RANGE = new DoubleRange( 0, 20, 10, 0 ); // eV
-    private static final DoubleRange WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
-    private static final DoubleRange SPACING_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
-    private static final DoubleRange SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
-    private static final DoubleRange ANGULAR_FREQUENCY_RANGE = new DoubleRange( 0.1, 10, 1, 2 ); // fs^-1
+    
+    // Number of wells (min, max, default, significantDecimalPlaces)
+    private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 1, 1 );
+    
+    // Asymmetric ranges (min, max, default, significantDecimalPlaces)
+    private static final Range ASYMMETRIC_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final DoubleRange ASYMMETRIC_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
+    private static final DoubleRange ASYMMETRIC_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final DoubleRange ASYMMETRIC_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
+    private static final BSWellRangeSpec ASYMMETRIC_RANGE_SPEC = 
+            new BSWellRangeSpec.Asymmetric( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE );
+    
+    // 1D Coulomb ranges (min, max, default, significantDecimalPlaces)
+    private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
+    private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final BSWellRangeSpec COULOMB_1D_RANGE_SPEC = 
+        new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
+    
+    // 3D Coulomb ranges (min, max, default, significantDecimalPlaces)
+    private static final Range COULOMB_3D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final DoubleRange COULOMB_3D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
+    private static final BSWellRangeSpec COULOMB_3D_RANGE_SPEC = 
+        new BSWellRangeSpec.Coulomb3D( COULOMB_3D_ENERGY_RANGE, COULOMB_3D_OFFSET_RANGE );
+    
+    // Harmonic Oscillator ranges (min, max, default, significantDecimalPlaces)
+    private static final Range HARMONIC_OSCILLATOR_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final DoubleRange HARMONIC_OSCILLATOR_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
+    private static final DoubleRange HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE = new DoubleRange( 1, 10, 1, 1 ); // fs^-1
+    private static final BSWellRangeSpec HARMONIC_OSCILLATOR_RANGE_SPEC =
+        new BSWellRangeSpec.HarmonicOscillator( HARMONIC_OSCILLATOR_ENERGY_RANGE, HARMONIC_OSCILLATOR_OFFSET_RANGE, HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE );
+    
+    // Square ranges (min, max, default, significantDecimalPlaces)
+    private static final Range SQUARE_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
+    private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
+    private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
+    private static final BSWellRangeSpec SQUARE_RANGE_SPEC =
+            new BSWellRangeSpec.Square( SQUARE_ENERGY_RANGE, SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
     
     public BSOneWellSpec() {
         super();
 
         setWellTypes( WELL_TYPES );
         setDefaultWellType( DEFAULT_WELL_TYPE );
-
+        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
+        
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
+        setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );
 
-        setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
-        setOffsetRange( OFFSET_RANGE );
-        setDepthRange( DEPTH_RANGE );
-        setWidthRange( WIDTH_RANGE );
-        setSpacingRange( SPACING_RANGE );
-        setSeparationRange( SEPARATION_RANGE );
-        setAngularFrequencyRange( ANGULAR_FREQUENCY_RANGE );
+        
+        setAsymmetricRangeSpec( ASYMMETRIC_RANGE_SPEC );
+        setCoulomb1DRangeSpec( COULOMB_1D_RANGE_SPEC );
+        setCoulomb3DRangeSpec( COULOMB_3D_RANGE_SPEC );
+        setHarmonicOscillatorRangeSpec( HARMONIC_OSCILLATOR_RANGE_SPEC );
+        setSquareRangeSpec( SQUARE_RANGE_SPEC );
     }
 }

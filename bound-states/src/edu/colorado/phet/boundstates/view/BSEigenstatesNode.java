@@ -48,7 +48,7 @@ public class BSEigenstatesNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     // Energy must be at least this close to eigenstate to be hilited.
-    private static final double HILITE_ENERGY_THRESHOLD = BSConstants.ENERGY_RANGE.getLength() / 20;
+    private static final double HILITE_ENERGY_THRESHOLD = 1; // eV
     
     private static final int MIN_DECIMAL_PLACES = 2; // min decimal places shown for energy value
     private static final int MAX_DECIMAL_PLACES = 12; // max decimal places shown for energy value

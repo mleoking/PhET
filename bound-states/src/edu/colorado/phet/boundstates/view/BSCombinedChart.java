@@ -11,16 +11,12 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.Font;
-
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 
 
 

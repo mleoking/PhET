@@ -35,6 +35,13 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
 public class BSHarmonicOscillatorWell extends BSAbstractPotential{
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // How far above the offset we'll look for eigenstates
+    private static final double EIGENSTATE_ENERGY_RANGE = 20; // eV
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -151,7 +158,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
+        final double maxE = getOffset() + EIGENSTATE_ENERGY_RANGE;
         int nodes = 0;
 
         boolean done = false;
@@ -193,7 +200,7 @@ public class BSHarmonicOscillatorWell extends BSAbstractPotential{
         
         boolean done = false;
         int n = 0;
-        final double maxE = getOffset() + BSConstants.ENERGY_RANGE.getLength();
+        final double maxE = getOffset() + EIGENSTATE_ENERGY_RANGE;
         while ( !done ) {
             double E = ( BSConstants.HBAR * _angularFrequency * ( n + 0.5 ) ) + getOffset();
             if ( E <= maxE ) {

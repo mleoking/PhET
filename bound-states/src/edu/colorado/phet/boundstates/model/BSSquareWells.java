@@ -26,11 +26,11 @@ import edu.colorado.phet.boundstates.model.SchmidtLeeSolver.SchmidtLeeException;
  * <ul>
  * <li>number of wells
  * <li>spacing
- * <li>offset
+ * <li>offset (at the bottom of the wells)
  * <li>width
- * <li>depth
+ * <li>height
  * </ul>
- * Offset, width, depth and spacing are identical for each well.
+ * Offset, width, height and spacing are identical for each well.
  * Spacing is irrelevant if the number of wells is 1.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -42,7 +42,7 @@ public class BSSquareWells extends BSAbstractPotential {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _depth; // depth in eV
+    private double _height; // height in eV
     private double _width; // width in nm
     private double _separation; // separation in nm
 
@@ -56,13 +56,13 @@ public class BSSquareWells extends BSAbstractPotential {
      * @param particle
      * @param numberOfWells
      * @param offset
-     * @param depth
+     * @param height
      * @param width
      * @param separation
      */
-    public BSSquareWells( BSParticle particle, int numberOfWells, double offset, double depth, double width, double separation ) {
+    public BSSquareWells( BSParticle particle, int numberOfWells, double offset, double height, double width, double separation ) {
         super( particle, numberOfWells, offset );
-        setDepth( depth );
+        setHeight( height );
         setWidth( width );
         setSeparation( separation );
     }
@@ -99,27 +99,27 @@ public class BSSquareWells extends BSAbstractPotential {
     }
 
     /**
-     * Gets the depth.
-     * Depth is a positive quantity, and is the same for all wells.
+     * Gets the height.
+     * Height is the same for all wells.
      * 
-     * @return the depth, in eV
+     * @return the height, in eV
      */
-    public double getDepth() {
-        return _depth;
+    public double getHeight() {
+        return _height;
     }
 
     /**
-     * Sets the depth.
-     * Depth is a positive quantity, and is the same for all wells.
+     * Sets the height.
+     * Height is the same for all wells.
      * 
-     * @param depth the depth, >= 0, in eV
+     * @param heigth the height, >= 0, in eV
      */
-    public void setDepth( double depth ) {
-        if ( depth < 0 ) {
-            throw new IllegalArgumentException( "invalid depth: " + depth );
+    public void setHeight( double height ) {
+        if ( height < 0 ) {
+            throw new IllegalArgumentException( "invalid heigth: " + height );
         }
-        if ( depth != _depth ) {
-            _depth = depth;
+        if ( height != _height ) {
+            _height = height;
             markEigenstatesDirty();
             notifyObservers();
         }
@@ -196,14 +196,14 @@ public class BSSquareWells extends BSAbstractPotential {
         final double c = getCenter();
         final double s = getWidth() + getSeparation(); // spacing between well centers
         final double w = getWidth();
-        final double d = getDepth();
+        final double h = getHeight();
         
-        double energy = offset;
+        double energy = offset + h;
         
         for ( int i = 1; i <= n; i++ ) {
             final double xi = s * ( i - ( ( n + 1 ) / 2.0 ) );
             if ( ( ( position - c ) >= xi - ( w / 2 ) ) && ( ( position - c ) <= xi + ( w / 2 ) ) ) {
-                energy = offset - d;
+                energy = offset;
                 break;
             }
         }
@@ -213,13 +213,13 @@ public class BSSquareWells extends BSAbstractPotential {
     
     /*
      * Calculates the eigenstates.
-     * Start at the ground state and continue up to the offset.
+     * Start at the ground state and continue up to the offset + height.
      */
     protected BSEigenstate[] calculateEigenstates() {
         
         SchmidtLeeSolver solver = getEigenstateSolver();
         ArrayList eigenstates = new ArrayList();
-        final double maxE = getOffset();
+        final double maxE = getOffset() + _height;
         int nodes = 0;
         
         boolean done = false;

@@ -39,8 +39,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSControlPanel is the control panel that is used by the 
- * "Single", "Double" and "Many" modules.  Controls can be hidden and/or
- * configured to suit the needs of the module.
+ * "One Well", "Two Wells" and "Many Wells" modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -80,6 +79,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private SliderControl _numberOfWellsSlider;
     private JButton _configureEnergyButton;
     private JButton _superpositionButton;
+    private JCheckBox _magnifyingGlassCheckBox;
 
     // Wave Function controls
     private JRadioButton _waveFunctionRadioButton, _probabilityDensityRadioButton;
@@ -112,7 +112,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             setMinumumWidth( width );
         }
 
-        // Potential Well
+        // Energy chart controls
         JPanel energyControlsPanel = new JPanel();
         {
             // Titled border
@@ -143,6 +143,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
             // Superposition button
             _superpositionButton = new JButton( SimStrings.get( "button.superposition" ) );
+            
+            // Magnifying glass on/off
+            _magnifyingGlassCheckBox = new JCheckBox( SimStrings.get( "choice.magnifyingGlass" ) );
 
             // Layout
             JPanel innerPanel = new JPanel();
@@ -163,6 +166,10 @@ public class BSControlPanel extends BSAbstractControlPanel {
             }
             if ( moduleSpec.isSuperpositionControlsSupported() ) {
                 layout.addComponent( _superpositionButton, row, col );
+                row++;
+            }
+            if ( moduleSpec.isMagnifyingGlassSupported() ) {
+                layout.addComponent( _magnifyingGlassCheckBox, row, col );
                 row++;
             }
             energyControlsPanel.setLayout( new BorderLayout() );
@@ -331,6 +338,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _numberOfWellsSlider.addChangeListener( _listener );
             _configureEnergyButton.addActionListener( _listener );
             _superpositionButton.addActionListener( _listener );
+            _magnifyingGlassCheckBox.addActionListener( _listener );
             _waveFunctionRadioButton.addActionListener( _listener );
             _probabilityDensityRadioButton.addActionListener( _listener );
             _realCheckBox.addActionListener( _listener );
@@ -419,7 +427,16 @@ public class BSControlPanel extends BSAbstractControlPanel {
     public int getNumberOfWells() {
         return (int) _numberOfWellsSlider.getValue();
     }
+    
+    public void setMagnifyingGlassSelected( boolean selected ) {
+        _magnifyingGlassCheckBox.setSelected( selected );
+        handleMagnifyingGlassSelection();
+    }
 
+    public boolean isMagnifyingGlassSelected() {
+        return _magnifyingGlassCheckBox.isSelected();
+    }
+    
     public void setBottomPlotMode( BSBottomPlotMode mode ) {
         if ( mode == BSBottomPlotMode.WAVE_FUNCTION ) {
             _waveFunctionRadioButton.setSelected( true );
@@ -548,6 +565,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
             else if ( event.getSource() == _probabilityDensityRadioButton ) {
                 handleDisplaySelection();
             }
+            else if ( event.getSource() == _magnifyingGlassCheckBox ) {
+                handleMagnifyingGlassSelection();
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
@@ -637,4 +657,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _module.setParticleMass( mass );
     }
     
+    private void handleMagnifyingGlassSelection() {
+        _module.setMagnifyingGlassVisible( _magnifyingGlassCheckBox.isSelected() );
+    }
 }

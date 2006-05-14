@@ -29,33 +29,19 @@ public abstract class BSAbstractModuleSpec {
 
     private boolean _superpositionControlsSupported;
     private boolean _particleControlsSupported;
+    private boolean _magnifyingGlassSupported;
 
-    private IntegerRange _numberOfWellsRange;
     private DoubleRange _massMultiplierRange;
-    private DoubleRange _offsetRange;
-    private DoubleRange _depthRange;
-    private DoubleRange _widthRange;
-    private DoubleRange _spacingRange;
-    private DoubleRange _separationRange;
-    private DoubleRange _angularFrequencyRange;
+    
+    private IntegerRange _numberOfWellsRange;
+    
+    private BSWellRangeSpec _asymmetricRangeSpec;
+    private BSWellRangeSpec _coulomb1DRangeSpec;
+    private BSWellRangeSpec _coulomb3DRangeSpec;
+    private BSWellRangeSpec _harmonicOscillatorRangeSpec;
+    private BSWellRangeSpec _squareRangeSpec;
 
     public BSAbstractModuleSpec() {}
-    
-    public DoubleRange getAngularFrequencyRange() {
-        return _angularFrequencyRange;
-    }
-  
-    protected void setAngularFrequencyRange( DoubleRange angularFrequencyRange ) {
-        _angularFrequencyRange = angularFrequencyRange;
-    }
-
-    public DoubleRange getDepthRange() {
-        return _depthRange;
-    }
-
-    protected void setDepthRange( DoubleRange depthRange ) {
-        _depthRange = depthRange;
-    }
     
     public DoubleRange getMassMultiplierRange() {
         return _massMultiplierRange;
@@ -69,34 +55,10 @@ public abstract class BSAbstractModuleSpec {
         return _numberOfWellsRange;
     }
     
-    protected void setNumberOfWellsRange( IntegerRange numberOfWellsRange ) {
+    public void setNumberOfWellsRange( IntegerRange numberOfWellsRange ) {
         _numberOfWellsRange = numberOfWellsRange;
     }
-    
-    public DoubleRange getOffsetRange() {
-        return _offsetRange;
-    }
-    
-    protected void setOffsetRange( DoubleRange offsetRange ) {
-        _offsetRange = offsetRange;
-    }
-    
-    public DoubleRange getSeparationRange() {
-        return _separationRange;
-    }
-    
-    protected void setSeparationRange( DoubleRange separationRange ) {
-        _separationRange = separationRange;
-    }
-    
-    public DoubleRange getSpacingRange() {
-        return _spacingRange;
-    }
-    
-    protected void setSpacingRange( DoubleRange spacingRange ) {
-        _spacingRange = spacingRange;
-    }
-    
+
     public boolean isParticleControlsSupported() {
         return _particleControlsSupported;
     }
@@ -120,14 +82,6 @@ public abstract class BSAbstractModuleSpec {
     protected void setWellTypes( BSWellType[] wellTypes ) {
         _wellTypes = wellTypes;
     }
-    
-    public DoubleRange getWidthRange() {
-        return _widthRange;
-    }
-    
-    protected void setWidthRange( DoubleRange widthRange ) {
-        _widthRange = widthRange;
-    }
 
     public BSWellType getDefaultWellType() {
         return _defaultWellType;
@@ -135,5 +89,76 @@ public abstract class BSAbstractModuleSpec {
     
     protected void setDefaultWellType( BSWellType defaultWellType ) {
         _defaultWellType = defaultWellType;
+    }
+    
+    public boolean isMagnifyingGlassSupported() {
+        return _magnifyingGlassSupported;
+    }
+    
+    protected void setMagnifyingGlassSupported( boolean magnifyingGlassSupported ) {
+        _magnifyingGlassSupported = magnifyingGlassSupported;
+    }
+    
+    public BSWellRangeSpec getAsymmetricRangeSpec() {
+        return _asymmetricRangeSpec;
+    }
+    
+    protected void setAsymmetricRangeSpec( BSWellRangeSpec asymmetricRangeSpec ) {
+        _asymmetricRangeSpec = asymmetricRangeSpec;
+    }
+    
+    public BSWellRangeSpec getCoulomb1DRangeSpec() {
+        return _coulomb1DRangeSpec;
+    }
+    
+    protected void setCoulomb1DRangeSpec( BSWellRangeSpec coulomb1DRangeSpec ) {
+        _coulomb1DRangeSpec = coulomb1DRangeSpec;
+    }
+    
+    public BSWellRangeSpec getCoulomb3DRangeSpec() {
+        return _coulomb3DRangeSpec;
+    }
+    
+    protected void setCoulomb3DRangeSpec( BSWellRangeSpec coulomb3DRangeSpec ) {
+        _coulomb3DRangeSpec = coulomb3DRangeSpec;
+    }
+    
+    public BSWellRangeSpec getHarmonicOscillatorRangeSpec() {
+        return _harmonicOscillatorRangeSpec;
+    }
+    
+    protected void setHarmonicOscillatorRangeSpec( BSWellRangeSpec harmonicOscillatorRangeSpec ) {
+        _harmonicOscillatorRangeSpec = harmonicOscillatorRangeSpec;
+    }
+
+    public BSWellRangeSpec getSquareRangeSpec() {
+        return _squareRangeSpec;
+    }
+    
+    protected void setSquareRangeSpec( BSWellRangeSpec squareRangeSpec ) {
+        _squareRangeSpec = squareRangeSpec;
+    }
+    
+    public BSWellRangeSpec getRangeSpec( BSWellType wellType ) {
+        BSWellRangeSpec rangeSpec = null;
+        if ( wellType == BSWellType.ASYMMETRIC ) {
+            rangeSpec = _asymmetricRangeSpec;
+        }
+        else if ( wellType == BSWellType.COULOMB_1D ) {
+            rangeSpec = _coulomb1DRangeSpec;
+        }
+        else if ( wellType == BSWellType.COULOMB_3D ) {
+            rangeSpec = _coulomb3DRangeSpec;
+        }
+        else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
+            rangeSpec = _harmonicOscillatorRangeSpec;
+        }
+        else if ( wellType == BSWellType.SQUARE ) {
+            rangeSpec = _squareRangeSpec;
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported well type: " + wellType );
+        }
+        return rangeSpec;
     }
 }
