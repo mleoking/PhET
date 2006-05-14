@@ -134,7 +134,7 @@
 
 
     <target name="Show Browser">
-        <exec command="C:\Program Files\Mozilla Firefox\firefox.exe ${phet-root}/${dev-path}/${dev-version}"/>
+        <exec command="${browser} ${phet-root}/${dev-path}/${dev-version}"/>
     </target>
     <target name="Build and Deploy" depends="ProGuard,Update JNLP,Update html,Post Dev,Post Docs,Show Browser"/>
 </project>
