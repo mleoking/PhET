@@ -68,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+0.00.06...
 (5/15/06) - add an "axis spec" for the energy axis for each potential type
 (5/15/06) - update bottom plot correctly when clock is paused
 (5/15/06) - add data to a time-dependent series only when that series is visible
