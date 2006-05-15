@@ -16,9 +16,9 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
 - use 1D Coulomb wave function to display prob density for 3D Coulomb
 - magnifying glass
-- more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
@@ -38,6 +38,7 @@ MEDIUM PRIORITY:
 - different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- make sure things update properly when clock is paused
 - how does the user know the mass in the Two and Many panels? there is no mass control
 - remove ticks from BSBottomPlot y-axis, set Y_AXIS_TICKS_VISIBLE=false (confirm before doing!)
 - update while sliders are dragging
@@ -60,6 +61,8 @@ CLEANUP:
 
 
 DONE:
+(5/15/06) - update bottom plot correctly when clock is paused
+(5/15/06) - add data to a time-dependent series only when that series is visible
 (5/15/06) - make magnifying glass available on all panels, selected by default only on "Many"
 (5/15/06) - compare analytic 1D Coulomb solution to examples on p 14 of SM's document
 (5/15/06) - compare analytic 3D Coulomb solution to examples on p 6 of SM's document
