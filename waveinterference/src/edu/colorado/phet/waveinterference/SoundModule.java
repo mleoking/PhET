@@ -21,10 +21,12 @@ public class SoundModule extends WaveInterferenceModule {
     private SoundSimulationPanel soundSimulationPanel;
     private WaveInterferenceModel waveInterferenceModel;
     private SoundControlPanel waterControlPanel;
+    private SoundModuleAudio soundModuleAudio;
 
     public SoundModule() {
         super( "Sound" );
         waveInterferenceModel = new WaveInterferenceModel();
+        soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );
         waterControlPanel = new SoundControlPanel( this );
 
@@ -93,5 +95,9 @@ public class SoundModule extends WaveInterferenceModule {
 
     public MultiOscillator getMultiOscillator() {
         return soundSimulationPanel.getMultiOscillator();
+    }
+
+    public SoundModuleAudio getAudioSubsystem() {
+        return soundModuleAudio;
     }
 }

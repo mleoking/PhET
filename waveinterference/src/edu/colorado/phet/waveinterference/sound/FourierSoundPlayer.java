@@ -116,6 +116,8 @@ public class FourierSoundPlayer implements Runnable {
         _soundEnabled = enabled; // false stops the sound thread
         if( enabled ) {
             Thread soundThread = new Thread( this );
+            soundThread.setPriority( Thread.MAX_PRIORITY );//todo thread priority.
+            //I have it set to max because if my app is > 60% and thread has normal priority, the audio is choppy.
             soundThread.start();
             _sourceDataLine.start();
         }
@@ -185,7 +187,7 @@ public class FourierSoundPlayer implements Runnable {
     private void notifySoundErrorListeners( IOException ioe, String message ) {
     }
 
-    private void setFrequency( double value ) {
+    public void setFrequency( double value ) {
         _oscillator.setFrequency( value );
     }
 

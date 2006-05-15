@@ -36,7 +36,7 @@ o Test on a Mac.
 
 o Add correct units to measuring tape.
 
-o Add audio to the sound module
+o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add this feature?
 
 o Add correct units to stopwatch.
 
