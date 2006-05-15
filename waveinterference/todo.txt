@@ -28,20 +28,22 @@ On all panels the graph x-axis units need to represent a realistic number.
 The measuring tape already does this so for each panel if you could match the
  units on the graph to what the tape measure uses. For the y-axis, simple tick marks with no numbers or units will work.
 
-o Graphs need to be cropped.
-
 o Test at 1024x768
 
 o Test on a Mac.
 
+o Add foreign languages.
+
+o Add help?
+
 o Add correct units to measuring tape.
 
-o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add this feature?
+o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add 'listener' mode, as in 'sound waves' simulation?
 
 o Add correct units to stopwatch.
 
-Wave Interference: notes from phet meeting 4-4-06
 o When a barrier is present, it should be shown in side view as behind the wave.
+
 o Faucets should be draggable.
 
 Particle View
@@ -68,6 +70,10 @@ all.  For the light I'd also change to a grey.
 
 Detectors: the graph obscures the wave right in front of the crosshairs,
 I thought we were going to move the crosshairs to handle this (top center)?
+I thought we were going to detach the crosshairs from the readouts.
+
+o Graphs need to be cropped.
+>>Should graphs really be cropped?  Is this just for visual appeal?
 
 ##############################################################
 Low Priority________________________________________________________
