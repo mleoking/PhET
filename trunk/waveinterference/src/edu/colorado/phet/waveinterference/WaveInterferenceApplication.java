@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.08";
+    private static String VERSION = "0.00.10";
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION );
