@@ -1,3 +1,25 @@
+ What we’ve come up with is to rotate a box that has the horizontal cross section as one face and the vertical crosssection as another face.
+ >>See email.
+
+Vectors on the light panel:
+We have a representation for vectors in radio waves and we’ve found in interviews that it’s useful to use consistent representations.
+For this reason, we need to have about a third of the vectors on the graph, remove the black outline and have hollow vectors with a colored outline.
+The outline should be about twice as thick as it is now. Also the one black vector is misleading.
+I had a quick informal interview with a student today and they struggled with the significance of the black arrow.
+Also in the PhET meeting today, I could not make out the arrows on the screen but with radio waves, they are very easy to see on a projector.
+I’ve attached a screen shot of how they should look.
+
+We also would like default color on the light panel to come up red rather than yellow. Yellow Is the hardest to see on the graph.
+
+On the sound panel the current particle view is too large and there’s only one red molecule.
+Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
+molecules that were displayed on that version.
+For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
+
+On all panels the graph x-axis units need to represent a realistic number.
+The measuring tape already does this so for each panel if you could match the
+ units on the graph to what the tape measure uses. For the y-axis, simple tick marks with no numbers or units will work.
+
 o Graphs need to be cropped.
 
 o Test at 1024x768
