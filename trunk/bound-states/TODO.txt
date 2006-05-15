@@ -16,7 +16,6 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- make magnifying glass available on all panels, selected by default only on "Many"
 - use 1D Coulomb wave function to display prob density for 3D Coulomb
 - magnifying glass
 - magnifying glass with ability to select/hilite eigenstates
@@ -62,6 +61,7 @@ CLEANUP:
 
 
 DONE:
+(5/15/06) - make magnifying glass available on all panels, selected by default only on "Many"
 (5/15/06) - compare analytic 1D Coulomb solution to examples on p 14 of SM's document
 (5/15/06) - compare analytic 3D Coulomb solution to examples on p 6 of SM's document
 (5/15/06) - debug analytic solution for 1-well Coulomb 1D & 3D, integer math error in b()

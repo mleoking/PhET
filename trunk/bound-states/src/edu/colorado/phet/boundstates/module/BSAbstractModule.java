@@ -228,7 +228,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
             _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
             _parentNode.addChild( _magnifyingGlass );
-            _magnifyingGlass.setOffset( 100, 100 );
             _magnifyingGlass.addInputEventListener( new PDragEventHandler() );
         }
         
@@ -350,7 +349,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Magnifying glass 
         if ( _magnifyingGlass != null ) {
-            //XXX need to adjust the position!
+            //XXX need to adjust the position (and scale?)
+            _magnifyingGlass.setOffset( 200, 200 );
             _magnifyingGlass.updateDisplay();
         }
     }
@@ -504,7 +504,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _controlPanel.setWellType( _model.getWellType() );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-            _controlPanel.setMagnifyingGlassSelected( true );
+            _controlPanel.setMagnifyingGlassSelected( _moduleSpec.isMagnifyingGlassSelected() );
             _controlPanel.setRealSelected( true );
             _controlPanel.setImaginarySelected( false );
             _controlPanel.setMagnitudeSelected( false );
