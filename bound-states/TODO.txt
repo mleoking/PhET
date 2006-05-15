@@ -18,7 +18,6 @@ Magnifying glass TODO:
 HIGH PRIORITY:
 - use 1D Coulomb wave function to display prob density for 3D Coulomb
 - magnifying glass
-- magnifying glass with ability to select/hilite eigenstates
 - more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
