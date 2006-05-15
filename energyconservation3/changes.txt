@@ -1,3 +1,7 @@
+-Changes for 0.00.19
+The simulation is now titled 'Energy Skate Park'
+The zero point potential now occurs at the center of mass of the skater.
+
 -Changes for 1-2-2006, 0.17
 “Play” has been changed to “Go” for clarity.
 Add a movable “zero-point potential energy” graphic
