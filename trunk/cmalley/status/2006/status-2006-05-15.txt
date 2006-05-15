@@ -1,0 +1,32 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 05/09/06-05/15/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - provided estimate on change requests
+  - published 0.00.06 (see release notes for specifics)
+  
+  Common Code:
+  - deal with SourceForge CVS outage and new infrastructure
+  
+WHAT'S NEXT:
+ 
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+ 
+  o due to the number of change requests, the original timeline for
+    completing Bound States is no longer achievable
+
+DATES UNAVAILABLE:
+
+  - May 29-30
+  - June 14-19
+  - July 17-26
+  - August 14-24
+  
+-- 
