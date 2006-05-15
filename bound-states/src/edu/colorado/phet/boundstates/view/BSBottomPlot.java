@@ -85,6 +85,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     // array of Integer, indicies of eigenstates that have non-zero superposition coefficients
     private ArrayList _eigenstateIndicies;
     
+    private double _t; // time of the last clock tick
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -266,11 +268,12 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
         else {
             throw new UnsupportedOperationException( "unsupported mode: " + mode );
         }
+        updateDatasets();
     }
     
     public void setRealVisible( boolean visible ) {
         getRenderer( _realIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateHiliteDataset();
+        updateDatasets();
     }
     
     protected boolean isRealVisible() {
@@ -279,7 +282,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setImaginaryVisible( boolean visible ) {
         getRenderer( _imaginaryIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateHiliteDataset();
+        updateDatasets();
     }
     
     protected boolean isImaginaryVisible() {
@@ -288,7 +291,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setMagnitudeVisible( boolean visible ) {
         getRenderer( _magnitudeIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateHiliteDataset();
+        updateDatasets();
     }
     
     protected boolean isMagnitudeVisible() {
@@ -297,7 +300,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setPhaseVisible( boolean visible ) {
         getRenderer( _phaseIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateHiliteDataset();
+        updateDatasets();
     }
     
     protected boolean isPhaseVisible() {
@@ -306,7 +309,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     public void setProbabilityDensityVisible( boolean visible ) {
         getRenderer( _probabilityDensityIndex ).setSeriesVisible( new Boolean( visible ) );
-        updateHiliteDataset();
+        updateDatasets();
     }
     
     protected boolean isProbabilityDensityVisible() {
@@ -355,7 +358,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             }
             else {
                 updateWaveFunctionSolutions();
-                updateTimeDependentDatasets( 0 );
+                updateTimeDependentDatasets( _t );
             }
         }
     }
@@ -368,9 +371,11 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
      * Updates all datasets.
      */
     private void updateDatasets() {
-        updateWaveFunctionSolutions();
-        updateTimeDependentDatasets( 0 );
-        updateHiliteDataset();
+        if ( _model != null ) {
+            updateWaveFunctionSolutions();
+            updateTimeDependentDatasets( _t );
+            updateHiliteDataset();
+        }
     }
     
     /*
@@ -465,12 +470,22 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
                 final double x = points[i].getX();
                 if ( x >= minX && x <= maxX ) {
                     Complex y = psiSum[i];
-                    _realSeries.add( x, y.getReal() );
-                    _imaginarySeries.add( x, y.getImaginary() );
-                    _magnitudeSeries.add( x, y.getAbs() );
-                    _phaseSeries.add( x, y.getAbs() );
-                    _phaseSeries.add( x, y.getPhase() );
-                    _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+                    if ( isRealVisible() ) {
+                        _realSeries.add( x, y.getReal() );
+                    }
+                    if ( isImaginaryVisible() ) {
+                        _imaginarySeries.add( x, y.getImaginary() );
+                    }
+                    if ( isMagnitudeVisible() ) {
+                        _magnitudeSeries.add( x, y.getAbs() );
+                    }
+                    if ( isPhaseVisible() ) {
+                        _phaseSeries.add( x, y.getAbs() );
+                        _phaseSeries.add( x, y.getPhase() );
+                    }
+                    if ( isProbabilityDensityVisible() ) {
+                        _probabilityDensitySeries.add( x, y.getAbs() * y.getAbs() );
+                    }
                 }
             }
         }
@@ -563,8 +578,8 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     //----------------------------------------------------------------------------
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        final double t = clockEvent.getSimulationTime();
-        updateTimeDependentDatasets( t );
+        _t = clockEvent.getSimulationTime();
+        updateTimeDependentDatasets( _t );
     }
 
     public void simulationTimeReset( ClockEvent clockEvent ) {}
