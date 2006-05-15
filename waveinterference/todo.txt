@@ -14,12 +14,6 @@ all angles.
 o Should be able to view sound waves and light waves from the side.
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
 
-Vectors on the light panel:
-
-I had a quick informal interview with a student today and they struggled with the significance of the black arrow.
-Also in the PhET meeting today, I could not make out the arrows on the screen but with radio waves,
-they are very easy to see on a projector.
-
 Units:
 On all panels the graph x-axis units need to represent a realistic number.
 The measuring tape already does this so for each panel if you could match the

@@ -1,4 +1,4 @@
-New in 0.00.11
+New in 0.00.12
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.
 Photon Vector View:
     Reduced the number of vectors in photon vector view to about 1/3.
