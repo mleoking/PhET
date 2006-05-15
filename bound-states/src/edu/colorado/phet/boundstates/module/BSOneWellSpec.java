@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.module;
 
+import java.text.DecimalFormat;
+
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -41,40 +43,60 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     
     // Asymmetric ranges (min, max, default, significantDecimalPlaces)
     private static final Range ASYMMETRIC_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final double ASYMMETRIC_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat ASYMMETRIC_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec ASYMMETRIC_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_ENERGY_TICK_SPACING, ASYMMETRIC_ENERGY_TICK_FORMAT );
     private static final DoubleRange ASYMMETRIC_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
     private static final DoubleRange ASYMMETRIC_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
     private static final DoubleRange ASYMMETRIC_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final BSWellRangeSpec ASYMMETRIC_RANGE_SPEC = 
-            new BSWellRangeSpec.Asymmetric( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE );
+            new BSWellRangeSpec.Asymmetric( ASYMMETRIC_ENERGY_AXIS_SPEC, ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE );
     
     // 1D Coulomb ranges (min, max, default, significantDecimalPlaces)
     private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec COULOMB_1D_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
     private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
     private static final BSWellRangeSpec COULOMB_1D_RANGE_SPEC = 
-        new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
+        new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_AXIS_SPEC, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
     
     // 3D Coulomb ranges (min, max, default, significantDecimalPlaces)
     private static final Range COULOMB_3D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final double COULOMB_3D_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat COULOMB_3D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec COULOMB_3D_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( COULOMB_3D_ENERGY_RANGE, COULOMB_3D_ENERGY_TICK_SPACING, COULOMB_3D_ENERGY_TICK_FORMAT );
     private static final DoubleRange COULOMB_3D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
     private static final BSWellRangeSpec COULOMB_3D_RANGE_SPEC = 
-        new BSWellRangeSpec.Coulomb3D( COULOMB_3D_ENERGY_RANGE, COULOMB_3D_OFFSET_RANGE );
+        new BSWellRangeSpec.Coulomb3D( COULOMB_3D_ENERGY_AXIS_SPEC, COULOMB_3D_OFFSET_RANGE );
     
     // Harmonic Oscillator ranges (min, max, default, significantDecimalPlaces)
     private static final Range HARMONIC_OSCILLATOR_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final double HARMONIC_OSCILLATOR_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec HARMONIC_OSCILLATOR_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( HARMONIC_OSCILLATOR_ENERGY_RANGE, HARMONIC_OSCILLATOR_ENERGY_TICK_SPACING, HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT );
     private static final DoubleRange HARMONIC_OSCILLATOR_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
     private static final DoubleRange HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE = new DoubleRange( 1, 10, 1, 1 ); // fs^-1
     private static final BSWellRangeSpec HARMONIC_OSCILLATOR_RANGE_SPEC =
-        new BSWellRangeSpec.HarmonicOscillator( HARMONIC_OSCILLATOR_ENERGY_RANGE, HARMONIC_OSCILLATOR_OFFSET_RANGE, HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE );
+        new BSWellRangeSpec.HarmonicOscillator( HARMONIC_OSCILLATOR_ENERGY_AXIS_SPEC, HARMONIC_OSCILLATOR_OFFSET_RANGE, HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE );
     
     // Square ranges (min, max, default, significantDecimalPlaces)
     private static final Range SQUARE_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
     private static final BSWellRangeSpec SQUARE_RANGE_SPEC =
-            new BSWellRangeSpec.Square( SQUARE_ENERGY_RANGE, SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
+            new BSWellRangeSpec.Square( SQUARE_ENERGY_AXIS_SPEC, SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
     
     public BSOneWellSpec() {
         super();

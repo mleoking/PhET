@@ -117,9 +117,7 @@ public class BSConstants {
     // Ranges
     //----------------------------------------------------------------------------
     
-    // Energy
-    public static final double ENERGY_TICK_SPACING = 5; // eV
-    public static final DecimalFormat ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    // Energy range is set per potential type in subclasses of BSAbstractModuleSpec.
     
     // Wave Function
     public static final Range WAVE_FUNCTION_RANGE = new Range( -1.5, +1.5 );
