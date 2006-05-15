@@ -141,5 +141,9 @@
              command="tag -b waveinterference-test-tag-4-6-06 src"/>
         <echo message="...done"/>
     </target>
-
+    <target name="Show Browser">
+        <exec executable="${browser}" spawn="true">
+            <arg value="${phet-root}/${dev-path}/${dev-version}"/>
+        </exec>
+    </target>
 </project>
