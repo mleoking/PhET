@@ -12,13 +12,11 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.TickUnits;
+import org.jfree.chart.axis.*;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
@@ -27,11 +25,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
-import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
+import edu.colorado.phet.boundstates.module.BSAxisSpec;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -96,11 +92,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
             yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
             yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
-            
-            // Y axis tick units
-            TickUnits tickUnits = new TickUnits();
-            tickUnits.add( new NumberTickUnit( BSConstants.ENERGY_TICK_SPACING, BSConstants.ENERGY_TICK_FORMAT ) );
-            yAxis.setStandardTickUnits( tickUnits );
             yAxis.setAutoTickUnitSelection( true );
         }
 
@@ -165,13 +156,28 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         }
     }
     
-    /*
-     * Updates the energy axis range to match the type of well.
+    /**
+     * Sets the attributes of the energy (y) axis.
+     * 
+     * @param axisSpec
      */
-    public void setEnergyRange( Range range ) {
+    public void setEnergyAxis( BSAxisSpec axisSpec ) {
+        
+        // Get the energy (y) axis
+        ValueAxis yAxis = getRangeAxis();
+        
+        // Adjust the range
+        Range range = axisSpec.getRange();
         final double min = 1.05 * range.getLowerBound();
         final double max = 1.05 * range.getUpperBound();
-        getRangeAxis().setRange( min, max );
+        yAxis.setRange( min, max );
+        
+        // Adjust the ticks
+        final double tickSpacing = axisSpec.getTickSpacing();
+        DecimalFormat tickFormat = axisSpec.getTickFormat();
+        TickUnits tickUnits = new TickUnits();
+        tickUnits.add( new NumberTickUnit( tickSpacing, tickFormat ) );
+        yAxis.setStandardTickUnits( tickUnits );
     }
     
     //----------------------------------------------------------------------------

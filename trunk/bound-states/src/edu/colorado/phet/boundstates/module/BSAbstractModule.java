@@ -493,9 +493,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
             {
                 BSWellType wellType = _model.getPotential().getWellType();
                 BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-                Range energyRange = rangeSpec.getEnergyRange();
-                _energyPlot.setEnergyRange( energyRange );
-                _chart.getEnergyPlot().setEnergyRange( energyRange );
+                BSAxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
+                _energyPlot.setEnergyAxis( energyAxisSpec );
+                _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
             }
         }
         
@@ -662,9 +662,9 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
             // Adjust y-axis on the Energy plot...
             BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-            Range energyRange = rangeSpec.getEnergyRange();
-            _energyPlot.setEnergyRange( energyRange );
-            _chart.getEnergyPlot().setEnergyRange( energyRange );
+            BSAxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
+            _energyPlot.setEnergyAxis( energyAxisSpec );
+            _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
             
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {

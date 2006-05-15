@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.module;
 
+import java.text.DecimalFormat;
+
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.util.DoubleRange;
@@ -26,7 +28,7 @@ import edu.colorado.phet.boundstates.util.DoubleRange;
  */
 public class BSWellRangeSpec {
 
-    private Range _energyRange;
+    private BSAxisSpec _energyAxisSpec;
     private DoubleRange _offsetRange;
     private DoubleRange _spacingRange;
     private DoubleRange _widthRange;
@@ -35,43 +37,43 @@ public class BSWellRangeSpec {
     private DoubleRange _angularFrequencyRange;
     
     public static class Asymmetric extends BSWellRangeSpec {
-        public Asymmetric( Range energyRange, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange ) {
-            super( energyRange, offsetRange, null, widthRange, heightRange, null, null );
+        public Asymmetric( BSAxisSpec energyAxisSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange ) {
+            super( energyAxisSpec, offsetRange, null, widthRange, heightRange, null, null );
         }
     }
     
     public static class Coulomb1D extends BSWellRangeSpec {
-        public Coulomb1D( Range energyRange, DoubleRange offsetRange, DoubleRange spacingRange ) {
-            super( energyRange, offsetRange, spacingRange, null, null, null, null );
+        public Coulomb1D( BSAxisSpec energyAxisSpec, DoubleRange offsetRange, DoubleRange spacingRange ) {
+            super( energyAxisSpec, offsetRange, spacingRange, null, null, null, null );
         }
     }
     
     public static class Coulomb3D extends BSWellRangeSpec {
-        public Coulomb3D( Range energyRange, DoubleRange offsetRange ) {
-            super( energyRange, offsetRange, null, null, null, null, null );
+        public Coulomb3D( BSAxisSpec energyAxisSpec, DoubleRange offsetRange ) {
+            super( energyAxisSpec, offsetRange, null, null, null, null, null );
         }
     }
     
     public static class HarmonicOscillator extends BSWellRangeSpec {
-        public HarmonicOscillator( Range energyRange, DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
-            super( energyRange, offsetRange, null, null, null, null, angularFrequencyRange );
+        public HarmonicOscillator( BSAxisSpec energyAxisSpec, DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
+            super( energyAxisSpec, offsetRange, null, null, null, null, angularFrequencyRange );
         }
     }
     
     public static class Square extends BSWellRangeSpec {
-        public Square( Range energyRange, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange, DoubleRange separationRange ) {
-            super( energyRange, offsetRange, null, widthRange, heightRange, separationRange, null );
+        public Square( BSAxisSpec energyAxisSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange, DoubleRange separationRange ) {
+            super( energyAxisSpec, offsetRange, null, widthRange, heightRange, separationRange, null );
         }
     }
     
     /* Do not instantiate, use inner classes */
     private BSWellRangeSpec( 
-            Range energyRange,
+            BSAxisSpec energyAxisSpec,
             DoubleRange offsetRange, DoubleRange spacingRange, 
             DoubleRange widthRange, DoubleRange heightRange,
             DoubleRange separationRange, DoubleRange angularFrequencyRange ) 
     {
-        _energyRange = energyRange;
+        _energyAxisSpec = energyAxisSpec;
         _offsetRange = offsetRange;
         _spacingRange = spacingRange;
         _widthRange = widthRange;
@@ -80,10 +82,10 @@ public class BSWellRangeSpec {
         _angularFrequencyRange = angularFrequencyRange;
     }
 
-    public Range getEnergyRange() {
-        return _energyRange;
+    public BSAxisSpec getEnergyAxisSpec() {
+        return _energyAxisSpec;
     }
-
+    
     public DoubleRange getHeightRange() {
         return _heightRange;
     }

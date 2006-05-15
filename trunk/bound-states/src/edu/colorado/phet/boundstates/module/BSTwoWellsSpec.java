@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.module;
 
+import java.text.DecimalFormat;
+
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
@@ -42,19 +44,27 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     
     // 1D Coulomb ranges (min, max, default, significantDecimalPlaces)
     private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final double COULOMB_1D_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec COULOMB_1D_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
     private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0.3, 3, 1, 1 );
     private static final BSWellRangeSpec COULOMB_1D_RANGE_SPEC = 
-        new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
+        new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_AXIS_SPEC, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
     
     // Square ranges (min, max, default, significantDecimalPlaces)
     private static final Range SQUARE_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
+    private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
+    private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
+        new BSAxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 3, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0.05, 0.7, 0.1, 2 );
     private static final BSWellRangeSpec SQUARE_RANGE_SPEC =
-            new BSWellRangeSpec.Square( SQUARE_ENERGY_RANGE, SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
+            new BSWellRangeSpec.Square( SQUARE_ENERGY_AXIS_SPEC, SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
     
     public BSTwoWellsSpec() {
         super();

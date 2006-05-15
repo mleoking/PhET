@@ -4,6 +4,13 @@
 
 IN PROGRESS:
 
+More/Less Zoom TODO;
+- where to put the button?
+- does it flash always?
+- how to change the y-axis range and tick spacing in a general way
+- visible for only 1D and 3D Coulomb? why not others?
+- is state restored when we return to a potential?
+
 Magnifying glass TODO:
 - constrain dragging to Energy chart
 - show chart boundaries
@@ -61,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+(5/15/06) - add an "axis spec" for the energy axis for each potential type
 (5/15/06) - update bottom plot correctly when clock is paused
 (5/15/06) - add data to a time-dependent series only when that series is visible
 (5/15/06) - make magnifying glass available on all panels, selected by default only on "Many"
