@@ -21,6 +21,8 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( "Pressure", soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
+        addControl( new VerticalSeparator() );
+        addControl( new ClearWaveControl( waterModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );

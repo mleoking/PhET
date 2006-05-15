@@ -50,11 +50,6 @@ barrier don't go through (this is correct), but the particles on the left of
 the barrier penetrate the barrier. I suspect that there is a boundary
 condition on the right side, but not the left?
 
-- It looks like the particles run away from the speaker and then fill in
-from behind. I know this is sort of an optical illusion, but there may be a
-way to minimize this visual effect. I tried to follow a single particle and
-it still looked like it was running away.
-
 On the sound panel the current particle view is too large and there’s only one red molecule.
 Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
 molecules that were displayed on that version.
@@ -71,16 +66,36 @@ Have the bar that connects to the faucets be silver like the faucets and
 frame of control box. On the speaker the current color doesn't look bad at
 all.  For the light I'd also change to a grey.
 
-I would also like to add a reset button to each screen because you can screw
-around with the barrier and get situations that appear to be a steady state
-but after a very very long time, they seem to calm down.  The amount of tiem
-it takes to calm down, however, is not reasonable.  I waited 10 minutes
-after creating the second one in the attached screen shot and it still
-wasn't back to a sine wave.  I took these screen shots about 30 seconds
-after scooting the barriers back and forth very quickly.
-
-Sound: Background should be black in particle view like it is with ideal gas.
-
 Detectors: the graph obscures the wave right in front of the crosshairs,
-I thought we were going to move the crosshairs to handle this.
+I thought we were going to move the crosshairs to handle this (top center)?
 
+##############################################################
+Low Priority________________________________________________________
+- It looks like the particles run away from the speaker and then fill in
+from behind. I know this is sort of an optical illusion, but there may be a
+way to minimize this visual effect. I tried to follow a single particle and
+it still looked like it was running away.
+
+Do we want to optionally show absolute values (or intensities) in the wave area
+(to give a more global idea of constructive and destructive interference)?
+o I would leave it up to others whether we should show intensity in the wave
+itself. I don't really have an opinion, but I would lean towards not doing
+this, since there are already a lot of controls in this sim and I'm not sure
+what this option would buy us. Maybe in an advanced pull-down menu??
+>>This looks like it wouldn't be a useful feature.  I'll drop it for now.
+
+Make the view angle box narrower.
+>>This is currently very difficult.  Maybe I should forget it for now.
+
+- Issue with the light source. (you need coherent
+light to get interference). The way this is actually done (I think) is to
+shine a laser through a single slit (or pinhole) and make the light
+diffract, creating circular wavefronts. Also a problem of scale, since the
+light should be ~500nm.  Maybe none of this matters, but it's something I
+noticed and should be solved if there is an easy solution.
+>>We can leave this as a lamp source for now.  Let me know if we think of something better.
+
+Pressure waves are out of phase (particles are too slow to keep up with pressure).
+- I did notice that - I was going to mention that high pressure should be
+where the particles are dense. Right now it looks 180 deg. out of phase.
+>>I switched the phase by 180 degrees, still slightly off, but maybe good enough?
