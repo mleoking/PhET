@@ -11,6 +11,7 @@ all angles.
 >Not sure I want to handle what to do with barriers, sources in these cases.
 >Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
 >>Delete rotation for light & sound.
+o Should be able to view sound waves and light waves from the side.
 
 Vectors on the light panel:
 We have a representation for vectors in radio waves and we’ve found in interviews that it’s useful to use consistent representations.
@@ -35,14 +36,13 @@ o Test on a Mac.
 
 o Add correct units to measuring tape.
 
-o Add audio to sound.
+o Add audio to the sound module
 
 o Add correct units to stopwatch.
 
 Wave Interference: notes from phet meeting 4-4-06
 o When a barrier is present, it should be shown in side view as behind the wave.
 o Faucets should be draggable.
-o Should be able to view sound waves and light waves from the side.
 
 Particle View
     - When you put up a barrier in sound, the particles to the right of the
@@ -81,5 +81,6 @@ after scooting the barriers back and forth very quickly.
 
 Sound: Background should be black in particle view like it is with ideal gas.
 
-Detectors: the graph obscures the wave right in front of the crosshairs, I thought we were going to move the crosshairs to handle this.
+Detectors: the graph obscures the wave right in front of the crosshairs,
+I thought we were going to move the crosshairs to handle this.
 
