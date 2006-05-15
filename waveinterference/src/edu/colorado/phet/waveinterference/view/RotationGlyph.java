@@ -96,6 +96,8 @@ public class RotationGlyph extends PNode {
         Function.LinearFunction heightFunction = new Function.LinearFunction( 0, Math.PI / 2, 1, 0 );
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, 1 );
         Function.LinearFunction widthFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, expansionWidth );
+        double depthExpansionWidth = 30;
+        Function.LinearFunction depthWidthFunction = new Function.LinearFunction( 0, Math.PI / 2, depthExpansionWidth, 0 );
         double dx = widthFunction.evaluate( angle );//distance from normal edge to tilted edge
         double h = primaryHeight * heightFunction.evaluate( angle ) / 2;//distance from center to top
         //double boxHeight=this.boxHeight;//apparent box height independent of angle
@@ -104,16 +106,17 @@ public class RotationGlyph extends PNode {
 //        DoubleGeneralPath surfacePath = new DoubleGeneralPath(dx,h);//to have the full box
         DoubleGeneralPath surfacePath = new DoubleGeneralPath( dx, 0 );//half a box
         surfacePath.lineToRelative( primaryWidth - 2 * dx, 0 );
-        surfacePath.lineToRelative( 2 * dx, h );
+        surfacePath.lineToRelative( dx, h );
         Point2D pin1 = surfacePath.getCurrentPoint();
-        surfacePath.lineToRelative( -primaryWidth - 2 * dx, 0 );
+        surfacePath.lineToRelative( -primaryWidth, 0 );
         Point2D pin2 = surfacePath.getCurrentPoint();
         surfacePath.closePath();
         surface.setPathTo( surfacePath.getGeneralPath() );
 
+        double depthDX = depthWidthFunction.evaluate( angle );
         DoubleGeneralPath depthPath = new DoubleGeneralPath( pin1 );
-        depthPath.lineToRelative( 0, boxHeight );
-        depthPath.lineToRelative( pin2.getX() - pin1.getX(), 0 );
+        depthPath.lineToRelative( -depthDX, boxHeight );
+        depthPath.lineToRelative( pin2.getX() - pin1.getX() + 2 * depthDX, 0 );
         depthPath.lineTo( pin2 );
         depthPath.closePath();
         depth.setPathTo( depthPath.getGeneralPath() );
