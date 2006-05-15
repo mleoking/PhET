@@ -55,6 +55,6 @@ public class BSCoulomb3DSolver extends BSAbstractCoulombSolver {
      */
     protected double psiNormalized( final int n, final double x, final double a ) {
         assert( n >= 1 );
-        return ( SQRT_PI * Math.pow( ( n * a ), ( 3 / 2.0 ) ) * psi( n, x ) );
+        return ( SQRT_PI * Math.pow( ( n * a ), 1.5 ) * psi( n, x ) );
     }
 }

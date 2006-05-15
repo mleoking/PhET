@@ -129,7 +129,7 @@ public abstract class BSAbstractCoulombSolver {
      * @return psi
      */
     protected double psi( final int n, final double x ) {
-        assert( n >= 1 );
+        assert ( n >= 1 );
         final double absX = Math.abs( x );
         return ( 1 / SQRT_4_PI ) * Math.pow( absX, _l ) * Math.exp( -absX / ( n * _a ) ) * bxSum( n, x );
     }
@@ -157,9 +157,9 @@ public abstract class BSAbstractCoulombSolver {
     /* 
      * Calculates the common term b<sub>j</sub>.
      * 
-     * For j = 0, b(0) = 2 * ( ( n * a )^(-3/2) )
+     * For j = 0, b(0) = 2 * ( (n * a)^(-3/2) )
      * 
-     * For j > 0, b(j) = ( 2 / ( n * a) ) * ( (j + l - n ) / ( j * ( j + ( 2 * l ) + 1 ) ) ) * b(j-1)
+     * For j > 0, b(j) = ( 2 / (n * a) ) * ( (j + l - n ) / (j * ( j + ( 2 * l ) + 1 )) ) * b(j-1)
      * 
      * @param j which value of b to calculate
      * @param n eigenstate subscript n=1,2,3,...
@@ -168,12 +168,13 @@ public abstract class BSAbstractCoulombSolver {
     private double b( final int j, final int n, final double bPrevious ) {
         assert( j >= 0 );
         assert( n >= 1 );
+        
         double b = 0;
         if ( j == 0 ) {
-            b = 2 * Math.pow( ( n * _a ), ( -3 / 2.0 ) );
+            b = 2 * Math.pow( ( n * _a ), -1.5 );
         }
         else {
-            b = ( 2 / ( n * _a ) ) * ( ( j + _l - n ) / ( j * ( j + ( 2 * _l ) + 1 ) ) ) * bPrevious;
+            b = ( 2 / ( n * _a ) ) * ( ( j + _l - n ) / (double)( j * ( j + ( 2 * _l ) + 1 ) ) ) * bPrevious;
         }
         return b;
     }

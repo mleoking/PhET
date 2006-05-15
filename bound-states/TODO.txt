@@ -16,7 +16,6 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- wave function is wrong for 1-well Coulomb 1D & 3D
 - compare analytic 1D Coulomb solution to examples on p 14 of SM's document
 - compare analytic 3D Coulomb solution to examples on p 6 of SM's document
 - why is the magnifying glass only in the "Many" panel? all panels have the problem of closely-space eigenstates
@@ -65,6 +64,7 @@ CLEANUP:
 
 
 DONE:
+(5/15/06) - debug analytic solution for 1-well Coulomb 1D & 3D, integer math error in b()
 (5/14/06) - change cvs.sourceforge.net to phet.cvs.sourceforge.net in all CVS/Root files
 (5/14/06) **** SourceForge CVS server up ****
 (5/11/06 13:16) - analytic wave function solver for one-well 1D and 3D Coulomb
