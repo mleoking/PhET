@@ -1,4 +1,4 @@
-New in 0.00.10
+New in 0.00.10 (5-15-2006)
 Photons are red by default.
 Added a 'clear wave' button to each control panel.
 Added audio to the sound module
