@@ -30,5 +30,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControlFullWidth( new VerticalSeparator() );
 
         addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker" ) );
+//        addControl( new JSeparator( ));
+        addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
     }
 }
