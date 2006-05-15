@@ -31,9 +31,11 @@ public class EnergyConservationModel {
     private double thermalEnergy = 0.0;
     private ArrayList listeners = new ArrayList();
     private boolean recordPath = false;
+    private double initZeroPointPotentialY;
 
     public EnergyConservationModel( double zeroPointPotentialY ) {
         this.zeroPointPotentialY = zeroPointPotentialY;
+        this.initZeroPointPotentialY = zeroPointPotentialY;
     }
 
     public int numSplineSurfaces() {
@@ -245,6 +247,10 @@ public class EnergyConservationModel {
 
     public void addBody( Body body ) {
         bodies.add( body );
+        if( bodies.size() == 1 ) {//The zero point potential now occurs at the center of mass of the skater.
+            zeroPointPotentialY = body.getLocatedShape().getBounds2D().getHeight() / 2;
+            initZeroPointPotentialY = zeroPointPotentialY;
+        }
     }
 
     public int numBodies() {
@@ -313,7 +319,7 @@ public class EnergyConservationModel {
         history.clear();
         gravity = G_EARTH;
         thermalEnergy = 0.0;
-        zeroPointPotentialY = 0.0;
+        zeroPointPotentialY = initZeroPointPotentialY;
     }
 
     public void addThermalEnergy( double dE ) {

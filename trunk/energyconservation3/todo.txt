@@ -1,3 +1,8 @@
+She thought it would be most useful if the potential energy 0 point was at ground level by default.
+Finally, the name on the title bar doesn't match the name on the web site.
+
+2.His PE is not zero at the ground
+
 Add a helmet.
 Optional to overlay a position-grid on the real space (to correlate with graph).
     Like moving man, force1d or ramps, disabled by default.

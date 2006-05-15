@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import javax.swing.*;
@@ -45,9 +46,9 @@ public class BodyGraphic extends PNode {
     private PImage flameGraphic;
     private final BufferedImage[] flames = new BufferedImage[3];
     private int flameFrame = 0;
-    private boolean debugCenter=false;
+    private boolean debugCenter = false;
 
-    public BodyGraphic( EC3Module ec3Module, Body body ) {
+    public BodyGraphic( final EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
         this.body = body;
         boundsDebugPPath = new PPath( body.getShape() );
@@ -64,8 +65,8 @@ public class BodyGraphic extends PNode {
             centerDebugger = new PPath();
             centerDebugger.setStroke( null );
             centerDebugger.setPaint( Color.red );
-            if (debugCenter){
-            addChild( centerDebugger );
+            if( debugCenter ) {
+                addChild( centerDebugger );
             }
         }
         catch( IOException e ) {
@@ -82,7 +83,25 @@ public class BodyGraphic extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( BodyGraphic.this );
 //                System.out.println( "delta = " + delta );
-                getBody().translate( delta.getWidth(), delta.getHeight() );
+                boolean okToTranslate = true;
+                if( getBody().getLocatedShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
+                    okToTranslate = false;
+                }
+                if( getFullBounds().getMinX() < 0 && delta.getWidth() < 0 ) {
+                    okToTranslate = false;
+                }
+                PBounds b = getFullBounds();
+                localToGlobal( b );
+                ec3Module.getEnergyConservationCanvas().getLayer().globalToLocal( b );
+//                System.out.println( "b = " + b );
+//                System.out.println( "getFullBounds().getMaxX() = " + getFullBounds().getMaxX() +", canWidth="+ec3Module.getEnergyConservationCanvas().getWidth());
+                if( b.getMaxX() > ec3Module.getEnergyConservationCanvas().getWidth() && delta.getWidth() > 0 ) {
+                    okToTranslate = false;
+                }
+                if( okToTranslate ) {
+                    getBody().translate( delta.getWidth(), delta.getHeight() );
+                }
+
             }
         } );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
