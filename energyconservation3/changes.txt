@@ -1,4 +1,4 @@
--Changes for 0.00.19
+-Changes for 0.00.19 (5-14-2006)
 The simulation is now titled 'Energy Skate Park'
 The skater's potential energy is now zero when he's on the ground (by default).
 The skater cannot be dragged outside the window, or below ground.
