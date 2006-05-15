@@ -2,6 +2,8 @@ New in 0.00.10
 Photons are red by default.
 Added a 'clear wave' button to each control panel.
 Added audio to the sound module
+Made rotation glyph cut off at cross section
+Removed dotted line cross section graphic.
 
 New in 0.08
 Added a dotted gray line on intermediate rotation graphic to signify the cross section.
