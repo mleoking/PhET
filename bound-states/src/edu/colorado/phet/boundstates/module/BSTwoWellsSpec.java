@@ -31,7 +31,8 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = true;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
-    private static final boolean MAGNIFYING_GLASS_SUPPORTED = false;
+    private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
+    private static final boolean MAGNIFYING_GLASS_SELECTED = false;
     
     // Particle ranges (min, max, default, significantDecimalPlaces)
     private static final DoubleRange MASS_MULTIPLIER_RANGE = new DoubleRange( 0.5, 1.1, 1, 1 );
@@ -65,6 +66,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );
+        setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
 
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
         

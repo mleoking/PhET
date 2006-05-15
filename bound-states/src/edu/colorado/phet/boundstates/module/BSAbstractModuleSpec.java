@@ -30,6 +30,7 @@ public abstract class BSAbstractModuleSpec {
     private boolean _superpositionControlsSupported;
     private boolean _particleControlsSupported;
     private boolean _magnifyingGlassSupported;
+    private boolean _magnifyingGlassSelected;
 
     private DoubleRange _massMultiplierRange;
     
@@ -97,6 +98,14 @@ public abstract class BSAbstractModuleSpec {
     
     protected void setMagnifyingGlassSupported( boolean magnifyingGlassSupported ) {
         _magnifyingGlassSupported = magnifyingGlassSupported;
+    }
+
+    public boolean isMagnifyingGlassSelected() {
+        return _magnifyingGlassSelected;
+    }
+    
+    protected void setMagnifyingGlassSelected( boolean magnifyingGlassSelected ) {
+        _magnifyingGlassSelected = magnifyingGlassSelected;
     }
     
     public BSWellRangeSpec getAsymmetricRangeSpec() {
