@@ -87,15 +87,18 @@ public class BodyGraphic extends PNode {
                 if( getBody().getLocatedShape().getBounds2D().getMinY() < 0 && delta.getHeight() < 0 ) {
                     okToTranslate = false;
                 }
-                if( getFullBounds().getMinX() < 0 && delta.getWidth() < 0 ) {
-                    okToTranslate = false;
-                }
+//                if( getFullBounds().getMinX() < 0 && delta.getWidth() < 0 ) {
+//                    okToTranslate = false;
+//                }
                 PBounds b = getFullBounds();
                 localToGlobal( b );
                 ec3Module.getEnergyConservationCanvas().getLayer().globalToLocal( b );
 //                System.out.println( "b = " + b );
 //                System.out.println( "getFullBounds().getMaxX() = " + getFullBounds().getMaxX() +", canWidth="+ec3Module.getEnergyConservationCanvas().getWidth());
                 if( b.getMaxX() > ec3Module.getEnergyConservationCanvas().getWidth() && delta.getWidth() > 0 ) {
+                    okToTranslate = false;
+                }
+                if( b.getMinX() < 0 && delta.getWidth() < 0 ) {
                     okToTranslate = false;
                 }
                 if( okToTranslate ) {

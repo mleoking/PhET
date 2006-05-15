@@ -109,7 +109,7 @@
                       version="2">
             <sftp action="mkdir"
                   remotedir="${dev-parent}"/>
-            <sftp action="put" remotedir="${dev-parent}" verbose="true">
+            <sftp action="put" remotedir="${dev-dir}" verbose="true">
                 <fileset file="todo.txt"/>
                 <fileset file="changes.txt"/>
             </sftp>
