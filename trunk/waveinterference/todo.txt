@@ -1,5 +1,16 @@
+ Rotation:
+o Barrier, multiple sources should disappear for rotate wave in water module.
  What we’ve come up with is to rotate a box that has the horizontal cross section as one face and the vertical crosssection as another face.
  >>See email.
+ All three views will rotate (Sound and Light show same thing on side as on top)
+>I'm not sure how to visualize the intermediate graphics for sound & light.
+-I think the idea is that it will look just like the intermediate graphics
+look right now. It's just that when it flips over to "side" it will look the
+same as "top". This is because both sound and light waves are the same from
+all angles.
+>Not sure I want to handle what to do with barriers, sources in these cases.
+>Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
+>>Delete rotation for light & sound.
 
 Vectors on the light panel:
 We have a representation for vectors in radio waves and we’ve found in interviews that it’s useful to use consistent representations.
@@ -8,14 +19,10 @@ The outline should be about twice as thick as it is now. Also the one black vect
 I had a quick informal interview with a student today and they struggled with the significance of the black arrow.
 Also in the PhET meeting today, I could not make out the arrows on the screen but with radio waves, they are very easy to see on a projector.
 I’ve attached a screen shot of how they should look.
+o Photon vectors should not have their tail fixed at E=0, but their middle, so students don't confuse "y" with "E"
+Maybe e-field vector should be hollow?
 
-We also would like default color on the light panel to come up red rather than yellow. Yellow Is the hardest to see on the graph.
-
-On the sound panel the current particle view is too large and there’s only one red molecule.
-Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
-molecules that were displayed on that version.
-For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
-
+Units:
 On all panels the graph x-axis units need to represent a realistic number.
 The measuring tape already does this so for each panel if you could match the
  units on the graph to what the tape measure uses. For the y-axis, simple tick marks with no numbers or units will work.
@@ -32,14 +39,12 @@ o Add audio to sound.
 
 o Add correct units to stopwatch.
 
-o Barrier, multiple sources should disappear for rotate wave in water module.
-
 Wave Interference: notes from phet meeting 4-4-06
 o When a barrier is present, it should be shown in side view as behind the wave.
 o Faucets should be draggable.
-o Photon vectors should not have their tail fixed at E=0, but their middle, so students don't confuse "y" with "E"
 o Should be able to view sound waves and light waves from the side.
 
+Particle View
     - When you put up a barrier in sound, the particles to the right of the
 barrier don't go through (this is correct), but the particles on the left of
 the barrier penetrate the barrier. I suspect that there is a boundary
@@ -50,9 +55,12 @@ from behind. I know this is sort of an optical illusion, but there may be a
 way to minimize this visual effect. I tried to follow a single particle and
 it still looked like it was running away.
 
-Bug: When you turn the gun off, it goes to solid color rather than black.
+On the sound panel the current particle view is too large and there’s only one red molecule.
+Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
+molecules that were displayed on that version.
+For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
 
-Maybe e-field vector should be hollow?
+Bug: When you turn the gun off, it goes to solid color rather than black.
 
 Would it help speed things up to make the particles smaller? They could be
 maybe 75% of their current size and it might look better anyway.
@@ -71,45 +79,7 @@ after creating the second one in the attached screen shot and it still
 wasn't back to a sine wave.  I took these screen shots about 30 seconds
 after scooting the barriers back and forth very quickly.
 
-o Intensity readers should be constrained on the x-axis when in side-view.
->>This sounds like a lot of work.  Let's just disable them instead.
+Sound: Background should be black in particle view like it is with ideal gas.
 
-Is it possible to get some sort of switch or button as the on off's for each
-panel?
->>I think the "on" "off" checkboxes we have now is very clear, and looks good.
->>Let's become more strongly motivated before changing this, and also have something
->>extremely concrete that we're sure will work.
+Detectors: the graph obscures the wave right in front of the crosshairs, I thought we were going to move the crosshairs to handle this.
 
-Do we want to optionally show absolute values (or intensities) in the wave area
-(to give a more global idea of constructive and destructive interference)?
-o I would leave it up to others whether we should show intensity in the wave
-itself. I don't really have an opinion, but I would lean towards not doing
-this, since there are already a lot of controls in this sim and I'm not sure
-what this option would buy us. Maybe in an advanced pull-down menu??
->>This looks like it wouldn't be a useful feature.  I'll drop it for now.
-
-All three views will rotate (Sound and Light show same thing on side as on top)
->I'm not sure how to visualize the intermediate graphics for sound & light.
--I think the idea is that it will look just like the intermediate graphics
-look right now. It's just that when it flips over to "side" it will look the
-same as "top". This is because both sound and light waves are the same from
-all angles.
->Not sure I want to handle what to do with barriers, sources in these cases.
->Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
->>Delete rotation for light & sound.
-
-Make the view angle box narrower.
->>This is currently very difficult.  Maybe I should forget it for now.
-
-- Issue with the light source. (you need coherent
-light to get interference). The way this is actually done (I think) is to
-shine a laser through a single slit (or pinhole) and make the light
-diffract, creating circular wavefronts. Also a problem of scale, since the
-light should be ~500nm.  Maybe none of this matters, but it's something I
-noticed and should be solved if there is an easy solution.
->>We can leave this as a lamp source for now.  Let me know if we think of something better.
-
-Pressure waves are out of phase (particles are too slow to keep up with pressure).
-- I did notice that - I was going to mention that high pressure should be
-where the particles are dense. Right now it looks 180 deg. out of phase.
->>I switched the phase by 180 degrees, still slightly off, but maybe good enough?
