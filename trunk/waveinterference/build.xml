@@ -131,7 +131,7 @@
         </maverick-ssh>
     </target>
 
-    <target name="Build and Deploy" depends="ProGuard,Update-JNLP,Post"/>
+    <target name="Build and Deploy" depends="ProGuard,Update-JNLP,Post,Show Browser"/>
 
     <!-- tag the source tree with tag -->
     <target name="test-cvs-tag"
