@@ -120,5 +120,5 @@
             <arg value="${phet-root}/${dev-path}/${dev-version}"/>
         </exec>
     </target>
-    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs"/>
+    <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs, Show Browser"/>
 </project>
