@@ -1,3 +1,11 @@
+New in 0.00.11
+Fixed a glitch in the intermediate rotation graphic that made edges not line up.
+Photon Vector View:
+    Reduced the number of vectors in photon vector view to about 1/3.
+    Removed the black outline and have hollow vectors with a colored outline.
+    The outline should be about twice as thick as it is now
+    Removed the one black vector.
+
 New in 0.00.10 (5-15-2006)
 Photons are red by default.
 Added a 'clear wave' button to each control panel.
