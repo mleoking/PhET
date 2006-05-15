@@ -70,21 +70,25 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
     }
 
     public class VectorView extends PhetPNode {
+        private boolean indicateOneBlackVector = false;
+
         public VectorView() {
         }
 
         public void update() {
             removeAllChildren();
             Point2D[] pts = readValues();
-            for( int i = 0; i < pts.length; i++ ) {
+//            int stride=1;//original
+            int stride = 3;
+            for( int i = 0; i < pts.length; i += stride ) {
                 Point2D pt = pts[i];
                 addArrow( (float)pt.getX(), (float)pt.getY() );
-                if( i == pts.length / 4 ) {
-                    PPath path = (PPath)getChildrenReference().get( getChildrenReference().size() - 1 );
-
-                    path.setPaint( Color.black );
-//                    Color origColor=(Color)path.getPaint();
-//                    path.setPaint( new Color( 255-origColor.getRed(),255-origColor.getGreen(),255-origColor.getBlue()) );
+//                if( i == pts.length / (4*3) ) {
+                if( indicateOneBlackVector ) {
+                    if( i == pts.length / 4 ) {
+                        PPath path = (PPath)getChildrenReference().get( getChildrenReference().size() - 1 );
+                        path.setPaint( Color.black );
+                    }
                 }
             }
         }
@@ -93,7 +97,9 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
             double tailY = -y / 4;
             Arrow arrow = new Arrow( new Point2D.Double( x, tailY ), new Point2D.Double( x, y ), 8, 8, 4, 0.5, true );
             PPath arrowPath = new PPath( arrow.getShape() );
-            arrowPath.setPaint( getStrokeColor().getColor() );
+//            arrowPath.setPaint( getStrokeColor().getColor() );
+            arrowPath.setStrokePaint( getStrokeColor().getColor() );
+            arrowPath.setStroke( new BasicStroke( 2 ) );
             addChild( arrowPath );
         }
     }

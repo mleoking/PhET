@@ -27,6 +27,7 @@ public class RotationGlyph extends PNode {
     private int boxHeight = 200;
     private MutableColor color;
     private PPath crossSectionGraphic;
+    private BasicStroke STROKE = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1 );
 
     public RotationGlyph( MutableColor color ) {
         this.color = color;
@@ -36,11 +37,13 @@ public class RotationGlyph extends PNode {
         crossSectionGraphic.setStroke( CrossSectionGraphic.STROKE );
 //        surface.setPaint( new Color( 128, 128, 255 ) );
         surface.setPaint( color.getColor() );
-        surface.setStroke( new BasicStroke( 3 ) );
+        surface.setStroke( STROKE );
 
         depth = new PPath();
         depth.setPaint( Color.blue );
-        depth.setStroke( new BasicStroke( 4 ) );
+
+        depth.setStroke( STROKE );
+//        depth.setStroke( CrossSectionGraphic.STROKE );
         addChild( depth );
         addChild( surface );
 //        addChild( crossSectionGraphic );
@@ -120,6 +123,7 @@ public class RotationGlyph extends PNode {
         depthPath.lineTo( pin2 );
         depthPath.closePath();
         depth.setPathTo( depthPath.getGeneralPath() );
+
         crossSectionGraphic.setPathTo( new Line2D.Double( 0, 2 * h, primaryWidth, 2 * h ) );
     }
 
