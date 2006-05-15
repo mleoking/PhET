@@ -58,12 +58,11 @@ public class EC3Module extends PiccoloModule {
         super( name, clock );
         this.phetFrame = phetFrame;
 //        clock.setTimeScalingConverter();
-        energyModel = new EnergyConservationModel( floorY );
+        energyModel = new EnergyConservationModel( floorY + 10 );
 
         addFloorSpline();
 
-
-        Floor floor = new Floor( getEnergyConservationModel(), energyModel.getZeroPointPotentialY() - AbstractSpline.SPLINE_THICKNESS );
+        Floor floor = new Floor( getEnergyConservationModel(), -AbstractSpline.SPLINE_THICKNESS );
         energyModel.addFloor( floor );
         setModel( new BaseModel() );
 

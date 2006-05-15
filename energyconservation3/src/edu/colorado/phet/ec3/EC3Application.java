@@ -19,9 +19,10 @@ import java.awt.event.KeyEvent;
 
 public class EC3Application extends PhetApplication {
     private EC3Module module;
+    private static final String VERSION = "0.00.19";
 
     public EC3Application( String[] args ) {
-        super( args, "nRg Sk8r", "Energy Conservation", "0.18",
+        super( args, "Energy Skate Park", "Energy Conservation", VERSION,
 //               new SwingTimerClock( 0.2, 30 ), true, new FrameSetup() {
 new FrameSetup() {
 //               new SwingTimerClock( 0.2/5, 30 ), true, new FrameSetup() {

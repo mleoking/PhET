@@ -1,6 +1,7 @@
 -Changes for 0.00.19
 The simulation is now titled 'Energy Skate Park'
-The zero point potential now occurs at the center of mass of the skater.
+The skater's potential energy is now zero when he's on the ground (by default).
+The skater cannot be dragged outside the window, or below ground.
 
 -Changes for 1-2-2006, 0.17
 “Play” has been changed to “Go” for clarity.
