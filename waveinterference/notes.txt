@@ -23,3 +23,36 @@ Not easy (yet) to make the view angle box narrower.
 >Did you mean Barriers?
 
 All three views will rotate (Sound and Light show same thing on side as on top)
+
+o Intensity readers should be constrained on the x-axis when in side-view.
+>>This sounds like a lot of work.  Let's just disable them instead.
+
+Is it possible to get some sort of switch or button as the on off's for each
+panel?
+>>I think the "on" "off" checkboxes we have now is very clear, and looks good.
+>>Let's become more strongly motivated before changing this, and also have something
+>>extremely concrete that we're sure will work.
+
+Do we want to optionally show absolute values (or intensities) in the wave area
+(to give a more global idea of constructive and destructive interference)?
+o I would leave it up to others whether we should show intensity in the wave
+itself. I don't really have an opinion, but I would lean towards not doing
+this, since there are already a lot of controls in this sim and I'm not sure
+what this option would buy us. Maybe in an advanced pull-down menu??
+>>This looks like it wouldn't be a useful feature.  I'll drop it for now.
+
+Make the view angle box narrower.
+>>This is currently very difficult.  Maybe I should forget it for now.
+
+- Issue with the light source. (you need coherent
+light to get interference). The way this is actually done (I think) is to
+shine a laser through a single slit (or pinhole) and make the light
+diffract, creating circular wavefronts. Also a problem of scale, since the
+light should be ~500nm.  Maybe none of this matters, but it's something I
+noticed and should be solved if there is an easy solution.
+>>We can leave this as a lamp source for now.  Let me know if we think of something better.
+
+Pressure waves are out of phase (particles are too slow to keep up with pressure).
+- I did notice that - I was going to mention that high pressure should be
+where the particles are dense. Right now it looks 180 deg. out of phase.
+>>I switched the phase by 180 degrees, still slightly off, but maybe good enough?

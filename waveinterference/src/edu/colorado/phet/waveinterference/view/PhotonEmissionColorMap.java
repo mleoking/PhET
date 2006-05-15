@@ -6,12 +6,8 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Mar 24, 2006
- * Time: 2:58:36 PM
- * Copyright (c) Mar 24, 2006 by Sam Reid
+ * Colors the wave area black if the wave hasn't propagated there yet.
  */
-
 public class PhotonEmissionColorMap implements ColorMap {
     private WaveModel lattice;
     private boolean[][] inited;
