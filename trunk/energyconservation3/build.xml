@@ -115,6 +115,10 @@
             </sftp>
         </maverick-ssh>
     </target>
-
+    <target name="Show Browser">
+        <exec executable="${browser}">
+            <arg value="${phet-root}/${dev-path}/${dev-version}"/>
+        </exec>
+    </target>
     <target name="Build and Deploy" depends="ProGuard,Update JNLP,Post Dev,Post Docs"/>
 </project>
