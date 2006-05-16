@@ -60,9 +60,8 @@ all.  For the light I'd also change to a grey.
 Detectors: the graph obscures the wave right in front of the crosshairs,
 I thought we were going to move the crosshairs to handle this (top center)?
 I thought we were going to detach the crosshairs from the readouts.
-
-o Graphs need to be cropped.
->>Should graphs really be cropped?  Is this just for visual appeal?
+Move crosshairs up to center on graph.
+Crosshairs should be attached by short coil on RHS of panel, and be detachable.
 
 I noticed that when the graph is on, there is a dotted line across the pool.
 I like that. Maybe the edge of the rotating box should also be dotted? I
@@ -75,6 +74,7 @@ the view angle slider? What I envision is that you click on the slider and
 the dotted line appears on the pool, stays dotted as the edge of the
 rotating box, and disappears when you release the slider. Just an idea, but
 I wouldn't spend any time on it for now. Just wondering if it is possible.
+
 
 ##############################################################
 Low Priority________________________________________________________
