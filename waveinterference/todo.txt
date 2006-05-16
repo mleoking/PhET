@@ -3,25 +3,11 @@ rather than View angle.  To me View angle implies that there are multiple
 angles that one can view it from where we are just allowing it to sit at top
 and side view.  What do you guys think?
 
- Rotation:
-o Barrier, multiple sources should disappear for rotate wave in water module.
- What we’ve come up with is to rotate a box that has the horizontal cross section as one face and the vertical crosssection as another face.
- >>See email.
- All three views will rotate (Sound and Light show same thing on side as on top)
->I'm not sure how to visualize the intermediate graphics for sound & light.
--I think the idea is that it will look just like the intermediate graphics
-look right now. It's just that when it flips over to "side" it will look the
-same as "top". This is because both sound and light waves are the same from
-all angles.
->Not sure I want to handle what to do with barriers, sources in these cases.
->Maybe we should disallow rotation here, and refer users to the 3-d falstad wave simulations..?
->>Delete rotation for light & sound.
-o Should be able to view sound waves and light waves from the side.
+o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
 
-Units:
-On all panels the graph x-axis units need to represent a realistic number.
-The measuring tape already does this so for each panel if you could match the
+o On all panels the graph x-axis units need to represent a realistic number.
+    The measuring tape already does this so for each panel if you could match the
  units on the graph to what the tape measure uses. For the y-axis, simple tick marks with no numbers or units will work.
 
 o Test at 1024x768
@@ -34,8 +20,6 @@ o Add help?
 
 o Add correct units to measuring tape.
 
-o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add 'listener' mode, as in 'sound waves' simulation?
-
 o Add correct units to stopwatch.
 
 o When a barrier is present, it should be shown in side view as behind the wave.
@@ -47,18 +31,27 @@ Particle View
 barrier don't go through (this is correct), but the particles on the left of
 the barrier penetrate the barrier. I suspect that there is a boundary
 condition on the right side, but not the left?
+1. Shrink particles
+2. Remove particles near barrier.
+3. constrain particles not to move beyond barrier.
+
+Send noah graphics for speakers.
+
+Vector view:
+arrows should be fixed at zero (okay since it's in a graph).
 
 On the sound panel the current particle view is too large and there’s only one red molecule.
+We should have 5 or so (or a distribution, so it looks like a gas).
 Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
 molecules that were displayed on that version.
 For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
-Would it help speed things up to make the particles smaller? They could be
+Paricles could be
 maybe 75% of their current size and it might look better anyway.
  I would pick a smaller particle size for the particle view.  Probably half
-your current size or a little smaller.
+your current size or a little smaller. 14 pixels?
 
 Have the bar that connects to the faucets be silver like the faucets and
 frame of control box. On the speaker the current color doesn't look bad at
@@ -98,18 +91,10 @@ this, since there are already a lot of controls in this sim and I'm not sure
 what this option would buy us. Maybe in an advanced pull-down menu??
 >>This looks like it wouldn't be a useful feature.  I'll drop it for now.
 
-Make the view angle box narrower.
->>This is currently very difficult.  Maybe I should forget it for now.
-
-- Issue with the light source. (you need coherent
-light to get interference). The way this is actually done (I think) is to
-shine a laser through a single slit (or pinhole) and make the light
-diffract, creating circular wavefronts. Also a problem of scale, since the
-light should be ~500nm.  Maybe none of this matters, but it's something I
-noticed and should be solved if there is an easy solution.
->>We can leave this as a lamp source for now.  Let me know if we think of something better.
-
 Pressure waves are out of phase (particles are too slow to keep up with pressure).
 - I did notice that - I was going to mention that high pressure should be
 where the particles are dense. Right now it looks 180 deg. out of phase.
 >>I switched the phase by 180 degrees, still slightly off, but maybe good enough?
+
+o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add 'listener' mode, as in 'sound waves' simulation?
+    >>not now.
