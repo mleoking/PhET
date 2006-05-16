@@ -22,7 +22,7 @@ o Add correct units to measuring tape.
 
 o Add correct units to stopwatch.
 
-o When a barrier is present, it should be shown in side view as behind the wave.
+o When a barrier is present, it should be shown in side view as behind the wave (water only).
 
 o Faucets should be draggable.
 
