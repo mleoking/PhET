@@ -1,3 +1,9 @@
+>     I was also thinking that the slider should be labled
+> Rotate View now rather than View angle.  To me View angle
+> implies that there are multiple angles that one can view it
+> from where we are just allowing it to sit at top and side
+> view.  What do you guys think?
+
 Add a warning box to the reset button that says, Are you sure you want to reset everything?
 
 Bug: The scale for the readings on the path data is still way huge ever since
@@ -20,6 +26,7 @@ two are gone.
 6.  Is it possible to give the skater any velocity when he's in space?  I
 thought there used to be a way but I can't figure it out.
 >>We used to allow right click-drag to add velocity, but never added it in this new version since nobody knew about it.
+Draggable jet pack, to apply velocity.
 
 Bug: The dragging constraints are not skater-centric; after dragging against a constraint, the mouse is no longer directly over the skater.
 Can we put up a button on the screen when the skater has exited the screen: "Return Skater"?
@@ -31,7 +38,6 @@ Zoomable Energy vs Position graphs.
 Bug: Setting record, then live, then record resets to last record state.
 Add clipping to energy vs position plot (so data doesn't fall outside the data area).
 
-Bug: When user drags track that skater is resting on, the skater doesn't move with it.
 [internal] Figure out the meaning of the magic grab number in EnergyConservationModel
 
 Maybe "Live" should be changed to "Go" instead of "Play"
@@ -48,3 +54,5 @@ Add game-ish modes to sk8r application
 	. 2-skater mode
 	. Grab the apple?
 	. Jump the buses?
+
+Bug: When user drags track that skater is resting on, the skater doesn't move with it.
