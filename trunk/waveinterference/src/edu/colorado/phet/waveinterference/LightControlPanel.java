@@ -21,7 +21,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         addControl( new ClearWaveControl( lightModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );
 
-        addControl( new WaveRotateControl( lightModule.getRotationWaveGraphic() ) );
+        addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new SlitControlPanel( lightModule.getSlitPotential() ) );
         addControlFullWidth( new VerticalSeparator() );

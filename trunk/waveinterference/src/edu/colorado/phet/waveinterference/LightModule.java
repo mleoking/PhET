@@ -79,4 +79,8 @@ public class LightModule extends WaveInterferenceModule {
     public ScreenNode getScreenNode() {
         return lightSimulationPanel.getScreenNode();
     }
+
+    public WaveInterferenceModel getWaveInterferenceModel() {
+        return waveInterferenceModel;
+    }
 }

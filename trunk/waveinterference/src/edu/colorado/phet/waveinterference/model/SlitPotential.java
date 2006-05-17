@@ -60,6 +60,10 @@ public class SlitPotential implements Potential {
         else {
             this.potential = new VerticalDoubleSlit( waveModel.getWidth(), waveModel.getHeight(), location, thickness, slitWidth, slitSeparation, potentialValue );
         }
+        notifySlitsChanged();
+    }
+
+    private void notifySlitsChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.slitsChanged();
