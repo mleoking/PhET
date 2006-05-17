@@ -4,12 +4,12 @@
 
 IN PROGRESS:
 
-More/Less Zoom TODO;
-- where to put the button?
-- does it flash always?
-- how to change the y-axis range and tick spacing in a general way
-- visible for only 1D and 3D Coulomb? why not others?
-- is state restored when we return to a potential?
+Zoom TODO;
+- use standard zoom buttons in lower right corner
+- clamp y-max, zoom y-min by 15x
+- 1D Coulomb only
+- "Two" and "Many" panels
+- don't restore zoom state when changing potential; 
 
 Magnifying glass TODO:
 - constrain dragging to Energy chart
@@ -23,10 +23,10 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
-- more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
-- use 1D Coulomb wave function to display prob density for 3D Coulomb
+- zoom controls on Energy chart
 - magnifying glass
+- drag handles for each potential type (all slightly different)
+- for square wells with height=0, there is no wave function shown
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
@@ -34,11 +34,11 @@ HIGH PRIORITY:
 - determine the conditions under which Schmidt-Lee solvers fail
 
 MEDIUM PRIORITY:
+- add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - stopwatch and animation pauses every few clock ticks (garbage collection?)
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
-- drag handles for each potential type (all slightly different)
 - implement Save/Load for model
 - reduce startup time
 - pause clock by default
@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+(5/16/06) - bugfix: analytic solver for Coulomb eigenstates is missing offset
 (5/16/06) - adjust energy axis ranges in "Two" and "Many" panels to account for no offset control
 (5/16/06) - fix how the y-axis Energy chart range is padded
 (5/16/06) - hide offset controls for "Two" and "Many" panels
@@ -304,6 +305,7 @@ DONE:
 
 
 REJECTED:
+(5/16/06) - use 1D Coulomb wave function to display prob density for 3D Coulomb (vetoed by Carl, too much work)
 (5/9/06) - stop looking for Coulomb eigenstates when energy > max visible potential (stop after first 10 eigenstates)
 (5/9/06) - represent closely-spaced eigenstates as a thicker line (decided on magnifying glass solution)
 (5/9/06) - display values of all closely-spaced eigenstates at the same time (decided on magnifying glass solution)
