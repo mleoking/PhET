@@ -12,9 +12,11 @@ import edu.colorado.phet.piccolo.PiccoloModule;
  */
 
 public class WaveInterferenceModule extends PiccoloModule {
+
     public WaveInterferenceModule( String title ) {
         super( title, new WaveInterferenceClock() );
         PhetPCanvas phetPCanvas = new WaveInterferenceCanvas();
         setSimulationPanel( phetPCanvas );
     }
+
 }

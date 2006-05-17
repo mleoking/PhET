@@ -6,6 +6,8 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -21,6 +23,7 @@ public class WaveInterferenceModel implements ModelElement {
 
 //    private static final double startTime = System.currentTimeMillis() / 1000.0;
     private double time = 0.0;
+    private ArrayList listeners = new ArrayList();
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
@@ -31,6 +34,40 @@ public class WaveInterferenceModel implements ModelElement {
         secondaryOscillator.setEnabled( false );
         secondaryOscillator.setLocation( 10, 10 );
         waveModel.setPotential( slitPotential );
+        slitPotential.addListener( new SlitPotential.Listener() {
+            public void slitsChanged() {
+                notifySymmetryChanged();
+            }
+        } );
+        secondaryOscillator.addListener( new Oscillator.Listener() {
+            public void enabledStateChanged() {
+                notifySymmetryChanged();
+            }
+
+            public void locationChanged() {
+            }
+
+            public void frequencyChanged() {
+            }
+
+            public void amplitudeChanged() {
+            }
+        } );
+    }
+
+    public static interface Listener {
+        public void symmetryChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    protected void notifySymmetryChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.symmetryChanged();
+        }
     }
 
     public WaveModel getWaveModel() {
@@ -61,4 +98,7 @@ public class WaveInterferenceModel implements ModelElement {
 //        return System.currentTimeMillis() / 1000.0 - startTime;
     }
 
+    public boolean isSymmetric() {
+        return !slitPotential.isEnabled() && !getSecondaryOscillator().isEnabled();
+    }
 }
