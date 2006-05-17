@@ -63,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+0.00.07...
 (5/17/06) - make Fireworks versions of zoom buttons, increase size
 (5/17/06) - adjust  of equations in bottom plot so that hilite equation isn't intersected by y=0
 (5/17/06) - rename BSWellRangeSpec to BSWellSpec since it includes more than ranges
