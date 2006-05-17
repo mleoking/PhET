@@ -49,7 +49,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final BSAxisSpec ASYMMETRIC_ENERGY_AXIS_SPEC = 
         new BSAxisSpec( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_ENERGY_TICK_SPACING, ASYMMETRIC_ENERGY_TICK_FORMAT );
     private static final DoubleRange ASYMMETRIC_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
-    private static final DoubleRange ASYMMETRIC_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final DoubleRange ASYMMETRIC_WIDTH_RANGE = new DoubleRange( 0.1, 6, 1, 1 ); // nm
     private static final DoubleRange ASYMMETRIC_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final BSWellRangeSpec ASYMMETRIC_RANGE_SPEC = 
             new BSWellRangeSpec.Asymmetric( ASYMMETRIC_ENERGY_AXIS_SPEC, ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE );
@@ -93,7 +93,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
         new BSAxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
-    private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 8, 1, 1 ); // nm
+    private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 6, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0, 0, 0, 0 ); // nm (don't care for one well)
     private static final BSWellRangeSpec SQUARE_RANGE_SPEC =

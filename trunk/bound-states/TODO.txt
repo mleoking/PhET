@@ -26,7 +26,6 @@ HIGH PRIORITY:
 - zoom controls on Energy chart
 - magnifying glass
 - drag handles for each potential type (all slightly different)
-- for square & asymmetric wells with height=0, there are no eigenstates; should lower bound of height be non-zero?
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - check tick marks on all sliders with new ranges
@@ -70,6 +69,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - change width range to [0.1,6] to work with new position range
 (5/17/06) - change prob density range to [0,1.05]
 (5/17/06) - add mass to normalization of Coulomb analytic wave function solver
 (5/16/06) - get ZoomControl from Quantum Tunneling project
@@ -310,6 +310,7 @@ DONE:
 
 
 REJECTED:
+(5/17/06) - for square & asymmetric wells with height=0, there are no eigenstates; should lower bound of height be non-zero? (no, this is desirable)
 (5/16/06) - use 1D Coulomb wave function to display prob density for 3D Coulomb (vetoed by Carl, too much work)
 (5/9/06) - stop looking for Coulomb eigenstates when energy > max visible potential (stop after first 10 eigenstates)
 (5/9/06) - represent closely-spaced eigenstates as a thicker line (decided on magnifying glass solution)
