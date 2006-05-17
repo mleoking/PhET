@@ -127,7 +127,7 @@ public class BSConstants {
     public static final DecimalFormat WAVE_FUNCTION_TICK_FORMAT = new DecimalFormat( "0.0" );
     
     // Probability Density
-    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 1.25 );
+    public static final Range PROBABILITY_DENSITY_RANGE = new Range( 0, 1.05 );
     public static final double PROBABILITY_DENSITY_TICK_SPACING = 0.5;
     public static final DecimalFormat PROBABILITY_DENSITY_TICK_FORMAT = new DecimalFormat( "0.0" );
     
