@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+(5/16/06) - change prob density range to [0,1.25]
 (5/16/06) - bugfix: analytic solver for Coulomb eigenstates is missing offset
 (5/16/06) - adjust energy axis ranges in "Two" and "Many" panels to account for no offset control
 (5/16/06) - fix how the y-axis Energy chart range is padded
