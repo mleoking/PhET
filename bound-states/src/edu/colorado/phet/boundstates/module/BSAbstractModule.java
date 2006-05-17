@@ -361,12 +361,14 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Zoom control for "Energy" plot
         {
+            final double scale = 0.8;
             AffineTransform transform = new AffineTransform();
             // position it at the lower right corner of the energy plot
             transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET, 
-                    energyPlotBounds.getY() + + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
+                    energyPlotBounds.getY() + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
             // registration point at lower right
-            transform.translate( -_energyZoomControlNode.getWidth(), -_energyZoomControlNode.getHeight() );
+            transform.translate( -_energyZoomControlNode.getWidth() * scale, -_energyZoomControlNode.getHeight() * scale );
+            transform.scale( scale, scale );
             _energyZoomControlNode.setTransform( transform );
         }
         

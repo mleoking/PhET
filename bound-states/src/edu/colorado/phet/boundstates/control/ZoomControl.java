@@ -99,7 +99,7 @@ public class ZoomControl extends JPanel {
         }
         
         // Zoom In button
-        _zoomInButton.setOpaque( true );
+        _zoomInButton.setOpaque( false );
         _zoomInButton.setMargin( MARGIN );
         _zoomInButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -108,7 +108,7 @@ public class ZoomControl extends JPanel {
         } );
         
         // Zoom Out button
-        _zoomOutButton.setOpaque( true );
+        _zoomOutButton.setOpaque( false );
         _zoomOutButton.setMargin( MARGIN );
         _zoomOutButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

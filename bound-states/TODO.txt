@@ -24,6 +24,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- Energy axis label gets clipped when range changes (eg, with 1D Coulomb zoom)
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -62,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - make Fireworks versions of zoom buttons, increase size
 (5/17/06) - adjust  of equations in bottom plot so that hilite equation isn't intersected by y=0
 (5/17/06) - rename BSWellRangeSpec to BSWellSpec since it includes more than ranges
 (5/17/06) - add standard zoom controls to Energy axis in "Two" and "Many" for 1D Coulomb
