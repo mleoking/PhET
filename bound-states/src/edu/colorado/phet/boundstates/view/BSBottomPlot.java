@@ -54,7 +54,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     private static final boolean AUTO_SORT = false;
     
     // Are ticks visible on the Y axis?
-    private static final boolean Y_AXIS_TICKS_VISIBLE = true;
+    private static final boolean Y_AXIS_TICK_LABELS_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -189,9 +189,9 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             yAxis.setTickLabelFont( BSConstants.AXIS_TICK_LABEL_FONT );
             yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
             yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
-            yAxis.setTickLabelsVisible( Y_AXIS_TICKS_VISIBLE );
-            yAxis.setTickMarksVisible( Y_AXIS_TICKS_VISIBLE );
-            if ( !Y_AXIS_TICKS_VISIBLE ) {
+            yAxis.setTickMarksVisible( true );
+            yAxis.setTickLabelsVisible( Y_AXIS_TICK_LABELS_VISIBLE );
+            if ( !Y_AXIS_TICK_LABELS_VISIBLE ) {
                 yAxis.setLabelInsets( new RectangleInsets( 0,0,0,35 ) );
             }
         }
