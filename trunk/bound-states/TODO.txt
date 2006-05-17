@@ -69,6 +69,9 @@ CLEANUP:
 
 
 DONE:
+(5/16/06) - hide tick labels on bottom graph, show tick marks
+(5/16/06) - chnage prob density y-axis range to [0,+1]
+(5/16/06) - change wave function y-axis range to [-1,+1]
 0.00.06...
 (5/15/06) - add an "axis spec" for the energy axis for each potential type
 (5/15/06) - update bottom plot correctly when clock is paused
