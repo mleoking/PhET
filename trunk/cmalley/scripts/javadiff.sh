@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #####################################################################
 #
 # Diff's all of the Java source files under 2 directories and reports 
