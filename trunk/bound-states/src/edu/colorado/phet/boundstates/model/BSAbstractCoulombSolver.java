@@ -38,6 +38,7 @@ public abstract class BSAbstractCoulombSolver {
     //----------------------------------------------------------------------------
     
     // These are final since their values should only be set once (in the constructor).
+    final private double _offset; // potential offset
     final private double _mass; // particle mass
     final private int _l;  // angular momentum quantum number (L/hbar, where L=angular momentum)
     final private double _a; // a constant used throughout the wave function calculations
@@ -56,6 +57,7 @@ public abstract class BSAbstractCoulombSolver {
         if ( potential.getNumberOfWells() != 1 ) {
             throw new UnsupportedOperationException( "solver supports only 1 well case" );
         }
+        _offset = potential.getOffset();
         _mass = particle.getMass();
         _l = DEFAULT_ANGULAR_MOMENTUM_QUANTUM_NUMBER;
         _a = ( BSConstants.HBAR * BSConstants.HBAR ) / ( _mass * BSConstants.KE2 );
@@ -76,7 +78,7 @@ public abstract class BSAbstractCoulombSolver {
         if ( n < 1 ) {
             throw new IllegalArgumentException( "n < 1" );
         }
-        return ( -( _mass * BSConstants.KE2 * BSConstants.KE2 ) / ( 2 * BSConstants.HBAR * BSConstants.HBAR * n * n ) );
+        return _offset + ( -( _mass * BSConstants.KE2 * BSConstants.KE2 ) / ( 2 * BSConstants.HBAR * BSConstants.HBAR * n * n ) );
     }
     
     //----------------------------------------------------------------------------
