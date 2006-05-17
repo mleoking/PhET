@@ -30,6 +30,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -58,7 +59,7 @@ public class ZoomControl extends JPanel {
     
     private int _orientation;
     private ArrayList _plots; // array of XYPlot
-    private ZoomSpec[] _specs;
+    private ZoomSpec _zoomSpec;
     private int _zoomIndex;
     JButton _zoomInButton, _zoomOutButton;
     
@@ -70,25 +71,19 @@ public class ZoomControl extends JPanel {
      * Constructor.
      * 
      * @param orientation
-     * @param specs the specification of each zoom level
-     * @param startingIndex
      */
-    public ZoomControl( int orientation, ZoomSpec[] specs, int startingIndex ) {
+    public ZoomControl( int orientation ) {
         super();
 
         if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
             throw new IllegalArgumentException( "invalid orientation: " + orientation );
-        }
-        if ( startingIndex < 0 || startingIndex > specs.length - 1 ) {
-            throw new IndexOutOfBoundsException( "startingIndex out of bounds: " + startingIndex );
         }
         
         this.setOpaque( false );
         
         _orientation = orientation;
         _plots = new ArrayList();
-        _specs = specs;
-        _zoomIndex = startingIndex;
+        _zoomSpec = null;
         
         try {
             // Icons on buttons
@@ -135,13 +130,24 @@ public class ZoomControl extends JPanel {
             layout.addComponent( _zoomOutButton, 1, 0 );
         }
         
-        // make sure we're starting where we said we're starting
-        setRange( _zoomIndex );
+        updateButtons();
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the zoom specification.
+     * 
+     * @param zoomSpec
+     */
+    public void setZoomSpec( ZoomSpec zoomSpec ) {
+        _zoomSpec = zoomSpec;
+        _zoomIndex = zoomSpec.getDefaultIndex();
+        updateAxis();
+        updateButtons();
+    }
     
     /**
      * Adds a plot to the collection of plots that will be zoomed.
@@ -151,6 +157,9 @@ public class ZoomControl extends JPanel {
     public void addPlot( XYPlot plot ) {
         if ( ! _plots.contains( plot ) ) {
             _plots.add( plot );
+            if ( _zoomSpec != null ) {
+                updateAxis();
+            }
         }
     }
     
@@ -173,27 +182,40 @@ public class ZoomControl extends JPanel {
     }
     
     /**
+     * Gets the AxisSpec that corresponds to the current zoom level.
+     * @return
+     */
+    public AxisSpec getAxisSpec() {
+        return _zoomSpec.getAxisSpec( _zoomIndex );
+    }
+    
+    /**
      * Sets the zoom index.
      * 
      * @param zoomIndex
      */
     public void setZoomIndex( int zoomIndex ) {
-        if ( zoomIndex < 0 || zoomIndex > _specs.length - 1 ) {
-            _zoomIndex = 0;
-            System.err.println( "WARNING: zoom index out of range: " + zoomIndex );
-        }
-        else {
-            _zoomIndex = zoomIndex;
-        }
-        setRange( _zoomIndex );
+        _zoomIndex = zoomIndex;
+        updateAxis();
+        updateButtons();
     }
 
+    /**
+     * Resets to the default zoom level.
+     */
+    public void resetZoom() {
+        _zoomIndex = _zoomSpec.getDefaultIndex();
+        updateAxis();
+        updateButtons();
+    }
+    
     /*
      * Zooms in one level.
      */
     private void handleZoomIn() {
         _zoomIndex--;
-        setRange( _zoomIndex );
+        updateAxis();
+        updateButtons();
     }
     
     /*
@@ -201,23 +223,26 @@ public class ZoomControl extends JPanel {
      */
     private void handleZoomOut() {
         _zoomIndex++;
-        setRange( _zoomIndex );
+        updateAxis();
+        updateButtons();
     }
     
     /*
-     * Sets the range and tick marks.
-     * The index indentifies the zoom level specification that we should use.
-     * @param zoomIndex
+     * Updates the axis' range and tick marks in each managed plot.
      */
-    private void setRange( int zoomIndex ) {
+    private void updateAxis() {
         
-        ZoomSpec spec = _specs[ zoomIndex ];
-        Range range = spec.getRange();
-        double tickSpacing = spec.getTickSpacing();
-        String tickPattern = spec.getTickPattern();
+        // Range
+        AxisSpec axisSpec = _zoomSpec.getAxisSpec( _zoomIndex );
+        Range range = axisSpec.getRange();
+        
+        // Ticks
+        double tickSpacing = axisSpec.getTickSpacing();
+        DecimalFormat tickFormat = axisSpec.getTickFormat();
         TickUnits tickUnits = new TickUnits();
-        tickUnits.add( new NumberTickUnit( tickSpacing, new DecimalFormat( tickPattern ) ) );
+        tickUnits.add( new NumberTickUnit( tickSpacing, tickFormat ) );
         
+        // Adjust the proper axis in each plot
         Iterator i = _plots.iterator();
         while ( i.hasNext() ) {
             XYPlot plot = (XYPlot) i.next();
@@ -230,9 +255,14 @@ public class ZoomControl extends JPanel {
                 plot.getRangeAxis().setStandardTickUnits( tickUnits );
             }
         }
-        
-        _zoomInButton.setEnabled( zoomIndex > 0 );
-        _zoomOutButton.setEnabled( zoomIndex < _specs.length - 1 );
+    }
+    
+    /*
+     * Updates the state of the zoom buttons.
+     */
+    private void updateButtons() {
+        _zoomInButton.setEnabled( _zoomSpec != null && _zoomIndex > 0 );
+        _zoomOutButton.setEnabled( _zoomSpec != null && _zoomIndex < _zoomSpec.getNumberOfZoomLevels() - 1 );
     }
     
     //----------------------------------------------------------------------------
@@ -240,31 +270,55 @@ public class ZoomControl extends JPanel {
     //----------------------------------------------------------------------------
     
     /**
-     * ZoomSpec describes a zoom level.
-     * A zoom level has a range, tick spacing, and tick pattern (format of the tick labels).
+     * ZoomSpec describes the number of zoom levels, how to configure the axis
+     * for each zoom level, and which zoom level is the default.
+     * The axisSpecs are assumed to be ordered from smallest to largest range.
+     * Objects of this type are immutable.
      */
     public static class ZoomSpec {
         
-        private Range _range;
-        private double _tickSpacing;
-        private String _tickPattern;
+        private AxisSpec[] _axisSpecs;
+        private int _defaultIndex;
         
-        public ZoomSpec( Range range, double tickSpacing, String tickPattern ) {
-            _range = new Range( range.getLowerBound(), range.getUpperBound() );
-            _tickSpacing = tickSpacing;
-            _tickPattern = tickPattern;
+        public ZoomSpec( AxisSpec[] axisSpecs, final int defaultIndex ) {
+            assert( axisSpecs.length > 0 );
+            assert( defaultIndex < axisSpecs.length );
+            _axisSpecs = axisSpecs;
+            _defaultIndex = defaultIndex;
         }
         
-        public Range getRange() {
-            return _range;
+        public ZoomSpec( AxisSpec[] axisSpecs ) {
+            this( axisSpecs, 0 );
         }
         
-        public double getTickSpacing() {
-            return _tickSpacing;
+        /**
+         * Convenience constructor, for axes that don't really zoom.
+         * @param axisSpec
+         */
+        public ZoomSpec( AxisSpec axisSpec ) {
+            _axisSpecs = new AxisSpec[1];
+            _axisSpecs[0] = axisSpec;
+            _defaultIndex = 0;
         }
         
-        public String getTickPattern() {
-            return _tickPattern;
+        public int getNumberOfZoomLevels() {
+            return _axisSpecs.length;
+        }  
+        
+        public int getDefaultIndex() {
+            return _defaultIndex;
+        }
+        
+        public AxisSpec[] getAxisSpecs() {
+            return _axisSpecs;
+        }
+        
+        public AxisSpec getAxisSpec( int index ) {
+            return _axisSpecs[ index ];
+        }
+        
+        public AxisSpec getDefaultAxisSpec() {
+            return _axisSpecs[ _defaultIndex ];
         }
     }
 }

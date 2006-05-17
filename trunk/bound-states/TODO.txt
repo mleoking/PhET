@@ -4,13 +4,6 @@
 
 IN PROGRESS:
 
-Zoom TODO;
-- use standard zoom buttons in lower right corner
-- clamp y-max, zoom y-min by 15x
-- 1D Coulomb only
-- "Two" and "Many" panels
-- don't restore zoom state when changing potential; 
-
 Magnifying glass TODO:
 - reorganize pnode hierarchy, kind of a mess now
 - constrain dragging to Energy chart
@@ -24,7 +17,7 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- zoom controls on Energy chart
+- can't hilite or select lower 1D Coulomb eigenstates when zoomed out
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -70,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - add standard zoom controls to Energy axis in "Two" and "Many" for 1D Coulomb
 (5/17/06) - rename AxisSpec and move to util
 (5/17/06) - temporarily swallow all events that occur inside the magnifying glass lens
 (5/17/06) - change stopwatch "look" so it looks better in this sim
