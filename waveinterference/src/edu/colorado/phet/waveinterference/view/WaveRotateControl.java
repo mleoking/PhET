@@ -18,7 +18,7 @@ import java.util.Hashtable;
 
 public class WaveRotateControl extends HorizontalLayoutPanel {
     public WaveRotateControl( final RotationWaveGraphic rotationWaveGraphic ) {
-        final ModelSlider rotate = new ModelSlider( "View Angle", "radians", 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
+        final ModelSlider rotate = new ModelSlider( "Rotate View", "radians", 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
         rotate.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rotationWaveGraphic.setViewAngle( rotate.getValue() );

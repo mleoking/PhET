@@ -16,20 +16,20 @@ import edu.colorado.phet.waveinterference.view.*;
 
 public class LightModule extends WaveInterferenceModule {
     private WaveInterferenceModel waveInterferenceModel;
-    private LightSimulationPanel waterSimulationPanel;
-    private LightControlPanel waterControlPanel;
+    private LightSimulationPanel lightSimulationPanel;
+    private LightControlPanel lightControlPanel;
 
     public LightModule() {
         super( "Light" );
         waveInterferenceModel = new WaveInterferenceModel();
-        waterSimulationPanel = new LightSimulationPanel( this );
-        waterControlPanel = new LightControlPanel( this );
+        lightSimulationPanel = new LightSimulationPanel( this );
+        lightControlPanel = new LightControlPanel( this );
 
         addModelElement( waveInterferenceModel );
-        addModelElement( waterSimulationPanel );
+        addModelElement( lightSimulationPanel );
 
-        setSimulationPanel( waterSimulationPanel );
-        setControlPanel( waterControlPanel );
+        setSimulationPanel( lightSimulationPanel );
+        setControlPanel( lightControlPanel );
     }
 
     public WaveModel getWaveModel() {
@@ -49,23 +49,23 @@ public class LightModule extends WaveInterferenceModule {
     }
 
     public IntensityReaderSet getIntensityReaderSet() {
-        return waterSimulationPanel.getIntensityReaderSet();
+        return lightSimulationPanel.getIntensityReaderSet();
     }
 
     public MeasurementToolSet getMeasurementToolSet() {
-        return waterSimulationPanel.getMeasurementToolSet();
+        return lightSimulationPanel.getMeasurementToolSet();
     }
 
-    public LightSimulationPanel getWaterSimulationPanel() {
-        return waterSimulationPanel;
+    public LightSimulationPanel getLightSimulationPanel() {
+        return lightSimulationPanel;
     }
 
     public RotationWaveGraphic getRotationWaveGraphic() {
-        return waterSimulationPanel.getRotationWaveGraphic();
+        return lightSimulationPanel.getRotationWaveGraphic();
     }
 
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
-        return waterSimulationPanel.getLatticeScreenCoordinates();
+        return lightSimulationPanel.getLatticeScreenCoordinates();
     }
 
     public static void main( String[] args ) {
@@ -73,10 +73,10 @@ public class LightModule extends WaveInterferenceModule {
     }
 
     public MultiOscillator getMultiOscillator() {
-        return waterSimulationPanel.getMultiOscillator();
+        return lightSimulationPanel.getMultiOscillator();
     }
 
     public ScreenNode getScreenNode() {
-        return waterSimulationPanel.getScreenNode();
+        return lightSimulationPanel.getScreenNode();
     }
 }

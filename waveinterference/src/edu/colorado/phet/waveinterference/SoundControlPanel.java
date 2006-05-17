@@ -14,16 +14,20 @@ import edu.colorado.phet.waveinterference.view.SlitControlPanel;
  */
 
 public class SoundControlPanel extends WaveInterferenceControlPanel {
-    private SoundModule waterModule;
+    private SoundModule soundModule;
 
     public SoundControlPanel( SoundModule soundModule ) {
-        this.waterModule = soundModule;
+        this.soundModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
         addControl( new DetectorSetControlPanel( "Pressure", soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
         addControl( new VerticalSeparator() );
-        addControl( new ClearWaveControl( waterModule.getWaveModel() ) );
+        addControl( new ClearWaveControl( this.soundModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );
+
+//        addControl( new WaveRotateControl( this.soundModule.getRotationWaveGraphic() ) );
+//        addControlFullWidth( new VerticalSeparator() );
+
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );
         addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
