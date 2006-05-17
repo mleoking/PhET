@@ -148,6 +148,9 @@ public class RotationGlyph extends PNode {
     }
 
     public void setColor( Color color ) {
-        surface.setPaint( color );
+//        surface.setPaint( color );
+        this.color.setColor( color );
+        updateColors();
+//        this.color=new MutableColor( color );
     }
 }

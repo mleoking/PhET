@@ -3,7 +3,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Mar 22, 2006 by Sam Reid
  */
 
-public class WaveSideView extends PNode {
+public class WaveSideView extends AbstractWaveSideView {
     private PPath path;
     private Lattice2D lattice2D;
     private LatticeScreenCoordinates latticeScreenCoordinates;
