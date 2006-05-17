@@ -430,45 +430,45 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _superpositionCoefficients = new BSSuperpositionCoefficients();
 
             final int numberOfWells = _moduleSpec.getNumberOfWellsRange().getDefault();
-            BSWellRangeSpec rangeSpec = null;
+            BSWellSpec wellSpec = null;
             
-            rangeSpec = _moduleSpec.getAsymmetricRangeSpec();
-            if ( rangeSpec != null ) {
+            wellSpec = _moduleSpec.getAsymmetricSpec();
+            if ( wellSpec != null ) {
                 _asymmetricWell = new BSAsymmetricWell( _particle, 
-                    rangeSpec.getOffsetRange().getDefault(), 
-                    rangeSpec.getHeightRange().getDefault(), 
-                    rangeSpec.getWidthRange().getDefault() );
+                    wellSpec.getOffsetRange().getDefault(), 
+                    wellSpec.getHeightRange().getDefault(), 
+                    wellSpec.getWidthRange().getDefault() );
             }
 
-            rangeSpec = _moduleSpec.getCoulomb1DRangeSpec();
-            if ( rangeSpec != null ) {
+            wellSpec = _moduleSpec.getCoulomb1DSpec();
+            if ( wellSpec != null ) {
                 _coulomb1DWells = new BSCoulomb1DWells( _particle, 
                     numberOfWells, 
-                    rangeSpec.getOffsetRange().getDefault(), 
-                    rangeSpec.getSpacingRange().getDefault() );
+                    wellSpec.getOffsetRange().getDefault(), 
+                    wellSpec.getSpacingRange().getDefault() );
             }
             
-            rangeSpec = _moduleSpec.getCoulomb3DRangeSpec();
-            if ( rangeSpec != null ) {
+            wellSpec = _moduleSpec.getCoulomb3DSpec();
+            if ( wellSpec != null ) {
                 _coulomb3DWell = new BSCoulomb3DWell( _particle, 
-                    rangeSpec.getOffsetRange().getDefault() );
+                    wellSpec.getOffsetRange().getDefault() );
             }
             
-            rangeSpec = _moduleSpec.getHarmonicOscillatorRangeSpec();
-            if ( rangeSpec != null ) {
+            wellSpec = _moduleSpec.getHarmonicOscillatorSpec();
+            if ( wellSpec != null ) {
                 _harmonicOscillatorWell = new BSHarmonicOscillatorWell( _particle, 
-                    rangeSpec.getOffsetRange().getDefault(), 
-                    rangeSpec.getAngularFrequencyRange().getDefault() );
+                    wellSpec.getOffsetRange().getDefault(), 
+                    wellSpec.getAngularFrequencyRange().getDefault() );
             }
             
-            rangeSpec = _moduleSpec.getSquareRangeSpec();
-            if ( rangeSpec != null ) {
+            wellSpec = _moduleSpec.getSquareSpec();
+            if ( wellSpec != null ) {
                 _squareWells = new BSSquareWells( _particle, 
                     numberOfWells, 
-                    rangeSpec.getOffsetRange().getDefault(), 
-                    rangeSpec.getHeightRange().getDefault(), 
-                    rangeSpec.getWidthRange().getDefault(), 
-                    rangeSpec.getSeparationRange().getDefault() );
+                    wellSpec.getOffsetRange().getDefault(), 
+                    wellSpec.getHeightRange().getDefault(), 
+                    wellSpec.getWidthRange().getDefault(), 
+                    wellSpec.getSeparationRange().getDefault() );
             }
             
             // Select the default...
@@ -796,8 +796,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
      * Configures zoom controls to match the selected well type.
      */
     private void configureZoomControls( BSWellType wellType ) {
-        BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-        ZoomSpec zoomSpec = rangeSpec.getEnergyZoomSpec();
+        BSWellSpec wellSpec = _moduleSpec.getRangeSpec( wellType );
+        ZoomSpec zoomSpec = wellSpec.getEnergyZoomSpec();
         _energyZoomControlNode.setVisible( zoomSpec.getNumberOfZoomLevels() > 1 );
         _energyZoomControl.setZoomSpec( zoomSpec );
     }

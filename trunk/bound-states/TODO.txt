@@ -63,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - rename BSWellRangeSpec to BSWellSpec since it includes more than ranges
 (5/17/06) - add standard zoom controls to Energy axis in "Two" and "Many" for 1D Coulomb
 (5/17/06) - remove "padding" of Energy axis from BSEnergyPlot, see padding explicitly in range specs
 (5/17/06) - rename AxisSpec and move to util

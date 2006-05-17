@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSSquareWells;
-import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
+import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -53,9 +53,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
+    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellSpec wellSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( rangeSpec, offsetControlSupported );
+        JPanel inputPanel = createInputPanel( wellSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
     }
@@ -65,14 +65,14 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
+    protected JPanel createInputPanel( BSWellSpec wellSpec, boolean offsetControlSupported ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
  
         // Offset
         {
-            DoubleRange offsetRange = rangeSpec.getOffsetRange();
+            DoubleRange offsetRange = wellSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -90,7 +90,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Height
         {
-            DoubleRange heightRange = rangeSpec.getHeightRange();
+            DoubleRange heightRange = wellSpec.getHeightRange();
             double value = heightRange.getDefault();
             double min = heightRange.getMin();
             double max = heightRange.getMax();
@@ -108,7 +108,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
         
         // Width
         {
-            DoubleRange widthRange = rangeSpec.getWidthRange();
+            DoubleRange widthRange = wellSpec.getWidthRange();
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();
@@ -126,7 +126,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
 
         // Separation
         {
-            DoubleRange separationRange = rangeSpec.getSeparationRange();
+            DoubleRange separationRange = wellSpec.getSeparationRange();
             double value = separationRange.getDefault();
             double min = separationRange.getMin();
             double max = separationRange.getMax();

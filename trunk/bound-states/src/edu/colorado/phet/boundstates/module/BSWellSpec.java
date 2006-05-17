@@ -16,7 +16,7 @@ import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 
 /**
- * BSWellRangeSpec is the specification of ranges for a well type.
+ * BSWellSpec is the specification of ranges and zoom levels for a well type.
  * It contains the union of all well attributes; irrelevant attributes are set to null.
  * Use the inner subclasses to create a specification for a specific well type.
  * Instances are immutable.
@@ -24,37 +24,37 @@ import edu.colorado.phet.boundstates.util.DoubleRange;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSWellRangeSpec {
+public class BSWellSpec {
     
     //----------------------------------------------------------------------------
     // Subclasses for each well type
     //----------------------------------------------------------------------------
     
-    public static class Asymmetric extends BSWellRangeSpec {
+    public static class Asymmetric extends BSWellSpec {
         public Asymmetric( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange ) {
             super( energyZoomSpec, offsetRange, null, widthRange, heightRange, null, null );
         }
     }
     
-    public static class Coulomb1D extends BSWellRangeSpec {
+    public static class Coulomb1D extends BSWellSpec {
         public Coulomb1D( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange spacingRange ) {
             super( energyZoomSpec, offsetRange, spacingRange, null, null, null, null );
         }
     }
     
-    public static class Coulomb3D extends BSWellRangeSpec {
+    public static class Coulomb3D extends BSWellSpec {
         public Coulomb3D( ZoomSpec energyZoomSpec, DoubleRange offsetRange ) {
             super( energyZoomSpec, offsetRange, null, null, null, null, null );
         }
     }
     
-    public static class HarmonicOscillator extends BSWellRangeSpec {
+    public static class HarmonicOscillator extends BSWellSpec {
         public HarmonicOscillator( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange angularFrequencyRange ) {
             super( energyZoomSpec, offsetRange, null, null, null, null, angularFrequencyRange );
         }
     }
     
-    public static class Square extends BSWellRangeSpec {
+    public static class Square extends BSWellSpec {
         public Square( ZoomSpec energyZoomSpec, DoubleRange offsetRange, DoubleRange widthRange, DoubleRange heightRange, DoubleRange separationRange ) {
             super( energyZoomSpec, offsetRange, null, widthRange, heightRange, separationRange, null );
         }
@@ -77,7 +77,7 @@ public class BSWellRangeSpec {
     //----------------------------------------------------------------------------
     
     /* Do not instantiate, use inner classes */
-    private BSWellRangeSpec( 
+    private BSWellSpec( 
             ZoomSpec energyZoomSpec,
             DoubleRange offsetRange, DoubleRange spacingRange, 
             DoubleRange widthRange, DoubleRange heightRange,
