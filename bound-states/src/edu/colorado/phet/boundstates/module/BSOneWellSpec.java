@@ -130,47 +130,47 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
 
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
         
-        // Asymmetric range spec
+        // Asymmetric spec
         {
             AxisSpec axisSpec = new AxisSpec( ASYMMETRIC_ENERGY_RANGE, ASYMMETRIC_ENERGY_TICK_SPACING, ASYMMETRIC_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Asymmetric( zoomSpec, 
+            BSWellSpec wellSpec = new BSWellSpec.Asymmetric( zoomSpec, 
                     ASYMMETRIC_OFFSET_RANGE, ASYMMETRIC_WIDTH_RANGE, ASYMMETRIC_HEIGHT_RANGE  );
-            setAsymmetricRangeSpec( rangeSpec );
+            setAsymmetricSpec( wellSpec );
         }
         
-        // 1D Coulomb range spec
+        // 1D Coulomb spec
         {
             AxisSpec axisSpec = new AxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE  );
-            setCoulomb1DRangeSpec( rangeSpec );
+            BSWellSpec wellSpec = new BSWellSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE  );
+            setCoulomb1DSpec( wellSpec );
         }
         
-        // 3D Coulomb range spec
+        // 3D Coulomb spec
         {
             AxisSpec axisSpec = new AxisSpec( COULOMB_3D_ENERGY_RANGE, COULOMB_3D_ENERGY_TICK_SPACING, COULOMB_3D_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Coulomb3D( zoomSpec, COULOMB_3D_OFFSET_RANGE );
-            setCoulomb3DRangeSpec( rangeSpec );
+            BSWellSpec wellSpec = new BSWellSpec.Coulomb3D( zoomSpec, COULOMB_3D_OFFSET_RANGE );
+            setCoulomb3DSpec( wellSpec );
         }
         
-        // Harmonic Oscillator range spec
+        // Harmonic Oscillator spec
         {
             AxisSpec axisSpec = new AxisSpec( HARMONIC_OSCILLATOR_ENERGY_RANGE, HARMONIC_OSCILLATOR_ENERGY_TICK_SPACING, HARMONIC_OSCILLATOR_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.HarmonicOscillator( zoomSpec, 
+            BSWellSpec wellSpec = new BSWellSpec.HarmonicOscillator( zoomSpec, 
                     HARMONIC_OSCILLATOR_OFFSET_RANGE, HARMONIC_OSCILLATOR_ANGULAR_FREQUENCY_RANGE  );
-            setHarmonicOscillatorRangeSpec( rangeSpec );
+            setHarmonicOscillatorSpec( wellSpec );
         }
         
-        // Square range spec
+        // Square spec
         {
             AxisSpec axisSpec = new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Square( zoomSpec, 
+            BSWellSpec wellSpec = new BSWellSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
-            setSquareRangeSpec( rangeSpec );
+            setSquareSpec( wellSpec );
         }
     }
 }

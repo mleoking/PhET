@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.control.SliderControl;
 import edu.colorado.phet.boundstates.model.BSAsymmetricWell;
-import edu.colorado.phet.boundstates.module.BSWellRangeSpec;
+import edu.colorado.phet.boundstates.module.BSWellSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -51,9 +51,9 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
     /**
      * Constructor.
      */
-    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, BSWellRangeSpec rangeSpec ) {
+    public BSAsymmetricDialog( Frame parent, BSAsymmetricWell potential, BSWellSpec wellSpec ) {
         super( parent, SimStrings.get( "BSAsymmetricDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( rangeSpec );
+        JPanel inputPanel = createInputPanel( wellSpec );
         createUI( inputPanel );
         updateControls();
     }
@@ -63,14 +63,14 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
      * 
      * @return the input panel
      */
-    private JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
+    private JPanel createInputPanel( BSWellSpec wellSpec ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
      
         // Offset
         {
-            DoubleRange offsetRange = rangeSpec.getOffsetRange();
+            DoubleRange offsetRange = wellSpec.getOffsetRange();
             double value = offsetRange.getDefault();
             double min = offsetRange.getMin();
             double max = offsetRange.getMax();
@@ -88,7 +88,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         
         // Height
         {
-            DoubleRange heightRange = rangeSpec.getHeightRange();
+            DoubleRange heightRange = wellSpec.getHeightRange();
             double value = heightRange.getDefault();
             double min = heightRange.getMin();
             double max = heightRange.getMax();
@@ -106,7 +106,7 @@ public class BSAsymmetricDialog extends BSAbstractConfigureDialog implements Obs
         
         // Width
         {
-            DoubleRange widthRange = rangeSpec.getWidthRange();
+            DoubleRange widthRange = wellSpec.getWidthRange();
             double value = widthRange.getDefault();
             double min = widthRange.getMin();
             double max = widthRange.getMax();

@@ -37,11 +37,11 @@ public abstract class BSAbstractModuleSpec {
     
     private IntegerRange _numberOfWellsRange;
     
-    private BSWellRangeSpec _asymmetricRangeSpec;
-    private BSWellRangeSpec _coulomb1DRangeSpec;
-    private BSWellRangeSpec _coulomb3DRangeSpec;
-    private BSWellRangeSpec _harmonicOscillatorRangeSpec;
-    private BSWellRangeSpec _squareRangeSpec;
+    private BSWellSpec _asymmetricSpec;
+    private BSWellSpec _coulomb1DSpec;
+    private BSWellSpec _coulomb3DSpec;
+    private BSWellSpec _harmonicOscillatorSpec;
+    private BSWellSpec _squareSpec;
 
     public BSAbstractModuleSpec() {}
     
@@ -117,62 +117,62 @@ public abstract class BSAbstractModuleSpec {
         _magnifyingGlassSelected = magnifyingGlassSelected;
     }
     
-    public BSWellRangeSpec getAsymmetricRangeSpec() {
-        return _asymmetricRangeSpec;
+    public BSWellSpec getAsymmetricSpec() {
+        return _asymmetricSpec;
     }
     
-    protected void setAsymmetricRangeSpec( BSWellRangeSpec asymmetricRangeSpec ) {
-        _asymmetricRangeSpec = asymmetricRangeSpec;
+    protected void setAsymmetricSpec( BSWellSpec asymmetricRangeSpec ) {
+        _asymmetricSpec = asymmetricRangeSpec;
     }
     
-    public BSWellRangeSpec getCoulomb1DRangeSpec() {
-        return _coulomb1DRangeSpec;
+    public BSWellSpec getCoulomb1DSpec() {
+        return _coulomb1DSpec;
     }
     
-    protected void setCoulomb1DRangeSpec( BSWellRangeSpec coulomb1DRangeSpec ) {
-        _coulomb1DRangeSpec = coulomb1DRangeSpec;
+    protected void setCoulomb1DSpec( BSWellSpec coulomb1DRangeSpec ) {
+        _coulomb1DSpec = coulomb1DRangeSpec;
     }
     
-    public BSWellRangeSpec getCoulomb3DRangeSpec() {
-        return _coulomb3DRangeSpec;
+    public BSWellSpec getCoulomb3DSpec() {
+        return _coulomb3DSpec;
     }
     
-    protected void setCoulomb3DRangeSpec( BSWellRangeSpec coulomb3DRangeSpec ) {
-        _coulomb3DRangeSpec = coulomb3DRangeSpec;
+    protected void setCoulomb3DSpec( BSWellSpec coulomb3DRangeSpec ) {
+        _coulomb3DSpec = coulomb3DRangeSpec;
     }
     
-    public BSWellRangeSpec getHarmonicOscillatorRangeSpec() {
-        return _harmonicOscillatorRangeSpec;
+    public BSWellSpec getHarmonicOscillatorSpec() {
+        return _harmonicOscillatorSpec;
     }
     
-    protected void setHarmonicOscillatorRangeSpec( BSWellRangeSpec harmonicOscillatorRangeSpec ) {
-        _harmonicOscillatorRangeSpec = harmonicOscillatorRangeSpec;
+    protected void setHarmonicOscillatorSpec( BSWellSpec harmonicOscillatorRangeSpec ) {
+        _harmonicOscillatorSpec = harmonicOscillatorRangeSpec;
     }
 
-    public BSWellRangeSpec getSquareRangeSpec() {
-        return _squareRangeSpec;
+    public BSWellSpec getSquareSpec() {
+        return _squareSpec;
     }
     
-    protected void setSquareRangeSpec( BSWellRangeSpec squareRangeSpec ) {
-        _squareRangeSpec = squareRangeSpec;
+    protected void setSquareSpec( BSWellSpec squareRangeSpec ) {
+        _squareSpec = squareRangeSpec;
     }
     
-    public BSWellRangeSpec getRangeSpec( BSWellType wellType ) {
-        BSWellRangeSpec rangeSpec = null;
+    public BSWellSpec getRangeSpec( BSWellType wellType ) {
+        BSWellSpec rangeSpec = null;
         if ( wellType == BSWellType.ASYMMETRIC ) {
-            rangeSpec = _asymmetricRangeSpec;
+            rangeSpec = _asymmetricSpec;
         }
         else if ( wellType == BSWellType.COULOMB_1D ) {
-            rangeSpec = _coulomb1DRangeSpec;
+            rangeSpec = _coulomb1DSpec;
         }
         else if ( wellType == BSWellType.COULOMB_3D ) {
-            rangeSpec = _coulomb3DRangeSpec;
+            rangeSpec = _coulomb3DSpec;
         }
         else if ( wellType == BSWellType.HARMONIC_OSCILLATOR ) {
-            rangeSpec = _harmonicOscillatorRangeSpec;
+            rangeSpec = _harmonicOscillatorSpec;
         }
         else if ( wellType == BSWellType.SQUARE ) {
-            rangeSpec = _squareRangeSpec;
+            rangeSpec = _squareSpec;
         }
         else {
             throw new UnsupportedOperationException( "unsupported well type: " + wellType );

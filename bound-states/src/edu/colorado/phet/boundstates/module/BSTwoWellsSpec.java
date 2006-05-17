@@ -97,23 +97,23 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
 
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
         
-        // 1D Coulomb range spec
+        // 1D Coulomb spec
         {
             AxisSpec axisSpec1 = new AxisSpec( COULOMB_1D_ENERGY_RANGE1, COULOMB_1D_ENERGY_TICK_SPACING1, COULOMB_1D_ENERGY_TICK_FORMAT1 );
             AxisSpec axisSpec2 = new AxisSpec( COULOMB_1D_ENERGY_RANGE2, COULOMB_1D_ENERGY_TICK_SPACING2, COULOMB_1D_ENERGY_TICK_FORMAT2 );
             AxisSpec[] axisSpecs = new AxisSpec[] { axisSpec1, axisSpec2 };
             ZoomSpec zoomSpec = new ZoomSpec( axisSpecs );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
-            setCoulomb1DRangeSpec( rangeSpec );
+            BSWellSpec wellSpec = new BSWellSpec.Coulomb1D( zoomSpec, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
+            setCoulomb1DSpec( wellSpec );
         }
         
-        // Square range spec
+        // Square spec
         {
             AxisSpec axisSpec = new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
             ZoomSpec zoomSpec = new ZoomSpec( axisSpec );
-            BSWellRangeSpec rangeSpec = new BSWellRangeSpec.Square( zoomSpec, 
+            BSWellSpec wellSpec = new BSWellSpec.Square( zoomSpec, 
                     SQUARE_OFFSET_RANGE, SQUARE_WIDTH_RANGE, SQUARE_HEIGHT_RANGE, SQUARE_SEPARATION_RANGE );
-            setSquareRangeSpec( rangeSpec );
+            setSquareSpec( wellSpec );
         }
     }
 }
