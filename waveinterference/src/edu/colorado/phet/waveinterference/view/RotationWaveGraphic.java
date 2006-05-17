@@ -16,21 +16,21 @@ public class RotationWaveGraphic extends PNode {
     private double rotation;
     private RotationGlyph rotationGlyph;
     private WaveModelGraphic waveModelGraphic;
-    private WaveSideView waveSideView;
+    private AbstractWaveSideView waveSideView;
     private ArrayList listeners = new ArrayList();
 
-    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, WaveSideView waveSideView, RotationGlyph rotationGlyph ) {
+    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph ) {
         this( waveModelGraphic, waveSideView, rotationGlyph, 0.0 );
     }
 
-    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, WaveSideView waveSideView, RotationGlyph rotationGlyph, double rotation ) {
+    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph, double rotation ) {
         this.waveModelGraphic = waveModelGraphic;
         this.waveSideView = waveSideView;
         this.rotationGlyph = rotationGlyph;
         this.rotation = rotation;
         addChild( rotationGlyph );
         addChild( waveModelGraphic );
-        addChild( waveSideView );
+        addChild( this.waveSideView );
         setViewAngle( 0.0 );
         this.waveSideView.setSpaceBetweenCells( this.waveModelGraphic.getCellDimensions().width );
         updateLocations();
@@ -57,7 +57,7 @@ public class RotationWaveGraphic extends PNode {
             this.rotation = value;
             updateGraphics();
             for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+                RotationWaveGraphic.Listener listener = (RotationWaveGraphic.Listener)listeners.get( i );
                 listener.rotationChanged();
             }
         }
@@ -71,23 +71,35 @@ public class RotationWaveGraphic extends PNode {
         return rotation >= Math.PI / 2 - 0.02;
     }
 
-    private void updateGraphics() {
+    protected void updateGraphics() {
         updateRotationGlyph( rotation );
         if( isTopView() ) {
-            rotationGlyph.setVisible( false );
-            waveSideView.setVisible( false );
-            waveModelGraphic.setVisible( true );
+            showTopView();
         }
         else if( isSideView() ) {
-            rotationGlyph.setVisible( false );
-            waveSideView.setVisible( true );
-            waveModelGraphic.setVisible( false );
+            showSideView();
         }
         else {
-            rotationGlyph.setVisible( true );
-            waveSideView.setVisible( false );
-            waveModelGraphic.setVisible( false );
+            showRotationGlyph();
         }
+    }
+
+    protected void showRotationGlyph() {
+        setVisibility( true, false, false );
+    }
+
+    protected void showSideView() {
+        setVisibility( false, true, false );
+    }
+
+    protected void showTopView() {
+        setVisibility( false, false, true );
+    }
+
+    protected void setVisibility( boolean rotationGlyph, boolean sideView, boolean topView ) {
+        this.rotationGlyph.setVisible( rotationGlyph );
+        waveSideView.setVisible( sideView );
+        waveModelGraphic.setVisible( topView );
     }
 
     public void update() {
@@ -108,7 +120,7 @@ public class RotationWaveGraphic extends PNode {
         void rotationChanged();
     }
 
-    public void addListener( Listener listener ) {
+    public void addListener( RotationWaveGraphic.Listener listener ) {
         listeners.add( listener );
     }
 
