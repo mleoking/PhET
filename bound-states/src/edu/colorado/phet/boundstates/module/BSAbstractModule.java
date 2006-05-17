@@ -350,12 +350,12 @@ public abstract class BSAbstractModule extends PiccoloModule {
         {
             // Move to upper right corner of bottom chart
             double x1 = bottomPlotBounds.getX() + bottomPlotBounds.getWidth() - 5;
-            double y1 = bottomPlotBounds.getY() + 5;
+            double y1 = bottomPlotBounds.getY() + 2;
             _selectedEquationNode.setLocation( x1, y1 );
             
             // Just below other equations
             double x2 = x1;
-            double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight() + 5;
+            double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight();
             _hilitedEquationNode.setLocation( x2, y2 );
         }
         

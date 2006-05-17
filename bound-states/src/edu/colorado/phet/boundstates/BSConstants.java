@@ -63,7 +63,7 @@ public class BSConstants {
     public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 20 );
     public static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
     public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
-    public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 24 );
+    public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
     
     //----------------------------------------------------------------------------
     // Special characters
