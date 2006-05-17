@@ -23,6 +23,7 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - more/less zoom controls on Energy chart for 1D and 3D Coulomb, fixed upper bound, 15x lower bound
 - use 1D Coulomb wave function to display prob density for 3D Coulomb
 - magnifying glass
@@ -69,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+(5/16/06) - hide offset controls for "Two" and "Many" panels
 (5/16/06) - hide tick labels on bottom graph, show tick marks
 (5/16/06) - chnage prob density y-axis range to [0,+1]
 (5/16/06) - change wave function y-axis range to [-1,+1]

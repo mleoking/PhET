@@ -30,6 +30,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.ASYMMETRIC, BSWellType.COULOMB_1D, BSWellType.COULOMB_3D, BSWellType.HARMONIC_OSCILLATOR };
     private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
     
+    private static final boolean OFFSET_CONTROL_SUPPORTED = true;
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = true;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = true;
     private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
@@ -105,6 +106,7 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
         
+        setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );

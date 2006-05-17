@@ -27,6 +27,7 @@ public abstract class BSAbstractModuleSpec {
     private BSWellType[] _wellTypes;
     private BSWellType _defaultWellType;
 
+    private boolean _offsetControlSupported;
     private boolean _superpositionControlsSupported;
     private boolean _particleControlsSupported;
     private boolean _magnifyingGlassSupported;
@@ -44,6 +45,14 @@ public abstract class BSAbstractModuleSpec {
 
     public BSAbstractModuleSpec() {}
     
+    public boolean isOffsetControlSupported() {
+        return _offsetControlSupported;
+    }
+    
+    protected void setOffsetControlSupported( boolean offsetControlSupported ) {
+        _offsetControlSupported = offsetControlSupported;
+    }
+
     public DoubleRange getMassMultiplierRange() {
         return _massMultiplierRange;
     }
