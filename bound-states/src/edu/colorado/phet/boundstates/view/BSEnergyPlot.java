@@ -27,7 +27,7 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.boundstates.module.BSAxisSpec;
+import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -161,7 +161,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      * 
      * @param axisSpec
      */
-    public void setEnergyAxis( BSAxisSpec axisSpec ) {
+    public void setEnergyAxis( AxisSpec axisSpec ) {
         
         // Get the energy (y) axis
         ValueAxis yAxis = getRangeAxis();

@@ -35,6 +35,7 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
+import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
@@ -491,7 +492,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             {
                 BSWellType wellType = _model.getPotential().getWellType();
                 BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-                BSAxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
+                AxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
                 _energyPlot.setEnergyAxis( energyAxisSpec );
                 _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
             }
@@ -660,7 +661,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
             // Adjust y-axis on the Energy plot...
             BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-            BSAxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
+            AxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
             _energyPlot.setEnergyAxis( energyAxisSpec );
             _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
             

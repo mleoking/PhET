@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.boundstates.module;
+package edu.colorado.phet.boundstates.util;
 
 import java.text.DecimalFormat;
 
@@ -22,7 +22,7 @@ import org.jfree.data.Range;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSAxisSpec {
+public class AxisSpec {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,7 +36,7 @@ public class BSAxisSpec {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSAxisSpec( Range range, double tickSpacing, DecimalFormat tickFormat ) {
+    public AxisSpec( Range range, double tickSpacing, DecimalFormat tickFormat ) {
         _range = range;
         _tickSpacing = tickSpacing;
         _tickFormat = tickFormat;

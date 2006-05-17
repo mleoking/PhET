@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.enums.BSWellType;
+import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.util.IntegerRange;
 
@@ -47,8 +48,8 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -20, 0 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING = 5; // eV
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
-    private static final BSAxisSpec COULOMB_1D_ENERGY_AXIS_SPEC = 
-        new BSAxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
+    private static final AxisSpec COULOMB_1D_ENERGY_AXIS_SPEC = 
+        new AxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
     private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0.3, 3, 1, 1 );
     private static final BSWellRangeSpec COULOMB_1D_RANGE_SPEC = 
@@ -58,8 +59,8 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final Range SQUARE_ENERGY_RANGE = new Range( 0, 20 ); // eV
     private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
-    private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
-        new BSAxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
+    private static final AxisSpec SQUARE_ENERGY_AXIS_SPEC = 
+        new AxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
     private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 3, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
