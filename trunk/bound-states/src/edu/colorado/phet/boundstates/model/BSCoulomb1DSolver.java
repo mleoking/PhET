@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.boundstates.model;
 
+import edu.colorado.phet.boundstates.BSConstants;
+
 /**
  * BSCoulomb1DSolver is the eigenstate solver and wave function solver 
  * for potentials composed of 1D Coulomb wells.
@@ -76,6 +78,6 @@ public class BSCoulomb1DSolver extends BSAbstractCoulombSolver {
             throw new IndexOutOfBoundsException( "no normalization coefficient for n=" + n );
         }
         final double A = NORMALIZATION_COEFFICIENTS[ n - 1 ];
-        return ( A * x * psi( n, x ) );
+        return ( ( BSConstants.ELECTRON_MASS / getMass() ) * A * x * psi( n, x ) );
     }
 }

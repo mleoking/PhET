@@ -70,6 +70,8 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - change prob density range to [0,1.05]
+(5/17/06) - add mass to normalization of Coulomb analytic wave function solver
 (5/16/06) - get ZoomControl from Quantum Tunneling project
 (5/16/06) - get images for zoom buttons from Quantum Tunneling project
 (5/16/06) - change prob density range to [0,1.25]
