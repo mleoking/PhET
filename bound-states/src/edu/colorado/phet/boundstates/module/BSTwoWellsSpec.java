@@ -31,6 +31,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final BSWellType[] WELL_TYPES = { BSWellType.SQUARE, BSWellType.COULOMB_1D };
     private static final BSWellType DEFAULT_WELL_TYPE = BSWellType.SQUARE;
     
+    private static final boolean OFFSET_CONTROL_SUPPORTED = false;
     private static final boolean SUPERPOSITION_CONTROLS_SUPPORTED = true;
     private static final boolean PARTICLE_CONTROLS_SUPPORTED = false;
     private static final boolean MAGNIFYING_GLASS_SUPPORTED = true;
@@ -48,7 +49,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     private static final BSAxisSpec COULOMB_1D_ENERGY_AXIS_SPEC = 
         new BSAxisSpec( COULOMB_1D_ENERGY_RANGE, COULOMB_1D_ENERGY_TICK_SPACING, COULOMB_1D_ENERGY_TICK_FORMAT );
-    private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( -15, 5, 0, 1 ); // eV
+    private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
     private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0.3, 3, 1, 1 );
     private static final BSWellRangeSpec COULOMB_1D_RANGE_SPEC = 
         new BSWellRangeSpec.Coulomb1D( COULOMB_1D_ENERGY_AXIS_SPEC, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
@@ -59,7 +60,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
         new BSAxisSpec( SQUARE_ENERGY_RANGE, SQUARE_ENERGY_TICK_SPACING, SQUARE_ENERGY_TICK_FORMAT );
-    private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( -5, 15, 0, 1 ); // eV
+    private static final DoubleRange SQUARE_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
     private static final DoubleRange SQUARE_WIDTH_RANGE = new DoubleRange( 0.1, 3, 1, 1 ); // nm
     private static final DoubleRange SQUARE_HEIGHT_RANGE = new DoubleRange( 0, 20, 10, 1 ); // eV
     private static final DoubleRange SQUARE_SEPARATION_RANGE = new DoubleRange( 0.05, 0.7, 0.1, 2 );
@@ -73,6 +74,7 @@ public class BSTwoWellsSpec extends BSAbstractModuleSpec {
         setDefaultWellType( DEFAULT_WELL_TYPE );
         setNumberOfWellsRange( NUMBER_OF_WELLS_RANGE );
         
+        setOffsetControlSupported( OFFSET_CONTROL_SUPPORTED );
         setSuperpositionControlsSupported( SUPERPOSITION_CONTROLS_SUPPORTED );
         setParticleControlsSupported( PARTICLE_CONTROLS_SUPPORTED );
         setMagnifyingGlassSupported( MAGNIFYING_GLASS_SUPPORTED );

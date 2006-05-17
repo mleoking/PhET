@@ -51,9 +51,9 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
     /**
      * Constructor.
      */
-    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DWells potential, BSWellRangeSpec rangeSpec ) {
+    public BSCoulomb1DDialog( Frame parent, BSCoulomb1DWells potential, BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSCoulomb1DDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( rangeSpec );
+        JPanel inputPanel = createInputPanel( rangeSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
     }
@@ -63,7 +63,7 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
+    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
@@ -118,11 +118,13 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetSlider, row, col );
-            row++;
-            _spacingSeparator = new JSeparator();
-            layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
-            row++;
+            if ( offsetControlSupported ) {
+                layout.addComponent( _offsetSlider, row, col );
+                row++;
+                _spacingSeparator = new JSeparator();
+                layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
+                row++;
+            }
             layout.addComponent( _spacingSlider, row, col );
             row++;
         }

@@ -53,9 +53,9 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
     /**
      * Constructor.
      */
-    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellRangeSpec rangeSpec ) {
+    public BSSquareDialog( Frame parent, BSSquareWells potential, BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
         super( parent, SimStrings.get( "BSSquareDialog.title" ), potential );
-        JPanel inputPanel = createInputPanel( rangeSpec );
+        JPanel inputPanel = createInputPanel( rangeSpec, offsetControlSupported );
         createUI( inputPanel );
         updateControls();
     }
@@ -65,7 +65,7 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
      * 
      * @return the input panel
      */
-    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec ) {
+    protected JPanel createInputPanel( BSWellRangeSpec rangeSpec, boolean offsetControlSupported ) {
         
         String positionUnits = SimStrings.get( "units.position" );
         String energyUnits = SimStrings.get( "units.energy" );
@@ -158,10 +158,12 @@ public class BSSquareDialog extends BSAbstractConfigureDialog implements Observe
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _offsetSlider, row, col );
-            row++;
-            layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
-            row++;
+            if ( offsetControlSupported ) {
+                layout.addComponent( _offsetSlider, row, col );
+                row++;
+                layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
+                row++;
+            }
             layout.addComponent( _heightSlider, row, col );
             row++;
             layout.addFilledComponent( new JSeparator(), row, col, GridBagConstraints.HORIZONTAL );
