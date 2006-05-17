@@ -12,6 +12,7 @@ Zoom TODO;
 - don't restore zoom state when changing potential; 
 
 Magnifying glass TODO:
+- reorganize pnode hierarchy, kind of a mess now
 - constrain dragging to Energy chart
 - show chart boundaries
 - hilite eigenstate thru glass
