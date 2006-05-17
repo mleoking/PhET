@@ -30,7 +30,7 @@ condition on the right side, but not the left?
 2. Remove particles near barrier.
 3. constrain particles not to move beyond barrier.
 
-Send noah graphics for speakers.
+Noah will return improved graphics for the speaker.
 
 Vector view:
 arrows should be fixed at zero (okay since it's in a graph).

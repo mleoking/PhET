@@ -33,7 +33,6 @@ panel?
 >>Let's become more strongly motivated before changing this, and also have something
 >>extremely concrete that we're sure will work.
 
-
 o Graphs need to be cropped.
 >>Should graphs really be cropped?  Is this just for visual appeal?
 >>We are discarding this comment because it may be better without.
