@@ -64,6 +64,7 @@ CLEANUP:
 
 DONE:
 (5/17/06) - add standard zoom controls to Energy axis in "Two" and "Many" for 1D Coulomb
+(5/17/06) - remove "padding" of Energy axis from BSEnergyPlot, see padding explicitly in range specs
 (5/17/06) - rename AxisSpec and move to util
 (5/17/06) - temporarily swallow all events that occur inside the magnifying glass lens
 (5/17/06) - change stopwatch "look" so it looks better in this sim
