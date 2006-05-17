@@ -61,7 +61,7 @@ public class ZoomControl extends JPanel {
     private ArrayList _plots; // array of XYPlot
     private ZoomSpec _zoomSpec;
     private int _zoomIndex;
-    JButton _zoomInButton, _zoomOutButton;
+    private JButton _zoomInButton, _zoomOutButton;
     
     //----------------------------------------------------------------------------
     // Constructors
