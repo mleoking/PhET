@@ -102,6 +102,8 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
                     spacingLabel, positionUnits, columns, SLIDER_INSETS );
             _spacingSlider.setTextEditable( true );
             _spacingSlider.setNotifyWhileDragging( NOTIFY_WHILE_DRAGGING );
+            
+            _spacingSeparator = new JSeparator();
         };
         
         // Events
@@ -121,7 +123,6 @@ public class BSCoulomb1DDialog extends BSAbstractConfigureDialog implements Obse
             if ( offsetControlSupported ) {
                 layout.addComponent( _offsetSlider, row, col );
                 row++;
-                _spacingSeparator = new JSeparator();
                 layout.addFilledComponent( _spacingSeparator, row, col, GridBagConstraints.HORIZONTAL );
                 row++;
             }
