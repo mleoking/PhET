@@ -17,7 +17,6 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- can't hilite or select lower 1D Coulomb eigenstates when zoomed out
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -63,6 +62,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - adjust  of equations in bottom plot so that hilite equation isn't intersected by y=0
 (5/17/06) - rename BSWellRangeSpec to BSWellSpec since it includes more than ranges
 (5/17/06) - add standard zoom controls to Energy axis in "Two" and "Many" for 1D Coulomb
 (5/17/06) - remove "padding" of Energy axis from BSEnergyPlot, see padding explicitly in range specs
@@ -311,6 +311,7 @@ DONE:
 
 
 REJECTED:
+(5/17/06) - can't hilite or select lower 1D Coulomb eigenstates when zoomed out (cannot reproduce)
 (5/17/06) - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module (cannot reproduce)
 (5/17/06) - for square & asymmetric wells with height=0, there are no eigenstates; should lower bound of height be non-zero? (no, this is desirable)
 (5/16/06) - use 1D Coulomb wave function to display prob density for 3D Coulomb (vetoed by Carl, too much work)
