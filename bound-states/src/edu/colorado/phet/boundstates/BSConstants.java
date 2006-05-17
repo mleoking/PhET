@@ -93,6 +93,9 @@ public class BSConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 220, 220, 220 );
     
+    // Color of the stopwatch background
+    public static final Color STOPWATCH_BACKGROUND = Color.LIGHT_GRAY;
+    
     // The default color scheme
     public static final BSColorScheme COLOR_SCHEME = new BSBlackColorScheme();
     

@@ -24,11 +24,10 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import org.jfree.data.Range;
-
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
+import edu.colorado.phet.boundstates.control.BSStopwatchPanel;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
@@ -39,7 +38,6 @@ import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
-import edu.colorado.phet.common.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -105,7 +103,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
     // Controls
     private BSControlPanel _controlPanel;
-    private StopwatchPanel _stopwatchPanel;
+    private BSStopwatchPanel _stopwatchPanel;
 
     // Dialogs
     private JDialog _configureDialog;
@@ -243,7 +241,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         String timeUnits = SimStrings.get( "units.time" );
-        _stopwatchPanel = new StopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
+        _stopwatchPanel = new BSStopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
         getClockControlPanel().addToLeft( _stopwatchPanel );
         
         //----------------------------------------------------------------------------
