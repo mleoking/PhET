@@ -28,7 +28,6 @@ HIGH PRIORITY:
 - drag handles for each potential type (all slightly different)
 - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
-- check tick marks on all sliders with new ranges
 - cache wavefunction solutions
 - determine the conditions under which Schmidt-Lee solvers fail
 
@@ -69,6 +68,8 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - change stopwatch "look" so it looks better in this sim
+(5/17/06) - visually check tick marks on all sliders with new ranges
 (5/17/06) - change width range to [0.1,6] to work with new position range
 (5/17/06) - change prob density range to [0,1.05]
 (5/17/06) - add mass to normalization of Coulomb analytic wave function solver
