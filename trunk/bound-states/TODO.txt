@@ -45,6 +45,8 @@ MEDIUM PRIORITY:
 - different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- refactor BSAbstractModule, it's too big
+- refactor other classes that have gotten too big
 - make sure things update properly when clock is paused
 - how does the user know the mass in the Two and Many panels? there is no mass control
 - remove ticks from BSBottomPlot y-axis, set Y_AXIS_TICKS_VISIBLE=false (confirm before doing!)
