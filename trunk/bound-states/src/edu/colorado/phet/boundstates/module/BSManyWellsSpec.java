@@ -43,7 +43,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 10, 5 );
     
     // 1D Coulomb ranges (min, max, default, significantDecimalPlaces)
-    private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -15, +5 ); // eV
+    private static final Range COULOMB_1D_ENERGY_RANGE = new Range( -20, 0 ); // eV
     private static final double COULOMB_1D_ENERGY_TICK_SPACING = 5; // eV
     private static final DecimalFormat COULOMB_1D_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     private static final BSAxisSpec COLUOMB_1D_ENERGY_AXIS_SPEC = 
@@ -54,7 +54,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         new BSWellRangeSpec.Coulomb1D( COLUOMB_1D_ENERGY_AXIS_SPEC, COULOMB_1D_OFFSET_RANGE, COULOMB_1D_SPACING_RANGE );
     
     // Square ranges (min, max, default, significantDecimalPlaces)
-    private static final Range SQUARE_ENERGY_RANGE = new Range( -5, +15 ); // eV
+    private static final Range SQUARE_ENERGY_RANGE = new Range( 0, 20 ); // eV
     private static final double SQUARE_ENERGY_TICK_SPACING = 5; // eV
     private static final DecimalFormat SQUARE_ENERGY_TICK_FORMAT = new DecimalFormat( "0.0" );
     private static final BSAxisSpec SQUARE_ENERGY_AXIS_SPEC = 
