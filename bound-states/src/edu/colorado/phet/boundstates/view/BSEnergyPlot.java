@@ -168,8 +168,9 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         
         // Adjust the range
         Range range = axisSpec.getRange();
-        final double min = 1.05 * range.getLowerBound();
-        final double max = 1.05 * range.getUpperBound();
+        final double padding = range.getLength() * 0.025; // add 2.5% to the range
+        final double min = range.getLowerBound() - padding;
+        final double max = range.getUpperBound() + padding;
         yAxis.setRange( min, max );
         
         // Adjust the ticks
