@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.jfree.chart.event.AxisChangeEvent;
+import org.jfree.chart.event.AxisChangeListener;
+
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
@@ -41,7 +44,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSEigenstatesNode extends PNode implements Observer {
+public class BSEigenstatesNode extends PNode implements Observer, AxisChangeListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -111,6 +114,9 @@ public class BSEigenstatesNode extends PNode implements Observer {
             }
         };
         addInputEventListener( mouseHandler );
+        
+        // Watch for changes to the Energy (y) axis range
+        _chartNode.getCombinedChart().getEnergyPlot().getRangeAxis().addChangeListener( this );
         
         setColorScheme( BSConstants.COLOR_SCHEME );
     }
@@ -183,6 +189,17 @@ public class BSEigenstatesNode extends PNode implements Observer {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // AxisChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the display when the Energy axis range changes.
+     */
+    public void axisChanged( AxisChangeEvent event ) {
+        updateDisplay();
+    }
+    
     //----------------------------------------------------------------------------
     // Updater
     //----------------------------------------------------------------------------

@@ -156,31 +156,6 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         }
     }
     
-    /**
-     * Sets the attributes of the energy (y) axis.
-     * 
-     * @param axisSpec
-     */
-    public void setEnergyAxis( AxisSpec axisSpec ) {
-        
-        // Get the energy (y) axis
-        ValueAxis yAxis = getRangeAxis();
-        
-        // Adjust the range
-        Range range = axisSpec.getRange();
-        final double padding = range.getLength() * 0.025; // add 2.5% to the range
-        final double min = range.getLowerBound() - padding;
-        final double max = range.getUpperBound() + padding;
-        yAxis.setRange( min, max );
-        
-        // Adjust the ticks
-        final double tickSpacing = axisSpec.getTickSpacing();
-        DecimalFormat tickFormat = axisSpec.getTickFormat();
-        TickUnits tickUnits = new TickUnits();
-        tickUnits.add( new NumberTickUnit( tickSpacing, tickFormat ) );
-        yAxis.setStandardTickUnits( tickUnits );
-    }
-    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

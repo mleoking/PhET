@@ -28,6 +28,8 @@ import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
 import edu.colorado.phet.boundstates.control.BSStopwatchPanel;
+import edu.colorado.phet.boundstates.control.ZoomControl;
+import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
 import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
@@ -35,7 +37,6 @@ import edu.colorado.phet.boundstates.enums.BSWellType;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
-import edu.colorado.phet.boundstates.util.AxisSpec;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.ClockListener;
@@ -47,6 +48,7 @@ import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 /**
@@ -68,6 +70,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
     private static final int Y_SPACING = 10; // vertical space between nodes
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
+    private static final int ZOOM_X_OFFSET = 3; // X offset of zoom buttons from edge of plot
+    private static final int ZOOM_Y_OFFSET = 3; // Y offset of zoom buttons from edge of plot
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -105,6 +109,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
     // Controls
     private BSControlPanel _controlPanel;
     private BSStopwatchPanel _stopwatchPanel;
+    private ZoomControl _energyZoomControl;
+    private PSwing _energyZoomControlNode;
 
     // Dialogs
     private JDialog _configureDialog;
@@ -245,6 +251,13 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _stopwatchPanel = new BSStopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
         getClockControlPanel().addToLeft( _stopwatchPanel );
         
+        // Energy zoom control
+        _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
+        _energyZoomControl.addPlot( _chart.getEnergyPlot() );
+        _energyZoomControl.addPlot( _energyPlot );
+        _energyZoomControlNode = new PSwing( _canvas, _energyZoomControl );
+        _parentNode.addChild( _energyZoomControlNode );
+        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -344,6 +357,17 @@ public abstract class BSAbstractModule extends PiccoloModule {
             double x2 = x1;
             double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight() + 5;
             _hilitedEquationNode.setLocation( x2, y2 );
+        }
+        
+        // Zoom control for "Energy" plot
+        {
+            AffineTransform transform = new AffineTransform();
+            // position it at the lower right corner of the energy plot
+            transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET, 
+                    energyPlotBounds.getY() + + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
+            // registration point at lower right
+            transform.translate( -_energyZoomControlNode.getWidth(), -_energyZoomControlNode.getHeight() );
+            _energyZoomControlNode.setTransform( transform );
         }
         
         // Magnifying glass 
@@ -487,19 +511,12 @@ public abstract class BSAbstractModule extends PiccoloModule {
             if ( _magnifyingGlass != null ) {
                 _magnifyingGlass.setModel( _model );
             }
-
-            // Adjust the Y-axis on the energy plot
-            {
-                BSWellType wellType = _model.getPotential().getWellType();
-                BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-                AxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
-                _energyPlot.setEnergyAxis( energyAxisSpec );
-                _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
-            }
         }
         
         // Control
         {
+            configureZoomControls( _model.getWellType() );
+            
             _controlPanel.setWellType( _model.getWellType() );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
@@ -659,11 +676,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
                 _configureDialog.dispose();
             }
 
-            // Adjust y-axis on the Energy plot...
-            BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
-            AxisSpec energyAxisSpec = rangeSpec.getEnergyAxisSpec();
-            _energyPlot.setEnergyAxis( energyAxisSpec );
-            _chart.getEnergyPlot().setEnergyAxis( energyAxisSpec );
+            configureZoomControls( wellType );
             
             BSAbstractPotential potential = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
@@ -777,5 +790,15 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private void resetClock() {
         getClock().resetSimulationTime();
         _stopwatchPanel.reset();
+    }
+    
+    /**
+     * Configures zoom controls to match the selected well type.
+     */
+    private void configureZoomControls( BSWellType wellType ) {
+        BSWellRangeSpec rangeSpec = _moduleSpec.getRangeSpec( wellType );
+        ZoomSpec zoomSpec = rangeSpec.getEnergyZoomSpec();
+        _energyZoomControlNode.setVisible( zoomSpec.getNumberOfZoomLevels() > 1 );
+        _energyZoomControl.setZoomSpec( zoomSpec );
     }
 }
