@@ -1,8 +1,3 @@
-    I was also thinking that the slider should be labled Rotate View now
-rather than View angle.  To me View angle implies that there are multiple
-angles that one can view it from where we are just allowing it to sit at top
-and side view.  What do you guys think?
-
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
 

@@ -20,7 +20,7 @@ import edu.colorado.phet.waveinterference.view.MultiOscillator;
 public class SoundModule extends WaveInterferenceModule {
     private SoundSimulationPanel soundSimulationPanel;
     private WaveInterferenceModel waveInterferenceModel;
-    private SoundControlPanel waterControlPanel;
+    private SoundControlPanel soundControlPanel;
     private SoundModuleAudio soundModuleAudio;
 
     public SoundModule() {
@@ -28,13 +28,13 @@ public class SoundModule extends WaveInterferenceModule {
         waveInterferenceModel = new WaveInterferenceModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );
-        waterControlPanel = new SoundControlPanel( this );
+        soundControlPanel = new SoundControlPanel( this );
 
         addModelElement( waveInterferenceModel );
         addModelElement( soundSimulationPanel );
 
         setSimulationPanel( soundSimulationPanel );
-        setControlPanel( waterControlPanel );
+        setControlPanel( soundControlPanel );
     }
 
     public WaveModel getWaveModel() {
@@ -65,18 +65,6 @@ public class SoundModule extends WaveInterferenceModule {
         return soundSimulationPanel;
     }
 
-//    public FaucetGraphic getPrimaryFaucetGraphic() {
-//        return soundSimulationPanel.getPrimaryFaucetGraphic();
-//    }
-//
-//    public RotationWaveGraphic getRotationWaveGraphic() {
-//        return soundSimulationPanel.getRotationWaveGraphic();
-//    }
-//
-//    public MultiFaucetDrip getMultiDrip() {
-//        return soundSimulationPanel.getMultiDrip();
-//    }
-
     public LatticeScreenCoordinates getLatticeScreenCoordinates() {
         return soundSimulationPanel.getLatticeScreenCoordinates();
     }
@@ -84,10 +72,6 @@ public class SoundModule extends WaveInterferenceModule {
     public static void main( String[] args ) {
         new ModuleApplication().startApplication( args, new SoundModule() );
     }
-
-//    public SoundWaveGraphic getSoundWaveGraphic() {
-//        return soundSimulationPanel.getSoundWaveGraphic();
-//    }
 
     public SoundWaveGraphic getSoundWaveGraphic() {
         return soundSimulationPanel.getSoundWaveGraphic();

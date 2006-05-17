@@ -11,22 +11,22 @@ import edu.colorado.phet.waveinterference.view.*;
  */
 
 public class LightControlPanel extends WaveInterferenceControlPanel {
-    private LightModule waterModule;
+    private LightModule lightModule;
 
-    public LightControlPanel( LightModule waterModule ) {
-        this.waterModule = waterModule;
-        addControl( new MeasurementControlPanel( waterModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( "E-Field", waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
+    public LightControlPanel( LightModule lightModule ) {
+        this.lightModule = lightModule;
+        addControl( new MeasurementControlPanel( lightModule.getMeasurementToolSet() ) );
+        addControl( new DetectorSetControlPanel( "E-Field", lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
         addControl( new VerticalSeparator() );
-        addControl( new ClearWaveControl( waterModule.getWaveModel() ) );
+        addControl( new ClearWaveControl( lightModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );
 
-        addControl( new WaveRotateControl( waterModule.getRotationWaveGraphic() ) );
+        addControl( new WaveRotateControl( lightModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );
-        addControl( new SlitControlPanel( waterModule.getSlitPotential() ) );
+        addControl( new SlitControlPanel( lightModule.getSlitPotential() ) );
         addControlFullWidth( new VerticalSeparator() );
-        addControl( new MultiOscillatorControlPanel( waterModule.getMultiOscillator(), "Light" ) );
+        addControl( new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" ) );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
-        addControl( new ReducedScreenControlPanel( waterModule.getScreenNode() ) );
+        addControl( new ReducedScreenControlPanel( lightModule.getScreenNode() ) );
     }
 }
