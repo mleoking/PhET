@@ -26,10 +26,9 @@ HIGH PRIORITY:
 - zoom controls on Energy chart
 - magnifying glass
 - drag handles for each potential type (all slightly different)
-- bug: Coulomb potential curve disappears when coming back to "One Well" module from another module
 - compare everything to Schmidt-Lee applet
 - cache wavefunction solutions
-- determine the conditions under which Schmidt-Lee solvers fail
+- are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
@@ -39,7 +38,7 @@ MEDIUM PRIORITY:
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
 - implement Save/Load for model
 - reduce startup time
-- pause clock by default
+- pause clock by default?
 - green eigenstate lines have varying brightnesses on Windows
 - verify that datasets are updated only when absolutely necessary
 - different method of solving when multi-wells are spaced far apart?
@@ -68,6 +67,7 @@ CLEANUP:
 
 
 DONE:
+(5/17/06) - temporarily swallow all events that occur inside the magnifying glass lens
 (5/17/06) - change stopwatch "look" so it looks better in this sim
 (5/17/06) - visually check tick marks on all sliders with new ranges
 (5/17/06) - change width range to [0.1,6] to work with new position range
@@ -311,6 +311,7 @@ DONE:
 
 
 REJECTED:
+(5/17/06) - bug: Coulomb potential curve disappears when coming back to "One Well" module from another module (cannot reproduce)
 (5/17/06) - for square & asymmetric wells with height=0, there are no eigenstates; should lower bound of height be non-zero? (no, this is desirable)
 (5/16/06) - use 1D Coulomb wave function to display prob density for 3D Coulomb (vetoed by Carl, too much work)
 (5/9/06) - stop looking for Coulomb eigenstates when energy > max visible potential (stop after first 10 eigenstates)

@@ -44,7 +44,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private static final double MAGNIFICATION = 10; // magnification ration, N:1
     
     private static final double LENS_DIAMETER = 100; // pixels
-    private static final double BEZEL_WIDTH = 4; // pixels
+    private static final double BEZEL_WIDTH = 8; // pixels
     private static final double HANDLE_LENGTH = LENS_DIAMETER/2; // pixels
     private static final double HANDLE_WIDTH = HANDLE_LENGTH/4; // pixels
     private static final double HANDLE_ARC_SIZE = 10; // pixels
@@ -84,7 +84,13 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         _lensPath = new PPath();
         _lensPath.setPaint( Color.BLACK );
         _lensPath.setPathTo( glassShape );
-        _lensPath.setPickable( false );
+        _lensPath.setPickable( true );
+        //XXX for now, swallow all events that occur in the lens
+        _lensPath.addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent e ) {
+                    e.setHandled( true );
+                }
+            });
         
         _bezelPath = new PPath();
         _bezelPath.setPathTo( glassShape ); // same shape as glass, but we'll stroke it instead of filling it
@@ -115,8 +121,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
          * they move with the handle.
          */
         addChild( _handlePath );
-        _handlePath.addChild( _lensPath );
         _handlePath.addChild( _bezelPath );
+        _handlePath.addChild( _lensPath );
         
         // Interaction
         _handlePath.addInputEventListener( new CursorHandler() );
