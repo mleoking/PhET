@@ -104,6 +104,8 @@ public class BSConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
+    public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
 
     //----------------------------------------------------------------------------
     // Cursors
