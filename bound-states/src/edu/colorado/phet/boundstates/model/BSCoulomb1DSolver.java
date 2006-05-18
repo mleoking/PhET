@@ -78,6 +78,6 @@ public class BSCoulomb1DSolver extends BSAbstractCoulombSolver {
             throw new IndexOutOfBoundsException( "no normalization coefficient for n=" + n );
         }
         final double A = NORMALIZATION_COEFFICIENTS[ n - 1 ];
-        return ( ( BSConstants.ELECTRON_MASS / getMass() ) * A * x * psi( n, x ) );
+        return ( Math.sqrt( BSConstants.ELECTRON_MASS / getMass() ) * A * x * psi( n, x ) );
     }
 }
