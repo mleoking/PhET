@@ -11,16 +11,16 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.mri.model.PlaneWaveMedium;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.PlaneWaveMedium;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * PlaneWaveGraphic
@@ -98,7 +98,7 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
             x = stepSize;
 
             // TODO: HACK!!!!!
-            dy = width  * MriConfig.SCALE_FOR_ORG;
+            dy = width * MriConfig.SCALE_FOR_ORG;
             fy = 0.5;
         }
         else if( waveMedium.getDirection() == PlaneWaveMedium.WEST ) {
@@ -142,22 +142,22 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver {
         for( int i = 0; i < shades.length; i++ ) {
             if( Y_GRADIENT ) {
                 shades[i] = new GradientPaint( 0,
-                                                          (int)( origin.getY() - width / 2 ),
-                                                          new Color( color.getRed(),
-                                                                     color.getGreen(),
-                                                                     color.getBlue(), 0 ),
-                                                          0,
-                                                          (int)( origin.getY() ),
-                                                          new Color( color.getRed(),
-                                                                     color.getGreen(),
-                                                                     color.getBlue(), i ),
-                                                          true );
+                                               (int)( origin.getY() - width / 2 ),
+                                               new Color( color.getRed(),
+                                                          color.getGreen(),
+                                                          color.getBlue(), 0 ),
+                                               0,
+                                               (int)( origin.getY() ),
+                                               new Color( color.getRed(),
+                                                          color.getGreen(),
+                                                          color.getBlue(), i ),
+                                               true );
             }
             else {
                 shades[i] = new Color( color.getRed(),
-                                                  color.getGreen(),
-                                                  color.getBlue(),
-                                                  i );
+                                       color.getGreen(),
+                                       color.getBlue(),
+                                       i );
             }
         }
         return shades;

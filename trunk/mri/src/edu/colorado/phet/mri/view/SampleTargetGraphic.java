@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.mri.model.SampleTarget;
+import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.mri.model.SampleTarget;
-import edu.colorado.phet.piccolo.PhetPCanvas;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 /**
  * SampleTargetGraphic

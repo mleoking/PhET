@@ -10,20 +10,18 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.mri.util.MriUtil;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.mri.util.MriUtil;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Area;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 /**
  * Head
- * <p>
+ * <p/>
  * A type of Sample that can have a tumor in it
  *
  * @author Ron LeMaster
@@ -35,12 +33,12 @@ public class Head extends Sample {
     private Ellipse2D[] ears;
     private Shape shape;
 
-    public Head( Ellipse2D skull, Ellipse2D[] ears  ) {
+    public Head( Ellipse2D skull, Ellipse2D[] ears ) {
         this.skull = skull;
         this.ears = ears;
         Area area = new Area( skull );
-        area.add( new Area( ears[0] ));
-        area.add( new Area( ears[1] ));
+        area.add( new Area( ears[0] ) );
+        area.add( new Area( ears[1] ) );
         shape = area;
     }
 
@@ -78,11 +76,11 @@ public class Head extends Sample {
             model.addModelElement( dipole );
         }
         Dipole rightEarDipole = new Dipole();
-        rightEarDipole.setPosition( ears[1].getCenterX(), ears[1].getCenterY());
+        rightEarDipole.setPosition( ears[1].getCenterX(), ears[1].getCenterY() );
 //        rightEarDipole.setPosition( skull.getX() - 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10);
         model.addModelElement( rightEarDipole );
         Dipole leftEarDipole = new Dipole();
-        leftEarDipole.setPosition( ears[0].getCenterX(), ears[0].getCenterY());
+        leftEarDipole.setPosition( ears[0].getCenterX(), ears[0].getCenterY() );
 //        leftEarDipole.setPosition( skull.getX() + skull.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10 );
         model.addModelElement( leftEarDipole );
     }

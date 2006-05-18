@@ -10,12 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.model.MriModel;
-
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * BFieldGraphic

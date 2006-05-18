@@ -10,14 +10,12 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.mri.model.Electromagnet;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.MriModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -34,11 +32,11 @@ import java.awt.geom.Point2D;
 public class BFieldIndicatorB extends PNode {
     private double maxLength;
     private PPath arrowPPath;
-    private Paint arrowColor = new Color(  255, 255, 255, 50 );
+    private Paint arrowColor = new Color( 255, 255, 255, 50 );
     private double minLength;
     private Point2D location;
     private double strokeOpacity = 0.5;
-    private Color strokePaint = new Color( 0, 0, 0, (int)(strokeOpacity * 255 ) );
+    private Color strokePaint = new Color( 0, 0, 0, (int)( strokeOpacity * 255 ) );
 
     /**
      * Constructor
@@ -67,7 +65,7 @@ public class BFieldIndicatorB extends PNode {
         double field = model.getTotalFieldStrengthAt( location );
         // Use sign to determine if arrow points up or down
         int sign = MathUtil.getSign( field );
-        double length = Math.abs( field / ( MriConfig.MAX_FADING_COIL_FIELD )) * maxLength;
+        double length = Math.abs( field / ( MriConfig.MAX_FADING_COIL_FIELD ) ) * maxLength;
         length = Math.max( minLength, Math.min( length, maxLength ) );
         Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, ( length * sign ) / 2 ),
                                        new Point2D.Double( 0, ( length * -sign ) / 2 ),

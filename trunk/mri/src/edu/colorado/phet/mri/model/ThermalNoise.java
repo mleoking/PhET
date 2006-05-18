@@ -13,14 +13,12 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.mri.MriConfig;
 
-import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * ThermalNoise
- * <p>
+ * <p/>
  * Injects thermal noise into the system by flipping dipoles at random times,
  * then telling the DipoleOrientationAgent to rebalance. Dipoles are randomly
  * selected in a way that maintains the ratio of up to down dipoles as closely
@@ -56,9 +54,9 @@ public class ThermalNoise implements ModelElement {
     }
 
     private void setMeanInjectionTime() {
-        double b = model.getTotalFieldStrengthAt( new Point2D.Double( 0,0 ));
+        double b = model.getTotalFieldStrengthAt( new Point2D.Double( 0, 0 ) );
         // Mean time to injection is 5x longer when magnetic field is at max
-        meanInjectionTime = minMeanInjectionTime * (1 + 5 * b / MriConfig.MAX_FADING_COIL_FIELD );
+        meanInjectionTime = minMeanInjectionTime * ( 1 + 5 * b / MriConfig.MAX_FADING_COIL_FIELD );
         setInjectionTime();
     }
 
@@ -74,20 +72,20 @@ public class ThermalNoise implements ModelElement {
      * Flips an appropriate dipole when the time is right
      */
     public void stepInTime( double dt ) {
-        elapsedTime+=dt;
+        elapsedTime += dt;
         if( elapsedTime >= timeToInjection ) {
             elapsedTime = 0;
             setInjectionTime();
 
             // Flip a random dipole
             double desiredFractionDown = model.determineDesiredFractionDown();
-            double fractionDown = ((double)model.getDownDipoles().size()) / model.getDipoles().size();
+            double fractionDown = ( (double)model.getDownDipoles().size() ) / model.getDipoles().size();
             Dipole dipole = null;
             if( fractionDown > desiredFractionDown ) {
-                dipole = (Dipole)model.getDownDipoles().get( random.nextInt( model.getDownDipoles().size() ));
+                dipole = (Dipole)model.getDownDipoles().get( random.nextInt( model.getDownDipoles().size() ) );
             }
             else {
-                dipole = (Dipole)model.getUpDipoles().get( random.nextInt( model.getUpDipoles().size() ));
+                dipole = (Dipole)model.getUpDipoles().get( random.nextInt( model.getUpDipoles().size() ) );
             }
             dipole.flip();
         }

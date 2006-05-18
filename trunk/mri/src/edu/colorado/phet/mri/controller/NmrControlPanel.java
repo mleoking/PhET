@@ -12,11 +12,8 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.view.MonitorPanel;
 import edu.colorado.phet.mri.view.BFieldGraphicPanel;
-import edu.colorado.phet.mri.controller.AbstractMriModule;
-import edu.colorado.phet.mri.controller.EmRepSelector;
-import edu.colorado.phet.mri.controller.FadingMagnetControl;
+import edu.colorado.phet.mri.view.MonitorPanel;
 
 import java.awt.*;
 

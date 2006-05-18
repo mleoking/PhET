@@ -33,7 +33,7 @@ public class Tumor extends Ellipse2D.Double {
         List tempDipoles = MriUtil.createDipolesForEllipse( this, 20 );
 
         // Make them all TumorDipoles
-        dipoles = new ArrayList( );
+        dipoles = new ArrayList();
         for( int i = 0; i < tempDipoles.size(); i++ ) {
             Dipole dipole = (Dipole)tempDipoles.get( i );
             TumorDipole tumorDipole = new TumorDipole();

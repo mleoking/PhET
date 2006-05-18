@@ -14,7 +14,6 @@ import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.mri.view.BFieldIndicator;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +21,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * ElectromagnetGraphic
@@ -106,8 +107,8 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
             coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)bounds.getWidth(), (int)bounds.getHeight() ) );
         }
         else {
-            coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)bounds.getHeight(), (int)bounds.getWidth()  ));
-            coilGraphic.rotate( Math.PI/2);
+            coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)bounds.getHeight(), (int)bounds.getWidth() ) );
+            coilGraphic.rotate( Math.PI / 2 );
             coilGraphic.translate( 0, -bounds.getWidth() );
         }
         addChild( coilGraphic );

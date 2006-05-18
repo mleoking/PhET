@@ -10,16 +10,15 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.GradientElectromagnet;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
 /**
  * BFieldGraphicPanel
- * <p>
+ * <p/>
  * Displays a PFieldArrowGraphic in a JPanel
  *
  * @author Ron LeMaster
@@ -27,12 +26,12 @@ import javax.swing.*;
  */
 public class BFieldGraphicPanel extends JPanel {
 
-    public BFieldGraphicPanel( MriModel model) {
-        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model, 
+    public BFieldGraphicPanel( MriModel model ) {
+        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( model,
 //        final BFieldArrowGraphic fieldGraphic = new BFieldArrowGraphic( (GradientElectromagnet)model.getLowerMagnet(),
 //                                                                        (GradientElectromagnet)model.getUpperMagnet(),
-                                                                        0 );
-        setBorder( ControlBorderFactory.createBorder( SimStrings.get("ControlPanel.FieldArrowTitle" ) ));
+0 );
+        setBorder( ControlBorderFactory.createBorder( SimStrings.get( "ControlPanel.FieldArrowTitle" ) ) );
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), SimStrings.get("ControlPanel.FieldArrowTitle" ) ));
 //        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), "Magnetic Field at Center" ) );
         add( fieldGraphic );

@@ -13,19 +13,13 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.MriEmittedPhoton;
-import edu.colorado.phet.mri.model.MriModel;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.awt.geom.Point2D;
 
 /**
  *
@@ -69,7 +63,7 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
 
             if( collisionShouldOccur( photon, dipole ) ) {
                 dipole.collideWithPhoton( photon );
-                if( CONSUME_PHOTON_ON_COLLISION && !(dipole instanceof TumorDipole )) {
+                if( CONSUME_PHOTON_ON_COLLISION && !( dipole instanceof TumorDipole ) ) {
                     photon.removeFromSystem();
                     model.removeModelElement( photon );
                 }
@@ -91,8 +85,8 @@ public class PhotonDipoleCollisionAgent implements CollisionExpert {
         result &= dipole.getSpin() == Spin.DOWN;
 
         // If the photon was emitted by a dipole flipping back to its lower energy state, don't consider it
-        result &= !(photon instanceof MriEmittedPhoton
-                    && !MriConfig.REABSORPTION_ALLOWED );
+        result &= !( photon instanceof MriEmittedPhoton
+                     && !MriConfig.REABSORPTION_ALLOWED );
 
         // Check for physical proximity
         result &= photon.getPosition().distanceSq( dipole.getPosition() ) < dipole.getRadius() * dipole.getRadius();

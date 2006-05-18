@@ -10,12 +10,10 @@
  */
 package edu.colorado.phet.mri.view.computedimage;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.colorado.phet.mri.model.SampleScanner;
-import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.model.SampleScannerB;
 import edu.colorado.phet.mri.view.DetectorPaint;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -68,11 +66,11 @@ public class ComputedImagePNode extends PNode implements SampleScannerB.ChangeLi
         displaySlice.setRect( scanner.getPosition().getX() - sampleBounds.getX(),
                               scanner.getPosition().getY() - sampleBounds.getY(),
                               scanner.getCurrentScanArea().getWidth(),
-                              scanner.getCurrentScanArea().getHeight());
+                              scanner.getCurrentScanArea().getHeight() );
         PPath scanArea = new PPath( displaySlice );
-        double density = Math.max(  Math.min( (double)scanner.getSignal() / 100, 1 ), 0 );
+        double density = Math.max( Math.min( (double)scanner.getSignal() / 100, 1 ), 0 );
         int grayLevel = (int)( density * 255 );
-        Color color = new Color( 0,0,0, grayLevel);
+        Color color = new Color( 0, 0, 0, grayLevel );
         scanArea.setPaint( color );
         addChild( scanArea );
     }

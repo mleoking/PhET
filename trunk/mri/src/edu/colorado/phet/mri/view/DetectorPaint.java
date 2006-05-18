@@ -14,7 +14,6 @@ import edu.colorado.phet.mri.util.RoundGradientPaint;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * DetectorPaint
@@ -35,9 +34,9 @@ public class DetectorPaint extends RoundGradientPaint {
     public DetectorPaint( Point2D location, double width, double density, Color backgroundColor ) {
         super( location.getX(),
                location.getY(),
-               grayScale[ (int)( (1 - density ) * ( grayScale.length - 1) ) ],
-               new Point2D.Double( 0, Math.max( 1, width * density / 2 )),
+               grayScale[(int)( ( 1 - density ) * ( grayScale.length - 1 ) )],
+               new Point2D.Double( 0, Math.max( 1, width * density / 2 ) ),
 //               new Point2D.Double( 0, width * density / 2 ),
-               backgroundColor );
+backgroundColor );
     }
 }

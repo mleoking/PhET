@@ -13,9 +13,8 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.view.HeadGraphic;
-import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.view.HeadGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Ellipse2D;
@@ -34,7 +33,7 @@ public class HeadModule extends AbstractMriModule {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static String name = SimStrings.get("Module.MriTitle");
+    private static String name = SimStrings.get( "Module.MriTitle" );
 
     //----------------------------------------------------------------
     // Instance methods and fields
@@ -45,8 +44,8 @@ public class HeadModule extends AbstractMriModule {
     static Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
                                                        MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
 //                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
-                                                       MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
-                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
+MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
+MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
                                  new Ellipse2D[]{
                                          new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
                                                                MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 120,
@@ -56,7 +55,7 @@ public class HeadModule extends AbstractMriModule {
                                                                MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 120,
                                                                earOffsetX,
                                                                50 ),
-                                 });
+                                 } );
 //                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
     private Detector detector;
     private GradientElectromagnet horizontalGradientMagnet;
@@ -85,7 +84,7 @@ public class HeadModule extends AbstractMriModule {
         // Add the horizontal gradient magnet
         GradientElectromagnet.LinearGradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
         Point2D gradientMagnetLocation = new Point2D.Double( lowerMagnet.getPosition().getX(),
-                                                             lowerMagnet.getPosition().getY() -lowerMagnet.getBounds().getHeight() );
+                                                             lowerMagnet.getPosition().getY() - lowerMagnet.getBounds().getHeight() );
         horizontalGradientMagnet = new LinearGradientMagnet( gradientMagnetLocation,
                                                              lowerMagnet.getBounds().getWidth(),
                                                              lowerMagnet.getBounds().getHeight(),

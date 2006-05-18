@@ -12,15 +12,14 @@ package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.util.GraphicFlasher;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.PhotonSource;
-import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.view.EnergySquiggle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -163,12 +162,12 @@ public class MonitorPanel extends PhetPCanvas {
      * symetrically above and below it
      */
     private void setLinePositions( MriModel model ) {
-        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 1/2;
+        double imageReserveSpace = SPIN_DOWN_IMAGE.getHeight() * 1 / 2;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double sampleMaterialRatio = model.getSampleMaterial().getMu() / SampleMaterial.HYDROGEN.getMu();
 
-        double offsetY = maxOffset * fractionMaxField * sampleMaterialRatio ;
+        double offsetY = maxOffset * fractionMaxField * sampleMaterialRatio;
         double centerY = getHeight() / 2 + imageReserveSpace;
         lowerLine.setPositionY( centerY + offsetY );
         upperLine.setPositionY( centerY - offsetY );
@@ -190,12 +189,11 @@ public class MonitorPanel extends PhetPCanvas {
         // TODO: the "caibration" numbers here need to be understood and made more systematic
         double length = PhysicsUtil.frequencyToEnergy( frequency ) * SQUIGGLE_LENGTH_CALIBRATION_FACTOR;
         energySquiggle.update( wavelength, 0, (int)length, 10 );
-        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length);
+        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length );
 
         // Test to see if the squiggle should be flashed
         Point2D p = new Point2D.Double( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
         double bEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( p ) * model.getSampleMaterial().getMu() );
-//        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
         if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
             if( !matched ) {
@@ -370,7 +368,7 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void stateChanged( Electromagnet.ChangeEvent event ) {
             fieldStrength = model.getTotalFieldStrengthAt( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-                                                                               MriConfig.SAMPLE_CHAMBER_HEIGHT / 2));
+                                                                               MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 ) );
             updatePanel( model );
         }
     }

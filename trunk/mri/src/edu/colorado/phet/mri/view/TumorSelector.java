@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.mri.model.Head;
 import edu.colorado.phet.mri.model.Tumor;
-import edu.colorado.phet.common.model.BaseModel;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * TumorSelector
@@ -33,7 +33,6 @@ public class TumorSelector extends JPanel {
     private Tumor tumor;
 
     /**
-     *
      * @param head
      * @param model
      */
@@ -44,9 +43,9 @@ public class TumorSelector extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 if( tumorBtn.isSelected() ) {
                     tumor = new Tumor( head.getBounds().getX() + head.getBounds().getWidth() * 0.5,
-                                             head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
-                                             head.getBounds().getWidth() * 0.3,
-                                             head.getBounds().getHeight() / 6);
+                                       head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
+                                       head.getBounds().getWidth() * 0.3,
+                                       head.getBounds().getHeight() / 6 );
                     head.addTumor( tumor, model );
                     tumorBtn.setText( selectedStr );
                 }

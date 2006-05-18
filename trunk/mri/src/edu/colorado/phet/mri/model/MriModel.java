@@ -22,7 +22,10 @@ import edu.colorado.phet.quantum.model.PhotonEmittedEvent;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  * MriModel
@@ -87,11 +90,11 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
 //        length = 10;
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-                                                                   lowerMagnetLocation.getY() + lowerMagnet.getBounds().getHeight()),
+                                                                   lowerMagnetLocation.getY() + lowerMagnet.getBounds().getHeight() ),
 //                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
 //                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 110 ),
-                                               length,
-                                               new Vector2D.Double( 0, -1 ) );
+length,
+new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmissionListener( new PhotonEmissionListener() {

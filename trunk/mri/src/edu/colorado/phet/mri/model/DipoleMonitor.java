@@ -12,8 +12,8 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DipoleMonitor

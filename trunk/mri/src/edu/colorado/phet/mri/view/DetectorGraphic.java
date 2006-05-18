@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.util.RoundGradientPaint;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * DetectorGraphic
@@ -32,12 +32,14 @@ import java.awt.*;
 public class DetectorGraphic extends PNode implements SimpleObserver {
 
     static Color[] grayScale = new Color[256];
+
     static {
         for( int i = 0; i < grayScale.length; i++ ) {
-            grayScale[i] = new Color( i,i,i);
+            grayScale[i] = new Color( i, i, i );
         }
     }
-    static RoundGradientPaint[] gradientPaints =  new RoundGradientPaint[256];
+
+    static RoundGradientPaint[] gradientPaints = new RoundGradientPaint[256];
 
     private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
     private Paint detectorPaint;
@@ -70,8 +72,8 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
 
         double inset = 30;
         double displaySize = detector.getBounds().getWidth() - inset * 2;
-        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() / 2  -displaySize / 2,
-                                                                detector.getBounds().getHeight() / 2 -displaySize / 2,
+        RoundRectangle2D display = new RoundRectangle2D.Double( detector.getBounds().getWidth() / 2 - displaySize / 2,
+                                                                detector.getBounds().getHeight() / 2 - displaySize / 2,
                                                                 displaySize,
                                                                 displaySize,
                                                                 10,
@@ -89,18 +91,19 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
         double y = detector.getBounds().getHeight() / 2;
         for( int i = 0; i < gradientPaints.length; i++ ) {
 //            double radius = (gradientPaints.length - i) * 0.5;
-            double radius = (detector.getBounds().getWidth() - detector.getBounds().getWidth() * i / gradientPaints.length ) / 2;
+            double radius = ( detector.getBounds().getWidth() - detector.getBounds().getWidth() * i / gradientPaints.length ) / 2;
             gradientPaints[i] = new RoundGradientPaint( x, y,
                                                         grayScale[i],
                                                         new Point2D.Double( 0, radius ),
 //                                                        new Point2D.Double( 0, 20 ),
-                                                        Color.white );;
+Color.white );
+            ;
         }
     }
 
     public void update() {
         double ratio = Math.max( 1 - (double)detector.getNumDetected() / 30, 0 );
-        Paint paint = gradientPaints[ (int)( ratio * 255)];
+        Paint paint = gradientPaints[(int)( ratio * 255 )];
         displayPNode.setPaint( paint );
     }
 }

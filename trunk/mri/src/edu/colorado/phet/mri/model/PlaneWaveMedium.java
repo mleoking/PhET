@@ -71,7 +71,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
     }
 
     public IScalar getSource() {
-        return source;    
+        return source;
     }
 
     public Point2D getOrigin() {

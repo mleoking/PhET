@@ -12,7 +12,7 @@ package edu.colorado.phet.mri.model;
 
 /**
  * Spin
- * <p>
+ * <p/>
  * An enumeration class.
  *
  * @author Ron LeMaster

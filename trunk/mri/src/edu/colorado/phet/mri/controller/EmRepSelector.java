@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.mri.controller.AbstractMriModule;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +25,7 @@ public class EmRepSelector extends JPanel {
     public EmRepSelector( final AbstractMriModule module ) {
         super( new GridBagLayout() );
 
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ), "EMW Representation"));
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "EMW Representation" ) );
 
         JRadioButton photonViewButton = new JRadioButton( "Photons" );
         photonViewButton.addActionListener( new ActionListener() {
