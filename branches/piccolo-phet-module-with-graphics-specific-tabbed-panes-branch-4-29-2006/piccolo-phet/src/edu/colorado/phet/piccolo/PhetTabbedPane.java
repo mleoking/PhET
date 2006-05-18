@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -320,7 +319,7 @@ public class PhetTabbedPane extends JPanel {
     }
 
     /**
-     * Sets the TabNodeFactory used to create subsequent tab nodes.
+     * Sets the TabNodeFactory used to createBorder subsequent tab nodes.
      *
      * @param tabNodeFactory
      */

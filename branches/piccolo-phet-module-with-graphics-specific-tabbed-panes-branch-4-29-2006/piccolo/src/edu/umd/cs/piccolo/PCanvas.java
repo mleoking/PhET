@@ -561,7 +561,7 @@ public class PCanvas extends JComponent implements PComponent {
 	    g2.setColor(getBackground());
 	    g2.fillRect(0, 0, getWidth(), getHeight());
 		
-		// create new paint context and set render quality to lowest common 
+		// createBorder new paint context and set render quality to lowest common
 		// denominator render quality.
 		PPaintContext paintContext = new PPaintContext(g2);
 		if (getInteracting() || getAnimating()) {

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.mri.controller.SampleTargetModelConfigurator;
+import edu.colorado.phet.mri.controller.GradientMagnetControl;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -25,7 +26,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * SampleScanner
+ * SampleScannerB
+ * <p>
+ *
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -36,17 +39,30 @@ public class SampleScannerB {
     private Rectangle2D scanningArea;
     private Detector detector;
     private double stepSize;
+    private GradientElectromagnet horizontalGradientElectromagnet;
+    private GradientElectromagnet verticalGradientElectromagnet;
     private State startState;
     private List states = new ArrayList();
     private Rectangle2D currentScanArea = new Rectangle2D.Double( 0, 0, 20, 300 );
     private int signal;
     private double startPointX;
     private double startPointY;
+    private MriModel model;
 
 
-    public SampleScannerB( MriModel model, Sample sample, Detector detector, IClock clock, double dwellTime, double stepSize ) {
+    public SampleScannerB( MriModel model,
+                           Sample sample,
+                           Detector detector,
+                           IClock clock,
+                           double dwellTime,
+                           double stepSize,
+                           GradientElectromagnet horizontalGradientElectromagnet,
+                           GradientElectromagnet verticalGradientElectromagnet ) {
+        this.model = model;
         this.detector = detector;
         this.stepSize = stepSize;
+        this.horizontalGradientElectromagnet = horizontalGradientElectromagnet;
+        this.verticalGradientElectromagnet = verticalGradientElectromagnet;
         scanningArea = sample.getBounds();
         startPointX = scanningArea.getX() + stepSize / 2;
         startPointY = scanningArea.getY() + stepSize / 2;
@@ -75,6 +91,9 @@ public class SampleScannerB {
         disableRadioSourceState.init( clock, detectorReportState, dwellTime );
         detectorReportState.init( clock, stepScannerState, 0 );
 
+        horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+        verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+        
         startState = resetDetectorState;
     }
 
@@ -148,6 +167,8 @@ public class SampleScannerB {
             super.enterState();
             double x = getPosition().getX() + stepSizeX;
             double y = getPosition().getY() + stepSizeY;
+
+            // Have we scanner all the way across horizontally? If so, start stepping down
             if( x > scanningArea.getMaxX() ) {
                 x = startPointX;
                 y = startPointY;
@@ -156,6 +177,9 @@ public class SampleScannerB {
                 scanHeight = stepSize;
                 stepSizeX = 0;
                 stepSizeY = stepSize;
+
+                horizontalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+                verticalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
             }
             if( y > scanningArea.getMaxY() ) {
                 x = startPointX;
@@ -165,6 +189,9 @@ public class SampleScannerB {
                 scanHeight = scanningArea.getHeight();
                 stepSizeX = stepSize;
                 stepSizeY = 0;
+
+                horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+                verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
             }
             setPosition( x, y );
             currentScanArea.setRect( getPosition().getX(),
@@ -185,12 +212,14 @@ public class SampleScannerB {
     class EnableRadioSourceState extends State {
         void enterState() {
             super.enterState();
+            model.getRadiowaveSource().setEnabled( true );
         }
     }
 
     class DisableRadioSourceState extends State {
         void enterState() {
             super.enterState();
+            model.getRadiowaveSource().setEnabled( false );
         }
     }
 

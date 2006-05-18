@@ -113,24 +113,24 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
         addChild( coilGraphic );
     }
 
-    private void createFieldStrengthArrows( Rectangle2D bounds, GradientElectromagnet electromagnet ) {
-        int numBFieldArrows = 5;
-        double baseDim = magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ? bounds.getWidth() : bounds.getHeight();
-        double spacing = baseDim / ( numBFieldArrows + 1 );
-        for( int i = 0; i < numBFieldArrows; i++ ) {
-            double xLoc = spacing * ( i + 1 );
-            BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
-            addChild( arrow );
-            Point2D.Double p = null;
-            if( magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ) {
-                p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
-            }
-            else {
-                p = new Point2D.Double( bounds.getWidth() / 2, xLoc );
-            }
-            arrow.setOffset( p );
-        }
-    }
+//    private void createFieldStrengthArrows( Rectangle2D bounds, GradientElectromagnet electromagnet ) {
+//        int numBFieldArrows = 5;
+//        double baseDim = magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ? bounds.getWidth() : bounds.getHeight();
+//        double spacing = baseDim / ( numBFieldArrows + 1 );
+//        for( int i = 0; i < numBFieldArrows; i++ ) {
+//            double xLoc = spacing * ( i + 1 );
+//            BFieldIndicator arrow = new BFieldIndicator( electromagnet, 150, null, xLoc );
+//            addChild( arrow );
+//            Point2D.Double p = null;
+//            if( magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ) {
+//                p = new Point2D.Double( xLoc, bounds.getHeight() / 2 );
+//            }
+//            else {
+//                p = new Point2D.Double( bounds.getWidth() / 2, xLoc );
+//            }
+//            arrow.setOffset( p );
+//        }
+//    }
 
     /**
      *

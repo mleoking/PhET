@@ -54,7 +54,7 @@ import java.util.Map;
  * doesn't need to maintain the list of listeners.
  * <P>
  * Listeners of the notfications center are held by weak references. So the
- * notfication center will not create garbage collection problems as standard
+ * notfication center will not createBorder garbage collection problems as standard
  * java event listeners do.
  * <P>
  * @author Jesse Grosjean

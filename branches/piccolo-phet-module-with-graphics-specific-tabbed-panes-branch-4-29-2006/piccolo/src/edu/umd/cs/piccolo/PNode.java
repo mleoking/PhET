@@ -642,7 +642,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	// major coordinate systems.
 	// 
 	// Each nodes has an affine transform that it uses to define its
-	// own coordinate system. For example if you create a new node and 
+	// own coordinate system. For example if you createBorder a new node and
 	// add it to the canvas it will appear in the upper right corner. Its
 	// coordinate system matches the coordinate system of its parent
 	// (the root node) at this point. But if you move this node by calling
@@ -1163,7 +1163,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 			return true;
 		}
 		// Don't put any invalidating code here or else nodes with volatile bounds will
-		// create a soft infinite loop (calling Swing.invokeLater()) when they validate
+		// createBorder a soft infinite loop (calling Swing.invokeLater()) when they validate
 		// their bounds.
 		return false;		
 	}
@@ -1993,7 +1993,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * created lazily when needed. If you access the transform reference
 	 * before the transform has been created it may return null. The 
 	 * createNewTransformIfNull parameter is used to specify that the PNode
-	 * should create a new transform (and assign that transform to the nodes
+	 * should createBorder a new transform (and assign that transform to the nodes
 	 * local transform variable) instead of returning null.
 	 * 
 	 * @return reference to this node's transform
@@ -2050,7 +2050,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	// already automatically call them for you. You will need to call
 	// them when you start creating your own nodes.
 	// 
-	// When you do create you own nodes the only method that you will
+	// When you do createBorder you own nodes the only method that you will
 	// normally need to call is invalidatePaint. This method marks the 
 	// nodes as having invalid paint, the root node's UI cycle will then 
 	// later discover this damage and report it to the Java repaint manager.

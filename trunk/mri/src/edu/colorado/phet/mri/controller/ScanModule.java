@@ -23,6 +23,21 @@ public class ScanModule extends HeadModule {
 
     public ScanModule() {
         super( "Scanner I");
+
+//        SampleScanner sampleScanner = new SampleScanner( getHead() );
+//        model.addModelElement( sampleScanner);
+//        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
+//        getGraphicsManager().addGraphic( sampleTargetGraphic );
+//
+//        ComputedImageWindow ciw = new ComputedImageWindow( new Dimension(  (int)getHead().getBounds().getWidth(),
+//                                                                           (int)getHead().getBounds().getHeight()));
+//        ciw.setVisible( true );
+    }
+
+    protected void init() {
+        super.init();
+
+        System.out.println( "ScanModule.init" );
         MriModel model = (MriModel)getModel();
         RadiowaveSource radioSource = model.getRadiowaveSource();
         radioSource.setFrequency( 42E6 );
@@ -38,14 +53,5 @@ public class ScanModule extends HeadModule {
         getGraphicsManager().addGraphic( sampleTargetGraphic );
 
         sampleTarget.addChangeListener( new SampleTargetModelConfigurator( (MriModel)getModel() ) );
-
-//        SampleScanner sampleScanner = new SampleScanner( getHead() );
-//        model.addModelElement( sampleScanner);
-//        SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
-//        getGraphicsManager().addGraphic( sampleTargetGraphic );
-//
-//        ComputedImageWindow ciw = new ComputedImageWindow( new Dimension(  (int)getHead().getBounds().getWidth(),
-//                                                                           (int)getHead().getBounds().getHeight()));
-//        ciw.setVisible( true );
     }
 }

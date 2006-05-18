@@ -118,7 +118,7 @@ import java.io.Serializable;
  * <pre>
  * <p/>
  * NOTE: PSwing has the current limitation that it does not listen for
- *       Container events.  This is only an issue if you create a PSwing
+ *       Container events.  This is only an issue if you createBorder a PSwing
  *       and later add Swing components to the PSwing's component hierarchy
  *       that do not have double buffering turned off or have a smaller font
  *       size than the minimum font size of the original PSwing's component

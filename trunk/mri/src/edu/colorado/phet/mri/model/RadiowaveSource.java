@@ -64,8 +64,12 @@ public class RadiowaveSource extends Beam implements IScalar {
 
     public RadiowaveSource( Point2D location, double length, Vector2D direction, double phaseAngle ) {
         super( DEFAULT_WAVELENGTH, location, length, length, direction, MAX_POWER, 0 );
+
+        // Set enabled by default, but with power off
+        setEnabled( true );
+        setPower( 0 );
+
         this.phaseAngle = phaseAngle;
-        setPhotonsPerSecond( 1 / ( MriConfig.DT / 1000 ) );
         setWavelength( 500E-9 );
 
         double freq = MriConfig.MAX_FADING_COIL_FIELD * SampleMaterial.HYDROGEN.getMu() / 2;
@@ -90,9 +94,14 @@ public class RadiowaveSource extends Beam implements IScalar {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
+        if( isEnabled() ) {
         runningTime += dt;
         // amplitude is always >= 0
-        currentAmplitude = power * 0.5 * ( 1 + Math.sin( phaseAngle + ( runningTime % period ) / period * Math.PI * 2 ) );
+            currentAmplitude = power * 0.5 * ( 1 + Math.sin( phaseAngle + ( runningTime % period ) / period * Math.PI * 2 ) );
+        }
+        else {
+            currentAmplitude = 0;
+        }
     }
 
     //----------------------------------------------------------------

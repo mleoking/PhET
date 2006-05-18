@@ -170,7 +170,7 @@ public class PStyledText extends PNode {
 						lastNewLine = true;
 					}
 				}
-				// If the token is empty - create an attributed string with a single space
+				// If the token is empty - createBorder an attributed string with a single space
 				// since LineBreakMeasurers don't work with an empty string
 				// - note that this case should only arise if the document is empty
 				else if (token.equals("")) {
@@ -436,7 +436,7 @@ public class PStyledText extends PNode {
 				    textHeight = textHeight+lineHeight;
 				    textWidth = Math.max(textWidth,lineWidth);
 				    
-				    // Now create a new line
+				    // Now createBorder a new line
 				    lineInfo = new LineInfo();
 				    linesList.add(lineInfo);				    
 				}

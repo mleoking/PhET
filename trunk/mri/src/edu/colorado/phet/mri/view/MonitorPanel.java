@@ -58,7 +58,8 @@ public class MonitorPanel extends PhetPCanvas {
     private static double SCALE = 0.4;
     private static Color BACKGROUND = SampleChamberGraphic.BACKGROUND;
     private static double BASE_SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.8; // for scale = 0;5
-    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
+    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45; // for scale = 0.4
+//    private static double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.6; // for scale = 0.4
     ;
 
     static {
@@ -144,6 +145,7 @@ public class MonitorPanel extends PhetPCanvas {
                 updatePanel( model );
             }
         } );
+        updatePanel( model );
     }
 
     private void updatePanel( MriModel model ) {
@@ -185,13 +187,15 @@ public class MonitorPanel extends PhetPCanvas {
         double transparency = radiowaveSource.getPower() / MriConfig.MAX_POWER;
         energySquiggle.setTransparency( (float)transparency );
 
-        // TODO: the "calibration" numbers here need to be understood and made more systematic
+        // TODO: the "caibration" numbers here need to be understood and made more systematic
         double length = PhysicsUtil.frequencyToEnergy( frequency ) * SQUIGGLE_LENGTH_CALIBRATION_FACTOR;
         energySquiggle.update( wavelength, 0, (int)length, 10 );
-        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length );
+        energySquiggle.setOffset( energySquiggle.getOffset().getX(), lowerLine.getOffset().getY() - length);
 
         // Test to see if the squiggle should be flashed
-        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
+        Point2D p = new Point2D.Double( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
+        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( p ) * model.getSampleMaterial().getMu() );
+//        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
         if( Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS ) {
             if( !matched ) {

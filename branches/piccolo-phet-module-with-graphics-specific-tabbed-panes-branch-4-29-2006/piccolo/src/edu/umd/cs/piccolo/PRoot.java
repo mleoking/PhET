@@ -183,7 +183,7 @@ public class PRoot extends PNode {
 
 	/**
 	 * Returns a new timer. This method allows subclasses, such as PSWTRoot to
-	 * create custom timers that will be used transparently by the Piccolo
+	 * createBorder custom timers that will be used transparently by the Piccolo
 	 * framework.
 	 */	
 	public Timer createTimer(int delay, ActionListener listener) {

@@ -142,7 +142,7 @@ public class PScrollPane extends JScrollPane {
 	}
 
 	/**
-	 * Overridden to create the Jazz viewport
+	 * Overridden to createBorder the Jazz viewport
 	 * @return The jazz version of the viewport
 	 */
 	protected JViewport createViewport() {

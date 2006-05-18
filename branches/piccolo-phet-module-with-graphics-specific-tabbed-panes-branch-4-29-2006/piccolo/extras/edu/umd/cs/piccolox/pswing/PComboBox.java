@@ -108,7 +108,7 @@ public class PComboBox extends JComboBox implements Serializable {
     /**
      * The substitute look and feel - used to capture the mouse
      * events on the arrowButton and the component itself and
-     * to create our PopupMenu rather than the default
+     * to createBorder our PopupMenu rather than the default
      */
     protected class PBasicComboBoxUI extends BasicComboBoxUI {
 

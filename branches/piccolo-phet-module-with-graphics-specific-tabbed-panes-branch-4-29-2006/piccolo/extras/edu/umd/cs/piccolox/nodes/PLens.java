@@ -79,7 +79,7 @@ public class PLens extends PNode {
 		camera.setPaint(DEFAULT_LENS_PAINT);
 		addChild(camera);
 		
-		// create an event handler to drag the lens around. Note that this event
+		// createBorder an event handler to drag the lens around. Note that this event
 		// handler consumes events in case another conflicting event handler has been
 		// installed higher up in the heirarchy.
 		lensDragger = new PDragEventHandler();

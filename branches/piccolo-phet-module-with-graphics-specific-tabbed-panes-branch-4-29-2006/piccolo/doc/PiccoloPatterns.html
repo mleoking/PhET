@@ -34,8 +34,8 @@ discrete components of an interface. The framework comes with some commonly
 required nodes (shapes, images, and text) and the developer has the opportunity to define new ones for
 their own interfaces.</p>
 <p>Figure 1’s zooming interaction was created with the help of an event
-listener (instances of PInputEventListener). Event listeners define how the
-interface reacts to user input. In this zooming interaction the event listener
+activationListener (instances of PInputEventListener). Event listeners define how the
+interface reacts to user input. In this zooming interaction the event activationListener
 reacted to mouse input by manipulating the camera node's view transform to
 create the zooming effect. Piccolo comes with ready-made event listeners for
 zooming and panning camera nodes, and dragging nodes on the canvas.</p>
@@ -196,12 +196,12 @@ the interface. Piccolo comes with event listeners that let the user zoom and pan
 their viewpoint, and drag nodes in the interface. An important part of designing
 an interface using Piccolo is to design the set of event listeners that will
 define the user experience.</i></p>
-<p>Once created an event listener must be registered with a node so that it can receive
+<p>Once created an event activationListener must be registered with a node so that it can receive
 events. Many event handlers register with the camera node so that they get all
 events that come from the canvas associated with that camera.</p>
-<p>This example class creates an event listener that will create rectangle nodes
+<p>This example class creates an event activationListener that will create rectangle nodes
 on the canvas's layer when the user presses, drags, and then releases the mouse.</p>
-<pre>// This event listener works by keeping track of the mouse press
+<pre>// This event activationListener works by keeping track of the mouse press
 // location and the current mouse drag location. It then sizes the new
 // rectangle around those points. Note: The implementation of this event
 // handler could be simplified by sub classing PDragSequenceEventHandler. 
@@ -261,7 +261,7 @@ public class RectangleCreationEventHandler extends PBasicInputEventHandler {
 		rectangle.setPathTo(b);
 	}
 }</pre>
-<p>The code to register this event listener with the canvas would look like
+<p>The code to register this event activationListener with the canvas would look like
 this:</p>
 <pre>getCanvas().addInputEventListener(new RectangleCreationEventHandler());</pre>
 <p>Note that this event handler reacts to the same events that the zoom and pan

@@ -74,7 +74,7 @@ public class EventChannel implements InvocationHandler {
      */
     public EventChannel( Class interf ) {
         if( !EventListener.class.isAssignableFrom( interf ) ) {
-            throw new InvalidParameterException( "Attempt to create proxy for an interface that is not an EventListener" );
+            throw new InvalidParameterException( "Attempt to createBorder proxy for an interface that is not an EventListener" );
         }
         targetInterface = interf;
         proxy = Proxy.newProxyInstance( interf.getClassLoader(),

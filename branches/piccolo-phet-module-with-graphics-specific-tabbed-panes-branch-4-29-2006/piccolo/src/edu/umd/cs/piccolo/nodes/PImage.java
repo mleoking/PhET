@@ -89,7 +89,7 @@ public class PImage extends PNode {
 	
 	/**
 	 * Construct a new PImage by loading the given url and wrapping the
-	 * resulting java.awt.Image.  If the url is <code>null</code>, create an
+	 * resulting java.awt.Image.  If the url is <code>null</code>, createBorder an
 	 * empty PImage; this behaviour is useful when fetching resources that may
 	 * be missing.
 	 */

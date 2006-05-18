@@ -14,8 +14,6 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.view.HeadGraphic;
-import edu.colorado.phet.mri.view.SampleTargetGraphic;
-import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.model.*;
 import edu.umd.cs.piccolo.PNode;
@@ -45,10 +43,25 @@ public class HeadModule extends AbstractMriModule {
     static double earOffsetX = 70 * MriConfig.SCALE_FOR_ORG;
     static double headOffsetY = 35 * MriConfig.SCALE_FOR_ORG;
     static Head head = new Head( new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + earOffsetX,
-                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
+                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY(),
+//                                                       MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 25,
                                                        MriConfig.SAMPLE_CHAMBER_WIDTH - earOffsetX * 2,
-                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
+                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 0 * MriConfig.SCALE_FOR_ORG ),
+                                 new Ellipse2D[]{
+                                         new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
+                                                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 120,
+                                                               earOffsetX,
+                                                               50 ),
+                                         new Ellipse2D.Double( MriConfig.SAMPLE_CHAMBER_BOUNDS.getMaxX() - earOffsetX,
+                                                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + 120,
+                                                               earOffsetX,
+                                                               50 ),
+                                 });
+//                                                       MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 * MriConfig.SCALE_FOR_ORG ) );
     private Detector detector;
+    private GradientElectromagnet horizontalGradientMagnet;
+    private GradientElectromagnet verticalGradientMagnet;
+    private PNode headGraphic;
 
     /**
      * Constructor
@@ -59,20 +72,26 @@ public class HeadModule extends AbstractMriModule {
 
     public HeadModule( String name ) {
         super( name, new SwingClock( delay, dt ), head );
+    }
+
+    protected void init() {
+
+        super.init();
+        System.out.println( "HeadModule.init" );
 
         MriModel model = (MriModel)getModel();
         Electromagnet lowerMagnet = model.getLowerMagnet();
 
         // Add the horizontal gradient magnet
         GradientElectromagnet.LinearGradient gradient = new GradientElectromagnet.LinearGradient( 1, 0 );
-        Point2D gradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-                                                             MriConfig.SAMPLE_CHAMBER_LOCATION.getY() + MriConfig.SAMPLE_CHAMBER_HEIGHT + 60 );
-        GradientElectromagnet horizontalGradientMagnet = new LinearGradientMagnet( gradientMagnetLocation,
-                                                                                    lowerMagnet.getBounds().getWidth(),
-                                                                                    lowerMagnet.getBounds().getHeight(),
-                                                                                    getClock(),
-                                                                                    gradient,
-                                                                                    GradientElectromagnet.HORIZONTAL );
+        Point2D gradientMagnetLocation = new Point2D.Double( lowerMagnet.getPosition().getX(),
+                                                             lowerMagnet.getPosition().getY() -lowerMagnet.getBounds().getHeight() );
+        horizontalGradientMagnet = new LinearGradientMagnet( gradientMagnetLocation,
+                                                             lowerMagnet.getBounds().getWidth(),
+                                                             lowerMagnet.getBounds().getHeight(),
+                                                             getClock(),
+                                                             gradient,
+                                                             GradientElectromagnet.HORIZONTAL );
         model.addModelElement( horizontalGradientMagnet );
 
         // Add the vertical gradient magnet
@@ -80,12 +99,12 @@ public class HeadModule extends AbstractMriModule {
         Point2D verticalGradientMagnetLocation = new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() - 40,
                                                                      MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
                                                                      + MriConfig.SAMPLE_CHAMBER_HEIGHT / 2 );
-        GradientElectromagnet verticalGradientMagnet = new LinearGradientMagnet( verticalGradientMagnetLocation,
-                                                                                  lowerMagnet.getBounds().getHeight(),
-                                                                                  MriConfig.SAMPLE_CHAMBER_HEIGHT,
-                                                                                  getClock(),
-                                                                                  verticalGradient,
-                                                                                  GradientElectromagnet.VERTICAL );
+        verticalGradientMagnet = new LinearGradientMagnet( verticalGradientMagnetLocation,
+                                                           lowerMagnet.getBounds().getHeight(),
+                                                           MriConfig.SAMPLE_CHAMBER_HEIGHT,
+                                                           getClock(),
+                                                           verticalGradient,
+                                                           GradientElectromagnet.VERTICAL );
         model.addModelElement( verticalGradientMagnet );
 
         // Control panel
@@ -95,18 +114,18 @@ public class HeadModule extends AbstractMriModule {
         setControlPanel( controlPanel );
 
         // Make some dipoles
-        head.createDipoles( (MriModel)getModel(), 40 );
+        head.createDipoles( (MriModel)getModel(), 40.0 );
 
         // Add the head graphic
-        PNode headGraphic = new HeadGraphic();
+        headGraphic = new HeadGraphic( head );
         headGraphic.setOffset( MriConfig.SAMPLE_CHAMBER_LOCATION.getX(),
-                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 35 );
+                               MriConfig.SAMPLE_CHAMBER_LOCATION.getY() );
         getGraphicsManager().addGraphic( headGraphic, getGraphicsManager().getHeadLayer() );
 
         // Add a detector
-        Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 30,
+        Rectangle2D detectorBounds = new Rectangle2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH + 80,
                                                              MriConfig.SAMPLE_CHAMBER_LOCATION.getY() - 40,
-                                                             150,
+                                                             100,
                                                              MriConfig.SAMPLE_CHAMBER_HEIGHT + 100 );
         detector = new Detector( detectorBounds, model );
         model.addModelElement( detector );
@@ -123,4 +142,15 @@ public class HeadModule extends AbstractMriModule {
         return detector;
     }
 
+    protected GradientElectromagnet getHorizontalGradientMagnet() {
+        return horizontalGradientMagnet;
+    }
+
+    protected GradientElectromagnet getVerticalGradientMagnet() {
+        return verticalGradientMagnet;
+    }
+
+    public PNode getHeadGraphic() {
+        return headGraphic;
+    }
 }

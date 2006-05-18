@@ -56,7 +56,7 @@ public class PCacheCamera extends PCamera {
 
         imageAnimateBounds = getViewBounds();
 
-        // Now create the actual cache image that we will use to animate fast 
+        // Now createBorder the actual cache image that we will use to animate fast
         
 		BufferedImage buffer = getPaintBuffer();
 		Paint fPaint = Color.white;
@@ -71,7 +71,7 @@ public class PCacheCamera extends PCamera {
 		// Return the bounds to the previous viewbounds
 		animateViewToCenterBounds(viewBounds,scaleToFit,0);
 		
-		// The code below is just copied from animateViewToCenterBounds to create the
+		// The code below is just copied from animateViewToCenterBounds to createBorder the
 		// correct transform to center the specified bounds
 		
 		PDimension delta = viewBounds.deltaRequiredToCenter(centerBounds);

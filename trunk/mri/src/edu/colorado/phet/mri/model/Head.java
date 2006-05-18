@@ -17,7 +17,8 @@ import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
+import java.awt.geom.Area;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -30,18 +31,26 @@ import java.util.List;
  */
 public class Head extends Sample {
 
-    private Ellipse2D shape;
+    private Ellipse2D skull;
+    private Ellipse2D[] ears;
+    private Shape shape;
 
-    public Head( Ellipse2D shape ) {
-        this.shape = shape;
+    public Head( Ellipse2D skull, Ellipse2D[] ears  ) {
+        this.skull = skull;
+        this.ears = ears;
+        Area area = new Area( skull );
+        area.add( new Area( ears[0] ));
+        area.add( new Area( ears[1] ));
+        shape = area;
     }
 
-    public Ellipse2D getShape() {
-        return shape;
+    public Shape getShape() {
+        return skull;
     }
 
     public Rectangle2D getBounds() {
         return shape.getBounds();
+//        return skull.getBounds();
     }
 
     public void addTumor( Tumor tumor, BaseModel model ) {
@@ -60,17 +69,21 @@ public class Head extends Sample {
         }
     }
 
-    public void createDipoles( MriModel model, int numDipoles ) {
-        List dl = MriUtil.createDipolesForEllipse( shape, numDipoles );
+    public void createDipoles( MriModel model, double spacing ) {
+//    public void createDipoles( MriModel model, int numDipoles ) {
+        List dl = MriUtil.createDipolesForEllipse( skull, spacing );
+//        List dl = MriUtil.createDipolesForEllipse( skull, numDipoles );
         for( int i = 0; i < dl.size(); i++ ) {
             Dipole dipole = (Dipole)dl.get( i );
             model.addModelElement( dipole );
         }
         Dipole rightEarDipole = new Dipole();
-        rightEarDipole.setPosition( shape.getX() - 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 -10);
+        rightEarDipole.setPosition( ears[1].getCenterX(), ears[1].getCenterY());
+//        rightEarDipole.setPosition( skull.getX() - 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10);
         model.addModelElement( rightEarDipole );
         Dipole leftEarDipole = new Dipole();
-        leftEarDipole.setPosition( shape.getX() + shape.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, shape.getY() + shape.getHeight() * 0.5 -10 );
+        leftEarDipole.setPosition( ears[0].getCenterX(), ears[0].getCenterY());
+//        leftEarDipole.setPosition( skull.getX() + skull.getWidth() + 30 * MriConfig.SCALE_FOR_ORG, skull.getY() + skull.getHeight() * 0.5 -10 );
         model.addModelElement( leftEarDipole );
     }
 }

@@ -35,6 +35,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     private Detector detector;
     private Rectangle2D bounds;
     private SimpleMagnet upperMagnet, lowerMagnet;
+    private GradientElectromagnet horizontalGradientMagnet, verticalGradientMagnet;
     private ArrayList magnets = new ArrayList();
     ArrayList photons = new ArrayList();
     private Sample sample;
@@ -65,7 +66,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
                                                                   MriConfig.SAMPLE_CHAMBER_WIDTH,
                                                                   MriConfig.SAMPLE_CHAMBER_HEIGHT );
         Point2D upperMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
-                                                          sampleChamberBounds.getY() - magnetHeight * 1.5 );
+                                                          sampleChamberBounds.getY() - magnetHeight * 1.0 );
         upperMagnet = new SimpleMagnet( upperMagnetLocation,
                                         sampleChamberBounds.getWidth(),
                                         magnetHeight,
@@ -73,7 +74,8 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
                                         GradientElectromagnet.HORIZONTAL );
         addModelElement( upperMagnet );
         Point2D lowerMagnetLocation = new Point2D.Double( sampleChamberBounds.getX() + sampleChamberBounds.getWidth() / 2,
-                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
+                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 2 );
+//                                                          sampleChamberBounds.getY() + sampleChamberBounds.getHeight() + magnetHeight * 3 );
         lowerMagnet = new SimpleMagnet( lowerMagnetLocation,
                                         sampleChamberBounds.getWidth(),
                                         magnetHeight,
@@ -85,8 +87,9 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         double length = MriConfig.SAMPLE_CHAMBER_WIDTH * 1.1;
 //        length = 10;
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
-                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
-                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 110 ),
+                                                                   lowerMagnetLocation.getY() + lowerMagnet.getBounds().getHeight()),
+//                                                                   MriConfig.SAMPLE_CHAMBER_LOCATION.getY()
+//                                                                   + MriConfig.SAMPLE_CHAMBER_HEIGHT + 110 ),
                                                length,
                                                new Vector2D.Double( 0, -1 ) );
         addModelElement( radiowaveSource );

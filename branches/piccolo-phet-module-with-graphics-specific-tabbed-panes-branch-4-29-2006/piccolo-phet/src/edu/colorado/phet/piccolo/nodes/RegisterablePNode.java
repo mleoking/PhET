@@ -25,7 +25,7 @@ import java.awt.geom.NoninvertibleTransformException;
  * point you would do the following:
  * <code>
  *      RegisteredPNode rpn = new RegisteredPNode();
- *      PImage pi = PImageFactory.create( "my-image.png" );
+ *      PImage pi = PImageFactory.createBorder( "my-image.png" );
  *      rpn.addChild( pi );
  *      rpn.setRegistrationPoint( pi.getWidth()/2, pi.getHeight()/2 );
  *      rpn.setOffset( location );

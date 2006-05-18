@@ -68,18 +68,18 @@ public class RadiowaveSourceGraphic extends PNode {
 
         // Frequency control
         final ModelSlider freqCtrl = new ModelSlider( "Frequency",
-                                                      "Hz",
+                                                      "MHz",
                                                       MriConfig.MIN_FEQUENCY,
                                                       MriConfig.MAX_FEQUENCY,
-                                                      MriConfig.MIN_FEQUENCY,
-                                                      new DecimalFormat( "0.0E0" ) );
+                                                      MriConfig.MIN_FEQUENCY + (MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
+                                                      new DecimalFormat( "0.0" ) );
         freqCtrl.setFont( font );
         freqCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                radiowaveSource.setFrequency( freqCtrl.getValue() );
+                radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
             }
         } );
-        radiowaveSource.setFrequency( freqCtrl.getValue() );
+        radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
         PSwing freqPSwing = new PSwing( canvas, freqCtrl );
         freqPSwing.setOffset( length * 0.2 - freqPSwing.getBounds().getWidth() / 2, 5 );
         addChild( freqPSwing );
@@ -90,13 +90,13 @@ public class RadiowaveSourceGraphic extends PNode {
                                                        0,
                                                        MriConfig.MAX_POWER,
                                                        0,
-                                                       new DecimalFormat( "0.0E0" ) );
+                                                       new DecimalFormat( "0.0" ) );
         powerCtrl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setPower( powerCtrl.getValue() );
             }
         } );
-        powerCtrl.setValue( MriConfig.MAX_POWER / 2 );
+        powerCtrl.setValue( powerCtrl.getValue()  );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
         powerPSwing.setOffset( length * 0.8 - powerPSwing.getBounds().getWidth() / 2, 5 );
         addChild( powerPSwing );
@@ -109,7 +109,6 @@ public class RadiowaveSourceGraphic extends PNode {
         title.setJustification( javax.swing.JLabel.CENTER_ALIGNMENT );
         title.setOffset( length / 2 - title.getBounds().getWidth() / 2, 10 );
         addChild( title );
-
 
         // Update the sliders if the radiowave source changes its state through some mechanism other than our
         // sliders

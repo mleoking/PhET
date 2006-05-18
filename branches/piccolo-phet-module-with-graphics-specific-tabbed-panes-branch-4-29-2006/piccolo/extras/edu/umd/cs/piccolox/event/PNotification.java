@@ -46,7 +46,7 @@ import java.util.Map;
  * is the object that posted the notification). The properties map stores other
  * related objects, if any.
  * <P>
- * You don't usually create your own notifications directly. The
+ * You don't usually createBorder your own notifications directly. The
  * PNotificationCenter method postNotification() allow you to conveniently post a
  * notification without creating it first.
  * <P>

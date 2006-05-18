@@ -64,7 +64,7 @@ public class PNodeCache extends PNode {
 	
 	/**
 	 * Override this method to customize the image cache creation process. For
-	 * example if you want to create a shadow effect you would do that here. Fill
+	 * example if you want to createBorder a shadow effect you would do that here. Fill
 	 * in the cacheOffsetRef if needed to make your image cache line up with the
 	 * nodes children.
 	 */
