@@ -53,7 +53,11 @@ I wouldn't spend any time on it for now. Just wondering if it is possible.
 
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
->>Still discussing ramifications here.
+> > 1. Disable asymmetry inducing features when in side view
+> > 	-could be confusing to the user and make the simulation
+> harder to use
+I'd also like to hold off on the message "rotate
+> to top view  to use this" until we interview. 
 
 o Add correct units to measuring tape.
 o Add correct units to stopwatch.
