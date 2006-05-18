@@ -33,6 +33,7 @@ import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.util.IntegerRange;
 import edu.colorado.phet.boundstates.view.BSBottomPlot;
+import edu.colorado.phet.boundstates.view.BSMagnifyingGlass;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -145,7 +146,8 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _superpositionButton = new JButton( SimStrings.get( "button.superposition" ) );
             
             // Magnifying glass on/off
-            _magnifyingGlassCheckBox = new JCheckBox( SimStrings.get( "choice.magnifyingGlass" ) );
+            String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (" + BSMagnifyingGlass.MAGNIFICATION + "x)";
+            _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
 
             // Layout
             JPanel innerPanel = new JPanel();
