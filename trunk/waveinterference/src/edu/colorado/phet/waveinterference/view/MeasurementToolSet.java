@@ -25,10 +25,10 @@ public class MeasurementToolSet extends PNode {
     private PSwingCanvas pSwingCanvas;
 
     public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, WaveInterferenceModel waveInterferenceModel ) {
-        this( pSwingCanvas, clock, latticeScreenCoordinates, waveInterferenceModel.getDistanceUnits(), waveInterferenceModel.getPhysicalWidth(), waveInterferenceModel.getPhysicalHeight() );
+        this( pSwingCanvas, clock, latticeScreenCoordinates, waveInterferenceModel.getDistanceUnits(), waveInterferenceModel.getPhysicalWidth(), waveInterferenceModel.getPhysicalHeight(), waveInterferenceModel.getTimeUnits(), waveInterferenceModel.getTimeScale() );
     }
 
-    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, String units, double physicalWidth, double physicalHeight ) {
+    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, String units, double physicalWidth, double physicalHeight, String timeUnits, double timeScale ) {
 
         this.pSwingCanvas = pSwingCanvas;
         measuringTape = new WaveMeasuringTape( latticeScreenCoordinates );
@@ -36,7 +36,7 @@ public class MeasurementToolSet extends PNode {
 //        measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
 
-        stopwatchGraphic = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock ) ) );
+        stopwatchGraphic = new PhetPNode( new PSwing( pSwingCanvas, new StopwatchPanelDectorator( clock, timeScale, timeUnits ) ) );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );
         stopwatchGraphic.setVisible( false );

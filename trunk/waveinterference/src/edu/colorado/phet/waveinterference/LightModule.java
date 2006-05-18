@@ -24,6 +24,8 @@ public class LightModule extends WaveInterferenceModule {
             super.setDistanceUnits( "nm" );
             //todo: determined through experiment, depends on wavelength to frequency mapping in WavelengthControlPanel
             super.setPhysicalSize( 4200, 4200 );
+            super.setTimeScale( 1 );
+            super.setTimeUnits( "nanosec" );
         }
     }
 
