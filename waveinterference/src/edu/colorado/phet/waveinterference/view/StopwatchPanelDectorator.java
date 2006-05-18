@@ -17,11 +17,13 @@ import java.awt.*;
  */
 
 public class StopwatchPanelDectorator extends VerticalLayoutPanel {
-    public StopwatchPanelDectorator( IClock clock ) {
+    public StopwatchPanelDectorator( IClock clock, double timeScale, String timeUnits ) {
         setBorder( new LineBorder( Color.black, 2, true ) );
         JLabel label = new JLabel( "Stopwatch" );
         add( label );
         StopwatchPanel stopwatchPanel = new StopwatchPanel( clock );
+        stopwatchPanel.setScaleFactor( timeScale );
+        stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
         label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );

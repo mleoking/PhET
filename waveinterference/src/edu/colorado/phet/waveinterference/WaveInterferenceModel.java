@@ -24,9 +24,13 @@ public class WaveInterferenceModel implements ModelElement {
 //    private static final double startTime = System.currentTimeMillis() / 1000.0;
     private double time = 0.0;
     private ArrayList listeners = new ArrayList();
+
     private String distanceUnits;
     private double physicalWidth;
     private double physicalHeight;
+
+    private String timeUnits = "sec";
+    private double timeScale = 1.0;
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
@@ -62,6 +66,14 @@ public class WaveInterferenceModel implements ModelElement {
         this.distanceUnits = distanceUnits;
     }
 
+    public void setTimeUnits( String timeUnits ) {
+        this.timeUnits = timeUnits;
+    }
+
+    public void setTimeScale( double timeScale ) {
+        this.timeScale = timeScale;
+    }
+
     public void setPhysicalSize( double physicalWidth, double physicalHeight ) {
         this.physicalWidth = physicalWidth;
         this.physicalHeight = physicalHeight;
@@ -77,6 +89,14 @@ public class WaveInterferenceModel implements ModelElement {
 
     public double getPhysicalHeight() {
         return physicalHeight;
+    }
+
+    public String getTimeUnits() {
+        return timeUnits;
+    }
+
+    public double getTimeScale() {
+        return timeScale;
     }
 
     public static interface Listener {
