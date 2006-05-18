@@ -19,7 +19,7 @@ import java.awt.event.ComponentEvent;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class WaterSimulationPanel extends WaveInterferenceCanvas implements ModelElement {
+public class WaterSimulationPanel extends WaveInterferenceCanvas implements ModelElement, TopViewBarrierVisibility {
     private WaterModule waterModule;
     private RotationWaveGraphic rotationWaveGraphic;
     private IntensityReaderSet intensityReaderSet;
@@ -43,6 +43,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( getWaveModel(), 6, 6, new IndexColorMap( getLattice(), waterColor ) );
         WaveSideViewFull waveSideView = new WaveSideViewFull( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
+
         waveSideView.setStrokeColor( waterColor.getColor().darker() );//todo make it mutable
         waveSideView.setBodyColor( waterColor.getColor() );//todo make it mutable
         RotationGlyph rotationGlyph = new RotationGlyph( waterColor );
@@ -53,7 +54,11 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
                 angleChanged();
             }
         } );
+
+        addScreenChild( new BarrierSideView( waterModule.getSlitPotential(), getLatticeScreenCoordinates(), waveSideView ) );//not a part of the wavesideview so coordinates will be easier, and z-order will be easier
         addScreenChild( rotationWaveGraphic );
+        rotationWaveGraphic.setPickable( false );
+        rotationWaveGraphic.setChildrenPickable( false );
 
         primaryFaucetGraphic = new RotationFaucetGraphic( this, getWaveModel(), waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates(), rotationWaveGraphic );
         addScreenChild( primaryFaucetGraphic );
@@ -62,7 +67,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         secondaryFaucetGraphic.setEnabled( false );
         addScreenChild( secondaryFaucetGraphic );
 
-        slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
+        slitPotentialGraphic = new SlitPotentialGraphic( this, waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
@@ -132,9 +137,15 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         }
     }
 
+
+    public boolean isTopVisible() {
+        return rotationWaveGraphic.isTopView();
+    }
+
     private void angleChanged() {
-        if( rotationWaveGraphic.isTopView() ) {
+        if( isTopVisible() ) {
             slitPotentialGraphic.setVisible( true );
+            slitPotentialGraphic.update();
             intensityReaderSet.setToMiddle( true );
         }
         else {
@@ -183,4 +194,5 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet.update();
         expandableWaveChart.updateChart();
     }
+
 }
