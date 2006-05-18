@@ -1,16 +1,4 @@
-Particle View
-    - When you put up a barrier in sound, the particles to the right of the
-barrier don't go through (this is correct), but the particles on the left of
-the barrier penetrate the barrier. I suspect that there is a boundary
-condition on the right side, but not the left?
-1. Shrink particles
-2. Remove particles near barrier.
-3. constrain particles not to move beyond barrier.
-
-Paricles could be
-maybe 75% of their current size and it might look better anyway.
- I would pick a smaller particle size for the particle view.  Probably half
-your current size or a little smaller. 14 pixels?
+Dotted line should be white in sound module for particle view.
 
 Integrate Noah's speaker graphics.
 
