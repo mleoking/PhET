@@ -15,6 +15,9 @@ import com.sun.java.swing.SwingUtilities2;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.*;
 
 /**
  * SimLauncher
@@ -24,14 +27,27 @@ import java.awt.event.WindowEvent;
  */
 public class SimLauncher {
 
-    public SimLauncher() {
+    private SimLauncher() {
         JFrame frame = new JFrame( "PhET Simulation Launcher");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                centerFrame( (JFrame)e.getComponent() );
+            }
+        } );
 
-        frame.setContentPane( new TopLevelPane() );
-        frame.setJMenuBar( new SimLauncherMenuBar( frame ) );
+        frame.setContentPane( TopLevelPane.getInstance() );
+        frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
         frame.setVisible( true );
+    }
+
+    private static void centerFrame( JFrame frame ) {
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            Dimension d = tk.getScreenSize();
+            int x = ( d.width - frame.getWidth() ) / 2;
+            int y = ( d.height - frame.getHeight() ) / 2;
+            frame.setLocation( x, y );
     }
 
     public static void main( String[] args ) {
