@@ -14,8 +14,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleEvent;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.piccolo.PhetTabbedPane;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -26,8 +26,8 @@ import javax.swing.event.ChangeListener;
  * @author Sam and Ron
  * @version $Revision$
  */
-//public class TabbedModulePane extends PhetTabbedPane implements ModuleObserver {
-public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
+public class TabbedModulePane extends PhetTabbedPane implements ModuleObserver {
+//public class TabbedModulePane extends JTabbedPane implements ModuleObserver {
     private Module current;
     private PhetApplication application;
 
