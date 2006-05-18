@@ -1,4 +1,4 @@
-o Faucets should be draggable.
+Faucets should be draggable.
 
 Particle View
     - When you put up a barrier in sound, the particles to the right of the

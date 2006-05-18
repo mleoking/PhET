@@ -41,7 +41,7 @@ public class FaucetGraphic extends PhetPNode {
         this( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
     }
 
-    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, final Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
+    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, final Oscillator oscillator, final LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
         this.waveModel = waveModel;
         this.oscillator = oscillator;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -65,17 +65,22 @@ public class FaucetGraphic extends PhetPNode {
         } );
         FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( pSwingCanvas, this );
         addChild( faucetOnOffButton );
+
+        addInputEventListener( new HorizontalFaucetDragHandler( this ) );
     }
 
     public PImage getImagePNode() {
         return image;
     }
 
+    private Point2D.Double getDistToOpeningOffset() {
+        return new Point2D.Double( faucetData.getDistToOpeningX( image.getImage() ), faucetData.getDistToOpeningY( image.getImage() ) );
+    }
+
     private void updateLocation() {
-        double dx = faucetData.getDistToOpeningX( image.getImage() );
-        double dy = faucetData.getDistToOpeningY( image.getImage() );
+        Point2D.Double pt = getDistToOpeningOffset();
         Point2D screenLocationForOscillator = getOscillatorScreenCoordinates();
-        setOffset( screenLocationForOscillator.getX() - dx, screenLocationForOscillator.getY() - dy - dropHeight );
+        setOffset( screenLocationForOscillator.getX() - pt.getX(), screenLocationForOscillator.getY() - pt.getY() - dropHeight );
     }
 
     private Point2D getOscillatorScreenCoordinates() {
@@ -193,6 +198,10 @@ public class FaucetGraphic extends PhetPNode {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return latticeScreenCoordinates;
     }
 
     public static interface Listener {
