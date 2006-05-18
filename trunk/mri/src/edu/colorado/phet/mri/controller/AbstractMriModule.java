@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.common.application.InitializableModule;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
@@ -19,6 +18,7 @@ import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.application.LazyModule;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,7 +33,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 //public abstract class AbstractMriModule extends InitializedModule.Eager {
-public abstract class AbstractMriModule extends InitializableModule.Lazy {
+public abstract class AbstractMriModule extends LazyModule {
 //public abstract class AbstractMriModule extends PiccoloModule {
     protected static int delay = (int)( 1000 / MriConfig.FPS );
     protected static double dt = MriConfig.DT;
