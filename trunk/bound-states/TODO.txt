@@ -64,6 +64,8 @@ CLEANUP:
 
 DONE:
 0.00.07...
+(5/18/06) - fix mass normalization of Coulomb analytic wave function solver, 1D only, sqrt (roll into 0.00.07)
+(5/18/06) - change default Coulomb spacing to 0.7 (roll into 0.00.07)
 (5/17/06) - make Fireworks versions of zoom buttons, increase size
 (5/17/06) - adjust  of equations in bottom plot so that hilite equation isn't intersected by y=0
 (5/17/06) - rename BSWellRangeSpec to BSWellSpec since it includes more than ranges
