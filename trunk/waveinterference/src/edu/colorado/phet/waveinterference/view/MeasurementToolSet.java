@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.waveinterference.WaveInterferenceModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -23,7 +24,12 @@ public class MeasurementToolSet extends PNode {
     private PNode stopwatchGraphic;
     private PSwingCanvas pSwingCanvas;
 
-    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, WaveInterferenceModel waveInterferenceModel ) {
+        this( pSwingCanvas, clock, latticeScreenCoordinates, waveInterferenceModel.getDistanceUnits(), waveInterferenceModel.getPhysicalWidth(), waveInterferenceModel.getPhysicalHeight() );
+    }
+
+    public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, String units, double physicalWidth, double physicalHeight ) {
+
         this.pSwingCanvas = pSwingCanvas;
         measuringTape = new WaveMeasuringTape( latticeScreenCoordinates );
         measuringTape.setVisible( false );
@@ -34,6 +40,11 @@ public class MeasurementToolSet extends PNode {
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );
         stopwatchGraphic.setVisible( false );
+
+        setDistanceUnits( units );
+
+        getWaveMeasuringTape().setWaveAreaSize( physicalWidth, physicalHeight );
+
         addChild( stopwatchGraphic );
     }
 

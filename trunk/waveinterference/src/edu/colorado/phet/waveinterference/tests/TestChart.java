@@ -22,7 +22,7 @@ public class TestChart extends TestTopView {
 
         final MutableColor waterColor = new MutableColor( new Color( 130, 185, 255 ) );
         getWaveModelGraphic().setColorMap( new IndexColorMap( getLattice(), waterColor ) );
-        waveChartGraphic = new WaveChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor );
+        waveChartGraphic = new WaveChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor, "km", -2, 2 );
         getPhetPCanvas().getLayer().addChild( waveChartGraphic );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );

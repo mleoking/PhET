@@ -19,9 +19,16 @@ public class WaterModule extends WaveInterferenceModule {
     private WaveInterferenceModel waveInterferenceModel;
     private WaterControlPanel waterControlPanel;
 
+    static class WaterModel extends WaveInterferenceModel {
+        public WaterModel() {
+            setDistanceUnits( "cm" );
+            setPhysicalSize( 10, 10 );
+        }
+    }
+
     public WaterModule() {
         super( "Water" );
-        waveInterferenceModel = new WaveInterferenceModel();
+        waveInterferenceModel = new WaterModel();
         waterSimulationPanel = new WaterSimulationPanel( this );
         waterControlPanel = new WaterControlPanel( this );
 
@@ -80,4 +87,7 @@ public class WaterModule extends WaveInterferenceModule {
         new ModuleApplication().startApplication( args, new WaterModule() );
     }
 
+    public WaveInterferenceModel getWaveInterferenceModel() {
+        return waveInterferenceModel;
+    }
 }

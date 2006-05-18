@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  */
 
 public class LightSimulationPanel extends WaveInterferenceCanvas implements ModelElement {
-    private LightModule waterModule;
+    private LightModule lightModule;
     private RotationWaveGraphic rotationWaveGraphic;
     private IntensityReaderSet intensityReaderSet;
     private SlitPotentialGraphic slitPotentialGraphic;
@@ -41,10 +41,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ScreenChartGraphic screenChart;
     private ExpandableScreenChartGraphic expandableScreenChartGraphic;
 
-    public LightSimulationPanel( LightModule waterModule ) {
-        this.waterModule = waterModule;
+    public LightSimulationPanel( LightModule lightModule ) {
+        this.lightModule = lightModule;
 
-        this.visibleWaveModel = waterModule.getWaveModel();
+        this.visibleWaveModel = lightModule.getWaveModel();
 
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, new IndexColorMap( getLattice() ) );
         waveSideView = new WaveSideViewPhoton( getWaveModel(), waveModelGraphic.getLatticeScreenCoordinates() );
@@ -70,33 +70,33 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         addScreenChild( rotationWaveGraphic );
 
-        primaryLaserGraphic = new LightSourceGraphic( this, waterModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        primaryLaserGraphic = new LightSourceGraphic( this, lightModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryLaserGraphic );
 
-        secondaryLaserGraphic = new LightSourceGraphic( this, waterModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        secondaryLaserGraphic = new LightSourceGraphic( this, lightModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( secondaryLaserGraphic );
 
-        slitPotentialGraphic = new SlitPotentialGraphic( waterModule.getSlitPotential(), getLatticeScreenCoordinates() );
+        slitPotentialGraphic = new SlitPotentialGraphic( lightModule.getSlitPotential(), getLatticeScreenCoordinates() );
         addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates() );
-        measurementToolSet.setDistanceUnits( "nm" );
-        //todo: determined through experiment, depends on wavelength to frequency mapping in WavelengthControlPanel
-        measurementToolSet.getWaveMeasuringTape().setWaveAreaSize( 4200, 4200 );
-        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
-        addScreenChild( measurementToolSet );
+        measurementToolSet = new MeasurementToolSet( this, lightModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
-        multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, waterModule.getPrimaryOscillator(), secondaryLaserGraphic, waterModule.getSecondaryOscillator() );
-        laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, waterModule.getPrimaryOscillator(), waterModule.getSecondaryOscillator() );
+        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
+
+
+        multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, lightModule.getPrimaryOscillator(), secondaryLaserGraphic, lightModule.getSecondaryOscillator() );
+        laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, lightModule.getPrimaryOscillator(), lightModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
 
         VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
         addScreenChild( 0, verticalConnector );
 
-        waveChartGraphic = new LaserWaveChartGraphic( this, "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ) );
+        waveChartGraphic = new LaserWaveChartGraphic( this, "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
+                                                      getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
+
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
@@ -114,7 +114,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
         addScreenChild( expandableScreenChartGraphic );
-
+        addScreenChild( measurementToolSet );
         screenNode.addListener( new ScreenNode.Listener() {
             public void enabledStateChanged() {
                 updateExpandableGraphicVisibility();
@@ -133,6 +133,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+    }
+
+    private WaveInterferenceModel getWaveInterferenceModel() {
+        return lightModule.getWaveInterferenceModel();
     }
 
     private void updateExpandableGraphicVisibility() {

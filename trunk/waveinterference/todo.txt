@@ -1,10 +1,3 @@
-o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
-For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
-
-o On all panels the graph x-axis units need to represent a realistic number.
-    The measuring tape already does this so for each panel if you could match the
- units on the graph to what the tape measure uses. For the y-axis, simple tick marks with no numbers or units will work.
-
 o Test at 1024x768
 
 o Test on a Mac.
@@ -70,6 +63,9 @@ the dotted line appears on the pool, stays dotted as the edge of the
 rotating box, and disappears when you release the slider. Just an idea, but
 I wouldn't spend any time on it for now. Just wondering if it is possible.
 
+o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
+For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
+>>Still discussing ramifications here.
 
 ##############################################################
 Low Priority________________________________________________________

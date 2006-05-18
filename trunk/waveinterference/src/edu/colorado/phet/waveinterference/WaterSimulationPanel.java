@@ -68,8 +68,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates() );
-        addScreenChild( measurementToolSet );
+        measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
@@ -79,13 +78,13 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         faucetConnector = new FaucetConnector( faucetControlPanelPNode, primaryFaucetGraphic );
         addScreenChild( 0, faucetConnector );
 
-        waveChartGraphic = new WaveChartGraphic( "Water Level", getLatticeScreenCoordinates(), getWaveModel(), waterColor );
+        waveChartGraphic = new WaveChartGraphic( "Water Level", getLatticeScreenCoordinates(), getWaveModel(), waterColor, getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         addScreenChild( crossSectionGraphic );
-
+        addScreenChild( measurementToolSet );
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
             public void expansionStateChanged() {
                 updateCrossSectionGraphicVisible();
@@ -103,6 +102,10 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+    }
+
+    private WaveInterferenceModel getWaveInterferenceModel() {
+        return waterModule.getWaveInterferenceModel();
     }
 
     private void updateCrossSectionGraphicVisible() {

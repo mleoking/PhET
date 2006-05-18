@@ -32,16 +32,21 @@ public class WaveChartGraphic extends PNode {
     private JFreeChartNode jFreeChartNode;
     private PPath path;
 
-    public WaveChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor ) {
+    public WaveChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor, String distanceUnits, double minX, double maxX ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.waveModel = waveModel;
         this.strokeColor = strokeColor;
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
         jFreeChart = ChartFactory.createXYLineChart( title, "position", title, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
         jFreeChartNode.setBounds( 0, 0, 500, 200 );
+
+        setHorizontalLabel( "position (" + distanceUnits + ")" );
+        setHorizontalRange( minX, maxX );
+
         jFreeChartNode.updateChartRenderingInfo();
         path = new PPath();
         path.setStroke( new BasicStroke( 3 ) );
@@ -62,6 +67,14 @@ public class WaveChartGraphic extends PNode {
             }
         } );
         updateColor();
+    }
+
+    public void setHorizontalLabel( String horizontalUnits ) {
+        jFreeChart.getXYPlot().getDomainAxis().setLabel( horizontalUnits );
+    }
+
+    public void setHorizontalRange( double min, double max ) {
+        jFreeChart.getXYPlot().getDomainAxis().setRange( min, max );
     }
 
     public Rectangle2D getChartBounds() {
@@ -164,4 +177,5 @@ public class WaveChartGraphic extends PNode {
     public boolean isCurveVisible() {
         return path.getVisible();
     }
+
 }

@@ -14,7 +14,7 @@ import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
 public class TestMeasurementTools extends TestTopView {
     public TestMeasurementTools() {
         super( "Test Stopwatch Panel" );
-        MeasurementToolSet measurementToolSet = new MeasurementToolSet( getPhetPCanvas(), getClock(), getLatticeScreenCoordinates() );
+        MeasurementToolSet measurementToolSet = new MeasurementToolSet( getPhetPCanvas(), getClock(), getLatticeScreenCoordinates(), "meters", 10, 10 );
         MeasurementControlPanel measurementControlPanel = new MeasurementControlPanel( measurementToolSet );
         getPhetPCanvas().addScreenChild( measurementToolSet );
         getControlPanel().addControl( measurementControlPanel );
