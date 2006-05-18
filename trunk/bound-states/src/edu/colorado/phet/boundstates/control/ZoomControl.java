@@ -50,7 +50,6 @@ public class ZoomControl extends JPanel {
     public static final int HORIZONTAL = SwingConstants.HORIZONTAL;
     public static final int VERTICAL = SwingConstants.VERTICAL;
     
-    private static final Insets MARGIN = new Insets( 0, 0, 0, 0 ); // top,left,bottom,right
     private static final int SPACING_BETWEEN_BUTTONS = 2; // pixels
     
     //----------------------------------------------------------------------------
@@ -100,7 +99,6 @@ public class ZoomControl extends JPanel {
         
         // Zoom In button
         _zoomInButton.setOpaque( false );
-        _zoomInButton.setMargin( MARGIN );
         _zoomInButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleZoomIn();
@@ -109,7 +107,6 @@ public class ZoomControl extends JPanel {
         
         // Zoom Out button
         _zoomOutButton.setOpaque( false );
-        _zoomOutButton.setMargin( MARGIN );
         _zoomOutButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleZoomOut();
