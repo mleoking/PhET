@@ -46,7 +46,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         greenhouseControlPanel = new GreenhouseControlPanel( this );
         pnl.add(  greenhouseControlPanel );
         setControlPanel( pnl );
-//        setControlPanel( new GreenhouseControlPanel( this ) );
 
         // Tell the Earth not to jimmy the temperature
         getEarth().setJimmyArray( null );
@@ -59,19 +58,10 @@ public class GreenhouseModule extends BaseGreenhouseModule {
     }
 
     public void reset() {
-
         super.reset();
         numCloudsEnabled( 0 );
         cloudsEnabled( false );
-
-//
-//        List photons = ((GreenhouseModel)getModel()).getPhotons();
-//        for( int i = 0; i < photons.size(); i++ ) {
-//            Photon photon = (Photon)photons.get( i );
-//            ((GreenhouseModel)getModel()).photonAbsorbed( photon );
-//        }
     }
-
 
     //
     // Methods for handling clouds
@@ -121,5 +111,4 @@ public class GreenhouseModule extends BaseGreenhouseModule {
             }
         }
     }
-
 }

@@ -15,7 +15,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.coreadditions.ModelViewTx1D;
 
 import javax.swing.*;
@@ -23,23 +22,26 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 
 public class GreenhouseControlPanel extends JPanel {
 
-    private static Color adjustableGGColor = Color.cyan;
+    private static Color adjustableGGColor = Color.black;
+//    private static Color adjustableGGColor = Color.cyan;
 //    private static Color adjustableGGColor = new Color( 255, 160, 180 );
-    private static Color iceAgeColor = new Color( 255, 180, 20 );
-    private static Color preIndRevColor = Color.green;
+    private static Color iceAgeColor = new Color( 0, 28, 229 );
+    private static Color preIndRevColor = new Color( 176, 0, 219 );
+//    private static Color preIndRevColor = Color.green;
 //    private static Color todayColor = new Color( 60, 200, 255 );
-    private static Color todayColor = Color.yellow;
+    private static Color todayColor = new Color( 11, 142, 0 );
+//    private static Color todayColor = Color.yellow;
     private static Color venusColor = Color.cyan;
     private static Color panelBackground = new Color( 110, 110, 110 );
-    private static Color panelForeground = Color.white;
+    private static Color panelForeground = Color.black;
+//    private static Color panelForeground = Color.white;
 
 
     private ModelSlider greenhouseGasConcentrationControl;
@@ -111,13 +113,19 @@ public class GreenhouseControlPanel extends JPanel {
         } );
 
         // Greenhouse gas concentration
-        greenhouseGasConcentrationControl = new ModelSlider( MessageFormatter.format( SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ),
+//        greenhouseGasConcentrationControl = new ModelSlider( MessageFormatter.format( SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ),
+        greenhouseGasConcentrationControl = new ModelSlider( "",
                                                              0.0,
                                                              GreenhouseConfig.maxGreenhouseGasConcentration,
                                                              GreenhouseConfig.defaultGreenhouseGasConcentration );
         greenhouseGasConcentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setGreenhouseGasConcentration( greenhouseGasConcentrationControl.getModelValue() );
+            }
+        } );
+        greenhouseGasConcentrationControl.addSliderListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                atmosphereSelectionPane.setAdjustableAtmosphere();
             }
         } );
 
@@ -148,7 +156,7 @@ public class GreenhouseControlPanel extends JPanel {
         } );
 //        thermometerCB.setSelected( module.isThermometerEnabled() );
 //
-//        // todo: HACK!!! make the control panel listen to the module for this?
+//        // todo: HACK!!! make the control optionsPanel listen to the module for this?
 //        thermometerCB.setSelected( true );
 
         // Ratio of photons to see
@@ -164,7 +172,7 @@ public class GreenhouseControlPanel extends JPanel {
             }
         } );
 //        module.setVisiblePhotonRatio( 1.0 );
-//        // todo: HACK!!! make the control panel listen to the module for this?
+//        // todo: HACK!!! make the control optionsPanel listen to the module for this?
 //        allPhotonsCB.setSelected( true );
 
         // Atmosphere selection
@@ -187,20 +195,44 @@ public class GreenhouseControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
+                                                         GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         add( logo, gbc );
         add( new GreenhouseLegend(), gbc );
-        add( greenhouseGasConcentrationControl, gbc );
+
+        // Greenhouse gas concentrations
+        {
+            JPanel panel = new JPanel();
+            panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
+            panel.add( greenhouseGasConcentrationControl );
+            add( panel, gbc );
+//        add( greenhouseGasConcentrationControl, gbc );
+        }
+
+        // Options optionsPanel
+        JPanel optionsPanel = new JPanel( new GridBagLayout() );
+        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.Options" ) ) );
+        GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                             GridBagConstraints.WEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 25, 0, 25 ), 0, 0 );
+        optionsPanel.add( cloudPanel, optsGbc );
+        optionsPanel.add( thermometerCB, optsGbc );
+        optionsPanel.add( allPhotonsCB, optsGbc );
+
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( atmosphereSelectionPane, gbc );
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets( 0, 15, 0, 15 );
-        add( cloudPanel, gbc );
-        add( thermometerCB, gbc );
-        add( allPhotonsCB, gbc );
+//        gbc.fill = GridBagConstraints.NONE;
+        add( optionsPanel, gbc );
+//        gbc.insets = new Insets( 0, 15, 0, 15 );
+//        add( cloudPanel, gbc );
+//        add( thermometerCB, gbc );
+//        add( allPhotonsCB, gbc );
+
         gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets( 15, 15, 0, 15 );
         add( resetBtn, gbc );
 
         setBackground( this );
@@ -246,10 +278,11 @@ public class GreenhouseControlPanel extends JPanel {
 
     private class AtmosphereSelectionPane extends JPanel {
         private JRadioButton todayGGRB;
+        private JRadioButton adjustableGGRB;
 
         AtmosphereSelectionPane() {
 
-            final JRadioButton adjustableGGRB = new JRadioButton();
+            adjustableGGRB = new JRadioButton();
             adjustableGGRB.setAction( pickAdjustableGG );
             adjustableGGRB.setText( SimStrings.get( "GreenhouseControlPanel.Adjustable" ) );
             adjustableGGRB.setForeground( adjustableGGColor );
@@ -302,12 +335,23 @@ public class GreenhouseControlPanel extends JPanel {
             this.add( venusCompositionPane, gbc );
             this.add( adjustableCompositionPane, gbc );
 
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.TimePeriodBorderLabel" ) );
             titledBorder.setTitleColor( panelForeground );
-            titledBorder.setTitleJustification( TitledBorder.LEFT );
+//            titledBorder.setTitleJustification( TitledBorder.LEFT );
             this.setBorder( titledBorder );
 
             setDefaultConditions();
+        }
+
+        private void setAdjustableAtmosphere() {
+            GreenhouseControlPanel.this.module.setVirginEarth();
+            greenhouseGasConcentrationControl.setEnabled( true );
+            module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
+            hideConcentrations();
+            greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
+            adjustableCompositionPane.setPreferredSize( iceAgeCompositionPane.getPreferredSize() );
+            adjustableCompositionPane.setVisible( true );
+            adjustableGGRB.setSelected( true );
         }
 
         public void reset() {
@@ -340,15 +384,9 @@ public class GreenhouseControlPanel extends JPanel {
         // Actions that set the simulation for different times and atmospheric scenarios
         //----------------------------------------------------------------
 
-        private AbstractAction pickAdjustableGG = new AbstractAction() {
+        AbstractAction pickAdjustableGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
-                GreenhouseControlPanel.this.module.setVirginEarth();
-                greenhouseGasConcentrationControl.setEnabled( true );
-                module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
-                hideConcentrations();
-                greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
-                adjustableCompositionPane.setPreferredSize( iceAgeCompositionPane.getPreferredSize() );
-                adjustableCompositionPane.setVisible( true );
+                setAdjustableAtmosphere();
             }
         };
 
@@ -367,7 +405,7 @@ public class GreenhouseControlPanel extends JPanel {
         private AbstractAction pickPreIndRevGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentration1750 );
-//                greenhouseGasConcentrationControl.setEnabled( false );
+                greenhouseGasConcentrationControl.setEnabled( false );
                 greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setPreIndRev();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
@@ -387,30 +425,6 @@ public class GreenhouseControlPanel extends JPanel {
                 todayCompositionPane.setVisible( true );
             }
         };
-
-        private AbstractAction pickVenusGG = new AbstractAction() {
-            public void actionPerformed( ActionEvent e ) {
-                greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
-                greenhouseGasConcentrationControl.setEnabled( false );
-                greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration * 4 );
-                GreenhouseControlPanel.this.module.setVenus();
-                module.getEarth().setBaseTemperature( GreenhouseConfig.venusBaseTemperature );
-                hideConcentrations();
-                venusCompositionPane.setVisible( true );
-            }
-        };
-//
-//        private AbstractAction pickTomorrowGG = new AbstractAction() {
-//            String[] preIndRevConcentrations = new String[]{"?", "?", "?", "?"};
-//
-//            public void actionPerformed( ActionEvent e ) {
-//                greenhouseGasCompositionPane.setConcentrations( preIndRevConcentrations );
-//                greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.maxGreenhouseGasConcentration * 0.9 );
-//                GreenhouseControlPanel.this.module.setTomorrow();
-//                greenhouseGasConcentrationControl.setEnabled( false );
-//            }
-//        };
-
     }
 
 
@@ -448,14 +462,13 @@ public class GreenhouseControlPanel extends JPanel {
             n2oTF.setEditable( false );
 
             this.setLayout( new GridBagLayout() );
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) );
             Font font = this.getFont();
             FontMetrics fontMetrics = getFontMetrics( font );
             int width = fontMetrics.stringWidth( SimStrings.get( "GreenhouseControlPanel.GreenhouseGasBorderLabel" ) + "   " );
             Dimension concentrationsPanelDim = new Dimension( width, 120 );
             this.setPreferredSize( concentrationsPanelDim );
 
-            titledBorder.setTitleJustification( TitledBorder.LEFT );
             titledBorder.setTitleColor( panelForeground );
             this.setBorder( titledBorder );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -491,17 +504,18 @@ public class GreenhouseControlPanel extends JPanel {
 
         ModelSlider( String title, double minModelValue, double maxModelValue, double defaultModelValue ) {
             this.setLayout( new GridBagLayout() );
+//            putClientProperty( "JSlider.isFilled", Boolean.TRUE );
             tx = new ModelViewTx1D( minModelValue, maxModelValue,
                                     0, 10000 );
             slider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   10000,
                                   (int)tx.modelToView( defaultModelValue ) );
             slider.setPaintLabels( true );
-            slider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    double rate = tx.viewToModel( slider.getValue() );
-                }
-            } );
+//            slider.addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    double rate = tx.viewToModel( slider.getValue() );
+//                }
+//            } );
 
             int rowIdx = 0;
             try {
@@ -551,6 +565,7 @@ public class GreenhouseControlPanel extends JPanel {
 
         void setModelValue( double value ) {
             slider.setValue( (int)tx.modelToView( value ) );
+            putClientProperty( "JSlider.isFilled", Boolean.TRUE );
         }
 
         public void setEnabled( boolean enabled ) {
@@ -572,7 +587,12 @@ public class GreenhouseControlPanel extends JPanel {
                 labelTable.put( loc, label );
             }
         }
+
+        void addSliderListener( MouseListener listener ) {
+            slider.addMouseListener( listener );
+        }
     }
+
 
     class SliderWithReadout extends JPanel {
         private JTextField modelValueTF;
