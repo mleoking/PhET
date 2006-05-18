@@ -55,9 +55,9 @@ public class MriApplication extends PiccoloPhetApplication {
     private Module[] modules = fullAppModules;
 
     public MriApplication( String[] args ) {
-//        super( args, title, description, version, frameSetup, PhetApplication.JTABBED_PANE );
+        super( args, title, description, version, frameSetup, PiccoloPhetApplication.JTABBED_PANE );
 //        super( args, title, description, version, frameSetup );
-        super( args, title, description, version, frameSetup, PiccoloPhetApplication.PHET_TABBED_PANE );
+//        super( args, title, description, version, frameSetup, PiccoloPhetApplication.PHET_TABBED_PANE );
         setModules( modules );
     }
 
