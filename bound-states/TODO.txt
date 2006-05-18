@@ -24,7 +24,6 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
-- Energy axis label gets clipped when range changes (eg, with 1D Coulomb zoom)
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -42,7 +41,6 @@ LOW PRIORITY:
 - refactor other classes that have gotten too big
 - make sure things update properly when clock is paused
 - how does the user know the mass in the Two and Many panels? there is no mass control
-- remove ticks from BSBottomPlot y-axis, set Y_AXIS_TICKS_VISIBLE=false (confirm before doing!)
 - update while sliders are dragging
 - wave function curves look segmented when screen resolution is decreased after sim is started
 - scale position axis to fit excited portion of wavefunction (might not do this)
@@ -63,6 +61,7 @@ CLEANUP:
 
 
 DONE:
+(5/18/06) - bugfix: Energy axis label gets clipped when range changes
 (5/18/06) - add 10x to magnifying glass control
 (5/18/06) - tweak zoom button images, scale the zoom control
 (5/18/06) - remove setMargin calls on zoom buttons, causing problems
