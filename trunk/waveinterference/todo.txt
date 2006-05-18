@@ -1,5 +1,3 @@
-Dotted line should be white in sound module for particle view.
-
 Integrate Noah's speaker graphics.
 
 Integrate Noah's light source graphics.
@@ -52,6 +50,8 @@ o Test on a Mac.
 o Add foreign languages.
 
 o Add help?
+
+Dotted line should be white in sound module for particle view.
 ##############################################################
 Low Priority________________________________________________________
 - It looks like the particles run away from the speaker and then fill in
