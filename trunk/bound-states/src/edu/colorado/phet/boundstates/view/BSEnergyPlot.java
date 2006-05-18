@@ -22,6 +22,7 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -93,6 +94,9 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             yAxis.setTickLabelPaint( BSConstants.COLOR_SCHEME.getTickColor() );
             yAxis.setTickMarkPaint( BSConstants.COLOR_SCHEME.getTickColor() );
             yAxis.setAutoTickUnitSelection( true );
+            
+            // WORKAROUND: y-axis label gets clipped when range is changed
+            yAxis.setLabelInsets( new RectangleInsets( 0,0,10,0 ) );
         }
 
         setRangeAxisLocation( AxisLocation.BOTTOM_OR_LEFT );
