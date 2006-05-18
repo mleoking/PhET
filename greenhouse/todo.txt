@@ -1,12 +1,13 @@
 To Do List for Greenhouse Effect
 ================================
-Pollution overlay isn't registered properly when resizing. Sometimes get a black area along the top.
-When resizing, only the current background image gets resized properly.
 Change back ground from Metal.
 Set slider track to better color for 1.5.
 
 Done, not yet posted
 ====================
+background color of Galss Panes module needs to be updated
+Pollution overlay isn't registered properly when resizing. Sometimes get a black area along the top.
+When resizing, only the current background image gets resized properly.
 Slider should respond whenever it's clicked on
 
 

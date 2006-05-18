@@ -14,12 +14,16 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
+import java.util.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.AffineTransformOp;
 
 public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphicType {
 
@@ -36,12 +40,21 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     private AffineTransform earthTx;
     private Animation earthAnimation;
     private EarthAnimator earthAnimator;
+    private BufferedImage currentBackdropImage;
+    private BufferedImage backgroundToday = ImageLoader.fetchBufferedImage( "images/today-2.gif" );
+    private BufferedImage background1750 = ImageLoader.fetchBufferedImage( "images/1750-2.gif" );
+    private BufferedImage backgroundIceAge = ImageLoader.fetchBufferedImage( "images/ice-age-2.gif" );
+    private Map scaledBackgroundImages = new HashMap( );
 
-    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, Rectangle2D.Double modelBounds ) {
+    /**
+     * @param apparatusPanel
+     * @param earth
+     * @param modelBounds
+     */
+    public EarthGraphic( ApparatusPanel apparatusPanel, Earth earth, final Rectangle2D.Double modelBounds ) {
         this.apparatusPanel = apparatusPanel;
         this.earth = earth;
         this.modelBounds = modelBounds;
-//        earth.setReflectivityAssessor( this );
         disk = new DiskGraphic( earth, earthBaseColor );
         apparatusPanel.addGraphic( disk, GreenhouseConfig.EARTH_BASE_LAYER );
 
@@ -58,6 +71,34 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         this.earthTx = AffineTransform.getScaleInstance( gifToModelScale, -gifToModelScale );
         earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
+
+        // Make two copies of all the background images. One for originals, and one for scaled
+        // versions when the frame is resized.
+        scaledBackgroundImages.put(  backgroundToday, backgroundToday );
+        scaledBackgroundImages.put(  background1750, background1750 );
+        scaledBackgroundImages.put(  backgroundIceAge, backgroundIceAge );
+
+        // If the apparatus panel is resized, resize the backdrop graphic
+        apparatusPanel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                Component component = e.getComponent();
+                Rectangle2D newBounds = component.getBounds();
+                // Create a scaled version of each original backdrop image
+                for( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
+                    BufferedImage origImage =  (BufferedImage)iterator.next();
+                    double scale = newBounds.getWidth() / origImage.getWidth();
+                    AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+                    BufferedImage scaledImg = atxOp.filter( origImage, null );
+                    scaledBackgroundImages.put( origImage, scaledImg );
+                }
+
+                // Set the proper backdrop
+                if( currentBackdropImage != null ) {
+                    setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+                }
+            }
+        } );
     }
 
     public void stopAnimation() {
@@ -89,9 +130,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         redsToAve[0] = red;
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
-//        disk.setPaint( new Color( red, 255, 0 ) );
-
-//        disk.setPaint( Color.cyan);
         if( earthAnimation != null ) {
             g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
         }
@@ -114,62 +152,65 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void setVirginEarth() {
         isIceAge = false;
-//        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-        setBackDrop( "images/today-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 51, 160, 44, 0 ) );
     }
 
     public void setToday() {
         isIceAge = false;
-        setBackDrop( "images/today-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-//        setBackDrop( "images/today.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( backgroundToday, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 25, 174, 73, 0 ) );
-//        disk.setPaint( Color.green );
     }
 
     public void set1750() {
         isIceAge = false;
-        setBackDrop( "images/1750-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-//        setBackDrop( "images/1750-background.gif", new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
+        setBackDropImage( background1750, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 25, 174, 73, 0 ) );
-//        disk.setPaint( new Color( 51, 160, 44 ) );
     }
 
     public void setVenus() {
         isIceAge = false;
-        setBackDrop( null, null );
+        setBackDropImage( null, null );
         disk.setPaint( new Color( 150, 130, 80 ) );
     }
 
 
     public void setTomorrow() {
         isIceAge = false;
-        setBackDrop( null, new Point2D.Double( 0, .5 ) );
+        setBackDropImage( null, new Point2D.Double( 0, .5 ) );
     }
 
     public void setIceAge() {
         isIceAge = true;
-        setBackDrop( "images/ice-age-2.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ) );
-//        setBackDrop( "images/iceage-3.gif", new Point2D.Double( -modelBounds.getWidth() / 2 - .2, modelBounds.getY() ));
+        setBackDropImage( backgroundIceAge, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
         disk.setPaint( new Color( 149, 134, 78 ) );
-//        disk.setPaint( new Color( 0, 180, 100 ) );
     }
 
-    private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
+    private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {
+//    private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
+        currentBackdropImage = backdropImage;
+//        currentBackdropImageFileName = backdropImageFileName;
         if( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        if( backdropImageFileName != null && !backdropImageFileName.equals( "" ) ) {
-            backdropGraphic = new ImageGraphic( backdropImageFileName, location );
+        if( backdropImage != null ) {
+//        if( backdropImageFileName != null && !backdropImageFileName.equals( "" ) ) {
+            backdropGraphic = new ImageGraphic( backdropImage, location );
+//            backdropGraphic = new ImageGraphic( backdropImageFileName, location );
             apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
         }
     }
 
-    private void setBackDropBI( BufferedImage bImg, Point2D.Double location ) {
+    private void setBackDropImage( BufferedImage bImg, Point2D.Double location ) {
+        currentBackdropImage = bImg;
         if( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        backdropGraphic = new ImageGraphic( bImg, location );
+        BufferedImage scaledImage = (BufferedImage)scaledBackgroundImages.get( bImg );
+        if( scaledImage == null ) {
+            System.out.println( "EarthGraphic.setBackDropImage" );
+        }
+        backdropGraphic = new ImageGraphic( scaledImage, location );
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
     }
 

@@ -95,24 +95,32 @@ public class GlassPaneControlPanel extends JPanel {
         // at the top of the overall control panel
         JPanel panel = new JPanel();
         panel.setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        try {
-            GraphicsUtil.addGridBagComponent( panel, new GreenhouseLegend(), 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( panel, glassPanePanel, 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-            GraphicsUtil.addGridBagComponent( panel, thermometerCB, 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-            GraphicsUtil.addGridBagComponent( panel, allPhotonsCB, 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.WEST );
-            GraphicsUtil.addGridBagComponent( panel, resetBtn, 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        panel.add( new GreenhouseLegend(), gbc );
 
-        setBackground( panel );
+        // Options Panel
+        JPanel optionsPanel = new JPanel( new GridBagLayout() );
+        optionsPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
+                                                                  SimStrings.get( "GreenhouseControlPanel.Options" ) ) );
+        GridBagConstraints optsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                             GridBagConstraints.WEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 25, 0, 25 ), 0, 0 );
+        optionsPanel.add( glassPanePanel, optsGbc );
+        optionsPanel.add( thermometerCB, optsGbc );
+        optionsPanel.add( allPhotonsCB, optsGbc );
+
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add( optionsPanel, gbc );
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets( 15, 15, 0, 15 );
+        panel.add( resetBtn, gbc );
         this.add( panel );
         setBackground( this );
     }
@@ -131,24 +139,24 @@ public class GlassPaneControlPanel extends JPanel {
     }
 
     private void setBackground( Container container ) {
-        container.setBackground( panelBackground );
+//        container.setBackground( panelBackground );
         Component[] components = container.getComponents();
         for( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
             if( component instanceof JLabel
-                    || component instanceof JCheckBox ) {
+                || component instanceof JCheckBox ) {
                 component.setForeground( panelForeground );
             }
             if( ! ( component instanceof JButton ) ) {
-                component.setBackground( panelBackground );
+//                component.setBackground( panelBackground );
             }
             if( component.getForeground().equals( Color.black )
-                    && ! ( component instanceof JButton ) ) {
+                && ! ( component instanceof JButton ) ) {
                 component.setForeground( panelForeground );
             }
             if( component instanceof Container
-                     && ! ( component instanceof JButton )
-                     && ! ( component instanceof JSpinner ) ) {
+                && ! ( component instanceof JButton )
+                && ! ( component instanceof JSpinner ) ) {
                 setBackground( (Container)component );
             }
         }
