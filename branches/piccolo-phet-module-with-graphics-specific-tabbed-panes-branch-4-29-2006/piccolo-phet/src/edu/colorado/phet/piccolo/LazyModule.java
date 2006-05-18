@@ -8,12 +8,11 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.piccolo.application;
+package edu.colorado.phet.piccolo;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ClockControlPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.piccolo.PiccoloModule;
 
 import javax.swing.*;
 
