@@ -10,20 +10,20 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.view.graphics.Arrow;
+import edu.colorado.phet.mri.MriConfig;
+import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.GradientElectromagnet;
+import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.mri.model.Electromagnet;
-import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.common.view.graphics.Arrow;
-import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
-import java.awt.*;
 
 /**
  * GradientMagnetGraphic
@@ -86,7 +86,7 @@ public class GradientMagnetGraphic extends RegisterablePNode implements Electrom
 
         // Graphics for the field strength arrows
 //        createFieldStrengthArrows( bounds, gradientMagnet );
-        
+
         update();
     }
 
@@ -135,7 +135,7 @@ public class GradientMagnetGraphic extends RegisterablePNode implements Electrom
             else {
                 coilGraphic = PImageFactory.create( MriConfig.COIL_IMAGE, new Dimension( (int)coilWidth, (int)bounds.getWidth() ) );
                 coilGraphic.rotate( Math.PI / 2 );
-                coilGraphic.translate(  xLoc , -bounds.getWidth() );
+                coilGraphic.translate( xLoc, -bounds.getWidth() );
             }
             addChild( coilGraphic );
             coilsGraphics[i] = coilGraphic;

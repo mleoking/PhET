@@ -23,12 +23,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  * Electromagnet
- * <p>
+ * <p/>
  * Note that the location or the magnet is its midpoint
  *
  * @author Ron LeMaster
@@ -50,7 +48,6 @@ public class Electromagnet extends Particle {
     private FieldChangerA fieldChanger;
 
     /**
-     *
      * @param position
      * @param width
      * @param height

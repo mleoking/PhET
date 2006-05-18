@@ -13,8 +13,8 @@ package edu.colorado.phet.mri.util;
 import edu.colorado.phet.mri.model.Dipole;
 import edu.colorado.phet.mri.model.Spin;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +100,7 @@ public class MriUtil {
                         dipoles.add( dipole );
                     }
                 }
-                 if( dy != 0 ) {
+                if( dy != 0 ) {
                     Point2D p = new Point2D.Double( centerX + dx, centerY - dy );
                     if( workingBounds.contains( p ) ) {
                         Dipole dipole = new Dipole();

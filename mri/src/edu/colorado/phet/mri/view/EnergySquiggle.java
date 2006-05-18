@@ -12,8 +12,6 @@ package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

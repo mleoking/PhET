@@ -17,7 +17,7 @@ import java.util.Random;
 
 /**
  * DipoleOrientationAgent
- * <p>
+ * <p/>
  * Sets the spins of all dipoles in the model
  *
  * @author Ron LeMaster
@@ -74,7 +74,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener {
             if( dipoles.size() > 0 ) {
                 // Determine how many dipoles should be spin up. There must always be at least 1 up
                 double fractionUp = model.determineDesiredFractionDown();
-                int desiredNumUp = Math.max((int)Math.round( fractionUp * dipoles.size() ), 1 );
+                int desiredNumUp = Math.max( (int)Math.round( fractionUp * dipoles.size() ), 1 );
 
                 // Flip dipoles until we get the desired number spin up
                 while( model.getUpDipoles().size() > desiredNumUp ) {

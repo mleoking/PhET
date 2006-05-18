@@ -14,7 +14,6 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
@@ -26,7 +25,7 @@ import java.util.Random;
 
 /**
  * Dipole
- * <p>
+ * <p/>
  * The SimpleObservable/SimpleObserver mechanism is used to notify objects that want to know about
  * things that change with the frequency of stepInTime(). A change listener mechanism is used to
  * communicate with object that are interested in other state changes.
@@ -57,7 +56,6 @@ public class Dipole extends Body implements Collidable {
 
         void instanceDestroyed( Dipole dipole );
     }
-
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -250,7 +248,7 @@ public class Dipole extends Body implements Collidable {
         public static double DAMPING = 0.035;
         private static final double THRESHOLD = Math.toRadians( 0.2 );
         // Used to randomize the direction that the dipole rotates
-        private static Random random = new Random( );
+        private static Random random = new Random();
 
         // Angle of needle orientation (in radians)
         private double _theta;

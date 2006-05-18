@@ -15,20 +15,19 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.mri.controller.SampleTargetModelConfigurator;
 import edu.colorado.phet.mri.controller.GradientMagnetControl;
+import edu.colorado.phet.mri.controller.SampleTargetModelConfigurator;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.EventObject;
-import java.util.EventListener;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * SampleScannerB
- * <p>
- *
+ * <p/>
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -91,9 +90,9 @@ public class SampleScannerB {
         disableRadioSourceState.init( clock, detectorReportState, dwellTime );
         detectorReportState.init( clock, stepScannerState, 0 );
 
-        horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
-        verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
-        
+        horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
+        verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
+
         startState = resetDetectorState;
     }
 
@@ -178,8 +177,8 @@ public class SampleScannerB {
                 stepSizeX = 0;
                 stepSizeY = stepSize;
 
-                horizontalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
-                verticalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+                horizontalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
+                verticalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
             }
             if( y > scanningArea.getMaxY() ) {
                 x = startPointX;
@@ -190,8 +189,8 @@ public class SampleScannerB {
                 stepSizeX = stepSize;
                 stepSizeY = 0;
 
-                horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
-                verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR);
+                horizontalGradientElectromagnet.setCurrent( 2.5 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
+                verticalGradientElectromagnet.setCurrent( 0 * GradientMagnetControl.VIEW_TO_MODEL_FACTOR );
             }
             setPosition( x, y );
             currentScanArea.setRect( getPosition().getX(),

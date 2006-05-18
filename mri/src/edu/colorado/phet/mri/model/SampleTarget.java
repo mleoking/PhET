@@ -32,12 +32,14 @@ public class SampleTarget extends Point2D.Double {
         public ChangeEvent( Object source ) {
             super( source );
         }
+
         public SampleTarget getSampleTarget() {
             return (SampleTarget)getSource();
         }
     }
+
     public static interface ChangeListener extends EventListener {
-        void stateChanged( ChangeEvent event);
+        void stateChanged( ChangeEvent event );
     }
 
     //--------------------------------------------------------------------------------------------------

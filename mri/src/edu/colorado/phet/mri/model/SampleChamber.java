@@ -11,9 +11,6 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Dipole;
-import edu.colorado.phet.mri.model.MriModel;
-import edu.colorado.phet.mri.model.Sample;
 
 import java.awt.geom.Rectangle2D;
 
@@ -27,14 +24,14 @@ public class SampleChamber extends Sample {
     private Rectangle2D bounds;
 
     public SampleChamber( Rectangle2D bounds ) {
-        this.bounds = new Rectangle2D.Double(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+        this.bounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
     }
 
     public Rectangle2D getBounds() {
         return bounds;
     }
 
-    public void createDipoles( MriModel model, int numDipoles) {
+    public void createDipoles( MriModel model, int numDipoles ) {
         // Lay out the dipoles in a grid
         double aspectRatio = MriConfig.SAMPLE_CHAMBER_WIDTH / MriConfig.SAMPLE_CHAMBER_HEIGHT;
         int numCols = 0;

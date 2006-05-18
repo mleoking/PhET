@@ -25,9 +25,9 @@ import java.awt.*;
 public class GradientMagnetControlPanel extends JPanel {
 
     public GradientMagnetControlPanel( GradientElectromagnet horizontalMagnet, GradientElectromagnet verticalMagnet ) {
-        super( new GridLayout( 2, 1) );
-        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder( ),
-                                                     "Current to Gradient Magnets"));
+        super( new GridLayout( 2, 1 ) );
+        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
+                                                     "Current to Gradient Magnets" ) );
         GradientMagnetControl horizontalControl = new GradientMagnetControl( horizontalMagnet, "Horizontal Magnet" );
         GradientMagnetControl verticalControl = new GradientMagnetControl( verticalMagnet, "Vertical Magnet" );
         add( horizontalControl );

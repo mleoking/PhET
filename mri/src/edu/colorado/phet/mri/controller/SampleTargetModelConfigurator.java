@@ -16,7 +16,7 @@ import edu.colorado.phet.mri.model.SampleTarget;
 
 /**
  * SampleTargetModelConfigurator
- * <p>
+ * <p/>
  * Sets the model parameters to resonate for the sample material at a SampleTarget point
  *
  * @author Ron LeMaster

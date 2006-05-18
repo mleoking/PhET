@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.util.PhysicsUtil;
+import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.piccolo.PhetPCanvas;
@@ -35,7 +35,7 @@ import java.text.DecimalFormat;
  */
 public class RadiowaveSourceGraphic extends PNode {
 
-    Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
     private double panelDepth = 90;
 
     public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas ) {
@@ -71,7 +71,7 @@ public class RadiowaveSourceGraphic extends PNode {
                                                       "MHz",
                                                       MriConfig.MIN_FEQUENCY,
                                                       MriConfig.MAX_FEQUENCY,
-                                                      MriConfig.MIN_FEQUENCY + (MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
+                                                      MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
                                                       new DecimalFormat( "0.0" ) );
         freqCtrl.setFont( font );
         freqCtrl.addChangeListener( new ChangeListener() {
@@ -96,7 +96,7 @@ public class RadiowaveSourceGraphic extends PNode {
                 radiowaveSource.setPower( powerCtrl.getValue() );
             }
         } );
-        powerCtrl.setValue( powerCtrl.getValue()  );
+        powerCtrl.setValue( powerCtrl.getValue() );
         PSwing powerPSwing = new PSwing( canvas, powerCtrl );
         powerPSwing.setOffset( length * 0.8 - powerPSwing.getBounds().getWidth() / 2, 5 );
         addChild( powerPSwing );
@@ -114,11 +114,11 @@ public class RadiowaveSourceGraphic extends PNode {
         // sliders
         radiowaveSource.addChangeListener( new PhotonSource.ChangeListener() {
             public void rateChangeOccurred( PhotonSource.ChangeEvent event ) {
-                powerCtrl.setValue( ((RadiowaveSource)event.getPhotonSource()).getPower() );
+                powerCtrl.setValue( ( (RadiowaveSource)event.getPhotonSource() ).getPower() );
             }
 
             public void wavelengthChanged( PhotonSource.ChangeEvent event ) {
-                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( event.getPhotonSource().getWavelength()) );
+                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( event.getPhotonSource().getWavelength() ) );
             }
         } );
 

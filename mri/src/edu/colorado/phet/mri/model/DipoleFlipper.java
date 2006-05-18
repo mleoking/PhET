@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.quantum.model.Photon;
@@ -33,12 +33,11 @@ public class DipoleFlipper implements ModelElement {
     private long elapsedTime;
 
     /**
-     *
      * @param dipole
      * @param timeout
      * @param model
      * @param emitPhoton Flag to determine if a photon should be produced if the dipole flips to
-     * the lower energy state
+     *                   the lower energy state
      */
     DipoleFlipper( Dipole dipole, Spin targetSpin, double timeout, MriModel model, boolean emitPhoton ) {
         this.dipole = dipole;
@@ -49,7 +48,6 @@ public class DipoleFlipper implements ModelElement {
     }
 
     /**
-     *
      * @param dt
      */
     public void stepInTime( double dt ) {

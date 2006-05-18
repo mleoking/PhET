@@ -12,7 +12,7 @@ package edu.colorado.phet.mri.model;
 
 /**
  * TumorDipole
- * <p>
+ * <p/>
  * A marker class so that dipoles in a tumor can be distinguished from others
  *
  * @author Ron LeMaster

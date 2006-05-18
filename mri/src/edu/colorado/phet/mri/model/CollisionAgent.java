@@ -13,7 +13,10 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.quantum.model.Photon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  * CollisionAgent
@@ -54,7 +57,6 @@ public class CollisionAgent implements ModelElement {
 //                    photon = null;
 //                }
             }
-
 
 
         }

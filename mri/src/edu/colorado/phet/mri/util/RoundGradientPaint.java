@@ -20,10 +20,12 @@ package edu.colorado.phet.mri.util;
  */
 
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 
 public class RoundGradientPaint implements Paint {
     protected Point2D mPoint;

@@ -28,10 +28,7 @@ public class RadiowaveSource extends Beam implements IScalar {
     private static final double MAX_POWER = MriConfig.MAX_POWER;
     private static final double DEFAULT_FREQUENCY = 2E6;
     private static final double DEFAULT_WAVELENGTH = PhysicsUtil.frequencyToWavelength( DEFAULT_FREQUENCY );
-
     private static final double MAX_PHOTONS_PER_SEC = 5 / ( MriConfig.DT / 1000 );
-    private double phaseAngle;
-
 
     //----------------------------------------------------------------
     // Class fields and methods
@@ -50,6 +47,7 @@ public class RadiowaveSource extends Beam implements IScalar {
     private double currentAmplitude;
     private double runningTime;
     private double period = 100;
+    private double phaseAngle;
 
     /**
      * Constructor
@@ -95,8 +93,8 @@ public class RadiowaveSource extends Beam implements IScalar {
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         if( isEnabled() ) {
-        runningTime += dt;
-        // amplitude is always >= 0
+            runningTime += dt;
+            // amplitude is always >= 0
             currentAmplitude = power * 0.5 * ( 1 + Math.sin( phaseAngle + ( runningTime % period ) / period * Math.PI * 2 ) );
         }
         else {

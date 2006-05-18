@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.Electromagnet;
-import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
@@ -19,9 +17,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 /**
@@ -40,11 +38,10 @@ public class BFieldArrowGraphic extends PhetPCanvas {
     /**
      * Constructor
      *
-     * @param lowerMagnet
+     * @param model
      * @param minLength
      */
     public BFieldArrowGraphic( MriModel model, double minLength ) {
-//    public BFieldArrowGraphic( GradientElectromagnet lowerMagnet, final GradientElectromagnet upperMagnet, double minLength ) {
 
         setPreferredSize( new Dimension( 180, 80 ) );
 //        setPreferredSize( new Dimension( 150, 150 ) );
@@ -53,10 +50,6 @@ public class BFieldArrowGraphic extends PhetPCanvas {
                                                                samplePoint,
                                                                getPreferredSize().getHeight() * maxArrowFractionOfHeight,
                                                                new Color( 80, 80, 180 ) );
-//        final BFieldIndicator indicator = new BFieldIndicator( lowerMagnet,
-//                                                               getPreferredSize().getHeight() * maxArrowFractionOfHeight,
-//                                                               new Color( 80, 80, 180 ),
-//                                                               0 );
         indicator.setMinLength( minLength );
         indicatorGraphic = new RegisterablePNode( indicator );
         addWorldChild( indicatorGraphic );
@@ -66,10 +59,8 @@ public class BFieldArrowGraphic extends PhetPCanvas {
         readout.setHorizontalAlignment( JTextField.CENTER );
         final PSwing readoutPSwing = new PSwing( this, readout );
         readoutPSwing.setOffset( getWidth() - 70, getHeight() / 2 );
-//        readoutPSwing.setOffset( getWidth() - 50, getHeight() / 2 );
         addWorldChild( readoutPSwing );
         updateReadout( model );
-//        updateReadout( lowerMagnet, upperMagnet );
 
         // When the panel is resized (or first displayed) update the placement of the arrow
         addComponentListener( new ComponentAdapter() {
@@ -77,7 +68,6 @@ public class BFieldArrowGraphic extends PhetPCanvas {
                 updateRegistrationPoint();
                 indicator.setMaxLength( getHeight() * maxArrowFractionOfHeight );
                 readoutPSwing.setOffset( getWidth() - 70, getHeight() / 2 );
-//                readoutPSwing.setOffset( getWidth() - 70, getHeight() / 2 );
             }
         } );
 
@@ -89,21 +79,10 @@ public class BFieldArrowGraphic extends PhetPCanvas {
         } );
 
         samplePoint.setLocation( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
-
-//        lowerMagnet.addChangeListener( new Electromagnet.ChangeListener() {
-//            public void stateChanged( Electromagnet.ChangeEvent event ) {
-//                updateRegistrationPoint();
-//                updateReadout( event.getElectromagnet(), upperMagnet );
-//            }
-//        } );
     }
 
     private void updateReadout( MriModel model ) {
-//    private void updateReadout( Electromagnet magnet, Electromagnet upperMagnet ) {
-//        samplePoint.setLocation( model.getSample().getBounds().getCenterX(),
-//                                        model.getSample().getBounds().getCenterY());
         double fieldStrength = model.getTotalFieldStrengthAt( samplePoint );
-//        double fieldStrength = magnet.getFieldStrength() + upperMagnet.getFieldStrength();
         String valueStr = readoutFormat.format( fieldStrength );
         readout.setText( valueStr + " Tesla" );
     }

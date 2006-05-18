@@ -10,10 +10,9 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.umd.cs.piccolo.PNode;
@@ -43,7 +42,6 @@ public class BFieldIndicator extends PNode {
     private Paint fill;
 
     /**
-     *
      * @param model
      * @param fill
      */
@@ -61,38 +59,6 @@ public class BFieldIndicator extends PNode {
         update();
     }
 
-    /**
-     * Constructor
-     * @param magnet
-     * @param maxLength
-     * @param fill
-     */
-//    public BFieldIndicator( GradientElectromagnet magnet, double maxLength, Paint fill ) {
-//        this( magnet, maxLength, fill, 0 );
-//    }
-
-    /**
-     * Constructor
-     *
-     * @param magnet
-     * @param maxLength
-     * @param fill
-     * @param xLoc The location along the length of the magnet for which this indicator shows the
-     * strength of the field
-     */
-//    public BFieldIndicator( GradientElectromagnet magnet, double maxLength, Paint fill, double xLoc ) {
-//        this.magnet = magnet;
-//        this.xLoc = xLoc;
-//        this.maxLength = maxLength;
-//        this.arrowColor = fill;
-//        magnet.addChangeListener( new Electromagnet.ChangeListener() {
-//            public void stateChanged( Electromagnet.ChangeEvent event ) {
-//                update();
-//            }
-//        } );
-//        update();
-//    }
-
     public void setMaxLength( double maxLength ) {
         this.maxLength = maxLength;
     }
@@ -106,19 +72,14 @@ public class BFieldIndicator extends PNode {
         if( arrowPPath != null ) {
             removeChild( arrowPPath );
         }
-
-//        double x = magnet.getOrientation() == GradientElectromagnet.HORIZONTAL ? xLoc : 0;
-//        double y = magnet.getOrientation() == GradientElectromagnet.VERTICAL ? xLoc : 0;
-//        double field = magnet.getFieldStrengthAtRelative( new Point2D.Double(  x, y ));
-
         double field = model.getTotalFieldStrengthAt( location );
 
         // Use sign to determine if arrow points up or down
         int sign = MathUtil.getSign( field );
         double length = Math.abs( field / MriConfig.MAX_FADING_COIL_FIELD ) * maxLength;
-        length = Math.max( minLength, Math.min( length, maxLength ));
-        Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, ( length * sign) / 2 ),
-                                       new Point2D.Double( 0, ( length * -sign )/ 2 ),
+        length = Math.max( minLength, Math.min( length, maxLength ) );
+        Arrow bFieldArrow = new Arrow( new Point2D.Double( 0, ( length * sign ) / 2 ),
+                                       new Point2D.Double( 0, ( length * -sign ) / 2 ),
                                        length / 2, length / 2, length / 4, .5, true );
         arrowPPath = new PPath( bFieldArrow.getShape() );
         if( arrowColor != null ) {

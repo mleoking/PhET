@@ -11,15 +11,11 @@
 package edu.colorado.phet.mri.view.computedimage;
 
 import edu.colorado.phet.common.util.PhetUtilities;
-import edu.colorado.phet.mri.model.SampleScanner;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.model.SampleScannerB;
-import edu.colorado.phet.mri.view.computedimage.ComputedImageCanvas;
-import edu.colorado.phet.mri.view.computedimage.ComputedImagePNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -33,7 +29,7 @@ public class ComputedImageWindow extends JDialog {
     public ComputedImageWindow( Rectangle2D sampleBounds, SampleScannerB scanner, Detector detector ) throws HeadlessException {
 //    public ComputedImageWindow( Rectangle2D sampleBounds, SampleScanner scanner, Detector detector ) throws HeadlessException {
         super( PhetUtilities.getPhetFrame(), false );
-        setSize( (int)sampleBounds.getWidth()* 2, (int)sampleBounds.getHeight() * 2);
+        setSize( (int)sampleBounds.getWidth() * 2, (int)sampleBounds.getHeight() * 2 );
         ComputedImageCanvas computedImageCanvas = new ComputedImageCanvas();
         setContentPane( computedImageCanvas );
         ComputedImagePNode node = new ComputedImagePNode( sampleBounds, scanner );

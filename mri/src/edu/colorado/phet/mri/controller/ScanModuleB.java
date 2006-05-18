@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.mri.controller;
 
-import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.model.Electromagnet;
+import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.model.RadiowaveSource;
+import edu.colorado.phet.mri.model.SampleScannerB;
 import edu.colorado.phet.mri.view.SampleTargetGraphic;
 import edu.colorado.phet.mri.view.computedimage.ComputedImageWindow;
 
@@ -25,7 +28,7 @@ public class ScanModuleB extends HeadModule {
     private SampleScannerB sampleScanner;
 
     public ScanModuleB() {
-        super( "Scanner II");
+        super( "Scanner II" );
     }
 
     protected void init() {

@@ -13,16 +13,16 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.util.*;
-import edu.colorado.phet.mri.controller.AbstractMriModule;
-import edu.colorado.phet.mri.controller.NmrControlPanel;
-import edu.colorado.phet.mri.model.*;
+import edu.colorado.phet.mri.model.MriModel;
+import edu.colorado.phet.mri.model.SampleChamber;
+import edu.colorado.phet.mri.util.ControlBorderFactory;
+import edu.colorado.phet.mri.util.Magnifier;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.geom.Rectangle2D;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * MriModuleA
@@ -79,7 +79,6 @@ public class NmrModule extends AbstractMriModule {
 //            }
 //        } );
 
-
 //        JFrame magFrame = new JFrame( "Magnifier");
 //        Magnifier2 mag2 = new Magnifier2( ( MySimPanel)getSimulationPanel(), new Dimension( 200, 200), 2 );
 //        magFrame.getContentPane().add( mag2 );
@@ -96,26 +95,26 @@ public class NmrModule extends AbstractMriModule {
     class MagnifierPanel extends JPanel {
         public MagnifierPanel( final Magnifier magnifier ) {
             super( new GridBagLayout() );
-            setBorder( ControlBorderFactory.createBorder( "Magnifier "));
+            setBorder( ControlBorderFactory.createBorder( "Magnifier " ) );
 
-            final JSpinner magSpinner = new JSpinner( new SpinnerNumberModel( 2, 0.5, 5, 0.1 ));
+            final JSpinner magSpinner = new JSpinner( new SpinnerNumberModel( 2, 0.5, 5, 0.1 ) );
             magSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    double mag = ((Double)magSpinner.getValue()).doubleValue();
+                    double mag = ( (Double)magSpinner.getValue() ).doubleValue();
                     magnifier.setZoom( mag );
                 }
             } );
 
-            GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.EAST,
                                                              GridBagConstraints.NONE,
-                                                             new Insets( 0,10,0,10),0,0 );
+                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
             gbc.gridheight = 2;
             add( magnifier, gbc );
             gbc.gridheight = 1;
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.SOUTHWEST;
-            add( new JLabel( "Magnification"), gbc);
+            add( new JLabel( "Magnification" ), gbc );
             gbc.anchor = GridBagConstraints.NORTHWEST;
             gbc.gridy = 1;
             add( magSpinner, gbc );

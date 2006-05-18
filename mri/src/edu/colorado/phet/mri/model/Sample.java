@@ -24,7 +24,7 @@ import java.util.*;
 public abstract class Sample extends Particle {
 
     // A map that has lists of dipoles according to their x locations
-    private HashMap dipolesByXLoc = new HashMap( );
+    private HashMap dipolesByXLoc = new HashMap();
 
     public abstract Rectangle2D getBounds();
 
@@ -48,7 +48,7 @@ public abstract class Sample extends Particle {
         for( Iterator iterator = xLocs.iterator(); iterator.hasNext(); ) {
             Object key = iterator.next();
             List dipoleList = (List)dipolesByXLoc.get( key );
-            if( dipoleList.contains( dipole ))  {
+            if( dipoleList.contains( dipole ) ) {
                 dipoleList.remove( dipole );
             }
         }

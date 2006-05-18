@@ -11,12 +11,10 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.model.Photon;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
-import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.mri.view.DipoleGraphic;
-import edu.colorado.phet.mri.view.ElectromagnetGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -53,6 +51,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
 
     /**
      * Constructor
+     *
      * @param phetPCanvas
      * @param canvas
      */
@@ -100,7 +99,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             layer = magnetCoilLayer;
         }
         else if( modelElement instanceof RadiowaveSource
-            && !( modelElement instanceof PlaneWaveCycle ) ) {
+                 && !( modelElement instanceof PlaneWaveCycle ) ) {
             graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas );
             layer = controlLayer;
         }
@@ -116,7 +115,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
             PlaneWaveMedium pwm = (PlaneWaveMedium)modelElement;
             double maxOpacity = 0.25;
             if( pwm.getSource() instanceof MriEmittedPhoton ) {
-                   maxOpacity = 0.5;
+                maxOpacity = 0.5;
             }
             graphic = new PlaneWaveGraphic( pwm,
                                             maxOpacity,

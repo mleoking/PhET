@@ -10,14 +10,13 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
-import java.util.EventObject;
+import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * SampleScanner

@@ -13,12 +13,12 @@ package edu.colorado.phet.mri.model;
 import edu.colorado.phet.common.model.clock.IClock;
 
 import java.awt.geom.Point2D;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * GradientElectromagnet
- * <p>
+ * <p/>
  * An Electromagnet to which an arbitrary gradient can be applied. The length of the magnet is its extent
  * perpendicular to the field. (This is sloppy nomenclature, I know.)
  *
@@ -31,10 +31,13 @@ public class GradientElectromagnet extends Electromagnet {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    public static class Orientation{}
+    public static class Orientation {
+    }
+
     public static final Orientation HORIZONTAL = new Orientation();
     public static final Orientation VERTICAL = new Orientation();
-    private static Set ORIENTATIONS = new HashSet( );
+    private static Set ORIENTATIONS = new HashSet();
+
     static {
         ORIENTATIONS.add( HORIZONTAL );
         ORIENTATIONS.add( VERTICAL );
@@ -65,8 +68,8 @@ public class GradientElectromagnet extends Electromagnet {
                                   Orientation orientation ) {
         super( position, width, height, clock );
 
-        if( !ORIENTATIONS.contains( orientation )) {
-            throw new IllegalArgumentException( "invalid orientation");
+        if( !ORIENTATIONS.contains( orientation ) ) {
+            throw new IllegalArgumentException( "invalid orientation" );
         }
 
         this.orientation = orientation;
@@ -76,13 +79,14 @@ public class GradientElectromagnet extends Electromagnet {
 
     /**
      * Gets the strength of the field from this magnet at an absolute point in space
+     *
      * @param p
      * @return the magnitude of the field
      */
-    public double getFieldStrengthAtAbsolute( Point2D p ){
+    public double getFieldStrengthAtAbsolute( Point2D p ) {
         double loc = orientation == HORIZONTAL
                      ? p.getX() - ( getPosition().getX() - length / 2 )
-                     : p.getY() -  ( getPosition().getY() - length / 2 );
+                     : p.getY() - ( getPosition().getY() - length / 2 );
         if( orientation == VERTICAL ) {
         }
         return getFieldStrength() * gradient.getValueAt( loc, length );
@@ -91,6 +95,7 @@ public class GradientElectromagnet extends Electromagnet {
     /**
      * Gets the strength of the field from the magnet at a point in space relative to
      * the center of the magnet
+     *
      * @param p
      * @return the magnitude of the field
      */
@@ -103,6 +108,7 @@ public class GradientElectromagnet extends Electromagnet {
 
     /**
      * Sets the gradient function that the magnet will use to compute the field along its length
+     *
      * @param gradient
      */
     public void setGradient( Gradient gradient ) {
@@ -110,7 +116,6 @@ public class GradientElectromagnet extends Electromagnet {
     }
 
     /**
-     *
      * @return the orientation of the magnet
      */
     public Orientation getOrientation() {
@@ -129,7 +134,7 @@ public class GradientElectromagnet extends Electromagnet {
          * @param x     The place along the magnet's length for which the multiplier is to be determined
          * @param width
          * @return the factor to be multiplied against the base field magnitude
-         * of the magnet
+         *         of the magnet
          */
         double getValueAt( double x, double width );
     }
@@ -148,7 +153,7 @@ public class GradientElectromagnet extends Electromagnet {
      * negative for x < 0, and positive for x > 0.
      */
     public static class LinearGradient implements Gradient {
-        private double m,b;
+        private double m, b;
 
         public LinearGradient( double m, double b ) {
             this.m = m;
@@ -156,7 +161,7 @@ public class GradientElectromagnet extends Electromagnet {
         }
 
         public double getValueAt( double x, double width ) {
-            return m * ( (x - width / 2)  / width ) + b;
+            return m * ( ( x - width / 2 ) / width ) + b;
         }
     }
 }

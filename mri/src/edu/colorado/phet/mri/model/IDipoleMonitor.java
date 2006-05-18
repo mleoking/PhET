@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * IDipoleMonitor
- * <p>
+ * <p/>
  * Methods for tracking the dipoles in the model
  *
  * @author Ron LeMaster
@@ -22,6 +22,8 @@ import java.util.List;
  */
 public interface IDipoleMonitor {
     List getDipoles();
+
     List getUpDipoles();
+
     List getDownDipoles();
 }
