@@ -17,7 +17,6 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- add magnification factor to control label, so we know how much magnification
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -64,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+(5/18/06) - add 10x to magnifying glass control
 (5/18/06) - tweak zoom button images, scale the zoom control
 (5/18/06) - remove setMargin calls on zoom buttons, causing problems
 0.00.07...

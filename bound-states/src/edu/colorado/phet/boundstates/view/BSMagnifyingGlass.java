@@ -41,7 +41,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MAGNIFICATION = 10; // magnification ration, N:1
+    public static final int MAGNIFICATION = 10; // magnification ration, N:1
     
     private static final double LENS_DIAMETER = 100; // pixels
     private static final double BEZEL_WIDTH = 8; // pixels
