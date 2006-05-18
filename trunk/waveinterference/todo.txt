@@ -11,7 +11,9 @@ condition on the right side, but not the left?
 2. Remove particles near barrier.
 3. constrain particles not to move beyond barrier.
 
-Noah will return improved graphics for the speaker.
+Integrate Noah's speaker graphics.
+
+Integrate Noah's light source graphics.
 
 Vector view:
 arrows should be fixed at zero (okay since it's in a graph).
@@ -57,7 +59,7 @@ For 3-d waves (sound & light), rotation should be disabled when there are asymme
 > > 	-could be confusing to the user and make the simulation
 > harder to use
 I'd also like to hold off on the message "rotate
-> to top view  to use this" until we interview. 
+> to top view  to use this" until we interview.
 
 o Add correct units to measuring tape.
 o Add correct units to stopwatch.
