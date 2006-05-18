@@ -30,6 +30,7 @@ public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private SlitPotential slitPotential;
+//    private WaveInterferenceModel waveInterferenceModel;
     private BufferedImage blueImageORIG;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
@@ -47,6 +48,7 @@ public class PressureWaveGraphic extends PNode {
         this.lattice = lattice;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.slitPotential = slitPotential;
+//        this.waveInterferenceModel = waveInterferenceModel;
         background = new PPath();
         background.setPaint( Color.black );
         background.setStrokePaint( Color.gray );
@@ -76,6 +78,31 @@ public class PressureWaveGraphic extends PNode {
         } );
         updateBounds();
         reorderChildren();
+        slitPotential.addListener( new SlitPotential.Listener() {
+            public void slitsChanged() {
+                doSlitsChanged();
+            }
+        } );
+        doSlitsChanged();
+    }
+
+    //set particles whose origin is on top of the barrier to be invisible.
+    private void doSlitsChanged() {
+        for( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle)particles.get( i );
+            if( barrierCoversParticle( particle ) ) {
+                particle.setVisible( false );
+            }
+            else {
+                particle.setVisible( true );
+            }
+        }
+    }
+
+    private boolean barrierCoversParticle( Particle particle ) {
+        Point home = particle.getHome();
+        double pot = slitPotential.getPotential( home.x, home.y, 0 );
+        return pot != 0;
     }
 
     private boolean isPink( int i, int j ) {
@@ -83,6 +110,7 @@ public class PressureWaveGraphic extends PNode {
 //        return isPinkForCenter( i, j );
     }
 
+    //this implementation of isPink sets just the center graphic to be pink.
     private boolean isPinkForCenter( int i, int j ) {
         if( !pinked && i >= lattice.getWidth() / 2 && j >= lattice.getHeight() / 2 ) {
             pinked = true;
@@ -196,6 +224,10 @@ public class PressureWaveGraphic extends PNode {
             this.a = i * spacingBetweenCells;
             this.b = j * spacingBetweenCells;
             update();
+        }
+
+        public Point getHome() {
+            return new Point( homeX, homeY );
         }
 
         class SearchResult {
