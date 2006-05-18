@@ -18,24 +18,19 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * Copyright (c) Mar 28, 2006 by Sam Reid
  */
 
-public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
+public class OscillatingSpeakerGraphic2Layers extends ImageOscillatorPNode {
     private PImage cone;
-    private double x0 = -4;
+    private double x0 = 35;
     private double amp = 5 / 1.5;
-    private PImage foreground;
 
-    public OscillatingSpeakerGraphic( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( oscillator, latticeScreenCoordinates, "images/speaker-back.png" );
-        cone = PImageFactory.create( "images/speaker-cone.png" );
-//        cone.setOffset( 30, 0 );
+    public OscillatingSpeakerGraphic2Layers( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        super( oscillator, latticeScreenCoordinates, "images/speaker-frame.gif" );
+        cone = PImageFactory.create( "images/speaker-cone.gif" );
+        cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
         PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
-
-        foreground = PImageFactory.create( "images/speaker-front.png" );
-        addChild( foreground );
-        update();
     }
 
     public void update() {
