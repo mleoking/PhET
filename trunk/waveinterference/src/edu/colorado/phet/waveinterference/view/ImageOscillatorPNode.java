@@ -18,12 +18,13 @@ import java.awt.geom.Point2D;
 public class ImageOscillatorPNode extends PNode {
     private Oscillator oscillator;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private PImage imageNode;
 
     public ImageOscillatorPNode( Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, String url ) {
         this.oscillator = oscillator;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
-        PImage image = PImageFactory.create( url );
-        addChild( image );
+        imageNode = PImageFactory.create( url );
+        addChild( imageNode );
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
                 updateLocation();
@@ -56,5 +57,9 @@ public class ImageOscillatorPNode extends PNode {
     }
 
     public void update() {
+    }
+
+    public PImage getImageNode() {
+        return imageNode;
     }
 }
