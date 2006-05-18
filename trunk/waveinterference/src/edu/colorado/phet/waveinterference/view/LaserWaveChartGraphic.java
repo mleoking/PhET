@@ -94,7 +94,8 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
         }
 
         private void addArrow( float x, float y ) {
-            double tailY = -y / 4;
+//            double tailY = -y / 4;//not at zero
+            double tailY = 0;//tail at zero.
             Arrow arrow = new Arrow( new Point2D.Double( x, tailY ), new Point2D.Double( x, y ), 8, 8, 4, 0.5, true );
             PPath arrowPath = new PPath( arrow.getShape() );
 //            arrowPath.setPaint( getStrokeColor().getColor() );
