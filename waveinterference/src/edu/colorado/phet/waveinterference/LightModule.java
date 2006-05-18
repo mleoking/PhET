@@ -19,9 +19,17 @@ public class LightModule extends WaveInterferenceModule {
     private LightSimulationPanel lightSimulationPanel;
     private LightControlPanel lightControlPanel;
 
+    public static class LightModel extends WaveInterferenceModel {
+        public LightModel() {
+            super.setDistanceUnits( "nm" );
+            //todo: determined through experiment, depends on wavelength to frequency mapping in WavelengthControlPanel
+            super.setPhysicalSize( 4200, 4200 );
+        }
+    }
+
     public LightModule() {
         super( "Light" );
-        waveInterferenceModel = new WaveInterferenceModel();
+        waveInterferenceModel = new LightModel();
         lightSimulationPanel = new LightSimulationPanel( this );
         lightControlPanel = new LightControlPanel( this );
 

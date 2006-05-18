@@ -22,8 +22,8 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
     private PSwingCanvas pSwingCanvas;
     private LaserWaveChartControl laserWaveChartControl;
 
-    public LaserWaveChartGraphic( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor ) {
-        super( title, latticeScreenCoordinates, waveModel, strokeColor );
+    public LaserWaveChartGraphic( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor, String distanceUnits, double minX, double maxX ) {
+        super( title, latticeScreenCoordinates, waveModel, strokeColor, distanceUnits, minX, maxX );
 
         this.pSwingCanvas = pSwingCanvas;
         vectorView = new VectorView();

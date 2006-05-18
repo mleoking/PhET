@@ -24,6 +24,9 @@ public class WaveInterferenceModel implements ModelElement {
 //    private static final double startTime = System.currentTimeMillis() / 1000.0;
     private double time = 0.0;
     private ArrayList listeners = new ArrayList();
+    private String distanceUnits;
+    private double physicalWidth;
+    private double physicalHeight;
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
@@ -53,6 +56,27 @@ public class WaveInterferenceModel implements ModelElement {
             public void amplitudeChanged() {
             }
         } );
+    }
+
+    public void setDistanceUnits( String distanceUnits ) {
+        this.distanceUnits = distanceUnits;
+    }
+
+    public void setPhysicalSize( double physicalWidth, double physicalHeight ) {
+        this.physicalWidth = physicalWidth;
+        this.physicalHeight = physicalHeight;
+    }
+
+    public String getDistanceUnits() {
+        return distanceUnits;
+    }
+
+    public double getPhysicalWidth() {
+        return physicalWidth;
+    }
+
+    public double getPhysicalHeight() {
+        return physicalHeight;
     }
 
     public static interface Listener {

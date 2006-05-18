@@ -61,8 +61,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         intensityReaderSet = new IntensityReaderSet();
         addScreenChild( intensityReaderSet );
 
-        measurementToolSet = new MeasurementToolSet( this, soundModule.getClock(), getLatticeScreenCoordinates() );
-        addScreenChild( measurementToolSet );
+        measurementToolSet = new MeasurementToolSet( this, soundModule.getClock(), getLatticeScreenCoordinates(), soundModule.getWaveInterferenceModel() );
+
 
         speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
         addScreenChild( speakerControlPanelPNode );
@@ -70,12 +70,13 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         verticalConnector = new VerticalConnectorLeftSide( speakerControlPanelPNode, primarySpeaker );
         addScreenChild( 0, verticalConnector );
 
-        waveChartGraphic = new WaveChartGraphic( "Pressure", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ) );
+        waveChartGraphic = new WaveChartGraphic( "Pressure", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         addScreenChild( crossSectionGraphic );
+        addScreenChild( measurementToolSet );
 
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
             public void expansionStateChanged() {
@@ -94,6 +95,10 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+    }
+
+    private WaveInterferenceModel getWaveInterferenceModel() {
+        return soundModule.getWaveInterferenceModel();
     }
 
     private void updateWaveSize() {

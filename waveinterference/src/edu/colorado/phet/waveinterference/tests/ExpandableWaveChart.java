@@ -34,8 +34,8 @@ public class ExpandableWaveChart extends PNode {
     private ArrayList listeners = new ArrayList();
     private LatticeScreenCoordinates latticeScreenCoordinates;
 
-    public ExpandableWaveChart( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor color ) {
-        this( pSwingCanvas, new WaveChartGraphic( title, latticeScreenCoordinates, waveModel, color ), latticeScreenCoordinates );
+    public ExpandableWaveChart( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor color, String distanceUnits, double minX, double maxX ) {
+        this( pSwingCanvas, new WaveChartGraphic( title, latticeScreenCoordinates, waveModel, color, distanceUnits, minX, maxX ), latticeScreenCoordinates );
     }
 
     public ExpandableWaveChart( PSwingCanvas pSwingCanvas, WaveChartGraphic waveChartGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {

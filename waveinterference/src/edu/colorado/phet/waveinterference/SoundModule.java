@@ -23,9 +23,16 @@ public class SoundModule extends WaveInterferenceModule {
     private SoundControlPanel soundControlPanel;
     private SoundModuleAudio soundModuleAudio;
 
+    public static class SoundModel extends WaveInterferenceModel {
+        public SoundModel() {
+            setDistanceUnits( "cm" );
+            setPhysicalSize( 100, 100 );
+        }
+    }
+
     public SoundModule() {
         super( "Sound" );
-        waveInterferenceModel = new WaveInterferenceModel();
+        waveInterferenceModel = new SoundModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );
         soundControlPanel = new SoundControlPanel( this );
@@ -83,5 +90,9 @@ public class SoundModule extends WaveInterferenceModule {
 
     public SoundModuleAudio getAudioSubsystem() {
         return soundModuleAudio;
+    }
+
+    public WaveInterferenceModel getWaveInterferenceModel() {
+        return waveInterferenceModel;
     }
 }
