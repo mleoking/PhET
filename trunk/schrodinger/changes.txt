@@ -1,3 +1,6 @@
+New in 1.00 (5-17-2006)
+Posted on main site.
+
 New in 0.00.62 (5-14-2006)
 Labeled the min and max of the velocity sliders for each type of particle so that students can easily see what the velocity range is and that it’s different for each particle.
 Reset button no longer has a warning.
