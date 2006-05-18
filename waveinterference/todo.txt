@@ -15,9 +15,6 @@ Integrate Noah's speaker graphics.
 
 Integrate Noah's light source graphics.
 
-Vector view:
-arrows should be fixed at zero (okay since it's in a graph).
-
 On the sound panel the current particle view is too large and there’s only one red molecule.
 We should have 5 or so (or a distribution, so it looks like a gas).
 Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
