@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.umd.cs.piccolo.PNode;
@@ -19,13 +20,23 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 
-public class SlitPotentialGraphic extends PNode {
+public class SlitPotentialGraphic extends PhetPNode {
+    private TopViewBarrierVisibility topViewBarrierVisibility;
     private SlitPotential slitPotential;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private PDragEventHandler dragHandler;
 
     //todo remove assumption that all bars are distinct.
-
     public SlitPotentialGraphic( final SlitPotential slitPotential, final LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this( new TopViewBarrierVisibility() {
+            public boolean isTopVisible() {
+                return true;
+            }
+        }, slitPotential, latticeScreenCoordinates );
+    }
+
+    public SlitPotentialGraphic( TopViewBarrierVisibility topViewBarrierVisibility, final SlitPotential slitPotential, final LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this.topViewBarrierVisibility = topViewBarrierVisibility;
         this.slitPotential = slitPotential;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         slitPotential.addListener( new SlitPotential.Listener() {
@@ -40,7 +51,7 @@ public class SlitPotentialGraphic extends PNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragEventHandler() {
+        dragHandler = new PDragEventHandler() {
             private Point2D dragStartPt;
             int origLocation;
 
@@ -61,23 +72,41 @@ public class SlitPotentialGraphic extends PNode {
 //                System.out.println( "latticeDX = " + latticeDX );
                 slitPotential.setLocation( (int)( origLocation + latticeDX ) );
             }
-        } );
+        };
+        addInputEventListener( dragHandler );
     }
 
-    private void update() {
-        removeAllChildren();
-        Rectangle[]r = slitPotential.getBarrierRectangles();
-        for( int i = 0; i < r.length; i++ ) {
-            Rectangle rectangle = r[i];
-            if( !rectangle.isEmpty() ) {
-                Rectangle2D screenRect = latticeScreenCoordinates.toScreenRect( rectangle );
+    protected PDragEventHandler getDragHandler() {
+        return dragHandler;
+    }
 
-                PPath path = new PPath( screenRect );
-                path.setPaint( new Color( 241, 216, 148 ) );
-                path.setStroke( new BasicStroke( 2 ) );
-                path.setStrokePaint( Color.black );
-                addChild( path );
+    public void update() {
+        removeAllChildren();
+        if( topViewBarrierVisibility.isTopVisible() ) {
+            Rectangle[]r = slitPotential.getBarrierRectangles();
+            for( int i = 0; i < r.length; i++ ) {
+                Rectangle rectangle = r[i];
+                if( !rectangle.isEmpty() ) {
+                    addChild( toShape( latticeScreenCoordinates.toScreenRect( rectangle ) ) );
+                }
             }
         }
+    }
+
+    public SlitPotential getSlitPotential() {
+        return slitPotential;
+    }
+
+    public LatticeScreenCoordinates getLatticeScreenCoordinates() {
+        return latticeScreenCoordinates;
+    }
+
+    public PNode toShape( Rectangle2D screenRect ) {
+
+        PPath path = new PPath( screenRect );
+        path.setPaint( new Color( 241, 216, 148 ) );
+        path.setStroke( new BasicStroke( 2 ) );
+        path.setStrokePaint( Color.black );
+        return path;
     }
 }
