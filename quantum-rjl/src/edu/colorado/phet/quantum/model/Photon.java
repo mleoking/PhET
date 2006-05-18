@@ -91,7 +91,7 @@ public class Photon extends Particle implements Collidable {
     private ArrayList contactedAtoms = new ArrayList();
 
     /**
-     * Constructor is protected so that clients of the class must use static create()
+     * Constructor is protected so that clients of the class must use static createBorder()
      * methods. This allows us to manage a free pool of photons and not hit the
      * heap so hard.
      */

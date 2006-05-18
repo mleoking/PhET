@@ -44,13 +44,17 @@ public class MriConfig {
 
     // Images
     public static final String IMAGE_PATH = "images/";
-    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
+    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole-4.gif";
+//    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
     public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";
 
     // Physical parameters
-    public static final double MIN_FEQUENCY = 20E6;
-    public static final double MAX_FEQUENCY = 80E6;
+    public static final double MIN_FEQUENCY = 10;
+    public static final double MAX_FEQUENCY = 100;
+    public static final double FREQUENCY_UNIT = 1E6;
+//    public static final double MIN_FEQUENCY = 20E6;
+//    public static final double MAX_FEQUENCY = 80E6;
     public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field
     public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
@@ -85,10 +89,11 @@ public class MriConfig {
     }
 
     // Layout
-    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170, 80 );
+    public static Point2D SAMPLE_CHAMBER_LOCATION = new Point2D.Double( 170, 55 );
     public static double SCALE_FOR_ORG = 400.0 / 600;
     public static double SAMPLE_CHAMBER_WIDTH = 400;
-    public static double SAMPLE_CHAMBER_HEIGHT = 300;
+    public static double SAMPLE_CHAMBER_HEIGHT = 350;
+//    public static double SAMPLE_CHAMBER_HEIGHT = 300;
     public static Rectangle2D SAMPLE_CHAMBER_BOUNDS = new Rectangle2D.Double( SAMPLE_CHAMBER_LOCATION.getX(),
                                                                               SAMPLE_CHAMBER_LOCATION.getY(),
                                                                               SAMPLE_CHAMBER_WIDTH,

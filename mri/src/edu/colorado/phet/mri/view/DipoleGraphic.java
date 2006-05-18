@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.*;
 import java.io.IOException;
 
@@ -44,10 +45,11 @@ public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
         dipole.addObserver( this );
         try {
             baseImage = ImageLoader.loadBufferedImage( MriConfig.DIPOLE_IMAGE );
-            double scale = MriConfig.SCALE_FOR_ORG;
-            AffineTransform scaleTx = AffineTransform.getScaleInstance( scale,  scale );
+            double scale = 1;
+//            double scale = MriConfig.SCALE_FOR_ORG;
+            AffineTransform scaleTx = AffineTransform.getScaleInstance( scale, scale );
             AffineTransformOp atxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-                                                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY) );
+                                                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
             baseImage = atxOp.filter( baseImage, null );
         }
         catch( IOException e ) {
@@ -57,7 +59,6 @@ public class DipoleGraphic extends RegisterablePNode implements SimpleObserver {
         addChild( baseDipoleGraphic );
         update();
     }
-
 
     public void update() {
         BufferedImage newImage = BufferedImageUtils.getRotatedImage( baseImage, dipole.getOrientation() );

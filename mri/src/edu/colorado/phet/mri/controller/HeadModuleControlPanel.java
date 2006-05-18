@@ -49,15 +49,10 @@ public class HeadModuleControlPanel extends ControlPanel {
         addControl( new FadingMagnetControl( model ) );
         addControl( new GradientMagnetControlPanel( horizontalGradientMagnet, verticalGradientMagnet ) );
         addControl( new BFieldGraphicPanel( model ) );
-        addControl( new TumorSelector( module.getHead(), model ) );
-        addControl( new EmRepSelector( module ) );
-
-        addControl( new DetectorControl( module ));
-//        addControl( new SampleMaterialSelector( model ) );
-
-//        addControl( new PrecessionControl( model ) );
-//        addControl( new SpinDeterminationControl( model ) );
-//        addControl( new MonitorPanelRepControl( monitorPanel ) );
+//        addControl( new TumorSelector( module.getHead(), model ) );
+        addControlFullWidth( new HeadControl( module ));
+        addControlFullWidth( new EmRepSelector( module ) );
+//        addControl( new DetectorControl( module ));
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

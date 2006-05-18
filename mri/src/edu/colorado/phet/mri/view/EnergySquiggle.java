@@ -13,6 +13,7 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.view.graphics.Arrow;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.util.PhysicsUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -71,6 +72,7 @@ public class EnergySquiggle extends PNode {
      * Creates a buffered image for a squiggle
      */
     private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
+
         int arrowHeight = height;
 
         // So that the tip of the arrow will just touch an energy level line when it is supposed to match the line,
@@ -84,15 +86,12 @@ public class EnergySquiggle extends PNode {
         Graphics2D g2d = img.createGraphics();
         int kPrev = height / 2;
         int iPrev = 0;
-        Color c = VisibleColor.wavelengthToColor( wavelength );
-        c = Color.black;
-
         double freqFactor = wavelength * frequencyFactor;
+        g2d.setColor( Color.black );
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-                    g2d.setColor( c );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
                     kPrev = k;

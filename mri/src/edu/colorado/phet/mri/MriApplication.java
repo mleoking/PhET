@@ -18,6 +18,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.mri.controller.*;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
+import javax.swing.*;
+
 /**
  * MriApplication
  *
@@ -32,16 +34,14 @@ public class MriApplication extends PiccoloPhetApplication {
 
     private static String title = "Simplified MRI";
     private static String description = "A simplified model of magnetic resonance imaging";
-    private static String version = "0.01";
+    private static String version = "0.01.13";
     private static FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
-
-
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    private  Module[] singleModule = new Module[]{
+    private Module[] singleModule = new Module[]{
             new NmrModule(),
     };
 
@@ -75,10 +75,15 @@ public class MriApplication extends PiccoloPhetApplication {
         }
     }
 
-    public static void main( String[] args ) {
-        SimStrings.init( args, MriConfig.STRINGS_BUNDLE_NAME );
-        PhetApplication app = new MriApplication( args );
-        app.startApplication();
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+
+                SimStrings.init( args, MriConfig.STRINGS_BUNDLE_NAME );
+                PhetApplication app = new MriApplication( args );
+                app.startApplication();
+            }
+        } );
 
     }
 }

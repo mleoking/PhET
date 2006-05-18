@@ -13,7 +13,6 @@ package edu.colorado.phet.mri.controller;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.SampleTargetGraphic;
 import edu.colorado.phet.mri.view.computedimage.ComputedImageWindow;
-import edu.colorado.phet.common.util.PhetUtilities;
 
 /**
  * ScanModule
@@ -22,9 +21,18 @@ import edu.colorado.phet.common.util.PhetUtilities;
  * @version $Revision$
  */
 public class ScanModuleB extends HeadModule {
+    private ComputedImageWindow computedImageWindow;
+    private SampleScannerB sampleScanner;
 
     public ScanModuleB() {
         super( "Scanner II");
+    }
+
+    protected void init() {
+        super.init();
+
+        System.out.println( "ScanModuleB.init" );
+
         MriModel model = (MriModel)getModel();
         RadiowaveSource radioSource = model.getRadiowaveSource();
         radioSource.setFrequency( 42E6 );
@@ -33,19 +41,34 @@ public class ScanModuleB extends HeadModule {
         magnet = model.getUpperMagnet();
         magnet.setCurrent( 33 );
 
-        double dwellTime = 100;
-        double stepSize = 50;
-        SampleScannerB sampleScanner = new SampleScannerB( model, getHead(), getDetector(), getClock(), dwellTime, stepSize );
+        double dwellTime = 1000;
+        double stepSize = 20;
+        sampleScanner = new SampleScannerB( model, getHead(),
+                                            getDetector(),
+                                            getClock(),
+                                            dwellTime,
+                                            stepSize,
+                                            getHorizontalGradientMagnet(),
+                                            getVerticalGradientMagnet() );
         SampleTargetGraphic sampleTargetGraphic = new SampleTargetGraphic( sampleScanner.getSampleTarget() );
         getGraphicsManager().addGraphic( sampleTargetGraphic );
 
         getDetector().setDetectingPeriod( Double.MAX_VALUE );
 
-        ComputedImageWindow ciw = new ComputedImageWindow( getHead().getBounds(),
-                                                           sampleScanner,
-                                                           getDetector() );
-        ciw.setVisible( true );
-        sampleScanner.start();
+        computedImageWindow = new ComputedImageWindow( getHead().getBounds(),
+                                                       sampleScanner,
+                                                       getDetector() );
+        computedImageWindow.setVisible( false );
+    }
 
+    public void activate() {
+        super.activate();
+        computedImageWindow.setVisible( true );
+        sampleScanner.start();
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        computedImageWindow.setVisible( false );
     }
 }

@@ -39,11 +39,11 @@ public class NmrControlPanel extends ControlPanel {
         MonitorPanel monitorPanel = new MonitorPanel( model );
         monitorPanel.setPreferredSize( new Dimension( 200, 200 ) );
 
-        addControl( new FadingMagnetControl( model ) );
-        addControl( monitorPanel );
-        addControl( new BFieldGraphicPanel( model ) );
-        addControl( new EmRepSelector( module ) );
-        addControl( new SampleMaterialSelector( model ) );
+        addControlFullWidth( new FadingMagnetControl( model ) );
+        addControlFullWidth( monitorPanel );
+        addControlFullWidth( new BFieldGraphicPanel( model ) );
+        addControlFullWidth( new EmRepSelector( module ) );
+        addControlFullWidth( new SampleMaterialSelector( model ) );
 
 //        addControl( new PrecessionControl( model ) );
 //        addControl( new SpinDeterminationControl( model ) );

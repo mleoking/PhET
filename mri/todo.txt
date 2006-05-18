@@ -1,15 +1,34 @@
 =====
 To Do
 =====
+Look for source of slow-down
 
 =================
 Done - Not posted
 =================
-Lengthened period of radio waves to make the simulation easier to look at
+
 
 ==============
 Change History
 ==============
+
+0.01.14
+-------
+Make the area in the control panel that contains the field indicator arrow smaller
+Add a "Hide head" check box
+Put field arrows across the whole sample area
+Change the dipole graphic to be the one suggested by Mike
+Reinstate thermal noise
+Lower the bottom end of the frequency range to 10MHz
+Change the frequecy slider to read out in MHz
+Take the "E" off the power slider numbers
+Test different materials to see which ones the simulation can make resonate - All materials resonate
+Squiggle gets funny below 18MHz
+Squiggle doesn't blink anymore
+
+0.01.13
+-------
+Lengthened period of radio waves to make the simulation easier to look at
 
 0.01.11
 ---------

@@ -37,7 +37,8 @@ public class BFieldIndicatorB extends PNode {
     private Paint arrowColor = new Color(  255, 255, 255, 50 );
     private double minLength;
     private Point2D location;
-    private Color strokePaint = new Color( 0, 0, 0, 50 );
+    private double strokeOpacity = 0.5;
+    private Color strokePaint = new Color( 0, 0, 0, (int)(strokeOpacity * 255 ) );
 
     /**
      * Constructor

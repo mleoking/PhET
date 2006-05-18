@@ -86,7 +86,6 @@ public class Dipole extends Body implements Collidable {
         }
         Vector2D vect = new Vector2D.Double( 1, 0 ).rotate( baseOrientation );
         orientationBehavior.setOrientation( vect, dt );
-
         notifyObservers();
     }
 
@@ -94,9 +93,8 @@ public class Dipole extends Body implements Collidable {
         return orientation;
     }
 
-    public void setOrientation( double orientation ) {
+    private void setOrientation( double orientation ) {
         this.orientation = orientation;
-//        notifyObservers();
     }
 
     public Spin getSpin() {
