@@ -19,20 +19,29 @@ import java.util.List;
  * @version $Revision$
  */
 public class Category {
-    private static List instances = new SimulationFactory().getCategories( "simulations.xml");
+    private static List instances = new CategoryFactory().getCategories( "simulations.xml");
 
-    public List getInstances() {
+    public static List getInstances() {
         return instances;
     }
 
-
     private String name;
+    private List simulations;
 
-    public Category( String name ) {
+    public Category( String name, List simulations ) {
         this.name = name;
+        this.simulations = simulations;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String toString() {
+        return getName();
+    }
+
+    public List getSimulations() {
+        return simulations;        
     }
 }

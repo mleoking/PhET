@@ -23,17 +23,44 @@ import java.awt.event.ComponentEvent;
  * @version $Revision$
  */
 public class TopLevelPane extends JTabbedPane  {
-    public TopLevelPane() {
-        addTab( "Installed Simulations", new InstalledSimsPane() );
-        addTab( "Other Simulations", new UninstalledSimsPane() );
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private static TopLevelPane instance = new TopLevelPane();
+
+    public static TopLevelPane getInstance() {
+        return instance;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
+    private InstalledSimsPane installedSimsPane;
+    private UninstalledSimsPane uninstalledSimsPane;
+
+    private TopLevelPane() {
+        installedSimsPane = new InstalledSimsPane();
+        addTab( "Installed Simulations", installedSimsPane );
+        uninstalledSimsPane = new UninstalledSimsPane();
+        addTab( "Other Simulations", uninstalledSimsPane );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-
                 setPreferredSize( new Dimension( Math.max( 400, (int)getSize().getWidth()),
                                                  Math.max( 300, (int)getSize().getHeight())) );
                 ((JFrame)SwingUtilities.getRoot( TopLevelPane.this )).pack();
             }
         } );
+    }
+
+    public InstalledSimsPane getInstalledSimsPane() {
+        return installedSimsPane;
+    }
+
+    public UninstalledSimsPane getUninstalledSimsPane() {
+        return uninstalledSimsPane;
     }
 }

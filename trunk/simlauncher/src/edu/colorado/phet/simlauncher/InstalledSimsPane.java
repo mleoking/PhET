@@ -10,15 +10,11 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.List;
+import java.awt.event.*;
 
 /**
  * InstalledSimsPane
@@ -26,8 +22,13 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPane extends JPanel implements Simulation.ChangeListener {
-    private JList simJList;
+public class InstalledSimsPane extends JPanel implements Simulation.ChangeListener,
+                                                         SimulationContainer,
+                                                         ChangeEventChannel.ChangeEventSource {
+    private SimulationTable simTable;
+    private JScrollPane simTableScrollPane;
+    private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
+    private JButton launchBtn;
 
 
     /**
@@ -36,56 +37,101 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
     public InstalledSimsPane() {
         super( new GridBagLayout() );
 
+        // Listen for new simulations, and for changes in the installed and uninstalled simulations lists
         Simulation.addListener( this );
 
-        simJList = new JList();
-        simJList.addMouseListener( new MouseAdapter() {
-            public void mouseClicked( MouseEvent evt ) {
-                JList list = (JList)evt.getSource();
-                if( evt.getClickCount() == 2 ) {          // Double-click
-                    launchSim( (Simulation)list.getSelectedValue() );
-                }
-            }
-        } );
-
-        // Populate the list
-        updateSims();
-
         // Launch button
-        final JButton launchBtn = new JButton( "Launch" );
+        launchBtn = new JButton( "Launch" );
         launchBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                launchSim( (Simulation)simJList.getSelectedValue() );
+                launchSim( (Simulation)simTable.getSelection() );
             }
         } );
         launchBtn.setEnabled( false );
-
-        simJList.addListSelectionListener( new ListSelectionListener() {
-            public void valueChanged( ListSelectionEvent e ) {
-                launchBtn.setEnabled( simJList.getSelectedValue() != null );
-            }
-        } );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( simJList, gbc );
+        gbc.gridy++;
         gbc.gridy++;
         add( launchBtn, gbc );
+
+        updateSimTable();
+
+        Options.instance().addListener( new Options.ChangeListener() {
+            public void optionsChanged( Options.ChangeEvent event ) {
+                updateSimTable();
+            }
+        } );
+
     }
 
-    private void updateSims() {
-        List simList = Simulation.getInstalledSims();
-        Simulation[] sims = (Simulation[])simList.toArray( new Simulation[ simList.size()] );
-        simJList.setListData( sims );
+    /**
+     *
+     */
+    public void addChangeListener( ChangeEventChannel.ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    /**
+     *
+     */
+    public void removeChangeListener( ChangeEventChannel.ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    private void updateSimTable() {
+        if( simTable != null ) {
+            simTableScrollPane.remove( simTable );
+            remove( simTableScrollPane );
+        }
+
+        simTable = new SimulationTable( Simulation.getInstalledSims(), Options.instance().isShowInstalledThumbnails() );
+
+        // Add mouse handler
+        simTable.addMouseListener( new MouseAdapter() {
+            public void mouseClicked( MouseEvent e ) {
+                handleSimulationSelection( e );
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                handleSimulationSelection( e );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+                handleSimulationSelection( e );
+            }
+        } );
+
+        simTableScrollPane = new JScrollPane( simTable );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        add( simTableScrollPane, gbc );
+        revalidate();
     }
 
     /**
      * @param sim
      */
     private void launchSim( Simulation sim ) {
-        JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ), sim + " will be launched" );
+        if( sim != null ) {
+            JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ), sim + " will be launched" );
+        }
+    }
+
+    /**
+     * @param event
+     */
+    private void handleSimulationSelection( MouseEvent event ) {
+        Simulation sim = simTable.getSelection();
+        launchBtn.setEnabled( sim != null );
+        if( event.isPopupTrigger() && sim != null ) {
+            new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+        }
+        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -93,6 +139,17 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
     //--------------------------------------------------------------------------------------------------
 
     public void instancesChanged() {
-        updateSims();
+//        updateSims();
+        updateSimTable();
+        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of SimulationContainer
+    //--------------------------------------------------------------------------------------------------
+
+    public Simulation getSimulation() {
+        return simTable.getSimulation();
+    }
+
 }

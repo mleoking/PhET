@@ -10,9 +10,19 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
+import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
+import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
+import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
+import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.common.view.menu.ViewMenu;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * SimLauncherMenuBar
@@ -21,12 +31,11 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SimLauncherMenuBar extends JMenuBar {
-    private JFrame frame;
 
-    public SimLauncherMenuBar( JFrame frame ) {
-        this.frame = frame;
+    public SimLauncherMenuBar() {
         add( new FileMenu() );
-        add( new SimulationsMenu() );
+        add( new SimulationMenu() );
+        add( new SimulationsViewMenu() );
         add( new OptionsMenu() );
         add( new HelpMenu() );
     }
@@ -38,20 +47,111 @@ public class SimLauncherMenuBar extends JMenuBar {
         }
     }
 
-    private class SimulationsMenu extends JMenu {
-        public SimulationsMenu() {
-            super( "Simulations" );
-            add( new JMenuItem( "Launch simulation" ) );
-            add( new JMenuItem( "Check for updates" ) );
+    private class SimulationMenu extends JMenu {
+        private JMenuItem launchMI;
+        private JMenuItem updateMI;
+        private JMenuItem uninstallMI;
+        private JMenuItem installMI;
+
+        public SimulationMenu() {
+            super( "Simulation" );
+
+            // Menu items for installed simulations
+            launchMI = new JMenuItem( "Launch simulation" );
+            launchMI.addActionListener( new LaunchSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+            add( launchMI );
+            updateMI = new JMenuItem( "Check for updates" );
+            updateMI.addActionListener( new UpdateSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+            add( updateMI );
+            uninstallMI = new JMenuItem( "Uninstall" );
+            uninstallMI.addActionListener( new UninstallSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+            add( uninstallMI );
+
+            //Menu items for uninstalled simulations
+            add( new JPopupMenu.Separator() );
+            installMI = new JMenuItem( "Install" );
+            installMI.addActionListener( new InstallSimulationAction( this,
+                                                                      TopLevelPane.getInstance().getUninstalledSimsPane() ) );
+            add( installMI );
+
+            // Set up listeners that will cause the proper menu items to be enabled and disabled when
+            // certain things happen in the UI
+            TopLevelPane.getInstance().getInstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
+                public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
+                    enableItems();
+                }
+            } );
+
+            TopLevelPane.getInstance().getUninstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
+                public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
+                    enableItems();
+                }
+            } );
+
+            TopLevelPane.getInstance().addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    enableItems();
+                }
+            } );
+
+            // Enable/disable the appropriate menu items
+            enableItems();
+        }
+
+        /**
+         * Enables/disables menu items according to the state of the UI
+         */
+        private void enableItems() {
+            InstalledSimsPane isp = TopLevelPane.getInstance().getInstalledSimsPane();
+            boolean installedItemsEnabled = isp.getSimulation() != null;
+            UninstalledSimsPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();
+            boolean uninstalledItemsEnabled = usp.getSimulation() != null;
+
+            JTabbedPane jtp = TopLevelPane.getInstance();
+            Component component = jtp.getSelectedComponent();
+            boolean installedPaneSelected = component == TopLevelPane.getInstance().getInstalledSimsPane();
+            boolean uninstalledPaneSelected = component == TopLevelPane.getInstance().getUninstalledSimsPane();
+
+            installedItemsEnabled &= installedPaneSelected;
+            uninstalledItemsEnabled &= uninstalledPaneSelected;
+
+            // Menu items for installed simulations
+            launchMI.setEnabled( installedItemsEnabled );
+            updateMI.setEnabled( installedItemsEnabled );
+            uninstallMI.setEnabled( installedItemsEnabled );
+
+            // Menu items for uninstalled simulations
+            installMI.setEnabled( uninstalledItemsEnabled );
         }
     }
 
     private class OptionsMenu extends JMenu {
         public OptionsMenu() {
             super( "Options" );
-            add( new JCheckBox( "Automatically check for updates" ) );
-            add( new JMenuItem( new SimListingOptionsAction() ) );
+            JCheckBoxMenuItem autoUpdateOption = new JCheckBoxMenuItem( "Automatically check for updates" );
+            add( autoUpdateOption );
+            autoUpdateOption.addActionListener( new AutoUpdateAction() );
         }
+    }
+
+    private class SimulationsViewMenu extends JMenu {
+        public SimulationsViewMenu() {
+            super( "View" );
+            add( new JMenuItem( new SimListingOptionsAction() ) );
+            JMenu subMenu = new JMenu( "Sort installed simulations" );
+            subMenu.add( new JMenuItem( "Alphabetical" ) );
+            subMenu.add( new JMenuItem( "Most recently used first" ) );
+            JMenuItem customMI = new JMenuItem( "Custom" );
+            subMenu.add( customMI );
+            customMI.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    JOptionPane.showMessageDialog( SimulationsViewMenu.this, "User can reorder the simulations in the list by drag-and-drop, \nthen have that order preserved ");
+                }
+            } );
+            subMenu.setVisible( true );
+            add( subMenu );
+        }
+
     }
 
     private class HelpMenu extends JMenu {
@@ -59,6 +159,10 @@ public class SimLauncherMenuBar extends JMenuBar {
             super( "Help" );
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Actions
+    //--------------------------------------------------------------------------------------------------
 
     class ExitAction extends AbstractAction {
         public ExitAction() {
@@ -72,17 +176,36 @@ public class SimLauncherMenuBar extends JMenuBar {
 
     class SimListingOptionsAction extends AbstractAction {
         public SimListingOptionsAction() {
-            super( "Simulation Listings..." );
+            super( "Simulation information..." );
         }
 
         public void actionPerformed( ActionEvent e ) {
-            JLabel installedSimsSectionLabel = new JLabel( "Installed Simulations");
-            JCheckBoxMenuItem iconOptionCB_A = new JCheckBoxMenuItem( "Show thumbnails");
-            JCheckBoxMenuItem abstractCB_A = new JCheckBoxMenuItem( "Show description");
-            JLabel uninstalledSimsSectionLabel = new JLabel( "Uninstalled Simulations");
-            JCheckBoxMenuItem iconOptionCB_B = new JCheckBoxMenuItem( "Show thumbnails");
-            JCheckBoxMenuItem abstractCB_B = new JCheckBoxMenuItem( "Show description");
 
+            // Installed simulations
+            JLabel installedSimsSectionLabel = new JLabel( "Installed Simulations" );
+            final JCheckBoxMenuItem iconOptionCB_A = new JCheckBoxMenuItem( "Show thumbnails" );
+            iconOptionCB_A.addActionListener( new AbstractAction() {
+                public void actionPerformed( ActionEvent e ) {
+                    Options.instance().setShowInstalledThumbnailsNoUpdate( iconOptionCB_A.isSelected() );
+                }
+            } );
+            iconOptionCB_A.setSelected( Options.instance().isShowInstalledThumbnails() );
+
+            JCheckBoxMenuItem abstractCB_A = new JCheckBoxMenuItem( "Show description" );
+
+            // Unistalled simulations
+            JLabel uninstalledSimsSectionLabel = new JLabel( "Uninstalled Simulations" );
+            final JCheckBoxMenuItem iconOptionCB_B = new JCheckBoxMenuItem( "Show thumbnails" );
+            iconOptionCB_B.addActionListener( new AbstractAction() {
+                public void actionPerformed( ActionEvent e ) {
+                    Options.instance().setShowUninstalledThumbnailsNoUpdate( iconOptionCB_B.isSelected() );
+                }
+            } );
+            iconOptionCB_B.setSelected( Options.instance().isShowUninstalledThumbnails() );
+
+            JCheckBoxMenuItem abstractCB_B = new JCheckBoxMenuItem( "Show description" );
+
+            // Lay out the panel for the dialog
             JPanel optionsPane = new JPanel( new GridBagLayout() );
             Insets sectionHeaderInsets = new Insets( 5, 0, 0, 0 );
             Insets optionInsets = new Insets( 0, 10, 0, 0 );
@@ -91,7 +214,7 @@ public class SimLauncherMenuBar extends JMenuBar {
                                                              GridBagConstraints.NORTHWEST,
                                                              GridBagConstraints.NONE,
                                                              sectionHeaderInsets,
-                                                             0,0);
+                                                             0, 0 );
 
             optionsPane.add( installedSimsSectionLabel, gbc );
             gbc.insets = optionInsets;
@@ -103,11 +226,25 @@ public class SimLauncherMenuBar extends JMenuBar {
             optionsPane.add( iconOptionCB_B, gbc );
             optionsPane.add( abstractCB_B, gbc );
 
-            JOptionPane optionDlg = new JOptionPane( optionsPane,
-                                                     JOptionPane.QUESTION_MESSAGE,
-                                                     JOptionPane.OK_CANCEL_OPTION );
-            JDialog dlg = optionDlg.createDialog( SimLauncherMenuBar.this, "Simulation Listing Options" );
-            dlg.setVisible( true );
+            int option = JOptionPane.showOptionDialog( SimLauncherMenuBar.this, optionsPane,
+                                                       "Simulation Listing Options",
+                                                       JOptionPane.OK_CANCEL_OPTION,
+                                                       JOptionPane.QUESTION_MESSAGE,
+                                                       null, null,
+                                                       JOptionPane.OK_OPTION );
+            if( option == JOptionPane.OK_OPTION ) {
+                Options.instance().notifyListeners();
+            }
+        }
+    }
+
+    class AutoUpdateAction extends AbstractAction {
+        public void actionPerformed( ActionEvent e ) {
+            JCheckBoxMenuItem jcbmi = (JCheckBoxMenuItem)e.getSource();
+            if( jcbmi.isSelected() ) {
+                JOptionPane.showMessageDialog( SimLauncherMenuBar.this, "Updates for all simulations will be checked for\n"
+                                                                        + "each time the launcher is started" );
+            }
         }
     }
 }
