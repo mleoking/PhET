@@ -361,7 +361,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Zoom control for "Energy" plot
         {
-            final double scale = 0.8;
+            final double scale = 0.75;
             AffineTransform transform = new AffineTransform();
             // position it at the lower right corner of the energy plot
             transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET, 
