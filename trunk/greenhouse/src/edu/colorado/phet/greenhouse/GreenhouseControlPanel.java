@@ -113,7 +113,6 @@ public class GreenhouseControlPanel extends JPanel {
         } );
 
         // Greenhouse gas concentration
-//        greenhouseGasConcentrationControl = new ModelSlider( MessageFormatter.format( SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ),
         greenhouseGasConcentrationControl = new ModelSlider( "",
                                                              0.0,
                                                              GreenhouseConfig.maxGreenhouseGasConcentration,
@@ -154,10 +153,6 @@ public class GreenhouseControlPanel extends JPanel {
                 module.thermometerEnabled( thermometerCB.isSelected() );
             }
         } );
-//        thermometerCB.setSelected( module.isThermometerEnabled() );
-//
-//        // todo: HACK!!! make the control optionsPanel listen to the module for this?
-//        thermometerCB.setSelected( true );
 
         // Ratio of photons to see
         allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
@@ -171,16 +166,12 @@ public class GreenhouseControlPanel extends JPanel {
                 }
             }
         } );
-//        module.setVisiblePhotonRatio( 1.0 );
-//        // todo: HACK!!! make the control optionsPanel listen to the module for this?
-//        allPhotonsCB.setSelected( true );
 
         // Atmosphere selection
         atmosphereSelectionPane = new AtmosphereSelectionPane();
 
         // Reset button
         JButton resetBtn = new JButton( SimStrings.get( "GreenhouseControlPanel.Reset" ) );
-//        resetBtn.setBackground( Color.lightGray );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -206,7 +197,6 @@ public class GreenhouseControlPanel extends JPanel {
             panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseControlPanel.GasConcentrationSlider" ) ) );
             panel.add( greenhouseGasConcentrationControl );
             add( panel, gbc );
-//        add( greenhouseGasConcentrationControl, gbc );
         }
 
         // Options optionsPanel
@@ -223,19 +213,12 @@ public class GreenhouseControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add( atmosphereSelectionPane, gbc );
         gbc.anchor = GridBagConstraints.WEST;
-//        gbc.fill = GridBagConstraints.NONE;
         add( optionsPanel, gbc );
-//        gbc.insets = new Insets( 0, 15, 0, 15 );
-//        add( cloudPanel, gbc );
-//        add( thermometerCB, gbc );
-//        add( allPhotonsCB, gbc );
 
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets( 15, 15, 0, 15 );
         add( resetBtn, gbc );
-
-        setBackground( this );
     }
 
     private void setDefaultConditions() {
@@ -247,22 +230,6 @@ public class GreenhouseControlPanel extends JPanel {
 
         // todo: HACK!!! make the control panel listen to the module for this?
         thermometerCB.setSelected( true );
-//        module.thermometerEnabled( thermometerCB.isSelected() );
-    }
-
-    private void setBackground( Container container ) {
-//        container.setBackground( panelBackground );
-//        Component[] components = container.getComponents();
-//        for( int i = 0; i < components.length; i++ ) {
-//            Component component = components[i];
-//            component.setBackground( panelBackground );
-//            if( component.getForeground().equals( Color.black ) ) {
-//                component.setForeground( panelForeground );
-//            }
-//            if( component instanceof Container ) {
-//                setBackground( (Container)component );
-//            }
-//        }
     }
 
     private void reset() {
@@ -511,11 +478,6 @@ public class GreenhouseControlPanel extends JPanel {
                                   10000,
                                   (int)tx.modelToView( defaultModelValue ) );
             slider.setPaintLabels( true );
-//            slider.addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    double rate = tx.viewToModel( slider.getValue() );
-//                }
-//            } );
 
             int rowIdx = 0;
             try {
