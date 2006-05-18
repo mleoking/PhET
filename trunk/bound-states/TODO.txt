@@ -17,6 +17,7 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- add magnification factor to control label, so we know how much magnification
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -63,6 +64,8 @@ CLEANUP:
 
 
 DONE:
+(5/18/06) - tweak zoom button images, scale the zoom control
+(5/18/06) - remove setMargin calls on zoom buttons, causing problems
 0.00.07...
 (5/18/06) - fix mass normalization of Coulomb analytic wave function solver, 1D only, sqrt (roll into 0.00.07)
 (5/18/06) - change default Coulomb spacing to 0.7 (roll into 0.00.07)
