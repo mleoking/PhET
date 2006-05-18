@@ -36,6 +36,8 @@ public class FaucetGraphic extends PhetPNode {
     private boolean enabled = true;
     private boolean clipDrops = true;
     private ArrayList listeners = new ArrayList();
+    private HorizontalFaucetDragHandler horizontalDragHandler;
+    private VerticalFaucetDragHandler verticalDragHandler;
 
     public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
@@ -66,7 +68,42 @@ public class FaucetGraphic extends PhetPNode {
         FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( pSwingCanvas, this );
         addChild( faucetOnOffButton );
 
-        addInputEventListener( new HorizontalFaucetDragHandler( this ) );
+        horizontalDragHandler = new HorizontalFaucetDragHandler( this );
+        verticalDragHandler = new VerticalFaucetDragHandler( this );
+
+//        addInputEventListener( horizontalDragHandler );
+//        addInputEventListener( verticalDragHandler );
+    }
+
+    public void setHorizontalDrag() {
+        removeVerticicalDrag();
+        addHorizontalDrag();
+    }
+
+    public void setVerticalDrag() {
+        removeHorizontalDrag();
+        addVerticalDrag();
+    }
+
+    public void setDragDisabled() {
+        removeHorizontalDrag();
+        removeVerticicalDrag();
+    }
+
+    private void addVerticalDrag() {
+        addInputEventListener( verticalDragHandler );
+    }
+
+    private void removeHorizontalDrag() {
+        removeInputEventListener( horizontalDragHandler );
+    }
+
+    private void addHorizontalDrag() {
+        addInputEventListener( horizontalDragHandler );
+    }
+
+    private void removeVerticicalDrag() {
+        removeInputEventListener( verticalDragHandler );
     }
 
     public PImage getImagePNode() {

@@ -66,6 +66,13 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
         else {
             primary.getOscillator().setLocation( oscillatorX, waveModel.getHeight() / 2 );
         }
+        if( twoDrips ) {
+            primary.setVerticalDrag();
+            secondary.setVerticalDrag();
+        }
+        else {
+            primary.setHorizontalDrag();
+        }
     }
 
     public void setTwoDrips() {

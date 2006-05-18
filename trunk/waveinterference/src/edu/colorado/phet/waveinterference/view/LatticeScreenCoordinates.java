@@ -51,6 +51,10 @@ public abstract class LatticeScreenCoordinates {
         return toLatticeCoordinates( dx, 0 ).getX() - toLatticeCoordinates( 0, 0 ).getX();
     }
 
+    public double toLatticeCoordinatesDifferentialY( double dy ) {
+        return toLatticeCoordinates( 0, dy ).getY() - toLatticeCoordinates( 0, 0 ).getY();
+    }
+
     public static interface Listener {
         void mappingChanged();
     }
