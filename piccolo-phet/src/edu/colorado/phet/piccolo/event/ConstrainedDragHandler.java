@@ -408,6 +408,6 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
      * Use the same bounds everywhere.
      */
     private Rectangle2D getNodeBounds( PNode node ) {
-        return node.getGlobalBounds();
+        return node.getGlobalFullBounds();
     }
 }
