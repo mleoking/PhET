@@ -10,13 +10,13 @@ import java.awt.*;
  * Copyright (c) May 18, 2006 by Sam Reid
  */
 
-public class HorizontalFaucetDragHandler extends FaucetDragHandler {
+public class VerticalFaucetDragHandler extends FaucetDragHandler {
 
-    public HorizontalFaucetDragHandler( FaucetGraphic faucetGraphic ) {
+    public VerticalFaucetDragHandler( FaucetGraphic faucetGraphic ) {
         super( faucetGraphic );
     }
 
     protected void applyOffset( Point offset ) {
-        super.getOscillator().setLocation( super.getOriginalOscillatorLocation().x + offset.x, getOriginalOscillatorLocation().y );
+        super.getOscillator().setLocation( super.getOriginalOscillatorLocation().x, getOriginalOscillatorLocation().y + offset.y );
     }
 }
