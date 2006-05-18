@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
     private PImage cone;
-    private double x0 = -4;
+    private double x0 = -2;
     private double amp = 5 / 1.5;
     private PImage foreground;
 
