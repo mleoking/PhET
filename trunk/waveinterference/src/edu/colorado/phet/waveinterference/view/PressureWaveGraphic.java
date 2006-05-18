@@ -41,6 +41,7 @@ public class PressureWaveGraphic extends PNode {
     private double friction = 0.97;
     private boolean pinked = false;
     private PPath background;
+    private static final int IMAGE_HEIGHT = 14;
 
     public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, SlitPotential slitPotential ) {
         this.lattice = lattice;
@@ -53,8 +54,8 @@ public class PressureWaveGraphic extends PNode {
         try {
             blueImageORIG = ImageLoader.loadBufferedImage( "images/particle-blue.gif" );
             pinkImageORIG = ImageLoader.loadBufferedImage( "images/particle-pink.gif" );
-            blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, 20 );
-            pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, 20 );
+            blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, IMAGE_HEIGHT );
+            pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, IMAGE_HEIGHT );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -78,6 +79,11 @@ public class PressureWaveGraphic extends PNode {
     }
 
     private boolean isPink( int i, int j ) {
+        return random.nextDouble() < 0.05;
+//        return isPinkForCenter( i, j );
+    }
+
+    private boolean isPinkForCenter( int i, int j ) {
         if( !pinked && i >= lattice.getWidth() / 2 && j >= lattice.getHeight() / 2 ) {
             pinked = true;
             return true;
@@ -180,7 +186,6 @@ public class PressureWaveGraphic extends PNode {
         private double speed = 4.0;//pixels per time step
         private Vector2D velocity = new Vector2D.Double();
         private BufferedImage newImage;
-
 
         public Particle( BufferedImage newImage, int i, int j ) {
             super( newImage );

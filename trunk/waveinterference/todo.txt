@@ -7,6 +7,11 @@ condition on the right side, but not the left?
 2. Remove particles near barrier.
 3. constrain particles not to move beyond barrier.
 
+Paricles could be
+maybe 75% of their current size and it might look better anyway.
+ I would pick a smaller particle size for the particle view.  Probably half
+your current size or a little smaller. 14 pixels?
+
 Integrate Noah's speaker graphics.
 
 Integrate Noah's light source graphics.
@@ -18,11 +23,6 @@ molecules that were displayed on that version.
 For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
-
-Paricles could be
-maybe 75% of their current size and it might look better anyway.
- I would pick a smaller particle size for the particle view.  Probably half
-your current size or a little smaller. 14 pixels?
 
 Have the bar that connects to the faucets be silver like the faucets and
 frame of control box. On the speaker the current color doesn't look bad at

@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 public class SoundWaveGraphic extends PNode {
     private PressureWaveGraphic pressureWaveGraphic;
     private WaveModelGraphic waveModelGraphic;
-    private double particleSize = 1;
+    private double particleSize = 1 * 0.75;
     private static final double MAX_PARTICLE_SIZE = 60 * 0.35;
     private boolean grayscaleVisible = true;
     private boolean particlesVisible = false;
