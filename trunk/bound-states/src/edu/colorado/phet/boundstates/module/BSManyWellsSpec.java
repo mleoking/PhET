@@ -60,7 +60,7 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     
     // Potential attributes
     private static final DoubleRange COULOMB_1D_OFFSET_RANGE = new DoubleRange( 0, 0, 0, 1 ); // eV
-    private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0.05, 0.7, 0.1, 2 );
+    private static final DoubleRange COULOMB_1D_SPACING_RANGE = new DoubleRange( 0.05, 0.7, 0.7, 2 );
     
     //----------------------------------------------------------------------------
     // Square ranges
