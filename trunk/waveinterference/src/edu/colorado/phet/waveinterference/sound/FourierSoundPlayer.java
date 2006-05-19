@@ -77,6 +77,7 @@ public class FourierSoundPlayer implements Runnable {
     private boolean _soundEnabled;
     private EventListenerList _listenerList;
     private Thread soundThread;
+    private boolean active;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -180,7 +181,7 @@ public class FourierSoundPlayer implements Runnable {
         byte[] buffer = new byte[TRANSFER_BUFFER_SIZE];
 //        System.out.println( "TRANSFER_BUFFER_SIZE = " + TRANSFER_BUFFER_SIZE );
         while( true ) {
-            if( _soundEnabled ) {
+            if( _soundEnabled && active ) {
                 try {
                     int nRead = _oscillator.read( buffer );
                     int nWritten = _sourceDataLine.write( buffer, 0, nRead );
@@ -204,6 +205,8 @@ public class FourierSoundPlayer implements Runnable {
     }
 
     private void notifySoundErrorListeners( IOException ioe, String message ) {
+        System.out.println( "ioe = " + ioe );
+        System.out.println( "message = " + message );
     }
 
     public void setFrequency( double value ) {
@@ -212,6 +215,10 @@ public class FourierSoundPlayer implements Runnable {
 
     private double getFrequency() {
         return _oscillator.getFrequency();
+    }
+
+    public void setActive( boolean active ) {
+        this.active = active;
     }
 
     public static void main( String[] args ) throws LineUnavailableException {
@@ -243,4 +250,5 @@ public class FourierSoundPlayer implements Runnable {
 //        stress.setPriority( Thread.MAX_PRIORITY );
         stress.start();
     }
+
 }
