@@ -30,7 +30,7 @@ public class WaveRotateControl3D extends WaveRotateControl {
 
     private void update() {
         setEnabled( this, model.isSymmetric() );
-        System.out.println( "model.isSymmetric() = " + model.isSymmetric() );
+//        System.out.println( "model.isSymmetric() = " + model.isSymmetric() );
     }
 
     public void setEnabled( Component c, boolean enabled ) {

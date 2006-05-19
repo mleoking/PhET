@@ -50,13 +50,13 @@ public class SoundModuleAudio {
 
     private void updateAmplitude() {
         if( fourierSoundPlayer != null ) {
-            System.out.println( "getPrimaryAmplitude() = " + getPrimaryAmplitude() );
+//            System.out.println( "getPrimaryAmplitude() = " + getPrimaryAmplitude() );
             fourierSoundPlayer.setVolume( Math.min( 1.0f, (float)amplitude * getPrimaryAmplitude() ) );
         }
     }
 
     private void updateFrequency() {
-        System.out.println( "getPrimaryFrequency() = " + getPrimaryFrequency() );
+//        System.out.println( "getPrimaryFrequency() = " + getPrimaryFrequency() );
         fourierSoundPlayer.setFrequency( getPrimaryFrequency() * FREQ_SCALE );
     }
 
