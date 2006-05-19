@@ -76,6 +76,7 @@ public class FourierSoundPlayer implements Runnable {
     private SourceDataLine _sourceDataLine; // audio data consumer (output device)
     private boolean _soundEnabled;
     private EventListenerList _listenerList;
+    private Thread soundThread;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -114,18 +115,24 @@ public class FourierSoundPlayer implements Runnable {
      */
     public void setSoundEnabled( boolean enabled ) {
         _soundEnabled = enabled; // false stops the sound thread
+        _oscillator.setEnabled( enabled );
+
+        //in the original way of doing this, after manually changing frequency, there would be 15+ threads
+        //alive that were not yet exited from processing, and performance degraded substantially.
         if( enabled ) {
-            Thread soundThread = new Thread( this );
-            soundThread.setPriority( Thread.MAX_PRIORITY );//todo thread priority.
+            if( soundThread == null ) {
+                soundThread = new Thread( this );
+                soundThread.start();
+            }
             //I have it set to max because if my app is > 60% and thread has normal priority, the audio is choppy.
-            soundThread.start();
+
             _sourceDataLine.start();
+//            soundThread.setPriority( Thread.MAX_PRIORITY );//todo thread priority.
         }
         else {
             _sourceDataLine.stop();
             _sourceDataLine.flush();
         }
-        _oscillator.setEnabled( enabled );
     }
 
     /**
@@ -171,15 +178,27 @@ public class FourierSoundPlayer implements Runnable {
     public void run() {
 //        System.out.println( "FourierSoundPlayer.run begins" );//XXX
         byte[] buffer = new byte[TRANSFER_BUFFER_SIZE];
-        while( _soundEnabled ) {
-            try {
-                int nRead = _oscillator.read( buffer );
-                int nWritten = _sourceDataLine.write( buffer, 0, nRead );
+//        System.out.println( "TRANSFER_BUFFER_SIZE = " + TRANSFER_BUFFER_SIZE );
+        while( true ) {
+            if( _soundEnabled ) {
+                try {
+                    int nRead = _oscillator.read( buffer );
+                    int nWritten = _sourceDataLine.write( buffer, 0, nRead );
+//                System.out.println( "nWritten = " + nWritten );
+                }
+                catch( IOException ioe ) {
+                    _soundEnabled = false; // cause the sound thread to exit
+                    String message = SimStrings.get( "sound.error.io" );
+                    notifySoundErrorListeners( ioe, message );
+                }
             }
-            catch( IOException ioe ) {
-                _soundEnabled = false; // cause the sound thread to exit
-                String message = SimStrings.get( "sound.error.io" );
-                notifySoundErrorListeners( ioe, message );
+            else {
+                try {
+                    Thread.sleep( 30 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -211,5 +230,17 @@ public class FourierSoundPlayer implements Runnable {
         control.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         control.pack();
         control.setVisible( true );
+        Thread stress = new Thread( new Runnable() {
+            public void run() {
+                while( true ) {
+                    String str = "aaeou".toUpperCase();
+                    if( str.equals( "hello" ) ) {
+                        System.out.println( "str = " + str );
+                    }
+                }
+            }
+        } );
+//        stress.setPriority( Thread.MAX_PRIORITY );
+        stress.start();
     }
 }
