@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -19,21 +20,31 @@ public class WaveInterferenceApplication extends PhetApplication {
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION );
-
-        addModule( new WaterModule() );
-        addModule( new SoundModule() );
-        addModule( new LightModule() );
-        getPhetFrame().addMenu( new WaveInterferenceMenu() );
-        if( getModules().length > 1 ) {
-            for( int i = 0; i < getModules().length; i++ ) {
-                getModule( i ).setLogoPanelVisible( false );
-            }
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    addModule( new WaterModule() );
+                    addModule( new SoundModule() );
+                    addModule( new LightModule() );
+                    getPhetFrame().addMenu( new WaveInterferenceMenu() );
+                    if( getModules().length > 1 ) {
+                        for( int i = 0; i < getModules().length; i++ ) {
+                            getModule( i ).setLogoPanelVisible( false );
+                        }
+                    }
+                }
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
         }
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
         WaveIntereferenceLookAndFeel.initLookAndFeel();
-//        System.out.println( "Arrays.ss = " + Arrays.s );
         if( Arrays.asList( args ).contains( "-smooth" ) ) {
             doSmooth();
         }

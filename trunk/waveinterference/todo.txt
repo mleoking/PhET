@@ -1,4 +1,3 @@
-Move crosshairs up to center on graph.
 
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
@@ -22,6 +21,9 @@ o Add help?
 Dotted line should be white in sound module for particle view.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
+
+Move crosshairs up to center on graph.
+>>This could be difficult, and maybe putting space between the crosshairs and the graph is sufficient.
 
 ##############################################################
 Low Priority________________________________________________________
