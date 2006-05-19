@@ -2,6 +2,7 @@ New in 0.00.14
 Bugfix:There is a long delay when enabling audio.
 Bugfix: Audio has breaks and stutters sometimes.
 Bugfix: Audio should be disabled when moving from the sound panel to another tab.
+Added a cursor hand icon to the draggable faucets.
 
 New in 0.00.13 (5-19-2006)
 Relabeled 'View Angle' to 'Rotate View'
