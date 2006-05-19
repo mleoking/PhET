@@ -4,27 +4,15 @@ I thought we were going to detach the crosshairs from the readouts.
 Move crosshairs up to center on graph.
 Crosshairs should be attached by short coil on RHS of panel, and be detachable.
 
-I noticed that when the graph is on, there is a dotted line across the pool.
-I like that. Maybe the edge of the rotating box should also be dotted? I
-mean the edge that is the same as where the dotted line appears (which is
-also the axis of rotation). I suppose if the top and sides of the box are
-polygons that might be hard to do.
-
-Last thing. Is it possible to make the dotted line appear when you click on
-the view angle slider? What I envision is that you click on the slider and
-the dotted line appears on the pool, stays dotted as the edge of the
-rotating box, and disappears when you release the slider. Just an idea, but
-I wouldn't spend any time on it for now. Just wondering if it is possible.
-
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
 > > 1. Disable asymmetry inducing features when in side view
 > > 	-could be confusing to the user and make the simulation
 > harder to use
-I'd also like to hold off on the message "rotate
-> to top view  to use this" until we interview.
+Hold off on the message "rotate to top view to use this" until we interview.
 
 o Add correct units to measuring tape.
+
 o Add correct units to stopwatch.
 
 o Test at 1024x768
@@ -61,3 +49,15 @@ where the particles are dense. Right now it looks 180 deg. out of phase.
 
 o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add 'listener' mode, as in 'sound waves' simulation?
     >>not now.
+
+I noticed that when the graph is on, there is a dotted line across the pool.
+I like that. Maybe the edge of the rotating box should also be dotted? I
+mean the edge that is the same as where the dotted line appears (which is
+also the axis of rotation). I suppose if the top and sides of the box are
+polygons that might be hard to do.
+
+Last thing. Is it possible to make the dotted line appear when you click on
+the view angle slider? What I envision is that you click on the slider and
+the dotted line appears on the pool, stays dotted as the edge of the
+rotating box, and disappears when you release the slider. Just an idea, but
+I wouldn't spend any time on it for now. Just wondering if it is possible.
