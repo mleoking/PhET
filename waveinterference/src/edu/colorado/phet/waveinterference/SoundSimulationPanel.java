@@ -8,7 +8,10 @@ import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -33,6 +36,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ImageOscillatorPNode secondarySpeaker;
     private WaveChartGraphic waveChartGraphic;
     private ExpandableWaveChart expandableWaveChart;
+    private PressureWaveGraphic pressureWaveGraphic;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -42,7 +46,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
         waveModelGraphic.setOffset( super.getWaveModelGraphicOffset() );
 
-        PressureWaveGraphic pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates(), soundModule.getSlitPotential() );
+        pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates(), soundModule.getSlitPotential() );
         pressureWaveGraphic.setMaxVelocity( 3 );
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
         addScreenChild( soundWaveGraphic );
@@ -93,6 +97,22 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+//        addScaleTest();
+    }
+
+    private void addScaleTest() {
+        Timer timer = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "getLayer().getScale() = " + getLayer().getScale() );
+                System.out.println( "getLayer().getGlobalScale() = " + getLayer().getGlobalScale() );
+                if( pressureWaveGraphic.numParticles() > 0 ) {
+                    PressureWaveGraphic.Particle p = pressureWaveGraphic.getParticle( 0 );
+                    System.out.println( "p.getScale() = " + p.getScale() );
+                    System.out.println( "p.getGlobalScale() = " + p.getGlobalScale() );
+                }
+            }
+        } );
+        timer.start();
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {

@@ -61,6 +61,7 @@ public class DoubleBufferedPhetPCanvas extends PhetPCanvas {
         synchronizeImage();
         Graphics2D g2 = buffer.createGraphics();
 //        System.out.println( "g.getClip() = " + g.getClip() );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );//to overcome the slow default in 1.5
         g2.setClip( g.getClip() );
         super.paintComponent( g2 );
         g.drawImage( buffer, 0, 0, null );

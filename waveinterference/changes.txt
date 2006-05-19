@@ -5,7 +5,6 @@ Removed vertical tick labels from charts.
 Synchronized chart horizontal units & measuring tape units.
 Vector view: arrows are fixed at zero (since it's in a graph).
 When a barrier is present, it is shown in side view as behind the wave (water only).
-Performance problem for particle view (visible in 0.00.12) has disappeared (unknown reason).
 Faucets are draggable.
 Particle View:
     Reverted from one red particle to 5% red particles.
@@ -19,6 +18,7 @@ Bugfix: Intensity Reader should read zero when off the lattice.
 Added rotation of light waves.
     Asymmetric features are disabled in side view.
     Rotation of light waves is disabled when asymmetric.
+Bugfix: Performance problem for particle view in 1.5 due to slow default interpolation style.
 
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.
