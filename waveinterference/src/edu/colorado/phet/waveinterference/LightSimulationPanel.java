@@ -57,6 +57,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         rotationGlyph = new RotationGlyph();
+        rotationGlyph.synchronizeDepthSize( waveModelGraphic );
 //        rotationGlyph.setDepthVisible( false );
         rotationWaveGraphic = new RotationWaveGraphic3D( waveModelGraphic, rotationGlyph );
         rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );

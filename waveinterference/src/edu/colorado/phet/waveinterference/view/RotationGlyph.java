@@ -9,6 +9,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -24,10 +26,14 @@ public class RotationGlyph extends PNode {
     private double primaryWidth = 100;
     private double expansionWidth = 50;
     private PPath depth;
-    private int boxHeight = 200;
+    private double boxHeight = 200;
     private MutableColor color;
     private PPath crossSectionGraphic;
     private BasicStroke STROKE = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1 );
+
+    public RotationGlyph() {
+        this( new MutableColor( Color.blue ) );
+    }
 
     public RotationGlyph( MutableColor color ) {
         this.color = color;
@@ -56,10 +62,6 @@ public class RotationGlyph extends PNode {
 
         } );
         updateColors();
-    }
-
-    public RotationGlyph() {
-        this( new MutableColor( Color.blue ) );
     }
 
     private void updateColors() {
@@ -152,5 +154,19 @@ public class RotationGlyph extends PNode {
         this.color.setColor( color );
         updateColors();
 //        this.color=new MutableColor( color );
+    }
+
+    public void synchronizeDepthSize( final WaveModelGraphic waveModelGraphic ) {
+        waveModelGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateBoxHeight( waveModelGraphic );
+            }
+        } );
+        updateBoxHeight( waveModelGraphic );
+        update();
+    }
+
+    private void updateBoxHeight( WaveModelGraphic waveModelGraphic ) {
+        boxHeight = waveModelGraphic.getFullBounds().getHeight() / 2;
     }
 }
