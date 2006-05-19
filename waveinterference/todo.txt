@@ -1,8 +1,5 @@
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
-> > 1. Disable asymmetry inducing features when in side view
-> > 	-could be confusing to the user and make the simulation
-> harder to use
 Hold off on the message "rotate to top view to use this" until we interview.
 
 o Test at 1024x768
@@ -17,6 +14,14 @@ Dotted line should be white in sound module for particle view.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
+o Add correct units to measuring tape.
+>>How do you like the present units?
+
+o Add correct units to stopwatch.
+>>How do you like the present units?
+
+Move crosshairs up to center on graph.
+>>This could be difficult, and maybe putting space between the crosshairs and the graph is sufficient.
 ##############################################################
 Low Priority________________________________________________________
 - It looks like the particles run away from the speaker and then fill in

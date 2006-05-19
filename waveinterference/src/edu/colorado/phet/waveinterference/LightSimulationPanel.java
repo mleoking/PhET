@@ -85,9 +85,6 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         measurementToolSet = new MeasurementToolSet( this, lightModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
-//        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
-
-
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, lightModule.getPrimaryOscillator(), secondaryLaserGraphic, lightModule.getSecondaryOscillator() );
         laserControlPanelPNode = new LaserControlPanelPNode( this, waveModelGraphic, lightModule.getPrimaryOscillator(), lightModule.getSecondaryOscillator() );
         addScreenChild( laserControlPanelPNode );
@@ -191,10 +188,16 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private void angleChanged() {
         if( rotationWaveGraphic.isTopView() ) {
             slitPotentialGraphic.setVisible( true );
+            setAsymmetricFeaturesEnabled( true );
         }
         else {
             slitPotentialGraphic.setVisible( false );
+            setAsymmetricFeaturesEnabled( false );
         }
+    }
+
+    private void setAsymmetricFeaturesEnabled( boolean b ) {
+        lightModule.setAsymmetricFeaturesEnabled( b );
     }
 
     private Lattice2D getLattice() {
