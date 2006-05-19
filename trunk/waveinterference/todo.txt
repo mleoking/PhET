@@ -1,15 +1,3 @@
-Integrate Noah's speaker graphics.
-
-Integrate Noah's light source graphics.
-
-On the sound panel the current particle view is too large and there’s only one red molecule.
-We should have 5 or so (or a distribution, so it looks like a gas).
-Let’s use the size of molecules that corresponded to 0.6 on your previous version using the same number of red
-molecules that were displayed on that version.
-For some reason the current version is very slow. Something needs to be done to improve performance on this panel.
-
-Bug: When you turn the gun off, it goes to solid color rather than black.
-
 Have the bar that connects to the faucets be silver like the faucets and
 frame of control box. On the speaker the current color doesn't look bad at
 all.  For the light I'd also change to a grey.
@@ -52,6 +40,9 @@ o Add foreign languages.
 o Add help?
 
 Dotted line should be white in sound module for particle view.
+
+Bug: When you turn the gun off, it goes to solid color rather than black.
+
 ##############################################################
 Low Priority________________________________________________________
 - It looks like the particles run away from the speaker and then fill in
