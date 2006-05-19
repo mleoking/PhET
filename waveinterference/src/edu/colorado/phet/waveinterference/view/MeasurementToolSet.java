@@ -31,7 +31,7 @@ public class MeasurementToolSet extends PNode {
     public MeasurementToolSet( PSwingCanvas pSwingCanvas, IClock clock, LatticeScreenCoordinates latticeScreenCoordinates, String units, double physicalWidth, double physicalHeight, String timeUnits, double timeScale ) {
 
         this.pSwingCanvas = pSwingCanvas;
-        measuringTape = new WaveMeasuringTape( latticeScreenCoordinates );
+        measuringTape = new WaveMeasuringTape( latticeScreenCoordinates, physicalWidth, physicalHeight );
         measuringTape.setVisible( false );
 //        measuringTape.setOffset( 100, 100 );
         addChild( measuringTape );
@@ -43,7 +43,6 @@ public class MeasurementToolSet extends PNode {
 
         setDistanceUnits( units );
 
-        getWaveMeasuringTape().setWaveAreaSize( physicalWidth, physicalHeight );
 
         addChild( stopwatchGraphic );
     }
@@ -69,6 +68,10 @@ public class MeasurementToolSet extends PNode {
     }
 
     public WaveMeasuringTape getWaveMeasuringTape() {
+        return measuringTape;
+    }
+
+    public WaveMeasuringTape getMeasuringTape() {
         return measuringTape;
     }
 }

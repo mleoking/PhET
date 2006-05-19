@@ -13,7 +13,6 @@ import edu.colorado.phet.waveinterference.view.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 
 /**
@@ -86,7 +85,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         measurementToolSet = new MeasurementToolSet( this, lightModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
-        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
+//        measurementToolSet.getWaveMeasuringTape().setLocation( new Point2D.Double( 2100, 0 ), new Point2D.Double( 3100, 0 ) );
 
 
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, lightModule.getPrimaryOscillator(), secondaryLaserGraphic, lightModule.getSecondaryOscillator() );
