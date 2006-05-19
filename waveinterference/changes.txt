@@ -13,6 +13,7 @@ Particle View:
     Particles no longer go through the barrier wall.
 Improved 3D speaker graphics.
 Improved 3D laser graphics.
+Changed connector wires to silver for faucets and laser.
 
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.

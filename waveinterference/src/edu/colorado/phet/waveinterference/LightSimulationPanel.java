@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -92,6 +94,12 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( laserControlPanelPNode );
 
         VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
+        try {
+            verticalConnector.setTexture( ImageLoader.loadBufferedImage( "images/silverwire.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         addScreenChild( 0, verticalConnector );
 
         waveChartGraphic = new LaserWaveChartGraphic( this, "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),

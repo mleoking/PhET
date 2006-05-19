@@ -1,7 +1,3 @@
-Have the bar that connects to the faucets be silver like the faucets and
-frame of control box. On the speaker the current color doesn't look bad at
-all.  For the light I'd also change to a grey.
-
 Detectors: the graph obscures the wave right in front of the crosshairs,
 I thought we were going to move the crosshairs to handle this (top center)?
 I thought we were going to detach the crosshairs from the readouts.
