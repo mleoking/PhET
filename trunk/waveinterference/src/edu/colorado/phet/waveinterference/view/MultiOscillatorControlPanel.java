@@ -2,7 +2,6 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.ModelSlider;
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,7 +16,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class MultiOscillatorControlPanel extends VerticalLayoutPanel {
+public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable {
     private ModelSlider spacingSlider;
     private JRadioButton twoDrips;
     private JRadioButton oneDrip;
@@ -57,6 +56,11 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanel {
     }
 
     private void updateSpacingSlider() {
-        spacingSlider.setEnabled( multiFaucetDrip.isTwoSource() );
+        spacingSlider.setEnabled( multiFaucetDrip.isTwoSource() && getEnabledFlag() );
+    }
+
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        updateSpacingSlider();
     }
 }

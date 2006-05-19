@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Mar 24, 2006 by Sam Reid
  */
 
-public class SlitControlPanel extends VerticalLayoutPanel {
+public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
     private SlitPotential slitPotential;
     private ModelSlider slitSeparation;
     private ModelSlider slitWidthSlider;
@@ -108,7 +108,7 @@ public class SlitControlPanel extends VerticalLayoutPanel {
     }
 
     private void updateSeparationCheckbox() {
-        slitSeparation.setEnabled( !slitPotential.isOneSlit() && slitPotential.isEnabled() );
+        slitSeparation.setEnabled( !slitPotential.isOneSlit() && slitPotential.isEnabled() && getEnabledFlag() );
     }
 
     private void setSlitEnabled( boolean b ) {
@@ -117,4 +117,11 @@ public class SlitControlPanel extends VerticalLayoutPanel {
         slitLocationSlider.setEnabled( b );
         updateSeparationCheckbox();
     }
+
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        updateSeparationCheckbox();
+        setSlitEnabled( slitPotential.isEnabled() );
+    }
+
 }

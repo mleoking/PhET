@@ -12,6 +12,8 @@ import edu.colorado.phet.waveinterference.view.*;
 
 public class LightControlPanel extends WaveInterferenceControlPanel {
     private LightModule lightModule;
+    private MultiOscillatorControlPanel multiOscillatorControlPanel;
+    private SlitControlPanel slitControlPanel;
 
     public LightControlPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -23,10 +25,17 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
 
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );
-        addControl( new SlitControlPanel( lightModule.getSlitPotential() ) );
+        slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential() );
+        addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
-        addControl( new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" ) );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" );
+        addControl( multiOscillatorControlPanel );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
         addControl( new ReducedScreenControlPanel( lightModule.getScreenNode() ) );
+    }
+
+    public void setAsymmetricFeaturesEnabled( boolean b ) {
+        multiOscillatorControlPanel.setEnabled( b );
+        slitControlPanel.setEnabled( b );
     }
 }
