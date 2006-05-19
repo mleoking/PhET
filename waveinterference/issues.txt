@@ -1,8 +1,0 @@
-o Add correct units to measuring tape.
->>How do you like the current units?
-
-o Add correct units to stopwatch.
->>How do you like the present units?
-
-Move crosshairs up to center on graph.
->>This could be difficult, and maybe putting space between the crosshairs and the graph is sufficient.
