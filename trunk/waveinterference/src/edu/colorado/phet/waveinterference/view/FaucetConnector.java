@@ -1,10 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -27,5 +29,11 @@ public class FaucetConnector extends VerticalConnector {
                 update();
             }
         } );
+        try {
+            setTexture( ImageLoader.loadBufferedImage( "images/silverwire.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
