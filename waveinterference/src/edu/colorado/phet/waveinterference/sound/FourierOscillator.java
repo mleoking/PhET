@@ -11,7 +11,7 @@
 
 /*
  * Portions of this code (as noted in the Javadoc):
- * 
+ *
  * Copyright (c) 1999 - 2001 by Matthias Pfisterer
  * All rights reserved.
  *
@@ -337,7 +337,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @throws IOException if nLength is not an integer multiple of the frame size
      */
     public synchronized int read( byte[] abData, int nOffset, int nLength ) throws IOException {
-        System.out.println( "nLength = " + nLength );
+//        System.out.println( "nLength = " + nLength );
         if( nLength % getFormat().getFrameSize() != 0 ) {
             throw new IOException( "length must be an integer multiple of frame size" );
         }
