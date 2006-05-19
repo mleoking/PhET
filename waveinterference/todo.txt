@@ -14,6 +14,9 @@ Dotted line should be white in sound module for particle view.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
+##############################################################
+Questions
+##############################################################
 o Add correct units to measuring tape.
 >>How do you like the present units?
 
@@ -22,8 +25,10 @@ o Add correct units to stopwatch.
 
 Move crosshairs up to center on graph.
 >>This could be difficult, and maybe putting space between the crosshairs and the graph is sufficient.
+
 ##############################################################
-Low Priority________________________________________________________
+Low Priority
+##############################################################
 - It looks like the particles run away from the speaker and then fill in
 from behind. I know this is sort of an optical illusion, but there may be a
 way to minimize this visual effect. I tried to follow a single particle and

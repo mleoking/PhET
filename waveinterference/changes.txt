@@ -1,4 +1,4 @@
-New in 0.00.13
+New in 0.00.13 (5-19-2006)
 Relabeled 'View Angle' to 'Rotate View'
 Moved measuring tape in front of charts.
 Removed vertical tick labels from charts.
@@ -19,7 +19,7 @@ Bugfix: Intensity Reader should read zero when off the lattice.
 Added rotation of light waves.
     Asymmetric features are disabled in side view.
     Rotation of light waves is disabled when asymmetric.
-    
+
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.
 Photon Vector View:
