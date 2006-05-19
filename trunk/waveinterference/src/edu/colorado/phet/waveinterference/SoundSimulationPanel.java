@@ -5,7 +5,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
-import edu.colorado.phet.waveinterference.phetcommon.VerticalConnectorLeftSide;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -67,7 +66,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         speakerControlPanelPNode = new SpeakerControlPanelPNode( this, soundModule.getPrimaryOscillator(), waveModelGraphic );
         addScreenChild( speakerControlPanelPNode );
 
-        verticalConnector = new VerticalConnectorLeftSide( speakerControlPanelPNode, primarySpeaker );
+        verticalConnector = new SpeakerConnectorLeftSide( speakerControlPanelPNode, primarySpeaker );
         addScreenChild( 0, verticalConnector );
 
         waveChartGraphic = new WaveChartGraphic( "Pressure", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );

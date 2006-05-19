@@ -11,6 +11,7 @@ Particle View:
     Reverted from one red particle to 5% red particles.
     Reduced particle size.
     Particles no longer go through the barrier wall.
+Added improved 3D speaker graphics. 
 
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.

@@ -23,7 +23,7 @@ public class VerticalConnectorLeftSide extends VerticalConnector {
         double yMax = Math.max( r1c.getY(), r2c.getY() );
         double height = yMax - yMin;
         double x = getDestination().getFullBounds().getX();
-        double origX = r1c.getX() - getDestination().getFullBounds().getWidth() / 2.0;
+//        double origX = r1c.getX() - getDestination().getFullBounds().getWidth() / 2.0;
         Rectangle2D.Double rect = new Rectangle2D.Double( x, yMin, 20, height );
         super.setPathTo( rect );
     }
