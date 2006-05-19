@@ -31,6 +31,10 @@ o Add correct units to stopwatch.
 Move crosshairs up to center on graph.
 >>This could be difficult, and maybe putting space between the crosshairs and the graph is sufficient.
 
+I implemented dragging for the faucets, should I also do this for other wave sources?
+
+Should wave sources be draggable in all directions?  Right now single sources can move horizontally and pairs can move vertically (independently).
+
 ##############################################################
 Low Priority
 ##############################################################
