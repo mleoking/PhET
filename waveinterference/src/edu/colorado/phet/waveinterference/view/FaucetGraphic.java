@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -38,6 +39,7 @@ public class FaucetGraphic extends PhetPNode {
     private ArrayList listeners = new ArrayList();
     private HorizontalFaucetDragHandler horizontalDragHandler;
     private VerticalFaucetDragHandler verticalDragHandler;
+    private CursorHandler cursorHandler;
 
     public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
@@ -70,7 +72,7 @@ public class FaucetGraphic extends PhetPNode {
 
         horizontalDragHandler = new HorizontalFaucetDragHandler( this );
         verticalDragHandler = new VerticalFaucetDragHandler( this );
-
+        cursorHandler = new CursorHandler( CursorHandler.HAND );
 //        addInputEventListener( horizontalDragHandler );
 //        addInputEventListener( verticalDragHandler );
     }
@@ -78,11 +80,13 @@ public class FaucetGraphic extends PhetPNode {
     public void setHorizontalDrag() {
         removeVerticicalDrag();
         addHorizontalDrag();
+
     }
 
     public void setVerticalDrag() {
         removeHorizontalDrag();
         addVerticalDrag();
+
     }
 
     public void setDragDisabled() {
@@ -92,18 +96,22 @@ public class FaucetGraphic extends PhetPNode {
 
     private void addVerticalDrag() {
         addInputEventListener( verticalDragHandler );
+        addInputEventListener( cursorHandler );
     }
 
     private void removeHorizontalDrag() {
         removeInputEventListener( horizontalDragHandler );
+        removeInputEventListener( cursorHandler );
     }
 
     private void addHorizontalDrag() {
         addInputEventListener( horizontalDragHandler );
+        addInputEventListener( cursorHandler );
     }
 
     private void removeVerticicalDrag() {
         removeInputEventListener( verticalDragHandler );
+        removeInputEventListener( cursorHandler );
     }
 
     public PImage getImagePNode() {
