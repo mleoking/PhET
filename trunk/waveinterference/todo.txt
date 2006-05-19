@@ -17,8 +17,6 @@ o Add help?
 
 o Dotted line should be white in sound module for particle view.
 
-o Add a cursor hand icon to the draggable faucets.
-
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
 ##############################################################
