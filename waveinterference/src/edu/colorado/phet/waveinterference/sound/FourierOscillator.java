@@ -262,17 +262,19 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * The data is not updated while the oscillator is disabled.
      */
     public void update() {
-        _periodLengthInFrames = Math.round( getFormat().getFrameRate() / getFrequency() );
-        _bufferLength = _periodLengthInFrames * getFormat().getFrameSize();
-        _buffer = new byte[_bufferLength];
+        if( getFrequency() > 0 ) {
+            _periodLengthInFrames = Math.round( getFormat().getFrameRate() / getFrequency() );
+            _bufferLength = _periodLengthInFrames * getFormat().getFrameSize();
+            _buffer = new byte[_bufferLength];
 
-        generateData();
-
-        _remainingFrames = _streamLength;
-        _bufferIndex = 0;
-        _enabled = true;
-        if( _enabled ) {
             generateData();
+
+            _remainingFrames = _streamLength;
+            _bufferIndex = 0;
+            _enabled = true;
+            if( _enabled ) {
+                generateData();
+            }
         }
     }
 
@@ -317,6 +319,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @throws IOException always
      */
     public int read() throws IOException {
+        System.out.println( "FourierOscillator.read" );
         throw new IOException( "not implemented, see javadoc" );
     }
 
@@ -334,6 +337,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @throws IOException if nLength is not an integer multiple of the frame size
      */
     public synchronized int read( byte[] abData, int nOffset, int nLength ) throws IOException {
+        System.out.println( "nLength = " + nLength );
         if( nLength % getFormat().getFrameSize() != 0 ) {
             throw new IOException( "length must be an integer multiple of frame size" );
         }

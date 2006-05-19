@@ -19,6 +19,7 @@ Added rotation of light waves.
     Asymmetric features are disabled in side view.
     Rotation of light waves is disabled when asymmetric.
 Bugfix: Performance problem for particle view in 1.5 due to slow default interpolation style.
+Bugfix: Frequency of zero crashes the audio subsystem.
 
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.
