@@ -30,6 +30,16 @@ public class SoundModule extends WaveInterferenceModule {
         }
     }
 
+    public void activate() {
+        super.activate();
+        soundModuleAudio.setActive( true );
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        soundModuleAudio.setActive( false );
+    }
+
     public SoundModule() {
         super( "Sound" );
         waveInterferenceModel = new SoundModel();

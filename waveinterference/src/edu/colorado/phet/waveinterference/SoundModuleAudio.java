@@ -82,4 +82,8 @@ public class SoundModuleAudio {
     private float getPrimaryAmplitude() {
         return (float)waveInterferenceModel.getPrimaryOscillator().getAmplitude();//todo normalize this by the max
     }
+
+    public void setActive( boolean active ) {
+        fourierSoundPlayer.setActive( active );
+    }
 }

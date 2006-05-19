@@ -18,11 +18,7 @@ o Dotted line should be white in sound module for particle view.
 
 o Add a cursor hand icon to the draggable faucets.
 
-Bug: Audio should be disabled when moving from the sound panel to another tab.
-
 Bug: When you turn the gun off, it goes to solid color rather than black.
-
-
 
 ##############################################################
 Questions
