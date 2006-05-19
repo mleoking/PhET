@@ -1,6 +1,6 @@
 ##############################################################
 Remaining Work
-##############################################################
+##################################
 
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)
@@ -21,7 +21,7 @@ Bug: When you turn the gun off, it goes to solid color rather than black.
 
 ##############################################################
 Questions
-##############################################################
+##################################
 o Add correct units to measuring tape.
 o Add correct units to stopwatch.
 >>How do you like the present units?
@@ -35,7 +35,7 @@ Should wave sources be draggable in all directions?  Right now single sources ca
 
 ##############################################################
 Low Priority
-##############################################################
+##################################
 - It looks like the particles run away from the speaker and then fill in
 from behind. I know this is sort of an optical illusion, but there may be a
 way to minimize this visual effect. I tried to follow a single particle and
