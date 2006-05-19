@@ -21,6 +21,10 @@ Bug: When you turn the gun off, it goes to solid color rather than black.
 Bug: Audio has breaks and stutters sometimes.
 
 o Add a cursor hand icon to the draggable faucets.
+
+Bug: There is a long delay when enabling audio (over webstart).
+
+Bug: Audio should be disabled when moving from the sound panel to another tab.
 ##############################################################
 Questions
 ##############################################################

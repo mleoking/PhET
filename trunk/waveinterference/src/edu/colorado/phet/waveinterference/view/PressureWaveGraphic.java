@@ -86,6 +86,14 @@ public class PressureWaveGraphic extends PNode {
         doSlitsChanged();
     }
 
+    public int numParticles() {
+        return particles.size();
+    }
+
+    public Particle getParticle( int i ) {
+        return (Particle)particles.get( i );
+    }
+
     //set particles whose origin is on top of the barrier to be invisible.
     private void doSlitsChanged() {
         for( int i = 0; i < particles.size(); i++ ) {
@@ -206,7 +214,7 @@ public class PressureWaveGraphic extends PNode {
 
     private Random random = new Random();
 
-    class Particle extends PImage {
+    public class Particle extends PImage {
         private int homeX;
         private int homeY;
         private double a;
@@ -229,6 +237,21 @@ public class PressureWaveGraphic extends PNode {
         public Point getHome() {
             return new Point( homeX, homeY );
         }
+
+//        protected void paint( PPaintContext paintContext ) {
+//            Object interp=paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_INTERPOLATION );
+//            System.out.println( "interp = " + interp );
+//            if (interp==RenderingHints.VALUE_INTERPOLATION_BICUBIC){
+//                System.out.println( "bicubic" );
+//            }
+//            if (interp==RenderingHints.VALUE_INTERPOLATION_BILINEAR){
+//                System.out.println( "bilinear" );
+//            }
+//            if (interp==RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR){
+//                System.out.println( "nn" );
+//            }
+//            super.paint( paintContext );
+//        }
 
         class SearchResult {
             private double pressure;
@@ -385,7 +408,7 @@ public class PressureWaveGraphic extends PNode {
         }
 
         private boolean inBounds( int i, int j ) {
-            return i > 0 && j > 0 && i < lattice.getWidth() && j < lattice.getHeight();
+            return i > 0 && j > 0 && i < lattice.getWidth() && j < lattice.getHeight();//todo should n't this be i>=0 j>=0?
         }
     }
 
