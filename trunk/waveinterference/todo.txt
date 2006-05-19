@@ -1,8 +1,7 @@
 Detectors: the graph obscures the wave right in front of the crosshairs,
-I thought we were going to move the crosshairs to handle this (top center)?
-I thought we were going to detach the crosshairs from the readouts.
 Move crosshairs up to center on graph.
-Crosshairs should be attached by short coil on RHS of panel, and be detachable.
+Crosshairs should be attached by short coil on RHS of panel.
+Crosshairs should be detachable.
 
 o Should be able to view sound waves and light waves from the side.(Sound and Light show same thing on side as on top)
 For 3-d waves (sound & light), rotation should be disabled when there are asymmetries (barriers, multiple sources, etc.)

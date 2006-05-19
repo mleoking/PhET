@@ -74,6 +74,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( intensityReaderSet );
 
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
+//        measurementToolSet.getMeasuringTape().setLocation( new Point2D.Double( 0,0),new Point2D.Double( 0,0) );
 
         multiFaucetDrip = new MultiFaucetDrip( getWaveModel(), primaryFaucetGraphic, secondaryFaucetGraphic );
 
