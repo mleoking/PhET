@@ -1,13 +1,17 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -22,44 +26,69 @@ import java.awt.geom.*;
  * Copyright (c) Dec 18, 2005 by Sam Reid
  */
 
-public class IntensityReader extends PComposite {
+public class IntensityReader extends PNode {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private IClock clock;
-    private CrosshairGraphic crosshairs;
+    private CrosshairGraphic crosshairGraphic;
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
+    private boolean detached = false;
+    private Vector2D originalDisplacement;
 
     public IntensityReader( String title, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.clock = clock;
         textReadout = new TextReadout();
-        addChild( textReadout );
-
-//        crosshairs = new CrosshairGraphic( 20, 25 );
-        crosshairs = new CrosshairGraphic( 10, 15 );
-        addChild( crosshairs );
-
-//        stripChartJFCNode = new StripChartJFCNode( 225, 150, "Time (s)", "Amplitude" );
+        crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
         stripChartJFCNode = new StripChartJFCNode( 175, 120, "Time (s)", title );
+        CrosshairConnection crosshairConnection = new CrosshairConnection( this );
+        addChild( textReadout );
+        addChild( crosshairConnection );
         addChild( stripChartJFCNode );
+        addChild( crosshairGraphic );
 
-        addInputEventListener( new PDragEventHandler() );
+        stripChartJFCNode.addInputEventListener( new PairDragHandler() );
         CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
         addInputEventListener( cursorHandler );
 
-        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairs.getFullBounds().getWidth() / 2.0,
+        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - crosshairGraphic.getFullBounds().getWidth() / 2.0,
                                      -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
-        textReadout.setOffset( 0, crosshairs.getFullBounds().getHeight() );
+        textReadout.setOffset( 0, crosshairGraphic.getFullBounds().getHeight() );
         textReadout.setVisible( false );
 
+        double crosshairOffsetDX = crosshairGraphic.getFullBounds().getWidth() * 1.25;
+        crosshairGraphic.translate( crosshairOffsetDX, 0 );
+        originalDisplacement = getDisplacement();
+//        System.out.println( "originalDisplacement = " + originalDisplacement );
         update();
+    }
+
+    private Vector2D getDisplacement() {
+        return new Vector2D.Double( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
+    }
+
+    class PairDragHandler extends PDragEventHandler {
+        protected void drag( PInputEvent event ) {
+            super.drag( event );
+            if( !detached ) {
+                crosshairGraphic.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
+            }
+        }
+    }
+
+    public StripChartJFCNode getStripChartJFCNode() {
+        return stripChartJFCNode;
+    }
+
+    public CrosshairGraphic getCrosshairGraphic() {
+        return crosshairGraphic;
     }
 
     public void update() {
         //get the coordinate in the wavefunctiongraphic.
-        Point2D location = crosshairs.getGlobalTranslation();
+        Point2D location = crosshairGraphic.getGlobalTranslation();
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
         if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
@@ -111,8 +140,11 @@ public class IntensityReader extends PComposite {
     static class CrosshairGraphic extends PComposite {
         private static final Paint CROSSHAIR_COLOR = Color.white;
         private BasicStroke CROSSHAIR_STROKE = new BasicStroke( 2 );
+        private CrosshairDragHandler listener;
+        private IntensityReader intensityReader;
 
-        public CrosshairGraphic( int innerRadius, int outerRadius ) {
+        public CrosshairGraphic( IntensityReader intensityReader, int innerRadius, int outerRadius ) {
+            this.intensityReader = intensityReader;
             Ellipse2D.Double aShape = new Ellipse2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 );
             PPath circle = new PPath( aShape );
             circle.setStrokePaint( Color.red );
@@ -138,6 +170,51 @@ public class IntensityReader extends PComposite {
             addChild( circle );
             addChild( vertical );
             addChild( horizontalLine );
+            //to ensure the entire object is grabbable
+            PPath overlay = new PPath( new Rectangle2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2 ) );
+            overlay.setPaint( new Color( 255, 255, 255, 0 ) );
+            overlay.setStrokePaint( new Color( 255, 255, 255, 0 ) );
+            addChild( overlay );
+            listener = new CrosshairDragHandler();
+            addInputEventListener( listener );
         }
+
+        class CrosshairDragHandler extends PDragEventHandler {
+            protected void drag( PInputEvent event ) {
+                super.drag( event );
+                intensityReader.detachCrosshair();
+            }
+
+            protected void superdrag( PInputEvent event ) {
+                super.drag( event );
+            }
+
+            protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                intensityReader.crosshairDropped( event );
+            }
+        }
+
+        public void drag( PInputEvent event ) {
+            listener.superdrag( event );
+        }
+    }
+
+    private void crosshairDropped( PInputEvent event ) {
+        double threshold = 30;
+        if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
+            && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
+            attachCrosshair();
+        }
+    }
+
+    private void attachCrosshair() {
+        detached = false;
+        crosshairGraphic.setOffset( stripChartJFCNode.getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
+                                    stripChartJFCNode.getFullBounds().getCenterY() + originalDisplacement.getY() );
+    }
+
+    private void detachCrosshair() {
+        detached = true;
     }
 }

@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -41,19 +42,15 @@ public class IntensityReaderDecorator extends PNode {
         try {
             close = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
             close.setOpaque( false );
-//            close.setBackground( new Color( 0,0,0,255) );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     doDelete();
                 }
             } );
-//            close.setMargin( new Insets( 0,0,0,0) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        JButton options = new JButton( "Options" );
-//        options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
         final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display Readout", intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
@@ -80,36 +77,16 @@ public class IntensityReaderDecorator extends PNode {
                 lastMovePoint = e.getPoint();
             }
         } );
-//        options.addMouseListener( new MouseListener() {
-//            public void mouseClicked( MouseEvent e ) {
-//            }
-//
-//            public void mouseEntered( MouseEvent e ) {
-//            }
-//
-//            public void mouseExited( MouseEvent e ) {
-//            }
-//
-//            public void mousePressed( MouseEvent e ) {
-//            }
-//
-//            public void mouseReleased( MouseEvent e ) {
-//                if( lastMovePoint != null ) {
-//                    jPopupMenu.show( pSwingCanvas, lastMovePoint.x, lastMovePoint.y );
-//                }
-//            }
-//        } );
-//        buttonPSwing = PImageFactory.create( "images/x-14.gif");
+
         buttonPSwing = new PSwing( pSwingCanvas, close );
-//        buttonPSwing.addInputEventListener( new PBasicInputEventHandler() {
-//            public void mouseReleased( PInputEvent event ) {
-//                super.mouseReleased( event );
-//                doDelete();
-//            }
-//        });
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateLocation();
+            }
+        } );
+        intensityReader.getStripChartJFCNode().addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 updateLocation();
             }
@@ -132,7 +109,12 @@ public class IntensityReaderDecorator extends PNode {
     }
 
     private void updateLocation() {
-        buttonPSwing.setOffset( intensityReader.getFullBounds().getX(), intensityReader.getFullBounds().getY() - buttonPSwing.getFullBounds().getHeight() );
+//        buttonPSwing.setOffset( intensityReader.getFullBounds().getX(), intensityReader.getFullBounds().getY() - buttonPSwing.getFullBounds().getHeight() );
+        Rectangle2D bounds = intensityReader.getStripChartJFCNode().getFullBounds();
+//        intensityReader.getStripChartJFCNode().localToParent( bounds );
+        intensityReader.localToParent( bounds );
+//        buttonPSwing.setOffset( )
+        buttonPSwing.setOffset( bounds.getX(), bounds.getY() - buttonPSwing.getFullBounds().getHeight() );
     }
 
     public void update() {

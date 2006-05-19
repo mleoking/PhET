@@ -14,6 +14,7 @@ Particle View:
 Improved 3D speaker graphics.
 Improved 3D laser graphics.
 Changed connector wires to silver for faucets and laser.
+Intensity Detectors now have a detachable (and reattachable) crosshairs.
 
 New in 0.00.12 (5-15-2006)
 Fixed a glitch in the intermediate rotation graphic that made edges not line up.
