@@ -98,6 +98,7 @@ public class IntensityReader extends PNode {
         }
         else {
             textReadout.setText( "" );
+            stripChartJFCNode.addValue( clock.getSimulationTime(), 0.0 );
         }
         updateTextBackground();
     }
