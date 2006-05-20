@@ -15,6 +15,8 @@ import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 
 public class SoundControlPanel extends WaveInterferenceControlPanel {
     private SoundModule soundModule;
+    private MultiOscillatorControlPanel multiOscillatorControlPanel;
+    private SlitControlPanel slitControlPanel;
 
     public SoundControlPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -23,18 +25,25 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new DetectorSetControlPanel( "Pressure", soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
         addControl( new VerticalSeparator() );
         addControl( new ClearWaveControl( this.soundModule.getWaveModel() ) );
+
         addControlFullWidth( new VerticalSeparator() );
+        addControl( new WaveRotateControl3D( soundModule.getWaveInterferenceModel(), soundModule.getRotationWaveGraphic() ) );
 
-//        addControl( new WaveRotateControl( this.soundModule.getRotationWaveGraphic() ) );
-//        addControlFullWidth( new VerticalSeparator() );
-
+        addControlFullWidth( new VerticalSeparator() );
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
+
         addControlFullWidth( new VerticalSeparator() );
-        addControl( new SlitControlPanel( soundModule.getSlitPotential() ) );
+        slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential() );
+        addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
 
-        addControl( new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker" ) );
-//        addControl( new JSeparator( ));
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker" );
+        addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
+    }
+
+    public void setAsymmetricFeaturesEnabled( boolean b ) {
+        multiOscillatorControlPanel.setEnabled( b );
+        slitControlPanel.setEnabled( b );
     }
 }

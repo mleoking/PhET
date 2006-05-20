@@ -62,11 +62,11 @@ public class AudioControlPanel extends JPanel {
         innerPanel.setLayout( layout );
         layout.setInsets( DEFAULT_INSETS );
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.setMinimumWidth( 1, 10 );
-        layout.addComponent( _soundCheckBox, 0, 0 ); // row, column
-        layout.addComponent( soundMinLabel, 0, 2 );
-        layout.addComponent( _soundSlider, 0, 3 );
-        layout.addComponent( soundMaxLabel, 0, 4 );
+//        layout.setMinimumWidth( 1, 10 );
+        layout.addComponent( _soundCheckBox, 0, 3 ); // row, column
+        layout.addComponent( soundMinLabel, 1, 2 );
+        layout.addComponent( _soundSlider, 1, 3 );
+        layout.addComponent( soundMaxLabel, 1, 4 );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
 

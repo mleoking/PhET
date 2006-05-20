@@ -16,12 +16,12 @@ import java.awt.geom.Point2D;
  */
 
 public class WaveGraphicCoordinates extends LatticeScreenCoordinates {
-    private PNode simpleLatticeGraphic;
+    private PNode waveModelGraphic;
     private WaveModel waveModel;
 
-    public WaveGraphicCoordinates( WaveModel waveModel, PNode simpleLatticeGraphic ) {
+    public WaveGraphicCoordinates( WaveModel waveModel, PNode waveModelGraphic ) {
         this.waveModel = waveModel;
-        this.simpleLatticeGraphic = simpleLatticeGraphic;
+        this.waveModelGraphic = waveModelGraphic;
     }
 
     public Point2D toScreenCoordinates( int i, int j ) {
@@ -39,9 +39,9 @@ public class WaveGraphicCoordinates extends LatticeScreenCoordinates {
 
     private Point2D toLatticeCoordinatesFP( double x, double y ) {
         Point2D location = new Point2D.Double( x, y );
-        simpleLatticeGraphic.globalToLocal( location );
-        double fracDistX = location.getX() / simpleLatticeGraphic.getFullBounds().getWidth();
-        double fracDistY = location.getY() / simpleLatticeGraphic.getFullBounds().getHeight();
+        waveModelGraphic.globalToLocal( location );
+        double fracDistX = location.getX() / waveModelGraphic.getFullBounds().getWidth();
+        double fracDistY = location.getY() / waveModelGraphic.getFullBounds().getHeight();
 
         Point2D fracLoc = new Point2D.Double( fracDistX, fracDistY );
         return new Point2D.Double( ( fracLoc.getX() * waveModel.getWidth() ),
