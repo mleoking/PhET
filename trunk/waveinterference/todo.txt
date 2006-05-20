@@ -10,17 +10,6 @@ Hold off on the message "rotate to top view to use this" until we interview.
 >>Add this feature to sound.
 >>For particles, too, I suppose.
 
-Also, when assymetrical features are on the lable Rotate view
-are grayed out but the words top and side are not.  Can you gray those out
-also?
-
-Actually, I meant the reverse in addition to Wendy's suggestion.
-When rotated to side view, the numbers on the sliders of asymmetrical
-features should be greyed out. I noticed that the labels like
-"Slit Width" are greyed out when there is no barrier, but the numbers are not.
-I think everything should be greyed out, both when there is no barrier, and when rotated to
-side view. Not a big deal though.
-
 When in side view for light:
 I 2nd the request to grey out the numbers
 gray out the "show screen" option as well (?).

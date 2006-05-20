@@ -15,16 +15,14 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ModelSlider combines title, slider, and textfield, with units for normal usage.
@@ -254,6 +252,15 @@ public class ModelSlider extends JPanel {
         textField.setEnabled( enabled );
         unitsReadout.setEnabled( enabled );
         titleLabel.setEnabled( enabled );
+        Enumeration keys = slider.getLabelTable().keys();
+        while( keys.hasMoreElements() ) {
+            Object key = (Object)keys.nextElement();
+            Object value = slider.getLabelTable().get( key );
+            if( value instanceof Component ) {
+                Component component = (Component)value;
+                component.setEnabled( enabled );
+            }
+        }
     }
 
     public void setTitleFont( Font titleFont ) {
@@ -532,4 +539,5 @@ public class ModelSlider extends JPanel {
     public void setPreferredSliderWidth( int width ) {
         slider.setPreferredSize( new Dimension( width, (int)slider.getPreferredSize().getHeight() ) );
     }
+
 }
