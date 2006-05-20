@@ -2,7 +2,7 @@
 Remaining Work
 ##################################
 
-When in side view for light: gray out the "show screen" option as well.
+o When in side view for light: gray out the "show screen" option as well.
 
 o Test at 1024x768
 
@@ -14,11 +14,15 @@ o Add help?
 
 o Dotted line should be white in sound module for particle view.
 
+o Constrain detector to move on the midline when in water-side view.
+
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
 Maybe show screen should be a button in the play area, kind of like "show graph".
 I have a feeling people won't find it buried down in the corner
 (unless the idea was to keep people from messing with it right away).
+
+
 ##############################################################
 Questions
 ##################################
@@ -54,7 +58,8 @@ Pressure waves are out of phase (particles are too slow to keep up with pressure
 where the particles are dense. Right now it looks 180 deg. out of phase.
 >>I switched the phase by 180 degrees, still slightly off, but maybe good enough?
 
-o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)  Should we add 'listener' mode, as in 'sound waves' simulation?
+o Right now audio is implemented to play the audio directly at the speaker (not a distance from the speaker.)
+Should we add 'listener' mode, as in 'sound waves' simulation?
     >>not now.
 
 I noticed that when the graph is on, there is a dotted line across the pool.
