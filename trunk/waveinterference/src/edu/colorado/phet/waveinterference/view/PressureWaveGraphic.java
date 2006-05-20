@@ -44,6 +44,10 @@ public class PressureWaveGraphic extends PNode {
     private PPath background;
     private static final int IMAGE_HEIGHT = 14;
 
+    //todo dummy variables to handle offset for rotatable case.
+    private double dx;
+    private double dy;
+
     public PressureWaveGraphic( Lattice2D lattice, LatticeScreenCoordinates latticeScreenCoordinates, SlitPotential slitPotential ) {
         this.lattice = lattice;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -130,7 +134,8 @@ public class PressureWaveGraphic extends PNode {
     }
 
     private void updateBounds() {
-        setOffset( latticeScreenCoordinates.toScreenCoordinates( 0, 0 ) );
+        Point2D point = latticeScreenCoordinates.toScreenCoordinates( 0, 0 );
+        setOffset( point.getX() + dx, point.getY() + dy );//todo accounts for rotation graphic
         int spacingBetweenCells = (int)latticeScreenCoordinates.getCellWidth();
         setSpaceBetweenCells( spacingBetweenCells );
         background.setPathTo( new Rectangle2D.Double( 0, 0, latticeScreenCoordinates.getScreenRect().getWidth(), latticeScreenCoordinates.getScreenRect().getHeight() ) );
@@ -213,6 +218,12 @@ public class PressureWaveGraphic extends PNode {
     }
 
     private Random random = new Random();
+
+    public void setOffsetDX( double dx, double dy ) {
+        this.dx = dx;
+        this.dy = dy;
+        updateBounds();
+    }
 
     public class Particle extends PImage {
         private int homeX;

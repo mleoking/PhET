@@ -5,6 +5,7 @@ import edu.colorado.phet.waveinterference.view.AbstractWaveSideView;
 import edu.colorado.phet.waveinterference.view.RotationGlyph;
 import edu.colorado.phet.waveinterference.view.RotationWaveGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -14,21 +15,13 @@ import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
  */
 
 public class RotationWaveGraphic3D extends RotationWaveGraphic {
-    public RotationWaveGraphic3D( WaveModelGraphic waveModelGraphic, RotationGlyph rotationGlyph ) {
-        super( waveModelGraphic, new DummySideView(), rotationGlyph );
-    }
-
-    protected void showRotationGlyph() {
-        super.showRotationGlyph();
+    public RotationWaveGraphic3D( WaveModelGraphic waveModelGraphic, PNode topView, RotationGlyph rotationGlyph ) {
+        super( waveModelGraphic, topView, new DummySideView(), rotationGlyph );
     }
 
     protected void showSideView() {
         super.showSideView();
         showTopView();
-    }
-
-    protected void showTopView() {
-        super.showTopView();
     }
 
     public static class DummySideView extends AbstractWaveSideView {

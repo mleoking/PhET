@@ -4,7 +4,8 @@ Bugfix: Audio has breaks and stutters sometimes.
 Bugfix: Audio should be disabled when moving from the sound panel to another tab.
 Added a cursor hand icon to the draggable faucets.
 Synchronized the light side view box depth with the wave size.
-When a slider is disabled, its labels are also disabled. 
+When a slider is disabled, its labels are also disabled.
+Added rotation for sound waves (both wave view and particle view).
 
 New in 0.00.13 (5-19-2006)
 Relabeled 'View Angle' to 'Rotate View'

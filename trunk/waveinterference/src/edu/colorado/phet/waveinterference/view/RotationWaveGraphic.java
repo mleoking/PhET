@@ -16,20 +16,26 @@ public class RotationWaveGraphic extends PNode {
     private double rotation;
     private RotationGlyph rotationGlyph;
     private WaveModelGraphic waveModelGraphic;
+    private PNode topView;
     private AbstractWaveSideView waveSideView;
     private ArrayList listeners = new ArrayList();
 
     public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph ) {
-        this( waveModelGraphic, waveSideView, rotationGlyph, 0.0 );
+        this( waveModelGraphic, waveModelGraphic, waveSideView, rotationGlyph );
     }
 
-    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph, double rotation ) {
+    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, PNode topView, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph ) {
+        this( waveModelGraphic, topView, waveSideView, rotationGlyph, 0.0 );
+    }
+
+    public RotationWaveGraphic( WaveModelGraphic waveModelGraphic, PNode topView, AbstractWaveSideView waveSideView, RotationGlyph rotationGlyph, double rotation ) {
         this.waveModelGraphic = waveModelGraphic;
+        this.topView = topView;
         this.waveSideView = waveSideView;
         this.rotationGlyph = rotationGlyph;
         this.rotation = rotation;
         addChild( rotationGlyph );
-        addChild( waveModelGraphic );
+        addChild( this.topView );
         addChild( this.waveSideView );
         setViewAngle( 0.0 );
         this.waveSideView.setSpaceBetweenCells( this.waveModelGraphic.getCellDimensions().width );
@@ -99,7 +105,7 @@ public class RotationWaveGraphic extends PNode {
     protected void setVisibility( boolean rotationGlyph, boolean sideView, boolean topView ) {
         this.rotationGlyph.setVisible( rotationGlyph );
         waveSideView.setVisible( sideView );
-        waveModelGraphic.setVisible( topView );
+        this.topView.setVisible( topView );
     }
 
     public void update() {
@@ -124,4 +130,7 @@ public class RotationWaveGraphic extends PNode {
         listeners.add( listener );
     }
 
+    public RotationGlyph getRotationGlyph() {
+        return rotationGlyph;
+    }
 }

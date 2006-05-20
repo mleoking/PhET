@@ -71,4 +71,8 @@ public class SoundWaveGraphic extends PNode {
     public boolean isParticleVisible() {
         return particlesVisible;
     }
+
+    public WaveModelGraphic getWaveModelGraphic() {
+        return waveModelGraphic;
+    }
 }

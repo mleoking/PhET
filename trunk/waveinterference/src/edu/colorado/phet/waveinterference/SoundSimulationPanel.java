@@ -37,6 +37,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveChartGraphic waveChartGraphic;
     private ExpandableWaveChart expandableWaveChart;
     private PressureWaveGraphic pressureWaveGraphic;
+    private RotationWaveGraphic rotationWaveGraphic;
+    private RotationGlyph rotationGlyph;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -44,12 +46,25 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         MutableColor latticeColor = new MutableColor( Color.white );
         IndexColorMap colorMap = new IndexColorMap( getLattice(), latticeColor );
         waveModelGraphic = new WaveModelGraphic( getWaveModel(), 8, 8, colorMap );
-        waveModelGraphic.setOffset( super.getWaveModelGraphicOffset() );
 
         pressureWaveGraphic = new PressureWaveGraphic( getLattice(), waveModelGraphic.getLatticeScreenCoordinates(), soundModule.getSlitPotential() );
         pressureWaveGraphic.setMaxVelocity( 3 );
+        pressureWaveGraphic.setOffsetDX( -super.getWaveModelGraphicOffset().getX(), -super.getWaveModelGraphicOffset().getY() );//todo this accounts for the difference between the offset in the rotationWaveGraphic and the waveModelGraphic
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
-        addScreenChild( soundWaveGraphic );
+//        addScreenChild( soundWaveGraphic );//todo unnecessary when rotation graphic is in place.
+
+        rotationGlyph = new RotationGlyph();
+        rotationGlyph.synchronizeDepthSize( waveModelGraphic );
+        rotationGlyph.setColor( Color.gray );
+        rotationWaveGraphic = new RotationWaveGraphic3D( soundWaveGraphic.getWaveModelGraphic(), soundWaveGraphic, rotationGlyph );
+        rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                angleChanged();
+            }
+        } );
+//
+        addScreenChild( rotationWaveGraphic );
 
         primarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         secondarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
@@ -115,6 +130,22 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         timer.start();
     }
 
+    private void angleChanged() {
+        if( rotationWaveGraphic.isTopView() ) {
+            slitPotentialGraphic.setVisible( true );
+            setAsymmetricFeaturesEnabled( true );
+        }
+        else {
+            slitPotentialGraphic.setVisible( false );
+            setAsymmetricFeaturesEnabled( false );
+        }
+    }
+
+    private void setAsymmetricFeaturesEnabled( boolean asymmetricFeaturesEnabled ) {
+//        System.out.println( "//todo: asymmetricFeaturesEnabled = " + asymmetricFeaturesEnabled );
+        soundModule.setAsymmetricFeaturesEnabled( asymmetricFeaturesEnabled );
+    }
+
     private WaveInterferenceModel getWaveInterferenceModel() {
         return soundModule.getWaveInterferenceModel();
     }
@@ -173,5 +204,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     public SoundWaveGraphic getSoundWaveGraphic() {
         return soundWaveGraphic;
+    }
+
+    public RotationWaveGraphic getRotationWaveGraphic() {
+        return rotationWaveGraphic;
     }
 }

@@ -5,10 +5,7 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
-import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
-import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
-import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
-import edu.colorado.phet.waveinterference.view.MultiOscillator;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid
@@ -22,6 +19,14 @@ public class SoundModule extends WaveInterferenceModule {
     private WaveInterferenceModel waveInterferenceModel;
     private SoundControlPanel soundControlPanel;
     private SoundModuleAudio soundModuleAudio;
+
+    public RotationWaveGraphic getRotationWaveGraphic() {
+        return soundSimulationPanel.getRotationWaveGraphic();
+    }
+
+    public void setAsymmetricFeaturesEnabled( boolean asymmetricFeaturesEnabled ) {
+        soundControlPanel.setAsymmetricFeaturesEnabled( asymmetricFeaturesEnabled );
+    }
 
     public static class SoundModel extends WaveInterferenceModel {
         public SoundModel() {

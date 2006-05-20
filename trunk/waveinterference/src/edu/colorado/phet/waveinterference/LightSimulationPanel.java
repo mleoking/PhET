@@ -58,7 +58,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         rotationGlyph = new RotationGlyph();
         rotationGlyph.synchronizeDepthSize( waveModelGraphic );
-        rotationWaveGraphic = new RotationWaveGraphic3D( waveModelGraphic, rotationGlyph );
+        rotationWaveGraphic = new RotationWaveGraphic3D( waveModelGraphic, waveModelGraphic, rotationGlyph );
         rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
@@ -166,16 +166,6 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 //            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
         }
     }
-//    private void updateWaveSize() {
-//        int insetTop = 2;
-//        int insetBottom = 2;
-//        double availableHeight = getHeight() - laserControlPanelPNode.getFullBounds().getHeight() - insetTop - insetBottom;
-//        double latticeModelHeight = getWaveModel().getHeight();
-//        int pixelsPerCell = (int)( availableHeight / latticeModelHeight );
-//        waveModelGraphic.setCellDimensions( pixelsPerCell - 1, pixelsPerCell - 1 );
-//        double usedHeight = waveModelGraphic.getFullBounds().getHeight() + laserControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-////        System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
-//    }
 
     private void colorChanged() {
         waveSideView.setStrokeColor( waveModelGraphic.getColorMap().getRootColor() );
