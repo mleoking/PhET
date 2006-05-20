@@ -29,19 +29,6 @@ public class SoundWaveGraphic extends PNode {
         updateView();
     }
 
-    private void updateViewORIG() {
-        if( particleSize == 0 ) {
-            pressureWaveGraphic.setVisible( false );
-            waveModelGraphic.setVisible( true );
-        }
-        else {
-            int imageHeight = (int)( particleSize * MAX_PARTICLE_SIZE );
-            pressureWaveGraphic.setParticleImageSize( Math.max( 1, imageHeight ) );
-            pressureWaveGraphic.setVisible( true );
-            waveModelGraphic.setVisible( false );
-        }
-    }
-
     private void updateView() {
         pressureWaveGraphic.setVisible( particlesVisible );
         waveModelGraphic.setVisible( grayscaleVisible );
