@@ -10,9 +10,7 @@ Hold off on the message "rotate to top view to use this" until we interview.
 >>Add this feature to sound.
 >>For particles, too, I suppose.
 
-When in side view for light:
-I 2nd the request to grey out the numbers
-gray out the "show screen" option as well (?).
+When in side view for light: gray out the "show screen" option as well.
 
 o Test at 1024x768
 
