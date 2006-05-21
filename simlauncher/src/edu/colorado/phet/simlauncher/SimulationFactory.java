@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import org.jdom.output.XMLOutputter;
 import org.jdom.input.SAXBuilder;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -19,12 +18,11 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.ArrayList;
-
-import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
  * SimlationFactory
@@ -47,7 +45,7 @@ public class SimulationFactory {
     String categoryNameAttrib = "name";
 
 
-    public List getSimulations( String xmlFile ) {
+    public List getSimulations( String xmlFile, File localRoot ) {
         List simList = new ArrayList();
         try {
             // Build the document with SAX and Xerces, no validation
@@ -75,11 +73,13 @@ public class SimulationFactory {
 
                 String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
                 ImageIcon imageIcon = new ImageIcon( new URL( thumbnailUrl ) );
+                ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
 
                 String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();
                 URL jnlpURL = new URL( jnlpStr );
 
-                Simulation sim = new Simulation( name, str, imageIcon, jnlpURL );
+                Simulation sim = new Simulation( name, str, thumbnailResource, jnlpURL, localRoot );
+//                Simulation sim = new Simulation( name, str, imageIcon, jnlpURL, localRoot );
                 simList.add( sim );
             }
         }
@@ -146,7 +146,7 @@ public class SimulationFactory {
 //    }
 
     public static void main( String[] args ) {
-        new SimulationFactory().getSimulations( "simulations.xml" );
+        new SimulationFactory().getSimulations( "simulations.xml", new File( "/phet/temp" ) );
     }
 
 }

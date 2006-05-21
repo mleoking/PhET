@@ -93,6 +93,9 @@ mechnics-dir mechanics
 phetlauncher-module phetlauncher &piccolo-dir &piccolo-phet-dir &phetcommon-dir
 phetlauncher-dir phetlauncher
 
+#Simlauncher
+simlauncher-module simlauncher &phetcommon-module
+
 #============================================================================
 # Chris Malley's simulations
 #============================================================================
