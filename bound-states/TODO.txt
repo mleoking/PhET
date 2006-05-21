@@ -66,6 +66,7 @@ CLEANUP:
 
 
 DONE:
+(5/21/06) - add 0-2PI range to phase label (port from QT)
 (5/21/06) - change "Many Wells" title to "Many Wells (Band Structure)"
 (5/21/06) - change "Two Wells" title to "Two Wells (Molecular Bonding)"
 (5/18/06) - worked on constrained dragging of magnifying glass, doesn't work yet

@@ -71,6 +71,7 @@ public class BSConstants {
     
     public static final char LOWERCASE_PSI = '\u03c8';
     public static final char UPPERCASE_PSI = '\u03a8';
+    public static final char LOWERCASE_PI = '\u03c0';
     
     //----------------------------------------------------------------------------
     // Strokes
