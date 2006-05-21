@@ -12,15 +12,16 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.AffineTransform;
+import java.text.DecimalFormat;
 import java.util.Observer;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * BSSelectedEquation displays the wave function equation of the selected eigenstate.
@@ -30,12 +31,15 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implements Observer {
 
+    // maximum number of terms in superposition equation
+    private static final int MAX_TERMS = 4;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AffineTransform _xform; // reusable transform
-    private String _superpositionString;
+    private DecimalFormat _coefficientFormat; 
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -47,7 +51,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     public BSSelectedEquation() {
         super();
         _xform = new AffineTransform();
-        _superpositionString = SimStrings.get( "label.equation.superposition" );
+        _coefficientFormat = new DecimalFormat( BSSuperpositionStateDialog.COEFFICIENT_FORMAT );
     }
     
     //----------------------------------------------------------------------------
@@ -115,8 +119,8 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
         final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
         int coefficientIndex = -1;
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
-            double energy = coefficients.getCoefficient( i );
-            if ( energy > 0 ) {
+            double coefficient = coefficients.getCoefficient( i );
+            if ( coefficient > 0 ) {
                 coefficientIndex = i;
                 break;
             }
@@ -146,6 +150,43 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
      * This is used when we're in a superposition state.
      */
     private String createSuperpositionString() {
-        return _superpositionString;
+        String text = "";
+        
+        BSModel model = getModel();
+        
+        BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
+        int numberOfTerms = 0;
+        final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients && numberOfTerms < MAX_TERMS; i++ ) {
+            double coefficient = coefficients.getCoefficient( i );
+            if ( coefficient > 0 ) {
+                if ( numberOfTerms > 0 ) {
+                    text += "+";
+                }
+                BSEigenstate eigenstate = model.getEigenstate( i );
+                final int eigenstateSubscript = eigenstate.getSubscript();
+                text += _coefficientFormat.format( coefficient);
+                text += BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)";
+                numberOfTerms++;
+            }
+        }
+        
+        final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
+        if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
+            text += "+...";
+        }
+        
+        if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
+            text = "<html>" + text + "</html>";
+        }
+        else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+            text = "<html>|" + text + "|<sup>2</sup></html>";
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported mode: " + getMode() );
+        }
+        
+        System.out.println( "text=" + text );//XXX
+        return text;
     }
 }
