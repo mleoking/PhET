@@ -11,9 +11,10 @@
 package edu.colorado.phet.simlauncher;
 
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
 import java.util.*;
 import java.net.URL;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Simulation
@@ -34,8 +35,8 @@ public class Simulation {
     private static HashMap namesToSims;
 
     static {
-        namesToSims = new HashMap( );
-        simulations = new SimulationFactory().getSimulations( "simulations.xml" );
+        namesToSims = new HashMap();
+        simulations = new SimulationFactory().getSimulations( "simulations.xml", new File( "/phet/temp" ) );
         uninstalledSims = new ArrayList( simulations );
         installedSims = new ArrayList();
     }
@@ -55,7 +56,7 @@ public class Simulation {
     public static Simulation getInstanceForName( String name ) {
         Simulation sim = (Simulation)namesToSims.get( name );
         if( sim == null ) {
-            throw new IllegalArgumentException( "name not recognized");
+            throw new IllegalArgumentException( "name not recognized" );
         }
         return sim;
     }
@@ -63,7 +64,7 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     // Event/Listener mechanism for class-level state
     //--------------------------------------------------------------------------------------------------
-    
+
     public static void addListener( ChangeListener listener ) {
         listeners.add( listener );
     }
@@ -87,11 +88,15 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
-
     private String name;
     private String description;
-    private ImageIcon thumbnail;
+//    private ImageIcon thumbnail;
     private URL jnlpUrl;
+    private JnlpResource jnlpResource;
+    private SimResource descriptionResource;
+    private ThumbnailResource thumbnailResource;
+    private JarResource[] jarResources;
+    private List resources = new ArrayList();
 
     /**
      * Constructor
@@ -101,11 +106,21 @@ public class Simulation {
      * @param thumbnail
      * @param jnlpUrl
      */
-    public Simulation( String name, String description, ImageIcon thumbnail, URL jnlpUrl ) {
+    public Simulation( String name, String description, ThumbnailResource thumbnail, URL jnlpUrl, File localRoot ) {
         this.name = name;
         this.description = description;
-        this.thumbnail = thumbnail;
         this.jnlpUrl = jnlpUrl;
+
+        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
+        resources.add( jnlpResource );
+        jarResources = jnlpResource.getJarResources();
+        for( int i = 0; i < jarResources.length; i++ ) {
+            JarResource jarResource = jarResources[i];
+            resources.add( jarResource );
+        }
+        thumbnailResource = thumbnail;
+        resources.add( thumbnailResource );
+
         namesToSims.put( name, this );
     }
 
@@ -117,6 +132,13 @@ public class Simulation {
      *
      */
     public void install() {
+        jnlpResource.download();
+        for( int i = 0; i < jarResources.length; i++ ) {
+            JarResource jarResource = jarResources[i];
+            jarResource.download();
+            thumbnailResource.download();
+        }
+
         uninstalledSims.remove( this );
         installedSims.add( this );
         notifyListeners();
@@ -130,22 +152,42 @@ public class Simulation {
 
     /**
      * Launches the simulation
+     * todo: put more smarts in here
      */
-    public void launch() {
+    public void launch() throws IOException {
+
+        String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
+        for( int i = 0; i < commands.length; i++ ) {
+            System.out.println( "commands[i] = " + commands[i] );
+        }
+        final Process process = Runtime.getRuntime().exec( commands );
+        // Get the input stream and read from it
+//            new Thread( new OutputRedirection( process.getInputStream() ) ).start();
     }
+
 
     /**
      * Tells if this instance is current with the version on the PhET web site
+     *
      * @return true if the local version is current
      */
     public boolean isCurrent() {
-        return true;
+        boolean isCurrent = true;
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            isCurrent &= simResource.isCurrent();
+        }
+        return isCurrent;
     }
 
     /**
      * Updates the local version of the simulation with the one on the PhET web site
      */
     public void update() {
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            simResource.update();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -161,6 +203,6 @@ public class Simulation {
     }
 
     public ImageIcon getThumbnail() {
-        return thumbnail;
+        return thumbnailResource.getImageIcon();
     }
 }
