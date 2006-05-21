@@ -26,8 +26,8 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
+import edu.colorado.phet.boundstates.control.BSClockControls;
 import edu.colorado.phet.boundstates.control.BSControlPanel;
-import edu.colorado.phet.boundstates.control.BSStopwatchPanel;
 import edu.colorado.phet.boundstates.control.ZoomControl;
 import edu.colorado.phet.boundstates.control.ZoomControl.ZoomSpec;
 import edu.colorado.phet.boundstates.dialog.BSConfigureDialogFactory;
@@ -39,15 +39,17 @@ import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
+import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -97,6 +99,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private BSSelectedEquation _selectedEquationNode;
     private BSHilitedEquation _hilitedEquationNode;
     private BSMagnifyingGlass _magnifyingGlass;
+    private ConstrainedDragHandler _magnifyingGlassDragHandler;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -108,7 +111,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
     // Controls
     private BSControlPanel _controlPanel;
-    private BSStopwatchPanel _stopwatchPanel;
+    private BSClockControls _clockControls;
     private ZoomControl _energyZoomControl;
     private PSwing _energyZoomControlNode;
 
@@ -233,7 +236,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
             _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
             _parentNode.addChild( _magnifyingGlass );
-            _magnifyingGlass.addInputEventListener( new PDragEventHandler() );
         }
         
         // Wave Function plot shows time-dependent data
@@ -247,9 +249,17 @@ public abstract class BSAbstractModule extends PiccoloModule {
         _controlPanel = new BSControlPanel( this, moduleSpec );
         setControlPanel( _controlPanel );
         
-        String timeUnits = SimStrings.get( "units.time" );
-        _stopwatchPanel = new BSStopwatchPanel( getClock(), timeUnits, 1, BSConstants.TIME_FORMAT );
-        getClockControlPanel().addToLeft( _stopwatchPanel );
+        // Clock Controls
+        {
+            _clockControls = new BSClockControls( getClock() );
+            _clockControls.setTimeFormat( BSConstants.TIME_FORMAT );
+            setClockControlPanel( _clockControls );
+            addClockListener( new ClockAdapter() {
+                public void simulationTimeReset( ClockEvent clockEvent ) {
+                    handleClockReset();
+                }
+            } );
+        }
         
         // Energy zoom control
         _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
@@ -374,6 +384,15 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Magnifying glass 
         if ( _magnifyingGlass != null ) {
+            
+            // Constrain dragging to the energy plot
+            if ( _magnifyingGlassDragHandler != null ) {
+                _magnifyingGlass.removeInputEventListener( _magnifyingGlassDragHandler );
+            }
+            _magnifyingGlassDragHandler = new ConstrainedDragHandler( energyPlotBounds );
+            _magnifyingGlassDragHandler.setTreatAsPointEnabled( true );
+            _magnifyingGlass.addInputEventListener( _magnifyingGlassDragHandler );
+            
             //XXX need to adjust the position (and scale?)
             _magnifyingGlass.setOffset( 200, 200 );
             _magnifyingGlass.updateDisplay();
@@ -791,7 +810,13 @@ public abstract class BSAbstractModule extends PiccoloModule {
 
     private void resetClock() {
         getClock().resetSimulationTime();
-        _stopwatchPanel.reset();
+    }
+    
+    /*
+     * Does any house-keeping required when the simulation clock is reset.
+     */
+    private void handleClockReset() {
+        // currently nothing to do
     }
     
     /**
