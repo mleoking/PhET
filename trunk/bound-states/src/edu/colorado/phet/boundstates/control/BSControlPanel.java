@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.boundstates.control;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -32,8 +33,8 @@ import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSAbstractModuleSpec;
 import edu.colorado.phet.boundstates.util.DoubleRange;
 import edu.colorado.phet.boundstates.util.IntegerRange;
-import edu.colorado.phet.boundstates.view.BSBottomPlot;
 import edu.colorado.phet.boundstates.view.BSMagnifyingGlass;
+import edu.colorado.phet.boundstates.view.ViewLegend;
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -63,10 +64,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     private static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
 
     // Color key
-    private static final int COLOR_KEY_WIDTH = 25; // pixels
-    private static final int COLOR_KEY_HEIGHT = 3; // pixels
-    private static final int PHASE_KEY_WIDTH = COLOR_KEY_WIDTH;
-    private static final int PHASE_KEY_HEIGHT = 10;
     private static final int COLOR_KEY_SPACING = 7; // pixels, space between checkbox and color key
 
     //----------------------------------------------------------------------------
@@ -233,7 +230,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 realPanel.add( _realCheckBox);
                 realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                Icon realIcon = createColorKey( BSConstants.COLOR_SCHEME.getRealColor() );
+                Icon realIcon = ViewLegend.createColorKey( BSConstants.COLOR_SCHEME.getRealColor() );
                 _realLegend = new JLabel( realIcon );
                 realPanel.add( _realLegend );
 
@@ -241,7 +238,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 imaginaryPanel.add( _imaginaryCheckBox );
                 imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                Icon imaginaryIcon = createColorKey( BSConstants.COLOR_SCHEME.getImaginaryColor() );
+                Icon imaginaryIcon = ViewLegend.createColorKey( BSConstants.COLOR_SCHEME.getImaginaryColor() );
                 _imaginaryLegend = new JLabel( imaginaryIcon );
                 imaginaryPanel.add( _imaginaryLegend );
                 
@@ -249,7 +246,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 magnitudePanel.add( _magnitudeCheckBox );
                 magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                Icon magnitudeIcon = createColorKey( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
+                Icon magnitudeIcon = ViewLegend.createColorKey( BSConstants.COLOR_SCHEME.getMagnitudeColor() );
                 _magnitudeLegend = new JLabel( magnitudeIcon );
                 magnitudePanel.add( _magnitudeLegend );   
                 
@@ -257,7 +254,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
                 phasePanel.add( _phaseCheckBox );
                 phasePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-                Icon phaseIcon = createPhaseKey();
+                Icon phaseIcon = ViewLegend.createPhaseKey();
                 _phaseLegend = new JLabel( phaseIcon );
                 phasePanel.add( _phaseLegend );
                 
@@ -352,45 +349,6 @@ public class BSControlPanel extends BSAbstractControlPanel {
     }
 
     //----------------------------------------------------------------------------
-    // Color key creation
-    //----------------------------------------------------------------------------
-
-    /*
-     * Creates a color key icon by drawing a solid horizontal line.
-     * 
-     * @param color
-     * @return Icon
-     */
-    private Icon createColorKey( Color color ) {
-        BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = image.createGraphics();
-        Rectangle2D r = new Rectangle2D.Double( 0, 0, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT );
-        g2.setPaint( color );
-        g2.fill( r );
-        Icon icon = new ImageIcon( image );
-        return icon;
-    }
-    
-    /*
-     * Creates a color key icon for phase by drawing the phase color series.
-     * 
-     * @return Icon
-     */
-    private Icon createPhaseKey() {
-        BufferedImage image = new BufferedImage( PHASE_KEY_WIDTH, PHASE_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = image.createGraphics();
-        Rectangle2D r = new Rectangle2D.Double();
-        for ( int i = 0; i < 360; i++ ) {
-            r.setRect( i * PHASE_KEY_WIDTH / 360.0, 0, PHASE_KEY_WIDTH / 360.0, PHASE_KEY_HEIGHT );
-            Color color = Color.getHSBColor( i / 360f, 1f, 1f );
-            g2.setColor( color );
-            g2.fill( r );
-        }
-        Icon icon = new ImageIcon( image );
-        return icon;
-    }
-
-    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
@@ -407,9 +365,9 @@ public class BSControlPanel extends BSAbstractControlPanel {
         _wellTypeComboBox.addItemListener( _listener );
         
         // Change the legends for the wave function views...
-        _realLegend.setIcon( createColorKey( scheme.getRealColor() ) );
-        _imaginaryLegend.setIcon( createColorKey( scheme.getImaginaryColor() ) );
-        _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
+        _realLegend.setIcon( ViewLegend.createColorKey( scheme.getRealColor() ) );
+        _imaginaryLegend.setIcon( ViewLegend.createColorKey( scheme.getImaginaryColor() ) );
+        _magnitudeLegend.setIcon( ViewLegend.createColorKey( scheme.getMagnitudeColor() ) );
     }
     
     public void setWellType( BSWellType wellType ) {
