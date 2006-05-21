@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- constrain dragging of magnifying glass to Energy chart (having problems...)
 
 Magnifying glass TODO:
 - reorganize pnode hierarchy, kind of a mess now
@@ -24,6 +25,8 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- expand top equation to 4 terms when in superposition state
+- add presets combobox to superposition dialog
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
@@ -61,6 +64,10 @@ CLEANUP:
 
 
 DONE:
+(5/21/06) - change "Many Wells" title to "Many Wells (Band Structure)"
+(5/21/06) - change "Two Wells" title to "Two Wells (Molecular Bonding)"
+(5/18/06) - worked on constrained dragging of magnifying glass, doesn't work yet
+(5/18/06) - wrote a test harness for ConstrainedDragHandler, having problems using it with magnifying glass
 (5/18/06) - bugfix: Energy axis label gets clipped when range changes
 (5/18/06) - add 10x to magnifying glass control
 (5/18/06) - tweak zoom button images, scale the zoom control
