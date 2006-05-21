@@ -60,7 +60,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     private static final double COEFFICIENT_MIN = 0.00;
     private static final double COEFFICIENT_MAX = 1.00;
     private static final double COEFFICIENT_STEP = 0.01;
-    private static final String COEFFICIENT_FORMAT = "0.00";
+    public static final String COEFFICIENT_FORMAT = "0.00";
     
     private static final int NUMBER_OF_COLUMNS = 3; 
     

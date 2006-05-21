@@ -18,6 +18,8 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- eigenstate selection/hilite gets broken after using superposition state dialog, some eigenstates won't select
+  (to reproduce: One Well panel, square, set c1=0.93, c3=0.07, close superposition dialog, E3-5 don't hilite correctly, E4 can't be selected)
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -25,7 +27,6 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
-- expand top equation to 4 terms when in superposition state
 - add presets combobox to superposition dialog
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
