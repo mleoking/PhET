@@ -319,7 +319,7 @@ public class ConfigureEnergyDialog extends JDialog {
 
             // Total Energy
             {
-                JLabel teLabel = new JLabel( SimStrings.get( "label.totalEnergy" ) );
+                JLabel teLabel = new JLabel( SimStrings.get( "label.averageTotalEnergy" ) );
                 _teSpinner = new DoubleSpinner( 0, -SPINNER_MAX, SPINNER_MAX, ENERGY_STEP, ENERGY_FORMAT, SPINNER_SIZE );
                 _teSpinner.addChangeListener( _listener );
                 JLabel teUnits = new JLabel( SimStrings.get( "units.energy" ) );
