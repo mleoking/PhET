@@ -18,6 +18,8 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- replace stopwatch with clock display and restart control, like QT
+- change phase label to indicate 0-2PI
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
