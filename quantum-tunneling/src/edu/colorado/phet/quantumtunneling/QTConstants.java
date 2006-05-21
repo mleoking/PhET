@@ -76,7 +76,7 @@ public class QTConstants {
     // Greek characters
     //----------------------------------------------------------------------------
     
-    public static char C_PI = '\u03c0';
+    public static final char C_PI = '\u03c0';
     
     //----------------------------------------------------------------------------
     // Strokes
