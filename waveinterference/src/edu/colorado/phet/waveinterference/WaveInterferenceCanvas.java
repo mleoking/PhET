@@ -19,6 +19,6 @@ public class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas {
     }
 
     public Point2D getWaveModelGraphicOffset() {
-        return new Point2D.Double( 200, 50 );
+        return new Point2D.Double( 200, 10 );
     }
 }

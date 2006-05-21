@@ -14,6 +14,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
     private LightModule lightModule;
     private MultiOscillatorControlPanel multiOscillatorControlPanel;
     private SlitControlPanel slitControlPanel;
+    private ReducedScreenControlPanel screenControlPanel;
 
     public LightControlPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -31,11 +32,13 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" );
         addControl( multiOscillatorControlPanel );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
-        addControl( new ReducedScreenControlPanel( lightModule.getScreenNode() ) );
+        screenControlPanel = new ReducedScreenControlPanel( lightModule.getScreenNode() );
+        addControl( screenControlPanel );
     }
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {
         multiOscillatorControlPanel.setEnabled( b );
         slitControlPanel.setEnabled( b );
+        screenControlPanel.setEnabled( b );
     }
 }
