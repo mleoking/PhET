@@ -12,6 +12,7 @@
 package edu.colorado.phet.boundstates.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * BSSuperpositionCoefficients is a collection of superposition coefficients.
@@ -125,6 +126,23 @@ public class BSSuperpositionCoefficients extends BSObservable {
      */
     public int getNumberOfCoefficients() {
         return _coefficients.size();
+    }
+    
+    /**
+     * Gets the number of non-zero coefficients.
+     * 
+     * @return
+     */
+    public int getNumberOfNonZeroCoefficients() {
+        int count = 0;
+        Iterator i = _coefficients.iterator();
+        while( i.hasNext() ) {
+            Double coefficient = (Double)i.next();
+            if ( coefficient.doubleValue() != 0 ) {
+                count++;
+            }
+        }
+        return count;
     }
     
     /**
