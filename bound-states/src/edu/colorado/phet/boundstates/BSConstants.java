@@ -55,6 +55,9 @@ public class BSConstants {
     /* Controls how time is displayed, should match CLOCK_STEP precision */
     public static final DecimalFormat TIME_FORMAT = new DecimalFormat( "0.00" );
     
+    /* Is the time display visible next to the clock controls? */
+    public static final boolean TIME_DISPLAY_VISIBLE = true;
+    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
@@ -64,6 +67,8 @@ public class BSConstants {
     public static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
     public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
+    public static final Font TIME_DISPLAY_FONT = new Font( BSConstants.FONT_NAME, Font.BOLD, 22 );
+    public static final Font TIME_UNITS_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
     
     //----------------------------------------------------------------------------
     // Special characters
@@ -108,6 +113,7 @@ public class BSConstants {
     //----------------------------------------------------------------------------
 
     public static final String IMAGES_DIRECTORY = "images/";
+    public static final String IMAGE_CLOCK = IMAGES_DIRECTORY + "clock.png";
     public static final String IMAGE_ZOOM_IN = IMAGES_DIRECTORY + "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = IMAGES_DIRECTORY + "zoomOut.gif";
 
