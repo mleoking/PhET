@@ -65,6 +65,7 @@ CLEANUP:
 
 
 DONE:
+(5/21/06) - expand top equation to 4 terms when in superposition state
 (5/21/06) - rewrite BSSelectedEquation so it will be easy to change the equation shown for superposition
 (5/21/06) - replace stopwatch with clock display and restart control, like QT
 (5/21/06) - add 0-2PI range to phase label (port from QT)
