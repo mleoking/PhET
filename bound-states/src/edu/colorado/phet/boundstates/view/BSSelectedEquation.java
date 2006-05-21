@@ -39,7 +39,6 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     //----------------------------------------------------------------------------
     
     private AffineTransform _xform; // reusable transform
-    private DecimalFormat _coefficientFormat; 
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +50,6 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     public BSSelectedEquation() {
         super();
         _xform = new AffineTransform();
-        _coefficientFormat = new DecimalFormat( BSSuperpositionStateDialog.COEFFICIENT_FORMAT );
     }
     
     //----------------------------------------------------------------------------
@@ -166,7 +164,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
                 }
                 BSEigenstate eigenstate = model.getEigenstate( i );
                 final int eigenstateSubscript = eigenstate.getSubscript();
-                text += _coefficientFormat.format( coefficient);
+                text += BSConstants.COEFFICIENT_FORMAT.format( coefficient);
                 text += BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)";
                 numberOfTerms++;
             }
