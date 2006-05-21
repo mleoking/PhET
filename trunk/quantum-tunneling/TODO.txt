@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- add a thin dark line to center of total energy gradient
+- add 0-2PI range to phase
 
 MEDIUM PRIORITY:
 - ant build file that applies proguard and removes unused images
