@@ -154,6 +154,7 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
         
         BSModel model = getModel();
         
+        // Create sum of terms...
         BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
         int numberOfTerms = 0;
         final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
@@ -171,22 +172,20 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
             }
         }
         
+        // Add ellipsis if there are more non-zero terms that aren't shown...
         final int numberOfNonZeroCoefficients = coefficients.getNumberOfNonZeroCoefficients();
         if ( numberOfNonZeroCoefficients > MAX_TERMS ) {
             text += "+...";
         }
         
-        if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
-            text = "<html>" + text + "</html>";
-        }
-        else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
-            text = "<html>|" + text + "|<sup>2</sup></html>";
-        }
-        else {
-            throw new UnsupportedOperationException( "unsupported mode: " + getMode() );
+        // Modify equation for probabilty density
+        if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+            text = "|" + text + "|<sup>2</sup>";
         }
         
-        System.out.println( "text=" + text );//XXX
-        return text;
+        // Convert to html
+        String html = "<html>" + text + "<html>";
+        
+        return html;
     }
 }
