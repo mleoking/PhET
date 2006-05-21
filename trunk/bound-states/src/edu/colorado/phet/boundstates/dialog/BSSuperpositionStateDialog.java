@@ -57,11 +57,6 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private static final char PSI = BSConstants.LOWERCASE_PSI;
     
-    private static final double COEFFICIENT_MIN = 0.00;
-    private static final double COEFFICIENT_MAX = 1.00;
-    private static final double COEFFICIENT_STEP = 0.01;
-    public static final String COEFFICIENT_FORMAT = "0.00";
-    
     private static final int NUMBER_OF_COLUMNS = 3; 
     
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
@@ -180,7 +175,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + subscript + "</sub>:</html>";
             labels.add( new JLabel( label ) );
             final double value = _coefficients.getCoefficient( i );
-            DoubleSpinner spinner = new DoubleSpinner( value, COEFFICIENT_MIN, COEFFICIENT_MAX, COEFFICIENT_STEP, COEFFICIENT_FORMAT, SPINNER_SIZE );
+            DoubleSpinner spinner = new DoubleSpinner( value, BSConstants.COEFFICIENT_MIN, BSConstants.COEFFICIENT_MAX, 
+                    BSConstants.COEFFICIENT_STEP, BSConstants.COEFFICIENT_PATTERN, SPINNER_SIZE );
             spinner.addChangeListener( _eventListener );
             _spinners.add( spinner );
         }
@@ -486,7 +482,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private void handleCoefficientChange( DoubleSpinner spinner ) {
         double value = spinner.getDoubleValue();
-        if ( value < COEFFICIENT_MIN || value > COEFFICIENT_MAX ) {
+        if ( value < BSConstants.COEFFICIENT_MIN || value > BSConstants.COEFFICIENT_MAX ) {
             warnInvalidInput();
             //XXX restore the current value of cn from the model
         }

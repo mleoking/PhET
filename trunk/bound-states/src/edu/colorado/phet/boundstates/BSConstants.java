@@ -147,6 +147,13 @@ public class BSConstants {
     public static final double POSITION_TICK_SPACING = 1; // nm
     public static final DecimalFormat POSITION_TICK_FORMAT = new DecimalFormat( "0" );
     
+    // Superposition coefficients
+    public static final double COEFFICIENT_MIN = 0.00;
+    public static final double COEFFICIENT_MAX = 1.00;
+    public static final double COEFFICIENT_STEP = 0.01;
+    public static final String COEFFICIENT_PATTERN = "0.00";
+    public static final DecimalFormat COEFFICIENT_FORMAT = new DecimalFormat( COEFFICIENT_PATTERN );
+    
     //----------------------------------------------------------------------------
     // Charts
     //----------------------------------------------------------------------------
