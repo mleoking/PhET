@@ -76,6 +76,7 @@ public class QTConstants {
     // Strokes
     //----------------------------------------------------------------------------
     
+    public static final Stroke AVERAGE_TOTAL_ENERGY_STROKE = new BasicStroke( 1f );
     public static final Stroke TOTAL_ENERGY_SOLID_STROKE = new BasicStroke( 4f );
     public static final Stroke TOTAL_ENERGY_DASHED_STROKE = 
         new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );

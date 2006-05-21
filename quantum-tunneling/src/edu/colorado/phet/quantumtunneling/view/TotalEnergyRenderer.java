@@ -50,6 +50,8 @@ import edu.colorado.phet.quantumtunneling.model.EigenstateSolver.PotentialEvalua
  * <p>
  * (3) In all other case, total energy is represented as a "band" of probabilites.
  * Higher brightness of color in the band indicates higher probability.
+ * The average total energy is indicated by a diferent-colored line at the 
+ * center of the band.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -186,7 +188,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
           
         // Determine which representation to use for total energy
         if ( E0 <= V0 ) {
-            drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item, QTConstants.TOTAL_ENERGY_DASHED_STROKE );
+            drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
         }
         else if ( _potentialEnergy.isInWell( packetCenter ) ) {
             drawBandAndEigenstates( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
@@ -214,8 +216,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             ValueAxis rangeAxis, 
             XYDataset dataset, 
             int series, 
-            int item,
-            Stroke stroke ) 
+            int item ) 
     {  
         // Axis (model) coordinates
         final double minPosition = domainAxis.getLowerBound();
@@ -230,7 +231,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         
         g2.setPaint( getSeriesPaint( series ) );
-        g2.setStroke( stroke );
+        g2.setStroke( QTConstants.TOTAL_ENERGY_DASHED_STROKE );
         _path.reset();
         _path.moveTo( (float)minX, (float)averageY );
         _path.lineTo( (float)maxX, (float)averageY );
@@ -282,6 +283,7 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
         final double minX = domainAxis.valueToJava2D( minPosition, dataArea, domainAxisLocation );
         final double maxX = domainAxis.valueToJava2D( maxPosition, dataArea, domainAxisLocation );
         final double maxY = rangeAxis.valueToJava2D( minEnergy, dataArea, rangeAxisLocation ); // +y is down!
+        final double averageY = rangeAxis.valueToJava2D( E0, dataArea, rangeAxisLocation );
         final double topOfWellY = rangeAxis.valueToJava2D( topOfWellEnergy, dataArea, rangeAxisLocation );
         
         // Create the eigenstate solver...
@@ -369,7 +371,17 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             
             // If the average total energy is below the top of the well, represent it with a dashed line.
             if ( E0 < topOfWellEnergy ) {
-                drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item, QTConstants.EIGENSTATE_STROKE_DASHED );
+                drawDashedLine( g2, state, dataArea, info, plot, domainAxis, rangeAxis, dataset, series, item );
+            }
+            else {
+                // Otherwise draw a line for the average total energy.
+                Paint paint = darkenColor( getSeriesPaint( series ) );
+                g2.setPaint( paint );
+                g2.setStroke( QTConstants.AVERAGE_TOTAL_ENERGY_STROKE );
+                _path.reset();
+                _path.moveTo( (float)minX, (float)averageY );
+                _path.lineTo( (float)maxX, (float)averageY );
+                g2.draw( _path );
             }
         }
     }
@@ -457,5 +469,41 @@ public class TotalEnergyRenderer extends AbstractXYItemRenderer {
             g2.setPaint( bottomPaint );
             g2.fill( bottomShape );
         }
+        
+        // Draw a line for the average total energy...
+        {
+            Paint paint = darkenColor( getSeriesPaint( series ) );
+            g2.setPaint( paint );
+            g2.setStroke( QTConstants.AVERAGE_TOTAL_ENERGY_STROKE );
+            _path.reset();
+            _path.moveTo( (float)minX, (float)averageY );
+            _path.lineTo( (float)maxX, (float)averageY );
+            g2.draw( _path );
+        }
+    }
+    
+    /*
+     * Darkens a color.
+     * This is used to create a color for the "average total energy" line
+     * using the color for total energy.
+     * 
+     * @param paint
+     * @return
+     */
+    private static Paint darkenColor( Paint paint ) {
+        Paint newPaint = paint;
+        if ( paint instanceof Color ) {
+            Color color = (Color)paint;
+            int r = color.getRed();
+            int g = color.getGreen();
+            int b = color.getBlue();
+            int a = color.getAlpha();
+            final int darkenFactor = 50;
+            r = Math.max( 0, r - darkenFactor );
+            g = Math.max( 0, g - darkenFactor );
+            b = Math.max( 0, b - darkenFactor );
+            newPaint = new Color( r, g, b, a );
+        }
+        return newPaint;
     }
 }
