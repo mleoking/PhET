@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -36,6 +37,7 @@ import edu.colorado.phet.quantumtunneling.enums.WaveType;
 import edu.colorado.phet.quantumtunneling.model.AbstractPotential;
 import edu.colorado.phet.quantumtunneling.model.PotentialFactory;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
+import edu.colorado.phet.quantumtunneling.view.ViewLegend;
 
 
 /**
@@ -62,10 +64,6 @@ public class QTControlPanel extends AbstractControlPanel {
     private static final int CENTER_LABEL_PRECISION = 1; // # decimal places
     
     // Color key
-    private static final int COLOR_KEY_WIDTH = 25; // pixels
-    private static final int COLOR_KEY_HEIGHT = 3; // pixels
-    private static final int PHASE_KEY_WIDTH = COLOR_KEY_WIDTH;
-    private static final int PHASE_KEY_HEIGHT = 10;
     private static final int COLOR_KEY_SPACING = 7; // pixels, space between checkbox and color key
     
     //----------------------------------------------------------------------------
@@ -144,7 +142,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel realPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             realPanel.add( _realCheckBox);
             realPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon realIcon = createColorKey( QTConstants.COLOR_SCHEME.getRealColor() );
+            Icon realIcon = ViewLegend.createColorKey( QTConstants.COLOR_SCHEME.getRealColor() );
             _realLegend = new JLabel( realIcon );
             realPanel.add( _realLegend );
             
@@ -152,7 +150,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel imaginaryPanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             imaginaryPanel.add( _imaginaryCheckBox );
             imaginaryPanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon imaginaryIcon = createColorKey( QTConstants.COLOR_SCHEME.getImaginaryColor() );
+            Icon imaginaryIcon = ViewLegend.createColorKey( QTConstants.COLOR_SCHEME.getImaginaryColor() );
             _imaginaryLegend = new JLabel( imaginaryIcon );
             imaginaryPanel.add( _imaginaryLegend );
             
@@ -160,7 +158,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel magnitudePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             magnitudePanel.add( _magnitudeCheckBox );
             magnitudePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon magnitudeIcon = createColorKey( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
+            Icon magnitudeIcon = ViewLegend.createColorKey( QTConstants.COLOR_SCHEME.getMagnitudeColor() );
             _magnitudeLegend = new JLabel( magnitudeIcon );
             magnitudePanel.add( _magnitudeLegend );   
             
@@ -168,7 +166,7 @@ public class QTControlPanel extends AbstractControlPanel {
             JPanel phasePanel = new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) );
             phasePanel.add( _phaseCheckBox );
             phasePanel.add( Box.createHorizontalStrut( COLOR_KEY_SPACING ) );
-            Icon phaseIcon = createPhaseKey();
+            Icon phaseIcon = ViewLegend.createPhaseKey();
             _phaseLegend = new JLabel( phaseIcon );
             phasePanel.add( _phaseLegend );
             
@@ -364,41 +362,6 @@ public class QTControlPanel extends AbstractControlPanel {
             _centerSlider.addChangeListener( _listener );
         }
     }
-
-    /*
-     * Creates a color key icon by drawing a solid horizontal line.
-     * 
-     * @param color
-     * @return Icon
-     */
-    private Icon createColorKey( Color color ) {
-        BufferedImage image = new BufferedImage( COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = image.createGraphics();
-        Rectangle2D r = new Rectangle2D.Double( 0, 0, COLOR_KEY_WIDTH, COLOR_KEY_HEIGHT );
-        g2.setPaint( color );
-        g2.fill( r );
-        Icon icon = new ImageIcon( image );
-        return icon;
-    }
-    
-    /*
-     * Creates a color key icon for phase by drawing the phase color series.
-     * 
-     * @return Icon
-     */
-    private Icon createPhaseKey() {
-        BufferedImage image = new BufferedImage( PHASE_KEY_WIDTH, PHASE_KEY_HEIGHT, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = image.createGraphics();
-        Rectangle2D r = new Rectangle2D.Double();
-        for ( int i = 0; i < 360; i++ ) {
-            r.setRect( i * PHASE_KEY_WIDTH / 360.0, 0, PHASE_KEY_WIDTH / 360.0, PHASE_KEY_HEIGHT );
-            Color color = Color.getHSBColor( i / 360f, 1f, 1f );
-            g2.setColor( color );
-            g2.fill( r );
-        }
-        Icon icon = new ImageIcon( image );
-        return icon;
-    }
     
     //----------------------------------------------------------------------------
     // Accessors
@@ -417,9 +380,9 @@ public class QTControlPanel extends AbstractControlPanel {
         _potentialComboBox.addItemListener( _listener );
         
         // Change the legends for the wave function views...
-        _realLegend.setIcon( createColorKey( scheme.getRealColor() ) );
-        _imaginaryLegend.setIcon( createColorKey( scheme.getImaginaryColor() ) );
-        _magnitudeLegend.setIcon( createColorKey( scheme.getMagnitudeColor() ) );
+        _realLegend.setIcon( ViewLegend.createColorKey( scheme.getRealColor() ) );
+        _imaginaryLegend.setIcon( ViewLegend.createColorKey( scheme.getImaginaryColor() ) );
+        _magnitudeLegend.setIcon( ViewLegend.createColorKey( scheme.getMagnitudeColor() ) );
     }
     
     /**
