@@ -70,29 +70,23 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
      */
     protected void updateDisplay() {
         
-        if ( getModel() != null ) {
+        BSModel model = getModel();
+        
+        if ( model != null ) {
             
-            // Determine which eigenstate...
-            int eigenstateSubscript = getEigenstateSubscript();
-
+            BSSuperpositionCoefficients superpositionCoefficients = model.getSuperpositionCoefficients();
+            final int numberOfNonZeroCoefficients = superpositionCoefficients.getNumberOfNonZeroCoefficients();
+            
             // Set the text...
             String text = null;
-            if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_NONE ) {
+            if ( numberOfNonZeroCoefficients == 0 ) {
                 text = "";
             }
-            else if ( eigenstateSubscript == EIGENSTATE_SUBSCRIPT_SUPERPOSITION ) {
-                text = _superpositionString;
+            else if ( numberOfNonZeroCoefficients == 1 ) {
+                text = createSimpleString();
             }
             else {
-                if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
-                    text = "<html>" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)</html>";
-                }
-                else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
-                    text = "<html>|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup></html>";
-                }
-                else {
-                    throw new UnsupportedOperationException( "unsupported mode: " + getMode() );
-                }
+                text = createSuperpositionString();
             }
             setHTML( text );
 
@@ -105,44 +99,53 @@ public class BSSelectedEquation extends BSAbstractWaveFunctionEquation implement
     }
     
     //----------------------------------------------------------------------------
-    // private methods
+    // String creation
     //----------------------------------------------------------------------------
     
     /*
-     * Gets the eigenstate subscript.
-     * If one eigenstate is selected, then its subscript is returned.
-     * If no eigenstate is selected, then EIGENSTATE_SUBSCRIPT_NONE is returned.
-     * If more than one eigenstate is selected, then EIGENSTATE_SUBSCRIPT_SUPERPOSITION is returned.
+     * Creates an equation that involves a single coefficient.
+     * This is used when we're NOT in a superposition state.
      */
-    private int getEigenstateSubscript() {
-        
+    private String createSimpleString() {
+
         BSModel model = getModel();
-        
-        // Determine which superposition coefficient is non-zero...
+
+        // Find the first non-zero coefficient...
         BSSuperpositionCoefficients coefficients = model.getSuperpositionCoefficients();
         final int numberOfCoefficients = coefficients.getNumberOfCoefficients();
         int coefficientIndex = -1;
-        int count = 0;
         for ( int i = 0; i < numberOfCoefficients; i++ ) {
             double energy = coefficients.getCoefficient( i );
             if ( energy > 0 ) {
-                if ( count == 0 ) {
-                    coefficientIndex = i;
-                }
-                count++;
+                coefficientIndex = i;
+                break;
             }
         }
-        
+        assert ( coefficientIndex != -1 );
+
         // Map to an eigenstate subscript...
-        int subscript = EIGENSTATE_SUBSCRIPT_NONE; // count==0
-        if ( count == 1 ) {
-            BSEigenstate eigenstate = model.getEigenstate( coefficientIndex );
-            subscript = eigenstate.getSubscript();
+        BSEigenstate eigenstate = model.getEigenstate( coefficientIndex );
+        final int eigenstateSubscript = eigenstate.getSubscript();
+
+        // Construct a text string...
+        String text = null;
+        if ( getMode() == BSBottomPlotMode.WAVE_FUNCTION ) {
+            text = "<html>" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)</html>";
         }
-        else if ( count > 1 ) {
-            subscript = EIGENSTATE_SUBSCRIPT_SUPERPOSITION;
+        else if ( getMode() == BSBottomPlotMode.PROBABILITY_DENSITY ) {
+            text = "<html>|" + BSConstants.UPPERCASE_PSI + "<sub>" + eigenstateSubscript + "</sub>(x,t)|<sup>2</sup></html>";
         }
-        
-        return subscript;
+        else {
+            throw new UnsupportedOperationException( "unsupported mode: " + getMode() );
+        }
+        return text;
+    }
+    
+    /*
+     * Creates an equation that involves multiple coefficients.
+     * This is used when we're in a superposition state.
+     */
+    private String createSuperpositionString() {
+        return _superpositionString;
     }
 }
