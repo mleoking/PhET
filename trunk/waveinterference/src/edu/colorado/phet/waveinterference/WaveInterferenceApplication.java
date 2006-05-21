@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class WaveInterferenceApplication extends PhetApplication {
     private static String VERSION = "0.00.13";
 
     public WaveInterferenceApplication( String[] args ) {
-        super( args, "Wave Interference", "Wave Interference simulation", VERSION );
+        super( args, "Wave Interference", "Wave Interference simulation", VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {

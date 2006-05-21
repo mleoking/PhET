@@ -1,8 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.view.VerticalLayoutPanel;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +12,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Mar 25, 2006 by Sam Reid
  */
 
-public class ReducedScreenControlPanel extends VerticalLayoutPanel {
+public class ReducedScreenControlPanel extends VerticalLayoutPanelWithDisable {
     private ScreenNode screenNode;
 
     public ReducedScreenControlPanel( final ScreenNode screenNode ) {
