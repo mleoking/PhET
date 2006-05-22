@@ -85,7 +85,7 @@ public class ExpandableScreenChartGraphic extends PNode {
     }
 
     private void updateLocation() {
-        expandNode.setOffset( screenChart.getChartBounds().getMaxX() + 2, screenChart.getChartBounds().getY() );
+        expandNode.setOffset( screenChart.getChartBounds().getMinX() + 2, screenChart.getChartBounds().getY() );
         closeNode.setOffset( screenChart.getChartBounds().getMaxX(), screenChart.getChartBounds().getY() );
     }
 

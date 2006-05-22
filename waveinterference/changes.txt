@@ -13,6 +13,7 @@ Constrained detector to move on the midline when in water-side view.
 When you turn the laser off, it goes to black, rather than solid color.
     Also works for 2-laser case.
 When in side view for light: grayed out the "show screen" option.
+Bugfix: "Intensity Chart" button was partially offscreen by default.
 
 New in 0.00.13 (5-19-2006)
 Relabeled 'View Angle' to 'Rotate View'
