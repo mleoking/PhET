@@ -82,7 +82,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
-        addScreenChild( intensityReaderSet );
+
 
         measurementToolSet = new MeasurementToolSet( this, lightModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
@@ -120,6 +120,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
         addScreenChild( expandableScreenChartGraphic );
         addScreenChild( measurementToolSet );
+        addScreenChild( intensityReaderSet );
+
         screenNode.addListener( new ScreenNode.Listener() {
             public void enabledStateChanged() {
                 updateExpandableGraphicVisibility();

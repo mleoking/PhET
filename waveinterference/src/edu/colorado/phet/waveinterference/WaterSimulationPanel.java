@@ -71,7 +71,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
-        addScreenChild( intensityReaderSet );
+
 
         measurementToolSet = new MeasurementToolSet( this, waterModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 //        measurementToolSet.getMeasuringTape().setLocation( new Point2D.Double( 0,0),new Point2D.Double( 0,0) );
@@ -91,6 +91,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
         addScreenChild( crossSectionGraphic );
         addScreenChild( measurementToolSet );
+        addScreenChild( intensityReaderSet );
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
             public void expansionStateChanged() {
                 updateCrossSectionGraphicVisible();

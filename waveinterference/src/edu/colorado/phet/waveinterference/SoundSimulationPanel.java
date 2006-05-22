@@ -78,7 +78,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( slitPotentialGraphic );
 
         intensityReaderSet = new IntensityReaderSet();
-        addScreenChild( intensityReaderSet );
+
 
         measurementToolSet = new MeasurementToolSet( this, soundModule.getClock(), getLatticeScreenCoordinates(), soundModule.getWaveInterferenceModel() );
 
@@ -108,6 +108,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
+        addScreenChild( intensityReaderSet );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
