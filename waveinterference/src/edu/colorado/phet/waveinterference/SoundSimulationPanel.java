@@ -39,6 +39,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private PressureWaveGraphic pressureWaveGraphic;
     private RotationWaveGraphic rotationWaveGraphic;
     private RotationGlyph rotationGlyph;
+    private CrossSectionGraphic crossSectionGraphic;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -91,8 +92,14 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
-        final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        soundWaveGraphic.addListener( new SoundWaveGraphic.Listener() {
+            public void viewChanged() {
+                crossSectionGraphic.setColor( soundWaveGraphic.isParticleVisible() ? Color.white : Color.black );
+            }
+        } );
         addScreenChild( crossSectionGraphic );
+
         addScreenChild( measurementToolSet );
 
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {
@@ -142,7 +149,6 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void setAsymmetricFeaturesEnabled( boolean asymmetricFeaturesEnabled ) {
-//        System.out.println( "//todo: asymmetricFeaturesEnabled = " + asymmetricFeaturesEnabled );
         soundModule.setAsymmetricFeaturesEnabled( asymmetricFeaturesEnabled );
     }
 
@@ -152,21 +158,11 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     private void updateWaveSize() {
         if( getHeight() > 0 ) {
-//            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
             double insetTop = super.getWaveModelGraphicOffset().getY();
-//            System.out.println( "insetTop = " + insetTop );
             double insetBottom = waveChartGraphic.getChartHeight();
-//            if (waveChartGraphic.getFullBounds().getHeight()>300){
-//                System.out.println( "WaterSimulationPanel.updateWaveSize" );
-//            }
-//            System.out.println( "insetBottom = " + insetBottom );
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
-//            System.out.println( "pixelsPerCell = " + pixelsPerCell );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
-//            double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-//            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
-//            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
         }
     }
 
