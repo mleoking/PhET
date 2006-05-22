@@ -28,6 +28,7 @@ public class JnlpResource extends SimResource {
 
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
+        this.url = url;
         try {
             remoteCodebase = new JnlpFile( url ).getCodebase();
         }
@@ -77,11 +78,21 @@ public class JnlpResource extends SimResource {
      */
     public JarResource[] getJarResources() {
         JnlpFile jnlpFile = null;
+        if( getLocalFile() != null && getLocalFile().exists()) {
         try {
             jnlpFile = new JnlpFile( getLocalFile() );
         }
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
+        }
+        }
+        else {
+            try {
+                jnlpFile = new JnlpFile( url );
+            }
+            catch( InvalidJnlpException e ) {
+                e.printStackTrace();
+            }
         }
         String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];

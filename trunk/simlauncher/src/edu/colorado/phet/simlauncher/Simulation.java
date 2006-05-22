@@ -135,9 +135,10 @@ public class Simulation {
         jnlpResource.download();
         for( int i = 0; i < jarResources.length; i++ ) {
             JarResource jarResource = jarResources[i];
+            System.out.println( "jarResource = " + jarResource.getLocalFile() );
             jarResource.download();
-            thumbnailResource.download();
         }
+        thumbnailResource.download();
 
         uninstalledSims.remove( this );
         installedSims.add( this );

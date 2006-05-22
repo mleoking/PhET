@@ -71,9 +71,12 @@ public class SimulationFactory {
                 String descAddr = element.getAttribute( simDescAttrib ).getValue();
                 String str = getDescription( descAddr );
 
+                // If the thumbnail isn't local, download it so we'll have a copy to display
                 String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
-                ImageIcon imageIcon = new ImageIcon( new URL( thumbnailUrl ) );
                 ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
+                if( !thumbnailResource.getLocalFile().exists() ) {
+                    thumbnailResource.download();
+                }
 
                 String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();
                 URL jnlpURL = new URL( jnlpStr );

@@ -10,23 +10,23 @@
     <simulation name="Radio Waves"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/emf.gif"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/emf/emf.jnlp"/>
     <simulation name="Salts &amp; Solubility"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/soluble-salts.png"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/soluble-salts/soluble-salts.jnlp"/>
     <simulation name="Lasers"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/lasers.jpg"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/lasers/lasers.jnlp"/>
     <simulation name="The Ramp"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/the-ramp.png"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/theramp/theramp.jnlp"/>
     <simulation name="The Moving Man"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/MovingMan2.gif"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/movingman/movingman.jnlp"/>
     <simulation name="Waves on a String"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/stringWave.gif"
@@ -34,7 +34,7 @@
     <simulation name="Fourier: Making Waves"
                 description=""
                 thumbnail="http://www.colorado.edu/physics/phet/web-pages/Design/Assets/images/appletIcons/fourier.jpg"
-                jnlp="http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp"/>
+                jnlp="http://www.colorado.edu/physics/phet/simulations/fourier/fourier.jnlp"/>
 
     <categories>
         <category name="Motion">
