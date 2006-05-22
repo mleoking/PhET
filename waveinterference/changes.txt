@@ -1,4 +1,4 @@
-New in 0.00.16
+New in 0.00.16 (5-22-2006)
 The grayscale and particles options are one on top of the other rather than side by side.
 Moved the red x for closing a detector inside the detector (bottom left corner).
 Bugfix: Slit Separation control never becomes enabled.

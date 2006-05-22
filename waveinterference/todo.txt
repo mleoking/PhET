@@ -14,21 +14,20 @@ Bug: The screen chart's intensity crops in an awkward fashion (at about 0.9?)
 The units for slit parameters and source spacing should match
 (or else there should be no units on these).
 
+Reduce the wavelength/amplitude controls when window shrinks.
+
 ##############################################################
 Questions
 ##################################
 
 Right now single sources can move horizontally and pairs can move vertically (independently).
-Implementing constrained dragging for pairs (i.e. dragging the top one brings the bottom one closer as well)
-would be disproportionately more difficult.
+Implementing constrained dragging for pairs (i.e. dragging the top one brings the bottom one closer
+to the midline as well) would be disproportionately more difficult.
 
-Light Module: Where to put the 'hide screen' button?
-
-o Test at 1024x768
->>Things get ugly when minimizing the window beyond a certain extent.
->>Can we switch renderers below this range?
->>I investigated this; it would be lots of work.
->>What needs ot be done here?
+Movable sources for sound and light don't seem as important as they are for
+water.  If it can be done with a minimal amount of work then I'd suggest
+doing the same things that you've done with the faucets.
+>>This would not be too much work, but maybe we should avoid it unless it will be useful to the users.
 
 I implemented dragging for the faucets, should I also do this for other wave sources?
 There are a lot of things in this sim that are not obvious, like the fact
@@ -41,14 +40,12 @@ Should wave sources be draggable in all directions?
 Movable
 faucets are really cool but before you make them move side to side in two
 drip mode, let's interview.  Sounds like it'd be a lot of work.
-
 >>Not a lot of work, just thought this constraint might be more user-friendly.
 
-Movable sources for sound and light don't seem as important as they are for
-water.  If it can be done with a minimal amount of work then I'd suggest
-doing the same things that you've done with the faucets.
-
->>This would not be too much work, but maybe we should avoid it unless it will be useful to the users.
+o Test at 1024x768
+>>Things get ugly when minimizing the window beyond a certain extent.
+>>I'll Reduce the wavelength/amplitude controls when window shrinks; hopefully this
+>>(or this + other small modifications) is sufficient
 
 ##############################################################
 Low Priority
