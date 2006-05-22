@@ -6,8 +6,6 @@ Maybe show screen should be a button in the play area, kind of like "show graph"
 I have a feeling people won't find it buried down in the corner
 (unless the idea was to keep people from messing with it right away).
 
-o When in side view for light: gray out the "show screen" option as well.
-
 o Test at 1024x768
 >>Things get ugly when minimizing the screen beyond a certain extent.
 >>Can we switch renderers below this range?

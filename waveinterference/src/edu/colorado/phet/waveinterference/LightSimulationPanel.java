@@ -152,21 +152,11 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     private void updateWaveSize() {
         if( getHeight() > 0 ) {
-//            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
             double insetTop = super.getWaveModelGraphicOffset().getY();
-//            System.out.println( "insetTop = " + insetTop );
             double insetBottom = waveChartGraphic.getChartHeight();
-//            if (waveChartGraphic.getFullBounds().getHeight()>300){
-//                System.out.println( "WaterSimulationPanel.updateWaveSize" );
-//            }
-//            System.out.println( "insetBottom = " + insetBottom );
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
-//            System.out.println( "pixelsPerCell = " + pixelsPerCell );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
-//            double usedHeight = rotationWaveGraphic.getFullBounds().getHeight() + faucetControlPanelPNode.getFullBounds().getHeight() + insetTop + insetBottom;
-//            System.out.println( "availableHeight = " + availableHeight + ", used height=" + usedHeight );
-//            System.out.println( "</WaterSimulationPanel.updateWaveSize>" );
         }
     }
 
