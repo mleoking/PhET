@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.model.ClassicalWavePropagator;
+import edu.colorado.phet.waveinterference.model.DampedClassicalWavePropagator;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
@@ -33,8 +35,6 @@ public class DarkWave {
             }
 
             public void amplitudeChanged() {
-//                if (get)
-//                maybeFireDarkWave();
             }
         } );
     }
@@ -69,41 +69,50 @@ public class DarkWave {
         private PhotonEmissionColorMap colorMap;
         private WaveModel realwaveModel;
         private int numSteps = 0;
-        private WaveModel waveModel;
-        private WaveModelGraphic waveModelGraphic;
-//        private boolean[][] alreadyCleared;
+        private WaveModel tmpWaveModel;
+        private DampedClassicalWavePropagator dampedClassicalWavePropagator;
 
         public DarkPropagator( Oscillator source, PhotonEmissionColorMap colorMap, WaveModel waveModel ) {
-            this.waveModel = new WaveModel( waveModel.getWidth(), waveModel.getHeight() );
             this.source = source;
             this.colorMap = colorMap;
             this.realwaveModel = waveModel;
-            waveModelGraphic = new WaveModelGraphic( this.waveModel );
-//            alreadyCleared = new boolean[waveModel.getWidth()][waveModel.getHeight()];
+
+            ClassicalWavePropagator classicalWavePropagator = waveModel.getClassicalWavePropagator();
+            if( classicalWavePropagator instanceof DampedClassicalWavePropagator ) {
+                dampedClassicalWavePropagator = (DampedClassicalWavePropagator)classicalWavePropagator;
+
+            }
+            this.tmpWaveModel = new WaveModel( dampedClassicalWavePropagator.getLargeLattice().getWidth(), dampedClassicalWavePropagator.getLargeLattice().getHeight() );
         }
 
         public void update() {
-            waveModel.setSourceValue( source.getCenterX(), source.getCenterY(), (float)( 10 * Math.sin( numSteps / 10.0 ) ) );
-            waveModel.propagate();
+            //todo this is an awkward dependency on details of damped wave propagator.
+            tmpWaveModel.setSourceValue( source.getCenterX() + dampedClassicalWavePropagator.getDampX(), source.getCenterY() + dampedClassicalWavePropagator.getDampY(), (float)( 10 * Math.sin( numSteps / 10.0 ) ) );
+            tmpWaveModel.propagate();
             numSteps++;
-            for( int i = 0; i < waveModel.getWidth(); i++ ) {
-                for( int k = 0; k < waveModel.getHeight(); k++ ) {
-                    if( isWavefront( i, k ) ) {
-                        realwaveModel.setSourceValue( i, k, 0 );
-                        colorMap.setDark( i, k );
+
+            for( int i = 0; i < tmpWaveModel.getWidth(); i++ ) {
+                for( int k = 0; k < tmpWaveModel.getHeight(); k++ ) {
+                    int i2 = i - dampedClassicalWavePropagator.getDampX();
+                    int k2 = k - dampedClassicalWavePropagator.getDampY();
+                    if( realwaveModel.containsLocation( i2, k2 ) &&
+                        isWavefront( i, k ) ) {
+                        realwaveModel.setSourceValue( i2, k2, 0 );
+                        colorMap.setDark( i2, k2 );
                     }
                 }
             }
-            waveModelGraphic.update();
+//            waveModelGraphic.update();
         }
 
         private boolean isWavefront( int i, int k ) {
             int num = 0;
             int den = 0;
-            for( int m = -2; m <= 2; m++ ) {
-                for( int n = -2; n <= 2; n++ ) {
-                    if( waveModel.containsLocation( i + m, k + n ) ) {
-                        if( Math.abs( waveModel.getValue( i + m, k + n ) ) > 1E-6 ) {
+            int a = 4;
+            for( int m = -a; m <= a; m++ ) {
+                for( int n = -a; n <= a; n++ ) {
+                    if( tmpWaveModel.containsLocation( i + m, k + n ) ) {
+                        if( Math.abs( tmpWaveModel.getValue( i + m, k + n ) ) > 1E-6 ) {
                             num++;
                         }
                         den++;
@@ -115,7 +124,7 @@ public class DarkWave {
         }
 
         public boolean isFinished() {
-            return numSteps > Math.sqrt( waveModel.getHeight() * waveModel.getHeight() + waveModel.getWidth() * waveModel.getWidth() ) * 2.1;
+            return numSteps > Math.sqrt( tmpWaveModel.getHeight() * tmpWaveModel.getHeight() + tmpWaveModel.getWidth() * tmpWaveModel.getWidth() ) * 2;
         }
     }
 
@@ -124,6 +133,7 @@ public class DarkWave {
     }
 
     public void update() {
+//        System.out.println( "darkWaves.size() = " + darkWaves.size() );
         for( int i = 0; i < darkWaves.size(); i++ ) {
             DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( i );
             darkPropagator.update();
