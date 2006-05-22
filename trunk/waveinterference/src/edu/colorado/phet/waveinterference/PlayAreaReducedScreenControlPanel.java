@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
@@ -8,8 +9,10 @@ import edu.colorado.phet.waveinterference.view.ScreenNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -52,7 +55,10 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
         JButton closeButton = null;
         try {
 //            closeButton = new JButton( "Hide Screen", new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
-            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-20.png" );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int)( image.getHeight() * 0.75 ) );
+            closeButton = new JButton( new ImageIcon( image ) );
+            closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     screenNode.setScreenEnabled( false );
@@ -71,7 +77,8 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
     private void update() {
         showButton.setOffset( lightSimulationPanel.getLatticeScreenCoordinates().getScreenRect().getMaxX(), lightSimulationPanel.getLatticeScreenCoordinates().getScreenRect().getCenterY() );
 //        closeButtonNode.setOffset( screenNode.getBrightnessScreenGraphic().getFullBounds().getCenterX(), screenNode.getBrightnessScreenGraphic().getFullBounds().getMaxY() - closeButtonNode.getFullBounds().getHeight() );
-        closeButtonNode.setOffset( screenNode.getBrightnessScreenGraphic().getFullBounds().getCenterX(), screenNode.getBrightnessScreenGraphic().getFullBounds().getY() + 50 );
+//        closeButtonNode.setOffset( screenNode.getBrightnessScreenGraphic().getFullBounds().getCenterX(), screenNode.getBrightnessScreenGraphic().getFullBounds().getY() + 50 );
+        closeButtonNode.setOffset( screenNode.getBrightnessScreenGraphic().getFullBounds().getCenterX() - closeButtonNode.getFullBounds().getWidth() / 2, 0 );
     }
 
     private void updateExpanded() {

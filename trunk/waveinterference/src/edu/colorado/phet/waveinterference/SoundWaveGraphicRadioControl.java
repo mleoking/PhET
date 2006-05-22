@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.waveinterference.view.VerticalLayoutPanelWithDisable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Mar 28, 2006 by Sam Reid
  */
 
-public class SoundWaveGraphicRadioControl extends HorizontalLayoutPanel {
+public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable {
     private SoundWaveGraphic soundWaveGraphic;
     private JRadioButton grayscale;
     private JRadioButton particles;

@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -16,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -41,7 +43,9 @@ public class IntensityReaderDecorator extends PhetPNode {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton close = null;
         try {
-            close = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-20.png" ) ) );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-20.png" );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int)( image.getHeight() * 0.6 ) );
+            close = new JButton( new ImageIcon( image ) );
             close.setOpaque( false );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -119,7 +123,8 @@ public class IntensityReaderDecorator extends PhetPNode {
 //        intensityReader.getStripChartJFCNode().localToParent( bounds );
         intensityReader.localToParent( bounds );
 //        buttonPSwing.setOffset( )
-        buttonPSwing.setOffset( bounds.getX(), bounds.getY() - buttonPSwing.getFullBounds().getHeight() );
+//        buttonPSwing.setOffset( bounds.getX(), bounds.getY() - buttonPSwing.getFullBounds().getHeight() );
+        buttonPSwing.setOffset( bounds.getX() + 2, bounds.getMaxY() - buttonPSwing.getFullBounds().getHeight() - 2 );
     }
 
     public void update() {
