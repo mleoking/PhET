@@ -2,10 +2,6 @@
 Remaining Work
 ##################################
 
-Maybe show screen should be a button in the play area, kind of like "show graph".
-I have a feeling people won't find it buried down in the corner
-(unless the idea was to keep people from messing with it right away).
-
 o Test at 1024x768
 >>Things get ugly when minimizing the screen beyond a certain extent.
 >>Can we switch renderers below this range?
@@ -16,6 +12,8 @@ o Test on a Mac.
 o Add foreign languages.
 
 o Add help?
+
+Light Module: The show graph button obscures the 3d nature of the screen.
 
 ##############################################################
 Finalizing
@@ -37,6 +35,8 @@ Should wave sources be draggable in all directions?
 Right now single sources can move horizontally and pairs can move vertically (independently).
 Implementing constrained dragging for pairs (i.e. dragging the top one brings the bottom one closer as well)
 would be disproportionately more difficult.
+
+Light Module: Where to put the 'hide screen' button?
 
 ##############################################################
 Low Priority

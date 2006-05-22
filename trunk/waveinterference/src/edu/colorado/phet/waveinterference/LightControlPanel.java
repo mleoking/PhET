@@ -32,8 +32,10 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" );
         addControl( multiOscillatorControlPanel );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
-        screenControlPanel = new ReducedScreenControlPanel( lightModule.getScreenNode() );
-        addControl( screenControlPanel );
+
+        //enable these lines to add a "Show Screen" button to the control panel.
+//        screenControlPanel = new ReducedScreenControlPanel( lightModule.getScreenNode() );
+//        addControl( screenControlPanel );
     }
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {
