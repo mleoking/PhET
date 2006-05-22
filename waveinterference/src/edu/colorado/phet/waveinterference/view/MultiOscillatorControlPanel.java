@@ -17,25 +17,25 @@ import java.awt.event.ActionListener;
  */
 
 public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable {
+    private MultiOscillator multiOscillator;
     private ModelSlider spacingSlider;
-    private JRadioButton twoDrips;
     private JRadioButton oneDrip;
-    private MultiOscillator multiFaucetDrip;
+    private JRadioButton twoDrips;
 
-    public MultiOscillatorControlPanel( final MultiOscillator multiFaucetDrip, String name ) {
-        this.multiFaucetDrip = multiFaucetDrip;
+    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String name ) {
+        this.multiOscillator = multiOscillator;
         setBorder( BorderFactory.createEtchedBorder() );
-        oneDrip = new JRadioButton( "One " + name, multiFaucetDrip.isOneSource() );
+        oneDrip = new JRadioButton( "One " + name, multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                multiFaucetDrip.setOneDrip();
+                multiOscillator.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( "Two " + name + "s", multiFaucetDrip.isTwoSource() );
+        twoDrips = new JRadioButton( "Two " + name + "s", multiOscillator.isTwoSource() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                multiFaucetDrip.setTwoDrips();
+                multiOscillator.setTwoDrips();
                 updateSpacingSlider();
             }
         } );
@@ -44,11 +44,11 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiFaucetDrip.getSpacing() );
+        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiOscillator.getSpacing() );
         spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                multiFaucetDrip.setSpacing( spacingSlider.getValue() );
+                multiOscillator.setSpacing( spacingSlider.getValue() );
             }
         } );
         add( spacingSlider );
@@ -56,7 +56,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
     }
 
     private void updateSpacingSlider() {
-        spacingSlider.setEnabled( multiFaucetDrip.isTwoSource() && getEnabledFlag() );
+        spacingSlider.setEnabled( multiOscillator.isTwoSource() && getEnabledFlag() );
     }
 
     public void setEnabled( boolean enabled ) {
