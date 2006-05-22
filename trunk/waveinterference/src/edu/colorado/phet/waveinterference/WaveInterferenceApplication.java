@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.00.15";
+    private static String VERSION = "0.00.16";
 
     public WaveInterferenceApplication( String[] args ) {
         super( args, "Wave Interference", "Wave Interference simulation", VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
