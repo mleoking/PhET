@@ -48,6 +48,11 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         super.setBoundaryCondition( i + dampX, k + dampY, value );
     }
 
+    public void clearOffscreenLatticeValue( int i, int k ) {
+        largeLattice.setValue( i, k, 0 );
+        super.setBoundaryCondition( i, k, 0 );
+    }
+
     public void propagate( Lattice2D w ) {
         //copy to large lattice
         if( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() )
