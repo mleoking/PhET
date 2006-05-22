@@ -20,7 +20,7 @@ public class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas {
     }
 
     public Point2D getWaveModelGraphicOffset() {
-        return new Point2D.Double( 200, 10 );
+        return new Point2D.Double( 200, 30 );//has to keep the slits screen & buttons onscreen.
     }
 
     public int getLayoutHeight() {
