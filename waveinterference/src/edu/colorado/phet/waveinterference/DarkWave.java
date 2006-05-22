@@ -1,10 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.model.ClassicalWavePropagator;
-import edu.colorado.phet.waveinterference.model.DampedClassicalWavePropagator;
-import edu.colorado.phet.waveinterference.model.Oscillator;
-import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.model.*;
 import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
@@ -57,7 +54,6 @@ public class DarkWave {
     private void fireDarkWave() {
         if( getWaveModelGraphic().getColorMap() instanceof PhotonEmissionColorMap ) {
             PhotonEmissionColorMap colorMap = (PhotonEmissionColorMap)getWaveModelGraphic().getColorMap();
-//            Lattice2D newLattice = getLightModule().getWaveModel().getLattice().createEmptyWavefunction();
             darkWaves.add( new DarkPropagator( getLightModule().getPrimaryOscillator(), colorMap, getLightModule().getWaveModel() ) );
         }
     }
@@ -91,24 +87,26 @@ public class DarkWave {
             tmpWaveModel.propagate();
             numSteps++;
 
-            for( int i = 0; i < tmpWaveModel.getWidth(); i++ ) {
-                for( int k = 0; k < tmpWaveModel.getHeight(); k++ ) {
+            Lattice2D largeLattice = tmpWaveModel.getLattice();
+            for( int i = 0; i < largeLattice.getWidth(); i++ ) {
+                for( int k = 0; k < largeLattice.getHeight(); k++ ) {
                     int i2 = i - dampedClassicalWavePropagator.getDampX();
                     int k2 = k - dampedClassicalWavePropagator.getDampY();
-                    if( realwaveModel.containsLocation( i2, k2 ) &&
-                        isWavefront( i, k ) ) {
-                        realwaveModel.setSourceValue( i2, k2, 0 );
-                        colorMap.setDark( i2, k2 );
+                    if(
+                            isWavefront( i, k ) ) {
+                        dampedClassicalWavePropagator.clearOffscreenLatticeValue( i, k );
+                        if( i2 >= 0 && i2 < colorMap.getWidth() && k2 >= 0 && k2 < colorMap.getHeight() ) {
+                            colorMap.setDark( i2, k2 );
+                        }
                     }
                 }
             }
-//            waveModelGraphic.update();
         }
 
         private boolean isWavefront( int i, int k ) {
             int num = 0;
             int den = 0;
-            int a = 4;
+            int a = 1;
             for( int m = -a; m <= a; m++ ) {
                 for( int n = -a; n <= a; n++ ) {
                     if( tmpWaveModel.containsLocation( i + m, k + n ) ) {

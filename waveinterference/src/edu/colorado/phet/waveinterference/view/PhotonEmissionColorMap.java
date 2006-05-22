@@ -51,6 +51,14 @@ public class PhotonEmissionColorMap implements ColorMap {
         return color;
     }
 
+    public int getWidth() {
+        return inited.length;
+    }
+
+    public int getHeight() {
+        return inited[0].length;
+    }
+
     public void setDark( int i, int k ) {
         inited[i][k] = false;
     }
