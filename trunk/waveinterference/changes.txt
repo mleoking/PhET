@@ -1,4 +1,4 @@
-New in 0.00.14
+New in 0.00.14 (5-23-2006)
 Bugfix:There is a long delay when enabling audio.
 Bugfix: Audio has breaks and stutters sometimes.
 Bugfix: Audio should be disabled when moving from the sound panel to another tab.
