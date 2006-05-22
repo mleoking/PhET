@@ -178,7 +178,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
      */
     private void handleSelection() {
         final int hiliteIndex = _model.getHilitedEigenstateIndex();
-        System.out.println( "BSEigenstatesNode.handleSelection index=" + hiliteIndex );//XXX
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
             BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
             final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
@@ -209,7 +208,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         int hiliteIndex = getClosestEigenstateIndex( energy );
 
         // Update the model...
-        System.out.println( "BSEigenstatesNode.handleHilite index=" + hiliteIndex );//XXX
         _model.setHilitedEigenstateIndex( hiliteIndex );
     }
     
@@ -268,7 +266,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
      */
     private void updateEigenstatesDisplay() {
 
-        System.out.println( "BSEigenstatesNode.updateEigenstatesDisplay" );//XXX
         if ( !isInitalized() ) {
             return;
         }
@@ -341,7 +338,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         clearHiliteDisplay();
         
         _hiliteIndex = _model.getHilitedEigenstateIndex();
-//        System.out.println( "BSEigenstatesNode.updateHiliteDisplay hiliteIndex=" + _hiliteIndex );//XXX
         
         if ( _hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
             
