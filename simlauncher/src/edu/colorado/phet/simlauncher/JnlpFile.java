@@ -53,7 +53,6 @@ public class JnlpFile {
     private String[] jarPaths;
     private String title;
     private Document jdomDoc;
-    private String codebase;
 
     /**
      * @param jnlpURL URL to the actual JNLP file
@@ -142,8 +141,15 @@ public class JnlpFile {
      * @return the codebase
      */
     public String getCodebase() {
-        codebase = getJdomDoc().getRootElement().getAttribute( "codebase" ).getValue();
-        return codebase;
+        return getJdomDoc().getRootElement().getAttribute( "codebase" ).getValue();
+    }
+
+    /**
+     * Returns the href to the jnlp file in the jnlp element
+     * @return the jnlp href
+     */
+    public String getjnlpHref() {
+        return getJdomDoc().getRootElement().getAttribute( "href").getValue();
     }
 
     public void setCodebase( String codebase ) {
@@ -275,7 +281,7 @@ public class JnlpFile {
         for( int i = 0; i < extensionElementList.size(); i++ ) {
             Element jarElement = (Element)extensionElementList.get( i );
             String extensionJnlpName = jarElement.getAttributeValue( s_hrefAttrib );
-            String jnlpURL = new String( codebase ).concat( "/" ).concat( extensionJnlpName );
+            String jnlpURL = new String( getCodebase()).concat( "/" ).concat( extensionJnlpName );
             resultList.add( new JnlpFile( jnlpURL ) );
         }
         return (JnlpFile[])resultList.toArray( new JnlpFile[resultList.size()] );
