@@ -65,7 +65,7 @@ public class StripChartJFCNode extends PNode {
         );
 
         XYPlot plot = (XYPlot)chart.getPlot();
-
+        plot.getRangeAxis().setTickLabelsVisible( false );
         plot.getRangeAxis().setAutoRange( false );
         plot.getRangeAxis().setRange( -1, 1 );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( true, false );

@@ -2,14 +2,6 @@
 Remaining Work
 ##################################
 
-o Test on a Mac.
-
-o Add foreign languages.
-
-o Add help?
-
-o Dotted line should be white in sound module for particle view.
-
 o Constrain detector to move on the midline when in water-side view.
 
 Bug: When you turn the gun off, it goes to solid color rather than black.
@@ -21,8 +13,15 @@ I have a feeling people won't find it buried down in the corner
 o When in side view for light: gray out the "show screen" option as well.
 
 o Test at 1024x768
->>Things get real ugly when minimizing the screen beyond a certain extent.
+>>Things get ugly when minimizing the screen beyond a certain extent.
 >>Can we switch renderers below this range?
+>>I investigated this; it would be lots of work.
+
+o Test on a Mac.
+
+o Add foreign languages.
+
+o Add help?
 
 ##############################################################
 Finalizing

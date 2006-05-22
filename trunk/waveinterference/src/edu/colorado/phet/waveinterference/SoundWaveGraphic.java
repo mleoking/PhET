@@ -6,6 +6,8 @@ import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.umd.cs.piccolo.PNode;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 28, 2006
@@ -27,6 +29,23 @@ public class SoundWaveGraphic extends PNode {
         addChild( waveModelGraphic );
         addChild( pressureWaveGraphic );
         updateView();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void viewChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private void notifyViewChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.viewChanged();
+        }
     }
 
     private void updateView() {
@@ -57,6 +76,7 @@ public class SoundWaveGraphic extends PNode {
     public void setGrayscaleVisible( boolean grayscaleVisible ) {
         this.grayscaleVisible = grayscaleVisible;
         updateView();
+        notifyViewChanged();
     }
 
     public boolean isGrayscaleVisible() {
@@ -66,6 +86,7 @@ public class SoundWaveGraphic extends PNode {
     public void setParticlesVisible( boolean particlesVisible ) {
         this.particlesVisible = particlesVisible;
         updateView();
+        notifyViewChanged();
     }
 
     public boolean isParticleVisible() {
