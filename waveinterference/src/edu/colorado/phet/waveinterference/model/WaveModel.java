@@ -44,6 +44,10 @@ public class WaveModel {
         listeners.add( index, listener );
     }
 
+    public Potential getPotential() {
+        return classicalWavePropagator.getPotential();
+    }
+
     public static interface Listener {
 
         void sizeChanged();

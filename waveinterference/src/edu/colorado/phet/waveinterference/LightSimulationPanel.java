@@ -41,6 +41,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ExpandableWaveChart expandableWaveChart;
     private ScreenChartGraphic screenChart;
     private ExpandableScreenChartGraphic expandableScreenChartGraphic;
+    private DarkWave darkWave;
 
     public LightSimulationPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -137,6 +138,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             }
         } );
         updateWaveSize();
+
+        darkWave = new DarkWave( this );
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {
@@ -220,6 +223,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         screenNode.updateScreen();
         expandableWaveChart.updateChart();
         expandableScreenChartGraphic.updateChart();
+        darkWave.update();
     }
 
     public MultiOscillator getMultiOscillator() {
@@ -228,5 +232,13 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     public ScreenNode getScreenNode() {
         return screenNode;
+    }
+
+    public LightModule getLightModule() {
+        return lightModule;
+    }
+
+    public WaveModelGraphic getWaveModelGraphic() {
+        return waveModelGraphic;
     }
 }
