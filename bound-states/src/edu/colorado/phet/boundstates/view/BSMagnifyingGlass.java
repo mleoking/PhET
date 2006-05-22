@@ -11,11 +11,11 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -28,14 +28,14 @@ import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class BSMagnifyingGlass extends PNode implements Observer {
+public class BSMagnifyingGlass extends PComposite implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -44,8 +44,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     public static final int MAGNIFICATION = 10; // magnification ration, N:1
     
     private static final double LENS_DIAMETER = 100; // pixels
-    private static final double BEZEL_WIDTH = 8; // pixels
-    private static final double HANDLE_LENGTH = LENS_DIAMETER/2; // pixels
+    private static final double BEZEL_WIDTH = 12; // pixels
+    private static final double HANDLE_LENGTH = 65; // pixels
     private static final double HANDLE_WIDTH = HANDLE_LENGTH/4; // pixels
     private static final double HANDLE_ARC_SIZE = 10; // pixels
     private static final double HANDLE_ROTATION = -20; // degrees;
@@ -59,101 +59,94 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     
     private BSModel _model;
     private BSCombinedChartNode _chartNode;
+    private BSEigenstatesNode _eigenstatesNode;
     
-    private PPath _lensPath;
-    private PPath _bezelPath;
-    private PPath _handlePath;
+    private PPath _lensNode;
+    private PPath _bezelNode;
+    private PPath _handleNode;
+    private ClippedPath _potentialNode;
+    
     private ArrayList _eigenstateLines; // array of PPath
-    private ClippedPath _potentialPath;
     
     private BSColorScheme _colorScheme;
+    
+    private MagnifyingGlassEventHandler _eventHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSColorScheme colorScheme ) {
-        
+
+    /**
+     * Constructor.
+     * 
+     * @param chartNode
+     * @param colorScheme
+     */
+    public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSEigenstatesNode eigenstatesNode, BSColorScheme colorScheme ) {
         _chartNode = chartNode;
-        
-        this.setPickable( false ); // only the handle is pickable
-   
-        final double glassRadius = LENS_DIAMETER/2;
-        Shape glassShape = new Ellipse2D.Double( -glassRadius, -glassRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
-        
-        _lensPath = new PPath();
-        _lensPath.setPaint( Color.BLACK );
-        _lensPath.setPathTo( glassShape );
-        _lensPath.setPickable( true );
-        //XXX for now, swallow all events that occur in the lens
-        _lensPath.addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent e ) {
-                    e.setHandled( true );
-                }
-            });
-        
-        _bezelPath = new PPath();
-        _bezelPath.setPathTo( glassShape ); // same shape as glass, but we'll stroke it instead of filling it
-        _bezelPath.setStroke( new BasicStroke( (float)BEZEL_WIDTH ) );
-        _bezelPath.setStrokePaint( BEZEL_COLOR );
-        _bezelPath.setPickable( false );
-        
-        _handlePath = new PPath();
-        _handlePath.setPaint( HANDLE_COLOR );
-        Shape handleShape = new RoundRectangle2D.Double( 
-                -HANDLE_WIDTH/2, glassRadius, 
-                HANDLE_WIDTH, HANDLE_LENGTH,
-                HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
-        _handlePath.setPathTo( handleShape );
-//        _handlePath.rotate( Math.toRadians( HANDLE_ROTATION ) ); //XXX this rotates everything!
-     
+        _eigenstatesNode = eigenstatesNode;
         _eigenstateLines = new ArrayList();
-        
-        _potentialPath = new ClippedPath();
-        _potentialPath.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
-        _potentialPath.setPickable( false );
-        
+        initNodes();
+        initEventHandling();
         setColorScheme( colorScheme );
+    }
+    
+    /*
+     * Initializes the Piccolo nodes that make up the magnifying glass.
+     */
+    private void initNodes() {
         
-        /*
-         * The magnifying glass should only be dragged by the handle.
-         * We make the glass & bezel children  of the handle so that
-         * they move with the handle.
-         */
-        addChild( _handlePath );
-        _handlePath.addChild( _bezelPath );
-        _handlePath.addChild( _lensPath );
-        
-        // Interaction
-        _handlePath.addInputEventListener( new CursorHandler() );
-        _handlePath.addInputEventListener( new BSMagnifyingGlassDragHandler() );
-        
-        // Crosshairs...
+        // Lens
+        final double glassRadius = LENS_DIAMETER / 2;
         {
-            BasicStroke stroke = new BasicStroke( 0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {5,5}, 0 );
-            Color color = new Color( 255, 255, 255, 100 );  // transparent white
-            
-            PPath horizontalLine = new PPath();
-            GeneralPath horizontalPath = new GeneralPath();
-            horizontalPath.moveTo( (float)-LENS_DIAMETER/2, 0 );
-            horizontalPath.lineTo( (float)+LENS_DIAMETER/2, 0 );
-            horizontalLine.setPathTo( horizontalPath );
-            horizontalLine.setStroke( stroke );
-            horizontalLine.setStrokePaint( color );
-            horizontalLine.setPickable( false );
-            
-            PPath verticalLine = new PPath();
-            GeneralPath verticalPath = new GeneralPath();
-            verticalPath.moveTo( 0, (float)-LENS_DIAMETER/2 );
-            verticalPath.lineTo( 0, (float)+LENS_DIAMETER/2 );
-            verticalLine.setPathTo( verticalPath );
-            verticalLine.setStroke( stroke );
-            verticalLine.setStrokePaint( color );
-            verticalLine.setPickable( false );
-            
-            _handlePath.addChild( horizontalLine );
-            _handlePath.addChild( verticalLine );
+            Shape glassShape = new Ellipse2D.Double( -glassRadius, -glassRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
+            _lensNode = new PPath();
+            _lensNode.setPathTo( glassShape );
+            _lensNode.setPaint( Color.BLACK );
         }
+        
+        // Bezel 
+        {
+            final double bezelDiameter = ( LENS_DIAMETER + BEZEL_WIDTH );
+            Shape glassShape = new Ellipse2D.Double( -bezelDiameter/2, -bezelDiameter/2, bezelDiameter, bezelDiameter ); // x,y,w,h
+            _bezelNode = new PPath();
+            _bezelNode.setPathTo( glassShape ); // same shape as glass, but we'll stroke it instead of filling it
+            _bezelNode.setPaint( BEZEL_COLOR );
+        }
+        
+        // Handle
+        {
+            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, glassRadius, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
+            _handleNode = new PPath();
+            _handleNode.setPathTo( handleShape );
+            _handleNode.setPaint( HANDLE_COLOR );
+            _handleNode.rotate( Math.toRadians( HANDLE_ROTATION ) );
+        }
+        
+        // Potential plot
+        {
+            _potentialNode = new ClippedPath();
+            _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
+        }
+        
+        addChild( _handleNode );
+        addChild( _bezelNode );
+        addChild( _lensNode );
+    }
+    
+    /*
+     * Initializes event handling.
+     */
+    private void initEventHandling() {
+        
+        addInputEventListener( new CursorHandler() );
+        
+        _eventHandler = new MagnifyingGlassEventHandler();
+//XXX uncomment when MagnifyingGlassEventHandler extends ConstrainedDragHandler
+//        _eventHandler.setTreatAsPointEnabled( true );
+//        final double bezelRadius = ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
+//        _eventHandler.setNodeCenter( bezelRadius, bezelRadius );
+        addInputEventListener( _eventHandler );
     }
     
     //----------------------------------------------------------------------------
@@ -188,11 +181,32 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      */
     public void setColorScheme( BSColorScheme colorScheme ) {
         _colorScheme = colorScheme;
-        _lensPath.setPaint( _colorScheme.getChartColor() );
-        _potentialPath.setStrokePaint( _colorScheme.getPotentialEnergyColor() );
+        _lensNode.setPaint( _colorScheme.getChartColor() );
+        _potentialNode.setStrokePaint( _colorScheme.getPotentialEnergyColor() );
         updateDisplay();
     }
 
+    /**
+     * Sets the drag bounds.
+     * 
+     * @param dragBounds
+     */
+    public void setDragBounds( Rectangle2D dragBounds ) {
+//XXX uncomment when MagnifyingGlassEventHandler extends ConstrainedDragHandler
+//        _eventHandler.setDragBounds( dragBounds );
+        updateDisplay();
+    }
+    
+    /*
+     * Is the specified mouse point inside the lens?
+     * 
+     * @param point a mouse point, in global coordinates
+     */
+    private boolean isInLens( Point2D point ) {
+        Rectangle2D lensBounds = localToGlobal( _lensNode.getFullBounds() );
+        return lensBounds.contains( point );
+    }
+    
     //----------------------------------------------------------------------------
     // Overrides
     //----------------------------------------------------------------------------
@@ -202,6 +216,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
+        setPickable( visible );
         if ( visible ) {
             updateDisplay();
         }
@@ -244,13 +259,11 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         double minEnergy = 0;
         double maxEnergy = 0;
         {
-            Point2D lensCenter = _lensPath.localToGlobal( new Point2D.Double( 0, 0 ) );
-            Point2D chartCenter = _chartNode.globalToLocal( lensCenter );
-            Point2D p1 = _chartNode.nodeToEnergy( chartCenter );
-            centerPosition = p1.getX();
-            centerEnergy = p1.getY();
+            Point2D lensCenter = getLensCenter();
+            centerPosition = lensCenter.getX();
+            centerEnergy = lensCenter.getY();
 
-            Point2D lensMin = _lensPath.localToGlobal( new Point2D.Double( -LENS_DIAMETER / 2, LENS_DIAMETER / 2 ) ); // +y is down
+            Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_DIAMETER / 2, LENS_DIAMETER / 2 ) ); // +y is down
             Point2D chartMin = _chartNode.globalToLocal( lensMin );
             Point2D p2 = _chartNode.nodeToEnergy( chartMin );
             minPosition = p2.getX();
@@ -301,7 +314,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 line.setStrokePaint( lineColor );
                 
                 _eigenstateLines.add( line );
-                _lensPath.addChild( line );
+                _lensNode.addChild( line );
             }
         }
         
@@ -325,8 +338,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 
                 position += deltaPosition;
             }
-            _potentialPath.setPathTo( path );
-            _lensPath.addChild( _potentialPath );
+            _potentialNode.setPathTo( path );
+            _lensNode.addChild( _potentialNode );
         }
     }
     
@@ -337,34 +350,92 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         Iterator i = _eigenstateLines.iterator();
         while( i.hasNext() ) {
             PPath node = (PPath) i.next();
-            _lensPath.removeChild( node );
+            _lensNode.removeChild( node );
         }
         _eigenstateLines.clear();
+    } 
+    
+    /*
+     * Tells the EigenstateNode to select the eigenstate that is currently hilited.
+     */
+    private void selectEigenstate( Point2D mousePoint ) {
+        _eigenstatesNode.selectEigenstate();
+    }
+    
+    /*
+     * Tells the EigenstateNode to hilite the eigenstate that is closest 
+     * to the magnified energy at the mouse position.
+     */
+    private void hiliteEigenstate( Point2D mousePoint ) {
+        
+        // Energy at the center of the lens.
+        final double centerEnergy = getLensCenter().getY();
+        
+        // Unmagnified energy at the mouse position.
+        Point2D chartPoint = _chartNode.globalToLocal( mousePoint );
+        Point2D energyPoint = _chartNode.nodeToEnergy( chartPoint );
+        final double mouseEnergy = energyPoint.getY();
+        
+        // Adjust for magnification
+        double magnifiedEnergy = centerEnergy + ( ( mouseEnergy - centerEnergy ) / MAGNIFICATION );
+        
+        _eigenstatesNode.hiliteEigenstate( magnifiedEnergy );
+    }
+    
+    /*
+     * Gets the (energy,position) coordinates at the center of the lens.
+     */
+    private Point2D getLensCenter() {
+        Point2D lensCenter = _lensNode.localToGlobal( new Point2D.Double( 0, 0 ) );
+        Point2D chartCenter = _chartNode.globalToLocal( lensCenter );
+        Point2D modelCenter = _chartNode.nodeToEnergy( chartCenter );
+        return modelCenter;
     }
     
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
     
-    /*
-     * Handles dragging of the magnifying glass.
+//XXX MagnifyingGlassEventHandler should extend ConstrainedDragHandler
+    /**
+     * Handles events for the magnifying glass.
      */
-    private class BSMagnifyingGlassDragHandler extends PBasicInputEventHandler {
+    private class MagnifyingGlassEventHandler extends PDragEventHandler {
         
-        public BSMagnifyingGlassDragHandler() {}
+        private boolean _dragging; // true while a drag is in progress
         
-        public void mousePressed( PInputEvent event ) {
-            //XXX anything to do here?
-        }
-        
-        public void mouseReleased( PInputEvent event ) {
-            //XXX anything to do here?
+        public MagnifyingGlassEventHandler() {
+            _dragging = false;
         }
         
         /**
-         * Updates the display as the mouse is dragged.
+         * If the mouse moves inside the lens, hilite an eigenstate.
          */
-        public void mouseDragged( PInputEvent event ) {
+        public void mouseMoved( PInputEvent e ) {
+            if ( isInLens( e.getPosition() ) ) {
+                hiliteEigenstate( e.getPosition() );
+            }
+        }
+        
+        /**
+         * If the mouse is released without dragging in the lens, select an eigenstate.
+         */
+        public void mouseReleased( PInputEvent e ) {
+            super.mouseReleased( e );
+            if ( !_dragging ) {
+                if ( isInLens( e.getPosition() ) ) {
+                    selectEigenstate( e.getPosition() );
+                }
+            }
+            _dragging = false;
+        }
+        
+        /**
+         * If the magnifying glass is dragged, update what appears in the lens.
+         */
+        public void mouseDragged( PInputEvent e ) {
+            _dragging = true;
+            super.mouseDragged( e );
             updateDisplay();
         }
     }
@@ -385,7 +456,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
          * Clips the PPath to the lens.
          */
         protected void paint( PPaintContext paintContext ) {
-            GeneralPath path = _lensPath.getPathReference();
+            GeneralPath path = _lensNode.getPathReference();
             Graphics2D g2 = paintContext.getGraphics();
             Shape oldClip = g2.getClip();
             g2.setClip(  path );

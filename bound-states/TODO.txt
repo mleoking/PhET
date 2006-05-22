@@ -6,20 +6,15 @@ IN PROGRESS:
 - constrain dragging of magnifying glass to Energy chart (having problems...)
 
 Magnifying glass TODO:
-- reorganize pnode hierarchy, kind of a mess now
+- selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
+- when glass is invisible, mouseMoved events don't make it to BSEigenstatesNode where the glass is located
 - constrain dragging to Energy chart
 - show chart boundaries
-- hilite eigenstate thru glass
-- select eigenstate thru glass
-- prevent mouse events from going thru any parts of the magnifying glass
-- nicer "look", angled handle
 - color scheme for handle and bezel
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
-- eigenstate selection/hilite gets broken after using superposition state dialog, some eigenstates won't select
-  (to reproduce: One Well panel, square, set c1=0.93, c3=0.07, close superposition dialog, E3-5 don't hilite correctly, E4 can't be selected)
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -65,6 +60,11 @@ CLEANUP:
 
 
 DONE:
+(5/22/06) - prevent mouse events from going thru any parts of the magnifying glass
+(5/22/05) - angled handle on magnifying glass
+(5/22/06) - select and hilite eigenstates thru magnifying glass
+(5/22/06) - magnifying glass can be dragged from any of its parts
+(5/22/06) - rewrite magnifying glass to reorganize pnodes
 (5/22/06) - rewrote parts of BSEigenstatesNode (mouse events change model, model notifies display to change)
 (5/21/06) - move superposition-related constants to BSConstants
 (5/21/06) - expand top equation to 4 terms when in superposition state
