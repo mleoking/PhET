@@ -1,4 +1,7 @@
-New in 0.00.14 (5-23-2006)
+New in 0.00.15 (5-22-2006)
+Bugfix: Small bug prevented some items from being selected in the play area.
+
+New in 0.00.14 (5-22-2006)
 Bugfix:There is a long delay when enabling audio.
 Bugfix: Audio has breaks and stutters sometimes.
 Bugfix: Audio should be disabled when moving from the sound panel to another tab.

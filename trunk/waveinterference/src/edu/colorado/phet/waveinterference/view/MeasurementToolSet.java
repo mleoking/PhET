@@ -19,7 +19,7 @@ import java.awt.*;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class MeasurementToolSet extends PNode {
+public class MeasurementToolSet extends PhetPNode {
     private WaveMeasuringTape measuringTape;
     private PNode stopwatchGraphic;
     private PSwingCanvas pSwingCanvas;
