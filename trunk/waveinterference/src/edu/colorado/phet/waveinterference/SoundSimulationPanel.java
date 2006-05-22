@@ -160,7 +160,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 //                System.out.println( "WaterSimulationPanel.updateWaveSize" );
 //            }
 //            System.out.println( "insetBottom = " + insetBottom );
-            double availableHeight = getHeight() - insetTop - insetBottom;
+            double availableHeight = getLayoutHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
 //            System.out.println( "pixelsPerCell = " + pixelsPerCell );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
