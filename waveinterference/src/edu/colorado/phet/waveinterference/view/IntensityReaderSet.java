@@ -3,8 +3,8 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Copyright (c) Mar 26, 2006 by Sam Reid
  */
 
-public class IntensityReaderSet extends PNode {
+public class IntensityReaderSet extends PhetPNode {
     private ArrayList intensityReaders = new ArrayList();
     private boolean middle = false;
 
