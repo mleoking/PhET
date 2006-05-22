@@ -26,7 +26,7 @@ import java.net.URL;
  * @version $Revision$
  */
 public class SimResource {
-    private URL url;
+    URL url;
     private MetaData metaData;
     private File localFile;
     private File localRoot;

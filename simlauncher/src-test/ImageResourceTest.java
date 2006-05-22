@@ -41,6 +41,7 @@ public class ImageResourceTest {
 //        frame.getContentPane().add( new JLabel(ii ));
         frame.getContentPane().add( new JLabel(ir.getImageIcon()));
         frame.pack();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
 }
