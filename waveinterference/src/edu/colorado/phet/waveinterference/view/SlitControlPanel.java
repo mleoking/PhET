@@ -105,10 +105,19 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitSeparation );
         updateSeparationCheckbox();
         setSlitEnabled( slitPotential.isEnabled() );
+        slitPotential.addListener( new SlitPotential.Listener() {
+            public void slitsChanged() {
+                updateSeparationCheckbox();
+            }
+        } );
     }
 
     private void updateSeparationCheckbox() {
-        slitSeparation.setEnabled( !slitPotential.isOneSlit() && slitPotential.isEnabled() && getEnabledFlag() );
+        boolean a = !slitPotential.isOneSlit();
+        boolean b = slitPotential.isEnabled();
+        boolean c = getEnabledFlag();
+//        System.out.println( "a = " + a+", b="+b+", c="+c );//debugging
+        slitSeparation.setEnabled( a && b && c );
     }
 
     private void setSlitEnabled( boolean b ) {
@@ -120,8 +129,8 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
 
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
-        updateSeparationCheckbox();
         setSlitEnabled( slitPotential.isEnabled() );
+        updateSeparationCheckbox();
     }
 
 }

@@ -12,7 +12,7 @@ import edu.colorado.phet.waveinterference.util.WISwingUtil;
  */
 
 public class VerticalLayoutPanelWithDisable extends VerticalLayoutPanel {
-    private boolean enabledFlag;
+    private boolean enabledFlag = true;
 
     public boolean getEnabledFlag() {
         return enabledFlag;

@@ -11,19 +11,13 @@ Light Module: The show graph button obscures the 3d nature of the screen.
 
 Bug: The screen chart's intensity crops in an awkward fashion (at about 0.9?)
 
+The units for slit parameters and source spacing should match
+(or else there should be no units on these).
+
 ##############################################################
 Questions
 ##################################
-o Add correct units to measuring tape.
-o Add correct units to stopwatch.
->>How do you like the present units?
 
-Move crosshairs up to center on detector graph.
->>This could be difficult, and maybe putting space between the crosshairs and the graph has alleviated this problem.
-
-I implemented dragging for the faucets, should I also do this for other wave sources?
-
-Should wave sources be draggable in all directions?
 Right now single sources can move horizontally and pairs can move vertically (independently).
 Implementing constrained dragging for pairs (i.e. dragging the top one brings the bottom one closer as well)
 would be disproportionately more difficult.
@@ -36,7 +30,13 @@ o Test at 1024x768
 >>I investigated this; it would be lots of work.
 >>What needs ot be done here?
 
-What should be done with the faucet graphics when in side view with 2 faucets?
+I implemented dragging for the faucets, should I also do this for other wave sources?
+There are a lot of things in this sim that are not obvious, like the fact
+that you can drag the faucets and barriers. Do we need some sort of cue that you can move
+things? Or should we wait and see?
+
+Should wave sources be draggable in all directions?
+>>Interview First
 
 ##############################################################
 Low Priority
@@ -74,3 +74,6 @@ the view angle slider? What I envision is that you click on the slider and
 the dotted line appears on the pool, stays dotted as the edge of the
 rotating box, and disappears when you release the slider. Just an idea, but
 I wouldn't spend any time on it for now. Just wondering if it is possible.
+
+What should be done with the faucet graphics when in side view with 2 faucets?
+>> Leave them alone (too much work.)
