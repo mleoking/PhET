@@ -13,17 +13,13 @@ package edu.colorado.phet.solublesalts.view;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.nodes.RegisterablePNode;
 import edu.colorado.phet.piccolo.util.PiccoloUtils;
-import edu.colorado.phet.solublesalts.WiggleMe;
 import edu.colorado.phet.solublesalts.model.Shaker;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.WaterSource;
-import edu.colorado.phet.solublesalts.model.ion.IonEvent;
-import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
@@ -84,30 +80,5 @@ public class WorldNode extends PNode {
         drainGraphic.setScale( scale );
         drainGraphic.setOffset( model.getDrain().getPosition() );
         this.addChild( drainGraphic );
-
-        // Add a wiggle-me
-//        double x = model.getShaker().getPosition().getX() - 200;
-//        double y = model.getShaker().getPosition().getY() - 100;
-//        final WiggleMe wiggleMe = new WiggleMe( "Shake me!",
-//                                                new Point2D.Double( x, y ),
-//                                                50,
-//                                                new Color( 30, 100, 60 ) );
-//        model.addModelElement( wiggleMe );
-//        addChild( wiggleMe );
-//        wiggleMe.setVisible( true );
-//
-//        // A listener that will remove the wiggle-me when an ion is added to the model
-//        model.addIonListener( new IonListener() {
-//            public void ionAdded( IonEvent event ) {
-//                model.removeModelElement( wiggleMe );
-//                wiggleMe.setVisible( false );
-//            }
-//
-//            public void ionRemoved( IonEvent event ) {
-//                // noop
-//            }
-//        } );
-
-
     }
 }
