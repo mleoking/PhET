@@ -17,7 +17,6 @@ import edu.colorado.phet.solublesalts.WiggleMe_org;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.model.ion.IonEvent;
-import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
 import edu.colorado.phet.solublesalts.control.SodiumChlorideControlPanel;
 
 import java.awt.geom.Point2D;
