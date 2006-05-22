@@ -29,6 +29,7 @@ public class SimResource {
     private URL url;
     private MetaData metaData;
     private File localFile;
+    private File localRoot;
 
     /**
      * @param url
@@ -36,6 +37,7 @@ public class SimResource {
      */
     public SimResource( URL url, File localRoot ) {
         this.url = url;
+        this.localRoot = localRoot;
         localFile = getLocalFile( localRoot );
     }
 
@@ -106,6 +108,10 @@ public class SimResource {
         if( !isCurrent() ) {
             download();
         }
+    }
+
+    protected File getLocalRoot() {
+        return localRoot;
     }
 
     public File getLocalFile() {
