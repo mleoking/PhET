@@ -9,6 +9,8 @@ o Add help?
 
 Light Module: The show graph button obscures the 3d nature of the screen.
 
+Bug: The screen chart's intensity crops in an awkward fashion (at about 0.9?)
+
 ##############################################################
 Questions
 ##################################

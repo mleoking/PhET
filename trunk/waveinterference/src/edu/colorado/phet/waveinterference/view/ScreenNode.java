@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Copyright (c) Mar 25, 2006 by Sam Reid
  */
 
-public class ScreenNode extends PNode {
+public class ScreenNode extends PhetPNode {
     private boolean enabled = false;
     private boolean intensityMode = true;
     private CurveScreenGraphic curveScreenGraphic;

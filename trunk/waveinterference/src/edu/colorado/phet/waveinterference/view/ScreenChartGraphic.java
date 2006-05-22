@@ -2,8 +2,8 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -24,7 +24,7 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Apr 12, 2006 by Sam Reid
  */
 
-public class ScreenChartGraphic extends PNode {
+public class ScreenChartGraphic extends PhetPNode {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private WaveModel waveModel;
     private MutableColor strokeColor;
