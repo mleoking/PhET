@@ -100,6 +100,10 @@ public class IntensityReaderDecorator extends PNode {
         }
     }
 
+    public void setConstrainedToMidline( boolean midline ) {
+        intensityReader.setConstrainedToMidline( midline );
+    }
+
     public static interface Listener {
         void deleted();
     }

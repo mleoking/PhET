@@ -147,13 +147,12 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         if( isTopVisible() ) {
             slitPotentialGraphic.setVisible( true );
             slitPotentialGraphic.update();
-            intensityReaderSet.setToMiddle( true );
         }
         else {
             slitPotentialGraphic.setVisible( false );
-            intensityReaderSet.setToMiddle( false );
         }
         updateCrossSectionGraphicVisible();
+        intensityReaderSet.setConstrainedToMidline( rotationWaveGraphic.isSideView() );
     }
 
     public MultiFaucetDrip getMultiDrip() {

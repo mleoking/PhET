@@ -2,8 +2,6 @@
 Remaining Work
 ##################################
 
-o Constrain detector to move on the midline when in water-side view.
-
 Bug: When you turn the gun off, it goes to solid color rather than black.
 
 Maybe show screen should be a button in the play area, kind of like "show graph".

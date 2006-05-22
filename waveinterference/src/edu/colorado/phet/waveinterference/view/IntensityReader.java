@@ -35,6 +35,7 @@ public class IntensityReader extends PNode {
     private StripChartJFCNode stripChartJFCNode;
     private boolean detached = false;
     private Vector2D originalDisplacement;
+    private boolean constrainedToMidline = false;
 
     public IntensityReader( String title, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.waveModel = waveModel;
@@ -69,6 +70,11 @@ public class IntensityReader extends PNode {
         return new Vector2D.Double( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
     }
 
+    public void setConstrainedToMidline( boolean constrainedToMidline ) {
+        this.constrainedToMidline = constrainedToMidline;
+        update();
+    }
+
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
@@ -87,6 +93,11 @@ public class IntensityReader extends PNode {
     }
 
     public void update() {
+        if( constrainedToMidline ) {
+            Point2D pt = new Point2D.Double( crosshairGraphic.getGlobalTranslation().getX(), latticeScreenCoordinates.getScreenRect().getY() + latticeScreenCoordinates.getScreenRect().getHeight() / 2 );
+            detachCrosshair();
+            crosshairGraphic.setGlobalTranslation( pt );
+        }
         //get the coordinate in the wavefunctiongraphic.
         Point2D location = crosshairGraphic.getGlobalTranslation();
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel

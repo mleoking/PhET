@@ -78,17 +78,20 @@ public class StripChartJFCNode extends PNode {
     public void addValue( double x, double y ) {
         if( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
+//            series.add( x, y, series.getItemCount() < 100 );
+//            System.out.println( "x = " + x + ", y=" + y + ", dom=" + jFreeChart.getXYPlot().getDomainAxis().getRange() + ", ran=" + jFreeChart.getXYPlot().getRangeAxis().getRange() );
             series.add( x, y, series.getItemCount() < 100 );
-            if( series.getItemCount() == 2 ) {
+            if( series.getItemCount() < 10 ) {
                 double x0 = series.getX( 0 ).doubleValue();
                 double dx = x - x0;
-                double projectedMax = dx * 100 + x0;
+                double projectedMax = dx * 100 / ( series.getItemCount() - 1 ) + x0;
                 jFreeChart.getXYPlot().getDomainAxis().setRange( x0, projectedMax );
+//                jFreeChart.getXYPlot().getRangeAxis().setRange( -1,1);
+//                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
             }
             else if( series.getItemCount() == 100 ) {
                 jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
             }
-
             if( series.getItemCount() > 100 ) {
                 series.remove( 0 );
             }
