@@ -46,7 +46,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.piccolo.XYPlotNode;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.PiccoloModule;
-import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.piccolo.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
@@ -99,7 +98,6 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private BSSelectedEquation _selectedEquationNode;
     private BSHilitedEquation _hilitedEquationNode;
     private BSMagnifyingGlass _magnifyingGlass;
-    private ConstrainedDragHandler _magnifyingGlassDragHandler;
     
     // Plots
     private BSEnergyPlot _energyPlot;
@@ -314,7 +312,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _chartNode.updateChartRenderingInfo();
             
             _eigenstatesNode.setTransform( chartTransform );
-            _eigenstatesNode.updateDisplay();
+            _eigenstatesNode.update();
         }
         
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
@@ -386,12 +384,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         if ( _magnifyingGlass != null ) {
             
             // Constrain dragging to the energy plot
-            if ( _magnifyingGlassDragHandler != null ) {
-                _magnifyingGlass.removeInputEventListener( _magnifyingGlassDragHandler );
-            }
-            _magnifyingGlassDragHandler = new ConstrainedDragHandler( energyPlotBounds );
-            _magnifyingGlassDragHandler.setTreatAsPointEnabled( true );
-            _magnifyingGlass.addInputEventListener( _magnifyingGlassDragHandler );
+            _magnifyingGlass.setDragBounds( energyPlotBounds );
             
             //XXX need to adjust the position (and scale?)
             _magnifyingGlass.setOffset( 200, 200 );
