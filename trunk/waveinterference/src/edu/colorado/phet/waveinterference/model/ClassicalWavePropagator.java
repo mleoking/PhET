@@ -121,4 +121,8 @@ public class ClassicalWavePropagator {
             last2.clear();
         }
     }
+
+    public Potential getPotential() {
+        return potential;
+    }
 }

@@ -14,10 +14,6 @@ public class PhotonEmissionColorMap implements ColorMap {
     private Color color;
     private BasicColorMap basicColorMap;
 
-    public PhotonEmissionColorMap( WaveModel waveModel ) {
-        this( waveModel, Color.blue );
-    }
-
     public PhotonEmissionColorMap( final WaveModel waveModel, Color color ) {
         this.color = color;
         this.lattice = waveModel;
@@ -55,4 +51,7 @@ public class PhotonEmissionColorMap implements ColorMap {
         return color;
     }
 
+    public void setDark( int i, int k ) {
+        inited[i][k] = false;
+    }
 }
