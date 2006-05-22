@@ -65,6 +65,7 @@ CLEANUP:
 
 
 DONE:
+(5/22/06) - rewrote parts of BSEigenstatesNode (mouse events change model, model notifies display to change)
 (5/21/06) - move superposition-related constants to BSConstants
 (5/21/06) - expand top equation to 4 terms when in superposition state
 (5/21/06) - rewrite BSSelectedEquation so it will be easy to change the equation shown for superposition
