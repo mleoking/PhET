@@ -89,13 +89,6 @@ collision-dir collision
 mechanics-module mechanics
 mechnics-dir mechanics
 
-#PhetLauncher
-phetlauncher-module phetlauncher &piccolo-dir &piccolo-phet-dir &phetcommon-dir
-phetlauncher-dir phetlauncher
-
-#Simlauncher
-simlauncher-module simlauncher &phetcommon-module
-
 #============================================================================
 # Chris Malley's simulations
 #============================================================================
@@ -171,6 +164,9 @@ mazegame mazegame
 # Microwaves
 microwaves microwaves
 
+# Molecule-reactions
+molecule-reactions molecule-reactions &piccolo-phet-dir &mechanics-dir &collision-dir
+
 # Motion 2D
 motion2d motion2d
 
@@ -212,3 +208,14 @@ soluble-salts soluble-salts &piccolo-phet-module &mechanics-module &collision-mo
 
 #Wave Interference
 waveinterference waveinterference &piccolo-dir &piccolo-phet-dir &phetcommon-dir &jfreechart-dir &jfreechart-phet-dir &antutil-dir
+
+#============================================================================
+# Other applications
+#============================================================================
+
+#PhetLauncher
+phetlauncher-module phetlauncher &piccolo-dir &piccolo-phet-dir &phetcommon-dir
+phetlauncher-dir phetlauncher
+
+# Simlauncher
+simlauncher-module simlauncher &phetcommon-module
