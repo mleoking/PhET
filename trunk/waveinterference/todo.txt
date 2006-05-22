@@ -2,9 +2,6 @@
 Remaining Work
 ##################################
 
-Bug: When you turn the gun off, it goes to solid color rather than black.
->> Should we fire dark waves in the case of 2 lasers?  I think no.
-
 Maybe show screen should be a button in the play area, kind of like "show graph".
 I have a feeling people won't find it buried down in the corner
 (unless the idea was to keep people from messing with it right away).

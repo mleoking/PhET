@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.model.*;
+import edu.colorado.phet.waveinterference.view.MultiOscillator;
 import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 
@@ -12,14 +13,19 @@ import java.util.ArrayList;
  * Date: May 21, 2006
  * Time: 10:14:51 PM
  * Copyright (c) May 21, 2006 by Sam Reid
+ * <p/>
+ * Dark wave should propagate through barrier because otherwise for a solid barrier, the light will never disappear.
  */
 
 public class DarkWave {
     private LightSimulationPanel lightSimulationPanel;
+    private MultiOscillator multiOscillator;
+    private boolean primaryLast;
+    private boolean secondaryLast;
 
     public DarkWave( LightSimulationPanel lightSimulationPanel ) {
         this.lightSimulationPanel = lightSimulationPanel;
-
+        multiOscillator = lightSimulationPanel.getMultiOscillator();
         getLightModule().getWaveInterferenceModel().getPrimaryOscillator().addListener( new Oscillator.Listener() {
             public void enabledStateChanged() {
                 maybeFireDarkWave();
@@ -34,6 +40,26 @@ public class DarkWave {
             public void amplitudeChanged() {
             }
         } );
+        getLightModule().getWaveInterferenceModel().getSecondaryOscillator().addListener( new Oscillator.Listener() {
+            public void enabledStateChanged() {
+                maybeFireDarkWave();
+            }
+
+            public void locationChanged() {
+            }
+
+            public void frequencyChanged() {
+            }
+
+            public void amplitudeChanged() {
+            }
+        } );
+        setLastValues();
+    }
+
+    private void setLastValues() {
+        primaryLast = lightSimulationPanel.getLightModule().getPrimaryOscillator().isEnabled();
+        secondaryLast = lightSimulationPanel.getLightModule().getSecondaryOscillator().isEnabled();
     }
 
     private LightModule getLightModule() {
@@ -41,20 +67,33 @@ public class DarkWave {
     }
 
     private void maybeFireDarkWave() {
-        if( !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() )
-        {
-            fireDarkWave();
+        if( multiOscillator.isOneSource() ) {
+            if( !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
+                fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
+            }
         }
+        else {//2 source
+            if( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() )
+            {
+                fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
+            }
+            else
+            if( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() )
+            {
+                fireDarkWave( getWaveInterferenceModel().getSecondaryOscillator() );
+            }
+        }
+        setLastValues();
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {
         return getLightModule().getWaveInterferenceModel();
     }
 
-    private void fireDarkWave() {
+    private void fireDarkWave( Oscillator oscillator ) {
         if( getWaveModelGraphic().getColorMap() instanceof PhotonEmissionColorMap ) {
             PhotonEmissionColorMap colorMap = (PhotonEmissionColorMap)getWaveModelGraphic().getColorMap();
-            darkWaves.add( new DarkPropagator( getLightModule().getPrimaryOscillator(), colorMap, getLightModule().getWaveModel() ) );
+            darkWaves.add( new DarkPropagator( oscillator, colorMap, getLightModule().getWaveModel() ) );
         }
     }
 
@@ -63,7 +102,6 @@ public class DarkWave {
     static class DarkPropagator {
         private Oscillator source;
         private PhotonEmissionColorMap colorMap;
-        private WaveModel realwaveModel;
         private int numSteps = 0;
         private WaveModel tmpWaveModel;
         private DampedClassicalWavePropagator dampedClassicalWavePropagator;
@@ -71,7 +109,6 @@ public class DarkWave {
         public DarkPropagator( Oscillator source, PhotonEmissionColorMap colorMap, WaveModel waveModel ) {
             this.source = source;
             this.colorMap = colorMap;
-            this.realwaveModel = waveModel;
 
             ClassicalWavePropagator classicalWavePropagator = waveModel.getClassicalWavePropagator();
             if( classicalWavePropagator instanceof DampedClassicalWavePropagator ) {
@@ -122,7 +159,7 @@ public class DarkWave {
         }
 
         public boolean isFinished() {
-            return numSteps > Math.sqrt( tmpWaveModel.getHeight() * tmpWaveModel.getHeight() + tmpWaveModel.getWidth() * tmpWaveModel.getWidth() ) * 2;
+            return numSteps > Math.sqrt( tmpWaveModel.getHeight() * tmpWaveModel.getHeight() + tmpWaveModel.getWidth() * tmpWaveModel.getWidth() ) * 1.2;
         }
     }
 
@@ -131,7 +168,6 @@ public class DarkWave {
     }
 
     public void update() {
-//        System.out.println( "darkWaves.size() = " + darkWaves.size() );
         for( int i = 0; i < darkWaves.size(); i++ ) {
             DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( i );
             darkPropagator.update();
@@ -143,6 +179,5 @@ public class DarkWave {
                 i--;
             }
         }
-
     }
 }

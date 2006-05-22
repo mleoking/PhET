@@ -36,3 +36,5 @@ panel?
 o Graphs need to be cropped.
 >>Should graphs really be cropped?  Is this just for visual appeal?
 >>We are discarding this comment because it may be better without.
+
+* Dark wave should propagate through barrier because otherwise for a solid barrier, the light will never disappear.
