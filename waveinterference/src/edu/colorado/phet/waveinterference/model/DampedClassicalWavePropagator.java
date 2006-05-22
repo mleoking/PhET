@@ -16,6 +16,18 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         this.dampY = dampY;
     }
 
+    public Lattice2D getLargeLattice() {
+        return largeLattice;
+    }
+
+    public int getDampX() {
+        return dampX;
+    }
+
+    public int getDampY() {
+        return dampY;
+    }
+
     class PaddedPotential implements Potential {
         private Potential potential;
 

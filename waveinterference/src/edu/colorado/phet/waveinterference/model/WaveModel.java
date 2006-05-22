@@ -26,6 +26,10 @@ public class WaveModel {
         this.lattice = lattice2D;
     }
 
+    public ClassicalWavePropagator getClassicalWavePropagator() {
+        return classicalWavePropagator;
+    }
+
     public void setSize( int width, int height ) {
         lattice.setSize( width, height );
         classicalWavePropagator.setSize( width, height );
