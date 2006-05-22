@@ -3,7 +3,7 @@ Remaining Work
 ##################################
 
 o Test at 1024x768
->>Things get ugly when minimizing the screen beyond a certain extent.
+>>Things get ugly when minimizing the window beyond a certain extent.
 >>Can we switch renderers below this range?
 >>I investigated this; it would be lots of work.
 
