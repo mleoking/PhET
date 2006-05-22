@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.util.LauncherUtil;
+
 import javax.swing.*;
 import java.util.*;
 import java.net.URL;
@@ -155,15 +157,21 @@ public class Simulation {
      * Launches the simulation
      * todo: put more smarts in here
      */
-    public void launch() throws IOException {
+    public void launch() {
 
         String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
         for( int i = 0; i < commands.length; i++ ) {
             System.out.println( "commands[i] = " + commands[i] );
         }
-        final Process process = Runtime.getRuntime().exec( commands );
-        // Get the input stream and read from it
-//            new Thread( new OutputRedirection( process.getInputStream() ) ).start();
+        final Process process;
+        try {
+            process = Runtime.getRuntime().exec( commands );
+            // Get the input stream and read from it
+            new Thread( new LauncherUtil.OutputRedirection( process.getInputStream() ) ).start();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
 

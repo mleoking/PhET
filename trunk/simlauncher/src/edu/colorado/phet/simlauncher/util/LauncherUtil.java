@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -78,6 +79,32 @@ public class LauncherUtil {
         catch( IOException e ) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    static public class OutputRedirection implements Runnable {
+        InputStream in;
+
+        public OutputRedirection( InputStream in ) {
+            this.in = in;
+        }
+
+        public void run() {
+            int c;
+            try {
+                while( ( c = in.read() ) != -1 ) {
+                    System.out.write( c );
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            try {
+                in.close();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
     }
 

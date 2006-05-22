@@ -114,11 +114,13 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
     }
 
     /**
+     * Launches the simulation
+     * 
      * @param sim
      */
     private void launchSim( Simulation sim ) {
         if( sim != null ) {
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ), sim + " will be launched" );
+            sim.launch();
         }
     }
 

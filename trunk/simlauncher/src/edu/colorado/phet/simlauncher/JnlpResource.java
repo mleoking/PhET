@@ -24,6 +24,10 @@ import java.io.FileWriter;
  * @version $Revision$
  */
 public class JnlpResource extends SimResource {
+
+    private static String FILE_SEPARATOR = System.getProperty( "file.separator");
+    private static String LOCAL_CODEBASE_PREFIX = "file:" + FILE_SEPARATOR + FILE_SEPARATOR;
+
     private String remoteCodebase;
 
     public JnlpResource( URL url, File localRoot ) {
@@ -54,13 +58,20 @@ public class JnlpResource extends SimResource {
         if( System.getProperty( "os.name" ).toLowerCase().contains( "windows" ) && localPath.contains( ":" ) ) {
             localPath = localPath.substring( localPath.indexOf( ':' ) + 1 );
         }
-        String newCodebase = "file://" + localPath;
-        jnlpFile.setCodebase( newCodebase );
 
+        // Set the codebase to the local location and write the local jnlp file
         try {
+            String relativeCodebase = null;
+            URL tempURL = new URL( remoteCodebase );
+            relativeCodebase = tempURL.getHost() + tempURL.getPath();
+            String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + FILE_SEPARATOR;
+            jnlpFile.setCodebase( newCodebase );
             BufferedWriter out = new BufferedWriter( new FileWriter( getLocalFileName() ) );
             out.write( jnlpFile.toString() );
             out.close();
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -78,13 +89,13 @@ public class JnlpResource extends SimResource {
      */
     public JarResource[] getJarResources() {
         JnlpFile jnlpFile = null;
-        if( getLocalFile() != null && getLocalFile().exists()) {
-        try {
-            jnlpFile = new JnlpFile( getLocalFile() );
-        }
-        catch( InvalidJnlpException e ) {
-            e.printStackTrace();
-        }
+        if( getLocalFile() != null && getLocalFile().exists() ) {
+            try {
+                jnlpFile = new JnlpFile( getLocalFile() );
+            }
+            catch( InvalidJnlpException e ) {
+                e.printStackTrace();
+            }
         }
         else {
             try {
@@ -97,7 +108,7 @@ public class JnlpResource extends SimResource {
         String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];
         for( int i = 0; i < urlStrings.length; i++ ) {
-            String urlString = new String( getRemoteCodebase()).concat("/").concat( urlStrings[i] );
+            String urlString = new String( getRemoteCodebase() ).concat( "/" ).concat( urlStrings[i] );
             URL url = null;
             try {
                 url = new URL( urlString );
