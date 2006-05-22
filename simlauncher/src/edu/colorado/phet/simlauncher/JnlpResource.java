@@ -24,9 +24,16 @@ import java.io.FileWriter;
  * @version $Revision$
  */
 public class JnlpResource extends SimResource {
+    private String remoteCodebase;
 
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
+        try {
+            remoteCodebase = new JnlpFile( url ).getCodebase();
+        }
+        catch( InvalidJnlpException e ) {
+            e.printStackTrace();
+        }
     }
 
     public void download() {
@@ -40,13 +47,8 @@ public class JnlpResource extends SimResource {
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
         }
-        URL orgCodebase = null;
-        try {
-            orgCodebase = new URL( jnlpFile.getCodebase() );
-        }
-        catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
+
+        remoteCodebase = jnlpFile.getCodebase();
         String localPath = getLocalFileName();
         if( System.getProperty( "os.name" ).toLowerCase().contains( "windows" ) && localPath.contains( ":" ) ) {
             localPath = localPath.substring( localPath.indexOf( ':' ) + 1 );
@@ -68,6 +70,11 @@ public class JnlpResource extends SimResource {
         return getLocalFile().getAbsolutePath();
     }
 
+    /**
+     * Gets the JarResources specified in this jnlp file
+     *
+     * @return an array of JnlpResources
+     */
     public JarResource[] getJarResources() {
         JnlpFile jnlpFile = null;
         try {
@@ -76,10 +83,10 @@ public class JnlpResource extends SimResource {
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
         }
-        String[] urlStrings = jnlpFile.getJarUrls();
+        String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];
         for( int i = 0; i < urlStrings.length; i++ ) {
-            String urlString = urlStrings[i];
+            String urlString = new String( getRemoteCodebase()).concat("/").concat( urlStrings[i] );
             URL url = null;
             try {
                 url = new URL( urlString );
@@ -87,7 +94,7 @@ public class JnlpResource extends SimResource {
             catch( MalformedURLException e ) {
                 e.printStackTrace();
             }
-            JarResource jarResource = new JarResource( url, getLocalFile() );
+            JarResource jarResource = new JarResource( url, getLocalRoot() );
             jarResources[i] = jarResource;
         }
         return jarResources;
@@ -100,5 +107,9 @@ public class JnlpResource extends SimResource {
         JnlpFile2 jnlpFile = new JnlpFile2( getLocalFile().getAbsolutePath() );
         String s = jnlpFile.getContents();
         return s;
+    }
+
+    private String getRemoteCodebase() {
+        return remoteCodebase;
     }
 }

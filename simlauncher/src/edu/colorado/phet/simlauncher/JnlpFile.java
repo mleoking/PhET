@@ -49,20 +49,28 @@ public class JnlpFile {
     private String jnlpUrl;
     private String jnlpText;
     private JnlpFile[] extensions;
-    private String[] jarUrls;
+    private URL[] jarUrls;
+    private String[] jarPaths;
     private String title;
     private Document jdomDoc;
     private String codebase;
 
     /**
-     *
-     * @param jnlpUrl
+     * @param jnlpURL URL to the actual JNLP file
+     */
+    public JnlpFile( URL jnlpURL ) throws InvalidJnlpException {
+        this( jnlpURL.toString() );
+    }
+
+    /**
+     * @param jnlpUrl String representation of the URL to the actual jnlp file
      * @throws InvalidJnlpException
      */
     public JnlpFile( String jnlpUrl ) throws InvalidJnlpException {
         this.jnlpUrl = jnlpUrl;
         jnlpText = getJnlpText( jnlpUrl );
         jarUrls = parseJarURLs();
+        jarPaths = parseJarRelativePaths();
         title = parseTitle();
         extensions = parseExtensions();
     }
@@ -83,6 +91,7 @@ public class JnlpFile {
             throw new RuntimeException( "Error parsing jnlp file: " + jnlpFile.getName() );
         }
 
+        jarPaths = parseJarRelativePaths();
         jarUrls = parseJarURLs();
         title = parseTitle();
         extensions = parseExtensions();
@@ -90,11 +99,13 @@ public class JnlpFile {
 
     /**
      * Provided for decorators
+     *
      * @param jnlpFile
      */
     protected JnlpFile( JnlpFile jnlpFile ) {
         jnlpUrl = jnlpFile.jnlpUrl;
         jnlpText = jnlpFile.jnlpText;
+        jarPaths = parseJarRelativePaths();
         jarUrls = jnlpFile.jarUrls;
         title = jnlpFile.title;
         extensions = jnlpFile.extensions;
@@ -102,8 +113,6 @@ public class JnlpFile {
 
     public String toString() {
         XMLOutputter xmlOutputter = new XMLOutputter();
-//        XMLOutputter xmlOutputter = new XMLOutputter( "", true );
-//        xmlOutputter.setLineSeparator( "\n" );
         return xmlOutputter.outputString( jdomDoc );
     }
 
@@ -119,13 +128,18 @@ public class JnlpFile {
         return jnlpText;
     }
 
-    public String[] getJarUrls() {
+    public URL[] getJarUrls() {
         return jarUrls;
+    }
+
+    public String[] getRelativeJarPaths() {
+        return jarPaths;
     }
 
     /**
      * Returns the value of the codebase for the JNLP file
-     * @return
+     *
+     * @return the codebase
      */
     public String getCodebase() {
         codebase = getJdomDoc().getRootElement().getAttribute( "codebase" ).getValue();
@@ -145,11 +159,11 @@ public class JnlpFile {
             // Build the document with SAX and Xerces, no validation
             try {
                 SAXBuilder builder = new SAXBuilder();
-                StringReader sr = new StringReader( getJnlpText( ));
+                StringReader sr = new StringReader( getJnlpText() );
                 if( sr == null ) {
                     throw new RuntimeException( "Error parsing document at: " + this.jnlpUrl );
                 }
-                jdomDoc = builder.build( new StringReader( getJnlpText() ));
+                jdomDoc = builder.build( new StringReader( getJnlpText() ) );
             }
             catch( JDOMException e ) {
                 e.printStackTrace();
@@ -162,9 +176,8 @@ public class JnlpFile {
     }
 
     /**
-     *
      * @param jnlpURL
-     * @return
+     * @return the ASCII text of the jnlp file
      */
     private String getJnlpText( String jnlpURL ) throws InvalidJnlpException {
         StringBuffer jnlpTextBuff = new StringBuffer( 1028 );
@@ -193,7 +206,6 @@ public class JnlpFile {
             URLConnection urlc = url.openConnection();
             urlc.setDoOutput( true );
             OutputStream os = urlc.getOutputStream();
-            String s = getJnlpText();
             os.write( getJnlpText().getBytes() );
             os.close();
         }
@@ -206,37 +218,54 @@ public class JnlpFile {
     }
 
     /**
-     *
-     * @return
+     * @return the title
      */
-    private String parseTitle() throws InvalidJnlpException {
+    private String parseTitle() {
         Element titleElement = getJdomDoc().getRootElement().
                 getChild( "information" ).
                 getChild( "title" );
         return titleElement.getText();
     }
 
-    /**
-     * Finds the jar resources in the JNLP file and builds an array of URLs for them
-     * @return
-     */
-    private String[] parseJarURLs() {
-
+    private String[] parseJarRelativePaths() {
         ArrayList resultList = new ArrayList();
         Element resourcesElement = getJdomDoc().getRootElement().getChild( s_resourcesTag );
         List jarElementList = resourcesElement.getChildren( s_jarTag );
         for( int i = 0; i < jarElementList.size(); i++ ) {
             Element jarElement = (Element)jarElementList.get( i );
             String jarName = jarElement.getAttributeValue( s_hrefAttrib );
-            String jarURL = new String( "jar:" ).concat( getCodebase() ).concat( "/" ).concat( jarName ).concat( "!/");
-            resultList.add( jarURL );
+            resultList.add( jarName );
         }
         return (String[])resultList.toArray( new String[resultList.size()] );
     }
 
     /**
+     * Finds the jar resources in the JNLP file and builds an array of URLs for them
      *
-     * @return
+     * @return URLs for the jar resources
+     */
+    private URL[] parseJarURLs() {
+
+        ArrayList resultList = new ArrayList();
+        Element resourcesElement = getJdomDoc().getRootElement().getChild( s_resourcesTag );
+        List jarElementList = resourcesElement.getChildren( s_jarTag );
+        try {
+            for( int i = 0; i < jarElementList.size(); i++ ) {
+                Element jarElement = (Element)jarElementList.get( i );
+                String jarName = jarElement.getAttributeValue( s_hrefAttrib );
+                String jarURLStr = new String( "jar:" ).concat( getCodebase() ).concat( "/" ).concat( jarName ).concat( "!/" );
+                URL jarURL = new URL( jarURLStr );
+                resultList.add( jarURL );
+            }
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        return (URL[])resultList.toArray( new URL[resultList.size()] );
+    }
+
+    /**
+     * @return JnlpFile extensions
      */
     private JnlpFile[] parseExtensions() throws InvalidJnlpException {
 
@@ -247,7 +276,7 @@ public class JnlpFile {
             Element jarElement = (Element)extensionElementList.get( i );
             String extensionJnlpName = jarElement.getAttributeValue( s_hrefAttrib );
             String jnlpURL = new String( codebase ).concat( "/" ).concat( extensionJnlpName );
-            resultList.add( new JnlpFile( jnlpURL ));
+            resultList.add( new JnlpFile( jnlpURL ) );
         }
         return (JnlpFile[])resultList.toArray( new JnlpFile[resultList.size()] );
     }
