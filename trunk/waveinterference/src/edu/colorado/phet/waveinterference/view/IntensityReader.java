@@ -9,7 +9,6 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,7 +25,7 @@ import java.awt.geom.*;
  * Copyright (c) Dec 18, 2005 by Sam Reid
  */
 
-public class IntensityReader extends PNode {
+public class IntensityReader extends PhetPNode {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private IClock clock;

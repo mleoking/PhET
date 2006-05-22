@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Decorates with buttons and controls.
  */
-public class IntensityReaderDecorator extends PNode {
+public class IntensityReaderDecorator extends PhetPNode {
     private ArrayList listeners = new ArrayList();
     private IntensityReader intensityReader;
     private PSwing buttonPSwing;
