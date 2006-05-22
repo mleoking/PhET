@@ -232,7 +232,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Magnifying glass
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
-            _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
+            _magnifyingGlass = new BSMagnifyingGlass( _chartNode, _eigenstatesNode, BSConstants.COLOR_SCHEME );
             _parentNode.addChild( _magnifyingGlass );
         }
         

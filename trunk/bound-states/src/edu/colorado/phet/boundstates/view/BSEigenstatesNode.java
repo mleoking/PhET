@@ -167,6 +167,22 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     }
     
     //----------------------------------------------------------------------------
+    // Public selectors and hiliters
+    //----------------------------------------------------------------------------
+    
+    public void selectEigenstate() {
+        handleSelection();
+    }
+    
+    public void hiliteEigenstate( double energy ) {
+        // Find the closest eigenstate...
+        int hiliteIndex = getClosestEigenstateIndex( energy );
+
+        // Update the model...
+        _model.setHilitedEigenstateIndex( hiliteIndex );
+    }
+    
+    //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
     
@@ -181,7 +197,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
             BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
             final int numberOfCoefficients = superpositionCoefficients.getNumberOfCoefficients();
-            superpositionCoefficients.setNotifyEnabled( false );  // we're going to change them all 
+            superpositionCoefficients.setNotifyEnabled( false );  // we're going to change them all
             for ( int i = 0; i < numberOfCoefficients; i++ ) {
                 superpositionCoefficients.setCoefficient( i, 0 );
             }
