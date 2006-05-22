@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 public class ReducedScreenControlPanel extends VerticalLayoutPanelWithDisable {
     private ScreenNode screenNode;
 
+    //todo this isn't synchronized with other controllers (doesn't listen to changes in the model).
     public ReducedScreenControlPanel( final ScreenNode screenNode ) {
         this.screenNode = screenNode;
         final JCheckBox enabled = new JCheckBox( "Show Screen", screenNode.isScreenEnabled() );

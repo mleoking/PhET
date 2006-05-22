@@ -139,6 +139,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         updateWaveSize();
 
+        PlayAreaReducedScreenControlPanel playAreaReducedScreenControlPanel = new PlayAreaReducedScreenControlPanel( this, getScreenNode() );
+        addScreenChild( playAreaReducedScreenControlPanel );
         darkWave = new DarkWave( this );
     }
 

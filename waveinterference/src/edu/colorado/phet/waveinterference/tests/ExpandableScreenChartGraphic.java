@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class ExpandableScreenChartGraphic extends PNode {
 
-    boolean expanded = false;
+    private boolean expanded = false;
     private PhetPNode expandNode;
     private ScreenChartGraphic screenChart;
     private PhetPNode closeNode;
@@ -85,7 +85,7 @@ public class ExpandableScreenChartGraphic extends PNode {
     }
 
     private void updateLocation() {
-        expandNode.setOffset( screenChart.getChartBounds().getMinX() + 2, screenChart.getChartBounds().getY() );
+        expandNode.setOffset( screenChart.getChartBounds().getMinX() + 2, screenChart.getChartBounds().getY() + 50 );
         closeNode.setOffset( screenChart.getChartBounds().getMaxX(), screenChart.getChartBounds().getY() );
     }
 
