@@ -75,6 +75,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( topPanel );
 
         slitWidthSlider = new ModelSlider( "Slit Width", "", 0, 30, slitPotential.getSlitWidth() );
+        slitWidthSlider.setPaintLabels( false );
         slitWidthSlider.setTextFieldVisible( false );
         slitWidthSlider.setBorder( null );
         slitWidthSlider.addChangeListener( new ChangeListener() {
@@ -84,7 +85,8 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         } );
         add( slitWidthSlider );
 
-        slitLocationSlider = new ModelSlider( "Barrier Location", "", 0, 100, slitPotential.getLocation() );
+        slitLocationSlider = new ModelSlider( "Barrier Location", "", 0, 75, slitPotential.getLocation() );
+        slitLocationSlider.setPaintLabels( false );
         slitLocationSlider.setTextFieldVisible( false );
         slitLocationSlider.setBorder( null );
         slitLocationSlider.addChangeListener( new ChangeListener() {
@@ -96,6 +98,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
 
         slitSeparation = new ModelSlider( "Slit Separation", "", 0, 50, slitPotential.getSlitSeparation() );
         slitSeparation.setTextFieldVisible( false );
+        slitSeparation.setPaintLabels( false );
         slitSeparation.setBorder( null );
         slitSeparation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

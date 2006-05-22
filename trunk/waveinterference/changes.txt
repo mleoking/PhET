@@ -4,6 +4,7 @@ Moved the red x for closing a detector inside the detector (bottom left corner).
 Bugfix: Slit Separation control never becomes enabled.
 Light Module: Moved the screen close button to the center, reduced size.
 Light Module: Moved the 'intensity graph' button to the center (away from close button).
+Removed tick labels from slit control sliders.
 
 New in 0.00.15 (5-22-2006)
 Moved Wave Detectors to the front (to avoid having mouse clicks intercepted).

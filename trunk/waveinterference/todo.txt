@@ -38,6 +38,18 @@ things? Or should we wait and see?
 Should wave sources be draggable in all directions?
 >>Interview First
 
+Movable
+faucets are really cool but before you make them move side to side in two
+drip mode, let's interview.  Sounds like it'd be a lot of work.
+
+>>Not a lot of work, just thought this constraint might be more user-friendly.
+
+Movable sources for sound and light don't seem as important as they are for
+water.  If it can be done with a minimal amount of work then I'd suggest
+doing the same things that you've done with the faucets.
+
+>>This would not be too much work, but maybe we should avoid it unless it will be useful to the users.
+
 ##############################################################
 Low Priority
 ##################################
@@ -77,3 +89,9 @@ I wouldn't spend any time on it for now. Just wondering if it is possible.
 
 What should be done with the faucet graphics when in side view with 2 faucets?
 >> Leave them alone (too much work.)
+
+On units: the units on the graph and tape look fine. The units for slit
+parameters and source spacing should match (or else there should be no units
+on these).
+>>I've disabled these readouts (to avoid the work), might not be too hard,
+but this also cleans up the control panel a bit.
