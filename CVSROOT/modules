@@ -87,7 +87,7 @@ collision-dir collision
 
 # Mechanics
 mechanics-module mechanics
-mechnics-dir mechanics
+mechanics-dir mechanics
 
 #============================================================================
 # Chris Malley's simulations
