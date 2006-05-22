@@ -16,10 +16,6 @@ o Add help?
 Light Module: The show graph button obscures the 3d nature of the screen.
 
 ##############################################################
-Finalizing
-##################################
-
-##############################################################
 Questions
 ##################################
 o Add correct units to measuring tape.
