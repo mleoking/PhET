@@ -34,6 +34,8 @@ o Test at 1024x768
 >>I investigated this; it would be lots of work.
 >>What needs ot be done here?
 
+What should be done with the faucet graphics when in side view with 2 faucets?
+
 ##############################################################
 Low Priority
 ##################################
