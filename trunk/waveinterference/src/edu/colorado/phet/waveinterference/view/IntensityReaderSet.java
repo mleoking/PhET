@@ -25,6 +25,7 @@ public class IntensityReaderSet extends PNode {
 
     public void addIntensityReader( String title, PhetPCanvas phetPCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, double x, double y, IClock clock ) {
         final IntensityReaderDecorator intensityReader = new IntensityReaderDecorator( title, phetPCanvas, waveModel, latticeScreenCoordinates, clock );
+        intensityReader.setConstrainedToMidline( middle );
         intensityReader.addListener( new IntensityReaderDecorator.Listener() {
             public void deleted() {
                 intensityReaders.remove( intensityReader );
@@ -43,7 +44,11 @@ public class IntensityReaderSet extends PNode {
         }
     }
 
-    public void setToMiddle( boolean middle ) {
+    public void setConstrainedToMidline( boolean middle ) {
         this.middle = middle;
+        for( int i = 0; i < intensityReaders.size(); i++ ) {
+            IntensityReaderDecorator intensityReaderDecorator = (IntensityReaderDecorator)intensityReaders.get( i );
+            intensityReaderDecorator.setConstrainedToMidline( middle );
+        }
     }
 }

@@ -8,6 +8,8 @@ When a slider is disabled, its labels are also disabled.
 Added rotation for sound waves (both wave view and particle view).
 Dotted line is white in sound module for particle view.
 Removed vertical tick labels from detector graphs.
+Bugfix: error in initial display for detectors.
+Constrained detector to move on the midline when in water-side view.
 
 New in 0.00.13 (5-19-2006)
 Relabeled 'View Angle' to 'Rotate View'
