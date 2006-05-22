@@ -2,11 +2,6 @@
 Remaining Work
 ##################################
 
-o Test at 1024x768
->>Things get ugly when minimizing the window beyond a certain extent.
->>Can we switch renderers below this range?
->>I investigated this; it would be lots of work.
-
 o Test on a Mac.
 
 o Add foreign languages.
@@ -33,6 +28,12 @@ Implementing constrained dragging for pairs (i.e. dragging the top one brings th
 would be disproportionately more difficult.
 
 Light Module: Where to put the 'hide screen' button?
+
+o Test at 1024x768
+>>Things get ugly when minimizing the window beyond a certain extent.
+>>Can we switch renderers below this range?
+>>I investigated this; it would be lots of work.
+>>What needs ot be done here?
 
 ##############################################################
 Low Priority
