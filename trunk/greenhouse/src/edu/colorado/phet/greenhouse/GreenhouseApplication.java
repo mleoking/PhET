@@ -11,15 +11,16 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.MessageFormatter;
+import edu.colorado.phet.coreadditions.SplashWindow;
 import edu.colorado.phet.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
-import edu.colorado.phet.coreadditions.components.PhetFrame;
 
 import javax.swing.*;
 import java.awt.*;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class GreenhouseApplication extends PhetApplication {
     // Localization
@@ -47,11 +48,38 @@ public class GreenhouseApplication extends PhetApplication {
     public static void main( String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
+        JFrame window = new JFrame();
+//        window.setUndecorated( true );
+//        // Add component to the window
+//        window.getContentPane().add( new JLabel( "Starting up..."), BorderLayout.CENTER );
+//
+//        // Set initial size
+//        window.setSize( 300, 300 );
+//
+//        // Show the window
+//        window.setVisible( true );
+
+        SplashWindow splashWindow = new SplashWindow( window, "Starting up..." );
+        splashWindow.setVisible( true );
+
+
+        // Set the look and feel if we're on Windows and Java 1.4
+        if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
+            && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
+            try {
+                UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+                e.printStackTrace();
+            }
+        }
+
+
         Module greenhouseModule = new GreenhouseModule();
         Module greenhouseModule2 = new GlassPaneModule();
         Module[] modules = new Module[]{
-            greenhouseModule,
-            greenhouseModule2
+                greenhouseModule,
+                greenhouseModule2
         };
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
                 SimStrings.get( "GreenHouseApplication.title" ),
@@ -60,23 +88,10 @@ public class GreenhouseApplication extends PhetApplication {
                 1024, 768 );
         s_application = new PhetApplication( appDescriptor, modules,
                                              new SwingTimerClock( new StaticClockModel( 10, 20 ) ) );
-        PhetFrame frame = s_application.getApplicationView().getPhetFrame();
-        JMenu plafMenu = new JMenu( SimStrings.get( "GreenhouseApplication.ViewMenuTitle" ) );
-        JMenuItem[] items = PlafUtil.getLookAndFeelItems();
-        for( int i = 0; i < items.length; i++ ) {
-            JMenuItem item = items[i];
-            plafMenu.add( item );
-        }
-//        frame.addMenu( plafMenu );
-        
-        frame.setDefaultLookAndFeelDecorated( true );
 
-        
 
         Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
-//        Color background = new Color( 110, 110, 110 );
         Color foreground = Color.black;
-//        Color foreground = Color.white;
         UIManager.put( "Panel.background", background );
         UIManager.put( "MenuBar.background", background );
         UIManager.put( "TabbedPane.background", background );
@@ -91,6 +106,9 @@ public class GreenhouseApplication extends PhetApplication {
 
 
         SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
+
+
+        splashWindow.setVisible( false );
         s_application.startApplication( greenhouseModule );
 
     }

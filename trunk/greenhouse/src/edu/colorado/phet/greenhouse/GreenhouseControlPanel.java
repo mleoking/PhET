@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.ModelViewTx1D;
+import edu.colorado.phet.coreadditions.MessageFormatter;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -143,6 +144,10 @@ public class GreenhouseControlPanel extends JPanel {
                 module.numCloudsEnabled( i );
             }
         } );
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor)cloudsSpinner.getEditor() ).getTextField();
+        tf.setEditable( false );
+        tf.setBackground( Color.white );
+
         cloudPanel.add( cloudsSpinner );
         cloudPanel.add( new JLabel( SimStrings.get( "GreenhouseControlPanel.NumberOfCloudsLabel" ) ) );
 
