@@ -312,7 +312,7 @@ public class GreenhouseControlPanel extends JPanel {
 
         private void setAdjustableAtmosphere() {
             GreenhouseControlPanel.this.module.setVirginEarth();
-            greenhouseGasConcentrationControl.setEnabled( true );
+//            greenhouseGasConcentrationControl.setEnabled( true );
             module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             hideConcentrations();
             greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
@@ -332,7 +332,7 @@ public class GreenhouseControlPanel extends JPanel {
             // end of Zoomer.run() in the BaseGreenhouseModule class.
             todayGGRB.setSelected( true );
             greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
-            greenhouseGasConcentrationControl.setEnabled( false );
+//            greenhouseGasConcentrationControl.setEnabled( false );
             greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
             module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             hideConcentrations();
@@ -360,7 +360,7 @@ public class GreenhouseControlPanel extends JPanel {
         private AbstractAction pickIceAgeGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationIceAge );
-                greenhouseGasConcentrationControl.setEnabled( false );
+//                greenhouseGasConcentrationControl.setEnabled( false );
                 greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setIceAge();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
@@ -372,7 +372,7 @@ public class GreenhouseControlPanel extends JPanel {
         private AbstractAction pickPreIndRevGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentration1750 );
-                greenhouseGasConcentrationControl.setEnabled( false );
+//                greenhouseGasConcentrationControl.setEnabled( false );
                 greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setPreIndRev();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
@@ -384,7 +384,7 @@ public class GreenhouseControlPanel extends JPanel {
         private AbstractAction pickTodayGG = new AbstractAction() {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
-                greenhouseGasConcentrationControl.setEnabled( false );
+//                greenhouseGasConcentrationControl.setEnabled( false );
                 greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setToday();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
@@ -471,14 +471,13 @@ public class GreenhouseControlPanel extends JPanel {
 
         ModelSlider( String title, double minModelValue, double maxModelValue, double defaultModelValue ) {
             this.setLayout( new GridBagLayout() );
-//            putClientProperty( "JSlider.isFilled", Boolean.TRUE );
+            putClientProperty( "JSlider.isFilled", Boolean.TRUE );
             tx = new ModelViewTx1D( minModelValue, maxModelValue,
                                     0, 10000 );
             slider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   10000,
                                   (int)tx.modelToView( defaultModelValue ) );
             slider.setPaintLabels( true );
-
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
