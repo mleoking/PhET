@@ -10,11 +10,14 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
+import edu.colorado.phet.mechanics.Body;
+
 /**
  * Molecule
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Molecule extends Body{
+abstract public class Molecule extends Body {
+
 }
