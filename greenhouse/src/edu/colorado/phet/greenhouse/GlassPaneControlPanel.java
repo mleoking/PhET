@@ -20,8 +20,7 @@ import java.awt.event.ActionListener;
 
 public class GlassPaneControlPanel extends JPanel {
 
-    private static Color panelBackground = new Color( 110, 110, 110 );
-    private static Color panelForeground = Color.white;
+    private static Color panelBackground = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
     private GlassPaneModule module;
     private JSpinner glassPaneSpinner;
     private JCheckBox allPhotonsCB;
@@ -139,20 +138,20 @@ public class GlassPaneControlPanel extends JPanel {
     }
 
     private void setBackground( Container container ) {
-//        container.setBackground( panelBackground );
+        container.setBackground( panelBackground );
         Component[] components = container.getComponents();
         for( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
             if( component instanceof JLabel
                 || component instanceof JCheckBox ) {
-                component.setForeground( panelForeground );
+//                component.setForeground( panelForeground );
             }
             if( ! ( component instanceof JButton ) ) {
 //                component.setBackground( panelBackground );
             }
             if( component.getForeground().equals( Color.black )
                 && ! ( component instanceof JButton ) ) {
-                component.setForeground( panelForeground );
+//                component.setForeground( panelForeground );
             }
             if( component instanceof Container
                 && ! ( component instanceof JButton )
