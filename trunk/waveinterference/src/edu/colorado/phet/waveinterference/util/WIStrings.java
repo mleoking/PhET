@@ -10,7 +10,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * Copyright (c) May 22, 2006 by Sam Reid
  */
 
-public class WIString {
+public class WIStrings {
     public static String getString( String s ) {
         return SimStrings.get( s );
     }
