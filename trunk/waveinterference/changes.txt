@@ -1,6 +1,7 @@
 New in 0.00.17
 Sound Module: Made the colors for the rotation glyph darker for particle view.
 Fixed units on slit controls & source controls to match physical model.
+Moved "Show Graph" button to the center so it doesn't obscure the 3D screen in light module.
 
 New in 0.00.16 (5-22-2006)
 The grayscale and particles options are one on top of the other rather than side by side.
