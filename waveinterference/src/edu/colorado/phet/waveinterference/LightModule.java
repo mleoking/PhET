@@ -5,6 +5,7 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 /**
@@ -38,7 +39,7 @@ public class LightModule extends WaveInterferenceModule {
     }
 
     public LightModule() {
-        super( "Light" );
+        super( WIStrings.getString( "light" ) );
         waveInterferenceModel = new LightModel();
         lightSimulationPanel = new LightSimulationPanel( this );
         lightControlPanel = new LightControlPanel( this );

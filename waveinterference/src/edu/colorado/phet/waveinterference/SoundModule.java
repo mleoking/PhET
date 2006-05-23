@@ -5,6 +5,7 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 /**
@@ -50,7 +51,7 @@ public class SoundModule extends WaveInterferenceModule {
     }
 
     public SoundModule() {
-        super( "Sound" );
+        super( WIStrings.getString( "sound" ) );
         waveInterferenceModel = new SoundModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );

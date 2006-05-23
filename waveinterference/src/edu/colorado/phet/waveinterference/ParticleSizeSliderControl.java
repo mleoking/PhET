@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -19,7 +20,7 @@ public class ParticleSizeSliderControl extends VerticalLayoutPanel {
 
     public ParticleSizeSliderControl( final SoundWaveGraphic soundWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
-        final ModelSlider modelSlider = new ModelSlider( "Magnify Particles", "", 0, 1, soundWaveGraphic.getParticleSize() );
+        final ModelSlider modelSlider = new ModelSlider( WIStrings.getString( "magnify.particles" ), "", 0, 1, soundWaveGraphic.getParticleSize() );
         modelSlider.setTextFieldVisible( false );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

@@ -30,11 +30,12 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
 //        cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
-        addChild( pswing );
 
         foreground = PImageFactory.create( "images/speaker-front.png" );
         addChild( foreground );
+
+        PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
+        addChild( pswing );
         update();
     }
 

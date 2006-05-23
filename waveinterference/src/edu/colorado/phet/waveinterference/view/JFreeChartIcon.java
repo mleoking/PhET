@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.view;
 
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -29,7 +30,7 @@ public class JFreeChartIcon {
             series.add( i, Math.sin( i / 10.0 ) );
         }
         dataset = new XYSeriesCollection( series );
-        JFreeChart jFreeChart = ChartFactory.createXYLineChart( "Chart", "", "", dataset, PlotOrientation.VERTICAL, false, false, false );
+        JFreeChart jFreeChart = ChartFactory.createXYLineChart( WIStrings.getString( "chart" ), "", "", dataset, PlotOrientation.VERTICAL, false, false, false );
 //        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
 //        jFreeChart.getXYPlot().getDomainAxis().setTickLabelsVisible( false );
         BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 1}, 0 );

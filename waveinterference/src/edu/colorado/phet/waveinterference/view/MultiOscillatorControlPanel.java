@@ -2,12 +2,14 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -27,14 +29,16 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         this.multiOscillator = multiOscillator;
         this.units = units;
         setBorder( BorderFactory.createEtchedBorder() );
-        oneDrip = new JRadioButton( "One " + name, multiOscillator.isOneSource() );
+//        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
+//        oneDrip = new JRadioButton( WIStrings.getString( "one.0" ) + name, multiOscillator.isOneSource() );
+        oneDrip = new JRadioButton( MessageFormat.format( WIStrings.getString( "one.0" ), new Object[]{name} ), multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( "Two " + name + "s", multiOscillator.isTwoSource() );
+        twoDrips = new JRadioButton( MessageFormat.format( WIStrings.getString( "two.0.s" ), new Object[]{name} ), multiOscillator.isTwoSource() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setTwoDrips();
@@ -46,7 +50,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 30, multiOscillator.getSpacing() );
+        spacingSlider = new ModelSlider( WIStrings.getString( "spacing" ), "m", 0, 30, multiOscillator.getSpacing() );
         spacingSlider.setModelLabels( units.toHashtable( new int[]{0, 15, 30}, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );

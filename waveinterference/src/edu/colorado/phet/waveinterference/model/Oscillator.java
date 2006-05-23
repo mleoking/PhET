@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -136,6 +137,10 @@ public class Oscillator {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public Point2D getCenter() {
+        return new Point2D.Double( getCenterX(), getCenterY() );
     }
 
     public static interface Listener {

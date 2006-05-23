@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -56,8 +57,8 @@ public class IntensityReaderDecorator extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );
-        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display Readout", intensityReader.isReadoutVisible() );
+        final JPopupMenu jPopupMenu = new JPopupMenu( WIStrings.getString( "popup.menu" ) );
+        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "display.readout" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityReader.setReadoutVisible( menuItem.isSelected() );
@@ -65,7 +66,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         } );
         jPopupMenu.add( menuItem );
         jPopupMenu.addSeparator();
-        JMenuItem deleteItem = new JMenuItem( "Delete" );
+        JMenuItem deleteItem = new JMenuItem( WIStrings.getString( "delete" ) );
         deleteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doDelete();

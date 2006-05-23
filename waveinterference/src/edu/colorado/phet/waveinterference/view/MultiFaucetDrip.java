@@ -4,6 +4,8 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Mar 26, 2006
@@ -18,6 +20,8 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     private FaucetGraphic primary;
     private FaucetGraphic secondary;
     private int oscillatorX = 5;
+
+    private ArrayList listeners = new ArrayList();
 
     public MultiFaucetDrip( WaveModel waveModel, FaucetGraphic primary, FaucetGraphic secondary ) {
         this.waveModel = waveModel;
@@ -36,6 +40,21 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
         } );
         setOneDrip();
         updateSecondary();
+    }
+
+    public static interface Listener {
+        void spacingChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifySpacingChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.spacingChanged();
+        }
     }
 
     private void updateSecondary() {
@@ -87,5 +106,15 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     public void setSpacing( double value ) {
         this.spacing = value;
         update();
+
+        notifySpacingChanged();
+    }
+
+    public FaucetGraphic getPrimary() {
+        return primary;
+    }
+
+    public FaucetGraphic getSecondary() {
+        return secondary;
     }
 }

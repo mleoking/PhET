@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
@@ -16,6 +17,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -38,13 +40,15 @@ public class WaveChartGraphic extends PNode {
         this.strokeColor = strokeColor;
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
-        jFreeChart = ChartFactory.createXYLineChart( title, "position", title, dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "position" ), title, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
         jFreeChartNode.setBounds( 0, 0, 500, 200 );
 
-        setHorizontalLabel( "position (" + distanceUnits + ")" );
+//        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
+//        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
+        setHorizontalLabel( MessageFormat.format( WIStrings.getString( "position.0" ), new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );
 
         jFreeChartNode.updateChartRenderingInfo();
