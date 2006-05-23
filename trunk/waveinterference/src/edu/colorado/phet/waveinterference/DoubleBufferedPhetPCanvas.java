@@ -39,7 +39,12 @@ public class DoubleBufferedPhetPCanvas extends PhetPCanvas {
 
     private void synchronizeImage() {
         if( buffer == null || buffer.getWidth() != getWidth() || buffer.getHeight() != getHeight() ) {
-            buffer = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "OS X" ) >= 0 ) {
+                buffer = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB );
+            }
+            else {
+                buffer = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB );
+            }
         }
     }
 

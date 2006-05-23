@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.ModelSlider;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -18,7 +19,7 @@ import java.util.Hashtable;
 
 public class WaveRotateControl extends HorizontalLayoutPanel {
     public WaveRotateControl( final RotationWaveGraphic rotationWaveGraphic ) {
-        final ModelSlider rotate = new ModelSlider( "Rotate View", "radians", 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
+        final ModelSlider rotate = new ModelSlider( WIStrings.getString( "rotate.view" ), WIStrings.getString( "radians" ), 0, Math.PI / 2, rotationWaveGraphic.getRotation() );
         rotate.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rotationWaveGraphic.setViewAngle( rotate.getValue() );
@@ -26,8 +27,8 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
         } );
         rotate.setPaintLabels( true );
         Hashtable modelLabels = new Hashtable();
-        modelLabels.put( new Double( rotate.getMaximumModelValue() ), new JLabel( "Side" ) );
-        modelLabels.put( new Double( rotate.getMinimumModelValue() ), new JLabel( "Top" ) );
+        modelLabels.put( new Double( rotate.getMaximumModelValue() ), new JLabel( WIStrings.getString( "side" ) ) );
+        modelLabels.put( new Double( rotate.getMinimumModelValue() ), new JLabel( WIStrings.getString( "top" ) ) );
         rotate.setPaintTicks( false );
         rotate.setTextFieldVisible( false );
         rotate.setModelLabels( modelLabels );

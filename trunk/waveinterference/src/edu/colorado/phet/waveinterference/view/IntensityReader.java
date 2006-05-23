@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,7 +43,7 @@ public class IntensityReader extends PhetPNode {
         this.clock = clock;
         textReadout = new TextReadout();
         crosshairGraphic = new CrosshairGraphic( this, 10, 15 );
-        stripChartJFCNode = new StripChartJFCNode( 175, 120, "Time (s)", title );
+        stripChartJFCNode = new StripChartJFCNode( 175, 120, WIStrings.getString( "time.s" ), title );
         CrosshairConnection crosshairConnection = new CrosshairConnection( this );
         addChild( textReadout );
         addChild( crosshairConnection );
@@ -103,7 +104,7 @@ public class IntensityReader extends PhetPNode {
         Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
         if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
             double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
-            textReadout.setText( "Magnitude=" + new DefaultDecimalFormat( "0.00" ).format( value ) );
+            textReadout.setText( WIStrings.getString( "magnitude.0" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
             stripChartJFCNode.addValue( clock.getSimulationTime(), value );
         }
         else {
@@ -133,7 +134,7 @@ public class IntensityReader extends PhetPNode {
             textBackground = new PPath();
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
-            readout = new PText( "Value=???" );
+            readout = new PText( WIStrings.getString( "value" ) );
             readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
@@ -160,7 +161,7 @@ public class IntensityReader extends PhetPNode {
             PPath circle = new PPath( aShape );
             circle.setStrokePaint( Color.red );
             circle.setStroke( new BasicStroke( 2 ) );
-            setPaint( new Color( 0, 0, 0, 0 ) );//to make it grabbable inside
+//            setPaint( new Color( 0, 0, 0, 0 ) );//to make it grabbable inside
 
             PPath vertical = new PPath( new Line2D.Double( 0, -outerRadius, 0, outerRadius ) );
             vertical.setStroke( CROSSHAIR_STROKE );

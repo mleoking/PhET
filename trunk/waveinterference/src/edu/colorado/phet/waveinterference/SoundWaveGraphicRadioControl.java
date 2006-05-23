@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.VerticalLayoutPanelWithDisable;
 
 import javax.swing.*;
@@ -22,13 +23,13 @@ public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable
     public SoundWaveGraphicRadioControl( final SoundWaveGraphic soundWaveGraphic ) {
         this.soundWaveGraphic = soundWaveGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        grayscale = new JRadioButton( "Grayscale", soundWaveGraphic.isGrayscaleVisible() );
+        grayscale = new JRadioButton( WIStrings.getString( "grayscale" ), soundWaveGraphic.isGrayscaleVisible() );
         grayscale.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();
             }
         } );
-        particles = new JRadioButton( "Particles", soundWaveGraphic.isParticleVisible() );
+        particles = new JRadioButton( WIStrings.getString( "particles" ), soundWaveGraphic.isParticleVisible() );
         particles.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 update();

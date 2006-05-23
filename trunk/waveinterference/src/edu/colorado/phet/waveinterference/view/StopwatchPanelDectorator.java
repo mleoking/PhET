@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.clock.StopwatchPanel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -19,7 +20,7 @@ import java.awt.*;
 public class StopwatchPanelDectorator extends VerticalLayoutPanel {
     public StopwatchPanelDectorator( IClock clock, double timeScale, String timeUnits ) {
         setBorder( new LineBorder( Color.black, 2, true ) );
-        JLabel label = new JLabel( "Stopwatch" );
+        JLabel label = new JLabel( WIStrings.getString( "stopwatch" ) );
         add( label );
         StopwatchPanel stopwatchPanel = new StopwatchPanel( clock );
         stopwatchPanel.setScaleFactor( timeScale );

@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 /**
@@ -19,7 +20,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
     public LightControlPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
         addControl( new MeasurementControlPanel( lightModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( "E-Field", lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( WIStrings.getString( "e.field" ), lightModule.getIntensityReaderSet(), lightModule.getLightSimulationPanel(), lightModule.getWaveModel(), lightModule.getLatticeScreenCoordinates(), lightModule.getClock() ) );
         addControl( new VerticalSeparator() );
         addControl( new ClearWaveControl( lightModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );
@@ -29,7 +30,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential(), lightModule.getScreenUnits() );
         addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light", lightModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "light" ), lightModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
 

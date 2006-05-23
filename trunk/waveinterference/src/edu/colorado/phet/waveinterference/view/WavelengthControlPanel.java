@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -24,7 +25,7 @@ public class WavelengthControlPanel extends VerticalLayoutPanel {
     private double speedOfLight = 1000.0;
 
     public WavelengthControlPanel( WaveModelGraphic waveModelGraphic, Oscillator oscillator ) {
-        addFullWidth( new JLabel( "Wavelength" ) );
+        addFullWidth( new JLabel( WIStrings.getString( "wavelength" ) ) );
         this.waveModelGraphic = waveModelGraphic;
         this.oscillator = oscillator;
         slider = new SRRWavelengthSliderComponent();

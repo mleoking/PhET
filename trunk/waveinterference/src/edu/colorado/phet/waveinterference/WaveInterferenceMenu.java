@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.waveinterference.tests.RunAllTests;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,8 @@ import java.awt.event.ActionListener;
 
 public class WaveInterferenceMenu extends JMenu {
     public WaveInterferenceMenu() {
-        super( "Options" );
-        JMenuItem jMenuItem = new JMenuItem( "Run All Tests" );
+        super( WIStrings.getString( "options" ) );
+        JMenuItem jMenuItem = new JMenuItem( WIStrings.getString( "run.all.tests" ) );
         jMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 RunAllTests.main( new String[0] );

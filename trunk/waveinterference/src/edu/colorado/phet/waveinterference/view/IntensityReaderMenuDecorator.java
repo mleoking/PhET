@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -25,10 +26,10 @@ public class IntensityReaderMenuDecorator extends PNode {
 
     public IntensityReaderMenuDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
-        JButton options = new JButton( "Options" );
+        JButton options = new JButton( WIStrings.getString( "options" ) );
         options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
-        final JPopupMenu jPopupMenu = new JPopupMenu( "Popup Menu" );
-        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display Readout", intensityReader.isReadoutVisible() );
+        final JPopupMenu jPopupMenu = new JPopupMenu( WIStrings.getString( "popup.menu" ) );
+        final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "display.readout" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityReader.setReadoutVisible( menuItem.isSelected() );
@@ -36,7 +37,7 @@ public class IntensityReaderMenuDecorator extends PNode {
         } );
         jPopupMenu.add( menuItem );
         jPopupMenu.addSeparator();
-        JMenuItem deleteItem = new JMenuItem( "Delete" );
+        JMenuItem deleteItem = new JMenuItem( WIStrings.getString( "delete" ) );
         deleteItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doDelete();

@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
 import edu.colorado.phet.waveinterference.view.MultiOscillatorControlPanel;
@@ -22,7 +23,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         this.soundModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( "Pressure", soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( WIStrings.getString( "pressure" ), soundModule.getIntensityReaderSet(), soundModule.getSoundSimulationPanel(), soundModule.getWaveModel(), soundModule.getLatticeScreenCoordinates(), soundModule.getClock() ) );
         addControl( new VerticalSeparator() );
         addControl( new ClearWaveControl( this.soundModule.getWaveModel() ) );
 
@@ -37,7 +38,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker", soundModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "speaker" ), soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
     }

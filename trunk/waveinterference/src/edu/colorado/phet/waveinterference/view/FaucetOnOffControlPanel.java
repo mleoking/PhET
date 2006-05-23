@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +23,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
     public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
         this.faucetGraphic = faucetGraphic;
         ButtonGroup buttonGroup = new ButtonGroup();
-        onRadioButton = new JRadioButton( "On", faucetGraphic.isEnabled() );
+        onRadioButton = new JRadioButton( WIStrings.getString( "on" ), faucetGraphic.isEnabled() );
         onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( onRadioButton.isSelected() );
@@ -31,7 +32,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
         buttonGroup.add( onRadioButton );
         add( onRadioButton );
 
-        offRadioButton = new JRadioButton( "Off", !faucetGraphic.isEnabled() );
+        offRadioButton = new JRadioButton( WIStrings.getString( "off" ), !faucetGraphic.isEnabled() );
         offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 faucetGraphic.setEnabled( !offRadioButton.isSelected() );

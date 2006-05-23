@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         this.measurementToolSet = measurementToolSet;
 //        setBorder( BorderFactory.createTitledBorder( "Tools" ) );
 
-        final JCheckBox measuringTape = new JCheckBox( "Measuring Tape", measurementToolSet.isMeasuringTapeVisible() );
+        final JCheckBox measuringTape = new JCheckBox( WIStrings.getString( "measuring.tape" ), measurementToolSet.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 measurementToolSet.setMeasuringTapeVisible( measuringTape.isSelected() );
@@ -33,7 +34,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         } );
         add( new IconComponent( measuringTape, getTapeIcon() ) );
 
-        final JCheckBox stopwatch = new JCheckBox( "Stopwatch", measurementToolSet.isStopwatchVisible() );
+        final JCheckBox stopwatch = new JCheckBox( WIStrings.getString( "stopwatch" ), measurementToolSet.isStopwatchVisible() );
         stopwatch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 measurementToolSet.setStopwatchVisible( stopwatch.isSelected() );

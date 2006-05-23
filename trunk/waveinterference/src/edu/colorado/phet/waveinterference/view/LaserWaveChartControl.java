@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -22,13 +23,13 @@ public class LaserWaveChartControl extends PNode {
 
     public LaserWaveChartControl( PSwingCanvas pSwingCanvas, final LaserWaveChartGraphic laserWaveChartGraphic ) {
         this.laserWaveChartGraphic = laserWaveChartGraphic;
-        final JCheckBox curve = new JCheckBox( "Curve", laserWaveChartGraphic.isCurveVisible() );
+        final JCheckBox curve = new JCheckBox( WIStrings.getString( "curve" ), laserWaveChartGraphic.isCurveVisible() );
         curve.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setCurveVisible( curve.isSelected() );
             }
         } );
-        final JCheckBox vectors = new JCheckBox( "Vectors", laserWaveChartGraphic.isVectorsVisible() );
+        final JCheckBox vectors = new JCheckBox( WIStrings.getString( "vectors" ), laserWaveChartGraphic.isVectorsVisible() );
         vectors.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 laserWaveChartGraphic.setVectorsVisible( vectors.isSelected() );

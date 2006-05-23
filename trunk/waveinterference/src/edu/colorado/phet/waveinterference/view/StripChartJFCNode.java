@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -31,7 +32,7 @@ public class StripChartJFCNode extends PNode {
 
     public StripChartJFCNode( int width, int height, String xAxis, String yAxis ) {
         XYSeriesCollection xyDataset = new XYSeriesCollection();
-        series = new XYSeries( "time series" );
+        series = new XYSeries( WIStrings.getString( "time.series" ) );
         xyDataset.addSeries( series );
 
         jFreeChart = createChart( xyDataset, xAxis, yAxis );

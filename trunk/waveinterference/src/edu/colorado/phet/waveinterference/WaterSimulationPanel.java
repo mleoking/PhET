@@ -6,6 +6,7 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -85,7 +86,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         faucetConnector = new FaucetConnector( faucetControlPanelPNode, primaryFaucetGraphic );
         addScreenChild( 0, faucetConnector );
 
-        waveChartGraphic = new WaveChartGraphic( "Water Level", getLatticeScreenCoordinates(), getWaveModel(), waterColor, getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
+        waveChartGraphic = new WaveChartGraphic( WIStrings.getString( "water.level" ), getLatticeScreenCoordinates(), getWaveModel(), waterColor, getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 

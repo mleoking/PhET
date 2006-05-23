@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.jfreechart.piccolo.JFreeChartNode;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -40,7 +41,7 @@ public class ScreenChartGraphic extends PhetPNode {
         this.brightnessScreenGraphic = brightnessScreenGraphic;//todo factor out a common model piece
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
-        jFreeChart = ChartFactory.createXYLineChart( title, "intensity", "position", dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "intensity1" ), WIStrings.getString( "position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
 //        jFreeChart.getTitle().setFont( new Font("Lucida Sans",Font.PLAIN, 14));
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
@@ -125,7 +126,7 @@ public class ScreenChartGraphic extends PhetPNode {
     }
 
     private double colorToMagnitude( Color color ) {
-        return new ColorVector( color ).getMagnitude() * 70;
+        return new ColorVector( color ).getMagnitude() * 80;
     }
 
     private void fillPath2( GeneralPath generalPath ) {

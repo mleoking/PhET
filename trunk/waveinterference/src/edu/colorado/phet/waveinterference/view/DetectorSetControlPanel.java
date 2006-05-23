@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.clock = clock;
-        JButton addDetector = new JButton( "Add Detector" );
+        JButton addDetector = new JButton( WIStrings.getString( "add.detector" ) );
         addDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 addIntensityReader( title );

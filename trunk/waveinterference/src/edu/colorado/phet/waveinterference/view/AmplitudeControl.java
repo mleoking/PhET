@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,7 +18,8 @@ import javax.swing.event.ChangeListener;
 
 public class AmplitudeControl extends VerticalLayoutPanel {
     public AmplitudeControl( final Oscillator oscillator ) {
-        final ModelSlider amplitudeSlider = new ModelSlider( "Amplitude", "cm", 0, 2, oscillator.getAmplitude() );
+
+        final ModelSlider amplitudeSlider = new ModelSlider( WIStrings.getString( "amplitude" ), "cm", 0, 2, oscillator.getAmplitude() );
         amplitudeSlider.setBorder( null );
         amplitudeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,7 +18,7 @@ import javax.swing.event.ChangeListener;
 
 public class FrequencyControl extends VerticalLayoutPanel {
     public FrequencyControl( final Oscillator oscillator ) {
-        final ModelSlider frequencySlider = new ModelSlider( "Frequency", "Hz", 0, 3, oscillator.getFrequency() );
+        final ModelSlider frequencySlider = new ModelSlider( WIStrings.getString( "frequency" ), WIStrings.getString( "hz" ), 0, 3, oscillator.getFrequency() );
         frequencySlider.setBorder( null );
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

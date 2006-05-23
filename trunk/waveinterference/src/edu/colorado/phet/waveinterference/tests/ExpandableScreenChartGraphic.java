@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.ScreenChartGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -31,7 +32,7 @@ public class ExpandableScreenChartGraphic extends PNode {
 
     public ExpandableScreenChartGraphic( PSwingCanvas pSwingCanvas, ScreenChartGraphic screenChart ) {
         this.screenChart = screenChart;
-        JButton showChart = new JButton( "Intensity Graph" );
+        JButton showChart = new JButton( WIStrings.getString( "intensity.graph" ) );
         showChart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setExpanded( true );

@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import smooth.SmoothLookAndFeelFactory;
 
 import javax.swing.*;
@@ -18,11 +19,11 @@ import java.util.Arrays;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.00.17";
+    private static String VERSION = "0.00.18";
     private static final String LOCALIZATION_BUNDLE_BASENAME = "localization/wi";
 
     public WaveInterferenceApplication( String[] args ) {
-        super( args, "Wave Interference", "Wave Interference simulation", VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
+        super( args, WIStrings.getString( "wave.interference" ), WIStrings.getString( "wave.interference.simulation" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {

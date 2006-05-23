@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.MutableColor;
 import edu.colorado.phet.waveinterference.view.WaveChartGraphic;
@@ -40,7 +41,7 @@ public class ExpandableWaveChart extends PNode {
 
     public ExpandableWaveChart( PSwingCanvas pSwingCanvas, WaveChartGraphic waveChartGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
-        JButton expand = new JButton( "Show Graph" );
+        JButton expand = new JButton( WIStrings.getString( "show.graph" ) );
         expand.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setExpanded( true );

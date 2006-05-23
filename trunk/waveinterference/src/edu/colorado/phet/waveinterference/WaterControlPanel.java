@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 /**
@@ -16,7 +17,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
     public WaterControlPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
         addControl( new MeasurementControlPanel( waterModule.getMeasurementToolSet() ) );
-        addControl( new DetectorSetControlPanel( "Water Level", waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
+        addControl( new DetectorSetControlPanel( WIStrings.getString( "water.level" ), waterModule.getIntensityReaderSet(), waterModule.getWaterSimulationPanel(), waterModule.getWaveModel(), waterModule.getLatticeScreenCoordinates(), waterModule.getClock() ) );
         addControl( new VerticalSeparator() );
         addControl( new ClearWaveControl( waterModule.getWaveModel() ) );
         addControlFullWidth( new VerticalSeparator() );

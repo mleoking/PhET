@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.ScreenNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -31,7 +32,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
     public PlayAreaReducedScreenControlPanel( LightSimulationPanel lightSimulationPanel, final ScreenNode screenNode ) {
         this.lightSimulationPanel = lightSimulationPanel;
         this.screenNode = screenNode;
-        JButton button = new JButton( "Show Screen" );
+        JButton button = new JButton( WIStrings.getString( "show.screen" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 screenNode.setScreenEnabled( true );

@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.sound;
 
 import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,10 +31,10 @@ public class AudioControlPanel extends JPanel {
     private ArrayList listeners = new ArrayList();
 
     public AudioControlPanel() {
-        setBorder( BorderFactory.createTitledBorder( "Audio" ) );
+        setBorder( BorderFactory.createTitledBorder( WIStrings.getString( "audio" ) ) );
 
         // Sound on/off
-        _soundCheckBox = new JCheckBox( "Sound" );
+        _soundCheckBox = new JCheckBox( WIStrings.getString( "sound" ) );
 
         // Min & max icon labels
         JLabel soundMinLabel, soundMaxLabel;

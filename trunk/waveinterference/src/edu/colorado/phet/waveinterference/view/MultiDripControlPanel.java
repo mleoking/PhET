@@ -3,12 +3,16 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -28,18 +32,19 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         this.multiFaucetDrip = multiFaucetDrip;
         this.screenUnits = screenUnits;
         setBorder( BorderFactory.createEtchedBorder() );
-        oneDrip = new JRadioButton( "One Drip", multiFaucetDrip.isOneDrip() );
+
+        oneDrip = new JRadioButton( WIStrings.getString( "one.drip" ), multiFaucetDrip.isOneDrip() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setOneDrip();
-                updateSpacingSlider();
+                updateSpacingSliderEnable();
             }
         } );
-        twoDrips = new JRadioButton( "Two Drips", multiFaucetDrip.isTwoDrip() );
+        twoDrips = new JRadioButton( WIStrings.getString( "two.drips" ), multiFaucetDrip.isTwoDrip() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiFaucetDrip.setTwoDrips();
-                updateSpacingSlider();
+                updateSpacingSliderEnable();
             }
         } );
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -47,7 +52,7 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 30, multiFaucetDrip.getSpacing() );
+        spacingSlider = new ModelSlider( WIStrings.getString( "spacing" ), "m", 0, 30, multiFaucetDrip.getSpacing() );
         spacingSlider.setModelLabels( screenUnits.toHashtable( new int[]{0, 15, 30}, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
@@ -57,10 +62,37 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( spacingSlider );
-        updateSpacingSlider();
+        updateSpacingSliderEnable();
+        Oscillator.Adapter listener = new Oscillator.Adapter() {
+            public void locationChanged() {
+                updateSpacingReadout();
+            }
+        };
+        multiFaucetDrip.getPrimary().getOscillator().addListener( listener );
+        multiFaucetDrip.getSecondary().getOscillator().addListener( listener );
     }
 
-    private void updateSpacingSlider() {
+    private void updateSpacingReadout() {//todo this model is a bit ugly, but works correctly.
+        ArrayList sav = new ArrayList();
+        while( spacingSlider.numChangeListeners() > 0 ) {
+            ChangeListener c = spacingSlider.getChangeListener( 0 );
+            spacingSlider.removeChangeListener( c );
+            sav.add( c );
+        }
+        spacingSlider.setValue( getDistanceBetweenOscillators() / 2 );
+        for( int i = 0; i < sav.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener)sav.get( i );
+            spacingSlider.addChangeListener( changeListener );
+        }
+    }
+
+    private double getDistanceBetweenOscillators() {
+        Point2D a = multiFaucetDrip.getPrimary().getOscillator().getCenter();
+        Point2D b = multiFaucetDrip.getSecondary().getOscillator().getCenter();
+        return a.distance( b );
+    }
+
+    private void updateSpacingSliderEnable() {
         spacingSlider.setEnabled( multiFaucetDrip.isTwoDrip() );
     }
 }
