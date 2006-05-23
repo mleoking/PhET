@@ -71,7 +71,9 @@ public class GreenhouseApplication extends PhetApplication {
         
         frame.setDefaultLookAndFeelDecorated( true );
 
-        Color background = new Color( 206,206,206 );
+        
+
+        Color background = GreenhouseConfig.PANEL_BACKGROUND_COLOR;
 //        Color background = new Color( 110, 110, 110 );
         Color foreground = Color.black;
 //        Color foreground = Color.white;
@@ -88,12 +90,7 @@ public class GreenhouseApplication extends PhetApplication {
         UIManager.put( "TitledBorder.titleColor", foreground );
 
 
-////                UIManager.put( "TextField.background", newColor );
         SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
-
-//        frame.setIconImage( lookAndFeel.getSmallIconImage() );
-
-//        s_application.startApplication( greenhouseModule2 );
         s_application.startApplication( greenhouseModule );
 
     }

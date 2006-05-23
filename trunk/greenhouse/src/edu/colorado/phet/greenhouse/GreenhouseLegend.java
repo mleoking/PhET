@@ -17,8 +17,6 @@ public class GreenhouseLegend extends JPanel {
 
     GreenhouseLegend() {
 
-//        setBackground( Color.darkGray );
-
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D)irPhotonBI.getGraphics();
