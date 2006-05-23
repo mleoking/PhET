@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = "0.00.16";
+    private static String VERSION = "0.00.17";
     private static final String LOCALIZATION_BUNDLE_BASENAME = "localization/wi";
 
     public WaveInterferenceApplication( String[] args ) {
