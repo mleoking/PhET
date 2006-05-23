@@ -23,25 +23,31 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Random;
+import java.text.DecimalFormat;
 
 public class MultipleNucleusFissionControlPanel extends JPanel {
 
-    //
-    // Static fields and methods
-    //
-    private static Random random = new Random();
-    private static final int U235 = 1;
-    private static final int U238 = 2;
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
 
-    //
+    private static Random random = new Random();
+
+    //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
-    //
+    //--------------------------------------------------------------------------------------------------
+
     private MultipleNucleusFissionModule module;
     private JSpinner numU235Spinner;
     private JSpinner numU238Spinner;
     private JTextField percentDecayTF;
     private int startNumU235;
 
+    /**
+     * Constructor
+     *
+     * @param module
+     */
     public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
         super();
         this.module = module;
@@ -65,9 +71,12 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 }
 
                 // Compute and display the number of U235 nuclei that have fissioned
+                DecimalFormat percentFormat = new DecimalFormat( "#%" );
+                double percent = 0;
                 if( startNumU235 != 0 ) {
-                    percentDecayTF.setText( Integer.toString( ( startNumU235 - modelNum ) * 100 / startNumU235 ) );
+                    percent = ( (double)( startNumU235 - modelNum ) ) / startNumU235;
                 }
+                percentDecayTF.setText( percentFormat.format( percent ) );
 
                 modelNum = module.getU238Nuclei().size();
                 viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
@@ -95,7 +104,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
                 percentDecayTF.setText( "0" );
             }
         } );
