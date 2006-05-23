@@ -8,6 +8,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.tests.ExpandableScreenChartGraphic;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
 import java.awt.*;
@@ -100,7 +101,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         }
         addScreenChild( 0, verticalConnector );
 
-        waveChartGraphic = new LaserWaveChartGraphic( this, "Electric Field", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
+        waveChartGraphic = new LaserWaveChartGraphic( this, WIStrings.getString( "electric.field" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
                                                       getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
 
         expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
@@ -117,7 +118,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
 
 //        screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
-        screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
+        screenChart = new ScreenChartGraphic( WIStrings.getString( "screen.chart" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
 
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
         addScreenChild( expandableScreenChartGraphic );

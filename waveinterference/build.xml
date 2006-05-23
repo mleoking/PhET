@@ -81,6 +81,7 @@
         <proguard configuration="${proguard-file}"/>
     </target>
 
+    <!--Todo: combine these files into one fileset.-->
     <target name="Update-JNLP">
         <copy todir="ant_output/jnlp" overwrite="yes">
             <fileset file="${jnlp-filename}"/>
@@ -91,6 +92,13 @@
         </copy>
         <copy todir="ant_output/jnlp" overwrite="yes">
             <fileset file="waveinterference-smooth.jnlp"/>
+            <filterset>
+                <filter token="VERSION" value="${dev-version}"/>
+                <filter token="MAIN-CLASS" value="${main.class}"/>
+            </filterset>
+        </copy>
+        <copy todir="ant_output/jnlp" overwrite="yes">
+            <fileset file="waveinterference_es.jnlp"/>
             <filterset>
                 <filter token="VERSION" value="${dev-version}"/>
                 <filter token="MAIN-CLASS" value="${main.class}"/>
@@ -109,6 +117,7 @@
                 <fileset file="${ant.jars}/${app-jar-file}"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
                 <fileset file="${ant.jnlp}/waveinterference-smooth.jnlp"/>
+                <fileset file="${ant.jnlp}/waveinterference_es.jnlp"/>
                 <fileset file="screenshot.gif"/>
                 <fileset file="README"/>
                 <fileset file="todo.txt"/>
