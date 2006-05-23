@@ -17,7 +17,7 @@ information.
 <jnlp
         spec="1.0+"
         codebase="http://www.colorado.edu/physics/phet/dev/"
-        href="waveinterference/@VERSION@/waveinterference.jnlp">
+        href="waveinterference/@VERSION@/waveinterference_es.jnlp">
     <information>
         <title>Wave Interference</title>
         <vendor>PhET(tm)</vendor>
@@ -33,7 +33,7 @@ information.
         <jar href="waveinterference/@VERSION@/waveinterference-pro.jar"/>
     </resources>
     <application-desc main-class="@MAIN-CLASS@">
-        <arg value="user.language=es"/>
+        <argument>user.language=es</argument>
     </application-desc>
 
 </jnlp>

@@ -36,7 +36,7 @@ public class LaserControlPanelPNode extends PNode {
         } );
         PSwing pSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
         addChild( pSwing );
-        waveModelGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
+        waveModelGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 updateLocation();
             }

@@ -85,7 +85,6 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         intensityReaderSet = new IntensityReaderSet();
 
-
         measurementToolSet = new MeasurementToolSet( this, lightModule.getClock(), getLatticeScreenCoordinates(), getWaveInterferenceModel() );
 
         multiOscillator = new MultiOscillator( getWaveModel(), primaryLaserGraphic, lightModule.getPrimaryOscillator(), secondaryLaserGraphic, lightModule.getSecondaryOscillator() );
