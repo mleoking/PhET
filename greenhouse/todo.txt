@@ -1,10 +1,17 @@
 To Do List for Greenhouse Effect
 ================================
+
+2.00.03
+====================
+-The look and feel is cleaned up.
+-The spinners can't be typed into, but can still be spun. Before, if you typed in an out-of-range number, nothing.happened. This was the simplest solution, and works well because the acceptable values are just 1, 2 and 3.
+-When running on Java 1.4, the native Windows look and feel is now used. This looks better than the old Metal L&F.
+-When you're in an "Atmosphere during.." other than "Adjustable" and you click on the slider, things switch to "Adjustable."
+-All backdrops rescale properly.
+-Added a splash startup screen with a progress bar.
+-Fixed the Spanish label on the reset.
 Change back ground from Metal.
 Set slider track to better color for 1.5.
-
-Done, not yet posted
-====================
 background color of Galss Panes module needs to be updated
 Pollution overlay isn't registered properly when resizing. Sometimes get a black area along the top.
 When resizing, only the current background image gets resized properly.
