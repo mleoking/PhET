@@ -1,5 +1,6 @@
 To Do List for Greenhouse Effect
 ================================
+When you make the frame small, the control panel gets cut off
 
 2.00.03
 ====================
