@@ -1,0 +1,38 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: 05/16/06-05/22/06 (Tue-Mon)
+
+ACCOMPLISHMENTS:
+
+  Bound States:
+  - provided time estimates for change requests
+  - implemented all change requests that were fully specified
+  - published 0.00.07
+  - resumed working on magnifying glass feature
+  
+  Quantum Tunneling:
+  - provided time estimates for change requests
+  - implemented all change requests
+  - published 1.03 to PhET website
+  
+  Common Code:
+  - looked at general Wiggle Me feature
+  
+WHAT'S NEXT:
+ 
+  o continue work on Bound States, see: 
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    
+ISSUES:
+ 
+  o feedback from the Bound States group needs to happen faster
+
+DATES UNAVAILABLE:
+
+  - May 29-30
+  - June 14-19
+  - July 17-26
+  - August 14-24
+  
+-- 
