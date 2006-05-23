@@ -51,7 +51,6 @@ public class GreenhouseLegend extends JPanel {
         try {
             JLabel sunlightLegend = new JLabel( SimStrings.get( "GreenhouseLegend.SunlightPhotonLabel" ),
                                                           sunlightPhotonIcon, SwingConstants.LEFT );
-            sunlightLegend.setForeground( Color.white );
             GraphicsUtil.addGridBagComponent( this, sunlightLegend,
                                               0, rowIdx++,
                                               1, 1,
@@ -59,7 +58,6 @@ public class GreenhouseLegend extends JPanel {
                                               GridBagConstraints.WEST );
             JLabel irLegend = new JLabel( SimStrings.get( "GreenhouseLegend.InfraredPhotonLabel" ),
                                           irPhotonIcon, SwingConstants.LEFT );
-            irLegend.setForeground( Color.white );
             GraphicsUtil.addGridBagComponent( this, irLegend,
                                               0, rowIdx++,
                                               1, 1,
