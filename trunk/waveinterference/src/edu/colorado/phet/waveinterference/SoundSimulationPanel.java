@@ -40,6 +40,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private RotationWaveGraphic rotationWaveGraphic;
     private RotationGlyph rotationGlyph;
     private CrossSectionGraphic crossSectionGraphic;
+    private WaveInterferenceScreenUnits screenUnits;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -52,11 +53,18 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         pressureWaveGraphic.setMaxVelocity( 3 );
         pressureWaveGraphic.setOffsetDX( -super.getWaveModelGraphicOffset().getX(), -super.getWaveModelGraphicOffset().getY() );//todo this accounts for the difference between the offset in the rotationWaveGraphic and the waveModelGraphic
         soundWaveGraphic = new SoundWaveGraphic( waveModelGraphic, pressureWaveGraphic );
+
+        soundWaveGraphic.addListener( new SoundWaveGraphic.Listener() {
+            public void viewChanged() {
+                updateRotationGlyphColor();
+            }
+        } );
+
 //        addScreenChild( soundWaveGraphic );//todo unnecessary when rotation graphic is in place.
 
         rotationGlyph = new RotationGlyph();
         rotationGlyph.synchronizeDepthSize( waveModelGraphic );
-        rotationGlyph.setColor( Color.gray );
+        updateRotationGlyphColor();
         rotationWaveGraphic = new RotationWaveGraphic3D( soundWaveGraphic.getWaveModelGraphic(), soundWaveGraphic, rotationGlyph );
         rotationWaveGraphic.setOffset( super.getWaveModelGraphicOffset() );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
@@ -119,8 +127,15 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
                 updateWaveSize();
             }
         } );
+        screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
         updateWaveSize();
 //        addScaleTest();
+    }
+
+    private void updateRotationGlyphColor() {
+//        rotationGlyph.setSideColor( soundWaveGraphic.isParticleVisible() ? Color.darkGray : Color.gray );
+        rotationGlyph.setColors( soundWaveGraphic.isParticleVisible() ? new Color( 40, 40, 40 ) : Color.darkGray,
+                                 soundWaveGraphic.isParticleVisible() ? Color.black : Color.gray );
     }
 
     private void addScaleTest() {
@@ -205,5 +220,9 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     public RotationWaveGraphic getRotationWaveGraphic() {
         return rotationWaveGraphic;
+    }
+
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return screenUnits;
     }
 }

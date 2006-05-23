@@ -28,6 +28,10 @@ public class SoundModule extends WaveInterferenceModule {
         soundControlPanel.setAsymmetricFeaturesEnabled( asymmetricFeaturesEnabled );
     }
 
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return soundSimulationPanel.getScreenUnits();
+    }
+
     public static class SoundModel extends WaveInterferenceModel {
         public SoundModel() {
             setDistanceUnits( "cm" );

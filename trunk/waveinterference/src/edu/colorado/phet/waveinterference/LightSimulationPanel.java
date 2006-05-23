@@ -42,6 +42,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ScreenChartGraphic screenChart;
     private ExpandableScreenChartGraphic expandableScreenChartGraphic;
     private DarkWave darkWave;
+    private WaveInterferenceScreenUnits screenUnits;
 
     public LightSimulationPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -115,6 +116,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         crossSectionGraphic.setVisible( expandableWaveChart.isExpanded() );
 
+//        screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
         screenChart = new ScreenChartGraphic( "Screen Chart", getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
 
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
@@ -144,6 +146,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         PlayAreaReducedScreenControlPanel playAreaReducedScreenControlPanel = new PlayAreaReducedScreenControlPanel( this, getScreenNode() );
         addScreenChild( playAreaReducedScreenControlPanel );
         darkWave = new DarkWave( this );
+        screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {
@@ -166,7 +169,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     private void colorChanged() {
         waveSideView.setStrokeColor( waveModelGraphic.getColorMap().getRootColor() );
-        rotationGlyph.setColor( waveModelGraphic.getColorMap().getRootColor() );
+        rotationGlyph.setTopColor( waveModelGraphic.getColorMap().getRootColor().darker() );
         if( expandableWaveChart != null ) {
             expandableWaveChart.setColor( waveModelGraphic.getColorMap().getRootColor() );
         }
@@ -234,5 +237,9 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     public WaveModelGraphic getWaveModelGraphic() {
         return waveModelGraphic;
+    }
+
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return screenUnits;
     }
 }

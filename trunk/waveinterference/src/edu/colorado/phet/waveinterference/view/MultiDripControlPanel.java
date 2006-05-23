@@ -22,9 +22,11 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
     private JRadioButton twoDrips;
     private JRadioButton oneDrip;
     private MultiFaucetDrip multiFaucetDrip;
+    private WaveInterferenceScreenUnits screenUnits;
 
-    public MultiDripControlPanel( final MultiFaucetDrip multiFaucetDrip ) {
+    public MultiDripControlPanel( final MultiFaucetDrip multiFaucetDrip, WaveInterferenceScreenUnits screenUnits ) {
         this.multiFaucetDrip = multiFaucetDrip;
+        this.screenUnits = screenUnits;
         setBorder( BorderFactory.createEtchedBorder() );
         oneDrip = new JRadioButton( "One Drip", multiFaucetDrip.isOneDrip() );
         oneDrip.addActionListener( new ActionListener() {
@@ -45,7 +47,9 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiFaucetDrip.getSpacing() );
+        spacingSlider = new ModelSlider( "Spacing", "m", 0, 30, multiFaucetDrip.getSpacing() );
+        spacingSlider.setModelLabels( screenUnits.toHashtable( new int[]{0, 15, 30}, 2 ) );
+        spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

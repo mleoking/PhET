@@ -18,12 +18,14 @@ import java.awt.event.ActionListener;
 
 public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable {
     private MultiOscillator multiOscillator;
+    private WaveInterferenceScreenUnits units;
     private ModelSlider spacingSlider;
     private JRadioButton oneDrip;
     private JRadioButton twoDrips;
 
-    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String name ) {
+    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String name, WaveInterferenceScreenUnits units ) {
         this.multiOscillator = multiOscillator;
+        this.units = units;
         setBorder( BorderFactory.createEtchedBorder() );
         oneDrip = new JRadioButton( "One " + name, multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
@@ -44,7 +46,9 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( "Spacing", "m", 0, 50, multiOscillator.getSpacing() );
+        spacingSlider = new ModelSlider( "Spacing", "m", 0, 30, multiOscillator.getSpacing() );
+        spacingSlider.setModelLabels( units.toHashtable( new int[]{0, 15, 30}, 2 ) );
+        spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
