@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -32,7 +33,7 @@ public class TestSlitsAndScreen extends TestTopView {
         SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( slitPotential, getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( slitPotentialGraphic );
         getOscillator().setAmplitude( 2 );
-        getControlPanel().addControlFullWidth( new SlitControlPanel( slitPotential ) );
+        getControlPanel().addControlFullWidth( new SlitControlPanel( slitPotential, new WaveInterferenceScreenUnits( new WaveInterferenceModelUnits(), getLatticeScreenCoordinates() ) ) );
 
         getControlPanel().addControl( new ScreenControlPanel( screenGraphic ) );
         slider = new SRRWavelengthSliderComponent();

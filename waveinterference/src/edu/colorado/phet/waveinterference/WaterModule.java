@@ -19,6 +19,10 @@ public class WaterModule extends WaveInterferenceModule {
     private WaveInterferenceModel waveInterferenceModel;
     private WaterControlPanel waterControlPanel;
 
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return waterSimulationPanel.getScreenUnits();
+    }
+
     static class WaterModel extends WaveInterferenceModel {
         public WaterModel() {
             setDistanceUnits( "cm" );

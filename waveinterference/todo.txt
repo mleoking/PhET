@@ -16,6 +16,19 @@ The units for slit parameters and source spacing should match
 
 Reduce the wavelength/amplitude controls when window shrinks.
 
+I actually think that all of these units should match. Removing the units is
+ok, since it can be measured by the tape measure. Maybe that is a good way
+to do it, then students will have to actually go in and measure things,
+adding to interactivity. On the other hand, it might be nice to just have
+those values readily available. Would it be hard to put realistic values on
+these sliders? You can just measure the distances with the tape measure and
+make sure they match. If you do this, I think the barrier location should
+match the x-axis of the graph.
+
+Source separation slider text field reads wrong value after being dragged with the mouse.
+
+I removed the text field for the source separation control (to make it easy to convert units).  Should I add this back?
+
 ##############################################################
 Questions
 ##################################

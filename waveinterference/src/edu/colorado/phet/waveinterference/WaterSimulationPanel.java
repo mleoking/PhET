@@ -35,6 +35,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ExpandableWaveChart expandableWaveChart;
     private WaveChartGraphic waveChartGraphic;
     private CrossSectionGraphic crossSectionGraphic;
+    private WaveInterferenceScreenUnits screenUnits;
 
     public WaterSimulationPanel( WaterModule waterModule ) {
         this.waterModule = waterModule;
@@ -108,6 +109,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
                 updateWaveSize();
             }
         } );
+        screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
         updateWaveSize();
     }
 
@@ -196,4 +198,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableWaveChart.updateChart();
     }
 
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return screenUnits;
+    }
 }

@@ -27,7 +27,8 @@ public class RotationGlyph extends PNode {
     private double expansionWidth = 50;
     private PPath depth;
     private double boxHeight = 200;
-    private MutableColor color;
+    private MutableColor sideColor;
+    private MutableColor surfaceColor = new MutableColor( Color.blue );
     private PPath crossSectionGraphic;
     private BasicStroke STROKE = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1 );
 
@@ -36,13 +37,13 @@ public class RotationGlyph extends PNode {
     }
 
     public RotationGlyph( MutableColor color ) {
-        this.color = color;
+        this.sideColor = color;
         surface = new PPath();
         this.crossSectionGraphic = new PPath();
         crossSectionGraphic.setPaint( Color.black );
         crossSectionGraphic.setStroke( CrossSectionGraphic.STROKE );
 //        surface.setPaint( new Color( 128, 128, 255 ) );
-        surface.setPaint( color.getColor() );
+        surface.setPaint( sideColor.getColor() );
         surface.setStroke( STROKE );
 
         depth = new PPath();
@@ -55,18 +56,18 @@ public class RotationGlyph extends PNode {
 //        addChild( crossSectionGraphic );
         update();
         setRotation( 0.0 );
-        color.addListener( new MutableColor.Listener() {
+        sideColor.addListener( new MutableColor.Listener() {
             public void colorChanged() {
                 updateColors();
             }
-
         } );
+        setSideColor( sideColor.getColor() );
         updateColors();
     }
 
     private void updateColors() {
-        surface.setPaint( color.getColor().darker() );
-        depth.setPaint( color.getColor() );
+        surface.setPaint( surfaceColor.getColor() );
+        depth.setPaint( sideColor.getColor() );
     }
 
     public void setDepthVisible( boolean visible ) {
@@ -149,11 +150,22 @@ public class RotationGlyph extends PNode {
         return depth;
     }
 
-    public void setColor( Color color ) {
-//        surface.setPaint( color );
-        this.color.setColor( color );
+    public void setColors( Color sideColor, Color topColor ) {
+        this.sideColor.setColor( sideColor );
+        this.surfaceColor.setColor( topColor );
         updateColors();
-//        this.color=new MutableColor( color );
+    }
+
+    public void setSideColor( Color sideColor ) {
+        this.sideColor.setColor( sideColor );
+        this.surfaceColor.setColor( sideColor.darker() );
+        updateColors();
+    }
+
+    public void setTopColor( Color topColor ) {
+        this.sideColor.setColor( topColor.darker() );
+        this.surfaceColor.setColor( topColor );
+        updateColors();
     }
 
     public void synchronizeDepthSize( final WaveModelGraphic waveModelGraphic ) {

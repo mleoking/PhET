@@ -1,9 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 import edu.colorado.phet.waveinterference.view.SlitPotentialGraphic;
+import edu.colorado.phet.waveinterference.view.WaveInterferenceScreenUnits;
 
 /**
  * User: Sam Reid
@@ -21,7 +23,7 @@ public class TestSlits extends TestTopView {
         SlitPotentialGraphic slitPotentialGraphic = new SlitPotentialGraphic( slitPotential, getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( slitPotentialGraphic );
         getOscillator().setAmplitude( 2 );
-        getControlPanel().addControlFullWidth( new SlitControlPanel( slitPotential ) );
+        getControlPanel().addControlFullWidth( new SlitControlPanel( slitPotential, new WaveInterferenceScreenUnits( new WaveInterferenceModelUnits(), getLatticeScreenCoordinates() ) ) );
     }
 
     public static void main( String[] args ) {

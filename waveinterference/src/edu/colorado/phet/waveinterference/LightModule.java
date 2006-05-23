@@ -23,6 +23,10 @@ public class LightModule extends WaveInterferenceModule {
         lightControlPanel.setAsymmetricFeaturesEnabled( b );
     }
 
+    public WaveInterferenceScreenUnits getScreenUnits() {
+        return lightSimulationPanel.getScreenUnits();
+    }
+
     public static class LightModel extends WaveInterferenceModel {
         public LightModel() {
             super.setDistanceUnits( "nm" );

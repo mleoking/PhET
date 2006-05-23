@@ -25,12 +25,7 @@ public class WaveInterferenceModel implements ModelElement {
     private double time = 0.0;
     private ArrayList listeners = new ArrayList();
 
-    private String distanceUnits;
-    private double physicalWidth;
-    private double physicalHeight;
-
-    private String timeUnits = "sec";
-    private double timeScale = 1.0;
+    private WaveInterferenceModelUnits modelUnits = new WaveInterferenceModelUnits();
 
     public WaveInterferenceModel() {
         waveModel = new WaveModel( 60, 60 );
@@ -63,40 +58,43 @@ public class WaveInterferenceModel implements ModelElement {
     }
 
     public void setDistanceUnits( String distanceUnits ) {
-        this.distanceUnits = distanceUnits;
+        modelUnits.setDistanceUnits( distanceUnits );
     }
 
     public void setTimeUnits( String timeUnits ) {
-        this.timeUnits = timeUnits;
+        modelUnits.setTimeUnits( timeUnits );
     }
 
     public void setTimeScale( double timeScale ) {
-        this.timeScale = timeScale;
+        modelUnits.setTimeScale( timeScale );
     }
 
     public void setPhysicalSize( double physicalWidth, double physicalHeight ) {
-        this.physicalWidth = physicalWidth;
-        this.physicalHeight = physicalHeight;
+        modelUnits.setPhysicalSize( physicalWidth, physicalHeight );
     }
 
     public String getDistanceUnits() {
-        return distanceUnits;
+        return modelUnits.getDistanceUnits();
     }
 
     public double getPhysicalWidth() {
-        return physicalWidth;
+        return modelUnits.getPhysicalWidth();
     }
 
     public double getPhysicalHeight() {
-        return physicalHeight;
+        return modelUnits.getPhysicalHeight();
     }
 
     public String getTimeUnits() {
-        return timeUnits;
+        return modelUnits.getTimeUnits();
     }
 
     public double getTimeScale() {
-        return timeScale;
+        return modelUnits.getTimeScale();
+    }
+
+    public WaveInterferenceModelUnits getUnits() {
+        return modelUnits;
     }
 
     public static interface Listener {

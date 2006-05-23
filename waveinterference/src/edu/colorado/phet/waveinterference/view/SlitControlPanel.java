@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -24,10 +25,14 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
     private ModelSlider slitSeparation;
     private ModelSlider slitWidthSlider;
     private ModelSlider slitLocationSlider;
+//    private WaveInterferenceModelUnits modelUnits;
+//    private LatticeScreenCoordinates latticeScreenCoordinates;
+    private WaveInterferenceScreenUnits units;
 
-    public SlitControlPanel( final SlitPotential slitPotential ) {
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Barrier" ) );
-//        setBorder( BorderFactory.createLineBorder( Color.black) );
+    public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits ) {
+        this.units = waveInterferenceScreenUnits;
+//        this.modelUnits = modelUnits;
+//        this.latticeScreenCoordinates = latticeScreenCoordinates;
         setBorder( BorderFactory.createEtchedBorder() );
         this.slitPotential = slitPotential;
         HorizontalLayoutPanel topPanel = new HorizontalLayoutPanel();
@@ -37,7 +42,6 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
                 slitPotential.setEnabled( enable.isSelected() );
             }
         } );
-//        topPanel.add( enable );
 
         ButtonGroup buttonGroup = new ButtonGroup();
         final JRadioButton noBarrier = new JRadioButton( "No Barrier", !slitPotential.isEnabled() );
@@ -74,8 +78,9 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         topPanel.add( eastPanel );
         add( topPanel );
 
-        slitWidthSlider = new ModelSlider( "Slit Width", "", 0, 30, slitPotential.getSlitWidth() );
-        slitWidthSlider.setPaintLabels( false );
+        slitWidthSlider = new ModelSlider( "Slit Width", "", 0, 30, slitPotential.getSlitWidth() );//measured in cells
+//        slitWidthSlider.setPaintLabels( false );
+        slitWidthSlider.setModelLabels( toHashtable( new int[]{0, 15, 30} ) );
         slitWidthSlider.setTextFieldVisible( false );
         slitWidthSlider.setBorder( null );
         slitWidthSlider.addChangeListener( new ChangeListener() {
@@ -86,7 +91,8 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitWidthSlider );
 
         slitLocationSlider = new ModelSlider( "Barrier Location", "", 0, 75, slitPotential.getLocation() );
-        slitLocationSlider.setPaintLabels( false );
+        //        slitLocationSlider.setPaintLabels( false );
+        slitLocationSlider.setModelLabels( toHashtable( new int[]{0, 75 / 2, 75} ) );
         slitLocationSlider.setTextFieldVisible( false );
         slitLocationSlider.setBorder( null );
         slitLocationSlider.addChangeListener( new ChangeListener() {
@@ -97,8 +103,9 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitLocationSlider );
 
         slitSeparation = new ModelSlider( "Slit Separation", "", 0, 50, slitPotential.getSlitSeparation() );
+//        slitSeparation.setPaintLabels( false );
+        slitSeparation.setModelLabels( toHashtable( new int[]{0, 25, 50} ) );
         slitSeparation.setTextFieldVisible( false );
-        slitSeparation.setPaintLabels( false );
         slitSeparation.setBorder( null );
         slitSeparation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -113,6 +120,10 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
                 updateSeparationCheckbox();
             }
         } );
+    }
+
+    private Hashtable toHashtable( int[] doubles ) {
+        return units.toHashtable( doubles );
     }
 
     private void updateSeparationCheckbox() {

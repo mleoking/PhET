@@ -26,10 +26,10 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
 
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator() );
-        slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential() );
+        slitControlPanel = new SlitControlPanel( lightModule.getSlitPotential(), lightModule.getScreenUnits() );
         addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light" );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), "Light", lightModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
 //        addControl( new ScreenControlPanel( waterModule.getScreenNode() ) );
 
@@ -41,6 +41,6 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
     public void setAsymmetricFeaturesEnabled( boolean b ) {
         multiOscillatorControlPanel.setEnabled( b );
         slitControlPanel.setEnabled( b );
-        screenControlPanel.setEnabled( b );
+//        screenControlPanel.setEnabled( b );
     }
 }

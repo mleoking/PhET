@@ -33,11 +33,11 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new SoundWaveGraphicRadioControl( soundModule.getSoundWaveGraphic() ) );
 
         addControlFullWidth( new VerticalSeparator() );
-        slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential() );
+        slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential(), soundModule.getScreenUnits() );
         addControl( slitControlPanel );
         addControlFullWidth( new VerticalSeparator() );
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker" );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), "Speaker", soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
     }
