@@ -50,6 +50,10 @@ public class GlassPaneControlPanel extends JPanel {
                 module.numGlassPanesEnabled( i );
             }
         } );
+
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor)glassPaneSpinner.getEditor() ).getTextField();
+        tf.setEditable( false );
+        tf.setBackground( Color.white );
         glassPanePanel.add( glassPaneSpinner );
         glassPanePanel.add( new JLabel( MessageFormatter.format( SimStrings.get( "GlassPaneControlPanel.GlassPaneLabel" ) ) ) );
 

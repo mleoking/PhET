@@ -2,6 +2,7 @@ Greenhouse Effect Simulation
 ============================
 Test "Fly me in"
 Test "Beam me down"
+Test on JRE 1.4 and 1.5
 
 Greenhouse Effect Panel
 =======================
@@ -13,12 +14,16 @@ Check thermometer check box
 Check "View all photons" check box
 Test Reset button
 Test Run/Pause/Step
-Resize/maximize frame 
+Resize/maximize frame
 
-Glas Panes Panel
+Glass Panes Panel
 ================
 Test glass pane spinner
 Test Thermometer check box
 Test View All Photons check box
 Test Reset button
 Test Run/Pause/Stop
+
+Spanish
+=======
+Check all labels
