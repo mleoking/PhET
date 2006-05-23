@@ -7,13 +7,12 @@ o Add foreign languages.
 
 o Add help?
 
-Light Module: The show graph button obscures the 3d nature of the screen.
-
 Bug: The screen chart's intensity crops in an awkward fashion (at about 0.9?)
 
 Reduce the wavelength/amplitude controls when window shrinks.
 
-I removed the text field for the source separation control (to make it easy to convert units).  Should I add this back?
+I removed the text field for the source separation control (to make it easy to convert units).  Should I leave this off, or do we want this?
+
 Bug: Source separation slider reads wrong value after faucets are dragged with the mouse.
 
 ##############################################################
