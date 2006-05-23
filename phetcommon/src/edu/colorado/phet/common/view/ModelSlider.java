@@ -520,6 +520,18 @@ public class ModelSlider extends JPanel {
         listeners.add( changeListener );
     }
 
+    public void removeChangeListener( ChangeListener changeListener ) {
+        listeners.remove( changeListener );
+    }
+
+    public ChangeListener getChangeListener( int i ) {
+        return (ChangeListener)listeners.get( i );
+    }
+
+    public int numChangeListeners() {
+        return listeners.size();
+    }
+
     public void setNumMinorTicksPerMajorTick( int numMinorsPerMajor ) {
         int testValue = ( numMajorTicks - 1 ) * numMinorsPerMajor + 1;
         setNumMinorTicks( testValue );
