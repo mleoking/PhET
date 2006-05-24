@@ -55,6 +55,16 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         super.addControlPanelElement(alphaDecayControlPanel);
     }
 
+    public void activate() {
+        super.activate();
+        start();
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        stop();
+    }
+
     public void start() {
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );

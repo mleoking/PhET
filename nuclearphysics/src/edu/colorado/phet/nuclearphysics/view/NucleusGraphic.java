@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
 
