@@ -79,18 +79,18 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         nucleus.addObserver( getNucleus().getPotentialProfile() );
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        orgDt = clock.getDt();
-        clock.setDt( orgDt / 4 );
-        this.start();
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        clock.setDt( orgDt );
-        this.stop();
-    }
+//    public void activate( PhetApplication app ) {
+//        super.activate( app );
+//        orgDt = clock.getDt();
+//        clock.setDt( orgDt / 4 );
+//        this.start();
+//    }
+//
+//    public void deactivate( PhetApplication app ) {
+//        super.deactivate( app );
+//        clock.setDt( orgDt );
+//        this.stop();
+//    }
 
     /**
      * Produces a neutron that comes into the PhysicalPanel at a randomly
