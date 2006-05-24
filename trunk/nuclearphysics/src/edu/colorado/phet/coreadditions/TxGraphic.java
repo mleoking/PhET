@@ -8,6 +8,7 @@ package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -16,11 +17,11 @@ import java.awt.geom.AffineTransform;
  * A decorator class for Graphic that applies associates an Affine Transform
  * with the graphic.
  */
-public class TxGraphic implements Graphic {
-    private Graphic graphic;
+public class TxGraphic extends PhetGraphic {
+    private PhetGraphic graphic;
     private AffineTransform atx;
 
-    public TxGraphic( Graphic graphic, AffineTransform atx ) {
+    public TxGraphic( PhetGraphic graphic, AffineTransform atx ) {
         this.graphic = graphic;
         this.atx = atx;
     }
@@ -32,7 +33,7 @@ public class TxGraphic implements Graphic {
         gs.restoreGraphics();
     }
 
-    public Graphic getWrappedGraphic() {
+    public PhetGraphic getWrappedGraphic() {
         return graphic;
     }
 
@@ -42,6 +43,14 @@ public class TxGraphic implements Graphic {
 
     public void setAtx( AffineTransform atx ) {
         this.atx = atx;
+    }
+
+    /**
+     * Possible performance problem!!!!!
+     * @return bounding rectangle
+     */
+    protected Rectangle determineBounds() {
+        return atx.createTransformedShape(graphic.getBounds()).getBounds();
     }
 }
 
