@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.GridBagUtil;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -44,27 +45,27 @@ public class AlphaDecayControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
+            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
+            GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, timerTF,
+            GridBagUtil.addGridBagComponent( this, timerTF,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
+            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, replayBtn,
+            GridBagUtil.addGridBagComponent( this, replayBtn,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
