@@ -35,6 +35,8 @@ public class PhysicalPanel extends TxApparatusPanel {
     protected AffineTransform scaleTx = new AffineTransform();
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
+    private int nucleusCnt = 0;
+
 
     /**
      * Constructor
@@ -65,9 +67,11 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     public void setScale( double scale ) {
         scaleTx.setToScale( scale, scale );
-    }
 
-    int nucleusCnt = 0;
+        nucleonTx.setToIdentity();
+        nucleonTx.concatenate( originTx );
+        nucleonTx.concatenate( scaleTx );
+    }
 
     public void addNucleus( final Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
