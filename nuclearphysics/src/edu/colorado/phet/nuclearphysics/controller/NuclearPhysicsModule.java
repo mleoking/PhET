@@ -8,6 +8,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -18,13 +19,13 @@ import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class NuclearPhysicsModule extends Module {
+public class NuclearPhysicsModule extends PhetGraphicsModule {
     private ApparatusPanel apparatusPanel;
     private PhysicalPanel physicalPanel;
     private IClock clock;
 
     public NuclearPhysicsModule( String name, IClock clock ) {
-        super( name, clock );
+        super( name );
         this.clock = clock;
 
         // Start the model
@@ -40,7 +41,7 @@ public class NuclearPhysicsModule extends Module {
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
 
-        physicalPanel = new PhysicalPanel( clock );
+        physicalPanel = new PhysicalPanel( getModel() );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
@@ -70,7 +71,7 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeutron( final NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
-        final NeutronGraphic ng = new NeutronGraphic( getApparatusPanel(), particle );
+        final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
 
         particle.addListener( new NuclearModelElement.Listener() {
@@ -83,7 +84,7 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeutron( final NuclearParticle particle, Nucleus nucleus ) {
         this.getModel().addModelElement( particle );
-        final NeutronGraphic ng = new NeutronGraphic( getApparatusPanel(), particle );
+        final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
 
         particle.addListener( new NuclearModelElement.Listener() {
