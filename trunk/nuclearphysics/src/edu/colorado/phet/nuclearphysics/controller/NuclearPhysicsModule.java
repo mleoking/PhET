@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
@@ -47,6 +48,8 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
 
+        ControlPanel controlPanel = new ControlPanel();
+        setControlPanel( controlPanel );
         nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this );
         getControlPanel().addControl(nuclearPysicslControlPanel);
 //        JPanel controlPanel = new NuclearPhysicsControlPanel( this );

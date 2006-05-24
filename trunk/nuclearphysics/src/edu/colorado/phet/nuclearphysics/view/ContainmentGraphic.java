@@ -8,7 +8,11 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.nuclearphysics.model.Containment;
 import edu.colorado.phet.nuclearphysics.util.DefaultInteractiveGraphic;
 import edu.colorado.phet.nuclearphysics.util.Translatable;
@@ -17,7 +21,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
-public class ContainmentGraphic extends DefaultInteractiveGraphic {
+public class ContainmentGraphic extends CompositePhetGraphic {
+//public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
@@ -32,28 +37,51 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
         this.containment = containment;
         this.atx = atx;
         rep = new Rep( component );
-        setBoundedGraphic( rep );
-        addCursorHandBehavior();
-        addTranslationBehavior( new Translator() );
+
+        setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+//        addTranslationListener( new Translator() );
+
+        addGraphic( rep );
+
+        setTransform( atx );
+        addTranslationListener( new Translator() );
+
+//        setBoundedGraphic( rep );
+//        addCursorHandBehavior();
+//        addTranslationBehavior( new Translator() );
     }
 
-    public void mousePressed( MouseEvent e ) {
-        super.mousePressed( e );
-        lastDragPt = e.getPoint();
+    protected Rectangle determineBounds() {
+        return rep.getBounds();
     }
 
-    public void mouseDragged( MouseEvent e ) {
-        super.mouseDragged( e );
-        Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
-                                        containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
-        atx.transform( p, p );
-        double d1 = p.distance( lastDragPt );
-        double d2 = p.distance( e.getPoint() );
-        gettingSmaller = ( d2 > d1 );
-        lastDragPt = e.getPoint();
+    public void paint( Graphics2D g2 ) {
+        rep.paint( g2 );
     }
 
-    private class Translator implements Translatable {
+//    public void mousePressed( MouseEvent e ) {
+//        super.mousePressed( e );
+//        lastDragPt = e.getPoint();
+//    }
+//
+//    public void mouseDragged( MouseEvent e ) {
+//        super.mouseDragged( e );
+//        Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
+//                                        containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
+//        atx.transform( p, p );
+//        double d1 = p.distance( lastDragPt );
+//        double d2 = p.distance( e.getPoint() );
+//        gettingSmaller = ( d2 > d1 );
+//        lastDragPt = e.getPoint();
+//    }
+
+    private class Translator implements TranslationListener {
+//    private class Translator implements Translatable {
+
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            translate( translationEvent.getDx(), translationEvent.getDy() );
+        }
+
         public void translate( double dx, double dy ) {
             dx /= atx.getScaleX();
             dy /= atx.getScaleY();
@@ -111,6 +139,7 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             saveGraphicsState( g );
             GraphicsUtil.setAntiAliasingOn( g );
             g.transform( atx );
+            System.out.println( "atx = " + atx );
             g.setColor( color );
             g.setStroke( stroke );
             g.fill( mouseableArea );
