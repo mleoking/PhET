@@ -8,9 +8,9 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -81,7 +81,8 @@ public class PhysicalPanel extends TxApparatusPanel {
         addGraphic( txg, nucleusLevel );
     }
 
-    public synchronized void addGraphic( Graphic graphic ) {
+    public synchronized void addGraphic( PhetGraphic graphic ) {
+//    public synchronized void addGraphic( Graphic graphic ) {
         TxGraphic txg = new TxGraphic( graphic, nucleonTx );
         super.addGraphic( txg );
     }
@@ -94,7 +95,7 @@ public class PhysicalPanel extends TxApparatusPanel {
         gs.restoreGraphics();
     }
 
-    public void addOriginCenteredGraphic( Graphic graphic, double level ) {
+    public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
         TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
         addGraphic( txg, level );
     }
@@ -112,9 +113,9 @@ public class PhysicalPanel extends TxApparatusPanel {
     // Event handlers
     //----------------------------------------------------------------
     public class GraphicRemover implements NuclearModelElement.Listener {
-        private Graphic graphic;
+        private PhetGraphic graphic;
 
-        public GraphicRemover( Graphic graphic ) {
+        public GraphicRemover( PhetGraphic graphic ) {
             this.graphic = graphic;
         }
 
