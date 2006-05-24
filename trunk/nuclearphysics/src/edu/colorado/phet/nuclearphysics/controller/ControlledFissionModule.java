@@ -15,6 +15,9 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockListener;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockAdapter;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -602,7 +605,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     /**
      * Automatically fires neutrons into the vessel at regular intervals
      */
-    private class PeriodicNeutronGun implements ClockTickListener {
+    private class PeriodicNeutronGun extends ClockAdapter {
         private double lastTimeFired;
         private double period;
         private boolean enabled;
@@ -610,8 +613,8 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         public PeriodicNeutronGun( IClock clock, double period ) {
             this.period = period;
-            clock.addClockTickListener( this );
-            lastTimeFired = clock.getRunningTime();
+            clock.addClockListener( this );
+            lastTimeFired = clock.getSimulationTime();
         }
 
         public void setPeriod( double period ) {
@@ -622,9 +625,9 @@ public class ControlledFissionModule extends ChainReactionModule {
             this.enabled = enabled;
         }
 
-        public void clockTicked( IClock clock, double v ) {
-            if( clock.getRunningTime() - lastTimeFired > period ) {
-                lastTimeFired = clock.getRunningTime();
+        public void clockTicked(ClockEvent clockEvent) {
+            if( clockEvent.getSimulationTime() - lastTimeFired > period ) {
+                lastTimeFired = clockEvent.getSimulationTime();
                 if( enabled ) {
                     fireNeutron();
                 }
