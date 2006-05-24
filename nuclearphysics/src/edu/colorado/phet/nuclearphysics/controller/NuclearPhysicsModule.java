@@ -23,6 +23,7 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
     private ApparatusPanel apparatusPanel;
     private PhysicalPanel physicalPanel;
     private IClock clock;
+    private NuclearPhysicsControlPanel nuclearPysicslControlPanel;
 
     public NuclearPhysicsModule( String name, IClock clock ) {
         super( name );
@@ -46,8 +47,10 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
 
-        JPanel controlPanel = new NuclearPhysicsControlPanel( this );
-        super.setControlPanel( controlPanel );
+        nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this );
+        getControlPanel().addControl(nuclearPysicslControlPanel);
+//        JPanel controlPanel = new NuclearPhysicsControlPanel( this );
+//        super.setControlPanel( controlPanel );
     }
 
     public IClock getClock() {
@@ -61,7 +64,8 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
     }
 
     protected void addControlPanelElement( JPanel panel ) {
-        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
+        nuclearPysicslControlPanel.addPanelElement( panel );
+//        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
     }
 
     protected void addNucleus( Nucleus nucleus ) {
