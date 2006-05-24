@@ -14,7 +14,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
@@ -33,13 +33,13 @@ import java.util.Random;
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
-    private AbstractClock clock;
+    private IClock clock;
     private double orgDt;
     private Uranium235 nucleus;
     private Neutron neutron;
     private ArrayList transientModelElements = new ArrayList();
 
-    public SingleNucleusFissionModule( AbstractClock clock ) {
+    public SingleNucleusFissionModule( IClock clock ) {
 
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
         this.clock = clock;

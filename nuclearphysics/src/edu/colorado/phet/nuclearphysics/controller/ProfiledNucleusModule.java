@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
@@ -17,7 +17,7 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
     private Nucleus nucleus;
     private PotentialProfilePanel potentialProfilePanel;
 
-    public ProfiledNucleusModule( String name, AbstractClock clock ) {
+    public ProfiledNucleusModule( String name, IClock clock ) {
         super( name, clock );
 
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
