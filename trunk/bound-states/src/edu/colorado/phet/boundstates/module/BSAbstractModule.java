@@ -541,6 +541,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _controlPanel.setPhaseSelected( false );
             _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
             _controlPanel.setParticleMass( _particle.getMass() );
+            _controlPanel.setMagnification( _magnifyingGlass.getMagnification() );
         }
         
         // Clock

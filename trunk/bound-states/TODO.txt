@@ -6,6 +6,8 @@ IN PROGRESS:
 - constrain dragging of magnifying glass to Energy chart (having problems...)
 
 Magnifying glass TODO:
+- different magnification for each module
+- add a parent node for all eigenstate lines, add/remove childrens for eigenstates
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
@@ -62,6 +64,9 @@ CLEANUP:
 
 
 DONE:
+(5/24/06) - lots of fixes to magnifying glass
+(5/24/06) - add variable magnification to magnifying glass, make it a double
+(5/24/06) - add potentialNode only once in magnifying glass, then just change its path
 (5/24/06) - cleanup and javadoc test harness for magnifying glass prototype
 (5/23/06) - add color scheme support for magnifying glass bezel and handle
 (5/23/06) - when magnifying glass is invisible, setChildrenPickable(false)
