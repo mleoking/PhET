@@ -16,7 +16,6 @@ import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Rubidium;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
