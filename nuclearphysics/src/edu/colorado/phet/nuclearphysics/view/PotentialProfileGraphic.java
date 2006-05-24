@@ -7,9 +7,9 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class PotentialProfileGraphic implements Graphic, SimpleObserver {
+public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleObserver {
 
     //
     // Statics
@@ -103,10 +103,15 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
         atx.translate( profile.getWidth() / 2, imageHeight );
         g.draw( atx.createTransformedShape( profile.getPath() ) );
 
+        // To give the PhetImageGraphic and image
+        setImage( bi );
+
         return bi;
     }
 
     public void update() {
         image = buildImage();
     }
+
+
 }
