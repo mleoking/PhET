@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
@@ -44,6 +45,14 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ExpandableScreenChartGraphic expandableScreenChartGraphic;
     private DarkWave darkWave;
     private WaveInterferenceScreenUnits screenUnits;
+    private PlayAreaReducedScreenControlPanel playAreaReducedScreenControlPanel;
+
+    /**
+     * These objects are so we don't have to manually do an AND over all combinations of visibility parameters.
+     */
+    private PhetPNode screenNodeContainer;
+    private PhetPNode expandableScreenChartGraphicContainer;
+    private PhetPNode playAreaReducedScreenControlPanelContainer;
 
     public LightSimulationPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -70,7 +79,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
 
         screenNode = new ScreenNode( getWaveModel(), getLatticeScreenCoordinates(), waveModelGraphic );
-        addScreenChild( screenNode );
+        screenNodeContainer = new PhetPNode( screenNode );
+        addScreenChild( screenNodeContainer );
 
         addScreenChild( rotationWaveGraphic );
 
@@ -120,7 +130,9 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         screenChart = new ScreenChartGraphic( WIStrings.getString( "screen.chart" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), screenNode.getBrightnessScreenGraphic() );
 
         expandableScreenChartGraphic = new ExpandableScreenChartGraphic( this, screenChart );
-        addScreenChild( expandableScreenChartGraphic );
+        expandableScreenChartGraphicContainer = new PhetPNode( expandableScreenChartGraphic );
+        addScreenChild( expandableScreenChartGraphicContainer );
+
         addScreenChild( measurementToolSet );
         addScreenChild( intensityReaderSet );
 
@@ -143,8 +155,9 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
         updateWaveSize();
 
-        PlayAreaReducedScreenControlPanel playAreaReducedScreenControlPanel = new PlayAreaReducedScreenControlPanel( this, getScreenNode() );
-        addScreenChild( playAreaReducedScreenControlPanel );
+        playAreaReducedScreenControlPanel = new PlayAreaReducedScreenControlPanel( this, getScreenNode() );
+        playAreaReducedScreenControlPanelContainer = new PhetPNode( playAreaReducedScreenControlPanel );
+        addScreenChild( playAreaReducedScreenControlPanelContainer );
         darkWave = new DarkWave( this );
         screenUnits = new WaveInterferenceScreenUnits( getWaveInterferenceModel().getUnits(), getLatticeScreenCoordinates() );
     }
@@ -188,6 +201,9 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
     private void setAsymmetricFeaturesEnabled( boolean b ) {
         lightModule.setAsymmetricFeaturesEnabled( b );
+        screenNodeContainer.setVisible( b );
+        expandableScreenChartGraphicContainer.setVisible( b );
+        playAreaReducedScreenControlPanel.setVisible( b );
     }
 
     private Lattice2D getLattice() {
