@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -314,7 +315,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public void activate( PhetApplication application ) {
         super.activate();
-        PhetFrame phetFrame = PhetApplication.instance().getApplicationView().getPhetFrame();
+        PhetFrame phetFrame = PhetUtilities.getPhetFrame();
 
         // Add the dialog that will show the energy tracking gauges
         if( energyGraphDialog == null ) {
