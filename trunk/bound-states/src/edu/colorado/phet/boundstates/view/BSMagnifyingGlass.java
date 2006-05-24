@@ -34,7 +34,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * BSMagnifyingGlass is the magnifying glass that provides a magnified view
+ * of eigenstates and potential energy, as shown on the Energy chart.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Revision$
+ */
 public class BSMagnifyingGlass extends PComposite implements Observer {
     
     //----------------------------------------------------------------------------
@@ -217,6 +223,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         setPickable( visible );
+        setChildrenPickable( visible );
         if ( visible ) {
             updateDisplay();
         }
