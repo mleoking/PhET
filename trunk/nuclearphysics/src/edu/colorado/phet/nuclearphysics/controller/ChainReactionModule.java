@@ -12,7 +12,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -242,9 +242,9 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     // Event handlers
     //----------------------------------------------------------------
     public class GraphicRemover implements NuclearModelElement.Listener {
-        private Graphic graphic;
+        private PhetGraphic graphic;
 
-        public GraphicRemover( Graphic graphic ) {
+        public GraphicRemover( PhetGraphic graphic ) {
             this.graphic = graphic;
         }
 
