@@ -1,12 +1,8 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+/**
+ * Class: TestModule
+ * Package: edu.colorado.phet.nuclearphysics.modules
+ * Author: Another Guy
+ * Date: Feb 26, 2004
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
@@ -24,12 +20,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * SingleNucleusFissionModule
- *
- * @author Ron LeMaster
- * @version $Revision$
- */
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
@@ -79,7 +69,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     public void start() {
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
         nucleus.setPotential( nucleus.getPotentialProfile().getWellPotential() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
@@ -89,18 +79,18 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         nucleus.addObserver( getNucleus().getPotentialProfile() );
     }
 
-//    public void activate( PhetApplication app ) {
-//        super.activate( app );
-//        orgDt = clock.getDt();
-//        clock.setDt( orgDt / 4 );
-//        this.start();
-//    }
-//
-//    public void deactivate( PhetApplication app ) {
-//        super.deactivate( app );
-//        clock.setDt( orgDt );
-//        this.stop();
-//    }
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        orgDt = clock.getDt();
+        clock.setDt( orgDt / 4 );
+        this.start();
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        clock.setDt( orgDt );
+        this.stop();
+    }
 
     /**
      * Produces a neutron that comes into the PhysicalPanel at a randomly
@@ -135,7 +125,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         // Add fission products
         final Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
-            final NeutronGraphic npg = new NeutronGraphic( getApparatusPanel(), neutronProducts[i] );
+            final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             transientModelElements.add( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
@@ -202,8 +192,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getPotentialProfilePanel().addNucleusGraphic( dn2 );
 
         // Add some pizzazz
-        Kaboom kaboom = new Kaboom( getApparatusPanel(),
-                                    new Point2D.Double( 0, 0 ),
+        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
 
