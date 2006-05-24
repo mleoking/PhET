@@ -12,7 +12,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -48,11 +47,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
     private static AffineTransform atx = new AffineTransform();
-    private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
-        public void setup( Graphics2D graphics ) {
-            GraphicsUtil.setAlpha( graphics, 0.8 );
-        }
-    };
 
     static {
         String family = "SansSerif";
