@@ -54,8 +54,8 @@ public class AlphaParticle extends Nucleus {
         if( nucleus != null ) {
             if( !escaped ) {
                 // Generate a random position for the alpha particle
-                double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( Math.random() > 0.5 ? 1 : -1 );
-                double theta = Math.random() * Math.PI * 2;
+                double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( random.nextBoolean() ? 1 : -1 );
+                double theta = random.nextDouble() * Math.PI * 2;
                 double dx = d * Math.cos( theta );
                 double dy = d * Math.sin( theta );
                 setLocation( dx, dy );

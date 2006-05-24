@@ -12,6 +12,7 @@ import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
@@ -60,6 +61,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+//        SimStrings.setStrings( localizedStringsPath );
         SimStrings.init( args, localizedStringsPath );
 
         try {

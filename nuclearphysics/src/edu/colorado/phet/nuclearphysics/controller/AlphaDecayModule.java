@@ -57,9 +57,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
     public void start() {
         // todo: combine these calls
-        Uranium235 nucleus = new Uranium235(new Point2D.Double(0, 0), (NuclearPhysicsModel) getModel());
-        setNucleus(nucleus);
-        setUraniumNucleus(nucleus);
+        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), (NuclearPhysicsModel)getModel() );
+        setNucleus( nucleus );
+        setUraniumNucleus( nucleus );
 
         // Very ugly, but it works for now
         //        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
@@ -194,4 +194,3 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPhysicalPanel().addGraphic(kaboom);
     }
 }
-

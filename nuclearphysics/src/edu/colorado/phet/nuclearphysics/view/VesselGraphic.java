@@ -31,6 +31,9 @@ public class VesselGraphic extends CompositePhetGraphic {
 
     public VesselGraphic( Component component, Vessel vessel ) {
         super( component );
+        if( component == null ) {
+            System.out.println( "VesselGraphic.VesselGraphic" );
+        }
         this.vessel = vessel;
         // The -5 in the constructor below accounts for roundoff error, and the scale
         PhetShapeGraphic boundary = new PhetShapeGraphic( component,

@@ -13,7 +13,10 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.util.DefaultInteractiveGraphic;
 import edu.colorado.phet.nuclearphysics.util.Translatable;
@@ -35,7 +38,8 @@ import java.io.IOException;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
+public class ControlRodGroupGraphic extends CompositePhetGraphic {
+//public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     private Rep rep;
     private int orientation;
     private Vessel vessel;
@@ -49,10 +53,23 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
         this.atx = atx;
         rep = new Rep( component, controlRods );
         this.rodLength = controlRods[0].getLength();
-        setBoundedGraphic( rep );
-        addCursorHandBehavior();
-        addTranslationBehavior( new Translator() );
+
+        setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+        addTranslationListener( new Translator() );
+
+        addGraphic( rep );        
+//        setBoundedGraphic( rep );
+//        addCursorHandBehavior();
+//        addTranslationBehavior( new Translator() );
         orientation = controlRods[0].getOrientation();
+    }
+
+    protected Rectangle determineBounds() {
+        return rep.getBounds();
+    }
+
+    public void paint( Graphics2D g2 ) {
+        rep.paint(  g2 );
     }
 
     /**
@@ -60,7 +77,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
      *
      * @param i
      * @param i1
-     * @return
+     * @return true or false
      */
     public boolean contains( int i, int i1 ) {
         Point2D p = new Point2D.Double( i, i1 );
@@ -148,8 +165,10 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             connectorArea.add( new Area( verticalBar ) );
             connectorShape = connectorArea;
             connectorGraphic.setShape( connectorShape );
-            handleGraphic.setPosition( (int)( verticalBar.getBounds().getMaxX() ),
+            handleGraphic.setLocation( (int)( verticalBar.getBounds().getMaxX() ),
                                        (int)( verticalBar.getBounds().getMinY() + 100 ) );
+//            handleGraphic.setPosition( (int)( verticalBar.getBounds().getMaxX() ),
+//                                       (int)( verticalBar.getBounds().getMinY() + 100 ) );
             setBoundsDirty();
             repaint();
         }
@@ -161,7 +180,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             restoreGraphicsState();
         }
 
-        private void translate( double dx, double dy ) {
+        public void translate( double dx, double dy ) {
             for( int i = 0; i < rodGraphics.length; i++ ) {
                 rodGraphics[i].translate( dx, dy );
             }
@@ -180,7 +199,13 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     /**
      * Translation handler
      */
-    private class Translator implements Translatable {
+    private class Translator implements TranslationListener  {
+//    private class Translator implements Translatable {
+
+
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            translate( translationEvent.getDx(), translationEvent.getDy());
+        }
 
         /**
          * Constrains the translation of the graphic to not go too far into the vessel
