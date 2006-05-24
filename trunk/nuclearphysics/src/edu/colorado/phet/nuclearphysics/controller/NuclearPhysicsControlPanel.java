@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Constructor 
+ * Constructor
  */
 public class NuclearPhysicsControlPanel extends JPanel {
 //public class NuclearPhysicsControlPanel extends PhetControlPanel {
@@ -37,33 +37,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
         panel.add( new LegendPanel(), BorderLayout.NORTH );
         mainPanel = new JPanel( new GridBagLayout() );
         panel.add( mainPanel, BorderLayout.CENTER );
-//        super.setControlPane( panel );
         this.add( panel );
-
-        // Add a check box to run the simulation in slow motion
-//        final JCheckBox slowMoCB = new JCheckBox( "Slow motion" );
-//        slowMoCB.addChangeListener( new ChangeListener() {
-//            private double orgDt;
-//            public void stateChanged( ChangeEvent e ) {
-//                if( slowMoCB.isSelected()) {
-//                    orgDt = module.getClock().getDt();
-//                    module.getClock().setDt( orgDt / 5 );
-//                }
-//                else {
-//                    module.getClock().setDt( orgDt );
-//                }
-//            }
-//        } );
-//        try {
-//            GraphicsUtil.addGridBagComponent( mainPanel, slowMoCB,
-//                                              0, rowIdx++,
-//                                              1, 1,
-//                                              GridBagConstraints.NONE,
-//                                              GridBagConstraints.CENTER );
-//        }
-//        catch( AWTException e ) {
-//            e.printStackTrace();
-//        }
     }
 
     protected NuclearPhysicsModule getModule() {
