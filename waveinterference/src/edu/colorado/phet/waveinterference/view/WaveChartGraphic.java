@@ -33,6 +33,7 @@ public class WaveChartGraphic extends PNode {
     private JFreeChart jFreeChart;
     private JFreeChartNode jFreeChartNode;
     private PPath path;
+    private boolean colorized = true;
 
     public WaveChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor, String distanceUnits, double minX, double maxX ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -154,7 +155,8 @@ public class WaveChartGraphic extends PNode {
     }
 
     protected void updateColor() {
-        path.setStrokePaint( strokeColor.getColor() );
+
+        path.setStrokePaint( colorized ? strokeColor.getColor() : Color.black );
 //        setCurveColor( strokeColor.getColor() );
     }
 
@@ -182,4 +184,8 @@ public class WaveChartGraphic extends PNode {
         return path.getVisible();
     }
 
+    public void setColorized( boolean colorized ) {
+        this.colorized = colorized;
+        updateColor();
+    }
 }

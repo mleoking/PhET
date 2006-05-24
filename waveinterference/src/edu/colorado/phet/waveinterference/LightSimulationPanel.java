@@ -109,6 +109,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             e.printStackTrace();
         }
         addScreenChild( 0, verticalConnector );
+        verticalConnector.setConnectorWidth( 10 );
 
         waveChartGraphic = new LaserWaveChartGraphic( this, WIStrings.getString( "electric.field" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
                                                       getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );

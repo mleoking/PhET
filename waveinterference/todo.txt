@@ -2,12 +2,7 @@
 Remaining Work
 ##################################
 
-5. Reduce speaker size & source controls at low window size.
-6. Shrink wire to photon source
-7. Ask noah if we need a type-in text field with correct units in control panel.
-8. Potential Help items (wait for student interviews): maybe for drag faucets, only rotate when symmetric.
-9. Option to make e-field vectors black.
-3. Increase performance on mac.
+Increase performance on mac.
 
 ##############################################################
 Questions
@@ -40,15 +35,14 @@ o Test at 1024x768
 >>I'll Reduce the wavelength/amplitude controls when window shrinks; hopefully this
 >>(or this + other small modifications) is sufficient
 
-I removed the text field for the source separation control (to make it easy to convert units).
-Should I leave this off, or do we want this back?
-
 Reduce the wavelength/amplitude controls when window shrinks.
 >>I'm not convinced this single change will sufficiently improve the resizing of the program. (maybe at 1024x768)?
 
 What help items do we want?
 
 Do we want/need a wiggle me?  Should the simulation come up running?
+
+8. Potential Help items (wait for student interviews): maybe for drag faucets, only rotate when symmetric.
 
 ##############################################################
 Low Priority
@@ -102,3 +96,5 @@ Bug: The screen chart's intensity crops in an awkward fashion (at about 0.9?)
 I've just scaled the data higher so it looks like it should crop there.
 
 >>Bug: Light Module's screen can run off the screen (under the control panel) for awkward window sizes (& languages with longer text)
+
+Could add type-in text fields with correct units in control panel (needs some work due to proper units).

@@ -35,9 +35,18 @@ public class LaserWaveChartControl extends PNode {
                 laserWaveChartGraphic.setVectorsVisible( vectors.isSelected() );
             }
         } );
+        final JCheckBox colorized = new JCheckBox( WIStrings.getString( "colorize" ), laserWaveChartGraphic.getColorized() );
+        colorized.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                laserWaveChartGraphic.setColorized( colorized.isSelected() );
+            }
+        } );
+
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.add( curve );
         verticalLayoutPanel.add( vectors );
+        verticalLayoutPanel.add( colorized );
+
         PSwing pSwing = new PSwing( pSwingCanvas, verticalLayoutPanel );
         addChild( pSwing );
     }

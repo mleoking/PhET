@@ -21,6 +21,7 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
     private VectorView vectorView;
     private PSwingCanvas pSwingCanvas;
     private LaserWaveChartControl laserWaveChartControl;
+    private boolean colorized = true;
 
     public LaserWaveChartGraphic( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor, String distanceUnits, double minX, double maxX ) {
         super( title, latticeScreenCoordinates, waveModel, strokeColor, distanceUnits, minX, maxX );
@@ -69,6 +70,16 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
         updateVectorView();
     }
 
+    public void setColorized( boolean colorized ) {
+        this.colorized = colorized;
+        super.setColorized( colorized );
+        updateColor();
+    }
+
+    public boolean getColorized() {
+        return colorized;
+    }
+
     public class VectorView extends PhetPNode {
         private boolean indicateOneBlackVector = false;
 
@@ -99,9 +110,13 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
             Arrow arrow = new Arrow( new Point2D.Double( x, tailY ), new Point2D.Double( x, y ), 8, 8, 4, 0.5, true );
             PPath arrowPath = new PPath( arrow.getShape() );
 //            arrowPath.setPaint( getStrokeColor().getColor() );
-            arrowPath.setStrokePaint( getStrokeColor().getColor() );
+            arrowPath.setStrokePaint( getColor() );
             arrowPath.setStroke( new BasicStroke( 2 ) );
             addChild( arrowPath );
+        }
+
+        private Color getColor() {
+            return colorized ? getStrokeColor().getColor() : Color.black;
         }
     }
 }
