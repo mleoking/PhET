@@ -199,6 +199,8 @@ public class BSConstants {
     // Miscellaneous
     //----------------------------------------------------------------------------
     
+    public static final DecimalFormat MAGNIFICATION_FORMAT = new DecimalFormat( "0.#" );
+    
     public static final double ELECTRON_MASS = 5.68; // eV/c^2
     public static final double HBAR = 0.658;
     public static final double KE2 = 1.44; // ke^2, eV nm

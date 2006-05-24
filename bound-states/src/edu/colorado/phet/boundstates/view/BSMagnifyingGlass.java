@@ -27,16 +27,17 @@ import edu.colorado.phet.boundstates.model.BSAbstractPotential;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
+import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * BSMagnifyingGlass is the magnifying glass that provides a magnified view
- * of eigenstates and potential energy, as shown on the Energy chart.
+ * BSMagnifyingGlass provides a magnified view of eigenstates and 
+ * potential energy, as shown on the Energy chart. The user interface
+ * looks like a standard magnifying glass.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -47,7 +48,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final int MAGNIFICATION = 10; // magnification ration, N:1
+    private static final double DEFAULT_MAGNIFICATION = 2;
     
     private static final double LENS_DIAMETER = 100; // pixels
     private static final double BEZEL_WIDTH = 12; // pixels
@@ -59,6 +60,8 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    
+    private double _magnification;
     
     private BSModel _model;
     private BSCombinedChartNode _chartNode;
@@ -86,6 +89,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
      * @param colorScheme
      */
     public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSEigenstatesNode eigenstatesNode, BSColorScheme colorScheme ) {
+        _magnification = DEFAULT_MAGNIFICATION;
         _chartNode = chartNode;
         _eigenstatesNode = eigenstatesNode;
         _eigenstateLines = new ArrayList();
@@ -105,7 +109,6 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             Shape glassShape = new Ellipse2D.Double( -glassRadius, -glassRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
             _lensNode = new PPath();
             _lensNode.setPathTo( glassShape );
-            _lensNode.setPaint( Color.BLACK );
         }
         
         // Bezel 
@@ -130,9 +133,10 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
         }
         
-        addChild( _handleNode );
+        addChild( _handleNode ); // bottom
         addChild( _bezelNode );
         addChild( _lensNode );
+        addChild( _potentialNode ); // top
     }
     
     /*
@@ -140,19 +144,41 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
      */
     private void initEventHandling() {
         
+        // Changes the cursor to a "hand"
         addInputEventListener( new CursorHandler() );
-        
+
+        // Handles mouse events
         _eventHandler = new MagnifyingGlassEventHandler();
-//XXX uncomment when MagnifyingGlassEventHandler extends ConstrainedDragHandler
-//        _eventHandler.setTreatAsPointEnabled( true );
-//        final double bezelRadius = ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
-//        _eventHandler.setNodeCenter( bezelRadius, bezelRadius );
         addInputEventListener( _eventHandler );
+        
+         // For constrained dragging, treat as a point at the center of the lens.
+        _eventHandler.setTreatAsPointEnabled( true );
+        final double bezelRadius = ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
+        _eventHandler.setNodeCenter( bezelRadius, bezelRadius );
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the magnification.
+     * 
+     * @param magnification
+     */
+    public void setMagnification( double magnification ) {
+        _magnification = magnification;
+        updateDisplay();
+    }
+    
+    /**
+     * Gets the magnification.
+     * 
+     * @return
+     */
+    public double getMagnification() {
+        return _magnification;
+    }
     
     /*
      * Is the magnifying glass initialized?
@@ -195,8 +221,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
      * @param dragBounds
      */
     public void setDragBounds( Rectangle2D dragBounds ) {
-//XXX uncomment when MagnifyingGlassEventHandler extends ConstrainedDragHandler
-//        _eventHandler.setDragBounds( dragBounds );
+        _eventHandler.setDragBounds( dragBounds );
         updateDisplay();
     }
     
@@ -255,39 +280,28 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             return;
         }
         
-        // range of position & energy visible through the lens
-        double centerPosition = 0;
-        double minPosition = 0;
-        double maxPosition = 0;
-        double centerEnergy = 0;
-        double minEnergy = 0;
-        double maxEnergy = 0;
-        {
-            Point2D lensCenter = getLensCenter();
-            centerPosition = lensCenter.getX();
-            centerEnergy = lensCenter.getY();
-
-            Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_DIAMETER / 2, LENS_DIAMETER / 2 ) ); // +y is down
-            Point2D chartMin = _chartNode.globalToLocal( lensMin );
-            Point2D p2 = _chartNode.nodeToEnergy( chartMin );
-            minPosition = p2.getX();
-            minEnergy = p2.getY();
-            
-            maxPosition = centerPosition + Math.abs( centerPosition - minPosition );
-            maxEnergy = centerEnergy + Math.abs( centerEnergy - minEnergy );
+        // Range of values that are physically obscured by the lens.
+        Point2D lensCenter = getLensCenter();
+        final double centerPosition = lensCenter.getX();
+        final double centerEnergy = lensCenter.getY();
+        if ( Double.isNaN( centerPosition ) || Double.isInfinite( centerPosition ) ) {
+            return;
         }
-//        System.out.println( "lens position: center=" + centerPosition + " min=" + minPosition + " max=" + maxPosition );//XXX
-//        System.out.println( "lens energy: center=" + centerEnergy + " min=" + minEnergy + " max=" + maxEnergy );//XXX
-        
-        // adjust lens range by magnification factor
-        minPosition = centerPosition - ( Math.abs( centerPosition - minPosition ) / MAGNIFICATION );
-        maxPosition = centerPosition + ( Math.abs( centerPosition - maxPosition ) / MAGNIFICATION );
-        minEnergy = centerEnergy - ( Math.abs( centerEnergy - minEnergy ) / MAGNIFICATION );
-        maxEnergy = centerEnergy + ( Math.abs( centerEnergy - maxEnergy ) / MAGNIFICATION );
-        
-        // change in per pixel in the lens
-        final double deltaPosition = ( maxPosition - minPosition ) / LENS_DIAMETER;
-        final double deltaEnergy = ( maxEnergy - minEnergy ) / LENS_DIAMETER;
+        Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_DIAMETER / 2, LENS_DIAMETER / 2 ) ); // +y is down
+        Point2D chartMin = _chartNode.globalToLocal( lensMin );
+        Point2D p2 = _chartNode.nodeToEnergy( chartMin );
+        final double minPosition = p2.getX();
+        final double minEnergy = p2.getY();
+        final double maxPosition = centerPosition + ( centerPosition - minPosition );
+        final double maxEnergy = centerEnergy + ( centerEnergy - minEnergy );
+                
+        // Range of values that are visible in the lens (magnified).
+        final double magMinPosition = centerPosition - ( ( centerPosition - minPosition ) / _magnification );
+        final double magMaxPosition = centerPosition + ( ( maxPosition - centerPosition ) / _magnification );
+        final double magMinEnergy = centerEnergy - ( ( centerEnergy - minEnergy ) / _magnification );
+        final double magMaxEnergy = centerEnergy + ( ( maxEnergy - centerEnergy ) / _magnification );
+        final double magDeltaPosition = ( magMaxPosition - magMinPosition ) / LENS_DIAMETER;
+        final double magDeltaEnergy = ( magMaxEnergy - magMinEnergy ) / LENS_DIAMETER;
        
         // Draw the eigenstates that are visible through the lens
         BSEigenstate[] eigenstate = _model.getEigenstates();
@@ -295,9 +309,9 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         for ( int i = 0; i < eigenstate.length; i++ ) {
             
             double eigenEnergy = eigenstate[i].getEnergy();
-            if ( eigenEnergy >= minEnergy && eigenEnergy <= maxEnergy ) {
+            if ( eigenEnergy >= magMinEnergy && eigenEnergy <= magMaxEnergy ) {
                 
-                final double y = ( centerEnergy - eigenEnergy ) / deltaEnergy; // Java's +y is down!
+                final double y = ( centerEnergy - eigenEnergy ) / magDeltaEnergy; // Java's +y is down!
                 
                 ClippedPath line = new ClippedPath();
                 GeneralPath path = new GeneralPath();
@@ -326,24 +340,23 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         {
             BSAbstractPotential potential = _model.getPotential();
             GeneralPath path = new GeneralPath();
-            double position = minPosition;
-            while ( position <= maxPosition ) {
+            double position = magMinPosition;
+            while ( position <= magMaxPosition ) {
                 double energy = potential.getEnergyAt( position );
                 
-                final double x = ( position - centerPosition ) / deltaPosition;
-                final double y = ( centerEnergy - energy ) / deltaEnergy; // Java's +y is down!
+                final double x = ( position - centerPosition ) / magDeltaPosition;
+                final double y = ( centerEnergy - energy ) / magDeltaEnergy; // Java's +y is down!
                 
-                if ( position == minPosition ) {
+                if ( position == magMinPosition ) {
                     path.moveTo( (float) x, (float) y );
                 }
                 else {
                     path.lineTo( (float) x, (float) y );
                 }
                 
-                position += deltaPosition;
+                position += magDeltaPosition;
             }
-            _potentialNode.setPathTo( path );
-            _lensNode.addChild( _potentialNode );
+//            _potentialNode.setPathTo( path );
         }
     }
     
@@ -381,7 +394,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         final double mouseEnergy = energyPoint.getY();
         
         // Adjust for magnification
-        double magnifiedEnergy = centerEnergy + ( ( mouseEnergy - centerEnergy ) / MAGNIFICATION );
+        double magnifiedEnergy = centerEnergy + ( ( mouseEnergy - centerEnergy ) / _magnification );
         
         _eigenstatesNode.hiliteEigenstate( magnifiedEnergy );
     }
@@ -400,11 +413,10 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     // Event handling
     //----------------------------------------------------------------------------
     
-//XXX MagnifyingGlassEventHandler should extend ConstrainedDragHandler
     /**
      * Handles events for the magnifying glass.
      */
-    private class MagnifyingGlassEventHandler extends PDragEventHandler {
+    private class MagnifyingGlassEventHandler extends ConstrainedDragHandler {
         
         private boolean _dragging; // true while a drag is in progress
         
@@ -413,16 +425,19 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         }
         
         /**
-         * If the mouse moves inside the lens, hilite an eigenstate.
+         * If the mouse moves inside the lens, 
+         * hilite an eigenstate.
          */
         public void mouseMoved( PInputEvent e ) {
-            if ( isInLens( e.getPosition() ) ) {
+            super.mouseMoved( e );
+            if ( !_dragging && isInLens( e.getPosition() ) ) {
                 hiliteEigenstate( e.getPosition() );
             }
         }
         
         /**
-         * If the mouse is released without dragging in the lens, select an eigenstate.
+         * If the mouse is pressed and released without dragging in the lens,
+         * select an eigenstate.
          */
         public void mouseReleased( PInputEvent e ) {
             super.mouseReleased( e );
@@ -435,7 +450,8 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         }
         
         /**
-         * If the magnifying glass is dragged, update what appears in the lens.
+         * If the magnifying glass is dragged, 
+         * update what appears in the lens.
          */
         public void mouseDragged( PInputEvent e ) {
             _dragging = true;
@@ -460,10 +476,10 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
          * Clips the PPath to the lens.
          */
         protected void paint( PPaintContext paintContext ) {
-            GeneralPath path = _lensNode.getPathReference();
+            GeneralPath lensPath = _lensNode.getPathReference();
             Graphics2D g2 = paintContext.getGraphics();
             Shape oldClip = g2.getClip();
-            g2.setClip(  path );
+            g2.setClip( lensPath );
             super.paint( paintContext );
             g2.setClip( oldClip );
         }

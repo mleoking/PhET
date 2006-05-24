@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -143,7 +144,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
             _superpositionButton = new JButton( SimStrings.get( "button.superposition" ) );
             
             // Magnifying glass on/off
-            String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (" + BSMagnifyingGlass.MAGNIFICATION + "x)";
+            String magnifyingGlassLabel = SimStrings.get( "choice.magnifyingGlass" ) + " (?x)";
             _magnifyingGlassCheckBox = new JCheckBox( magnifyingGlassLabel );
 
             // Layout
@@ -393,6 +394,12 @@ public class BSControlPanel extends BSAbstractControlPanel {
         handleMagnifyingGlassSelection();
     }
 
+    public void setMagnification( double magnification ) {
+        String magString = BSConstants.MAGNIFICATION_FORMAT.format( magnification );
+        String text = SimStrings.get( "choice.magnifyingGlass" ) + " (" + magString + "x)";
+        _magnifyingGlassCheckBox.setText( text );
+    }
+    
     public boolean isMagnifyingGlassSelected() {
         return _magnifyingGlassCheckBox.isSelected();
     }
