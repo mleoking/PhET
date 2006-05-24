@@ -11,9 +11,9 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.ec3.view.SplineMatch;
-import edu.colorado.phet.piccolo.PDebugKeyHandler;
-import edu.colorado.phet.piccolo.PanZoomWorldKeyHandler;
 import edu.colorado.phet.piccolo.PhetPCanvas;
+import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
+import edu.colorado.phet.piccolo.event.PanZoomWorldKeyHandler;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.*;

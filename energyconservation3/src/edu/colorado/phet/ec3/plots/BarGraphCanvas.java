@@ -4,7 +4,7 @@ package edu.colorado.phet.ec3.plots;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.view.bargraphs.EnergyBarGraphSet;
-import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid

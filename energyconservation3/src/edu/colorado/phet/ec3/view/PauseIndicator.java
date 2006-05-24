@@ -4,12 +4,12 @@ package edu.colorado.phet.ec3.view;
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.EC3RootNode;
-import edu.colorado.phet.piccolo.PImageFactory;
-import edu.colorado.phet.piccolo.ShadowPText;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.piccolo.nodes.ShadowPText;
+import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;

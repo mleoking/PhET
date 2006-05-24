@@ -2,9 +2,9 @@
 package edu.colorado.phet.ec3.view;
 
 import edu.colorado.phet.ec3.EC3Module;
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 

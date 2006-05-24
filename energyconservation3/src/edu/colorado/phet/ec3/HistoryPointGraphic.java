@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.HistoryPoint;
-import edu.colorado.phet.piccolo.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

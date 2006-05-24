@@ -6,7 +6,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.spline.AbstractSpline;
-import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
