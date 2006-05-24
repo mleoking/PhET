@@ -8,6 +8,7 @@ IN PROGRESS:
 Magnifying glass TODO:
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - selection/hiliting should only work for eigenstates that are visible in lens
+- hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
 - selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
 - constrain dragging to Energy chart
 - show chart boundaries
@@ -15,6 +16,7 @@ Magnifying glass TODO:
 - reposition (and scale?) the magnifying glass when the canvas size changes
 
 HIGH PRIORITY:
+- change the way hiliting occurs, only hilite if within a certain window around an eigenstate
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -60,6 +62,7 @@ CLEANUP:
 
 
 DONE:
+(5/24/06) - cleanup and javadoc test harness for magnifying glass prototype
 (5/23/06) - add color scheme support for magnifying glass bezel and handle
 (5/23/06) - when magnifying glass is invisible, setChildrenPickable(false)
 (5/22/06) - prevent mouse events from going thru any parts of the magnifying glass
