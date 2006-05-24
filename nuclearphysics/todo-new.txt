@@ -1,3 +1,4 @@
-Take all the clock-manipulation stuff out of the activate() and deactivate() methods.
-
 Add setSimulationTimeChange() and other mutators to IClock
+
+See if we need DeveloperControlPanel (or whatever it's called) and the ModelSlider
+that's in coreadditions
