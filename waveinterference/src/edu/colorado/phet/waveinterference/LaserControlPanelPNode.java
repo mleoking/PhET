@@ -22,9 +22,12 @@ import java.beans.PropertyChangeListener;
 public class LaserControlPanelPNode extends PNode {
     private WaveModelGraphic waveModelGraphic;
     private Oscillator secondaryOscillator;
+    private LightSimulationPanel lightSimulationPanel;
     private Oscillator primaryOscillator;
+    private PSwing laserControlPSwing;
 
     public LaserControlPanelPNode( LightSimulationPanel lightSimulationPanel, WaveModelGraphic waveModelGraphic, final Oscillator oscillator, final Oscillator secondaryOscillator ) {
+        this.lightSimulationPanel = lightSimulationPanel;
         this.primaryOscillator = oscillator;
         this.waveModelGraphic = waveModelGraphic;
         this.secondaryOscillator = secondaryOscillator;
@@ -34,8 +37,10 @@ public class LaserControlPanelPNode extends PNode {
                 updateFrequency();
             }
         } );
-        PSwing pSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
-        addChild( pSwing );
+        laserControlPSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
+//        ResizeHandler.getInstance().setResizable(lightSimulationPanel,laserControlPSwing);
+
+        addChild( laserControlPSwing );
         waveModelGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 updateLocation();

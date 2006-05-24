@@ -37,6 +37,8 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
         PSwing pswing = new PSwing( pSwingCanvas, new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
         update();
+
+        ResizeHandler.getInstance().setResizable( pSwingCanvas, this );
     }
 
     public void update() {

@@ -1,6 +1,7 @@
 New in 0.00.19
 Light Module: Lightened the default red for photon view.
 Light Module: Screen is now hidden on rotation.
+Connected pipe to middle of faucet.
 
 New in 0.00.18 (5-22-2006)
 Sound Module: Made the colors for the rotation glyph darker for particle view.

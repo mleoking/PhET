@@ -3,7 +3,10 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
+import edu.umd.cs.piccolo.PNode;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -16,15 +19,20 @@ import java.io.IOException;
  */
 
 public class FaucetConnector extends VerticalConnector {
-    public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic target ) {
-//        super( faucetControlPanelPNode, target.getImagePNode() );
-        super( target.getImagePNode(), faucetControlPanelPNode );
-        target.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {
+    private FaucetControlPanelPNode faucetControlPanelPNode;
+    private FaucetGraphic faucetGraphic;
+
+    public FaucetConnector( FaucetControlPanelPNode faucetControlPanelPNode, FaucetGraphic faucetGraphic ) {
+        super( faucetGraphic.getImagePNode(), faucetControlPanelPNode );
+        this.faucetControlPanelPNode = faucetControlPanelPNode;
+        this.faucetGraphic = faucetGraphic;
+
+        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
             }
         } );
-        target.addPropertyChangeListener( "bounds", new PropertyChangeListener() {
+        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
             }
@@ -34,6 +42,21 @@ public class FaucetConnector extends VerticalConnector {
         }
         catch( IOException e ) {
             e.printStackTrace();
+        }
+        update();
+    }
+
+    protected void updateShape( Point2D r1c, Point2D r2c ) {
+
+        if( faucetControlPanelPNode != null ) {
+//            System.out.println( "faucetControlPanelPNode.getFullBounds() = " + faucetGraphic.getFullBounds() );
+            double yMin = Math.min( r1c.getY(), r2c.getY() );
+            double yMax = Math.max( r1c.getY(), r2c.getY() );
+            double height = yMax - yMin;
+//            Rectangle2D.Double rect = new Rectangle2D.Double( faucetGraphic.getFullBounds().getX(), yMin, 20, height );
+            Rectangle2D.Double rect = new Rectangle2D.Double( faucetGraphic.getFullBounds().getX() + faucetGraphic.getFullBounds().getWidth() * 0.33,
+                                                              yMin, 20, height );
+            super.setPathTo( rect );
         }
     }
 }
