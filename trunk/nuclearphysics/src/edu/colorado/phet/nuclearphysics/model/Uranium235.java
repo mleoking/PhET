@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
@@ -16,22 +15,39 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Uranium235 extends Nucleus {
-    private static Random random = new Random();
 
+    //----------------------------------------------------------------
+    // Class data and methods
+    //----------------------------------------------------------------
+
+    private static Random random = new Random();
+    // The likelihood that a neutron striking a U235 nucleus will be absorbed, causing fission
+    private static double ABSORPTION_PROBABILITY = 1;
     // Regulates how fast the profile rises when fission occurs
     private static final int morphSpeedFactor = 2;
+    // Location to put neutrons until they can be removed from the model
+    public static final Point2D HoldingAreaCoord = new Point2D.Double( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY );
     //    private static final int morphSpeedFactor = 5;
+
+
+    public static void setAbsoptionProbability( double probability ) {
+        ABSORPTION_PROBABILITY = probability;
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
 
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
     private int morphTargetNeutrons;
     private int morphTargetProtons;
     private Neutron fissionInstigatingNeutron;
-    private BaseModel model;
+    private NuclearPhysicsModel model;
     private boolean doMorph = false;
     private double jiggleOrgX;
 
-    public Uranium235( Point2D.Double position, BaseModel model ) {
+    public Uranium235( Point2D position, NuclearPhysicsModel model ) {
         super( position, 92, 143 );
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
@@ -61,18 +77,30 @@ public class Uranium235 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        morph( getNumNeutrons() - 100, getNumProtons() );
-        fissionInstigatingNeutron = neutron;
-        // Move the neutron way, way away so it doesn't show and doesn't
-        // cause another fission event. It will be destroyed later.
-        neutron.setPosition( 100E3, 100E3 );
-        neutron.setVelocity( 0, 0 );
+        if( random.nextDouble() <= ABSORPTION_PROBABILITY ) {
+            morph( getNumNeutrons() - 100, getNumProtons() );
+            fissionInstigatingNeutron = neutron;
+            // Move the neutron way, way away so it doesn't show and doesn't
+            // cause another fission event. It will be destroyed later. Do it
+            // twice so the neutron's previous position gets set to the same thing
+            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
+            neutron.setPosition( HoldingAreaCoord.getX(), HoldingAreaCoord.getY() );
+            neutron.setVelocity( 0, 0 );
 
-        // Make note of the x coordinate of the nucleus, so we can keep the jiggling
-        // centered
-        jiggleOrgX = this.getPosition().getX();
+            neutron.leaveSystem();
+            model.removeModelElement( neutron );
+
+            // Make note of the x coordinate of the nucleus, so we can keep the jiggling
+            // centered
+            jiggleOrgX = this.getPosition().getX();
+        }
     }
 
+    /**
+     * Detects if alpha particles have escaped.
+     *
+     * @param dt
+     */
     public void stepInTime( double dt ) {
 
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has

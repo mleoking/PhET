@@ -1,60 +1,45 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+/**
+ * Class: NucleusGraphic
+ * Package: edu.colorado.phet.nuclearphysics.view
+ * Author: Another Guy
+ * Date: Feb 26, 2004
  */
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
-/**
- * NucleusGraphic
- *
- * @author Ron LeMaster
- * @version $Revision$
- */
-public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
+public class NucleusGraphic implements Graphic, SimpleObserver /*, ImageObserver*/ {
 
-    private NeutronGraphic neutronGraphic;
-    private ProtonGraphic protonGraphic;
-    private Nucleus nucleus;
+    private static NeutronGraphic neutronGraphic = new NeutronGraphic();
+    private static ProtonGraphic protonGraphic = new ProtonGraphic();
+
+
+    private Point2D.Double position = new Point2D.Double();
+    Nucleus nucleus;
     private BufferedImage img;
     private AffineTransform atx = new AffineTransform();
 
-    /**
-     * @param component
-     * @param nucleus
-     */
-    public NucleusGraphic( Component component, Nucleus nucleus ) {
-        super( component );
+    public NucleusGraphic( Nucleus nucleus ) {
         nucleus.addObserver( this );
-
-        neutronGraphic = new NeutronGraphic( component );
-        protonGraphic = new ProtonGraphic( component );
         this.nucleus = nucleus;
+        this.position.x = nucleus.getPosition().getX();
+        this.position.y = nucleus.getPosition().getY();
         img = computeImage();
-        setImage( img );
-
-        setRegistrationPoint( img.getWidth() / 2,
-                              img.getHeight() / 2 );
-        update();
     }
 
-//    public void setTransform( AffineTransform atx ) {
-//        this.atx = atx;
-//    }
+    public void setTransform( AffineTransform atx ) {
+        this.atx = atx;
+    }
 
     protected BufferedImage computeImage() {
         BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
@@ -81,16 +66,40 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
         return bi;
     }
 
-//    public void paint( Graphics2D g2, double x, double y ) {
-//        setLocation( (int)x, (int)y );
-//        super.paint( g2 );
-//    }
+    public void paint( Graphics2D g2, double x, double y ) {
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( atx );
+        g2.drawImage( img,
+                      (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
+                      (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
+                      null );
+//                      this );
+        gs.restoreGraphics();
+    }
+
+    public void paint( Graphics2D g2 ) {
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( atx );
+        update();
+        g2.drawImage( img, (int)position.getX(), (int)position.getY(), null );
+//        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+        gs.restoreGraphics();
+    }
 
     public void update() {
-        setLocation( (int)nucleus.getPosition().getX(), (int)nucleus.getPosition().getY() );
+        this.position.x = nucleus.getPosition().getX() - nucleus.getRadius() - NuclearParticle.RADIUS;
+        this.position.y = nucleus.getPosition().getY() - nucleus.getRadius() - NuclearParticle.RADIUS;
     }
 
     public Nucleus getNucleus() {
         return nucleus;
+    }
+
+    public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
+        return false;
+    }
+
+    public BufferedImage getImage() {
+        return img;
     }
 }

@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,14 +19,16 @@ public class Uranium238Graphic extends NucleusGraphic {
     //    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Font font = new Font( "Serif", Font.BOLD, 18 );
     private static Color color = Color.cyan;
+    //    private static Color color = Color.green;
     private static AffineTransform nucleusTx = new AffineTransform();
 
-    public Uranium238Graphic( Component component, Nucleus nucleus ) {
-        super( component, nucleus );
+    public Uranium238Graphic( Nucleus nucleus ) {
+        super( nucleus );
+        this.nucleus = nucleus;
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
+        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
         super.paint( g );
 
         AffineTransform orgTx = g.getTransform();

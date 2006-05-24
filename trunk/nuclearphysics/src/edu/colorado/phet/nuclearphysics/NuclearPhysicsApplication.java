@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.util.ClockFactory;
 
 import javax.swing.*;
@@ -43,11 +44,19 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 10 , 20 ) );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule(  ClockFactory.create( 10 , 5 )  );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule(  ClockFactory.create( 10 , 12 )  );
-        setModules( new Module[]{
+        Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 10, 40 ) );
+        Module[] modules = new Module[]{
             alphaModule,
-//            singleNucleusFissionModule,
-//            multipleNucleusFissionModule
-        } );
+            singleNucleusFissionModule,
+            multipleNucleusFissionModule,
+            controlledReactionModule
+        };
+        setModules( modules );
+//        setModules( new Module[]{
+//            alphaModule,
+////            singleNucleusFissionModule,
+////            multipleNucleusFissionModule
+//        } );
     }
 
     public static void main( String[] args ) {
@@ -67,7 +76,23 @@ public class NuclearPhysicsApplication extends PhetApplication {
         static Color backgroundColor = new Color( 60, 80, 60 );
         static Color buttonBackgroundColor = new Color( 100, 120, 60 );
         static Color controlTextColor = new Color( 230, 230, 230 );
+
+        static {
+            if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
+                controlTextColor = new Color( 200, 200, 200 );
+            }
+        }
+
         static Font font = new Font( "SansSerif", Font.BOLD, 16 );
+
+        // Set the font smaller if the screen is has less resolution
+        static {
+            // Get the size of the default screen
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            if( dim.getHeight() < 800 ) {
+                font = new Font( "SansSerif", Font.BOLD, 14 );
+            }
+        }
 
         public NuclearAppLookAndFeel() {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
@@ -134,5 +159,4 @@ public class NuclearPhysicsApplication extends PhetApplication {
             };
             table.putDefaults( moreDefaults );
         }
-    }
-}
+    }}

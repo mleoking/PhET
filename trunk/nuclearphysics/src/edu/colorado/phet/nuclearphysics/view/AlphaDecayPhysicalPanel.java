@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
@@ -28,10 +28,8 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     private double alphaParticleLevel = Config.alphaParticleLevel;
 
-    public AlphaDecayPhysicalPanel( IClock clock ) {
-        super( clock );
-//    public AlphaDecayPhysicalPanel( BaseModel model ) {
-//        super( model );
+    public AlphaDecayPhysicalPanel( BaseModel model ) {
+        super( model );
         this.setBackground( backgroundColor );
     }
 
@@ -51,7 +49,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
     }
 
     public synchronized void addAlphaParticle( final AlphaParticle alphaParticle ) {
-        final NucleusGraphic graphic = new NucleusGraphic( this, alphaParticle );
+        final NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
         this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
         alphaParticle.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {

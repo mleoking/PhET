@@ -7,13 +7,16 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxApparatusPanel;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Rubidium;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -21,9 +24,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public class PhysicalPanel extends ApparatusPanel2 {
-//public class PhysicalPanel extends TxApparatusPanel {
-//    public class PhysicalPanel extends ApparatusPanel {
+public class PhysicalPanel extends TxApparatusPanel {
+    //public class PhysicalPanel extends ApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
     protected boolean init = false;
@@ -33,10 +35,8 @@ public class PhysicalPanel extends ApparatusPanel2 {
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
 
-    public PhysicalPanel( IClock clock ) {
-//    public PhysicalPanel( BaseModel model ) {
-        super( clock );
-//        super( model );
+    public PhysicalPanel( BaseModel model ) {
+        super( model );
         this.setBackground( backgroundColor );
         setScale( 1 );
 
@@ -64,52 +64,62 @@ public class PhysicalPanel extends ApparatusPanel2 {
 
     int nucleusCnt = 0;
 
-    // Ported: 5/24/05
     public void addNucleus( final Nucleus nucleus ) {
-        final NucleusGraphic ng = NucleusGraphicFactory.create( this, nucleus );
-//        final TxGraphic txg = new TxGraphic( this, ng, nucleonTx );
+        NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
+        final TxGraphic txg = new TxGraphic( ng, nucleonTx );
         nucleusCnt++;
-        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-            public void leavingSystem( NuclearModelElement nme ) {
-                PhysicalPanel.this.removeGraphic( ng );
+//        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+//            public void leavingSystem( NuclearModelElement nme ) {
+//                if( nme instanceof Rubidium ) {
+//                    System.out.println( "PhysicalPanel.leavingSystem" );
+//                }
 //                PhysicalPanel.this.removeGraphic( txg );
-            }
-        };
-        nucleus.addListener( listener );
-        addGraphic( ng, nucleusLevel );
-//        addGraphic( txg, nucleusLevel );
+//            }
+//        };
+//        nucleus.addListener( listener );
+        nucleus.addListener( new GraphicRemover( txg ));
+        addGraphic( txg, nucleusLevel );
     }
 
-    public synchronized void addGraphic( PhetGraphic graphic ) {
-//        TxGraphic txg = new TxGraphic( graphic, nucleonTx );
-        super.addGraphic( graphic );
-//        super.addGraphic( txg );
+    public synchronized void addGraphic( Graphic graphic ) {
+        TxGraphic txg = new TxGraphic( graphic, nucleonTx );
+        super.addGraphic( txg );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
-
-        // Added in port. Sets the origin
-        g2.transform( originTx );
-
-        // todo: this shouldn't be needed
-//        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
-
+        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
         super.paintComponent( g2 );
         gs.restoreGraphics();
     }
 
-    // todo:
-    public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
-//        TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
-        graphic.setLocation( 0, 0 );
-        graphic.transform( originTx );
-        addGraphic( graphic, level );
-//        addGraphic( txg, level );
+    public void addOriginCenteredGraphic( Graphic graphic, double level ) {
+        TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
+        addGraphic( txg, level );
     }
 
     public AffineTransform getNucleonTx() {
         return nucleonTx;
+    }
+
+    public AffineTransform getGraphicTx() {
+        return super.getGraphicTx();
+    }
+
+
+    //----------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------
+    public class GraphicRemover implements NuclearModelElement.Listener {
+        private Graphic graphic;
+
+        public GraphicRemover( Graphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leavingSystem( NuclearModelElement nme ) {
+            removeGraphic( graphic );
+        }
     }
 }

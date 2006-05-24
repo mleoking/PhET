@@ -290,5 +290,5 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 //        getClock().setDelay( 10 );
 //        getClock().setDt( orgDt * 0.6 );
 //        this.start();
-    }
+//    }
 }

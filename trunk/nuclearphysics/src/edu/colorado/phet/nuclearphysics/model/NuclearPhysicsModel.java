@@ -42,4 +42,17 @@ public class NuclearPhysicsModel extends BaseModel {
     public List getNuclearModelElements() {
         return nuclearModelElements;
     }
+
+    /**
+     * Pulls a neutron from base model, but keeps track of it so it can be truly destroyed later
+     *
+     * @param neutron
+     */
+//    public void removeNeutronFromVessel( Neutron neutron ) {
+//        neutron.setPosition( Uranium235.HoldingAreaCoord.getX(), Uranium235.HoldingAreaCoord.getY() );
+//        neutron.setPosition( Uranium235.HoldingAreaCoord.getX(), Uranium235.HoldingAreaCoord.getY() );
+//        neutron.setVelocity( 0, 0 );
+//        nuclearModelElements.remove( neutron );
+//        removeModelElement( neutron );
+//    }
 }

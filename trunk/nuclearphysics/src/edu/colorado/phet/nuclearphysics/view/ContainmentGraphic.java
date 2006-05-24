@@ -7,9 +7,8 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Containment;
@@ -18,7 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
-public class ContainmentGraphic extends PhetGraphic {
+public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
@@ -29,31 +28,22 @@ public class ContainmentGraphic extends PhetGraphic {
     private boolean gettingSmaller;
 
     public ContainmentGraphic( Containment containment, Component component, AffineTransform atx ) {
-        super( component );
+        super( null );
         this.containment = containment;
         this.atx = atx;
         rep = new Rep( component );
-//        setBoundedGraphic( rep );
-        rep.setCursorHand();
-        ;
-        rep.addTranslationListener( new Translator() );
-    }
-
-    protected Rectangle determineBounds() {
-        return rep.getBounds();
-    }
-
-    public void paint( Graphics2D g2 ) {
-
+        setBoundedGraphic( rep );
+        addCursorHandBehavior();
+        addTranslationBehavior( new Translator() );
     }
 
     public void mousePressed( MouseEvent e ) {
-//        super.mousePressed( e );
+        super.mousePressed( e );
         lastDragPt = e.getPoint();
     }
 
     public void mouseDragged( MouseEvent e ) {
-//        super.mouseDragged( e );
+        super.mouseDragged( e );
         Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
                                         containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
         atx.transform( p, p );
@@ -63,12 +53,7 @@ public class ContainmentGraphic extends PhetGraphic {
         lastDragPt = e.getPoint();
     }
 
-    private class Translator implements TranslationListener {
-//    private class Translator implements Translatable {
-        public void translationOccurred( TranslationEvent translationEvent ) {
-            translate( translationEvent.getDx(), translationEvent.getDy() );
-        }
-
+    private class Translator implements Translatable {
         public void translate( double dx, double dy ) {
             dx /= atx.getScaleX();
             dy /= atx.getScaleY();
