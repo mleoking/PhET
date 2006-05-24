@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -39,9 +37,9 @@ public class ModelSlider extends JPanel {
 
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
+            GridBagUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
+            GridBagUtil.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
