@@ -8,7 +8,6 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.nuclearphysics.Config;
