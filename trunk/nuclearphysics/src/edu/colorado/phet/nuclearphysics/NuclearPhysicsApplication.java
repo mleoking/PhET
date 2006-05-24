@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.nuclearphysics;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
+import edu.colorado.phet.nuclearphysics.util.ClockFactory;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -29,20 +29,20 @@ public class NuclearPhysicsApplication extends PhetApplication {
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
 
-    public NuclearPhysicsApplication( ApplicationModel descriptor ) {
-        super( descriptor );
-    }
+//    public NuclearPhysicsApplication( ApplicationModel descriptor ) {
+//        super( descriptor );
+//    }
 
     public NuclearPhysicsApplication( String[] args ) {
         super( args, SimStrings.get( "NuclearPhysicsApplication.title" ),
                SimStrings.get( "NuclearPhysicsApplication.description" ),
                SimStrings.get( "NuclearPhysicsApplication.version" ),
-               new SwingTimerClock( 10, 20, true ), true,
+//               new SwingClock( 10, 20, true ), true,
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-        Module alphaModule = new AlphaDecayModule( getClock() );
-        Module singleNucleusFissionModule = new SingleNucleusFissionModule( getClock() );
-        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( getClock() );
+        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 10 , 20 ) );
+        Module singleNucleusFissionModule = new SingleNucleusFissionModule(  ClockFactory.create( 10 , 20 )  );
+        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule(  ClockFactory.create( 10 , 20 )  );
         setModules( new Module[]{
             alphaModule,
 //            singleNucleusFissionModule,
