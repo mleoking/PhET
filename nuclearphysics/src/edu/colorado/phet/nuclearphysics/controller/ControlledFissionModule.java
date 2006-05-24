@@ -313,7 +313,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param application
      */
     public void activate( PhetApplication application ) {
-        super.activate( application );
+        super.activate();
         PhetFrame phetFrame = PhetApplication.instance().getApplicationView().getPhetFrame();
 
         // Add the dialog that will show the energy tracking gauges
@@ -486,7 +486,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     /**
-     * @return
+     * @return Point2D.Double location for new nucleus
      */
     protected Point2D.Double findLocationForNewNucleus() {
         // Determine the model bounds represented by the current size of the apparatus panel
