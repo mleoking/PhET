@@ -7,6 +7,7 @@
 package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
@@ -21,8 +22,8 @@ public class TxApparatusPanel extends ApparatusPanel2 {
     private HashMap txGraphicMap = new HashMap();
     private AffineTransform atx = new AffineTransform();
 
-    public TxApparatusPanel( BaseModel model ) {
-        super( model );
+    public TxApparatusPanel( IClock clock ) {
+        super( clock );
     }
 
     public AffineTransform getTransform() {
