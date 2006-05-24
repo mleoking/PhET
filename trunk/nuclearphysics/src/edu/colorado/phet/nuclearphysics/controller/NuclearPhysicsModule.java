@@ -26,7 +26,7 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
     private NuclearPhysicsControlPanel nuclearPysicslControlPanel;
 
     public NuclearPhysicsModule( String name, IClock clock ) {
-        super( name );
+        super( name, clock );
         this.clock = clock;
 
         // Start the model
