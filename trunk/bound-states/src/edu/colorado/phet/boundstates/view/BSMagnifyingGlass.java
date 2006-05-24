@@ -54,10 +54,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     private static final double HANDLE_LENGTH = 65; // pixels
     private static final double HANDLE_WIDTH = HANDLE_LENGTH/4; // pixels
     private static final double HANDLE_ARC_SIZE = 10; // pixels
-    private static final double HANDLE_ROTATION = -20; // degrees;
-    
-    private static final Color BEZEL_COLOR = Color.GRAY;
-    private static final Color HANDLE_COLOR = Color.ORANGE;
+    private static final double HANDLE_ROTATION = -20; // degrees;    
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -117,7 +114,6 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             Shape glassShape = new Ellipse2D.Double( -bezelDiameter/2, -bezelDiameter/2, bezelDiameter, bezelDiameter ); // x,y,w,h
             _bezelNode = new PPath();
             _bezelNode.setPathTo( glassShape ); // same shape as glass, but we'll stroke it instead of filling it
-            _bezelNode.setPaint( BEZEL_COLOR );
         }
         
         // Handle
@@ -125,7 +121,6 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, glassRadius, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
             _handleNode = new PPath();
             _handleNode.setPathTo( handleShape );
-            _handleNode.setPaint( HANDLE_COLOR );
             _handleNode.rotate( Math.toRadians( HANDLE_ROTATION ) );
         }
         
@@ -188,6 +183,8 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     public void setColorScheme( BSColorScheme colorScheme ) {
         _colorScheme = colorScheme;
         _lensNode.setPaint( _colorScheme.getChartColor() );
+        _bezelNode.setPaint( _colorScheme.getMagnifyingGlassBezelColor() );
+        _handleNode.setPaint( _colorScheme.getMagnifyingGlassHandleColor() );
         _potentialNode.setStrokePaint( _colorScheme.getPotentialEnergyColor() );
         updateDisplay();
     }

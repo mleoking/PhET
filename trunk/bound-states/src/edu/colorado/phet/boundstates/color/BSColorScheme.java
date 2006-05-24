@@ -35,6 +35,9 @@ public class BSColorScheme {
     private Color _imaginaryColor;
     private Color _magnitudeColor;
     
+    private Color _magnifyingGlassBezelColor;
+    private Color _magnifyingGlassHandleColor;
+    
     public BSColorScheme( BSColorScheme colorScheme ) {
         _chartColor = colorScheme.getChartColor();
         _tickColor = colorScheme.getTickColor();
@@ -48,6 +51,9 @@ public class BSColorScheme {
         _realColor = colorScheme.getRealColor();
         _imaginaryColor = colorScheme.getImaginaryColor();
         _magnitudeColor = colorScheme.getMagnitudeColor();
+        
+        _magnifyingGlassBezelColor = colorScheme.getMagnifyingGlassBezelColor();
+        _magnifyingGlassHandleColor = colorScheme.getMagnifyingGlassHandleColor();
     }
     
     protected BSColorScheme() {
@@ -136,5 +142,21 @@ public class BSColorScheme {
     
     public void setTickColor( Color tickColor ) {
         _tickColor = tickColor;
+    }
+ 
+    public Color getMagnifyingGlassBezelColor() {
+        return _magnifyingGlassBezelColor;
+    }
+  
+    public void setMagnifyingGlassBezelColor( Color magnifyingGlassBezelColor ) {
+        _magnifyingGlassBezelColor = magnifyingGlassBezelColor;
+    }
+
+    public Color getMagnifyingGlassHandleColor() {
+        return _magnifyingGlassHandleColor;
+    }
+    
+    public void setMagnifyingGlassHandleColor( Color magnifyingGlassHandleColor ) {
+        _magnifyingGlassHandleColor = magnifyingGlassHandleColor;
     }
 }
