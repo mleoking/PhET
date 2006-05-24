@@ -19,6 +19,7 @@ public class LightModule extends WaveInterferenceModule {
     private WaveInterferenceModel waveInterferenceModel;
     private LightSimulationPanel lightSimulationPanel;
     private LightControlPanel lightControlPanel;
+//    private PhetApplication application;
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {
         lightControlPanel.setAsymmetricFeaturesEnabled( b );
@@ -27,6 +28,10 @@ public class LightModule extends WaveInterferenceModule {
     public WaveInterferenceScreenUnits getScreenUnits() {
         return lightSimulationPanel.getScreenUnits();
     }
+
+//    public void setPhetApplication( PhetApplication application ) {
+//        this.application = application;
+//    }
 
     public static class LightModel extends WaveInterferenceModel {
         public LightModel() {
@@ -50,6 +55,22 @@ public class LightModule extends WaveInterferenceModule {
         setSimulationPanel( lightSimulationPanel );
         setControlPanel( lightControlPanel );
     }
+
+//    public void activate() {
+//        super.activate();
+//        updateMenus();
+//    }
+//
+//    private void updateMenus() {
+//        if( isActive() ) {
+//            application.getPhetFrame().getm
+//        }
+//    }
+//
+//    public void deactivate() {
+//        super.deactivate();
+//        updateMenus();
+//    }
 
     public WaveModel getWaveModel() {
         return waveInterferenceModel.getWaveModel();

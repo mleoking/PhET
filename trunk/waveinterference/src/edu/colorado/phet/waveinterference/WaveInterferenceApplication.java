@@ -27,10 +27,13 @@ public class WaveInterferenceApplication extends PhetApplication {
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
+                    WaveInterferenceMenu menu = new WaveInterferenceMenu();
                     addModule( new WaterModule() );
                     addModule( new SoundModule() );
-                    addModule( new LightModule() );
-                    getPhetFrame().addMenu( new WaveInterferenceMenu() );
+                    LightModule lightModule = new LightModule();
+                    addModule( lightModule );
+                    menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
+                    getPhetFrame().addMenu( menu );
                     if( getModules().length > 1 ) {
                         for( int i = 0; i < getModules().length; i++ ) {
                             getModule( i ).setLogoPanelVisible( false );
