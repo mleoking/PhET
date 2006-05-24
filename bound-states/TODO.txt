@@ -6,8 +6,8 @@ IN PROGRESS:
 - constrain dragging of magnifying glass to Energy chart (having problems...)
 
 Magnifying glass TODO:
+- selection/hiliting should only work for eigenstates that are visible in lens
 - selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
-- when glass is invisible, mouseMoved events don't make it to BSEigenstatesNode where the glass is located
 - constrain dragging to Energy chart
 - show chart boundaries
 - color scheme for handle and bezel
@@ -60,6 +60,7 @@ CLEANUP:
 
 
 DONE:
+(5/23/06) - when magnifying glass is invisible, setChildrenPickable(false)
 (5/22/06) - prevent mouse events from going thru any parts of the magnifying glass
 (5/22/05) - angled handle on magnifying glass
 (5/22/06) - select and hilite eigenstates thru magnifying glass
