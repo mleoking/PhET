@@ -83,7 +83,7 @@ public class ScalarDataRecorder {
     }
 
     private synchronized void computeDataStatistics() {
-        double currTime = clock.getRunningTime();
+        double currTime = clock.getSimulationTime();
 
         // Remove entries from the data record that have aged out of the time window
         if( dataRecord.size() > 0 ) {
@@ -113,7 +113,7 @@ public class ScalarDataRecorder {
      *
      */
     public synchronized void addDataRecordEntry( double value ) {
-        DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
+        DataRecordEntry entry = new DataRecordEntry( clock.getSimulationTime(), value );
         dataRecord.add( entry );
     }
 
