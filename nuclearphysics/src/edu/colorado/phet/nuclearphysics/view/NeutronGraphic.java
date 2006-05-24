@@ -19,15 +19,12 @@ import java.io.IOException;
 
 public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
-    //----------------------------------------------------------------
-    // Class data and methods
-    //----------------------------------------------------------------
-
     private static Stroke outlineStroke = new BasicStroke( 0.35f );
     private static Color color = Color.gray;
     private static BufferedImage neutronImage;
     private static AffineTransform atx = new AffineTransform();
     private static Ellipse2D.Double circle;
+    private NuclearParticle myParticle;
 
     static {
         ImageLoader imgLoader = new ImageLoader();
@@ -43,19 +40,21 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         }
     }
 
-    /**
-     * @param component
-     */
-    public NeutronGraphic( Component component ) {
-        super( component, color );
+    //    private static HashMap graphicToModelMap = new HashMap();
+
+    //    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
+    //        return (NeutronGraphic)graphicToModelMap.get( neutron );
+    //    }
+
+    public NeutronGraphic() {
+        super( color );
     }
 
-    /**
-     * @param component
-     * @param particle
-     */
-    public NeutronGraphic( Component component, NuclearParticle particle ) {
-        super( component, particle, NeutronGraphic.color );
+    public NeutronGraphic( NuclearParticle particle ) {
+        super( particle, NeutronGraphic.color );
+        //        graphicToModelMap.put( particle, this );
+
+        this.myParticle = particle;
     }
 
     public void paint( Graphics2D g, double x, double y ) {
@@ -67,7 +66,15 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         GraphicsUtil.setAntiAliasingOn( g );
         g.transform( atx );
         g.draw( circle );
+
         g.setTransform( orgTx );
+
+        g.setColor( Color.red );
+        if( myParticle != null ) {
+            g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
+                        (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY() );
+        }
+
     }
 
     public void update() {

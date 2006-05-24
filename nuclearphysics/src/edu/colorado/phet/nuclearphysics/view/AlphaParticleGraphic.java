@@ -1,12 +1,9 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+/**
+ * Class: AlphaParticleGraphic
+ * Class: edu.colorado.phet.nuclearphysics.view
+ * User: Ron LeMaster
+ * Date: Mar 4, 2004
+ * Time: 8:57:31 AM
  */
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -17,12 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * AlphaParticleGraphic
- *
- * @author Ron LeMaster
- * @version $Revision$
- */
 public class AlphaParticleGraphic extends NucleusGraphic {
 
     /**
@@ -36,18 +27,18 @@ public class AlphaParticleGraphic extends NucleusGraphic {
         BufferedImage alphaBi = new BufferedImage( (int)w, (int)h,
                                                    BufferedImage.TYPE_INT_ARGB );
         Graphics2D ga = (Graphics2D)alphaBi.getGraphics();
-        JPanel dummyPanel = new JPanel();
-        ProtonGraphic pg = new ProtonGraphic( dummyPanel );
-        NeutronGraphic ng = new NeutronGraphic( dummyPanel );
+        ProtonGraphic pg = new ProtonGraphic();
+        NeutronGraphic ng = new NeutronGraphic();
         pg.paint( ga, w * 0, h * 0 );
         ng.paint( ga, w * 0, h * 0.3 );
         pg.paint( ga, w * 0.3, h * 0.3 );
         ng.paint( ga, w * 0.3, h * 0. );
+//        new AlphaParticleGraphic( new AlphaParticle( new Point2D.Double(), 0 ) ).paint( ga, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
         ImageIcon alphaParticleImg = new ImageIcon( alphaBi );
         return alphaParticleImg;
     }
 
-    public AlphaParticleGraphic( Component component, Nucleus nucleus ) {
-        super( component, nucleus );
+    public AlphaParticleGraphic( Nucleus nucleus ) {
+        super( nucleus );
     }
 }

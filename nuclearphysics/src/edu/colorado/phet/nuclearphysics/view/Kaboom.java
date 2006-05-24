@@ -7,7 +7,9 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -16,7 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-public class Kaboom extends PhetShapeGraphic implements Runnable {
+public class Kaboom implements Graphic, Runnable {
     private static long waitTime = 100;
     private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
     private static String kaboomStr = SimStrings.get( "Kaboom.KaboomText" );
@@ -40,12 +42,10 @@ public class Kaboom extends PhetShapeGraphic implements Runnable {
     private Color color;
 
 
-    public Kaboom( Component component,
-                   Point2D location,
+    public Kaboom( Point2D location,
                    double radiusIncr,
                    double maxRadius,
                    ApparatusPanel apparatusPanel ) {
-        super( component );
         this.radiusIncr = radiusIncr;
         this.maxRadius = maxRadius;
         this.apparatusPanel = apparatusPanel;
@@ -55,44 +55,36 @@ public class Kaboom extends PhetShapeGraphic implements Runnable {
         double theta = Math.random() * Math.PI - ( Math.PI / 2 );
         kaboomStrTx = AffineTransform.getRotateInstance( theta );
 
-        setShape( shape );
-
         //        Thread thread = new Thread( this );
         //        thread.start();
     }
 
-//    public void paint( Graphics2D g ) {
-//        GraphicsState gs = new GraphicsState( g );
-//        update();
-//        shape.setFrameFromCenter( location.getX(), location.getY(),
-//                                  location.getX() + radius,
-//                                  location.getY() + radius );
-//        g.setColor( color );
-//        //        g.setColor( Color.yellow );
-//        //        GraphicsUtil.setAlpha( g, kaboomAlpha );
-//        g.fill( shape );
-//        GraphicsUtil.setAlpha( g, 1 );
-//
-//        //        g.setFont( kaboomFont );
-//        //        g.setColor( Color.black );
-//        //        g.transform( kaboomStrTx );
-//        //        g.drawString( kaboomStr, 200, 200 );
-//        //
-//
-//        gs.restoreGraphics();
-//    }
+    public void paint( Graphics2D g ) {
+        GraphicsState gs = new GraphicsState( g );
+        update();
+        shape.setFrameFromCenter( location.getX(), location.getY(),
+                                  location.getX() + radius,
+                                  location.getY() + radius );
+        g.setColor( color );
+        //        g.setColor( Color.yellow );
+        //        GraphicsUtil.setAlpha( g, kaboomAlpha );
+        g.fill( shape );
+        GraphicsUtil.setAlpha( g, 1 );
+
+        //        g.setFont( kaboomFont );
+        //        g.setColor( Color.black );
+        //        g.transform( kaboomStrTx );
+        //        g.drawString( kaboomStr, 200, 200 );
+        //
+
+        gs.restoreGraphics();
+    }
 
     private void update() {
         if( kaboomAlpha > 0 ) {
             kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
             color = colors[( colors.length - 1 ) - (int)( kaboomAlpha * ( colors.length - 1 ) )];
-            setColor( color );
             radius += radiusIncr;
-            shape.setFrameFromCenter( location.getX(), location.getY(),
-                                      location.getX() + radius,
-                                      location.getY() + radius );
-            setBoundsDirty();
-            repaint();
         }
         else {
             SwingUtilities.invokeLater( new Runnable() {

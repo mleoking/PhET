@@ -32,7 +32,7 @@ public class AlphaParticle extends Nucleus {
     private double statisticalPositionSigma;
     private boolean escaped = false;
 
-    public AlphaParticle( Point2D.Double position, double statisticalPositionSigma ) {
+    public AlphaParticle( Point2D position, double statisticalPositionSigma ) {
         super( position, 2, 2 );
         this.statisticalPositionSigma = statisticalPositionSigma;
     }
