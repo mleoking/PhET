@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -104,7 +104,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     /**
      * @param clock
      */
-    public PotentialProfilePanel( AbstractClock clock ) {
+    public PotentialProfilePanel( IClock clock ) {
         super( clock );
         this.setBackground( backgroundColor );
 

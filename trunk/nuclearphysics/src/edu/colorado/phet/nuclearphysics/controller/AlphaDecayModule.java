@@ -11,11 +11,11 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
@@ -53,7 +53,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
                                                      BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
 
-    public AlphaDecayModule( AbstractClock clock ) {
+    public AlphaDecayModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.AlphaDecayModule" ), clock );
 
         // DEBUG ONLY!!!

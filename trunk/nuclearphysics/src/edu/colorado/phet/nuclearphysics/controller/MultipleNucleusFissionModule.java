@@ -8,7 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
@@ -39,7 +39,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
-    public MultipleNucleusFissionModule( AbstractClock clock ) {
+    public MultipleNucleusFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
 
         // set the scale of the physical panel so we can fit more nuclei in it

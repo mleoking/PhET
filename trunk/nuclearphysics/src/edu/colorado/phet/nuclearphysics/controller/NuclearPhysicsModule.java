@@ -9,7 +9,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -21,9 +21,9 @@ import java.awt.*;
 public class NuclearPhysicsModule extends Module {
     private ApparatusPanel apparatusPanel;
     private PhysicalPanel physicalPanel;
-    private AbstractClock clock;
+    private IClock clock;
 
-    public NuclearPhysicsModule( String name, AbstractClock clock ) {
+    public NuclearPhysicsModule( String name, IClock clock ) {
         super( name, clock );
         this.clock = clock;
 
@@ -49,7 +49,7 @@ public class NuclearPhysicsModule extends Module {
         super.setControlPanel( controlPanel );
     }
 
-    public AbstractClock getClock() {
+    public IClock getClock() {
         return clock;
     }
 

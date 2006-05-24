@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -33,7 +33,7 @@ public class PhysicalPanel extends ApparatusPanel2 {
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
 
-    public PhysicalPanel( AbstractClock clock ) {
+    public PhysicalPanel( IClock clock ) {
 //    public PhysicalPanel( BaseModel model ) {
         super( clock );
 //        super( model );

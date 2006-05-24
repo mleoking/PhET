@@ -7,9 +7,10 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.GraphicsSetup;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
@@ -28,7 +29,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     private double alphaParticleLevel = Config.alphaParticleLevel;
 
-    public AlphaDecayPhysicalPanel( AbstractClock clock ) {
+    public AlphaDecayPhysicalPanel( IClock clock ) {
         super( clock );
 //    public AlphaDecayPhysicalPanel( BaseModel model ) {
 //        super( model );
