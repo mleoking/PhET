@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -29,7 +29,15 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ *
+ */
 public class PotentialProfilePanel extends TxApparatusPanel {
+
+
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
 
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
@@ -75,6 +83,10 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         return atx;
     }
 
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     // Maps potential profiles to their graphics
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
@@ -88,8 +100,8 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private boolean init = false;
     private Rectangle orgBounds;
 
-    public PotentialProfilePanel( BaseModel model ) {
-        super( model );
+    public PotentialProfilePanel( IClock clock ) {
+        super( clock );
         //        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
 

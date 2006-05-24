@@ -42,7 +42,7 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
 
-        physicalPanel = new PhysicalPanel( getModel() );
+        physicalPanel = new PhysicalPanel( clock );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );

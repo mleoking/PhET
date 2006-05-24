@@ -8,6 +8,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -34,8 +35,12 @@ public class PhysicalPanel extends TxApparatusPanel {
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
 
-    public PhysicalPanel( BaseModel model ) {
-        super( model );
+    /**
+     * Constructor
+     * @param clock
+     */
+    public PhysicalPanel( IClock clock ) {
+        super( clock );
         this.setBackground( backgroundColor );
         setScale( 1 );
 
