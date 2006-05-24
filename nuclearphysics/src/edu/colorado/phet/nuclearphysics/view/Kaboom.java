@@ -7,7 +7,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -18,7 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-public class Kaboom implements Graphic, Runnable {
+public class Kaboom extends PhetGraphic implements Runnable {
     private static long waitTime = 100;
     private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
     private static String kaboomStr = SimStrings.get( "Kaboom.KaboomText" );
@@ -111,5 +111,9 @@ public class Kaboom implements Graphic, Runnable {
                 apparatusPanel.removeGraphic( Kaboom.this );
             }
         } );
+    }
+
+    protected Rectangle determineBounds() {
+        return shape.getBounds();
     }
 }
