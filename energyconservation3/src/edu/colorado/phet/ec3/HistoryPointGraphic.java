@@ -2,7 +2,7 @@
 package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.HistoryPoint;
-import edu.colorado.phet.piccolo.nodes.HTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -34,11 +34,11 @@ public class HistoryPointGraphic extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 path.removeAllChildren();
-                HTMLGraphic htmlGraphic = new HTMLGraphic( "<html>" +
-                                                           "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                                                           "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
-                                                           "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
-                                                           "</html>" );
+                HTMLNode htmlGraphic = new HTMLNode( "<html>" +
+                                                     "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
+                                                     "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                                                     "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                                                     "</html>" );
                 path.addChild( htmlGraphic );
             }
 
