@@ -7,20 +7,19 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public class ParticleGraphic implements Graphic, SimpleObserver {
+public class ParticleGraphic extends PhetImageGraphic implements SimpleObserver {
     private NuclearParticle particle;
     private Point2D.Double position = new Point2D.Double();
     private Color color;
-    private double radius = 20;
     private AffineTransform atx = new AffineTransform();
 
     protected ParticleGraphic( Color color ) {
@@ -31,7 +30,6 @@ public class ParticleGraphic implements Graphic, SimpleObserver {
         this.particle = particle;
         particle.addObserver( this );
         this.color = color;
-        this.radius = particle.getRadius();
     }
 
     public void setStransform( AffineTransform atx ) {
@@ -44,7 +42,6 @@ public class ParticleGraphic implements Graphic, SimpleObserver {
         }
         particle.addObserver( this );
         this.particle = particle;
-        this.radius = particle.getRadius();
     }
 
     public void paint( Graphics2D g ) {
