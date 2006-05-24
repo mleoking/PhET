@@ -73,7 +73,8 @@ public class SRRWavelengthSlider extends PNode {
         phetTextGraphic = new PText( "" );
 
         colorBackgroundNode.setOffset( 0, getTextOffsetY() );
-        double colorFraction = 3.0 / 4.0; //fractional distance of initial value from min to max (blue to red)
+//        double colorFraction = 3.0 / 4.0; //fractional distance of initial value from min to max (blue to red)
+        double colorFraction = 2.8 / 4.0; //fractional distance of initial value from min to max (blue to red)
         spectrumSliderKnob.setOffset( image.getWidth() * colorFraction, image.getHeight() + getTextOffsetY() );
         addChild( phetTextGraphic );
         addChild( colorBackgroundNode );
