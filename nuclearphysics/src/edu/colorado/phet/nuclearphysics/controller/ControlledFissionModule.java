@@ -538,13 +538,14 @@ public class ControlledFissionModule extends ChainReactionModule {
     private double orgDt;
 
     public void setSlowMotion( boolean b ) {
-        if( b ) {
-            orgDt = getClock().getDt();
-            getClock().setDt( orgDt / 5 );
-        }
-        else {
-            getClock().setDt( orgDt );
-        }
+        throw new RuntimeException( "Needs to be re-implemented with new clock");
+//        if( b ) {
+//            orgDt = getClock().getDt();
+//            getClock().setDt( orgDt / 5 );
+//        }
+//        else {
+//            getClock().setDt( orgDt );
+//        }
     }
 
     public void setFissionDelay( long msec ) {
