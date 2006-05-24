@@ -3,8 +3,8 @@ package edu.colorado.phet.ec3.common;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.piccolo.BoundGraphic;
-import edu.colorado.phet.piccolo.CursorHandler;
+import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

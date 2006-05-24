@@ -6,8 +6,8 @@ import edu.colorado.phet.common.model.clock.ClockEvent;
 import edu.colorado.phet.ec3.EC3Module;
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.piccolo.PhetPCanvas;
-import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.timeseries.TimeSeriesModelListenerAdapter;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

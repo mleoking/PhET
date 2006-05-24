@@ -10,10 +10,10 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.EC3Canvas;
 import edu.colorado.phet.ec3.EnergyLookAndFeel;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
-import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
-import edu.colorado.phet.piccolo.pswing.PSwing;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import javax.swing.*;
 import java.awt.*;

@@ -2,8 +2,8 @@
 package edu.colorado.phet.ec3.plots;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.piccolo.ShadowHTMLGraphic;
-import edu.colorado.phet.piccolo.ShadowPText;
+import edu.colorado.phet.piccolo.nodes.ShadowHTMLGraphic;
+import edu.colorado.phet.piccolo.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
