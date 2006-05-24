@@ -19,5 +19,6 @@ public class OscillatorControlPanel extends VerticalLayoutPanel {
         add( frequencySlider );
         final JComponent amplitudeControl = new AmplitudeControl( oscillator );
         add( amplitudeControl );
+//        setPreferredSize( new Dimension( (int)( getPreferredSize().width*0.8 ), getPreferredSize().height) );
     }
 }

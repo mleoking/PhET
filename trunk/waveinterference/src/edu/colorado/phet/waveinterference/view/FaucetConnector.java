@@ -27,16 +27,15 @@ public class FaucetConnector extends VerticalConnector {
         this.faucetControlPanelPNode = faucetControlPanelPNode;
         this.faucetGraphic = faucetGraphic;
 
-        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, new PropertyChangeListener() {
+        PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 update();
             }
-        } );
-        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                update();
-            }
-        } );
+        };
+        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
+        faucetGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+        faucetControlPanelPNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+        faucetControlPanelPNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
         try {
             setTexture( ImageLoader.loadBufferedImage( "images/silverwire.png" ) );
         }

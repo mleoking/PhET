@@ -38,7 +38,7 @@ public class LaserControlPanelPNode extends PNode {
             }
         } );
         laserControlPSwing = new PSwing( lightSimulationPanel, new ShinyPanel( laserControlPanel ) );
-//        ResizeHandler.getInstance().setResizable(lightSimulationPanel,laserControlPSwing);
+        ResizeHandler.getInstance().setResizable( lightSimulationPanel, laserControlPSwing, 0.9 );
 
         addChild( laserControlPSwing );
         waveModelGraphic.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

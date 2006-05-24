@@ -24,18 +24,22 @@ public class ResizeHandler {
         return instance;
     }
 
-    public void setResizable( final PSwingCanvas lightSimulationPanel, final PNode node ) {
-        lightSimulationPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                updateLaserControlPSwingScale( lightSimulationPanel, node );
-            }
-        } );
-        updateLaserControlPSwingScale( lightSimulationPanel, node );
+    public void setResizable( final PSwingCanvas pcanvas, final PNode node ) {
+        setResizable( pcanvas, node, 0.75 );
     }
 
-    private void updateLaserControlPSwingScale( PSwingCanvas lightSimulationPanel, PNode laserControlPSwing ) {
+    public void setResizable( final PSwingCanvas pcanvas, final PNode node, final double scale ) {
+        pcanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateLaserControlPSwingScale( pcanvas, node, scale );
+            }
+        } );
+        updateLaserControlPSwingScale( pcanvas, node, scale );
+    }
+
+    private void updateLaserControlPSwingScale( PSwingCanvas lightSimulationPanel, PNode laserControlPSwing, double scale ) {
         if( lightSimulationPanel.getWidth() < 900 ) {
-            laserControlPSwing.setScale( 0.75 );
+            laserControlPSwing.setScale( scale );
         }
         else {
             laserControlPSwing.setScale( 1.0 );

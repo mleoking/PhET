@@ -18,6 +18,8 @@ import java.io.IOException;
  */
 
 public class VerticalConnector extends ConnectorGraphic {
+    int width = 20;
+
     public VerticalConnector( PNode src, PNode dst ) {
         super( src, dst );
         BufferedImage txtr = null;
@@ -34,7 +36,11 @@ public class VerticalConnector extends ConnectorGraphic {
         double yMin = Math.min( r1c.getY(), r2c.getY() );
         double yMax = Math.max( r1c.getY(), r2c.getY() );
         double height = yMax - yMin;
-        Rectangle2D.Double rect = new Rectangle2D.Double( r1c.getX(), yMin, 20, height );
+        Rectangle2D.Double rect = new Rectangle2D.Double( r1c.getX(), yMin, width, height );
         super.setPathTo( rect );
+    }
+
+    public void setConnectorWidth( int width ) {
+        this.width = width;
     }
 }
