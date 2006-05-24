@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -21,20 +20,25 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-public class NuclearPhysicsControlPanel extends PhetControlPanel {
+/**
+ * Constructor 
+ */
+public class NuclearPhysicsControlPanel extends JPanel {
+//public class NuclearPhysicsControlPanel extends PhetControlPanel {
     private NuclearPhysicsModule module;
     private int rowIdx = 0;
     private JPanel mainPanel;
 
     public NuclearPhysicsControlPanel( final NuclearPhysicsModule module ) {
-        super( module );
+//        super( module );
         this.module = module;
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
         panel.add( new LegendPanel(), BorderLayout.NORTH );
         mainPanel = new JPanel( new GridBagLayout() );
         panel.add( mainPanel, BorderLayout.CENTER );
-        super.setControlPane( panel );
+//        super.setControlPane( panel );
+        this.add( panel );
 
         // Add a check box to run the simulation in slow motion
 //        final JCheckBox slowMoCB = new JCheckBox( "Slow motion" );
