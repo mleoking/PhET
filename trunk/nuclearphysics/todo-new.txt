@@ -1,0 +1,3 @@
+Take all the clock-manipulation stuff out of the activate() and deactivate() methods.
+
+Add setSimulationTimeChange() and other mutators to IClock

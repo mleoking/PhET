@@ -41,8 +41,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
         Module alphaModule = new AlphaDecayModule( ClockFactory.create( 10 , 20 ) );
-        Module singleNucleusFissionModule = new SingleNucleusFissionModule(  ClockFactory.create( 10 , 20 )  );
-        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule(  ClockFactory.create( 10 , 20 )  );
+        Module singleNucleusFissionModule = new SingleNucleusFissionModule(  ClockFactory.create( 10 , 5 )  );
+        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule(  ClockFactory.create( 10 , 12 )  );
         setModules( new Module[]{
             alphaModule,
 //            singleNucleusFissionModule,
