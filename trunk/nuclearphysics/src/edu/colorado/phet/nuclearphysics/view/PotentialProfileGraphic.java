@@ -43,7 +43,8 @@ public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleO
     private Image image;
     private Nucleus nucleus;
 
-    public PotentialProfileGraphic( Nucleus nucleus ) {
+    public PotentialProfileGraphic( Component component, Nucleus nucleus ) {
+        super( component );
         this.nucleus = nucleus;
         this.profile = nucleus.getPotentialProfile();
         this.profile.addObserver( this );

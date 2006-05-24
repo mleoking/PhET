@@ -28,7 +28,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
-        getPhysicalPanel().setScale( 0.5 );
+        getPhysicalPanel().setScale( 0.2 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 
         getModel().addModelElement( new ModelElement() {
@@ -82,6 +82,16 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 //                }
 //            }
 //        } );
+    }
+
+    public void activate() {
+        super.activate();
+        start();
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        stop();
     }
 
     public void start() {

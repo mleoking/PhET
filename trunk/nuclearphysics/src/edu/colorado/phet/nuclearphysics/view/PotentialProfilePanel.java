@@ -104,22 +104,17 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         super( clock );
         //        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
+    }
 
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                if( !init ) {
-                    orgBounds = new Rectangle( getBounds() );
-                    origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
-                    //            origin = new Point2D.Double( 250, 250 );
-                    profileTx.setToTranslation( origin.getX(),
-                                                origin.getY() );
-                    init = true;
-                }
-            }
-
-            public void componentShown( ComponentEvent e ) {
-            }
-        } );
+    private void setOrgFields() {
+        if( !init ) {
+            orgBounds = new Rectangle( getBounds() );
+            origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
+            //            origin = new Point2D.Double( 250, 250 );
+            profileTx.setToTranslation( origin.getX(),
+                                        origin.getY() );
+            init = true;
+        }
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -176,6 +171,9 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     private void drawAxes( Graphics2D g2 ) {
+        // Make sure key objects are initialized
+        setOrgFields();
+
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
         int arrowOffset = 20;
@@ -230,7 +228,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     public void addPotentialProfile( Nucleus nucleus ) {
-        PotentialProfileGraphic ppg = new PotentialProfileGraphic( nucleus );
+        PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
