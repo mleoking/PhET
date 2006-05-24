@@ -90,16 +90,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         alphaDecayControlPanel.stopTimer();
     }
 
-    public void activate(PhetApplication app) {
-        super.activate(app);
-        this.start();
-    }
-
-    public void deactivate(PhetApplication app) {
-        super.deactivate(app);
-        this.stop();
-    }
-
     protected void addAlphaParticle(AlphaParticle alphaParticle, Nucleus nucleus) {
         // The following line is inserted to try to solve a bug Wendy found, that show's up
         // only on her computer. If she hits the "Reset" button before alpha decay has happened,
