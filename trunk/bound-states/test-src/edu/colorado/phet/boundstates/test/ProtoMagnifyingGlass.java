@@ -108,6 +108,7 @@ public class ProtoMagnifyingGlass extends PComposite {
     // Sets the bounds used to constrain dragging.
     public void setDragBounds( Rectangle2D dragBounds ) {
         _eventHandler.setDragBounds( dragBounds );
+        updateDisplay();
     }
 
     // Determines if point is inside the lens.
@@ -117,8 +118,8 @@ public class ProtoMagnifyingGlass extends PComposite {
     }
 
     // Update what's visible in the lens.
-    private void updateDisplay( Point2D point ) {
-        System.out.println( "updateDisplay at " + point );
+    private void updateDisplay() {
+        System.out.println( "updateDisplay" );
     }
 
     // Select the eigenstate that is closest to point.
@@ -145,8 +146,9 @@ public class ProtoMagnifyingGlass extends PComposite {
 
         // Hilites an eigenstate when the mouse is moved.
         public void mouseMoved( PInputEvent e ) {
+            super.mouseMoved( e );
             Point2D mousePosition = e.getPosition();
-            if ( isInLens( mousePosition ) ) {
+            if ( !_dragging && isInLens( mousePosition ) ) {
                 hiliteEigenstate( mousePosition );
             }
         }
@@ -167,7 +169,7 @@ public class ProtoMagnifyingGlass extends PComposite {
         public void mouseDragged( PInputEvent e ) {
             _dragging = true;
             super.mouseDragged( e );
-            updateDisplay( e.getPosition() );
+            updateDisplay();
         }
     }
     
