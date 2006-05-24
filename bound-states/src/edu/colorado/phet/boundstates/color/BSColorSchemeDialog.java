@@ -65,6 +65,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     private JLabel _chartChip, _ticksChip, _gridlinesChip;
     private JLabel _eigenstateNormalChip, _eigenstateHiliteChip, _eigenstateSelectionChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip;
+    private JLabel _magnifyingGlassBezelChip, _magnifyingGlassHandleChip;
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
     
@@ -243,6 +244,32 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             row++;
         }
         
+        // Vertical space
+        inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
+        row++;
+        
+        // Magnifying Glass bezel
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.magnifyingGlassBezel" ) );
+            _magnifyingGlassBezelChip = new JLabel();
+            setColor( _magnifyingGlassBezelChip, _scheme.getMagnifyingGlassBezelColor() );
+            _magnifyingGlassBezelChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _magnifyingGlassBezelChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
+        // Magnifying Glass handle
+        {
+            JLabel label = new JLabel( SimStrings.get( "label.color.magnifyingGlassHandle" ) );
+            _magnifyingGlassHandleChip = new JLabel();
+            setColor( _magnifyingGlassHandleChip, _scheme.getMagnifyingGlassHandleColor() );
+            _magnifyingGlassHandleChip.addMouseListener( listener );
+            inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.EAST );
+            inputPanelLayout.addAnchoredComponent( _magnifyingGlassHandleChip, row, 1, GridBagConstraints.WEST );
+            row++;
+        }
+        
         return inputPanel;
     }
     
@@ -341,6 +368,14 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         else if ( _currentChip == _magnitudeChip ) {
             titlePrefix = SimStrings.get( "label.color.magnitude" );
             initialColor = _scheme.getMagnitudeColor();
+        }
+        else if ( _currentChip == _magnifyingGlassBezelChip ) {
+            titlePrefix = SimStrings.get( "label.color.magnifyingGlassBezel" );
+            initialColor = _scheme.getMagnifyingGlassBezelColor();
+        }
+        else if ( _currentChip == _magnifyingGlassHandleChip ) {
+            titlePrefix = SimStrings.get( "label.color.magnifyingGlassHandle" );
+            initialColor = _scheme.getMagnifyingGlassHandleColor();
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
@@ -465,6 +500,12 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         }
         else if ( _currentChip == _magnitudeChip ) {
             _scheme.setMagnitudeColor( color );
+        }
+        else if ( _currentChip == _magnifyingGlassBezelChip ) {
+            _scheme.setMagnifyingGlassBezelColor( color );
+        }
+        else if ( _currentChip == _magnifyingGlassHandleChip ) {
+            _scheme.setMagnifyingGlassHandleColor( color );
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );

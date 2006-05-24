@@ -34,5 +34,7 @@ public class BSWhiteColorScheme extends BSColorScheme {
         setRealColor( Color.RED );
         setImaginaryColor( Color.BLUE );
         setMagnitudeColor( Color.BLACK );
+        setMagnifyingGlassBezelColor( Color.GRAY );
+        setMagnifyingGlassHandleColor( Color.ORANGE );
     }
 }

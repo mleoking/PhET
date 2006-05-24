@@ -34,5 +34,7 @@ public class BSBlackColorScheme extends BSColorScheme {
         setRealColor( new Color( 255, 120, 0 ) ); // pumpkin orange
         setImaginaryColor( new Color( 26, 135, 255 ) ); // bright blue
         setMagnitudeColor( Color.WHITE );
+        setMagnifyingGlassBezelColor( Color.GRAY );
+        setMagnifyingGlassHandleColor( Color.ORANGE );
     }
 }

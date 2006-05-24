@@ -46,6 +46,8 @@ public class BSColorSchemeConfig implements BSSerializable {
     private int[] _imaginaryColor;
     private int[] _magnitudeColor;
     private int[] _probabilityDensityColor;
+    private int[] _magnifyingGlassBezelColor;
+    private int[] _magnifyingGlassHandleColor;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -72,6 +74,8 @@ public class BSColorSchemeConfig implements BSSerializable {
         setRealColor( toArray( colorScheme.getRealColor() ) );
         setImaginaryColor( toArray( colorScheme.getImaginaryColor() ) );
         setMagnitudeColor( toArray( colorScheme.getMagnitudeColor() ) );
+        setMagnifyingGlassBezelColor( toArray( colorScheme.getMagnifyingGlassBezelColor() ) );
+        setMagnifyingGlassHandleColor( toArray( colorScheme.getMagnifyingGlassHandleColor() ) );
     }
     
     //----------------------------------------------------------------------------
@@ -161,30 +165,41 @@ public class BSColorSchemeConfig implements BSSerializable {
     public int[] getEigenstateHiliteColor() {
         return _eigenstateHiliteColor;
     }
-
     
     public void setEigenstateHiliteColor( int[] eigenstateHiliteColor ) {
         _eigenstateHiliteColor = eigenstateHiliteColor;
     }
-
     
     public int[] getEigenstateNormalColor() {
         return _eigenstateNormalColor;
     }
-
-    
+   
     public void setEigenstateNormalColor( int[] eigenstateNormalColor ) {
         _eigenstateNormalColor = eigenstateNormalColor;
     }
-
     
     public int[] getEigenstateSelectionColor() {
         return _eigenstateSelectionColor;
     }
 
-    
     public void setEigenstateSelectionColor( int[] eigenstateSelectionColor ) {
         _eigenstateSelectionColor = eigenstateSelectionColor;
+    }
+    
+    public int[] getMagnifyingGlassBezelColor() {
+        return _magnifyingGlassBezelColor;
+    }
+  
+    public void setMagnifyingGlassBezelColor( int[] magnifyingGlassBezelColor ) {
+        _magnifyingGlassBezelColor = magnifyingGlassBezelColor;
+    }
+    
+    public int[] getMagnifyingGlassHandleColor() {
+        return _magnifyingGlassHandleColor;
+    }
+    
+    public void setMagnifyingGlassHandleColor( int[] magnifyingGlassHandleColor ) {
+        _magnifyingGlassHandleColor = magnifyingGlassHandleColor;
     }
     
     //----------------------------------------------------------------------------
@@ -210,6 +225,8 @@ public class BSColorSchemeConfig implements BSSerializable {
         colorScheme.setRealColor( toColor( getRealColor() ) );
         colorScheme.setImaginaryColor( toColor( getImaginaryColor() ) );
         colorScheme.setMagnitudeColor( toColor( getMagnitudeColor() ) );
+        colorScheme.setMagnifyingGlassBezelColor( toColor( getMagnifyingGlassBezelColor() ) );
+        colorScheme.setMagnifyingGlassHandleColor( toColor( getMagnifyingGlassHandleColor() ) );
         
         return colorScheme;
     }
