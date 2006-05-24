@@ -2,13 +2,12 @@
 Remaining Work
 ##################################
 
-3. Slow on mac.
-4. Connect pipe to middle of faucet.
 5. Reduce speaker size & source controls at low window size.
 6. Shrink wire to photon source
 7. Ask noah if we need a type-in text field with correct units in control panel.
 8. Potential Help items (wait for student interviews): maybe for drag faucets, only rotate when symmetric.
 9. Option to make e-field vectors black.
+3. Increase performance on mac.
 
 ##############################################################
 Questions
