@@ -8,11 +8,10 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
@@ -39,15 +38,9 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private static String yAxisLabel = SimStrings.get( "PotentialProfilePanel.YAxisLabel" );
     private static Font axisLabelFont;
     private static float ghostAlpha = 1f;
-    //    private static float ghostAlpha = 0.6f;
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
     private static AffineTransform atx = new AffineTransform();
-    private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
-        public void setup( Graphics2D graphics ) {
-            GraphicsUtil.setAlpha( graphics, 0.8 );
-        }
-    };
 
     static {
         String family = "SansSerif";
@@ -139,7 +132,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
         while( nucleusIt.hasNext() ) {
             Nucleus nucleus = (Nucleus)nucleusIt.next();
-            Graphic ng = (Graphic)profileNucleusMap.get( nucleus );
+            PhetGraphic ng = (PhetGraphic) profileNucleusMap.get( nucleus );
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
@@ -181,7 +174,6 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
         int xAxisMin = -this.getWidth() / 2 + arrowOffset;
         int xAxisMax = this.getWidth() / 2 - arrowOffset;
-        double yRat = profileTx.getTranslateY() / this.getHeight();
 
         int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
         int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
@@ -235,7 +227,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     public void removePotentialProfile( PotentialProfile potentialProfile ) {
-        Graphic ppg = (Graphic)potentialProfileMap.get( potentialProfile );
+        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
     }
@@ -243,7 +235,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     public void removeAllPotentialProfiles() {
         Iterator it = potentialProfileMap.values().iterator();
         while( it.hasNext() ) {
-            Graphic ppg = (Graphic)it.next();
+            PhetGraphic ppg = (PhetGraphic)it.next();
             this.removeGraphic( ppg );
         }
         potentialProfileMap.clear();
@@ -277,14 +269,13 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         super.removeAllGraphics();
     }
 
-    public void addOriginCenteredGraphic( Graphic graphic ) {
+    public void addOriginCenteredGraphic( PhetGraphic graphic ) {
         TxGraphic txg = new TxGraphic( graphic, profileTx );
         this.addGraphic( txg );
     }
 
     public void addNucleusGraphic( final Nucleus nucleus ) {
         final NucleusGraphic ng = new NucleusGraphic( nucleus );
-        //        TxGraphic txg = new TxGraphic( ng, );
         profileNucleusMap.put( nucleus, ng );
         nucleus.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
