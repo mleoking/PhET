@@ -34,11 +34,7 @@ public class EC3ControlPanel extends ControlPanel {
     private PlanetButton[] planetButtons;
 
     public EC3ControlPanel( final EC3Module module ) {
-        super( module );
-//        super.set( false );
         this.module = module;
-//        getControlPane().setAnchor( GridBagConstraints.WEST );
-//        getControlPane().setFillNone();
         JButton reset = new JButton( "Reset" );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

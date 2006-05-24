@@ -70,7 +70,7 @@ public class EC3Module extends PiccoloModule {
         clock.addClockListener( energyTimeSeriesModel );
 
         energyCanvas = new EC3Canvas( this );
-        setPhetPCanvas( energyCanvas );
+        setSimulationPanel( energyCanvas );
 
         EC3ControlPanel EC3ControlPanel = new EC3ControlPanel( this );
         setControlPanel( EC3ControlPanel );
