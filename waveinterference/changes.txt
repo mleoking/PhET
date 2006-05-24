@@ -1,3 +1,6 @@
+New in 0.00.20 (5-24-2006)
+Moved the option to make e-field vectors & curve black from the play area to a menu. 
+
 New in 0.00.19 (5-24-2006)
 Connected pipe to middle of faucet.
 Reduced speaker size & source controls at low window size.

@@ -39,7 +39,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private ScreenNode screenNode;
     private LaserControlPanelPNode laserControlPanelPNode;
     private WaveModel visibleWaveModel;
-    private WaveChartGraphic waveChartGraphic;
+    private LaserWaveChartGraphic waveChartGraphic;
     private ExpandableWaveChart expandableWaveChart;
     private ScreenChartGraphic screenChart;
     private ExpandableScreenChartGraphic expandableScreenChartGraphic;
@@ -179,6 +179,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
         }
+    }
+
+    public LaserWaveChartGraphic getWaveChartGraphic() {
+        return waveChartGraphic;
     }
 
     private void colorChanged() {
