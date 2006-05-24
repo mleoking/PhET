@@ -166,21 +166,21 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         return neutronPath;
     }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        orgDelay = getClock().getDelay();
-        orgDt = getClock().getDt();
-        getClock().setDelay( 10 );
-        getClock().setDt( orgDt * 0.6 );
-        this.start();
-    }
+//    public void activate( PhetApplication app ) {
+//        super.activate( app );
+//        orgDelay = getClock().getDelay();
+//        orgDt = getClock().getDt();
+//        getClock().setDelay( 10 );
+//        getClock().setDt( orgDt * 0.6 );
+//        this.start();
+//    }
 
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        getClock().setDelay( (int)( orgDelay ) );
-        getClock().setDt( orgDt );
-        this.stop();
-    }
+//    public void deactivate( PhetApplication app ) {
+//        super.deactivate( app );
+//        getClock().setDelay( (int)( orgDelay ) );
+//        getClock().setDt( orgDt );
+//        this.stop();
+//    }
 
     public ArrayList getNuclei() {
         return nuclei;
