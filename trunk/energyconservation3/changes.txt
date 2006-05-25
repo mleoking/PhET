@@ -6,6 +6,7 @@ Added a warning box to the reset button that says, Are you sure you want to rese
 Bugfix: Removed the ability to drag (pan/zoom) the bar graph graphics.
 Removed the minimize button from the bar chart.
 Removed the "Total Energy" entry from the pie chart legend.
+Added a "Clear Heat" button to the bar graph window.
 
 -Changes for 0.00.19 (5-14-2006)
 The simulation is now titled 'Energy Skate Park'

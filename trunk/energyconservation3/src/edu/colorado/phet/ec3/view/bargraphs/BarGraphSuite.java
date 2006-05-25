@@ -26,7 +26,6 @@ public class BarGraphSuite extends PNode {
     private ModelViewTransform1D transform1D;
 
     public BarGraphSuite( EC3Canvas eC3Canvas, final EnergyConservationModel energyConservationModel ) {
-        super();
         this.eC3Canvas = eC3Canvas;
         this.energyConservationModel = energyConservationModel;
 
