@@ -276,6 +276,6 @@ public class EC3ControlPanel extends ControlPanel {
     }
 
     private void reset() {
-        module.reset();
+        module.confirmAndReset();
     }
 }

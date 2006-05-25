@@ -284,4 +284,11 @@ public class EC3Module extends PiccoloModule {
             b.setCoefficientOfRestitution( rest );
         }
     }
+
+    public void confirmAndReset() {
+        int response = JOptionPane.showConfirmDialog( getSimulationPanel(), "Are you sure you want to reset?" );
+        if( response == JOptionPane.OK_OPTION || response == JOptionPane.YES_OPTION ) {
+            reset();
+        }
+    }
 }

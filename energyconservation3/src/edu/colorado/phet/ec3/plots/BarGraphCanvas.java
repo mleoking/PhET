@@ -22,5 +22,7 @@ public class BarGraphCanvas extends PSwingCanvas {
                                                                      new ModelViewTransform1D( 0, 7000, 0, 500 ) );
         getLayer().addChild( energyBarGraphSet );
         energyBarGraphSet.translate( 45, 45 );
+        setPanEventHandler( null );
+        setZoomEventHandler( null );
     }
 }
