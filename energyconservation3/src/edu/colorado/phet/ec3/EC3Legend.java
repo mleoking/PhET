@@ -18,7 +18,9 @@ public class EC3Legend extends Legend {
         addEntry( "Kinetic Energy", ec3Module.getEnergyLookAndFeel().getKEColor() );
         addEntry( "Potential Energy", ec3Module.getEnergyLookAndFeel().getPEColor() );
         addEntry( "Thermal Energy", ec3Module.getEnergyLookAndFeel().getThermalEnergyColor() );
-        addEntry( "Total Energy", ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
     }
 
+    public void addTotalEnergyEntry() {
+        addEntry( "Total Energy", ec3Module.getEnergyLookAndFeel().getTotalEnergyColor() );
+    }
 }

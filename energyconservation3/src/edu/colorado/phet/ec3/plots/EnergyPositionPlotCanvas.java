@@ -185,6 +185,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         verticalBar.setStrokePaint( Color.black );
         addScreenChild( verticalBar );
         legend = new EC3Legend( ec3Module );
+        legend.addTotalEnergyEntry();
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
 
