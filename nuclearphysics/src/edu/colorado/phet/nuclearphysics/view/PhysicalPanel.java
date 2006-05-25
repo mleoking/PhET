@@ -109,6 +109,10 @@ public class PhysicalPanel extends TxApparatusPanel {
         return super.getGraphicTx();
     }
 
+    protected void setOrigin( Point2D.Double origin ) {
+        this.origin = origin;
+    }
+
     protected Point2D.Double getOrigin() {
         return origin;
     }

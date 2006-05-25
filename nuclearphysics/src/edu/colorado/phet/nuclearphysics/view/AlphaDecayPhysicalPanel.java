@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
@@ -38,7 +39,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         Graphics2D g2 = (Graphics2D)graphics;
 
         // Set the origin
-        getOrigin().setLocation( this.getWidth() / 2, this.getHeight() / 2 );
+        setOrigin( new Point2D.Double( this.getWidth() / 2, this.getHeight() / 2 ) );
         getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
 
         // Draw everything that isn't special to this panel
