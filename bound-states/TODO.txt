@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- constrain dragging of magnifying glass goes nuts when potentialNode.setPath() is called in updateDisplay
 
 Magnifying glass TODO:
 - different magnification for each module
@@ -12,7 +11,6 @@ Magnifying glass TODO:
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
 - selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
-- constrain dragging to Energy chart
 - show chart boundaries
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
