@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +26,7 @@ import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.piccolo.event.ConstrainedDragHandler;
 import edu.colorado.phet.piccolo.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -42,13 +40,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSMagnifyingGlass extends PComposite implements Observer {
+public class BSMagnifyingGlass extends PNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_MAGNIFICATION = 2;
+    private static final double DEFAULT_MAGNIFICATION = 5;
     
     private static final double LENS_DIAMETER = 100; // pixels
     private static final double BEZEL_WIDTH = 12; // pixels
@@ -67,9 +65,16 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     private BSCombinedChartNode _chartNode;
     private BSEigenstatesNode _eigenstatesNode;
     
+    // All of the "parts" of the magnifying glass
+    private PComposite _partsNode;
     private PPath _lensNode;
     private PPath _bezelNode;
     private PPath _handleNode;
+
+    // All of the things that are viewed through the lens
+    private PComposite _viewNode;
+    private ClippedPath _chartBackgroundNode;
+    private PComposite _eigenstatesParentNode;
     private ClippedPath _potentialNode;
     
     private ArrayList _eigenstateLines; // array of PPath
@@ -100,31 +105,62 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     
     /*
      * Initializes the Piccolo nodes that make up the magnifying glass.
+     * In order for constrained dragging to work properly, we need to 
+     * make sure that the drag handler is operation on bounds that 
+     * contain only the parts of the magnifying glass.
+     * All of the "parts" of the magnifying glass are in their own subtree
+     * (under partsNode) and this is what is dragged.
+     * All of the things visible through the lens are in their own subtree
+     * (under viewNode) and their drawing is clipped to the lens shape.
      */
     private void initNodes() {
         
         // Lens
-        final double glassRadius = LENS_DIAMETER / 2;
+        final double lensRadius = LENS_DIAMETER / 2;
+        Shape lensShape = new Ellipse2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
         {
-            Shape glassShape = new Ellipse2D.Double( -glassRadius, -glassRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
             _lensNode = new PPath();
-            _lensNode.setPathTo( glassShape );
+            _lensNode.setPathTo( lensShape );
+            _lensNode.setPaint( new Color( 0, 0, 0, 0 ) );  // lens is transparent
         }
         
         // Bezel 
         {
             final double bezelDiameter = ( LENS_DIAMETER + BEZEL_WIDTH );
-            Shape glassShape = new Ellipse2D.Double( -bezelDiameter/2, -bezelDiameter/2, bezelDiameter, bezelDiameter ); // x,y,w,h
+            Shape bezelShape = new Ellipse2D.Double( -bezelDiameter/2, -bezelDiameter/2, bezelDiameter, bezelDiameter ); // x,y,w,h
+            Area bezelArea = new Area( bezelShape );
+            Area lensArea = new Area( lensShape );
+            bezelArea.exclusiveOr( lensArea );
             _bezelNode = new PPath();
-            _bezelNode.setPathTo( glassShape ); // same shape as glass, but we'll stroke it instead of filling it
+            _bezelNode.setPathTo( bezelArea );
         }
         
         // Handle
         {
-            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, glassRadius, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
+            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, lensRadius, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
             _handleNode = new PPath();
             _handleNode.setPathTo( handleShape );
             _handleNode.rotate( Math.toRadians( HANDLE_ROTATION ) );
+        }
+        
+        // Glass
+        {
+            _partsNode = new PComposite();
+            _partsNode.addChild( _handleNode ); // bottom
+            _partsNode.addChild( _bezelNode );
+            _partsNode.addChild( _lensNode );
+        }
+        
+        // Chart background node
+        {
+            _chartBackgroundNode = new ClippedPath();
+            Shape chartBackgroundShape = new Rectangle2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER );
+            _chartBackgroundNode.setPathTo( chartBackgroundShape );
+        }
+        
+        // Eigenstates
+        {
+            _eigenstatesParentNode = new PComposite();
         }
         
         // Potential plot
@@ -133,10 +169,16 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
         }
         
-        addChild( _handleNode ); // bottom
-        addChild( _bezelNode );
-        addChild( _lensNode );
-        addChild( _potentialNode ); // top
+        // View node
+        {
+            _viewNode = new PComposite();
+            _viewNode.addChild( _chartBackgroundNode );
+            _viewNode.addChild( _potentialNode );
+            _viewNode.addChild( _eigenstatesParentNode );
+        }
+
+        addChild( _viewNode ); 
+        addChild( _partsNode );
     }
     
     /*
@@ -145,11 +187,11 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
     private void initEventHandling() {
         
         // Changes the cursor to a "hand"
-        addInputEventListener( new CursorHandler() );
+        _partsNode.addInputEventListener( new CursorHandler() );
 
         // Handles mouse events
         _eventHandler = new MagnifyingGlassEventHandler();
-        addInputEventListener( _eventHandler );
+        _partsNode.addInputEventListener( _eventHandler );
         
          // For constrained dragging, treat as a point at the center of the lens.
         _eventHandler.setTreatAsPointEnabled( true );
@@ -208,7 +250,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
      */
     public void setColorScheme( BSColorScheme colorScheme ) {
         _colorScheme = colorScheme;
-        _lensNode.setPaint( _colorScheme.getChartColor() );
+        _chartBackgroundNode.setPaint( _colorScheme.getChartColor() );
         _bezelNode.setPaint( _colorScheme.getMagnifyingGlassBezelColor() );
         _handleNode.setPaint( _colorScheme.getMagnifyingGlassHandleColor() );
         _potentialNode.setStrokePaint( _colorScheme.getPotentialEnergyColor() );
@@ -231,7 +273,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
      * @param point a mouse point, in global coordinates
      */
     private boolean isInLens( Point2D point ) {
-        Rectangle2D lensBounds = localToGlobal( _lensNode.getFullBounds() );
+        Rectangle2D lensBounds = _partsNode.localToGlobal( _lensNode.getFullBounds() );
         return lensBounds.contains( point );
     }
     
@@ -332,7 +374,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
                 line.setStrokePaint( lineColor );
                 
                 _eigenstateLines.add( line );
-                _lensNode.addChild( line );
+                _eigenstatesParentNode.addChild( line );
             }
         }
         
@@ -356,7 +398,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
                 
                 position += magDeltaPosition;
             }
-//            _potentialNode.setPathTo( path );
+            _potentialNode.setPathTo( path );
         }
     }
     
@@ -367,7 +409,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
         Iterator i = _eigenstateLines.iterator();
         while( i.hasNext() ) {
             PPath node = (PPath) i.next();
-            _lensNode.removeChild( node );
+            _eigenstatesParentNode.removeChild( node );
         }
         _eigenstateLines.clear();
     } 
@@ -457,6 +499,7 @@ public class BSMagnifyingGlass extends PComposite implements Observer {
             _dragging = true;
             super.mouseDragged( e );
             updateDisplay();
+            _viewNode.setOffset( _partsNode.getOffset() );
         }
     }
     
