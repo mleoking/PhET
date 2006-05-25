@@ -41,7 +41,6 @@ import java.io.IOException;
  * @version $Revision$
  */
 public class ControlRodGroupGraphic extends CompositePhetGraphic {
-//public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     private Rep rep;
     private int orientation;
     private Vessel vessel;
@@ -56,44 +55,10 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
         rep = new Rep( component, controlRods );
         this.rodLength = controlRods[0].getLength();
 
-        setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+        setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         addTranslationListener( new Translator() );
-
         addGraphic( rep );        
-//        setBoundedGraphic( rep );
-//        addCursorHandBehavior();
-//        addTranslationBehavior( new Translator() );
         orientation = controlRods[0].getOrientation();
-
-        addMouseInputListener( new MouseInputListener() {
-            public void mouseClicked( MouseEvent e ) {
-                System.out.println( "ControlRodGroupGraphic.mouseClicked" );
-            }
-
-            public void mouseEntered( MouseEvent e ) {
-                System.out.println( "ControlRodGroupGraphic.mouseEntered" );
-            }
-
-            public void mouseExited( MouseEvent e ) {
-
-            }
-
-            public void mousePressed( MouseEvent e ) {
-
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-
-            }
-
-            public void mouseDragged( MouseEvent e ) {
-
-            }
-
-            public void mouseMoved( MouseEvent e ) {
-
-            }
-        } );
     }
 
     protected Rectangle determineBounds() {
@@ -199,8 +164,6 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
             connectorGraphic.setShape( connectorShape );
             handleGraphic.setLocation( (int)( verticalBar.getBounds().getMaxX() ),
                                        (int)( verticalBar.getBounds().getMinY() + 100 ) );
-//            handleGraphic.setPosition( (int)( verticalBar.getBounds().getMaxX() ),
-//                                       (int)( verticalBar.getBounds().getMinY() + 100 ) );
             setBoundsDirty();
             repaint();
         }
@@ -220,20 +183,10 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
         }
     }
 
-//    private class ConnectorGraphic extends CompositePhetGraphic {
-//        pr
-//        public ConnectorGraphic( Component component ) {
-//            super( component );
-//        }
-//    }
-
-
     /**
      * Translation handler
      */
     private class Translator implements TranslationListener  {
-//    private class Translator implements Translatable {
-
 
         public void translationOccurred( TranslationEvent translationEvent ) {
             translate( translationEvent.getDx(), translationEvent.getDy());
