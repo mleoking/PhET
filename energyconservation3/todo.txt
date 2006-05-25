@@ -1,14 +1,8 @@
+#################################################################
+Remaining Work
+#######################################
 When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
-
-Can the bar chart have a clear button also?  That's a really good way to
-get rid of the out of control thermal energy.
-
-Bug: Also on the bar chart, there's a little minimize box which gets rid of
-the chart within it's window but the window stays up.  I can't find where it
-went to.  I tried clicking on the bar graph button on the control panel and
-it does nothing. If I close the bar graph with the red x and then ask for it
-again from the control panel it comes back up blank still.
 
 Bug: When I minimize my window for the entire simulation and bring it back
 up, only the energy vs. position graph comes back with the sim and the other
@@ -33,9 +27,11 @@ Add clipping to energy vs position plot (so data doesn't fall outside the data a
 
 Maybe "Live" should be changed to "Go" instead of "Play"
 Bug: clear button erroneously shows 'this simulation is paused' when it is not.
- Bug: The measuring tape's initial readout is incorrect.
+Bug: The measuring tape's initial readout is incorrect.
 
-low priority:
+#################################################################
+Low Priority
+#######################################
 User-selectable skater/vehicle graphics.
 Crashing skater?
 
