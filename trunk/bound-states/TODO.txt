@@ -63,7 +63,7 @@ CLEANUP:
 
 
 DONE:
-(5/25/06) - add BEZEL_DIAMETER constant to mag glass to simplify some code
+(5/25/06) - add convenience constants to mag glass to simplify code
 (5/25/06) - add a center point to mag glass for debugging
 (5/25/06) - show chart top/bottom edge thru magnifying glass, working but plots flicker
 (5/24/06) - started to work on showing top/bottom chart bounds, not working correctly yet
