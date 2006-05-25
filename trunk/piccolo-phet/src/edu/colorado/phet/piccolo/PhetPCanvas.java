@@ -272,7 +272,7 @@ public class PhetPCanvas extends PSwingCanvas {
                 return worldTransform;
             }
             else {
-                System.err.println( "Scale evaluated to zero!" );
+//                System.err.println( "Scale evaluated to zero!" );
             }
             return new AffineTransform();
         }
