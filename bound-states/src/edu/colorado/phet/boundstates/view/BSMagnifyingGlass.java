@@ -492,7 +492,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     
     /**
      * Piccolo node for drawing paths inside the magnifying glass' lens.
-     * Clips the line to the lens' boundary.
+     * The node is clipped to the lens' boundary.
      */
     private class ClippedPath extends PPath {
         
