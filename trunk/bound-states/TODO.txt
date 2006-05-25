@@ -3,9 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- show chart bounds in mag glass; bottom flickers; top is not correct (see end of updateDisplay method)
+- when bottom edge of chart as shown, some nodes only appear while dragging
 
 Magnifying glass TODO:
+- bottom and top edge of chart don't line up with center of lens in 10x
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
@@ -62,6 +63,8 @@ CLEANUP:
 
 
 DONE:
+(5/25/06) - add BEZEL_DIAMETER constant to mag glass to simplify some code
+(5/25/06) - add a center point to mag glass for debugging
 (5/25/06) - show chart top/bottom edge thru magnifying glass, working but plots flicker
 (5/24/06) - started to work on showing top/bottom chart bounds, not working correctly yet
 (5/24/06) - set drag bounds so that mag glass horizontal motion keeps the entire thing in the energy chart

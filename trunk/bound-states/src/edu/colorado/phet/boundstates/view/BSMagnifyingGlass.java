@@ -50,10 +50,13 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final boolean DEBUG = true;
+    
     private static final double DEFAULT_MAGNIFICATION = 10;
     
     private static final double LENS_DIAMETER = 100; // pixels
-    private static final double BEZEL_WIDTH = 12; // pixels
+    private static final double BEZEL_WIDTH = 8; // pixels
+    private static final double BEZEL_DIAMETER = LENS_DIAMETER + ( 2 * BEZEL_WIDTH );
     private static final double HANDLE_LENGTH = 65; // pixels
     private static final double HANDLE_WIDTH = HANDLE_LENGTH/4; // pixels
     private static final double HANDLE_ARC_SIZE = 10; // pixels
@@ -117,60 +120,74 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private void initNodes() {
         
         // Lens
-        final double lensRadius = LENS_DIAMETER / 2;
-        Shape lensShape = new Ellipse2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
+        Shape lensShape = new Ellipse2D.Double( -LENS_DIAMETER / 2, -LENS_DIAMETER / 2, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
         {
             _lensNode = new PPath();
             _lensNode.setPathTo( lensShape );
-            _lensNode.setPaint( new Color( 0, 0, 0, 0 ) );  // lens is transparent
-            _lensNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );  // lens is transparent
+            Color lensColor = new Color( 0, 0, 0, 0 ); // transparent
+            _lensNode.setPaint( lensColor );
+            _lensNode.setStrokePaint( lensColor );
         }
         
         // Bezel 
         {
-            final double bezelDiameter = ( LENS_DIAMETER + BEZEL_WIDTH );
-            Shape bezelShape = new Ellipse2D.Double( -bezelDiameter/2, -bezelDiameter/2, bezelDiameter, bezelDiameter ); // x,y,w,h
+            Shape bezelShape = new Ellipse2D.Double( -BEZEL_DIAMETER / 2, -BEZEL_DIAMETER / 2, BEZEL_DIAMETER, BEZEL_DIAMETER ); // x,y,w,h
             Area bezelArea = new Area( bezelShape );
             Area lensArea = new Area( lensShape );
             bezelArea.exclusiveOr( lensArea );
             _bezelNode = new PPath();
             _bezelNode.setPathTo( bezelArea );
+            // paint is set in setColorScheme
         }
         
         // Handle
         {
-            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, lensRadius, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
+            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, LENS_DIAMETER / 2, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
             _handleNode = new PPath();
             _handleNode.setPathTo( handleShape );
             _handleNode.rotate( Math.toRadians( HANDLE_ROTATION ) );
+            // paint is set in setColorScheme
         }
         
-        // Glass
+        // Center point of the lens, for debugging
+        PPath centerNode = new PPath();
+        if ( DEBUG ) {
+            final double diameter = 5;
+            final double radius = diameter / 2;
+            Shape centerShape = new Ellipse2D.Double( -radius, -radius, diameter, diameter );
+            centerNode.setPathTo( centerShape );
+            centerNode.setPaint( Color.ORANGE );
+        }
+        
+        // Parts of the magnifying glass
         {
             _partsNode = new PComposite();
             _partsNode.addChild( _handleNode ); // bottom
             _partsNode.addChild( _bezelNode );
-            _partsNode.addChild( _lensNode );
+            _partsNode.addChild( centerNode );
+            _partsNode.addChild( _lensNode ); // top
         }
         
         // Chart background node
         {
             _chartBackgroundNode = new ClippedPath();
-            Shape chartBackgroundShape = new Rectangle2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER );
+            Shape chartBackgroundShape = new Rectangle2D.Double( -LENS_DIAMETER / 2, -LENS_DIAMETER / 2, LENS_DIAMETER, LENS_DIAMETER );
             _chartBackgroundNode.setPathTo( chartBackgroundShape );
+            // paint is set in setColorScheme
         }
         
         // Chart edge node
         {
             _chartEdgeNode = new ClippedPath();
-            _chartEdgeNode.setPathTo( lensShape );
             _chartEdgeNode.setPaint( BSConstants.CANVAS_BACKGROUND );
+            // path is set in updateDisplay
         }
           
         // Potential plot
         {
             _potentialNode = new ClippedPath();
             _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
+            // paint is set in setColorScheme
         }
         
         // Eigenstates
@@ -178,17 +195,17 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _eigenstatesParentNode = new PComposite();
         }
         
-        // View node
+        // Everything that's visible through the lens
         {
             _viewNode = new PComposite();
-            _viewNode.addChild( _chartBackgroundNode );
+            _viewNode.addChild( _chartBackgroundNode ); // bottom
             _viewNode.addChild( _potentialNode );
             _viewNode.addChild( _eigenstatesParentNode );
-            _viewNode.addChild( _chartEdgeNode );
+            _viewNode.addChild( _chartEdgeNode ); // on top, to cover plots that fall off edge of chart
         }
 
-        addChild( _viewNode ); 
-        addChild( _partsNode );
+        addChild( _viewNode );
+        addChild( _partsNode ); // on top, so we get mouse events
     }
     
     /*
@@ -205,8 +222,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
          // For constrained dragging, treat as a point at the center of the lens.
         _eventHandler.setTreatAsPointEnabled( true );
-        final double bezelRadius = ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
-        _eventHandler.setNodeCenter( bezelRadius, bezelRadius );
+        _eventHandler.setNodeCenter( BEZEL_DIAMETER / 2, BEZEL_DIAMETER / 2 );
     }
     
     //----------------------------------------------------------------------------
@@ -276,9 +292,9 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      * @param dragBounds the bounds of the energy plot
      */
     public void setDragBounds( Rectangle2D dragBounds ) {
-        final double x = dragBounds.getX() + ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
+        final double x = dragBounds.getX() + ( BEZEL_DIAMETER / 2 );
         final double y = dragBounds.getY();
-        final double w = dragBounds.getWidth() - ( LENS_DIAMETER + BEZEL_WIDTH );
+        final double w = dragBounds.getWidth() - BEZEL_DIAMETER;
         final double h = dragBounds.getHeight();
         _eventHandler.setDragBounds( x, y, w, h );
         updateDisplay();
