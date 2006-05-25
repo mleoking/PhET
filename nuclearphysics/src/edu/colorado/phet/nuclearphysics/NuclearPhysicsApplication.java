@@ -31,47 +31,44 @@ public class NuclearPhysicsApplication extends PhetApplication {
     // Localization
     public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
 
-//    public NuclearPhysicsApplication( ApplicationModel descriptor ) {
-//        super( descriptor );
-//    }
-
+    /**
+     *
+     * @param args
+     */
     public NuclearPhysicsApplication( String[] args ) {
         super( args, SimStrings.get( "NuclearPhysicsApplication.title" ),
                SimStrings.get( "NuclearPhysicsApplication.description" ),
                SimStrings.get( "NuclearPhysicsApplication.version" ),
-//               new SwingClock( 10, 20, true ), true,
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-//        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 10 , 20 ) );
-//        Module singleNucleusFissionModule = new SingleNucleusFissionModule(  ClockFactory.create( 10 , 5 )  );
-        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule(  ClockFactory.create( 10 , 12 )  );
-//        Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 10, 40 ) );
+        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 10, 20 ) );
+        Module singleNucleusFissionModule = new SingleNucleusFissionModule( ClockFactory.create( 10, 5 ) );
+        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( ClockFactory.create( 10, 12 ) );
+        Module controlledReactionModule = new ControlledFissionModule( ClockFactory.create( 10, 40 ) );
         Module[] modules = new Module[]{
-//            alphaModule,
-//            singleNucleusFissionModule,
-            multipleNucleusFissionModule,
-//            controlledReactionModule
+                alphaModule,
+                singleNucleusFissionModule,
+                multipleNucleusFissionModule,
+                controlledReactionModule
         };
         setModules( modules );
-//        setModules( new Module[]{
-//            alphaModule,
-////            singleNucleusFissionModule,
-////            multipleNucleusFissionModule
-//        } );
     }
 
-    public static void main( String[] args ) {
-//        SimStrings.setStrings( localizedStringsPath );
+    public static void main( final String[] args ) {
         SimStrings.init( args, localizedStringsPath );
 
-        try {
-            UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
 
-        new NuclearPhysicsApplication( args ).startApplication();
+                new NuclearPhysicsApplication( args ).startApplication();
+            }
+        } );
     }
 
     private static class NuclearAppLookAndFeel extends LandF {
@@ -107,12 +104,12 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Color controlTextColor = new Color( 230, 230, 230 );
         Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
         static String[] controlTypes = new String[]{
-            "Menu",
-            "MenuItem",
-            "RadioButton",
-            "Button",
-            "CheckBox",
-            "Label"
+                "Menu",
+                "MenuItem",
+                "RadioButton",
+                "Button",
+                "CheckBox",
+                "Label"
         };
 
         public LandF( Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont ) {
@@ -138,14 +135,14 @@ public class NuclearPhysicsApplication extends PhetApplication {
             ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
 
             Object[] defaults = {
-                "Panel.background", background
-                , "Menu.background", background
-                , "MenuItem.background", background
-                , "MenuBar.background", background
-                , "Slider.background", background
-                , "RadioButton.background", background
-                , "CheckBox.background", background
-                , "Button.background", buttonBackground
+                    "Panel.background", background
+                    , "Menu.background", background
+                    , "MenuItem.background", background
+                    , "MenuBar.background", background
+                    , "Slider.background", background
+                    , "RadioButton.background", background
+                    , "CheckBox.background", background
+                    , "Button.background", buttonBackground
             };
             def.addAll( Arrays.asList( defaults ) );
             table.putDefaults( def.toArray() );
@@ -153,12 +150,13 @@ public class NuclearPhysicsApplication extends PhetApplication {
             Font font = (Font)table.get( "Label.font" );
             Color color = (Color)table.get( "Label.foreground" );
             Object[] moreDefaults = {
-                "TextField.font", font
-                , "Spinner.font", font
-                , "FormattedTextField.font", font
-                , "TitledBorder.font", font
-                , "TitledBorder.titleColor", color
+                    "TextField.font", font
+                    , "Spinner.font", font
+                    , "FormattedTextField.font", font
+                    , "TitledBorder.font", font
+                    , "TitledBorder.titleColor", color
             };
             table.putDefaults( moreDefaults );
         }
-    }}
+    }
+}

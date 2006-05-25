@@ -139,7 +139,6 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             saveGraphicsState( g );
             GraphicsUtil.setAntiAliasingOn( g );
             g.transform( atx );
-            System.out.println( "atx = " + atx );
             g.setColor( color );
             g.setStroke( stroke );
             g.fill( mouseableArea );

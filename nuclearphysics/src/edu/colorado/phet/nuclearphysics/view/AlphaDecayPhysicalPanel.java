@@ -38,8 +38,8 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         Graphics2D g2 = (Graphics2D)graphics;
 
         // Set the origin
-        origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
-        originTx.setToTranslation( origin.getX(), origin.getY() );
+        getOrigin().setLocation( this.getWidth() / 2, this.getHeight() / 2 );
+        getOriginTx().setToTranslation( getOrigin().getX(), getOrigin().getY() );
 
         // Draw everything that isn't special to this panel
         //        GraphicsUtil.setAlpha( g2, 0.5 );
