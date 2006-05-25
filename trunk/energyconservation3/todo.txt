@@ -1,9 +1,4 @@
-I do think that the legend that opens when you select pie chart is confusing.
-The total energy is represented by the pie size not a color as the legend proposes.
->>Pending response from the group.
-
-There's a small bug in the background. When you select earth or space, there is a
-part of the right side that stays dark blue.
+When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
 
 Can the bar chart have a clear button also?  That's a really good way to
