@@ -1,3 +1,8 @@
+-Changes for 0.00.20
+Changed the look and feel to platform specific.
+Bugfix: The scale for the readings on the path data is unreadably huge.
+Made the view of history point data toggle-based, so 2 can be visible at once.
+
 -Changes for 0.00.19 (5-14-2006)
 The simulation is now titled 'Energy Skate Park'
 The skater's potential energy is now zero when he's on the ground (by default).

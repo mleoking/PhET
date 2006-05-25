@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 
@@ -22,30 +23,38 @@ import java.text.DecimalFormat;
 public class HistoryPointGraphic extends PNode {
     private HistoryPoint historyPoint;
     private DecimalFormat formatter = new DecimalFormat( "0.00" );
+    private HTMLNode htmlGraphic;
 
     public HistoryPointGraphic( final HistoryPoint historyPoint ) {
         this.historyPoint = historyPoint;
-        double scale = 1.0 / 50.0;
+        final double scale = 1.0 / 50.0;
         final PPath path = new PPath( new Ellipse2D.Double( -5 * scale, -5 * scale, 10 * scale, 10 * scale ) );
         addChild( path );
         path.setStroke( new BasicStroke( (float)( 1.0f * scale ) ) );
         path.setPaint( Color.yellow );
         update();
+        htmlGraphic = new HTMLNode( "<html>" +
+                                    "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
+                                    "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                                    "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                                    "</html>" );
+
+        htmlGraphic.scale( scale );
+        htmlGraphic.transformBy( AffineTransform.getScaleInstance( 1, -1 ) );
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                path.removeAllChildren();
-                HTMLNode htmlGraphic = new HTMLNode( "<html>" +
-                                                     "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                                                     "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
-                                                     "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
-                                                     "</html>" );
-                path.addChild( htmlGraphic );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                path.removeAllChildren();
+                toggleVisible();
             }
         } );
+    }
+
+    private void toggleVisible() {
+        if( getChildrenReference().contains( htmlGraphic ) ) {
+            removeChild( htmlGraphic );
+        }
+        else {
+            addChild( htmlGraphic );
+        }
     }
 
     private String format( double pe ) {

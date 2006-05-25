@@ -1,14 +1,4 @@
->     I was also thinking that the slider should be labled
-> Rotate View now rather than View angle.  To me View angle
-> implies that there are multiple angles that one can view it
-> from where we are just allowing it to sit at top and side
-> view.  What do you guys think?
-
 Add a warning box to the reset button that says, Are you sure you want to reset everything?
-
-Bug: The scale for the readings on the path data is still way huge ever since
-you resized the world. When I right click on a data point, I can just barely
-see the bottom of some very huge numbers.
 
 Can the bar chart have a clear button also?  That's a really good way to
 get rid of the out of control thermal energy.

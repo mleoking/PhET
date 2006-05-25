@@ -4,9 +4,7 @@ package edu.colorado.phet.ec3;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.util.FrameSetup;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -22,24 +20,14 @@ public class EC3Application extends PhetApplication {
     private static final String VERSION = "0.00.19";
 
     public EC3Application( String[] args ) {
-        super( args, "Energy Skate Park", "Energy Conservation", VERSION,
-//               new SwingTimerClock( 0.2, 30 ), true, new FrameSetup() {
-new FrameSetup() {
-//               new SwingTimerClock( 0.2/5, 30 ), true, new FrameSetup() {
-
-    public void initialize( JFrame frame ) {
-        frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width - EC3Module.energyFrameWidth,
-                       Toolkit.getDefaultToolkit().getScreenSize().height - 100 - EC3Module.chartFrameHeight //for debug
-        );
-        frame.setLocation( 0, 0 );
-    }
-} );
+        super( args, "Energy Skate Park", "Energy Conservation", VERSION, new EC3FrameSetup() );
 
         module = new EC3Module( "Module", new SwingClock( 30, 0.03 ), getPhetFrame() );
         setModules( new Module[]{module} );
     }
 
     public static void main( final String[] args ) {
+        EC3LookAndFeel.initLookAndFeel();
         new EC3Application( args ).start();
     }
 
