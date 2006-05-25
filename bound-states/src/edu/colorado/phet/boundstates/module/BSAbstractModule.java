@@ -233,6 +233,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         // Magnifying glass
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
             _magnifyingGlass = new BSMagnifyingGlass( _chartNode, _eigenstatesNode, BSConstants.COLOR_SCHEME );
+            _magnifyingGlass.setMagnification( _moduleSpec.getMagnification() );
             _parentNode.addChild( _magnifyingGlass );
         }
         
@@ -541,7 +542,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             _controlPanel.setPhaseSelected( false );
             _controlPanel.setBottomPlotMode( BSBottomPlotMode.PROBABILITY_DENSITY ); // do this after setting views
             _controlPanel.setParticleMass( _particle.getMass() );
-            _controlPanel.setMagnification( _magnifyingGlass.getMagnification() );
+            _controlPanel.setMagnification( _moduleSpec.getMagnification() );
         }
         
         // Clock

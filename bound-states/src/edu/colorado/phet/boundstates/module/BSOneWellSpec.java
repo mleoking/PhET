@@ -44,6 +44,9 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
     // Number of wells (min, max, default, significantDecimalPlaces)
     private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 1, 1 );
     
+    // Magnification power of the magnifying glass
+    private static final double MAGNIFICATION = 10;
+    
     //----------------------------------------------------------------------------
     // Asymmetric ranges
     //----------------------------------------------------------------------------
@@ -129,6 +132,8 @@ public class BSOneWellSpec extends BSAbstractModuleSpec {
         setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
 
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
+        
+        setMagnification( MAGNIFICATION );
         
         // Asymmetric spec
         {

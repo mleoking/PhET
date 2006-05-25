@@ -43,6 +43,8 @@ public abstract class BSAbstractModuleSpec {
     private BSWellSpec _harmonicOscillatorSpec;
     private BSWellSpec _squareSpec;
 
+    private double _magnification;
+    
     public BSAbstractModuleSpec() {}
     
     public boolean isOffsetControlSupported() {
@@ -115,6 +117,14 @@ public abstract class BSAbstractModuleSpec {
     
     protected void setMagnifyingGlassSelected( boolean magnifyingGlassSelected ) {
         _magnifyingGlassSelected = magnifyingGlassSelected;
+    }
+    
+    public double getMagnification() {
+        return _magnification;
+    }
+
+    protected void setMagnification( double magnification ) {
+        _magnification = magnification;
     }
     
     public BSWellSpec getAsymmetricSpec() {

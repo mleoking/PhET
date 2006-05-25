@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 Magnifying glass TODO:
-- different magnification for each module
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - add a parent node for all eigenstate lines, add/remove childrens for eigenstates
 - selection/hiliting should only work for eigenstates that are visible in lens
@@ -62,6 +61,7 @@ CLEANUP:
 
 
 DONE:
+(5/24/06) - support different magnification power for each module
 (5/24/06) - restructure magnifying glass so that ConstrainedDragHandler sees only the lens+bezel+handle
 (5/24/06) - lots of fixes to magnifying glass
 (5/24/06) - add variable magnification to magnifying glass, make it a double

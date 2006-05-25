@@ -44,6 +44,9 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
     // Number of wells (min, max, default, significantDecimalPlaces)
     private static final IntegerRange NUMBER_OF_WELLS_RANGE = new IntegerRange( 1, 10, 5 );
     
+    // Magnification power of the magnifying glass
+    private static final double MAGNIFICATION = 10;
+    
     //----------------------------------------------------------------------------
     // 1D Coulomb ranges
     //----------------------------------------------------------------------------
@@ -95,6 +98,8 @@ public class BSManyWellsSpec extends BSAbstractModuleSpec {
         setMagnifyingGlassSelected( MAGNIFYING_GLASS_SELECTED );
         
         setMassMultiplierRange( MASS_MULTIPLIER_RANGE );
+        
+        setMagnification( MAGNIFICATION );
 
         // 1D Coulomb spec
         {
