@@ -2,6 +2,9 @@
 Changed the look and feel to platform specific.
 Bugfix: The scale for the readings on the path data is unreadably huge.
 Made the view of history point data toggle-based, so 2 can be visible at once.
+Added a warning box to the reset button that says, Are you sure you want to reset?
+Bugfix: Removed the ability to drag (pan/zoom) the bar graph graphics.
+Removed the minimize button from the bar chart.
 
 -Changes for 0.00.19 (5-14-2006)
 The simulation is now titled 'Energy Skate Park'

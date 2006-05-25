@@ -245,7 +245,7 @@ public class BarGraphSet extends PNode {
         }
 
         addChild( titleGraphic );
-        addMinimizeButton();
+//        addMinimizeButton();
     }
 
     protected void addClockListener( ClockListener ClockListener ) {

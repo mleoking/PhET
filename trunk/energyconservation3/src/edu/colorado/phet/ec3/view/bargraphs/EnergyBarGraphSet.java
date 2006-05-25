@@ -16,10 +16,10 @@ public class EnergyBarGraphSet extends BarGraphSet {
     public EnergyBarGraphSet( EC3Canvas canvas, EnergyConservationModel energyConservationModel, ModelViewTransform1D transform1D ) {
         super( canvas, energyConservationModel, "Energy", transform1D );
         ValueAccessor[] energyAccess = new ValueAccessor[]{
-            new ValueAccessor.KineticEnergy( super.getLookAndFeel() ),
-            new ValueAccessor.PotentialEnergy( getLookAndFeel() ),
-            new ValueAccessor.ThermalEnergy( getLookAndFeel() ),
-            new ValueAccessor.TotalEnergy( getLookAndFeel() )
+                new ValueAccessor.KineticEnergy( super.getLookAndFeel() ),
+                new ValueAccessor.PotentialEnergy( getLookAndFeel() ),
+                new ValueAccessor.ThermalEnergy( getLookAndFeel() ),
+                new ValueAccessor.TotalEnergy( getLookAndFeel() )
         };
         finishInit( energyAccess );
     }
