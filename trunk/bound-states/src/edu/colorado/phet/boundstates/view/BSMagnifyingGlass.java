@@ -118,6 +118,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _lensNode = new PPath();
             _lensNode.setPathTo( lensShape );
             _lensNode.setPaint( new Color( 0, 0, 0, 0 ) );  // lens is transparent
+            _lensNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );  // lens is transparent
         }
         
         // Bezel 
@@ -150,8 +151,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // Chart background node
         {
             _chartBackgroundNode = new ClippedPath();
-            Shape chartBackgroundShape = new Rectangle2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER );
-            _chartBackgroundNode.setPathTo( chartBackgroundShape );
+            _chartBackgroundNode.setPathTo( lensShape );
         }
         
         // Eigenstates
