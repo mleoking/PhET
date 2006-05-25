@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- when bottom edge of chart as shown, some nodes only appear while dragging
+- bottom and top edge of chart don't line up with center of mag glass lens, worse as mag power increases
+- when bottom edge of chart as shown in mag glass, some nodes only appear while dragging
 
 Magnifying glass TODO:
-- bottom and top edge of chart don't line up with center of lens in 10x
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
