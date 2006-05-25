@@ -10,7 +10,6 @@ import edu.colorado.phet.ec3.model.spline.Segment;
 import edu.colorado.phet.ec3.model.spline.SegmentPath;
 
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -95,7 +94,7 @@ public class FreeSplineMode extends ForceMode {
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );
             if( v > 0.01 ) {
-                System.out.println( "v = " + new DecimalFormat( "0.000" ).format( v ) + ": flying off the track." );
+//                System.out.println( "v = " + new DecimalFormat( "0.000" ).format( v ) + ": flying off the track." );
                 flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
                 return;
             }
@@ -273,7 +272,7 @@ public class FreeSplineMode extends ForceMode {
 
         double numTimeSteps = timeToReturnToThisHeight / dt;
         double dTheta = Math.PI * 2 / numTimeSteps / dt;
-        System.out.println( "timeToReturnToThisHeight = " + timeToReturnToThisHeight );
+//        System.out.println( "timeToReturnToThisHeight = " + timeToReturnToThisHeight );
         if( timeToReturnToThisHeight > flipTimeThreshold ) {
             body.setFreeFallRotation( dTheta );
 //            System.out.println( "Flipping!: dTheta=" + dTheta );

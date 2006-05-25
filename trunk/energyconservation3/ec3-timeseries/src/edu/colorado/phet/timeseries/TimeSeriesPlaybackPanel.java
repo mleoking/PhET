@@ -2,7 +2,6 @@
 package edu.colorado.phet.timeseries;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.ec3.common.LucidaSansFont;
 
 import javax.swing.*;
@@ -36,7 +35,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
                 suffix = "16";
             }
             String iconLoc = "images/icons/java/media/" + iconName + suffix + ".gif";
-            button = new JButton( SimStrings.get( name ), new ImageIcon( loadImage( iconLoc ) ) );
+            button = new JButton( name, new ImageIcon( loadImage( iconLoc ) ) );
 
             if( lowRes() ) {
                 button.setVerticalTextPosition( AbstractButton.BOTTOM );
@@ -44,10 +43,10 @@ public class TimeSeriesPlaybackPanel extends JPanel {
             }
         }
         else {
-            button = new JButton( SimStrings.get( name ) );
+            button = new JButton( name );
         }
         if( lowRes() ) {
-            System.out.println( "button.getFont().getSize() = " + button.getFont().getSize() );
+//            System.out.println( "button.getFont().getSize() = " + button.getFont().getSize() );
             button.setFont( new LucidaSansFont( 10, true ) );
 
         }

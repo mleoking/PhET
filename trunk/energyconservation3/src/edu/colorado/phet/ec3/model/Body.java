@@ -119,9 +119,9 @@ public class Body {
 
     public void setVelocity( double vx, double vy ) {
         velocity.setComponents( vx, vy );
-        if( getSpeed() == 0.0 ) {
-            System.out.println( "Zero speed." );
-        }
+//        if( getSpeed() == 0.0 ) {
+//            System.out.println( "Zero speed." );
+//        }
     }
 
     public boolean isUserControlled() {

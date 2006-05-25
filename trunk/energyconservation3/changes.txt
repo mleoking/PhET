@@ -9,6 +9,7 @@ Removed the "Total Energy" entry from the pie chart legend.
 Added a "Clear Heat" button to the bar graph window.
 Bugfix: When minimizing and restoring the window, the chart & graph windows don't restore their state.
 Bugfix: The charts all flash up on the screen for a second during startup.
+Added a helmet graphic.
 
 -Changes for 0.00.19 (5-14-2006)
 The simulation is now titled 'Energy Skate Park'
