@@ -11,12 +11,16 @@
 
 package edu.colorado.phet.boundstates.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.data.Range;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -46,7 +50,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_MAGNIFICATION = 5;
+    private static final double DEFAULT_MAGNIFICATION = 10;
     
     private static final double LENS_DIAMETER = 100; // pixels
     private static final double BEZEL_WIDTH = 12; // pixels
@@ -72,9 +76,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
 
     // All of the things that are viewed through the lens
     private PComposite _viewNode;
+    private ClippedPath _canvasBackgroundNode;
     private ClippedPath _chartBackgroundNode;
-    private PComposite _eigenstatesParentNode;
     private ClippedPath _potentialNode;
+    private PComposite _eigenstatesParentNode;
     
     private BSColorScheme _colorScheme;
     
@@ -148,10 +153,24 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _partsNode.addChild( _lensNode );
         }
         
+        // Canvas background node
+        {
+            _canvasBackgroundNode = new ClippedPath();
+            _canvasBackgroundNode.setPathTo( lensShape );
+            _canvasBackgroundNode.setPaint( BSConstants.CANVAS_BACKGROUND );
+        }
+        
         // Chart background node
         {
             _chartBackgroundNode = new ClippedPath();
-            _chartBackgroundNode.setPathTo( lensShape );
+            Shape chartBackgroundShape = new Rectangle2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER );
+            _chartBackgroundNode.setPathTo( chartBackgroundShape );
+        }
+          
+        // Potential plot
+        {
+            _potentialNode = new ClippedPath();
+            _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
         }
         
         // Eigenstates
@@ -159,15 +178,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _eigenstatesParentNode = new PComposite();
         }
         
-        // Potential plot
-        {
-            _potentialNode = new ClippedPath();
-            _potentialNode.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
-        }
-        
         // View node
         {
             _viewNode = new PComposite();
+            _viewNode.addChild( _canvasBackgroundNode );
             _viewNode.addChild( _chartBackgroundNode );
             _viewNode.addChild( _potentialNode );
             _viewNode.addChild( _eigenstatesParentNode );
@@ -255,11 +269,18 @@ public class BSMagnifyingGlass extends PNode implements Observer {
 
     /**
      * Sets the drag bounds.
+     * The x coordinate and width are modified so that the magnifying
+     * glass stays completely within the drag bounds when dragging along
+     * the horizontal axis.
      * 
-     * @param dragBounds
+     * @param dragBounds the bounds of the energy plot
      */
     public void setDragBounds( Rectangle2D dragBounds ) {
-        _eventHandler.setDragBounds( dragBounds );
+        final double x = dragBounds.getX() + ( LENS_DIAMETER + BEZEL_WIDTH ) / 2;
+        final double y = dragBounds.getY();
+        final double w = dragBounds.getWidth() - ( LENS_DIAMETER + BEZEL_WIDTH );
+        final double h = dragBounds.getHeight();
+        _eventHandler.setDragBounds( x, y, w, h );
         updateDisplay();
     }
     
@@ -394,6 +415,33 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 position += magDeltaPosition;
             }
             _potentialNode.setPathTo( path );
+        }
+        
+        // Draw the top or bottom edge of the chart, if it's visible.
+        // Left and right edges will never be visible because of how dragging is constrained.
+        {
+            // Find the plot's energy range
+            BSEnergyPlot energyPlot = _chartNode.getCombinedChart().getEnergyPlot();
+            ValueAxis yAxis = energyPlot.getRangeAxis();
+            Range yRange = yAxis.getRange();
+            final double plotMinEnergy = yRange.getLowerBound();
+            final double plotMaxEnergy = yRange.getUpperBound();
+
+            final double x = -LENS_DIAMETER / 2;
+            double y = -LENS_DIAMETER / 2;
+            final double w = LENS_DIAMETER;
+            final double h = LENS_DIAMETER;
+            if ( magMinEnergy < plotMinEnergy ) {
+                // Bottom edge is visible
+                y -= ( Math.abs( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER; 
+            }
+            else if ( magMaxEnergy > plotMaxEnergy ) {
+                // Top edge is visible
+                y -= ( Math.abs( magMaxEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER; 
+            }
+            
+            Shape chartBackgroudShape = new Rectangle2D.Double( x, y, w, h );
+            _chartBackgroundNode.setPathTo( chartBackgroudShape );
         }
     }
     
