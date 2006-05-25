@@ -52,16 +52,22 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     
     private static final boolean DEBUG = true;
     
-    private static final double DEFAULT_MAGNIFICATION = 10;
+    // Default values for things that can be changed with mutators
+    private static final double DEFAULT_MAGNIFICATION = 10; // magnification power
     
+    // Constants that determine the size of the magnifying glass parts
     private static final double LENS_DIAMETER = 100; // pixels
     private static final double BEZEL_WIDTH = 8; // pixels
-    private static final double BEZEL_DIAMETER = LENS_DIAMETER + ( 2 * BEZEL_WIDTH );
     private static final double HANDLE_LENGTH = 65; // pixels
-    private static final double HANDLE_WIDTH = HANDLE_LENGTH/4; // pixels
+    private static final double HANDLE_WIDTH = 16; // pixels
     private static final double HANDLE_ARC_SIZE = 10; // pixels
-    private static final double HANDLE_ROTATION = -20; // degrees;    
+    private static final double HANDLE_ROTATION = -20; // degrees; 
 
+    // Convenience constants, DO NOT CHANGE!
+    private static final double LENS_RADIUS = LENS_DIAMETER / 2;
+    private static final double BEZEL_DIAMETER = LENS_DIAMETER + ( 2 * BEZEL_WIDTH );
+    private static final double BEZEL_RADIUS = BEZEL_DIAMETER / 2;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -120,7 +126,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private void initNodes() {
         
         // Lens
-        Shape lensShape = new Ellipse2D.Double( -LENS_DIAMETER / 2, -LENS_DIAMETER / 2, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
+        Shape lensShape = new Ellipse2D.Double( -LENS_RADIUS, -LENS_RADIUS, LENS_DIAMETER, LENS_DIAMETER ); // x,y,w,h
         {
             _lensNode = new PPath();
             _lensNode.setPathTo( lensShape );
@@ -131,7 +137,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
         // Bezel 
         {
-            Shape bezelShape = new Ellipse2D.Double( -BEZEL_DIAMETER / 2, -BEZEL_DIAMETER / 2, BEZEL_DIAMETER, BEZEL_DIAMETER ); // x,y,w,h
+            Shape bezelShape = new Ellipse2D.Double( -BEZEL_RADIUS, -BEZEL_RADIUS, BEZEL_DIAMETER, BEZEL_DIAMETER ); // x,y,w,h
             Area bezelArea = new Area( bezelShape );
             Area lensArea = new Area( lensShape );
             bezelArea.exclusiveOr( lensArea );
@@ -142,7 +148,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
         // Handle
         {
-            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, LENS_DIAMETER / 2, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
+            Shape handleShape = new RoundRectangle2D.Double( -HANDLE_WIDTH / 2, LENS_RADIUS, HANDLE_WIDTH, HANDLE_LENGTH, HANDLE_ARC_SIZE, HANDLE_ARC_SIZE );
             _handleNode = new PPath();
             _handleNode.setPathTo( handleShape );
             _handleNode.rotate( Math.toRadians( HANDLE_ROTATION ) );
@@ -171,7 +177,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // Chart background node
         {
             _chartBackgroundNode = new ClippedPath();
-            Shape chartBackgroundShape = new Rectangle2D.Double( -LENS_DIAMETER / 2, -LENS_DIAMETER / 2, LENS_DIAMETER, LENS_DIAMETER );
+            Shape chartBackgroundShape = new Rectangle2D.Double( -LENS_RADIUS, -LENS_RADIUS, LENS_DIAMETER, LENS_DIAMETER );
             _chartBackgroundNode.setPathTo( chartBackgroundShape );
             // paint is set in setColorScheme
         }
@@ -222,11 +228,11 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
          // For constrained dragging, treat as a point at the center of the lens.
         _eventHandler.setTreatAsPointEnabled( true );
-        _eventHandler.setNodeCenter( BEZEL_DIAMETER / 2, BEZEL_DIAMETER / 2 );
+        _eventHandler.setNodeCenter( BEZEL_RADIUS, BEZEL_RADIUS );
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Mutators
     //----------------------------------------------------------------------------
     
     /**
@@ -292,22 +298,12 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      * @param dragBounds the bounds of the energy plot
      */
     public void setDragBounds( Rectangle2D dragBounds ) {
-        final double x = dragBounds.getX() + ( BEZEL_DIAMETER / 2 );
+        final double x = dragBounds.getX() + BEZEL_RADIUS;
         final double y = dragBounds.getY();
         final double w = dragBounds.getWidth() - BEZEL_DIAMETER;
         final double h = dragBounds.getHeight();
         _eventHandler.setDragBounds( x, y, w, h );
         updateDisplay();
-    }
-    
-    /*
-     * Is the specified mouse point inside the lens?
-     * 
-     * @param point a mouse point, in global coordinates
-     */
-    private boolean isInLens( Point2D point ) {
-        Rectangle2D lensBounds = _partsNode.localToGlobal( _lensNode.getFullBounds() );
-        return lensBounds.contains( point );
     }
     
     //----------------------------------------------------------------------------
@@ -362,7 +358,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         if ( Double.isNaN( centerPosition ) || Double.isInfinite( centerPosition ) ) {
             return;
         }
-        Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_DIAMETER / 2, LENS_DIAMETER / 2 ) ); // +y is down
+        Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_RADIUS, LENS_RADIUS ) ); // +y is down
         Point2D chartMin = _chartNode.globalToLocal( lensMin );
         Point2D p2 = _chartNode.nodeToEnergy( chartMin );
         final double minPosition = p2.getX();
@@ -390,8 +386,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 
                 ClippedPath line = new ClippedPath();
                 GeneralPath path = new GeneralPath();
-                path.moveTo( (float)-LENS_DIAMETER/2, (float)y );
-                path.lineTo( (float)+LENS_DIAMETER/2, (float)y );
+                path.moveTo( (float)-LENS_RADIUS, (float)y );
+                path.lineTo( (float)+LENS_RADIUS, (float)y );
                 line.setPathTo( path );
                 Stroke lineStroke = BSConstants.EIGENSTATE_NORMAL_STROKE;
                 Color lineColor = _colorScheme.getEigenstateNormalColor();
@@ -449,17 +445,17 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             double h = 1;
             if ( magMinEnergy < plotMinEnergy ) {
                 // Bottom edge is visible
-                x = -LENS_DIAMETER / 2;
+                x = -LENS_RADIUS;
                 w = LENS_DIAMETER;
                 h = ( Math.abs( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
-                y = ( LENS_DIAMETER / 2 ) - h;
+                y = LENS_RADIUS - h;
             }
             else if ( magMaxEnergy > plotMaxEnergy ) {
                 // Top edge is visible
-                x = -LENS_DIAMETER / 2;
+                x = -LENS_RADIUS;
                 w = LENS_DIAMETER;
                 h = ( Math.abs( magMaxEnergy - plotMaxEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
-                y = -LENS_DIAMETER / 2; 
+                y = -LENS_RADIUS; 
             }
             
             Shape chartEdgeShape = new Rectangle2D.Double( x, y, w, h );
@@ -502,6 +498,16 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         Point2D chartCenter = _chartNode.globalToLocal( lensCenter );
         Point2D modelCenter = _chartNode.nodeToEnergy( chartCenter );
         return modelCenter;
+    }
+    
+    /*
+     * Is the specified mouse point inside the lens?
+     * 
+     * @param point a mouse point, in global coordinates
+     */
+    private boolean isInLens( Point2D point ) {
+        Rectangle2D lensBounds = _partsNode.localToGlobal( _lensNode.getFullBounds() );
+        return lensBounds.contains( point );
     }
     
     //----------------------------------------------------------------------------
@@ -557,19 +563,20 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
-    // 
+    // Inner classes
     //----------------------------------------------------------------------------
     
     /**
      * Piccolo node for drawing paths inside the magnifying glass' lens.
      * The node is clipped to the lens' boundary.
+     * Note that children are *not* clipped.
      */
     private class ClippedPath extends PPath {
         
         public ClippedPath() {}
         
         /*
-         * Clips the PPath to the lens.
+         * Clips the node to the lens.
          */
         protected void paint( PPaintContext paintContext ) {
             GeneralPath lensPath = _lensNode.getPathReference();
