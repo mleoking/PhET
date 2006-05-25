@@ -76,8 +76,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
 
     // All of the things that are viewed through the lens
     private PComposite _viewNode;
-    private ClippedPath _canvasBackgroundNode;
     private ClippedPath _chartBackgroundNode;
+    private ClippedPath _chartEdgeNode;
     private ClippedPath _potentialNode;
     private PComposite _eigenstatesParentNode;
     
@@ -153,18 +153,18 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _partsNode.addChild( _lensNode );
         }
         
-        // Canvas background node
-        {
-            _canvasBackgroundNode = new ClippedPath();
-            _canvasBackgroundNode.setPathTo( lensShape );
-            _canvasBackgroundNode.setPaint( BSConstants.CANVAS_BACKGROUND );
-        }
-        
         // Chart background node
         {
             _chartBackgroundNode = new ClippedPath();
             Shape chartBackgroundShape = new Rectangle2D.Double( -lensRadius, -lensRadius, LENS_DIAMETER, LENS_DIAMETER );
             _chartBackgroundNode.setPathTo( chartBackgroundShape );
+        }
+        
+        // Chart edge node
+        {
+            _chartEdgeNode = new ClippedPath();
+            _chartEdgeNode.setPathTo( lensShape );
+            _chartEdgeNode.setPaint( BSConstants.CANVAS_BACKGROUND );
         }
           
         // Potential plot
@@ -181,10 +181,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // View node
         {
             _viewNode = new PComposite();
-            _viewNode.addChild( _canvasBackgroundNode );
             _viewNode.addChild( _chartBackgroundNode );
             _viewNode.addChild( _potentialNode );
             _viewNode.addChild( _eigenstatesParentNode );
+            _viewNode.addChild( _chartEdgeNode );
         }
 
         addChild( _viewNode ); 
@@ -332,12 +332,12 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      * Updates the display.
      */
     public void updateDisplay() {
-        
-        _eigenstatesParentNode.removeAllChildren();
-        
-        if ( !isInitialized() || !getVisible() ) {
+         
+        if ( !getVisible() || !isInitialized() ) {
             return;
         }
+        
+        _eigenstatesParentNode.removeAllChildren();
         
         // Range of values that are physically obscured by the lens.
         Point2D lensCenter = getLensCenter();
@@ -427,21 +427,27 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             final double plotMinEnergy = yRange.getLowerBound();
             final double plotMaxEnergy = yRange.getUpperBound();
 
-            final double x = -LENS_DIAMETER / 2;
-            double y = -LENS_DIAMETER / 2;
-            final double w = LENS_DIAMETER;
-            final double h = LENS_DIAMETER;
+            double x = LENS_DIAMETER;
+            double y = LENS_DIAMETER;
+            double w = 1;
+            double h = 1;
             if ( magMinEnergy < plotMinEnergy ) {
                 // Bottom edge is visible
-                y -= ( Math.abs( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER; 
+                x = -LENS_DIAMETER / 2;
+                w = LENS_DIAMETER;
+                h = ( Math.abs( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
+                y = ( LENS_DIAMETER / 2 ) - h;
             }
             else if ( magMaxEnergy > plotMaxEnergy ) {
                 // Top edge is visible
-                y -= ( Math.abs( magMaxEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER; 
+                x = -LENS_DIAMETER / 2;
+                w = LENS_DIAMETER;
+                h = ( Math.abs( magMaxEnergy - plotMaxEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
+                y = -LENS_DIAMETER / 2; 
             }
             
-            Shape chartBackgroudShape = new Rectangle2D.Double( x, y, w, h );
-            _chartBackgroundNode.setPathTo( chartBackgroudShape );
+            Shape chartEdgeShape = new Rectangle2D.Double( x, y, w, h );
+            _chartEdgeNode.setPathTo( chartEdgeShape );
         }
     }
     
