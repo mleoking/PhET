@@ -58,7 +58,8 @@ public class BodyGraphic extends PNode {
         try {
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-67.png" );
 //            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-phet2_0032.gif" );
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-phet2_0032-b.gif" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater-phet2_0032-b.gif" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/skater3.png" );
             skater = new PImage( image );
             addChild( skater );
 

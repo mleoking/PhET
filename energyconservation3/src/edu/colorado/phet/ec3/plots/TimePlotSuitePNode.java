@@ -562,7 +562,7 @@ public class TimePlotSuitePNode extends PNode {
 
         if( chartWidth < 2000 && chartHeight < 2000 ) {
             bufferedImage = chart.createBufferedImage( chartWidth, chartHeight, info );
-            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
+//            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
             decorateBuffer();
             chartGraphic.setImage( bufferedImage );
         }

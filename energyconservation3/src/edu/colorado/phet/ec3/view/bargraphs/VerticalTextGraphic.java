@@ -26,7 +26,7 @@ public class VerticalTextGraphic extends PNode {
         phetTextGraphic.setFont( font );
 
         double h = phetTextGraphic.getFullBounds().getHeight();
-        System.out.println( "h = " + h );
+//        System.out.println( "h = " + h );
         phetTextGraphic.translate( -3, -10 );
         phetTextGraphic.rotate( -Math.PI / 2 );
 

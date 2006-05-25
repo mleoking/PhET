@@ -121,11 +121,11 @@ public class EC3RootNode extends PhetRootPNode {
             screenBackground.removeAllChildren();
         }
         else {
-            System.out.println( "EC3RootNode.updateBackgroundImage@" + System.currentTimeMillis() );
+//            System.out.println( "EC3RootNode.updateBackgroundImage@" + System.currentTimeMillis() );
             BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
             if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
                 i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
-                System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
+//                System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
             }
             screenBackground.removeAllChildren();
             PImage child = new PImage( i2 );
