@@ -1,3 +1,14 @@
+I just looked at QWI for the first time since its wiggle me was added.
+Once Chris has written the standard wiggle me,
+would it be easy for you to change the one in QWI?
+I barely noticed it when I opened the sim.
+If it were a font that is about twice as large, bold,
+colored (red maybe) and without a bubble I think it’d be more prominent.
+It should enter from the top of the screen and descend
+down to the location that it sits in now.
+If this is still a lot of work even after Chris writes the standard wiggle me,
+then don’t worry about it.
+
 Bug: Mandel panel photons all have same wavelength (though different color)
 The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
 Mandel Panel should have both visualization styles
