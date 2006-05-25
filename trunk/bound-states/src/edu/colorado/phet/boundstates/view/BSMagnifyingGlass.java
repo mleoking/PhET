@@ -439,23 +439,24 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             final double plotMinEnergy = yRange.getLowerBound();
             final double plotMaxEnergy = yRange.getUpperBound();
 
+            // Create a rectangle that represents the piece of PCanvas that's visible
             double x = LENS_DIAMETER;
             double y = LENS_DIAMETER;
             double w = 1;
             double h = 1;
-            if ( magMinEnergy < plotMinEnergy ) {
-                // Bottom edge is visible
-                x = -LENS_RADIUS;
-                w = LENS_DIAMETER;
-                h = ( Math.abs( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
-                y = LENS_RADIUS - h;
-            }
-            else if ( magMaxEnergy > plotMaxEnergy ) {
+            if ( magMaxEnergy > plotMaxEnergy ) {
                 // Top edge is visible
                 x = -LENS_RADIUS;
                 w = LENS_DIAMETER;
-                h = ( Math.abs( magMaxEnergy - plotMaxEnergy ) / ( magMaxEnergy - magMinEnergy ) ) * LENS_DIAMETER;
+                h = Math.abs( LENS_DIAMETER * ( magMaxEnergy - plotMaxEnergy ) / ( magMaxEnergy - magMinEnergy ) );
                 y = -LENS_RADIUS; 
+            }
+            else if ( magMinEnergy < plotMinEnergy ) {
+                // Bottom edge is visible
+                x = -LENS_RADIUS;
+                w = LENS_DIAMETER;
+                h = Math.abs( LENS_DIAMETER * ( magMinEnergy - plotMinEnergy ) / ( magMaxEnergy - magMinEnergy ) );
+                y = LENS_RADIUS - h;
             }
             
             Shape chartEdgeShape = new Rectangle2D.Double( x, y, w, h );
