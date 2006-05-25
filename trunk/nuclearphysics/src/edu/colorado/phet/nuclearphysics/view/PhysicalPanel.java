@@ -29,13 +29,12 @@ public class PhysicalPanel extends TxApparatusPanel {
     //public class PhysicalPanel extends ApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
-    protected boolean init = false;
-    protected Point2D.Double origin;
-    protected AffineTransform originTx = new AffineTransform();
-    protected AffineTransform scaleTx = new AffineTransform();
-    protected AffineTransform nucleonTx = new AffineTransform();
+    private boolean init = false;
+    private Point2D.Double origin;
+    private AffineTransform originTx = new AffineTransform();
+    private AffineTransform scaleTx = new AffineTransform();
+    private AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
-    private int nucleusCnt = 0;
 
 
     /**
@@ -45,7 +44,7 @@ public class PhysicalPanel extends TxApparatusPanel {
     public PhysicalPanel( IClock clock ) {
         super( clock );
         this.setBackground( backgroundColor );
-        setScale( 1 );
+        setPhysicalScale( 1 );
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -65,7 +64,7 @@ public class PhysicalPanel extends TxApparatusPanel {
         return scaleTx.getScaleX();
     }
 
-    public void setScale( double scale ) {
+    public void setPhysicalScale( double scale ) {
         scaleTx.setToScale( scale, scale );
 
         nucleonTx.setToIdentity();
@@ -76,33 +75,26 @@ public class PhysicalPanel extends TxApparatusPanel {
     public void addNucleus( final Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         final TxGraphic txg = new TxGraphic( ng, nucleonTx );
-        nucleusCnt++;
-//        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-//            public void leavingSystem( NuclearModelElement nme ) {
-//                if( nme instanceof Rubidium ) {
-//                    System.out.println( "PhysicalPanel.leavingSystem" );
-//                }
-//                PhysicalPanel.this.removeGraphic( txg );
-//            }
-//        };
-//        nucleus.addListener( listener );
         nucleus.addListener( new GraphicRemover( txg ));
-        addGraphic( txg, nucleusLevel );
+        super.addGraphic( txg, nucleusLevel );
     }
 
-    public synchronized void addGraphic( PhetGraphic graphic ) {
-//    public synchronized void addGraphic( Graphic graphic ) {
+    public void addGraphic( PhetGraphic graphic ) {
         TxGraphic txg = new TxGraphic( graphic, nucleonTx );
         super.addGraphic( txg );
     }
 
-    protected synchronized void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
-        GraphicsState gs = new GraphicsState( g2 );
-        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
-        super.paintComponent( g2 );
-        gs.restoreGraphics();
-    }
+    /**
+     * todo: Is this needed?
+     * @param graphics
+     */
+//    protected void paintComponent( Graphics graphics ) {
+//        Graphics2D g2 = (Graphics2D)graphics;
+//        GraphicsState gs = new GraphicsState( g2 );
+//        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
+//        super.paintComponent( g2 );
+//        gs.restoreGraphics();
+//    }
 
     public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
         TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
@@ -117,6 +109,13 @@ public class PhysicalPanel extends TxApparatusPanel {
         return super.getGraphicTx();
     }
 
+    protected Point2D.Double getOrigin() {
+        return origin;
+    }
+
+    protected AffineTransform getOriginTx() {
+        return originTx;
+    }
 
     //----------------------------------------------------------------
     // Event handlers

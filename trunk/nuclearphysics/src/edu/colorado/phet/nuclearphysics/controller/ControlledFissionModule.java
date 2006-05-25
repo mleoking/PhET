@@ -129,7 +129,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         neutronLaunchers = new ArrayList();
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
-        getPhysicalPanel().setScale( SCALE );
+        getPhysicalPanel().setPhysicalScale( SCALE );
         vesselWidth = refWidth / SCALE;
         vesselHeight = refHeight / SCALE;
 

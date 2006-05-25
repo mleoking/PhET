@@ -48,7 +48,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         super( name, clock );
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
-        getPhysicalPanel().setScale( 0.5 );
+        getPhysicalPanel().setPhysicalScale( 0.5 );
 
         // Add a model element that watches for collisions between neutrons and
         // nuclei
