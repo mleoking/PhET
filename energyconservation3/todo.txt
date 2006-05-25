@@ -24,7 +24,9 @@ Add clipping to energy vs position plot (so data doesn't fall outside the data a
 [internal] Figure out the meaning of the magic grab number in EnergyConservationModel
 
 Maybe "Live" should be changed to "Go" instead of "Play"
+
 Bug: clear button erroneously shows 'this simulation is paused' when it is not.
+
 Bug: The measuring tape's initial readout is incorrect.
 
 #################################################################
