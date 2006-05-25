@@ -37,6 +37,7 @@ public class SoundModule extends WaveInterferenceModule {
         public SoundModel() {
             setDistanceUnits( "cm" );
             setPhysicalSize( 100, 100 );
+            setTimeUnits( "microsec" );
         }
     }
 

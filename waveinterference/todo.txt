@@ -4,6 +4,15 @@ Remaining Work
 
 Increase performance on mac.
 
+There is one detail that I just noticed. I think the stopwatch in the sound
+tab needs to be recalibrated. With the sound on, the range of freq appears
+to be ~100-5000Hz. If you run the stop watch and measure the freq of the
+speaker movement, it looks like the actual freq of the speaker is about
+1000x too low.
+
+Solution: If you change the stopwatch to read microsec, I think this should
+make everything consistent.
+
 ##############################################################
 Questions
 ##################################
