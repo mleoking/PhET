@@ -6,7 +6,6 @@ IN PROGRESS:
 
 Magnifying glass TODO:
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
-- add a parent node for all eigenstate lines, add/remove childrens for eigenstates
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
 - selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
