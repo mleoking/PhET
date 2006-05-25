@@ -96,6 +96,7 @@ public class EC3Module extends PiccoloModule {
 
 //        new AutoPan( energyCanvas, this );
         getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
+        setDefaults();
     }
 
     private void addFloorSpline() {
@@ -119,20 +120,20 @@ public class EC3Module extends PiccoloModule {
         energyModel.stepInTime( dt );
     }
 
-    public void activate() {
-        super.activate();
-        barChartFrame.setVisible( true );
-        chartFrame.setVisible( true );
-//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
-        setDefaults();
-    }
-
-    public void deactivate() {
-        super.deactivate();
-        barChartFrame.setVisible( false );
-        chartFrame.setVisible( false );
-//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
-    }
+//    public void activate() {
+//        super.activate();
+////        barChartFrame.setVisible( true );
+////        chartFrame.setVisible( true );
+////        getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
+//        setDefaults();
+//    }
+//
+//    public void deactivate() {
+//        super.deactivate();
+////        barChartFrame.setVisible( false );
+////        chartFrame.setVisible( false );
+////        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
+//    }
 
     private PhetFrame getPhetFrame() {
         return phetFrame;

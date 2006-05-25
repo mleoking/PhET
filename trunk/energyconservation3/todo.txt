@@ -4,10 +4,6 @@ Remaining Work
 When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
 
-Bug: When I minimize my window for the entire simulation and bring it back
-up, only the energy vs. position graph comes back with the sim and the other
-two are gone.
-
 6.  Is it possible to give the skater any velocity when he's in space?  I
 thought there used to be a way but I can't figure it out.
 >>We used to allow right click-drag to add velocity, but never added it in this new version since nobody knew about it.
