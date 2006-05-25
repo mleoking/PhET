@@ -16,9 +16,15 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
+
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
 
     private static double nucleusLayer = 20;
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
@@ -27,15 +33,22 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         }
     };
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
     private double alphaParticleLevel = Config.alphaParticleLevel;
 
+    /**
+     * Constructor
+     * @param clock
+     */
     public AlphaDecayPhysicalPanel( IClock clock ) {
         super( clock );
         this.setBackground( backgroundColor );
     }
 
-    protected synchronized void paintComponent( Graphics graphics ) {
+    protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
 
         // Set the origin

@@ -12,13 +12,18 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.*;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * An ApparatusPanel that handles TxGraphics
  */
 public class TxApparatusPanel extends ApparatusPanel2 {
-    //    public class TxApparatusPanel extends ApparatusPanel {
     private HashMap txGraphicMap = new HashMap();
     private AffineTransform atx = new AffineTransform();
 
@@ -54,4 +59,5 @@ public class TxApparatusPanel extends ApparatusPanel2 {
         super.removeAllGraphics();
         txGraphicMap.clear();
     }
+
 }

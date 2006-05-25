@@ -17,12 +17,12 @@ import edu.colorado.phet.nuclearphysics.model.Containment;
 import edu.colorado.phet.nuclearphysics.util.DefaultInteractiveGraphic;
 import edu.colorado.phet.nuclearphysics.util.Translatable;
 
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
 public class ContainmentGraphic extends CompositePhetGraphic {
-//public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
@@ -37,18 +37,14 @@ public class ContainmentGraphic extends CompositePhetGraphic {
         this.containment = containment;
         this.atx = atx;
         rep = new Rep( component );
-
-        setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-//        addTranslationListener( new Translator() );
-
         addGraphic( rep );
 
         setTransform( atx );
+        setCursorHand();
         addTranslationListener( new Translator() );
 
-//        setBoundedGraphic( rep );
-//        addCursorHandBehavior();
-//        addTranslationBehavior( new Translator() );
+        addMouseInputListener( new MyMouseInputAdapter( containment, atx ) );
+        this.setIgnoreMouse( false );
     }
 
     protected Rectangle determineBounds() {
@@ -59,24 +55,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
         rep.paint( g2 );
     }
 
-//    public void mousePressed( MouseEvent e ) {
-//        super.mousePressed( e );
-//        lastDragPt = e.getPoint();
-//    }
-//
-//    public void mouseDragged( MouseEvent e ) {
-//        super.mouseDragged( e );
-//        Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
-//                                        containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
-//        atx.transform( p, p );
-//        double d1 = p.distance( lastDragPt );
-//        double d2 = p.distance( e.getPoint() );
-//        gettingSmaller = ( d2 > d1 );
-//        lastDragPt = e.getPoint();
-//    }
-
     private class Translator implements TranslationListener {
-//    private class Translator implements Translatable {
 
         public void translationOccurred( TranslationEvent translationEvent ) {
             translate( translationEvent.getDx(), translationEvent.getDy() );
@@ -106,6 +85,9 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             super( component, null, null, null );
             containment.addObserver( this );
             backgroundColor = component.getBackground();
+            setPaint( color );
+            setStroke( outlineStroke );
+            setBorderColor( outlineColor );
             update();
         }
 
@@ -119,9 +101,16 @@ public class ContainmentGraphic extends CompositePhetGraphic {
                             r.getBounds2D().getMinY(),
                             r.getBounds2D().getWidth(),
                             r.getBounds2D().getHeight() );
+            RoundRectangle2D gun = new RoundRectangle2D.Double();
+            double gunHeight = 40;
+            double gunLength = 15;
+            gun.setRoundRect( containment.getNeutronLaunchPoint().getX(),
+                              containment.getNeutronLaunchPoint().getY() - gunHeight / 2,
+                              gunLength, gunHeight, 15, 15 );
             mouseableArea = new Area( outer );
             mouseableArea.subtract( new Area( inner ) );
-            this.setShape( atx.createTransformedShape( mouseableArea ) );
+            mouseableArea.add( new Area( gun ) );
+            this.setShape( mouseableArea );
 
             double opacity = containment.getOpacity();
             int redLevel = (int)( backgroundColor.getRed() * ( 1 - opacity ) );
@@ -134,33 +123,39 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             setBoundsDirty();
             repaint();
         }
+    }
 
-        public void paint( Graphics2D g ) {
-            saveGraphicsState( g );
-            GraphicsUtil.setAntiAliasingOn( g );
-            g.transform( atx );
-            g.setColor( color );
-            g.setStroke( stroke );
-            g.fill( mouseableArea );
+    //--------------------------------------------------------------------------------------------------
+    // MouseInputAdapter
+    //--------------------------------------------------------------------------------------------------
 
-            // Draw the neutron source
-            RoundRectangle2D gun = new RoundRectangle2D.Double();
-            double gunHeight = 40;
-            double gunLength = 15;
-            gun.setRoundRect( containment.getNeutronLaunchPoint().getX(),
-                              containment.getNeutronLaunchPoint().getY() - gunHeight / 2,
-                              gunLength, gunHeight, 15, 15 );
-            g.setColor( color );
-            g.fill( gun );
-            g.setStroke( outlineStroke );
-            g.setColor( outlineColor );
-            g.draw( gun );
+    /**
+     * Handles dragsto resize the containment vessel
+     */
+    private class MyMouseInputAdapter extends MouseInputAdapter {
+        private final Containment containment;
+        private final AffineTransform atx;
 
-            // Outline the vessel in red
-            g.setColor( outlineColor );
-            g.setStroke( outlineStroke );
-            g.draw( mouseableArea );
-            restoreGraphicsState();
+        public MyMouseInputAdapter( Containment containment, AffineTransform atx ) {
+            this.containment = containment;
+            this.atx = atx;
+        }
+
+        // implements java.awt.event.MouseListener
+        public void mousePressed( MouseEvent e ) {
+            super.mousePressed( e );
+            lastDragPt = e.getPoint();
+        }
+
+        // implements java.awt.event.MouseMotionListener
+        public void mouseDragged( MouseEvent e ) {
+            Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
+                                            containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
+            atx.transform( p, p );
+            double d1 = p.distance( lastDragPt );
+            double d2 = p.distance( e.getPoint() );
+            gettingSmaller = ( d2 > d1 );
+            lastDragPt = e.getPoint();
         }
     }
 }

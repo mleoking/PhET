@@ -30,8 +30,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private ArrayList transientModelElements = new ArrayList();
 
     public SingleNucleusFissionModule( IClock clock ) {
-
         super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
+        init( clock );
+    }
+
+    protected void init( IClock clock ) {
         this.clock = clock;
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {

@@ -42,7 +42,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
     public AlphaDecayModule(IClock clock) {
         super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock);
+        init( clock );
+    }
 
+    protected void init( IClock clock ) {
+        
         // DEBUG ONLY!!!
         //        clock.setDt( clock.getDt() / 10 );
 
