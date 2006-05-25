@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- show chart bounds; bottom flickers; top is not correct
+- show chart bounds in mag glass; bottom flickers; top is not correct (see end of updateDisplay method)
 
 Magnifying glass TODO:
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
