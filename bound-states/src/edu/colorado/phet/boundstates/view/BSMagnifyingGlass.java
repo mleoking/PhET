@@ -60,7 +60,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     private double _magnification;
-    
     private BSModel _model;
     private BSCombinedChartNode _chartNode;
     private BSEigenstatesNode _eigenstatesNode;
@@ -76,8 +75,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private ClippedPath _chartBackgroundNode;
     private PComposite _eigenstatesParentNode;
     private ClippedPath _potentialNode;
-    
-    private ArrayList _eigenstateLines; // array of PPath
     
     private BSColorScheme _colorScheme;
     
@@ -97,7 +94,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         _magnification = DEFAULT_MAGNIFICATION;
         _chartNode = chartNode;
         _eigenstatesNode = eigenstatesNode;
-        _eigenstateLines = new ArrayList();
         initNodes();
         initEventHandling();
         setColorScheme( colorScheme );
@@ -316,7 +312,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      */
     public void updateDisplay() {
         
-        clearEigenstateLines();
+        _eigenstatesParentNode.removeAllChildren();
         
         if ( !isInitialized() || !getVisible() ) {
             return;
@@ -373,7 +369,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
                 line.setStroke( lineStroke );
                 line.setStrokePaint( lineColor );
                 
-                _eigenstateLines.add( line );
                 _eigenstatesParentNode.addChild( line );
             }
         }
@@ -401,18 +396,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             _potentialNode.setPathTo( path );
         }
     }
-    
-    /*
-     * Removes all of the eigenstate lines.
-     */
-    private void clearEigenstateLines() {
-        Iterator i = _eigenstateLines.iterator();
-        while( i.hasNext() ) {
-            PPath node = (PPath) i.next();
-            _eigenstatesParentNode.removeChild( node );
-        }
-        _eigenstateLines.clear();
-    } 
     
     /*
      * Tells the EigenstateNode to select the eigenstate that is currently hilited.
