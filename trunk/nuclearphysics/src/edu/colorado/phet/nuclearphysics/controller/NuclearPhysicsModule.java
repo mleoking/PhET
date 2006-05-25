@@ -7,15 +7,18 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetGraphicsModule;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
+import edu.colorado.phet.common.model.clock.ClockEvent;
+import edu.colorado.phet.common.model.clock.ClockListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
+import edu.colorado.phet.nuclearphysics.view.NuclearPhysicsApparatusPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,8 +42,8 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
             }
         } );
 
-        //        apparatusPanel = new ApparatusPanel2( getModel() );
         apparatusPanel = new ApparatusPanel();
+        apparatusPanel = new NuclearPhysicsApparatusPanel( clock );
         super.setApparatusPanel( apparatusPanel );
 
         physicalPanel = new PhysicalPanel( clock );
@@ -51,10 +54,9 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
         ControlPanel controlPanel = new ControlPanel();
         setControlPanel( controlPanel );
         nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this );
-        getControlPanel().addControl(nuclearPysicslControlPanel);
-//        JPanel controlPanel = new NuclearPhysicsControlPanel( this );
-//        super.setControlPanel( controlPanel );
+        getControlPanel().addControl( nuclearPysicslControlPanel );
     }
+
 
     public IClock getClock() {
         return clock;
@@ -109,4 +111,7 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
     protected PhysicalPanel getPhysicalPanel() {
         return physicalPanel;
     }
+
+
+
 }

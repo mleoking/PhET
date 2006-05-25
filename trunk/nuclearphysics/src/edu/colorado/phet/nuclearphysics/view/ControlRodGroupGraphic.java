@@ -24,7 +24,9 @@ import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -62,6 +64,36 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
 //        addCursorHandBehavior();
 //        addTranslationBehavior( new Translator() );
         orientation = controlRods[0].getOrientation();
+
+        addMouseInputListener( new MouseInputListener() {
+            public void mouseClicked( MouseEvent e ) {
+                System.out.println( "ControlRodGroupGraphic.mouseClicked" );
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+                System.out.println( "ControlRodGroupGraphic.mouseEntered" );
+            }
+
+            public void mouseExited( MouseEvent e ) {
+
+            }
+
+            public void mousePressed( MouseEvent e ) {
+
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+
+            }
+
+            public void mouseDragged( MouseEvent e ) {
+
+            }
+
+            public void mouseMoved( MouseEvent e ) {
+
+            }
+        } );
     }
 
     protected Rectangle determineBounds() {

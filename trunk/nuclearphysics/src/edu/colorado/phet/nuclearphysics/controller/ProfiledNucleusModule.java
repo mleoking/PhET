@@ -19,7 +19,6 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     public ProfiledNucleusModule( String name, IClock clock ) {
         super( name, clock );
-
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         potentialProfilePanel = new PotentialProfilePanel( getClock() );
         getApparatusPanel().add( potentialProfilePanel, 1 );

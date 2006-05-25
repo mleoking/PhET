@@ -27,6 +27,8 @@ import edu.colorado.phet.nuclearphysics.view.*;
 
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -101,7 +103,6 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public ControlledFissionModule( IClock clock ) {
         super( SimStrings.get( "ModuleTitle.ControlledReaction" ), clock );
-
         // Set up the control panel
         super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
         init( getClock() );
@@ -123,7 +124,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         createNuclei();
     }
 
-    private void init( IClock clock ) {
+    protected void init( IClock clock ) {
 
         //  Create the list for the nuetron launchers
         neutronLaunchers = new ArrayList();
