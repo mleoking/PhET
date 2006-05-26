@@ -5,10 +5,9 @@ Remaining Work
 When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
 
-6.  Is it possible to give the skater any velocity when he's in space?  I
-thought there used to be a way but I can't figure it out.
-Draggable jet pack, to apply velocity.
->>Awaiting feedback from the group.
+>>Fix fireboard graphics (so flames point opposite acceleration vector).
+
+>>Add a wiggle me.
 
 Zoomable Energy vs Position graphs.
 
