@@ -14,24 +14,33 @@ import java.util.Random;
 
 public class AlphaParticle extends Nucleus {
 
-    //
-    // Statics
-    //
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static Random random = new Random();
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
     private static double forceScale = 0.01;
     //    private static double forceScale = 0.0008;
+    private int stepCnt;
+    private int stepsBetweenRandomPlacements = 4;
 
-
-    //
+    //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
-    //
+    //--------------------------------------------------------------------------------------------------
+
     private Nucleus nucleus;
     public boolean isInNucleus = true;
     private double statisticalPositionSigma;
     private boolean escaped = false;
 
+    /**
+     * Constructor
+     *
+     * @param position
+     * @param statisticalPositionSigma
+     */
     public AlphaParticle( Point2D position, double statisticalPositionSigma ) {
         super( position, 2, 2 );
         this.statisticalPositionSigma = statisticalPositionSigma;
@@ -49,17 +58,24 @@ public class AlphaParticle extends Nucleus {
         super.setPosition( x, y );
     }
 
+    /**
+     * Puts the alpha partical in a randomly selected position if it hasn't escaped from the nucleus.
+     *
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         if( nucleus != null ) {
             if( !escaped ) {
-                // Generate a random position for the alpha particle
-                double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( random.nextBoolean() ? 1 : -1 );
-                double theta = random.nextDouble() * Math.PI * 2;
-                double dx = d * Math.cos( theta );
-                double dy = d * Math.sin( theta );
-                setLocation( dx, dy );
-                this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
+                if( ++stepCnt % stepsBetweenRandomPlacements == 0 ) {
+                    // Generate a random position for the alpha particle
+                    double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( random.nextBoolean() ? 1 : -1 );
+                    double theta = random.nextDouble() * Math.PI * 2;
+                    double dx = d * Math.cos( theta );
+                    double dy = d * Math.sin( theta );
+                    setLocation( dx, dy );
+                    this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
+                }
             }
             else {
                 // Accelerate the alpha particle away from the nucleus, with a force
@@ -86,9 +102,10 @@ public class AlphaParticle extends Nucleus {
         }
     }
 
-    //
-    // Interfaces implemented
-    //
+    //--------------------------------------------------------------------------------------------------
+    // Implementation of Body
+    //--------------------------------------------------------------------------------------------------
+
     public Point2D getCM() {
         return getPosition();
     }
