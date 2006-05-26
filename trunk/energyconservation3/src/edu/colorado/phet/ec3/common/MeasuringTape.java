@@ -58,6 +58,11 @@ public class MeasuringTape extends PNode {
                 update();
             }
         } );
+        worldNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                update();
+            }
+        } );
     }
 
     class BodyGraphic extends PNode {

@@ -2,10 +2,6 @@
 Remaining Work
 #######################################
 
-Add clipping to energy vs position plot (so data doesn't fall outside the data area).
-
-Bug: The measuring tape's initial readout is incorrect.
-
 When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
 
@@ -66,3 +62,9 @@ the mouse is no longer directly over the skater.
 
 Optional to overlay a position-grid on the real space (to correlate with graph).
     Like moving man, force1d or ramps, disabled by default.
+
+Add clipping to energy vs position plot (so data doesn't fall outside the data area).
+>>We decided against this for wave interference on the grounds that:
+1. It is not confusing.
+2. It actually shows data that would be otherwise hidden.
+We haven't yet gathered interview results for this; we should revise the plan here after interviews.

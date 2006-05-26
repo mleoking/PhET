@@ -3,6 +3,7 @@ Added a button to return the skater when he has flown out of view.
 Moved friction & clear heat controls to an expandable advanced panel.
 Removed the text field and numerical tick labels from friction slider; labeled extrema "none" and "lots"
 Bugfix: Clear button erroneously shows 'this simulation is paused' when it is not.
+Bugfix: The measuring tape's initial readout is incorrect.
 
 -Changes for 0.00.20
 Changed the look and feel to platform specific.
