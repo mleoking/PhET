@@ -32,6 +32,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Arrays;
 
 /**
  * ControlledFissionModule
@@ -108,6 +109,17 @@ public class ControlledFissionModule extends ChainReactionModule {
         init( getClock() );
 
         setParameterDefaults();
+    }
+
+    protected List getLegendClasses() {
+        Object[] legendClasses = new Object[]{
+//                LegendPanel.NEUTRON,
+//                LegendPanel.PROTON,
+//                LegendPanel.ALPHA_PARTICLE,
+//                LegendPanel.U235,
+//                LegendPanel.U238
+        };
+        return Arrays.asList( legendClasses );
     }
 
     /**
@@ -208,10 +220,10 @@ public class ControlledFissionModule extends ChainReactionModule {
             rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                           yMin ),
 //                                                          channel.getMinY() ),
-                                      new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                          yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
-                                      model,
-                                      rodAbsorptionProbability );
+new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                    yMin + ( channel.getMaxY() - channel.getMinY() ) ), channel.getWidth(),
+                                                                        model,
+                                                                        rodAbsorptionProbability );
             model.addModelElement( rods[i] );
         }
         return rods;

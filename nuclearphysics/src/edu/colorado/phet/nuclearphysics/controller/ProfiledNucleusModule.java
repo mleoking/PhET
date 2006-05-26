@@ -9,8 +9,11 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class ProfiledNucleusModule extends NuclearPhysicsModule {
 
@@ -22,6 +25,16 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         potentialProfilePanel = new PotentialProfilePanel( getClock() );
         getApparatusPanel().add( potentialProfilePanel, 1 );
+    }
+
+    protected List getLegendClasses() {
+        Object[] legendClasses = new Object[]{
+                LegendPanel.NEUTRON,
+                LegendPanel.PROTON,
+                LegendPanel.ALPHA_PARTICLE,
+                LegendPanel.U235
+        };
+        return Arrays.asList( legendClasses );
     }
 
     public void setNucleus( Nucleus nucleus ) {

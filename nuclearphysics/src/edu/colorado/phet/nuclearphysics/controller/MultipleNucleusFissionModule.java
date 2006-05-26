@@ -11,10 +11,12 @@ import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import java.awt.*;
 import java.awt.geom.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener {
 
@@ -38,6 +40,17 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 }
             }
         } );
+    }
+
+    protected List getLegendClasses() {
+        Object[] legendClasses = new Object[]{
+                LegendPanel.NEUTRON,
+                LegendPanel.PROTON,
+                LegendPanel.ALPHA_PARTICLE,
+                LegendPanel.U235,
+                LegendPanel.U238
+        };
+        return Arrays.asList( legendClasses );
     }
 
     public void activate() {
