@@ -104,6 +104,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+                setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
                 percentDecayTF.setText( "0" );
             }
         } );
@@ -180,7 +181,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         this.setBorder( titledBorder );
     }
 
-    private synchronized int setNumU235Nuclei( int num ) {
+    private int setNumU235Nuclei( int num ) {
         int netNuclei = 0;
         int delta = num - module.getU235Nuclei().size();
         for( int i = 0; i < delta; i++ ) {
