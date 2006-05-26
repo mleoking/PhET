@@ -34,7 +34,6 @@ import java.util.Iterator;
  */
 public class PotentialProfilePanel extends TxApparatusPanel {
 
-
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------
@@ -133,13 +132,14 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         // Draw axes
         AffineTransform gTx = getGraphicTx();
         g2.transform( gTx );
+        drawGridlines( g2 );
         drawAxes( g2 );
 
         // Draw nuclei
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
         while( nucleusIt.hasNext() ) {
             Nucleus nucleus = (Nucleus)nucleusIt.next();
-            PhetGraphic ng = (PhetGraphic) profileNucleusMap.get( nucleus );
+            PhetGraphic ng = (PhetGraphic)profileNucleusMap.get( nucleus );
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
@@ -167,6 +167,41 @@ public class PotentialProfilePanel extends TxApparatusPanel {
             g2.setTransform( orgTx );
         }
 
+        gs.restoreGraphics();
+    }
+
+    private void drawGridlines( Graphics2D g2 ) {
+        GraphicsState gs = new GraphicsState( g2 );
+        AffineTransform orgTx = g2.getTransform();
+
+        g2.transform( profileTx );
+
+        int lineSpacing = 50;
+        int x0 = 0;
+        int y0 = 0;
+        g2.setColor( Color.lightGray );
+
+        // draw vertical lines from origin right
+        for( int x = x0; x < getWidth() / 2; x += lineSpacing ) {
+            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
+        }
+
+        // draw vertical lines from origin left
+        for( int x = x0; x > -( getWidth() / 2 ); x -= lineSpacing ) {
+            g2.drawLine( x, 0 - (int)profileTx.getTranslateY(), x, getHeight() - (int)profileTx.getTranslateY() );
+        }
+
+        // draw horizontal lines from origin up
+        for( int y = y0; y > 0 - (int)profileTx.getTranslateY(); y -= lineSpacing ) {
+            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
+        }
+
+        // draw horizontal lines from origin down
+        for( int y = y0; y < getHeight() - (int)profileTx.getTranslateY(); y += lineSpacing ) {
+            g2.drawLine( -( getWidth() / 2 ), y, getWidth() / 2, y );
+        }
+
+        g2.setTransform( orgTx );
         gs.restoreGraphics();
     }
 
