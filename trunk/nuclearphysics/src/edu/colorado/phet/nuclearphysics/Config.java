@@ -14,6 +14,8 @@ public class Config {
     public static double AlphaLocationUncertaintySigmaFactor = 0.34;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.3;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
+    public static final int U235MorphSpeedFactor = 1;
+
 
     public static final double neutronSpeed = 6;
     public static final double fissionDisplacementVelocity = 2;
@@ -29,4 +31,5 @@ public class Config {
     private static final String IMAGE_DIR = "images/";
     public static final String HANDLE_IMAGE_NAME = IMAGE_DIR + "wall-handle.gif";
     public static final String CONTROL_ROD_IMAGE = IMAGE_DIR + "control-rod-1.png";
+    // Regulates how fast the profile rises when fission occurs
 }

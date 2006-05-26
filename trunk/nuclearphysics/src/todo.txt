@@ -20,8 +20,6 @@ Alpha Radiation
 Fission:
 
 ?	Graph in lower portion as in Alpha Radiation panel
-?	Speed reduced to half.
-
 
 Chain Reaction panel
 
@@ -56,6 +54,10 @@ Done, not posted
 Alpha Radiation
 ?	The atoms bounce around to fast.  There speed needs cut down to 25% of it’s current speed and then we’ll look again
 ?	Change the label “Running time to decay (msec)” to “Time to decay” and can the units be placed with the number?
+
+Fission:
+
+?	Speed reduced to half.
 
 Chain Reaction panel
 ?	Remove “Number of” and just have the label 235U nuclei (with spelling correction) as the label for each spinner.
