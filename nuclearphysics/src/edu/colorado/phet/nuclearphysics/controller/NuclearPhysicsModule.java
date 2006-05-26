@@ -58,6 +58,11 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
         getControlPanel().addControl( nuclearPysicslControlPanel );
     }
 
+    /**
+     * Returns a list of LegendPanel.LegendItem instances that indicate which items should be in the module's
+     * legend in the control panel
+     * @return a list
+     */
     protected abstract List getLegendClasses();
 
     public IClock getClock() {

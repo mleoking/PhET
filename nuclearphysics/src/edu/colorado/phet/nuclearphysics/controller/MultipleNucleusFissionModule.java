@@ -43,7 +43,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     }
 
     protected List getLegendClasses() {
-        Object[] legendClasses = new Object[]{
+        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
                 LegendPanel.NEUTRON,
                 LegendPanel.PROTON,
                 LegendPanel.ALPHA_PARTICLE,

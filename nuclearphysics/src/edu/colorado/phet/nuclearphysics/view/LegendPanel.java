@@ -10,17 +10,18 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.GridBagUtil;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.GridBagUtil;
 
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -30,17 +31,21 @@ import java.awt.image.BufferedImage;
  * @version $Revision$
  */
 public class LegendPanel extends JPanel {
-    public static final Object ALPHA_PARTICLE = new Object();
-    public static final Object NEUTRON = new Object();
-    public static final Object PROTON = new Object();
-    public static final Object U235 = new Object();
-    public static final Object U238 = new Object();
-    public static final Object U239 = new Object();
+
+    public static class LegendItem {
+        private LegendItem(){};
+    }
+    public static final LegendItem ALPHA_PARTICLE = new LegendItem();
+    public static final LegendItem NEUTRON = new LegendItem();
+    public static final LegendItem PROTON = new LegendItem();
+    public static final LegendItem U235 = new LegendItem();
+    public static final LegendItem U238 = new LegendItem();
+    public static final LegendItem U239 = new LegendItem();
 
     /**
      * @param modelClasses
      */
-    public LegendPanel( java.util.List modelClasses ) {
+    public LegendPanel( List modelClasses ) {
         if( modelClasses.isEmpty() ) {
             return;
         }
