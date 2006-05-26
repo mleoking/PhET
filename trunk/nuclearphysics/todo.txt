@@ -30,7 +30,6 @@ Chain Reaction panel
 ?	Instead of fading the containment vessel needs to break open/explode.
 -   "Enable Containment Vessel" color isn't the same as the other labels in the panel
 -   % spinner acts unpleasant when a spinner is spun after a fission run
--   font for spinners is way too big in 1.5
 
 Controlled Reaction
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
@@ -50,6 +49,8 @@ Done, not posted
 ?	Should start up on first tab
 ?	Pause and Play settings stay where they are placed when you switch panes.  What has been changed in one pane should not affect the next pane. Is it possible that the sim is still moving the alpha particles around in the first pane while the user is looking at other panes since the play and pause buttons are all connected?
 ?	Remove help buttons since there is no help.
+-   font for spinners is way too big in 1.5
+
 
 Alpha Radiation
 ?	The atoms bounce around to fast.  There speed needs cut down to 25% of it’s current speed and then we’ll look again
