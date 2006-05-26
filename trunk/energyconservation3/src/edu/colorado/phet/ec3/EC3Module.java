@@ -44,7 +44,8 @@ public class EC3Module extends PiccoloModule {
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
+//    private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 8.0 );
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;
@@ -103,8 +104,6 @@ public class EC3Module extends PiccoloModule {
         CubicSpline floorSpline = new CubicSpline( 4 );
         floorSpline.addControlPoint( -1000, 0 );
         floorSpline.addControlPoint( 1000, 0 );
-//        floorSpline.addControlPoint( -1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
-//        floorSpline.addControlPoint( 1000, -AbstractSpline.SPLINE_THICKNESS/2+AbstractSpline.SPLINE_THICKNESS/10 );
 
         SplineSurface splineSurface = new SplineSurface( floorSpline );
         splineSurface.setInteractive( false );
@@ -160,7 +159,6 @@ public class EC3Module extends PiccoloModule {
         init();
         addFloorSpline();
         energyTimeSeriesModel.startLiveMode();
-
     }
 
 
@@ -193,8 +191,8 @@ public class EC3Module extends PiccoloModule {
         }
 
         PreFabSplines preFabSplines = new PreFabSplines();
-//        CubicSpline spline = preFabSplines.getParabolic();
-        CubicSpline spline = preFabSplines.getTinyParabolic();
+        CubicSpline spline = preFabSplines.getParabolic();
+//        CubicSpline spline = preFabSplines.getTinyParabolic();
 //        CubicSpline spline = preFabSplines.getBugDonut();
 //        CubicSpline spline = preFabSplines.getLoop();
 //        CubicSpline spline = preFabSplines.getTightParabolic();

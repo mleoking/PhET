@@ -5,6 +5,7 @@ Removed the text field and numerical tick labels from friction slider; labeled e
 Bugfix: Clear button erroneously shows 'this simulation is paused' when it is not.
 Bugfix: The measuring tape's initial readout is incorrect.
 Added tool icons.
+Increased the initial and "return" height of the skater; increased the initial track to ensure a smooth first ride.
 
 -Changes for 0.00.20
 Changed the look and feel to platform specific.
