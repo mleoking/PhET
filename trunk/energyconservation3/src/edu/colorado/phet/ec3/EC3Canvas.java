@@ -22,7 +22,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 /**
  * User: Sam Reid
@@ -34,11 +33,10 @@ import java.util.HashMap;
 public class EC3Canvas extends PhetPCanvas {
     private EC3Module ec3Module;
     private EnergyConservationModel ec3Model;
-    private HashMap pressedKeys = new HashMap();
+    private MultiKeyHandler multiKeyHandler = new MultiKeyHandler();
     private EC3RootNode rootNode;
+    private double matchThresholdWorldCoordinates = 1.5;
 
-    double matchThresholdWorldCoordinates = 1.5;
-    private static final Object DUMMY_VALUE = new Object();
     public static final int NUM_CUBIC_SPLINE_SEGMENTS = 30;
 
     public EC3Canvas( EC3Module ec3Module ) {
@@ -150,16 +148,16 @@ public class EC3Canvas extends PhetPCanvas {
         double xThrust = 0.0;
         double yThrust = 0.0;
         int thrustValue = 1000;
-        if( pressedKeys.containsKey( new Integer( KeyEvent.VK_RIGHT ) ) ) {
+        if( multiKeyHandler.isPressed( KeyEvent.VK_RIGHT ) ) {
             xThrust = thrustValue;
         }
-        else if( pressedKeys.containsKey( new Integer( KeyEvent.VK_LEFT ) ) ) {
+        else if( multiKeyHandler.isPressed( KeyEvent.VK_LEFT ) ) {
             xThrust = -thrustValue;
         }
-        if( pressedKeys.containsKey( new Integer( KeyEvent.VK_UP ) ) ) {
+        if( multiKeyHandler.isPressed( KeyEvent.VK_UP ) ) {
             yThrust = thrustValue;
         }
-        else if( pressedKeys.containsKey( new Integer( KeyEvent.VK_DOWN ) ) ) {
+        else if( multiKeyHandler.isPressed( KeyEvent.VK_DOWN ) ) {
             yThrust = -thrustValue;
         }
         body.setThrust( xThrust, yThrust );
@@ -287,11 +285,11 @@ public class EC3Canvas extends PhetPCanvas {
 
     public void reset() {
         rootNode.reset();
-        pressedKeys.clear();
+        multiKeyHandler.clear();
     }
 
     public void keyPressed( KeyEvent e ) {
-        pressedKeys.put( new Integer( e.getKeyCode() ), DUMMY_VALUE );
+        multiKeyHandler.keyPressed( e );
         if( e.getKeyCode() == KeyEvent.VK_P ) {
             System.out.println( "spline.getSegmentPath().getLength() = " + ec3Model.splineSurfaceAt( 0 ).getLength() );
             printControlPoints();
@@ -311,10 +309,11 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     public void keyReleased( KeyEvent e ) {
-        pressedKeys.remove( new Integer( e.getKeyCode() ) );
+        multiKeyHandler.keyReleased( e );
     }
 
     public void keyTyped( KeyEvent e ) {
+        multiKeyHandler.keyTyped( e );
     }
 
     public void redrawAllGraphics() {
