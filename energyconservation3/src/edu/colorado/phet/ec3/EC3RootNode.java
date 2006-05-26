@@ -46,7 +46,7 @@ public class EC3RootNode extends PhetRootPNode {
     private Image backgroundImage;
     private SplineToolbox splineToolbox;
     private PNode toolboxPlaceholder;
-    private Planet lastPlanet = null;
+//    private Planet lastPlanet = null;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
 
@@ -68,6 +68,7 @@ public class EC3RootNode extends PhetRootPNode {
         legend = new EC3Legend( ec3Module );
         floorGraphic = new FloorGraphic( floor );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
+        offscreenManIndicator = new OffscreenManIndicator( ec3Canvas, ec3Module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
 
         addScreenChild( screenBackground );
         addScreenChild( splineToolbox );
@@ -81,6 +82,7 @@ public class EC3RootNode extends PhetRootPNode {
         addScreenChild( legend );
         addWorldChild( toolboxPlaceholder );
         addScreenChild( zeroPointPotentialGraphic );
+        addScreenChild( offscreenManIndicator );
 
         resetDefaults();
         ec3Canvas.addComponentListener( new ComponentListener() {
@@ -206,6 +208,7 @@ public class EC3RootNode extends PhetRootPNode {
 
     public void addBodyGraphic( BodyGraphic bodyGraphic ) {
         bodyGraphics.addChild( bodyGraphic );
+        offscreenManIndicator.setBodyGraphic( bodyGraphic );
     }
 
     public void toggleBox() {
@@ -236,16 +239,12 @@ public class EC3RootNode extends PhetRootPNode {
         updateHistory();
         updatePieChart();
         updateZeroPotential();
-//        updateOffscreenManIndicator();
+        offscreenManIndicator.update();
     }
 
     private void updateZeroPotential() {
         zeroPointPotentialGraphic.setZeroPointPotential( getModel().getZeroPointPotentialY() );
     }
-
-//    private void updateOffscreenManIndicator() {
-//        offscreenManIndicator.update();
-//    }
 
     private void updatePieChart() {
         for( int i = 0; i < pieCharts.getChildrenCount(); i++ ) {
@@ -253,7 +252,6 @@ public class EC3RootNode extends PhetRootPNode {
             pieChartIndicator.update();
         }
     }
-
 
     private void updateHistory() {
 //        System.out.println( "numHistoryGraphics() = " + numHistoryGraphics() );
