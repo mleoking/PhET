@@ -10,6 +10,7 @@
  */
 
 import edu.colorado.phet.simlauncher.ThumbnailResource;
+import edu.colorado.phet.simlauncher.Configuration;
 
 import javax.swing.*;
 import java.io.File;
@@ -32,7 +33,7 @@ public class ImageResourceTest {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
-        File localRoot = new File( "/phet/temp" );
+        File localRoot = Configuration.instance().getLocalRoot();
         ThumbnailResource ir = new ThumbnailResource( url, localRoot );
         ir.download();
 

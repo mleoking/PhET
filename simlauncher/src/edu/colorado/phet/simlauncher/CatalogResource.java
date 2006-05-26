@@ -10,25 +10,20 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 
 /**
- * ImageResource
+ * CatalogResource
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ThumbnailResource extends SimResource {
-    private ImageIcon imageIcon;
+public class CatalogResource extends SimResource {
 
-    public ThumbnailResource( URL url, File localRoot ) {
+    public CatalogResource( URL url, File localRoot ) {
         super( url, localRoot );
-        imageIcon = new ImageIcon( getLocalFile().getAbsolutePath() );
     }
 
-    public ImageIcon getImageIcon() {
-        return imageIcon;
-    }
+    
 }

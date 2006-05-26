@@ -13,10 +13,13 @@ package edu.colorado.phet.simlauncher;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import javax.swing.*;
-import java.util.*;
-import java.net.URL;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Simulation
@@ -38,7 +41,7 @@ public class Simulation {
 
     static {
         namesToSims = new HashMap();
-        simulations = new SimulationFactory().getSimulations( "simulations.xml", new File( "/phet/temp" ) );
+        simulations = new Catalog().getSimulations();
         uninstalledSims = new ArrayList( simulations );
         installedSims = new ArrayList();
     }

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * JnlpFile

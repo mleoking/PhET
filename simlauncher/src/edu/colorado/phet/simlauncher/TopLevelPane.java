@@ -12,7 +12,6 @@ package edu.colorado.phet.simlauncher;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ContainerAdapter;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 

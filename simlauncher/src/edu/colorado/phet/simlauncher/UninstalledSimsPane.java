@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
+import edu.colorado.phet.simlauncher.menus.UninstalledSimulationPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;

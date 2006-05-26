@@ -10,14 +10,17 @@
  */
 package edu.colorado.phet.simlauncher.util;
 
+import edu.colorado.phet.simlauncher.Configuration;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
 /**
  * LauncherUtil
+ * <p>
+ * Provides some utilities specific to the SimLauncher application
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -39,28 +42,14 @@ public class LauncherUtil {
     //--------------------------------------------------------------------------------------------------
 
     private Boolean online = null;
-    private URL url;// = DEFAULT_URL;
+    private URL url;
 
     private LauncherUtil() {
-        try {
-            //Todo: this technique for determining whether the simulation is online fails for certain url's: e.g. the main phet page url.
-//            url=new URL("http://www.colorado.edu/physics/phet/web-pages/index.html" );
-
-//            url=new URL("http://www.colorado.edu/physics/phet/dev/balloon/v1r0/balloons.jar" );
-//            url=new URL("http://www.colorado.edu/physics/phet/dev/balloon/v1r0" );
-            url = new URL( "http://www.colorado.edu/physics/phet/dev/phetlauncher/data/simulations.xml" );
-        }
-        catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
-        System.out.println( "url = " + url );
+        url = Configuration.instance().getPhetUrl();
     }
 
-//    public void setUrl( URL url ) {
-//        this.url = url;
-//    }
-
-    public boolean isRemoteAvailable() {
+    public boolean isRemoteAvailable( URL url ) {
+        this.url = url;
         if( online == null ) {
             online = new Boolean( refreshOnline() );
         }
@@ -69,11 +58,8 @@ public class LauncherUtil {
 
     private boolean refreshOnline() {
         try {
-            System.out.println( "url = " + url );
             URLConnection urlConnection = url.openConnection();
-            System.out.println( "urlConnection = " + urlConnection );
             long lastModified = urlConnection.getLastModified();
-            System.out.println( "lastModified = " + lastModified );
             return lastModified != 0;
         }
         catch( IOException e ) {

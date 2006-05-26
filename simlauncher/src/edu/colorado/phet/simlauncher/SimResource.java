@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.MetaData;
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 
 import java.io.File;
@@ -42,7 +41,7 @@ public class SimResource {
     }
 
     public boolean isCurrent() {
-        if( !LauncherUtil.getInstance().isRemoteAvailable() ) {
+        if( !LauncherUtil.getInstance().isRemoteAvailable( url ) ) {
             throw new RuntimeException( "not online" );
         }
 
