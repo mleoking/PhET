@@ -142,6 +142,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
                     , "Slider.background", background
                     , "RadioButton.background", background
                     , "CheckBox.background", background
+                    , "CheckBox.focus", background
                     , "Button.background", buttonBackground
             };
             def.addAll( Arrays.asList( defaults ) );
