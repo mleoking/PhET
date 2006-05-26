@@ -11,6 +11,7 @@
 ?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
 -   add standard CVS and PhET headers
 -   remove all synchronized keywords
+-   Move some behavior from modules into the model
 
 Alpha Radiation
 
@@ -33,7 +34,7 @@ Chain Reaction panel
 ?	Instead of fading the containment vessel needs to break open/explode.
 -   "Enable Containment Vessel" color isn't the same as the other labels in the panel
 -   % spinner acts unpleasant when a spinner is spun after a fission run
--   can't spin up the number of U235 nuclei
+-   font for spinners is way too big in 1.5
 
 Controlled Reaction
 

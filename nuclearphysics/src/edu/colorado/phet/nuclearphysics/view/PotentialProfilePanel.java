@@ -117,7 +117,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         }
     }
 
-    protected synchronized void paintComponent( Graphics graphics ) {
+    protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
 
@@ -251,7 +251,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         potentialProfileMap.clear();
     }
 
-    public synchronized void addAlphaParticle( final AlphaParticle alphaParticle, Nucleus nucleus ) {
+    public void addAlphaParticle( final AlphaParticle alphaParticle, Nucleus nucleus ) {
         // Add an alpha particle for the specified nucleus
         final AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( alphaParticle );
         wellParticles.put( alphaParticleGraphic, nucleus );
