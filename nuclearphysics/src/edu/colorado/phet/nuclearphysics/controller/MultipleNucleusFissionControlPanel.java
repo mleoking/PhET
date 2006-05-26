@@ -100,7 +100,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
-        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -108,8 +107,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 percentDecayTF.setText( "0" );
             }
         } );
-        numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
-        numU235Spinner.setFont( spinnerFont );
 
         numU238Spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 200, 1 ) );
         numU238Spinner.addChangeListener( new ChangeListener() {
@@ -118,8 +115,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 percentDecayTF.setText( "0" );
             }
         } );
-        numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );
-        numU238Spinner.setFont( spinnerFont );
 
         JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
