@@ -63,6 +63,7 @@ public class PauseIndicator extends PNode {
             public void playbackPaused() {
                 showMe();
             }
+
         } );
 
         JButton record = new JButton( "Go" );

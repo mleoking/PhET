@@ -144,6 +144,16 @@ public abstract class TimeSeriesModel implements ClockListener {
             else if( isPlayback() ) {
                 firePlaybackStarted();
             }
+            else if( isLiveMode() ) {
+                fireLiveModeStarted();
+            }
+        }
+    }
+
+    private void fireLiveModeStarted() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+            timeSeriesModelListener.liveModeStarted();
         }
     }
 
@@ -152,6 +162,10 @@ public abstract class TimeSeriesModel implements ClockListener {
             TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
             timeSeriesModelListener.playbackStarted();
         }
+    }
+
+    private boolean isLiveMode() {
+        return mode == liveMode;
     }
 
     private boolean isPlayback() {
