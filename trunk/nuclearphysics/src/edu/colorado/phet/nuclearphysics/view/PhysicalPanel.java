@@ -18,6 +18,7 @@ import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Rubidium;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

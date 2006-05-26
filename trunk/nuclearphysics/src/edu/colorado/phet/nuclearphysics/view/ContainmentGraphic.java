@@ -26,7 +26,7 @@ public class ContainmentGraphic extends CompositePhetGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
-    private int strokeWidth = 150;
+    private int strokeWidth;
     private Stroke outlineStroke = new BasicStroke( 1 );
     private Area mouseableArea;
     private Point lastDragPt;
@@ -88,11 +88,14 @@ public class ContainmentGraphic extends CompositePhetGraphic {
             setPaint( color );
             setStroke( outlineStroke );
             setBorderColor( outlineColor );
+            setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
+                                                   RenderingHints.VALUE_ANTIALIAS_ON ) );
             update();
         }
 
         public void update() {
             Shape r = containment.getShape();
+            double strokeWidth = containment.getWallThickness();
             outer.setFrame( r.getBounds2D().getMinX() - strokeWidth,
                             r.getBounds2D().getMinY() - strokeWidth,
                             r.getBounds2D().getWidth() + strokeWidth * 2,

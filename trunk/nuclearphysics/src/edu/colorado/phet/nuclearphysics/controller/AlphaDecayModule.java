@@ -34,22 +34,22 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private double ringLevel = Config.backgroundGraphicLevel;
     private double leaderLineLevel = 0;
 
-    float miterLimit = 10f;
-    float[] dashPattern = {10f};
-    float dashPhase = 5f;
-    final Stroke leaderLineStroke = new BasicStroke(1f, BasicStroke.CAP_BUTT,
+    private float miterLimit = 10f;
+    private float[] dashPattern = {10f};
+    private float dashPhase = 5f;
+    private final Stroke leaderLineStroke = new BasicStroke(1f, BasicStroke.CAP_BUTT,
             BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase);
 
+    /**
+     * Constructor
+     * @param clock
+     */
     public AlphaDecayModule(IClock clock) {
         super(SimStrings.get("ModuleTitle.AlphaDecayModule"), clock);
         init( clock );
     }
 
     protected void init( IClock clock ) {
-        
-        // DEBUG ONLY!!!
-        //        clock.setDt( clock.getDt() / 10 );
-
         getApparatusPanel().setLayout(new GridLayout(2, 1));
         physicalPanel = new AlphaDecayPhysicalPanel( clock );
         super.setPhysicalPanel(physicalPanel);

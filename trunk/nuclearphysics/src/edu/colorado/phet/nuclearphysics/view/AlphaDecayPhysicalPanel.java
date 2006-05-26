@@ -63,7 +63,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         GraphicsUtil.setAlpha( g2, 1 );
     }
 
-    public synchronized void addAlphaParticle( final AlphaParticle alphaParticle ) {
+    public void addAlphaParticle( final AlphaParticle alphaParticle ) {
         final NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
         this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
         alphaParticle.addListener( new NuclearModelElement.Listener() {

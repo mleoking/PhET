@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class Containment extends SimpleObservable {
     //public class Containment extends Box2D {
     //    private Rectangle2D shape;
-    Shape shape;
+    private Shape shape;
+    private double wallThickness = 80;
     double opacity = 1;
     private ArrayList resizeListeners = new ArrayList();
 
@@ -74,5 +75,9 @@ public class Containment extends SimpleObservable {
 
     public double getOpacity() {
         return opacity;
+    }
+
+    public double getWallThickness() {
+        return wallThickness;
     }
 }
