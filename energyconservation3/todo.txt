@@ -14,10 +14,6 @@ Zoomable Energy vs Position graphs.
 
 Bug: Setting record, then live, then record resets to last record state.
 
-I think when you hit "return skater" that he should be more high, but it's a little thing.
-It seems that I always change the track in such a way that when I hit return skater
-that he is below the track and falls to the ground.
- 
 #################################################################
 Low Priority
 #######################################
