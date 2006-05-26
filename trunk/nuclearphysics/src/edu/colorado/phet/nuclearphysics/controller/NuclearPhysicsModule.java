@@ -20,10 +20,11 @@ import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.NuclearPhysicsApparatusPanel;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 
-public class NuclearPhysicsModule extends PhetGraphicsModule {
+abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     private ApparatusPanel apparatusPanel;
     private PhysicalPanel physicalPanel;
     private IClock clock;
@@ -53,10 +54,11 @@ public class NuclearPhysicsModule extends PhetGraphicsModule {
 
         ControlPanel controlPanel = new ControlPanel();
         setControlPanel( controlPanel );
-        nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this );
+        nuclearPysicslControlPanel = new NuclearPhysicsControlPanel( this, getLegendClasses() );
         getControlPanel().addControl( nuclearPysicslControlPanel );
     }
 
+    protected abstract List getLegendClasses();
 
     public IClock getClock() {
         return clock;
