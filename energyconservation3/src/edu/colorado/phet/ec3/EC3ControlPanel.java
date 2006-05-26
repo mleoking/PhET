@@ -7,6 +7,8 @@ import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.common.IconComponent;
 import edu.colorado.phet.ec3.controls.GravitySlider;
 import edu.colorado.phet.ec3.controls.PieChartControlPanel;
 import edu.colorado.phet.ec3.controls.PlanetButton;
@@ -19,6 +21,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -68,14 +72,21 @@ public class EC3ControlPanel extends ControlPanel {
         pathPanel.add( clearHistory, BorderLayout.EAST );
         addControlFullWidth( pathPanel );
 
-        final JCheckBox measuringTape = new JCheckBox( "Measuring Tape",
-                                                       module.isMeasuringTapeVisible() );
+        BufferedImage measuringTapeIcon = null;
+        try {
+            measuringTapeIcon = ImageLoader.loadBufferedImage( "images/ruler-thumb.png" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+        final JCheckBox measuringTape = new JCheckBox( "Measuring Tape", module.isMeasuringTapeVisible() );
         measuringTape.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMeasuringTapeVisible( measuringTape.isSelected() );
             }
         } );
-        addControl( measuringTape );
+        addControlFullWidth( new IconComponent( measuringTape, measuringTapeIcon ) );
 
         final JCheckBox zeroPointPotential = new JCheckBox( "Potential Energy Reference" );
         zeroPointPotential.addActionListener( new ActionListener() {
@@ -89,7 +100,14 @@ public class EC3ControlPanel extends ControlPanel {
             }
         } );
 
-        addControl( zeroPointPotential );
+        BufferedImage potentialIcon = null;
+        try {
+            potentialIcon = ImageLoader.loadBufferedImage( "images/peicon.png" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        addControlFullWidth( new IconComponent( zeroPointPotential, potentialIcon ) );
 
 //        getControlPane().setAnchor( GridBagConstraints.CENTER );
 //        getControlPane().setFillNone();
