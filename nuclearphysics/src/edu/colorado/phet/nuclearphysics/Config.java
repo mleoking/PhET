@@ -21,7 +21,7 @@ public class Config {
     public static final double fissionDisplacementVelocity = 2;
     public static final double defaultProfileWidth = 500;
 
-    public static final double alphaParticleLevel = 100;
+    public static final double alphaParticleLevel = 101;
     public static final double nucleusLevel = 100;
     public static final double backgroundGraphicLevel = 0;
 
