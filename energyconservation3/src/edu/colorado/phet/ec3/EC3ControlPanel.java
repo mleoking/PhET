@@ -19,7 +19,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -131,31 +130,16 @@ public class EC3ControlPanel extends ControlPanel {
 //        addControl( chartPanel );
         addControlFullWidth( getLocationPanel( module ) );
 
-        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 0.04, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
-//        final ModelSlider modelSlider = new ModelSlider( "Coefficient of Friction", "", 0, 1.0, 0.0, new DecimalFormat( "0.000" ), new DecimalFormat( "0.000" ) );
-        modelSlider.setModelTicks( new double[]{0, 0.02, 0.04} );
-        modelSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setCoefficientOfFriction( modelSlider.getValue() );
-            }
-        } );
-        module.getClock().addClockListener( new ClockAdapter() {
-            public void clockTicked( ClockEvent event ) {
-                if( module.getEnergyConservationModel().numBodies() > 0 ) {
-                    modelSlider.setValue( module.getEnergyConservationModel().bodyAt( 0 ).getFrictionCoefficient() );
-                }
-            }
-        } );
-        addControl( modelSlider );
+        final FrictionControl frictionControl = new FrictionControl( module );
+        final JComponent clearHeatButton = new ClearHeatButton( module );
 
-        final JButton clearHeat = new JButton( "Clear Heat" );
-        clearHeat.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.clearHeat();
-            }
-        } );
-
-        addControl( clearHeat );
+        AdvancedPanel frictionPanel = new AdvancedPanel( "Friction >>", "Hide Friction<<" );
+        frictionPanel.addControl( frictionControl );
+        frictionControl.getModelSlider().setBorder( null );
+        frictionPanel.addControl( clearHeatButton );
+//        addControl( frictionControl );
+//        addControl( clearHeatButton );
+        addControl( frictionPanel );
 
         AdvancedPanel editSkaterPanel = new AdvancedPanel( "Edit Skater >>", "Hide Skater Properties<<" );
 //        final ModelSlider restitution = new ModelSlider( "Coeff. of Restitution", "", 0, 1.0, 1.0 );

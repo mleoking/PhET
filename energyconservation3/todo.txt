@@ -1,14 +1,6 @@
 #################################################################
 Remaining Work
 #######################################
-6.  Is it possible to give the skater any velocity when he's in space?  I
-thought there used to be a way but I can't figure it out.
-Draggable jet pack, to apply velocity.
->>Awaiting feedback from the group.
-
-Optional to overlay a position-grid on the real space (to correlate with graph).
-    Like moving man, force1d or ramps, disabled by default.
-
 Put coefficient of friction in an advanced button.
 
 Zoomable Energy vs Position graphs.
@@ -27,6 +19,14 @@ Bug: The measuring tape's initial readout is incorrect.
 
 When you select earth or space, there is a part of the right side that stays dark blue.
 If you widen the window in any background, the right part stays blue too.
+
+6.  Is it possible to give the skater any velocity when he's in space?  I
+thought there used to be a way but I can't figure it out.
+Draggable jet pack, to apply velocity.
+>>Awaiting feedback from the group.
+
+Optional to overlay a position-grid on the real space (to correlate with graph).
+    Like moving man, force1d or ramps, disabled by default.
 
 #################################################################
 Low Priority
