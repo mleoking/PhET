@@ -7,10 +7,8 @@
 ?	Need a color selection option for control panel.
 ?	Change tabs so that they look like our new Tabs.
 ?	anti Alias the text (if it is already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
-?	Have the legend on each panel only display the applicable items to each tab.
 ?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
 -   add standard CVS and PhET headers
--   remove all synchronized keywords
 -   Move some behavior from modules into the model
 
 Alpha Radiation
@@ -50,6 +48,8 @@ Done, not posted
 ?	Pause and Play settings stay where they are placed when you switch panes.  What has been changed in one pane should not affect the next pane. Is it possible that the sim is still moving the alpha particles around in the first pane while the user is looking at other panes since the play and pause buttons are all connected?
 ?	Remove help buttons since there is no help.
 -   font for spinners is way too big in 1.5
+?	Have the legend on each panel only display the applicable items to each tab.
+
 
 
 Alpha Radiation

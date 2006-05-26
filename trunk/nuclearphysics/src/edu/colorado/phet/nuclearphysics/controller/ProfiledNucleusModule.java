@@ -28,7 +28,7 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
     }
 
     protected List getLegendClasses() {
-        Object[] legendClasses = new Object[]{
+        LegendPanel.LegendItem[] legendClasses = new LegendPanel.LegendItem[]{
                 LegendPanel.NEUTRON,
                 LegendPanel.PROTON,
                 LegendPanel.ALPHA_PARTICLE,

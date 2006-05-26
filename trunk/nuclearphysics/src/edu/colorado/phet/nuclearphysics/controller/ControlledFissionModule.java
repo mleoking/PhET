@@ -206,7 +206,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      *
      * @param yMin   The y position of the top of the rod
      * @param vessel
-     * @return
+     * @return an array of control rods
      */
     private ControlRod[] createControlRods( double yMin, Vessel vessel ) {
         ControlRod[] rods = new ControlRod[vessel.getNumControlRodChannels()];
