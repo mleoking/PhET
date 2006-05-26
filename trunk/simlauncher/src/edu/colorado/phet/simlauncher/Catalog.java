@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import java.io.File;
-import java.net.URL;
+import java.util.List;
 
 /**
- * JarResource
+ * Catalog
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class JarResource extends SimResource {
-    public JarResource( URL url, File localRoot ) {
-        super( url, localRoot );
+public class Catalog {
+
+    public List getSimulations() {        
+        return new SimulationFactory().getSimulations( "simulations.xml",
+                                                       Configuration.instance().getLocalRoot() );
     }
-    
+
 }

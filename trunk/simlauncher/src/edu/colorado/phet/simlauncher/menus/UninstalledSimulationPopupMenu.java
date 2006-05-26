@@ -8,11 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.simlauncher;
+package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
+import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.SimulationReferer;
 import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
 
 import javax.swing.*;

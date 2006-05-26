@@ -10,6 +10,7 @@
  */
 
 import edu.colorado.phet.simlauncher.JnlpResource;
+import edu.colorado.phet.simlauncher.Configuration;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class LaunchTest {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
-        File localRoot = new File( "/phet/temp" );
+        File localRoot = Configuration.instance().getLocalRoot();
         JnlpResource jr  = new JnlpResource( url, localRoot );
         jr.download();
 

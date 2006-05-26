@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.io.File;
-import java.io.IOException;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * ImageResource

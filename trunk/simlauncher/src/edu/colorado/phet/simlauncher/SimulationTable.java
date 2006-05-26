@@ -11,14 +11,12 @@
 package edu.colorado.phet.simlauncher;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.util.List;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
 
 /**
  * SimulationTable

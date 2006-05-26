@@ -12,10 +12,8 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.EventObject;
 import java.util.EventListener;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.EventObject;
 
 /**
  * Options

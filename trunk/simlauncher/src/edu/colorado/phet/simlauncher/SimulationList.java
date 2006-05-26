@@ -11,8 +11,8 @@
 package edu.colorado.phet.simlauncher;
 
 import javax.swing.*;
-import java.util.List;
 import java.awt.*;
+import java.util.List;
 
 /**
  * SimulationList

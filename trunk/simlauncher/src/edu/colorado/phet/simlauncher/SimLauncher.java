@@ -10,14 +10,12 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import com.sun.java.swing.SwingUtilities2;
+import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.*;
 
 /**
  * SimLauncher
@@ -28,6 +26,7 @@ import java.awt.*;
 public class SimLauncher {
 
     private SimLauncher() {
+
         JFrame frame = new JFrame( "PhET Simulation Launcher");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addComponentListener( new ComponentAdapter() {

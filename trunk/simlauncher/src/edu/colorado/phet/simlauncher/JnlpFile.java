@@ -11,18 +11,18 @@
 package edu.colorado.phet.simlauncher;
 
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URLConnection;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
+
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jdom.input.SAXBuilder;
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
 
 /**
  * JnlpFile

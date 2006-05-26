@@ -8,18 +8,18 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.simlauncher;
+package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
-import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
+import edu.colorado.phet.simlauncher.InstalledSimsPane;
+import edu.colorado.phet.simlauncher.Options;
+import edu.colorado.phet.simlauncher.TopLevelPane;
+import edu.colorado.phet.simlauncher.UninstalledSimsPane;
+import edu.colorado.phet.simlauncher.actions.*;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
-import edu.colorado.phet.common.view.menu.ViewMenu;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +43,7 @@ public class SimLauncherMenuBar extends JMenuBar {
     private class FileMenu extends JMenu {
         public FileMenu() {
             super( "File" );
+            add( new JMenuItem( new ClearCacheAction() ));
             add( new JMenuItem( new ExitAction() ) );
         }
     }
