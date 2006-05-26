@@ -1,3 +1,6 @@
+-Changes for 0.00.21
+Added a button to return the skater when he has flown out of view.
+
 -Changes for 0.00.20
 Changed the look and feel to platform specific.
 Bugfix: The scale for the readings on the path data is unreadably huge.
