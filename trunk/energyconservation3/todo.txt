@@ -1,19 +1,8 @@
 #################################################################
 Remaining Work
 #######################################
-Put coefficient of friction in an advanced button.
-
-Zoomable Energy vs Position graphs.
-
-Bug: Setting record, then live, then record resets to last record state.
 
 Add clipping to energy vs position plot (so data doesn't fall outside the data area).
-
-[internal] Figure out the meaning of the magic grab number in EnergyConservationModel
-
-Maybe "Live" should be changed to "Go" instead of "Play"
-
-Bug: clear button erroneously shows 'this simulation is paused' when it is not.
 
 Bug: The measuring tape's initial readout is incorrect.
 
@@ -25,8 +14,9 @@ thought there used to be a way but I can't figure it out.
 Draggable jet pack, to apply velocity.
 >>Awaiting feedback from the group.
 
-Optional to overlay a position-grid on the real space (to correlate with graph).
-    Like moving man, force1d or ramps, disabled by default.
+Zoomable Energy vs Position graphs.
+
+Bug: Setting record, then live, then record resets to last record state.
 
 #################################################################
 Low Priority
@@ -74,3 +64,5 @@ __
 Bug: The dragging constraints are not skater-centric; after dragging against a constraint,
 the mouse is no longer directly over the skater.
 
+Optional to overlay a position-grid on the real space (to correlate with graph).
+    Like moving man, force1d or ramps, disabled by default.
