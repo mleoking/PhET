@@ -9,15 +9,12 @@
 ?	Have the legend on each panel only display the applicable items to each tab. `
 ?	Remove help buttons since there is no help.
 ?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
-?	Pause and Play settings stay where they are placed when you switch panes.  What has been changed in one pane should not affect the next pane. Is it possible that the sim is still moving the alpha particles around in the first pane while the user is looking at other panes since the play and pause buttons are all connected?
 
 Alpha Radiation
 
-?	The atoms bounce around to fast.  There speed needs cut down to 25% of it’s current speed and then we’ll look again
 ?	In interviews students really wanted a rewind button or replay so that they could watch the decay happen again?  Is my recollection correct that this is not possible?
 ?	The lower section should look like a graph sitting in the play area rather than more play area. During interviews all the students thought it was a physical representation and could not make sense out of it.  If it looks like a graph, it may go over better. Try making the axis lines more prominent also.
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
-?	Change the label “Running time to decay (msec)” to “Time to decay” and can the units be placed with the number?
 ?	After the decay the alpha particle is moving around in the background instead of in the foreground.
 
 Fission:
@@ -54,6 +51,11 @@ Controlled Reaction
 Done, not posted
 ================
 ?	Should start up on first tab
+?	Pause and Play settings stay where they are placed when you switch panes.  What has been changed in one pane should not affect the next pane. Is it possible that the sim is still moving the alpha particles around in the first pane while the user is looking at other panes since the play and pause buttons are all connected?
+
+Alpha Radiation
+?	The atoms bounce around to fast.  There speed needs cut down to 25% of it’s current speed and then we’ll look again
+?	Change the label “Running time to decay (msec)” to “Time to decay” and can the units be placed with the number?
 
 Chain Reaction panel
 ?	Remove “Number of” and just have the label 235U nuclei (with spelling correction) as the label for each spinner.

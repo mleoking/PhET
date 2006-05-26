@@ -120,7 +120,7 @@ public class AlphaDecayControlPanel extends JPanel {
                 final double runningTime = module.getClock().getSimulationTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        timerTF.setText( formatter.format( new Double( runningTime ) ) );
+                        timerTF.setText( formatter.format( new Double( runningTime )) + SimStrings.get( "AlphaDecayControlPanel.TimeUnits") );
                         AlphaDecayControlPanel.this.repaint();
                     }
                 } );
