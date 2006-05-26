@@ -23,11 +23,9 @@ public class Uranium235 extends Nucleus {
     private static Random random = new Random();
     // The likelihood that a neutron striking a U235 nucleus will be absorbed, causing fission
     private static double ABSORPTION_PROBABILITY = 1;
-    // Regulates how fast the profile rises when fission occurs
-    private static final int morphSpeedFactor = 2;
     // Location to put neutrons until they can be removed from the model
     public static final Point2D HoldingAreaCoord = new Point2D.Double( Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY );
-    //    private static final int morphSpeedFactor = 5;
+    //    private static final int U235MorphSpeedFactor = 5;
 
 
     public static void setAbsoptionProbability( double probability ) {
@@ -132,7 +130,7 @@ public class Uranium235 extends Nucleus {
 
         // Handle fission morphing
         if( morphTargetNeutrons > 0 ) {
-            setPotential( getPotential() + morphSpeedFactor );
+            setPotential( getPotential() + Config.U235MorphSpeedFactor );
             if( getPotential() > getPotentialProfile().getMaxPotential()
                 || !doMorph ) {
                 // Before we morph, make sure the parent nucleus is centered. That is, don't
@@ -143,8 +141,8 @@ public class Uranium235 extends Nucleus {
             }
 
             // The code here morphs the profile
-            // The morphSpeedFactor regulates how fast the profile rises
-            int incr = morphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
+            // The U235MorphSpeedFactor regulates how fast the profile rises
+            int incr = Config.U235MorphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
             morphTargetNeutrons -= incr;
 
             // Jiggle the nucleus
