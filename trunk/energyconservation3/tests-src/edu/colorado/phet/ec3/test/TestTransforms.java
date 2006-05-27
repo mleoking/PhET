@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.test;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -22,6 +23,15 @@ import java.awt.event.ComponentEvent;
 public class TestTransforms {
     private PCanvas contentPane;
     private JFrame frame;
+
+    static class WorldNode extends PhetPNode {
+        private PNode node;
+
+        public WorldNode( PNode node ) {
+            super( node );
+            this.node = node;
+        }
+    }
 
     public TestTransforms() {
         frame = new JFrame();
@@ -72,7 +82,9 @@ public class TestTransforms {
                 setScale( scale );
             }
         }
-        //todo: override setscale?  Or have a private hidden inner instance?
+        //todo: override setscale?  Or have a private hidden inner instance?  Or just assume this interface won't be abused.
+        //todo: these nodes should be stackable.
+
     }
 
     public static void main( String[] args ) {
