@@ -41,19 +41,19 @@ public class EC3Application extends PhetApplication {
                     int id = e.getID();
                     switch( id ) {
                         case KeyEvent.KEY_PRESSED:
-                            System.out.println( "KEY_PRESSED" );
+//                            System.out.println( "KEY_PRESSED" );
                             c.keyPressed( e );
                             break;
                         case KeyEvent.KEY_RELEASED:
-                            System.out.println( "KEY_RELEASED" );
+//                            System.out.println( "KEY_RELEASED" );
                             c.keyReleased( e );
                             break;
                         case KeyEvent.KEY_TYPED:
-                            System.out.println( "KEY_TYPED" );
+//                            System.out.println( "KEY_TYPED" );
                             c.keyTyped( e );
                             break;
                         default:
-                            System.out.println( "unknown type" );
+                            System.out.println( "unknown key event type" );
                             break;
                     }
 

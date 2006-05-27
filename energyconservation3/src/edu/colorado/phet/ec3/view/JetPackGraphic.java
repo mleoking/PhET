@@ -5,6 +5,8 @@ import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import java.awt.geom.AffineTransform;
+
 /**
  * User: Sam Reid
  * Date: May 26, 2006
@@ -13,42 +15,28 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 
 public class JetPackGraphic extends PhetPNode {
-//    private PImage flameGraphic;
-//    private final BufferedImage[] flames = new BufferedImage[3];
-//    private int flameFrame = 0;
     private BodyGraphic skater;
     private PImage jetPackGraphic;
 
     public JetPackGraphic( BodyGraphic bodyGraphic ) {
         this.skater = bodyGraphic;
-//        try {
-//            flames[0] = ImageLoader.loadBufferedImage( "images/myflames/flames1.gif" );
-//            flames[1] = ImageLoader.loadBufferedImage( "images/myflames/flames2.gif" );
-//            flames[2] = ImageLoader.loadBufferedImage( "images/myflames/flames3.gif" );
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
-//        flameGraphic = new PImage( flames[0] );
         jetPackGraphic = PImageFactory.create( "images/jet_pack-nat-geo.gif" );
         addChild( jetPackGraphic );
     }
 
     public void update() {
-        System.out.println( "getFullBounds() = " + getFullBounds() );
-//        flameGraphic.setTransform( );
-//        jetPackGraphic.setOffset( skater.getSkater().getFullBounds().getCenter2D());
-//        jetPackGraphic.setTransform( new AffineTransform( ) );
-//        jetPackGraphic.setTransform( skater.getTransform() );
-        jetPackGraphic.setTransform( skater.getSkater().getTransform() );
-//
-//        if( Math.random() < 0.4 ) {
-//            flameFrame = ( flameFrame + 1 ) % 3;
-//            flameGraphic.setImage( flames[flameFrame] );
-//        }
-//
-//        flameGraphic.rotateInPlace( Math.PI );
-//        flameGraphic.translate( 0, -skater.getSkater().getHeight() + 3 );
+        double scale = 0.5;
+        AffineTransform tx = skater.createTransform( skater.getBodyModelWidth() * scale, skater.getBodyModelHeight() * scale,
+                                                     jetPackGraphic.getImage().getWidth( null ), jetPackGraphic.getImage().getHeight( null ) );
+        jetPackGraphic.setTransform( tx );
+//        System.out.println( "jetPackGraphic.getFullBounds() = " + jetPackGraphic.getFullBounds() );
+////        if (skater.i)
+        if( skater.isFacingRight() ) {
+            jetPackGraphic.translate( -jetPackGraphic.getImage().getWidth( null ), 0 );
+        }
+        else {
+            jetPackGraphic.translate( jetPackGraphic.getImage().getWidth( null ), 0 );
+        }
     }
 
 }
