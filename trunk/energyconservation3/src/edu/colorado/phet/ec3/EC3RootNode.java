@@ -46,7 +46,6 @@ public class EC3RootNode extends PhetRootPNode {
     private Image backgroundImage;
     private SplineToolbox splineToolbox;
     private PNode toolboxPlaceholder;
-//    private Planet lastPlanet = null;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
 

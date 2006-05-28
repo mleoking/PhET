@@ -1,17 +1,16 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.test;
 
-import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.util.PFixedWidthStroke;
 
 import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -23,68 +22,61 @@ import java.awt.event.ComponentEvent;
 public class TestTransforms {
     private PCanvas contentPane;
     private JFrame frame;
-
-    static class WorldNode extends PhetPNode {
-        private PNode node;
-
-        public WorldNode( PNode node ) {
-            super( node );
-            this.node = node;
-        }
-    }
+    private ModelNode worldNode4;
 
     public TestTransforms() {
         frame = new JFrame();
         contentPane = new PCanvas();
+        contentPane.setPanEventHandler( null );
         frame.setContentPane( contentPane );
+
+        WorldNode worldNode = new WorldNode( contentPane, 6, 6 );//the node will fill the contentpanel, min model width of 6,
+        // max model width of 6
+
+        //Just create the path directly in model units.
         PPath path = new PPath();
         path.setStroke( new PFixedWidthStroke( 1 ) );
         path.moveTo( 0, 0 );
         path.lineTo( 3, 0 );
         path.lineTo( 3, 3 );
         path.closePath();
-        ModelNode modelNode = new ModelNode( contentPane, 6, 6 );
-        modelNode.addChild( path );
+        worldNode.addChild( path );
 
+        //One way to set size in ModelNode
         PImage image = PImageFactory.create( "images/skater3.png" );
         double aspectRatio = image.getWidth() / image.getHeight();
         image.setWidth( 3 );//model width
         image.setHeight( 3 / aspectRatio );//model height
-        modelNode.addChild( image );
-        contentPane.getLayer().addChild( modelNode );
+        image.setOffset( 1, 0 );
+        worldNode.addChild( image );
+
+        //Another way to set size in model node.
+        ModelNode modelNode = new ModelNode( PImageFactory.create( "images/skater3.png" ), 2.0 );
+        worldNode.addChild( modelNode );
+
+        ModelNode modelNode2 = new ModelNode( new PText( "Hello" ), 1.0 );
+        worldNode.addChild( modelNode2 );
+
+        worldNode4 = new ModelNode( PImageFactory.create( "images/skater3.png" ), 1.0 );
+        worldNode4.setOffset( 1, 0 );
+        worldNode4.rotateInPlace( Math.PI );
+        worldNode4.addInputEventListener( new PDragEventHandler() );
+        worldNode.addChild( worldNode4 );
+
+        PPath measuringStick = new PPath();
+        measuringStick.setStrokePaint( Color.red );
+        measuringStick.moveTo( 0, 0 );
+        measuringStick.lineTo( 100, 0 );
+        measuringStick.lineTo( 100, 10 );
+        measuringStick.lineTo( 200, 0 );
+        measuringStick.lineTo( 200, 10 );
+        measuringStick.lineTo( 300, 0 );
+        ModelNode worldNode3 = new ModelNode( measuringStick, 3.0 );
+        worldNode.addChild( worldNode3 );
+
+        contentPane.getLayer().addChild( worldNode );
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    }
-
-    static class ModelNode extends PNode {
-        private PCanvas pCanvas;
-        private double minWidth;
-        private double minHeight;
-
-        public ModelNode( final PCanvas pCanvas, final double minWidth, final double minHeight ) {
-            this.pCanvas = pCanvas;
-            this.minWidth = minWidth;
-            this.minHeight = minHeight;
-            pCanvas.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    //choose a scale based on aspect ratio.
-                    updateScale();
-                }
-            } );
-            updateScale();
-        }
-
-        private void updateScale() {
-            double minSX = pCanvas.getWidth() / minWidth;
-            double minSY = pCanvas.getHeight() / minHeight;
-            double scale = Math.min( minSX, minSY );
-            if( scale > 0 ) {
-                setScale( scale );
-            }
-        }
-        //todo: override setscale?  Or have a private hidden inner instance?  Or just assume this interface won't be abused.
-        //todo: these nodes should be stackable.
-
     }
 
     public static void main( String[] args ) {
@@ -93,5 +85,6 @@ public class TestTransforms {
 
     private void start() {
         frame.setVisible( true );
+        System.out.println( "worldNode4.getFullBounds() = " + worldNode4.getGlobalFullBounds() );
     }
 }
