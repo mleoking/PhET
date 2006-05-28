@@ -1,12 +1,17 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.ec3.test.isolatedtest;
 
+import edu.colorado.phet.piccolo.PhetPNode;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -20,15 +25,15 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) May 27, 2006 by Sam Reid
  */
 
-public class TestTransform3 {
+public class TestTransform4 {
     private JFrame frame;
 
-    public TestTransform3() {
+    public TestTransform4() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final PCanvas pCanvas = new PCanvas();
-        final WorldNode world = new RectifiedWorldNode( pCanvas, 10, 10 );
+        final TestTransform4.WorldNode world = new TestTransform4.WorldNode( pCanvas, 10, 10 );
         pCanvas.getLayer().addChild( world );
         PPath ch = null;
         for( int i = 0; i <= 10; i++ ) {
@@ -43,7 +48,7 @@ public class TestTransform3 {
                 world.addChild( child );
 
                 PText text = new PText( "" + i + ", " + j );
-                ModelNode modelNode = new ModelNode( text, 0.5 );
+                TestTransform4.ModelNode modelNode = new TestTransform4.ModelNode( text, 0.5 );
                 modelNode.setOffset( i, j );
                 world.addChild( modelNode );
             }
@@ -83,11 +88,32 @@ public class TestTransform3 {
 
     }
 
-    private static class RectifiedWorldNode extends WorldNode {
+    static class WorldNode extends PNode {
+        PCanvas pCanvas;
+        private double minWidth;
+        private double minHeight;
 
-        public RectifiedWorldNode( PCanvas pCanvas, double minWidth, double minHeight ) {
-            super( pCanvas, minWidth, minHeight );
+        public WorldNode( final PCanvas pCanvas, final double minWidth, final double minHeight ) {
             this.pCanvas = pCanvas;
+            this.minWidth = minWidth;
+            this.minHeight = minHeight;
+            pCanvas.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    //choose a scale based on aspect ratio.
+                    updateScale();
+                }
+            } );
+            updateScale();
+        }
+
+        public Dimension2D getMinDimension() {
+            return new PDimension( minWidth, minHeight );
+        }
+
+        public void setMinDimension( double minWidth, double minHeight ) {
+            this.minWidth = minWidth;
+            this.minHeight = minHeight;
+            updateScale();
         }
 
         protected void updateScale() {
@@ -97,19 +123,40 @@ public class TestTransform3 {
             System.out.println( "scale = " + scale );
             if( scale > 0 ) {
                 AffineTransform t = getTransformReference( true );
-//                t.setTransform( t.getScaleX(), t.getShearY(), t.getShearX(), t.getScaleY(), t.getTranslateX(), t.getTranslateY() );
                 double scaleX = scale;
                 double scaleY = -scale;
                 t.setTransform( scaleX, t.getShearY(), t.getShearX(), scaleY, t.getTranslateX(), t.getTranslateY() + 600 );
             }
         }
+        //todo: override setscale?  Or have a private hidden inner instance?  Or just assume this interface won't be abused.
+        //todo: these nodes should be stackable.
+
     }
 
     public static void main( String[] args ) {
-        new TestTransform3().start();
+        new TestTransform4().start();
     }
 
     private void start() {
         frame.setVisible( true );
+    }
+
+    class ModelNode extends PhetPNode {
+        private PNode node;
+
+        public ModelNode( PNode node ) {
+            super( node );
+            this.node = node;
+        }
+
+        public ModelNode( PNode node, double width ) {
+            this( node );
+            setModelWidth( width );
+        }
+
+        //this setter maintains aspect ratio of the underlying node. (as opposed to setWidth())
+        public void setModelWidth( double width ) {
+            setScale( width / node.getFullBounds().getWidth() );
+        }
     }
 }
