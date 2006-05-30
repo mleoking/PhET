@@ -22,7 +22,6 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
     HashMap cloudsToGraphicMap = new HashMap();
     boolean cloudsEnabled = false;
-    private GreenhouseControlPanel greenhouseControlPanel;
 
 
     public GreenhouseModule() {
@@ -43,7 +42,7 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
         // Set up the controls
         JPanel pnl = new JPanel( );
-        greenhouseControlPanel = new GreenhouseControlPanel( this );
+        GreenhouseControlPanel greenhouseControlPanel = new GreenhouseControlPanel( this );
         pnl.add(  greenhouseControlPanel );
         setControlPanel( pnl );
 
@@ -59,6 +58,7 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
     public void reset() {
         super.reset();
+        setToday();        
         numCloudsEnabled( 0 );
         cloudsEnabled( false );
     }

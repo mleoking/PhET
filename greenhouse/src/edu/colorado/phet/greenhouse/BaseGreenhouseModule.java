@@ -159,7 +159,6 @@ public abstract class BaseGreenhouseModule extends Module {
             ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
             thermometerEnabled( true );
             ( (TestApparatusPanel)getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
-        //            ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
@@ -187,8 +186,6 @@ public abstract class BaseGreenhouseModule extends Module {
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
-
-        setToday();
     }
 
 

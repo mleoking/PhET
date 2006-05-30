@@ -14,16 +14,18 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
-import java.util.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
-import java.awt.image.AffineTransformOp;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphicType {
 
@@ -187,16 +189,12 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     }
 
     private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {
-//    private void setBackDrop( String backdropImageFileName, Point2D.Double location ) {
         currentBackdropImage = backdropImage;
-//        currentBackdropImageFileName = backdropImageFileName;
         if( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
         if( backdropImage != null ) {
-//        if( backdropImageFileName != null && !backdropImageFileName.equals( "" ) ) {
             backdropGraphic = new ImageGraphic( backdropImage, location );
-//            backdropGraphic = new ImageGraphic( backdropImageFileName, location );
             apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
         }
     }
@@ -207,9 +205,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
             apparatusPanel.removeGraphic( backdropGraphic );
         }
         BufferedImage scaledImage = (BufferedImage)scaledBackgroundImages.get( bImg );
-        if( scaledImage == null ) {
-            System.out.println( "EarthGraphic.setBackDropImage" );
-        }
         backdropGraphic = new ImageGraphic( scaledImage, location );
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
     }
@@ -226,7 +221,6 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 int red = colorModel.getRed( pixel );
                 int blue = colorModel.getBlue( pixel );
                 int green = colorModel.getGreen( pixel );
-                int alpha = colorModel.getAlpha( pixel );
                 if( red == 255 && green == 255 && blue == 255 ) {
                     reflectivity = .6;
                 }
@@ -250,7 +244,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         }
 
         public void run() {
-            while( stop != true ) {
+            while( !stop ) {
                 try {
                     Thread.sleep( 1000 / 20 );
                     if( earthAnimation != null ) {
