@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.IClock;
@@ -18,9 +19,8 @@ import edu.colorado.phet.coreadditions.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class GreenhouseApplication extends PhetApplication {
     // Localization
@@ -103,6 +103,8 @@ public class GreenhouseApplication extends PhetApplication {
         UIManager.put( "CheckBox.foreground", foreground );
         UIManager.put( "Label.foreground", foreground );
         UIManager.put( "TitledBorder.titleColor", foreground );
+
+        UIManager.put( "TabbedPane.font", new FontUIResource(  "Lucidasans", Font.BOLD, 18 ));
 
 
         SwingUtilities.updateComponentTreeUI( s_application.getApplicationView().getPhetFrame() );
