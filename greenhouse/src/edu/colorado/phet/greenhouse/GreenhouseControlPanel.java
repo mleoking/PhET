@@ -118,6 +118,7 @@ public class GreenhouseControlPanel extends JPanel {
                                                              0.0,
                                                              GreenhouseConfig.maxGreenhouseGasConcentration,
                                                              GreenhouseConfig.defaultGreenhouseGasConcentration );
+        greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
         greenhouseGasConcentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setGreenhouseGasConcentration( greenhouseGasConcentrationControl.getModelValue() );
@@ -320,7 +321,6 @@ public class GreenhouseControlPanel extends JPanel {
 //            greenhouseGasConcentrationControl.setEnabled( true );
             module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             hideConcentrations();
-            greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
             adjustableCompositionPane.setPreferredSize( iceAgeCompositionPane.getPreferredSize() );
             adjustableCompositionPane.setVisible( true );
             adjustableGGRB.setSelected( true );
@@ -338,7 +338,6 @@ public class GreenhouseControlPanel extends JPanel {
             todayGGRB.setSelected( true );
             greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
 //            greenhouseGasConcentrationControl.setEnabled( false );
-            greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
             module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
             hideConcentrations();
             todayCompositionPane.setVisible( true );
@@ -366,7 +365,6 @@ public class GreenhouseControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationIceAge );
 //                greenhouseGasConcentrationControl.setEnabled( false );
-                greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setIceAge();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
                 hideConcentrations();
@@ -378,7 +376,6 @@ public class GreenhouseControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentration1750 );
 //                greenhouseGasConcentrationControl.setEnabled( false );
-                greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setPreIndRev();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
                 hideConcentrations();
@@ -390,7 +387,6 @@ public class GreenhouseControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 greenhouseGasConcentrationControl.setModelValue( GreenhouseConfig.greenhouseGasConcentrationToday );
 //                greenhouseGasConcentrationControl.setEnabled( false );
-                greenhouseGasConcentrationControl.setMaxValue( GreenhouseConfig.maxGreenhouseGasConcentration );
                 GreenhouseControlPanel.this.module.setToday();
                 module.getEarth().setBaseTemperature( GreenhouseConfig.earthBaseTemperature );
                 hideConcentrations();
@@ -513,7 +509,17 @@ public class GreenhouseControlPanel extends JPanel {
                             todayTick );
             labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
                             preIndRevTick );
+
+            JLabel noneTick = new JLabel( "None" );
+            JLabel lotsTick = new JLabel( "Lost" );
+            labelTable.put( new Integer( (int)tx.modelToView( maxModelValue )),
+                            lotsTick );
+            labelTable.put( new Integer( (int)tx.modelToView( minModelValue )),
+                            noneTick );
+
             slider.setLabelTable( labelTable );
+            slider.setMajorTickSpacing( (int)( tx.modelToView( maxModelValue) - tx.modelToView( minModelValue )));
+            slider.setPaintTicks( true );
         }
 
         void setMaxValue( double value ) {
