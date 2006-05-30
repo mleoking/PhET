@@ -1,4 +1,4 @@
--Changes for 0.00.21
+-Changes for 0.00.21 (5-29-2006)
 Added a button to return the skater when he has flown out of view.
 Moved friction & clear heat controls to an expandable advanced panel.
 Removed the text field and numerical tick labels from friction slider; labeled extrema "none" and "lots"

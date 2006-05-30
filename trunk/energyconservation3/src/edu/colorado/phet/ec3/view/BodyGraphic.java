@@ -35,7 +35,8 @@ public class BodyGraphic extends PNode {
     private PImage skater;
     private PPath centerDebugger;
     private JetPackGraphic jetPackGraphic;
-    private boolean debugCenter = true;
+//    private boolean debugCenter = true;
+    private boolean debugCenter = false;
 
     public BodyGraphic( final EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
