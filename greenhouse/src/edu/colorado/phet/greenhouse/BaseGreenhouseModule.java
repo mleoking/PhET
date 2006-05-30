@@ -101,7 +101,7 @@ public abstract class BaseGreenhouseModule extends Module {
         // Create the atmosphere
         Atmosphere atmosphere = new Atmosphere( earth );
         model.setAtmosphere( atmosphere );
-        atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds );
+        atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds, apparatusPanel );
         atmosphere.addScatterEventListener( new ModuleScatterEventListener() );
         atmosphereGraphic.setVisible( false );
         drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE);
@@ -138,7 +138,7 @@ public abstract class BaseGreenhouseModule extends Module {
         Thermometer thermometer = new Thermometer( earth );
         thermometer.setLocation( new Point2D.Double( finalModelBounds.getX() + 2, .5 ) );
         model.addModelElement( thermometer );
-        thermometerGraphic = new ThermometerGraphic( thermometer );
+        thermometerGraphic = new ThermometerGraphic( getApparatusPanel(), thermometer );
 
         // Set initial conditions
 //        setVirginEarth();

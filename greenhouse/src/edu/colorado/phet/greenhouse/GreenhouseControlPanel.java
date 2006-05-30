@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.ModelViewTx1D;
-import edu.colorado.phet.coreadditions.MessageFormatter;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -510,8 +509,8 @@ public class GreenhouseControlPanel extends JPanel {
             labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
                             preIndRevTick );
 
-            JLabel noneTick = new JLabel( "None" );
-            JLabel lotsTick = new JLabel( "Lost" );
+            JLabel noneTick = new JLabel( SimStrings.get("GreenhouseControlPanel.None" ));
+            JLabel lotsTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.Lots" ));
             labelTable.put( new Integer( (int)tx.modelToView( maxModelValue )),
                             lotsTick );
             labelTable.put( new Integer( (int)tx.modelToView( minModelValue )),

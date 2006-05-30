@@ -12,6 +12,8 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -35,20 +37,36 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     private NumberFormat formatter = new DecimalFormat( "0" );
     private Font temperatureFont = new Font( "sanserif", Font.BOLD, 14 );
     private BufferedImage thermometerBI;
+    private AffineTransform scaleTx;
 
 
-    public ThermometerGraphic( Thermometer thermometer ) {
+    public ThermometerGraphic( Component component, Thermometer thermometer ) {
         thermometer.addObserver( this );
         this.thermometer = thermometer;
         thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer-2.png" );
-//        thermometerBody = ImageLoader.fetchBufferedImage( "images/thermometer.png" );
         thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background-2.png" );
-//        thermometerBackground = ImageLoader.fetchBufferedImage( "images/thermometer-background.png" );
         thermometerBI = new BufferedImage( thermometerBody.getWidth(),
                                            thermometerBody.getHeight(),
-//        thermometerBI = new BufferedImage( thermometerBackground.getWidth(),
-//                                           thermometerBackground.getHeight(),
                                            BufferedImage.TYPE_INT_ARGB );
+
+        component.addComponentListener( new ComponentAdapter() {
+            boolean init;
+            Rectangle2D origBounds;
+
+            public void componentResized( ComponentEvent e ) {
+                if( !init ) {
+                    init = true;
+                    origBounds = e.getComponent().getBounds();
+                }
+                Component component = e.getComponent();
+                Rectangle2D newBounds = component.getBounds();
+//                    BufferedImage origImage =  (BufferedImage)iterator.next();
+                    double scale = newBounds.getWidth() / origBounds.getWidth();
+                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
+//                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+//                    BufferedImage scaledImg = atxOp.filter( origImage, null );
+                }
+        } );
         update();
     }
 
@@ -72,11 +90,15 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         catch( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
+
+//        thermometerTx.preConcatenate( scaleTx );
         // Translate the transform so the bottom of the thermometer is now at the origin
-        thermometerTx.translate( 0, -thermometerBackground.getHeight() );
+        thermometerTx.translate( 0, -thermometerBackground.getHeight() * scaleTx.getScaleY() );
         // Move the thermometer graphic to where the thermometer model is
         thermometerTx.translate( location.getX() * orgTx.getScaleX() - thermometerBackground.getWidth() / 2,
                                  location.getY() * orgTx.getScaleY() );
+
+        thermometerTx.concatenate( scaleTx );
 
         // Create the variable part of the thermometer: The red rectangle
         double temperatureHeight = Math.max( 0, Math.min( ( temperature - GreenhouseConfig.earthBaseTemperature ) / 10, 3.5 ) );
@@ -128,6 +150,9 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         textLeft = boxLeft + width - fontMetrics.stringWidth( s ) - fontMetrics.stringWidth( " " );
 //        textLeft = centerX - fontMetrics.stringWidth( s ) / 2;
         gbi.drawString( s, textLeft, thermometerBI.getHeight() - up );
+        gbi.dispose();
+
+//        thermometerTx.preConcatenate( scaleTx );
         g2.drawImage( thermometerBI, thermometerTx, this );
     }
 
