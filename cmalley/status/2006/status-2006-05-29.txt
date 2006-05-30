@@ -15,7 +15,7 @@ ACCOMPLISHMENTS:
 WHAT'S NEXT:
  
   o continue work on Bound States, see: 
-    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.txt
+    http://www.colorado.edu/physics/phet/dev/bound-states/TODO.html
     
 ISSUES:
  

@@ -15,25 +15,7 @@ LOW PRIORITY:
 - separate the molecule model & view
 - FourierSumPlot should observe its FourierSeries (sync issues with parent Chart!)
 - MegaHelp
-
-
-NEW FEATURES:
-
-
-OPTIMIZATIONS:
-- flatten static elements
-- setIgnoreMouse
-
-
-CLEANUP:
-- javadoc all code
-- organize imports
-- remove unused images and assets
-- remove unused localization strings
-- resize any scaled images
-- save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
-
 
 PHETCOMMON:
 - clip should be in specifiable in local coordinate, but it currently needs to be in global coordinates
