@@ -143,7 +143,7 @@ energyconservation3 energyconservation3 &piccolo-phet-dir &jfreechart-phet-dir &
 forces1d forces1d &phetcommon-module &charts-module
 
 # Greenhouse effect
-greenhouse-effect greenhouse &phetcommon-dir &piccolo-phet-dir &piccolo-dir &mechanics-dir 
+greenhouse-effect greenhouse
 
 # Ideal gas
 ideal-gas ideal-gas-v3 &phetcommon-dir &phetgraphics-dir &mechanics-module
