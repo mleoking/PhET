@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -50,15 +49,15 @@ public class GreenhouseModule extends BaseGreenhouseModule {
         getEarth().setJimmyArray( null );
     }
 
-    public void activate( PhetApplication phetApplication ) {
-    }
-
-    public void deactivate( PhetApplication phetApplication ) {
-    }
+//    public void activate( PhetApplication phetApplication ) {
+//    }
+//
+//    public void deactivate( PhetApplication phetApplication ) {
+//    }
 
     public void reset() {
         super.reset();
-        setToday();        
+        setToday();
         numCloudsEnabled( 0 );
         cloudsEnabled( false );
     }

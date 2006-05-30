@@ -12,7 +12,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
@@ -21,7 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -141,7 +139,6 @@ public abstract class BaseGreenhouseModule extends Module {
         thermometerGraphic = new ThermometerGraphic( getApparatusPanel(), thermometer );
 
         // Set initial conditions
-//        setVirginEarth();
         thermometerEnabled( false );
 
         // Kick off the zoom
@@ -232,17 +229,6 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public boolean isThermometerEnabled() {
         return thermometerEnabled;
-    }
-
-    public void clear() {
-        Collection keys = photonToGraphicsMap.keySet();
-        for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
-            Photon photon = (Photon)iterator.next();
-            getGreenhouseModel().removePhoton( photon );
-            Graphic g = (Graphic)photonToGraphicsMap.get( photon );
-            getApparatusPanel().removeGraphic( g );
-        }
-        photonToGraphicsMap.clear();
     }
 
     public void removeScatterEvent( ScatterEvent event ) {
