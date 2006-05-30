@@ -49,19 +49,8 @@ public class GreenhouseApplication extends PhetApplication {
         SimStrings.init( args, localizedStringsPath );
 
         JFrame window = new JFrame();
-//        window.setUndecorated( true );
-//        // Add component to the window
-//        window.getContentPane().add( new JLabel( "Starting up..."), BorderLayout.CENTER );
-//
-//        // Set initial size
-//        window.setSize( 300, 300 );
-//
-//        // Show the window
-//        window.setVisible( true );
-
         SplashWindow splashWindow = new SplashWindow( window, "Starting up..." );
         splashWindow.setVisible( true );
-
 
         // Set the look and feel if we're on Windows and Java 1.4
         if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0

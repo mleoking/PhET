@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -103,11 +102,11 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         super.reset();
     }
 
-    public void activate( PhetApplication phetApplication ) {
-    }
-
-    public void deactivate( PhetApplication phetApplication ) {
-    }
+//    public void activate( PhetApplication phetApplication ) {
+//    }
+//
+//    public void deactivate( PhetApplication phetApplication ) {
+//    }
 
     public void setGlassPaneEnabled( boolean isEnabled ) {
         if( isEnabled && !glassPaneEnabled ) {

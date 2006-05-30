@@ -100,7 +100,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
             directionOfTravel = theta;
             DuotoneImageOp dio = new DuotoneImageOp( genColor( photon.getWavelength() ) );
             BufferedImage bi = dio.filter( baseImage, null );
-            AffineTransformOp atxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BICUBIC );
+            AffineTransformOp atxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_INTERPOLATION,
+                                                                                          RenderingHints.VALUE_INTERPOLATION_BICUBIC ));
             scaleTx = new AffineTransform( );
             BufferedImage bi1A = atxOp.filter( bi, null );
             // Rotate the image
