@@ -27,6 +27,7 @@ LOW PRIORITY:
 - wiggle me uses the module's clock, so it stops moving when clock is paused
 - FourierSumPlot should be an observer of its FourierSeries (sync issues with parent Chart!)
 - MegaHelp
+- fix all javadoc warnings and errors
 
 NEW FEATURES:
 
@@ -34,16 +35,6 @@ NEW FEATURES:
 OPTIMIZATIONS:
 - SumGraph.update does a lot of Point allocation
 - reduce startup time
-- flatten static elements
-- setIgnoreMouse
-
-CLEANUP:
-- organize imports
-- remove unused images and assets
-- remove unused localization strings
-- resize any scaled images
-- save all images using Photoshop's "Save for Web" feature
-- fix all javadoc warnings and errors
 
 CHARTS:
 - bug: Chart.getBounds is incorrect when the chart contains no data set graphics

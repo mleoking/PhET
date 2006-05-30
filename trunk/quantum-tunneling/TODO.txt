@@ -13,19 +13,7 @@ LOW PRIORITY:
 - when switching potential types in wave packet form, total energy gradient is not fully repainted (Mac only)
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
 - menubar is sometimes not painted when app is maximized with clock running
-
-OPTIMIZATIONS:
 - remove unused images from the JAR file that ProGuard produces
-- flatten static elements
-- setPickable(false) on non-interactive graphics
-
-CLEANUP
-- javadoc all code
-- organize imports
-- remove unused images and assets
-- remove unused localization strings
-- resize any scaled images
-- save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
 

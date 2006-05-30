@@ -16,20 +16,7 @@ LOW PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - background color (use PhetLookAndFeel)
 - Help/MegaHelp
-
-POSSIBLE OPTIMIZATIONS:
-
-CLEANUP:
-- organize imports
-- remove unused images and assets
-- remove unused localization strings
-- resize any scaled images
-- save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
-
-
-NEW FEATURE REQUESTS:
-- add a graph of field strength over time to the Field Meter
 
 PHETCOMMON:
 - bug: ControlPanel contents are vertically centered
@@ -434,6 +421,7 @@ v0r3...
 2004 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 NO:
+(?) - add a graph of field strength over time to the Field Meter (unnecessary)
 (4/25) - use offscreen buffering (no improvement)
 (4/25) - disable rectangle computations and use paintImmediately (no improvement)
 (4/24) - use a variable-step clock with median filtering of dt (lightbulb & voltmeter don't look cyclic, they jump around)
