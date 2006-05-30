@@ -15,7 +15,6 @@ import edu.colorado.phet.coreadditions.graphics.ShapeGraphicType;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
@@ -24,7 +23,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PhotonGraphic extends CompositeGraphic implements Observer /*, ShapeGraphicType*/ {
+public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     //----------------------------------------------------------------
     // Class fields and methods
@@ -44,7 +43,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         baseImage = scaleOp.filter( baseImage, null );
     }
-
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
     static {
         colorLUT.put( new Double( GreenhouseConfig.sunlightWavelength ), new Color( 255, 255, 120 ) );
         colorLUT.put( new Double( GreenhouseConfig.irWavelength ), Color.red );
@@ -58,28 +59,53 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
     //----------------------------------------------------------------
     // Instance fields and methods
     //----------------------------------------------------------------
+    static AffineTransform scaleTx = new AffineTransform();
+    static boolean init;
+    static Rectangle2D origBounds;
 
     private Photon photon;
     private ImageGraphic photonImage;
     private ShapeGraphicType debugGraphic;
     private boolean isVisible;
     private double directionOfTravel = Double.POSITIVE_INFINITY;
+    private boolean scaleChanged = false;
 
-    public PhotonGraphic( Photon photon ) {
+    public PhotonGraphic( Component component, Photon photon ) {
         this.photon = photon;
         photon.addObserver( this );
         isVisible = true;
+
+//        component.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                if( !init ) {
+//                    init = true;
+//                    origBounds = e.getComponent().getBounds();
+//                }
+//                Component component = e.getComponent();
+//                Rectangle2D newBounds = component.getBounds();
+//                double scale = newBounds.getWidth() / origBounds.getWidth();
+//                System.out.println( "scale = " + scale );
+//                scaleTx = AffineTransform.getScaleInstance( scale, scale );
+//                scaleChanged = true;
+//                update();
+//            }
+//        } );
         this.update();
     }
 
     public void update() {
         double theta = Math.atan2( -photon.getVelocity().getY(), photon.getVelocity().getX() );
-        if( theta != directionOfTravel ) {
+        if( theta != directionOfTravel || scaleChanged ) {
+            scaleChanged = false;
             directionOfTravel = theta;
             DuotoneImageOp dio = new DuotoneImageOp( genColor( photon.getWavelength() ) );
             BufferedImage bi = dio.filter( baseImage, null );
+            AffineTransformOp atxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BICUBIC );
+            scaleTx = new AffineTransform( );
+            BufferedImage bi1A = atxOp.filter( bi, null );
             // Rotate the image
-            BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi, directionOfTravel );
+            BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi1A, directionOfTravel );
+            // Scale the image
 
             if( photonImage != null ) {
                 removeGraphic( photonImage );
@@ -113,61 +139,5 @@ public class PhotonGraphic extends CompositeGraphic implements Observer /*, Shap
 
     public Image getImage() {
         return photonImage.getBufferedImage();
-    }
-
-
-    public void paint( Graphics2D g2 ) {
-        super.paint( g2 );
-
-        double ratio = 0.03;
-        double r = 2 * ratio;
-        Point2D p = photon.getLocation();
-
-        g2.setColor( Color.green );
-        Ellipse2D e = new Ellipse2D.Double( p.getX() - r, p.getY() - r, r, r );
-//        g2.fill( e );
-
-        Rectangle2D rect = new Rectangle2D.Double( p.getX(), p.getY(), photonImage.getBufferedImage().getWidth() * ratio, photonImage.getBufferedImage().getHeight() * ratio );
-        g2.setStroke( new BasicStroke( 0.03f ) );
-//        g2.draw( rect );
-    }
-
-    /**
-     * Computes the offsets that must be applied to the buffered image's location so that it's head is
-     * at the location of the photon
-     *
-     * @param theta
-     */
-    private void computeOffsets( double theta ) {
-        // Normalize theta to be between 0 and PI*2
-        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
-//        this.theta = theta;
-
-        xOffset = 0;
-        yOffset = 0;
-        double alpha = 0;
-        double w = baseImage.getWidth();
-        double h = baseImage.getHeight();
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
-            xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
-            yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
-        }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            alpha = theta - Math.PI / 2;
-            xOffset = ( h / 2 ) * Math.cos( alpha );
-            yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
-        }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            alpha = theta - Math.PI;
-            xOffset = ( h / 2 ) * Math.sin( alpha );
-            yOffset = ( h / 2 ) * Math.cos( alpha );
-        }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            alpha = Math.PI * 2 - theta;
-            xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
-            yOffset = ( h / 2 ) * Math.cos( alpha );
-        }
-
-        return;
     }
 }

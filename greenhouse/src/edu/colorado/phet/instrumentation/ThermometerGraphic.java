@@ -60,11 +60,8 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
                 }
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
-//                    BufferedImage origImage =  (BufferedImage)iterator.next();
                     double scale = newBounds.getWidth() / origBounds.getWidth();
                     scaleTx = AffineTransform.getScaleInstance( scale, scale );
-//                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-//                    BufferedImage scaledImg = atxOp.filter( origImage, null );
                 }
         } );
         update();
