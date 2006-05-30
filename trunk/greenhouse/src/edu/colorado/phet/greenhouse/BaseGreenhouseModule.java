@@ -310,7 +310,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
         public void photonEmitted( Photon photon ) {
             n++;
-            PhotonGraphic photonView = new PhotonGraphic( photon );
+            PhotonGraphic photonView = new PhotonGraphic( getApparatusPanel(), photon );
             photonToGraphicsMap.put( photon, photonView );
             photonView.setVisible( false );
             if( n >= invisiblePhotonCnt ) {

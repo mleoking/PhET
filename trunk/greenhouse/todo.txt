@@ -2,12 +2,13 @@ To Do List for Greenhouse Effect
 ================================
 -When you make the frame small, the control panel gets cut off
 -Use Piccolo tabbed panes, or at least make them bigger
--Scale the thermometer and photons when the window resizes
+-Scale photons when the window resizes
 
 2.00.04
 ====================
 -Add "None" and "Lots" as endpoints on the slider
 -Splash screen comes up in Spanish
+-Scale the thermometer when window resizes
 
 2.00.03
 ====================

@@ -21,7 +21,7 @@ public class GreenhouseLegend extends JPanel {
         BufferedImage irPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D)irPhotonBI.getGraphics();
         Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
-        PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
+        PhotonGraphic irPhotonGraphic = new PhotonGraphic( this, irPhoton );
 //        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
 //            irPhoton.setLocation(irPhotonBI.getWidth() / 2, i * 3);
 //            irPhotonGraphic.update();
@@ -34,7 +34,7 @@ public class GreenhouseLegend extends JPanel {
         BufferedImage sunlightPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D)sunlightPhotonBI.getGraphics();
         Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
-        PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
+        PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( this, sunlightPhoton );
 //        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
 //            sunlightPhoton.setLocation(sunlightPhotonBI.getWidth() / 2, i * 3);
 //            sunlightPhotonGraphic.update();
