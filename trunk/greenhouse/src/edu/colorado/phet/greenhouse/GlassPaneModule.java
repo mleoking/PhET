@@ -99,12 +99,15 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         return (GreenhouseModel)getModel();
     }
 
+    public void reset() {
+        super.reset();
+    }
+
     public void activate( PhetApplication phetApplication ) {
     }
 
     public void deactivate( PhetApplication phetApplication ) {
     }
-
 
     public void setGlassPaneEnabled( boolean isEnabled ) {
         if( isEnabled && !glassPaneEnabled ) {
