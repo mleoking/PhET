@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
@@ -25,6 +26,8 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
@@ -74,12 +77,22 @@ public class NuclearPhysicsApplication extends PhetApplication {
     private static class NuclearAppLookAndFeel extends LandF {
         static Color backgroundColor = new Color( 60, 80, 60 );
         static Color buttonBackgroundColor = new Color( 100, 120, 60 );
-        static Color controlTextColor = new Color( 230, 230, 230 );
+        static Color controlTextColor = new Color( 240, 240, 240 );
+
+        private static Color buttonTextColor = controlTextColor;
 
         static {
-            if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
-                controlTextColor = new Color( 200, 200, 200 );
+            // Set the look and feel if we're on Windows and Java 1.4
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
+                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
+                try {
+                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
             }
+
         }
 
         static Font font = new Font( "SansSerif", Font.BOLD, 16 );
@@ -91,10 +104,36 @@ public class NuclearPhysicsApplication extends PhetApplication {
             if( dim.getHeight() < 800 ) {
                 font = new Font( "SansSerif", Font.BOLD, 14 );
             }
+
+            if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
+                UIManager.put("Button.foreground", Color.black );
+            }
+            // Set the look and feel if we're on Windows and Java 1.4
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
+                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
+                try {
+                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
+            }
+            // Set the look and feel if we're on Windows and Java 1.4
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0
+                && System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
+                try {
+                    UIManager.setLookAndFeel( new WindowsLookAndFeel() );
+                }
+                catch( UnsupportedLookAndFeelException e ) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
         public NuclearAppLookAndFeel() {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+            UIManager.put( "TabbedPane.font", new FontUIResource( "Lucidasans", Font.BOLD, 18 ));
         }
     }
 
@@ -102,7 +141,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Color backgroundColor = new Color( 60, 80, 60 );
         Color buttonBackgroundColor = new Color( 60, 60, 100 );
         Color controlTextColor = new Color( 230, 230, 230 );
-        Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
+        Font controlFont = new Font( "Lucidasans", Font.BOLD, 22 );
         static String[] controlTypes = new String[]{
                 "Menu",
                 "MenuItem",
@@ -113,6 +152,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         };
 
         public LandF( Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont ) {
+
             this.backgroundColor = backgroundColor;
             this.buttonBackgroundColor = buttonBackgroundColor;
             this.controlTextColor = controlTextColor;

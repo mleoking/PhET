@@ -1,5 +1,4 @@
 
-
 ?	This sim has the redraw problem worse than any other sim we currently have.  This is the problem that Sam M. brought up a month or two ago where on a slower computer or when there are many demands on the CPU the sim doesn’t completely draw.  This is the only sim I know of that doesn’t redraw on my new computer when it’s plugged in.  If I put a window over this sim and then go back to the sim I have to mess around with it or wait over a minute for it to come back.
 ?	This sim also has performance problems.  After it sits with nothing happening, it bogs everything down.  I know it keeps spitting out neutrons in the controlled reaction pane, it behaves as if it’s still doing things in the other panes also.
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
@@ -17,7 +16,6 @@ Alpha Radiation
 -   gridlines overlay the profile
 
 Fission:
--   nucleus on graph pane of single nucleus fission module flashes
 
 Chain Reaction panel
 ?	U239 should be what U238 turns into once they absorb a neutron.
@@ -48,6 +46,7 @@ Done, not posted
 ?	Remove help buttons since there is no help.
 -   font for spinners is way too big in 1.5
 ?	Have the legend on each panel only display the applicable items to each tab.
+-   Button labels are illegible in 1.5
 
 
 
@@ -60,6 +59,7 @@ Alpha Radiation
 Fission:
 ?	Speed reduced to half.
 ?	Graph in lower portion as in Alpha Radiation panel
+-   nucleus on graph pane of single nucleus fission module flashes
 
 Chain Reaction panel
 ?	Remove “Number of” and just have the label 235U nuclei (with spelling correction) as the label for each spinner.

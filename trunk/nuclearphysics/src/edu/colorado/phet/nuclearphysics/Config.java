@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics;
 
+import java.awt.*;
+
 
 public class Config {
 
@@ -32,4 +34,7 @@ public class Config {
     public static final String HANDLE_IMAGE_NAME = IMAGE_DIR + "wall-handle.gif";
     public static final String CONTROL_ROD_IMAGE = IMAGE_DIR + "control-rod-1.png";
     // Regulates how fast the profile rises when fission occurs
+
+    // Fonts
+    public static final Font PROFILE_PANEL_TITLE_FONT = new Font( "Lucidasans", Font.BOLD, 14 );
 }
