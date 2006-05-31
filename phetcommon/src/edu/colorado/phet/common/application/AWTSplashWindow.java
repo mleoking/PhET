@@ -149,17 +149,18 @@ public class AWTSplashWindow extends Window {
     }
 
     public void hideSplash() {
-        System.out.println( "AWTSplashScreen2.hideSplash" );
-        super.setVisible( false );
-        super.hide();
-        super.dispose();
-        owner.dispose();
-        owner = null;
-        done = true;
+        if( !done ) {
+            System.out.println( "AWTSplashScreen2.hideSplash" );
+            super.setVisible( false );
+            super.hide();
+            super.dispose();
+            owner.dispose();
+            owner = null;
+            done = true;
+        }
     }
 
     private void showSplashScreen() {
-
         setVisible( true );
     }
 
