@@ -15,8 +15,10 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
+import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,6 +37,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     protected void init( IClock clock ) {
+        addPhysicalPanel( getPhysicalPanel() );
+
         this.clock = clock;
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {
@@ -195,23 +199,5 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
-
-//        System.out.println( "--------------------------------------------------" );
-//        Graphic[] ga = getPotentialProfilePanel().getGraphic().getGraphics();
-//        for( int i = 0; i < ga.length; i++ ) {
-//            TxGraphic graphic = (TxGraphic)ga[i];
-//            System.out.println( "-->" + graphic.getWrappedGraphic() );
-//        }
-//        Graphic[] ga2 = getPhysicalPanel().getGraphic().getGraphics();
-//        for( int i = 0; i < ga2.length; i++ ) {
-//            TxGraphic graphic = (TxGraphic)ga2[i];
-//            System.out.println( "-->" + graphic.getWrappedGraphic() );
-//        }
-//
-//        List l = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
-//        for( int i = 0; i < l.size(); i++ ) {
-//            Object o = (Object)l.get( i );
-//            System.out.println( "o = " + o );
-//        }
     }
 }

@@ -11,6 +11,7 @@ import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -19,12 +20,30 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     private Nucleus nucleus;
     private PotentialProfilePanel potentialProfilePanel;
+    private GridBagConstraints physicalPanelGBC;
 
     public ProfiledNucleusModule( String name, IClock clock ) {
         super( name, clock );
-        getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
+//        getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
+
+        getApparatusPanel().setLayout( new GridBagLayout() );
+        physicalPanelGBC = new GridBagConstraints( 0,0,1,1,1,1,
+                                                   GridBagConstraints.CENTER,
+                                                   GridBagConstraints.BOTH,
+                                                   new Insets( 0,0,0,0), 0,0 );
+        GridBagConstraints profilePanelGBC = new GridBagConstraints( 0,1,1,1,1,.75,
+                                                                     GridBagConstraints.CENTER,
+                                                                     GridBagConstraints.BOTH,
+                                                                     new Insets( 0,0,0,0), 0,0 );
+
         potentialProfilePanel = new PotentialProfilePanel( getClock() );
-        getApparatusPanel().add( potentialProfilePanel, 1 );
+        getApparatusPanel().add( potentialProfilePanel, profilePanelGBC );
+//        getApparatusPanel().add( potentialProfilePanel, 1 );
+    }
+
+    protected void addPhysicalPanel( Component component ) {
+        physicalPanelGBC.gridy = 0;
+        getApparatusPanel().add( component, physicalPanelGBC );
     }
 
     protected List getLegendClasses() {

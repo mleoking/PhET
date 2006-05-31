@@ -12,13 +12,20 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
+import edu.colorado.phet.nuclearphysics.Config;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -57,6 +64,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     private static GeneralPath arrowhead = new GeneralPath();
+    private PhetTextGraphic2 title;
 
     static {
         arrowhead.moveTo( 0, 0 );
@@ -101,17 +109,35 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
     public PotentialProfilePanel( IClock clock ) {
         super( clock );
-        //        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
+        Border border = BorderFactory.createCompoundBorder(
+                BorderFactory.createBevelBorder( BevelBorder.RAISED,
+                                                 Color.lightGray,
+                                                 Color.lightGray,
+                                                 Color.darkGray,
+                                                 Color.darkGray ),
+                BorderFactory.createBevelBorder( BevelBorder.LOWERED,
+                                                 Color.lightGray,
+                                                 Color.lightGray,
+                                                 Color.darkGray,
+                                                 Color.darkGray ) );
+        this.setBorder( border );
+
+        title = new PhetTextGraphic2( this,
+                                      Config.PROFILE_PANEL_TITLE_FONT ,
+                                      SimStrings.get("PotentialProfilePanel.title"),
+                                      Color.black );
+        addGraphic( title );
     }
 
     private void setOrgFields() {
         if( !init ) {
             orgBounds = new Rectangle( getBounds() );
-            origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
+            origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.9 );
             //            origin = new Point2D.Double( 250, 250 );
             profileTx.setToTranslation( origin.getX(),
                                         origin.getY() );
+            title.setLocation( 10, 10 );
             init = true;
         }
     }
