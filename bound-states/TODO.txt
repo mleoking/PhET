@@ -4,9 +4,9 @@
 
 IN PROGRESS:
 - bottom and top edge of chart don't line up with center of mag glass lens, worse as mag power increases
-- when bottom edge of chart as shown in mag glass, some nodes only appear while dragging
 
 Magnifying glass TODO:
+- when mouse is over handle or bezel, hilite should be cleared
 - shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 - selection/hiliting should only work for eigenstates that are visible in lens
 - hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
@@ -63,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+(5/31/06) - bugfix: use PPaintContext.pushClip/popClip to handle clipping to the mag glass lens
 (5/25/06) - add convenience constants to mag glass to simplify code
 (5/25/06) - add a center point to mag glass for debugging
 (5/25/06) - show chart top/bottom edge thru magnifying glass, working but plots flicker

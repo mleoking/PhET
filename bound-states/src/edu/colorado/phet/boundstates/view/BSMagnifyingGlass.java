@@ -33,6 +33,7 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -54,6 +55,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     
     // Default values for things that can be changed with mutators
     private static final double DEFAULT_MAGNIFICATION = 10; // magnification power
+    
+    private Color LENS_COLOR = new Color( 255, 255, 255, 30 ); // transparent
     
     // Constants that determine the size of the magnifying glass parts
     private static final double LENS_DIAMETER = 100; // pixels
@@ -130,9 +133,8 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         {
             _lensNode = new PPath();
             _lensNode.setPathTo( lensShape );
-            Color lensColor = new Color( 0, 0, 0, 0 ); // transparent
-            _lensNode.setPaint( lensColor );
-            _lensNode.setStrokePaint( lensColor );
+            _lensNode.setPaint( LENS_COLOR );
+            _lensNode.setStrokePaint( LENS_COLOR );
         }
         
         // Bezel 
@@ -559,6 +561,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             super.mouseDragged( e );
             updateDisplay();
             _viewNode.setOffset( _partsNode.getOffset() );
+            setFullBoundsInvalid( true );
         }
     }
     
@@ -577,14 +580,14 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         
         /*
          * Clips the node to the lens.
+         * Important to use pushClip and popClip to set/restore the clip!
+         * Don't try to do this directly to the underlying Graphics2D.
          */
         protected void paint( PPaintContext paintContext ) {
             GeneralPath lensPath = _lensNode.getPathReference();
-            Graphics2D g2 = paintContext.getGraphics();
-            Shape oldClip = g2.getClip();
-            g2.setClip( lensPath );
+            paintContext.pushClip( lensPath );
             super.paint( paintContext );
-            g2.setClip( oldClip );
+            paintContext.popClip( lensPath );
         }
     }
 }
