@@ -6,7 +6,7 @@ IN PROGRESS:
 
 Magnifying glass TODO:
 - cursor changes to an arrow after hiliting via the lens, should remain a hand
-- bottom and top edge of chart don't line up with center of mag glass lens, worse as mag power increases
+- bottom and top edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
 - initial position centered on lowest "band" of eigenstates
