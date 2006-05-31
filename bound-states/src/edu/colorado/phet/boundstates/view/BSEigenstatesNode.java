@@ -48,10 +48,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     
     //----------------------------------------------------------------------------
     // Class data
-    //----------------------------------------------------------------------------
-    
-    // Energy must be at least this close to eigenstate to be hilited.
-    private static final double HILITE_ENERGY_THRESHOLD = 1; // eV
+    //----------------------------------------------------------------------------    
     
     private static final int MIN_DECIMAL_PLACES = 2; // min decimal places shown for energy value
     private static final int MAX_DECIMAL_PLACES = 12; // max decimal places shown for energy value
@@ -176,7 +173,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
     
     public void hiliteEigenstate( double energy ) {
         // Find the closest eigenstate...
-        int hiliteIndex = getClosestEigenstateIndex( energy );
+        int hiliteIndex = _model.getClosestEigenstateIndex( energy, BSConstants.HILITE_ENERGY_THRESHOLD );
 
         // Update the model...
         _model.setHilitedEigenstateIndex( hiliteIndex );
@@ -221,7 +218,7 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
         final double energy = energyPosition.getY();
 
         // Find the closest eigenstate...
-        int hiliteIndex = getClosestEigenstateIndex( energy );
+        int hiliteIndex = _model.getClosestEigenstateIndex( energy, BSConstants.HILITE_ENERGY_THRESHOLD );
 
         // Update the model...
         _model.setHilitedEigenstateIndex( hiliteIndex );
@@ -406,47 +403,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
             _hiliteValueNode.setVisible( false );
             _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
         }
-    }
-    
-    /*
-     * Gets the index of the eigenstate that is closest to a specified energy value.
-     * 
-     * @param energy
-     * @return index, possibly INDEX_UNDEFINED
-     */
-    private int getClosestEigenstateIndex( final double energy ) {
-        BSEigenstate[] eigenstates = _model.getEigenstates();
-        int index = BSEigenstate.INDEX_UNDEFINED;
-        if ( eigenstates != null && eigenstates.length > 0 ) {
-            if ( energy < eigenstates[0].getEnergy() ) {
-                if ( energy + HILITE_ENERGY_THRESHOLD >= eigenstates[0].getEnergy() ) {
-                    index = 0;
-                }
-            }
-            else if ( energy > eigenstates[eigenstates.length - 1].getEnergy() ) {
-                if ( energy - HILITE_ENERGY_THRESHOLD <= eigenstates[eigenstates.length - 1].getEnergy() ) {
-                    index = eigenstates.length - 1;
-                }
-            }
-            else {
-                for ( int i = 1; i < eigenstates.length; i++ ) {
-                    final double currentEnergy = eigenstates[i].getEnergy();
-                    if ( energy <= currentEnergy ) {
-                        final double lowerEnergy = eigenstates[i - 1].getEnergy();
-                        final double upperEnergyDifference = currentEnergy - energy;
-                        final double lowerEnergyDifference = energy - lowerEnergy;
-                        if ( upperEnergyDifference < lowerEnergyDifference ) {
-                            index = i;
-                        }
-                        else {
-                            index = i - 1;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        return index;
     }
     
     /*

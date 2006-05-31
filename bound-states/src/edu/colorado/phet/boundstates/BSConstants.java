@@ -199,6 +199,9 @@ public class BSConstants {
     // Miscellaneous
     //----------------------------------------------------------------------------
     
+    // Energy must be at least this close to eigenstate to be hilited.
+    public static final double HILITE_ENERGY_THRESHOLD = 1; // eV
+    
     public static final DecimalFormat MAGNIFICATION_FORMAT = new DecimalFormat( "0.#" );
     
     public static final double ELECTRON_MASS = 5.68; // eV/c^2
