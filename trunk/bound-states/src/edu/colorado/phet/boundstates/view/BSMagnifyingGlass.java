@@ -78,7 +78,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private double _magnification;
     private BSModel _model;
     private BSCombinedChartNode _chartNode;
-    private BSEigenstatesNode _eigenstatesNode;
     
     // All of the "parts" of the magnifying glass
     private PComposite _partsNode;
@@ -107,10 +106,9 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      * @param chartNode
      * @param colorScheme
      */
-    public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSEigenstatesNode eigenstatesNode, BSColorScheme colorScheme ) {
+    public BSMagnifyingGlass( BSCombinedChartNode chartNode, BSColorScheme colorScheme ) {
         _magnification = DEFAULT_MAGNIFICATION;
         _chartNode = chartNode;
-        _eigenstatesNode = eigenstatesNode;
         initNodes();
         initEventHandling();
         setColorScheme( colorScheme );
@@ -466,15 +464,15 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     }
     
     /*
-     * Tells the EigenstateNode to select the eigenstate that is currently hilited.
+     * Selects the eigenstate that is currently hilited.
      */
     private void selectEigenstate( Point2D mousePoint ) {
-        _eigenstatesNode.selectEigenstate();
+        int hiliteIndex = _model.getHilitedEigenstateIndex();
+        _model.getSuperpositionCoefficients().setCoefficient( hiliteIndex );
     }
     
     /*
-     * Tells the EigenstateNode to hilite the eigenstate that is closest 
-     * to the magnified energy at the mouse position.
+     * Hilites the eigenstate that is closest to the magnified energy at the mouse position.
      */
     private void hiliteEigenstate( Point2D mousePoint ) {
         
@@ -489,7 +487,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // Adjust for magnification
         double magnifiedEnergy = centerEnergy + ( ( mouseEnergy - centerEnergy ) / _magnification );
         
-        _eigenstatesNode.hiliteEigenstate( magnifiedEnergy );
+        // Hilite the closest eigenstate
+        double hiliteThreshold = BSConstants.HILITE_ENERGY_THRESHOLD / _magnification;
+        int hiliteIndex = _model.getClosestEigenstateIndex( magnifiedEnergy, hiliteThreshold );
+        _model.setHilitedEigenstateIndex( hiliteIndex );
     }
     
     /*

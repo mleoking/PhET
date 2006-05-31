@@ -125,6 +125,49 @@ public class BSModel extends BSObservable implements Observer {
         return _hilitedEigenstateIndex;
     }
     
+    /**
+     * Gets the eigenstate that is closest to some energy value,
+     * within some threshold.  If there is no eigenstate within
+     * the threshold, then BSEigenstate.INDEX_UNDEFINED is returned.
+     * 
+     * @param energy
+     * @param threshold
+     * @return
+     */
+    public int getClosestEigenstateIndex( final double energy, final double threshold ) {
+        int index = BSEigenstate.INDEX_UNDEFINED;
+        if ( _eigenstates != null && _eigenstates.length > 0 ) {
+            if ( _eigenstates.length == 1 ) {
+                if ( Math.abs( _eigenstates[0].getEnergy() - energy ) <= threshold ) {
+                    index = 0;
+                }
+            }
+            else {
+                for ( int i = 1; i < _eigenstates.length; i++ ) {
+                    final double currentEnergy = _eigenstates[i].getEnergy();
+                    if ( energy == currentEnergy ) {
+                        index = i;
+                        break;
+                    }
+                    else if ( energy < currentEnergy ) {
+                        final double lowerEnergy = _eigenstates[i - 1].getEnergy();
+                        final double currentEnergyDifference = Math.abs( currentEnergy - energy );
+                        final double lowerEnergyDifference = Math.abs( energy - lowerEnergy );
+                        if ( currentEnergyDifference <= lowerEnergyDifference && currentEnergyDifference <= threshold ) {
+                            index = i;
+                            break;
+                        }
+                        else if ( currentEnergyDifference > lowerEnergyDifference && lowerEnergyDifference <= threshold ) {
+                            index = i - 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return index;
+    }
+    
     /*
      * Synchronizes the model with the potential.
      * This is called when the potential changes, to ensure that we update the 

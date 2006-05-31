@@ -6,10 +6,8 @@ IN PROGRESS:
 - bottom and top edge of chart don't line up with center of mag glass lens, worse as mag power increases
 
 Magnifying glass TODO:
-- when mouse is over handle or bezel, hilite should be cleared
-- shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
+- clear the hilite when mouse exits the lens
 - selection/hiliting should only work for eigenstates that are visible in lens
-- hiliting "window" around an eigenstate should be smaller than for BSEigenstatesNode
 - selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
 - show chart boundaries
 - solve problem with potential plot being drawn on top (Mac only?)
@@ -17,7 +15,6 @@ Magnifying glass TODO:
 - initial position centered on lowest "band" of eigenstates
 
 HIGH PRIORITY:
-- change the way hiliting occurs, only hilite if within a certain window around an eigenstate
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -63,6 +60,10 @@ CLEANUP:
 
 
 DONE:
+(5/31/06) - hiliting "window" around an eigenstate in mag glass should be scaled based on magnification power
+(5/31/06) - change the way hiliting occurs, only hilite if within a certain window around an eigenstate
+(5/31/06) - move method to find closest eigenstate out of view and into model
+(5/31/06) - mag glass shouldn't have any knowledge of BSEigenstatesNode, do everything to the model
 (5/31/06) - bugfix: use PPaintContext.pushClip/popClip to handle clipping to the mag glass lens
 (5/25/06) - add convenience constants to mag glass to simplify code
 (5/25/06) - add a center point to mag glass for debugging

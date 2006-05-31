@@ -177,4 +177,26 @@ public class BSSuperpositionCoefficients extends BSObservable {
         _coefficients.set( index, new Double( value ) );
         notifyObservers();
     }
+    
+    /**
+     * Sets one coefficient to 1, all others to zero.
+     * 
+     * @param index
+     */
+    public void setCoefficient( int index ) {
+        if ( index > _coefficients.size() - 1 ) {
+            throw new IndexOutOfBoundsException( "index is out of bounds: " + index );
+        }
+        int numberOfCoefficients = _coefficients.size();
+        _coefficients.clear();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            if ( i == index ) {
+                _coefficients.add( new Double( 1 ) );
+            }
+            else {
+                _coefficients.add( new Double( 0 ) );
+            }
+        }
+        notifyObservers();
+    }
 }
