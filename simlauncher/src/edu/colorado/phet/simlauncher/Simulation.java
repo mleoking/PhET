@@ -32,6 +32,7 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+    private static boolean DEBUG = false;
 
     private static List simulations;
     private static List uninstalledSims;
@@ -163,8 +164,10 @@ public class Simulation {
     public void launch() {
 
         String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
-        for( int i = 0; i < commands.length; i++ ) {
-            System.out.println( "commands[i] = " + commands[i] );
+        if( DEBUG ) {
+            for( int i = 0; i < commands.length; i++ ) {
+                System.out.println( "commands[i] = " + commands[i] );
+            }
         }
         final Process process;
         try {

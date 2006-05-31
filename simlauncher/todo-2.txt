@@ -1,1 +1,0 @@
-Thumbnails don't display the first time they come down.

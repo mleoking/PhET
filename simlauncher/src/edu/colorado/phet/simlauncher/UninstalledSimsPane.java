@@ -29,7 +29,6 @@ import java.util.List;
  */
 public class UninstalledSimsPane extends JSplitPane implements SimulationContainer,
                                                                ChangeEventChannel.ChangeEventSource {
-//public class UninstalledSimsPane extends JPanel {
     private CategoryPanel categoryPanel;
     private UninstalledSimsPane.SimPanel simulationPanel;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
@@ -118,6 +117,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
         }
 
+        /**
+         *
+         */
         private void updateSimTable() {
             if( simTable != null ) {
                 remove( simTableScrollPane );
@@ -184,9 +186,20 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         private void handleSimulationSelection( MouseEvent event ) {
             Simulation sim = simTable.getSelection();
             installBtn.setEnabled( sim != null );
+
+            // If right click, pop up context menu
             if( event.isPopupTrigger() && sim != null ) {
                 new UninstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
             }
+
+            // If a double left click, offer to install the simulation
+            if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
+                int choice = JOptionPane.showConfirmDialog( this, "Do you want to install the simulation?", "Confirm", JOptionPane.OK_CANCEL_OPTION );
+                if( choice == JOptionPane.OK_OPTION ) {
+                    sim.install();
+                }
+            }
+
             changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
         }
 

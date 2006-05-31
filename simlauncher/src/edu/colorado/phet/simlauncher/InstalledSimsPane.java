@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.menus.InstalledSimulationPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,11 +47,7 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
 
         // Launch button
         launchBtn = new JButton( "Launch" );
-        launchBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                launchSim( (Simulation)simTable.getSelection() );
-            }
-        } );
+        launchBtn.addActionListener( new LaunchSimulationAction( this, this ) );
         launchBtn.setEnabled( false );
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -63,6 +60,7 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
 
         updateSimTable();
 
+        // Listen for changes in Options
         Options.instance().addListener( new Options.ChangeListener() {
             public void optionsChanged( Options.ChangeEvent event ) {
                 updateSimTable();
@@ -119,7 +117,7 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
 
     /**
      * Launches the simulation
-     * 
+     *
      * @param sim
      */
     private void launchSim( Simulation sim ) {
@@ -134,9 +132,18 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
     private void handleSimulationSelection( MouseEvent event ) {
         Simulation sim = simTable.getSelection();
         launchBtn.setEnabled( sim != null );
+
+        // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
             new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
         }
+
+        // If a double left click, launch the simulation
+        if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
+            System.out.println( "InstalledSimsPane.handleSimulationSelection" );
+            sim.launch();
+        }
+
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 
