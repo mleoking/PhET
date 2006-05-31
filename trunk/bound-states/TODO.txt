@@ -9,7 +9,7 @@ Magnifying glass TODO:
 - bottom and top edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
-- initial position centered on lowest "band" of eigenstates
+- set initial position, centered on lowest "band" of eigenstates shown in Energy chart
 
 HIGH PRIORITY:
 - magnifying glass
