@@ -74,7 +74,7 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
 
-    private SplashWindow splashWindow;
+    private AWTSplashWindow splashWindow;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -121,19 +121,17 @@ public class PhetApplication {
     }
 
     private void showSplashWindow( String title ) {
-        splashWindow = new SplashWindow( getPhetFrame(), title );
+        splashWindow = new AWTSplashWindow( getPhetFrame(), title );
         splashWindow.setVisible( true );
     }
 
-    public SplashWindow getSplashWindow() {
+    public AWTSplashWindow getSplashWindow() {
         return splashWindow;
     }
 
     private void disposeSplashWindow() {
         if( splashWindow != null ) {
-            splashWindow.setVisible( false );
-            splashWindow.dispose();
-            splashWindow = null;
+            splashWindow.hideSplash();
         }
     }
 
