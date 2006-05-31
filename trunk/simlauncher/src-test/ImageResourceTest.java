@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.ThumbnailResource;
+import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 import edu.colorado.phet.simlauncher.Configuration;
 
 import javax.swing.*;

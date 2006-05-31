@@ -25,6 +25,9 @@ import java.awt.event.ComponentEvent;
  */
 public class SimLauncher {
 
+    /**
+     * Private constructor. The only instance created is created by main()
+     */
     private SimLauncher() {
 
         JFrame frame = new JFrame( "PhET Simulation Launcher");

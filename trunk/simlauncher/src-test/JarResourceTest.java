@@ -9,8 +9,8 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.JnlpResource;
-import edu.colorado.phet.simlauncher.JarResource;
+import edu.colorado.phet.simlauncher.resources.JnlpResource;
+import edu.colorado.phet.simlauncher.resources.JarResource;
 import edu.colorado.phet.simlauncher.Configuration;
 
 import java.io.IOException;

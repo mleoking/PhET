@@ -11,7 +11,10 @@
 package edu.colorado.phet.simlauncher;
 
 /**
- * SimulationReferer
+ * SimulationContainer
+ * <p>
+ * An object that contains a reference to a particular Simulation. This can be a JList,
+ * a JTable, or any object that has a distinguished instance of Simulation.
  *
  * @author Ron LeMaster
  * @version $Revision$

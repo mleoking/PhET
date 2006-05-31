@@ -2,6 +2,7 @@
 Bugs
 ====
 - Thumbnails don't display the first time they come down.
+- Clearing the cahce doesn't update the installed and available sims lists  
 
 ========
 Features

@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
+
 /**
  * SimlationFactory
  * <p/>

@@ -10,14 +10,9 @@
  */
 
 import edu.colorado.phet.simlauncher.Configuration;
-import edu.colorado.phet.simlauncher.JnlpResource;
-import edu.colorado.phet.simlauncher.JarResource;
-import edu.colorado.phet.simlauncher.CatalogResource;
+import edu.colorado.phet.simlauncher.resources.CatalogResource;
 
 import java.io.IOException;
-import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 /**
  * ImageResourceTest

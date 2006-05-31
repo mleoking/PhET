@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationReferer;
+import edu.colorado.phet.simlauncher.SimulationContainer;
 import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
 import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
 import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
@@ -24,9 +24,12 @@ import javax.swing.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimulationPopupMenu extends JPopupMenu implements SimulationReferer {
-    private Simulation simulation;
+public class InstalledSimulationPopupMenu extends JPopupMenu {
 
+    /**
+     *
+     * @param simulation
+     */
     public InstalledSimulationPopupMenu( Simulation simulation ) {
 
         // Launch menu item
@@ -43,14 +46,5 @@ public class InstalledSimulationPopupMenu extends JPopupMenu implements Simulati
         JMenuItem uninstallMI = new JMenuItem( "Uninstall");
         uninstallMI.addActionListener( new UninstallSimulationAction( this, simulation ));
         add( uninstallMI);
-    }
-
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimulationReferer
-    //--------------------------------------------------------------------------------------------------
-
-    public Simulation getSimulation() {
-        return simulation;
     }
 }

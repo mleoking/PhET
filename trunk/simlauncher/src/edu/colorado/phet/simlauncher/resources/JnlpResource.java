@@ -8,7 +8,11 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.simlauncher;
+package edu.colorado.phet.simlauncher.resources;
+
+import edu.colorado.phet.simlauncher.JnlpFile;
+import edu.colorado.phet.simlauncher.InvalidJnlpException;
+import edu.colorado.phet.simlauncher.JnlpFile2;
 
 import java.io.BufferedWriter;
 import java.io.File;

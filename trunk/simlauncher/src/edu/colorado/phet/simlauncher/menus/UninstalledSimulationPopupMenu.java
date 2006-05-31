@@ -11,7 +11,6 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationReferer;
 import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
 
 import javax.swing.*;
@@ -22,23 +21,17 @@ import javax.swing.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstalledSimulationPopupMenu extends JPopupMenu implements SimulationReferer {
-    private Simulation simulation;
+public class UninstalledSimulationPopupMenu extends JPopupMenu {
 
+    /**
+     * 
+     * @param simulation
+     */
     public UninstalledSimulationPopupMenu( Simulation simulation ) {
 
-        // Launch menu item
+        // Install menu item
         JMenuItem launchMI = new JMenuItem( "Install");
         launchMI.addActionListener( new InstallSimulationAction( this, simulation ) );
         add( launchMI );
-    }
-
-
-    //--------------------------------------------------------------------------------------------------
-    // Implementation of SimulationReferer
-    //--------------------------------------------------------------------------------------------------
-
-    public Simulation getSimulation() {
-        return simulation;
     }
 }

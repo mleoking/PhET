@@ -8,9 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.simlauncher;
+package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
+import edu.colorado.phet.simlauncher.MetaData;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -11,6 +11,10 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
+import edu.colorado.phet.simlauncher.resources.JnlpResource;
+import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
+import edu.colorado.phet.simlauncher.resources.JarResource;
+import edu.colorado.phet.simlauncher.resources.SimResource;
 
 import javax.swing.*;
 import java.io.File;
