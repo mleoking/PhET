@@ -534,8 +534,13 @@ public class BSMagnifyingGlass extends PNode implements Observer {
          */
         public void mouseMoved( PInputEvent e ) {
             super.mouseMoved( e );
-            if ( !_dragging && isInLens( e.getPosition() ) ) {
-                hiliteEigenstate( e.getPosition() );
+            if ( !_dragging ) {
+                if ( isInLens( e.getPosition() ) ) {
+                    hiliteEigenstate( e.getPosition() );
+                }
+                else {
+                    _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+                }
             }
         }
         
