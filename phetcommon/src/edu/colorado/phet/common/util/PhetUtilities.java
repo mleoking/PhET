@@ -78,4 +78,13 @@ public class PhetUtilities {
     public static PhetFrame getPhetFrame() {
         return PhetApplication.instance().getPhetFrame();
     }
+
+    /**
+     * Returns a reference to the clock associated with the currently active module
+     *
+     * @return The active clock
+     */
+    public static IClock getActiveClock() {
+        return getActiveModule().getClock();
+    }
 }
