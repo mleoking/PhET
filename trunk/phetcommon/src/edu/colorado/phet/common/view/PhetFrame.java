@@ -38,6 +38,8 @@ public class PhetFrame extends JFrame {
 
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
+     *
+     * @param application the application that own the PhetFrame
      */
     public PhetFrame( final PhetApplication application ) throws HeadlessException {
         super( application.getTitle() + " (" + application.getVersion() + ")" );
@@ -96,25 +98,21 @@ public class PhetFrame extends JFrame {
         this.lastAdded = module;
     }
 
-    private Container addToContentPane( Module module ) {
+    private JComponent addToContentPane( Module module ) {
         if( contentPanel == null ) {
             return module.getModulePanel();
         }
         else if( contentPanel instanceof ModulePanel ) {
-            return createTabbedPane( application, new Module[]{lastAdded, module} );
+            return application.createTabbedPane( new Module[]{lastAdded, module} );
         }
-        else if( contentPanel instanceof TabbedModulePane ) {
-            TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPanel;
+        else if( contentPanel instanceof ITabbedModulePane ) {
+            ITabbedModulePane tabbedModulePane = (ITabbedModulePane)contentPanel;
             tabbedModulePane.addTab( module );
-            return tabbedModulePane;
+            return (JComponent)tabbedModulePane;
         }
         else {
             throw new RuntimeException( "Illegal type for content pane: " + contentPanel );
         }
-    }
-
-    protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-        return new TabbedModulePane( application, modules );
     }
 
     private void removeModule( Module module ) {
@@ -128,11 +126,11 @@ public class PhetFrame extends JFrame {
         else if( contentPanel == module.getModulePanel() ) {
             return new JLabel( "No modules" );
         }
-        else if( contentPanel instanceof TabbedModulePane ) {
-            TabbedModulePane tabbedModulePane = (TabbedModulePane)contentPanel;
+        else if( contentPanel instanceof ITabbedModulePane ) {
+            ITabbedModulePane tabbedModulePane = (ITabbedModulePane)contentPanel;
             tabbedModulePane.removeTab( module );
             if( tabbedModulePane.getTabCount() > 1 ) {
-                return tabbedModulePane;
+                return (Container)tabbedModulePane;
             }
             else if( tabbedModulePane.getTabCount() == 1 ) {
                 return tabbedModulePane.getModulePanel( 0 );

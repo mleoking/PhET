@@ -10,6 +10,17 @@
  */
 package edu.colorado.phet.piccolo;
 
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -312,7 +323,7 @@ public class PhetTabbedPane extends JPanel {
     }
 
     /**
-     * Sets the TabNodeFactory used to create subsequent tab nodes.
+     * Sets the TabNodeFactory used to createBorder subsequent tab nodes.
      *
      * @param tabNodeFactory
      */
