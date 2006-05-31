@@ -44,7 +44,7 @@ public class TopLevelPane extends JTabbedPane  {
         installedSimsPane = new InstalledSimsPane();
         addTab( "Installed Simulations", installedSimsPane );
         uninstalledSimsPane = new UninstalledSimsPane();
-        addTab( "Other Simulations", uninstalledSimsPane );
+        addTab( "Simulations Available for Installation", uninstalledSimsPane );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

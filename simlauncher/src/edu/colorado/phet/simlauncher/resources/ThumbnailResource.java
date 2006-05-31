@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.simlauncher;
+package edu.colorado.phet.simlauncher.resources;
 
 import javax.swing.*;
 import java.io.File;

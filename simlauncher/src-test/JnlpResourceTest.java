@@ -9,11 +9,9 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.simlauncher.ThumbnailResource;
-import edu.colorado.phet.simlauncher.JnlpResource;
+import edu.colorado.phet.simlauncher.resources.JnlpResource;
 import edu.colorado.phet.simlauncher.Configuration;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.File;
 import java.net.URL;
