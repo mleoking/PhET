@@ -56,7 +56,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     // Default values for things that can be changed with mutators
     private static final double DEFAULT_MAGNIFICATION = 10; // magnification power
     
-    private Color LENS_COLOR = new Color( 255, 255, 255, 30 ); // transparent
+    private Color LENS_COLOR = new Color( 0, 0, 0, 0 ); // transparent
     
     // Constants that determine the size of the magnifying glass parts
     private static final double LENS_DIAMETER = 100; // pixels
