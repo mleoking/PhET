@@ -6,7 +6,6 @@ IN PROGRESS:
 - bottom and top edge of chart don't line up with center of mag glass lens, worse as mag power increases
 
 Magnifying glass TODO:
-- selecting an eigenstate thru lens should change it's color to "selected", not "hilited"
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
 - initial position centered on lowest "band" of eigenstates
@@ -57,6 +56,7 @@ CLEANUP:
 
 
 DONE:
+(5/31/06) - selecting an eigenstate thru mag glass lens should change it's color to "selected", not "hilited"
 (5/31/06) - selection/hiliting should only work for eigenstates that are visible in mag glass lens
 (5/31/06) - clear the hilite when mouse exits the mag glass lens
 (5/31/06) - hiliting "window" around an eigenstate in mag glass should be scaled based on magnification power
