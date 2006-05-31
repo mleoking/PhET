@@ -349,8 +349,6 @@ public class BSMagnifyingGlass extends PNode implements Observer {
             return;
         }
         
-        _eigenstatesParentNode.removeAllChildren();
-        
         // Range of values that are physically obscured by the lens.
         Point2D lensCenter = getLensCenter();
         final double centerPosition = lensCenter.getX();
@@ -377,6 +375,7 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // Draw the eigenstates that are visible through the lens
         BSEigenstate[] eigenstate = _model.getEigenstates();
         BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        _eigenstatesParentNode.removeAllChildren();
         for ( int i = 0; i < eigenstate.length; i++ ) {
             
             double eigenEnergy = eigenstate[i].getEnergy();
