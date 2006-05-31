@@ -469,8 +469,10 @@ public class BSMagnifyingGlass extends PNode implements Observer {
      */
     private void selectEigenstate( Point2D mousePoint ) {
         int hiliteIndex = _model.getHilitedEigenstateIndex();
-        _model.getSuperpositionCoefficients().setCoefficient( hiliteIndex );
-        _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            _model.getSuperpositionCoefficients().setCoefficient( hiliteIndex );
+            _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
+        }
     }
     
     /*
