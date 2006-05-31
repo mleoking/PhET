@@ -28,13 +28,6 @@ public class AWTSplashScreen extends Window {
     private Component textComponent;
     private Component animationComponent;
 
-    private static Frame initOwner() {
-        if( owner == null ) {
-            owner = new Frame();
-        }
-        return owner;
-    }
-
     public AWTSplashScreen( final Image image, String title ) {
         super( initOwner() );
         addMouseListener( new MouseAdapter() {
@@ -63,6 +56,13 @@ public class AWTSplashScreen extends Window {
 
         add( textComponent, BorderLayout.EAST );
         add( animationComponent, BorderLayout.SOUTH );
+    }
+
+    private static Frame initOwner() {
+        if( owner == null ) {
+            owner = new Frame();
+        }
+        return owner;
     }
 
     private static void drawBorder( Component component, Graphics g ) {
