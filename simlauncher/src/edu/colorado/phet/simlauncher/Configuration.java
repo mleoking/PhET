@@ -11,10 +11,13 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.resources.CatalogResource;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Configuration
@@ -29,6 +32,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     //--------------------------------------------------------------------------------------------------
     // Implementation of singleton
     //--------------------------------------------------------------------------------------------------
+    private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
     private static File DEFAULT_CACHE = new File( "/phet/temp/simlauncher/cache" );
     private static String DEFAULT_PHET_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
@@ -44,7 +48,7 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     private static URL DEFAULT_CATALOG_URL;
     static{
         try {
-            DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_URL_STRING + "/simulations/catalog/simulations.xml" );
+            DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_URL_STRING + CATALOG_PATH );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
@@ -105,5 +109,19 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     }
     public void setCatalogUrl( URL catalogUrl ) {
         this.catalogUrl = catalogUrl;
+    }
+
+    public List getInstalledSimulations() {
+        List installedSimulations = new ArrayList( );
+        CatalogResource catalogResource = new CatalogResource( getCatalogUrl(), getLocalRoot() );
+
+        List simulations = new SimulationFactory().getSimulations( catalogResource.getLocalFile(), localRoot );
+        for( int i = 0; i < simulations.size(); i++ ) {
+            Simulation simulation = (Simulation)simulations.get( i );
+            if( simulation.isInstalled() ) {
+                installedSimulations.add( simulation );
+            }
+        }
+        return installedSimulations;
     }
 }

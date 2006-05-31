@@ -23,7 +23,5 @@ public class CatalogResource extends SimResource {
 
     public CatalogResource( URL url, File localRoot ) {
         super( url, localRoot );
-    }
-
-    
+    }    
 }

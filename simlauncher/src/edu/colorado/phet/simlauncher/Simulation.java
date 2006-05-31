@@ -100,7 +100,6 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     private String name;
     private String description;
-//    private ImageIcon thumbnail;
     private URL jnlpUrl;
     private JnlpResource jnlpResource;
     private SimResource descriptionResource;
@@ -184,6 +183,14 @@ public class Simulation {
         }
     }
 
+    /**
+     * Tells if the simulation is installed locally
+     *
+     * @return true if the simulation is installed
+     */
+    public boolean isInstalled() {
+        return this.jnlpResource.isInstalled();        
+    }
 
     /**
      * Tells if this instance is current with the version on the PhET web site
