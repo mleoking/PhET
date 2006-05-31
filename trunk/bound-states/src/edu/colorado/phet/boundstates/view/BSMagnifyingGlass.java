@@ -465,10 +465,12 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     
     /*
      * Selects the eigenstate that is currently hilited.
+     * Clear the hilite so that the selection is displayed.
      */
     private void selectEigenstate( Point2D mousePoint ) {
         int hiliteIndex = _model.getHilitedEigenstateIndex();
         _model.getSuperpositionCoefficients().setCoefficient( hiliteIndex );
+        _model.setHilitedEigenstateIndex( BSEigenstate.INDEX_UNDEFINED );
     }
     
     /*
