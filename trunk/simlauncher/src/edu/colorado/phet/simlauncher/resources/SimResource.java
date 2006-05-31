@@ -41,6 +41,14 @@ public class SimResource {
         localFile = getLocalFile( localRoot );
     }
 
+    /**
+     * Tells if the resource is installed locally
+     * @return true if the resource is installed locally
+     */
+    public boolean isInstalled() {
+        return localFile != null && localFile.exists();
+    }
+
     public boolean isCurrent() {
         if( !LauncherUtil.getInstance().isRemoteAvailable( url ) ) {
             throw new RuntimeException( "not online" );
@@ -71,7 +79,6 @@ public class SimResource {
 
     public void download() {
         if( !isCurrent() ) {
-
             try {
                 if( !localFile.getParentFile().exists() ) {
                     localFile.getParentFile().mkdirs();
@@ -87,6 +94,7 @@ public class SimResource {
                 int len;
                 while( ( len = in.read( buf ) ) > 0 ) {
                     out.write( buf, 0, len );
+                    System.out.println( "buf = " + buf );
                 }
                 out.flush();
                 in.close();
@@ -118,6 +126,11 @@ public class SimResource {
         return localFile;
     }
 
+    /**
+     * Creates a local file for the resource
+     * @param localRoot
+     * @return
+     */
     private File getLocalFile( File localRoot ) {
         // Parse the URL to get path relative to URL root
         String path = url.getPath();
