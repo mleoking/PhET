@@ -487,9 +487,15 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         // Adjust for magnification
         double magnifiedEnergy = centerEnergy + ( ( mouseEnergy - centerEnergy ) / _magnification );
         
-        // Hilite the closest eigenstate
+        // Hilite the closest eigenstate visible through the lens
         double hiliteThreshold = BSConstants.HILITE_ENERGY_THRESHOLD / _magnification;
         int hiliteIndex = _model.getClosestEigenstateIndex( magnifiedEnergy, hiliteThreshold );
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            final double hiliteEnergy = _model.getEigenstate( hiliteIndex ).getEnergy();
+            if ( !isInLens( hiliteEnergy ) ) {
+                hiliteIndex = BSEigenstate.INDEX_UNDEFINED;
+            }
+        }
         _model.setHilitedEigenstateIndex( hiliteIndex );
     }
     
@@ -511,6 +517,19 @@ public class BSMagnifyingGlass extends PNode implements Observer {
     private boolean isInLens( Point2D point ) {
         Rectangle2D lensBounds = _partsNode.localToGlobal( _lensNode.getFullBounds() );
         return lensBounds.contains( point );
+    }
+    
+    private boolean isInLens( final double energy ) {
+        Point2D lensCenter = getLensCenter();
+        final double centerEnergy = lensCenter.getY();
+        Point2D lensMin = _lensNode.localToGlobal( new Point2D.Double( -LENS_RADIUS, LENS_RADIUS ) ); // +y is down
+        Point2D chartMin = _chartNode.globalToLocal( lensMin );
+        Point2D p2 = _chartNode.nodeToEnergy( chartMin );
+        final double minEnergy = p2.getY();
+        final double maxEnergy = centerEnergy + ( centerEnergy - minEnergy );
+        final double magMinEnergy = centerEnergy - ( ( centerEnergy - minEnergy ) / _magnification );
+        final double magMaxEnergy = centerEnergy + ( ( maxEnergy - centerEnergy ) / _magnification );
+        return ( energy <= magMaxEnergy && energy >= magMinEnergy );
     }
     
     //----------------------------------------------------------------------------
