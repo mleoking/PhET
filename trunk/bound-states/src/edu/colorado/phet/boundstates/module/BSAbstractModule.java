@@ -90,6 +90,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     
     // View
     private PhetPCanvas _canvas;
+    private Dimension _initialCanvasSize; // the first non-zero canvas size
     private PNode _parentNode;
     private BSEnergyLegend _legend;
     private BSCombinedChart _chart;
@@ -296,12 +297,24 @@ public abstract class BSAbstractModule extends PiccoloModule {
      */
     private void layoutCanvas() {
 
+        Dimension canvasSize = _canvas.getSize();
+        final double canvasWidth = _canvas.getWidth();
+        final double canvasHeight = _canvas.getHeight();
+        if ( canvasWidth == 0 || canvasHeight == 0 ) {
+            return;
+        }
+        
+        // Remember the initial canvas size, so we can do scaling.
+        if ( _initialCanvasSize == null ) {
+            _initialCanvasSize = canvasSize;
+        }
+        
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
 
         // Location and dimensions of combined chart
-        final double chartWidth = _canvas.getWidth() - ( 2 * X_MARGIN );
-        final double chartHeight = _canvas.getHeight() - ( legendHeight + ( 2 * Y_MARGIN ) + Y_SPACING );
+        final double chartWidth = canvasWidth - ( 2 * X_MARGIN );
+        final double chartHeight = canvasHeight - ( legendHeight + ( 2 * Y_MARGIN ) + Y_SPACING );
 
         // Charts
         {
@@ -386,9 +399,19 @@ public abstract class BSAbstractModule extends PiccoloModule {
             
             // Constrain dragging to the energy plot
             _magnifyingGlass.setDragBounds( energyPlotBounds );
+             
+            // BUG: The magnifying glass should be scaled, but doing so break constrained dragging.
+            // This is because the magnifying glass' center (for the purposes of dragging) is 
+            // set inside BSMagnifyingGlass, doesn't account for scaling, and doesn't have an
+            // interface to adjust it when scaling changes.
+//            double scale = canvasWidth / _initialCanvasSize.getWidth();
+//            _magnifyingGlass.setScale( scale );
             
-            //XXX need to adjust the position (and scale?)
-            _magnifyingGlass.setOffset( 200, 200 );
+            // Position at bottom center of energy plot, 
+            // near where lowest group of eigenstates is likely to appear.
+            double x = energyPlotBounds.getCenterX();
+            double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
+            _magnifyingGlass.setOffset( x, y );
             _magnifyingGlass.updateDisplay();
         }
     }
