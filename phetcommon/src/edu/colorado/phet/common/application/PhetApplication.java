@@ -12,8 +12,11 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.TabbedModulePanePhetGraphics;
+import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -41,6 +44,10 @@ public class PhetApplication {
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
+
+    /**
+     * Mechanism for determining which graphics subsystem we're using
+     */
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
@@ -70,10 +77,8 @@ public class PhetApplication {
     private String title;
     private String description;
     private String version;
-
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-
     private SplashWindow splashWindow;
 
     /**
@@ -84,12 +89,13 @@ public class PhetApplication {
      * @param description Appears in the About dialog
      * @param version     Appears in the About dialog
      */
-    public PhetApplication( String[] args, String title, String description, String version ) {
+    public PhetApplication( String[] args, String title, String description, String version
+    ) {
         this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
     }
 
     /**
-     * Initialize a PhetApplication.
+     * Constructor
      *
      * @param args        Command line args
      * @param title       Title that appears in the frame and the About dialog
@@ -98,6 +104,7 @@ public class PhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
 
@@ -109,15 +116,22 @@ public class PhetApplication {
         this.version = version;
 
         this.moduleManager = new ModuleManager( this );
-        phetFrame = createPhetFrame( this );
+        phetFrame = createPhetFrame();
         frameSetup.initialize( phetFrame );
 
         // Handle command line arguments
         parseArgs( args );
     }
 
-    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
-        return new PhetFrame( phetApplication );
+    /**
+     * Creates the PhetFrame for the application
+     * <p/>
+     * Concrete subclasses implement this
+     *
+     * @return The PhetFrame
+     */
+    protected PhetFrame createPhetFrame() {
+        return new PhetFrame( this );
     }
 
     private void showSplashWindow( String title ) {
@@ -203,6 +217,17 @@ public class PhetApplication {
     //----------------------------------------------------------------
 
     /**
+     * Creates the tabbed pane for the modules in the application.
+     *
+     * @param modules
+     */
+    public JComponent createTabbedPane( Module[] modules ) {
+        ITabbedModulePane tabbedPane = new TabbedModulePanePhetGraphics();
+        tabbedPane.init( this, modules );
+        return (JComponent)tabbedPane;
+    }
+
+    /**
      * Sets the modules in the application
      *
      * @param modules
@@ -227,10 +252,6 @@ public class PhetApplication {
      */
     public void addModule( Module module ) {
         moduleManager.addModule( module );
-    }
-
-    private ModuleManager getModuleManager() {
-        return moduleManager;
     }
 
     /**
