@@ -12,7 +12,7 @@ package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.JnlpFile;
 import edu.colorado.phet.simlauncher.InvalidJnlpException;
-import edu.colorado.phet.simlauncher.JnlpFile2;
+import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -130,7 +130,7 @@ public class JnlpResource extends SimResource {
      * For debug
      */
     public String getLocalContents() {
-        JnlpFile2 jnlpFile = new JnlpFile2( getLocalFile().getAbsolutePath() );
+        DebugStringFile jnlpFile = new DebugStringFile( getLocalFile().getAbsolutePath() );
         String s = jnlpFile.getContents();
         return s;
     }
