@@ -53,7 +53,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         else {
             header = new Object[]{"name"};
         }
-        TableModel tableModel = new SimTableModel( rowData, header );
+        TableModel tableModel = new SimulationTableModel( rowData, header );
         this.setModel( tableModel );
 
         // So no header gets displayed
@@ -122,8 +122,8 @@ public class SimulationTable extends JTable implements SimulationContainer {
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
-    private static class SimTableModel extends DefaultTableModel {
-        public SimTableModel( Object[][] data, Object[] columnNames ) {
+    private static class SimulationTableModel extends DefaultTableModel {
+        public SimulationTableModel( Object[][] data, Object[] columnNames ) {
             super( data, columnNames );
         }
 
@@ -137,6 +137,16 @@ public class SimulationTable extends JTable implements SimulationContainer {
             else {
                 return super.getColumnClass( columnIndex );
             }
+        }
+
+        /**
+         * No cells are editable
+         * @param row
+         * @param column
+         * @return
+         */
+        public boolean isCellEditable( int row, int column ) {
+            return false;
         }
     }
 

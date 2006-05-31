@@ -44,6 +44,9 @@ public class LauncherUtil {
     private Boolean online = null;
     private URL url;
 
+    /**
+     * Private constructor to insure singleton
+     */
     private LauncherUtil() {
         url = Configuration.instance().getPhetUrl();
     }
@@ -67,6 +70,10 @@ public class LauncherUtil {
             return false;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
 
     static public class OutputRedirection implements Runnable {
         InputStream in;
@@ -93,5 +100,4 @@ public class LauncherUtil {
             }
         }
     }
-
 }

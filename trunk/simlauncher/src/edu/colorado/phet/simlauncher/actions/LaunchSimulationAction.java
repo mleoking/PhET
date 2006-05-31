@@ -53,7 +53,7 @@ public class LaunchSimulationAction extends AbstractAction {
         }
 
         public void doIt() {
-            JOptionPane.showMessageDialog( component, simulation.getName() + " will be launched" );
+            simulation.launch();
         }
     }
 
@@ -65,7 +65,7 @@ public class LaunchSimulationAction extends AbstractAction {
         }
 
         public void doIt() {
-            JOptionPane.showMessageDialog( component, simulationContainer.getSimulation().getName() + " will be launched" );
+            simulationContainer.getSimulation().launch();
         }
     }
 }
