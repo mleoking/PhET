@@ -94,7 +94,6 @@ public class SimResource {
                 int len;
                 while( ( len = in.read( buf ) ) > 0 ) {
                     out.write( buf, 0, len );
-                    System.out.println( "buf = " + buf );
                 }
                 out.flush();
                 in.close();

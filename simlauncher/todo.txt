@@ -2,11 +2,13 @@
 Bugs
 ====
 - Thumbnails don't display the first time they come down.
-- Clearing the cahce doesn't update the installed and available sims lists  
+- Clearing the cache doesn't update the installed and available sims lists
 
 ========
 Features
 ========
+- Work on Catalog. Move Configuration.getInstalledSimulations() behavior to the Catalog
+
 - Alphabetical order for installed simulations
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)
 - Put up progress dialog when installing
