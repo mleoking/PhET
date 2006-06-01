@@ -12,6 +12,7 @@ Magnifying glass TODO:
 - set initial position, centered on lowest "band" of eigenstates shown in Energy chart
 
 HIGH PRIORITY:
+- normalize the bottom plots
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -57,6 +58,11 @@ CLEANUP:
 
 
 DONE:
+(6/1/06) - ignore eigenstates with zero coefficients when computing time dependent wave function
+(6/1/06) - fix superposition normalization, should be sum of squares = 1
+(6/1/06) - change behavior when a coefficient is deleted, keep all coefficients and renormalize
+(6/1/06) - make Superposition State Dialog operate on a copy of the model
+(6/1/06) - move superposition normalization functionality into model
 (5/31/06) - selecting an eigenstate thru mag glass lens should change it's color to "selected", not "hilited"
 (5/31/06) - selection/hiliting should only work for eigenstates that are visible in mag glass lens
 (5/31/06) - clear the hilite when mouse exits the mag glass lens
