@@ -22,7 +22,12 @@ import java.util.ArrayList;
 /**
  * Configuration
  * <p>
- * A singleton class that contains configuration information
+ * A singleton class that contains configuration information. This includes:
+ * <ul>
+ * <li>The URL for the PhET web site
+ * <li>The path to the catalog on the PhET site
+ * <li>The path to the local root for this applications data
+ * </ul>
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -109,19 +114,5 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     }
     public void setCatalogUrl( URL catalogUrl ) {
         this.catalogUrl = catalogUrl;
-    }
-
-    public List getInstalledSimulations() {
-        List installedSimulations = new ArrayList( );
-        CatalogResource catalogResource = new CatalogResource( getCatalogUrl(), getLocalRoot() );
-
-        List simulations = new SimulationFactory().getSimulations( catalogResource.getLocalFile(), localRoot );
-        for( int i = 0; i < simulations.size(); i++ ) {
-            Simulation simulation = (Simulation)simulations.get( i );
-            if( simulation.isInstalled() ) {
-                installedSimulations.add( simulation );
-            }
-        }
-        return installedSimulations;
     }
 }

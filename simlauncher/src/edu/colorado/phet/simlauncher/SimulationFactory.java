@@ -46,7 +46,8 @@ public class SimulationFactory {
     String categoryNameAttrib = "name";
 
 
-    public List getSimulations( File xmlFile, File localRoot ) {
+    public List getSimulations( File xmlFile ) {
+        File localRoot = Configuration.instance().getLocalRoot();
         List simList = new ArrayList();
         try {
             // Build the document with SAX and Xerces, no validation

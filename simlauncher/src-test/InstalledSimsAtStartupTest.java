@@ -11,6 +11,7 @@
 
 import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.Simulation;
+import edu.colorado.phet.simlauncher.Catalog;
 
 import java.util.List;
 
@@ -23,8 +24,7 @@ import java.util.List;
 public class InstalledSimsAtStartupTest {
 
     public static void main( String[] args ) {
-        Configuration configuration = Configuration.instance();
-        List sims = configuration.getInstalledSimulations();
+        List sims = new Catalog().getInstalledSimulations();
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation simulation = (Simulation)sims.get( i );
             System.out.println( "simulation = " + simulation );

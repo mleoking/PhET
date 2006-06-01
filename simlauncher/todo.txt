@@ -8,13 +8,16 @@ Bugs
 Features
 ========
 - Work on Catalog. Move Configuration.getInstalledSimulations() behavior to the Catalog
+- Application must work properly when offline
 
 - Alphabetical order for installed simulations
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)
 - Put up progress dialog when installing
 - Add a way to get activities from the database for a simulation
 - Categories for installed simulations
+
 - Don't want to sort by update date. This would require too much network overhead every time you start the app.
+- Putting up a table that can be sorted by different columns would look odd when a simulation belongs to several different categories
 
 
 ================
