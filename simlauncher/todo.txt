@@ -7,9 +7,9 @@ Bugs
 ========
 Features
 ========
-- Work on Catalog. Move Configuration.getInstalledSimulations() behavior to the Catalog
 - Application must work properly when offline
-- Uninstall needs to actually delete the SimResource.localFile
+- On startup, if there is no catalog and client is offline, let the user know
+- Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
 
 - Alphabetical order for installed simulations
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)
@@ -28,3 +28,4 @@ Done, not posted
 - SimulationList items should not be editable
 - Double-click to launch
 - Double-click to install, with confirmation dialog
+- Uninstall needs to actually delete the SimResource.localFile

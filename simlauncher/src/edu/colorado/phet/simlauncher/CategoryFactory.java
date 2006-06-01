@@ -15,6 +15,7 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 import java.io.IOException;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,19 +36,12 @@ public class CategoryFactory {
     private String simulationElementName = "simulation";
     private String simulationNameAttrib = "name";
 
-    public List getCategories( String xmlFile ) {
+    public List getCategories( File xmlFile ) {
         List categoryList = new ArrayList();
         try {
             // Build the document with SAX and Xerces, no validation
             SAXBuilder builder = new SAXBuilder();
-            // Create the document
-            ClassLoader cl = this.getClass().getClassLoader();
-            URL simsUrl = cl.getResource( xmlFile );
-            if( simsUrl == null ) {
-                throw new IOException( "Null URL for resource name=" + xmlFile );
-            }
-
-            Document doc = builder.build( simsUrl );
+            Document doc = builder.build( xmlFile );
 
             // Output the document, use standard formatter
 //            XMLOutputter fmt = new XMLOutputter();
@@ -65,7 +59,7 @@ public class CategoryFactory {
                 for( int j = 0; j < simElements.size(); j++ ) {
                     Element simElement = (Element)simElements.get( j );
                     String simName = simElement.getAttribute( simulationNameAttrib).getValue();
-                    sims.add( Catalog.instance().getSimulationForName( simName ));
+                    sims.add( Simulation.getSimulationForName( simName ));
                 }
                 categoryList.add( new Category( catName, sims ) );
             }

@@ -66,7 +66,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
-            List categories = Category.getInstances();
+            List categories = Catalog.instance().getCategories();
             Category allSims = new Category( "All simulations", Catalog.instance().getAllSimulations() );
             categories.add( allSims );
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
