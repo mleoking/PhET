@@ -60,6 +60,7 @@ CLEANUP:
 
 
 DONE:
+0.00.08...
 (6/1/06) - temporarily change some ranges so that Sam M can test superposition
 (6/1/06) - ignore eigenstates with zero coefficients when computing time dependent wave function
 (6/1/06) - fix superposition normalization, should be sum of squares = 1
