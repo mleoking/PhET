@@ -60,7 +60,10 @@ public class OffscreenManIndicator extends PhetPNode {
         else {
             PBounds s = body.getGlobalFullBounds();
             Rectangle visBounds = getVisibleBounds();
-            setVisible( !visBounds.contains( s ) );
+//            setVisible( !visBounds.contains( s ) );
+            boolean offscreen = visBounds.intersection( s.getBounds() ).isEmpty();
+//            System.out.println( "offscreen = " + offscreen );
+            setVisible( offscreen );
         }
     }
 
