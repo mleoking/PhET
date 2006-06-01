@@ -13,7 +13,6 @@ import edu.colorado.phet.ec3.model.spline.SplineSurface;
 import edu.colorado.phet.ec3.plots.BarGraphCanvas;
 import edu.colorado.phet.ec3.plots.EnergyPositionPlotCanvas;
 import edu.colorado.phet.ec3.plots.EnergyTimePlotCanvas;
-import edu.colorado.phet.ec3.view.BodyGraphic;
 import edu.colorado.phet.ec3.view.SplineGraphic;
 import edu.colorado.phet.piccolo.PiccoloModule;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
@@ -184,11 +183,7 @@ public class EC3Module extends PiccoloModule {
         Body body = new Body( Body.createDefaultBodyRect() );
         body.setPosition( getDefaultBodyPosition() );
         energyModel.addBody( body );
-
-        for( int i = 0; i < energyModel.numBodies(); i++ ) {
-            BodyGraphic bodyGraphic = new BodyGraphic( this, energyModel.bodyAt( i ) );
-            energyCanvas.addBodyGraphic( bodyGraphic );
-        }
+        energyCanvas.getRootNode().updateGraphics();
 
         PreFabSplines preFabSplines = new PreFabSplines();
         CubicSpline spline = preFabSplines.getParabolic();

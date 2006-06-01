@@ -1,11 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.view;
 
-import edu.colorado.phet.piccolo.PhetPNode;
-import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.ec3.EC3Module;
+import edu.colorado.phet.ec3.model.Body;
 
-import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -14,29 +15,37 @@ import java.awt.geom.AffineTransform;
  * Copyright (c) May 26, 2006 by Sam Reid
  */
 
-public class JetPackGraphic extends PhetPNode {
-    private BodyGraphic skater;
-    private PImage jetPackGraphic;
+public class JetPackGraphic extends BodyGraphic {
+    private Body origBody;
 
-    public JetPackGraphic( BodyGraphic bodyGraphic ) {
-        this.skater = bodyGraphic;
-        jetPackGraphic = PImageFactory.create( "images/jet_pack-nat-geo.gif" );
-        addChild( jetPackGraphic );
+    public JetPackGraphic( EC3Module ec3Module, Body body ) {
+        super( ec3Module, body );
+        this.origBody = body;
+        debugCenter = true;
+        try {
+            setImage( ImageLoader.loadBufferedImage( "images/rocket5.png" ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        update();
     }
 
     public void update() {
-        double scale = 0.5;
-        AffineTransform tx = skater.createTransform( skater.getBodyModelWidth() * scale, skater.getBodyModelHeight() * scale,
-                                                     jetPackGraphic.getImage().getWidth( null ), jetPackGraphic.getImage().getHeight( null ) );
-        jetPackGraphic.setTransform( tx );
-//        System.out.println( "jetPackGraphic.getFullBounds() = " + jetPackGraphic.getFullBounds() );
-////        if (skater.i)
-        if( skater.isFacingRight() ) {
-            jetPackGraphic.translate( -jetPackGraphic.getImage().getWidth( null ), 0 );
-        }
-        else {
-            jetPackGraphic.translate( jetPackGraphic.getImage().getWidth( null ), 0 );
+        if( origBody != null ) {
+            Body b = origBody.copyState();
+//            b.translate( );
+            double dist = 0.3;
+            AbstractVector2D vec = AbstractVector2D.Double.parseAngleAndMagnitude( dist, origBody.getAngle() + Math.PI / 2 );
+//            b.translate( 0,1);
+            b.translate( - vec.getX(), -vec.getY() );
+
+            AbstractVector2D thrust = b.getThrust();
+            setVisible( thrust.getMagnitude() != 0 );
+//            double angle = System.currentTimeMillis() / 1000.0 * 0.5;
+            b.setAngle( thrust.getAngle() + Math.PI / 2 );
+            super.setBodyNoUpdate( b );
+            super.update();
         }
     }
-
 }

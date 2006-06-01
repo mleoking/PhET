@@ -29,6 +29,7 @@ import java.io.IOException;
 
 public class EC3RootNode extends PhetRootPNode {
     private PNode bodyGraphics = new PNode();
+    private PNode jetPackGraphics = new PNode();
     private PNode splineGraphics = new PNode();
     private PNode buses;
     private EC3Module ec3Module;
@@ -73,7 +74,10 @@ public class EC3RootNode extends PhetRootPNode {
         addScreenChild( splineToolbox );
         addWorldChild( floorGraphic );
         addWorldChild( splineGraphics );
+
+        addWorldChild( jetPackGraphics );
         addWorldChild( bodyGraphics );
+
         addWorldChild( historyGraphics );
         addScreenChild( measuringTape );
         addScreenChild( pieCharts );
@@ -235,6 +239,7 @@ public class EC3RootNode extends PhetRootPNode {
     public void updateGraphics() {
         updateSplines();
         updateBodies();
+        updateJetPacks();
         updateHistory();
         updatePieChart();
         updateZeroPotential();
@@ -292,6 +297,34 @@ public class EC3RootNode extends PhetRootPNode {
         for( int i = 0; i < getModel().numBodies(); i++ ) {
             bodyGraphicAt( i ).setBody( getModel().bodyAt( i ) );
         }
+    }
+
+    private void updateJetPacks() {
+        while( numJetPackGraphics() < getModel().numBodies() ) {
+            addJetPackGraphic( new JetPackGraphic( ec3Module, getModel().bodyAt( 0 ) ) );
+        }
+        while( numJetPackGraphics() > getModel().numBodies() ) {
+            removeJetPackGraphic( jetPackGraphicAt( numBodyGraphics() - 1 ) );
+        }
+        for( int i = 0; i < getModel().numBodies(); i++ ) {
+            jetPackGraphicAt( i ).setBody( getModel().bodyAt( i ) );
+        }
+    }
+
+    private int numJetPackGraphics() {
+        return jetPackGraphics.getChildrenCount();
+    }
+
+    private JetPackGraphic jetPackGraphicAt( int i ) {
+        return (JetPackGraphic)jetPackGraphics.getChild( i );
+    }
+
+    private void removeJetPackGraphic( JetPackGraphic bodyGraphic ) {
+        jetPackGraphics.removeChild( bodyGraphic );
+    }
+
+    private void addJetPackGraphic( JetPackGraphic jetPackGraphic ) {
+        jetPackGraphics.addChild( jetPackGraphic );
     }
 
     private void updateSplines() {

@@ -58,6 +58,10 @@ public class Body {
         return copy;
     }
 
+    public void setBounds( Shape bounds ) {
+        this.bounds = bounds;
+    }
+
     double time = 0.0;
 
     public void stepInTime( EnergyConservationModel energyConservationModel, double dt ) {
