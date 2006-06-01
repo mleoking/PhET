@@ -90,8 +90,10 @@ public class SimulationTable extends JTable implements SimulationContainer {
     public Simulation getSelection() {
         Simulation sim = null;
         int idx = getSelectedRow();
+        System.out.println( "idx = " + idx );
         if( idx >= 0 ) {
-            sim = sims[idx];
+            String simName = (String)this.getValueAt( idx, 0 );
+            sim = Simulation.getSimulationForName( simName );
         }
         return sim;
     }

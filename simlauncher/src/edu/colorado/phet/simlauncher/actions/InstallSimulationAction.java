@@ -55,6 +55,7 @@ public class InstallSimulationAction extends AbstractAction {
         }
 
         public void doIt( Component component ) {
+            System.out.println( "simulationContainer = " + simulationContainer.getSimulation().getName() );            
             simulationContainer.getSimulation().install();
         }
     }
