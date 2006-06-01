@@ -34,9 +34,9 @@ public class BodyGraphic extends PNode {
     private PPath boundsDebugPPath;
     private PImage skater;
     private PPath centerDebugger;
-    private JetPackGraphic jetPackGraphic;
+//    private JetPackGraphic jetPackGraphic;
 //    private boolean debugCenter = true;
-    private boolean debugCenter = false;
+    protected boolean debugCenter = false;
 
     public BodyGraphic( final EC3Module ec3Module, Body body ) {
         this.ec3Module = ec3Module;
@@ -44,8 +44,8 @@ public class BodyGraphic extends PNode {
         boundsDebugPPath = new PPath( body.getShape() );
         boundsDebugPPath.setStroke( null );
         boundsDebugPPath.setPaint( new Color( 0, 0, 255, 128 ) );
-        jetPackGraphic = new JetPackGraphic( this );
-        addChild( jetPackGraphic );
+//        jetPackGraphic = new JetPackGraphic( this );
+//        addChild( jetPackGraphic );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/skater3.png" );
             skater = new PImage( image );
@@ -111,13 +111,22 @@ public class BodyGraphic extends PNode {
         update();
     }
 
+    protected void setImage( Image image ) {
+        skater.setImage( image );
+        update();
+    }
+
     public Body getBody() {
         return body;
     }
 
     public void setBody( Body body ) {
-        this.body = body;
+        setBodyNoUpdate( body );
         update();
+    }
+
+    protected void setBodyNoUpdate( Body body ) {
+        this.body = body;
     }
 
     public PImage getSkater() {
@@ -129,19 +138,12 @@ public class BodyGraphic extends PNode {
 
         skater.setTransform( createSkaterTransform() );
         centerDebugger.setPathTo( new Rectangle2D.Double( body.getAttachPoint().getX(), body.getAttachPoint().getY(), 0.1, 0.1 ) );
-        if( body.getThrust().getMagnitude() != 0 ) {
-            setFlamesVisible( true );
-        }
-        else {
-            setFlamesVisible( false );
-        }
-        updateFlames();
     }
 
-    public AffineTransform createTransform( double objWidth, double objHeight, int imageWidth, int imageHeight ) {
+    public static AffineTransform createTransform( Body body, AffineTransform bodyTransform, double objWidth, double objHeight, int imageWidth, int imageHeight ) {
         AffineTransform t = new AffineTransform();
-        t.concatenate( body.getTransform() );
-        t.translate( -getBodyModelWidth() / 2, 0 );
+        t.concatenate( bodyTransform );
+        t.translate( -objWidth / 2, 0 );
         t.translate( 0, -AbstractSpline.SPLINE_THICKNESS / 2.0 );
         t.scale( objWidth / imageWidth, objHeight / imageHeight );
 
@@ -161,7 +163,7 @@ public class BodyGraphic extends PNode {
     }
 
     public AffineTransform createSkaterTransform() {
-        return createTransform( getBodyModelWidth(),
+        return createTransform( body, body.getTransform(), getBodyModelWidth(),
                                 getBodyModelHeight(),
                                 skater.getImage().getWidth( null ),
                                 skater.getImage().getHeight( null ) );
@@ -175,13 +177,13 @@ public class BodyGraphic extends PNode {
         return body.getShape().getBounds2D().getWidth();
     }
 
-    private void updateFlames() {
-        jetPackGraphic.update();
-    }
-
-    private void setFlamesVisible( boolean flamesVisible ) {
-        jetPackGraphic.setVisible( flamesVisible );
-    }
+//    private void updateFlames() {
+//        jetPackGraphic.update();
+//    }
+//
+//    private void setFlamesVisible( boolean flamesVisible ) {
+//        jetPackGraphic.setVisible( flamesVisible );
+//    }
 
     public boolean isBoxVisible() {
         return getChildrenReference().contains( boundsDebugPPath );
