@@ -46,20 +46,31 @@ public class AWTSplashWindow extends Window {
                 drawBorder( this, g );
             }
         };
-        textComponent = new Label( labelString ) {
+        textComponent = new Label( labelString );
+        animationComponent = new AnimationComponent();
+
+        final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 20, 0, 10 ), 0, 0 );
+
+        Panel panel = new Panel( new GridBagLayout() ) {
             public void paint( Graphics g ) {
                 super.paint( g );
                 drawBorder( this, g );
             }
         };
-        animationComponent = new AnimationComponent();
+        add( panel );
+        gbc.gridheight = 2;
+        panel.add( imageComponent, gbc );
+        gbc.gridx = 1;
+        gbc.gridheight = 1;
+        gbc.insets = new Insets( 20, 10, 10, 20 );
+        panel.add( textComponent, gbc );
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.REMAINDER;
+        gbc.insets = new Insets( 10, 10, 20, 20 );
+        panel.add( animationComponent, gbc );
+        panel.setBackground( new Color( 200, 240, 200 ) );  // light green );
 
-        setLayout( new BorderLayout() );
-        add( imageComponent, BorderLayout.CENTER );
-
-        add( textComponent, BorderLayout.EAST );
-        add( animationComponent, BorderLayout.SOUTH );
-
+        invalidate();
         pack();
         SwingUtils.centerWindowOnScreen( this );
     }
@@ -81,14 +92,13 @@ public class AWTSplashWindow extends Window {
     }
 
     private class AnimationComponent extends Component {
-        int blockWidth = 12;
-        int blockHeight = 3;
+        int blockWidth = 20;
+        int blockHeight = 14;
 
         public AnimationComponent() {
             Thread t = new Thread( new Runnable() {
                 public void run() {
                     while( !done ) {
-//                        System.out.println( "AWTSplashWindow$AnimationComponent.run" );
                         try {
                             Thread.sleep( 30 );
                             invalidate();
@@ -105,7 +115,11 @@ public class AWTSplashWindow extends Window {
         }
 
         public Dimension getPreferredSize() {
-            return new Dimension( super.getPreferredSize().width, blockHeight );
+            return getMinimumSize();
+        }
+
+        public Dimension getMinimumSize() {
+            return new Dimension( 250, blockHeight );
         }
 
         public void update( Graphics g ) {
@@ -113,6 +127,7 @@ public class AWTSplashWindow extends Window {
         }
 
         public void paint( Graphics g ) {
+//            System.out.println( "getSize( ) = " + getSize() );
             if( g == null ) {
                 return;
             }
@@ -127,7 +142,7 @@ public class AWTSplashWindow extends Window {
             int a = x - blockWidth / 2;
 
             g.fillRect( a, 0, blockWidth, blockHeight );
-            g.drawRect( 0, -1, getWidth() - 1, getHeight() );
+            g.drawRect( 0, 0, getWidth() - 1, getHeight() - 1 );
         }
     }
 
@@ -138,8 +153,12 @@ public class AWTSplashWindow extends Window {
             this.image = image;
         }
 
-        public Dimension getPreferredSize() {
+        public Dimension getMinimumSize() {
             return new Dimension( image.getWidth( this ), image.getHeight( this ) );
+        }
+
+        public Dimension getPreferredSize() {
+            return getMinimumSize();
         }
 
         public void paint( Graphics g ) {
@@ -150,7 +169,7 @@ public class AWTSplashWindow extends Window {
 
     public void hideSplash() {
         if( !done ) {
-            System.out.println( "AWTSplashScreen2.hideSplash" );
+//            System.out.println( "AWTSplashScreen2.hideSplash" );
             super.setVisible( false );
             super.hide();
             super.dispose();
