@@ -44,7 +44,7 @@ public class EC3Module extends PiccoloModule {
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
 //    private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
-    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 8.0 );
+    private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
     private PhetFrame phetFrame;

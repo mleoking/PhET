@@ -113,7 +113,7 @@ public class Body {
         position.y += dy;
 //        System.out.println( "Body.translate" );
         if( origLoc.distance( position ) > 0.30 ) {
-            System.out.println( "Body.location jumped by: " + origLoc.distance( position ) );
+            EC3Debug.debug( "Body.location jumped by: " + origLoc.distance( position ) );
         }
     }
 

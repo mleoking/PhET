@@ -41,9 +41,10 @@ public class PreFabSplines {
 
         double min = 2;
         double max = 11;
-        spline.addControlPoint( min, 8 );
+        double h = 7;
+        spline.addControlPoint( min, h );
         spline.addControlPoint( ( max + min ) / 2.0, 1.5 );
-        spline.addControlPoint( max, 8 );
+        spline.addControlPoint( max, h );
         return spline;
     }
 
