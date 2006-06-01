@@ -17,7 +17,7 @@ import edu.colorado.phet.mri.util.MySimPanel;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
 import edu.colorado.phet.mri.view.PlaneWaveGraphic;
-import edu.colorado.phet.piccolo.LazyModule;
+import edu.colorado.phet.piccolo.DeferredInitializationModule;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.quantum.view.PhotonGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -32,9 +32,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-//public abstract class AbstractMriModule extends InitializedModule.Eager {
-public abstract class AbstractMriModule extends LazyModule {
-//public abstract class AbstractMriModule extends PiccoloModule {
+public abstract class AbstractMriModule extends DeferredInitializationModule {
     protected static int delay = (int)( 1000 / MriConfig.FPS );
     protected static double dt = MriConfig.DT;
     protected ModelElementGraphicManager graphicsManager;
