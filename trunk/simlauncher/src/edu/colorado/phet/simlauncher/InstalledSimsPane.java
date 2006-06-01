@@ -16,8 +16,6 @@ import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,7 +25,7 @@ import java.awt.event.MouseEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPane extends JPanel implements Simulation.ChangeListener,
+public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                                          SimulationContainer,
                                                          ChangeEventChannel.ChangeEventSource {
     private SimulationTable simTable;
@@ -43,7 +41,7 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
         super( new GridBagLayout() );
 
         // Listen for new simulations, and for changes in the installed and uninstalled simulations lists
-        Simulation.addListener( this );
+        Catalog.instance().addChangeListener( this );
 
         // Launch button
         launchBtn = new JButton( "Launch" );
@@ -89,7 +87,8 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
             remove( simTableScrollPane );
         }
 
-        simTable = new SimulationTable( Simulation.getInstalledSims(), Options.instance().isShowInstalledThumbnails() );
+        simTable = new SimulationTable( Catalog.instance().getInstalledSimulations(),
+                                        Options.instance().isShowInstalledThumbnails() );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseAdapter() {
@@ -148,14 +147,19 @@ public class InstalledSimsPane extends JPanel implements Simulation.ChangeListen
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of Simulation.ChangeListener
+    // Implementation of Catalog.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void instancesChanged() {
-//        updateSims();
+    public void stateChanged() {
         updateSimTable();
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
+
+//    public void instancesChanged() {
+////        updateSims();
+//        updateSimTable();
+//        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
+//    }
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of SimulationContainer

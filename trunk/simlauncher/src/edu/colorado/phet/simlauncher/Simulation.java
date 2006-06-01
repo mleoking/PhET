@@ -15,15 +15,13 @@ import edu.colorado.phet.simlauncher.resources.JnlpResource;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 import edu.colorado.phet.simlauncher.resources.JarResource;
 import edu.colorado.phet.simlauncher.resources.SimResource;
+import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Simulation
@@ -38,61 +36,61 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
 
-    private static List simulations;
-    private static List uninstalledSims;
-    private static List installedSims;
-    private static ArrayList listeners = new ArrayList();
-    private static HashMap namesToSims;
-
-    static {
-        namesToSims = new HashMap();
-        simulations = new Catalog().getSimulations();
-        uninstalledSims = new ArrayList( simulations );
-        installedSims = new ArrayList();
-    }
-
-    public static List getAllInstances() {
-        return simulations;
-    }
-
-    public static List getUninstalledSims() {
-        return uninstalledSims;
-    }
-
-    public static List getInstalledSims() {
-        return installedSims;
-    }
-
-    public static Simulation getInstanceForName( String name ) {
-        Simulation sim = (Simulation)namesToSims.get( name );
-        if( sim == null ) {
-            throw new IllegalArgumentException( "name not recognized" );
-        }
-        return sim;
-    }
+//    private static List simulations;
+//    private static List uninstalledSims;
+//    private static List installedSims;
+//    private static ArrayList listeners = new ArrayList();
+//    private static HashMap namesToSims;
+//
+//    static {
+//        namesToSims = new HashMap();
+//        simulations = Catalog.instance().getAllSimulations();
+//        uninstalledSims = new ArrayList( simulations );
+//        installedSims = new ArrayList();
+//    }
+//
+//    public static List getAllInstances() {
+//        return simulations;
+//    }
+//
+//    public static List getUninstalledSims() {
+//        return uninstalledSims;
+//    }
+//
+//    public static List getInstalledSims() {
+//        return installedSims;
+//    }
+//
+//    public static Simulation getSimulationForName( String name ) {
+//        Simulation sim = (Simulation)namesToSims.get( name );
+//        if( sim == null ) {
+//            throw new IllegalArgumentException( "name not recognized" );
+//        }
+//        return sim;
+//    }
 
     //--------------------------------------------------------------------------------------------------
     // Event/Listener mechanism for class-level state
     //--------------------------------------------------------------------------------------------------
 
-    public static void addListener( ChangeListener listener ) {
-        listeners.add( listener );
-    }
-
-    public static void removeListener( ChangeListener listener ) {
-        listeners.remove( listener );
-    }
-
-    public static interface ChangeListener extends EventListener {
-        void instancesChanged();
-    }
-
-    private static void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)listeners.get( i );
-            changeListener.instancesChanged();
-        }
-    }
+//    public static void addListener( ClassChangeListener listener ) {
+//        listeners.add( listener );
+//    }
+//
+//    public static void removeListener( ClassChangeListener listener ) {
+//        listeners.remove( listener );
+//    }
+//
+//    public static interface ClassChangeListener extends EventListener {
+//        void instancesChanged();
+//    }
+//
+//    private static void notifyListeners() {
+//        for( int i = 0; i < listeners.size(); i++ ) {
+//            ClassChangeListener changeListener = (ClassChangeListener)listeners.get( i );
+//            changeListener.instancesChanged();
+//        }
+//    }
 
 
     //--------------------------------------------------------------------------------------------------
@@ -130,7 +128,7 @@ public class Simulation {
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
 
-        namesToSims.put( name, this );
+//        namesToSims.put( name, this );
     }
 
     public String toString() {
@@ -149,15 +147,22 @@ public class Simulation {
         }
         thumbnailResource.download();
 
-        uninstalledSims.remove( this );
-        installedSims.add( this );
-        notifyListeners();
+        changeListenerProxy.isInstalled( new ChangeEvent( this ) );
+
+//        uninstalledSims.remove( this );
+//        installedSims.add( this );
+//        notifyListeners();
     }
 
+
     public void uninstall() {
-        installedSims.remove( this );
-        uninstalledSims.add( this );
-        notifyListeners();
+        // Delete the local files
+
+        changeListenerProxy.isUninstalled( new ChangeEvent( this ) );
+
+//        installedSims.remove( this );
+//        uninstalledSims.add( this );
+//        notifyListeners();
     }
 
     /**
@@ -165,7 +170,6 @@ public class Simulation {
      * todo: put more smarts in here
      */
     public void launch() {
-
         String[]commands = new String[]{"javaws", jnlpResource.getLocalFile().getAbsolutePath()};
         if( DEBUG ) {
             for( int i = 0; i < commands.length; i++ ) {
@@ -189,7 +193,7 @@ public class Simulation {
      * @return true if the simulation is installed
      */
     public boolean isInstalled() {
-        return this.jnlpResource.isInstalled();        
+        return this.jnlpResource.isInstalled();
     }
 
     /**
@@ -214,6 +218,7 @@ public class Simulation {
             SimResource simResource = (SimResource)resources.get( i );
             simResource.update();
         }
+        changeListenerProxy.isUninstalled( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -231,4 +236,35 @@ public class Simulation {
     public ImageIcon getThumbnail() {
         return thumbnailResource.getImageIcon();
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Simulation source ) {
+            super( source );
+        }
+
+        public Simulation getSimulation() {
+            return (Simulation)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void isInstalled( ChangeEvent event );
+        void isUninstalled( ChangeEvent event );
+        void isUpdated( ChangeEvent event );
+    }
+
 }
