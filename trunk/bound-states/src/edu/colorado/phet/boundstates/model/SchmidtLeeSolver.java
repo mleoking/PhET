@@ -49,7 +49,7 @@ public class SchmidtLeeSolver {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean REPORT_WARNINGS = true;
+    private static final boolean REPORT_WARNINGS = false;
     
     private static final int MAX_TRIES = 100;
     private static final double SMALL = 1.E-10; // used in interpolator
