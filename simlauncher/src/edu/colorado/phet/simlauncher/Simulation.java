@@ -36,63 +36,6 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
 
-//    private static List simulations;
-//    private static List uninstalledSims;
-//    private static List installedSims;
-//    private static ArrayList listeners = new ArrayList();
-//    private static HashMap namesToSims;
-//
-//    static {
-//        namesToSims = new HashMap();
-//        simulations = Catalog.instance().getAllSimulations();
-//        uninstalledSims = new ArrayList( simulations );
-//        installedSims = new ArrayList();
-//    }
-//
-//    public static List getAllInstances() {
-//        return simulations;
-//    }
-//
-//    public static List getUninstalledSims() {
-//        return uninstalledSims;
-//    }
-//
-//    public static List getInstalledSims() {
-//        return installedSims;
-//    }
-//
-//    public static Simulation getSimulationForName( String name ) {
-//        Simulation sim = (Simulation)namesToSims.get( name );
-//        if( sim == null ) {
-//            throw new IllegalArgumentException( "name not recognized" );
-//        }
-//        return sim;
-//    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Event/Listener mechanism for class-level state
-    //--------------------------------------------------------------------------------------------------
-
-//    public static void addListener( ClassChangeListener listener ) {
-//        listeners.add( listener );
-//    }
-//
-//    public static void removeListener( ClassChangeListener listener ) {
-//        listeners.remove( listener );
-//    }
-//
-//    public static interface ClassChangeListener extends EventListener {
-//        void instancesChanged();
-//    }
-//
-//    private static void notifyListeners() {
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            ClassChangeListener changeListener = (ClassChangeListener)listeners.get( i );
-//            changeListener.instancesChanged();
-//        }
-//    }
-
-
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -136,33 +79,33 @@ public class Simulation {
     }
 
     /**
-     *
+     * Downloads all the resources for the simulation
      */
     public void install() {
         jnlpResource.download();
         for( int i = 0; i < jarResources.length; i++ ) {
             JarResource jarResource = jarResources[i];
-            System.out.println( "jarResource = " + jarResource.getLocalFile() );
             jarResource.download();
         }
         thumbnailResource.download();
 
         changeListenerProxy.isInstalled( new ChangeEvent( this ) );
-
-//        uninstalledSims.remove( this );
-//        installedSims.add( this );
-//        notifyListeners();
     }
 
-
+    /**
+     * Uninstalls all of the simulation's resources except for the thumbnail, which is needed
+     * for display purposes
+     */
     public void uninstall() {
-        // Delete the local files
+        // Delete the resources other than the thumbnail, which is needed for display purposes
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            if( !(simResource instanceof ThumbnailResource )) {
+                simResource.uninstall();
+            }
+        }
 
         changeListenerProxy.isUninstalled( new ChangeEvent( this ) );
-
-//        installedSims.remove( this );
-//        uninstalledSims.add( this );
-//        notifyListeners();
     }
 
     /**

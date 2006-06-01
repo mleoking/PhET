@@ -27,12 +27,15 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstalledSimsPane extends JSplitPane implements SimulationContainer,
-                                                               ChangeEventChannel.ChangeEventSource {
+public class UninstalledSimsPane extends JSplitPane implements SimulationContainer {
+
     private CategoryPanel categoryPanel;
     private UninstalledSimsPane.SimPanel simulationPanel;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
 
+    /**
+     * Constructor
+     */
     public UninstalledSimsPane() {
         super( JSplitPane.HORIZONTAL_SPLIT, null, null );
 
@@ -50,6 +53,10 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
     public void removeChangeListener( ChangeEventChannel.ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Inner classes
+    //--------------------------------------------------------------------------------------------------
 
     /**
      *
@@ -92,8 +99,6 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Available Simulations" ) );
 
-            Catalog.instance().addChangeListener( this );
-
             // Install button
             installBtn = new JButton( "Install" );
             installBtn.addActionListener( new InstallSimulationAction( this, this ) );
@@ -103,18 +108,18 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.BOTH,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-            updateSimTable();
             gbc.gridy++;
             gbc.fill = GridBagConstraints.NONE;
             add( installBtn, gbc );
 
-
+            Catalog.instance().addChangeListener( this );
             Options.instance().addListener( new Options.ChangeListener() {
                 public void optionsChanged( Options.ChangeEvent event ) {
                     updateSimTable();
                 }
             } );
 
+            updateSimTable();
         }
 
         /**
@@ -162,25 +167,8 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             revalidate();
         }
 
-        //--------------------------------------------------------------------------------------------------
-        // Implementation of Catalog.ChangeListener
-        //--------------------------------------------------------------------------------------------------
-
-        public void stateChanged() {
-            updateSimTable();
-            changeEventChannel.notifyChangeListeners( this );
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        // Implementation of SimulationContainer
-        //--------------------------------------------------------------------------------------------------
-
-        public Simulation getSimulation() {
-            return simTable.getSimulation();
-        }
-
-
         /**
+         * Handles selection events on the JTable of simulations
          * @param event
          */
         private void handleSimulationSelection( MouseEvent event ) {
@@ -201,6 +189,23 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             }
 
             changeEventChannel.notifyChangeListeners( UninstalledSimsPane.this );
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        // Implementation of Catalog.ChangeListener
+        //--------------------------------------------------------------------------------------------------
+
+        public void stateChanged( Catalog.ChangeEvent event ) {
+            updateSimTable();
+            changeEventChannel.notifyChangeListeners( this );
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        // Implementation of SimulationContainer
+        //--------------------------------------------------------------------------------------------------
+
+        public Simulation getSimulation() {
+            return simTable.getSimulation();
         }
 
     }

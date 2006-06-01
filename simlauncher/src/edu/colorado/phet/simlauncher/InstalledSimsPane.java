@@ -25,14 +25,12 @@ import java.awt.event.MouseEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
-                                                         SimulationContainer,
-                                                         ChangeEventChannel.ChangeEventSource {
+public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener, SimulationContainer {
+
     private SimulationTable simTable;
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
-
 
     /**
      *
@@ -150,16 +148,10 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     // Implementation of Catalog.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void stateChanged() {
+    public void stateChanged( Catalog.ChangeEvent event ) {
         updateSimTable();
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
-
-//    public void instancesChanged() {
-////        updateSims();
-//        updateSimTable();
-//        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
-//    }
 
     //--------------------------------------------------------------------------------------------------
     // Implementation of SimulationContainer
