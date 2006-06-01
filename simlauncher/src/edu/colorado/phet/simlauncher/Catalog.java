@@ -36,14 +36,12 @@ public class Catalog implements Simulation.ChangeListener {
 
     private List simulations;
     private List installedSimulations;
-//    private HashMap namesToSims;
     private List categories;
 
     /**
      * Private constructor
      */
     private Catalog() {
-//        namesToSims = new HashMap();
 
         // If the catalog isn't installed yet, go get it
         if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
@@ -92,12 +90,12 @@ public class Catalog implements Simulation.ChangeListener {
 
     public void installed( Simulation.ChangeEvent event ) {
         installedSimulations.add( event.getSimulation() );
-        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+        changeListenerProxy.catatlogChanged( new ChangeEvent( this ) );
     }
 
     public void uninstalled( Simulation.ChangeEvent event ) {
         installedSimulations.remove( event.getSimulation() );
-        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+        changeListenerProxy.catatlogChanged( new ChangeEvent( this ) );
     }
 
     public void isUpdated( Simulation.ChangeEvent event ) {
@@ -129,7 +127,7 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     public interface ChangeListener extends EventListener {
-        void stateChanged( ChangeEvent event );
+        void catatlogChanged( ChangeEvent event );
     }
 
 }
