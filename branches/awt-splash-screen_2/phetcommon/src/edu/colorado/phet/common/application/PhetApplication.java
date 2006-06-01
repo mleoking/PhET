@@ -73,7 +73,6 @@ public class PhetApplication {
 
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-
     private AWTSplashWindow splashWindow;
 
     /**
@@ -132,6 +131,9 @@ public class PhetApplication {
     private void disposeSplashWindow() {
         if( splashWindow != null ) {
             splashWindow.hideSplash();
+//            splashWindow.setVisible( false );
+//            splashWindow.dispose();
+            splashWindow = null;
         }
     }
 
