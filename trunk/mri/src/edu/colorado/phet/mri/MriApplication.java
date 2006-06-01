@@ -15,7 +15,9 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.PhetUtilities;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.mri.controller.*;
+import edu.colorado.phet.mri.controller.HeadModule;
+import edu.colorado.phet.mri.controller.NmrModule;
+import edu.colorado.phet.mri.controller.OptionMenu;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 import javax.swing.*;
@@ -48,15 +50,15 @@ public class MriApplication extends PiccoloPhetApplication {
     private Module[] fullAppModules = new Module[]{
             new NmrModule(),
             new HeadModule(),
-            new ScanModule(),
-            new ScanModuleB(),
+//            new ScanModule(),
+//            new ScanModuleB(),
     };
 
     private Module[] modules = fullAppModules;
 
     public MriApplication( String[] args ) {
-        super( args, title, description, version, frameSetup, PiccoloPhetApplication.JTABBED_PANE );
-//        super( args, title, description, version, frameSetup );
+//        super( args, title, description, version, frameSetup, PiccoloPhetApplication.JTABBED_PANE );
+        super( args, title, description, version, frameSetup );
 //        super( args, title, description, version, frameSetup, PiccoloPhetApplication.PHET_TABBED_PANE );
         setModules( modules );
     }

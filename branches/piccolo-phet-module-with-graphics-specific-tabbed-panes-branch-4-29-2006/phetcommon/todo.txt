@@ -1,3 +1,9 @@
+To Do
+=====
+-Take Phet logo off control panel
+-Do something with the detector
+
+
 2/15/05
 =======
 Add command line parm to get a FrameRateReporter
