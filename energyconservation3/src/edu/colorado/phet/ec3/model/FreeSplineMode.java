@@ -83,13 +83,13 @@ public class FreeSplineMode extends ForceMode {
         segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
-            System.out.println( "Fly off surface2!" );
+            EC3Debug.debug( "Fly off surface2!" );
             return;
         }
         setupBounce( body, segment );
         if( bounced && !grabbed && !lastGrabState ) {
             handleBounceAndFlyOff( body, model, dt, originalState );
-            System.out.println( "FreeSplineMode.stepInTime::handle bounce and fly" );
+            EC3Debug.debug( "FreeSplineMode.stepInTime::handle bounce and fly" );
         }
         else {
             double v = body.getVelocity().dot( segment.getUnitNormalVector() );

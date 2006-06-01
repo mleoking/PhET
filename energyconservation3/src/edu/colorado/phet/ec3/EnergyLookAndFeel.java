@@ -18,7 +18,7 @@ public class EnergyLookAndFeel {
      * x-W_app and deltaTotalEnergy should be same color: Yellow (yellow for... I don't know, it just has to be different than blue, red, green).
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
-    private final Color lightBlue = new Color( 160, 220, 255 );
+//    private final Color lightBlue = new Color( 160, 220, 255 );
 
 //    private Color appliedForceColor = Color.yellow;
 //    private Color appliedForceColor = new Color( 180, 180, 12 );//my yellow
