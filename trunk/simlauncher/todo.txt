@@ -7,11 +7,11 @@ Bugs
 ========
 Features
 ========
+- CatalogResource should be stored above the cache
 - Application must work properly when offline
 - On startup, if there is no catalog and client is offline, let the user know
 - Sync catalog on startup. If simulations that are installed are no longer in the catalog, what should we do?
 
-- Alphabetical order for installed simulations
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)
 - Put up progress dialog when installing
 - Add a way to get activities from the database for a simulation
@@ -24,6 +24,7 @@ Features
 ================
 Done, not posted
 ================
+- Alphabetical order for installed simulations
 - Right-click > Install doesn't launch
 - SimulationList items should not be editable
 - Double-click to launch

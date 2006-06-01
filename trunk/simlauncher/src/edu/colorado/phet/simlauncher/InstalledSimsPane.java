@@ -31,6 +31,14 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
+    private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                  GridBagConstraints.CENTER,
+                                                                  GridBagConstraints.NONE,
+                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints launchButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                         GridBagConstraints.CENTER,
+                                                                         GridBagConstraints.NONE,
+                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
 
     /**
      *
@@ -45,14 +53,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn = new JButton( "Launch" );
         launchBtn.addActionListener( new LaunchSimulationAction( this, this ) );
         launchBtn.setEnabled( false );
-
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        gbc.gridy++;
-        gbc.gridy++;
-        add( launchBtn, gbc );
+        add( launchBtn, launchButtonGbc );
 
         updateSimTable();
 
@@ -104,11 +105,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         } );
 
         simTableScrollPane = new JScrollPane( simTable );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        add( simTableScrollPane, gbc );
+        add( simTableScrollPane, tableGbc );
         revalidate();
     }
 
@@ -148,7 +145,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     // Implementation of Catalog.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void stateChanged( Catalog.ChangeEvent event ) {
+    public void catatlogChanged( Catalog.ChangeEvent event ) {
         updateSimTable();
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }

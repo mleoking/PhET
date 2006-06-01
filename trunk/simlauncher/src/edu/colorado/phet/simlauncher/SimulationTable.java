@@ -17,10 +17,13 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.Vector;
+import java.util.Comparator;
+import java.util.Collections;
 
 /**
  * SimulationTable
- * <p>
+ * <p/>
  * A JTable for displaying simulations
  *
  * @author Ron LeMaster
@@ -29,6 +32,11 @@ import java.util.List;
 public class SimulationTable extends JTable implements SimulationContainer {
     private Simulation[] sims;
 
+    /**
+     * Constructor
+     * @param simList
+     * @param showThumbnails
+     */
     public SimulationTable( List simList, boolean showThumbnails ) {
         super();
 
@@ -36,16 +44,16 @@ public class SimulationTable extends JTable implements SimulationContainer {
         setColumnSelectionAllowed( false );
         setRowSelectionAllowed( true );
 
-        // Populate the table
+        // Create the row data for the table
         sims = (Simulation[])simList.toArray( new Simulation[ simList.size()] );
         Object[][] rowData = new Object[sims.length][3];
-
         for( int i = 0; i < sims.length; i++ ) {
             Simulation sim = sims[i];
-            Object[] row = new Object[]{sim.getName(), sim.getThumbnail()/*, sim.description*/};
+            Object[] row = new Object[]{sim.getName(), sim.getThumbnail()};
             rowData[i] = row;
         }
 
+        // Create the header
         Object[] header = null;
         if( showThumbnails ) {
             header = new Object[]{"name", "thumbnail"};
@@ -53,6 +61,8 @@ public class SimulationTable extends JTable implements SimulationContainer {
         else {
             header = new Object[]{"name"};
         }
+
+        // Create the table model
         TableModel tableModel = new SimulationTableModel( rowData, header );
         this.setModel( tableModel );
 
@@ -65,27 +75,31 @@ public class SimulationTable extends JTable implements SimulationContainer {
             setRowHeight( hMax );
         }
 
+        // Name the columns
         TableColumn nameCol = getColumn( "name" );
         nameCol.setMinWidth( 150 );
         if( showThumbnails ) {
             TableColumn thumbnailCol = getColumn( "thumbnail" );
             thumbnailCol.setMinWidth( 150 );
         }
-//        TableColumn descriptionCol = getColumn( "description");
-//        descriptionCol.setMinWidth( 400 );
 
-//        TableColumn col = getColumnModel().getColumn(2);
-//        col.setCellRenderer(new MyTableCellRenderer());
-
+        // Sort the table
+        sort();
     }
 
     public Simulation getSelection() {
         Simulation sim = null;
         int idx = getSelectedRow();
         if( idx >= 0 ) {
-         sim = sims[idx];
+            sim = sims[idx];
         }
         return sim;
+    }
+
+    public void addSimulation( Simulation simulation ) {
+        DefaultTableModel model = (DefaultTableModel)getModel();
+        Object[] row = new Object[]{simulation.getName(), simulation.getThumbnail()};
+        model.addRow( row );
     }
 
     private int getMaxRowHeight() {
@@ -119,6 +133,82 @@ public class SimulationTable extends JTable implements SimulationContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
+    // Sorting code. Adapted from The Java Developers Almanac 1.4
+    //--------------------------------------------------------------------------------------------------
+
+    public void sort() {
+        // Disable autoCreateColumnsFromModel otherwise all the column customizations
+        // and adjustments will be lost when the model data is sorted
+        setAutoCreateColumnsFromModel( false );
+
+        // Sort all the rows in descending order based on the
+        // values in the second column of the model
+        sortAllRowsBy( (DefaultTableModel)getModel(), 0, true );
+    }
+
+    // Regardless of sort order (ascending or descending), null values always appear last.
+    // colIndex specifies a column in model.
+    public void sortAllRowsBy( DefaultTableModel model, int colIndex, boolean ascending ) {
+        Vector data = model.getDataVector();
+        Collections.sort( data, new ColumnSorter( colIndex, ascending ) );
+        model.fireTableStructureChanged();
+    }
+
+    // This comparator is used to sort vectors of data
+    public class ColumnSorter implements Comparator {
+        int colIndex;
+        boolean ascending;
+
+        ColumnSorter( int colIndex, boolean ascending ) {
+            this.colIndex = colIndex;
+            this.ascending = ascending;
+        }
+
+        public int compare( Object a, Object b ) {
+            Vector v1 = (Vector)a;
+            Vector v2 = (Vector)b;
+            Object o1 = v1.get( colIndex );
+            Object o2 = v2.get( colIndex );
+
+            // Treat empty strains like nulls
+            if( o1 instanceof String && ( (String)o1 ).length() == 0 ) {
+                o1 = null;
+            }
+            if( o2 instanceof String && ( (String)o2 ).length() == 0 ) {
+                o2 = null;
+            }
+
+            // Sort nulls so they appear last, regardless
+            // of sort order
+            if( o1 == null && o2 == null ) {
+                return 0;
+            }
+            else if( o1 == null ) {
+                return 1;
+            }
+            else if( o2 == null ) {
+                return -1;
+            }
+            else if( o1 instanceof Comparable ) {
+                if( ascending ) {
+                    return ( (Comparable)o1 ).compareTo( o2 );
+                }
+                else {
+                    return ( (Comparable)o2 ).compareTo( o1 );
+                }
+            }
+            else {
+                if( ascending ) {
+                    return o1.toString().compareTo( o2.toString() );
+                }
+                else {
+                    return o2.toString().compareTo( o1.toString() );
+                }
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------------------------
 
@@ -141,15 +231,15 @@ public class SimulationTable extends JTable implements SimulationContainer {
 
         /**
          * No cells are editable
+         *
          * @param row
          * @param column
-         * @return
+         * @return always returns false
          */
         public boolean isCellEditable( int row, int column ) {
             return false;
         }
     }
-
 
     public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
         // This method is called each time a cell in a column

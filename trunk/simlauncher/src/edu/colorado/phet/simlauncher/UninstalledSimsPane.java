@@ -93,6 +93,14 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         private SimulationTable simTable;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
+        private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                      GridBagConstraints.CENTER,
+                                                                      GridBagConstraints.BOTH,
+                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                              GridBagConstraints.CENTER,
+                                                                              GridBagConstraints.NONE,
+                                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         public SimPanel() {
             super( new GridBagLayout() );
@@ -103,14 +111,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             installBtn = new JButton( "Install" );
             installBtn.addActionListener( new InstallSimulationAction( this, this ) );
             installBtn.setEnabled( false );
-
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.BOTH,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-            gbc.gridy++;
-            gbc.fill = GridBagConstraints.NONE;
-            add( installBtn, gbc );
+            add( installBtn, installButtonGbc );
 
             Catalog.instance().addChangeListener( this );
             Options.instance().addListener( new Options.ChangeListener() {
@@ -159,11 +160,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             } );
 
             simTableScrollPane = new JScrollPane( simTable );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.BOTH,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-            add( simTableScrollPane, gbc );
+            add( simTableScrollPane, tableGbc );
             revalidate();
         }
 
@@ -195,7 +192,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         // Implementation of Catalog.ChangeListener
         //--------------------------------------------------------------------------------------------------
 
-        public void stateChanged( Catalog.ChangeEvent event ) {
+        public void catatlogChanged( Catalog.ChangeEvent event ) {
             updateSimTable();
             changeEventChannel.notifyChangeListeners( this );
         }
