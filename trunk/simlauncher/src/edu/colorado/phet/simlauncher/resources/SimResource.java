@@ -128,7 +128,7 @@ public class SimResource {
     /**
      * Creates a local file for the resource
      * @param localRoot
-     * @return
+     * @return the local file
      */
     private File getLocalFile( File localRoot ) {
         // Parse the URL to get path relative to URL root
@@ -137,5 +137,12 @@ public class SimResource {
         path = path.replace( '/', pathSeparator.charAt( 0 ) );
         path = path.replace( '\\', pathSeparator.charAt( 0 ) );
         return new File( localRoot, url.getHost() + pathSeparator + path );
+    }
+
+    /**
+     * Removes the resource's local file
+     */
+    public void uninstall() {
+        localFile.delete();
     }
 }

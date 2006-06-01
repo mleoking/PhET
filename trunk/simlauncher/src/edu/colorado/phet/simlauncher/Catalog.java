@@ -34,8 +34,7 @@ public class Catalog implements Simulation.ChangeListener {
     private CatalogResource catalogResource = new CatalogResource( Configuration.instance().getCatalogUrl(),
                                                                    Configuration.instance().getLocalRoot() );
     private List simulations;
-    private List uninstalledSims;
-    private List installedSims;
+    private List installedSimulations;
     private HashMap namesToSims;
 
     /**
@@ -44,8 +43,7 @@ public class Catalog implements Simulation.ChangeListener {
     private Catalog() {
         namesToSims = new HashMap();
         simulations = new SimulationFactory().getSimulations( catalogResource.getLocalFile() );
-        uninstalledSims = new ArrayList();
-        installedSims = new ArrayList();
+        installedSimulations = new ArrayList();
         for( int i = 0; i < simulations.size(); i++ ) {
             Simulation simulation = (Simulation)simulations.get( i );
             simulation.addChangeListener( this );
@@ -53,10 +51,7 @@ public class Catalog implements Simulation.ChangeListener {
             namesToSims.put( simulation.getName(), simulation );
 
             if( simulation.isInstalled() ) {
-                installedSims.add( simulation );
-            }
-            else {
-                uninstalledSims.add( simulation );
+                installedSimulations.add( simulation );
             }
         }
     }
@@ -79,7 +74,7 @@ public class Catalog implements Simulation.ChangeListener {
      * @return All simulations
      */
     public List getAllSimulations() {
-        return new SimulationFactory().getSimulations( catalogResource.getLocalFile() );
+        return simulations;
     }
 
     /**
@@ -87,14 +82,6 @@ public class Catalog implements Simulation.ChangeListener {
      * @return all installed simulations
      */
     public List getInstalledSimulations() {
-        List simulations = getAllSimulations();
-        List installedSimulations = new ArrayList();
-        for( int i = 0; i < simulations.size(); i++ ) {
-            Simulation simulation = (Simulation)simulations.get( i );
-            if( simulation.isInstalled() ) {
-                installedSimulations.add( simulation );
-            }
-        }
         return installedSimulations;
     }
 
@@ -103,13 +90,13 @@ public class Catalog implements Simulation.ChangeListener {
     //--------------------------------------------------------------------------------------------------
 
     public void isInstalled( Simulation.ChangeEvent event ) {
-        uninstalledSims.remove( event.getSimulation() );
-        installedSims.add( event.getSimulation() );
+        installedSimulations.add( event.getSimulation() );
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
     public void isUninstalled( Simulation.ChangeEvent event ) {
-        installedSims.remove( event.getSimulation() );
-        uninstalledSims.add(  event.getSimulation() );
+        installedSimulations.remove( event.getSimulation() );
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
     public void isUpdated( Simulation.ChangeEvent event ) {
@@ -141,7 +128,7 @@ public class Catalog implements Simulation.ChangeListener {
     }
 
     public interface ChangeListener extends EventListener {
-        void stateChanged();
+        void stateChanged( ChangeEvent event );
     }
 
 }
