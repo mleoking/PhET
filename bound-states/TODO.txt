@@ -20,6 +20,8 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- hide the dot in the center of the magnifying glass
+- what things should cause the clock to restart?
 - hide y-axis labels on bottom plots
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
 - add presets combobox to superposition dialog
