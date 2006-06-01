@@ -57,18 +57,17 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private static final char PSI = BSConstants.LOWERCASE_PSI;
     
-    private static final int NUMBER_OF_COLUMNS = 3; 
-    
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
-    
-    private static final double NORMALIZATION_ERROR = 0.00001;
+    private static final int SPINNER_COLUMNS = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private BSModel _model;
-    private BSSuperpositionCoefficients _coefficients;
+    
+    // Local copy of coefficients. Changes are made here and applied to the model's coefficients.
+    private BSSuperpositionCoefficients _localCoefficients;
     
     private JPanel _dynamicPanel;
     private ArrayList _spinners; // array of DoubleSpinner
@@ -100,7 +99,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         addWindowListener( _eventListener );
         
         _model = model;
-        _coefficients = model.getSuperpositionCoefficients();
+        _localCoefficients = new BSSuperpositionCoefficients( _model.getSuperpositionCoefficients() );
         
         _changed = false;
         _selectionColor = colorScheme.getEigenstateSelectionColor();
@@ -109,17 +108,14 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         createUI( parent );
         
         // After everything is initialized...
-        _coefficients.addObserver( this );
+        _model.getSuperpositionCoefficients().addObserver( this );
     }
     
     /**
      * Clients should call this before releasing references to this object.
      */
     public void cleanup() {
-        if ( _coefficients != null ) {
-            _coefficients.deleteObserver( this );
-            _coefficients = null;
-        }
+        _model.getSuperpositionCoefficients().deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -159,7 +155,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         
         JLabel instructions = new JLabel( SimStrings.get( "label.superposition.instructions" ) );
            
-        final int numberOfCoefficients = _coefficients.getNumberOfCoefficients();
+        final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
         BSEigenstate[] eigenstates = _model.getEigenstates();
         assert( eigenstates.length == numberOfCoefficients );
         
@@ -174,7 +170,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             int subscript = eigenstates[i].getSubscript();
             String label = "<html>" + SimStrings.get( "label.superpositionCoefficient" ) + "<sub>" + subscript + "</sub>:</html>";
             labels.add( new JLabel( label ) );
-            final double value = _coefficients.getCoefficient( i );
+            final double value = _localCoefficients.getCoefficient( i );
             DoubleSpinner spinner = new DoubleSpinner( value, BSConstants.COEFFICIENT_MIN, BSConstants.COEFFICIENT_MAX, 
                     BSConstants.COEFFICIENT_STEP, BSConstants.COEFFICIENT_PATTERN, SPINNER_SIZE );
             spinner.addChangeListener( _eventListener );
@@ -183,11 +179,11 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         updateSpinnersColor();
 
         // Layout the spinners in columns so that tab traversal works in column-major order...
-        JPanel[] columns = new JPanel[ NUMBER_OF_COLUMNS ];
+        JPanel[] columns = new JPanel[ SPINNER_COLUMNS ];
         {
-            EasyGridBagLayout[] layouts = new EasyGridBagLayout[ NUMBER_OF_COLUMNS ];
+            EasyGridBagLayout[] layouts = new EasyGridBagLayout[ SPINNER_COLUMNS ];
             
-            for ( int i = 0; i < NUMBER_OF_COLUMNS; i++ ) {
+            for ( int i = 0; i < SPINNER_COLUMNS; i++ ) {
                 JPanel column = new JPanel();
                 EasyGridBagLayout layout = new EasyGridBagLayout( column );
                 column.setLayout( layout );
@@ -198,8 +194,8 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
             }
 
             int row = 0;
-            int numberOfSpinnersPerColumn = _spinners.size() / NUMBER_OF_COLUMNS;
-            if ( _spinners.size() % NUMBER_OF_COLUMNS != 0 ) {
+            int numberOfSpinnersPerColumn = _spinners.size() / SPINNER_COLUMNS;
+            if ( _spinners.size() % SPINNER_COLUMNS != 0 ) {
                 numberOfSpinnersPerColumn++;
             }
             for ( int i = 0; i < _spinners.size(); i++ ) {
@@ -295,14 +291,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
      * Synchronizes the view with the model.
      */
     public void update( Observable o, Object arg ) {
-        if ( o == _coefficients ) {
-            final int numberOfCoefficients = _coefficients.getNumberOfCoefficients();
+        if ( o == _model.getSuperpositionCoefficients() ) {
+            _localCoefficients = new BSSuperpositionCoefficients( _model.getSuperpositionCoefficients() );
+            final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
             if ( _spinners.size() == numberOfCoefficients ) {
-                // same number of coefficients, so just refresh values displayed...
-                for ( int i = 0; i < numberOfCoefficients; i++ ) {
-                    ((DoubleSpinner)_spinners.get(i)).setDoubleValue( _coefficients.getCoefficient( i ) );
-                }
-                updateSpinnersColor();
+                // same number of coefficients, reuse the existing input panel...
+                updateSpinners();
             }
             else {
                 // different number of coefficients, rebuild the input panel...
@@ -328,63 +322,59 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Applies the coefficient values to the model.
+     * Applies the local coefficient values to the model.
      */
     private void apply() {
-        if ( isNormalized() ) {
-            _coefficients.setNotifyEnabled( false );
-            for ( int i = 0; i < _spinners.size(); i++ ) {
-                DoubleSpinner spinner = (DoubleSpinner)_spinners.get( i );
-                double value = spinner.getDoubleValue();
-                _coefficients.setCoefficient( i, value );
+        if ( _localCoefficients.isNormalized() ) {
+            BSSuperpositionCoefficients modelCoefficients = _model.getSuperpositionCoefficients();
+            modelCoefficients.setNotifyEnabled( false );
+            final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
+            for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                modelCoefficients.setCoefficient( i, _localCoefficients.getCoefficient( i ) );
             }
             _changed = false;
-            _coefficients.setNotifyEnabled( true );
+            modelCoefficients.setNotifyEnabled( true );
         }
         else {
             throw new IllegalStateException( "attempt to apply unnormalized" );
         }
     }
     
-    private void normalize() {
-        if ( !isZero() ) {
-            final double total = getCoefficientsTotal();
-            Iterator i = _spinners.iterator();
-            while ( i.hasNext() ) {
-                DoubleSpinner spinner = (DoubleSpinner) i.next();
-                double normalizedValue = spinner.getDoubleValue() / total;
-                spinner.setDoubleValue( normalizedValue );
-            }
-        }
-    }
-    
+    /*
+     * Enables and disabled buttons in the action area based on 
+     * the state of the local coefficients.
+     */
     private void updateButtons() { 
-        _applyButton.setEnabled( isChanged() && !isZero() );
-        _normalizeButton.setEnabled( !isZero() );
+        _applyButton.setEnabled( _changed && !isSumZero() );
+        _normalizeButton.setEnabled( !isSumZero() );
         // Close button is always enabled.
     }
-
-    private boolean isChanged() {
-        return _changed;
-    }
     
-    private boolean isNormalized() {
-        final double total = getCoefficientsTotal();
-        return ( total > 0 && total < 1 + NORMALIZATION_ERROR && total > 1 - NORMALIZATION_ERROR );
-    }
-    
-    private boolean isZero() {
-        return ( getCoefficientsTotal() == 0 );
-    }
-    
-    private double getCoefficientsTotal() {
-        double total = 0;
-        Iterator i = _spinners.iterator();
-        while ( i.hasNext() ) {
-            DoubleSpinner spinner = (DoubleSpinner) i.next();
-            total += spinner.getDoubleValue();
+    /*
+     * Updates spinners to match local coefficients.
+     */
+    private void updateSpinners() {
+        final int numberOfCoefficients = _localCoefficients.getNumberOfCoefficients();
+        for ( int i = 0; i < numberOfCoefficients; i++ ) {
+            DoubleSpinner spinner = (DoubleSpinner) _spinners.get( i );
+            spinner.setDoubleValue( _localCoefficients.getCoefficient( i ) );
+            updateSpinnerColor( spinner );
         }
-        return total;
+    }
+    
+    /*
+     * Normalizes the local coefficient values and updates the spinners.
+     */
+    private void normalize() {
+        _localCoefficients.normalize();
+        updateSpinners();
+    }
+    
+    /*
+     * Determines if the local coefficients values have a sum of zero.
+     */
+    private boolean isSumZero() {
+        return ( _localCoefficients.getSum() == 0 );
     }
     
     //----------------------------------------------------------------------------
@@ -432,7 +422,7 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private void handleApplyAction() {
 
-        if ( isNormalized() ) {
+        if ( _localCoefficients.isNormalized() ) {
             apply();
         }
         else {
@@ -453,12 +443,12 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
     
     private void handleCloseAction() {
         
-        if ( !isChanged() || isZero() ) {
+        if ( !_changed || isSumZero() ) {
             dispose();
         }
         else {
             String message = SimStrings.get( "message.confirmApplyClose" );
-            if ( !isNormalized() ) {
+            if ( !_localCoefficients.isNormalized() ) {
                 message = SimStrings.get( "message.confirmNormalizeApplyClose" );
             }
             int reply = DialogUtils.showConfirmDialog( this, message, JOptionPane.YES_NO_CANCEL_OPTION );
@@ -480,17 +470,37 @@ public class BSSuperpositionStateDialog extends JDialog implements Observer {
         updateButtons();
     }
     
+    /*
+     * When a spinner's value changes, update our local copy of the coefficients.
+     */
     private void handleCoefficientChange( DoubleSpinner spinner ) {
-        double value = spinner.getDoubleValue();
+        final int index = getSpinnerIndex( spinner );
+        final double value = spinner.getDoubleValue();
         if ( value < BSConstants.COEFFICIENT_MIN || value > BSConstants.COEFFICIENT_MAX ) {
             warnInvalidInput();
-            //XXX restore the current value of cn from the model
+            // Restore the value
+            spinner.setDoubleValue( _localCoefficients.getCoefficient( index ) );
         }
         else {
+            // Change the coefficient in our local copy of the model
+            _localCoefficients.setCoefficient( index, value );
             _changed = true;
         }
         updateSpinnerColor( spinner );
         updateButtons();
+    }
+    
+    private int getSpinnerIndex( DoubleSpinner spinner ) {
+        int index = -1;
+        final int numberOfSpinners = _spinners.size();
+        for ( int i = 0; i < numberOfSpinners; i++ ) {
+            if ( _spinners.get( i ) == spinner ) {
+                index = i;
+                break;
+            }
+        }
+        assert( index != -1 );
+        return index;
     }
     
     private void updateSpinnersColor() {

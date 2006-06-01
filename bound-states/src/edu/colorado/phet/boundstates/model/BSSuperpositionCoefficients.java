@@ -21,7 +21,13 @@ import java.util.Iterator;
  * @version $Revision$
  */
 public class BSSuperpositionCoefficients extends BSObservable {
-        
+   
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double NORMALIZATION_ERROR = 0.00001;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -37,6 +43,20 @@ public class BSSuperpositionCoefficients extends BSObservable {
      */
     public BSSuperpositionCoefficients() {
         _coefficients = new ArrayList();
+    }
+    
+    /**
+     * Copy constructor.
+     * 
+     * @param sc
+     */
+    public BSSuperpositionCoefficients( BSSuperpositionCoefficients sc ) {
+        this();
+        _coefficients.clear();
+        Iterator i = sc._coefficients.iterator();
+        while( i.hasNext() ) {
+            _coefficients.add( i.next() );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -87,30 +107,29 @@ public class BSSuperpositionCoefficients extends BSObservable {
                     _coefficients.add( new Double( 0 ) );
                 }
             }
-            else  { /* The number of coefficients is decreasing. */
-                    
-                // Will we lose any non-zero coefficients?
-                boolean lost = false;
-                for ( int i = numberOfCoefficients; !lost && i < currentNumberOfCoefficients; i++ ) {
-                    double coefficient = ((Double)_coefficients.get( i )).doubleValue();
+            else  { 
+                /* 
+                 * The number of coefficients is decreasing.
+                 * If we lose any non-zero coefficients, renormalize the remaining coefficients.
+                 * If the remaining coefficients are all zero, then set the lowest one to 1.
+                 */
+                boolean needToNormalize = false;
+                for ( int i = currentNumberOfCoefficients - 1; i >= numberOfCoefficients; i-- ) {
+                    double coefficient = ((Double)_coefficients.get( i ) ).doubleValue();
                     if ( coefficient != 0 ) {
-                        lost = true;
+                        needToNormalize = true;
                     }
+                    _coefficients.remove( i );
                 }
-
-                if ( lost ) {
-                    // If we're going to lose non-zero coefficients, then clear them all and set the first to 1.
-                    _coefficients.clear();
-                    _coefficients.add( new Double( 1 ) );
-                    for ( int i = 1; i < numberOfCoefficients; i++ ) {
-                        _coefficients.add( new Double( 0 ) );
+                
+                if ( needToNormalize ) {
+                    if ( getSum() == 0 ) {
+                        if ( numberOfCoefficients > 0 ) {
+                            _coefficients.set( 0, new Double( 1 ) );
+                        }
                     }
-                }
-                else {
-                    // If we're not losing non-zero coefficients, then simply remove them.
-                    final int numberToRemove = currentNumberOfCoefficients - numberOfCoefficients;
-                    for ( int i = 0; i < numberToRemove; i++ ) {
-                        _coefficients.remove( _coefficients.size() - 1 );
+                    else {
+                        normalize();
                     }
                 }
             }
@@ -198,5 +217,63 @@ public class BSSuperpositionCoefficients extends BSObservable {
             }
         }
         notifyObservers();
+    }
+    
+    /**
+     * Normalizes the coefficients, such that
+     * c1^2 + c2^2 + ... + cn^2 = 1
+     */
+    public void normalize() {
+        final double sumOfSquares = getSumOfSquares();
+        if ( sumOfSquares != 0 ) {
+            int numberOfCoefficients = _coefficients.size();
+            for ( int i = 0; i < numberOfCoefficients; i++ ) {
+                final double coefficient = ((Double) _coefficients.get( i ) ).doubleValue();
+                double normalizedValue = Math.sqrt( ( coefficient * coefficient ) / sumOfSquares );
+                _coefficients.set( i, new Double( normalizedValue ) );
+            }
+        }
+    }
+    
+    /**
+     * Are the coefficients normalized?
+     * Does c1^2 + c2^2 + ... + cn^2 = 1 ?
+     * 
+     * @return true or false
+     */
+    public boolean isNormalized() {
+        final double sumOfSquares = getSumOfSquares();
+        return ( sumOfSquares > 0 && sumOfSquares < 1 + NORMALIZATION_ERROR && sumOfSquares > 1 - NORMALIZATION_ERROR );
+    }
+    
+    /**
+     * Gets the sum of all the coefficients.
+     * 
+     * @return
+     */
+    public double getSum() {
+        double total = 0;
+        Iterator i = _coefficients.iterator();
+        while ( i.hasNext() ) {
+            double coefficient = ((Double)i.next()).doubleValue();
+            total += coefficient;
+        }
+        return total;
+    }
+    
+    /*
+     * Gets the sum of squares of all the coefficients
+     * (c1^2 + c2^2 + ... + cn^2).
+     * 
+     * @return
+     */
+    private double getSumOfSquares() {
+        double total = 0;
+        Iterator i = _coefficients.iterator();
+        while ( i.hasNext() ) {
+            double coefficient = ((Double)i.next()).doubleValue();
+            total += ( coefficient * coefficient );
+        }
+        return total;
     }
 }
