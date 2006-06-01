@@ -12,7 +12,7 @@ Magnifying glass TODO:
 - set initial position, centered on lowest "band" of eigenstates shown in Energy chart
 
 HIGH PRIORITY:
-- normalize the bottom plots, not currently normalize in superposition state
+- normalize the bottom plots, not currently normalized in superposition state
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -20,6 +20,8 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- hide y-axis labels on bottom plots
+- restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
 - add presets combobox to superposition dialog
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
@@ -58,6 +60,7 @@ CLEANUP:
 
 
 DONE:
+(6/1/06) - temporarily change some ranges so that Sam M can test superposition
 (6/1/06) - ignore eigenstates with zero coefficients when computing time dependent wave function
 (6/1/06) - fix superposition normalization, should be sum of squares = 1
 (6/1/06) - change behavior when a coefficient is deleted, keep all coefficients and renormalize
