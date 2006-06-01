@@ -2,6 +2,7 @@
 Decreased the sensitivity of the 'return the skater' button; skater has to be completely offscreen (not partially offscreen)
 Moved the pie chart legend to the bottom of the page.
 Added a jet pack graphic which points the correct direction.
+Bugfix: Background color doesn't match image color for different screen sizes.
 
 -Changes for 0.00.21 (5-29-2006)
 Added a button to return the skater when he has flown out of view.

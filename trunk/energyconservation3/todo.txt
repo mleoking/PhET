@@ -2,11 +2,6 @@
 Remaining Work
 #######################################
 
-When you select earth or space, there is a part of the right side that stays dark blue.
-If you widen the window in any background, the right part stays blue too.
-
->>Fix fireboard graphics (so flames point opposite acceleration vector).
-
 >>Add a wiggle me for keyboard presses, etc.
 
 Zoomable Energy vs Position graphs.

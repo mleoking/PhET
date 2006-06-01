@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3;
 
-import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.ec3.common.Legend;
 import edu.colorado.phet.ec3.common.MeasuringTape;
@@ -43,12 +42,12 @@ public class EC3RootNode extends PhetRootPNode {
     private boolean ignoreThermal = true;
     private PauseIndicator pauseIndicator;
     private Legend legend;
-    private PNode screenBackground;
-    private Image backgroundImage;
+    private BackgroundNode screenBackground;
     private SplineToolbox splineToolbox;
     private PNode toolboxPlaceholder;
     private FloorGraphic floorGraphic;
     private ZeroPointPotentialGraphic zeroPointPotentialGraphic;
+    public static final Color SKY_COLOR = new Color( 170, 200, 220 );
 
     public EC3RootNode( EC3Module ec3Module, EC3Canvas ec3Canvas ) {
         this.ec3Module = ec3Module;
@@ -56,9 +55,9 @@ public class EC3RootNode extends PhetRootPNode {
         EnergyConservationModel ec3Model = getModel();
         Floor floor = ec3Model.floorAt( 0 );
 
-        ec3Canvas.setBackground( new Color( 170, 200, 220 ) );
+        ec3Canvas.setBackground( SKY_COLOR );
         toolboxPlaceholder = new PNode();
-        screenBackground = new PNode();
+
 //        screenBackground.addChild( new PPath( new Ellipse2D.Double( 50, 50, 300, 300 ) ) );
         splineToolbox = new SplineToolbox( ec3Canvas, this );
 
@@ -67,6 +66,7 @@ public class EC3RootNode extends PhetRootPNode {
         pauseIndicator = new PauseIndicator( ec3Module, ec3Canvas, this );
         legend = new EC3Legend( ec3Module );
         floorGraphic = new FloorGraphic( floor );
+        screenBackground = new BackgroundNode( ec3Canvas, null, floorGraphic );
         zeroPointPotentialGraphic = new ZeroPointPotentialGraphic( ec3Canvas );
         offscreenManIndicator = new OffscreenManIndicator( ec3Canvas, ec3Module, numBodyGraphics() > 0 ? bodyGraphicAt( 0 ) : null );
 
@@ -96,7 +96,7 @@ public class EC3RootNode extends PhetRootPNode {
             }
 
             public void componentResized( ComponentEvent e ) {
-                updateBackgroundImage();
+                screenBackground.update();
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -110,40 +110,17 @@ public class EC3RootNode extends PhetRootPNode {
     }
 
 
-    public PNode getBackground() {
+    public BackgroundNode getBackground() {
         return screenBackground;
     }
 
     public void setBackground( Image image ) {
-        if( this.backgroundImage != image ) {
-            this.backgroundImage = image;
-            updateBackgroundImage();
-        }
+        screenBackground.setBackground( image );
     }
 
-    private void updateBackgroundImage() {
-        if( backgroundImage == null ) {
-            screenBackground.removeAllChildren();
-        }
-        else {
-//            System.out.println( "EC3RootNode.updateBackgroundImage@" + System.currentTimeMillis() );
-            BufferedImage i2 = BufferedImageUtils.toBufferedImage( backgroundImage );
-            if( ec3Canvas.getHeight() > 0 && ec3Canvas.getWidth() > 0 ) {
-                i2 = BufferedImageUtils.rescaleYMaintainAspectRatio( i2, ec3Canvas.getHeight() );
-//                System.out.println( "i2.getHeight( ) = " + i2.getHeight() + ", canvasHeight=" + ec3Canvas.getHeight() );
-            }
-            screenBackground.removeAllChildren();
-            PImage child = new PImage( i2 );
-//        double overshootY = ec3Canvas.getHeight() - child.getFullBounds().getHeight();
-            double maxY = floorGraphic.getGlobalFullBounds().getMinY();
-            Point2D.Double loc = new Point2D.Double( 0, maxY );
-            screenBackground.globalToLocal( loc );
-//        child.translate( 0, -loc.y + getEC3Panel().getHeight() );
-            double dy = child.getFullBounds().getHeight() - maxY;
-            child.translate( 0, -dy );
-            screenBackground.addChild( child );
-        }
-    }
+//    private void updateBackgroundImage() {
+//        screenBackground.update();
+//    }
 
     private void resetDefaults() {
         setPieChartVisible( DEFAULT_PIE_CHART_VISIBLE );
