@@ -298,9 +298,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
     private void layoutCanvas() {
 
         Dimension canvasSize = _canvas.getSize();
-        final double canvasWidth = _canvas.getWidth();
-        final double canvasHeight = _canvas.getHeight();
-        if ( canvasWidth == 0 || canvasHeight == 0 ) {
+        if ( canvasSize.getWidth() == 0 || canvasSize.getHeight() == 0 ) {
             return;
         }
         
@@ -313,8 +311,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         double legendHeight = _legend.getFullBounds().getHeight();
 
         // Location and dimensions of combined chart
-        final double chartWidth = canvasWidth - ( 2 * X_MARGIN );
-        final double chartHeight = canvasHeight - ( legendHeight + ( 2 * Y_MARGIN ) + Y_SPACING );
+        final double chartWidth = canvasSize.getWidth() - ( 2 * X_MARGIN );
+        final double chartHeight = canvasSize.getHeight() - ( legendHeight + ( 2 * Y_MARGIN ) + Y_SPACING );
 
         // Charts
         {
@@ -397,6 +395,8 @@ public abstract class BSAbstractModule extends PiccoloModule {
         // Magnifying glass 
         if ( _magnifyingGlass != null ) {
             
+            AffineTransform transform = new AffineTransform();
+            
             // Constrain dragging to the energy plot
             _magnifyingGlass.setDragBounds( energyPlotBounds );
              
@@ -405,13 +405,16 @@ public abstract class BSAbstractModule extends PiccoloModule {
             // set inside BSMagnifyingGlass, doesn't account for scaling, and doesn't have an
             // interface to adjust it when scaling changes.
 //            double scale = canvasWidth / _initialCanvasSize.getWidth();
-//            _magnifyingGlass.setScale( scale );
+//            transform.setScale( scale );
             
-            // Position at bottom center of energy plot, 
-            // near where lowest group of eigenstates is likely to appear.
+            // Position at bottom center of energy plot, near where lowest group of
+            // eigenstates will appear with the default settings for "Many Wells" panel.
             double x = energyPlotBounds.getCenterX();
             double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
-            _magnifyingGlass.setOffset( x, y );
+            transform.translate( x, y );
+            System.out.println( "mag glass offset = " + x + "," + y );//XXX
+            
+            _magnifyingGlass.setTransform( transform );
             _magnifyingGlass.updateDisplay();
         }
     }
