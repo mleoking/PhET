@@ -455,7 +455,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     
     /*
      * Updates the datasets that display the time-dependent superposition state.
-     * This is the sum of all wave functions for eigenstates with non-zero superposition coefficients.
+     * This is the sum of all wave functions for eigenstates.
      */
     private void updateTimeDependentDatasets( final double t ) {
         setTimeDependentSeriesNotify( false );
@@ -522,21 +522,25 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
             for ( int i = 0; i < numberOfEigenstates; i++ ) {
                 
                 final int eigenstateIndex = ((Integer)_eigenstateIndicies.get(i)).intValue();
-                
-                // F(t) = e^(-i * E * t / hbar), where E = eigenstate energy 
-                final double E = eigenstates[ eigenstateIndex ].getEnergy();
-                MutableComplex Ft = new MutableComplex( Complex.I );
-                Ft.multiply( -1 * E * t / BSConstants.HBAR );
-                Ft.exp();
-                
-                points = ((Point2D[])_waveFunctionSolutions.get(i)); // Ps(x)
                 final double coefficient = coefficients.getCoefficient( eigenstateIndex );
-                for ( int j = 0; j < points.length; j++ ) {
-                    // Psi(x,t) = Psi(x) * F(t) * C
-                    y.setValue( points[j].getY() );
-                    y.multiply( Ft );
-                    y.multiply( coefficient );
-                    psiSum[j].add( y );
+                
+                // Ignore eigenstates with zero coefficients
+                if ( coefficient != 0 ) {
+
+                    // F(t) = e^(-i * E * t / hbar), where E = eigenstate energy 
+                    final double E = eigenstates[eigenstateIndex].getEnergy();
+                    MutableComplex Ft = new MutableComplex( Complex.I );
+                    Ft.multiply( -1 * E * t / BSConstants.HBAR );
+                    Ft.exp();
+
+                    points = ( (Point2D[]) _waveFunctionSolutions.get( i ) ); // Ps(x)
+                    for ( int j = 0; j < points.length; j++ ) {
+                        // Psi(x,t) = Psi(x) * F(t) * C
+                        y.setValue( points[j].getY() );
+                        y.multiply( Ft );
+                        y.multiply( coefficient );
+                        psiSum[j].add( y );
+                    }
                 }
             }
         }
