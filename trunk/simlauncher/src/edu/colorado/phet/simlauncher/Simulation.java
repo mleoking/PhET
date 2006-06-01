@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
+import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.resources.JnlpResource;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 import edu.colorado.phet.simlauncher.resources.JarResource;
@@ -18,8 +19,7 @@ import edu.colorado.phet.simlauncher.resources.SimResource;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -39,6 +39,7 @@ public class Simulation {
 
     /**
      * Returns the Simulation instance for the simulation with a specified name.
+     *
      * @param name
      * @return the simulation with the specified name
      */
@@ -61,6 +62,7 @@ public class Simulation {
     private ThumbnailResource thumbnailResource;
     private JarResource[] jarResources;
     private List resources = new ArrayList();
+    private File lastLaunchedTimestampFile;
 
     /**
      * Constructor
@@ -85,6 +87,16 @@ public class Simulation {
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
 
+        // Create the file that will store the timestamp of the last time we were launched
+        String subPath = jnlpUrl.getPath().substring( 0, jnlpUrl.getPath().lastIndexOf( '/' ) );
+        String relativePath = jnlpUrl.getHost() + FileUtil.getPathSeparator() + subPath;
+        lastLaunchedTimestampFile = new File( localRoot.getAbsolutePath()
+                                              + FileUtil.getPathSeparator()
+                                              + relativePath
+                                              + FileUtil.getPathSeparator()
+                                              + "lastLaunchTimeStamp.txt" );
+
+        // Register ourselves with the class
         namesToSims.put( name, this );
     }
 
@@ -119,7 +131,7 @@ public class Simulation {
         // Delete the resources other than the thumbnail, which is needed for display purposes
         for( int i = 0; i < resources.size(); i++ ) {
             SimResource simResource = (SimResource)resources.get( i );
-            if( !(simResource instanceof ThumbnailResource )) {
+            if( !( simResource instanceof ThumbnailResource ) ) {
                 simResource.uninstall();
             }
         }
@@ -143,6 +155,7 @@ public class Simulation {
             process = Runtime.getRuntime().exec( commands );
             // Get the input stream and read from it
             new Thread( new LauncherUtil.OutputRedirection( process.getInputStream() ) ).start();
+            recordLastLaunchTime();
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -150,83 +163,137 @@ public class Simulation {
     }
 
     /**
-     * Tells if the simulation is installed locally
+     * Records the current time in the last-launch timestamp file
      *
-     * @return true if the simulation is installed
+     * @throws IOException
      */
-    public boolean isInstalled() {
-        return this.jnlpResource.isInstalled();
+    private void recordLastLaunchTime() throws IOException {
+        long time = System.currentTimeMillis();
+        if( lastLaunchedTimestampFile.exists() ) {
+            lastLaunchedTimestampFile.delete();
+        }
+        lastLaunchedTimestampFile.createNewFile();
+        BufferedWriter out = new BufferedWriter( new FileWriter( lastLaunchedTimestampFile ) );
+        out.write( new Long( time ).toString() );
+        out.close();
     }
 
     /**
-     * Tells if this instance is current with the version on the PhET web site
-     *
-     * @return true if the local version is current
+     * Returns the system time that the simulation was last launched. If it was never launched,
+     * returns 0.
+     * @return the time the simulation was last launched
      */
-    public boolean isCurrent() {
-        boolean isCurrent = true;
-        for( int i = 0; i < resources.size(); i++ ) {
-            SimResource simResource = (SimResource)resources.get( i );
-            isCurrent &= simResource.isCurrent();
+    public long getLastLaunchTimestamp() {
+        String str = null;
+        try {
+            BufferedReader in = new BufferedReader( new FileReader( lastLaunchedTimestampFile ) );
+            str = in.readLine();
+            in.close();
         }
-        return isCurrent;
-    }
-
-    /**
-     * Updates the local version of the simulation with the one on the PhET web site
-     */
-    public void update() {
-        for( int i = 0; i < resources.size(); i++ ) {
-            SimResource simResource = (SimResource)resources.get( i );
-            simResource.update();
+        catch( IOException e ) {
         }
-        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+        if( str == null ) {
+            str = "0";
+        }
+        return Long.parseLong( str );
     }
 
-    //--------------------------------------------------------------------------------------------------
-    // Setters and getters
-    //--------------------------------------------------------------------------------------------------
+        /**
+         * Tells if the simulation is installed locally
+         *
+         * @return true if the simulation is installed
+         */
+        public boolean isInstalled
+        ( )
+        {
+            return this.jnlpResource.isInstalled();
+        }
 
-    public String getName() {
-        return name;
-    }
+        /**
+         * Tells if this instance is current with the version on the PhET web site
+         *
+         * @return true if the local version is current
+         */
+        public boolean isCurrent
+        ( )
+        {
+            boolean isCurrent = true;
+            for( int i = 0; i < resources.size(); i++ ) {
+                SimResource simResource = (SimResource)resources.get( i );
+                isCurrent &= simResource.isCurrent();
+            }
+            return isCurrent;
+        }
 
-    public String getDescription() {
-        return description;
-    }
+        /**
+         * Updates the local version of the simulation with the one on the PhET web site
+         */
+        public void update
+        ( )
+        {
+            for( int i = 0; i < resources.size(); i++ ) {
+                SimResource simResource = (SimResource)resources.get( i );
+                simResource.update();
+            }
+            changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+        }
 
-    public ImageIcon getThumbnail() {
-        return thumbnailResource.getImageIcon();
-    }
+        //--------------------------------------------------------------------------------------------------
+        // Setters and getters
+        //--------------------------------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------------------------------
-    // Events and listeners
-    //--------------------------------------------------------------------------------------------------
-    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+        public String getName
+        ( )
+        {
+            return name;
+        }
 
-    public void addChangeListener( ChangeListener listener ) {
+        public String getDescription
+        ( )
+        {
+            return description;
+        }
+
+        public ImageIcon getThumbnail
+        ( )
+        {
+            return thumbnailResource.getImageIcon();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        // Events and listeners
+        //--------------------------------------------------------------------------------------------------
+        EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+        ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+        public void addChangeListener
+        ( ChangeListener
+        listener ) {
         changeEventChannel.addListener( listener );
     }
 
-    public void removeChangeListener( ChangeListener listener ) {
+        public void removeChangeListener
+        ( ChangeListener
+        listener ) {
         changeEventChannel.removeListener( listener );
     }
 
-    public class ChangeEvent extends EventObject {
-        public ChangeEvent( Simulation source ) {
-            super( source );
+        public class ChangeEvent extends EventObject {
+            public ChangeEvent( Simulation source ) {
+                super( source );
+            }
+
+            public Simulation getSimulation() {
+                return (Simulation)getSource();
+            }
         }
 
-        public Simulation getSimulation() {
-            return (Simulation)getSource();
+        public interface ChangeListener extends EventListener {
+            void installed( ChangeEvent event );
+
+            void uninstalled( ChangeEvent event );
+
+            void isUpdated( ChangeEvent event );
         }
-    }
 
-    public interface ChangeListener extends EventListener {
-        void installed( ChangeEvent event );
-        void uninstalled( ChangeEvent event );
-        void isUpdated( ChangeEvent event );
     }
-
-}

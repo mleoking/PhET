@@ -25,15 +25,22 @@ import java.util.*;
  */
 public class Catalog implements Simulation.ChangeListener {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private static Catalog instance = new Catalog();
 
     public static Catalog instance() {
         return instance;
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private CatalogResource catalogResource = new CatalogResource( Configuration.instance().getCatalogUrl(),
                                                                    Configuration.instance().getLocalRoot() );
-
     private List simulations;
     private List installedSimulations;
     private List categories;

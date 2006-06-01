@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
+import edu.colorado.phet.simlauncher.util.FileUtil;
 import edu.colorado.phet.simlauncher.MetaData;
 
 import java.io.File;
@@ -133,7 +134,7 @@ public class SimResource {
     private File getLocalFile( File localRoot ) {
         // Parse the URL to get path relative to URL root
         String path = url.getPath();
-        String pathSeparator = System.getProperty( "file.separator" );
+        String pathSeparator = FileUtil.getPathSeparator();
         path = path.replace( '/', pathSeparator.charAt( 0 ) );
         path = path.replace( '\\', pathSeparator.charAt( 0 ) );
         return new File( localRoot, url.getHost() + pathSeparator + path );
