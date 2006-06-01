@@ -13,6 +13,8 @@ Zoomable Energy vs Position graphs.
 
 Bug: Setting record, then live, then record resets to last record state.
 
+I like the new Bring back the skater popup, but it seems alittle too sensitive. It pops up quite frequently if I change the screen size. Also, The pie legend gets in the way alot. Could you put it more near the bottom of the page where he doesn't go often?
+
 #################################################################
 Low Priority
 #######################################
