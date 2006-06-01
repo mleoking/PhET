@@ -1,3 +1,7 @@
+-Version 0.00.22
+Decreased the sensitivity of the 'return the skater' button; skater has to be completely offscreen (not partially offscreen)
+Moved the pie chart legend to the bottom of the page.
+
 -Changes for 0.00.21 (5-29-2006)
 Added a button to return the skater when he has flown out of view.
 Moved friction & clear heat controls to an expandable advanced panel.
