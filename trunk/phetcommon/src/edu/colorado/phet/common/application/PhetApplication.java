@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.common.application;
 
+import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.TabbedModulePanePhetGraphics;
-import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -79,7 +79,7 @@ public class PhetApplication {
     private String version;
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
-    private SplashWindow splashWindow;
+    private AWTSplashWindow splashWindow;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -135,18 +135,19 @@ public class PhetApplication {
     }
 
     private void showSplashWindow( String title ) {
-        splashWindow = new SplashWindow( getPhetFrame(), title );
+        splashWindow = new AWTSplashWindow( getPhetFrame(), title );
         splashWindow.setVisible( true );
     }
 
-    public SplashWindow getSplashWindow() {
+    public AWTSplashWindow getSplashWindow() {
         return splashWindow;
     }
 
     private void disposeSplashWindow() {
         if( splashWindow != null ) {
-            splashWindow.setVisible( false );
-            splashWindow.dispose();
+            splashWindow.hideSplash();
+//            splashWindow.setVisible( false );
+//            splashWindow.dispose();
             splashWindow = null;
         }
     }
