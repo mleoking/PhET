@@ -9,6 +9,7 @@ Features
 ========
 - Work on Catalog. Move Configuration.getInstalledSimulations() behavior to the Catalog
 - Application must work properly when offline
+- Uninstall needs to actually delete the SimResource.localFile
 
 - Alphabetical order for installed simulations
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)

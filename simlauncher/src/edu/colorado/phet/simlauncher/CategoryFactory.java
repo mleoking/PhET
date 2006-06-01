@@ -65,7 +65,7 @@ public class CategoryFactory {
                 for( int j = 0; j < simElements.size(); j++ ) {
                     Element simElement = (Element)simElements.get( j );
                     String simName = simElement.getAttribute( simulationNameAttrib).getValue();
-                    sims.add( Simulation.getInstanceForName( simName ));
+                    sims.add( Catalog.instance().getSimulationForName( simName ));
                 }
                 categoryList.add( new Category( catName, sims ) );
             }

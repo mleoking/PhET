@@ -60,7 +60,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         public CategoryPanel() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Categories" ) );
             List categories = Category.getInstances();
-            Category allSims = new Category( "All simulations", Simulation.getAllInstances() );
+            Category allSims = new Category( "All simulations", Catalog.instance().getAllSimulations() );
             categories.add( allSims );
             categoryJList = new JList( (Category[])( categories.toArray( new Category[ categories.size()] ) ) );
             categoryJList.setSelectedValue( allSims, true );
@@ -82,7 +82,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
     /**
      *
      */
-    private class SimPanel extends JPanel implements Simulation.ChangeListener, SimulationContainer {
+    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimulationContainer {
         private SimulationTable simTable;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
@@ -92,7 +92,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Available Simulations" ) );
 
-            Simulation.addListener( this );
+            Catalog.instance().addChangeListener( this );
 
             // Install button
             installBtn = new JButton( "Install" );
@@ -130,12 +130,12 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             Category category = categoryPanel.getSelectedCategory();
             List simListA = null;
             if( category == null ) {
-                simListA = new ArrayList( Simulation.getAllInstances() );
+                simListA = new ArrayList( Catalog.instance().getAllSimulations() );
             }
             else {
                 simListA = new ArrayList( category.getSimulations() );
             }
-            simListA.removeAll( Simulation.getInstalledSims() );
+            simListA.removeAll( Catalog.instance().getInstalledSimulations() );
 
             // Create the SimulationTable
             simTable = new SimulationTable( simListA, Options.instance().isShowUninstalledThumbnails() );
@@ -163,10 +163,10 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         }
 
         //--------------------------------------------------------------------------------------------------
-        // Implementation of Simulation.ChangeListener
+        // Implementation of Catalog.ChangeListener
         //--------------------------------------------------------------------------------------------------
 
-        public void instancesChanged() {
+        public void stateChanged() {
             updateSimTable();
             changeEventChannel.notifyChangeListeners( this );
         }
