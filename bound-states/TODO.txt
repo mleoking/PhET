@@ -12,7 +12,7 @@ Magnifying glass TODO:
 - set initial position, centered on lowest "band" of eigenstates shown in Energy chart
 
 HIGH PRIORITY:
-- normalize the bottom plots
+- normalize the bottom plots, not currently normalize in superposition state
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
