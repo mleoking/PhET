@@ -78,54 +78,6 @@ public class SimulationFactory {
                 URL jnlpURL = new URL( jnlpStr );
 
                 Simulation sim = new Simulation( name, str, thumbnailResource, jnlpURL, localRoot );
-//                Simulation sim = new Simulation( name, str, imageIcon, jnlpURL, localRoot );
-                simList.add( sim );
-            }
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-        return simList;
-    }
-
-    public List getSimulations( String xmlFile, File localRoot ) {
-        List simList = new ArrayList();
-        try {
-            // Build the document with SAX and Xerces, no validation
-            SAXBuilder builder = new SAXBuilder();
-            // Create the document
-            ClassLoader cl = this.getClass().getClassLoader();
-            URL simsUrl = cl.getResource( xmlFile );
-            if( simsUrl == null ) {
-                throw new IOException( "Null URL for resource name=" + xmlFile );
-            }
-
-            Document doc = builder.build( simsUrl );
-
-            // Output the document, use standard formatter
-//            XMLOutputter fmt = new XMLOutputter();
-//            fmt.output( doc, System.out );
-
-            Element root = doc.getRootElement();
-            List simElements = root.getChildren( simElementName );
-            for( int i = 0; i < simElements.size(); i++ ) {
-                Element element = (Element)simElements.get( i );
-                String name = element.getAttribute( simNameAttrib ).getValue();
-                String descAddr = element.getAttribute( simDescAttrib ).getValue();
-                String str = getDescription( descAddr );
-
-                // If the thumbnail isn't local, download it so we'll have a copy to display
-                String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
-                ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
-                if( !thumbnailResource.getLocalFile().exists() ) {
-                    thumbnailResource.download();
-                }
-
-                String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();
-                URL jnlpURL = new URL( jnlpStr );
-
-                Simulation sim = new Simulation( name, str, thumbnailResource, jnlpURL, localRoot );
-//                Simulation sim = new Simulation( name, str, imageIcon, jnlpURL, localRoot );
                 simList.add( sim );
             }
         }
@@ -157,11 +109,6 @@ public class SimulationFactory {
         catch( IOException e ) {
         }
         return str;
-    }
-
-    public static void main( String[] args ) {
-        new SimulationFactory().getSimulations( "simulations.xml",
-                                                Configuration.instance().getLocalRoot() );
     }
 
 }

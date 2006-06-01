@@ -19,11 +19,11 @@ import java.util.List;
  * @version $Revision$
  */
 public class Category {
-    private static List instances = new CategoryFactory().getCategories( "simulations.xml");
-
-    public static List getInstances() {
-        return instances;
-    }
+//    private static List instances = new CategoryFactory().getCategories( "simulations.xml");
+//
+//    public static List getInstances() {
+//        return instances;
+//    }
 
     private String name;
     private List simulations;

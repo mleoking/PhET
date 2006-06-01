@@ -35,6 +35,20 @@ public class Simulation {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
+    private static HashMap namesToSims = new HashMap();
+
+    /**
+     * Returns the Simulation instance for the simulation with a specified name.
+     * @param name
+     * @return the simulation with the specified name
+     */
+    public static Simulation getSimulationForName( String name ) {
+        Simulation sim = (Simulation)namesToSims.get( name );
+        if( sim == null ) {
+            throw new IllegalArgumentException( "name not recognized" );
+        }
+        return sim;
+    }
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -71,7 +85,12 @@ public class Simulation {
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
 
-//        namesToSims.put( name, this );
+        namesToSims.put( name, this );
+    }
+
+    protected void finalize() throws Throwable {
+        namesToSims.remove( getName() );
+        super.finalize();
     }
 
     public String toString() {
@@ -89,7 +108,7 @@ public class Simulation {
         }
         thumbnailResource.download();
 
-        changeListenerProxy.isInstalled( new ChangeEvent( this ) );
+        changeListenerProxy.installed( new ChangeEvent( this ) );
     }
 
     /**
@@ -105,7 +124,7 @@ public class Simulation {
             }
         }
 
-        changeListenerProxy.isUninstalled( new ChangeEvent( this ) );
+        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
     /**
@@ -161,7 +180,7 @@ public class Simulation {
             SimResource simResource = (SimResource)resources.get( i );
             simResource.update();
         }
-        changeListenerProxy.isUninstalled( new ChangeEvent( this ) );
+        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -205,8 +224,8 @@ public class Simulation {
     }
 
     public interface ChangeListener extends EventListener {
-        void isInstalled( ChangeEvent event );
-        void isUninstalled( ChangeEvent event );
+        void installed( ChangeEvent event );
+        void uninstalled( ChangeEvent event );
         void isUpdated( ChangeEvent event );
     }
 

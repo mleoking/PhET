@@ -33,40 +33,33 @@ public class Catalog implements Simulation.ChangeListener {
 
     private CatalogResource catalogResource = new CatalogResource( Configuration.instance().getCatalogUrl(),
                                                                    Configuration.instance().getLocalRoot() );
+
     private List simulations;
     private List installedSimulations;
-    private HashMap namesToSims;
+//    private HashMap namesToSims;
+    private List categories;
 
     /**
      * Private constructor
      */
     private Catalog() {
-        namesToSims = new HashMap();
+//        namesToSims = new HashMap();
+
+        // If the catalog isn't installed yet, go get it
+        if( !catalogResource.isInstalled() || !catalogResource.isCurrent() ) {
+            catalogResource.download();
+        }
         simulations = new SimulationFactory().getSimulations( catalogResource.getLocalFile() );
+        categories = new CategoryFactory().getCategories( catalogResource.getLocalFile() );
+
         installedSimulations = new ArrayList();
         for( int i = 0; i < simulations.size(); i++ ) {
             Simulation simulation = (Simulation)simulations.get( i );
             simulation.addChangeListener( this );
-
-            namesToSims.put( simulation.getName(), simulation );
-
             if( simulation.isInstalled() ) {
                 installedSimulations.add( simulation );
             }
         }
-    }
-
-    /**
-     * Returns the Simulation instance for the simulation with a specified name.
-     * @param name
-     * @return the simulation with the specified name
-     */
-    public Simulation getSimulationForName( String name ) {
-        Simulation sim = (Simulation)namesToSims.get( name );
-        if( sim == null ) {
-            throw new IllegalArgumentException( "name not recognized" );
-        }
-        return sim;
     }
 
     /**
@@ -85,16 +78,24 @@ public class Catalog implements Simulation.ChangeListener {
         return installedSimulations;
     }
 
+    /**
+     * Returns all the categories
+     * @return all the categories
+     */
+    public List getCategories() {
+        return categories;
+    }
+
     //--------------------------------------------------------------------------------------------------
     // Implementation of Simulation.ChangeListener
     //--------------------------------------------------------------------------------------------------
 
-    public void isInstalled( Simulation.ChangeEvent event ) {
+    public void installed( Simulation.ChangeEvent event ) {
         installedSimulations.add( event.getSimulation() );
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
-    public void isUninstalled( Simulation.ChangeEvent event ) {
+    public void uninstalled( Simulation.ChangeEvent event ) {
         installedSimulations.remove( event.getSimulation() );
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
