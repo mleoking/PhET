@@ -43,4 +43,12 @@ public class FileUtil {
         System.out.println( "dir.getAbsolutePath() = " + dir.getAbsolutePath() );
         return dir.delete();
     }
+
+    /**
+     * Returns the path separator for the local file system
+     * @return the path separator
+     */
+    public static String getPathSeparator() {
+        return System.getProperty( "file.separator" );
+    }
 }
