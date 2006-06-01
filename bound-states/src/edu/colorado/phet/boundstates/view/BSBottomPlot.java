@@ -54,7 +54,7 @@ public class BSBottomPlot extends XYPlot implements Observer, ClockListener {
     private static final boolean AUTO_SORT = false;
     
     // Are ticks visible on the Y axis?
-    private static final boolean Y_AXIS_TICK_LABELS_VISIBLE = false;
+    private static final boolean Y_AXIS_TICK_LABELS_VISIBLE = true;
     
     //----------------------------------------------------------------------------
     // Instance data
