@@ -412,7 +412,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
             double x = energyPlotBounds.getCenterX();
             double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
             transform.translate( x, y );
-            System.out.println( "mag glass offset = " + x + "," + y );//XXX
+//            System.out.println( "mag glass offset = " + x + "," + y );//XXX
             
             _magnifyingGlass.setTransform( transform );
             _magnifyingGlass.updateDisplay();
