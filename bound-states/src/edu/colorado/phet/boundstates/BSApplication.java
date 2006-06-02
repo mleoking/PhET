@@ -14,8 +14,10 @@ package edu.colorado.phet.boundstates;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -245,26 +247,35 @@ public class BSApplication extends PhetApplication {
      * Main entry point.
      * 
      * @param args command line arguments
+     * @throws InvocationTargetException 
+     * @throws InterruptedException 
      */
-    public static void main( final String[] args ) throws IOException {
+    public static void main( final String[] args ) throws IOException, InterruptedException, InvocationTargetException {
 
-        // Initialize localization.
-        SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
+        // Do all initialization in the event dispatch thread.
+        SwingUtilities.invokeLater( new Runnable() {
 
-        // Title, etc.
-        String title = SimStrings.get( "BSApplication.title" );
-        String description = SimStrings.get( "BSApplication.description" );
-        String version = BSVersion.NUMBER;
+            public void run() {
 
-        // Frame setup
-        int width = BSConstants.APP_FRAME_WIDTH;
-        int height = BSConstants.APP_FRAME_HEIGHT;
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
+                // Initialize localization.
+                SimStrings.init( args, BSConstants.LOCALIZATION_BUNDLE_BASENAME );
+                
+                // Title, etc.
+                String title = SimStrings.get( "BSApplication.title" );
+                String description = SimStrings.get( "BSApplication.description" );
+                String version = BSVersion.NUMBER;
 
-        // Create the application.
-        BSApplication app = new BSApplication( args, title, description, version, frameSetup );
+                // Frame setup
+                int width = BSConstants.APP_FRAME_WIDTH;
+                int height = BSConstants.APP_FRAME_HEIGHT;
+                FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
 
-        // Start the application.
-        app.startApplication();
+                // Create the application.
+                BSApplication app = new BSApplication( args, title, description, version, frameSetup );
+
+                // Start the application.
+                app.startApplication();
+            }
+        } );
     }
 }
