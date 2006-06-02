@@ -79,6 +79,7 @@ public class HintNode extends PhetPNode {
     public void setActivity( PActivity pActivity ) {
         if( this.activity != null ) {
             this.activity.terminate();
+            started = false;
         }
         this.activity = pActivity;
         testSchedule();
