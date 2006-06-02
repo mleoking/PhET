@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.piccolo;
 
+import javax.swing.JComponent;
+
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ITabbedModulePane;
-import edu.colorado.phet.common.view.TabbedModulePanePhetGraphics;
+import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
-
-import javax.swing.*;
 
 /**
  * PiccoloPhetApplication
@@ -123,7 +123,7 @@ public class PiccoloPhetApplication extends PhetApplication {
             tabbedPane = new TabbedModulePanePiccolo();
         }
         else if( tabbedPaneType == JTABBED_PANE ) {
-            tabbedPane = new TabbedModulePanePhetGraphics();
+            tabbedPane = new JTabbedModulePane();
         }
         tabbedPane.init( this, modules );
         return (JComponent)tabbedPane;
