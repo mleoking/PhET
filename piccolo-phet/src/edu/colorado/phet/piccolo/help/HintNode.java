@@ -203,7 +203,7 @@ public class HintNode extends PhetPNode {
     }
 
     private void testSchedule() {
-        if( !started && getRoot() != null ) {
+        if( !started && getRoot() != null && activity != null ) {
             getRoot().addActivity( activity );
             started = true;
         }
