@@ -46,6 +46,7 @@ public class AWTSplashWindow extends Window {
     private boolean done = false; // flag that tells the animation thread to stop
     private Panel panel; // panel that contains all the UI components
     private AnimationComponent animationComponent;
+    private Label textComponent;
 
     /**
      * Constructor.
@@ -72,7 +73,7 @@ public class AWTSplashWindow extends Window {
                 drawBorder( this, g );
             }
         };
-        Component textComponent = new Label( labelString );
+        textComponent = new Label( labelString );
         animationComponent = new AnimationComponent();
 
         // Panel to hold all of the components
@@ -147,6 +148,7 @@ public class AWTSplashWindow extends Window {
     public void setBackground( Color color ) {
         super.setBackground( color );
         panel.setBackground( color );
+        textComponent.setBackground( color );
     }
 
     /*
