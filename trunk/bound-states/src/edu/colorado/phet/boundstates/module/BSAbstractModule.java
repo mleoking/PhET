@@ -404,13 +404,13 @@ public abstract class BSAbstractModule extends PiccoloModule {
             // This is because the magnifying glass' center (for the purposes of dragging) is 
             // set inside BSMagnifyingGlass, doesn't account for scaling, and doesn't have an
             // interface to adjust it when scaling changes.
-//            double scale = canvasWidth / _initialCanvasSize.getWidth();
-//            transform.setScale( scale );
+//            final double scale = canvasSize.getWidth() / _initialCanvasSize.getWidth();
+//            transform.scale( scale, scale );
             
             // Position at bottom center of energy plot, near where lowest group of
             // eigenstates will appear with the default settings for "Many Wells" panel.
-            double x = energyPlotBounds.getCenterX();
-            double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
+            final double x = energyPlotBounds.getCenterX();
+            final double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
             transform.translate( x, y );
             
             _magnifyingGlass.setTransform( transform );
