@@ -62,6 +62,11 @@ CLEANUP:
 
 
 DONE:
+(6/2/06) - convert to PiccoloPhetApplication to get new tabs
+(6/2/06) - piccolo-phet: make balloon optional in HelpBalloon
+(6/2/06) - wrap main in invokeLater, use new AWTSplashWindow
+(6/2/06) - phetcommon: fixes/changes to AWTSplashWindow
+(6/2/06) - sync with piccolo, phetcommon, piccolo-phet
 0.00.08...
 (6/1/06) - temporarily change some ranges so that Sam M can test superposition
 (6/1/06) - ignore eigenstates with zero coefficients when computing time dependent wave function

@@ -31,11 +31,11 @@ import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
 import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
 import edu.colorado.phet.boundstates.util.ArgUtils;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.menu.HelpMenu;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 
 
 /**
@@ -44,7 +44,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSApplication extends PhetApplication {
+public class BSApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
