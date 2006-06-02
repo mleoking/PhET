@@ -63,7 +63,8 @@ CLEANUP:
 
 DONE:
 (6/2/06) - convert to PiccoloPhetApplication to get new tabs
-(6/2/06) - wrap main in invokeLater, use new AWTSplashWindow
+(6/2/06) - wrap main in invokeLater
+(6/2/06) - test with use new AWTSplashWindow
 (6/2/06) - piccolo-phet: make balloon optional in HelpBalloon
 (6/2/06) - piccolo-phet: fix broken PiccoloPhetApplication, something wasn't renamed
 (6/2/06) - phetcommon: fixes/changes to AWTSplashWindow
