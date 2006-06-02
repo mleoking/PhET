@@ -6,8 +6,6 @@ Zoomable Energy vs Position graphs.
 
 Bug: Setting record, then live, then record resets to last record state.
 
->>Add a wiggle me for keyboard presses, etc.
-
 #################################################################
 Low Priority
 #######################################

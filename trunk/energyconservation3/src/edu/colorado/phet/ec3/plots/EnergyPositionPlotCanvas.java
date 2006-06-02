@@ -130,7 +130,7 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         };
 
 
-        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
+        ec3Module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 update();
             }
