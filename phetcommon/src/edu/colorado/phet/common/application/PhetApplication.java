@@ -80,6 +80,7 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private AWTSplashWindow splashWindow;
+    private Frame splashWindowOwner;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -135,8 +136,12 @@ public class PhetApplication {
     }
 
     private void showSplashWindow( String title ) {
-        splashWindow = new AWTSplashWindow( getPhetFrame(), title );
-        splashWindow.setVisible( true );
+        if ( splashWindow == null ) {
+            // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
+            splashWindowOwner = new Frame();
+            splashWindow = new AWTSplashWindow( splashWindowOwner, title );
+            splashWindow.show();
+        }
     }
 
     public AWTSplashWindow getSplashWindow() {
@@ -145,10 +150,11 @@ public class PhetApplication {
 
     private void disposeSplashWindow() {
         if( splashWindow != null ) {
-            splashWindow.hideSplash();
-//            splashWindow.setVisible( false );
-//            splashWindow.dispose();
+            splashWindow.dispose();
             splashWindow = null;
+            // Clean up the window's owner that we created in showSplashWindow.
+            splashWindowOwner.dispose();
+            splashWindowOwner = null;
         }
     }
 
