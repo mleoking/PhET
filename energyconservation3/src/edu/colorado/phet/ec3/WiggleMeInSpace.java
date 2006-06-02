@@ -3,7 +3,7 @@ package edu.colorado.phet.ec3;
 
 import edu.colorado.phet.ec3.model.Body;
 import edu.colorado.phet.ec3.model.EnergyConservationModel;
-import edu.colorado.phet.piccolo.help.HintNode;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -18,14 +18,14 @@ import java.awt.*;
 
 public class WiggleMeInSpace {
     private EC3Module module;
-    private HintNode hintNode;
+    private MotionHelpBalloon hintNode;
 
     public WiggleMeInSpace( final EC3Module module ) {
         this.module = module;
-        hintNode = new HintNode( "<html>Press the Arrow Keys<br>to apply thrust!<html>" );
-        hintNode.setColor( Color.white );
-        hintNode.setShadowColor( Color.darkGray );
-        hintNode.setShadowOffset( 1, 1 );
+        hintNode = new MotionHelpBalloon( module.getDefaultHelpPane(), "<html>Press the Arrow Keys<br>to apply thrust!<html>" );
+        hintNode.setTextColor( Color.white );
+        hintNode.setShadowTextColor( Color.darkGray );
+        hintNode.setShadowTextOffset( 1 );
         module.getEnergyConservationModel().addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
                 super.gravityChanged();
@@ -48,13 +48,12 @@ public class WiggleMeInSpace {
         EC3RootNode root = module.getEnergyConservationCanvas().getRootNode();
         root.addScreenChild( hintNode );
         hintNode.setOffset( module.getEnergyConservationCanvas().getWidth() / 2, hintNode.getFullBounds().getHeight() / 2 );
-        hintNode.animateToLocation( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
+        hintNode.animateTo( module.getEnergyConservationCanvas().getWidth() / 2, (int)( module.getEnergyConservationCanvas().getHeight() * 1.0 / 4.0 ) );
         module.getEnergyConservationModel().bodyAt( 0 ).addListener( new Body.Listener() {
             public void thrustChanged() {
                 hintNode.setVisible( false );
             }
         } );
-
     }
 
     public void start() {
