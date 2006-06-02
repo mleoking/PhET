@@ -31,12 +31,19 @@ import java.util.Collections;
  */
 public class SimulationTable extends JTable implements SimulationContainer {
 
+    //--------------------------------------------------------------------------------------------------
+    // Class fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     public static SimulationComparator NAME_SORT = new NameComparator();
     public static SimulationComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
+
     private List sims;
-//    private SimulationComparator currentComparator = MOST_RECENTLY_USED_SORT;
-//    private SimulationComparator currentComparator = NAME_SORT;
 
     /**
      * Constructor
@@ -97,11 +104,13 @@ public class SimulationTable extends JTable implements SimulationContainer {
 
     public Simulation getSelection() {
         Simulation sim = null;
-        int idx = getSelectedRow();
-        System.out.println( "idx = " + idx );
-        if( idx >= 0 ) {
-            String simName = (String)this.getValueAt( idx, 0 );
-            sim = Simulation.getSimulationForName( simName );
+        if( isVisible() ) {
+            int idx = getSelectedRow();
+            System.out.println( "idx = " + idx );
+            if( idx >= 0 ) {
+                String simName = (String)this.getValueAt( idx, 0 );
+                sim = Simulation.getSimulationForName( simName );
+            }
         }
         return sim;
     }
