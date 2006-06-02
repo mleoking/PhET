@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 
 public class TestHintNode {
@@ -41,7 +42,7 @@ public class TestHintNode {
         hintNode.setOffset( -hintNode.getFullBounds().getWidth() / 2, 300 );
         hintNode.animateToLocation( 100, 100 );
 
-//        testSuperActivity( hintNode );
+        testSuperActivity( hintNode );
 
         /**Use the HintNode*/
         pCanvas.getLayer().addChild( hintNode );
@@ -53,22 +54,26 @@ public class TestHintNode {
     }
 
     private void testSuperActivity( final HintNode hintNode ) {
-        // create animation path
         GeneralPath path = new GeneralPath();
-        path.moveTo( 100, 100 );
+        path.moveTo( 0, 0 );
         path.lineTo( 300, 300 );
-        path.lineTo( 100, 300 );
+        path.lineTo( 300, 0 );
+        path.append( new Arc2D.Float( 0, 0, 300, 300, 90, -90, Arc2D.OPEN ), true );
         path.closePath();
 
+        // create node to display animation path
+//        PPath ppath = new PPath(path);
+//        layer.addChild(ppath);
+
         // create activity to run animation.
-        PPositionPathActivity positionPathActivity = new PPositionPathActivity( 3000, 0, new PPositionPathActivity.Target() {
+        PPositionPathActivity positionPathActivity = new PPositionPathActivity( 5000, 0, new PPositionPathActivity.Target() {
             public void setPosition( double x, double y ) {
                 hintNode.setOffset( x, y );
             }
         } );
+//		positionPathActivity.setSlowInSlowOut(false);
         positionPathActivity.setPositions( path );
         positionPathActivity.setLoopCount( Integer.MAX_VALUE );
-
         hintNode.setActivity( positionPathActivity );
     }
 
