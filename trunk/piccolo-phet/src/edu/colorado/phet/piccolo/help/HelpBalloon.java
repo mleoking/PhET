@@ -47,20 +47,41 @@ public class HelpBalloon extends AbstractHelpItem {
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
+    public static class Attachment {
+        private String name;
+
+        private Attachment( String name ) {
+            this.name = name;
+        }
+
+        public boolean equals( Object obj ) {
+            if( obj instanceof Attachment ) {
+                Attachment attachment = (Attachment)obj;
+                return attachment.name.equals( name );
+            }
+            else {
+                return false;
+            }
+        }
+
+        public String toString() {
+            return name;
+        }
+    }
 
     // Positions where the arrow tail is attached to the balloon.
-    public static final Object TOP_LEFT = new String( "top left" );
-    public static final Object TOP_CENTER = new String( "top center" );
-    public static final Object TOP_RIGHT = new String( "top right" );
-    public static final Object BOTTOM_LEFT = new String( "bottom left" );
-    public static final Object BOTTOM_CENTER = new String( "bottom center" );
-    public static final Object BOTTOM_RIGHT = new String( "bottom right" );
-    public static final Object LEFT_TOP = new String( "left top" );
-    public static final Object LEFT_CENTER = new String( "left center" );
-    public static final Object LEFT_BOTTOM = new String( "left bottom" );
-    public static final Object RIGHT_TOP = new String( "right top" );
-    public static final Object RIGHT_CENTER = new String( "right center" );
-    public static final Object RIGHT_BOTTOM = new String( "right bottom" );
+    public static final Attachment TOP_LEFT = new Attachment( "top left" );
+    public static final Attachment TOP_CENTER = new Attachment( "top center" );
+    public static final Attachment TOP_RIGHT = new Attachment( "top right" );
+    public static final Attachment BOTTOM_LEFT = new Attachment( "bottom left" );
+    public static final Attachment BOTTOM_CENTER = new Attachment( "bottom center" );
+    public static final Attachment BOTTOM_RIGHT = new Attachment( "bottom right" );
+    public static final Attachment LEFT_TOP = new Attachment( "left top" );
+    public static final Attachment LEFT_CENTER = new Attachment( "left center" );
+    public static final Attachment LEFT_BOTTOM = new Attachment( "left bottom" );
+    public static final Attachment RIGHT_TOP = new Attachment( "right top" );
+    public static final Attachment RIGHT_CENTER = new Attachment( "right center" );
+    public static final Attachment RIGHT_BOTTOM = new Attachment( "right bottom" );
 
     public static final double MAX_ARROW_ROTATION = 70; // degrees
     public static final double MIN_ARROW_ROTATION = -MAX_ARROW_ROTATION;
@@ -101,7 +122,7 @@ public class HelpBalloon extends AbstractHelpItem {
     private PPath _balloonNode;
     private PPath _arrowNode;
 
-    private Object _arrowTailPosition; // where the arrow tail is attached to the balloon
+    private Attachment _arrowTailPosition; // where the arrow tail is attached to the balloon
     private double _arrowLength; // pixels
     private double _arrowRotation; // degrees
     private Dimension _arrowHeadSize;
@@ -136,7 +157,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param arrowTailPosition
      * @param arrowLength
      */
-    public HelpBalloon( JComponent helpPanel, String text, Object arrowTailPosition, double arrowLength ) {
+    public HelpBalloon( JComponent helpPanel, String text, Attachment arrowTailPosition, double arrowLength ) {
         this( helpPanel, text, arrowTailPosition, arrowLength, 0 /* arrowRotation */ );
     }
 
@@ -152,13 +173,10 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param arrowLength
      * @param arrowRotation
      */
-    public HelpBalloon( JComponent helpPanel, String text, Object arrowTailPosition, double arrowLength, double arrowRotation ) {
+    public HelpBalloon( JComponent helpPanel, String text, Attachment arrowTailPosition, double arrowLength, double arrowRotation ) {
         super( helpPanel );
 
         // Validate arguments
-        if( !isValidArrowtailPostion( arrowTailPosition ) ) {
-            throw new IllegalArgumentException( "invalid arrowTailPosition: " + arrowTailPosition );
-        }
         if( ! isValidArrowLength( arrowLength ) ) {
             throw new IllegalArgumentException( "invalid arrowLength: " + arrowLength );
         }
@@ -384,10 +402,7 @@ public class HelpBalloon extends AbstractHelpItem {
         updateDisplay();
     }
 
-    public void setArrowTailPosition( Object arrowTailPosition ) {
-        if( !isValidArrowtailPostion( arrowTailPosition ) ) {
-            throw new IllegalArgumentException( "invalid arrow tail position: " + arrowTailPosition );
-        }
+    public void setArrowTailPosition( Attachment arrowTailPosition ) {
         _arrowTailPosition = arrowTailPosition;
         updatePosition();
         updateDisplay();
@@ -435,28 +450,6 @@ public class HelpBalloon extends AbstractHelpItem {
 
     protected boolean isArrowOnRight() {
         return ( _arrowTailPosition == RIGHT_TOP || _arrowTailPosition == RIGHT_CENTER || _arrowTailPosition == RIGHT_BOTTOM );
-    }
-
-    /**
-     * Determines if a  value for arrow tail position is valid.
-     *
-     * @param arrowTailPosition
-     * @return true or false
-     */
-    public boolean isValidArrowtailPostion( Object arrowTailPosition ) {
-        return (
-                arrowTailPosition == TOP_LEFT ||
-                arrowTailPosition == TOP_CENTER ||
-                arrowTailPosition == TOP_RIGHT ||
-                arrowTailPosition == BOTTOM_LEFT ||
-                arrowTailPosition == BOTTOM_CENTER ||
-                arrowTailPosition == BOTTOM_RIGHT ||
-                arrowTailPosition == LEFT_TOP ||
-                arrowTailPosition == LEFT_CENTER ||
-                arrowTailPosition == LEFT_BOTTOM ||
-                arrowTailPosition == RIGHT_TOP ||
-                arrowTailPosition == RIGHT_CENTER ||
-                arrowTailPosition == RIGHT_BOTTOM );
     }
 
     public boolean isValidArrowLength( double arrowLength ) {
