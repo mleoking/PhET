@@ -17,6 +17,7 @@ public class TestPhetTabbedPaneDescending {
         JFrame frame = new JFrame( "Tab Test" );
         final PhetTabbedPane phetTabbedPane = new PhetTabbedPane();
         phetTabbedPane.addTab( "Hello! you guppies", new JLabel( "Hello" ) );
+        phetTabbedPane.addTab( "yuppies and peppering", new JLabel( "Hello" ) );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         frame.setContentPane( phetTabbedPane );
