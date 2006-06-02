@@ -40,6 +40,7 @@ public class Options {
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
+    private SimulationTable.SimulationComparator installedSimulationsSortType;
 
     /**
      * Private constructor to enforce singleton
@@ -73,6 +74,16 @@ public class Options {
     public void setShowUninstalledThumbnailsNoUpdate( boolean showUninstalledThumbnails ) {
         this.showUninstalledThumbnails = showUninstalledThumbnails;
         optionsChanged = true;
+    }
+
+    public SimulationTable.SimulationComparator getInstalledSimulationsSortType() {
+        return installedSimulationsSortType;
+    }
+
+    public void setInstalledSimulationsSortType( SimulationTable.SimulationComparator installedSimulationsSortType ) {
+        this.installedSimulationsSortType = installedSimulationsSortType;
+        optionsChanged = true;
+        notifyListeners();
     }
 
     public void notifyListeners() {

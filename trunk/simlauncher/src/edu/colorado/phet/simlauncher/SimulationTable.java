@@ -30,14 +30,21 @@ import java.util.Collections;
  * @version $Revision$
  */
 public class SimulationTable extends JTable implements SimulationContainer {
-    private Simulation[] sims;
+
+    public static SimulationComparator NAME_SORT = new NameComparator();
+    public static SimulationComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
+
+    private List sims;
+//    private SimulationComparator currentComparator = MOST_RECENTLY_USED_SORT;
+//    private SimulationComparator currentComparator = NAME_SORT;
 
     /**
      * Constructor
+     *
      * @param simList
      * @param showThumbnails
      */
-    public SimulationTable( List simList, boolean showThumbnails ) {
+    public SimulationTable( List simList, boolean showThumbnails, SimulationComparator sortType ) {
         super();
 
         // Set the selection mode to be row only
@@ -45,10 +52,11 @@ public class SimulationTable extends JTable implements SimulationContainer {
         setRowSelectionAllowed( true );
 
         // Create the row data for the table
-        sims = (Simulation[])simList.toArray( new Simulation[ simList.size()] );
-        Object[][] rowData = new Object[sims.length][3];
-        for( int i = 0; i < sims.length; i++ ) {
-            Simulation sim = sims[i];
+        sims = simList;
+        Collections.sort( sims, sortType );
+        Object[][] rowData = new Object[sims.size()][3];
+        for( int i = 0; i < sims.size(); i++ ) {
+            Simulation sim = (Simulation)sims.get( i );
             Object[] row = new Object[]{sim.getName(), sim.getThumbnail()};
             rowData[i] = row;
         }
@@ -84,13 +92,12 @@ public class SimulationTable extends JTable implements SimulationContainer {
         }
 
         // Sort the table
-        sort();
+//        sort();
     }
 
     public Simulation getSelection() {
         Simulation sim = null;
         int idx = getSelectedRow();
-        System.out.println( "idx = " + idx );
         if( idx >= 0 ) {
             String simName = (String)this.getValueAt( idx, 0 );
             sim = Simulation.getSimulationForName( simName );
@@ -132,6 +139,36 @@ public class SimulationTable extends JTable implements SimulationContainer {
             hMax = Math.max( h, hMax );
         }
         return hMax;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Comparators
+    //--------------------------------------------------------------------------------------------------
+    public static abstract class SimulationComparator implements Comparator {
+    }
+
+    private static class NameComparator extends SimulationComparator {
+        public int compare( Object o1, Object o2 ) {
+            if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
+                throw new ClassCastException();
+            }
+            Simulation s1 = (Simulation)o1;
+            Simulation s2 = (Simulation)o2;
+            return s1.getName().compareTo( s2.getName() );
+        }
+    }
+
+    private static class LastLaunchTimeComparator extends SimulationComparator {
+        public int compare( Object o1, Object o2 ) {
+            if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
+                throw new ClassCastException();
+            }
+            Simulation s1 = (Simulation)o1;
+            Simulation s2 = (Simulation)o2;
+            Long t1 = new Long( s1.getLastLaunchTimestamp() );
+            Long t2 = new Long( s2.getLastLaunchTimestamp() );
+            return t2.compareTo( t1 );
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
