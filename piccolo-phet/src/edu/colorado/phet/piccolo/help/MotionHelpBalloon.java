@@ -24,7 +24,7 @@ public class MotionHelpBalloon extends HelpBalloon {
     public MotionHelpBalloon( PCanvas helpPane, String s ) {
         super( helpPane, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
         setBalloonVisible( false );
-        setArrowLength( 0 );
+        setArrowVisible( false );
         setEnabled( true );
     }
 
