@@ -10,17 +10,6 @@
  */
 package edu.colorado.phet.piccolo;
 
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.GeneralPath;
-import java.util.ArrayList;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.piccolo.nodes.HTMLNode;
 import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -722,9 +711,18 @@ public class PhetTabbedPane extends JPanel {
             double h = 0;
             for( int i = 0; i < tabs.size(); i++ ) {
                 AbstractTabNode tabNode = (AbstractTabNode)tabs.get( i );
-                h = Math.max( h, tabNode.getTextHeight() );
+                h = Math.max( h, tabNode.getTextHeight() ) + getTabInsetFudgeFactor();
             }
             return h;
+        }
+
+        private double getTabInsetFudgeFactor() {
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "mac os x" ) > 0 ) {
+                return 2;
+            }
+            else {
+                return 0;
+            }
         }
 
         private int getMaxTabHeight() {
