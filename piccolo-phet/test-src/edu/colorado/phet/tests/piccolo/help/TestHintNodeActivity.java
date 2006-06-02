@@ -1,5 +1,6 @@
-package edu.colorado.phet.piccolo.help;
+package edu.colorado.phet.tests.piccolo.help;
 
+import edu.colorado.phet.piccolo.help.HintNode;
 import edu.umd.cs.piccolox.activities.PPositionPathActivity;
 
 import java.awt.geom.Arc2D;

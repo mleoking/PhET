@@ -1,4 +1,4 @@
-package edu.colorado.phet.piccolo.help;
+package edu.colorado.phet.tests.piccolo.help;
 
 /**
  * User: Sam Reid
@@ -7,6 +7,7 @@ package edu.colorado.phet.piccolo.help;
  * Copyright (c) Jun 1, 2006 by Sam Reid
  */
 
+import edu.colorado.phet.piccolo.help.HintNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
