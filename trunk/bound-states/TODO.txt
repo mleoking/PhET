@@ -368,6 +368,7 @@ DONE:
 
 
 REJECTED:
+(6/2/06) - comment out block of normalization code in SchmidtLeeSolver (values got huge, way off the bottom plot scale)
 (6/2/06) - scale the magnifying glass when the canvas size changes (not necessary, difficult, see note in BSAbstractModule.layoutCanvas)
 (6/2/06) - set initial mag glass osition, centered on lowest "band" of eigenstates shown in Energy chart (hard code it to most likely position)
 (5/17/06) - can't hilite or select lower 1D Coulomb eigenstates when zoomed out (cannot reproduce)
