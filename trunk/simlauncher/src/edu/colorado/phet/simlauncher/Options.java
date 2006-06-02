@@ -46,6 +46,8 @@ public class Options {
             }
             catch( FileNotFoundException e ) {
             }
+            catch( Exception e ){
+            }
         }
         else {
             instance = new Options();
@@ -60,7 +62,6 @@ public class Options {
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
-//    private Properties properties = new Properties();
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
@@ -70,23 +71,9 @@ public class Options {
      * Private constructor to enforce singleton
      */
     public Options() {
-//        if( Configuration.instance().getOptionsFile().exists() ) {
-        // If there is a stored set of options, create the singleton from it. Otherwise, just
-        // create a new instance
-//            try {
-//                properties.load( new FileInputStream( Configuration.instance().getOptionsFile() ) );
-//            }
-//            catch( IOException e ) {
-//            }
-//        }
     }
 
     public void save() {
-//        try {
-//            properties.store( new FileOutputStream( "filename.properties" ), null );
-//        }
-//        catch( IOException e ) {
-//        }
         try {
             // Serialize object into XML
             XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream(
@@ -96,6 +83,8 @@ public class Options {
         }
         catch( FileNotFoundException e ) {
         }
+        catch( Exception e ){
+        }
     }
 
     public boolean isShowInstalledThumbnails() {
@@ -103,7 +92,6 @@ public class Options {
     }
 
     public void setShowInstalledThumbnails( boolean showInstalledThumbnails ) {
-//        properties.put( "showInstalledThumbnails", Boolean.toString( showInstalledThumbnails ));
         setShowInstalledThumbnailsNoUpdate( showInstalledThumbnails );
         notifyListeners();
 
@@ -120,7 +108,6 @@ public class Options {
     }
 
     public void setShowUninstalledThumbnails( boolean showUninstalledThumbnails ) {
-//        properties.put( "showUnstalledThumbnails", Boolean.toString( showUninstalledThumbnails ));
         setShowUninstalledThumbnailsNoUpdate( showUninstalledThumbnails );
         notifyListeners();
     }
@@ -135,7 +122,6 @@ public class Options {
     }
 
     public void setInstalledSimulationsSortType( SimulationTable.SimulationComparator installedSimulationsSortType ) {
-//        properties.put( "installedSimulationsSortType", Boolean.toString( showInstalledThumbnails ));
         this.installedSimulationsSortType = installedSimulationsSortType;
         optionsChanged = true;
         notifyListeners();
