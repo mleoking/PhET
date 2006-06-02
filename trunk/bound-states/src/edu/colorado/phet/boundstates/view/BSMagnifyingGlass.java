@@ -322,6 +322,35 @@ public class BSMagnifyingGlass extends PNode implements Observer {
         }
     }
     
+    /**
+     * Sets the transform for the child nodes.
+     * Since _partsNode is what's being dragged around, we need to 
+     * pass the transform to the child nodes (namely _partsNode and _viewNode).
+     * Rather than implement all of the transform-related methods
+     * (eg, setOffset), we'll require clients to use this implementation
+     * of setTransform.
+     * 
+     * @param transform
+     */
+    public void setTransform( AffineTransform transform ) {
+        _partsNode.setTransform( transform );
+        _viewNode.setTransform( transform );
+    }
+    
+    /**
+     * Unsupported, see note in setTransform.
+     */
+    public void setOffset( double x, double y ) {
+        throw new UnsupportedOperationException( "use setTransform" );
+    }
+    
+    /**
+     * Unsupported, see note in setTransform.
+     */
+    public void setOffset( Point2D point ) {
+        throw new UnsupportedOperationException( "use setTransform" );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
