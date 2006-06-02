@@ -140,6 +140,7 @@ public class PhetApplication {
             // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
             splashWindowOwner = new Frame();
             splashWindow = new AWTSplashWindow( splashWindowOwner, title );
+//            splashWindow.setBackground( (Color)UIManager.get( "Panel.background"));
             splashWindow.show();
         }
     }

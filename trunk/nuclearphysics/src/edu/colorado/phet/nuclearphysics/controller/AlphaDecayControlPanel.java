@@ -6,9 +6,13 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.coreadditions.GridBagUtil;
+import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.DecayListener;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecayProducts;
+import edu.colorado.phet.nuclearphysics.model.PreDecayListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -22,11 +26,28 @@ import java.text.Format;
 public class AlphaDecayControlPanel extends JPanel {
     private NuclearPhysicsModule module;
     private JTextField timerTF;
-    private long startTime;
     private Timer timer = new Timer();
+    private SloMoAgent sloMoAgent;
+    private JCheckBox sloMoCB;
+
+
+    class SloMoAgent implements PreDecayListener {
+        IClock clock;
+
+        public SloMoAgent( IClock clock ) {
+            this.clock = clock;
+        }
+
+        public void alphaDecayOnNextTimeStep() {
+            clock.pause();
+        }
+    }
+
 
     public AlphaDecayControlPanel( final AlphaDecayModule module ) {
+
         this.module = module;
+        this.sloMoAgent = new SloMoAgent( module.getClock() );
 
         timerTF = new JTextField();
         timerTF.setEditable( false );
@@ -34,11 +55,31 @@ public class AlphaDecayControlPanel extends JPanel {
         timerTF.setHorizontalAlignment( JTextField.RIGHT );
         timerTF.setPreferredSize( new Dimension( 80, 30 ) );
 
-        JButton replayBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.ResetButton" ) );
-        replayBtn.addActionListener( new ActionListener() {
+        // Allow user to pause clock when decay occurs
+        sloMoCB = new JCheckBox( SimStrings.get("AlphaDecayControlPanel.PauseOnDecay" ));
+        sloMoCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( sloMoCB.isSelected() ) {
+                    ( (Uranium235)module.getNucleus() ).addPreDecayListener( sloMoAgent );
+                }
+                else {
+                    ( (Uranium235)module.getNucleus() ).removePreDecayListener( sloMoAgent );
+                }
+            }
+        } );
+
+        JButton resetBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.ResetButton" ) );
+        resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
+                IClock clock = module.getClock();
+                if( clock.isPaused() ) {
+                    clock.start();
+                }
+                if( sloMoCB.isSelected() ) {
+                    ( (Uranium235)module.getNucleus() ).addPreDecayListener( sloMoAgent );
+                }
             }
         } );
 
@@ -46,30 +87,35 @@ public class AlphaDecayControlPanel extends JPanel {
         int rowIdx = 0;
         try {
             GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
             GridBagUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
             GridBagUtil.addGridBagComponent( this, timerTF,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, sloMoCB,
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
             GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GridBagUtil.addGridBagComponent( this, replayBtn,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, resetBtn,
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();
@@ -120,7 +166,7 @@ public class AlphaDecayControlPanel extends JPanel {
                 final double runningTime = module.getClock().getSimulationTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        timerTF.setText( formatter.format( new Double( runningTime )) + SimStrings.get( "AlphaDecayControlPanel.TimeUnits") );
+                        timerTF.setText( formatter.format( new Double( runningTime ) ) + SimStrings.get( "AlphaDecayControlPanel.TimeUnits" ) );
                         AlphaDecayControlPanel.this.repaint();
                     }
                 } );

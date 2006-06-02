@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
@@ -21,6 +21,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
@@ -38,7 +40,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private float[] dashPattern = {10f};
     private float dashPhase = 5f;
     private final Stroke leaderLineStroke = new BasicStroke(1f, BasicStroke.CAP_BUTT,
-            BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase);
+                                                            BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase);
 
     /**
      * Constructor
@@ -76,8 +78,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
 
-        // Very ugly, but it works for now
-        //        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
         nucleus.addDecayListener(this);
 
         // Add the nucleus' jumping alpha particles to the model and the panels
@@ -183,6 +183,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         alphaDecayControlPanel.stopTimer();
 
+        changeListenerProxy.decayOccurred( new ChangeEvent( this ) );
+
         //Remove old nucleus
         getModel().removeModelElement(decayProducts.getParent());
         getPotentialProfilePanel().removePotentialProfile(decayProducts.getParent().getPotentialProfile());
@@ -208,4 +210,30 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         Kaboom kaboom = new Kaboom(new Point2D.Double(), 25, 300, getPhysicalPanel());
         getPhysicalPanel().addGraphic(kaboom);
     }
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void decayOccurred( ChangeEvent event );
+    }
+
 }

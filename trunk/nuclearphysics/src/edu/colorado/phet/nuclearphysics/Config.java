@@ -36,5 +36,5 @@ public class Config {
     // Regulates how fast the profile rises when fission occurs
 
     // Fonts
-    public static final Font PROFILE_PANEL_TITLE_FONT = new Font( "Lucidasans", Font.BOLD, 14 );
+    public static final Font PROFILE_PANEL_TITLE_FONT = new Font( "Lucida sans", Font.BOLD, 14 );
 }

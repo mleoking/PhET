@@ -17,6 +17,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
 
+/**
+ * Graphic for neutron used in fission panels
+ */
 public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
     private static Stroke outlineStroke = new BasicStroke( 0.35f );
@@ -40,20 +43,12 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         }
     }
 
-    //    private static HashMap graphicToModelMap = new HashMap();
-
-    //    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
-    //        return (NeutronGraphic)graphicToModelMap.get( neutron );
-    //    }
-
     public NeutronGraphic() {
         super( color );
     }
 
     public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
-        //        graphicToModelMap.put( particle, this );
-
         this.myParticle = particle;
     }
 
@@ -70,10 +65,10 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         g.setTransform( orgTx );
 
         g.setColor( Color.red );
-        if( myParticle != null ) {
-            g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
-                        (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY() );
-        }
+//        if( myParticle != null ) {
+//            g.drawLine( (int)myParticle.getPositionPrev().getX(), (int)myParticle.getPositionPrev().getY(),
+//                        (int)myParticle.getPosition().getX(), (int)myParticle.getPosition().getY() );
+//        }
 
     }
 

@@ -42,6 +42,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private JSpinner numU238Spinner;
     private JTextField percentDecayTF;
     private int startNumU235;
+    private JButton fireNeutronBtn;
+    private JButton resetBtn;
 
     /**
      * Constructor
@@ -65,9 +67,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 int modelNum = module.getU235Nuclei().size();
                 int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    numU235Spinner.setEnabled( false );
                     numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
-                    numU235Spinner.setEnabled( true );
                 }
 
                 // Compute and display the number of U235 nuclei that have fissioned
@@ -81,15 +81,13 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 modelNum = module.getU238Nuclei().size();
                 viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    numU238Spinner.setEnabled( false );
                     numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
-                    numU238Spinner.setEnabled( true );
                 }
             }
         } );
 
         // Create the controls
-        JButton fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
+        fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
@@ -97,14 +95,21 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 percentDecayTF.setEditable( false );
                 percentDecayTF.setBackground( Color.white );
                 startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
+                fireNeutronBtn.setEnabled( false );
+                resetBtn.setEnabled( true );
+                numU235Spinner.setEnabled( false );
+                numU238Spinner.setEnabled( false );
             }
         } );
+
+        //--------------------------------------------------------------------------------------------------
+        // Spinners
+        //--------------------------------------------------------------------------------------------------
 
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
-                percentDecayTF.setText( "0" );
             }
         } );
 
@@ -112,11 +117,14 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU238Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
-                percentDecayTF.setText( "0" );
             }
         } );
 
-        JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
+        //--------------------------------------------------------------------------------------------------
+        // Buttons
+        //--------------------------------------------------------------------------------------------------
+
+        resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
@@ -125,15 +133,23 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 percentDecayTF.setText( "0" );
                 numU235Spinner.setValue( new Integer( 1 ) );
                 numU238Spinner.setValue( new Integer( 0 ) );
+                fireNeutronBtn.setEnabled( true );
+                resetBtn.setEnabled( false );
+                numU235Spinner.setEnabled( true );
+                numU238Spinner.setEnabled( true );
             }
         } );
+        resetBtn.setEnabled( false );
+
+        //--------------------------------------------------------------------------------------------------
+        // Other controls
+        //--------------------------------------------------------------------------------------------------
 
         percentDecayTF = new JTextField( 4 );
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
         percentDecayTF.setEditable( false );
         percentDecayTF.setBackground( Color.white );
-
 
         final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
         containmentCB.setForeground( Color.white );
@@ -142,6 +158,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 module.setContainmentEnabled( containmentCB.isSelected() );
             }
         } );
+
 
         // Layout the panel
         setLayout( new GridBagLayout() );

@@ -2,18 +2,18 @@
 ?	This sim has the redraw problem worse than any other sim we currently have.  This is the problem that Sam M. brought up a month or two ago where on a slower computer or when there are many demands on the CPU the sim doesn’t completely draw.  This is the only sim I know of that doesn’t redraw on my new computer when it’s plugged in.  If I put a window over this sim and then go back to the sim I have to mess around with it or wait over a minute for it to come back.
 ?	This sim also has performance problems.  After it sits with nothing happening, it bogs everything down.  I know it keeps spitting out neutrons in the controlled reaction pane, it behaves as if it’s still doing things in the other panes also.
 ?	Instead of a Fire Neutron Button can we have a gun with a button that looks like the button on the QWI gun that fires the neutrons.  This would require the neutron to always come from the same direction which should not be a problem
-?	You can’t see what the buttons (Reset, Help, Pause) say.  They look grayed out on my computer. In fact, the ‘grayed out’ play and step buttons are many times easier to read than the active play button.
 ?	Need a color selection option for control panel.
-?	Change tabs so that they look like our new Tabs.
 ?	anti Alias the text (if it is already anti-aliased, then the font needs changed.)That’s what it’s called to get the smoother look?
 ?	Can the Fire Neutron Button look like the button that is on the lasers in QWI?
 -   add standard CVS and PhET headers
 -   Move some behavior from modules into the model
+-   Area behind tabs is the wrong color
+-   check boxes aren't visible in 1.4
 
 Alpha Radiation
-?	In interviews students really wanted a rewind button or replay so that they could watch the decay happen again?  Is my recollection correct that this is not possible?
 ?	We actually need to revisit the representation for alpha-decay in terms of potential energy curve… the curve should show a really deep potential energy and then the alpha particles have a whole lot of KE … so the graph should be labeled Energy of alpha particles with the y-axis should read “Energy” Then there should be a blue curve labeled potential energy, and another horizontal curve labeled Total energy
--   gridlines overlay the profile
+-   profile panel isn't centered properly relative to the upper panel
+-   Alpha particle sometimes disappears for first step of decay
 
 Fission:
 
@@ -23,14 +23,15 @@ Chain Reaction panel
 ?	The label “Controls” should be removed. … Wendy if this is to be done, it should be done on all the panels, which all say controls, but why take it out? Extra words – extra clutter, I’m not convinced that it adds anything.
 ?	Checkboxes have had so-so success in interviews.  Let’s replace the Enable Containment Vessel check box with a button that says Containment Vessel. The button should be an on/off type button
 ?	Instead of fading the containment vessel needs to break open/explode.
--   "Enable Containment Vessel" color isn't the same as the other labels in the panel
 -   % spinner acts unpleasant when a spinner is spun after a fission run
 -   Replace spinner with a slider(?) and text box
+
+    Questions
+        I don't know about the containment vessel fading.
 
 Controlled Reaction
 ?	The Energy Graphs box pops up on the far top left corner of my screen and the sim is in a window that fills only part of my screen so I didn’t notice the graph until later.  (If you close it there is no way to get it back).  Also The Energy Graphs box does not go away when I change panes. To correct these problems Try putting the energy graph fixed in the lower portion of the play area below the chamber I would suggest the lower left if we are going to put it in the play area.
 ?	The text labeling the graphs is very light and hard to read.
-?	The neutrons in this panel have tails and look like photons.  They should just be round balls.
 ?	After a reaction the neutrons continue to fly out the left hand side. I’ve waited about 3 minutes and this hasn’t stopped.  There is not energy production rate so they should not continue to fly out.
 ?	In addition, the black container should block neutrons.
 ?	Things move in this panel too fast also. I’d suggest half speed and we’ll look again.  It may need to be slower.
@@ -48,7 +49,8 @@ Done, not posted
 -   font for spinners is way too big in 1.5
 ?	Have the legend on each panel only display the applicable items to each tab.
 -   Button labels are illegible in 1.5
-
+?	You can’t see what the buttons (Reset, Help, Pause) say.  They look grayed out on my computer. In fact, the ‘grayed out’ play and step buttons are many times easier to read than the active play button.
+?	Change tabs so that they look like our new Tabs. Not very do-able. I made them bigger, though, and more prominent
 
 
 Alpha Radiation
@@ -56,6 +58,8 @@ Alpha Radiation
 ?	Change the label “Running time to decay (msec)” to “Time to decay” and can the units be placed with the number?
 ?	After the decay the alpha particle is moving around in the background instead of in the foreground.
 ?	The lower section should look like a graph sitting in the play area rather than more play area. During interviews all the students thought it was a physical representation and could not make sense out of it.  If it looks like a graph, it may go over better. Try making the axis lines more prominent also.
+-   gridlines overlay the profile, and there's a label to further suggest it is a graph
+?	In interviews students really wanted a rewind button or replay so that they could watch the decay happen again?  Is my recollection correct that this is not possible?
 
 Fission:
 ?	Speed reduced to half.
@@ -67,7 +71,10 @@ Chain Reaction panel
 ?	Remove “Percent” put a % sign to the right of the box or better yet, in the box with the number so that it’s formatted the same as the number.
 ?	I would suggest a vessel that’s half as thick.
 ?	There’s a wired little box that shows up around Enable Containment Vessel when you choose the check box but once you do something else in the control panel it disappears.
+-   "Enable Containment Vessel" color isn't the same as the other labels in the panel
 
+Controlled Reaction
+?	The neutrons in this panel have tails and look like photons.  They should just be round balls.
 
 Historical  todos
 =================
