@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -38,6 +39,7 @@ public class Body {
     private UpdateMode mode = freeFall;
     private double frictionCoefficient = 0.0;
     private double coefficientOfRestitution = 1.0;
+    private ArrayList listeners = new ArrayList();
 
     public Body( Shape bounds ) {
         this.bounds = bounds;
@@ -256,8 +258,11 @@ public class Body {
     }
 
     public void setThrust( double xThrust, double yThrust ) {
-        this.xThrust = xThrust;
-        this.yThrust = yThrust;
+        if( this.xThrust != xThrust || this.yThrust != yThrust ) {
+            this.xThrust = xThrust;
+            this.yThrust = yThrust;
+            notifyThrustChanged();
+        }
     }
 
     public AbstractVector2D getThrust() {
@@ -315,5 +320,20 @@ public class Body {
 
     public void resetMode() {
         freeFall.reset();
+    }
+
+    public static interface Listener {
+        void thrustChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyThrustChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.thrustChanged();
+        }
     }
 }

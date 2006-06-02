@@ -43,7 +43,6 @@ public class EC3Module extends PiccoloModule {
     public static final int chartFrameHeight = 200;
     private static final boolean DEFAULT_BAR_CHARTS_VISIBLE = false;
     private static final boolean DEFAULT_PLOT_VISIBLE = false;
-//    private Point2D.Double defaultBodyPosition = new Point2D.Double( 5, 5 );
     private Point2D.Double defaultBodyPosition = new Point2D.Double( 4, 7.25 );
     private JDialog energyPositionPlotFrame;
     private EnergyPositionPlotCanvas energyPositionCanvas;
@@ -57,7 +56,6 @@ public class EC3Module extends PiccoloModule {
     public EC3Module( String name, IClock clock, PhetFrame phetFrame ) {
         super( name, clock );
         this.phetFrame = phetFrame;
-//        clock.setTimeScalingConverter();
         energyModel = new EnergyConservationModel( floorY + 10 );
 
         addFloorSpline();
@@ -94,9 +92,10 @@ public class EC3Module extends PiccoloModule {
         energyPositionPlotFrame.setContentPane( energyPositionCanvas );
         energyPositionPlotFrame.setSize( 400, 400 );
 
-//        new AutoPan( energyCanvas, this );
         getModulePanel().setClockControlPanel( timeSeriesPlaybackPanel );
         setDefaults();
+
+        new WiggleMeInSpace( this ).start();
     }
 
     private void addFloorSpline() {
@@ -116,25 +115,6 @@ public class EC3Module extends PiccoloModule {
 
     public void stepModel( double dt ) {
         energyModel.stepInTime( dt );
-    }
-
-//    public void activate() {
-//        super.activate();
-////        barChartFrame.setVisible( true );
-////        chartFrame.setVisible( true );
-////        getPhetFrame().getBasicPhetPanel().setAppControlPanel( timeSeriesPlaybackPanel );
-//        setDefaults();
-//    }
-//
-//    public void deactivate() {
-//        super.deactivate();
-////        barChartFrame.setVisible( false );
-////        chartFrame.setVisible( false );
-////        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
-//    }
-
-    private PhetFrame getPhetFrame() {
-        return phetFrame;
     }
 
     public EnergyConservationModel getEnergyConservationModel() {
@@ -187,10 +167,6 @@ public class EC3Module extends PiccoloModule {
 
         PreFabSplines preFabSplines = new PreFabSplines();
         CubicSpline spline = preFabSplines.getParabolic();
-//        CubicSpline spline = preFabSplines.getTinyParabolic();
-//        CubicSpline spline = preFabSplines.getBugDonut();
-//        CubicSpline spline = preFabSplines.getLoop();
-//        CubicSpline spline = preFabSplines.getTightParabolic();
 
         SplineSurface surface = new SplineSurface( spline );
         SplineGraphic splineGraphic = new SplineGraphic( energyCanvas, surface );

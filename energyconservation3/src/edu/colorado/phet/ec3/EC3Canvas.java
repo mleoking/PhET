@@ -120,7 +120,7 @@ public class EC3Canvas extends PhetPCanvas {
     }
 
     private void addThrust() {
-        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListener() {
+        ec3Model.addEnergyModelListener( new EnergyConservationModel.EnergyModelListenerAdapter() {
             public void preStep( double dt ) {
                 updateThrust();
             }

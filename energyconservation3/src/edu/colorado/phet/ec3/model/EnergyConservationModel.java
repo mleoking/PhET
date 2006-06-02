@@ -71,9 +71,18 @@ public class EnergyConservationModel {
     }
 
     public void setGravity( double value ) {
-        this.gravity = value;
+        if( this.gravity != value ) {
+            this.gravity = value;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                EnergyModelListener energyModelListener = (EnergyModelListener)listeners.get( i );
+                energyModelListener.gravityChanged();
+            }
+        }
     }
 
+    public void removeEnergyModelListener( EnergyModelListener energyModelListener ) {
+        listeners.remove( energyModelListener );
+    }
 
     static interface EnergyConservationModelListener {
         public void numBodiesChanged();
@@ -326,8 +335,19 @@ public class EnergyConservationModel {
         thermalEnergy += dE;
     }
 
+    public static class EnergyModelListenerAdapter implements EnergyModelListener {
+
+        public void preStep( double dt ) {
+        }
+
+        public void gravityChanged() {
+        }
+    }
+
     public static interface EnergyModelListener {
         void preStep( double dt );
+
+        void gravityChanged();
     }
 
     public void addEnergyModelListener( EnergyModelListener listener ) {
