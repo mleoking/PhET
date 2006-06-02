@@ -12,6 +12,12 @@ import edu.colorado.phet.common.math.Vector2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+/**
+ * Alpha Particle
+ * <p>
+ * A type of nucleus that is either part of a larger nucleus, or has escaped. It's movement
+ * behavior is dependent on this bit of its state.
+ */
 public class AlphaParticle extends Nucleus {
 
     //--------------------------------------------------------------------------------------------------

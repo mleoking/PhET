@@ -74,6 +74,11 @@ public class NuclearPhysicsApplication extends PhetApplication {
         } );
     }
 
+
+    //--------------------------------------------------------------------------------------------------
+    // Look and Feel
+    //--------------------------------------------------------------------------------------------------
+
     private static class NuclearAppLookAndFeel extends LandF {
         static Color backgroundColor = new Color( 60, 80, 60 );
         static Color buttonBackgroundColor = new Color( 100, 120, 60 );
@@ -95,14 +100,16 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
         }
 
-        static Font font = new Font( "SansSerif", Font.BOLD, 16 );
+        static Font font = new Font( "Lucida sans", Font.BOLD, 16 );
+//        static Font font = new Font( "SansSerif", Font.BOLD, 16 );
 
         // Set the font smaller if the screen is has less resolution
         static {
             // Get the size of the default screen
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             if( dim.getHeight() < 800 ) {
-                font = new Font( "SansSerif", Font.BOLD, 14 );
+                font = new Font( "Lucida sans", Font.BOLD, 14 );
+//                font = new Font( "SansSerif", Font.BOLD, 14 );
             }
 
             if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
@@ -133,7 +140,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
         public NuclearAppLookAndFeel() {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
-            UIManager.put( "TabbedPane.font", new FontUIResource( "Lucidasans", Font.BOLD, 18 ));
+            UIManager.put( "TabbedPane.font", new FontUIResource( "Lucida sans", Font.BOLD, 18 ));
         }
     }
 
@@ -141,7 +148,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Color backgroundColor = new Color( 60, 80, 60 );
         Color buttonBackgroundColor = new Color( 60, 60, 100 );
         Color controlTextColor = new Color( 230, 230, 230 );
-        Font controlFont = new Font( "Lucidasans", Font.BOLD, 22 );
+        Font controlFont = new Font( "Lucida sans", Font.BOLD, 22 );
         static String[] controlTypes = new String[]{
                 "Menu",
                 "MenuItem",

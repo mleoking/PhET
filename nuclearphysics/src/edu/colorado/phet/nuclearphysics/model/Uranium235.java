@@ -14,6 +14,16 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Uranium235
+ * <p>
+ * These are special nuclei that can fission and decay. The stepInTime() method is
+ * pretty complicated, and could benefit from refactoring it into a state machine, or pluggable
+ * behaviors (perhaps a stepInTimeStrategy).
+ * <p>
+ * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
+ * and then notifies other listeners in that next time step.
+ */
 public class Uranium235 extends Nucleus {
 
     //----------------------------------------------------------------
@@ -37,6 +47,12 @@ public class Uranium235 extends Nucleus {
     //----------------------------------------------------------------
 
     private ArrayList decayListeners = new ArrayList();
+    // List of DecayListeners that want to be alerted the time step before general DecayListeners are notified. This
+    // is provided so that an agent can pause the clock so users can single-step through the decay process
+    private ArrayList preDecayListeners = new ArrayList();
+    // Flag to tell if we have taken the pre-decay time step
+    private boolean preDecayStep = false;
+
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
     private int morphTargetNeutrons;
     private int morphTargetProtons;
@@ -68,6 +84,14 @@ public class Uranium235 extends Nucleus {
 
     public AlphaParticle[] getAlphaParticles() {
         return alphaParticles;
+    }
+
+    public void addPreDecayListener( PreDecayListener listener ) {
+        this.preDecayListeners.add( listener );
+    }
+
+    public void removePreDecayListener( PreDecayListener listener ) {
+        this.preDecayListeners.remove( listener );
     }
 
     public void addDecayListener( DecayListener listener ) {
@@ -107,15 +131,24 @@ public class Uranium235 extends Nucleus {
             if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
                 > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
 
+                if( !preDecayStep ) {
+                    for( int i = 0; i < preDecayListeners.size(); i++ ) {
+                        PreDecayListener decayListener = (PreDecayListener)preDecayListeners.get( i );
+                        decayListener.alphaDecayOnNextTimeStep();
+                    }
+                    preDecayStep = true;
+                    return;
+                }
+
                 // set the alpha particle directly on the profile
-                double d = alphaParticle.getPosition().distance( this.getPosition() );
-                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
-                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
-                dx *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dx );
-                dy *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dy );
-                alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
-                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
-                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
+//                double d = alphaParticle.getPosition().distance( this.getPosition() );
+//                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
+//                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
+//                dx *= this.getPotentialProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dx ));
+//                dy *= this.getPotentialProfile().getAlphaDecayX() / d * (-MathUtil.getSign( dy ));
+//                alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
+//                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
+//                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
 
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
