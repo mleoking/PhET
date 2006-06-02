@@ -326,7 +326,8 @@ public class PNode implements Cloneable, Serializable, Printable {
 	public PTransformActivity animateTransformToBounds(double x, double y, double width, double height, long duration) {
 		PAffineTransform t = new PAffineTransform();
 		t.setToScale(width / getWidth(), height / getHeight());
-		t.setOffset(x, y);
+		double scale = t.getScale();
+		t.setOffset(x - (getX() * scale), y - (getY() * scale));
 		return animateToTransform(t, duration);
 	}
 
@@ -1271,7 +1272,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	// together with the union of the bounds of all the 
 	// node's descendents. The full bounds are stored in the parent
 	// coordinate system of this node, the full bounds DOES change 
-	// when you translate, SCALE, or rotate this node.
+	// when you translate, scale, or rotate this node.
 	// 
 	// The full bounds may be accessed with either getFullBounds, or 
 	// getFullBoundsReference. The former returns a copy of the full bounds
@@ -1712,10 +1713,10 @@ public class PNode implements Cloneable, Serializable, Printable {
 	}
 
 	/**
-	 * Return the SCALE applied by this node's transform. The SCALE is
+	 * Return the scale applied by this node's transform. The scale is 
 	 * effecting this node and all its descendents.
 	 * 
-	 * @return SCALE applied by this nodes transform.
+	 * @return scale applied by this nodes transform.
 	 */
 	public double getScale() {
 		if (transform == null) return 1;
@@ -1723,13 +1724,13 @@ public class PNode implements Cloneable, Serializable, Printable {
 	}
 
 	/**
-	 * Set the SCALE of this node's transform. The SCALE will
+	 * Set the scale of this node's transform. The scale will 
 	 * affect this node and all its descendents.
 	 * 
-	 * @param scale the SCALE to set the transform to
+	 * @param scale the scale to set the transform to
 	 */
 	public void setScale(double scale) {
-		if (scale == 0) throw new RuntimeException("Can't set SCALE to 0");
+		if (scale == 0) throw new RuntimeException("Can't set scale to 0");
 		scale(scale / getScale());
 	}
 
@@ -1737,7 +1738,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * Scale this nodes transform by the given amount. This will affect this
 	 * node and all of its descendents.
 	 * 
-	 * @param scale the amount to SCALE by
+	 * @param scale the amount to scale by
 	 */
 	public void scale(double scale) {
 		scaleAboutPoint(scale, 0, 0);
@@ -1747,8 +1748,8 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * Scale this nodes transform by the given amount about the specified
 	 * point. This will affect this node and all of its descendents.
 	 * 
-	 * @param scale the amount to SCALE by
-	 * @param point the point to SCALE about
+	 * @param scale the amount to scale by
+	 * @param point the point to scale about
 	 */
 	public void scaleAboutPoint(double scale, Point2D point) {
 		scaleAboutPoint(scale, point.getX(), point.getY());
@@ -1758,7 +1759,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * Scale this nodes transform by the given amount about the specified
 	 * point. This will affect this node and all of its descendents.
 	 * 
-	 * @param scale the amount to SCALE by
+	 * @param scale the amount to scale by
 	 */
 	public void scaleAboutPoint(double scale, double x, double y) {
 		getTransformReference(true).scaleAboutPoint(scale, x, y);
@@ -1768,7 +1769,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	}
 
 	/**
-	 * Return the global SCALE that is being applied to this node by its transform
+	 * Return the global scale that is being applied to this node by its transform
 	 * together with the transforms of all its ancestors.
 	 */ 
 	public double getGlobalScale() {
@@ -1776,11 +1777,11 @@ public class PNode implements Cloneable, Serializable, Printable {
 	}
 
 	/**
-	 * Set the global SCALE of this node. This is implemented by scaling
-	 * this nodes transform the required amount so that the nodes global SCALE
+	 * Set the global scale of this node. This is implemented by scaling
+	 * this nodes transform the required amount so that the nodes global scale
 	 * is as requested.
 	 * 
-	 * @param scale the desired global SCALE
+	 * @param scale the desired global scale
 	 */
 	public void setGlobalScale(double scale) {
 		if (parent != null) {
@@ -1818,7 +1819,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * transform. This offset effects this node and all of its descendents and
 	 * is specified in the nodes parent coordinate system. This directly sets the values
 	 * of the m02 and m12 positions in the affine transform. Unlike "PNode.translate()" it
-	 * is not effected by the transforms SCALE.
+	 * is not effected by the transforms scale.
 	 * 
 	 * @param point a point representing the x and y offset
 	 */
@@ -1831,7 +1832,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 	 * transform. This offset effects this node and all of its descendents and
 	 * is specified in the nodes parent coordinate system. This directly sets the values
 	 * of the m02 and m12 positions in the affine transform. Unlike "PNode.translate()" it
-	 * is not effected by the transforms SCALE.
+	 * is not effected by the transforms scale.
 	 * 
 	 * @param x amount of x offset
 	 * @param y amount of y offset
@@ -1845,7 +1846,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 
 	/**
 	 * Offset this node relative to the parents coordinate system, and is NOT
-	 * effected by this nodes current SCALE or rotation. This is implemented
+	 * effected by this nodes current scale or rotation. This is implemented
 	 * by directly adding dx to the m02 position and dy to the m12 position in the
 	 * affine transform.
 	 */
@@ -1881,7 +1882,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 
 	/**
 	 * Set the global translation of this node. This is implemented by translating
-	 * this nodes transform the required amount so that the nodes global SCALE
+	 * this nodes transform the required amount so that the nodes global scale
 	 * is as requested.
 	 * 
 	 * @param globalPoint the desired global translation
@@ -2433,7 +2434,7 @@ public class PNode implements Cloneable, Serializable, Printable {
 		g2.setClip(0, 0, (int)pageFormat.getWidth(), (int)pageFormat.getHeight());
 		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-		// SCALE the graphics so node's full bounds fit in the imageable bounds.
+		// scale the graphics so node's full bounds fit in the imageable bounds.
 		double scale = pageFormat.getImageableWidth() / imageBounds.getWidth();
 		if (pageFormat.getImageableHeight() / imageBounds.getHeight() < scale) {
 			scale = pageFormat.getImageableHeight() / imageBounds.getHeight();

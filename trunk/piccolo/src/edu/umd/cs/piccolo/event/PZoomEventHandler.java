@@ -107,7 +107,7 @@ public class PZoomEventHandler extends PDragSequenceEventHandler {
 	/**
 	 * Sets the maximum view magnification factor that this event handler is bound by.
 	 * The camera is left at its current scale even if <code>maxScale</code> is smaller than
-	 * the current scale. Use Double.MAX_VALUE to specify the largest possible scale.
+	 * the current scale. Use Double.MAX_VALUE to specify the largest possible scale. 
 	 * @param maxScale the maximum scale, must not be negative.
 	 */
 	public void setMaxScale(double maxScale) {

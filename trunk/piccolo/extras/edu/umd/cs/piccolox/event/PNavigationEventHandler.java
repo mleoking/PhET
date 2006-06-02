@@ -53,7 +53,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * <b>PNavigationEventHandler</b> implements simple focus based navigation. Uses 
  * mouse button one or the arrow keys to set a new focus. Animates the canvas
- * view to keep the focus node on the screen and at 100 percent scale with minimal
+ * view to keep the focus node on the screen and at 100 percent scale with minimal 
  * view movement.
  * <P>
  * @version 1.0

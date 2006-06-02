@@ -52,7 +52,7 @@ public class PComposite extends PNode {
 		double sx = width / childBounds.width;
 		double sy = height / childBounds.height;
 		double scale = sx > sy ? sx : sy;
-
+		
 		Iterator i = getChildrenIterator();
 		while (i.hasNext()) {
 			PNode each = (PNode) i.next();

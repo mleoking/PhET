@@ -39,6 +39,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -96,6 +97,7 @@ public class PPath extends PNode {
     public static final int PROPERTY_CODE_PATH = 1 << 18;
 	
 	private static final Rectangle2D.Float TEMP_RECTANGLE = new Rectangle2D.Float();
+	private static final RoundRectangle2D.Float TEMP_ROUNDRECTANGLE = new RoundRectangle2D.Float();
 	private static final Ellipse2D.Float TEMP_ELLIPSE = new Ellipse2D.Float();
 	private static final PAffineTransform TEMP_TRANSFORM = new PAffineTransform();
 	private static final BasicStroke DEFAULT_STROKE = new BasicStroke(1.0f);
@@ -113,7 +115,14 @@ public class PPath extends PNode {
 		result.setPaint(Color.white);
 		return result;
 	}
-		
+
+	public static PPath createRoundRectangle(float x, float y, float width, float height, float arcWidth, float arcHeight) {
+		TEMP_ROUNDRECTANGLE.setRoundRect(x, y, width, height, arcWidth, arcHeight);
+		PPath result = new PPath(TEMP_ROUNDRECTANGLE);
+		result.setPaint(Color.white);
+		return result;
+	}
+
 	public static PPath createEllipse(float x, float y, float width, float height) {
 		TEMP_ELLIPSE.setFrame(x, y, width, height);
 		PPath result = new PPath(TEMP_ELLIPSE);

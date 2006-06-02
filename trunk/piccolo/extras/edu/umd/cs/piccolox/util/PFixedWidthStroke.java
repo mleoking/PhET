@@ -306,6 +306,8 @@ public class PFixedWidthStroke implements Stroke, Serializable {
 			}
 
 			consumer.endPath();
+
+			consumer.dispose(); // hack to fix memory leak, shouldn't be neccessary but is.
 		} catch (PathException e) {
 			throw new InternalError("Unable to Stroke shape ("+
 						e.getMessage()+")");
