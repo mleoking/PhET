@@ -1,4 +1,4 @@
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.piccolo.help;
 
 /**
  * User: Sam Reid

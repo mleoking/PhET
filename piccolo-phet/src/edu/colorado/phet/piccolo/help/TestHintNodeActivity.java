@@ -1,4 +1,4 @@
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.piccolo.help;
 
 import edu.umd.cs.piccolox.activities.PPositionPathActivity;
 

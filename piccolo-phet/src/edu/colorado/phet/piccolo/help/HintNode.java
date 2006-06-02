@@ -1,4 +1,4 @@
-package edu.colorado.phet.ec3.test;
+package edu.colorado.phet.piccolo.help;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
