@@ -1,4 +1,3 @@
-/* Copyright 2004, Sam Reid */
 package edu.colorado.phet.ec3.test;
 
 import edu.umd.cs.piccolox.activities.PPositionPathActivity;
