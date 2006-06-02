@@ -306,6 +306,14 @@ public class HelpBalloon extends AbstractHelpItem {
 
     // Balloon attributes ------------------------------------------------------
     
+    public void setBalloonVisible( boolean visible ) {
+        _balloonNode.setVisible( visible );
+    }
+    
+    public boolean isBalloonVisible() {
+        return _balloonNode.getVisible();
+    }
+    
     public void setBalloonFillPaint( Paint paint ) {
         _balloonNode.setPaint( paint );
     }
