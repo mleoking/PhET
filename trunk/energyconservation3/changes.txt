@@ -1,4 +1,4 @@
--Version 0.00.22
+-Version 0.00.22 (6-2-2006)
 Decreased the sensitivity of the 'return the skater' button; skater has to be completely offscreen (not partially offscreen)
 Moved the pie chart legend to the bottom of the page.
 Added a jet pack graphic which points the correct direction.
