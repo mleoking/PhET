@@ -91,6 +91,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
      */
     private class SimPanel extends JPanel implements Catalog.ChangeListener, SimulationContainer {
         private SimulationTable simTable;
+        private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
         private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
@@ -144,7 +145,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             simListA.removeAll( Catalog.instance().getInstalledSimulations() );
 
             // Create the SimulationTable
-            simTable = new SimulationTable( simListA, Options.instance().isShowUninstalledThumbnails() );
+            simTable = new SimulationTable( simListA,
+                                            Options.instance().isShowUninstalledThumbnails(),
+                                            simTableSortType );
             simTable.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
                     handleSimulationSelection( e );

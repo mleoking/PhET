@@ -11,6 +11,7 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.actions.SimListingOptionsAction;
+import edu.colorado.phet.simlauncher.actions.MostRecentlyUsedSortAction;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -28,7 +29,10 @@ class SimulationsViewMenu extends JMenu {
         add( new JMenuItem( new SimListingOptionsAction( this ) ) );
         JMenu subMenu = new JMenu( "Sort installed simulations" );
         subMenu.add( new JMenuItem( "Alphabetical" ) );
-        subMenu.add( new JMenuItem( "Most recently used first" ) );
+        JMenuItem mostRecentlyUsedMI = new JMenuItem( "Most recently used first" );
+        subMenu.add( mostRecentlyUsedMI );
+        mostRecentlyUsedMI.addActionListener( new MostRecentlyUsedSortAction() );
+
         JMenuItem customMI = new JMenuItem( "Custom" );
         subMenu.add( customMI );
         customMI.addActionListener( new ActionListener() {

@@ -18,6 +18,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * InstalledSimsPane
@@ -25,9 +27,11 @@ import java.awt.event.MouseEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener, SimulationContainer {
+public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
+                                                         SimulationContainer {
 
     private SimulationTable simTable;
+    private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
@@ -52,6 +56,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // Launch button
         launchBtn = new JButton( "Launch" );
         launchBtn.addActionListener( new LaunchSimulationAction( this, this ) );
+        launchBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                updateSimTable();
+            }
+        } );
         launchBtn.setEnabled( false );
         add( launchBtn, launchButtonGbc );
 
@@ -60,10 +69,12 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // Listen for changes in Options
         Options.instance().addListener( new Options.ChangeListener() {
             public void optionsChanged( Options.ChangeEvent event ) {
+                if( simTableSortType != event.getOptions().getInstalledSimulationsSortType() ) {
+                    simTableSortType = event.getOptions().getInstalledSimulationsSortType();
+                }
                 updateSimTable();
             }
         } );
-
     }
 
     /**
@@ -87,7 +98,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         }
 
         simTable = new SimulationTable( Catalog.instance().getInstalledSimulations(),
-                                        Options.instance().isShowInstalledThumbnails() );
+                                        Options.instance().isShowInstalledThumbnails(),
+                                        simTableSortType );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseAdapter() {
@@ -107,17 +119,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
         revalidate();
-    }
-
-    /**
-     * Launches the simulation
-     *
-     * @param sim
-     */
-    private void launchSim( Simulation sim ) {
-        if( sim != null ) {
-            sim.launch();
-        }
     }
 
     /**
@@ -157,5 +158,4 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     public Simulation getSimulation() {
         return simTable.getSimulation();
     }
-
 }
