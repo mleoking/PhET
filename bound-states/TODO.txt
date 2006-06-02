@@ -5,14 +5,13 @@
 IN PROGRESS:
 
 Magnifying glass TODO:
-- cursor changes to an arrow after hiliting via the lens, should remain a hand
 - bottom and top edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
 - solve problem with potential plot being drawn on top (Mac only?)
 - reposition (and scale?) the magnifying glass when the canvas size changes
 - set initial position, centered on lowest "band" of eigenstates shown in Energy chart
 
 HIGH PRIORITY:
-- normalize the bottom plots, not currently normalized in superposition state
+- time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
 - magnifying glass
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
@@ -62,6 +61,7 @@ CLEANUP:
 
 
 DONE:
+(6/2/06) - bugfix: cursor changes to an arrow after hiliting via the lens, should remain a hand
 (6/2/06) - convert to PiccoloPhetApplication to get new tabs
 (6/2/06) - wrap main in invokeLater
 (6/2/06) - test with use new AWTSplashWindow
