@@ -4,13 +4,10 @@
 
 IN PROGRESS:
 
-Magnifying glass TODO:
-- bottom and top edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
-- solve problem with potential plot being drawn on top (Mac only?)
-
 HIGH PRIORITY:
-- time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
-- magnifying glass
+- bug: top/bottom edge of chart (and plots?) don't line up with center of mag glass lens, worse as mag power increases
+- bug: potential plot is sometimes drawn on top of mag glass (Mac only?)
+- bug: time-independent wave functions must be normalized (area under curve sums to 1) when in a superposition state
 - drag handles for each potential type (all slightly different)
 - compare everything to Schmidt-Lee applet
 - cache wavefunction solutions
@@ -19,9 +16,9 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - hide the dot in the center of the magnifying glass
 - what things should cause the clock to restart?
-- hide y-axis labels on bottom plots
+- hide y-axis tick labels (and tick marks?) on bottom plots
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
-- add presets combobox to superposition dialog
+- "superposition state presets" feature
 - add a WiggleMe "Select an energy level", have it appear on default module (or all modules)
 - Carl reports a slow down after running the sim for awhile (looking at 3D Coulomb wave function, real + imaginary)
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
