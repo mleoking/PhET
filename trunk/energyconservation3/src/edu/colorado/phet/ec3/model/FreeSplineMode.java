@@ -73,7 +73,7 @@ public class FreeSplineMode extends ForceMode {
         Segment segment = getSegment( body );
         if( segment == null ) {
             flyOffSurface( body, model, dt, originalState.getMechanicalEnergy() );
-            System.out.println( "Fly off surface!" );
+            EC3Debug.debug( "Fly off surface!" );
             return;
         }
         rotateBody( body, segment, dt, getMaxRotDTheta( dt ) );
