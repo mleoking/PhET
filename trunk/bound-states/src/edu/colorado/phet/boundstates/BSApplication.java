@@ -252,7 +252,14 @@ public class BSApplication extends PiccoloPhetApplication {
      */
     public static void main( final String[] args ) throws IOException, InterruptedException, InvocationTargetException {
 
-        // Do all initialization in the event dispatch thread.
+        /* 
+         * Wrap the body of main in invokeLater, so that all initialization occurs 
+         * in the event dispatch thread. Sun now recommends doing all Swing init in
+         * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
+         * seem to cause startup deadlock problems if they aren't initialized in the 
+         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * non-Swing init, we're stuck doing everything in invokeLater.
+         */
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
