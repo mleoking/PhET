@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.tests.piccolo;
+package edu.colorado.phet.tests.piccolo.help;
 
 import java.awt.*;
 import java.awt.event.*;
