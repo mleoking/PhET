@@ -13,7 +13,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.view.ITabbedModulePane;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.TabbedModulePanePhetGraphics;
+import edu.colorado.phet.common.view.JTabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -229,7 +229,7 @@ public class PhetApplication {
      * @param modules
      */
     public JComponent createTabbedPane( Module[] modules ) {
-        ITabbedModulePane tabbedPane = new TabbedModulePanePhetGraphics();
+        ITabbedModulePane tabbedPane = new JTabbedModulePane();
         tabbedPane.init( this, modules );
         return (JComponent)tabbedPane;
     }
