@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import smooth.SmoothLookAndFeelFactory;
 
@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Copyright (c) Mar 21, 2006 by Sam Reid
  */
 
-public class WaveInterferenceApplication extends PhetApplication {
+public class WaveInterferenceApplication extends PiccoloPhetApplication {
     private static String VERSION = "0.00.21";
     private static final String LOCALIZATION_BUNDLE_BASENAME = "localization/wi";
 
