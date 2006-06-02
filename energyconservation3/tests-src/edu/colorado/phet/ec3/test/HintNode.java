@@ -26,30 +26,30 @@ import java.beans.PropertyChangeListener;
  * <p/>
  * Wiggle Me
  * <p/>
- * Features:
- * - default motion: moves in a straight line from a "start" to "end"
+ * Features:                                                             <br>
+ * - default motion: moves in a straight line from a "start" to "end"<br>
  * location, variable motion speed, optional deceleration, stops moving
  * immediately when it reaches end location
- * - default motion is replaceable (via subclassing)
- * - text string: internationalized, supports HTML, variable color and font
- * - optional drop shadow on text, with variable color
- * - optional bubble behind text, with variable fill color, stroke color
+ * - default motion is replaceable<br>
+ * - text string: internationalized, supports HTML, variable color and font<br>
+ * - optional drop shadow on text, with variable color<br>
+ * - optional bubble behind text, with variable fill color, stroke color<br>
  * - optional arrow, with variable fill color, stroke color, length, head
  * size, attachment point, and direction
- * - arrow (if present) is visible while the wiggle me is in motion
+ * - arrow (if present) is visible while the wiggle me is in motion<br>
  * <p/>
  * Usage Guidelines:
  * - use a wiggle me to get the user started on a task, or to expose a
- * non-obvious feature
- * - make the wiggle me disappear when the user takes some action
- * - shouldn't reappear after it disappears
- * - "start" location is typically off screen
- * - "end" location is in the play area
+ * non-obvious feature<br>
+ * - make the wiggle me disappear when the user takes some action<br>
+ * - shouldn't reappear after it disappears<br>
+ * - "start" location is typically off screen<br>
+ * - "end" location is in the play area<br>
  * - text is brief and indicates an action the user should take (eg,
- * "Click on A!")
- * - use a bubble behind the text when the background is too busy
+ * "Click on A!")<br>
+ * - use a bubble behind the text when the background is too busy<br>
  * - use an arrow when it's not clear what the wiggle me refers to
- * - maximum of one wiggle me per panel
+ * - maximum of one wiggle me per panel<br>
  */
 
 public class HintNode extends PhetPNode {
@@ -59,6 +59,11 @@ public class HintNode extends PhetPNode {
     private BackgroundNode backgroundNode;
     private ArrowNode arrowNode;
 
+    /**
+     * Construct a HintNode with default settings for the specified text string.
+     *
+     * @param text
+     */
     public HintNode( String text ) {
         shadowHTMLGraphic = new ShadowHTMLGraphic( text );
         shadowHTMLGraphic.setShadowColor( Color.lightGray );
@@ -76,6 +81,11 @@ public class HintNode extends PhetPNode {
         update();
     }
 
+    /**
+     * Sets the activity that moves this node.
+     *
+     * @param pActivity
+     */
     public void setActivity( PActivity pActivity ) {
         if( this.activity != null ) {
             this.activity.terminate();
@@ -85,6 +95,13 @@ public class HintNode extends PhetPNode {
         testSchedule();
     }
 
+    public void setBackgroundInsets( int insetX, int insetY ) {
+        backgroundNode.setInsets( insetX, insetY );
+    }
+
+    /**
+     * This class encompasses the background (if any) for the HintNode.
+     */
     public static class BackgroundNode extends PNode {
         private Paint lightGray;
         private Stroke basicStroke;
@@ -131,6 +148,9 @@ public class HintNode extends PhetPNode {
         }
     }
 
+    /**
+     * This class represents the arrow part of the HintNode.
+     */
     public static class ArrowNode extends PNode {
         private double angle;
         private double arrowLength;
@@ -172,6 +192,11 @@ public class HintNode extends PhetPNode {
         arrowNode.setVisible( visible );
     }
 
+    /**
+     * Draws the node; ensures the activity is active.
+     *
+     * @param paintContext
+     */
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
         testSchedule();

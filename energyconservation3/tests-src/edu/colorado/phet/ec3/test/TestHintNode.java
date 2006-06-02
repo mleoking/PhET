@@ -26,6 +26,8 @@ public class TestHintNode {
 
         PCanvas pCanvas = new PCanvas();
         pCanvas.setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        pCanvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        pCanvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         frame.setContentPane( pCanvas );
 
         /**Set up the HintNode*/
@@ -33,9 +35,10 @@ public class TestHintNode {
         hintNode.setBackgroundPaint( Color.yellow );
         hintNode.setBackgroundStrokePaint( Color.black );
         hintNode.setBackgroundStroke( new BasicStroke( 3 ) );
+        hintNode.setBackgroundInsets( 5, 5 );
 
         hintNode.setArrow( Math.PI / 2, 100.0 );
-        hintNode.setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+        hintNode.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
         hintNode.setOffset( -hintNode.getFullBounds().getWidth() / 2, 300 );
         hintNode.animateToLocation( 100, 100 );
 
