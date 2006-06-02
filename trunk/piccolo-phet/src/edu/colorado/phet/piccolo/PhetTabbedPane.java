@@ -717,7 +717,7 @@ public class PhetTabbedPane extends JPanel {
         }
 
         private double getTabInsetFudgeFactor() {
-            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "mac os x" ) > 0 ) {
+            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "mac os x" ) >= 0 ) {
                 return 2;
             }
             else {
