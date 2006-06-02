@@ -19,9 +19,9 @@ public class RecordMode extends Mode {
     }
 
     public void initialize() {
-        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
-        double recTime = timeSeriesModel.getRecordTime();
-        timeSeriesModel.setReplayTime( recTime );
+//        TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
+//        double recTime = timeSeriesModel.getRecordTime();
+//        timeSeriesModel.setReplayTime( recTime );
     }
 
     public void reset() {

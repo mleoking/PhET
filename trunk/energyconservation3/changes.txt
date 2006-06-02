@@ -6,6 +6,7 @@ Bugfix: Background color doesn't match image color for different screen sizes.
 Reduced download size by 120kb (removal of unused images).
 Added a wiggle me hint for using the arrow keys to apply thrust; the hint appears when choosing zero-gravity first time.
 Added zoom in/out for energy-position plot.
+Bugfix: Setting record, then live, then record resets to last record state.
 
 -Changes for 0.00.21 (5-29-2006)
 Added a button to return the skater when he has flown out of view.

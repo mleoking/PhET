@@ -2,9 +2,6 @@
 Remaining Work
 #######################################
 
-Zoomable Energy vs Position graphs.
-
-Bug: Setting record, then live, then record resets to last record state.
 
 #################################################################
 Low Priority
@@ -60,3 +57,6 @@ Add clipping to energy vs position plot (so data doesn't fall outside the data a
 1. It is not confusing.
 2. It actually shows data that would be otherwise hidden.
 We haven't yet gathered interview results for this; we should revise the plan here after interviews.
+
+Record, then playback, then record deletes the first record sequence.  This may be a good default, but it occurred unexpectedly in the bugfix:
+>>Bugfix: Setting record, then live, then record resets to last record state.
