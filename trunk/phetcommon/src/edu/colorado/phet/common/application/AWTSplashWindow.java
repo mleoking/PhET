@@ -51,10 +51,18 @@ public class AWTSplashWindow extends Window {
 
         final GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 20, 0, 10 ), 0, 0 );
 
-        Panel panel = new Panel( new GridBagLayout() ) {
+        final Panel panel = new Panel( new GridBagLayout() ) {
             public void paint( Graphics g ) {
-                super.paint( g );
-                drawBorder( this, g );
+                if( g != null ) {
+                    super.paint( g );
+                    drawBorder( this, g );
+                }
+            }
+
+            public void update( Graphics g ) {
+                if( g != null ) {
+                    paint( g );
+                }
             }
         };
         add( panel );
@@ -69,6 +77,23 @@ public class AWTSplashWindow extends Window {
         gbc.insets = new Insets( 10, 10, 20, 20 );
         panel.add( animationComponent, gbc );
         panel.setBackground( new Color( 200, 240, 200 ) );  // light green );
+
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                while( !done ) {
+                    try {
+                        Thread.sleep( 30 );
+                        panel.invalidate();
+                        panel.repaint();
+                        panel.update( panel.getGraphics() );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } );
+        t.start();
 
         invalidate();
         pack();
@@ -94,25 +119,6 @@ public class AWTSplashWindow extends Window {
     private class AnimationComponent extends Component {
         int blockWidth = 20;
         int blockHeight = 14;
-
-        public AnimationComponent() {
-            Thread t = new Thread( new Runnable() {
-                public void run() {
-                    while( !done ) {
-                        try {
-                            Thread.sleep( 30 );
-                            invalidate();
-                            repaint();
-                            update( getGraphics() );
-                        }
-                        catch( InterruptedException e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } );
-            t.start();
-        }
 
         public Dimension getPreferredSize() {
             return getMinimumSize();
@@ -163,7 +169,7 @@ public class AWTSplashWindow extends Window {
 
         public void paint( Graphics g ) {
             super.paint( g );
-            g.drawImage( image, 0, 0, this );
+            g.drawImage( image, 0, 0, null );
         }
     }
 
@@ -189,24 +195,41 @@ public class AWTSplashWindow extends Window {
         }
         catch( IOException e ) {
             e.printStackTrace();
-            throw new RuntimeException( "no phet image!" );
+            return null;
         }
     }
 
     public static void main( String[] args ) throws InterruptedException, InvocationTargetException {
-        AWTSplashWindow awtSplashWindow = new AWTSplashWindow( getPhetImage(), "Energy Skate Park" );
-        awtSplashWindow.showSplashScreen();
-        Thread.sleep( 1000 );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep( 5000 );
+                    runTest();
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
+                catch( InvocationTargetException e ) {
+                    e.printStackTrace();
+                }
             }
         } );
+//        runTest();
+    }
+
+    private static void runTest() throws InterruptedException, InvocationTargetException {
+        AWTSplashWindow awtSplashWindow = new AWTSplashWindow( getPhetImage(), "Energy Skate Park" );
+        awtSplashWindow.showSplashScreen();
+        Thread.sleep( 1000 );
+//        SwingUtilities.invokeAndWait( new Runnable() {
+//            public void run() {
+//                try {
+        Thread.sleep( 5000 );
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } );
         Thread.sleep( 1000 );
         awtSplashWindow.hideSplash();
     }
