@@ -79,7 +79,7 @@ public class PPositionPathActivity extends PPathActivity {
 
 	public void setPositions(Point2D[] positions) {
 		this.positions = positions;
-	}	
+	}
 
 	public void setPosition(int index, Point2D position) {
 		positions[index] = position;
@@ -92,10 +92,10 @@ public class PPositionPathActivity extends PPathActivity {
 		float distanceSum = 0;
 		float lastMoveToX = 0;
 		float lastMoveToY = 0;
-		
+
 		while (!pi.isDone()) {
 			int type = pi.currentSegment(point);
-			
+
 			switch (type) {
 				case PathIterator.SEG_MOVETO:
 					points.add(new Point2D.Float(point[0], point[1]));
@@ -110,37 +110,37 @@ public class PPositionPathActivity extends PPathActivity {
 				case PathIterator.SEG_CLOSE:
 					points.add(new Point2D.Float(lastMoveToX, lastMoveToY));
 					break;
-					
+
 				case PathIterator.SEG_QUADTO:
 				case PathIterator.SEG_CUBICTO:
 					throw new RuntimeException();
 			}
-			
+
 			if (points.size() > 1) {
 				Point2D last = (Point2D) points.get(points.size() - 2);
 				Point2D current = (Point2D) points.get(points.size() - 1);
 				distanceSum += last.distance(current);
 			}
-						
+
 			pi.next();
 		}
-		
+
 		int size = points.size();
 		Point2D newPositions[] = new Point2D[size];
 		float newKnots[] = new float[size];
-		
+
 		for (int i = 0; i < size; i++) {
 			newPositions[i] = (Point2D) points.get(i);
 			if (i > 0) {
-				float dist = (float) positions[i - 1].distance(newPositions[i]);
+				float dist = (float) (positions!=null&&i>positions.length&&positions[i-1]!=null?positions[i - 1]:new Point2D.Double(0,0)).distance(newPositions[i]);
 				newKnots[i] = newKnots[i - 1] + (dist / distanceSum);
 			}
 		}
-		
+
 		setPositions(newPositions);
 		setKnots(newKnots);
 	}
-	
+
 	public void setRelativeTargetValue(float zeroToOne, int startKnot, int endKnot) {
 		Point2D start = getPosition(startKnot);
 		Point2D end = getPosition(endKnot);
