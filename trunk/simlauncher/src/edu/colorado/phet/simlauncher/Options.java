@@ -14,6 +14,10 @@ import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Properties;
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
+import java.io.*;
 
 /**
  * Options
@@ -26,8 +30,28 @@ public class Options {
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+    private static Options instance;
 
-    private static Options instance = new Options();
+    static {
+        // If there is a stored set of options, create the singleton from it. Otherwise, just
+        // create a new instance
+        if( Configuration.instance().getOptionsFile().exists() ) {
+            try {
+                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream(
+                        new FileInputStream( Configuration.instance().getOptionsFile() ) ) );
+
+                // MyClass is declared in e7 Serializing a Bean to XML
+                instance = (Options)decoder.readObject();
+                decoder.close();
+            }
+            catch( FileNotFoundException e ) {
+            }
+        }
+        else {
+            instance = new Options();
+        }
+        System.out.println( "instance.getInstalledSimulationsSortType() = " + instance.getInstalledSimulationsSortType() );
+    }
 
     public static Options instance() {
         return instance;
@@ -36,7 +60,7 @@ public class Options {
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
-
+//    private Properties properties = new Properties();
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
@@ -45,7 +69,33 @@ public class Options {
     /**
      * Private constructor to enforce singleton
      */
-    private Options() {
+    public Options() {
+//        if( Configuration.instance().getOptionsFile().exists() ) {
+        // If there is a stored set of options, create the singleton from it. Otherwise, just
+        // create a new instance
+//            try {
+//                properties.load( new FileInputStream( Configuration.instance().getOptionsFile() ) );
+//            }
+//            catch( IOException e ) {
+//            }
+//        }
+    }
+
+    public void save() {
+//        try {
+//            properties.store( new FileOutputStream( "filename.properties" ), null );
+//        }
+//        catch( IOException e ) {
+//        }
+        try {
+            // Serialize object into XML
+            XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream(
+                    new FileOutputStream( Configuration.instance().getOptionsFile() ) ) );
+            encoder.writeObject( this );
+            encoder.close();
+        }
+        catch( FileNotFoundException e ) {
+        }
     }
 
     public boolean isShowInstalledThumbnails() {
@@ -53,8 +103,11 @@ public class Options {
     }
 
     public void setShowInstalledThumbnails( boolean showInstalledThumbnails ) {
+//        properties.put( "showInstalledThumbnails", Boolean.toString( showInstalledThumbnails ));
         setShowInstalledThumbnailsNoUpdate( showInstalledThumbnails );
         notifyListeners();
+
+        // todo: ?Options changed?
     }
 
     public void setShowInstalledThumbnailsNoUpdate( boolean showInstalledThumbnails ) {
@@ -67,6 +120,7 @@ public class Options {
     }
 
     public void setShowUninstalledThumbnails( boolean showUninstalledThumbnails ) {
+//        properties.put( "showUnstalledThumbnails", Boolean.toString( showUninstalledThumbnails ));
         setShowUninstalledThumbnailsNoUpdate( showUninstalledThumbnails );
         notifyListeners();
     }
@@ -81,6 +135,7 @@ public class Options {
     }
 
     public void setInstalledSimulationsSortType( SimulationTable.SimulationComparator installedSimulationsSortType ) {
+//        properties.put( "installedSimulationsSortType", Boolean.toString( showInstalledThumbnails ));
         this.installedSimulationsSortType = installedSimulationsSortType;
         optionsChanged = true;
         notifyListeners();
@@ -88,6 +143,7 @@ public class Options {
 
     public void notifyListeners() {
         if( optionsChanged ) {
+            save();
             changeListenerProxy.optionsChanged( new ChangeEvent( this ) );
             optionsChanged = false;
         }
