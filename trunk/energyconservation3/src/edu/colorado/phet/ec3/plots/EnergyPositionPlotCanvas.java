@@ -57,6 +57,10 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
     private EnergyType total;
     private JPanel southPanel;
 
+    public void chartRangeChanged() {
+        updateGraphics();
+    }
+
     static abstract class EnergyType {
         private EC3Module module;
         String name;
@@ -189,9 +193,16 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
         legend.setFont( new LucidaSansFont( 12 ) );
         addScreenChild( legend );
 
+        ZoomPanel zoomPanel = new ZoomPanel( chart, this );
+        ZoomPanelPSwing pSwing = new ZoomPanelPSwing( this, zoomPanel );
+        addScreenChild( pSwing );
+
         updateGraphics();
     }
 
+    public JPanel getSouthPanel() {
+        return southPanel;
+    }
 
     private void copyChart() {
 //        Image copy = super.getLayer().toImage( image.getImage().getWidth( null ), image.getImage().getHeight( null ), Color.white );
@@ -240,18 +251,6 @@ public class EnergyPositionPlotCanvas extends PhetPCanvas {
             FadeDot fadeDot = (FadeDot)peDots.get( 0 );
             removeFadeDot( fadeDot );
         }
-//        for( int i = 0; i < peDots.size(); i++ ) {
-//
-//
-//        }
-//        for( int i = 0; i < getPhetRootNode().getChildrenCount(); i++ ) {
-//            PNode child = getPhetRootNode().getChild( i );
-//            if( child instanceof FadeDot ) {
-//                getPhetRootNode().removeChild( child );
-//                i--;
-//            }
-//        }
-//        peDots.clear();
     }
 
     private void removeFadeDot( FadeDot fadeDot ) {
