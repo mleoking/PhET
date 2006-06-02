@@ -19,13 +19,13 @@ import java.awt.*;
  */
 
 public class ShadowHTMLGraphic extends PNode {
-    private HTMLGraphic htmlGraphic;
-    private HTMLGraphic shadow;
+    private HTMLNode htmlGraphic;
+    private HTMLNode shadow;
 
     public ShadowHTMLGraphic( String html ) {
-        htmlGraphic = new HTMLGraphic( html );
-        shadow = new HTMLGraphic( html );
-        shadow.setColor( Color.black );
+        htmlGraphic = new HTMLNode( html );
+        shadow = new HTMLNode( html );
+        shadow.setHTMLColor( Color.black );
 
         addChild( shadow );
         addChild( htmlGraphic );
@@ -37,12 +37,12 @@ public class ShadowHTMLGraphic extends PNode {
     }
 
     public void setColor( Color baseColor ) {
-        htmlGraphic.setColor( baseColor );
+        htmlGraphic.setHTMLColor( baseColor );
         updateBuffer();
     }
 
     public void setShadowColor( Color shadowColor ) {
-        shadow.setColor( shadowColor );
+        shadow.setHTMLColor( shadowColor );
         updateBuffer();
     }
 
@@ -53,8 +53,8 @@ public class ShadowHTMLGraphic extends PNode {
     }
 
     public void setHtml( String html ) {
-        htmlGraphic.setHtml( html );
-        shadow.setHtml( html );
+        htmlGraphic.setHTML( html );
+        shadow.setHTML( html );
         updateBuffer();
     }
 
