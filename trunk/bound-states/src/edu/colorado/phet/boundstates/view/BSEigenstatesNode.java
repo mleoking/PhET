@@ -222,6 +222,9 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
 
         // Update the model...
         _model.setHilitedEigenstateIndex( hiliteIndex );
+        
+        // Set the mouse cursor...
+        setCursor( hiliteIndex );
     }
     
     //----------------------------------------------------------------------------
@@ -371,9 +374,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
                 Rectangle2D bounds = line.getFullBounds();
                 _hiliteValueNode.setOffset( bounds.getX() + 2, bounds.getY() - _hiliteValueNode.getHeight() - 1 );
                 _hiliteValueNode.moveToFront();
-
-                // Set the cursor to a hand...
-                _canvas.setCursor( BSConstants.HAND_CURSOR );
             }
         }
     }
@@ -401,7 +401,6 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
                 line.moveToFront();
             }
             _hiliteValueNode.setVisible( false );
-            _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
         }
     }
     
@@ -472,5 +471,25 @@ public class BSEigenstatesNode extends PComposite implements Observer, AxisChang
             formatString += "0";
         }
         return new DecimalFormat( formatString );
+    }
+    
+    /*
+     * Sets the cursor based on the index of the hilite eigenstate.
+     * If the eigenstate is visible, use the hand cursor.
+     * Otherwise use the default (arrow) cursor.
+     */
+    private void setCursor( final int hiliteIndex ) {
+        if ( _hiliteIndex == BSEigenstate.INDEX_UNDEFINED ) {
+          _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
+        }
+        else {
+            PPath line = (PPath) _lines.get( hiliteIndex );
+            if ( line.getVisible() ) {
+                _canvas.setCursor( BSConstants.HAND_CURSOR );
+            }
+            else {
+                _canvas.setCursor( BSConstants.DEFAULT_CURSOR );
+            }
+        }
     }
 }
