@@ -222,6 +222,14 @@ public class TestHelpBalloon extends PhetApplication {
             
             JPanel balloonPanel = new JPanel();
             {
+                final JCheckBox visibleCheckBox = new JCheckBox( "visible" );
+                visibleCheckBox.setSelected( true );
+                visibleCheckBox.addActionListener( new ActionListener() { 
+                    public void actionPerformed( ActionEvent event ) {
+                        _helpBalloon.setBalloonVisible( visibleCheckBox.isSelected() );
+                    }
+                } );
+                
                 final JButton fillColorButton = new JButton( "balloon fill color..." );
                 fillColorButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent event ) {
@@ -266,6 +274,7 @@ public class TestHelpBalloon extends PhetApplication {
                 EasyGridBagLayout layout = new EasyGridBagLayout( balloonPanel );
                 balloonPanel.setLayout( layout );
                 int row = 0;
+                layout.addComponent( visibleCheckBox, row++, 0 );
                 layout.addComponent( fillColorButton, row++, 0 );
                 layout.addComponent( strokeColorButton, row++, 0 );
                 layout.addComponent( strokeWidthSlider, row++, 0 );
