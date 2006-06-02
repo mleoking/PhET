@@ -37,6 +37,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -78,6 +79,7 @@ public class PSWTPath extends PNode {
 
 	private static final double BOUNDS_TOLERANCE = 0.01;
 	private static final Rectangle2D.Float TEMP_RECTANGLE = new Rectangle2D.Float();
+	private static final RoundRectangle2D.Float TEMP_ROUNDRECTANGLE = new RoundRectangle2D.Float();
 	private static final Ellipse2D.Float TEMP_ELLIPSE = new Ellipse2D.Float();
 	private static final PAffineTransform TEMP_TRANSFORM = new PAffineTransform();
 	private static final Color DEFAULT_STROKE_PAINT = Color.black;
@@ -98,6 +100,13 @@ public class PSWTPath extends PNode {
 	public static PSWTPath createRectangle(float x, float y, float width, float height) {
 		TEMP_RECTANGLE.setFrame(x, y, width, height);
 		PSWTPath result = new PSWTPath(TEMP_RECTANGLE);
+		result.setPaint(Color.white);
+		return result;
+	}
+	
+	public static PSWTPath createRoundRectangle(float x, float y, float width, float height, float arcWidth, float arcHeight) {
+		TEMP_ROUNDRECTANGLE.setRoundRect(x, y, width, height, arcWidth, arcHeight);
+		PSWTPath result = new PSWTPath(TEMP_ROUNDRECTANGLE);
 		result.setPaint(Color.white);
 		return result;
 	}
@@ -355,7 +364,11 @@ public class PSWTPath extends PNode {
 		    RoundRectangle2D r2 = (RoundRectangle2D)aShape;
 		    return new RoundRectangle2D.Double(r2.getX(),r2.getY(),r2.getWidth(),r2.getHeight(),r2.getArcWidth(),r2.getArcHeight());
 		}
-	    else {
+		else if (aShape instanceof Line2D) {
+			Line2D l2 = (Line2D)aShape;
+			return new Line2D.Double(l2.getP1(),l2.getP2());
+		}
+		else {
 	        new Exception().printStackTrace();
 	        GeneralPath aPath = new GeneralPath();
 	        aPath.append(aShape,false);
@@ -366,6 +379,11 @@ public class PSWTPath extends PNode {
 	public void setPathToRectangle(float x, float y, float width, float height) {
 	    TEMP_RECTANGLE.setFrame(x, y, width, height);
 		setShape(TEMP_RECTANGLE);
+	}
+	
+	public void setPathToRoundRectangle(float x, float y, float width, float height, float arcWidth, float arcHeight){
+		TEMP_ROUNDRECTANGLE.setRoundRect(x, y, width, height, arcWidth, arcHeight);
+		setShape(TEMP_ROUNDRECTANGLE);
 	}
 
 	public void setPathToEllipse(float x, float y, float width, float height) {

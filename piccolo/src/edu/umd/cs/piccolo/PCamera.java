@@ -447,7 +447,7 @@ public class PCamera extends PNode {
 	}
 
 	/**
-	 * Set the scale of the view transform that is applied to
+	 * Set the scale of the view transform that is applied to 
 	 * the layers viewed by this camera.
 	 */
 	public void setViewScale(double scale) {
