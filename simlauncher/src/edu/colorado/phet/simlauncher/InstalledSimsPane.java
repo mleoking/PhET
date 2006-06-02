@@ -31,7 +31,8 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                                          SimulationContainer {
 
     private SimulationTable simTable;
-    private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
+    private SimulationTable.SimulationComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
+//    private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
@@ -60,7 +61,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn.addActionListener( new LaunchSimulationAction( this, this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
-                if( Options.instance().getInstalledSimulationsSortType() == SimulationTable.MOST_RECENTLY_USED_SORT ) {
+                if( Options.instance().getInstalledSimulationsSortType().equals( SimulationTable.MOST_RECENTLY_USED_SORT )) {
                     updateSimTable();
                 }
             }

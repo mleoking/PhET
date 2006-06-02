@@ -22,8 +22,14 @@ import java.awt.event.ActionEvent;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MostRecentlyUsedSortAction extends AbstractAction {
+public class SetInstalledSimulatonSortAction extends AbstractAction {
+    private SimulationTable.SimulationComparator sortType;
+
+    public SetInstalledSimulatonSortAction( SimulationTable.SimulationComparator sortType ) {
+        this.sortType = sortType;
+    }
+
     public void actionPerformed( ActionEvent e ) {
-        Options.instance().setInstalledSimulationsSortType( SimulationTable.MOST_RECENTLY_USED_SORT );
+        Options.instance().setInstalledSimulationsSortType( sortType );
     }
 }

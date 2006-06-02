@@ -37,8 +37,8 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     //--------------------------------------------------------------------------------------------------
     // Implementation of singleton
     //--------------------------------------------------------------------------------------------------
-    private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
-    private static File DEFAULT_CACHE = new File( "/phet/temp/simlauncher/cache" );
+    private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
+    private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH );
     private static String DEFAULT_PHET_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
     static {
@@ -49,7 +49,8 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
             e.printStackTrace();
         }
     }
-
+    // The Catalog
+    private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
     private static URL DEFAULT_CATALOG_URL;
     static{
         try {
@@ -58,6 +59,13 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
+    }
+
+    // The Options store
+    private static String DEFAULT_OPTIONS_PATH = "options.properties";
+    private static File DEFAULT_OPTIONS_FILE;
+    static {
+        DEFAULT_OPTIONS_FILE = new File( DEFAULT_CACHE_PATH + "/" + DEFAULT_OPTIONS_PATH);
     }
 
 
@@ -114,5 +122,15 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     }
     public void setCatalogUrl( URL catalogUrl ) {
         this.catalogUrl = catalogUrl;
+    }
+
+    // Location of the options file
+    private File optionsFile = DEFAULT_OPTIONS_FILE;
+
+    public File getOptionsFile() {
+        return optionsFile;
+    }
+    public void setOptionsFile( File optionsFile ) {
+        this.optionsFile = optionsFile;
     }
 }

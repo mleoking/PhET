@@ -155,9 +155,23 @@ public class SimulationTable extends JTable implements SimulationContainer {
     // Comparators
     //--------------------------------------------------------------------------------------------------
     public static abstract class SimulationComparator implements Comparator {
+
+        // Overide equals() to simply give class equality
+        public boolean equals( Object obj ) {
+            return this.getClass() == obj.getClass();
+        }
+
+        // Hash code uses class name, so instances will hash together
+        public int hashCode() {
+            int code = 0;
+            for( int i = 0; i < this.getClass().getName().charAt( i ); i++ ) {
+                code += this.getClass().getName().charAt( i );
+            }
+            return code;
+        }
     }
 
-    private static class NameComparator extends SimulationComparator {
+    public static class NameComparator extends SimulationComparator {
         public int compare( Object o1, Object o2 ) {
             if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
                 throw new ClassCastException();
@@ -168,7 +182,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         }
     }
 
-    private static class LastLaunchTimeComparator extends SimulationComparator {
+    public static class LastLaunchTimeComparator extends SimulationComparator {
         public int compare( Object o1, Object o2 ) {
             if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
                 throw new ClassCastException();
