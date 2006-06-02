@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 public class MotionHelpBalloon extends HelpBalloon {
     private boolean started = false;
     private PActivity activity;
+    private final int DEFAULT_DURATION = 3000;
 
     public MotionHelpBalloon( PCanvas helpPane, String s ) {
         super( helpPane, s, HelpBalloon.BOTTOM_CENTER, 100, 0 );
@@ -28,7 +29,7 @@ public class MotionHelpBalloon extends HelpBalloon {
     }
 
     public void animateTo( double x, double y ) {
-        setActivity( animateToPositionScaleRotation( x, y, 1, 0, 5000 ) );
+        setActivity( animateToPositionScaleRotation( x, y, 1, 0, DEFAULT_DURATION ) );
         testStartActivity();
     }
 
@@ -42,7 +43,7 @@ public class MotionHelpBalloon extends HelpBalloon {
 
     public void animateTo( PNode node, PhetPCanvas canvas ) {
         Point2D loc = super.mapLocation( node, canvas );
-        activity = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, 5000 );
+        activity = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
         testStartActivity();
     }
 
