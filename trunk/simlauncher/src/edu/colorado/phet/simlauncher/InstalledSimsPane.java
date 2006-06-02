@@ -55,10 +55,14 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // Launch button
         launchBtn = new JButton( "Launch" );
-        launchBtn.addActionListener( new LaunchSimulationAction( this, this ) );
-        launchBtn.addActionListener( new ActionListener() {
+        // Add an extension to the Launch action that resorts the table if the sort order is
+        // most-recently-used
+        launchBtn.addActionListener( new LaunchSimulationAction( this, this ) {
             public void actionPerformed( ActionEvent e ) {
-                updateSimTable();
+                super.actionPerformed( e );
+                if( Options.instance().getInstalledSimulationsSortType() == SimulationTable.MOST_RECENTLY_USED_SORT ) {
+                    updateSimTable();
+                }
             }
         } );
         launchBtn.setEnabled( false );
@@ -108,11 +112,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             }
 
             public void mousePressed( MouseEvent e ) {
-                handleSimulationSelection( e );
+//                handleSimulationSelection( e );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                handleSimulationSelection( e );
+//                handleSimulationSelection( e );
             }
         } );
 
@@ -139,6 +143,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             sim.launch();
         }
 
+        // Notify change listeners
         changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 

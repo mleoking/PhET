@@ -64,30 +64,32 @@ class SimulationMenu extends JMenu {
         // certain things happen in the UI
         TopLevelPane.getInstance().getInstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
             public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
-                enableItems();
+                enableMenuItems();
             }
         } );
 
         TopLevelPane.getInstance().getUninstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
             public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
-                enableItems();
+                enableMenuItems();
             }
         } );
 
         TopLevelPane.getInstance().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                enableItems();
+                enableMenuItems();
             }
         } );
 
         // Enable/disable the appropriate menu items
-        enableItems();
+        enableMenuItems();
     }
 
     /**
-     * Enables/disables menu items according to the state of the UI
+     * Enables/disables menu items according to the state of the UI. If, for example, an
+     * installed simulation is selected, the Launch menu item in the Simulation menu should
+     * be enabled.
      */
-    private void enableItems() {
+    private void enableMenuItems() {
         InstalledSimsPane isp = TopLevelPane.getInstance().getInstalledSimsPane();
         boolean installedItemsEnabled = isp.getSimulation() != null;
         UninstalledSimsPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();

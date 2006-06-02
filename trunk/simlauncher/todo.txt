@@ -8,6 +8,7 @@ Bugs
 ========
 Features
 ========
+- Store Options
 - CatalogResource should be stored above the cache
 - Application must work properly when offline
 - On startup, if there is no catalog and client is offline, let the user know

@@ -154,11 +154,11 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
                 }
 
                 public void mousePressed( MouseEvent e ) {
-                    handleSimulationSelection( e );
+//                    handleSimulationSelection( e );
                 }
 
                 public void mouseReleased( MouseEvent e ) {
-                    handleSimulationSelection( e );
+//                    handleSimulationSelection( e );
                 }
             } );
 
