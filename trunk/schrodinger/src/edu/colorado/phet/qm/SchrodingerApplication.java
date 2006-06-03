@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 import edu.colorado.phet.piccolo.help.HelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
@@ -34,7 +35,7 @@ import java.lang.reflect.InvocationTargetException;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerApplication extends PhetApplication {
+public class SchrodingerApplication extends PiccoloPhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
     public static String VERSION = "1.00";
@@ -44,34 +45,10 @@ public class SchrodingerApplication extends PhetApplication {
     public SchrodingerApplication( String[] args ) throws InvocationTargetException, InterruptedException {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
-        getSplashWindow().setIndeterminate( false );
-        Thread.yield();
-        getSplashWindow().setRangeProperties( 1, 1, 0, 4 );
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-                intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
-                addModule( intensityModule );
-            }
-        } );
-        Thread.yield();
-        getSplashWindow().setRangeProperties( 2, 1, 0, 4 );
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-                addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
-            }
-        } );
-        Thread.yield();
-        getSplashWindow().setRangeProperties( 3, 1, 0, 4 );
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-                addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
-            }
-        } );
-        getSplashWindow().setRangeProperties( 4, 1, 0, 4 );
-//        intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
-//        addModule( intensityModule );
-//        addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
-//        addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
+        intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
+        addModule( intensityModule );
+        addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
+        addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -155,12 +132,19 @@ public class SchrodingerApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-        //To change body of implemented methods use File | Settings | File Templates.
-        oldmain( args );
-//            }
-//        } );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    oldmain( args );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+                catch( InvocationTargetException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
 //        oldmain( args );
     }
 
