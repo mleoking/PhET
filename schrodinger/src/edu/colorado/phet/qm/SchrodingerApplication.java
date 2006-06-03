@@ -10,7 +10,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.piccolo.PiccoloPhetApplication;
-import edu.colorado.phet.piccolo.help.HelpBalloon;
+import edu.colorado.phet.piccolo.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
 import edu.colorado.phet.qm.modules.mandel.MandelModule;
 import edu.colorado.phet.qm.modules.single.SingleParticleModule;
@@ -23,8 +23,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -149,9 +149,6 @@ public class SchrodingerApplication extends PiccoloPhetApplication {
     }
 
     private static void oldmain( String[] args ) throws InterruptedException, InvocationTargetException {
-
-        Runtime.getRuntime().gc();
-        System.out.println( "Runtime.getRuntime().freeMemory() = " + Runtime.getRuntime().freeMemory() );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
@@ -161,53 +158,23 @@ public class SchrodingerApplication extends PiccoloPhetApplication {
         if( schrodingerApplication.intensityModule != null ) {
             addWiggleMe( schrodingerApplication );
         }
-        Runtime.getRuntime().gc();
-        System.out.println( "Runtime.getRuntime().freeMemory() = " + Runtime.getRuntime().freeMemory() );
     }
 
     private static void addWiggleMe( final SchrodingerApplication schrodingerApplication ) {
-        final HelpBalloon helpBalloon = new HelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser", HelpBalloon.BOTTOM_CENTER, 100 );
-//        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getGunImageGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
-        helpBalloon.pointAt( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser" );
+        helpBalloon.setTextColor( Color.white );
+        helpBalloon.setShadowTextColor( Color.gray );
+        helpBalloon.setShadowTextOffset( 1 );
+        helpBalloon.setBalloonVisible( true );
+        helpBalloon.setBalloonFillPaint( new Color( 128, 128, 128, 200 ) );
 
+        helpBalloon.animateTo( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
         schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
-        helpBalloon.setVisible( true );
-        helpBalloon.setEnabled( true );
-        final Timer timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                double frequency = 1.0 * 1.0 / 1000.0;
-                helpBalloon.setArrowLength( 100 - 20 * Math.sin( System.currentTimeMillis() * frequency ) );
-            }
-        } );
-        schrodingerApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseListener() {
-            public void mouseClicked( MouseEvent e ) {
-            }
-
-            public void mouseEntered( MouseEvent e ) {
-            }
-
-            public void mouseExited( MouseEvent e ) {
-            }
-
+        schrodingerApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 helpBalloon.setVisible( false );
-                helpBalloon.setEnabled( false );
-                schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().removeChild( helpBalloon );
-                schrodingerApplication.intensityModule.getSchrodingerPanel().removeMouseListener( this );
-            }
-
-            public void mouseReleased( MouseEvent e ) {
             }
         } );
-
-        timer.start();
-        Timer t2 = new Timer( 5000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                timer.stop();
-            }
-        } );
-        t2.setInitialDelay( 5000 );
-        t2.start();
     }
 
 }
