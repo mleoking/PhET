@@ -4,9 +4,10 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 
 /**
@@ -33,17 +34,38 @@ public class MotionHelpBalloon extends HelpBalloon {
         testStartActivity();
     }
 
-    private void setActivity( PTransformActivity pTransformActivity ) {
-        if( activity != null ) {
-            activity.terminate();
+    private void setActivity( PActivity activity ) {
+        if( this.activity != null ) {
+            this.activity.terminate();
         }
-        this.activity = pTransformActivity;
+        this.activity = activity;
         testStartActivity();
     }
 
-    public void animateTo( PNode node, PhetPCanvas canvas ) {
+    public void animateTo( final PNode node, final PhetPCanvas canvas ) {
         Point2D loc = super.mapLocation( node, canvas );
+        final Runnable updateActivity = new Runnable() {
+            public void run() {
+                Point2D loc = mapLocation( node, canvas );
+                PActivity a2 = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
+                setActivity( a2 );
+                started = false;
+                testStartActivity();
+            }
+        };
         activity = animateToPositionScaleRotation( loc.getX(), loc.getY(), 1, 0, DEFAULT_DURATION );
+//        final PropertyChangeListener plc = new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                updateActivity.run();
+//            }
+//        };
+//        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, plc );
+//        node.addPropertyChangeListener( PROPERTY_BOUNDS, plc );
+        canvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateActivity.run();
+            }
+        } );
         testStartActivity();
     }
 
