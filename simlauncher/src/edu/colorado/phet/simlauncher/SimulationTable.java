@@ -106,7 +106,6 @@ public class SimulationTable extends JTable implements SimulationContainer {
         Simulation sim = null;
         if( isVisible() ) {
             int idx = getSelectedRow();
-            System.out.println( "idx = " + idx );
             if( idx >= 0 ) {
                 String simName = (String)this.getValueAt( idx, 0 );
                 sim = Simulation.getSimulationForName( simName );
