@@ -45,6 +45,9 @@ public class UninstallSimulationAction extends AbstractAction {
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Wrapped actions
+    //--------------------------------------------------------------------------------------------------
 
     private static interface Action {
         void doIt( Component component );

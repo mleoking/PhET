@@ -33,7 +33,7 @@ public class LauncherUtil {
 
     static private LauncherUtil instance = new LauncherUtil();
 
-    public static LauncherUtil getInstance() {
+    public static LauncherUtil instance() {
         return instance;
     }
 

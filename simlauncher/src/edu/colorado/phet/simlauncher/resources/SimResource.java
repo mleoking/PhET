@@ -51,7 +51,7 @@ public class SimResource {
     }
 
     public boolean isCurrent() {
-        if( !LauncherUtil.getInstance().isRemoteAvailable( url ) ) {
+        if( !LauncherUtil.instance().isRemoteAvailable( url ) ) {
             throw new RuntimeException( "not online" );
         }
 
@@ -141,9 +141,10 @@ public class SimResource {
     }
 
     /**
-     * Removes the resource's local file
+     * Removes the resource's local file and clears its metadata
      */
     public void uninstall() {
         localFile.delete();
+        metaData = null;
     }
 }

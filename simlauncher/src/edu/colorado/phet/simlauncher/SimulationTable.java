@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.common.util.EventChannel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
-import java.util.Comparator;
-import java.util.Collections;
 
 /**
  * SimulationTable
@@ -98,10 +98,13 @@ public class SimulationTable extends JTable implements SimulationContainer {
             thumbnailCol.setMinWidth( 150 );
         }
 
-        // Sort the table
-//        sort();
+        // Add a mouse adapter that will notify listeners when the selection has changed
     }
 
+    /**
+     * Returns the currently selected simulation
+     * @return The currently selected simulation, or null if none is selected
+     */
     public Simulation getSelection() {
         Simulation sim = null;
         if( isVisible() ) {
@@ -114,12 +117,10 @@ public class SimulationTable extends JTable implements SimulationContainer {
         return sim;
     }
 
-    public void addSimulation( Simulation simulation ) {
-        DefaultTableModel model = (DefaultTableModel)getModel();
-        Object[] row = new Object[]{simulation.getName(), simulation.getThumbnail()};
-        model.addRow( row );
-    }
-
+    /**
+     * Returns the height of the tallest row needed for any simulation
+     * @return The height of the tallest row
+     */
     private int getMaxRowHeight() {
         int h = 0;
         int hMax = 0;
@@ -132,6 +133,11 @@ public class SimulationTable extends JTable implements SimulationContainer {
         return hMax;
     }
 
+    /**
+     * Returns the height of the tallest cell needed for all the entries in a specified column
+     * @param col
+     * @return The height of the tallest cell needed for all the entries in a specified column
+     */
     private int getMaxRowHeightForColumn( TableColumn col ) {
         int h = 0;
         int hMax = 0;
@@ -151,7 +157,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Comparators
+    // Comparators. Used to sort the rows in the table
     //--------------------------------------------------------------------------------------------------
     public static abstract class SimulationComparator implements Comparator {
 
@@ -195,83 +201,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
     }
 
     //--------------------------------------------------------------------------------------------------
-    // Sorting code. Adapted from The Java Developers Almanac 1.4
-    //--------------------------------------------------------------------------------------------------
-
-    public void sort() {
-        // Disable autoCreateColumnsFromModel otherwise all the column customizations
-        // and adjustments will be lost when the model data is sorted
-        setAutoCreateColumnsFromModel( false );
-
-        // Sort all the rows in descending order based on the
-        // values in the second column of the model
-        sortAllRowsBy( (DefaultTableModel)getModel(), 0, true );
-    }
-
-    // Regardless of sort order (ascending or descending), null values always appear last.
-    // colIndex specifies a column in model.
-    public void sortAllRowsBy( DefaultTableModel model, int colIndex, boolean ascending ) {
-        Vector data = model.getDataVector();
-        Collections.sort( data, new ColumnSorter( colIndex, ascending ) );
-        model.fireTableStructureChanged();
-    }
-
-    // This comparator is used to sort vectors of data
-    public class ColumnSorter implements Comparator {
-        int colIndex;
-        boolean ascending;
-
-        ColumnSorter( int colIndex, boolean ascending ) {
-            this.colIndex = colIndex;
-            this.ascending = ascending;
-        }
-
-        public int compare( Object a, Object b ) {
-            Vector v1 = (Vector)a;
-            Vector v2 = (Vector)b;
-            Object o1 = v1.get( colIndex );
-            Object o2 = v2.get( colIndex );
-
-            // Treat empty strains like nulls
-            if( o1 instanceof String && ( (String)o1 ).length() == 0 ) {
-                o1 = null;
-            }
-            if( o2 instanceof String && ( (String)o2 ).length() == 0 ) {
-                o2 = null;
-            }
-
-            // Sort nulls so they appear last, regardless
-            // of sort order
-            if( o1 == null && o2 == null ) {
-                return 0;
-            }
-            else if( o1 == null ) {
-                return 1;
-            }
-            else if( o2 == null ) {
-                return -1;
-            }
-            else if( o1 instanceof Comparable ) {
-                if( ascending ) {
-                    return ( (Comparable)o1 ).compareTo( o2 );
-                }
-                else {
-                    return ( (Comparable)o2 ).compareTo( o1 );
-                }
-            }
-            else {
-                if( ascending ) {
-                    return o1.toString().compareTo( o2.toString() );
-                }
-                else {
-                    return o2.toString().compareTo( o1.toString() );
-                }
-            }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
+    // Table model
     //--------------------------------------------------------------------------------------------------
 
     private static class SimulationTableModel extends DefaultTableModel {
@@ -347,8 +277,41 @@ public class SimulationTable extends JTable implements SimulationContainer {
     // Implementation of SimulationContainer
     //--------------------------------------------------------------------------------------------------
 
+    /**
+     * Returns the currently selected simulation
+     * @return the currently selected simulation
+     */
     public Simulation getSimulation() {
         return getSelection();
     }
 
+
+
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    public static class ChangeEvent extends EventObject {
+        public ChangeEvent( SimulationTable source ) {
+            super( source );
+        }
+
+        public SimulationTable getOptions() {
+            return (SimulationTable)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void simulationTableChanged( ChangeEvent event );
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
 }

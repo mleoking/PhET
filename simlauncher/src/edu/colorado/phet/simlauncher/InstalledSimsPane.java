@@ -10,19 +10,20 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
 import edu.colorado.phet.simlauncher.menus.InstalledSimulationPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * InstalledSimsPane
+ * <p>
+ * The enabling/disabling of the Launch button is not clean. I couldn't see how to do it in one place. 
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -115,14 +116,18 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 //                handleSimulationSelection( e );
             }
 
+            // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent e ) {
-//                handleSimulationSelection( e );
+                handleSimulationSelection( e );
             }
         } );
 
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
         revalidate();
+
+        // Disable the lauch button. Since the table is new, there can't be any simulation selected
+        launchBtn.setEnabled( false );
     }
 
     /**
@@ -135,16 +140,16 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
             new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+            // Notify change listeners
+            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
         }
 
         // If a double left click, launch the simulation
         if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-            System.out.println( "InstalledSimsPane.handleSimulationSelection" );
             sim.launch();
+            // Notify change listeners
+            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
         }
-
-        // Notify change listeners
-        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 
     //--------------------------------------------------------------------------------------------------
