@@ -140,16 +140,15 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
             new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
-            // Notify change listeners
-            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
         }
 
         // If a double left click, launch the simulation
         if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
             sim.launch();
-            // Notify change listeners
-            changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
         }
+
+        // Notify change listeners
+        changeEventChannel.notifyChangeListeners( InstalledSimsPane.this );
     }
 
     //--------------------------------------------------------------------------------------------------

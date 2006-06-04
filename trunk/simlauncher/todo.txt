@@ -5,7 +5,6 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
-- items in Simulaton menu aren't getting enabled for the installed simulations
 - Popup menus aren't always displayed in the right place
 
 ========
