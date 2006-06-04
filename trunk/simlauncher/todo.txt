@@ -3,13 +3,14 @@ Bugs
 ====
 - Thumbnails don't display the first time they come down.
 - Clearing the cache doesn't update the installed and available sims lists
-- Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
 - Popup menus aren't always displayed in the right place
+- Options are getting saved too many time when thubmnails are turned off
 
 ========
 Features
 ========
+- Put up "Please wait..." dialog while installing
 - check for updates to installer itself
 - Check for new versions
 - CatalogResource should be stored above the cache
@@ -35,3 +36,4 @@ Done, not posted
 - Double-click to install, with confirmation dialog
 - Uninstall needs to actually delete the SimResource.localFile
 - Change "Uninstalled Simulations" to something else (Other Available Simulations?)
+- Make tables columns fixed width. That's why the we're getting screen turds on the left
