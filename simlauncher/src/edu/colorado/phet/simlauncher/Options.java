@@ -14,7 +14,6 @@ import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Properties;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.io.*;
@@ -35,7 +34,7 @@ public class Options {
         return instance;
     }
 
-    SimulationTable.SimulationComparator DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE = SimulationTable.NAME_SORT;
+    SimTable.SimComparator DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE = SimTable.NAME_SORT;
 
     /**
      * Initialize the Options singleton at class load time
@@ -68,7 +67,7 @@ public class Options {
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
-    private SimulationTable.SimulationComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
+    private SimTable.SimComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
 
     /**
      * Private constructor to enforce singleton
@@ -120,11 +119,11 @@ public class Options {
         optionsChanged = true;
     }
 
-    public SimulationTable.SimulationComparator getInstalledSimulationsSortType() {
+    public SimTable.SimComparator getInstalledSimulationsSortType() {
         return installedSimulationsSortType;
     }
 
-    public void setInstalledSimulationsSortType( SimulationTable.SimulationComparator installedSimulationsSortType ) {
+    public void setInstalledSimulationsSortType( SimTable.SimComparator installedSimulationsSortType ) {
         this.installedSimulationsSortType = installedSimulationsSortType;
         optionsChanged = true;
         notifyListeners();

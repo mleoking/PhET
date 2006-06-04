@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.simlauncher.util;
 
-import edu.colorado.phet.simlauncher.SimulationTable;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;

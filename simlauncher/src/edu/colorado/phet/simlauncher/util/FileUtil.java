@@ -14,6 +14,8 @@ import java.io.File;
 
 /**
  * FileUtil
+ * <p>
+ * Static utility functions for working with files
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -40,7 +42,6 @@ public class FileUtil {
         }
 
         // The directory is now empty so delete it
-        System.out.println( "dir.getAbsolutePath() = " + dir.getAbsolutePath() );
         return dir.delete();
     }
 

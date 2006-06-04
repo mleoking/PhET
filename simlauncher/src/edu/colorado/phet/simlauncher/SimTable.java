@@ -29,14 +29,14 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimulationTable extends JTable implements SimulationContainer {
+public class SimTable extends JTable implements SimulationContainer {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
 
-    public static SimulationComparator NAME_SORT = new NameComparator();
-    public static SimulationComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
+    public static SimComparator NAME_SORT = new NameComparator();
+    public static SimComparator MOST_RECENTLY_USED_SORT = new LastLaunchTimeComparator();
 
 
     //--------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
      * @param simList
      * @param showThumbnails
      */
-    public SimulationTable( List simList, boolean showThumbnails, SimulationComparator sortType ) {
+    public SimTable( List simList, boolean showThumbnails, SimComparator sortType ) {
         super();
 
         // Set the selection mode to be row only
@@ -64,6 +64,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         Object[][] rowData = new Object[sims.size()][3];
         for( int i = 0; i < sims.size(); i++ ) {
             Simulation sim = (Simulation)sims.get( i );
+//            System.out.println( "sim.getThumbnail() = " + sim.getThumbnail().getIconHeight() );
             Object[] row = new Object[]{sim.getName(), sim.getThumbnail()};
             rowData[i] = row;
         }
@@ -78,7 +79,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         }
 
         // Create the table model
-        TableModel tableModel = new SimulationTableModel( rowData, header );
+        TableModel tableModel = new SimTableModel( rowData, header );
         this.setModel( tableModel );
 
         // So no header gets displayed
@@ -92,13 +93,12 @@ public class SimulationTable extends JTable implements SimulationContainer {
 
         // Name the columns
         TableColumn nameCol = getColumn( "name" );
-        nameCol.setMinWidth( 150 );
+        nameCol.setMinWidth( 200 );
+        nameCol.setMaxWidth( 200 );
         if( showThumbnails ) {
             TableColumn thumbnailCol = getColumn( "thumbnail" );
             thumbnailCol.setMinWidth( 150 );
         }
-
-        // Add a mouse adapter that will notify listeners when the selection has changed
     }
 
     /**
@@ -159,7 +159,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
     //--------------------------------------------------------------------------------------------------
     // Comparators. Used to sort the rows in the table
     //--------------------------------------------------------------------------------------------------
-    public static abstract class SimulationComparator implements Comparator {
+    public static abstract class SimComparator implements Comparator {
 
         // Overide equals() to simply give class equality
         public boolean equals( Object obj ) {
@@ -176,7 +176,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         }
     }
 
-    public static class NameComparator extends SimulationComparator {
+    public static class NameComparator extends SimComparator {
         public int compare( Object o1, Object o2 ) {
             if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
                 throw new ClassCastException();
@@ -187,7 +187,7 @@ public class SimulationTable extends JTable implements SimulationContainer {
         }
     }
 
-    public static class LastLaunchTimeComparator extends SimulationComparator {
+    public static class LastLaunchTimeComparator extends SimComparator {
         public int compare( Object o1, Object o2 ) {
             if( !( o1 instanceof Simulation && o2 instanceof Simulation ) ) {
                 throw new ClassCastException();
@@ -204,8 +204,8 @@ public class SimulationTable extends JTable implements SimulationContainer {
     // Table model
     //--------------------------------------------------------------------------------------------------
 
-    private static class SimulationTableModel extends DefaultTableModel {
-        public SimulationTableModel( Object[][] data, Object[] columnNames ) {
+    private static class SimTableModel extends DefaultTableModel {
+        public SimTableModel( Object[][] data, Object[] columnNames ) {
             super( data, columnNames );
         }
 
@@ -291,12 +291,12 @@ public class SimulationTable extends JTable implements SimulationContainer {
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     public static class ChangeEvent extends EventObject {
-        public ChangeEvent( SimulationTable source ) {
+        public ChangeEvent( SimTable source ) {
             super( source );
         }
 
-        public SimulationTable getOptions() {
-            return (SimulationTable)getSource();
+        public SimTable getOptions() {
+            return (SimTable)getSource();
         }
     }
 

@@ -24,7 +24,7 @@ import javax.swing.*;
 class FileMenu extends JMenu {
     public FileMenu() {
         super( "File" );
-        add( new JMenuItem( new ClearCacheAction() ));
+        add( new JMenuItem( new ClearCacheAction( this ) ));
         add( new JMenuItem( new ExitAction() ) );
     }
 }

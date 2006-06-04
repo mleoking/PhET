@@ -23,7 +23,7 @@ import java.awt.event.MouseEvent;
 /**
  * InstalledSimsPane
  * <p>
- * The enabling/disabling of the Launch button is not clean. I couldn't see how to do it in one place. 
+ * The enabling/disabling of the Launch button is not clean. I couldn't see how to do it in one place.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -31,8 +31,8 @@ import java.awt.event.MouseEvent;
 public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
                                                          SimulationContainer {
 
-    private SimulationTable simTable;
-    private SimulationTable.SimulationComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
+    private SimTable simTable;
+    private SimTable.SimComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
@@ -61,7 +61,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn.addActionListener( new LaunchSimulationAction( this, this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
-                if( Options.instance().getInstalledSimulationsSortType().equals( SimulationTable.MOST_RECENTLY_USED_SORT )) {
+                if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT )) {
                     updateSimTable();
                 }
             }
@@ -102,9 +102,9 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             remove( simTableScrollPane );
         }
 
-        simTable = new SimulationTable( Catalog.instance().getInstalledSimulations(),
-                                        Options.instance().isShowInstalledThumbnails(),
-                                        simTableSortType );
+        simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
+                                 Options.instance().isShowInstalledThumbnails(),
+                                 simTableSortType );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseAdapter() {

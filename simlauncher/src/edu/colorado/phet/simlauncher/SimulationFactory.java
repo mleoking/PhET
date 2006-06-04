@@ -71,7 +71,9 @@ public class SimulationFactory {
                 String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
                 ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
                 if( !thumbnailResource.getLocalFile().exists() ) {
+                    System.out.println( "SimulationFactory.getSimulations" );
                     thumbnailResource.download();
+//                    thumbnailResource.
                 }
 
                 String jnlpStr = element.getAttribute( simJnlpAttrib ).getValue();

@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+import com.sun.java.swing.SwingUtilities2;
+
 /**
  * LaunchSimulationAction
  *
@@ -26,7 +28,7 @@ import java.awt.event.ActionEvent;
 public class InstallSimulationAction extends AbstractAction {
     private Component component;
     private InstallSimulationAction.Action action;
-
+    private JDialog waitDlg;
 
     public InstallSimulationAction( Component component, SimulationContainer simulationContainer ) {
         this.component = component;
@@ -42,12 +44,35 @@ public class InstallSimulationAction extends AbstractAction {
             action.doIt( component );
     }
 
+    private void showWaitDialog() {
+        JFrame frame = (JFrame)SwingUtilities.getRoot( component );
+        waitDlg = new JDialog( frame, "Installing...", false );
+        JLabel message = new JLabel( "Please wait while the simulation is being installed...");
+        waitDlg.getContentPane().add( message );
+        waitDlg.pack();
+        waitDlg.setVisible( true );
+        waitDlg.setLocationRelativeTo( frame );
+    }
+
+    private void hideWaitDialog() {
+        waitDlg.setVisible( false );
+    }
+
+    private void install( Simulation simulation ) {
+        showWaitDialog();
+        simulation.install();
+        hideWaitDialog();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // Wrapped actions
+    //--------------------------------------------------------------------------------------------------
 
     private static interface Action {
         void doIt( Component component );
     }
 
-    private static class SimulationContainerAction implements InstallSimulationAction.Action {
+    private class SimulationContainerAction implements InstallSimulationAction.Action {
         SimulationContainer simulationContainer;
 
         public SimulationContainerAction( SimulationContainer simulationContainer ) {
@@ -55,12 +80,12 @@ public class InstallSimulationAction extends AbstractAction {
         }
 
         public void doIt( Component component ) {
-            System.out.println( "simulationContainer = " + simulationContainer.getSimulation().getName() );            
-            simulationContainer.getSimulation().install();
+            install( simulationContainer.getSimulation() );
+//            simulationContainer.getSimulation().install();
         }
     }
 
-    private static class SimulationAction implements InstallSimulationAction.Action {
+    private class SimulationAction implements InstallSimulationAction.Action {
         Simulation simulation;
 
         public SimulationAction( Simulation simulation ) {
@@ -68,7 +93,8 @@ public class InstallSimulationAction extends AbstractAction {
         }
 
         public void doIt( Component component ) {
-            simulation.install();
+            install( simulation );
+//            simulation.install();
         }
     }
 }

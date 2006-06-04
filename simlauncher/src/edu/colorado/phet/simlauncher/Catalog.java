@@ -105,7 +105,7 @@ public class Catalog implements Simulation.ChangeListener {
         changeListenerProxy.catatlogChanged( new ChangeEvent( this ) );
     }
 
-    public void isUpdated( Simulation.ChangeEvent event ) {
+    public void updated( Simulation.ChangeEvent event ) {
         // noop
     }
 

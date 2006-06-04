@@ -11,7 +11,7 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Options;
-import edu.colorado.phet.simlauncher.SimulationTable;
+import edu.colorado.phet.simlauncher.SimTable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,9 +23,9 @@ import java.awt.event.ActionEvent;
  * @version $Revision$
  */
 public class SetInstalledSimulatonSortAction extends AbstractAction {
-    private SimulationTable.SimulationComparator sortType;
+    private SimTable.SimComparator sortType;
 
-    public SetInstalledSimulatonSortAction( SimulationTable.SimulationComparator sortType ) {
+    public SetInstalledSimulatonSortAction( SimTable.SimComparator sortType ) {
         this.sortType = sortType;
     }
 
