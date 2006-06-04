@@ -31,7 +31,15 @@ public class Options {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     private static Options instance;
+    public static Options instance() {
+        return instance;
+    }
 
+    SimulationTable.SimulationComparator DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE = SimulationTable.NAME_SORT;
+
+    /**
+     * Initialize the Options singleton at class load time
+     */
     static {
         // If there is a stored set of options, create the singleton from it. Otherwise, just
         // create a new instance
@@ -52,11 +60,6 @@ public class Options {
         else {
             instance = new Options();
         }
-        System.out.println( "instance.getInstalledSimulationsSortType() = " + instance.getInstalledSimulationsSortType() );
-    }
-
-    public static Options instance() {
-        return instance;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -65,7 +68,7 @@ public class Options {
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
-    private SimulationTable.SimulationComparator installedSimulationsSortType;
+    private SimulationTable.SimulationComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
 
     /**
      * Private constructor to enforce singleton

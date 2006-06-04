@@ -32,7 +32,6 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
     private SimulationTable simTable;
     private SimulationTable.SimulationComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
-//    private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
