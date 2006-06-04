@@ -138,12 +138,11 @@ public class Options {
         }
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     public static class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Options source ) {
             super( source );
         }
 

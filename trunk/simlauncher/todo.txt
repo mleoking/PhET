@@ -5,11 +5,12 @@ Bugs
 - Clearing the cache doesn't update the installed and available sims lists
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
 - Change all class and variable names to "Sim" from "Simulation"
+- items in Simulaton menu aren't getting enabled for the installed simulations
+- Popup menus aren't always displayed in the right place
 
 ========
 Features
 ========
-- Change name of offline simulations panel to "Online Catalog", and add a view option to show all simulations, or just ones that aren't installed.
 - check for updates to installer itself
 - Check for new versions
 - CatalogResource should be stored above the cache

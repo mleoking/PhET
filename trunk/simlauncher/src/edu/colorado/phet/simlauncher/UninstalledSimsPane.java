@@ -106,7 +106,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
         public SimPanel() {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Available Simulations" ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
             // Install button
             installBtn = new JButton( "Install" );
@@ -157,8 +157,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 //                    handleSimulationSelection( e );
                 }
 
+                // Required to get e.isPopupTrigger() to return true on right-click
                 public void mouseReleased( MouseEvent e ) {
-//                    handleSimulationSelection( e );
+                    handleSimulationSelection( e );
                 }
             } );
 

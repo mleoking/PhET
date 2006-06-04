@@ -28,10 +28,17 @@ public class TopLevelPane extends JTabbedPane  {
     //--------------------------------------------------------------------------------------------------
 
     private static TopLevelPane instance = new TopLevelPane();
-
     public static TopLevelPane getInstance() {
         return instance;
     }
+
+    // Enumeration of panes
+    public static class PaneID{
+        private PaneID() {
+        }
+    }
+    public static PaneID INSTALLED_SIMS_PANE = new PaneID();
+    public static PaneID ONLINE_SIMS_PANE = new PaneID();
 
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
@@ -42,9 +49,9 @@ public class TopLevelPane extends JTabbedPane  {
 
     private TopLevelPane() {
         installedSimsPane = new InstalledSimsPane();
-        addTab( "Installed Simulations", installedSimsPane );
+        addTab( "Installed Simulations", installedSimsPane  );
         uninstalledSimsPane = new UninstalledSimsPane();
-        addTab( "Simulations Available for Installation", uninstalledSimsPane );
+        addTab( "Online Catalog", uninstalledSimsPane );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -54,6 +61,21 @@ public class TopLevelPane extends JTabbedPane  {
             }
         } );
     }
+
+    /**
+     * Set the active pane
+     */
+    public void setActivePane( PaneID paneID ) {
+        int index = 0;
+        if( paneID == INSTALLED_SIMS_PANE ) {
+            index = this.indexOfComponent( installedSimsPane );
+        }
+        if( paneID == ONLINE_SIMS_PANE ) {
+            index = this.indexOfComponent( uninstalledSimsPane );
+        }
+        super.setSelectedIndex( index );
+    }
+
 
     public InstalledSimsPane getInstalledSimsPane() {
         return installedSimsPane;
