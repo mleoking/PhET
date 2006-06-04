@@ -4,6 +4,7 @@ Bugs
 - Thumbnails don't display the first time they come down.
 - Clearing the cache doesn't update the installed and available sims lists
 - Make tables columns fixed width. That's why the we're getting screen turds on the left
+- Change all class and variable names to "Sim" from "Simulation"
 
 ========
 Features
