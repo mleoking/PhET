@@ -56,6 +56,7 @@ CLEANUP:
 
 
 DONE:
+(6/5/06) - move eigenstate drawing out of BSEigenstatesNode and into BSEnergyPlot (simplifies code)
 (6/2/06) - move mag glass back to default position when window size changes
 (6/2/06) - bugfix: cursor changes to an arrow after hiliting via the lens, should remain a hand
 (6/2/06) - convert to PiccoloPhetApplication to get new tabs

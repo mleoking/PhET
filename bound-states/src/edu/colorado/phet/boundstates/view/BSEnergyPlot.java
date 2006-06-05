@@ -12,14 +12,13 @@
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.jfree.chart.axis.*;
+import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
@@ -27,8 +26,9 @@ import org.jfree.ui.RectangleInsets;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
-import edu.colorado.phet.boundstates.util.AxisSpec;
+import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.jfreechart.FastPathRenderer;
 
@@ -51,7 +51,13 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     
     // View
     private XYSeries _potentialSeries;
-    private int _potentialIndex; // well dataset index
+    private XYSeries _normalEigenstateSeries;
+    private XYSeries _selectedEigenstateSeries;
+    private XYSeries _hilitedEigenstateSeries;
+    private int _potentialIndex;
+    private int _normalEigenstateIndex;
+    private int _selectedEigenstateIndex;
+    private int _hilitedEigenstateIndex;
     private double _dx;
     
     //----------------------------------------------------------------------------
@@ -67,6 +73,51 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         
         int dataSetIndex = 0;
         
+        // "Hilited" eigenstates series
+        _hilitedEigenstateSeries = new XYSeries( "hilited eigenstates", false /* autoSort */ );
+        {
+            _hilitedEigenstateIndex = dataSetIndex++;
+            // Dataset
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _hilitedEigenstateSeries );
+            setDataset( _hilitedEigenstateIndex, dataset );
+            // Renderer
+            XYItemRenderer renderer = new EigenstatesRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateHiliteColor() );
+            renderer.setStroke( BSConstants.EIGENSTATE_HILITE_STROKE );
+            setRenderer( _hilitedEigenstateIndex, renderer );
+        }
+        
+        // "Selected" eigenstates series
+        _selectedEigenstateSeries = new XYSeries( "selected eigenstates", false /* autoSort */ );
+        {
+            _selectedEigenstateIndex = dataSetIndex++;
+            // Dataset
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _selectedEigenstateSeries );
+            setDataset( _selectedEigenstateIndex, dataset );
+            // Renderer
+            XYItemRenderer renderer = new EigenstatesRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateSelectionColor() );
+            renderer.setStroke( BSConstants.EIGENSTATE_SELECTION_STROKE );
+            setRenderer( _selectedEigenstateIndex, renderer );
+        }
+        
+        // "Normal" eigenstates series
+        _normalEigenstateSeries = new XYSeries( "normal eigenstates", false /* autoSort */ );
+        {
+            _normalEigenstateIndex = dataSetIndex++;
+            // Dataset
+            XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries( _normalEigenstateSeries );
+            setDataset( _normalEigenstateIndex, dataset );
+            // Renderer
+            XYItemRenderer renderer = new EigenstatesRenderer();
+            renderer.setPaint( BSConstants.COLOR_SCHEME.getEigenstateNormalColor() );
+            renderer.setStroke( BSConstants.EIGENSTATE_NORMAL_STROKE );
+            setRenderer( _normalEigenstateIndex, renderer );
+        }
+        
         // Potential series
         _potentialSeries = new XYSeries( potentialEnergyLabel, false /* autoSort */ );
         {
@@ -81,7 +132,7 @@ public class BSEnergyPlot extends XYPlot implements Observer {
             renderer.setStroke( BSConstants.POTENTIAL_ENERGY_STROKE );
             setRenderer( _potentialIndex, renderer );
         }
-        
+
         // X axis 
         BSPositionAxis xAxis = new BSPositionAxis();
         
@@ -122,6 +173,12 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the model that this plot observes.
+     * Changes in the model cause the plot to be updated.
+     * 
+     * @param model
+     */
     public void setModel( BSModel model ) {
         if ( _model != model ) {
             if ( _model != null ) {
@@ -151,8 +208,16 @@ public class BSEnergyPlot extends XYPlot implements Observer {
         setRangeGridlinePaint( scheme.getGridlineColor() );
         // Series
         getRenderer( _potentialIndex ).setPaint( scheme.getPotentialEnergyColor() );
+        getRenderer( _hilitedEigenstateIndex ).setPaint( scheme.getEigenstateHiliteColor() );
+        getRenderer( _selectedEigenstateIndex ).setPaint( scheme.getEigenstateSelectionColor() );
+        getRenderer( _normalEigenstateIndex ).setPaint( scheme.getEigenstateNormalColor() );
     }
     
+    /**
+     * Sets the change in position between sample points used to draw the potential.
+     * 
+     * @param dx
+     */
     public void setDx( double dx ) {
         if ( dx != _dx ) {
             _dx = dx;
@@ -171,8 +236,16 @@ public class BSEnergyPlot extends XYPlot implements Observer {
      * @param arg
      */
     public void update( Observable observable, Object arg ) {
-        if ( observable == _model && arg == BSModel.PROPERTY_POTENTIAL ) {
-            updateDatasets();
+        if ( observable == _model ) {
+            if ( arg == BSModel.PROPERTY_POTENTIAL ) {
+                updateDatasets();
+            }
+            else if ( arg == BSModel.PROPERTY_SUPERPOSITION_COEFFICIENTS ) {
+                updateSelectionEigenstatesDataset();
+            }
+            else if ( arg == BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+                updateHiliteEigenstatesDataset();
+            }
         }
     }
     
@@ -181,18 +254,75 @@ public class BSEnergyPlot extends XYPlot implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the datasets to match the model.
+     * Updates all datasets.
      */
     private void updateDatasets() {
+        updatePotentialDataset();
+        updateNormalEigenstatesDataset();
+        updateSelectionEigenstatesDataset();
+        updateHiliteEigenstatesDataset();
+    }
+    
+    /*
+     * Updates the potential dataset to match the model.
+     */
+    private void updatePotentialDataset() {
         _potentialSeries.setNotify( false );
+        _potentialSeries.clear();
         final double minX = getDomainAxis().getLowerBound();
         final double maxX = getDomainAxis().getUpperBound();
         BSAbstractPotential potential = _model.getPotential();
         Point2D[] points = potential.getPotentialPoints( minX, maxX, _dx );
-        _potentialSeries.clear();
         for ( int i = 0; i < points.length; i++ ) {
             _potentialSeries.add( points[i].getX(), points[i].getY() );
         }
         _potentialSeries.setNotify( true );
+    }
+    
+    /*
+     * Updates the "normal" eigenstates dataset to match the model.
+     * All eigenstate energies are added to the dataset.
+     */
+    private void updateNormalEigenstatesDataset() {
+        _normalEigenstateSeries.setNotify( false );
+        _normalEigenstateSeries.clear();
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            _normalEigenstateSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
+        }
+        _normalEigenstateSeries.setNotify( true );
+    }
+    
+    /*
+     * Updates the "selected" eigenstates dataset to match the model.
+     * Those eigenstates energies with non-zero superposition coefficients
+     * are added to the dataset.
+     */
+    private void updateSelectionEigenstatesDataset() {
+        _selectedEigenstateSeries.setNotify( false );
+        _selectedEigenstateSeries.clear();
+        BSEigenstate[] eigenstates = _model.getEigenstates();
+        BSSuperpositionCoefficients superpositionCoefficients = _model.getSuperpositionCoefficients();
+        for ( int i = 0; i < eigenstates.length; i++ ) {
+            if ( superpositionCoefficients.getCoefficient( i ) != 0 ) {
+                _selectedEigenstateSeries.add( 0 /* don't care */, eigenstates[i].getEnergy() );
+            }
+        }
+        _selectedEigenstateSeries.setNotify( true );
+    }
+    
+    /*
+     * Updates the "hilite" eigenstates dataset to match the model.
+     * Our model supports only one hilited eigenstate.
+     */
+    private void updateHiliteEigenstatesDataset() {
+        _hilitedEigenstateSeries.setNotify( false );
+        _hilitedEigenstateSeries.clear();
+        final int hiliteIndex = _model.getHilitedEigenstateIndex();
+        if ( hiliteIndex != BSEigenstate.INDEX_UNDEFINED ) {
+            BSEigenstate hilitedEigenstate = _model.getEigenstate( hiliteIndex );
+            _hilitedEigenstateSeries.add( 0 /* don't care */, hilitedEigenstate.getEnergy() );
+        }
+        _hilitedEigenstateSeries.setNotify( true );
     }
 }
