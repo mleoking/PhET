@@ -17,7 +17,7 @@ information.
 <jnlp
         spec="1.0+"
         codebase="http://www.colorado.edu/physics/phet/dev/"
-        href="schrodinger/@VERSION@/schrodinger.jnlp">
+        href="schrodinger/@VERSION@/qwi.jnlp">
     <information>
         <title>Quantum Wave Interference</title>
         <vendor>PhET(tm)</vendor>
@@ -30,7 +30,7 @@ information.
     </information>
     <resources>
         <j2se version="1.4+"/>
-        <jar href="schrodinger/@VERSION@/schrodinger-pro.jar"/>
+        <jar href="schrodinger/@VERSION@/qwi-pro.jar"/>
     </resources>
     <application-desc main-class="@MAIN-CLASS@"/>
 </jnlp>
