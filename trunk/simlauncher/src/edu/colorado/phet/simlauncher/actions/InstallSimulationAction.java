@@ -16,6 +16,9 @@ import edu.colorado.phet.simlauncher.SimulationContainer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import com.sun.java.swing.SwingUtilities2;
 
@@ -41,27 +44,50 @@ public class InstallSimulationAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-            action.doIt( component );
+        action.doIt( component );
     }
 
-    private void showWaitDialog() {
+    private void showWaitDialog( Thread thread ) {
         JFrame frame = (JFrame)SwingUtilities.getRoot( component );
-        waitDlg = new JDialog( frame, "Installing...", false );
-        JLabel message = new JLabel( "Please wait while the simulation is being installed...");
-        waitDlg.getContentPane().add( message );
+        waitDlg = new JDialog( frame, "Installing...", true );
+        JLabel message = new JLabel( "Please wait while the simulation is being installed..." );
+        JPanel contentPane = (JPanel)waitDlg.getContentPane();
+        contentPane.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 10, 20, 10, 20 ),
+                                                         0, 0 );
+        contentPane.add( message, gbc );
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate( true );
+        contentPane.add( progressBar, gbc );
+
         waitDlg.pack();
-        waitDlg.setVisible( true );
         waitDlg.setLocationRelativeTo( frame );
+        waitDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
+        waitDlg.setVisible( true );
     }
 
     private void hideWaitDialog() {
         waitDlg.setVisible( false );
     }
 
-    private void install( Simulation simulation ) {
-        showWaitDialog();
-        simulation.install();
-        hideWaitDialog();
+    /**
+     * Puts up a dialog, then kicks off the installation in a separate thread. When the
+     * simulation is installed, the dialog goes away.
+     * @param simulation
+     */
+    private void install( final Simulation simulation ) {
+        Thread installerThread = new Thread( new Runnable( ){
+            public void run() {
+                simulation.install();
+                hideWaitDialog();
+            }
+        });
+        installerThread.start();
+        showWaitDialog( installerThread );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -81,7 +107,6 @@ public class InstallSimulationAction extends AbstractAction {
 
         public void doIt( Component component ) {
             install( simulationContainer.getSimulation() );
-//            simulationContainer.getSimulation().install();
         }
     }
 
@@ -94,7 +119,6 @@ public class InstallSimulationAction extends AbstractAction {
 
         public void doIt( Component component ) {
             install( simulation );
-//            simulation.install();
         }
     }
 }
