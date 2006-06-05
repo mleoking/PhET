@@ -1,11 +1,3 @@
-•	If you put a detector over each slit in the single particle panel and detect the 
-particles manually, rather than using auto-detect, it doesn’t seem to be equally 
-likely to detect the particle in either detector, even though the probabilities written in both 
-detectors are the same.  It almost always detects the particle in the first detector that you put on the screen.  
-At first I thought that the other detector wasn’t activated, but if you do it enough times, 
-the other detector will occasionally detect it.
->>Maybe we need to randomize the order in which they roll for it.
-
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 

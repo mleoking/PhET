@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * User: Sam Reid
@@ -101,6 +102,9 @@ public class DetectorSet {
     private void fireAllEnabledDetectors( FireStrategy fireStrategy ) {
         double norm = 1.0;
         if( getWavefunction().getMagnitude() > 0 ) {
+            ArrayList detectors = new ArrayList();
+            detectors.addAll( this.detectors );
+            Collections.shuffle( detectors );
             for( int i = 0; i < detectors.size(); i++ ) {
                 Detector detector = (Detector)detectors.get( i );
                 if( detector.isEnabled() ) {
