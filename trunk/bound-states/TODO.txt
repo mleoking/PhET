@@ -32,6 +32,7 @@ MEDIUM PRIORITY:
 - different method of solving when multi-wells are spaced far apart?
 
 LOW PRIORITY:
+- rename BSEigenstatesNode to BSEigenstatesManipulatorNode
 - refactor BSAbstractModule, it's too big
 - refactor other classes that have gotten too big
 - make sure things update properly when clock is paused
