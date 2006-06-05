@@ -53,7 +53,7 @@ public class SlitDetectorPanel extends VerticalLayoutPanel {
                 rightSlit.setSelected( intensityModule.isRightDetectorEnabled() );
             }
         } );
-        intensityModule.getDiscreteModel().addListener( new QWIModel.Adapter() {
+        intensityModule.getQWIModel().addListener( new QWIModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
                 synchronizeModelState();
             }

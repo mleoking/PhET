@@ -16,7 +16,7 @@ import edu.colorado.phet.qm.model.QWIModel;
 public class SingleParticleModule extends QWIModule {
     public SingleParticleModule( QWIApplication application, IClock clock ) {
         super( "Single Particles", application, clock );
-        setDiscreteModel( new QWIModel() );
+        setQWIModel( new QWIModel() );
         final SingleParticleSchrodingerPanel schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );
         setSchrodingerPanel( schrodingerSchrodingerPanel );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );

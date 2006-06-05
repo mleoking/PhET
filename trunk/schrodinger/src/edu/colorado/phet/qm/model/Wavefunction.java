@@ -48,8 +48,10 @@ public class Wavefunction {
     public void combineWaves( Rectangle region, Wavefunction a, Wavefunction b ) {
         for( int i = region.x; i < region.x + region.width; i++ ) {
             for( int j = region.y; j < region.y + region.height; j++ ) {
-                double sum = QWISplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
-                setValue( i, j, new Complex( sum, 0 ) );
+//                double sum = QWISplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
+//                setValue( i, j, new Complex( sum, 0 ) );
+                setValue( i, j, a.valueAt( i, j ).getReal() + b.valueAt( i, j ).getReal(),
+                          a.valueAt( i, j ).getImaginary() + b.valueAt( i, j ).getImaginary() );
             }
         }
     }

@@ -26,7 +26,7 @@ public class MandelModule extends QWIModule {
     public MandelModule( QWIApplication app, IClock clock ) {
         super( "2 Lasers", app, clock );
         splitModel = new MandelModel();
-        setDiscreteModel( splitModel );
+        setQWIModel( splitModel );
         mandelSchrodingerPanel = new MandelSchrodingerPanel( this );
         setSchrodingerPanel( mandelSchrodingerPanel );
         intensityControlPanel = new MandelControlPanel( this );

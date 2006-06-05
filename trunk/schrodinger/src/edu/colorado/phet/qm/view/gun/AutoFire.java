@@ -32,7 +32,7 @@ public class AutoFire implements IntensityManager.Listener {
     }
 
     private void checkDetection() {
-        double mag = gunGraphic.getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
+        double mag = gunGraphic.getSchrodingerModule().getQWIModel().getWavefunction().getMagnitude();
 //        System.out.println( "mag = " + mag );
         if( mag < THRESHOLD || Double.isNaN( mag ) ) {
             if( timeSinceFire() > MIN_WAIT_TIME && !gunGraphic.isFiring() ) {

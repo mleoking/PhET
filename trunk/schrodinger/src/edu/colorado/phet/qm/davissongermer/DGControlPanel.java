@@ -68,7 +68,7 @@ public class DGControlPanel extends ControlPanel {
     }
 
     private QWIModel getDiscreteModel() {
-        return dgModule.getDiscreteModel();
+        return dgModule.getQWIModel();
     }
 
     private void addRulerPanel() {

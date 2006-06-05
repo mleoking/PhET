@@ -36,7 +36,7 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
 
         getIntensityDisplay().addListener( new IntensityManager.Listener() {
             public void detectionOccurred() {
-                module.getDiscreteModel().enableAllDetectors();
+                module.getQWIModel().enableAllDetectors();
             }
         } );
     }

@@ -56,7 +56,7 @@ public class QWIPanel extends PhetPCanvas {
     public QWIPanel( QWIModule module ) {
         setLayout( null );
         this.module = module;
-        this.QWIModel = module.getDiscreteModel();
+        this.QWIModel = module.getQWIModel();
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

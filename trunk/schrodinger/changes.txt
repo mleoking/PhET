@@ -1,5 +1,8 @@
 New in 1.00.01
 Bugfix: For photons in High Intensity panel, turning on detector changes display from time-averaged intensity to E-field.
+Bugfix: If you start in E-field view and turn off detector,
+    model looks temporarily like time-averaged intensity in upper half of box
+    This effect also happens for electrons.    
 
 New in 1.00 (5-17-2006)
 Posted on main site (replaces 0.37)

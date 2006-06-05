@@ -112,7 +112,7 @@ public class QWIOptionsMenu extends JMenu {
     }
 
     private QWIModel getDiscreteModel() {
-        return qwiModule.getDiscreteModel();
+        return qwiModule.getQWIModel();
     }
 
     private void printModelParameters() {

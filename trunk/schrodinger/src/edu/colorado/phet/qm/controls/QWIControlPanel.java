@@ -159,7 +159,7 @@ public class QWIControlPanel extends ControlPanel {
     }
 
     public QWIModel getDiscreteModel() {
-        return module.getDiscreteModel();
+        return module.getQWIModel();
     }
 
     public QWIModule getModule() {

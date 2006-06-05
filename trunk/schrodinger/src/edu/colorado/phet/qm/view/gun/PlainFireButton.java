@@ -102,7 +102,7 @@ public class PlainFireButton extends PNode {
     public void addButtonEnableDisable() {
         getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                double magnitude = getSchrodingerModule().getDiscreteModel().getWavefunction().getMagnitude();
+                double magnitude = getSchrodingerModule().getQWIModel().getWavefunction().getMagnitude();
                 if( ( magnitude <= AutoFire.THRESHOLD || Double.isNaN( magnitude ) ) && !gun.isFiring() ) {
                     if( !fireButtonEnabled() ) {
                         setEnabled( true );

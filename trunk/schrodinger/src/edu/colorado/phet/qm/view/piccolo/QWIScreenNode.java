@@ -86,7 +86,7 @@ public class QWIScreenNode extends PNode {
     public QWIScreenNode( final QWIModule module, final QWIPanel QWIPanel ) {
         this.module = module;
         this.QWIPanel = QWIPanel;
-        wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getDiscreteModel().getWavefunction() );
+        wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getQWIModel().getWavefunction() );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void finishedTimeStep( QWIModel model ) {
                 if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
@@ -168,7 +168,7 @@ public class QWIScreenNode extends PNode {
         stopwatchPanelPSwing.setOffset( 300, 300 );
         setStopwatchVisible( false );
 
-        module.getDiscreteModel().addListener( new QWIModel.Adapter() {
+        module.getQWIModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 setUnits( particleUnits );//see note in setUnits.
             }
@@ -180,7 +180,7 @@ public class QWIScreenNode extends PNode {
     }
 
     private QWIModel getDiscreteModel() {
-        return getSchrodingerModule().getDiscreteModel();
+        return getSchrodingerModule().getQWIModel();
     }
 
     private QWIModule getSchrodingerModule() {
@@ -421,7 +421,7 @@ resolution, and a quarter as many times for high resolution.*/
 
     private double getTimeFudgeFactor() {
         ResolutionControl.ResolutionSetup res = module.getResolution();
-        if( module.getDiscreteModel().getPropagator() instanceof ClassicalWavePropagator ) {
+        if( module.getQWIModel().getPropagator() instanceof ClassicalWavePropagator ) {
             return res.getTimeFudgeFactorForLight();
         }
         else {

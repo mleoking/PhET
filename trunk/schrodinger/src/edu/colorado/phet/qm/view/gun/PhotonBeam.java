@@ -46,7 +46,7 @@ public class PhotonBeam extends HighIntensityBeam {
     }
 
     private void handleColorChange() {
-        getGunGraphic().getSchrodingerModule().getDiscreteModel().clearWavefunction();
+        getGunGraphic().getSchrodingerModule().getQWIModel().clearWavefunction();
         getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
     }
 
