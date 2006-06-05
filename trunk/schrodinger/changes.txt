@@ -1,3 +1,6 @@
+New in 1.00.01
+Bugfix: For photons in High Intensity panel, turning on detector changes display from time-averaged intensity to E-field.
+
 New in 1.00 (5-17-2006)
 Posted on main site (replaces 0.37)
 Changed from alpha to beta.
