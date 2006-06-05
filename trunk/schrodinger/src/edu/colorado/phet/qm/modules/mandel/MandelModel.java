@@ -11,7 +11,7 @@ import edu.colorado.phet.qm.model.propagators.NullPropagator;
  * Duplicated from SplitModel.
  */
 
-public class MandelModel extends DiscreteModel {
+public class MandelModel extends QWIModel {
     private WaveModel rightWaveModel;
     private WaveModel leftWaveModel;
 
@@ -19,7 +19,7 @@ public class MandelModel extends DiscreteModel {
     private static final boolean DEBUG_MANDEL_WAVES = false;
 
     public MandelModel() {
-        this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
+        this( QWIModel.DEFAULT_WIDTH, QWIModel.DEFAULT_WIDTH );
     }
 
     public MandelModel( int width, int height ) {
@@ -37,7 +37,7 @@ public class MandelModel extends DiscreteModel {
             final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     leftWaveDebugger.update();
                 }
             } );
@@ -45,7 +45,7 @@ public class MandelModel extends DiscreteModel {
             final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", getRightWavefunction() );
             rightWaveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     rightWaveDebugger.update();
                 }
             } );

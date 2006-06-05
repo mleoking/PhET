@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +16,13 @@ import java.awt.event.ActionListener;
  */
 
 public class DoubleSlitCheckBox extends JCheckBox {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
 
-    public DoubleSlitCheckBox( final DiscreteModel discreteModel ) {
-        super( "Double Slit", discreteModel.isDoubleSlitEnabled() );
+    public DoubleSlitCheckBox( final QWIModel QWIModel ) {
+        super( "Double Slit", QWIModel.isDoubleSlitEnabled() );
         setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
 
-        this.discreteModel = discreteModel;
+        this.QWIModel = QWIModel;
 
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -34,9 +34,9 @@ public class DoubleSlitCheckBox extends JCheckBox {
                 }
             }
         } );
-        discreteModel.addListener( new DiscreteModel.Adapter() {
+        QWIModel.addListener( new QWIModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
-                setSelected( discreteModel.isDoubleSlitEnabled() );
+                setSelected( QWIModel.isDoubleSlitEnabled() );
             }
         } );
     }
@@ -45,7 +45,7 @@ public class DoubleSlitCheckBox extends JCheckBox {
         super.setFont( font );
     }
 
-    private DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    private QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 }

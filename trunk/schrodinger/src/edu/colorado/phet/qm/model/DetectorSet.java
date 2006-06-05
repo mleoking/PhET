@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class DetectorSet {
     private ArrayList detectors = new ArrayList();
-    private DiscreteModel.Listener listener;
+    private QWIModel.Listener listener;
     private Wavefunction wavefunction;
     private boolean autodetect = true;
     private boolean repeats = false;//forAutoDetect
@@ -126,7 +126,7 @@ public class DetectorSet {
         return wavefunction;
     }
 
-    public DiscreteModel.Listener getListener() {
+    public QWIModel.Listener getListener() {
         return listener;
     }
 
@@ -152,8 +152,8 @@ public class DetectorSet {
         detectors.remove( detector );
     }
 
-    public class AutoDetectAdapter extends DiscreteModel.Adapter {
-        public void finishedTimeStep( DiscreteModel model ) {
+    public class AutoDetectAdapter extends QWIModel.Adapter {
+        public void finishedTimeStep( QWIModel model ) {
             notifyTimeStepped();
             updateDetectorProbabilities();
             if( autodetect && model.isDetectionCausesCollapse() ) {

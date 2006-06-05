@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Propagator;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.propagators.*;
 
 import javax.swing.*;
@@ -18,11 +18,11 @@ import java.awt.event.ActionListener;
  */
 
 public class PropagatorPanel extends VerticalLayoutPanel {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private ClassicalWavePropagator classicalPropagator2ndOrder;
 
-    public PropagatorPanel( DiscreteModel discreteModel ) {
-        this.discreteModel = discreteModel;
+    public PropagatorPanel( QWIModel QWIModel ) {
+        this.QWIModel = QWIModel;
 
         VerticalLayoutPanel propagatorPanel = this;
         propagatorPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
@@ -54,8 +54,8 @@ public class PropagatorPanel extends VerticalLayoutPanel {
         } );
     }
 
-    private DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    private QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 
     private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
@@ -70,7 +70,7 @@ public class PropagatorPanel extends VerticalLayoutPanel {
             }
         } );
         radioButton.setSelected( getDiscreteModel().getPropagator().getClass().isAssignableFrom( propagator.getClass() ) );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void propagatorChanged() {
                 radioButton.setSelected( getDiscreteModel().getPropagator().getClass().equals( propagator.getClass() ) );
             }

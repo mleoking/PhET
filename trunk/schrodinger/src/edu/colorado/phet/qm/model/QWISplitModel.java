@@ -17,7 +17,7 @@ import java.awt.*;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SplitModel extends DiscreteModel {
+public class QWISplitModel extends QWIModel {
     private WaveModel rightWaveModel;
     private WaveModel leftWaveModel;
 
@@ -26,15 +26,15 @@ public class SplitModel extends DiscreteModel {
     private Mode mode = new NormalMode();
     private HorizontalDoubleSlit.Listener listener;
 
-    public SplitModel() {
-        this( DiscreteModel.DEFAULT_WIDTH, DiscreteModel.DEFAULT_WIDTH );
+    public QWISplitModel() {
+        this( QWIModel.DEFAULT_WIDTH, QWIModel.DEFAULT_WIDTH );
     }
 
-    public SplitModel( int width, int height ) {
+    public QWISplitModel( int width, int height ) {
         this( width, height, DEFAULT_DT, createInitWave() );
     }
 
-    public SplitModel( int width, int height, double deltaTime, Wave wave ) {
+    public QWISplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
         rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
         leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
@@ -59,7 +59,7 @@ public class SplitModel extends DiscreteModel {
             final WaveDebugger leftWaveDebugger = new WaveDebugger( "Left", getLeftWavefunction() );
             leftWaveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     leftWaveDebugger.update();
                 }
             } );
@@ -67,7 +67,7 @@ public class SplitModel extends DiscreteModel {
             final WaveDebugger rightWaveDebugger = new WaveDebugger( "Right", getRightWavefunction() );
             rightWaveDebugger.setVisible( true );
             addListener( new Adapter() {
-                public void finishedTimeStep( DiscreteModel model ) {
+                public void finishedTimeStep( QWIModel model ) {
                     rightWaveDebugger.update();
                 }
             } );
@@ -169,11 +169,11 @@ public class SplitModel extends DiscreteModel {
 
     class NormalMode implements Mode {
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-            return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
+            return QWISplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
         }
 
         public void step() {
-            SplitModel.this.superStep();
+            QWISplitModel.this.superStep();
         }
     }
 

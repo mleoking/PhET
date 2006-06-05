@@ -29,15 +29,15 @@ public class SplitOperatorPropagator extends Propagator {
     private Wavefunction expT = null;
     private Wavefunction expV = null;
     private Wavefunction temp = null;
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
 
     static boolean displayMomentumWavefunction = false;
 
-    public SplitOperatorPropagator( DiscreteModel discreteModel, Potential potential ) {
+    public SplitOperatorPropagator( QWIModel QWIModel, Potential potential ) {
         super( potential );
-        this.discreteModel = discreteModel;
-        if( discreteModel != null ) {
-            discreteModel.addListener( new DiscreteModel.Adapter() {
+        this.QWIModel = QWIModel;
+        if( QWIModel != null ) {
+            QWIModel.addListener( new QWIModel.Adapter() {
                 public void potentialChanged() {
                     updateExpV();
                 }
@@ -223,7 +223,7 @@ public class SplitOperatorPropagator extends Propagator {
     }
 
     public Propagator copy() {
-        return new SplitOperatorPropagator( discreteModel, getPotential() );
+        return new SplitOperatorPropagator( QWIModel, getPotential() );
     }
 
     public void normalize() {

@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 
 /**
  * User: Sam Reid
@@ -29,7 +29,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
             }
         } );
 
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void doubleSlitVisibilityChanged() {
                 if( getDiscreteModel().isDoubleSlitEnabled() ) {
                     showAdvanced();
@@ -41,7 +41,7 @@ public class ExpandableDoubleSlitPanel extends AdvancedPanel {
         } );
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return module.getDiscreteModel();
     }
 }

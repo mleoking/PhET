@@ -12,7 +12,7 @@ import java.awt.*;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class Damping extends DiscreteModel.Adapter {
+public class Damping extends QWIModel.Adapter {
 
 //    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
 //    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
@@ -21,12 +21,12 @@ public class Damping extends DiscreteModel.Adapter {
 //    private double[] damp = new double[]{0.999, 0.99, 0.95, 0.9, 0.85, 0.8, 0.7,0.6,0.5};
 //    private double[] damp = new double[]{0.99, 0.5};//, 0.96, 0.9, 0.8, 0.7, 0.6, 0.5,0.3,0.1};
 
-    public void finishedTimeStep( DiscreteModel model ) {
+    public void finishedTimeStep( QWIModel model ) {
         damp( model.getWavefunction() );
 //        dampBarrier( model );
     }
 
-    private void dampBarrier( DiscreteModel model ) {
+    private void dampBarrier( QWIModel model ) {
         model.getWavefunction();
         HorizontalDoubleSlit horizontalDoubleSlit = model.getDoubleSlitPotential();
         Rectangle[] blockAreas = horizontalDoubleSlit.getBlockAreas();
@@ -36,7 +36,7 @@ public class Damping extends DiscreteModel.Adapter {
         }
     }
 
-    private void dampArea( DiscreteModel model, Rectangle blockArea ) {
+    private void dampArea( QWIModel model, Rectangle blockArea ) {
         Wavefunction wavefunction = model.getWavefunction();
         for( int x = blockArea.x; x < blockArea.x + blockArea.width; x++ ) {
             for( int j = 0; j < damp.length && j < blockArea.height; j++ ) {

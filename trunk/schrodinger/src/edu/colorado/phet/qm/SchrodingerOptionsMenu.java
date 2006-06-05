@@ -4,7 +4,7 @@ package edu.colorado.phet.qm;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.qm.controls.PropagatorPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.phetcommon.UIController;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -111,7 +111,7 @@ public class SchrodingerOptionsMenu extends JMenu {
         add( ui );
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return schrodingerModule.getDiscreteModel();
     }
 

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.qm.controls.ClearButton;
 import edu.colorado.phet.qm.controls.RulerPanel;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 
 import javax.swing.*;
@@ -68,7 +68,7 @@ public class DGControlPanel extends ControlPanel {
         dgModule.getPlotFrame().setVisible( selected );
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return dgModule.getDiscreteModel();
     }
 
