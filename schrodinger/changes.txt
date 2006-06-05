@@ -8,6 +8,7 @@ Bugfix: In “hits” mode, the dots appear on the screen in columns, so it appears 
 Bugfix: The “one-shot” checkbox doesn’t work.
 Bugfix: The detectors don't share probabilities equally.
 Bugfix: Text that says “Off” appears next to the left laser in the two lasers panel when maximizing the window.
+Bugfix: Putting a detector on the slits,  then turning the gun on causes empty graphics to appear north of the barriers.
 
 New in 1.00 (5-17-2006)
 Posted on main site (replaces 0.37)
