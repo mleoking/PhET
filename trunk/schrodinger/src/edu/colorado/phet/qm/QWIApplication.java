@@ -37,7 +37,7 @@ import java.lang.reflect.InvocationTargetException;
 public class QWIApplication extends PiccoloPhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
-    public static String VERSION = "1.00";
+    public static String VERSION = "1.00.01";
     private String[] args;
     private IntensityModule intensityModule;
 

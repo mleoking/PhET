@@ -4,7 +4,7 @@
 -injars jfreechart-dir\lib\servlet.jar
 -injars jfreechart-dir\lib\junit.jar
 -injars lib\jnlp.jar
--outjars ant_output\jars\schrodinger-pro.jar
+-outjars ant_output\jars\qwi-pro.jar
 
 -libraryjars 'C:\j2sdk1.4.2_05\jre\lib\rt.jar'
 
@@ -16,7 +16,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.qm.SchrodingerApplication {
+-keepclasseswithmembers public class edu.colorado.phet.qm.QWIApplication {
     public static void main(java.lang.String[]);
 }
 
