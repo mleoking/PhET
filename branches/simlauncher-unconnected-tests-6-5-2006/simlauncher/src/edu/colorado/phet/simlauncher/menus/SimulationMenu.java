@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.simlauncher.menus;
 
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UpdateSimulationAction;
-import edu.colorado.phet.simlauncher.actions.UninstallSimulationAction;
-import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
+import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
+import edu.colorado.phet.simlauncher.actions.UpdateSimAction;
+import edu.colorado.phet.simlauncher.actions.UninstallSimAction;
+import edu.colorado.phet.simlauncher.actions.InstallSimAction;
 import edu.colorado.phet.simlauncher.TopLevelPane;
 import edu.colorado.phet.simlauncher.InstalledSimsPane;
 import edu.colorado.phet.simlauncher.UninstalledSimsPane;
@@ -44,20 +44,20 @@ class SimulationMenu extends JMenu {
 
         // Menu items for installed simulations
         launchMI = new JMenuItem( "Launch simulation" );
-        launchMI.addActionListener( new LaunchSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        launchMI.addActionListener( new LaunchSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
         add( launchMI );
         updateMI = new JMenuItem( "Check for updates" );
-        updateMI.addActionListener( new UpdateSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        updateMI.addActionListener( new UpdateSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
         add( updateMI );
         uninstallMI = new JMenuItem( "Uninstall" );
-        uninstallMI.addActionListener( new UninstallSimulationAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
+        uninstallMI.addActionListener( new UninstallSimAction( this, TopLevelPane.getInstance().getInstalledSimsPane() ) );
         add( uninstallMI );
 
         //Menu items for uninstalled simulations
         add( new JPopupMenu.Separator() );
         installMI = new JMenuItem( "Install" );
-        installMI.addActionListener( new InstallSimulationAction( this,
-                                                                  TopLevelPane.getInstance().getUninstalledSimsPane() ) );
+        installMI.addActionListener( new InstallSimAction( this,
+                                                           TopLevelPane.getInstance().getUninstalledSimsPane() ) );
         add( installMI );
 
         // Set up listeners that will cause the proper menu items to be enabled and disabled when
@@ -68,11 +68,14 @@ class SimulationMenu extends JMenu {
             }
         } );
 
-        TopLevelPane.getInstance().getUninstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
-            public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
-                enableMenuItems();
-            }
-        } );
+        // Listen for changes in the uninstalled simulations panel
+        if( TopLevelPane.getInstance().getUninstalledSimsPane() != null ) {
+            TopLevelPane.getInstance().getUninstalledSimsPane().addChangeListener( new ChangeEventChannel.ChangeListener() {
+                public void stateChanged( ChangeEventChannel.ChangeEvent event ) {
+                    enableMenuItems();
+                }
+            } );
+        }
 
         TopLevelPane.getInstance().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -93,7 +96,7 @@ class SimulationMenu extends JMenu {
         InstalledSimsPane isp = TopLevelPane.getInstance().getInstalledSimsPane();
         boolean installedItemsEnabled = isp.getSimulation() != null;
         UninstalledSimsPane usp = TopLevelPane.getInstance().getUninstalledSimsPane();
-        boolean uninstalledItemsEnabled = usp.getSimulation() != null;
+        boolean uninstalledItemsEnabled = usp != null && usp.getSimulation() != null;
 
         JTabbedPane jtp = TopLevelPane.getInstance();
         Component component = jtp.getSelectedComponent();

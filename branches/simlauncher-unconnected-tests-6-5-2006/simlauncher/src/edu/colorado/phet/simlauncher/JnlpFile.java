@@ -62,6 +62,7 @@ public class JnlpFile {
     }
 
     /**
+     * Constructor that takes a reference to a URL
      * @param jnlpUrl String representation of the URL to the actual jnlp file
      * @throws InvalidJnlpException
      */
@@ -74,6 +75,11 @@ public class JnlpFile {
         extensions = parseExtensions();
     }
 
+    /**
+     * Constructor that takes a reference to a File
+     * @param jnlpFile
+     * @throws InvalidJnlpException
+     */
     public JnlpFile( File jnlpFile ) throws InvalidJnlpException {
 
         // Build the document with SAX and Xerces, no validation

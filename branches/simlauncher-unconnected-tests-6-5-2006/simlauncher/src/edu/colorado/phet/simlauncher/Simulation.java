@@ -12,10 +12,7 @@ package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.util.LauncherUtil;
 import edu.colorado.phet.simlauncher.util.FileUtil;
-import edu.colorado.phet.simlauncher.resources.JnlpResource;
-import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
-import edu.colorado.phet.simlauncher.resources.JarResource;
-import edu.colorado.phet.simlauncher.resources.SimResource;
+import edu.colorado.phet.simlauncher.resources.*;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -79,10 +76,12 @@ public class Simulation {
 
         jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         resources.add( jnlpResource );
-        jarResources = jnlpResource.getJarResources();
-        for( int i = 0; i < jarResources.length; i++ ) {
-            JarResource jarResource = jarResources[i];
-            resources.add( jarResource );
+        if( jnlpResource.isRemoteAvailable() ) {
+            jarResources = jnlpResource.getJarResources();
+            for( int i = 0; i < jarResources.length; i++ ) {
+                JarResource jarResource = jarResources[i];
+                resources.add( jarResource );
+            }
         }
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
@@ -112,7 +111,7 @@ public class Simulation {
     /**
      * Downloads all the resources for the simulation
      */
-    public void install() {
+    public void install() throws SimResourceException {
         jnlpResource.download();
         for( int i = 0; i < jarResources.length; i++ ) {
             JarResource jarResource = jarResources[i];
@@ -181,6 +180,7 @@ public class Simulation {
     /**
      * Returns the system time that the simulation was last launched. If it was never launched,
      * returns 0.
+     *
      * @return the time the simulation was last launched
      */
     public long getLastLaunchTimestamp() {
@@ -198,102 +198,90 @@ public class Simulation {
         return Long.parseLong( str );
     }
 
-        /**
-         * Tells if the simulation is installed locally
-         *
-         * @return true if the simulation is installed
-         */
-        public boolean isInstalled
-        ( )
-        {
-            return this.jnlpResource.isInstalled();
+    /**
+     * Tells if the simulation is installed locally
+     *
+     * @return true if the simulation is installed
+     */
+    public boolean isInstalled() {
+        return this.jnlpResource.isInstalled();
+    }
+
+    /**
+     * Tells if this instance is current with the version on the PhET web site
+     *
+     * @return true if the local version is current
+     */
+    public boolean isCurrent() throws SimResourceException {
+        boolean isCurrent = true;
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            isCurrent &= simResource.isCurrent();
         }
+        return isCurrent;
+    }
 
-        /**
-         * Tells if this instance is current with the version on the PhET web site
-         *
-         * @return true if the local version is current
-         */
-        public boolean isCurrent
-        ( )
-        {
-            boolean isCurrent = true;
-            for( int i = 0; i < resources.size(); i++ ) {
-                SimResource simResource = (SimResource)resources.get( i );
-                isCurrent &= simResource.isCurrent();
-            }
-            return isCurrent;
+    /**
+     * Updates the local version of the simulation with the one on the PhET web site
+     */
+    public void update() throws SimResourceException {
+        for( int i = 0; i < resources.size(); i++ ) {
+            SimResource simResource = (SimResource)resources.get( i );
+            simResource.update();
         }
+        changeListenerProxy.uninstalled( new ChangeEvent( this ) );
+    }
 
-        /**
-         * Updates the local version of the simulation with the one on the PhET web site
-         */
-        public void update
-        ( )
-        {
-            for( int i = 0; i < resources.size(); i++ ) {
-                SimResource simResource = (SimResource)resources.get( i );
-                simResource.update();
-            }
-            changeListenerProxy.uninstalled( new ChangeEvent( this ) );
-        }
+    //--------------------------------------------------------------------------------------------------
+    // Setters and getters
+    //--------------------------------------------------------------------------------------------------
 
-        //--------------------------------------------------------------------------------------------------
-        // Setters and getters
-        //--------------------------------------------------------------------------------------------------
+    public String getName() {
+        return name;
+    }
 
-        public String getName
-        ( )
-        {
-            return name;
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        public String getDescription
-        ( )
-        {
-            return description;
-        }
+    public ImageIcon getThumbnail() {
+        return thumbnailResource.getImageIcon();
+    }
 
-        public ImageIcon getThumbnail
-        ( )
-        {
-            return thumbnailResource.getImageIcon();
-        }
+    //--------------------------------------------------------------------------------------------------
+    // Events and listeners
+    //--------------------------------------------------------------------------------------------------
+    EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
 
-        //--------------------------------------------------------------------------------------------------
-        // Events and listeners
-        //--------------------------------------------------------------------------------------------------
-        EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-        ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
-
-        public void addChangeListener
-        ( ChangeListener
-        listener ) {
+    public void addChangeListener
+            ( ChangeListener
+                    listener ) {
         changeEventChannel.addListener( listener );
     }
 
-        public void removeChangeListener
-        ( ChangeListener
-        listener ) {
+    public void removeChangeListener
+            ( ChangeListener
+                    listener ) {
         changeEventChannel.removeListener( listener );
     }
 
-        public class ChangeEvent extends EventObject {
-            public ChangeEvent( Simulation source ) {
-                super( source );
-            }
-
-            public Simulation getSimulation() {
-                return (Simulation)getSource();
-            }
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Simulation source ) {
+            super( source );
         }
 
-        public interface ChangeListener extends EventListener {
-            void installed( ChangeEvent event );
-
-            void uninstalled( ChangeEvent event );
-
-            void isUpdated( ChangeEvent event );
+        public Simulation getSimulation() {
+            return (Simulation)getSource();
         }
-
     }
+
+    public interface ChangeListener extends EventListener {
+        void installed( ChangeEvent event );
+
+        void uninstalled( ChangeEvent event );
+
+        void updated( ChangeEvent event );
+    }
+
+}

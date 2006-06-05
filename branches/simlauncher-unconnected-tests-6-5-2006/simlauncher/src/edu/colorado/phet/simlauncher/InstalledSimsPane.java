@@ -10,12 +10,14 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.menus.InstalledSimulationPopupMenu;
+import edu.colorado.phet.simlauncher.actions.LaunchSimAction;
+import edu.colorado.phet.simlauncher.menus.InstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
-import edu.colorado.phet.simlauncher.actions.LaunchSimulationAction;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -23,16 +25,17 @@ import java.awt.event.ActionEvent;
 
 /**
  * InstalledSimsPane
+ * <p>
+ * The enabling/disabling of the Launch button is not clean. I couldn't see how to do it in one place.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
-                                                         SimulationContainer {
+                                                         SimContainer {
 
-    private SimulationTable simTable;
-    private SimulationTable.SimulationComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
-//    private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
+    private SimTable simTable;
+    private SimTable.SimComparator simTableSortType = Options.instance().getInstalledSimulationsSortType();
     private JScrollPane simTableScrollPane;
     private ChangeEventChannel changeEventChannel = new ChangeEventChannel();
     private JButton launchBtn;
@@ -43,7 +46,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     private GridBagConstraints launchButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                          GridBagConstraints.CENTER,
                                                                          GridBagConstraints.NONE,
-                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                         new Insets( 10, 0, 0, 0 ), 0, 0 );
 
     /**
      *
@@ -58,10 +61,10 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
         launchBtn = new JButton( "Launch" );
         // Add an extension to the Launch action that resorts the table if the sort order is
         // most-recently-used
-        launchBtn.addActionListener( new LaunchSimulationAction( this, this ) {
+        launchBtn.addActionListener( new LaunchSimAction( this, this ) {
             public void actionPerformed( ActionEvent e ) {
                 super.actionPerformed( e );
-                if( Options.instance().getInstalledSimulationsSortType().equals( SimulationTable.MOST_RECENTLY_USED_SORT )) {
+                if( Options.instance().getInstalledSimulationsSortType().equals( SimTable.MOST_RECENTLY_USED_SORT )) {
                     updateSimTable();
                 }
             }
@@ -102,9 +105,9 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
             remove( simTableScrollPane );
         }
 
-        simTable = new SimulationTable( Catalog.instance().getInstalledSimulations(),
-                                        Options.instance().isShowInstalledThumbnails(),
-                                        simTableSortType );
+        simTable = new SimTable( Catalog.instance().getInstalledSimulations(),
+                                 Options.instance().isShowInstalledThumbnails(),
+                                 simTableSortType );
 
         // Add mouse handler
         simTable.addMouseListener( new MouseAdapter() {
@@ -116,14 +119,18 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 //                handleSimulationSelection( e );
             }
 
+            // Required to get e.isPopupTrigger() to return true on right-click
             public void mouseReleased( MouseEvent e ) {
-//                handleSimulationSelection( e );
+                handleSimulationSelection( e );
             }
         } );
 
         simTableScrollPane = new JScrollPane( simTable );
         add( simTableScrollPane, tableGbc );
         revalidate();
+
+        // Disable the lauch button. Since the table is new, there can't be any simulation selected
+        launchBtn.setEnabled( false );
     }
 
     /**
@@ -135,12 +142,11 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
-            new InstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+            new InstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
         }
 
         // If a double left click, launch the simulation
         if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
-            System.out.println( "InstalledSimsPane.handleSimulationSelection" );
             sim.launch();
         }
 

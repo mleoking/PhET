@@ -26,14 +26,14 @@ import java.util.List;
 import edu.colorado.phet.simlauncher.resources.ThumbnailResource;
 
 /**
- * SimlationFactory
+ * SimFactory
  * <p/>
  * Builds Simulation instances from an XML file
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimulationFactory {
+public class SimFactory {
 
     String simElementName = "simulation";
     String simNameAttrib = "name";
@@ -71,6 +71,7 @@ public class SimulationFactory {
                 String thumbnailUrl = element.getAttribute( simThumbnailAttib ).getValue();
                 ThumbnailResource thumbnailResource = new ThumbnailResource( new URL( thumbnailUrl ), localRoot );
                 if( !thumbnailResource.getLocalFile().exists() ) {
+                    System.out.println( "SimulationFactory.getSimulations" );
                     thumbnailResource.download();
                 }
 

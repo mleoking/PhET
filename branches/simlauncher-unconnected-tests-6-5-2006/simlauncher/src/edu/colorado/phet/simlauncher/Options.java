@@ -14,7 +14,6 @@ import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Properties;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.io.*;
@@ -31,7 +30,15 @@ public class Options {
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
     private static Options instance;
+    public static Options instance() {
+        return instance;
+    }
 
+    SimTable.SimComparator DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE = SimTable.NAME_SORT;
+
+    /**
+     * Initialize the Options singleton at class load time
+     */
     static {
         // If there is a stored set of options, create the singleton from it. Otherwise, just
         // create a new instance
@@ -52,11 +59,6 @@ public class Options {
         else {
             instance = new Options();
         }
-        System.out.println( "instance.getInstalledSimulationsSortType() = " + instance.getInstalledSimulationsSortType() );
-    }
-
-    public static Options instance() {
-        return instance;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ public class Options {
     private boolean showInstalledThumbnails = true;
     private boolean showUninstalledThumbnails = true;
     private boolean optionsChanged;
-    private SimulationTable.SimulationComparator installedSimulationsSortType;
+    private SimTable.SimComparator installedSimulationsSortType = DEFAULT_INSTALLED_SIMULATIONS_SORT_TYPE;
 
     /**
      * Private constructor to enforce singleton
@@ -117,11 +119,11 @@ public class Options {
         optionsChanged = true;
     }
 
-    public SimulationTable.SimulationComparator getInstalledSimulationsSortType() {
+    public SimTable.SimComparator getInstalledSimulationsSortType() {
         return installedSimulationsSortType;
     }
 
-    public void setInstalledSimulationsSortType( SimulationTable.SimulationComparator installedSimulationsSortType ) {
+    public void setInstalledSimSortType( SimTable.SimComparator installedSimulationsSortType ) {
         this.installedSimulationsSortType = installedSimulationsSortType;
         optionsChanged = true;
         notifyListeners();
@@ -135,12 +137,11 @@ public class Options {
         }
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     public static class ChangeEvent extends EventObject {
-        public ChangeEvent( Object source ) {
+        public ChangeEvent( Options source ) {
             super( source );
         }
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Configuration
- * <p>
+ * <p/>
  * A singleton class that contains configuration information. This includes:
  * <ul>
  * <li>The URL for the PhET web site
@@ -35,12 +35,24 @@ import java.util.ArrayList;
 public class Configuration implements ChangeEventChannel.ChangeEventSource {
 
     //--------------------------------------------------------------------------------------------------
-    // Implementation of singleton
+    // Class fields and methods
     //--------------------------------------------------------------------------------------------------
+
+    /**
+     * Singleton implementation
+     */
+    private static Configuration instance = new Configuration();
+
+    public static Configuration instance() {
+        return instance;
+    }
+
+
     private static String DEFAULT_CACHE_PATH = "/phet/temp/simlauncher/cache";
     private static File DEFAULT_CACHE = new File( DEFAULT_CACHE_PATH );
     private static String DEFAULT_PHET_URL_STRING = "http://www.colorado.edu/physics/phet";
     private static URL DEFAULT_PHET_URL;
+
     static {
         try {
             DEFAULT_PHET_URL = new URL( DEFAULT_PHET_URL_STRING );
@@ -49,10 +61,11 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
             e.printStackTrace();
         }
     }
+
     // The Catalog
     private static String CATALOG_PATH = "/simulations/catalog/simulations.xml";
     private static URL DEFAULT_CATALOG_URL;
-    static{
+    static {
         try {
             DEFAULT_CATALOG_URL = new URL( DEFAULT_PHET_URL_STRING + CATALOG_PATH );
         }
@@ -65,16 +78,16 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
     private static String DEFAULT_OPTIONS_PATH = "options.properties";
     private static File DEFAULT_OPTIONS_FILE;
     static {
-        DEFAULT_OPTIONS_FILE = new File( DEFAULT_CACHE_PATH + "/" + DEFAULT_OPTIONS_PATH);
+        DEFAULT_OPTIONS_FILE = new File( DEFAULT_CACHE_PATH + "/" + DEFAULT_OPTIONS_PATH );
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Instance fields and methods
+    //--------------------------------------------------------------------------------------------------
 
-    private static Configuration instance = new Configuration();
-
-    public static Configuration instance() {
-        return instance;
-    }
-
+    /**
+     * Private constructor to enforce singleton
+     */
     private Configuration() {
     }
 
@@ -96,40 +109,65 @@ public class Configuration implements ChangeEventChannel.ChangeEventSource {
         changeEventChannel.notifyChangeListeners( this );
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // Attributes of the Configuration, and their getters and setters. Note the style of initialization
+    // used here, rather than initializing the attribute in their declarations. I ran into
+    // java.lang.ExceptionInInitializerError exceptions when I tried initializing them in the
+    // declaration. 
+    //--------------------------------------------------------------------------------------------------
+
     // Location of local cache
-    private File localRoot = DEFAULT_CACHE;
+    private File localRoot;
     public File getLocalRoot() {
+        if( localRoot == null ) {
+            localRoot = DEFAULT_CACHE;
+        }
         return localRoot;
     }
+
     public void setLocalRoot( File localRoot ) {
         this.localRoot = localRoot;
         notifyListeners();
     }
 
     // URL to PhET web site
-    private URL phetUrl = DEFAULT_PHET_URL;
+    private URL phetUrl;
+
     public URL getPhetUrl() {
+        if( phetUrl == null ) {
+            phetUrl = DEFAULT_PHET_URL;
+        }
         return phetUrl;
     }
+
     public void setPhetUrl( URL phetUrl ) {
         this.phetUrl = phetUrl;
     }
 
     // Location of catalog relative to phetUrl and local root
-    private URL catalogUrl = DEFAULT_CATALOG_URL;
+    private URL catalogUrl;
+
     public URL getCatalogUrl() {
+        if( catalogUrl == null ) {
+            catalogUrl = DEFAULT_CATALOG_URL;
+        }
         return catalogUrl;
     }
+
     public void setCatalogUrl( URL catalogUrl ) {
         this.catalogUrl = catalogUrl;
     }
 
     // Location of the options file
-    private File optionsFile = DEFAULT_OPTIONS_FILE;
+    private File optionsFile;
 
     public File getOptionsFile() {
+        if( optionsFile == null ) {
+            optionsFile = DEFAULT_OPTIONS_FILE;
+        }
         return optionsFile;
     }
+
     public void setOptionsFile( File optionsFile ) {
         this.optionsFile = optionsFile;
     }

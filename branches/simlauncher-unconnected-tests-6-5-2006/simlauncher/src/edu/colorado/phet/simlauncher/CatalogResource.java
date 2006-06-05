@@ -10,15 +10,19 @@
  */
 package edu.colorado.phet.simlauncher;
 
+import edu.colorado.phet.simlauncher.resources.SimResource;
+
+import java.net.URL;
+import java.io.File;
+
 /**
- * SimulationContainer
- * <p>
- * An object that contains a reference to a particular Simulation. This can be a JList,
- * a JTable, or any object that has a distinguished instance of Simulation.
+ * CatalogResource
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public interface SimulationContainer {
-    Simulation getSimulation();
+public class CatalogResource extends SimResource {
+    public CatalogResource( URL url, File localRoot ) {
+        super( url, localRoot );
+    }
 }

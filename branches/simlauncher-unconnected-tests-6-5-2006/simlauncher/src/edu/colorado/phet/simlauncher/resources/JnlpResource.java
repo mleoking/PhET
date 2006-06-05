@@ -12,6 +12,7 @@ package edu.colorado.phet.simlauncher.resources;
 
 import edu.colorado.phet.simlauncher.JnlpFile;
 import edu.colorado.phet.simlauncher.InvalidJnlpException;
+import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
 import java.io.BufferedWriter;
@@ -29,7 +30,7 @@ import java.net.URL;
  */
 public class JnlpResource extends SimResource {
 
-    private static String FILE_SEPARATOR = System.getProperty( "file.separator");
+    private static String FILE_SEPARATOR = System.getProperty( "file.separator" );
     private static String LOCAL_CODEBASE_PREFIX = "file:" + FILE_SEPARATOR + FILE_SEPARATOR;
 
     private String remoteCodebase;
@@ -37,16 +38,24 @@ public class JnlpResource extends SimResource {
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
         this.url = url;
+//        try {
+//            remoteCodebase = new JnlpFile( url ).getCodebase();
+//        }
+//        catch( InvalidJnlpException e ) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void download() throws SimResourceException {
+        super.download();
+
+//        String remoteCodebase;
         try {
             remoteCodebase = new JnlpFile( url ).getCodebase();
         }
         catch( InvalidJnlpException e ) {
             e.printStackTrace();
         }
-    }
-
-    public void download() {
-        super.download();
 
         // Modify codebase of the file
         JnlpFile jnlpFile = null;
@@ -88,6 +97,7 @@ public class JnlpResource extends SimResource {
 
     /**
      * Gets the JarResources specified in this jnlp file
+     * todo: The way I handle not being connected to the PhET site is not very good here.
      *
      * @return an array of JnlpResources
      */
@@ -112,7 +122,11 @@ public class JnlpResource extends SimResource {
         String[] urlStrings = jnlpFile.getRelativeJarPaths();
         JarResource[] jarResources = new JarResource[urlStrings.length];
         for( int i = 0; i < urlStrings.length; i++ ) {
-            String urlString = new String( getRemoteCodebase() ).concat( "/" ).concat( urlStrings[i] );
+            String codebase = Configuration.instance().getPhetUrl().toString();
+            if( remoteCodebase != null ) {
+                codebase = remoteCodebase;
+            }
+            String urlString = new String( codebase ).concat( "/" ).concat( urlStrings[i] );
             URL url = null;
             try {
                 url = new URL( urlString );
@@ -135,7 +149,7 @@ public class JnlpResource extends SimResource {
         return s;
     }
 
-    private String getRemoteCodebase() {
-        return remoteCodebase;
-    }
+//    private String getRemoteCodebase() {
+//        return remoteCodebase;
+//    }
 }

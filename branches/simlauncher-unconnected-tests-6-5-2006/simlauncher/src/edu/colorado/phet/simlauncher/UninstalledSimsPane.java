@@ -10,9 +10,11 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
-import edu.colorado.phet.simlauncher.menus.UninstalledSimulationPopupMenu;
+import edu.colorado.phet.simlauncher.actions.RemoteUnavaliableMessagePane;
+import edu.colorado.phet.simlauncher.actions.InstallSimAction;
+import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +29,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstalledSimsPane extends JSplitPane implements SimulationContainer {
+public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
     private CategoryPanel categoryPanel;
     private UninstalledSimsPane.SimPanel simulationPanel;
@@ -89,28 +91,29 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
     /**
      *
      */
-    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimulationContainer {
-        private SimulationTable simTable;
-        private SimulationTable.SimulationComparator simTableSortType = SimulationTable.NAME_SORT;
+    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimContainer {
+        private SimTable simTable;
+        private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
         private JButton installBtn;
         private GridBagConstraints tableGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                       GridBagConstraints.CENTER,
-                                                                      GridBagConstraints.BOTH,
+                                                                      GridBagConstraints.NONE,
                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
         private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                               GridBagConstraints.CENTER,
                                                                               GridBagConstraints.NONE,
-                                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+//                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+new Insets( 10, 0, 20, 0 ), 0, 0 );
 
         public SimPanel() {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Available Simulations" ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Simulatons" ) );
 
             // Install button
             installBtn = new JButton( "Install" );
-            installBtn.addActionListener( new InstallSimulationAction( this, this ) );
+            installBtn.addActionListener( new InstallSimAction( this, this ) );
             installBtn.setEnabled( false );
             add( installBtn, installButtonGbc );
 
@@ -145,9 +148,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
             simListA.removeAll( Catalog.instance().getInstalledSimulations() );
 
             // Create the SimulationTable
-            simTable = new SimulationTable( simListA,
-                                            Options.instance().isShowUninstalledThumbnails(),
-                                            simTableSortType );
+            simTable = new SimTable( simListA,
+                                     Options.instance().isShowUninstalledThumbnails(),
+                                     simTableSortType );
             simTable.addMouseListener( new MouseAdapter() {
                 public void mouseClicked( MouseEvent e ) {
                     handleSimulationSelection( e );
@@ -157,8 +160,9 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 //                    handleSimulationSelection( e );
                 }
 
+                // Required to get e.isPopupTrigger() to return true on right-click
                 public void mouseReleased( MouseEvent e ) {
-//                    handleSimulationSelection( e );
+                    handleSimulationSelection( e );
                 }
             } );
 
@@ -169,6 +173,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
         /**
          * Handles selection events on the JTable of simulations
+         *
          * @param event
          */
         private void handleSimulationSelection( MouseEvent event ) {
@@ -177,14 +182,19 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
             // If right click, pop up context menu
             if( event.isPopupTrigger() && sim != null ) {
-                new UninstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+                new UninstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
             }
 
             // If a double left click, offer to install the simulation
             if( !event.isPopupTrigger() && event.getClickCount() == 2 ) {
                 int choice = JOptionPane.showConfirmDialog( this, "Do you want to install the simulation?", "Confirm", JOptionPane.OK_CANCEL_OPTION );
                 if( choice == JOptionPane.OK_OPTION ) {
-                    sim.install();
+                    try {
+                        sim.install();
+                    }
+                    catch( SimResourceException e ) {
+                        RemoteUnavaliableMessagePane.show( this );
+                    }
                 }
             }
 

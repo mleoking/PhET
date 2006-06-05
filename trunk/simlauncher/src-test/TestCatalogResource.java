@@ -10,6 +10,7 @@
  */
 
 import edu.colorado.phet.simlauncher.resources.CatalogResource;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.Configuration;
 import edu.colorado.phet.simlauncher.util.DebugStringFile;
 
@@ -21,7 +22,7 @@ import edu.colorado.phet.simlauncher.util.DebugStringFile;
  */
 public class TestCatalogResource {
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws SimResourceException {
         CatalogResource catalogResource = new CatalogResource( Configuration.instance().getCatalogUrl(),
                                                                Configuration.instance().getLocalRoot() );
         catalogResource.download();

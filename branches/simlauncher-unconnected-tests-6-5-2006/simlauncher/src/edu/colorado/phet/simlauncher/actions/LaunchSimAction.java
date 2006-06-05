@@ -11,28 +11,28 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationContainer;
+import edu.colorado.phet.simlauncher.SimContainer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * LaunchSimulationAction
+ * LaunchSimAction
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class LaunchSimulationAction extends AbstractAction {
+public class LaunchSimAction extends AbstractAction {
     private Component component;
     private Action action;
 
-    public LaunchSimulationAction( Component component, SimulationContainer simulationContainer ) {
+    public LaunchSimAction( Component component, SimContainer simContainer ) {
         this.component = component;
-        action = new SimulationContainerAction( simulationContainer );
+        action = new SimulationContainerAction( simContainer );
     }
 
-    public LaunchSimulationAction( Component component, Simulation simulation ) {
+    public LaunchSimAction( Component component, Simulation simulation ) {
         this.component = component;
         action = new SimulationAction( simulation );
     }
@@ -58,14 +58,14 @@ public class LaunchSimulationAction extends AbstractAction {
     }
 
     private class SimulationContainerAction implements Action {
-        SimulationContainer simulationContainer;
+        SimContainer simContainer;
 
-        public SimulationContainerAction( SimulationContainer simulationContainer ) {
-            this.simulationContainer = simulationContainer;
+        public SimulationContainerAction( SimContainer simContainer ) {
+            this.simContainer = simContainer;
         }
 
         public void doIt() {
-            simulationContainer.getSimulation().launch();
+            simContainer.getSimulation().launch();
         }
     }
 }

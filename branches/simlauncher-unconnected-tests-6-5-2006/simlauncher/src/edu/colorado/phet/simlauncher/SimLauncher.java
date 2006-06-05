@@ -11,11 +11,16 @@
 package edu.colorado.phet.simlauncher;
 
 import edu.colorado.phet.simlauncher.menus.SimLauncherMenuBar;
+import edu.colorado.phet.simlauncher.util.LauncherUtil;
+import edu.colorado.phet.simlauncher.util.MiscUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 
 /**
  * SimLauncher
@@ -42,6 +47,24 @@ public class SimLauncher {
         frame.setJMenuBar( new SimLauncherMenuBar() );
         frame.pack();
         frame.setVisible( true );
+        startup( frame );
+    }
+
+    private void startup( Component parent) {
+        boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl());
+
+        if( Catalog.instance().getInstalledSimulations() == null
+            || Catalog.instance().getInstalledSimulations().size() == 0 ) {
+            int choice = JOptionPane.showConfirmDialog( parent, "<html><center>You have no simulations installed.<br>Would you like to visit the online simulation catalog?</html>", "Startup..", JOptionPane.YES_NO_OPTION );
+            if( choice == JOptionPane.YES_OPTION) {
+                if( !remoteAvailable ) {
+                    JOptionPane.showMessageDialog( parent, "The online simulation catolg is not available.\nEither you do not have access to the internet, or the PhET web site is not available.");
+                }
+                else {
+                    TopLevelPane.getInstance().setActivePane( TopLevelPane.ONLINE_SIMS_PANE );
+                }
+            }
+        }
     }
 
     private static void centerFrame( JFrame frame ) {

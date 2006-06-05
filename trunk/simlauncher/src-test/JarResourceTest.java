@@ -11,6 +11,7 @@
 
 import edu.colorado.phet.simlauncher.resources.JnlpResource;
 import edu.colorado.phet.simlauncher.resources.JarResource;
+import edu.colorado.phet.simlauncher.resources.SimResourceException;
 import edu.colorado.phet.simlauncher.Configuration;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.net.MalformedURLException;
  * @version $Revision$
  */
 public class JarResourceTest {
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, SimResourceException {
         URL url = null;
         try {
             url = new URL( "http://www.colorado.edu/physics/phet/simulations/cck/cck.jnlp" );
