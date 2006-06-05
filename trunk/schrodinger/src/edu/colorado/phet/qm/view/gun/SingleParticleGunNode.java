@@ -17,7 +17,7 @@ import java.util.Map;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class SingleParticleGunGraphic extends AbstractGunGraphic implements FireParticle {
+public class SingleParticleGunNode extends AbstractGunNode implements FireParticle {
     private PlainFireButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
@@ -27,7 +27,7 @@ public class SingleParticleGunGraphic extends AbstractGunGraphic implements Fire
     protected final JCheckBox autoFireJCheckBox;
     private GunControlPanel gunControlPanel;
 
-    public SingleParticleGunGraphic( final QWIPanel QWIPanel ) {
+    public SingleParticleGunNode( final QWIPanel QWIPanel ) {
         super( QWIPanel );
         fireOne = new PlainFireButton( this, this );
         fireOne.addButtonEnableDisable();

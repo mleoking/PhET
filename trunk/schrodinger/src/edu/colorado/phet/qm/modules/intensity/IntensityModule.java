@@ -7,7 +7,7 @@ import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.QWISplitModel;
+import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
@@ -23,8 +23,8 @@ import java.util.ArrayList;
  */
 
 public class IntensityModule extends QWIModule {
-    private QWISplitModel QWISplitModel;
-    private HighIntensitySchrodingerPanel highIntensitySchrodingerPanel;
+    private SplitModel SplitModel;
+    private IntensityBeamPanel intensityBeamPanel;
     private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
     private boolean rightDetectorShouldBeEnabled = false;
@@ -36,10 +36,10 @@ public class IntensityModule extends QWIModule {
 
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
-        QWISplitModel = new QWISplitModel();
-        setQWIModel( QWISplitModel );
-        highIntensitySchrodingerPanel = createIntensityPanel();
-        setSchrodingerPanel( highIntensitySchrodingerPanel );
+        SplitModel = new SplitModel();
+        setQWIModel( SplitModel );
+        intensityBeamPanel = createIntensityPanel();
+        setSchrodingerPanel( intensityBeamPanel );
         intensityControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( intensityControlPanel );
 
@@ -74,24 +74,24 @@ public class IntensityModule extends QWIModule {
         return getSchrodingerPanel().isInverseSlits();
     }
 
-    protected HighIntensitySchrodingerPanel createIntensityPanel() {
-        return new HighIntensitySchrodingerPanel( this );
+    protected IntensityBeamPanel createIntensityPanel() {
+        return new IntensityBeamPanel( this );
     }
 
-    public QWISplitModel getSplitModel() {
-        return QWISplitModel;
+    public SplitModel getSplitModel() {
+        return SplitModel;
     }
 
-    public HighIntensitySchrodingerPanel getIntensityPanel() {
-        return highIntensitySchrodingerPanel;
+    public IntensityBeamPanel getIntensityPanel() {
+        return intensityBeamPanel;
     }
 
     public boolean isRightDetectorEnabled() {
-        return QWISplitModel.containsDetector( QWISplitModel.getRightDetector() );
+        return SplitModel.containsDetector( SplitModel.getRightDetector() );
     }
 
     public boolean isLeftDetectorEnabled() {
-        return QWISplitModel.containsDetector( QWISplitModel.getLeftDetector() );
+        return SplitModel.containsDetector( SplitModel.getLeftDetector() );
     }
 
     private void updateDetectors() {
@@ -113,7 +113,7 @@ public class IntensityModule extends QWIModule {
             return;
         }
         if( isRightDetectorEnabled() != selected ) {
-            setDetectorEnabled( QWISplitModel.getRightDetector(), selected );
+            setDetectorEnabled( SplitModel.getRightDetector(), selected );
             notifyDetectorsChanged();
         }
     }
@@ -132,13 +132,13 @@ public class IntensityModule extends QWIModule {
             return;
         }
         if( isLeftDetectorEnabled() != selected ) {
-            setDetectorEnabled( QWISplitModel.getLeftDetector(), selected );
+            setDetectorEnabled( SplitModel.getLeftDetector(), selected );
             notifyDetectorsChanged();
         }
     }
 
     public ColorData getRootColor() {
-        return highIntensitySchrodingerPanel.getRootColor();
+        return intensityBeamPanel.getRootColor();
     }
 
     public static interface Listener {
@@ -164,13 +164,13 @@ public class IntensityModule extends QWIModule {
     private void setDetectorEnabled( Detector detector, boolean selected ) {
         boolean splitMode = shouldBeSplitMode();
         if( selected ) {
-            QWISplitModel.addDetector( detector );
-            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( highIntensitySchrodingerPanel, detector );
-            highIntensitySchrodingerPanel.addDetectorGraphic( detectorGraphic );
+            SplitModel.addDetector( detector );
+            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( intensityBeamPanel, detector );
+            intensityBeamPanel.addDetectorGraphic( detectorGraphic );
         }
         else {
-            QWISplitModel.removeDetector( detector );
-            highIntensitySchrodingerPanel.removeDetectorGraphic( detector );
+            SplitModel.removeDetector( detector );
+            intensityBeamPanel.removeDetectorGraphic( detector );
         }
         boolean newSplitMode = shouldBeSplitMode();
         if( newSplitMode != splitMode ) {
@@ -184,8 +184,8 @@ public class IntensityModule extends QWIModule {
 
     private void synchronizeModel() {
         boolean splitMode = shouldBeSplitMode();
-        QWISplitModel.setSplitMode( splitMode );
-        highIntensitySchrodingerPanel.setSplitMode( splitMode );
+        SplitModel.setSplitMode( splitMode );
+        intensityBeamPanel.setSplitMode( splitMode );
     }
 
 

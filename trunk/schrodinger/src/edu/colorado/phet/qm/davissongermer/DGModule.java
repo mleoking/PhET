@@ -4,9 +4,9 @@ package edu.colorado.phet.qm.davissongermer;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
+import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 
 import java.awt.event.ComponentAdapter;
@@ -37,7 +37,7 @@ public class DGModule extends IntensityModule {
         getSchrodingerPanel().getSchrodingerScreenNode().getDetectorSheetPNode().setVisible( false );
 
         DGParticle particle = getDGParticle();
-        particle.addMomentumChangeListerner( new AbstractGunGraphic.MomentumChangeListener() {
+        particle.addMomentumChangeListerner( new AbstractGunNode.MomentumChangeListener() {
             public void momentumChanged( double val ) {
                 clearWave();
             }
@@ -73,7 +73,7 @@ public class DGModule extends IntensityModule {
     }
 
     private DGParticle getDGParticle() {
-        AbstractGunGraphic gun = getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
+        AbstractGunNode gun = getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
         if( gun instanceof DGGun ) {
             DGGun dgGun = (DGGun)gun;
             return dgGun.getDgParticle();
@@ -83,7 +83,7 @@ public class DGModule extends IntensityModule {
         }
     }
 
-    protected HighIntensitySchrodingerPanel createIntensityPanel() {
+    protected IntensityBeamPanel createIntensityPanel() {
         return new DGSchrodingerPanel( this );
     }
 

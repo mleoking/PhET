@@ -16,7 +16,7 @@ import java.awt.event.ItemListener;
  * Copyright (c) Feb 5, 2006 by Sam Reid
  */
 
-public class DGGun extends HighIntensityGunGraphic implements FireParticle {
+public class DGGun extends IntensityGunNode implements FireParticle {
     private DGParticle dgParticle;
     private FireButton fireOne;
 
@@ -30,7 +30,7 @@ public class DGGun extends HighIntensityGunGraphic implements FireParticle {
 
     protected ImagePComboBox initComboBox() {
         dgParticle = new DGParticle( this );
-        final HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
+        final IntensityBeam[] mybeams = new IntensityBeam[]{
                 new ParticleBeam( dgParticle )
         };
         setBeams( mybeams );

@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.qm.model.ParticleUnits;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.gun.DefaultGunParticle;
 
 /**
@@ -16,8 +16,8 @@ public class DGParticle extends DefaultGunParticle {
     private double covariance = 0.06;
     private double startYFraction = 0.75;
 
-    public DGParticle( AbstractGunGraphic gunGraphic ) {
-        super( gunGraphic, "Electrons", "images/electron-thumb.png", new ParticleUnits.ElectronUnits() );
+    public DGParticle( AbstractGunNode gunNode ) {
+        super( gunNode, "Electrons", "images/electron-thumb.png", new ParticleUnits.ElectronUnits() );
     }
 
     protected double getStartDxLattice() {

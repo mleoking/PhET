@@ -11,13 +11,13 @@ import java.awt.*;
  * Time: 9:04:25 PM
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
-public abstract class HighIntensityBeam extends ImageComboBox.Item {
+public abstract class IntensityBeam extends ImageComboBox.Item {
     private boolean highIntensityModeOn;
     private double intensity = 0.0;
     private double intensityScale = 0.35;
     private GunParticle gunParticle;
 
-    public HighIntensityBeam( GunParticle gunParticle ) {
+    public IntensityBeam( GunParticle gunParticle ) {
         super( gunParticle.getLabel(), gunParticle.getImageLocation() );
         this.gunParticle = gunParticle;
         setIntensity( 0.0 );
@@ -36,12 +36,12 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
         return intensity;
     }
 
-    public void deactivate( HighIntensityGunGraphic highIntensityGun ) {
+    public void deactivate( IntensityGunNode intensityGun ) {
         setHighIntensityModeOn( false );
-        gunParticle.deactivate( highIntensityGun );
+        gunParticle.deactivate( intensityGun );
     }
 
-    public void activate( HighIntensityGunGraphic gun ) {
+    public void activate( IntensityGunNode gun ) {
         gunParticle.activate( gun );
     }
 

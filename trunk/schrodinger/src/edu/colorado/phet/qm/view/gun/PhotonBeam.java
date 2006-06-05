@@ -9,27 +9,27 @@ import edu.colorado.phet.qm.model.PhotonWave;
  * Time: 9:04:54 PM
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
-public class PhotonBeam extends HighIntensityBeam {
+public class PhotonBeam extends IntensityBeam {
     private PhotonWave photonWave;
-    private AbstractGunGraphic abstractGunGraphic;
+    private AbstractGunNode abstractGunNode;
     private Photon photon;
-    private AbstractGunGraphic.MomentumChangeListener colorChangeHandler;
+    private AbstractGunNode.MomentumChangeListener colorChangeHandler;
 
-    public PhotonBeam( AbstractGunGraphic highIntensityGunGraphic, Photon photon ) {
+    public PhotonBeam( AbstractGunNode highIntensityGunNode, Photon photon ) {
         super( photon );
         this.photon = photon;
-        this.abstractGunGraphic = highIntensityGunGraphic;
+        this.abstractGunNode = highIntensityGunNode;
         photonWave = createCylinderWave();
         super.setIntensityScale( 1.0 );
         photonWave.setIntensity( super.getTotalIntensity() );
-        photon.addMomentumChangeListerner( new AbstractGunGraphic.MomentumChangeListener() {
+        photon.addMomentumChangeListerner( new AbstractGunNode.MomentumChangeListener() {
             public void momentumChanged( double val ) {
                 photonWave.setMomentum( val );
 //                System.out.println( "Momentum: val = " + val );
             }
         } );
 
-        colorChangeHandler = new AbstractGunGraphic.MomentumChangeListener() {
+        colorChangeHandler = new AbstractGunNode.MomentumChangeListener() {
             public void momentumChanged( double val ) {
                 if( getGunParticle().isActive() ) {
                     handleColorChange();
@@ -50,12 +50,12 @@ public class PhotonBeam extends HighIntensityBeam {
         getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
     }
 
-    public AbstractGunGraphic.MomentumChangeListener getColorChangeHandler() {
+    public AbstractGunNode.MomentumChangeListener getColorChangeHandler() {
         return colorChangeHandler;
     }
 
-    protected AbstractGunGraphic getGunGraphic() {
-        return abstractGunGraphic;
+    protected AbstractGunNode getGunGraphic() {
+        return abstractGunNode;
     }
 
     public void setHighIntensityModeOn( boolean on ) {
@@ -83,13 +83,13 @@ public class PhotonBeam extends HighIntensityBeam {
         return photon;
     }
 
-    public void activate( HighIntensityGunGraphic gun ) {
+    public void activate( IntensityGunNode gun ) {
         super.activate( gun );
         getGunGraphic().getSchrodingerPanel().setPhoton( getPhoton() );
     }
 
-    public void deactivate( HighIntensityGunGraphic highIntensityGun ) {
-        super.deactivate( highIntensityGun );
+    public void deactivate( IntensityGunNode intensityGun ) {
+        super.deactivate( intensityGun );
         getGunGraphic().getSchrodingerPanel().setPhoton( null );
     }
 

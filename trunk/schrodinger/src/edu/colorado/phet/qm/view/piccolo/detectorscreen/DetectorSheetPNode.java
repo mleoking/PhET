@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
-import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
+import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -110,8 +110,8 @@ public class DetectorSheetPNode extends PhetPNode {
     }
 
     private boolean isContinuousDisplay() {
-        if( QWIPanel instanceof HighIntensitySchrodingerPanel ) {
-            HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)QWIPanel;
+        if( QWIPanel instanceof IntensityBeamPanel ) {
+            IntensityBeamPanel ip = (IntensityBeamPanel)QWIPanel;
             return ip.isContinuousMode();
         }
         return false;

@@ -17,7 +17,7 @@ import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMapAdapter;
 import edu.colorado.phet.qm.view.complexcolormaps.MagnitudeColorMap;
 import edu.colorado.phet.qm.view.complexcolormaps.VisualColorMap3;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
@@ -93,7 +93,7 @@ public class QWIPanel extends PhetPCanvas {
 //        schrodingerScreenNode.addChild( intensityReader );
     }
 
-    private AbstractGunGraphic.Listener fireListener = new AbstractGunGraphic.Listener() {
+    private AbstractGunNode.Listener fireListener = new AbstractGunNode.Listener() {
         public void gunFired() {
             doGunFired();
         }
@@ -124,10 +124,10 @@ public class QWIPanel extends PhetPCanvas {
         getIntensityDisplay().tryDetecting();
     }
 
-    protected void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
-        QWIScreenNode.setGunGraphic( abstractGunGraphic );
-        if( !abstractGunGraphic.containsListener( fireListener ) ) {
-            abstractGunGraphic.addListener( fireListener );
+    protected void setGunGraphic( AbstractGunNode abstractGunNode ) {
+        QWIScreenNode.setGunGraphic( abstractGunNode );
+        if( !abstractGunNode.containsListener( fireListener ) ) {
+            abstractGunNode.addListener( fireListener );
         }
     }
 
@@ -174,7 +174,7 @@ public class QWIPanel extends PhetPCanvas {
         return QWIScreenNode.getDetectorSheetPNode();
     }
 
-    public AbstractGunGraphic getGunGraphic() {
+    public AbstractGunNode getGunGraphic() {
         return QWIScreenNode.getGunGraphic();
     }
 
@@ -239,7 +239,7 @@ public class QWIPanel extends PhetPCanvas {
     }
 
     protected ColorMap createColorMap() {
-        System.out.println( "waveValueAccessor = " + waveValueAccessor );
+//        System.out.println( "waveValueAccessor = " + waveValueAccessor );
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
 //            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
             if( waveValueAccessor instanceof WaveValueAccessor.Imag ) {

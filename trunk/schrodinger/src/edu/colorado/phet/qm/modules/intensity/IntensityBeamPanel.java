@@ -8,7 +8,7 @@ import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
 import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
-import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
+import edu.colorado.phet.qm.view.gun.IntensityGunNode;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.ContinuousDisplay;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -20,22 +20,22 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class HighIntensitySchrodingerPanel extends QWIPanel {
+public class IntensityBeamPanel extends QWIPanel {
 
     private QWIModule intensityModule;
     private ContinuousDisplay continuousDisplay;
     private SplitColorMap splitColorMap;
-    private HighIntensityGunGraphic highIntensityGun;
+    private IntensityGunNode intensityGun;
     private boolean splitMode = false;
     private boolean continuousMode = false;
 
     public static final boolean CONTINUOUS_MODE_DEFAULT = true;
 
-    public HighIntensitySchrodingerPanel( QWIModule intensityModule ) {
+    public IntensityBeamPanel( QWIModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
-        highIntensityGun = createGun();
-        setGunGraphic( highIntensityGun );
+        intensityGun = createGun();
+        setGunGraphic( intensityGun );
         addGunChooserGraphic();
 
         doAddGunControlPanel();
@@ -105,22 +105,22 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
 
     protected void addGunChooserGraphic() {
         if( useGunChooserGraphic() ) {
-            PSwing pSwing = new PSwing( this, highIntensityGun.getComboBox() );
-            highIntensityGun.getComboBox().setEnvironment( pSwing, this );
+            PSwing pSwing = new PSwing( this, intensityGun.getComboBox() );
+            intensityGun.getComboBox().setEnvironment( pSwing, this );
             getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
         }
     }
 
-    public HighIntensityGunGraphic getHighIntensityGun() {
-        return highIntensityGun;
+    public IntensityGunNode getHighIntensityGun() {
+        return intensityGun;
     }
 
     protected boolean useGunChooserGraphic() {
         return true;
     }
 
-    protected HighIntensityGunGraphic createGun() {
-        return new HighIntensityGunGraphic( this );
+    protected IntensityGunNode createGun() {
+        return new IntensityGunNode( this );
     }
 
     public void setSplitMode( boolean splitMode ) {
@@ -179,12 +179,12 @@ public class HighIntensitySchrodingerPanel extends QWIPanel {
     }
 
     public ColorData getRootColor() {
-        return highIntensityGun.getRootColor();
+        return intensityGun.getRootColor();
     }
 
     public void setWaveSize( int width, int height ) {
         super.setWaveSize( width, height );
-        highIntensityGun.setOn( highIntensityGun.isOn() );
+        intensityGun.setOn( intensityGun.isOn() );
     }
 
     public boolean isSplitMode() {

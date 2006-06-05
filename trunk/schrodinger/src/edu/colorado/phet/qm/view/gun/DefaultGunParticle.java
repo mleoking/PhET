@@ -27,14 +27,14 @@ public class DefaultGunParticle extends GunParticle {
     private VerticalLayoutPanel controlPanel;
     private ParticleUnits particleUnits;
 
-    public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation, ParticleUnits particleUnits ) {
-        super( gunGraphic, label, imageLocation );
+    public DefaultGunParticle( AbstractGunNode gunNode, String label, String imageLocation, ParticleUnits particleUnits ) {
+        super( gunNode, label, imageLocation );
         this.particleUnits = particleUnits;
         createControls();
     }
 
-    public DefaultGunParticle( AbstractGunGraphic gunGraphic, String label, String imageLocation ) {
-        super( gunGraphic, label, imageLocation );
+    public DefaultGunParticle( AbstractGunNode gunNode, String label, String imageLocation ) {
+        super( gunNode, label, imageLocation );
         createControls();
     }
 
@@ -87,16 +87,16 @@ public class DefaultGunParticle extends GunParticle {
         return val / 1000;
     }
 
-    public void activate( AbstractGunGraphic gunGraphic ) {
+    public void activate( AbstractGunNode gunNode ) {
         super.active = true;
         getSchrodingerModule().setUnits( particleUnits );
         getDiscreteModel().setPropagator( createPropagator() );
-        gunGraphic.setGunControls( controlPanel );
+        gunNode.setGunControls( controlPanel );
     }
 
-    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+    public void deactivate( AbstractGunNode abstractGunNode ) {
         super.active = false;
-        abstractGunGraphic.removeGunControls();
+        abstractGunNode.removeGunControls();
     }
 
     private Propagator createPropagator() {
@@ -137,7 +137,7 @@ public class DefaultGunParticle extends GunParticle {
 
     public Point getGunLocation() {
         Point p = super.getGunLocation();
-        p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
+        p.y -= AbstractGunNode.GUN_PARTICLE_OFFSET;
         return p;
     }
 
@@ -159,15 +159,15 @@ public class DefaultGunParticle extends GunParticle {
         return false;//firing is always a one-shot deal, so we're never in the middle of a shot.
     }
 
-    public static DefaultGunParticle createElectron( AbstractGunGraphic gun ) {
+    public static DefaultGunParticle createElectron( AbstractGunNode gun ) {
         return new DefaultGunParticle( gun, "Electrons", "images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
     }
 
-    public static DefaultGunParticle createHelium( AbstractGunGraphic gun ) {
+    public static DefaultGunParticle createHelium( AbstractGunNode gun ) {
         return new DefaultGunParticle( gun, "Helium Atoms", "images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
     }
 
-    public static DefaultGunParticle createNeutron( AbstractGunGraphic gun ) {
+    public static DefaultGunParticle createNeutron( AbstractGunNode gun ) {
         return new DefaultGunParticle( gun, "Neutrons", "images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
     }
 }

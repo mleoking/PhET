@@ -28,12 +28,12 @@ public class PlainFireButton extends PNode {
     private BufferedImage inIcon;
     private PImage icon;
     private ShadowPText text;
-    private SingleParticleGunGraphic gun;
+    private SingleParticleGunNode gun;
     private FireParticle fireParticle;
     private boolean enabled = true;
     private BufferedImage grayIcon;
 
-    public PlainFireButton( SingleParticleGunGraphic gun, FireParticle fireParticle ) {
+    public PlainFireButton( SingleParticleGunNode gun, FireParticle fireParticle ) {
         this.gun = gun;
         this.fireParticle = fireParticle;
         icon = new PImage();

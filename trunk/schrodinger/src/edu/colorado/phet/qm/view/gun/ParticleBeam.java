@@ -10,7 +10,7 @@ import java.awt.*;
  * Copyright (c) Jul 8, 2005 by Sam Reid
  */
 
-public class ParticleBeam extends HighIntensityBeam {
+public class ParticleBeam extends IntensityBeam {
 
     private int numStepsBetweenFire = 4;
     private int lastFireTime = 0;
@@ -46,7 +46,7 @@ public class ParticleBeam extends HighIntensityBeam {
 
     public Point getGunLocation() {
         Point p = super.getGunLocation();
-        p.y -= AbstractGunGraphic.GUN_PARTICLE_OFFSET;
+        p.y -= AbstractGunNode.GUN_PARTICLE_OFFSET;
         return p;
     }
 }

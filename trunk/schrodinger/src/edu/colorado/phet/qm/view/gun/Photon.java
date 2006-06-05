@@ -29,9 +29,9 @@ public class Photon extends GunParticle {
     protected static final double maxWavelength = 23.0 + 1.0 / 3.0;
     private ParticleUnits.PhotonUnits photonUnits;
 
-    public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
-        super( abstractGunGraphic, label, imageLocation );
-        wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunGraphic.getSchrodingerPanel() );
+    public Photon( AbstractGunNode abstractGunNode, String label, String imageLocation ) {
+        super( abstractGunNode, label, imageLocation );
+        wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunNode.getSchrodingerPanel() );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 notifyMomentumChanged();//since wavelength depends on grid area size, now.  See McKagan 3-17-2006
@@ -40,18 +40,18 @@ public class Photon extends GunParticle {
         photonUnits = new ParticleUnits.PhotonUnits();
     }
 
-    public void activate( AbstractGunGraphic abstractGunGraphic ) {
+    public void activate( AbstractGunNode abstractGunNode ) {
         super.active = true;
         getSchrodingerModule().setUnits( photonUnits );
         getGunGraphic().getSchrodingerPanel().setPhoton( this );
-        abstractGunGraphic.getSchrodingerModule().getQWIModel().setPropagatorClassical();
+        abstractGunNode.getSchrodingerModule().getQWIModel().setPropagatorClassical();
         JComponent sliderAsComponent = new SRRWavelengthSliderComponent( wavelengthSliderGraphic );
-        abstractGunGraphic.setGunControls( sliderAsComponent );
+        abstractGunNode.setGunControls( sliderAsComponent );
     }
 
-    public void deactivate( AbstractGunGraphic abstractGunGraphic ) {
+    public void deactivate( AbstractGunNode abstractGunNode ) {
         super.active = false;
-        abstractGunGraphic.removeGunControls();
+        abstractGunNode.removeGunControls();
     }
 
     public void fireParticle() {
