@@ -2,9 +2,7 @@
 view changes temporarily to time-averaged intensity in upper half of box.  
 This effect also happens for electrons.
 >>This is not a visualization problem, but related to the switch from the 2-lattice model to the single lattice model. 
->>I'm not sure how the single lattice values are getting set.
-
-Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers. 
+>>I'm not sure how the values for the single lattice are being determined.
 
 •	Changing the particle type often messes up the wave function display.  
 If you change the wave function display for one type of particle and then 
@@ -66,6 +64,8 @@ In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolut
 •	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
 >> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
 >>Question is in to the team.
+
+Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers.
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.

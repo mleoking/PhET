@@ -32,7 +32,7 @@ public class Photon extends GunParticle {
     public Photon( AbstractGunGraphic abstractGunGraphic, String label, String imageLocation ) {
         super( abstractGunGraphic, label, imageLocation );
         wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGunGraphic.getSchrodingerPanel() );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 notifyMomentumChanged();//since wavelength depends on grid area size, now.  See McKagan 3-17-2006
             }

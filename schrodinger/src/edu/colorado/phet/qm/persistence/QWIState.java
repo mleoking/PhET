@@ -1,7 +1,7 @@
 package edu.colorado.phet.qm.persistence;
 
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.qm.SchrodingerApplication;
+import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.Potential;
@@ -150,7 +150,7 @@ public class QWIState implements Serializable {
     }
 
     public static void main( String[] args ) throws Exception {
-        SchrodingerApplication app = new SchrodingerApplication( args );
+        QWIApplication app = new QWIApplication( args );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         SchrodingerModule schrodingerModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
 //        schrodingerModule

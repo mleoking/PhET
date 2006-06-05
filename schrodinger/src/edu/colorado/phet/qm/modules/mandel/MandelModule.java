@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.qm.SchrodingerApplication;
+import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.WaveModel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -23,7 +23,7 @@ public class MandelModule extends SchrodingerModule {
     private MandelControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
 
-    public MandelModule( SchrodingerApplication app, IClock clock ) {
+    public MandelModule( QWIApplication app, IClock clock ) {
         super( "2 Lasers", app, clock );
         splitModel = new MandelModel();
         setDiscreteModel( splitModel );

@@ -35,20 +35,20 @@ import java.lang.reflect.InvocationTargetException;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerApplication extends PiccoloPhetApplication {
+public class QWIApplication extends PiccoloPhetApplication {
     public static String TITLE = "Quantum Wave Interference";
     public static String DESCRIPTION = "Quantum Wave Interference";
     public static String VERSION = "1.00";
     private String[] args;
     private IntensityModule intensityModule;
 
-    public SchrodingerApplication( String[] args ) throws InvocationTargetException, InterruptedException {
+    public QWIApplication( String[] args ) throws InvocationTargetException, InterruptedException {
         super( args, TITLE, DESCRIPTION, VERSION, createFrameSetup() );
         this.args = args;
-        intensityModule = new IntensityModule( SchrodingerApplication.this, createClock() );
+        intensityModule = new IntensityModule( QWIApplication.this, createClock() );
         addModule( intensityModule );
-        addModule( new SingleParticleModule( SchrodingerApplication.this, createClock() ) );
-        addModule( new MandelModule( SchrodingerApplication.this, createClock() ) );
+        addModule( new SingleParticleModule( QWIApplication.this, createClock() ) );
+        addModule( new MandelModule( QWIApplication.this, createClock() ) );
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -153,24 +153,24 @@ public class SchrodingerApplication extends PiccoloPhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new LucidaSansFont( 13, false ) );
         phetLookAndFeel.apply();
-        final SchrodingerApplication schrodingerApplication = new SchrodingerApplication( args );
-        schrodingerApplication.startApplication();
-        if( schrodingerApplication.intensityModule != null ) {
-            addWiggleMe( schrodingerApplication );
+        final QWIApplication QWIApplication = new QWIApplication( args );
+        QWIApplication.startApplication();
+        if( QWIApplication.intensityModule != null ) {
+            addWiggleMe( QWIApplication );
         }
     }
 
-    private static void addWiggleMe( final SchrodingerApplication schrodingerApplication ) {
-        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser" );
+    private static void addWiggleMe( final QWIApplication QWIApplication ) {
+        final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), "Turn on the Laser" );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
         helpBalloon.setShadowTextOffset( 1 );
         helpBalloon.setBalloonVisible( true );
         helpBalloon.setBalloonFillPaint( new Color( 128, 128, 128, 200 ) );
 
-        helpBalloon.animateTo( schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), schrodingerApplication.intensityModule.getSchrodingerPanel() );
-        schrodingerApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
-        schrodingerApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseAdapter() {
+        helpBalloon.animateTo( QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic().getOnGunGraphic(), QWIApplication.intensityModule.getSchrodingerPanel() );
+        QWIApplication.intensityModule.getSchrodingerPanel().getSchrodingerScreenNode().addChild( helpBalloon );
+        QWIApplication.intensityModule.getSchrodingerPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 helpBalloon.setVisible( false );
             }

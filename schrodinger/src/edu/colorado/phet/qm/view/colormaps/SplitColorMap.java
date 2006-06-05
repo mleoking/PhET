@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.SplitModel;
+import edu.colorado.phet.qm.model.QWISplitModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
@@ -16,27 +16,27 @@ import java.awt.*;
  */
 
 public class SplitColorMap implements ColorMap {
-    private SplitModel splitModel;
+    private QWISplitModel QWISplitModel;
     private ColorData rootColor;
     private double intensityScale = 20;
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
-    public SplitColorMap( SplitModel splitModel, HighIntensitySchrodingerPanel schrodingerPanelHigh ) {
-        this.splitModel = splitModel;
+    public SplitColorMap( QWISplitModel QWISplitModel, HighIntensitySchrodingerPanel schrodingerPanelHigh ) {
+        this.QWISplitModel = QWISplitModel;
         setRootColor( schrodingerPanelHigh.getRootColor() );
     }
 
     public Paint getColor( int i, int k ) {
-        Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
+        Rectangle[] areas = QWISplitModel.getDoubleSlitPotential().getSlitAreas();
         double abs = 0;
         if( contains( areas, i, k ) ) {
-            abs += getValue( splitModel.getLeftWavefunction(), i, k );
-            abs += getValue( splitModel.getRightWavefunction(), i, k );
+            abs += getValue( QWISplitModel.getLeftWavefunction(), i, k );
+            abs += getValue( QWISplitModel.getRightWavefunction(), i, k );
         }
         else {
-            abs += getValue( splitModel.getLeftWavefunction(), i, k );
-            abs += getValue( splitModel.getRightWavefunction(), i, k );
-            abs += getValue( splitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
+            abs += getValue( QWISplitModel.getLeftWavefunction(), i, k );
+            abs += getValue( QWISplitModel.getRightWavefunction(), i, k );
+            abs += getValue( QWISplitModel.getWavefunction(), i, k );       //relying on code elsewhere to zero out the other complementary parts of these waves
         }
         if( abs > 1 ) {
             abs = 1;
