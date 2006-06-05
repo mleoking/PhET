@@ -14,6 +14,7 @@ HIGH PRIORITY:
 - are there any remaining conditions under which Schmidt-Lee solvers fail?
 
 MEDIUM PRIORITY:
+- implement Save/Load for model
 - hide the dot in the center of the magnifying glass
 - what things should cause the clock to restart?
 - hide y-axis tick labels (and tick marks?) on bottom plots
@@ -24,7 +25,6 @@ MEDIUM PRIORITY:
 - use a common interface for Schmidt-Lee and analytic solvers, apply strategy pattern to pick one
 - time display and animation pauses every few clock ticks (garbage collection?)
 - add BSModel.PROPERTY_POTENTIAL_TYPE to indicate that we're switching potential types
-- implement Save/Load for model
 - reduce startup time
 - pause clock by default?
 - green eigenstate lines have varying brightnesses on Windows
