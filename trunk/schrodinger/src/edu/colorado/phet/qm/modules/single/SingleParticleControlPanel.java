@@ -51,9 +51,10 @@ public class SingleParticleControlPanel extends QWIControlPanel {
         getAdvancedPanel().addControl( createDetectorArray );
         getAdvancedPanel().addControlFullWidth( modelSlider );
 
-        particleVisPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
         photonVisPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
-        visPanel = new VisualizationPanelContainer();
+        particleVisPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
+
+        visPanel = new VisualizationPanelContainer( photonVisPanel, particleVisPanel );
         singleParticleModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }

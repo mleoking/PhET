@@ -201,6 +201,10 @@ public class QWIPanel extends PhetPCanvas {
 
         getDetectorSheetPNode().setDisplayPhotonColor( photon == null ? null : new ColorData( photon.getWavelengthNM() ) );
         updateWavefunctionGraphic();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.particleTypeChanged();
+        }
     }
 
     private void updateWavefunctionGraphic() {
@@ -216,13 +220,21 @@ public class QWIPanel extends PhetPCanvas {
         this.complexColorMap = colorMap;
         this.waveValueAccessor = waveValueAccessor;
         updateWavefunctionGraphic();
+        notifyVisualizationStyleChanged();
     }
 
-    protected WaveValueAccessor getWaveValueAccessor() {
+    private void notifyVisualizationStyleChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.visualizationStyleChanged();
+        }
+    }
+
+    public WaveValueAccessor getWaveValueAccessor() {
         return waveValueAccessor;
     }
 
-    protected ComplexColorMap getComplexColorMap() {
+    public ComplexColorMap getComplexColorMap() {
         return complexColorMap;
     }
 
@@ -337,6 +349,10 @@ public class QWIPanel extends PhetPCanvas {
         public void fadeStateChanged();
 
         public void inverseSlitsChanged();
+
+        void visualizationStyleChanged();
+
+        void particleTypeChanged();
     }
 
     public static class Adapter implements Listener {
@@ -344,6 +360,12 @@ public class QWIPanel extends PhetPCanvas {
         }
 
         public void inverseSlitsChanged() {
+        }
+
+        public void visualizationStyleChanged() {
+        }
+
+        public void particleTypeChanged() {
         }
     }
 }

@@ -23,31 +23,35 @@ import java.awt.event.ActionListener;
 
 public class ParticleVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {
     private QWIPanel QWIPanel;
-    private JRadioButton phaseColorRadioButton;
+    private VisButton phaseColorRadioButton;
+    private ButtonGroup buttonGroup;
+    private VisButton grayMag;
+    private VisButton realGray;
+    private VisButton complexGray;
+    private VisButton[] v;
 
     public ParticleVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
 
         setBorder( BorderFactory.createTitledBorder( "Wave Function Display" ) );
-        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup = new ButtonGroup();
 
-        JRadioButton grayMag = createVisualizationButton( "Magnitude", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
+        grayMag = createVisualizationButton( "Magnitude", new MagnitudeColorMap(), new WaveValueAccessor.Magnitude(), true, buttonGroup );
         addFullWidth( grayMag );
 
-        JRadioButton realGray = createVisualizationButton( "Real Part", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
+        realGray = createVisualizationButton( "Real Part", new GrayscaleColorMap.Real(), new WaveValueAccessor.Real(), false, buttonGroup );
         addFullWidth( realGray );
 
-        JRadioButton complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
+        complexGray = createVisualizationButton( "Imaginary Part        ", new GrayscaleColorMap.Imaginary(), new WaveValueAccessor.Imag(), false, buttonGroup );
         addFullWidth( complexGray );
 
         phaseColorRadioButton = createVisualizationButton( "Phase Color", new VisualColorMap3(), new WaveValueAccessor.Magnitude(), false, buttonGroup );
         addFullWidth( phaseColorRadioButton );
+        v = new VisButton[]{grayMag, realGray, complexGray, phaseColorRadioButton};
     }
 
-
-    private JRadioButton createVisualizationButton( String s, final ComplexColorMap colorMap, final WaveValueAccessor waveValueAccessor, boolean b, ButtonGroup buttonGroup ) {
-        JRadioButton radioButton = new JRadioButton( s );
-        radioButton.addActionListener( new ActionListener() {
+    private VisButton createVisualizationButton( String s, final ComplexColorMap colorMap, final WaveValueAccessor waveValueAccessor, boolean b, ButtonGroup buttonGroup ) {
+        final VisButton radioButton = new VisButton( s, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 QWIPanel.setVisualizationStyle( colorMap, waveValueAccessor );
             }
@@ -63,5 +67,14 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
 
     public Component getPanel() {
         return this;
+    }
+
+    public void applyChanges() {
+        for( int i = 0; i < v.length; i++ ) {
+            VisButton visButton = v[i];
+            if( visButton.isSelected() ) {
+                visButton.fireEvent();
+            }
+        }
     }
 }
