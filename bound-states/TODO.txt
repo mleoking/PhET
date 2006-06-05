@@ -15,8 +15,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - implement Save/Load for model
+- bug: charts visibly resize when you first visit "Two" and "Many" panels, started when BSEnergyPlot was given eigenstate drawing responsibility
 - hide the dot in the center of the magnifying glass
-- what things should cause the clock to restart?
 - hide y-axis tick labels (and tick marks?) on bottom plots
 - restore WAVE_FUNCTION_RANGE and PROBABILITY_DENSITY_RANGE
 - "superposition state presets" feature
@@ -57,6 +57,7 @@ CLEANUP:
 
 
 DONE:
+(6/5/06) - restart the clock when anything in the model changes (except the hilited eigenstate)
 (6/5/06) - move eigenstate drawing out of BSEigenstatesNode and into BSEnergyPlot (simplifies code)
 (6/2/06) - move mag glass back to default position when window size changes
 (6/2/06) - bugfix: cursor changes to an arrow after hiliting via the lens, should remain a hand
