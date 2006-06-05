@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.simlauncher;
 
-import edu.colorado.phet.simlauncher.actions.InstallSimulationAction;
-import edu.colorado.phet.simlauncher.menus.UninstalledSimulationPopupMenu;
+import edu.colorado.phet.simlauncher.actions.InstallSimAction;
+import edu.colorado.phet.simlauncher.menus.UninstalledSimPopupMenu;
 import edu.colorado.phet.simlauncher.util.ChangeEventChannel;
 
 import javax.swing.*;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class UninstalledSimsPane extends JSplitPane implements SimulationContainer {
+public class UninstalledSimsPane extends JSplitPane implements SimContainer {
 
     private CategoryPanel categoryPanel;
     private UninstalledSimsPane.SimPanel simulationPanel;
@@ -89,7 +89,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
     /**
      *
      */
-    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimulationContainer {
+    private class SimPanel extends JPanel implements Catalog.ChangeListener, SimContainer {
         private SimTable simTable;
         private SimTable.SimComparator simTableSortType = SimTable.NAME_SORT;
         private JScrollPane simTableScrollPane;
@@ -111,7 +111,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
             // Install button
             installBtn = new JButton( "Install" );
-            installBtn.addActionListener( new InstallSimulationAction( this, this ) );
+            installBtn.addActionListener( new InstallSimAction( this, this ) );
             installBtn.setEnabled( false );
             add( installBtn, installButtonGbc );
 
@@ -179,7 +179,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimulationContain
 
             // If right click, pop up context menu
             if( event.isPopupTrigger() && sim != null ) {
-                new UninstalledSimulationPopupMenu( sim ).show( this, event.getX(), event.getY() );
+                new UninstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
             }
 
             // If a double left click, offer to install the simulation

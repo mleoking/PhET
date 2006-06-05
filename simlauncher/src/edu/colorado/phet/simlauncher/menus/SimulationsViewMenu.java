@@ -11,13 +11,8 @@
 package edu.colorado.phet.simlauncher.menus;
 
 import edu.colorado.phet.simlauncher.actions.SimListingOptionsAction;
-import edu.colorado.phet.simlauncher.actions.SetInstalledSimulatonSortAction;
-import edu.colorado.phet.simlauncher.Options;
-import edu.colorado.phet.simlauncher.SimTable;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * SimulationsViewMenu
@@ -34,7 +29,7 @@ class SimulationsViewMenu extends JMenu {
         super( "View" );
         add( new JMenuItem( new SimListingOptionsAction( this ) ) );
 
-        JMenu subMenu = new InstalledSimsSortMenu();
+        JMenu subMenu = new InstalledSimSortMenu();
 //        JMenu subMenu = new JMenu( "Sort installed simulations" );
 //        alphabeticalSortMI = new JRadioButtonMenuItem( "Alphabetical" );
 //        subMenu.add( alphabeticalSortMI );

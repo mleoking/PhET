@@ -29,7 +29,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimTable extends JTable implements SimulationContainer {
+public class SimTable extends JTable implements SimContainer {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods

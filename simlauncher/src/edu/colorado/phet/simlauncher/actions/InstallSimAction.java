@@ -11,36 +11,31 @@
 package edu.colorado.phet.simlauncher.actions;
 
 import edu.colorado.phet.simlauncher.Simulation;
-import edu.colorado.phet.simlauncher.SimulationContainer;
+import edu.colorado.phet.simlauncher.SimContainer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
-import com.sun.java.swing.SwingUtilities2;
 
 /**
- * LaunchSimulationAction
+ * InstallSimAction
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class InstallSimulationAction extends AbstractAction {
+public class InstallSimAction extends AbstractAction {
     private Component component;
-    private InstallSimulationAction.Action action;
+    private InstallSimAction.Action action;
     private JDialog waitDlg;
 
-    public InstallSimulationAction( Component component, SimulationContainer simulationContainer ) {
+    public InstallSimAction( Component component, SimContainer simContainer ) {
         this.component = component;
-        action = new InstallSimulationAction.SimulationContainerAction( simulationContainer );
+        action = new InstallSimAction.SimContainerAction( simContainer );
     }
 
-    public InstallSimulationAction( Component component, Simulation simulation ) {
+    public InstallSimAction( Component component, Simulation simulation ) {
         this.component = component;
-        action = new InstallSimulationAction.SimulationAction( simulation );
+        action = new InstallSimAction.SimAction( simulation );
     }
 
     public void actionPerformed( ActionEvent e ) {
@@ -98,22 +93,22 @@ public class InstallSimulationAction extends AbstractAction {
         void doIt( Component component );
     }
 
-    private class SimulationContainerAction implements InstallSimulationAction.Action {
-        SimulationContainer simulationContainer;
+    private class SimContainerAction implements InstallSimAction.Action {
+        SimContainer simContainer;
 
-        public SimulationContainerAction( SimulationContainer simulationContainer ) {
-            this.simulationContainer = simulationContainer;
+        public SimContainerAction( SimContainer simContainer ) {
+            this.simContainer = simContainer;
         }
 
         public void doIt( Component component ) {
-            install( simulationContainer.getSimulation() );
+            install( simContainer.getSimulation() );
         }
     }
 
-    private class SimulationAction implements InstallSimulationAction.Action {
+    private class SimAction implements InstallSimAction.Action {
         Simulation simulation;
 
-        public SimulationAction( Simulation simulation ) {
+        public SimAction( Simulation simulation ) {
             this.simulation = simulation;
         }
 
