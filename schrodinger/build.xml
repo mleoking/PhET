@@ -109,9 +109,9 @@
             <sftp action="mkdir"
                   remotedir="${dev-dir}"/>
             <sftp action="put" remotedir="${dev-dir}" verbose="true">
-                <fileset file="${ant.jars}/schrodinger-pro.jar"/>
+                <fileset file="${ant.jars}/qwi-pro.jar"/>
                 <fileset file="${ant.jnlp}/${jnlp-filename}"/>
-                <fileset file="screenshot.gif"/>
+                <fileset file="qwi.gif"/>
                 <fileset file="ant_output/html/index.html"/>
                 <fileset file="README"/>
             </sftp>

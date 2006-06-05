@@ -12,7 +12,10 @@ and would slow down the sim (scales with the size of the boundary).
 
 •	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
 >> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
->>Question is in to the team.
+I had forgotten about this; you're right.  But it's very disconcerting 
+when the display radio button says phase color but it's not actually 
+showing phase color.  If it's going to switch from phase color to 
+magnitude, the radio button should change as well.
  
 Initial Wiggle me is hard to see:
 If it were a font that is about twice as large, bold,

@@ -37,7 +37,18 @@ public class IntensityControlPanel extends QWIControlPanel {
 
         photonVisualizationPanel = new PhotonVisualizationPanel( getSchrodingerPanel() );
         particleVisualizationPanel = new ParticleVisualizationPanel( getSchrodingerPanel() );
-
+        intensityModule.addListener( new IntensityModule.Adapter() {
+            public void detectorsChanged() {
+                if( intensityModule.isLeftDetectorEnabled() || intensityModule.isRightDetectorEnabled() ) {
+                    particleVisualizationPanel.setMagnitudeMode();
+                    particleVisualizationPanel.setPhaseColorEnabled( false );
+                }
+                else {
+                    particleVisualizationPanel.setLastUserSelected();
+                    particleVisualizationPanel.setPhaseColorEnabled( true );
+                }
+            }
+        } );
         intensityModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }

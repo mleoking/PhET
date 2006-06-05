@@ -29,6 +29,7 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
     private VisButton realGray;
     private VisButton complexGray;
     private VisButton[] v;
+    private VisButton lastUserSelected;
 
     public ParticleVisualizationPanel( QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
@@ -56,6 +57,11 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
                 QWIPanel.setVisualizationStyle( colorMap, waveValueAccessor );
             }
         } );
+        radioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                lastUserSelected = radioButton;
+            }
+        } );
         buttonGroup.add( radioButton );
         radioButton.setSelected( b );
         return radioButton;
@@ -75,6 +81,18 @@ public class ParticleVisualizationPanel extends VerticalLayoutPanel implements I
             if( visButton.isSelected() ) {
                 visButton.fireEvent();
             }
+        }
+    }
+
+    public void setMagnitudeMode() {
+        grayMag.setSelected( true );
+        applyChanges();
+    }
+
+    public void setLastUserSelected() {
+        if( lastUserSelected != null ) {
+            lastUserSelected.setSelected( true );
+            applyChanges();
         }
     }
 }

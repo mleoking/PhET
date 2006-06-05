@@ -213,6 +213,7 @@ public class QWIPanel extends PhetPCanvas {
 
     protected void updateWavefunctionColorMap() {
         ColorMap colorMap = createColorMap();
+//        System.out.println( "colorMap = " + colorMap );
         getWavefunctionGraphic().setColorMap( colorMap );
     }
 
