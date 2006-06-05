@@ -1,4 +1,5 @@
-Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers.
+Putting a detector on the slits, then setting 'view E-Field', then turning the gun on
+ causes no graphics to appear north of the barriers.
 
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
