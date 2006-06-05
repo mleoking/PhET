@@ -1,3 +1,6 @@
+############################################
+# Remaining Work
+########################
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 
@@ -6,16 +9,16 @@ and was much more noticeable in the interview than it is in this screen shot).
 I extend the lattice beyond the visible region;
 here it could also be done, but very time consuming to implement, 
 and would slow down the sim (scales with the size of the boundary).
+
+•	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
+>> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
+>>Question is in to the team.
  
 Initial Wiggle me is hard to see:
 If it were a font that is about twice as large, bold,
 colored (red maybe) and without a bubble I think it’d be more prominent.
 It should enter from the top of the screen and descend
 down to the location that it sits in now.
-
-•	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
->> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
->>Question is in to the team.
 
 Bug: Mandel panel photons all have same wavelength (though different color)
 The reason we didn't discover this before is that it's hard to see with "time-averaged intensity mode" on.
@@ -28,8 +31,9 @@ Reset should reset wavelength, velocity,
 
 In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
       >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
-____________________________________
-Lower Priority
+############################################
+# Lower Priority
+########################
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
 High Intensity electrons with absorption and one detector gave blank answer in north region
     (although intensity pattern appeared on screen). <can't reproduce this>
