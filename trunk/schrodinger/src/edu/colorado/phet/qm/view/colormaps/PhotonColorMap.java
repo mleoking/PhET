@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
@@ -30,6 +29,10 @@ public class PhotonColorMap implements ColorMap {
         this.rootColor = new ColorData( wavelengthNM );
     }
 
+    public String toString() {
+        return super.toString() + ", waveValueAccessor=" + waveValueAccessor + ", rootColor=" + rootColor;
+    }
+
     public Paint getColor( int i, int k ) {
         Wavefunction wavefunction = QWIPanel.getDiscreteModel().getWavefunction();
         double abs = waveValueAccessor.getValue( wavefunction, i, k ) * intensityScale;
@@ -47,7 +50,4 @@ public class PhotonColorMap implements ColorMap {
         return b;
     }
 
-    public Potential getPotential() {
-        return QWIPanel.getDiscreteModel().getPotential();
-    }
 }

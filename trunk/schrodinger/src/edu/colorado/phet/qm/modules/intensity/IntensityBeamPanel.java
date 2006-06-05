@@ -2,12 +2,10 @@
 package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
-import edu.colorado.phet.qm.view.complexcolormaps.ComplexColorMap;
 import edu.colorado.phet.qm.view.gun.IntensityGunNode;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.ContinuousDisplay;
@@ -42,7 +40,7 @@ public class IntensityBeamPanel extends QWIPanel {
 
         getIntensityDisplay().setHighIntensityMode();
 
-        setNormalGraphics();
+        updateGraphicsMode();
         continuousDisplay = new ContinuousDisplay( this, getIntensityDisplay() );
         setContinuousMode( CONTINUOUS_MODE_DEFAULT );
         if( intensityModule instanceof IntensityModule ) {//todo fix this.
@@ -64,35 +62,9 @@ public class IntensityBeamPanel extends QWIPanel {
         } );
     }
 
-    protected void updateWavefunctionColorMap() {
-        super.updateWavefunctionColorMap();
-        if( splitColorMap != null ) {
-            splitColorMap.setWaveValueAccessor( getWaveValueAccessorForSplit() );
-        }
-    }
-
-    public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
-        super.setVisualizationStyle( colorMap, waveValueAccessor );
-        if( splitMode ) {
-            setSplitMode( splitMode );
-        }
-//        setSplitMode( splitMode );
-    }
-
     private WaveValueAccessor getWaveValueAccessorForSplit() {
-        Photon photon = getPhoton();
-        if( photon != null ) {
-            if( getWaveValueAccessor() instanceof WaveValueAccessor.Imag ) {
-                return new WaveValueAccessor() {
-                    public double getValue( Wavefunction wavefunction, int i, int j ) {
-                        return 0;
-                    }
-                };
-            }
-            else {
-//                return new WaveValueAccessor.Real();
-                return getWaveValueAccessor();
-            }
+        if( isPhotonMode() && getWaveValueAccessor() instanceof WaveValueAccessor.Imag ) {
+            return new WaveValueAccessor.Empty();
         }
         else {
             return getWaveValueAccessor();
@@ -125,13 +97,32 @@ public class IntensityBeamPanel extends QWIPanel {
 
     public void setSplitMode( boolean splitMode ) {
         this.splitMode = splitMode;
+        updateGraphicsMode();
+    }
+
+    protected void updateWavefunctionColorMap() {
+        super.updateWavefunctionColorMap();
+        if( splitColorMap != null ) {
+            splitColorMap.setWaveValueAccessor( getWaveValueAccessorForSplit() );
+        }
+        updateGraphicsMode();
+    }
+
+    private void updateGraphicsMode() {
         if( splitMode ) {
-            setSplitGraphics();
+            getWavefunctionGraphic().setColorMap( splitColorMap );
         }
         else {
-            setNormalGraphics();
+            setVisualizationStyle( getComplexColorMap(), getWaveValueAccessor() );
         }
     }
+
+//    public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
+//        super.setVisualizationStyle( colorMap, waveValueAccessor );
+//        if( splitMode ) {
+//            setSplitMode( splitMode );
+//        }
+//    }
 
     public void setContinuousMode( boolean continuousMode ) {
         if( continuousMode != this.continuousMode ) {
@@ -150,14 +141,6 @@ public class IntensityBeamPanel extends QWIPanel {
         else {
             getIntensityDisplay().tryDetecting();
         }
-    }
-
-    public void setSplitGraphics() {
-        getWavefunctionGraphic().setColorMap( splitColorMap );
-    }
-
-    public void setNormalGraphics() {
-        setVisualizationStyle( getComplexColorMap(), getWaveValueAccessor() );
     }
 
     public boolean isContinuousMode() {

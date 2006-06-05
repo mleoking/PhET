@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 
 public class IntensityModule extends QWIModule {
-    private SplitModel SplitModel;
+    private SplitModel splitModel;
     private IntensityBeamPanel intensityBeamPanel;
     private IntensityControlPanel intensityControlPanel;
     private ArrayList listeners = new ArrayList();
@@ -36,8 +36,8 @@ public class IntensityModule extends QWIModule {
 
     protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
-        SplitModel = new SplitModel();
-        setQWIModel( SplitModel );
+        splitModel = new SplitModel();
+        setQWIModel( splitModel );
         intensityBeamPanel = createIntensityPanel();
         setSchrodingerPanel( intensityBeamPanel );
         intensityControlPanel = new IntensityControlPanel( this );
@@ -61,15 +61,6 @@ public class IntensityModule extends QWIModule {
         } );
     }
 
-//    protected void stepInTime( double dt ) {
-//        super.stepInTime( dt );
-//        //copy the current QWIModel to the unused one.
-//        QWIModel model = getQWIModel();
-//        if( model == QWISplitModel ) {
-//            
-//        }
-//    }
-
     private boolean isInverseSlits() {
         return getSchrodingerPanel().isInverseSlits();
     }
@@ -79,7 +70,7 @@ public class IntensityModule extends QWIModule {
     }
 
     public SplitModel getSplitModel() {
-        return SplitModel;
+        return splitModel;
     }
 
     public IntensityBeamPanel getIntensityPanel() {
@@ -87,11 +78,11 @@ public class IntensityModule extends QWIModule {
     }
 
     public boolean isRightDetectorEnabled() {
-        return SplitModel.containsDetector( SplitModel.getRightDetector() );
+        return splitModel.containsDetector( splitModel.getRightDetector() );
     }
 
     public boolean isLeftDetectorEnabled() {
-        return SplitModel.containsDetector( SplitModel.getLeftDetector() );
+        return splitModel.containsDetector( splitModel.getLeftDetector() );
     }
 
     private void updateDetectors() {
@@ -113,7 +104,7 @@ public class IntensityModule extends QWIModule {
             return;
         }
         if( isRightDetectorEnabled() != selected ) {
-            setDetectorEnabled( SplitModel.getRightDetector(), selected );
+            setDetectorEnabled( splitModel.getRightDetector(), selected );
             notifyDetectorsChanged();
         }
     }
@@ -132,7 +123,7 @@ public class IntensityModule extends QWIModule {
             return;
         }
         if( isLeftDetectorEnabled() != selected ) {
-            setDetectorEnabled( SplitModel.getLeftDetector(), selected );
+            setDetectorEnabled( splitModel.getLeftDetector(), selected );
             notifyDetectorsChanged();
         }
     }
@@ -164,12 +155,12 @@ public class IntensityModule extends QWIModule {
     private void setDetectorEnabled( Detector detector, boolean selected ) {
         boolean splitMode = shouldBeSplitMode();
         if( selected ) {
-            SplitModel.addDetector( detector );
+            splitModel.addDetector( detector );
             DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( intensityBeamPanel, detector );
             intensityBeamPanel.addDetectorGraphic( detectorGraphic );
         }
         else {
-            SplitModel.removeDetector( detector );
+            splitModel.removeDetector( detector );
             intensityBeamPanel.removeDetectorGraphic( detector );
         }
         boolean newSplitMode = shouldBeSplitMode();
@@ -184,7 +175,7 @@ public class IntensityModule extends QWIModule {
 
     private void synchronizeModel() {
         boolean splitMode = shouldBeSplitMode();
-        SplitModel.setSplitMode( splitMode );
+        splitModel.setSplitMode( splitMode );
         intensityBeamPanel.setSplitMode( splitMode );
     }
 
