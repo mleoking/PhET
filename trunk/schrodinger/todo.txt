@@ -31,6 +31,7 @@ Reset should reset wavelength, velocity,
 
 In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
       >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
+      
 ############################################
 # Lower Priority
 ########################
