@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.modules.single;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.gun.SingleParticleGunGraphic;
+import edu.colorado.phet.qm.view.gun.SingleParticleGunNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -16,11 +16,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 
 public class SingleParticleSchrodingerPanel extends QWIPanel {
-    private SingleParticleGunGraphic abstractGun;
+    private SingleParticleGunNode abstractGun;
 
     public SingleParticleSchrodingerPanel( final QWIModule module ) {
         super( module );
-        abstractGun = new SingleParticleGunGraphic( this );
+        abstractGun = new SingleParticleGunNode( this );
         setGunGraphic( abstractGun );
         getSchrodingerScreenNode().setGunControlPanel( abstractGun.getGunControlPanel() );
         ImagePComboBox comboBox = abstractGun.getComboBox();
@@ -51,7 +51,7 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
         abstractGun.reset();
     }
 
-    public SingleParticleGunGraphic getAbstractGun() {
+    public SingleParticleGunNode getAbstractGun() {
         return abstractGun;
     }
 }

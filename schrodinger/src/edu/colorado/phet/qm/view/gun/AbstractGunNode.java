@@ -28,7 +28,7 @@ import java.util.Map;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public abstract class AbstractGunGraphic extends PNode {
+public abstract class AbstractGunNode extends PNode {
     protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel-2.gif";
     public static final int GUN_PARTICLE_OFFSET = 35;
     private QWIPanel QWIPanel;
@@ -37,7 +37,7 @@ public abstract class AbstractGunGraphic extends PNode {
     private ImagePComboBox comboBox;
     private PNode onGunGraphic;
 
-    public AbstractGunGraphic( final QWIPanel QWIPanel ) {
+    public AbstractGunNode( final QWIPanel QWIPanel ) {
         this.QWIPanel = QWIPanel;
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( GUN_RESOURCE );
@@ -114,8 +114,8 @@ public abstract class AbstractGunGraphic extends PNode {
         return comboBox;
     }
 
-    static Potential getPotential( AbstractGunGraphic abstractGunGraphic ) {
-        return abstractGunGraphic.QWIPanel.getDiscreteModel().getPotential();
+    static Potential getPotential( AbstractGunNode abstractGunNode ) {
+        return abstractGunNode.QWIPanel.getDiscreteModel().getPotential();
     }
 
     public int getGunWidth() {

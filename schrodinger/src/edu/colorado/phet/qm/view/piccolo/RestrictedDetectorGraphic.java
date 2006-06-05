@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
+import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
 
 /**
  * User: Sam Reid
@@ -12,8 +12,8 @@ import edu.colorado.phet.qm.modules.intensity.HighIntensitySchrodingerPanel;
  */
 
 public class RestrictedDetectorGraphic extends DetectorGraphic {
-    public RestrictedDetectorGraphic( HighIntensitySchrodingerPanel highIntensitySchrodingerPanel, Detector detector ) {
-        super( highIntensitySchrodingerPanel, detector );
+    public RestrictedDetectorGraphic( IntensityBeamPanel intensityBeamPanel, Detector detector ) {
+        super( intensityBeamPanel, detector );
 
         setCloseButtonVisible( false );
         setPercentDisplayVisible( false );

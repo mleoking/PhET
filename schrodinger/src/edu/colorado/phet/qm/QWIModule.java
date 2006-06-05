@@ -17,7 +17,7 @@ import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
 
@@ -231,7 +231,7 @@ public class QWIModule extends PiccoloModule {
         Hashtable modelParameters = new Hashtable();
         modelParameters.putAll( getQWIModel().getModelParameters() );
 
-        AbstractGunGraphic gun = getSchrodingerPanel().getGunGraphic();
+        AbstractGunNode gun = getSchrodingerPanel().getGunGraphic();
         Map parameters = gun.getModelParameters();
         modelParameters.putAll( parameters );
 

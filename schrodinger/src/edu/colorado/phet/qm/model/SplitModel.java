@@ -17,7 +17,7 @@ import java.awt.*;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class QWISplitModel extends QWIModel {
+public class SplitModel extends QWIModel {
     private WaveModel rightWaveModel;
     private WaveModel leftWaveModel;
 
@@ -26,15 +26,15 @@ public class QWISplitModel extends QWIModel {
     private Mode mode = new NormalMode();
     private HorizontalDoubleSlit.Listener listener;
 
-    public QWISplitModel() {
+    public SplitModel() {
         this( QWIModel.DEFAULT_WIDTH, QWIModel.DEFAULT_WIDTH );
     }
 
-    public QWISplitModel( int width, int height ) {
+    public SplitModel( int width, int height ) {
         this( width, height, DEFAULT_DT, createInitWave() );
     }
 
-    public QWISplitModel( int width, int height, double deltaTime, Wave wave ) {
+    public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
         rightWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
         leftWaveModel = new WaveModel( new Wavefunction( getGridWidth(), getGridHeight() ), new NullPropagator( new ConstantPotential() ) );
@@ -169,11 +169,11 @@ public class QWISplitModel extends QWIModel {
 
     class NormalMode implements Mode {
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-            return QWISplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
+            return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
         }
 
         public void step() {
-            QWISplitModel.this.superStep();
+            SplitModel.this.superStep();
         }
     }
 

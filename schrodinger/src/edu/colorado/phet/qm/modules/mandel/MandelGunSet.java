@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.gun.HighIntensityBeam;
-import edu.colorado.phet.qm.view.gun.HighIntensityGunGraphic;
+import edu.colorado.phet.qm.view.gun.IntensityBeam;
+import edu.colorado.phet.qm.view.gun.IntensityGunNode;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.colorado.phet.qm.view.piccolo.PinkGunDetails;
@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelGunSet extends HighIntensityGunGraphic {
+public class MandelGunSet extends IntensityGunNode {
     private MandelGun leftGun;
     private MandelGun rightGun;
     private Photon photon;
@@ -105,7 +105,7 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
 
-        final HighIntensityBeam[] beams = new HighIntensityBeam[]{photonMandelBeam};
+        final IntensityBeam[] beams = new IntensityBeam[]{photonMandelBeam};
         setBeams( beams );
 
         final ImagePComboBox imageComboBox = new ImagePComboBox( beams );

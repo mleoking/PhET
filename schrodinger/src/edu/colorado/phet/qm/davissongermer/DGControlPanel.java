@@ -6,7 +6,7 @@ import edu.colorado.phet.common.view.ModelSlider;
 import edu.colorado.phet.qm.controls.ClearButton;
 import edu.colorado.phet.qm.controls.RulerPanel;
 import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -39,7 +39,7 @@ public class DGControlPanel extends ControlPanel {
         addControl( plotCheckBox );
         addControlFullWidth( new AtomLatticeControlPanel( dgModule.getDGModel() ) );
 
-        AbstractGunGraphic gun = dgModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
+        AbstractGunNode gun = dgModule.getSchrodingerPanel().getSchrodingerScreenNode().getGunGraphic();
         if( gun instanceof DGGun ) {
             DGGun dgGun = (DGGun)gun;
             final DGParticle particle = dgGun.getDgParticle();

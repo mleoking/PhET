@@ -27,12 +27,12 @@ import java.awt.event.ItemListener;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOffItem {
+public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     protected OnOffCheckBox alwaysOnCheckBox;
     protected IntensitySlider intensitySlider;
     private boolean on = false;
-    private HighIntensityBeam[] beams;
-    private HighIntensityBeam currentBeam;
+    private IntensityBeam[] beams;
+    private IntensityBeam currentBeam;
     private Photon photon;
     private static final double MAX_INTENSITY_READOUT = 40;
     private GunControlPanel gunControlPanel;
@@ -47,7 +47,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         return alwaysOnCheckBox;
     }
 
-    public HighIntensityGunGraphic( final QWIPanel QWIPanel ) {
+    public IntensityGunNode( final QWIPanel QWIPanel ) {
         super( QWIPanel );
         onOffTextNode.setFont( new LucidaSansFont( 12, true ) );
         alwaysOnCheckBox = new OnOffCheckBox( this );
@@ -124,7 +124,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
     protected ImagePComboBox initComboBox() {
         photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
-        HighIntensityBeam[] mybeams = new HighIntensityBeam[]{
+        IntensityBeam[] mybeams = new IntensityBeam[]{
                 new PhotonBeam( this, photon ),
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),
                 new ParticleBeam( DefaultGunParticle.createNeutron( this ) ),
@@ -160,11 +160,11 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         return currentBeam instanceof PhotonBeam;
     }
 
-    protected void setBeams( HighIntensityBeam[] mybeams ) {
+    protected void setBeams( IntensityBeam[] mybeams ) {
         this.beams = mybeams;
     }
 
-    public void setupObject( HighIntensityBeam beam ) {
+    public void setupObject( IntensityBeam beam ) {
         if( beam != currentBeam ) {
             getDiscreteModel().clearWavefunction();
             if( currentBeam != null ) {

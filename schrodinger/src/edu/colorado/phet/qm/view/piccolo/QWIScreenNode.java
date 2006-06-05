@@ -16,7 +16,7 @@ import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
 import edu.colorado.phet.qm.view.ClockGraphic;
 import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGunNode;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
@@ -57,7 +57,7 @@ public class QWIScreenNode extends PNode {
     private ArrayList rectanglePotentialGraphics = new ArrayList();
     private ArrayList detectorGraphics = new ArrayList();
 
-    private AbstractGunGraphic abstractGunGraphic;
+    private AbstractGunNode abstractGunNode;
     private IntensityManager intensityManager;
     private SchrodingerRulerGraphic rulerGraphic;
 
@@ -187,18 +187,18 @@ public class QWIScreenNode extends PNode {
         return QWIPanel.getSchrodingerModule();
     }
 
-    public void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
-        if( abstractGunGraphic != null ) {
-            if( getChildrenReference().contains( abstractGunGraphic ) ) {
-                removeChild( abstractGunGraphic );
+    public void setGunGraphic( AbstractGunNode abstractGunNode ) {
+        if( abstractGunNode != null ) {
+            if( getChildrenReference().contains( abstractGunNode ) ) {
+                removeChild( abstractGunNode );
             }
         }
-        this.abstractGunGraphic = abstractGunGraphic;
+        this.abstractGunNode = abstractGunNode;
         int waveareaIndex = 0;
         if( getChildrenReference().contains( wavefunctionGraphic ) ) {
             waveareaIndex = getChildrenReference().indexOf( wavefunctionGraphic );
         }
-        addChild( waveareaIndex + 1, abstractGunGraphic );
+        addChild( waveareaIndex + 1, abstractGunNode );
         invalidateLayout();
         repaint();
     }
@@ -241,8 +241,8 @@ public class QWIScreenNode extends PNode {
         return rulerGraphic;
     }
 
-    public AbstractGunGraphic getGunGraphic() {
-        return abstractGunGraphic;
+    public AbstractGunNode getGunGraphic() {
+        return abstractGunNode;
     }
 
     public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {
@@ -286,8 +286,8 @@ public class QWIScreenNode extends PNode {
                 int latticeWidth = getWavefunctionGraphic().getWavefunction().getWidth();
 //                System.out.println( "latticeWidth = " + latticeWidth );
 //                System.out.println( "colorGridImageWidth = " + colorGridWidth );
-                double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunGraphic.getFullBounds().getMinX() );
-                double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
+                double minX = Math.min( detectorSheetPNode.getFullBounds().getMinX(), abstractGunNode.getFullBounds().getMinX() );
+                double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunNode.getFullBounds().getMaxX() );
                 minX = Math.max( minX, 0 );
                 double mainWidth = maxX - minX;
                 double availableWidth = QWIPanel.getWidth() - mainWidth;
@@ -297,8 +297,8 @@ public class QWIScreenNode extends PNode {
 //                wavefunctionGraphic.setOffset( 5, detectorSheetPNode.getDetectorHeight() );
 
                 detectorSheetPNode.setAlignment( wavefunctionGraphic );
-                abstractGunGraphic.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunGraphic.getGunWidth() / 2 + 10,
-                                              wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
+                abstractGunNode.setOffset( wavefunctionGraphic.getFullBounds().getCenterX() - abstractGunNode.getGunWidth() / 2 + 10,
+                                           wavefunctionGraphic.getFullBounds().getMaxY() - getGunGraphicOffsetY() );
 
                 if( gunControlPanelPSwing != null ) {
                     double insetY = 5;
@@ -308,7 +308,7 @@ public class QWIScreenNode extends PNode {
                     detectorSheetPNode.getDetectorSheetControlPanelPNode().localToGlobal( pt );
                     globalToLocal( pt );
 
-                    double gunControlRequestedY = abstractGunGraphic.getFullBounds().getCenterY() - gunControlPanelPSwing.getFullBounds().getHeight() / 2.0;
+                    double gunControlRequestedY = abstractGunNode.getFullBounds().getCenterY() - gunControlPanelPSwing.getFullBounds().getHeight() / 2.0;
                     double gunControlMaxY = screenHeight - gunControlPanelPSwing.getFullBounds().getHeight() - insetY;
                     double gunControlY = Math.min( gunControlRequestedY, gunControlMaxY );
                     gunControlPanelPSwing.setOffset( pt.getX(), gunControlY );
@@ -352,7 +352,7 @@ public class QWIScreenNode extends PNode {
         availableSize.width -= getDetectorSheetControlPanelNode().getFullBounds().getWidth();
         availableSize.width -= WAVE_AREA_LAYOUT_INSET_X;
 
-        availableSize.height -= abstractGunGraphic.getFullBounds().getHeight();
+        availableSize.height -= abstractGunNode.getFullBounds().getHeight();
         availableSize.height -= WAVE_AREA_LAYOUT_INSET_Y;
 
         return new Dimension( availableSize.width, availableSize.height );
@@ -389,8 +389,8 @@ resolution, and a quarter as many times for high resolution.*/
 //        double maxMeasurementValue = numLatticePointsX * particleUnits.getDx().getDisplayValue();
         updateRulerUnits();
         stopwatchPanel.setTimeUnits( particleUnits.getDt().getUnits() );
-        System.out.println( "particleUnits.getDt() = " + particleUnits.getDt() );
-        System.out.println( "getTimeFudgeFactor() = " + getTimeFudgeFactor() );
+//        System.out.println( "particleUnits.getDt() = " + particleUnits.getDt() );
+//        System.out.println( "getTimeFudgeFactor() = " + getTimeFudgeFactor() );
         stopwatchPanel.setScaleFactor( getTimeFudgeFactor() * particleUnits.getDt().getDisplayValue() );
 //        stopwatchPanel.setScaleFactor( particleUnits.getDt().getDisplayScaleFactor() * getTimeFudgeFactor() );
         stopwatchPanel.setTimeFormat( new DecimalFormat( "0.000" ) );
@@ -544,7 +544,7 @@ resolution, and a quarter as many times for high resolution.*/
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
         child.addChild( shadowPText );
-        child.setOffset( abstractGunGraphic.getFullBounds().getX(), abstractGunGraphic.getFullBounds().getY() );
+        child.setOffset( abstractGunNode.getFullBounds().getX(), abstractGunNode.getFullBounds().getY() );
         timer.start();
     }
 
@@ -583,7 +583,7 @@ resolution, and a quarter as many times for high resolution.*/
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
         child.addChild( shadowPText );
-        child.setOffset( abstractGunGraphic.getFullBounds().getX(), abstractGunGraphic.getFullBounds().getY() );
+        child.setOffset( abstractGunNode.getFullBounds().getX(), abstractGunNode.getFullBounds().getY() );
         timer.start();
     }
 
@@ -618,14 +618,14 @@ resolution, and a quarter as many times for high resolution.*/
 
 
             int gunIndex = 0;
-            if( getChildrenReference().contains( abstractGunGraphic ) ) {
-                gunIndex = getChildrenReference().indexOf( abstractGunGraphic );
+            if( getChildrenReference().contains( abstractGunNode ) ) {
+                gunIndex = getChildrenReference().indexOf( abstractGunNode );
             }
             addChild( gunIndex, gunControlPanel.getPSwing() );
             this.gunControlPanelPSwing = gunControlPanel.getPSwing();
             relayout();
 
-            ConnectorGraphic connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunGraphic );
+            ConnectorGraphic connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunNode );
             addChild( gunIndex, connectorGraphic );
         }
     }

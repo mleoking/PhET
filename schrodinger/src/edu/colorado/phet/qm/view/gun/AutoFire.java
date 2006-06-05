@@ -12,7 +12,7 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
  */
 
 public class AutoFire implements IntensityManager.Listener {
-    private SingleParticleGunGraphic gunGraphic;
+    private SingleParticleGunNode gunGraphic;
     private IntensityManager intensityManager;
     private boolean autoFire = false;
     private ModelElement element;
@@ -20,7 +20,7 @@ public class AutoFire implements IntensityManager.Listener {
     private long lastFire = 0;
     private static final long MIN_WAIT_TIME = 500;//todo this may be unnecessary because of the new gun.isFiring() method
 
-    public AutoFire( SingleParticleGunGraphic gunGraphic, IntensityManager intensityManager ) {
+    public AutoFire( SingleParticleGunNode gunGraphic, IntensityManager intensityManager ) {
         this.gunGraphic = gunGraphic;
         this.intensityManager = intensityManager;
         intensityManager.addListener( this );
