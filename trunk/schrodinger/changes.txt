@@ -5,6 +5,7 @@ Bugfix: If you start in E-field view and turn off detector,
     This effect also happens for electrons.
 Bugfix: Changing the particle type often messes up the wave function display.
 Bugfix: In “hits” mode, the dots appear on the screen in columns, so it appears that there are many very thin interference fringes.
+Bugfix: The “one-shot” checkbox doesn’t work.  
 
 New in 1.00 (5-17-2006)
 Posted on main site (replaces 0.37)

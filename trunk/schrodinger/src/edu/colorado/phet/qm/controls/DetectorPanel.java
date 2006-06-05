@@ -44,10 +44,10 @@ public class DetectorPanel extends VerticalLayoutPanel {
                 getDiscreteModel().getDetectorSet().setRepeats( repeats.isSelected() );
             }
         } );
-        final JCheckBox oneshot = new JCheckBox( "One-Shot", !getDiscreteModel().getDetectorSet().isRepeats() );
-        repeats.addActionListener( new ActionListener() {
+        final JCheckBox oneshot = new JCheckBox( "One-Shot", getDiscreteModel().getDetectorSet().isOneShot() );
+        oneshot.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getDiscreteModel().getDetectorSet().setRepeats( !oneshot.isSelected() );
+                getDiscreteModel().getDetectorSet().setOneShot( oneshot.isSelected() );
             }
         } );
 

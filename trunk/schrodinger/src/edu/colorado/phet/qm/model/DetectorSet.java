@@ -16,6 +16,7 @@ public class DetectorSet {
     private Wavefunction wavefunction;
     private boolean autodetect = true;
     private boolean repeats = false;//forAutoDetect
+    private boolean oneShot = true;
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
@@ -68,42 +69,32 @@ public class DetectorSet {
         return (Detector)detectors.get( i );
     }
 
+    public void setOneShot( boolean oneShot ) {
+        this.oneShot = oneShot;
+    }
+
+    public boolean isOneShot() {
+        return oneShot;
+    }
+
     private static interface FireStrategy {
         boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm );
     }
 
-    private static class FireEnabled implements FireStrategy {
+    private class FireEnabled implements FireStrategy {
         public boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm ) {
             return detector.tryToGrab( wavefunction, norm );
         }
     }
 
-    private static class AutoDetect implements FireStrategy {
-        private boolean detectionDisablesDetectorForThisParticle = true;
-
-        public AutoDetect( boolean detectionDisablesDetectorForThisParticle ) {
-            this.detectionDisablesDetectorForThisParticle = detectionDisablesDetectorForThisParticle;
-        }
-
-        public boolean isDetectionDisablesDetectorForThisParticle() {
-            return detectionDisablesDetectorForThisParticle;
-        }
-
-        public void setDetectionDisablesDetectorForThisParticle( boolean detectionDisablesDetectorForThisParticle ) {
-            this.detectionDisablesDetectorForThisParticle = detectionDisablesDetectorForThisParticle;
-        }
-
+    private class AutoDetect implements FireStrategy {
         public boolean tryToGrab( Detector detector, Wavefunction wavefunction, double norm ) {
+//            System.out.println( "oneShot = " + oneShot );
+            boolean grabbed = false;
             if( detector.timeToFire() ) {
-                boolean grabbed = detector.tryToGrab( wavefunction, norm );
-                if( grabbed && detectionDisablesDetectorForThisParticle ) {
-                    detector.setEnabled( false );
-                }
-                return grabbed;
+                grabbed = detector.tryToGrab( wavefunction, norm );
             }
-            else {
-                return false;
-            }
+            return grabbed;
         }
     }
 
@@ -115,6 +106,9 @@ public class DetectorSet {
                 if( detector.isEnabled() ) {
                     boolean grabbedIt = fireStrategy.tryToGrab( detector, getWavefunction(), norm );
                     if( grabbedIt ) {
+                        if( oneShot ) {
+                            detector.setEnabled( false );
+                        }
                         break;
                     }
                 }
@@ -157,7 +151,7 @@ public class DetectorSet {
             notifyTimeStepped();
             updateDetectorProbabilities();
             if( autodetect && model.isDetectionCausesCollapse() ) {
-                fireAllEnabledDetectors( new AutoDetect( !repeats ) );
+                fireAllEnabledDetectors( new AutoDetect() );
             }
         }
     }
