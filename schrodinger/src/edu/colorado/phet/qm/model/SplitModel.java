@@ -124,6 +124,7 @@ public class SplitModel extends QWIModel {
     }
 
     public void setSplitMode( boolean split ) {
+        System.out.println( "split = " + split );
         this.mode = split ? (Mode)new SplitMode() : new NormalMode();
         if( split ) {//copy wavefunction state for continuity.
             copyNorthRegionToLR();
@@ -174,6 +175,7 @@ public class SplitModel extends QWIModel {
 
         public void step() {
             SplitModel.this.superStep();
+            clearLRWavesSouthArea();
         }
     }
 
@@ -213,21 +215,20 @@ public class SplitModel extends QWIModel {
         private Rectangle deepen( Rectangle slit ) {
             return new Rectangle( slit.x, slit.y, slit.width, slit.height + 2 );//todo this is a hack to make the slits look correct
         }
+    }
 
-        private void finishStep() {
-            getWaveModel().clearWave( new Rectangle( getWavefunction().getWidth(), getSlitTopY() ) );
+    private void finishStep() {
+        getWaveModel().clearWave( new Rectangle( getWavefunction().getWidth(), getSlitTopY() ) );
 
-            rightWaveModel.propagate();
-            leftWaveModel.propagate();
-            getDamping().damp( getRightWavefunction() );
-            getDamping().damp( getLeftWavefunction() );
+        rightWaveModel.propagate();
+        leftWaveModel.propagate();
+        getDamping().damp( getRightWavefunction() );
+        getDamping().damp( getLeftWavefunction() );
 
-            clearLRWavesSouthArea();
+        clearLRWavesSouthArea();
 
-            incrementTimeStep();
-            finishedTimeStep();
-        }
-
+        incrementTimeStep();
+        finishedTimeStep();
     }
 
     private void clearLRWavesSouthArea() {

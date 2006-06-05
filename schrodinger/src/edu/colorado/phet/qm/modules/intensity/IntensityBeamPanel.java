@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.view.QWIPanel;
+import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
@@ -40,12 +41,13 @@ public class IntensityBeamPanel extends QWIPanel {
 
         getIntensityDisplay().setHighIntensityMode();
 
-        updateGraphicsMode();
+
         continuousDisplay = new ContinuousDisplay( this, getIntensityDisplay() );
         setContinuousMode( CONTINUOUS_MODE_DEFAULT );
         if( intensityModule instanceof IntensityModule ) {//todo fix this.
             splitColorMap = new SplitColorMap( ( (IntensityModule)intensityModule ).getSplitModel(), this );
         }
+        super.update();
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
         intensityModule.addListener( new QWIModule.Listener() {
@@ -97,32 +99,20 @@ public class IntensityBeamPanel extends QWIPanel {
 
     public void setSplitMode( boolean splitMode ) {
         this.splitMode = splitMode;
-        updateGraphicsMode();
+        super.update();
     }
 
-    protected void updateWavefunctionColorMap() {
-        super.updateWavefunctionColorMap();
+    protected ColorMap createColorMap() {
         if( splitColorMap != null ) {
             splitColorMap.setWaveValueAccessor( getWaveValueAccessorForSplit() );
         }
-        updateGraphicsMode();
-    }
-
-    private void updateGraphicsMode() {
         if( splitMode ) {
-            getWavefunctionGraphic().setColorMap( splitColorMap );
+            return splitColorMap;
         }
         else {
-            setVisualizationStyle( getComplexColorMap(), getWaveValueAccessor() );
+            return super.createColorMap();
         }
     }
-
-//    public void setVisualizationStyle( ComplexColorMap colorMap, WaveValueAccessor waveValueAccessor ) {
-//        super.setVisualizationStyle( colorMap, waveValueAccessor );
-//        if( splitMode ) {
-//            setSplitMode( splitMode );
-//        }
-//    }
 
     public void setContinuousMode( boolean continuousMode ) {
         if( continuousMode != this.continuousMode ) {
