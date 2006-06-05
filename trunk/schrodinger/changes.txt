@@ -1,4 +1,7 @@
-New in 1.00.01
+New in 1.00.02
+Bugfix: When automatic switching from phase color to magnitude is performed, the radio buttons reflect this change.
+
+New in 1.00.01 (6-5-2006)
 Bugfix: For photons in High Intensity panel, turning on detector changes display from time-averaged intensity to E-field.
 Bugfix: If you start in E-field view and turn off detector,
     model looks temporarily like time-averaged intensity in upper half of box
