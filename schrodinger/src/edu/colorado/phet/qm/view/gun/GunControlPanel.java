@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.VerticalLayoutPanel;
 import edu.colorado.phet.qm.phetcommon.ShinyPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -22,10 +22,10 @@ public class GunControlPanel extends VerticalLayoutPanel {
     private ShinyPanel shinyPanel;
     private PSwing gunControlPSwing;
 
-    public GunControlPanel( SchrodingerPanel schrodingerPanel ) {
+    public GunControlPanel( QWIPanel QWIPanel ) {
         setOpaque( false );
         shinyPanel = new ShinyGunControlPanel( this );
-        gunControlPSwing = new PSwing( schrodingerPanel, shinyPanel );
+        gunControlPSwing = new PSwing( QWIPanel, shinyPanel );
         JLabel label = new JLabel( "Gun Controls" ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;

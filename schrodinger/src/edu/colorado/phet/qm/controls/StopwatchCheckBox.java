@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,12 +18,12 @@ import java.io.IOException;
 
 //public class StopwatchCheckBox extends JCheckBox {
 public class StopwatchCheckBox extends HorizontalLayoutPanel {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
-    public StopwatchCheckBox( SchrodingerPanel schrodingerPanel ) {
+    public StopwatchCheckBox( QWIPanel QWIPanel ) {
         super();
         final JCheckBox checkBox = new JCheckBox( "Stopwatch" );
-        this.schrodingerPanel = schrodingerPanel;
+        this.QWIPanel = QWIPanel;
 
 //        final JCheckBox stopwatchCheckBox = new JCheckBox( "Stopwatch" );
         checkBox.addActionListener( new ActionListener() {
@@ -47,7 +47,7 @@ public class StopwatchCheckBox extends HorizontalLayoutPanel {
         }
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    private QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 }

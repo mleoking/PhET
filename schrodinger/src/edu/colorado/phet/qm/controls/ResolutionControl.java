@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
+import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 
 public class ResolutionControl extends AdvancedPanel {
     public static final int DEFAULT_WAVE_SIZE = 60;
-    private SchrodingerModule schrodingerModule;
+    private QWIModule qwiModule;
     private final int WAVE_GRAPHIC_SIZE_1024x768 = 360;
     public static int INIT_WAVE_SIZE = 0;
 
@@ -54,9 +54,9 @@ public class ResolutionControl extends AdvancedPanel {
         }
     }
 
-    public ResolutionControl( final SchrodingerModule schrodingerModule ) {
+    public ResolutionControl( final QWIModule qwiModule ) {
         super( "Resolution>>", "Resolution<<" );
-        this.schrodingerModule = schrodingerModule;
+        this.qwiModule = qwiModule;
 
 //        JLabel screenSizeLabel = new JLabel( "Grid Resolution" );
 //        addControl( screenSizeLabel );
@@ -75,8 +75,8 @@ public class ResolutionControl extends AdvancedPanel {
 //        int[]values = new int[]{3, 4, 5, 6, 8, 10, 12, 16,32};
 //        int[]configFor1024x768 = new int[]{2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 18};
 
-        final JComboBox jComboBox = new JComboBox( SchrodingerModule.getResolutionSetups() );
-        jComboBox.setSelectedItem( new Integer( schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
+        final JComboBox jComboBox = new JComboBox( QWIModule.getResolutionSetups() );
+        jComboBox.setSelectedItem( new Integer( qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize() ) );
 //        addControl( new JLabel( "Pixels per lattice cell." ) );
         addControl( new JLabel( "Resolution" ) );
         addControl( jComboBox );
@@ -84,28 +84,28 @@ public class ResolutionControl extends AdvancedPanel {
             public void actionPerformed( ActionEvent e ) {
                 ResolutionSetup value = (ResolutionSetup)jComboBox.getSelectedItem();
                 getSchrodingerModule().setResolution( value );//has to happen before event notification: see SSN for setUnits
-                schrodingerModule.setCellSize( value.intValue() );
+                qwiModule.setCellSize( value.intValue() );
                 int waveSize = WAVE_GRAPHIC_SIZE_1024x768 / value.intValue();
                 getSchrodingerModule().setWaveSize( waveSize );
             }
         } );
         ResolutionControl.INIT_WAVE_SIZE = WAVE_GRAPHIC_SIZE_1024x768 /
-                                           schrodingerModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize();
+                                           qwiModule.getSchrodingerPanel().getSchrodingerScreenNode().getCellSize();
         getSchrodingerModule().setWaveSize( INIT_WAVE_SIZE );
 
         JLabel numSkip = new JLabel( "Time Step" );
         addControl( numSkip );
-        final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( SchrodingerScreenNode.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
+        final JSpinner frameSkip = new JSpinner( new SpinnerNumberModel( QWIScreenNode.numIterationsBetwenScreenUpdate, 1, 20, 1 ) );
         frameSkip.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Integer val = (Integer)frameSkip.getValue();
-                SchrodingerScreenNode.numIterationsBetwenScreenUpdate = val.intValue();
+                QWIScreenNode.numIterationsBetwenScreenUpdate = val.intValue();
             }
         } );
         addControl( frameSkip );
     }
 
-    private SchrodingerModule getSchrodingerModule() {
-        return schrodingerModule;
+    private QWIModule getSchrodingerModule() {
+        return qwiModule;
     }
 }

@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -121,11 +121,11 @@ public class FireButton extends JButton {
         return isEnabled();
     }
 
-    private SchrodingerModule getSchrodingerModule() {
+    private QWIModule getSchrodingerModule() {
         return fireParticle.getSchrodingerModule();
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    private QWIPanel getSchrodingerPanel() {
         return getSchrodingerModule().getSchrodingerPanel();
     }
 

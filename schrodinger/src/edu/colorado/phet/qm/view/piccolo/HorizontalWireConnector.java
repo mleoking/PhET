@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.qm.HorizontalConnector;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.image.BufferedImage;

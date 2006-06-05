@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
 import java.awt.*;
@@ -19,15 +19,15 @@ import java.awt.image.BufferedImage;
  */
 
 public class SmoothIntensityDisplay {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
     private IntensityManager intensityManager;
     private double[] histogram;
 //    private Photon photon;
     private double brightness = 1.0f;
     private ColorData colorData;
 
-    public SmoothIntensityDisplay( SchrodingerPanel schrodingerPanel, IntensityManager intensityManager ) {
-        this.schrodingerPanel = schrodingerPanel;
+    public SmoothIntensityDisplay( QWIPanel QWIPanel, IntensityManager intensityManager ) {
+        this.QWIPanel = QWIPanel;
         this.intensityManager = intensityManager;
         histogram = new double[getWavefunction().getWidth()];
     }
@@ -40,7 +40,7 @@ public class SmoothIntensityDisplay {
         return getSchrodingerPanel().getDiscreteModel();
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    private QWIPanel getSchrodingerPanel() {
         return this.intensityManager.getSchrodingerPanel();
     }
 
@@ -80,7 +80,7 @@ public class SmoothIntensityDisplay {
     }
 
     private DetectorSheetPNode getDetectorSheetPNode() {
-        return schrodingerPanel.getDetectorSheetPNode();
+        return QWIPanel.getDetectorSheetPNode();
     }
 
     private boolean isFadeEnabled() {

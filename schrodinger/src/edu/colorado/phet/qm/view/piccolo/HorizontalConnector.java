@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.umd.cs.piccolo.PNode;

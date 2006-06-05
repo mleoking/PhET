@@ -8,15 +8,15 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.piccolo.PiccoloModule;
+import edu.colorado.phet.qm.controls.QWIControlPanel;
 import edu.colorado.phet.qm.controls.ResolutionControl;
-import edu.colorado.phet.qm.controls.SchrodingerControlPanel;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
@@ -36,11 +36,11 @@ import java.util.Random;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerModule extends PiccoloModule {
-    private SchrodingerPanel schrodingerPanel;
+public class QWIModule extends PiccoloModule {
+    private QWIPanel QWIPanel;
     private QWIModel qwiModel;
     private PhetApplication schrodingerApplication;
-    private SchrodingerOptionsMenu optionsMenu;
+    private QWIOptionsMenu optionsMenu;
     private ParticleUnits particleUnits;
     private ArrayList listeners = new ArrayList();
     private ResolutionControl.ResolutionSetup resolution;
@@ -48,7 +48,7 @@ public class SchrodingerModule extends PiccoloModule {
     /**
      * @param schrodingerApplication
      */
-    public SchrodingerModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
+    public QWIModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         this.resolution = getResolutionSetups()[0];
@@ -56,7 +56,7 @@ public class SchrodingerModule extends PiccoloModule {
         setLogoPanelVisible( false );
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                SchrodingerModule.this.stepInTime( dt );
+                QWIModule.this.stepInTime( dt );
             }
         } );
     }
@@ -82,7 +82,7 @@ public class SchrodingerModule extends PiccoloModule {
             public void keyTyped( KeyEvent e ) {
             }
         } );
-        optionsMenu = new SchrodingerOptionsMenu( this );
+        optionsMenu = new QWIOptionsMenu( this );
         getDiscreteModel().getDoubleSlitPotential().addListener( new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {
                 getSchrodingerPanel().updateWaveGraphic();
@@ -112,8 +112,8 @@ public class SchrodingerModule extends PiccoloModule {
         this.qwiModel = model;
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 
     public QWIModel getDiscreteModel() {
@@ -123,7 +123,7 @@ public class SchrodingerModule extends PiccoloModule {
     public void reset() {
         clearPotential();
         qwiModel.reset();
-        schrodingerPanel.reset();
+        QWIPanel.reset();
         resetViewTransform();
     }
 
@@ -133,7 +133,7 @@ public class SchrodingerModule extends PiccoloModule {
 
     public void fireParticle( WaveSetup waveSetup ) {
         qwiModel.fireParticle( waveSetup );
-        schrodingerPanel.updateGraphics();
+        QWIPanel.updateGraphics();
     }
 
     public void setGridSize( final int nx, final int ny ) {
@@ -165,7 +165,7 @@ public class SchrodingerModule extends PiccoloModule {
 
     public void addDetector( Detector detector ) {
         qwiModel.addDetector( detector );
-        schrodingerPanel.addDetectorGraphic( detector );
+        QWIPanel.addDetectorGraphic( detector );
     }
 
     static final Random random = new Random( 0 );
@@ -186,14 +186,14 @@ public class SchrodingerModule extends PiccoloModule {
         return getSchrodingerPanel().getIntensityDisplay();
     }
 
-    protected void setSchrodingerPanel( SchrodingerPanel schrodingerPanel ) {
-        setPhetPCanvas( schrodingerPanel );
-        this.schrodingerPanel = schrodingerPanel;
-        this.schrodingerPanel.setUnits( particleUnits );
+    protected void setSchrodingerPanel( QWIPanel QWIPanel ) {
+        setSimulationPanel( QWIPanel );
+        this.QWIPanel = QWIPanel;
+        this.QWIPanel.setUnits( particleUnits );
     }
 
-    protected void setSchrodingerControlPanel( SchrodingerControlPanel schrodingerControlPanel ) {
-        setControlPanel( schrodingerControlPanel );
+    protected void setSchrodingerControlPanel( QWIControlPanel qwiControlPanel ) {
+        setControlPanel( qwiControlPanel );
     }
 
     public PhetFrame getPhetFrame() {
@@ -252,8 +252,8 @@ public class SchrodingerModule extends PiccoloModule {
     public void setUnits( ParticleUnits particleUnits ) {
 //        System.out.println( "particleUnits = " + particleUnits );
         this.particleUnits = particleUnits;
-        if( schrodingerPanel != null ) {
-            schrodingerPanel.setUnits( particleUnits );
+        if( QWIPanel != null ) {
+            QWIPanel.setUnits( particleUnits );
         }
     }
 
@@ -265,7 +265,7 @@ public class SchrodingerModule extends PiccoloModule {
 
 
     public void setCellSize( int size ) {
-        schrodingerPanel.setCellSize( size );
+        QWIPanel.setCellSize( size );
     }
 
     public void removeListener( Listener listener ) {

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.common.model.clock.SwingClock;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -52,8 +51,8 @@ public class QWIApplication extends PiccoloPhetApplication {
         JMenuItem save = new JMenuItem( "Save (detectors & barriers)" );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SchrodingerModule schrodingerModule = getActiveSchrodingerModule();
-                new PersistenceManager( schrodingerModule.getSchrodingerPanel() ).save( new QWIState( schrodingerModule ) );
+                QWIModule qwiModule = getActiveSchrodingerModule();
+                new PersistenceManager( qwiModule.getSchrodingerPanel() ).save( new QWIState( qwiModule ) );
             }
 
         } );
@@ -63,9 +62,9 @@ public class QWIApplication extends PiccoloPhetApplication {
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    SchrodingerModule schrodingerModule = getActiveSchrodingerModule();
-                    QWIState state = (QWIState)new PersistenceManager( schrodingerModule.getSchrodingerPanel() ).load();
-                    state.restore( schrodingerModule );
+                    QWIModule qwiModule = getActiveSchrodingerModule();
+                    QWIState state = (QWIState)new PersistenceManager( qwiModule.getSchrodingerPanel() ).load();
+                    state.restore( qwiModule );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -79,8 +78,8 @@ public class QWIApplication extends PiccoloPhetApplication {
         getPhetFrame().addFileMenuSeparator();
     }
 
-    private SchrodingerModule getActiveSchrodingerModule() {
-        return (SchrodingerModule)getActiveModule();
+    private QWIModule getActiveSchrodingerModule() {
+        return (QWIModule)getActiveModule();
     }
 
     private static IClock createClock() {
@@ -91,19 +90,19 @@ public class QWIApplication extends PiccoloPhetApplication {
         return args;
     }
 
-    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
-        return new SchrodingerPhetFrame( phetApplication );
-    }
+//    protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
+//        return new QWIFrame( phetApplication );
+//    }
 
-    class SchrodingerPhetFrame extends PhetFrame {
-        public SchrodingerPhetFrame( PhetApplication phetApplication ) {
-            super( phetApplication );
-        }
-
-        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-            return new MyTabbedModulePane( application, modules );
-        }
-    }
+//    class QWIFrame extends PhetFrame {
+//        public QWIFrame( PhetApplication phetApplication ) {
+//            super( phetApplication );
+//        }
+//
+//        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
+//            return new MyTabbedModulePane( application, modules );
+//        }
+//    }
 
     class MyTabbedModulePane extends TabbedModulePane {
 

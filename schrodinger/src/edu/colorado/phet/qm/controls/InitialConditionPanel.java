@@ -25,10 +25,10 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
     private ModelSlider pxSlider;
     private ModelSlider pySlider;
     private ModelSlider dxSlider;
-    private SchrodingerControlPanel schrodingerControlPanel;
+    private QWIControlPanel qwiControlPanel;
 
-    public InitialConditionPanel( SchrodingerControlPanel schrodingerControlPanel ) {
-        this.schrodingerControlPanel = schrodingerControlPanel;
+    public InitialConditionPanel( QWIControlPanel qwiControlPanel ) {
+        this.qwiControlPanel = qwiControlPanel;
 
         xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.5 );
         ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.75 );
@@ -72,7 +72,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
     }
 
     private QWIModel getDiscreteModel() {
-        return schrodingerControlPanel.getDiscreteModel();
+        return qwiControlPanel.getDiscreteModel();
     }
 
     private double getStartX() {

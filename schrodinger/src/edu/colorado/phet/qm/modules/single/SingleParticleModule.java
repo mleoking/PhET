@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.QWIModel;
 
 /**
@@ -13,7 +13,7 @@ import edu.colorado.phet.qm.model.QWIModel;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class SingleParticleModule extends SchrodingerModule {
+public class SingleParticleModule extends QWIModule {
     public SingleParticleModule( QWIApplication application, IClock clock ) {
         super( "Single Particles", application, clock );
         setDiscreteModel( new QWIModel() );

@@ -6,7 +6,7 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.BoundGraphic;
 import edu.colorado.phet.piccolo.nodes.ConnectorGraphic;
 import edu.colorado.phet.piccolo.util.PImageFactory;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
@@ -15,7 +15,7 @@ import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
 import edu.colorado.phet.qm.view.ClockGraphic;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
@@ -49,9 +49,9 @@ import java.util.Arrays;
  * Copyright (c) Sep 17, 2005 by Sam Reid
  */
 
-public class SchrodingerScreenNode extends PNode {
-    private SchrodingerModule module;
-    private SchrodingerPanel schrodingerPanel;
+public class QWIScreenNode extends PNode {
+    private QWIModule module;
+    private QWIPanel QWIPanel;
 
     private WavefunctionGraphic wavefunctionGraphic;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
@@ -83,9 +83,9 @@ public class SchrodingerScreenNode extends PNode {
     private String zoominText = "Zooming In";
     private PNode detectorScreenGraphics;
 
-    public SchrodingerScreenNode( final SchrodingerModule module, final SchrodingerPanel schrodingerPanel ) {
+    public QWIScreenNode( final QWIModule module, final QWIPanel QWIPanel ) {
         this.module = module;
-        this.schrodingerPanel = schrodingerPanel;
+        this.QWIPanel = QWIPanel;
         wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getDiscreteModel().getWavefunction() );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void finishedTimeStep( QWIModel model ) {
@@ -100,7 +100,7 @@ public class SchrodingerScreenNode extends PNode {
             digits[i] = new String( i + "" );
         }
         RulerGraphic rg = new RulerGraphic( digits, "units", 500, 60 );
-        rulerGraphic = new SchrodingerRulerGraphic( getDiscreteModel(), schrodingerPanel, rg );
+        rulerGraphic = new SchrodingerRulerGraphic( getDiscreteModel(), QWIPanel, rg );
 
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
@@ -117,15 +117,15 @@ public class SchrodingerScreenNode extends PNode {
         rulerGraphic.setOffset( 50, 200 );
         setRulerVisible( false );
 
-        detectorSheetPNode = new DetectorSheetPNode( schrodingerPanel, wavefunctionGraphic, 60 );
+        detectorSheetPNode = new DetectorSheetPNode( QWIPanel, wavefunctionGraphic, 60 );
         detectorSheetPNode.setOffset( wavefunctionGraphic.getX(), 0 );
-        intensityManager = new IntensityManager( getSchrodingerModule(), schrodingerPanel, detectorSheetPNode );
+        intensityManager = new IntensityManager( getSchrodingerModule(), QWIPanel, detectorSheetPNode );
         addChild( detectorSheetPNode );
         addChild( wavefunctionGraphic );
         detectorScreenGraphics = new PNode();
         addChild( detectorScreenGraphics );
         addChild( rulerGraphic );
-        schrodingerPanel.addComponentListener( new ComponentAdapter() {
+        QWIPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 invalidateFullBounds();
                 repaint();
@@ -139,7 +139,7 @@ public class SchrodingerScreenNode extends PNode {
         } );
 
         layoutChildren();
-        stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
+        stopwatchPanel = new StopwatchPanel( QWIPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
         getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 stopwatchPanel.reset();
@@ -147,7 +147,7 @@ public class SchrodingerScreenNode extends PNode {
         } );
         stopwatchPanel.getTimeDisplay().setEditable( false );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
-        stopwatchPanelPSwing = new PSwing( schrodingerPanel, stopwatchPanel );
+        stopwatchPanelPSwing = new PSwing( QWIPanel, stopwatchPanel );
 //        stopwatchPanelPSwing = new PSwing( schrodingerPanel, new JButton( "Test Button" ));
 //        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
 //        stopwatchPanelPSwing.addInputEventListener( new HalfOnscreenDragHandler( schrodingerPanel, stopwatchPanelPSwing ) );
@@ -155,7 +155,7 @@ public class SchrodingerScreenNode extends PNode {
         stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() {
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                if( !schrodingerPanel.getBounds().contains( stopwatchPanelPSwing.getFullBounds() ) ) {
+                if( !QWIPanel.getBounds().contains( stopwatchPanelPSwing.getFullBounds() ) ) {
                     stopwatchPanelPSwing.setOffset( 300, 300 );
                 }
             }
@@ -183,8 +183,8 @@ public class SchrodingerScreenNode extends PNode {
         return getSchrodingerModule().getDiscreteModel();
     }
 
-    private SchrodingerModule getSchrodingerModule() {
-        return schrodingerPanel.getSchrodingerModule();
+    private QWIModule getSchrodingerModule() {
+        return QWIPanel.getSchrodingerModule();
     }
 
     public void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
@@ -275,11 +275,11 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     protected void layoutChildren( boolean forceLayout ) {
-        boolean sizeChanged = lastLayoutSize == null || !lastLayoutSize.equals( schrodingerPanel.getSize() );
+        boolean sizeChanged = lastLayoutSize == null || !lastLayoutSize.equals( QWIPanel.getSize() );
         if( sizeChanged || forceLayout ) {
-            lastLayoutSize = new Dimension( schrodingerPanel.getSize() );
+            lastLayoutSize = new Dimension( QWIPanel.getSize() );
             super.layoutChildren();
-            if( schrodingerPanel.getWidth() > 0 && schrodingerPanel.getHeight() > 0 ) {
+            if( QWIPanel.getWidth() > 0 && QWIPanel.getHeight() > 0 ) {
                 wavefunctionGraphic.setCellDimensions( getCellDimensions() );
 //                System.out.println( "getCellDimensions() = " + getCellDimensions() );
                 int colorGridWidth = wavefunctionGraphic.getColorGrid().getBufferedImage().getWidth();
@@ -290,7 +290,7 @@ public class SchrodingerScreenNode extends PNode {
                 double maxX = Math.max( detectorSheetPNode.getFullBounds().getMaxX(), abstractGunGraphic.getFullBounds().getMaxX() );
                 minX = Math.max( minX, 0 );
                 double mainWidth = maxX - minX;
-                double availableWidth = schrodingerPanel.getWidth() - mainWidth;
+                double availableWidth = QWIPanel.getWidth() - mainWidth;
                 double wavefunctionGraphicX = getWavefunctionGraphicX( availableWidth );
 //                System.out.println( "wavefunctionGraphicX = " + wavefunctionGraphicX );
                 wavefunctionGraphic.setOffset( wavefunctionGraphicX, detectorSheetPNode.getDetectorHeight() );
@@ -302,7 +302,7 @@ public class SchrodingerScreenNode extends PNode {
 
                 if( gunControlPanelPSwing != null ) {
                     double insetY = 5;
-                    double screenHeight = schrodingerPanel.getHeight();
+                    double screenHeight = QWIPanel.getHeight();
                     //double xval = wavefunctionGraphic.getFullBounds().getMaxX();
                     Point2D pt = new Point2D.Double();
                     detectorSheetPNode.getDetectorSheetControlPanelPNode().localToGlobal( pt );
@@ -338,8 +338,8 @@ public class SchrodingerScreenNode extends PNode {
         }
         else {
             Dimension availableAreaForWaveform = getAvailableWaveAreaSize();
-            int nx = schrodingerPanel.getDiscreteModel().getGridWidth() + 5;
-            int ny = schrodingerPanel.getDiscreteModel().getGridHeight() + 5;
+            int nx = QWIPanel.getDiscreteModel().getGridWidth() + 5;
+            int ny = QWIPanel.getDiscreteModel().getGridHeight() + 5;
             int cellWidth = availableAreaForWaveform.width / nx;
             int cellHeight = availableAreaForWaveform.height / ny;
             int min = Math.min( cellWidth, cellHeight );
@@ -348,7 +348,7 @@ public class SchrodingerScreenNode extends PNode {
     }
 
     public Dimension getAvailableWaveAreaSize() {
-        Dimension availableSize = schrodingerPanel.getSize();
+        Dimension availableSize = QWIPanel.getSize();
         availableSize.width -= getDetectorSheetControlPanelNode().getFullBounds().getWidth();
         availableSize.width -= WAVE_AREA_LAYOUT_INSET_X;
 

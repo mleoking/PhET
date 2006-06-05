@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,11 +15,11 @@ import java.awt.event.ActionListener;
  */
 
 public class ClearButton extends JButton {
-    public ClearButton( final SchrodingerPanel schrodingerPanel ) {
+    public ClearButton( final QWIPanel QWIPanel ) {
         super( "Clear Wave" );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.clearWavefunction();
+                QWIPanel.clearWavefunction();
             }
         } );
     }

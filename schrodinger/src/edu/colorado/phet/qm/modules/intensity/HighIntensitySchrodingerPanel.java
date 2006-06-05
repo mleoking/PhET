@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
@@ -20,8 +20,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Copyright (c) Jul 7, 2005 by Sam Reid
  */
 
-public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
-    private SchrodingerModule intensityModule;
+public class HighIntensitySchrodingerPanel extends QWIPanel {
+    private QWIModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
     private SplitColorMap splitColorMap;
@@ -29,7 +29,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
     public static final boolean SMOOTH_SCREEN_DEFAULT = true;
     private boolean splitMode = false;
 
-    public HighIntensitySchrodingerPanel( SchrodingerModule intensityModule ) {
+    public HighIntensitySchrodingerPanel( QWIModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
         highIntensityGun = createGun();
@@ -48,7 +48,7 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
         }
         setPhoton( super.getDisplayPhotonColor() );
         getDetectorSheetPNode().getDetectorSheetControlPanel().setBrightness();
-        intensityModule.addListener( new SchrodingerModule.Listener() {
+        intensityModule.addListener( new QWIModule.Listener() {
             public void deactivated() {
             }
 

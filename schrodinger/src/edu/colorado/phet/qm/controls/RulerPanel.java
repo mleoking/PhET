@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.controls;
 
 import edu.colorado.phet.common.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,10 +18,10 @@ import java.io.IOException;
  */
 
 public class RulerPanel extends HorizontalLayoutPanel {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
-    public RulerPanel( SchrodingerPanel schrodingerPanel ) throws IOException {
-        this.schrodingerPanel = schrodingerPanel;
+    public RulerPanel( QWIPanel QWIPanel ) throws IOException {
+        this.QWIPanel = QWIPanel;
 
         final HorizontalLayoutPanel rulerPanel = this;
 
@@ -43,7 +43,7 @@ public class RulerPanel extends HorizontalLayoutPanel {
         } ).start();
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 }

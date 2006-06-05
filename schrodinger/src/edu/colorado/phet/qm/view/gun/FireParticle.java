@@ -1,6 +1,6 @@
 package edu.colorado.phet.qm.view.gun;
 
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Copyright (c) Feb 6, 2006 by Sam Reid
  */
 public interface FireParticle {
-    SchrodingerModule getSchrodingerModule();
+    QWIModule getSchrodingerModule();
 
     void updateGunLocation();
 

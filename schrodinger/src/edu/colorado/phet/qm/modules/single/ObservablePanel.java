@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.modules.single;
 
 import edu.colorado.phet.common.view.AdvancedPanel;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,11 +16,11 @@ import java.awt.event.ActionListener;
  */
 
 public class ObservablePanel extends AdvancedPanel {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
-    public ObservablePanel( SchrodingerPanel schrodingerPanel ) {
+    public ObservablePanel( QWIPanel QWIPanel ) {
         super( "Observables>>", "Hide Observables<<" );
-        this.schrodingerPanel = schrodingerPanel;
+        this.QWIPanel = QWIPanel;
 //        VerticalLayoutPanel lay = this;
 //        setBorder( BorderFactory.createTitledBorder( "Observables" ) );
         final JCheckBox x = new JCheckBox( "<X>" );
@@ -49,7 +49,7 @@ public class ObservablePanel extends AdvancedPanel {
 
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    private QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 }

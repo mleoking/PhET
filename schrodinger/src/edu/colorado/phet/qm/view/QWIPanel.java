@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.QWIModel;
@@ -21,8 +21,8 @@ import edu.colorado.phet.qm.view.gun.AbstractGunGraphic;
 import edu.colorado.phet.qm.view.gun.GunControlPanel;
 import edu.colorado.phet.qm.view.gun.Photon;
 import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
+import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
 import edu.colorado.phet.qm.view.piccolo.RectangularPotentialGraphic;
-import edu.colorado.phet.qm.view.piccolo.SchrodingerScreenNode;
 import edu.colorado.phet.qm.view.piccolo.WavefunctionGraphic;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.DetectorSheetPNode;
 import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
@@ -42,18 +42,18 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerPanel extends PhetPCanvas {
+public class QWIPanel extends PhetPCanvas {
     private QWIModel QWIModel;
-    private SchrodingerModule module;
+    private QWIModule module;
     private Photon photon;
-    private SchrodingerScreenNode schrodingerScreenNode;
+    private QWIScreenNode QWIScreenNode;
     private boolean fadeEnabled = true;
     private ArrayList listeners = new ArrayList();
     private boolean inverseSlits = false;
     private ComplexColorMap complexColorMap = new MagnitudeColorMap();
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
 
-    public SchrodingerPanel( SchrodingerModule module ) {
+    public QWIPanel( QWIModule module ) {
         setLayout( null );
         this.module = module;
         this.QWIModel = module.getDiscreteModel();
@@ -61,7 +61,7 @@ public class SchrodingerPanel extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setRenderingSize( 600, 600 );
-                schrodingerScreenNode.relayout();
+                QWIScreenNode.relayout();
             }
         } );
         addKeyListener( new PDebugKeyHandler() );
@@ -75,8 +75,8 @@ public class SchrodingerPanel extends PhetPCanvas {
                 updateScreen();
             }
         } );
-        schrodingerScreenNode = createSchrodingerScreenNode( module );
-        getPhetRootNode().addScreenChild( schrodingerScreenNode );
+        QWIScreenNode = createSchrodingerScreenNode( module );
+        getPhetRootNode().addScreenChild( QWIScreenNode );
 //        setZoomEventHandler( new PZoomEventHandler() );
         setBackground( new Color( 170, 210, 255 ) );
 //        setDoubleSlitControlPanelVisible( false );
@@ -104,8 +104,8 @@ public class SchrodingerPanel extends PhetPCanvas {
         return photon;
     }
 
-    protected SchrodingerScreenNode createSchrodingerScreenNode( SchrodingerModule module ) {
-        return new SchrodingerScreenNode( module, this );
+    protected QWIScreenNode createSchrodingerScreenNode( QWIModule module ) {
+        return new QWIScreenNode( module, this );
     }
 
     private void doGunFired() {
@@ -125,18 +125,18 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     protected void setGunGraphic( AbstractGunGraphic abstractGunGraphic ) {
-        schrodingerScreenNode.setGunGraphic( abstractGunGraphic );
+        QWIScreenNode.setGunGraphic( abstractGunGraphic );
         if( !abstractGunGraphic.containsListener( fireListener ) ) {
             abstractGunGraphic.addListener( fireListener );
         }
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
-        schrodingerScreenNode.setRulerVisible( rulerVisible );
+        QWIScreenNode.setRulerVisible( rulerVisible );
     }
 
     public void reset() {
-        schrodingerScreenNode.reset();
+        QWIScreenNode.reset();
     }
 
     public void updateGraphics() {
@@ -147,39 +147,39 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
-        schrodingerScreenNode.addDetectorGraphic( detectorGraphic );
+        QWIScreenNode.addDetectorGraphic( detectorGraphic );
     }
 
     public void addRectangularPotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        schrodingerScreenNode.addRectangularPotentialGraphic( rectangularPotentialGraphic );
+        QWIScreenNode.addRectangularPotentialGraphic( rectangularPotentialGraphic );
     }
 
     public void clearPotential() {
-        schrodingerScreenNode.clearPotential();
+        QWIScreenNode.clearPotential();
     }
 
     public WavefunctionGraphic getWavefunctionGraphic() {
-        return schrodingerScreenNode.getWavefunctionGraphic();
+        return QWIScreenNode.getWavefunctionGraphic();
     }
 
-    public SchrodingerModule getSchrodingerModule() {
+    public QWIModule getSchrodingerModule() {
         return module;
     }
 
     public IntensityManager getIntensityDisplay() {
-        return schrodingerScreenNode.getIntensityDisplay();
+        return QWIScreenNode.getIntensityDisplay();
     }
 
     public DetectorSheetPNode getDetectorSheetPNode() {
-        return schrodingerScreenNode.getDetectorSheetPNode();
+        return QWIScreenNode.getDetectorSheetPNode();
     }
 
     public AbstractGunGraphic getGunGraphic() {
-        return schrodingerScreenNode.getGunGraphic();
+        return QWIScreenNode.getGunGraphic();
     }
 
     public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {
-        schrodingerScreenNode.removeDetectorGraphic( detectorGraphic );
+        QWIScreenNode.removeDetectorGraphic( detectorGraphic );
     }
 
     public void addDetectorGraphic( Detector detector ) {
@@ -188,7 +188,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public DetectorGraphic getDetectorGraphic( Detector detector ) {
-        return schrodingerScreenNode.getDetectorGraphic( detector );
+        return QWIScreenNode.getDetectorGraphic( detector );
     }
 
     public void removeDetectorGraphic( Detector detector ) {
@@ -267,7 +267,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void setWaveSize( int width, int height ) {
-        schrodingerScreenNode.setWaveGraphicGridSize( width, height );
+        QWIScreenNode.setWaveGraphicGridSize( width, height );
     }
 
     public Rectangle waveAreaToScreen( Rectangle gridRect ) {
@@ -277,11 +277,11 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void removePotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
-        schrodingerScreenNode.removePotentialGraphic( rectangularPotentialGraphic );
+        QWIScreenNode.removePotentialGraphic( rectangularPotentialGraphic );
     }
 
-    public SchrodingerScreenNode getSchrodingerScreenNode() {
-        return schrodingerScreenNode;
+    public QWIScreenNode getSchrodingerScreenNode() {
+        return QWIScreenNode;
     }
 
     public boolean isFadeEnabled() {
@@ -305,24 +305,24 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void setUnits( ParticleUnits particleUnits ) {
-        schrodingerScreenNode.setUnits( particleUnits );
+        QWIScreenNode.setUnits( particleUnits );
     }
 
     public void setStopwatchVisible( boolean selected ) {
-        schrodingerScreenNode.setStopwatchVisible( selected );
+        QWIScreenNode.setStopwatchVisible( selected );
     }
 
     public boolean isRulerVisible() {
-        return schrodingerScreenNode.isRulerVisible();
+        return QWIScreenNode.isRulerVisible();
     }
 
     public void updateWaveGraphic() {
-        schrodingerScreenNode.updateWaveGraphic();
+        QWIScreenNode.updateWaveGraphic();
     }
 
     public void addGunControlPanel() {
         GunControlPanel gunControlPanel = getGunGraphic().getGunControlPanel();
-        schrodingerScreenNode.setGunControlPanel( gunControlPanel );
+        QWIScreenNode.setGunControlPanel( gunControlPanel );
     }
 
     public boolean isPhotonMode() {
@@ -330,7 +330,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     public void setCellSize( int size ) {
-        schrodingerScreenNode.setCellSize( size );
+        QWIScreenNode.setCellSize( size );
     }
 
     public static interface Listener {

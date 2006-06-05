@@ -18,13 +18,13 @@ import javax.swing.event.ChangeListener;
  */
 
 public class IntensityScreenPanel extends VerticalLayoutPanel {
-    private SchrodingerControlPanel schrodingerControlPanel;
+    private QWIControlPanel qwiControlPanel;
 
-    public IntensityScreenPanel( SchrodingerControlPanel schrodingerControlPanel ) {
-        this.schrodingerControlPanel = schrodingerControlPanel;
+    public IntensityScreenPanel( QWIControlPanel qwiControlPanel ) {
+        this.qwiControlPanel = qwiControlPanel;
         setBorder( BorderFactory.createTitledBorder( "Intensity Screen" ) );
 
-        final IntensityManager intensityManager = schrodingerControlPanel.getModule().getIntensityDisplay();
+        final IntensityManager intensityManager = qwiControlPanel.getModule().getIntensityDisplay();
         JPanel inflationPanel = new HorizontalLayoutPanel();
         final JSpinner probabilityInflation = new JSpinner( new SpinnerNumberModel( intensityManager.getProbabilityScaleFudgeFactor(), 0.0, 1000, 0.1 ) );
         probabilityInflation.addChangeListener( new ChangeListener() {
@@ -75,6 +75,6 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
     }
 
     private DetectorSheetPNode getDetectorSheetPNode() {
-        return schrodingerControlPanel.getSchrodingerPanel().getDetectorSheetPNode();
+        return qwiControlPanel.getSchrodingerPanel().getDetectorSheetPNode();
     }
 }

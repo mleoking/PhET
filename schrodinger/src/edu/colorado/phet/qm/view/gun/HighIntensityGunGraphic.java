@@ -7,7 +7,7 @@ import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.controls.IntensitySlider;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.phetcommon.LucidaSansFont;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -47,8 +47,8 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         return alwaysOnCheckBox;
     }
 
-    public HighIntensityGunGraphic( final SchrodingerPanel schrodingerPanel ) {
-        super( schrodingerPanel );
+    public HighIntensityGunGraphic( final QWIPanel QWIPanel ) {
+        super( QWIPanel );
         onOffTextNode.setFont( new LucidaSansFont( 12, true ) );
         alwaysOnCheckBox = new OnOffCheckBox( this );
 //        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
@@ -65,7 +65,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
 
         updateIntensity();
-        schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
+        QWIPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 stepBeam();
             }
@@ -83,7 +83,7 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
 //        alwaysOnCheckBox.setBackground( new Color(0,0,0,0) );
-        onPswing = new PSwing( schrodingerPanel, alwaysOnCheckBox );
+        onPswing = new PSwing( QWIPanel, alwaysOnCheckBox );
         onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
 

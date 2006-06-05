@@ -5,8 +5,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.piccolo.nodes.ShadowPText;
-import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.QWIModule;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -126,11 +126,11 @@ public class PlainFireButton extends PNode {
         return enabled;
     }
 
-    private SchrodingerModule getSchrodingerModule() {
+    private QWIModule getSchrodingerModule() {
         return fireParticle.getSchrodingerModule();
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    private QWIPanel getSchrodingerPanel() {
         return getSchrodingerModule().getSchrodingerPanel();
     }
 

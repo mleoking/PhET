@@ -2,10 +2,10 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.qm.SchrodingerLookAndFeel;
+import edu.colorado.phet.qm.QWILookAndFeel;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -26,7 +26,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
     private PText potDisplay;
     private PSwing closeGraphic;
 
-    public RectangularPotentialGraphic( SchrodingerPanel component, final RectangularPotential potential ) {
+    public RectangularPotentialGraphic( QWIPanel component, final RectangularPotential potential ) {
         super( component, potential, new Color( 255, 30, 0, 45 ) );
         this.potential = potential;
 
@@ -41,7 +41,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
                 RectangularPotentialGraphic.this.update();
             }
         } );
-        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        JButton closeButton = QWILookAndFeel.createCloseButton();
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 remove();

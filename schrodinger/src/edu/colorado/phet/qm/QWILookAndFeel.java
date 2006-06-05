@@ -14,7 +14,7 @@ import java.io.IOException;
  * Copyright (c) Jun 29, 2005 by Sam Reid
  */
 
-public class SchrodingerLookAndFeel {
+public class QWILookAndFeel {
     public static JButton createCloseButton() {
         JButton closeButton = null;
         try {

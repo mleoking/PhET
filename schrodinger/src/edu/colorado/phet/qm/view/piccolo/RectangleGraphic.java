@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.view.piccolo;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.model.RectangularObject;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.colorgrid.ColorGrid;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -25,14 +25,14 @@ import java.beans.PropertyChangeListener;
  */
 
 public class RectangleGraphic extends PNode {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
     private PPath areaGraphic;
     private PPath resizeCorner;
     private RectangularObject rectangularObject;
 
-    public RectangleGraphic( SchrodingerPanel component, final RectangularObject rectangularObject, Color fill ) {
-        this.schrodingerPanel = component;
+    public RectangleGraphic( QWIPanel component, final RectangularObject rectangularObject, Color fill ) {
+        this.QWIPanel = component;
         this.rectangularObject = rectangularObject;
         areaGraphic = new PPath();//todo transparent green.
         areaGraphic.setStrokePaint( Color.blue );
@@ -69,7 +69,7 @@ public class RectangleGraphic extends PNode {
                 RectangleGraphic.this.update();
             }
         } );
-        schrodingerPanel.getWavefunctionGraphic().addPropertyChangeListener( new PropertyChangeListener() {
+        QWIPanel.getWavefunctionGraphic().addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 RectangleGraphic.this.update();
             }
@@ -88,7 +88,7 @@ public class RectangleGraphic extends PNode {
     }
 
     protected ColorGrid getColorGrid() {
-        return schrodingerPanel.getWavefunctionGraphic().getColorGrid();
+        return QWIPanel.getWavefunctionGraphic().getColorGrid();
     }
 
     public PPath getAreaGraphic() {
@@ -109,8 +109,8 @@ public class RectangleGraphic extends PNode {
         return gridRect;
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 
     private static interface LocationGetter {

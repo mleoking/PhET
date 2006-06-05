@@ -2,11 +2,11 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Potential;
 import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -31,14 +31,14 @@ import java.util.Map;
 public abstract class AbstractGunGraphic extends PNode {
     protected static final String GUN_RESOURCE = "images/raygun3-centerbarrel-2.gif";
     public static final int GUN_PARTICLE_OFFSET = 35;
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
     private PImage gunImageGraphic;
     private ArrayList listeners = new ArrayList();
     private ImagePComboBox comboBox;
     private PNode onGunGraphic;
 
-    public AbstractGunGraphic( final SchrodingerPanel schrodingerPanel ) {
-        this.schrodingerPanel = schrodingerPanel;
+    public AbstractGunGraphic( final QWIPanel QWIPanel ) {
+        this.QWIPanel = QWIPanel;
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( GUN_RESOURCE );
             gunImageGraphic = new PImage( image );
@@ -48,7 +48,7 @@ public abstract class AbstractGunGraphic extends PNode {
         }
 
         addChild( gunImageGraphic );
-        onGunGraphic = new PSwing( schrodingerPanel, new JButton( "Fire" ) );
+        onGunGraphic = new PSwing( QWIPanel, new JButton( "Fire" ) );
         addChild( onGunGraphic );
         this.comboBox = initComboBox();
         updateGunLocation();
@@ -77,9 +77,9 @@ public abstract class AbstractGunGraphic extends PNode {
         }
         onGunGraphic = pswing;
         addChild( onGunGraphic );
-        schrodingerPanel.invalidate();
-        schrodingerPanel.doLayout();
-        schrodingerPanel.repaint();
+        QWIPanel.invalidate();
+        QWIPanel.doLayout();
+        QWIPanel.repaint();
         invalidateLayout();
         repaint();
     }
@@ -99,15 +99,15 @@ public abstract class AbstractGunGraphic extends PNode {
     protected abstract ImagePComboBox initComboBox();
 
     public QWIModel getDiscreteModel() {
-        return schrodingerPanel.getDiscreteModel();
+        return QWIPanel.getDiscreteModel();
     }
 
     public PImage getGunImageGraphic() {
         return gunImageGraphic;
     }
 
-    public SchrodingerModule getSchrodingerModule() {
-        return schrodingerPanel.getSchrodingerModule();
+    public QWIModule getSchrodingerModule() {
+        return QWIPanel.getSchrodingerModule();
     }
 
     public ImagePComboBox getComboBox() {
@@ -115,19 +115,19 @@ public abstract class AbstractGunGraphic extends PNode {
     }
 
     static Potential getPotential( AbstractGunGraphic abstractGunGraphic ) {
-        return abstractGunGraphic.schrodingerPanel.getDiscreteModel().getPotential();
+        return abstractGunGraphic.QWIPanel.getDiscreteModel().getPotential();
     }
 
     public int getGunWidth() {
         return (int)gunImageGraphic.getFullBounds().getWidth();
     }
 
-    public SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerPanel;
+    public QWIPanel getSchrodingerPanel() {
+        return QWIPanel;
     }
 
     public PSwingCanvas getComponent() {
-        return schrodingerPanel;
+        return QWIPanel;
     }
 
     protected abstract void setGunControls( JComponent gunControls );

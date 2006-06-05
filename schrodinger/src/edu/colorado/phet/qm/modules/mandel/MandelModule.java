@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.mandel;
 
 import edu.colorado.phet.common.model.clock.IClock;
 import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.WaveModel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Copyright (c) Jul 22, 2005 by Sam Reid
  */
 
-public class MandelModule extends SchrodingerModule {
+public class MandelModule extends QWIModule {
 
     private MandelModel splitModel;
     private MandelSchrodingerPanel mandelSchrodingerPanel;

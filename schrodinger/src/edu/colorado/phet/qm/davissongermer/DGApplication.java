@@ -9,8 +9,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.TabbedModulePane;
 import edu.colorado.phet.common.view.util.FrameSetup;
-
-import java.awt.*;
+import edu.colorado.phet.piccolo.PiccoloPhetApplication;
 //import edu.colorado.phet.qm.tests.ui.TestGlassPane;
 
 /**
@@ -20,7 +19,7 @@ import java.awt.*;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class DGApplication extends PhetApplication {
+public class DGApplication extends PiccoloPhetApplication {
     public static String TITLE = "Davisson-Germer Experiment";
     public static String DESCRIPTION = "Davisson-Germer Experiment";
     public static String VERSION = "0.11";
@@ -39,18 +38,18 @@ public class DGApplication extends PhetApplication {
     }
 
     protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
-        return new SchrodingerPhetFrame( phetApplication );
+        return new PhetFrame( phetApplication );
     }
 
-    class SchrodingerPhetFrame extends PhetFrame {
-        public SchrodingerPhetFrame( PhetApplication phetApplication ) {
-            super( phetApplication );
-        }
-
-        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
-            return new MyTabbedModulePane( application, modules );
-        }
-    }
+//    class QWIFrame extends PhetFrame {
+//        public QWIFrame( PhetApplication phetApplication ) {
+//            super( phetApplication );
+//        }
+//
+//        protected Container createTabbedPane( PhetApplication application, Module[] modules ) {
+//            return new MyTabbedModulePane( application, modules );
+//        }
+//    }
 
     class MyTabbedModulePane extends TabbedModulePane {
 

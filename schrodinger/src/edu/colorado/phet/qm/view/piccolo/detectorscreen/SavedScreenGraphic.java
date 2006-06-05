@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.event.CursorHandler;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,12 +27,12 @@ import java.io.IOException;
  */
 
 public class SavedScreenGraphic extends PNode {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
     private BufferedImage image;
     private Insets m = new Insets( 2, 2, 2, 2 );
 
-    public SavedScreenGraphic( final SchrodingerPanel schrodingerPanel, BufferedImage image ) {
-        this.schrodingerPanel = schrodingerPanel;
+    public SavedScreenGraphic( final QWIPanel QWIPanel, BufferedImage image ) {
+        this.QWIPanel = QWIPanel;
         this.image = image;
         PPath border = new PPath( new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() ) );
         border.setStroke( new BasicStroke( 2 ) );
@@ -53,12 +53,12 @@ public class SavedScreenGraphic extends PNode {
             BufferedImage closeImage = ImageLoader.loadBufferedImage( "images/x-14.jpg" );
             JButton closeButton = new JButton( new ImageIcon( closeImage ) );
             closeButton.setMargin( m );
-            PSwing button = new PSwing( schrodingerPanel, closeButton );
+            PSwing button = new PSwing( QWIPanel, closeButton );
             addChild( button );
             button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    schrodingerPanel.getSchrodingerScreenNode().removeSavedScreenGraphic( SavedScreenGraphic.this );
+                    QWIPanel.getSchrodingerScreenNode().removeSavedScreenGraphic( SavedScreenGraphic.this );
                 }
             } );
         }

@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.controls;
 
-import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,20 +15,20 @@ import java.awt.event.ActionListener;
  */
 
 public class InverseSlitsCheckbox extends JCheckBox {
-    private SchrodingerPanel schrodingerPanel;
+    private QWIPanel QWIPanel;
 
-    public InverseSlitsCheckbox( final SchrodingerPanel schrodingerPanel ) {
+    public InverseSlitsCheckbox( final QWIPanel QWIPanel ) {
         super( "Anti-Slits" );
-        this.schrodingerPanel = schrodingerPanel;
-        setSelected( schrodingerPanel.isInverseSlits() );
+        this.QWIPanel = QWIPanel;
+        setSelected( QWIPanel.isInverseSlits() );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.setInverseSlits( isSelected() );
+                QWIPanel.setInverseSlits( isSelected() );
             }
         } );
-        schrodingerPanel.addListener( new SchrodingerPanel.Adapter() {
+        QWIPanel.addListener( new QWIPanel.Adapter() {
             public void inverseSlitsChanged() {
-                setSelected( schrodingerPanel.isInverseSlits() );
+                setSelected( QWIPanel.isInverseSlits() );
             }
         } );
     }
