@@ -65,6 +65,7 @@ public class SplitColorMap implements ColorMap {
 
     public void setWaveValueAccessor( WaveValueAccessor waveValueAccessor ) {
         this.waveValueAccessor = waveValueAccessor;
+        System.out.println( "SplitColorMap.setWaveValueAccessor, wva=" + waveValueAccessor );
     }
 
     private double getValue( Wavefunction wavefunction, int i, int k ) {

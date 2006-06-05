@@ -88,7 +88,8 @@ public class HighIntensitySchrodingerPanel extends SchrodingerPanel {
                 };
             }
             else {
-                return new WaveValueAccessor.Real();
+//                return new WaveValueAccessor.Real();
+                return getWaveValueAccessor();
             }
         }
         else {

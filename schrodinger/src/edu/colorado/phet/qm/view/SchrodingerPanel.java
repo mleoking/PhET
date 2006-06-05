@@ -52,16 +52,6 @@ public class SchrodingerPanel extends PhetPCanvas {
     private boolean inverseSlits = false;
     private ComplexColorMap complexColorMap = new MagnitudeColorMap();
     private WaveValueAccessor waveValueAccessor = new WaveValueAccessor.Magnitude();
-    private AbstractGunGraphic.Listener fireListener = new AbstractGunGraphic.Listener() {
-        public void gunFired() {
-            doGunFired();
-        }
-
-    };
-
-    protected Photon getPhoton() {
-        return photon;
-    }
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -101,6 +91,17 @@ public class SchrodingerPanel extends PhetPCanvas {
         setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 //        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
 //        schrodingerScreenNode.addChild( intensityReader );
+    }
+
+    private AbstractGunGraphic.Listener fireListener = new AbstractGunGraphic.Listener() {
+        public void gunFired() {
+            doGunFired();
+        }
+
+    };
+
+    protected Photon getPhoton() {
+        return photon;
     }
 
     protected SchrodingerScreenNode createSchrodingerScreenNode( SchrodingerModule module ) {
@@ -226,6 +227,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     protected ColorMap createColorMap() {
+        System.out.println( "waveValueAccessor = " + waveValueAccessor );
         if( photon != null && !( complexColorMap instanceof VisualColorMap3 ) ) {
 //            return new PhotonColorMap( this, photon.getWavelengthNM(), getWaveValueAccessor() );
             if( waveValueAccessor instanceof WaveValueAccessor.Imag ) {

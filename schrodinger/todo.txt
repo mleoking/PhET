@@ -1,3 +1,42 @@
+•	If you start in E-field view and turn off detector, 
+view changes temporarily to time-averaged intensity in upper half of box.  
+This effect also happens for electrons.
+>>This is not a visualization problem, but related to the switch from the 2-lattice model to the single lattice model. 
+>>I'm not sure how the single lattice values are getting set.
+
+Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers. 
+
+•	Changing the particle type often messes up the wave function display.  
+If you change the wave function display for one type of particle and then 
+switch to a different type of particle, the actual display is the same as for 
+the particle you just switched from, but the radio button for the display 
+corresponds to whatever was last selected for the new type of particle, 
+so that the radio button and the actual display don’t match.
+
+•	In “hits” mode, the dots appear on the screen in columns, 
+so it appears that there are many very thin interference fringes:
+ 
+•	The “one-shot” checkbox doesn’t work.  
+If auto-detect is checked, the detector is always one-shot, regardless of whether one-shot is checked or not.  
+If auto-detect is off, the detector always allows multiple detections, regardless of whether one-shot is checked or not.  
+The detector should never allow multiple detections of a single particle if one-shot is checked, 
+and should always allow multiple detections if one-shot is unchecked.
+
+•	If you put a detector over each slit in the single particle panel and detect the 
+particles manually, rather than using auto-detect, it doesn’t seem to be equally 
+likely to detect the particle in either detector, even though the probabilities written in both 
+detectors are the same.  It almost always detects the particle in the first detector that you put on the screen.  
+At first I thought that the other detector wasn’t activated, but if you do it enough times, 
+the other detector will occasionally detect it.
+
+•	For certain values of screen brightness in the two lasers panel, 
+if there are two lasers of different colors that are both at maximum intensity, 
+the pattern on the screen is asymmetric (this caused considerable confusion for student, 
+and was much more noticeable in the interview than it is in this screen shot):
+ 
+•	If I resize the simulation to full screen at 1280x1024 resolution, a bit of text that says 
+“Off” appears next to the left laser in the two lasers panel:
+
 I just looked at QWI for the first time since its wiggle me was added.
 Once Chris has written the standard wiggle me,
 would it be easy for you to change the one in QWI?
@@ -23,6 +62,10 @@ Bug: In all panels, if you move the wavelength slider all the way to the left, f
 
 In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolution:
       >>This problem has minimal visual impact, doesn't interfere with functionality and wouldn't be easy to fix.  I will wait on solving this bug.
+
+•	For massive particles in High Intensity panel, turning on detector changes display from phase color to magnitude.
+>> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
+>>Question is in to the team.
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.
@@ -52,3 +95,8 @@ Center the Reset All and Clear Wave buttons.
 Add a close button for the stopwatch.
 
 Modelslider labels have a bug on mac.
+
+•	In Java version 1.4.2_03, the slider leaves a little trail when you move it 
+and has a green rectangle behind the tick marks (see below).  
+This problem does not appear in Java version 1.5.0_04 or 1.5.0_06.
+Very difficult ( interface not exposed, internal bug in Java?).
