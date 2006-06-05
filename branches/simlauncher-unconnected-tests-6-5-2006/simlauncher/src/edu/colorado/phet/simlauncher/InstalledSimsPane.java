@@ -20,8 +20,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * InstalledSimsPane
@@ -134,6 +132,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
     }
 
     /**
+     * Handles mouse events on the table
      * @param event
      */
     private void handleSimulationSelection( MouseEvent event ) {
@@ -142,7 +141,7 @@ public class InstalledSimsPane extends JPanel implements Catalog.ChangeListener,
 
         // If it's a right click and a simulation is selected, pop up the context menu
         if( event.isPopupTrigger() && sim != null ) {
-            new InstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
+            new InstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY() );
         }
 
         // If a double left click, launch the simulation

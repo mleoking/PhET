@@ -53,7 +53,15 @@ public class SimLauncher {
     private void startup( Component parent) {
         boolean remoteAvailable = LauncherUtil.instance().isRemoteAvailable( Configuration.instance().getPhetUrl());
 
-        if( Catalog.instance().getInstalledSimulations() == null
+        // Tell the user if we're not online
+        if( !Catalog.instance().isRemoteAvailable() ) {
+                JOptionPane.showMessageDialog( parent,
+                                               "<html>You are working offline, and will not be able to" +
+                                               "<br>browse the online catalog of simulations. " );
+        }
+
+        // If there aren't any simulations installed, ask the user if he'd like to go to the catalog
+        else if( Catalog.instance().getInstalledSimulations() == null
             || Catalog.instance().getInstalledSimulations().size() == 0 ) {
             int choice = JOptionPane.showConfirmDialog( parent, "<html><center>You have no simulations installed.<br>Would you like to visit the online simulation catalog?</html>", "Startup..", JOptionPane.YES_NO_OPTION );
             if( choice == JOptionPane.YES_OPTION) {
@@ -65,6 +73,7 @@ public class SimLauncher {
                 }
             }
         }
+
     }
 
     private static void centerFrame( JFrame frame ) {

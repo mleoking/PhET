@@ -103,8 +103,7 @@ public class UninstalledSimsPane extends JSplitPane implements SimContainer {
         private GridBagConstraints installButtonGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                               GridBagConstraints.CENTER,
                                                                               GridBagConstraints.NONE,
-//                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-new Insets( 10, 0, 20, 0 ), 0, 0 );
+                                                                              new Insets( 10, 0, 20, 0 ), 0, 0 );
 
         public SimPanel() {
             super( new GridBagLayout() );
@@ -182,7 +181,7 @@ new Insets( 10, 0, 20, 0 ), 0, 0 );
 
             // If right click, pop up context menu
             if( event.isPopupTrigger() && sim != null ) {
-                new UninstalledSimPopupMenu( sim ).show( this, event.getX(), event.getY() );
+                new UninstalledSimPopupMenu( sim ).show( event.getComponent(), event.getX(), event.getY());
             }
 
             // If a double left click, offer to install the simulation

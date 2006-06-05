@@ -60,11 +60,6 @@ public class TopLevelPane extends JTabbedPane {
             uninstalledSimsPane = new UninstalledSimsPane();
             addTab( "Simulations Available for Installation", uninstalledSimsPane );
         }
-        else {
-            JOptionPane.showMessageDialog( this,
-                                           "<html>You are working offline, and will not be able to" +
-                                           "<br>browse the online catalog of simulations. " );
-        }
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

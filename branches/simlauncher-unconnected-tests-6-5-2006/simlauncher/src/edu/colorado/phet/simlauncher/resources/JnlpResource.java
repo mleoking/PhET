@@ -38,18 +38,10 @@ public class JnlpResource extends SimResource {
     public JnlpResource( URL url, File localRoot ) {
         super( url, localRoot );
         this.url = url;
-//        try {
-//            remoteCodebase = new JnlpFile( url ).getCodebase();
-//        }
-//        catch( InvalidJnlpException e ) {
-//            e.printStackTrace();
-//        }
     }
 
     public void download() throws SimResourceException {
         super.download();
-
-//        String remoteCodebase;
         try {
             remoteCodebase = new JnlpFile( url ).getCodebase();
         }
@@ -77,7 +69,8 @@ public class JnlpResource extends SimResource {
             String relativeCodebase = null;
             URL tempURL = new URL( remoteCodebase );
             relativeCodebase = tempURL.getHost() + tempURL.getPath();
-            String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + FILE_SEPARATOR;
+            String lastChar = relativeCodebase.endsWith( "/" ) || relativeCodebase.endsWith( "\\" ) ? "" : FILE_SEPARATOR;
+            String newCodebase = LOCAL_CODEBASE_PREFIX + getLocalRoot() + FILE_SEPARATOR + relativeCodebase + lastChar;
             jnlpFile.setCodebase( newCodebase );
             BufferedWriter out = new BufferedWriter( new FileWriter( getLocalFileName() ) );
             out.write( jnlpFile.toString() );
@@ -126,7 +119,8 @@ public class JnlpResource extends SimResource {
             if( remoteCodebase != null ) {
                 codebase = remoteCodebase;
             }
-            String urlString = new String( codebase ).concat( "/" ).concat( urlStrings[i] );
+            String s = codebase.endsWith( "/") || codebase.endsWith( "\\") ? "" : "/";
+            String urlString = new String( codebase ).concat( s ).concat( urlStrings[i] );
             URL url = null;
             try {
                 url = new URL( urlString );
@@ -148,8 +142,4 @@ public class JnlpResource extends SimResource {
         String s = jnlpFile.getContents();
         return s;
     }
-
-//    private String getRemoteCodebase() {
-//        return remoteCodebase;
-//    }
 }

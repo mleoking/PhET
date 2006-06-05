@@ -33,6 +33,7 @@ public class Simulation {
     //--------------------------------------------------------------------------------------------------
     private static boolean DEBUG = false;
     private static HashMap namesToSims = new HashMap();
+    private File localRoot;
 
     /**
      * Returns the Simulation instance for the simulation with a specified name.
@@ -73,16 +74,18 @@ public class Simulation {
         this.name = name;
         this.description = description;
         this.jnlpUrl = jnlpUrl;
+        this.localRoot = localRoot;
+        this.jnlpResource = new JnlpResource( jnlpUrl, localRoot );
 
-        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
-        resources.add( jnlpResource );
-        if( jnlpResource.isRemoteAvailable() ) {
-            jarResources = jnlpResource.getJarResources();
-            for( int i = 0; i < jarResources.length; i++ ) {
-                JarResource jarResource = jarResources[i];
-                resources.add( jarResource );
-            }
-        }
+//        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
+//        resources.add( jnlpResource );
+//        if( jnlpResource.isRemoteAvailable() ) {
+//            jarResources = jnlpResource.getJarResources();
+//            for( int i = 0; i < jarResources.length; i++ ) {
+//                JarResource jarResource = jarResources[i];
+//                resources.add( jarResource );
+//            }
+//        }
         thumbnailResource = thumbnail;
         resources.add( thumbnailResource );
 
@@ -112,7 +115,17 @@ public class Simulation {
      * Downloads all the resources for the simulation
      */
     public void install() throws SimResourceException {
+        jnlpResource = new JnlpResource( jnlpUrl, localRoot );
         jnlpResource.download();
+        resources.add( jnlpResource );
+        if( jnlpResource.isRemoteAvailable() ) {
+            jarResources = jnlpResource.getJarResources();
+            for( int i = 0; i < jarResources.length; i++ ) {
+                JarResource jarResource = jarResources[i];
+                resources.add( jarResource );
+            }
+        }
+
         for( int i = 0; i < jarResources.length; i++ ) {
             JarResource jarResource = jarResources[i];
             jarResource.download();
@@ -204,7 +217,7 @@ public class Simulation {
      * @return true if the simulation is installed
      */
     public boolean isInstalled() {
-        return this.jnlpResource.isInstalled();
+        return jnlpResource != null && jnlpResource.isInstalled();
     }
 
     /**

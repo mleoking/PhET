@@ -157,6 +157,7 @@ public class SimResource {
      */
     public void uninstall() {
         localFile.delete();
+        metaData.deleteForFile( localFile );
         metaData = null;
     }
 }

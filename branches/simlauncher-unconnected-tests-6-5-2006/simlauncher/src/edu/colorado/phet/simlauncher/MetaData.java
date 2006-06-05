@@ -48,6 +48,10 @@ public class MetaData extends Properties {
         return new File( f.getAbsolutePath() + "-meta" );
     }
 
+    public static boolean getMetaDataExists( File local ) {
+        return toMetaFile( local ).exists();
+    }
+
     public long getLastModified() {
         return Long.parseLong( getProperty( LAST_MODIFIED ) );
     }
@@ -56,8 +60,8 @@ public class MetaData extends Properties {
         store( new FileOutputStream( toMetaFile( local ) ), "Automatically generated. Do not modify." );
     }
 
-    public static boolean getMetaDataExists( File local ) {
-        return toMetaFile( local ).exists();
+    public void deleteForFile( File local ) {
+        toMetaFile( local ).delete();
     }
 }
 
