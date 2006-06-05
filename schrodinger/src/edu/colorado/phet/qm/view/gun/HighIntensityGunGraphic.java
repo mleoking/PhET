@@ -72,35 +72,19 @@ public class HighIntensityGunGraphic extends AbstractGunGraphic implements OnOff
         } );
 
         gunControlPanel = createGunControlPanel();
-//        addChild( gunControlPanel.getPSwing() );
 
         setupObject( beams[0] );
-//        setOn( true );
-
-//        HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel.getSchrodingerModule().getDefaultHelpPane(), "Increase the Gun Intensity" ,HelpBalloon.BOTTOM_CENTER, 100);
-//        helpBalloon.pointAt( intensitySlider,(PSwing)gunControlPanel.getPSwing(),schrodingerPanel  );
-//        schrodingerPanel.getSchrodingerModule().getDefaultHelpPane().add( helpBalloon );
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
-//        alwaysOnCheckBox.setBackground( new Color(0,0,0,0) );
         onPswing = new PSwing( QWIPanel, alwaysOnCheckBox );
         onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
 
-//        final HelpBalloon helpBalloon = new HelpBalloon( schrodingerPanel, "Turn on the Laser" );
-//        helpBalloon.pointAt( onPswing, schrodingerPanel );
-//        helpBalloon.setArrowLength( 100 );
-//        helpBalloon.setVisible( true );
-////        schrodingerPanel
-////        addChild( helpBalloon);
-//        schrodingerPanel.getSchrodingerScreenNode().addChild( helpBalloon );
-//        alwaysOnCheckBox.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                schrodingerPanel.getSchrodingerScreenNode().removeChild( helpBalloon );
-//                alwaysOnCheckBox.removeActionListener( this );
-//            }
-//        } );
         updateSliderColor();
+    }
+
+    protected void setOnOffTextVisible( boolean vis ) {
+        onOffTextNode.setVisible( vis );
     }
 
     public void reset() {
