@@ -20,6 +20,8 @@ import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -60,7 +62,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class BSAbstractModule extends PiccoloModule {
+public abstract class BSAbstractModule extends PiccoloModule implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -440,6 +442,19 @@ public abstract class BSAbstractModule extends PiccoloModule {
     }
     
     //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Reset the clock when the model changes.
+     */
+    public void update( Observable o, Object arg ) {
+        if ( o == _model && arg != BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
+           resetClock();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
     
@@ -538,7 +553,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
             assert( defaultPotential != null );
             
             // Populate the model...
+            if ( _model != null ) {
+                _model.deleteObserver( this );
+            }
             _model = new BSModel( _particle, defaultPotential, _superpositionCoefficients );
+            _model.addObserver( this );
         }
         
         // View
@@ -598,7 +617,7 @@ public abstract class BSAbstractModule extends PiccoloModule {
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
         config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
-        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() ); // do this after setting views
+        config.setBottomPlotMode( _controlPanel.getBottomPlotMode() );
         //XXX
     }
     
@@ -623,11 +642,11 @@ public abstract class BSAbstractModule extends PiccoloModule {
         
         // Control panel
         _controlPanel.setMagnifyingGlassSelected( config.isMagnifyingGlassSelected() );
-        _controlPanel.setBottomPlotMode( config.getBottomPlotMode() );
         _controlPanel.setRealSelected( config.isRealSelected() );
         _controlPanel.setImaginarySelected( config.isImaginarySelected() );
         _controlPanel.setMagnitudeSelected( config.isMagnitudeSelected() );
         _controlPanel.setPhaseSelected( config.isPhaseSelected() );
+        _controlPanel.setBottomPlotMode( config.getBottomPlotMode() );  // do this after setting views
         //XXX
     }
     
