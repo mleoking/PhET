@@ -9,8 +9,8 @@ import edu.colorado.phet.piccolo.util.PImageFactory;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.controls.ResolutionControl;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.phetcommon.SchrodingerRulerGraphic;
@@ -87,8 +87,8 @@ public class SchrodingerScreenNode extends PNode {
         this.module = module;
         this.schrodingerPanel = schrodingerPanel;
         wavefunctionGraphic = new WavefunctionGraphic( getDiscreteModel(), module.getDiscreteModel().getWavefunction() );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
+            public void finishedTimeStep( QWIModel model ) {
                 if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
                     wavefunctionGraphic.update();
                 }
@@ -102,7 +102,7 @@ public class SchrodingerScreenNode extends PNode {
         RulerGraphic rg = new RulerGraphic( digits, "units", 500, 60 );
         rulerGraphic = new SchrodingerRulerGraphic( getDiscreteModel(), schrodingerPanel, rg );
 
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 updateRulerUnits();
                 layoutChildren( true );
@@ -140,7 +140,7 @@ public class SchrodingerScreenNode extends PNode {
 
         layoutChildren();
         stopwatchPanel = new StopwatchPanel( schrodingerPanel.getSchrodingerModule().getClock(), "ps", 1.0, new DecimalFormat( "0.00" ) );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 stopwatchPanel.reset();
             }
@@ -168,7 +168,7 @@ public class SchrodingerScreenNode extends PNode {
         stopwatchPanelPSwing.setOffset( 300, 300 );
         setStopwatchVisible( false );
 
-        module.getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+        module.getDiscreteModel().addListener( new QWIModel.Adapter() {
             public void sizeChanged() {
                 setUnits( particleUnits );//see note in setUnits.
             }
@@ -179,7 +179,7 @@ public class SchrodingerScreenNode extends PNode {
         return wavefunctionGraphic;
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return getSchrodingerModule().getDiscreteModel();
     }
 

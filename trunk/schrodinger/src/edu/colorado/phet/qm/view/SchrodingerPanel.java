@@ -6,8 +6,8 @@ import edu.colorado.phet.piccolo.PhetPCanvas;
 import edu.colorado.phet.piccolo.event.PDebugKeyHandler;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.ParticleUnits;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.colorgrid.ColorMap;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
  */
 
 public class SchrodingerPanel extends PhetPCanvas {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     private SchrodingerModule module;
     private Photon photon;
     private SchrodingerScreenNode schrodingerScreenNode;
@@ -56,7 +56,7 @@ public class SchrodingerPanel extends PhetPCanvas {
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
         this.module = module;
-        this.discreteModel = module.getDiscreteModel();
+        this.QWIModel = module.getDiscreteModel();
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -109,11 +109,11 @@ public class SchrodingerPanel extends PhetPCanvas {
     }
 
     private void doGunFired() {
-        discreteModel.gunFired();
+        QWIModel.gunFired();
     }
 
     private void synchronizeSlitInverse() {
-        discreteModel.getDoubleSlitPotential().setInverseSlits( inverseSlits );
+        QWIModel.getDoubleSlitPotential().setInverseSlits( inverseSlits );
     }
 
     private void setRenderingSize( int width, int height ) {
@@ -142,8 +142,8 @@ public class SchrodingerPanel extends PhetPCanvas {
     public void updateGraphics() {
     }
 
-    public DiscreteModel getDiscreteModel() {
-        return discreteModel;
+    public QWIModel getDiscreteModel() {
+        return QWIModel;
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {

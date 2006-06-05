@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.view.piccolo.detectorscreen;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ColorData;
@@ -36,7 +36,7 @@ public class SmoothIntensityDisplay {
         return getDiscreteModel().getWavefunction();
     }
 
-    private DiscreteModel getDiscreteModel() {
+    private QWIModel getDiscreteModel() {
         return getSchrodingerPanel().getDiscreteModel();
     }
 

@@ -3,8 +3,8 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
@@ -98,7 +98,7 @@ public abstract class AbstractGunGraphic extends PNode {
 
     protected abstract ImagePComboBox initComboBox();
 
-    public DiscreteModel getDiscreteModel() {
+    public QWIModel getDiscreteModel() {
         return schrodingerPanel.getDiscreteModel();
     }
 

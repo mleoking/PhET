@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.modules.intensity;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.IClock;
-import edu.colorado.phet.qm.SchrodingerApplication;
+import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.QWIModel;
@@ -30,7 +30,7 @@ public class IntensityModule extends SchrodingerModule {
     private boolean rightDetectorShouldBeEnabled = false;
     private boolean leftDetectorShouldBeEnabled = false;
 
-    public IntensityModule( SchrodingerApplication app, IClock clock ) {
+    public IntensityModule( QWIApplication app, IClock clock ) {
         this( "High Intensity", app, clock );
     }
 

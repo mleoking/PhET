@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 
 /**
@@ -11,8 +11,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * Copyright (c) Dec 19, 2005 by Sam Reid
  */
 
-public class DebugIntensityReader extends DiscreteModel.Adapter {
-    public void finishedTimeStep( DiscreteModel model ) {
+public class DebugIntensityReader extends QWIModel.Adapter {
+    public void finishedTimeStep( QWIModel model ) {
         super.finishedTimeStep( model );
         Wavefunction wavefunction = model.getWavefunction();
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {

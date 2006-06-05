@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.piccolo;
 
-import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.expectations.PxValue;
 import edu.colorado.phet.qm.model.expectations.XValue;
@@ -24,11 +24,11 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
     private boolean displayPyExpectation = false;
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
 
-    public WavefunctionGraphic( DiscreteModel discreteModel, Wavefunction wavefunction ) {
+    public WavefunctionGraphic( QWIModel QWIModel, Wavefunction wavefunction ) {
         super( wavefunction );
-        this.discreteModel = discreteModel;
+        this.QWIModel = QWIModel;
     }
 
     public void setDisplayXExpectation( boolean displayXExpectation ) {
@@ -108,6 +108,6 @@ public class WavefunctionGraphic extends SimpleWavefunctionGraphic {
     }
 
     public void setColorMap( ColorMap colorMap ) {
-        super.setColorMap( new ColorMapWithPotential( colorMap, discreteModel.getPotential() ) );
+        super.setColorMap( new ColorMapWithPotential( colorMap, QWIModel.getPotential() ) );
     }
 }

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.piccolo.PhetPNode;
 import edu.colorado.phet.piccolo.event.CursorHandler;
 import edu.colorado.phet.qm.SchrodingerLookAndFeel;
-import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.QWIModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class SchrodingerRulerGraphic extends PhetPNode {
 //public class SchrodingerRulerGraphic extends PComposite {
-    private DiscreteModel discreteModel;
+    private QWIModel QWIModel;
     public RulerGraphic rulerGraphic;
     boolean horizontal = true;
 //    private PPath dragBounds;
@@ -32,9 +32,9 @@ public class SchrodingerRulerGraphic extends PhetPNode {
 //    public BufferedImage horiz;
 //    public BufferedImage vert;
 
-    public SchrodingerRulerGraphic( DiscreteModel discreteModel, final PSwingCanvas component, final RulerGraphic rulerGraphic ) {
+    public SchrodingerRulerGraphic( QWIModel QWIModel, final PSwingCanvas component, final RulerGraphic rulerGraphic ) {
         this.component = component;
-        this.discreteModel = discreteModel;
+        this.QWIModel = QWIModel;
         this.rulerGraphic = rulerGraphic;
 //        horiz = BufferedImageUtils.toBufferedImage( imageGraphic.getImage() );
 //        vert = BufferedImageUtils.getRotatedImage( horiz, 3 * Math.PI / 2 );
