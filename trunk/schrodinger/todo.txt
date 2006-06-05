@@ -1,11 +1,14 @@
+Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers.
+
 •	For certain values of screen brightness in the two lasers panel, 
 if there are two lasers of different colors that are both at maximum intensity, 
 the pattern on the screen is asymmetric (this caused considerable confusion for student, 
-and was much more noticeable in the interview than it is in this screen shot):
+and was much more noticeable in the interview than it is in this screen shot).
+>>This is from reflection on the boundary. In Wave Interference sim, 
+I extend the lattice beyond the visible region;
+here it could also be done, but very time consuming to implement, 
+and would slow down the sim (scales with the size of the boundary).
  
-•	If I resize the simulation to full screen at 1280x1024 resolution, a bit of text that says 
-“Off” appears next to the left laser in the two lasers panel:
-
 I just looked at QWI for the first time since its wiggle me was added.
 Once Chris has written the standard wiggle me,
 would it be easy for you to change the one in QWI?
@@ -36,7 +39,6 @@ In Two Lasers panel, the left gun controls go off the screen at 1024x768 resolut
 >> I thought this was a design decision because phase doesn't have the usual influence when one or more detectors are present.
 >>Question is in to the team.
 
-Putting a detector on the slits, then setting 'view E-Field' causes no graphics to appear north of the barriers.
 ____________________________________
 Lower Priority
 If I check and uncheck “slit absorption” with no slits and no barriers, it creates little glitches in the beam.

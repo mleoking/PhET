@@ -63,6 +63,7 @@ public class MandelGunSet extends HighIntensityGunGraphic {
         addChild( leftGun );
         addChild( rightGun );
         layoutChildren();
+        setOnOffTextVisible( false );
     }
 
     private void updateWavelengths() {
