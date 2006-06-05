@@ -124,7 +124,7 @@ public class SplitModel extends QWIModel {
     }
 
     public void setSplitMode( boolean split ) {
-        System.out.println( "split = " + split );
+//        System.out.println( "split = " + split );
         this.mode = split ? (Mode)new SplitMode() : new NormalMode();
         if( split ) {//copy wavefunction state for continuity.
             copyNorthRegionToLR();
