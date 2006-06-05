@@ -79,20 +79,20 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
         displayPanel.setBorder( BorderFactory.createTitledBorder( "Display" ) );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton showHits = new JRadioButton( "Hits", !HighIntensitySchrodingerPanel.SMOOTH_SCREEN_DEFAULT );
-        JRadioButton showAverage = new JRadioButton( "Average Intensity", HighIntensitySchrodingerPanel.SMOOTH_SCREEN_DEFAULT );
+        JRadioButton showHits = new JRadioButton( "Hits", !HighIntensitySchrodingerPanel.CONTINUOUS_MODE_DEFAULT );
+        JRadioButton showAverage = new JRadioButton( "Average Intensity", HighIntensitySchrodingerPanel.CONTINUOUS_MODE_DEFAULT );
 
         buttonGroup.add( showAverage );
         buttonGroup.add( showHits );
 
         showHits.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setSmoothScreen( false );
+                setContinuousDisplay( false );
             }
         } );
         showAverage.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setSmoothScreen( true );
+                setContinuousDisplay( true );
             }
         } );
 
@@ -112,14 +112,14 @@ public class DetectorSheetControlPanel extends VerticalLayoutPanel {
 
     public void setBrightness() {
         detectorSheetPNode.setBrightness( brightnessModelSlider.getValue() );
-        if( getIntensityPanel() != null && getIntensityPanel().getSmoothIntensityDisplay() != null ) {
-            getIntensityPanel().getSmoothIntensityDisplay().setBrightness( brightnessModelSlider.getValue() );
+        if( getIntensityPanel() != null && getIntensityPanel().getContinuousDisplay() != null ) {
+            getIntensityPanel().getContinuousDisplay().setBrightness( brightnessModelSlider.getValue() );
         }
     }
 
-    private void setSmoothScreen( boolean b ) {
+    private void setContinuousDisplay( boolean b ) {
         if( getIntensityPanel() != null ) {
-            getIntensityPanel().setSmoothScreen( b );
+            getIntensityPanel().setContinuousMode( b );
         }
     }
 

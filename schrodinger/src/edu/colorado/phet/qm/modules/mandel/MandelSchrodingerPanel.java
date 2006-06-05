@@ -95,7 +95,7 @@ public class MandelSchrodingerPanel extends HighIntensitySchrodingerPanel {
         VisibleColor rightColor = new VisibleColor( getRightGun().getWavelength() );
 //        Color mix = mix( leftColor, getLeftGun().getIntensity(), rightColor, getRightGun().getIntensity() );
         Color mix = Color.white;
-        getSmoothIntensityDisplay().setPhotonColor( new ColorData( mix ) );
+        getContinuousDisplay().setPhotonColor( new ColorData( mix ) );
         getDetectorSheetPNode().setDisplayPhotonColor( new ColorData( mix ) );
     }
 

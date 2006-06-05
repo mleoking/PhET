@@ -69,14 +69,14 @@ public class DetectorSheetPNode extends PhetPNode {
         imageFade = new ImageFade();
         fadeElement = new IntegralModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                if( isFadeEnabled() && !isSmoothScreen() ) {
+                if( isFadeEnabled() && !isContinuousDisplay() ) {
                     imageFade.fade( getBufferedImage() );
                     screenGraphic.repaint();
                 }
             }
 
-            private boolean isSmoothScreen() {
-                return DetectorSheetPNode.this.isSmoothScreen();
+            private boolean isContinuousDisplay() {
+                return DetectorSheetPNode.this.isContinuousDisplay();
             }
         }, 10 );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
@@ -109,11 +109,10 @@ public class DetectorSheetPNode extends PhetPNode {
         addChild( title );
     }
 
-    private boolean isSmoothScreen() {
-
+    private boolean isContinuousDisplay() {
         if( QWIPanel instanceof HighIntensitySchrodingerPanel ) {
             HighIntensitySchrodingerPanel ip = (HighIntensitySchrodingerPanel)QWIPanel;
-            return ip.isSmoothScreen();
+            return ip.isContinuousMode();
         }
         return false;
     }
@@ -174,7 +173,7 @@ public class DetectorSheetPNode extends PhetPNode {
         return image;
     }
 
-    public void addDetectionEvent( int x, int y ) {
+    public void addDetectionEvent( double x, double y ) {
         if( detectionRateDebugger != null ) {
             detectionRateDebugger.addDetectionEvent();
         }
@@ -189,7 +188,7 @@ public class DetectorSheetPNode extends PhetPNode {
         repaint();
     }
 
-    private PNode createDetectionGraphic( int x, int y, int opacity ) {
+    private PNode createDetectionGraphic( double x, double y, int opacity ) {
         if( rootColor != null ) {
             return new HitGraphic( x, y, opacity, rootColor );
         }

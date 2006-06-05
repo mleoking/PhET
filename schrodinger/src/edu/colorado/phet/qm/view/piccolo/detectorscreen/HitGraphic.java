@@ -17,17 +17,17 @@ import java.awt.geom.Ellipse2D;
 
 public class HitGraphic extends PNode {
 
-    public HitGraphic( int x, int y, int opacity ) {
+    public HitGraphic( double x, double y, int opacity ) {
         this( x, y, opacity, new Color( 235, 230, 255 ) );
     }
 
-    public HitGraphic( int x, int y, int opacity, ColorData rootColor ) {
+    public HitGraphic( double x, double y, int opacity, ColorData rootColor ) {
         this( x, y, opacity, rootColor.toColor( 1.0 ) );
     }
 
-    public HitGraphic( int x, int y, int opacity, Color sourceColor ) {
-        int width = 6;
-        int height = width;
+    public HitGraphic( double x, double y, int opacity, Color sourceColor ) {
+        double width = 6;
+        double height = width;
         Color fill = new Color( sourceColor.getRed(), sourceColor.getGreen(), sourceColor.getBlue(), opacity );
         //50 per time step at transparency 4 looks good
         PPath pt = new PPath( new Ellipse2D.Double( -width / 2, -height / 2, width, height ) );

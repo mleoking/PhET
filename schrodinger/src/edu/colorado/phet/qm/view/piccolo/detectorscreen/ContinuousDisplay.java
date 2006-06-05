@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class SmoothIntensityDisplay {
+public class ContinuousDisplay {
     private QWIPanel QWIPanel;
     private IntensityManager intensityManager;
     private double[] histogram;
@@ -26,7 +26,7 @@ public class SmoothIntensityDisplay {
     private double brightness = 1.0f;
     private ColorData colorData;
 
-    public SmoothIntensityDisplay( QWIPanel QWIPanel, IntensityManager intensityManager ) {
+    public ContinuousDisplay( QWIPanel QWIPanel, IntensityManager intensityManager ) {
         this.QWIPanel = QWIPanel;
         this.intensityManager = intensityManager;
         histogram = new double[getWavefunction().getWidth()];
