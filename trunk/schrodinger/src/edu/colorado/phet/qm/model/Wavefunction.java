@@ -50,8 +50,9 @@ public class Wavefunction {
             for( int j = region.y; j < region.y + region.height; j++ ) {
 //                double sum = QWISplitModel.sumMagnitudes( a.valueAt( i, j ), b.valueAt( i, j ) );
 //                setValue( i, j, new Complex( sum, 0 ) );
-                setValue( i, j, ( a.valueAt( i, j ).getReal() + b.valueAt( i, j ).getReal() ) / 2.0,
-                          ( a.valueAt( i, j ).getImaginary() + b.valueAt( i, j ).getImaginary() ) / 2.0 );
+                double scale = 1.0;
+                setValue( i, j, ( a.valueAt( i, j ).getReal() + b.valueAt( i, j ).getReal() ) / scale,
+                          ( a.valueAt( i, j ).getImaginary() + b.valueAt( i, j ).getImaginary() ) / scale );
             }
         }
     }
